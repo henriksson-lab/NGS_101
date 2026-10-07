@@ -22,9 +22,16 @@ from __future__ import annotations
 # ----------------------------------------------------------- flow cell and read primers
 P5 = "AATGATACGGCGACCACCGAGATCTACAC"                    # 29 nt
 P7 = "CAAGCAGAAGACGGCATACGAGAT"                         # 24 nt
+P5_RC = "GTGTAGATCTCGGTGGTCGCCGTATCATT"                 # as it appears on the bottom strand
+P7_RC = "ATCTCGTATGCCGTCTTCTGCTTG"
 TRUSEQ_READ1 = "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"      # 33 nt
 TRUSEQ_READ2 = "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"     # 34 nt
 INDEX1_PRIMER = "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC"     # 33 nt, i7 index read
+# i5 index read. Reverse-complement workflow (NovaSeq X, NextSeq 1k/2k, iSeq): a dedicated
+# primer, = revcomp(TRUSEQ_READ1) (pinned in checks.run_common). Forward-strand workflow
+# (MiSeq, HiSeq 2500, NovaSeq 6000 v1.0): no added primer -- the flow-cell P5 oligo primes
+# it (Illumina "Indexed Sequencing Overview Guide", Document # 15057455).
+INDEX2_PRIMER_RC = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"  # 33 nt
 
 # What you read through into, when the insert is shorter than the read.
 # The leading A in each is the dA tail, NOT part of the adapter oligo.
@@ -80,6 +87,8 @@ NEBNEXT_I7_SET2 = {                                        # E7780, i713-i724
 
 # E7335 and friends: the i5 side is an index-less universal primer.
 NEBNEXT_UNIVERSAL_PRIMER = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+# Vendor-neutral name for the same 58-mer: P5 + TruSeq Read 1 sharing their ACAC.
+TRUSEQ_P5_FULL = NEBNEXT_UNIVERSAL_PRIMER
 
 
 def nebnext_i5_primer(index: str) -> str:

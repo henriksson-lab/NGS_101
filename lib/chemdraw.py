@@ -204,8 +204,9 @@ class Construct:
 
 def _wrap(text: str, tag: str | None, inferred: bool) -> str:
     out = html.escape(text)
-    if tag:
-        out = f"<{tag}>{out}</{tag}>"
+    for t in reversed((tag or "").split("+")):      # "s5+unp" nests both elements
+        if t:
+            out = f"<{t}>{out}</{t}>"
     if inferred:
         out = f"<inf>{out}</inf>"
     return out
@@ -320,3 +321,373 @@ def oligo(name: str, segments: Sequence[Segment], five: str = "5'-", three: str 
     lead = f"{five} {mods} " if mods else f"{five} "
     return (f"<p>{html.escape(name)}: {html.escape(lead, quote=False)}"
             f"{body} {html.escape(three, quote=False)}</p>")
+
+
+# ------------------------------------------------------------------- loops
+def bridge(left: int, right: int, inner: Sequence[Sequence[tuple]] = (),
+           label: str = "", riser: int = 1) -> list[Row]:
+    """Draw a loop joining two columns, with content carried inside it.
+
+    Used where a molecule leaves the duplex, travels, and comes back -- a padlock
+    probe's backbone arching from one annealed arm to the other, a hairpin, a lariat.
+    `left` and `right` are the columns the two risers come down on, so the caller can
+    anchor them to real sequence positions rather than eyeballing the width.
+
+    Returns rows top-down: the arc, then one row per `inner` line, then `riser` plain
+    rows. Each `inner` line is a sequence of (text, tag, inferred) chunks.
+    """
+    width = right - left + 1
+    if width < 4:
+        raise ValueError(f"bridge needs at least 4 columns, got {width}")
+    body = width - 2
+    if label:
+        lab = f" {label} "
+        if len(lab) > body:
+            lab = lab[:body]
+        pad = body - len(lab)
+        bar = "-" * (pad // 2) + lab + "-" * (pad - pad // 2)
+    else:
+        bar = "-" * body
+    rows = [Row(chunks=[(" " * left + "." + bar + ".", None, False)])]
+    for line in inner:
+        used = sum(len(c[0]) for c in line)
+        if used > body:
+            raise ValueError(f"bridge content {used} wide does not fit in {body}")
+        lead = (body - used) // 2
+        rows.append(Row(chunks=[(" " * left + "|" + " " * lead, None, False), *line,
+                                (" " * (body - used - lead) + "|", None, False)]))
+    for _ in range(riser):
+        rows.append(Row(chunks=[(" " * left + "|" + " " * body + "|", None, False)]))
+    return rows
+
+
+# ------------------------------------------------------------------- pairing
+# One rule for "may these two characters be drawn in the same column of a duplex", used both
+# by Scene (refuses to build a wrong drawing) and by tools/lint_pairing.py (finds wrong
+# drawings in already-generated pages).
+
+_IUPAC = {"A": "A", "C": "C", "G": "G", "T": "T", "U": "T", "N": "ACGT", "W": "AT",
+          "S": "CG", "R": "AG", "Y": "CT", "K": "GT", "M": "AC", "B": "CGT", "D": "AGT",
+          "H": "ACT", "V": "ACG"}
+_WC = {"A": "T", "T": "A", "C": "G", "G": "C"}
+
+
+def bases_pair(a: str, b: str) -> bool:
+    """True if `a` may sit opposite `b` in a drawn duplex.
+
+    Real bases (and IUPAC codes) must be Watson-Crick compatible. Placeholders follow the
+    repo convention: the complement of placeholder `X` is drawn `x`, so the same letter in
+    opposite case pairs. `.` pairs with `.` (the `XXX...XXX` ellipsis).
+    """
+    if a == "." or b == ".":
+        return a == b
+    if a in "Xx" and b in "XxNn":
+        return True                       # unknown DNA; some pages draw it X on both strands
+    if b in "Xx" and a in "Nn":
+        return True
+    if a.isalpha() and b.isalpha() and a != b and a.upper() == b.upper():
+        return True
+    sa, sb = _IUPAC.get(a.upper()), _IUPAC.get(b.upper())
+    if sa is None or sb is None:
+        return False
+    return any(_WC[x] in sb for x in sa)
+
+
+# --------------------------------------------------------------------- scenes
+# Hand-written indents are how drawings go wrong: an oligo-dT two columns into the cDNA, a
+# GGG nowhere near its CCC. A Scene takes every strand 5'->3' as written on the order sheet,
+# places it by saying WHICH SEGMENT PAIRS WITH WHICH, computes all columns itself, and
+# raises if any drawn column does not base-pair. There is no indent argument anywhere.
+
+@dataclass
+class _Strand:
+    name: str
+    segs: list[Segment]          # 5'->3', as ordered
+    col: int                     # column of the leftmost DRAWN base
+    rev: bool                    # True: drawn 3'->5' left to right
+    label: str
+    unpaired: tuple[str, ...] = ()
+    partner: str | None = None
+    mod5: str = ""               # e.g. "p" -> drawn 5'-p / p-5'
+    mod3: str = ""
+
+    def ends(self) -> tuple[str, str]:
+        """(left label, right label) as drawn."""
+        f5 = "5'-" + self.mod5 + " " if not self.rev else " " + self.mod5 + "-5'"
+        f3 = " -3'" + (" " + self.mod3 if self.mod3 else "") if not self.rev else \
+            (self.mod3 + " " if self.mod3 else "") + "3'- "
+        return (f5, f3) if not self.rev else (f3, f5)
+
+    def drawn(self) -> list[Segment]:
+        if not self.rev:
+            return self.segs
+        return [Segment(s.name, s.top[::-1], s.tag, s.placeholder, s.inferred,
+                        None if s.bottom is None else s.bottom[::-1], s.note)
+                for s in reversed(self.segs)]
+
+    def text(self) -> str:
+        return "".join(s.top for s in self.drawn())
+
+    def span(self, seg: str) -> tuple[int, int]:
+        pos = self.col
+        for s in self.drawn():
+            if s.name == seg:
+                return pos, pos + len(s)
+            pos += len(s)
+        raise KeyError(f"strand {self.name!r} has no segment {seg!r}")
+
+    def end(self) -> int:
+        return self.col + len(self.text())
+
+    def cells(self) -> dict[int, tuple[str, str]]:
+        """column -> (char, segment name)"""
+        out, pos = {}, self.col
+        for s in self.drawn():
+            for ch in s.top:
+                out[pos] = (ch, s.name)
+                pos += 1
+        return out
+
+
+def complement_segments(segs: Sequence[Segment], suffix: str = "'") -> list[Segment]:
+    """The strand that pairs with `segs` (given 5'->3'), itself returned 5'->3'.
+
+    Real bases are reverse-complemented; placeholders become the reversed lowercase stand-in
+    (X -> x), the same convention the duplex ladders use. A segment with an explicit
+    `bottom` (e.g. a T:A junction placeholder) contributes exactly that bottom text.
+    """
+    out = []
+    for s in reversed(segs):
+        top = s.bottom_text()[::-1]
+        out.append(Segment(s.name + suffix if s.name else "", top, s.tag,
+                           s.placeholder, s.inferred))
+    return out
+
+
+class Scene:
+    """Strands placed by pairing, never by indent. Render with `rows()`.
+
+        sc = Scene()
+        sc.strand("mRNA", mrna_segs)                                # first strand: column 0
+        sc.anneal("oligo-dT", dt_segs, to="mRNA", pair=("dT", "polyA"), shift=6)
+        sc.mark("mRNA", "polyA", "anywhere in the tract")
+
+    `anneal` draws the new strand antiparallel to its partner, with segment `pair[0]`'s
+    drawn left edge `shift` columns right of `pair[1]`'s, then checks EVERY overlapping
+    column with `bases_pair`. Segments listed in `unpaired` (e.g. a mismatched 5' tail)
+    are exempt. A drawing that would put a T over an X cannot be produced.
+    """
+
+    def __init__(self) -> None:
+        self.strands: dict[str, _Strand] = {}
+        self.order: list[tuple[str, str]] = []      # ("strand"|"mark"|"arrow"|"blank", key)
+        self.extras: dict[str, tuple] = {}
+        self._same_line: list[tuple[str, str]] = []
+        self._footers: set[str] = set()
+
+    @classmethod
+    def duplex(cls, top: Sequence[Segment], on: str | None = None, label: str = "",
+               bottom: Sequence[Segment] | None = None, **kw) -> "Scene":
+        """Strand "top" plus its pairing strand "bottom" (default: the full complement),
+        paired on segment `on` (default: the first). kw (mod5=, unpaired=...) go to anneal."""
+        on = top[0].name if on is None else on
+        bottom = complement_segments(top) if bottom is None else bottom
+        sc = cls()
+        sc.strand("top", top, label=label)
+        sc.anneal("bottom", bottom, to="top", pair=(on + "'", on), label=label, **kw)
+        return sc
+
+    # -- placement
+    def strand(self, name: str, segs: Sequence[Segment], label: str | None = None,
+               rev: bool = False, at: int = 0, mod5: str = "", mod3: str = "") -> str:
+        """A free strand (no partner). Normally only the first one in a scene."""
+        self._add(_Strand(name, list(segs), at, rev, name if label is None else label,
+                          mod5=mod5, mod3=mod3))
+        return name
+
+    def anneal(self, name: str, segs: Sequence[Segment], to: str, pair: tuple[str, str],
+               shift: int = 0, label: str | None = None, above: bool = False,
+               unpaired: Sequence[str] = (), mod5: str = "", mod3: str = "") -> str:
+        p = self.strands[to]
+        st = _Strand(name, list(segs), 0, not p.rev, name if label is None else label,
+                     tuple(unpaired), to, mod5, mod3)
+        mine, theirs = pair
+        st.col = p.span(theirs)[0] + shift - (st.span(mine)[0] - st.col)
+        self._verify(st, p)
+        self._add(st, before=to if above else None, after=None if above else to)
+        return name
+
+    def _verify(self, a: _Strand, b: _Strand) -> None:
+        ca, cb = a.cells(), b.cells()
+        both = sorted(set(ca) & set(cb))
+        if not both:
+            raise ValueError(f"{a.name!r} is drawn against {b.name!r} but no column overlaps")
+        bad = [c for c in both
+               if ca[c][1] not in a.unpaired and cb[c][1] not in b.unpaired
+               and not bases_pair(ca[c][0], cb[c][0])]
+        if bad:
+            c = bad[0]
+            raise ValueError(
+                f"{a.name!r} vs {b.name!r}: {len(bad)} drawn column(s) do not pair, first at "
+                f"{a.name}:{ca[c][1]} {ca[c][0]!r} over {b.name}:{cb[c][1]} {cb[c][0]!r}\n"
+                f"  {b.text()!r} @ {b.col}\n  {a.text()!r} @ {a.col}")
+
+    def _add(self, st: _Strand, before: str | None = None, after: str | None = None) -> None:
+        if st.name in self.strands:
+            raise ValueError(f"duplicate strand {st.name!r}")
+        self.strands[st.name] = st
+        item = ("strand", st.name)
+        keys = [k for _, k in self.order]
+        if before is not None:
+            self.order.insert(keys.index(before), item)
+        elif after is not None:
+            i = keys.index(after) + 1
+            while i < len(self.order) and self.order[i][0] in ("mark", "arrow"):
+                i += 1                                  # keep a strand's marks attached to it
+            self.order.insert(i, item)
+        else:
+            self.order.append(item)
+
+    # -- decorations, all positioned from segments
+    def mark(self, strand: str, seg: str, text: str, ch: str = "^",
+             through: str | None = None) -> None:
+        """Underline segment `seg` (or `seg`..`through`, in drawn order) and label it."""
+        st = self.strands[strand]
+        a = st.span(seg)
+        b = st.span(through) if through else a
+        s, e = min(a[0], b[0]), max(a[1], b[1])
+        self._decor("mark", strand, (s, ch * (e - s) + (" " + text if text else "")))
+
+    def note(self, strand: str, text: str) -> None:
+        """A free line under the strand, starting at its first drawn base."""
+        self._decor("mark", strand, (self.strands[strand].col, text))
+
+    def footer(self, text: str, strand: str, seg: str | None = None) -> None:
+        """A line at the very bottom of the scene, starting at segment `seg` of `strand`
+        (or the strand's first base). Unlike mark/note it never splits a duplex."""
+        st = self.strands[strand]
+        col = st.span(seg)[0] if seg else st.col
+        key = f"mark{len(self.extras)}"
+        self.extras[key] = (col, text)
+        self.order.append(("mark", key))
+        self._footers.add(key)
+
+    def labels(self, strand: str, gap: int = 2) -> None:
+        """Segment names as footer lines, each starting on its segment in `strand`, packed
+        onto as few lines as possible (the Scene analogue of annotation_rows)."""
+        st = self.strands[strand]
+        lines: list[str] = []
+        for s in st.drawn():
+            if not s.name or not s.top:
+                continue
+            c = st.span(s.name)[0] - st.col
+            for i, ln in enumerate(lines):
+                if c >= len(ln) + gap:
+                    lines[i] = ln.ljust(c) + s.name
+                    break
+            else:
+                lines.append(" " * c + s.name)
+        for ln in lines:
+            self.footer(ln, strand)
+
+    def stack(self, *names: str) -> None:
+        """Reorder strands top-down as `names` (every strand exactly once); each strand keeps
+        its own marks and arrows under it. Use when call order cannot express the layout,
+        e.g. one primer above the top strand and another below the bottom strand."""
+        groups: dict[str, list] = {}
+        head: list = []
+        cur = None
+        feet = [it for it in self.order if it[1] in self._footers]
+        for item in self.order:
+            if item[1] in self._footers:
+                continue
+            if item[0] == "strand":
+                cur = item[1]
+                groups[cur] = []
+            (groups[cur] if cur else head).append(item)
+        if sorted(names) != sorted(groups):
+            raise ValueError(f"stack() needs every strand exactly once: {sorted(groups)}")
+        self.order = head + [it for n in names for it in groups[n]] + feet
+
+    def same_line(self, host: str, guest: str) -> None:
+        """Draw two collinear but unjoined strands on one line (e.g. a Tn5 non-transferred
+        strand 9 nt beyond a fragment's 3' end). Refuses at render if they would collide."""
+        self._same_line.append((host, guest))
+
+    def blank(self, before: str) -> None:
+        """An empty line directly above strand `before`."""
+        keys = [k for _, k in self.order]
+        self.order.insert(keys.index(before), ("blank", f"blank{len(self.order)}"))
+
+    def origin(self) -> tuple[int, int]:
+        """(screen column of scene column 0, gutter width), as rows() lays it out -- for
+        helpers that add rows aligned to the scene (e.g. a padlock bridge)."""
+        lefts = [st.col - len(st.ends()[0]) for st in self.strands.values()]
+        lefts += [c for c, _ in self.extras.values()]
+        gutter = max(len(st.label) for st in self.strands.values()) + 1
+        if not any(st.label for st in self.strands.values()):
+            gutter = 0
+        return gutter - min(lefts), gutter
+
+    def arrow(self, strand: str, text: str, length: int = 8) -> None:
+        """Extension arrow off the strand's 3' end, pointing the way synthesis goes."""
+        st = self.strands[strand]
+        if st.rev:
+            body = f"{text} <" + "-" * length
+            self._decor("arrow", strand, (st.col - len(body), body))
+        else:
+            self._decor("arrow", strand, (st.end(), "-" * length + "> " + text))
+
+    def _decor(self, kind: str, strand: str, payload: tuple) -> None:
+        key = f"{kind}{len(self.extras)}"
+        self.extras[key] = payload
+        # under the strand, but never between it and a strand annealed directly below it
+        keys = [k for _, k in self.order]
+        i = keys.index(strand) + 1
+        while i < len(self.order):
+            k, n = self.order[i]
+            if k in ("mark", "arrow") or (k == "strand" and self.strands[n].partner == strand):
+                i += 1
+            else:
+                break
+        self.order.insert(i, (kind, key))
+
+    # -- rendering
+    def rows(self, omit: Sequence[str] = ()) -> list[Row]:
+        """Rendered rows. Strands named in `omit` are left out (their marks stay) -- for
+        helpers that redraw those strands themselves, e.g. two padlock arms on one row."""
+        shift, gutter = self.origin()
+        out: list[Row] = []
+        keys: list[str | None] = []
+        for kind, key in self.order:
+            if kind == "strand":
+                st = self.strands[key]
+                l_end, r_end = st.ends()
+                lead = st.label.ljust(gutter) + " " * (shift - gutter + st.col - len(l_end))
+                out.append(Row(chunks=[(lead + l_end, None, False)]
+                               + [(s.top, (s.tag or "") + ("+unp" if s.name in st.unpaired
+                                                            else ""), s.inferred)
+                                  for s in st.drawn() if s.top]
+                               + [(r_end, None, False)]))
+                keys.append(key)
+            elif kind == "blank":
+                out.append(Row())
+                keys.append(None)
+            else:
+                c, text = self.extras[key]
+                out.append(Row(chunks=[(" " * (shift + c) + text, None, False)]))
+                keys.append(None)
+        for host, guest in self._same_line:
+            hi, gi = keys.index(host), keys.index(guest)
+            if self.strands[host].col > self.strands[guest].col:
+                hi, gi = gi, hi
+            left = out[hi].plain().rstrip()
+            lead = out[gi].chunks[0][0]
+            if lead[:len(left) + 1].strip():
+                raise ValueError(f"{host!r} and {guest!r} overlap on one line")
+            h = list(out[hi].chunks)
+            h[-1] = (h[-1][0].rstrip(), h[-1][1], h[-1][2])
+            out[hi] = Row(chunks=h + [(lead[len(left):], None, False)] + list(out[gi].chunks[1:]))
+            out[gi] = None
+        drop = {i for i, k in enumerate(keys) if k is not None and k in omit}
+        return [r for i, r in enumerate(out) if r is not None and i not in drop]

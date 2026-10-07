@@ -1,0 +1,8 @@
+dir	protocol	doi	status	note
+atrandi-wgs__10.1101+2025.06.20.660799	Atrandi WGS	10.1101/2025.06.20.660799	documented	Atrandi SPC + PTA single-microbe WGS, as run here (Bascet/Zorn preprint). Built on the Atrandi barcoding kit manuals, which have no DOI.
+smart-seq-family__10.1038+nbt.2282	SMART-seq family	10.1038/nbt.2282	documented	Also covers Smart-seq2/3/3xpress and FLASH-seq; same protocol row as scg_lib_structs.
+small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
+lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	Pooled-screen readout across four vector systems; named for Shalem 2014.
+crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	sgRNA quantification by molecular inversion probe.
+crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	Also covers the unrelated Michlits CRISPR-UMI, 10.1038/nmeth.4466, and our padlock draft.
+florian-pta-rnaseq	florian-PTA-rnaseq		draft	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
