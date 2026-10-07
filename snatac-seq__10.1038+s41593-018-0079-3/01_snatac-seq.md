@@ -18,7 +18,7 @@ Related papers (from `catalogue/scg_lib_structs.tsv`):
 - **sci-ATAC-seq**: Cusanovich DA *et al.* *Science* 348:910 (2015),
   doi:[10.1126/science.aab1601](https://doi.org/10.1126/science.aab1601). The parent
   method; snATAC-seq calls itself "combinatorial ATAC-seq … with modifications". See
-  [the sci-ATAC-seq note](../sci-atac-seq-family__10.1126+science.aab1601/01_sci-atac-seq.md).
+  [the sci-ATAC-seq note](../sci-atac-seq__10.1126+science.aab1601/01_sci-atac-seq.md).
 - **CPT-seq / Amini 2014** (*Nat. Genet.* 46:1343, doi:10.1038/ng.3119): the source of
   the barcoded transposon and sequencing-primer sequences. The snATAC-seq oligo table
   says so in a footnote 🟢: all oligos except the spike-ins are "from Amini et al., Nat.

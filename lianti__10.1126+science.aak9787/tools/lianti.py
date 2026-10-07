@@ -72,6 +72,7 @@ def gap_filled_fragment(insert_nt: int = 28) -> Construct:
             inferred=True),
         seg("mosaic end, opposite", right[-len(nx.ME):], "me", inferred=True),
     ], name="gap-filled LIANTI fragment")
+    return lib
 
 
 def transcript(insert_nt: int = 28) -> Construct:

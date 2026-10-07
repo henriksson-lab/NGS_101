@@ -18,7 +18,7 @@ Other papers:
   bench protocol, and the source upstream drew from. **Not fetched.** 🔴
 - **Chemistry origin**: Amini S et al. 2014 (CPT-seq, *Nat Genet* 46:1343) — the T5/T7
   barcoded transposon design, cited by the paper for Supplementary Fig. 4a. Covered in
-  [sci-ATAC-seq](../sci-atac-seq-family__10.1126+science.aab1601/01_sci-atac-seq.md).
+  [sci-ATAC-seq](../sci-atac-seq__10.1126+science.aab1601/01_sci-atac-seq.md).
 - Cited by upstream for "semi-suppressive PCR": nanoCAGE / CAGEscan (Plessy et al. 2010,
   *Nat Methods*, doi 10.1038/nmeth.1470).
 
@@ -68,7 +68,7 @@ variant). There is **no UMI** 🟡 (none appears in any oligo).
 | | New thing here | Builds on |
 |---|---|---|
 | 1 | **Barcoded tagmentation of fixed chromatin, then a pooled ChIP** | ChIPmentation (tagment *after* IP, on beads); Drop-ChIP (MNase + droplet barcoding *before* pooled IP) — upstream makes the Drop-ChIP comparison; [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) |
-| 2 | Transposon oligos **identical in layout to the CPT-seq / sci-ATAC-seq "Universal Connector"** oligos, extended from 8×12 to 24×25 barcodes | Amini 2014; [sci-ATAC-seq](../sci-atac-seq-family__10.1126+science.aab1601/01_sci-atac-seq.md) |
+| 2 | Transposon oligos **identical in layout to the CPT-seq / sci-ATAC-seq "Universal Connector"** oligos, extended from 8×12 to 24×25 barcodes | Amini 2014; [sci-ATAC-seq](../sci-atac-seq__10.1126+science.aab1601/01_sci-atac-seq.md) |
 | 3 | A **TruSeq "connector" PCR** that grafts TruSeq Read 1/2 onto the sci-style ends so a standard (non-custom-primer) run works | upstream, from the Protocol Exchange and Fig. 5 ("Truseq library preparation method for low-input and single-cell itChIP", title only 🟢) |
 
 ## 2. Oligos

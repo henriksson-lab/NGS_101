@@ -48,7 +48,7 @@ plus a 7-nt UMI. ~10,000 cells are then lysed per sub-library. 🟢 (main text, 
 |---|---|---|
 | 1 | **Bacterial cell prep**: pellet, 4 % formaldehyde 16 h, 50 % ethanol, lysozyme (E. coli) or lysostaphin (S. aureus), in situ **DNase I** then heat-inactivation at 50 °C (not 70 °C, to keep cells intact) 🟢 | SPLiT-seq (eukaryotic fixation/permeabilisation) |
 | 2 | **Round-1 RT with random hexamers only** — bacterial mRNA has no poly(A); all 96 round-1 oligos end in `NNNNNN` 🟢 | SPLiT-seq used dT + random mix ([reverse transcription](../ref/concepts/reverse-transcription.md)) |
-| 3 | **Short (16-nt) ligation linkers** instead of SPLiT-seq's 30-nt ones, so the barcode read fits in 58 cycles (75-cycle kit, ~50 % cheaper); barcodes overlap the linker by one constrained base (S or W) 🟢 | [SPLiT-seq](../split-seq-microsplit__10.1126+science.aam8999/01_split-seq.md) splint ligation |
+| 3 | **Short (16-nt) ligation linkers** instead of SPLiT-seq's 30-nt ones, so the barcode read fits in 58 cycles (75-cycle kit, ~50 % cheaper); barcodes overlap the linker by one constrained base (S or W) 🟢 | [SPLiT-seq](../split-seq__10.1126+science.aam8999/01_split-seq.md) splint ligation |
 | 4 | **Two blocking oligos per round** (a hairpin + the linker complement) instead of one 🟢 | SPLiT-seq blocking strand |
 | 5 | **AMPure clean-up of lysate** instead of biotin/streptavidin pull-down; then **second-strand synthesis** (NEBNext) rather than template switching 🟢 | SPLiT-seq (streptavidin + TSO) |
 | 6 | Nextera XT tagmentation, then PCR with **NEB i50x** on the barcode end and **Nextera N7xx** on the Tn5 end 🟢 (that i50x carries TruSeq Read 1: 🟡) | [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) |

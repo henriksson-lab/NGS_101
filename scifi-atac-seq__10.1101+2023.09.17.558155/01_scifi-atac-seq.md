@@ -51,7 +51,7 @@ barcode)* (Methods "Cell barcode collision detection").
 
 | | New thing here | Builds on |
 |---|---|---|
-| 1 | **Two-sided** barcoded Tn5: a 5-nt barcode on the A (s5) adapter and another on the B (s7) adapter, 12 × 8 = 96 wells from 20 oligos | sci-ATAC-seq of Tu et al. 2022 (same lab); dsciATAC-seq used a one-sided barcode ([dsciATAC](../dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6/01_dscatac-seq.md)) |
+| 1 | **Two-sided** barcoded Tn5: a 5-nt barcode on the A (s5) adapter and another on the B (s7) adapter, 12 × 8 = 96 wells from 20 oligos | sci-ATAC-seq of Tu et al. 2022 (same lab); dsciATAC-seq used a one-sided barcode ([dsciATAC](../dscatac-seq__10.1038+s41587-019-0147-6/01_dscatac-seq.md)) |
 | 2 | Pre-indexed nuclei loaded into the unmodified **10x scATAC v1.1** chemistry | scifi-RNA-seq ([scifi-RNA](../scifi-rna-seq__10.1101+2019.12.17.879304/01_scifi-rna-seq.md)) did the same for 10x RNA |
 | 3 | A 19-nt **spacer between s5/s7 and the barcode**, so custom read and index primers are needed | — |
 
