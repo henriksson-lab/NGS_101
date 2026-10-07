@@ -680,16 +680,26 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
     # Joined by directory name first: a directory IS the protocol's slug, so the join is
     # exact even for a vendor kit with no DOI, and for one paper defining two protocols
     # (HyDrop-RNA / HyDrop-ATAC), which a DOI join would map to a single directory. A
-    # directory named otherwise (a protocol upstream lists under another name) falls back
-    # to the DOI of its defining paper. A protocol we cover that upstream does not list is
-    # appended, so the table is the whole worklist rather than only upstream's part of it.
+    # An exact protocol-name match comes next. A directory named otherwise falls back to
+    # the DOI only for a single-paper upstream protocol: DOI matching every citation would
+    # wrongly merge component methods (for example SMART-seq2) into every multi-omics
+    # protocol that uses them, and would prevent us splitting an upstream "family" page.
+    # A protocol we cover that upstream does not list is appended, so the table is the
+    # whole worklist rather than only upstream's part of it.
     mine = read_ours()
     by_dir = {m["dir"]: m for m in mine}
     matched_protocols = {r["protocol"]: by_dir[r["slug"]] for r in rows if r["slug"] in by_dir}
+    by_name = {m["protocol"].casefold(): m for m in mine}
+    for r in rows:
+        if r["protocol"] not in matched_protocols and r["protocol"].casefold() in by_name:
+            matched_protocols[r["protocol"]] = by_name[r["protocol"].casefold()]
     used = {m["dir"] for m in matched_protocols.values()}
     by_doi = {m["doi"]: m for m in mine if m["doi"] and m["dir"] not in used}
+    primary_count = {p: sum(x["role"] == "primary" for x in rows if x["protocol"] == p)
+                     for p in {x["protocol"] for x in rows}}
     for r in rows:
-        if r["protocol"] not in matched_protocols and r["doi"] in by_doi:
+        if (r["protocol"] not in matched_protocols and r["is_defining"] == "yes"
+                and primary_count[r["protocol"]] == 1 and r["doi"] in by_doi):
             matched_protocols[r["protocol"]] = by_doi[r["doi"]]
     for r in rows:
         m = matched_protocols.get(r["protocol"])
@@ -722,6 +732,8 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
         elif r["documented"] == "yes" and not (define.get(r["protocol"], r)["doi"]
                                                or define.get(r["protocol"], r)["pmid"]):
             r["note"] = "vendor/kit protocol: no defining publication"
+        elif r["protocol"] == "SMART-seq family" and not r["our_dir"]:
+            r["note"] = "upstream aggregate; documented here as five separate protocols"
         else:
             r["note"] = r.get("note", "")        # keep what ours.tsv said
     return rows

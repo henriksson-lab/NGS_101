@@ -4,8 +4,9 @@
 Nothing about an individual protocol is typed here. The list comes from
 `catalogue/ours.tsv` (one row per directory; its `section` column says whether it is a
 published protocol or our own work in progress), joined to the scraped catalogue for
-category, family members, papers and year. A protocol appears publicly only when its
-generated diagram page exists. Notes and work in progress stay out of the public index.
+category, family members, papers and year. Every published protocol is listed by name; its
+name becomes a link only when a generated diagram page exists. Notes and work in progress
+stay out of the public index.
 
 The published schematics get a client-side search over their catalogue metadata and short
 blurb. No note bodies are embedded in the public page. No library, no fetch() -- it works
@@ -331,9 +332,10 @@ EXTRA_CSS = """<style>
 .facets .sep { width:1px; height:1.2em; background:var(--rule); margin:0 4px; }
 .count { color:var(--ink-muted); font-size:.85rem; margin-left:auto;
          font-variant-numeric:tabular-nums; }
-.plist { list-style:none; padding:0; margin:.6em 0; display:grid; gap:10px; }
-.pr { border:1px solid var(--rule); border-radius:6px; padding:12px 16px;
-      background:var(--surface); display:flex; flex-direction:column; gap:6px; }
+.plist { list-style:none; padding:0; margin:.6em 0; display:grid; gap:6px;
+         grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); }
+.pr { border:1px solid var(--rule); border-radius:4px; padding:9px 12px;
+      background:var(--surface); }
 .pr p { margin:0; font-size:.93rem; max-width:90ch; }
 .pr .aka { font-size:.84rem; color:var(--ink-muted); }
 .pr .snip { font-size:.84rem; color:var(--ink-muted); border-left:2px solid var(--key-rule);
@@ -437,9 +439,10 @@ def search_section(ps: list[dict]) -> str:
 
 def build(omit: set[str] = frozenset(), run_checks: bool = True) -> tuple[str, int]:
     every = collect(omit, run_checks)
-    # The public site is a catalogue of finished schematics. Reference notes and work in
-    # progress remain in the repository, but are not part of the reader-facing index.
-    pub = [p for p in every if p["section"] == "published" and p["page"]]
+    # Keep the complete published catalogue visible. Reference notes and work in progress
+    # remain out of the reader-facing index; entries without a finished schematic are
+    # listed by name but do not send readers into the notes.
+    pub = [p for p in every if p["section"] == "published"]
     total = (sum(p["checks"] for p in every)
              + (sum(checks(d)[0] for d in EXTRA_SUITES) if run_checks else 0))
     body = f"""<div class="wrap">

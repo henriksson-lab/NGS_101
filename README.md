@@ -48,7 +48,7 @@ protocol declares why.
 
 ```
 <protocol>__<doi, with every "/" replaced by "+">
-smart-seq-family__10.1038+nbt.2282
+smart-seq2__10.1038+nmeth.2639
 ```
 
 Protocol names collide and get reused; a DOI does not, and every preprint has one from the
@@ -202,8 +202,9 @@ checks that every relative link and anchor in `_site/` resolves, and fails if on
 
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
-- **Protocol schematics** -- rows of `catalogue/ours.tsv` with `section` = `published` and
-  a successfully built diagram page, in a list with a client-side search. The search covers
+- **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
+  in a compact list with a client-side search. A title opens its schematic when one exists;
+  entries without one remain listed by name rather than exposing their working notes. The search covers
   the name, family members and other names from the catalogue, the scg_lib_structs category,
   modality (`DNA` / `RNA` / `multi`), DOI, year, paper titles and a short method blurb. It
   does not expose the reference-note bodies. The index is JSON embedded in the page and
@@ -213,8 +214,9 @@ checks that every relative link and anchor in `_site/` resolves, and fails if on
 
 Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
 paragraph of its first note that describes the method (preferring the `## 1. What it is`
-section); its title and primary action both open the diagram page. A new protocol appears
-only after its `tools/build_page.py` can produce that finished schematic.
+section), kept in the search data rather than printed on every entry. A new protocol appears
+by name from `ours.tsv`; its title becomes a link when `tools/build_page.py` produces a
+finished schematic.
 
 **In CI** (`.github/workflows/pages.yml`, on every push to `main` and on demand) the runner
 has only what is committed. The self-tests skip what needs a third-party file, and the
@@ -278,7 +280,11 @@ check asserts what the flip should and should not change.
 | Directory | Chemistry | Status |
 |---|---|---|
 | `atrandi-wgs__10.1101+2025.06.20.660799/` | DNA. Semi-permeable capsules, PTA amplification, 4-round split-pool barcoding, NEBNext FS library prep | notes + page built; barcode cassette architecture still modelled, not documented |
-| `smart-seq-family__10.1038+nbt.2282/` | RNA. Template switching, full-length cDNA, Nextera tagmentation | notes + constructs + checks; no page yet |
+| `smart-seq__10.1038+nbt.2282/` | RNA. Original SMART-seq | schematic + shared construct checks |
+| `smart-seq2__10.1038+nmeth.2639/` | RNA. SMART-seq2 | schematic + shared construct checks |
+| `smart-seq3__10.1038+s41587-020-0497-0/` | RNA. SMART-seq3 | schematic + shared construct checks |
+| `smart-seq3xpress__10.1038+s41587-022-01311-4/` | RNA. SMART-seq3xpress | schematic + shared construct checks |
+| `flash-seq__10.1038+s41587-022-01312-3/` | RNA. FLASH-seq | schematic + shared construct checks |
 | `small-seq__10.1038+nbt.3701/` | RNA. Small-seq: single-cell small RNA / miRNA. TruSeq **Small RNA** adapters, sequential ligation, UMI in the ligated 5' adapter, 5.8S rRNA masking oligo | notes + constructs + page + 167 checks; the SRX index primer is not published, so its arm is bracketed from two published library sizes |
 | `lenticrispr-gecko-screen__10.1126+science.1247005/` | DNA. Pooled CRISPR screening: lentiCRISPR/GeCKO, Broad GPP, and the single-cell screens | notes, plasmid maps, page, and primer/amplicon checks against real maps |
 | `crispr-umi-schmierer__10.15252+msb.20177834/` | DNA. A lineage UMI cloned into the guide library &mdash; Schmierer and Michlits | notes + page + checks against the real parent map |

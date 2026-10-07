@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
-sys.path.insert(0, str(HERE.parents[1] / "smart-seq-family__10.1038+nbt.2282" / "tools"))
+sys.path.insert(0, str(HERE.parents[1] / "smart-seq__10.1038+nbt.2282" / "tools"))
 sys.path.insert(0, str(HERE.parents[1] / "atrandi-wgs__10.1101+2025.06.20.660799" / "tools"))
 
 import atrandi
@@ -48,7 +48,7 @@ def preamble() -> str:
 
 {info("""An attempt to read single-cell mRNA out through the Atrandi SPC / PTA pipeline.
 The design is a graft of two protocols already on this site: a
-<a href="../smart-seq-family__10.1038+nbt.2282/smartseq.html"><b>Smart-seq3xpress</b></a> front end that tags each
+<a href="../smart-seq3xpress__10.1038+s41587-022-01311-4/smart-seq3xpress.html"><b>Smart-seq3xpress</b></a> front end that tags each
 mRNA's 5' end with a UMI, and an <a href="../atrandi-wgs__10.1101+2025.06.20.660799/atrandi_wgs.html"><b>Atrandi</b></a>
 back end &mdash; except that <b>all four rounds of split-pool barcoding are replaced by a
 single pre-annealed duplex</b>, <code>FakeD</code>, ligated on in one step.""")}

@@ -65,7 +65,7 @@ five.
 
 ## Where it shows up
 
-SMART-seq / SMART-seq2 / SMART-seq3 (`smart-seq-family__10.1038+nbt.2282/`), SPLiT-seq, ATAC-seq and scATAC, Nextera
+SMART-seq / SMART-seq2 / SMART-seq3 (their separate `smart-seq*__/` protocol directories), SPLiT-seq, ATAC-seq and scATAC, Nextera
 DNA Flex, and most "tagmentation-based" single-cell methods. The front ends differ
 completely; the back end is this.
 

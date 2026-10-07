@@ -293,13 +293,12 @@ check("rendering is deterministic -- building twice gives the same bytes",
 import build_index  # noqa: E402
 
 _front, _ = build_index.build(run_checks=False)
-_public = [p for p in build_index.collect(run_checks=False)
-           if p["section"] == "published" and p["page"]]
-check("the public index lists only finished published schematics",
+_public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]
+check("the public index retains the complete published catalogue",
       _front.count('<li class="pr"'), len(_public))
 check("a protocol title opens its schematic, not its first reference note",
-      ('href="smart-seq-family__10.1038+nbt.2282/smartseq.html">SMART-seq family</a>' in _front,
-       'href="smart-seq-family__10.1038+nbt.2282/01_smart-seq_and_2.html"' in _front),
+      ('href="smart-seq2__10.1038+nmeth.2639/smart-seq2.html">SMART-seq2</a>' in _front,
+       'href="smart-seq__10.1038+nbt.2282/01_smart-seq.html"' in _front),
       (True, False))
 check("work in progress and the all-notes index are absent from the public front page",
       ("Work in progress" in _front, 'href="notes.html"' in _front), (False, False))

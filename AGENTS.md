@@ -65,10 +65,10 @@ finds oligos, not reaction order: the methods still have to be **read**.
    (or `wip` for our own unpublished work; the catalogue self-test pins the wip set, so
    update its `WIP` too) and `modality` `DNA` / `RNA` / `multi`. Re-run
    `python3 catalogue/tools/fetch_scg_lib_structs.py` (cheap: reuses resolved papers),
-   `python3 build_docs.py`, and the self-tests. Notes remain maintainer-facing and do not
-   put a protocol on the public front page. A `tools/` module, self-test and finished
-   schematic page (status `draft` → `documented`) come later; only then is it listed on the
-   public site — see README "Adding a protocol".
+   `python3 build_docs.py`, and the self-tests. The protocol is listed by name on the public
+   front page, but its notes remain maintainer-facing. A `tools/` module, self-test and
+   finished schematic page (status `draft` → `documented`) come later; only then does its
+   title link to a public page — see README "Adding a protocol".
 
 ## Architecture
 
@@ -95,7 +95,8 @@ finds oligos, not reaction order: the methods still have to be **read**.
   and search; never publish `_data/`, `pdf/`, caches, `ref/` data files or `to_debug/`.
   Broken relative links fail the build. A diagram page whose build needs a missing source
   is omitted (a stand-in page explains why). `index.html` is a searchable list of the
-  successfully built published schematics from `catalogue/ours.tsv`.
+  published protocol names from `catalogue/ours.tsv`; names link only to successfully built
+  schematics, never to working notes.
 - **`ref/concepts/`** — recurring chemistry (Tn5, template switching, small-RNA ligation,
   RT, padlock) written once; most new protocols are a new front end on one of these.
 

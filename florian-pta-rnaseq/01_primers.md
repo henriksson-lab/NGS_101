@@ -5,7 +5,7 @@ is a graft of two protocols already modelled here:
 
 - **front end: Smart-seq3xpress** — oligo-dT primes RT, the RT template-switches onto a
   UMI-carrying TSO, so each mRNA's 5' end is tagged. See
-  [`../smart-seq-family__10.1038+nbt.2282/02_smart-seq3_family.md`](../smart-seq-family__10.1038+nbt.2282/02_smart-seq3_family.md).
+  [SMART-seq3xpress schematic](../smart-seq3xpress__10.1038+s41587-022-01311-4/smart-seq3xpress.html).
 - **back end: Atrandi** — but the **four rounds of split-pool barcoding are replaced by a
   single pre-annealed duplex, `FakeD`**, ligated on in one step. See
   [`../atrandi-wgs__10.1101+2025.06.20.660799/05_barcode_cassette_model.md`](../atrandi-wgs__10.1101+2025.06.20.660799/05_barcode_cassette_model.md).
@@ -42,7 +42,7 @@ random primer and terminator chemistry. See OPEN (5) for why the strand matters 
 
 ## ✅ What each one is, checked against the canonical blocks
 
-Every identity below was computed against `lib/illumina.py` and `smart-seq-family__10.1038+nbt.2282/tools/smartseq.py`,
+Every identity below was computed against `lib/illumina.py` and `smart-seq__10.1038+nbt.2282/tools/smartseq.py`,
 not read off by eye:
 
 | oligo | resolves to | exact? |

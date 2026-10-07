@@ -5,7 +5,7 @@ Self-test for the SMART-seq family.
 Runs the shared checks (lib/checks.py), then asserts that the constructs built here
 reproduce the published final library structures character-for-character.
 
-Run:  python3 smart-seq-family__10.1038+nbt.2282/tools/selftest.py
+Run:  python3 smart-seq__10.1038+nbt.2282/tools/selftest.py
 """
 from __future__ import annotations
 
@@ -102,7 +102,7 @@ check("SMART-seq2: Read 1 goes straight into the cDNA",
 
 # ------------------------------------------- step drawings: placed by pairing, not indent
 check.section("step drawings (chemdraw.Scene)")
-import build_page as bp  # noqa: E402
+import page_parts as bp  # noqa: E402
 from chemdraw import Scene  # noqa: E402
 
 for name, scenes in (("SMART-seq2", bp.ss2_rt()), ("SMART-seq3", bp.ss3_rt())):

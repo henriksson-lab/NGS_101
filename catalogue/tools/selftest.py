@@ -87,15 +87,24 @@ for r in cat.defining():
         if r["slug"] != want:
             check(f"{r['protocol']}: slug is built from its defining DOI", r["slug"], want)
 check("slug built from the defining DOI (checked above for every defining row)", True)
-check("SMART-seq family is named after the 2012 Nature Biotech paper, its earliest",
-      slug("SMART-seq family", "10.1038/nbt.2282"), "smart-seq-family__10.1038+nbt.2282")
+check("each SMART-seq protocol is named for its own defining paper",
+      [slug(name, doi) for name, doi in
+       [("SMART-seq", "10.1038/nbt.2282"), ("SMART-seq2", "10.1038/nmeth.2639"),
+        ("SMART-seq3", "10.1038/s41587-020-0497-0"),
+        ("SMART-seq3xpress", "10.1038/s41587-022-01311-4"),
+        ("FLASH-seq", "10.1038/s41587-022-01312-3")]],
+      ["smart-seq__10.1038+nbt.2282", "smart-seq2__10.1038+nmeth.2639",
+       "smart-seq3__10.1038+s41587-020-0497-0",
+       "smart-seq3xpress__10.1038+s41587-022-01311-4",
+       "flash-seq__10.1038+s41587-022-01312-3"])
 
 # A page's preamble cites the methods a protocol is built from next to its own paper, and
 # those are older -- so "earliest" once named ISSAAC-seq after ATAC-seq and three
 # multi-omics methods after Smart-seq2. One paper defining two protocols is rare and real.
 JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
-         "10.1038/s41587-021-00962-z"}   # s3-ATAC and s3-WGS
+         "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
+         "10.1038/nbt.2282"}             # upstream aggregate plus our split SMART-seq entry
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
     if r["doi"]:
@@ -112,7 +121,8 @@ for proto, doi in [("ISSAAC-seq", "10.1038/s41592-022-01601-4"),
     check(f"{proto} is named for its own paper, not a component's", _defd[proto]["doi"], doi)
 check("the background papers stay in the table as associated rows",
       sorted(r["protocol"] for r in rows if r["doi"] == "10.1038/nmeth.2639"
-             and r["is_defining"] == "no" and r["protocol"] != "SMART-seq family"),
+             and r["is_defining"] == "no"
+             and r["protocol"] not in ("SMART-seq family", "SMART-seq2")),
       ["scM&T-seq", "scMT-seq", "scNMT-seq"])
 check("a preprint of the method's own paper names it over the journal version",
       _defd["scifi-RNA-seq"]["journal"], "bioRxiv")
@@ -230,9 +240,9 @@ except ValueError:
 check("ours_in() refuses a section that does not exist", _refused)
 
 check.section("our own coverage, continued")
-check("SMART-seq family is in both the catalogue and ours.tsv",
-      "SMART-seq family" in cat.protocols()
-      and "SMART-seq family" in {r["protocol"] for r in cat.ours()})
+check("the five SMART-seq protocols are separate entries in ours.tsv",
+      {"SMART-seq", "SMART-seq2", "SMART-seq3", "SMART-seq3xpress", "FLASH-seq"}
+      <= {r["protocol"] for r in cat.ours()})
 check("the table records our coverage", len(cat.covered()) > 0)
 _dir_protocols: dict[str, set] = {}
 for r in cat.covered():

@@ -17,7 +17,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
-sys.path.insert(0, str(HERE.parents[1] / "smart-seq-family__10.1038+nbt.2282" / "tools"))
+sys.path.insert(0, str(HERE.parents[1] / "smart-seq__10.1038+nbt.2282" / "tools"))
 sys.path.insert(0, str(HERE.parents[1] / "atrandi-wgs__10.1101+2025.06.20.660799" / "tools"))
 
 import atrandi

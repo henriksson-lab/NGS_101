@@ -52,7 +52,7 @@ paper per protocol that names its directory.
 ```
 <protocol-slug>__<doi, with every "/" replaced by "+">
 
-smart-seq-family__10.1038+nbt.2282
+smart-seq2__10.1038+nmeth.2639
 sci-rna-seq-family__10.1126+science.aam8940
 limca__10.21203+rs.3.rs-3210240+v1
 ```

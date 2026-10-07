@@ -1,6 +1,10 @@
 dir	protocol	doi	status	section	modality	note
 atrandi-wgs__10.1101+2025.06.20.660799	Atrandi WGS	10.1101/2025.06.20.660799	documented	published	DNA	Atrandi SPC + PTA single-microbe WGS, as run here (Bascet/Zorn preprint). Built on the Atrandi barcoding kit manuals, which have no DOI.
-smart-seq-family__10.1038+nbt.2282	SMART-seq family	10.1038/nbt.2282	documented	published	RNA	Also covers Smart-seq2/3/3xpress and FLASH-seq; same protocol row as scg_lib_structs.
+smart-seq__10.1038+nbt.2282	SMART-seq	10.1038/nbt.2282	documented	published	RNA	Original SMART-seq protocol; defining source is Ramsköld et al. 2012.
+smart-seq2__10.1038+nmeth.2639	SMART-seq2	10.1038/nmeth.2639	documented	published	RNA	SMART-seq2 protocol; defining source is Picelli et al. 2013.
+smart-seq3__10.1038+s41587-020-0497-0	SMART-seq3	10.1038/s41587-020-0497-0	documented	published	RNA	SMART-seq3 protocol; defining source is Hagemann-Jensen et al. 2020.
+smart-seq3xpress__10.1038+s41587-022-01311-4	SMART-seq3xpress	10.1038/s41587-022-01311-4	documented	published	RNA	Smart-seq3xpress protocol; defining source is Hagemann-Jensen et al. 2022.
+flash-seq__10.1038+s41587-022-01312-3	FLASH-seq	10.1038/s41587-022-01312-3	documented	published	RNA	FLASH-seq protocol; defining source is Hahaut et al. 2022.
 small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	published	RNA	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
 lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	published	DNA	Pooled-screen readout across four vector systems; named for Shalem 2014.
 crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	wip	DNA	sgRNA quantification by molecular inversion probe.

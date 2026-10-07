@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate smartseq.html -- the SMART-seq family chemistry page."""
+"""Shared drawing functions for the individual SMART-seq protocol pages."""
 from __future__ import annotations
 
 import sys
@@ -18,7 +18,6 @@ from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments,
 from illumina import P5, P7
 from page import head, info, table
 
-OUT = HERE.parent / "smartseq.html"
 PRE = 4
 H = rt.SMART_HANDLE
 
@@ -32,27 +31,42 @@ def chunks(*cs):
 
 
 # =============================================================================== preamble
-def preamble() -> str:
-    return f"""<div class="wrap">
-<h1>SMART-seq family &mdash; full-length single-cell mRNA</h1>
+PAPERS = {
+    "SMART-seq": ("10.1038/nbt.2282", "SMART-seq"),
+    "SMART-seq2": ("10.1038/nmeth.2639", "SMART-seq2"),
+    "SMART-seq3": ("10.1038/s41587-020-0497-0", "SMART-seq3"),
+    "SMART-seq3xpress": ("10.1038/s41587-022-01311-4", "SMART-seq3xpress"),
+    "FLASH-seq": ("10.1038/s41587-022-01312-3", "FLASH-seq"),
+}
 
-{info("""Five related protocols that all read the <b>whole transcript</b> rather than
-counting its 3' end: <b>SMART-seq</b>, <b>SMART-seq2</b>, <b>SMART-seq3</b>,
-<b>SMART-seq3xpress</b> and <b>FLASH-seq</b>. Structures transcribed from
-<a href="https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html">
-scg_lib_structs</a>.""")}
+
+def preamble(protocol: str) -> str:
+    doi, title = PAPERS[protocol]
+    return f"""<div class="wrap">
+<h1>{title} &mdash; full-length single-cell mRNA</h1>
+
+{info(f'''Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.''')}
+
+<details class="background">
+<summary>Background and interpretation</summary>
+<p>Template switching installs the 5' handle when MMLV adds untemplated Cs at the end of
+the RNA template. Tn5 then fragments the amplified cDNA and adds the sequencing-adapter
+entry points. Cell identity is supplied by the well's i5/i7 index pair rather than by a
+cell barcode in the molecule.</p>
+</details>
 """
 
 
 # ====================================================== SMART-seq / SMART-seq2
-def ss2_oligos() -> str:
+def ss2_oligos(protocol: str) -> str:
+    tail = rt.TSO_G_TAIL_LNA if protocol == "SMART-seq2" else rt.TSO_G_TAIL
     rows = [
         oligo("oligo-dTVN", [seg("", H, "tso"), seg("", ss.SS2_DT_LINKER),
                              seg("", "T" * ss.DT_LEN, None, placeholder=True),
                              seg("", ss.DT_ANCHOR, None, placeholder=True)]),
         oligo("Template Switching Oligo (TSO)",
               [seg("", H, "tso"), seg("", ss.SS2_TSO_LINKER),
-               seg("", rt.TSO_G_TAIL_LNA, None, placeholder=True)]),
+               seg("", tail, None, placeholder=True)]),
         oligo("ISPCR primer", [seg("", H, "tso")]),
         oligo("Nextera mosaic end (ME)", [seg("", nx.ME, "me")]),
         oligo("Nextera N/S5xx entry point (s5)", [seg("", nx.S5, "s5")]),
@@ -64,7 +78,9 @@ def ss2_oligos() -> str:
     ]
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
             + info("""The oligo-dT primer, TSO and ISPCR primer share the same 23-nt
-            handle. <code>+G</code> denotes LNA; <code>rG</code> denotes RNA."""))
+            handle. <code>rG</code> denotes RNA.""" +
+                   (" <code>+G</code> denotes the SMART-seq2 LNA." if protocol == "SMART-seq2"
+                    else "")))
 
 
 # ------------------------------------------------ step drawings, placed by pairing
@@ -152,7 +168,7 @@ def ss2_pcr() -> list[Row]:
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H3"))
 
 
-def ss2_steps() -> str:
+def ss2_steps(protocol: str = "SMART-seq2") -> str:
     s1, s2, s3 = ss2_rt()
     p1 = panel(s1.rows(), cls="small",
                caption="(1) The anchored oligo-dTVN anneals at the poly(A) junction; "
@@ -161,7 +177,8 @@ def ss2_steps() -> str:
                caption="(2) Running off the 5' end, MMLV's terminal transferase adds "
                        "three untemplated C.")
     p3 = panel(s3.rows(), cls="small",
-               caption="(3) The TSO's rGrG+G pairs with that CCC overhang and the "
+               caption=f"(3) The TSO's {'rGrG+G' if protocol == 'SMART-seq2' else 'rGrGrG'} "
+                       "pairs with that CCC overhang and the "
                        "polymerase switches template, copying the handle.")
     p4 = panel(ss2_pcr(), cls="long",
                caption="(4) ISPCR amplifies the cDNA from the identical handles at both ends.")
@@ -248,17 +265,17 @@ def ss3_tso_segs(variant: str) -> list[Segment]:
             seg("", rt.TSO_G_TAIL, None, placeholder=True)]
 
 
-def ss3_oligos() -> str:
+def ss3_oligos(variant: str) -> str:
+    tso_names = {"SMART-seq3": "Smartseq3_N8_TSO",
+                 "SMART-seq3xpress": "Smartseq3xpress_TSO",
+                 "FLASH-seq": "FLASH-seq_TSO"}
     rows = [
         oligo("Smartseq3_OligodT30VN",
               [seg("", ss.SS3_OLIGO_DT_HANDLE, "r3"),
                seg("", "T" * ss.DT_LEN, None, placeholder=True),
                seg("", ss.DT_ANCHOR, None, placeholder=True)],
               mods="/5Biosg/"),
-        *[oligo(name, ss3_tso_segs(v), mods="/5Biosg/")
-          for name, v in (("Smartseq3_N8_TSO", "SMART-seq3"),
-                          ("Smartseq3xpress_TSO", "SMART-seq3xpress"),
-                          ("FLASH-seq_TSO", "FLASH-seq"))],
+        oligo(tso_names[variant], ss3_tso_segs(variant), mods="/5Biosg/"),
         oligo("Fwd_PCR_primer",
               [seg("", nx.S5, "s5"), seg("", nx.ME, "me"), seg("", ss.SS3_TSO_TAG, "r1")]),
         oligo("Rev_PCR_primer", [seg("", ss.SS3_OLIGO_DT_HANDLE, "r3")]),
@@ -274,28 +291,35 @@ SS3_TSO = [seg("ME3", ss.SS3_TSO_ME3, "me"), seg("tag", ss.SS3_TSO_TAG, "r1"),
            seg("rGrG", "GGG", "tso")]                                  # rGrGrG, as GGG
 
 
-def ss3_rt() -> tuple[Scene, ...]:
-    return _rt_scenes(SS3_DT_HANDLE, [], SS3_TSO)
+def ss3_tso_scene(variant: str = "SMART-seq3") -> list[Segment]:
+    spacer = ss.SS3_TSO_SPACERS[variant]
+    return [*SS3_TSO[:3],
+            *([seg("spacer", spacer, "r1", placeholder=True)] if spacer else []),
+            SS3_TSO[-1]]
 
 
-def ss3_pcr() -> list[Row]:
-    top = [*SS3_TSO[:3], seg("GGG", "GGG", "tso"),
+def ss3_rt(variant: str = "SMART-seq3") -> tuple[Scene, ...]:
+    return _rt_scenes(SS3_DT_HANDLE, [], ss3_tso_scene(variant))
+
+
+def ss3_pcr(variant: str = "SMART-seq3") -> list[Row]:
+    top = [*ss3_tso_scene(variant)[:-1], seg("GGG", "GGG", "tso"),
            seg("body", "X" * BODY, placeholder=True), seg("B", "B", placeholder=True),
            seg("polyA", "A" * POLYA),
            seg("handle3", revcomp(ss.SS3_OLIGO_DT_HANDLE), "r3")]
     fwd = [seg("s5", nx.S5, "s5"), seg("ME", nx.ME, "me"), seg("tag", ss.SS3_TSO_TAG, "r1")]
-    return _ds_cdna(top, _cdna(SS3_DT_HANDLE, []), SS3_TSO[:3],
+    return _ds_cdna(top, _cdna(SS3_DT_HANDLE, []), ss3_tso_scene(variant)[:-1],
                     fwd, ("tag", "tag'"),
                     [seg("Rev", ss.SS3_REV_PCR, "r3")], ("Rev", "handle3"))
 
 
-def ss3_steps() -> str:
-    _, _, s3 = ss3_rt()
+def ss3_steps(variant: str = "SMART-seq3") -> str:
+    _, _, s3 = ss3_rt(variant)
     p3 = panel(s3.rows(), cls="small",
                caption="(3) Template switching, but the TSO now carries an 11-bp tag and an "
                        "8-bp UMI. Both are attached BEFORE any amplification, and only at a "
                        "genuine transcript 5' end.")
-    p4 = panel(ss3_pcr(), cls="long",
+    p4 = panel(ss3_pcr(variant), cls="long",
                caption="(4) Two different primers. Amplification is no longer single-primer, "
                        "and no longer suppressive. The forward primer's s5 + ME head overhangs: "
                        "only its last 8 nt of ME and the tag anneal.")
@@ -304,22 +328,16 @@ def ss3_steps() -> str:
         are drawn above for SMART-seq2; the structures are unchanged here.""")
 
 
-def ss3_final() -> str:
-    five = ss.smartseq3_library()
+def ss3_final(variant: str = "SMART-seq3") -> str:
+    five = ss.smartseq3_library(variant)
     internal = ss.smartseq3_library(five_prime=False)
     r5 = [strand_row(five, "top"), strand_row(five, "bottom")] + annotation_rows(five, prefix_width=PRE)
     ri = [strand_row(internal, "top"), strand_row(internal, "bottom")]
-    variants = table(
-        ["Method", "TSO spacer", "5' fragment length vs SMART-seq2"],
-        [[v, f"<code>{s or '&mdash;'}</code>",
-          f"+{len(ss.SS3_TSO_TAG) + ss.SS3_UMI_LEN + 3 + len(s)}&nbsp;bp"]
-         for v, s in ss.SS3_TSO_SPACERS.items()])
     return ("<h3>(9) Final library structures</h3>\n"
             + "<h3>5' fragments &mdash; these retained the TSO</h3>\n" + panel(r5, cls="long")
             + info("""Contains the <r1>11-bp 5' tag</r1> followed by the
             <umi>8-bp UMI</umi>.""")
-            + "<h3>Internal fragments &mdash; these did not</h3>\n" + panel(ri, cls="long")
-            + "<h3>The three variants</h3>\n" + variants)
+            + "<h3>Internal fragments &mdash; these did not</h3>\n" + panel(ri, cls="long"))
 
 
 # =============================================================== sequencing
@@ -348,50 +366,45 @@ def seq_primer_drawings() -> dict[str, tuple[list[Segment], str, tuple[str, str]
             "R2": ([s7, me], "top", ("s7", "s7"))}
 
 
-def sequencing() -> str:
-    d = seq_primer_drawings()
-    for k, (segs, _, _) in d.items():
-        if "".join(x.top for x in segs) != sp.NEXTERA[k].seq:
-            raise ValueError(f"{k} drawing does not spell sp.NEXTERA[{k!r}]")
-    p = {k: seq_primer(*v) for k, v in d.items()}
-    tables = (sp.section(ss.smartseq2_library(), ss.SS2_SEQ_PRIMERS,
-                         heading="Sequencing primers: SMART-seq2 (and SMART-seq3 internal fragments)")
-              + sp.section(ss.smartseq3_library(), ss.SS3_SEQ_PRIMERS,
-                           heading="Sequencing primers: SMART-seq3 5' fragments"))
+def sequencing(protocol: str) -> str:
+    if protocol in ("SMART-seq", "SMART-seq2"):
+        tables = sp.section(ss.smartseq2_library(), ss.SS2_SEQ_PRIMERS,
+                            heading=f"Sequencing primers: {protocol}")
+    else:
+        tables = (sp.section(ss.smartseq3_library(protocol), ss.SS3_SEQ_PRIMERS,
+                             heading=f"Sequencing primers: {protocol} 5' fragments")
+                  + sp.section(ss.smartseq3_library(protocol, five_prime=False),
+                               ss.SS3_SEQ_PRIMERS,
+                               heading=f"Sequencing primers: {protocol} internal fragments"))
     return ('<h2 id="seq-primers">Library sequencing</h2>\n'
             + info("""All four reads use the stock Nextera sequencing primers. Primer
             positions and the first bases read are shown below.""")
             + tables
-            + "<h3>(1) Read 1 &mdash; bottom strand as template</h3>\n"
-            + panel(p["R1"], cls="long")
-            + "<h3>(2) Index 1 (i7) &mdash; bottom strand as template</h3>\n"
-            + panel(p["I1"], cls="long")
-            + "<h3>(3) Index 2 (i5) &mdash; top strand as template, after cluster regeneration</h3>\n"
-            + panel(p["I2"], cls="long")
-            + "<h3>(4) Read 2 &mdash; top strand as template</h3>\n"
-            + panel(p["R2"], cls="long")
             + info("""The i5 + i7 index pair identifies the source well.""")
-            + '<details class="sources"><summary>Sources and evidence</summary>'
-              '<ul><li><a href="https://doi.org/10.1038/nbt.2282">SMART-seq</a></li>'
-              '<li><a href="https://doi.org/10.1038/nmeth.2639">SMART-seq2</a></li>'
-              '<li><a href="https://doi.org/10.1038/s41587-020-0497-0">SMART-seq3</a></li>'
-              '<li><a href="https://doi.org/10.1038/s41587-022-01311-4">SMART-seq3xpress</a></li>'
-              '<li><a href="https://doi.org/10.1038/s41587-022-01312-3">FLASH-seq</a></li>'
-              '</ul>'
-              '</details>'
+            + sources(protocol)
             + "</div>")
 
 
-def main() -> None:
-    parts = [head("SMART-seq Family Chemistry"), preamble(),
-             '<h1 id="smart-seq">SMART-seq / SMART-seq2</h1>',
-             ss2_oligos(), ss2_steps(), ss2_final(),
-             '<h1 id="smart-seq3">SMART-seq3 / SMART-seq3xpress / FLASH-seq</h1>',
-             ss3_oligos(), ss3_steps(), ss3_final(),
-             sequencing()]
-    OUT.write_text("\n".join(parts), encoding="utf-8")
-    print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
+def sources(protocol: str) -> str:
+    related = {
+        "SMART-seq": [],
+        "SMART-seq2": [("SMART-seq", PAPERS["SMART-seq"][0])],
+        "SMART-seq3": [("SMART-seq2", PAPERS["SMART-seq2"][0])],
+        "SMART-seq3xpress": [("SMART-seq3", PAPERS["SMART-seq3"][0])],
+        "FLASH-seq": [("SMART-seq3", PAPERS["SMART-seq3"][0])],
+    }[protocol]
+    links = ''.join(f'<li><a href="https://doi.org/{doi}">{name}</a></li>'
+                    for name, doi in related)
+    links += ('<li><a href="https://teichlab.github.io/scg_lib_structs/methods_html/'
+              'SMART-seq_family.html">scg_lib_structs schematic</a></li>')
+    return ('<details class="sources"><summary>Related sources</summary><ul>'
+            + links + '</ul></details>')
 
 
-if __name__ == "__main__":
-    main()
+def render_page(protocol: str) -> str:
+    if protocol in ("SMART-seq", "SMART-seq2"):
+        body = [ss2_oligos(protocol), ss2_steps(protocol), ss2_final()]
+    else:
+        body = [ss3_oligos(protocol), ss3_steps(protocol), ss3_final(protocol)]
+    return "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
+                      *body, sequencing(protocol)])
