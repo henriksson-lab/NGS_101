@@ -92,7 +92,11 @@ methods are not in it yet.
 ## What we have tackled
 
 Recorded in `ours.tsv`, which is also the source of the directory names on disk and of the
-`our_dir` column in the scraped table — so the two cannot disagree.
+`our_dir` column in the scraped table — so the two cannot disagree. Its columns: `dir`,
+`protocol`, `doi`, `status` (`documented` / `draft` / `notes`), `section` (where the website
+lists it: `published` protocols in the searchable list, `wip` for our own unpublished work),
+`modality` (`DNA` / `RNA` / `multi`; checked against the scg_lib_structs category where that
+implies one), and a free-text `note`.
 **{{= catalogue.n_ours_documented() }} documented, {{= catalogue.n_ours() }} in total:**
 
 {{= catalogue.ours_table() }}

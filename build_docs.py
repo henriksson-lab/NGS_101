@@ -30,19 +30,23 @@ from mdrender import render  # noqa: E402
 from page import MD_STYLE, STYLE  # noqa: E402
 
 # Directories that never contain notes to publish.
-SKIP_DIRS = {".git", "_data", "pdf", "__pycache__", ".venv", "venv",
+SKIP_DIRS = {".git", "_data", "pdf", "__pycache__", ".venv", "venv", "_site",
              "node_modules", ".ruff_cache", ".pytest_cache"}
 
 # This one documents the upstream HTML conventions by showing raw markup; it is
 # reference material for writing the diagram pages, not a note about chemistry.
 INDEX_EXCLUDE = {"ref/scg_lib_structs_style.md"}
 
+# Instructions for coding agents, not notes: they quote the {{= ...}} syntax literally.
+NOT_NOTES = {"CLAUDE.md", "AGENTS.md"}
+
 OUT_INDEX = ROOT / "notes.html"
 
 
 def notes() -> list[Path]:
     found = [p for p in ROOT.rglob("*.md")
-             if not SKIP_DIRS & set(p.relative_to(ROOT).parts)]
+             if not SKIP_DIRS & set(p.relative_to(ROOT).parts)
+             and str(p.relative_to(ROOT)) not in NOT_NOTES]
     return sorted(found, key=lambda p: str(p.relative_to(ROOT)).lower())
 
 

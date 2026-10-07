@@ -126,6 +126,10 @@ credentials.json
 # No exceptions: the archived upstream exemplar (ref/SPLiT-seq.html) is
 # somebody else's page, so it stays local and is not redistributed here.
 
+# The assembled website (build_site.py): rebuilt in CI by .github/workflows/pages.yml
+# and deployed to GitHub Pages, never committed.
+_site/
+
 # ---------------------------------------------------------------------
 # Deliberately NOT ignored, for the record:
 #   <protocol>/ref/   -- archived third-party reference (vendor tables, barcode

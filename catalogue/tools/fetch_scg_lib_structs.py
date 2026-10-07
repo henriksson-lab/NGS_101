@@ -23,6 +23,10 @@ Downloads are cached, so re-running is cheap and offline-safe:
     python3 catalogue/tools/fetch_scg_lib_structs.py              # scrape + resolve
     python3 catalogue/tools/fetch_scg_lib_structs.py --cache DIR   # cache elsewhere
     python3 catalogue/tools/fetch_scg_lib_structs.py --offline     # cache only, no network
+    python3 catalogue/tools/fetch_scg_lib_structs.py --refresh     # re-resolve every paper
+
+Papers already resolved in the existing table are reused, not looked up again, so a
+re-run only costs requests for pages and papers that are new.
 
 The cache holds third-party HTML. It is only ever read as text and parsed with regexes
 here; nothing from it is executed, and it is kept outside the repo.
@@ -75,9 +79,12 @@ def fetch(url: str, cache: Path, offline: bool = False, pause: float = 0.34) -> 
         return hit.read_text(encoding="utf-8", errors="replace")
     if offline:
         raise RuntimeError(f"--offline and not cached: {url}")
-    time.sleep(pause)                                   # be polite to every host
-    done = subprocess.run(["curl", "-sSL", "--fail", "--max-time", "60",
-                           "-A", UA, url], capture_output=True, text=True, check=False)
+    for wait in (pause, 2, 5, 15):                      # be polite; back off on HTTP 429
+        time.sleep(wait)
+        done = subprocess.run(["curl", "-sSL", "--fail", "--max-time", "60",
+                               "-A", UA, url], capture_output=True, text=True, check=False)
+        if "429" not in done.stderr:
+            break
     if done.returncode != 0:
         raise RuntimeError(f"curl {done.returncode} for {url}: {done.stderr.strip()[:120]}")
     hit.write_text(done.stdout, encoding="utf-8")
@@ -407,20 +414,82 @@ def slug(name: str, doi: str, pmid: str = "") -> str:
     return base                           # vendor protocol, no publication
 
 
+# Vendor kits whose page cites only the published techniques the kit reads out, none of
+# them the kit's own paper. Like the other vendor pages they get a paperless defining row
+# (named by name alone); the cited papers stay in the table as associated rows.
+VENDOR_KITS = {
+    "10x Chromium Single Cell 3' FeatureBarcoding",   # cites CRISPR-screen and CITE-seq
+    "10x Chromium Single Cell ATAC",                  # cites Amini 2014 transposition
+}
+
+
+def own_names(protocol: str, members: str) -> tuple[str, list[str]]:
+    """-> (head name, every name) for a protocol, normalised.
+
+    "SPLiT-seq / microSPLiT" -> head "splitseq"; "SMART-seq family" -> head "smartseq",
+    the first family member. The head is the method itself; the rest are later variants.
+    """
+    parts = [p for p in re.split(r"\s*/\s*|\s+and\s+", protocol) if p]
+    fam = [m for m in members.split("; ") if m]
+    head = fam[0] if fam else re.sub(r"\s+family$", "", parts[0])
+    names = [head, *parts, *fam, *(p for f in fam for p in f.split("/"))]
+    return _norm(head), [n for n in dict.fromkeys(map(_norm, names)) if len(n) >= 3]
+
+
 def defining_paper(rows: list[dict]) -> dict[str, dict]:
-    """protocol -> the row naming its directory: the earliest paper the method page cites
-    in its preamble. A method described in several papers still gets ONE directory; the
-    other papers stay in the table as further rows against the same protocol."""
+    """protocol -> the row naming its directory: the method's OWN paper.
+
+    A method page's preamble cites its own paper alongside the methods it is built from --
+    ISSAAC-seq cites ATAC-seq, scNMT-seq cites Smart-seq2 and scBS-seq, SNARE-seq cites
+    Drop-seq -- and those are always older, so "earliest primary" names the directory
+    after a component. Rank instead, earliest first within a tier:
+
+      0  the anchor text or title names the method itself (its head name)
+      1  it names a later variant of it, reads like a citation, or names nothing known
+      2  it names a DIFFERENT method in the catalogue: a component, kept only as fallback
+
+    Every other paper stays in the table as a further row against the same protocol.
+    """
+    names = {r["protocol"]: own_names(r["protocol"], r["family_members"]) for r in rows}
+    known = {n for _, ns in names.values() for n in ns}
     best: dict[str, dict] = {}
     for i, r in enumerate(rows):
         if r["role"] != "primary":
             continue
         key = r["protocol"]
+        if key in VENDOR_KITS and r["paper_url"]:
+            continue
+        head, mine = names[key]
+        text, title = _norm(r["citation_text"]), _norm(r["title"])
+        if head in text or head in title:
+            tier = 0
+        elif any(n in text for n in mine) or not any(n in text for n in known):
+            tier = 1
+        else:
+            tier = 2
         year = int(r["year"]) if r["year"].isdigit() else 9999
-        rank = (year, i)
+        rank = (tier, year, i)
         if key not in best or rank < best[key]["_rank"]:
             best[key] = {"_rank": rank, "row": r}
-    return {k: v["row"] for k, v in best.items()}
+    out = {k: v["row"] for k, v in best.items()}
+    # The same paper as a preprint first: name the directory for the earlier DOI.
+    for k, win in out.items():
+        for r in rows:
+            if (r["protocol"] == k and r["role"] == "primary" and r is not win
+                    and PREPRINT.search(r["paper_url"] + " " + r["journal"])
+                    and r["year"] <= win["year"] and same_paper(r["title"], win["title"])):
+                out[k] = r
+                break
+    return out
+
+
+PREPRINT = re.compile(r"biorxiv|medrxiv|researchsquare|research square|arxiv", re.I)
+
+
+def same_paper(a: str, b: str) -> bool:
+    """Preprint and journal titles of one paper: mostly the same words."""
+    wa, wb = set(re.findall(r"[a-z0-9]+", a.lower())), set(re.findall(r"[a-z0-9]+", b.lower()))
+    return bool(wa and wb) and len(wa & wb) / min(len(wa), len(wb)) >= 0.6
 
 
 COLUMNS = ["source", "category", "protocol", "family_members", "documented", "role",
@@ -428,7 +497,48 @@ COLUMNS = ["source", "category", "protocol", "family_members", "documented", "ro
            "journal", "year", "slug", "is_defining", "our_dir", "our_status", "note"]
 
 
-def build(cache: Path, offline: bool) -> list[dict]:
+RESOLVED = ("doi", "pmid", "pmcid", "title", "journal", "year")
+
+
+# ours.tsv: one row per directory of ours. `section` says where the website lists it
+# (published protocols, searchable; or wip, our own unpublished work) -- it is not
+# copied into the scraped table, but a bad value stops the build here rather than later.
+OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
+OURS_VOCAB = {"status": ("documented", "draft", "notes"),
+              "section": ("published", "wip"),
+              "modality": ("DNA", "RNA", "multi")}
+
+
+def read_ours(path: Path = OURS) -> list[dict]:
+    """catalogue/ours.tsv, with its header and closed vocabularies validated."""
+    with path.open(encoding="utf-8") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        mine = list(reader)
+        header = reader.fieldnames or []
+    if header != OURS_COLUMNS:
+        sys.exit(f"{path}: columns are {header}, expected {OURS_COLUMNS}")
+    for m in mine:
+        for col, allowed in OURS_VOCAB.items():
+            if m[col] not in allowed:
+                sys.exit(f"{path}: {m['dir']}: {col}={m[col]!r}, expected one of {allowed}")
+    return mine
+
+
+def known_papers(tsv: Path) -> dict[str, dict]:
+    """paper URL -> its identifiers and metadata, from a previous run's table.
+
+    Only fully resolved papers (a title came back) are reused; anything else is retried.
+    A paper keeps its identifiers whichever protocol cites it, so the URL is the key.
+    """
+    if not tsv.exists():
+        return {}
+    with tsv.open(encoding="utf-8") as fh:
+        return {r["paper_url"]: {k: r[k] for k in RESOLVED}
+                for r in csv.DictReader(fh, delimiter="\t")
+                if r["paper_url"] and r["title"] and r["doi"]}
+
+
+def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> list[dict]:
     readme = fetch(README_URL, cache, offline)
     entries = parse_readme(readme)
     print(f"README: {len(entries)} entries "
@@ -446,8 +556,8 @@ def build(cache: Path, offline: bool) -> list[dict]:
     rows: list[dict] = []
     for e in entries:
         papers = e.get("papers") or [("", u, "primary") for u in e["paper_urls"]]
-        if not papers:
-            papers = [("", "", "primary")]
+        if not papers or short_name(e["name"]) in VENDOR_KITS:
+            papers = [("", "", "primary"), *papers]
         for text, url, role in papers:
             rows.append({"source": "scg_lib_structs",
                          "category": e["category"], "protocol": short_name(e["name"]),
@@ -456,6 +566,17 @@ def build(cache: Path, offline: bool) -> list[dict]:
                          "scg_page": e["page_url"], "paper_url": url,
                          "citation_text": text, "role": role,
                          "doi": doi_of(url), "pmid": pmid_of(url)})
+
+    # Papers already resolved by a previous run are taken as they are, and every lookup
+    # below sees only the new ones -- so a re-run costs a request per NEW paper.
+    known = known or {}
+    for r in rows:
+        r.update(known.get(r["paper_url"], {}))
+    done = sum(1 for r in rows if r["paper_url"] in known)
+    print(f"{done} of {len(rows)} rows already resolved; looking up the rest",
+          file=sys.stderr)
+    old = rows
+    rows = [r for r in old if r["paper_url"] not in known]
 
     # Resolve, cheapest first: PII -> Crossref, citation -> PubMed, else the landing page.
     missing = sorted({r["paper_url"] for r in rows if r["paper_url"] and not r["doi"]})
@@ -544,6 +665,7 @@ def build(cache: Path, offline: bool) -> list[dict]:
         if not r["title"] and r["pmid"]:
             m = esummary([r["pmid"]], cache, offline).get(r["pmid"], {})
             r.update({k: m.get(k, r[k]) for k in ("title", "journal", "year")})
+    rows = old
 
     # One directory per protocol, named for its defining paper -- so every row of a
     # protocol carries the same slug, and `is_defining` marks which paper named it.
@@ -555,29 +677,37 @@ def build(cache: Path, offline: bool) -> list[dict]:
         r["is_defining"] = "yes" if d is not None and r is d else "no"
 
     # ---- our own coverage, from catalogue/ours.tsv (the only record of it) -------------
-    # Joined by DOI, which is the stable key: a protocol's name differs between upstream's
-    # list and ours ("SMART-seq family" vs whatever we call a directory), but the defining
-    # paper does not. A protocol we cover that upstream does not list is appended, so the
-    # table is the whole worklist rather than only upstream's part of it.
-    with OURS.open(encoding="utf-8") as fh:
-        mine = list(csv.DictReader(fh, delimiter="\t"))
-    by_doi = {r["doi"]: r for r in mine if r["doi"]}
-    matched_protocols = {r["protocol"]: by_doi[r["doi"]]
-                         for r in rows if r["doi"] in by_doi}
+    # Joined by directory name first: a directory IS the protocol's slug, so the join is
+    # exact even for a vendor kit with no DOI, and for one paper defining two protocols
+    # (HyDrop-RNA / HyDrop-ATAC), which a DOI join would map to a single directory. A
+    # directory named otherwise (a protocol upstream lists under another name) falls back
+    # to the DOI of its defining paper. A protocol we cover that upstream does not list is
+    # appended, so the table is the whole worklist rather than only upstream's part of it.
+    mine = read_ours()
+    by_dir = {m["dir"]: m for m in mine}
+    matched_protocols = {r["protocol"]: by_dir[r["slug"]] for r in rows if r["slug"] in by_dir}
+    used = {m["dir"] for m in matched_protocols.values()}
+    by_doi = {m["doi"]: m for m in mine if m["doi"] and m["dir"] not in used}
+    for r in rows:
+        if r["protocol"] not in matched_protocols and r["doi"] in by_doi:
+            matched_protocols[r["protocol"]] = by_doi[r["doi"]]
     for r in rows:
         m = matched_protocols.get(r["protocol"])
         r["our_dir"] = m["dir"] if m else ""
         r["our_status"] = m["status"] if m else ""
-    hit = {m["doi"] for m in matched_protocols.values()}
+    hit = {m["dir"] for m in matched_protocols.values()}
     for m in mine:
-        if m["doi"] and m["doi"] in hit:
+        if m["dir"] in hit:
             continue
-        meta = crossref(m["doi"], cache, offline) if m["doi"] else {}
-        pm = pmid_of_doi(m["doi"], cache, offline) if m["doi"] else ""
+        url = f"https://doi.org/{m['doi']}" if m["doi"] else ""
+        if url in known and known[url]["doi"] == m["doi"]:
+            meta, pm = known[url], known[url]["pmid"]
+        else:
+            meta = crossref(m["doi"], cache, offline) if m["doi"] else {}
+            pm = pmid_of_doi(m["doi"], cache, offline) if m["doi"] else ""
         rows.append({"source": "ours", "category": "Ours, not in scg_lib_structs",
                      "protocol": m["protocol"], "family_members": "", "documented": "ours",
-                     "role": "primary", "scg_page": "", "paper_url":
-                     f"https://doi.org/{m['doi']}" if m["doi"] else "",
+                     "role": "primary", "scg_page": "", "paper_url": url,
                      "citation_text": "", "doi": m["doi"], "pmid": pm, "pmcid": "",
                      "title": meta.get("title", ""), "journal": meta.get("journal", ""),
                      "year": meta.get("year", ""), "slug": m["dir"], "is_defining": "yes",
@@ -602,12 +732,14 @@ def main() -> int:
     ap.add_argument("--cache", type=Path, help="download cache (default: tools/.cache)")
     ap.add_argument("--offline", action="store_true", help="use the cache only")
     ap.add_argument("-o", "--out", type=Path, default=OUT)
+    ap.add_argument("--refresh", action="store_true",
+                    help="re-resolve every paper, not only those missing from --out")
     args = ap.parse_args()
 
     cache = args.cache or Path(__file__).resolve().parent / ".cache"
     cache.mkdir(parents=True, exist_ok=True)
 
-    rows = build(cache, args.offline)
+    rows = build(cache, args.offline, {} if args.refresh else known_papers(args.out))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8") as fh:
         fh.write("\t".join(COLUMNS) + "\n")
@@ -619,7 +751,7 @@ def main() -> int:
           file=sys.stderr)
     pri = sum(1 for r in rows if r["role"] == "primary")
     done = sum(1 for r in rows if r["documented"] == "yes")
-    print(f"\n{args.out.relative_to(ROOT)}: {len(rows)} rows, "
+    print(f"\n{args.out}: {len(rows)} rows, "
           f"{len({r['protocol'] for r in rows})} protocols", file=sys.stderr)
     print(f"  {done} rows from documented pages, {len(rows) - done} from the TODO list",
           file=sys.stderr)

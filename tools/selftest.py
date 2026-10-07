@@ -202,7 +202,11 @@ for sample in ("`a` **b** [c](d.md) <https://x/> T<sub>m</sub> `**x**`",
 
 check.section("every real note in the repo renders consistently")
 SKIP = {".git", "_data", "pdf", "__pycache__"}
-notes = sorted(p for p in ROOT.rglob("*.md") if not SKIP & set(p.relative_to(ROOT).parts))
+sys.path.insert(0, str(ROOT))
+import build_docs  # noqa: E402
+
+notes = sorted(p for p in ROOT.rglob("*.md") if not SKIP & set(p.relative_to(ROOT).parts)
+               and str(p.relative_to(ROOT)) not in build_docs.NOT_NOTES)   # agent instructions
 check("the repo's notes are found", len(notes) >= 30)
 
 PAIRED = ("table", "tr", "td", "th", "ul", "ol", "li", "blockquote", "p", "pre",
@@ -290,8 +294,7 @@ check("rendering is deterministic -- building twice gives the same bytes",
 check.section("computed facts in notes expand (lib/mdfacts.py)")
 from mdfacts import FACT, expand  # noqa: E402
 
-_notes = sorted(p for p in ROOT.rglob("*.md")
-                if not {".git", "_data", "pdf", "__pycache__"} & set(p.relative_to(ROOT).parts))
+_notes = build_docs.notes()
 _withfacts = [p for p in _notes if FACT.search(p.read_text())]
 check("at least one note carries computed facts", len(_withfacts) > 0)
 for _p in _withfacts:
@@ -330,5 +333,72 @@ for _ref in sorted(ROOT.glob("*/ref")) + sorted(ROOT.glob("*/ref/*")):
 check("no MANIFEST hard-codes an absolute path from this machine",
       [str(m.relative_to(ROOT)) for m in ROOT.rglob("ref/**/MANIFEST.md")
        if "/Users/" in m.read_text()], [])
+
+# ------------------------------------------------- sequence triage (tools/scrape_primers.py)
+check.section("oligo scraping from source documents (tools/scrape_primers.py)")
+import scrape_primers as spx  # noqa: E402
+
+_doc = ("Adapters. RA3 (rAppTGGAATTCTCGGGTGCCAAGG-ddC) is pre-adenylated.\n"
+        "RA5 (NH2-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrA) is RNA.\n"
+        "RP1 (AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTAC\nAGTCCGA) is the forward primer.\n"
+        "TSO: 5'-/5Biosg/AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3'\n"
+        "Vector ctctagaGATCGGAAGAGCACACGT and A*C*G*TACGTACGT/iSp18/ACGTACGTAC/3Phos/.\n"
+        "TAGGED CATS GATHER DATA, and acgtacgtacgtacgt in lower case.\n"
+        "Again RP1 AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA here.\n")
+_hits = {h.label or h.seq: h for h in spx.scan(Path("doc"), _doc, spx.known_sequences())}
+check("RA3: bases without the modifications", _hits["RA3"].seq, "TGGAATTCTCGGGTGCCAAGG")
+check("RA3: written with them", _hits["RA3"].written, "rAppTGGAATTCTCGGGTGCCAAGG-ddC")
+check("RA3: 5' adenylation and 3' dideoxy C are named", _hits["RA3"].mods,
+      ["5' rApp", "3' ddC"])
+check("RA5: per-base RNA marks rejoin into one sequence", _hits["RA5"].seq,
+      "GUUCAGAGUUCUACAGUCCGA")
+check("RA5: amino linker and RNA bases are named", _hits["RA5"].mods,
+      ["5' NH2", "RNA bases x21"])
+check("RP1: a sequence broken by PDF extraction is rejoined", len(_hits["RP1"].seq), 50)
+check("RP1: and recognised as containing P5", "illumina.P5" in _hits["RP1"].known)
+check("RP1: a repeat is listed as a further line, not a second hit", _hits["RP1"].also, [8])
+check("TSO: IDT 5' biotin and the rGrG+G 3' end are kept", _hits["TSO"].mods,
+      ["5' /5Biosg/", "3' rGrG+G"])
+check("mixed case: vector context in lower case stays attached",
+      any(h.seq == "ctctagaGATCGGAAGAGCACACGT" for h in _hits.values()))
+check("phosphorothioates and internal spacers are named",
+      [h.mods for h in _hits.values() if h.seq.startswith("ACGTACGT")],
+      [["3' /3Phos/", "phosphorothioate x3", "internal /iSp18/"]])
+check("upper-case English words and all-lower-case runs are not sequences",
+      [h.seq for h in _hits.values() if "CATS" in h.seq or h.seq.islower()], [])
+check("--find matches the reverse strand across a line break",
+      spx.find(_doc, "TCGGACTGTAGAACTCTGAACG"), [3, 8])
+
+check.section("documents to text (tools/doctext.py)")
+import tempfile  # noqa: E402
+import zipfile  # noqa: E402
+
+import doctext  # noqa: E402
+
+with tempfile.TemporaryDirectory() as _tmp:
+    _x = Path(_tmp) / "t.xlsx"
+    with zipfile.ZipFile(_x, "w") as z:
+        z.writestr("xl/workbook.xml", '<workbook><sheets><sheet name="Primers" sheetId="1"/>'
+                                      '</sheets></workbook>')
+        z.writestr("xl/sharedStrings.xml", "<sst><si><t>RP1</t></si>"
+                   "<si><t>AATGATACGGCGACCACCGAGATCTACAC</t></si></sst>")
+        z.writestr("xl/worksheets/sheet1.xml", '<worksheet><sheetData><row r="1">'
+                   '<c r="A1" t="s"><v>0</v></c><c r="B1" t="s"><v>1</v></c>'
+                   '<c r="C1"><v>50</v></c></row></sheetData></worksheet>')
+    _d = Path(_tmp) / "t.docx"
+    with zipfile.ZipFile(_d, "w") as z:
+        z.writestr("word/document.xml", "<w:document><w:body><w:p><w:r><w:t>Oligos</w:t>"
+                   "</w:r></w:p><w:tbl><w:tr><w:tc><w:p><w:r><w:t>RA3</w:t></w:r></w:p></w:tc>"
+                   "<w:tc><w:p><w:r><w:t>rAppTGGAATTCTCGGGTGCCAAGG/3ddC/</w:t></w:r></w:p>"
+                   "</w:tc></w:tr></w:tbl></w:body></w:document>")
+    check("xlsx: each sheet under a heading, cells tab-separated",
+          doctext.read(_x), "## sheet Primers\nRP1\tAATGATACGGCGACCACCGAGATCTACAC\t50\n")
+    check("docx: paragraphs on their own lines, table cells tab-separated",
+          [ln for ln in doctext.read(_d).splitlines() if ln.strip()],
+          ["Oligos", "RA3 \trAppTGGAATTCTCGGGTGCCAAGG/3ddC/ \t"])
+    _t = doctext.convert(_x)
+    check("convert writes FILE.txt beside FILE", _t, Path(_tmp) / "t.xlsx.txt")
+    check("...and the scraper reads the twin, not the original",
+          [f.name for f in spx.files([_tmp])], ["t.docx", "t.xlsx.txt"])
 
 check.report()

@@ -24,6 +24,23 @@ OURS = Path(__file__).resolve().parents[1] / "ours.tsv"
 SOURCE_REPO = "https://github.com/Teichlab/scg_lib_structs"
 SOURCE_PAGES = "https://teichlab.github.io/scg_lib_structs/"
 
+# ours.tsv's columns, and the closed vocabularies of three of them.
+OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
+STATUSES = ("documented", "draft", "notes")
+# Which part of the website a directory is listed in: `published` protocols go into the
+# searchable list, `wip` (our own unpublished designs) into a separate section.
+SECTIONS = ("published", "wip")
+MODALITIES = ("DNA", "RNA", "multi")
+# What each scg_lib_structs category implies about the molecule sequenced. The other two
+# categories ("TODO list", "Ours, not in scg_lib_structs") imply nothing, which is why
+# `modality` is recorded in ours.tsv rather than derived.
+CATEGORY_MODALITY = {
+    "Gene expression": "RNA",
+    "Chromatin accessibility and protein-DNA interactions": "DNA",
+    "Genomic DNA or DNA methylation": "DNA",
+    "Multi-Omics": "multi",
+}
+
 
 @lru_cache(maxsize=1)
 def rows() -> tuple[dict, ...]:
@@ -41,6 +58,26 @@ def ours() -> tuple[dict, ...]:
     """
     with OURS.open(encoding="utf-8") as fh:
         return tuple(csv.DictReader(fh, delimiter="\t"))
+
+
+def ours_in(section: str) -> list[dict]:
+    """Our directories listed in one website section (`published` or `wip`)."""
+    if section not in SECTIONS:
+        raise ValueError(f"unknown section {section!r}; one of {SECTIONS}")
+    return [r for r in ours() if r["section"] == section]
+
+
+def published() -> list[dict]:
+    return ours_in("published")
+
+
+def wip() -> list[dict]:
+    return ours_in("wip")
+
+
+def rows_for_dir(d: str) -> list[dict]:
+    """Every catalogue row joined to one of our directories (all its papers)."""
+    return [r for r in rows() if r["our_dir"] == d]
 
 
 def ours_by_doi() -> dict[str, dict]:
@@ -72,12 +109,13 @@ def n_ours_documented() -> int:
 
 def ours_table() -> str:
     """A Markdown table of our own directories -- generated, never hand-listed."""
-    head = "| protocol | directory | paper | status |"
-    rule = "|---|---|---|---|"
+    head = "| protocol | directory | paper | status | section |"
+    rule = "|---|---|---|---|---|"
     body = []
     for r in ours():
         doi = f"[{r['doi']}](https://doi.org/{r['doi']})" if r["doi"] else "&mdash;"
-        body.append(f"| {r['protocol']} | `{r['dir']}/` | {doi} | {r['status']} |")
+        body.append(f"| {r['protocol']} | `{r['dir']}/` | {doi} | {r['status']} "
+                    f"| {r['section']} |")
     return "\n".join([head, rule, *body])
 
 

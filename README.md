@@ -61,8 +61,10 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 
 ```
 .
-├── index.html               landing page linking the protocol pages (generated)
-├── build_index.py           builds it; check counts come from running the suites
+├── index.html               landing page: searchable protocol list, work in progress (generated)
+├── build_index.py           builds it from catalogue/ours.tsv + the notes; runs the suites
+├── build_site.py            builds every page and assembles the website in _site/
+├── .github/workflows/pages.yml   builds and deploys the website on push to main
 ├── lib/                     shared, protocol-agnostic
 │   ├── chemdraw.py          Segment / Construct, duplex rendering, Tm
 │   ├── illumina.py          canonical Illumina + NEBNext sequences (verbatim, sourced)
@@ -120,12 +122,24 @@ python3 tools/lint_pairing.py             # every page: drawn duplex columns mus
 # the diagram pages, one build script each (they carry base-by-base figures)
 for b in */tools/build_page.py; do python3 "$b"; done
 
+# reading sources for a protocol (details: AGENTS.md, "Reading sources")
+python3 tools/get_sources.py "sci-CAR-seq"    # paper, preprint, supplements -> $CHEM_DATA/sources/<slug>/
+python3 tools/doctext.py DIR                  # PDF/DOCX/XLSX/HTML -> FILE.txt (get_sources does this)
+# every oligo-looking sequence, as written (modifications kept), with its nearby name, the
+# lib/ sequences it contains, and its context. Heuristic, tuned for recall: a pointer into
+# the document for a person or an LLM to read, never a fact
+python3 tools/scrape_primers.py DIR             # or files; --tsv, --known-only, --max-hits
+python3 tools/scrape_primers.py DIR --find AGATGTGTATAAGAGACAG  # where does an oligo occur
+
 # the catalogue of what exists (network; cached, so re-running is cheap)
 python3 catalogue/tools/fetch_scg_lib_structs.py
 
 # every .md note -> a sibling .html, plus notes.html; then the front page
 python3 build_docs.py                     # regenerates all note pages
 python3 build_index.py                    # regenerates index.html
+
+# or all of the above plus the deployable website in _site/ (see "Website")
+python3 build_site.py
 ```
 
 Run the self-tests first and after any edit. Each one runs the shared checks plus its own,
@@ -166,6 +180,55 @@ renders every real note in the repo, asserting that tags balance, that each sour
 and fence becomes exactly one element, and that no markdown is left unconsumed.
 
 No dependencies beyond the Python standard library.
+
+## Website
+
+The generated pages are published as a static site on GitHub Pages. One command builds it:
+
+```sh
+python3 build_site.py              # every page, then _site/, then a link check
+python3 -m http.server -d _site    # preview at http://localhost:8000/
+```
+
+`build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
+`build_index.py`, and copies into `_site/` (gitignored) only what we generated: the front
+page, the rendered notes, the diagram pages, a `.nojekyll`, and the few files of ours those
+pages link to. It never copies third-party material -- nothing from `_data/`, `pdf/`, the
+catalogue's download cache, archived exemplars such as `ref/SPLiT-seq.html`, any `ref/`
+data file, or a file type `.gitignore` treats as source material -- and the working debug
+logs in `to_debug/` are not published either (a link to them becomes plain text). It then
+checks that every relative link and anchor in `_site/` resolves, and fails if one does not.
+
+**The front page** (`index.html`) is built from data, not a hand-written list:
+
+- **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
+  in a list with a client-side search. The search covers the name, family members and other
+  names from the catalogue, the scg_lib_structs category, the modality (`DNA` / `RNA` /
+  `multi`, the `modality` column), status (notes only, or notes + diagram page), DOI, year,
+  paper titles, and the full text of the notes. The index is JSON embedded in the page and
+  filtered by a few lines of vanilla JavaScript: no library, no network, so it works from
+  `file://` too, and without JavaScript the full list is still shown. Query and filters are
+  kept in the URL (`index.html#q=tn5&m=DNA`), so a search can be linked.
+- **Work in progress** -- rows with `section` = `wip`: our own designs that are not
+  published protocols (currently CRISPR-MIP and florian-PTA-rnaseq), shown separately and
+  labelled as such.
+
+Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
+paragraph of its first note that describes the method (preferring the `## 1. What it is`
+section); its links are every `0*.md` note and the diagram page, if one was built. So a new
+protocol needs no code change to appear: a row in ours.tsv and a note are enough.
+
+**In CI** (`.github/workflows/pages.yml`, on every push to `main` and on demand) the runner
+has only what is committed. The self-tests skip what needs a third-party file, and the
+diagram pages whose build scripts need one (plasmid maps, for CRISPR-MIP, CRISPR-UMI and the
+pooled-screen page) fail with their "missing source" message; the site is built without them
+-- the index does not link them, and a short stand-in page at their address explains why,
+so a link from another page still lands. Those pages are therefore only complete in a local
+build that has the sources.
+
+**Turning it on** (once the repository has a GitHub remote): Settings → Pages → Build and
+deployment → Source: **GitHub Actions**. The next push to `main` (or a manual run of the
+"Pages" workflow) builds and deploys the site.
 
 ## Adding a protocol
 
@@ -221,6 +284,7 @@ check asserts what the flip should and should not change.
 | `small-seq__10.1038+nbt.3701/` | RNA. Small-seq: single-cell small RNA / miRNA. TruSeq **Small RNA** adapters, sequential ligation, UMI in the ligated 5' adapter, 5.8S rRNA masking oligo | notes + constructs + page + 167 checks; the SRX index primer is not published, so its arm is bracketed from two published library sizes |
 | `lenticrispr-gecko-screen__10.1126+science.1247005/` | DNA. Pooled CRISPR screening: lentiCRISPR/GeCKO, Broad GPP, and the single-cell screens | notes, plasmid maps, page, and primer/amplicon checks against real maps |
 | `crispr-umi-schmierer__10.15252+msb.20177834/` | DNA. A lineage UMI cloned into the guide library &mdash; Schmierer and Michlits | notes + page + checks against the real parent map |
+| `astar-seq__10.1101+829960/` | DNA + RNA. C1 chip; Tn5 first, then RT; cDNA biotinylated by PCR and pulled away from the ATAC fragments | reference notes only (status `notes`): no model or page yet |
 | `crispr-mip__10.1101+2024.03.28.587082/` | DNA. Padlock/MIP capture with a UMI, replacing the screen readout PCR | notes + full probe from Table S2 + end-to-end checks to the 269 bp library; no page yet |
 
 ### A few things recur almost everywhere

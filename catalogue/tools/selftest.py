@@ -67,7 +67,7 @@ check("no DOI in the table contains the '+' the scheme reserves",
 check("slugs are filesystem-safe",
       [s for s in {r["slug"] for r in rows} if not re.fullmatch(r"[A-Za-z0-9._+-]+", s)], [])
 check("the name and the DOI are separated by '__'",
-      [r["slug"] for r in rows if r["doi"] and "__" not in r["slug"]], [])
+      [r["slug"] for r in cat.defining() if r["doi"] and "__" not in r["slug"]], [])
 check("a slugified name never contains '__', so the split is unambiguous",
       [r["protocol"] for r in rows if "__" in name_slug(r["protocol"])], [])
 
@@ -89,6 +89,36 @@ for r in cat.defining():
 check("slug built from the defining DOI (checked above for every defining row)", True)
 check("SMART-seq family is named after the 2012 Nature Biotech paper, its earliest",
       slug("SMART-seq family", "10.1038/nbt.2282"), "smart-seq-family__10.1038+nbt.2282")
+
+# A page's preamble cites the methods a protocol is built from next to its own paper, and
+# those are older -- so "earliest" once named ISSAAC-seq after ATAC-seq and three
+# multi-omics methods after Smart-seq2. One paper defining two protocols is rare and real.
+JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
+         "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
+         "10.1038/s41587-021-00962-z"}   # s3-ATAC and s3-WGS
+by_doi: dict[str, list[str]] = {}
+for r in cat.defining():
+    if r["doi"]:
+        by_doi.setdefault(r["doi"], []).append(r["protocol"])
+check("no two protocols share a defining paper, except the known joint papers",
+      {d: ps for d, ps in by_doi.items() if len(ps) > 1 and d not in JOINT}, {})
+check("...and each joint paper really is shared",
+      sorted(d for d in JOINT if len(by_doi.get(d, [])) < 2), [])
+_defd = {r["protocol"]: r for r in cat.defining()}
+for proto, doi in [("ISSAAC-seq", "10.1038/s41592-022-01601-4"),
+                   ("scNMT-seq", "10.1038/s41467-018-03149-4"),
+                   ("SNARE-seq", "10.1038/s41587-019-0290-0"),
+                   ("scDamID", "10.1016/j.cell.2015.08.040")]:
+    check(f"{proto} is named for its own paper, not a component's", _defd[proto]["doi"], doi)
+check("the background papers stay in the table as associated rows",
+      sorted(r["protocol"] for r in rows if r["doi"] == "10.1038/nmeth.2639"
+             and r["is_defining"] == "no" and r["protocol"] != "SMART-seq family"),
+      ["scM&T-seq", "scMT-seq", "scNMT-seq"])
+check("a preprint of the method's own paper names it over the journal version",
+      _defd["scifi-RNA-seq"]["journal"], "bioRxiv")
+check("a vendor kit citing only techniques it reads out has no defining paper",
+      [p for p in ("10x Chromium Single Cell ATAC",
+                   "10x Chromium Single Cell 3' FeatureBarcoding") if _defd[p]["doi"]], [])
 
 check.section("identifiers are confirmed, never guessed")
 check("no row carries a DOI without a resolved title",
@@ -145,9 +175,14 @@ check("every row has a directory, a protocol and a status",
       [r for r in cat.ours() if not (r["dir"] and r["protocol"] and r["status"])], [])
 check("every directory named in ours.tsv exists on disk",
       [r["dir"] for r in cat.ours() if not (ROOT / r["dir"]).is_dir()], [])
-check("every one of those directories has a build script and a selftest",
-      [r["dir"] for r in cat.ours()
-       if not ((ROOT / r["dir"] / "tools" / "build_page.py").exists()
+check("status is one of documented / draft / notes",
+      sorted({r["status"] for r in cat.ours()} - {"documented", "draft", "notes"}), [])
+check("a 'notes' directory has at least one reference note",
+      [r["dir"] for r in cat.ours() if r["status"] == "notes"
+       and not list((ROOT / r["dir"]).glob("0*.md"))], [])
+check("every documented or draft directory has a build script and a selftest",
+      [r["dir"] for r in cat.ours() if r["status"] != "notes"
+       and not ((ROOT / r["dir"] / "tools" / "build_page.py").exists()
                and (ROOT / r["dir"] / "tools" / "selftest.py").exists())], [])
 check("each directory name is rebuilt exactly by the naming scheme",
       [r["dir"] for r in cat.ours() if r["dir"] != slug(r["protocol"], r["doi"])], [])
@@ -160,10 +195,53 @@ check("every protocol directory on disk is declared in ours.tsv",
       sorted(p.name for p in ROOT.iterdir()
              if p.is_dir() and (p / "tools" / "build_page.py").exists()
              and p.name not in {r["dir"] for r in cat.ours()}), [])
+check.section("website sections and modality (catalogue/ours.tsv)")
+from fetch_scg_lib_structs import OURS_COLUMNS, OURS_VOCAB, read_ours  # noqa: E402
+
+check("ours.tsv has exactly the declared columns, in order",
+      list(cat.ours()[0].keys()), cat.OURS_COLUMNS)
+check("the fetcher and catalogue.py agree on those columns", OURS_COLUMNS, cat.OURS_COLUMNS)
+check("...and on each closed vocabulary",
+      OURS_VOCAB, {"status": cat.STATUSES, "section": cat.SECTIONS,
+                   "modality": cat.MODALITIES})
+check("the fetcher reads ours.tsv without complaint", len(read_ours()), cat.n_ours())
+check("section is one of published / wip",
+      sorted({r["dir"] for r in cat.ours() if r["section"] not in cat.SECTIONS}), [])
+# Declared here on purpose: moving a directory between website sections is a decision,
+# so it must be made twice -- in ours.tsv and in this list.
+WIP = {"crispr-mip__10.1101+2024.03.28.587082",   # CRISPR-MIP, our own method in progress
+       "florian-pta-rnaseq"}                      # our own unpublished RNA-seq design
+check("the work-in-progress section is exactly the declared set",
+      sorted(r["dir"] for r in cat.wip()), sorted(WIP))
+check("every other directory is a published protocol",
+      len(cat.published()) + len(cat.wip()), cat.n_ours())
+check("modality is one of DNA / RNA / multi",
+      sorted({r["dir"] for r in cat.ours() if r["modality"] not in cat.MODALITIES}), [])
+_cat_of = {r["our_dir"]: r["category"] for r in cat.covered()}
+check("modality agrees with the scg_lib_structs category wherever that implies one",
+      [(r["dir"], r["modality"], _cat_of.get(r["dir"])) for r in cat.ours()
+       if _cat_of.get(r["dir"]) in cat.CATEGORY_MODALITY
+       and cat.CATEGORY_MODALITY[_cat_of[r["dir"]]] != r["modality"]], [])
+try:
+    cat.ours_in("drafts")
+    _refused = False
+except ValueError:
+    _refused = True
+check("ours_in() refuses a section that does not exist", _refused)
+
+check.section("our own coverage, continued")
 check("SMART-seq family is in both the catalogue and ours.tsv",
       "SMART-seq family" in cat.protocols()
       and "SMART-seq family" in {r["protocol"] for r in cat.ours()})
 check("the table records our coverage", len(cat.covered()) > 0)
+_dir_protocols: dict[str, set] = {}
+for r in cat.covered():
+    _dir_protocols.setdefault(r["our_dir"], set()).add(r["protocol"])
+check("no directory serves two protocols (one paper defining two must not merge them)",
+      {d: sorted(ps) for d, ps in _dir_protocols.items() if len(ps) > 1}, {})
+check("a directory named for a catalogue slug is joined to that protocol",
+      [r["dir"] for r in cat.ours() if r["dir"] in {x["slug"] for x in cat.rows()}
+       and r["dir"] not in {x["our_dir"] for x in cat.rows() if x["slug"] == r["dir"]}], [])
 check("...for every directory in ours.tsv",
       sorted({r["our_dir"] for r in cat.covered()}),
       sorted(r["dir"] for r in cat.ours()))

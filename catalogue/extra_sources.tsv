@@ -1,0 +1,52 @@
+# Extra sources per protocol that tools/get_sources.py fetches in addition to the catalogue's papers.
+# source: a URL, or HANDLER:ARG for a fetcher in tools/fetchers/ (scg:<glob in Teichlab/scg_lib_structs>,
+# protocolsio:<doi>, doi:<doi>, pmc:<PMCID>, pmccloud:<PMCID>). See tools/fetchers/__init__.py.
+slug	source	what	why
+10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf	10x user guide CG000204 Rev D, Next GEM 3' v3.1 (single index)	v3.1 conditions and oligos; not mirrored upstream
+10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevE.pdf	10x user guide CG000315 Rev E, Next GEM 3' v3.1 (dual index)	dual-index library layout; not mirrored upstream
+10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv	10x Dual Index Kit TT Set A index sequences	sample index sequences (i7/i5) for v3.1/v4 GEX
+10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Single_Index_Kit_T_Set_A.csv	10x Single Index Kit T Set A index sequences	sample index sequences (4 oligos per well) for v2/v3 GEX
+10x-chromium-single-cell-3-featurebarcoding	scg:data/10X-Genomics/CG000185*	10x user guides CG000185 Rev A and Rev B (scg_lib_structs mirror)	both revisions of the cell-surface-protein guide
+10x-chromium-single-cell-3-featurebarcoding	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000317_ChromiumNextGEMSingleCell3_v3.1_CellSurfaceProtein_RevE.pdf	10x user guide CG000317 Rev E, 3' v3.1 dual index with Feature Barcoding (cell surface protein)	v3.1 feature-barcode primers and conditions
+10x-chromium-single-cell-3-featurebarcoding	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_NT_Set_A.csv	10x Dual Index Kit NT Set A index sequences	sample indexes of the feature-barcode libraries
+10x-chromium-single-cell-3-featurebarcoding	scg:data/10X-Genomics/CG000183*	10x user guide CG000183 (3' v3), scg_lib_structs mirror	the gene-expression half that feature barcoding builds on
+10x-chromium-single-cell-5-vdj	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf	10x user guide CG000331 Rev E, Next GEM 5' v2 (dual index)	V(D)J amplification primers and conditions; not mirrored upstream
+10x-chromium-single-cell-5-vdj	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv	10x Dual Index Kit TT Set A index sequences	sample index sequences
+10x-chromium-single-cell-5-ge	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf	10x user guide CG000331 Rev E, Next GEM 5' v2 (dual index)	5' v2 conditions; not mirrored upstream
+10x-chromium-single-cell-5-ge	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv	10x Dual Index Kit TT Set A index sequences	sample index sequences
+10x-chromium-single-cell-5-ge	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Single_Index_Kit_T_Set_A.csv	10x Single Index Kit T Set A index sequences	sample index sequences (v1, single index)
+10x-chromium-single-cell-atac	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf	10x user guide CG000209 Rev G, Next GEM single cell ATAC v1.1	v1.1 bead oligo, SI-PCR primers and cycling
+10x-chromium-single-cell-atac	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Single_Index_Kit_N_Set_A.csv	10x Single Index Kit N Set A index sequences	ATAC sample index sequences (4 oligos per well)
+10x-chromium-single-cell-multiome-atac-gene-expression	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Single_Index_Kit_N_Set_A.csv	10x Single Index Kit N Set A index sequences	ATAC-library sample indexes
+10x-chromium-single-cell-multiome-atac-gene-expression	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv	10x Dual Index Kit TT Set A index sequences	GEX-library sample indexes
+scifi-atac-seq__10.1101+2023.09.17.558155	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf	10x user guide CG000209 Rev G, Next GEM single cell ATAC v1.1	scifi-ATAC runs on the 10x ATAC v1.1 kit: bead oligo and SI-PCR
+bd-rhapsody__10.1038+s41592-018-0255-0	scg:data/BD/*	BD Rhapsody user guides and CLS barcode lists (scg_lib_structs mirror)	vendor kit: the only primary source of the bead/library chemistry
+surecell-3-wta-for-ddseq	https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/surecell/surecell-wta3-library-prep-reference-guide-1000000021452-01.pdf	Illumina SureCell WTA 3' library prep reference guide (1000000021452 v01)	vendor kit: primary protocol
+surecell-3-wta-for-ddseq	https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/surecell/surecell-wta3-library-prep-checklist-1000000021454-00.pdf	Illumina SureCell WTA 3' library prep checklist	vendor kit
+surecell-3-wta-for-ddseq	https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/surecell/surecell-wta-3-pbmc-demonstrated-protocol_1000000044179-00.pdf	Illumina SureCell WTA 3' PBMC demonstrated protocol	vendor kit
+surecell-3-wta-for-ddseq	https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/surecell/surecell-wta3-nuclei-demonstrated-protocol-1000000044178-00.pdf	Illumina SureCell WTA 3' nuclei demonstrated protocol	vendor kit
+surecell-3-wta-for-ddseq	scg:data/ddSEQ_3pRNA/*	Bio-Rad ddSEQ 3' scRNA kit guide and bead structures (scg_lib_structs mirror)	successor kit on the same ddSEQ bead chemistry
+surecell-3-wta-for-ddseq	https://raw.githubusercontent.com/vals/umis/master/examples/SureCell/transform.json	umis read-parsing regex for SureCell	independent check of the bead read layout
+surecell-3-wta-for-ddseq	https://raw.githubusercontent.com/vals/umis/master/examples/SureCell/barcodes.txt	umis SureCell bead barcode 6-mers	barcode whitelist
+dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6	scg:data/ddSEQ_3pRNA/Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx	Bio-Rad ddSEQ bead structures (scg_lib_structs mirror)	same Bio-Rad bead platform
+strt-seq-family__10.1101+gr.110882.110	doi:10.1038/nprot.2012.022	STRT-seq Nature Protocols 2012 (Springer ESM)	protocol detail; main text paywalled
+scrb-seq-mcscrb-seq__10.1101+003236	protocolsio:10.17504/protocols.io.nrkdd4w	mcSCRB-seq protocols.io protocol	only source of the unblocked TSO and N7xx sequences
+scrb-seq-mcscrb-seq__10.1101+003236	doi:10.1038/nmeth.1470	nanoCAGE (Plessy 2010), cited for semi-suppressive PCR	open on PMC
+quartz-seq-family__10.1186+gb-2013-14-4-r31	doi:10.1038/nmeth.1470	nanoCAGE (Plessy 2010), cited for semi-suppressive PCR	open on PMC
+microwell-seq__10.1016+j.cell.2018.02.001	doi:10.1038/nmeth.1470	nanoCAGE (Plessy 2010), cited by upstream	open on PMC
+10x-chromium-single-cell-atac	doi:10.1038/nmeth.1470	nanoCAGE (Plessy 2010), cited by upstream	open on PMC
+fipresci__10.1186+s13059-023-02893-1	doi:10.1186/s13059-023-02944-7	FIPRESCI Publisher Correction	corrects the published paper
+ch-atac-seq__10.1016+j.devcel.2024.01.015	doi:10.1038/s41467-022-31879-z	CH-RNA-seq (Nat Commun 2022), same lab's open parent method	shares the HY/block/P5/MGI P7 oligos; the Dev Cell paper is closed
+mars-seq-mars-seq2-0__10.1126+science.1247651	doi:10.1038/s41596-019-0164-4	MARS-seq2.0 Nature Protocols 2019 (Springer ESM)	RT2/PCR primers; main text paywalled
+indrop__10.1016+j.cell.2015.04.044	doi:10.1038/nprot.2016.154	inDrop Nature Protocols 2017 (Springer ESM)	bead and primer tables; main text paywalled
+scbs-seq__10.1038+nmeth.3035	doi:10.1038/nprot.2016.187	scBS-seq Nature Protocols 2017 (Springer ESM)	protocol detail
+scrrbs__10.1101+gr.161679.113	doi:10.1038/nprot.2015.039	scRRBS Nature Protocols 2015 (Springer ESM)	protocol detail; main text paywalled
+tang-2009__10.1038+nmeth.1315	doi:10.1093/nar/gkl050	Kurimoto 2006 NAR (the amplification Tang 2009 builds on)	open access
+sci-atac-seq-family__10.1126+science.aab1601	protocolsio:10.17504/protocols.io.be8mjhu6	sci-ATAC-seq3 protocols.io protocol	cited by the paper
+s3-atac__10.1038+s41587-021-00962-z	protocolsio:10.17504/protocols.io.bd6wi9fe	s3-ATAC protocols.io protocol	cited by the paper
+s3-wgs__10.1038+s41587-021-00962-z	protocolsio:10.17504/protocols.io.beb3jaqn	s3 protocols.io protocol	cited by the paper
+s3-wgs__10.1038+s41587-021-00962-z	protocolsio:10.17504/protocols.io.beb4jaqw	s3 protocols.io protocol	cited by the paper
+txci-atac-seq__10.1101+2023.05.11.540245	https://www.protocols.io/view/ten-10-x-compatible-combinatorial-indexing-atac-se-c3urynv6	txci-ATAC-seq protocols.io protocol	bench protocol
+hydrop-atac__10.7554+eLife.73971	https://www.protocols.io/view/hydrop-atac-v1-0-bxsbpnan	HyDrop-ATAC v1.0 protocols.io protocol	bulk PCR cycle number
+hydrop-atac__10.7554+eLife.73971	protocolsio:10.17504/protocols.io.b4cyqsxw	HyDrop bead synthesis protocols.io protocol	bead oligo synthesis
+hydrop-rna__10.7554+eLife.73971	protocolsio:10.17504/protocols.io.b4cyqsxw	HyDrop bead synthesis protocols.io protocol	bead oligo synthesis

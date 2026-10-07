@@ -1,8 +1,55 @@
-dir	protocol	doi	status	note
-atrandi-wgs__10.1101+2025.06.20.660799	Atrandi WGS	10.1101/2025.06.20.660799	documented	Atrandi SPC + PTA single-microbe WGS, as run here (Bascet/Zorn preprint). Built on the Atrandi barcoding kit manuals, which have no DOI.
-smart-seq-family__10.1038+nbt.2282	SMART-seq family	10.1038/nbt.2282	documented	Also covers Smart-seq2/3/3xpress and FLASH-seq; same protocol row as scg_lib_structs.
-small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
-lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	Pooled-screen readout across four vector systems; named for Shalem 2014.
-crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	sgRNA quantification by molecular inversion probe.
-crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	Also covers the unrelated Michlits CRISPR-UMI, 10.1038/nmeth.4466, and our padlock draft.
-florian-pta-rnaseq	florian-PTA-rnaseq		draft	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
+dir	protocol	doi	status	section	modality	note
+atrandi-wgs__10.1101+2025.06.20.660799	Atrandi WGS	10.1101/2025.06.20.660799	documented	published	DNA	Atrandi SPC + PTA single-microbe WGS, as run here (Bascet/Zorn preprint). Built on the Atrandi barcoding kit manuals, which have no DOI.
+smart-seq-family__10.1038+nbt.2282	SMART-seq family	10.1038/nbt.2282	documented	published	RNA	Also covers Smart-seq2/3/3xpress and FLASH-seq; same protocol row as scg_lib_structs.
+small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	published	RNA	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
+lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	published	DNA	Pooled-screen readout across four vector systems; named for Shalem 2014.
+crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	wip	DNA	sgRNA quantification by molecular inversion probe.
+crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	published	DNA	Also covers the unrelated Michlits CRISPR-UMI, 10.1038/nmeth.4466, and our padlock draft.
+florian-pta-rnaseq	florian-PTA-rnaseq		draft	wip	RNA	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
+astar-seq__10.1101+829960	ASTAR-seq	10.1101/829960	notes	published	multi	Reference notes only (01_astar-seq.md); no tools/ module or page yet.
+strt-seq-family__10.1101+gr.110882.110	STRT-seq family	10.1101/gr.110882.110	notes	published	RNA	Reference notes only (01_strt-seq.md); no tools/ module or page yet.
+sci-rna-seq-family__10.1126+science.aam8940	sci-RNA-seq family	10.1126/science.aam8940	notes	published	RNA	Reference notes only (01_sci-rna-seq.md); no tools/ module or page yet.
+quartz-seq-family__10.1186+gb-2013-14-4-r31	Quartz-seq family	10.1186/gb-2013-14-4-r31	notes	published	RNA	Reference notes only (01_quartz-seq.md); no tools/ module or page yet.
+cel-seq-family__10.1016+j.celrep.2012.08.003	CEL-seq family	10.1016/j.celrep.2012.08.003	notes	published	RNA	Reference notes only (01_cel-seq.md); no tools/ module or page yet.
+10x-chromium-single-cell-3-featurebarcoding	10x Chromium Single Cell 3' FeatureBarcoding		notes	published	RNA	Reference notes only (01_10x-3p-feature-barcoding.md); no tools/ module or page yet.
+10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	10x Chromium Single Cell 3' GE V2 - V4	10.1038/ncomms14049	notes	published	RNA	Reference notes only (01_10x-3prime-v2-v4.md); no tools/ module or page yet.
+10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049	10x Chromium Single Cell 3' GE V1	10.1038/ncomms14049	notes	published	RNA	Reference notes only (01_10x-3p-v1.md); no tools/ module or page yet.
+10x-chromium-single-cell-5-vdj	10x Chromium Single Cell 5' VDJ		notes	published	RNA	Reference notes only (01_chromium-5-vdj.md); no tools/ module or page yet.
+10x-chromium-single-cell-5-ge	10x Chromium Single Cell 5' GE		notes	published	RNA	Reference notes only (01_10x-5p-ge.md); no tools/ module or page yet.
+surecell-3-wta-for-ddseq	SureCell 3' WTA for ddSEQ		notes	published	RNA	Reference notes only (01_surecell-wta3.md); no tools/ module or page yet.
+mars-seq-mars-seq2-0__10.1126+science.1247651	MARS-seq / MARS-seq2.0	10.1126/science.1247651	notes	published	RNA	Reference notes only (01_mars-seq.md); no tools/ module or page yet.
+scrb-seq-mcscrb-seq__10.1101+003236	SCRB-seq / mcSCRB-seq	10.1101/003236	notes	published	RNA	Reference notes only (01_scrb-seq.md); no tools/ module or page yet.
+split-seq-microsplit__10.1126+science.aam8999	SPLiT-seq / microSPLiT	10.1126/science.aam8999	notes	published	RNA	Reference notes only (01_split-seq.md); no tools/ module or page yet.
+drop-seq-seq-well__10.1016+j.cell.2015.05.002	Drop-seq / Seq-Well	10.1016/j.cell.2015.05.002	notes	published	RNA	Reference notes only (01_drop-seq-seq-well.md); no tools/ module or page yet.
+scifi-rna-seq__10.1101+2019.12.17.879304	scifi-RNA-seq	10.1101/2019.12.17.879304	notes	published	RNA	Reference notes only (01_scifi-rna-seq.md); no tools/ module or page yet.
+microwell-seq__10.1016+j.cell.2018.02.001	Microwell-seq	10.1016/j.cell.2018.02.001	notes	published	RNA	Reference notes only (01_microwell-seq.md); no tools/ module or page yet.
+bd-rhapsody__10.1038+s41592-018-0255-0	BD Rhapsody	10.1038/s41592-018-0255-0	notes	published	RNA	Reference notes only (01_bd-rhapsody.md); no tools/ module or page yet.
+hydrop-rna__10.7554+eLife.73971	HyDrop-RNA	10.7554/eLife.73971	notes	published	RNA	Reference notes only (01_hydrop-rna.md); no tools/ module or page yet.
+seq-well-s3__10.1016+j.immuni.2020.09.015	Seq-Well S3	10.1016/j.immuni.2020.09.015	notes	published	RNA	Reference notes only (01_seq-well-s3.md); no tools/ module or page yet.
+tang-2009__10.1038+nmeth.1315	Tang 2009	10.1038/nmeth.1315	notes	published	RNA	Reference notes only (01_tang-2009.md); no tools/ module or page yet.
+petri-seq__10.1038+s41564-020-0729-6	PETRI-seq	10.1038/s41564-020-0729-6	notes	published	RNA	Reference notes only (01_petri-seq.md); no tools/ module or page yet.
+vasa-seq__10.1038+s41587-022-01361-8	VASA-seq	10.1038/s41587-022-01361-8	notes	published	RNA	Reference notes only (01_vasa-seq.md); no tools/ module or page yet.
+fipresci__10.1186+s13059-023-02893-1	FIPRESCI	10.1186/s13059-023-02893-1	notes	published	RNA	Reference notes only (01_fipresci.md); no tools/ module or page yet.
+pip-seq__10.1038+s41587-023-01685-z	PIP-seq	10.1038/s41587-023-01685-z	notes	published	RNA	Reference notes only (01_pip-seq.md); no tools/ module or page yet.
+indrop__10.1016+j.cell.2015.04.044	inDrop	10.1016/j.cell.2015.04.044	notes	published	RNA	Reference notes only (01_indrop.md); no tools/ module or page yet.
+sci-atac-seq-family__10.1126+science.aab1601	sci-ATAC-seq family	10.1126/science.aab1601	notes	published	DNA	Reference notes only (01_sci-atac-seq.md); no tools/ module or page yet.
+plate-scatac-seq-and-pi-atac-seq__10.1038+s41467-018-07771-0	Plate_scATAC-seq and Pi-ATAC-seq	10.1038/s41467-018-07771-0	notes	published	DNA	Reference notes only (01_plate-scatac-seq.md); no tools/ module or page yet.
+10x-chromium-single-cell-atac	10x Chromium Single Cell ATAC		notes	published	DNA	Reference notes only (01_10x-scatac.md); no tools/ module or page yet.
+dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6	dscATAC-seq/dsciATAC-seq	10.1038/s41587-019-0147-6	notes	published	DNA	Reference notes only (01_dscatac-seq.md); no tools/ module or page yet.
+scdnase-seq-scmnase-seq__10.1038+nature15740	scDNase-seq/scMNase-seq	10.1038/nature15740	notes	published	DNA	Reference notes only (01_scdnase-scmnase.md); no tools/ module or page yet.
+scifi-atac-seq__10.1101+2023.09.17.558155	scifi-ATAC-seq	10.1101/2023.09.17.558155	notes	published	DNA	Reference notes only (01_scifi-atac-seq.md); no tools/ module or page yet.
+txci-atac-seq__10.1101+2023.05.11.540245	txci-ATAC-seq	10.1101/2023.05.11.540245	notes	published	DNA	Reference notes only (01_txci-atac-seq.md); no tools/ module or page yet.
+ch-atac-seq__10.1016+j.devcel.2024.01.015	CH-ATAC-seq	10.1016/j.devcel.2024.01.015	notes	published	DNA	Reference notes only (01_ch-atac-seq.md); no tools/ module or page yet.
+hydrop-atac__10.7554+eLife.73971	HyDrop-ATAC	10.7554/eLife.73971	notes	published	DNA	Reference notes only (01_hydrop-atac.md); no tools/ module or page yet.
+snatac-seq__10.1038+s41593-018-0079-3	snATAC-seq	10.1038/s41593-018-0079-3	notes	published	DNA	Reference notes only (01_snatac-seq.md); no tools/ module or page yet.
+scths-seq__10.1038+nbt.4038	scTHS-seq	10.1038/nbt.4038	notes	published	DNA	Reference notes only (01_scths-seq.md); no tools/ module or page yet.
+itchip-seq__10.1038+s41556-019-0383-5	itChIP-seq	10.1038/s41556-019-0383-5	notes	published	DNA	Reference notes only (01_itchip-seq.md); no tools/ module or page yet.
+drop-chip__10.1038+nbt.3383	Drop-ChIP	10.1038/nbt.3383	notes	published	DNA	Reference notes only (01_drop-chip.md); no tools/ module or page yet.
+scdamid__10.1016+j.cell.2015.08.040	scDamID	10.1016/j.cell.2015.08.040	notes	published	DNA	Reference notes only (01_scdamid.md); no tools/ module or page yet.
+s3-atac__10.1038+s41587-021-00962-z	s3-ATAC	10.1038/s41587-021-00962-z	notes	published	DNA	Reference notes only (01_s3-atac.md); no tools/ module or page yet.
+scbs-seq__10.1038+nmeth.3035	scBS-seq	10.1038/nmeth.3035	notes	published	DNA	Reference notes only (01_scbs-seq.md); no tools/ module or page yet.
+malbac__10.1126+science.1229164	MALBAC	10.1126/science.1229164	notes	published	DNA	Reference notes only (01_malbac.md); no tools/ module or page yet.
+s3-wgs__10.1038+s41587-021-00962-z	s3-WGS	10.1038/s41587-021-00962-z	notes	published	DNA	Reference notes only (01_s3-wgs.md); no tools/ module or page yet.
+scrrbs__10.1101+gr.161679.113	scRRBS	10.1101/gr.161679.113	notes	published	DNA	Reference notes only (01_scrrbs.md); no tools/ module or page yet.
+lianti__10.1126+science.aak9787	LIANTI	10.1126/science.aak9787	notes	published	DNA	Reference notes only (01_lianti.md); no tools/ module or page yet.
+scnome-seq-sccool-seq__10.7554+eLife.23203	scNOMe-seq/scCOOL-seq	10.7554/eLife.23203	notes	published	multi	Reference notes only (01_scnome-seq-sccool-seq.md); no tools/ module or page yet.
