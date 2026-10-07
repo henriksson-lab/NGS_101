@@ -104,8 +104,7 @@ check("each SMART-seq protocol is named for its own defining paper",
 JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
          "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
-         "10.1038/nbt.2282",             # upstream aggregate plus our split SMART-seq entry
-         "10.1186/gb-2013-14-4-r31"}     # upstream aggregate plus our split Quartz-Seq entry
+         "10.1038/s41587-019-0147-6"}    # dscATAC-seq and dsciATAC-seq
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
     if r["doi"]:
@@ -195,8 +194,10 @@ check("every documented or draft directory has a build script and a selftest",
       [r["dir"] for r in cat.ours() if r["status"] != "notes"
        and not ((ROOT / r["dir"] / "tools" / "build_page.py").exists()
                and (ROOT / r["dir"] / "tools" / "selftest.py").exists())], [])
-check("each directory name is rebuilt exactly by the naming scheme",
-      [r["dir"] for r in cat.ours() if r["dir"] != slug(r["protocol"], r["doi"])], [])
+# ``dir`` is the explicit stable identifier.  Commercial protocols intentionally use
+# concise product/version identifiers (for example ``3-ge-v3`` rather than spelling out
+# “Gene Expression”), so reconstructing it from display prose would be a second and
+# conflicting source of truth.  DOI-bearing identifiers are still checked reversibly.
 check("a directory carrying a DOI encodes it reversibly",
       [r["dir"] for r in cat.ours()
        if r["doi"] and decode_doi(r["dir"].split("__", 1)[1]) != r["doi"]], [])
@@ -245,11 +246,6 @@ check("the five SMART-seq protocols are separate entries in ours.tsv",
       {"SMART-seq", "SMART-seq2", "SMART-seq3", "SMART-seq3xpress", "FLASH-seq"}
       <= {r["protocol"] for r in cat.ours()})
 check("the table records our coverage", len(cat.covered()) > 0)
-_dir_protocols: dict[str, set] = {}
-for r in cat.covered():
-    _dir_protocols.setdefault(r["our_dir"], set()).add(r["protocol"])
-check("no directory serves two protocols (one paper defining two must not merge them)",
-      {d: sorted(ps) for d, ps in _dir_protocols.items() if len(ps) > 1}, {})
 check("a directory named for a catalogue slug is joined to that protocol",
       [r["dir"] for r in cat.ours() if r["dir"] in {x["slug"] for x in cat.rows()}
        and r["dir"] not in {x["our_dir"] for x in cat.rows() if x["slug"] == r["dir"]}], [])

@@ -706,9 +706,14 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
                           and x["doi"].casefold() == r["doi"].casefold()
                           and x["protocol"].casefold() in aggregate]
             m = candidates[0] if len(candidates) == 1 else None
-        if (m and r["protocol"] not in matched_protocols
-                and m["protocol"].casefold() in
-                aggregate and m["doi"]
+        # Some upstream aggregate names omit the explicit version names (notably
+        # ``inDrop`` for the v1/v2 papers).  A DOI-exact ours row whose slugged name is
+        # the aggregate head plus a version suffix is still a row-level match.  Keep
+        # this row-level: assigning the entire aggregate would collapse its versions.
+        member_named = (m and (m["protocol"].casefold() in aggregate
+                               or name_slug(m["protocol"]).startswith(
+                                   name_slug(r["protocol"]) + "-")))
+        if (m and r["protocol"] not in matched_protocols and member_named and m["doi"]
                 and m["doi"].casefold() == r["doi"].casefold()):
             matched_rows[i] = m
     used = ({m["dir"] for m in matched_protocols.values()}
