@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""Generate index.html -- the landing page, with a searchable list of the protocols.
+"""Generate index.html -- the public landing page of finished protocol schematics.
 
 Nothing about an individual protocol is typed here. The list comes from
 `catalogue/ours.tsv` (one row per directory; its `section` column says whether it is a
 published protocol or our own work in progress), joined to the scraped catalogue for
-category, family members, papers and year, and to the notes themselves: a protocol's
-title is its first note's `# ` heading and its blurb that note's first real paragraph.
-So a new `<slug>/01_*.md` plus a row in ours.tsv is all it takes to appear here.
+category, family members, papers and year. A protocol appears publicly only when its
+generated diagram page exists. Notes and work in progress stay out of the public index.
 
-The published protocols get a client-side search: every field above plus the full text of
-the notes goes into a JSON index embedded in the page, and a few lines of vanilla JS
-filter the pre-rendered list. No library, no fetch() -- it works from file:// too, and
-without JavaScript the full list is simply shown.
+The published schematics get a client-side search over their catalogue metadata and short
+blurb. No note bodies are embedded in the public page. No library, no fetch() -- it works
+from file:// too, and without JavaScript the full list is simply shown.
 
 Check counts are read by actually running each suite, so the page cannot drift from
 reality: if a suite is failing, the page says so.
@@ -38,7 +36,7 @@ sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 import catalogue as cat  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
-from page import caveat, head, info, legend  # noqa: E402
+from page import head, info  # noqa: E402
 
 OUT = ROOT / "index.html"
 
@@ -248,17 +246,15 @@ e = html.escape
 
 
 def status_label(p: dict) -> str:
-    return "notes + diagram page" if p["page"] else "notes"
+    return "schematic" if p["page"] else "source notes"
 
 
 def links(p: dict) -> str:
     out = []
     if p["page"]:
-        out.append(f'<a class="go" href="{e(p["page"])}">diagram page &rarr;</a>')
-    for n in p["notes"]:
-        out.append(f'<a href="{e(n["href"])}">{e(n["title"])}</a>')
+        out.append(f'<a class="go" href="{e(p["page"])}">open schematic &rarr;</a>')
     if p["scg_page"]:
-        out.append(f'<a class="ext" href="{e(p["scg_page"])}">scg_lib_structs</a>')
+        out.append(f'<a class="ext source" href="{e(p["scg_page"])}">original schematic</a>')
     return '<div class="links">' + "".join(out) + "</div>"
 
 
@@ -268,10 +264,6 @@ def meta_line(p: dict) -> str:
         bits.append(e(p["year"]))
     if p["doi"]:
         bits.append(f'<a href="https://doi.org/{e(p["doi"])}">doi:{e(p["doi"])}</a>')
-    bits.append(f"<code>{e(p['dir'])}/</code>")
-    if p["checks"]:
-        bits.append(f"{p['checks']} checks passing" if p["checks_ok"]
-                    else f"&#9888; {p['checks']} checks, suite FAILING")
     return '<div class="meta">' + " &middot; ".join(bits) + "</div>"
 
 
@@ -279,55 +271,30 @@ def badges(p: dict) -> str:
     b = [f'<span class="tag mod">{e(p["modality"])}</span>']
     if p["category"]:
         b.append(f'<span class="tag">{e(p["category"])}</span>')
-    b.append(f'<span class="tag{" pg" if p["page"] else ""}">{status_label(p)}</span>')
     return '<div class="tags">' + "".join(b) + "</div>"
 
 
 def result_item(i: int, p: dict) -> str:
-    first = p["notes"][0]["href"] if p["notes"] else (p["page"] or "")
+    first = p["page"]
     name = f'<a href="{e(first)}">{e(p["name"])}</a>' if first else e(p["name"])
-    aka = (f'<p class="aka">also: {e(", ".join(p["aka"]))}</p>' if p["aka"] else "")
     return f"""<li class="pr" data-i="{i}" id="p-{e(p['dir'])}">
 <h3>{name}</h3>
-{badges(p)}
-{aka}<p class="blurb">{e(p['blurb'])}</p>
-<p class="snip" hidden></p>
-{links(p)}
-{meta_line(p)}
 </li>"""
-
-
-def wip_card(p: dict) -> str:
-    return f"""<div class="card">
-<span class="kind">{e(p['modality'])} &middot; work in progress &middot; status {e(p['status'])}</span>
-<h3>{e(p['name'])}</h3>
-<p>{e(p['blurb'])}</p>
-{links(p)}
-{meta_line(p)}
-</div>"""
 
 
 def search_data(ps: list[dict]) -> str:
     """The search index: one record per published protocol, in list order."""
     recs = [{"n": p["name"], "a": p["aka"], "c": p["category"], "m": p["modality"],
-             "s": f'{p["status"]} {status_label(p)}', "pg": bool(p["page"]),
+             "s": status_label(p),
              "d": p["doi"], "y": p["year"],
-             "t": " ".join([*p["papers"], *(n["title"] for n in p["notes"])]),
-             "x": p["text"]} for p in ps]
+             "t": " ".join([*p["papers"], p["blurb"]])} for p in ps]
     # embedded in a <script>, so no "</" may appear literally
     return json.dumps(recs, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
-def concepts() -> str:
-    out = []
-    for f in sorted((ROOT / "ref" / "concepts").glob("*.md")):
-        n = read_note(f)
-        out.append(f'<div class="concept"><h3><a href="{e(n["href"])}">{e(n["title"])}</a>'
-                   f'</h3><p>{e(n["blurb"])}</p></div>')
-    return "\n".join(out)
-
-
 EXTRA_CSS = """<style>
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+           overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .cards { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));
          margin:1.2em 0; align-items:start; }
 .card { border:1px solid var(--rule); border-radius:6px; padding:16px 18px;
@@ -390,8 +357,6 @@ SEARCH_JS = r"""<script>
   var items = Array.prototype.slice.call(list.children);
   var q = document.getElementById('q'), count = document.getElementById('count');
   var empty = document.getElementById('empty');
-  var facets = document.querySelectorAll('.facets button');
-  var state = {m: '', pg: ''};
   function norm(s) {
     return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
@@ -399,11 +364,11 @@ SEARCH_JS = r"""<script>
   // pre-normalise every searchable field once
   var recs = data.map(function (r) {
     var f = {n: norm(r.n), a: norm(r.a.join(' | ')), c: norm(r.c + ' ' + r.m + ' ' + r.s),
-             d: norm(r.d + ' ' + r.y), t: norm(r.t), x: norm(r.x)};
+             d: norm(r.d + ' ' + r.y), t: norm(r.t)};
     f.ns = squash(f.n + ' ' + f.a);
     return f;
   });
-  var W = {n: 12, a: 6, c: 3, d: 3, t: 2, x: 1};
+  var W = {n: 12, a: 6, c: 3, d: 3, t: 2};
   function score(f, terms) {
     var total = 0;
     for (var i = 0; i < terms.length; i++) {
@@ -411,79 +376,35 @@ SEARCH_JS = r"""<script>
       for (var k in W) if (f[k].indexOf(t) >= 0) best = Math.max(best, W[k]);
       if (!best && t.length > 2 && f.ns.indexOf(squash(t)) >= 0) best = W.a;
       if (!best) return 0;
-      if (best === W.x) best += Math.min(f.x.split(t).length - 1, 10) / 10;
       if (f.n.indexOf(t) === 0) best += 6;
       total += best;
     }
     return total;
-  }
-  function snippet(raw, f, terms, phrase) {
-    // only when the match is in the note text, not already visible in the card;
-    // the whole query as a phrase if it occurs, else the earliest single term
-    var pos = -1, len = 0;
-    if (terms.length > 1 && f.n.indexOf(phrase) < 0) {
-      pos = f.x.indexOf(phrase); len = phrase.length;
-    }
-    if (pos < 0) for (var i = 0; i < terms.length; i++) {
-      var t = terms[i];
-      if (f.n.indexOf(t) >= 0 || f.a.indexOf(t) >= 0 || f.c.indexOf(t) >= 0 ||
-          f.d.indexOf(t) >= 0) continue;
-      var p = f.x.indexOf(t);
-      if (p >= 0 && (pos < 0 || p < pos)) { pos = p; len = t.length; }
-    }
-    if (pos < 0) return null;
-    var a = Math.max(0, pos - 90), b = Math.min(raw.length, pos + len + 110);
-    return [(a > 0 ? '…' : '') + raw.slice(a, pos), raw.slice(pos, pos + len),
-            raw.slice(pos + len, b) + (b < raw.length ? '…' : '')];
   }
   function run() {
     var terms = norm(q.value).split(/\s+/).filter(Boolean);
     var hits = [];
     for (var i = 0; i < recs.length; i++) {
       var r = data[i], f = recs[i];
-      if (state.m && r.m !== state.m) continue;
-      if (state.pg === 'page' && !r.pg) continue;
-      if (state.pg === 'notes' && r.pg) continue;
       var s = terms.length ? score(f, terms) : 1;
       if (s) hits.push([s, i]);
     }
     hits.sort(function (x, y) { return y[0] - x[0] || x[1] - y[1]; });
     var shown = {};
     hits.forEach(function (h) {
-      var li = items[h[1]], sn = li.querySelector('.snip');
+      var li = items[h[1]];
       shown[h[1]] = 1;
       list.appendChild(li);
       li.hidden = false;
-      var parts = terms.length && snippet(data[h[1]].x, recs[h[1]], terms, terms.join(' '));
-      // norm() keeps offsets (NFD, then the combining marks are dropped again), so the
-      // match position in the normalised text is the position in the raw text
-      if (parts) {
-        sn.textContent = '';
-        sn.appendChild(document.createTextNode(parts[0]));
-        var m = document.createElement('mark'); m.textContent = parts[1];
-        sn.appendChild(m);
-        sn.appendChild(document.createTextNode(parts[2]));
-        sn.hidden = false;
-      } else { sn.hidden = true; }
     });
     items.forEach(function (li, i) { if (!shown[i]) li.hidden = true; });
     count.textContent = hits.length + ' of ' + items.length + ' protocols';
     empty.hidden = hits.length > 0;
     var h = [];
     if (q.value) h.push('q=' + encodeURIComponent(q.value));
-    if (state.m) h.push('m=' + state.m);
-    if (state.pg) h.push('pg=' + state.pg);
     try { history.replaceState(null, '', h.length ? '#' + h.join('&') : location.pathname); }
     catch (err) { /* file:// in some browsers */ }
   }
-  function press() {
-    facets.forEach(function (b) {
-      b.setAttribute('aria-pressed', String(state[b.dataset.k] === b.dataset.v));
-    });
-  }
-  facets.forEach(function (b) {
-    b.addEventListener('click', function () { state[b.dataset.k] = b.dataset.v; press(); run(); });
-  });
   q.addEventListener('input', run);
   q.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { q.value = ''; run(); } });
   document.addEventListener('keydown', function (ev) {
@@ -491,29 +412,20 @@ SEARCH_JS = r"""<script>
   });
   location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
     var p = kv.split('='), v = decodeURIComponent(p[1] || '');
-    if (p[0] === 'q') q.value = v; else if (p[0] === 'm' || p[0] === 'pg') state[p[0]] = v;
+    if (p[0] === 'q') q.value = v;
   });
-  document.getElementById('facets').hidden = false;
-  press(); run();
+  run();
 })();
 </script>"""
 
 
 def search_section(ps: list[dict]) -> str:
     items = "\n".join(result_item(i, p) for i, p in enumerate(ps))
-    mods = [m for m in cat.MODALITIES if any(p["modality"] == m for p in ps)]
-    mbtn = "".join(f'<button type="button" data-k="m" data-v="{m}">{m}</button>' for m in mods)
     return f"""<form class="search" role="search" onsubmit="return false">
-<label for="q" class="kind">Search {len(ps)} published protocols &mdash; name, family member,
-category, DNA/RNA, DOI, year, or anything in the notes (press <kbd>/</kbd>)</label>
+<label for="q" class="sr-only">Search protocols</label>
 <input id="q" type="search" placeholder="e.g. template switching, Tn5, 10x, UMI, 2017, nbt.2282"
        autocomplete="off" spellcheck="false">
-<div class="facets" id="facets" hidden>
-<button type="button" data-k="m" data-v="">all</button>{mbtn}
-<span class="sep"></span>
-<button type="button" data-k="pg" data-v="">any status</button><button type="button" data-k="pg" data-v="page">with diagram page</button><button type="button" data-k="pg" data-v="notes">notes only</button>
-<span class="count" id="count" aria-live="polite">{len(ps)} protocols</span>
-</div>
+<span class="sr-only" id="count" aria-live="polite">{len(ps)} protocols</span>
 </form>
 <ol class="plist" id="plist">
 {items}
@@ -525,86 +437,14 @@ category, DNA/RNA, DOI, year, or anything in the notes (press <kbd>/</kbd>)</lab
 
 def build(omit: set[str] = frozenset(), run_checks: bool = True) -> tuple[str, int]:
     every = collect(omit, run_checks)
-    pub = [p for p in every if p["section"] == "published"]
-    wip = [p for p in every if p["section"] == "wip"]
-    # protocols with a diagram page first, then the rest in ours.tsv order
-    pub.sort(key=lambda p: not p["page"])
+    # The public site is a catalogue of finished schematics. Reference notes and work in
+    # progress remain in the repository, but are not part of the reader-facing index.
+    pub = [p for p in every if p["section"] == "published" and p["page"]]
     total = (sum(p["checks"] for p in every)
              + (sum(checks(d)[0] for d in EXTRA_SUITES) if run_checks else 0))
-    n_notes = len([q for q in ROOT.rglob("*.md")
-                   if not {".git", "_data", "pdf", "__pycache__", ".cache", "_site"}
-                   & set(q.relative_to(ROOT).parts)])
-    n_pages = sum(1 for p in pub if p["page"])
-    checks_line = (f" &mdash; <b>{total} checks</b> across the protocols" if total else "")
     body = f"""<div class="wrap">
-<h1>NGS protocol chemistry</h1>
-
-{info("""What the DNA actually looks like at every step of a sequencing protocol, drawn
-base-by-base in the idiom of the Teichmann lab's
-<a href="https://teichlab.github.io/scg_lib_structs/">scg_lib_structs</a> pages.""")}
-
-{legend(f"""<b>Everything here is generated, not transcribed.</b> Each protocol's construct
-is defined once as a table of segments; the diagrams, oligo lists and final structures are
-derived from it, and a self-test asserts the facts that were checked by hand{checks_line}.
-Where a real plasmid exists, primer sites and amplicon sizes are computed against the
-actual map rather than quoted from a paper.""")}
-
-<h2 id="protocols">Published protocols</h2>
-{info(f"""{len(pub)} published methods, each with reference notes read from its own
-paper(s) &mdash; oligos verbatim, how they interlock, step by step, and the final library.
-{n_pages} so far also have a generated base-by-base diagram page.""")}
+<h1>NGS library structures</h1>
 {search_section(pub)}
-
-<h2 id="wip">Work in progress</h2>
-<div class="wipbox">
-{caveat("""<b>Our own, unpublished or still-moving designs.</b> These are not published
-protocols: the chemistry is being worked out here, the notes change, and some of the final
-library is predicted rather than documented. Treat them as lab notebooks.""")}
-<div class="cards">
-{"".join(wip_card(p) for p in wip)}
-</div>
-</div>
-
-<h2 id="catalogue">The catalogue &mdash; what is out there</h2>
-{info(f"""Documenting a protocol starts with knowing it exists. <b>{cat.n_protocols()}
-protocols</b> and <b>{cat.n_papers()} papers</b> are catalogued in
-<code>catalogue/scg_lib_structs.tsv</code>, scraped from
-<a href="https://github.com/Teichlab/scg_lib_structs">Teichlab/scg_lib_structs</a> and
-resolved against Crossref and NCBI &mdash; {cat.n_documented()} with a drawn page upstream
-to check ourselves against, {cat.n_todo()} named but never drawn. {cat.n_ours()} of them
-have a directory here. One row per (protocol, paper), because a method can have several
-papers and a paper can define several methods.
-<a href="catalogue/README.html"><b>read the worklist &rarr;</b></a>""")}
-
-<h2 id="concepts">Chemistry that recurs</h2>
-{info("""Most new protocols are a new front end bolted onto an old back end. These
-pieces turn up again and again, so they are written once and shared rather than repeated
-per protocol.""")}
-{concepts()}
-
-<h2 id="notes">Written notes</h2>
-{info(f"""Alongside the diagram pages, the repository carries {n_notes} Markdown notes
-&mdash; protocol readings, dataset inventories, the enzyme/buffer comparison, and working
-logs. All of them are rendered to HTML by <code>build_docs.py</code>:
-<a href="notes.html"><b>browse all notes &rarr;</b></a>""")}
-
-<h2>How it is built</h2>
-{info("""<code>lib/</code> holds the protocol-agnostic machinery: a renderer for
-character-aligned duplex diagrams, the canonical Illumina and NEBNext sequences, Tn5 and
-reverse-transcription building blocks, a GenBank parser with restriction digestion and
-circular-aware PCR prediction, and the padlock capture model. Each protocol directory holds
-its own notes, its segment definitions and its self-test, which runs the shared checks plus
-its own. The Markdown notes go through <code>lib/mdrender.py</code>, a small
-dependency-free renderer, driven by <code>build_docs.py</code>; this page and the search
-index come from <code>build_index.py</code>, and <code>build_site.py</code> assembles the
-lot into the published site.""")}
-
-{caveat("""<b>On trusting this.</b> The checks are regression tests, not proof. The useful
-ones assert relationships that <i>must</i> hold if a model is right &mdash; for instance the
-Atrandi read layout is derived from the segment table and then asserted against offsets
-hard-coded in a demultiplexer that was written from sequencing data. When a model reproduces
-a number nobody fed it, that is worth locking down. Anything inferred rather than documented
-is marked as such on the page it appears on.""")}
 </div>"""
     page = ("<!doctype html>\n<html lang=\"en\">\n<head>\n" + head("NGS Protocol Chemistry")
             + "\n" + EXTRA_CSS + "\n</head>\n<body>\n" + body + "\n</body>\n</html>\n")

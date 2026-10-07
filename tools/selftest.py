@@ -290,6 +290,22 @@ check("the rendered HTML is on disk for every note",
 check("rendering is deterministic -- building twice gives the same bytes",
       build_docs.build_page(ROOT / "README.md"), one)
 
+import build_index  # noqa: E402
+
+_front, _ = build_index.build(run_checks=False)
+_public = [p for p in build_index.collect(run_checks=False)
+           if p["section"] == "published" and p["page"]]
+check("the public index lists only finished published schematics",
+      _front.count('<li class="pr"'), len(_public))
+check("a protocol title opens its schematic, not its first reference note",
+      ('href="smart-seq-family__10.1038+nbt.2282/smartseq.html">SMART-seq family</a>' in _front,
+       'href="smart-seq-family__10.1038+nbt.2282/01_smart-seq_and_2.html"' in _front),
+      (True, False))
+check("work in progress and the all-notes index are absent from the public front page",
+      ("Work in progress" in _front, 'href="notes.html"' in _front), (False, False))
+check("reference-note bodies are not embedded in public search data",
+      "Evidence marking" in _front, False)
+
 # ------------------------------------------------- computed facts inside the notes
 check.section("computed facts in notes expand (lib/mdfacts.py)")
 from mdfacts import FACT, expand  # noqa: E402

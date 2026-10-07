@@ -191,9 +191,10 @@ python3 -m http.server -d _site    # preview at http://localhost:8000/
 ```
 
 `build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
-`build_index.py`, and copies into `_site/` (gitignored) only what we generated: the front
-page, the rendered notes, the diagram pages, a `.nojekyll`, and the few files of ours those
-pages link to. It never copies third-party material -- nothing from `_data/`, `pdf/`, the
+`build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
+diagram pages, a `.nojekyll`, and the few files of ours those pages deliberately link to.
+Reference notes and work in progress remain in the repository but are not public site
+navigation or search content. It never copies third-party material -- nothing from `_data/`, `pdf/`, the
 catalogue's download cache, archived exemplars such as `ref/SPLiT-seq.html`, any `ref/`
 data file, or a file type `.gitignore` treats as source material -- and the working debug
 logs in `to_debug/` are not published either (a link to them becomes plain text). It then
@@ -201,22 +202,19 @@ checks that every relative link and anchor in `_site/` resolves, and fails if on
 
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
-- **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
-  in a list with a client-side search. The search covers the name, family members and other
-  names from the catalogue, the scg_lib_structs category, the modality (`DNA` / `RNA` /
-  `multi`, the `modality` column), status (notes only, or notes + diagram page), DOI, year,
-  paper titles, and the full text of the notes. The index is JSON embedded in the page and
+- **Protocol schematics** -- rows of `catalogue/ours.tsv` with `section` = `published` and
+  a successfully built diagram page, in a list with a client-side search. The search covers
+  the name, family members and other names from the catalogue, the scg_lib_structs category,
+  modality (`DNA` / `RNA` / `multi`), DOI, year, paper titles and a short method blurb. It
+  does not expose the reference-note bodies. The index is JSON embedded in the page and
   filtered by a few lines of vanilla JavaScript: no library, no network, so it works from
   `file://` too, and without JavaScript the full list is still shown. Query and filters are
   kept in the URL (`index.html#q=tn5&m=DNA`), so a search can be linked.
-- **Work in progress** -- rows with `section` = `wip`: our own designs that are not
-  published protocols (currently CRISPR-MIP and florian-PTA-rnaseq), shown separately and
-  labelled as such.
 
 Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
 paragraph of its first note that describes the method (preferring the `## 1. What it is`
-section); its links are every `0*.md` note and the diagram page, if one was built. So a new
-protocol needs no code change to appear: a row in ours.tsv and a note are enough.
+section); its title and primary action both open the diagram page. A new protocol appears
+only after its `tools/build_page.py` can produce that finished schematic.
 
 **In CI** (`.github/workflows/pages.yml`, on every push to `main` and on demand) the runner
 has only what is committed. The self-tests skip what needs a third-party file, and the

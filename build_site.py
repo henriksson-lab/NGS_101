@@ -12,9 +12,11 @@ Steps:
    build scripts exit with a "missing source" message. Such a page is left out of the site
    -- the index does not link it, and a short stand-in page explains why, so that a link
    to it from another page still lands somewhere.
-2. Run `build_docs.py` (every .md -> .html, notes.html) and `build_index.py`.
-3. Assemble `_site/` from a whitelist: index.html, the rendered notes, the diagram pages
-   that built, and the files those pages link to -- provided they are ours. Never third-party material: nothing from `_data/`, `pdf/`, download
+2. Run `build_docs.py` (maintainer-facing rendered notes) and `build_index.py`.
+3. Assemble `_site/` from a whitelist: index.html, the diagram pages that built, and the
+   files those pages link to -- provided they are ours. Notes therefore appear only when
+   a schematic deliberately links them as supporting material. Never third-party material:
+   nothing from `_data/`, `pdf/`, download
    caches, archived exemplars (`ref/*.html` with no Markdown twin), or any `ref/`
    directory's data files, and no file of a type `.gitignore` treats as source material.
 4. Check every relative link and anchor in `_site/`; a broken one fails the build.
@@ -95,11 +97,8 @@ def published(p: Path) -> bool:
     return True
 
 
-def placeholder(d: str, out: Path, why: str, notes: list[Path]) -> str:
+def placeholder(d: str, out: Path, why: str) -> str:
     up = "../" * (len(out.relative_to(ROOT).parts) - 1)
-    links = "".join(f'<li><a href="{html.escape(n.with_suffix(".html").name)}">'
-                    f"{html.escape(build_docs.title_of(n.read_text(encoding='utf-8'), n))}"
-                    f"</a></li>" for n in notes)
     return (f"<!doctype html>\n<title>{html.escape(out.name)} — not in this build</title>\n"
             f"{STYLE}\n{MD_STYLE}\n<div class=\"wrap\">\n"
             f'<nav class="crumb"><a href="{up}index.html">chem</a> &nbsp;/&nbsp; '
@@ -110,8 +109,6 @@ def placeholder(d: str, out: Path, why: str, notes: list[Path]) -> str:
             f"repository, so the public build cannot draw it. Build it locally once the "
             f"files listed in the protocol's <code>ref/MANIFEST.md</code> are in place.</p>\n"
             f"<p>The build script said: <code>{html.escape(why)}</code></p>\n"
-            + (f"<p>The reference notes for this protocol are published:</p>\n<ul>{links}</ul>\n"
-               if links else "")
             + "</article>\n</div>\n")
 
 
@@ -162,15 +159,13 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
     files: dict[str, Path | str] = {}            # site path -> source file, or content
 
-    notes = [n for n in build_docs.notes() if published(n)]
-    for n in notes:
-        files[rel(n.with_suffix(".html"))] = n.with_suffix(".html")
     files["index.html"] = ROOT / "index.html"
-    # notes.html lists exactly the published notes
-    files["notes.html"] = build_docs.build_index(notes)
 
     skipped = []
+    public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
     for d, (ok, why) in sorted(results.items()):
+        if d not in public_dirs:
+            continue
         out = build_index.diagram_out(d)
         if out is None:
             continue
@@ -178,8 +173,7 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
             files[rel(out)] = out
         else:
             skipped.append(d)
-            files[rel(out)] = placeholder(d, out, why or "build failed",
-                                          sorted((ROOT / d).glob("0*.md")))
+            files[rel(out)] = placeholder(d, out, why or "build failed")
 
     # the files those pages link to, if they are ours and may be published
     pending = [k for k in files if k.endswith(".html")]
@@ -310,7 +304,10 @@ def main() -> int:
         print(f"  BROKEN  {b}")
 
     built = len(results) - len(failed)
-    print(f"\n{built} of {len(results)} diagram pages built"
+    public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
+    public_built = sum(d in public_dirs and ok for d, (ok, _) in results.items())
+    print(f"\n{built} of {len(results)} diagram pages built; "
+          f"{public_built} finished published schematics included"
           + (f"; left out (stand-in page instead): {', '.join(skipped)}" if skipped else ""))
     if bad:
         print(f"{len(bad)} problem(s) in _site/ -- not deployable", file=sys.stderr)

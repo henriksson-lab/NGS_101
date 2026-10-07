@@ -16,7 +16,7 @@ import smartseq as ss
 from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments, oligo, panel,
                       revcomp, strand_row)
 from illumina import P5, P7
-from page import caveat, head, info, legend, table
+from page import head, info, table
 
 OUT = HERE.parent / "smartseq.html"
 PRE = 4
@@ -41,23 +41,6 @@ counting its 3' end: <b>SMART-seq</b>, <b>SMART-seq2</b>, <b>SMART-seq3</b>,
 <b>SMART-seq3xpress</b> and <b>FLASH-seq</b>. Structures transcribed from
 <a href="https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html">
 scg_lib_structs</a>.""")}
-
-{info("""They divide into two architectures. <b>SMART-seq / SMART-seq2</b> put the
-<i>same</i> handle on both ends of the cDNA, so one primer amplifies it. <b>SMART-seq3</b>
-and its descendants deliberately make the two ends <i>different</i> and hide an 11-bp tag
-and a UMI in the template-switching oligo &mdash; which is what lets a single protocol give
-full-length coverage <i>and</i> molecule counting.""")}
-
-{legend("""<b>Two ideas carry this whole page.</b>
-<b>Template switching</b> puts a defined handle on the 5' end of a cDNA with no ligation,
-by exploiting the untemplated Cs that MMLV adds when it runs off the end of the template.
-<b>Tn5 tagmentation</b> then fragments the amplified cDNA and installs the sequencing
-adapters in one step. Both are reused across many protocols and are written up separately
-in <code>ref/concepts/</code>.""")}
-
-{caveat("""<b>Neither chemistry carries a cell barcode.</b> One cell goes in one well, and
-the cell's identity is the <i>i5 + i7 index pair</i> of its library. That is what caps these
-methods at plate scale &mdash; and what the split-pool methods exist to fix.""")}
 """
 
 
@@ -80,12 +63,8 @@ def ss2_oligos() -> str:
               [seg("", P7, "p7"), seg("", "[8-bp i7]", None, placeholder=True), seg("", nx.S7, "s7")]),
     ]
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
-            + info("""<b>The same 23-nt handle appears three times</b> &mdash; on the
-            oligo-dT primer, on the TSO, and as the PCR primer. That is the entire design:
-            after template switching both ends of the cDNA are identical, so a single
-            primer amplifies it. <code>+G</code> is a locked nucleic acid, the SMART-seq2
-            improvement; <code>rG</code> are ribonucleotides. The four sequencing primers
-            are listed under <a href="#seq-primers">Library sequencing</a>."""))
+            + info("""The oligo-dT primer, TSO and ISPCR primer share the same 23-nt
+            handle. <code>+G</code> denotes LNA; <code>rG</code> denotes RNA."""))
 
 
 # ------------------------------------------------ step drawings, placed by pairing
@@ -185,9 +164,7 @@ def ss2_steps() -> str:
                caption="(3) The TSO's rGrG+G pairs with that CCC overhang and the "
                        "polymerase switches template, copying the handle.")
     p4 = panel(ss2_pcr(), cls="long",
-               caption="(4) One primer, both ends. Identical ends make this "
-                       "semi-suppressive PCR: short products form a pan-handle that "
-                       "competes with priming, biasing amplification toward full-length cDNA.")
+               caption="(4) ISPCR amplifies the cDNA from the identical handles at both ends.")
     return "<h2>Step-by-step library generation</h2>\n" + p1 + p2 + p3 + p4 + tagmentation()
 
 
@@ -250,10 +227,7 @@ def tagmentation() -> str:
                caption="(6) 72 C gap fill-in -- the first hold of the Nextera PCR, before any "
                        "denaturation. It is a fill-in, not an extension; skip it and the "
                        "library is lost.")
-    return p5 + caveat("""<b>Only one product in three survives.</b> A fragment with
-    <s5>s5</s5> at both ends has P5 at both ends and no P7 site; <s7>s7</s7> at both ends has
-    the converse. Only the <s5>s5</s5>/<s7>s7</s7> heteroduplex can bridge P5 to P7, so the
-    other two amplify linearly at best. This is suppression by design.""") + p6
+    return p5 + p6
 
 
 def ss2_final() -> str:
@@ -261,9 +235,7 @@ def ss2_final() -> str:
     rows = [strand_row(con, "top"), strand_row(con, "bottom")] + annotation_rows(con, prefix_width=PRE)
     return ("<h3>(7&ndash;8) Index PCR, and the final library</h3>\n"
             + panel(rows, cls="long")
-            + info(f"""{len(con)}&nbsp;bp excluding the insert. <b>No UMI, no cell
-            barcode.</b> Reads land anywhere in the transcript, in either orientation &mdash;
-            there is no positional information anywhere in this construct."""))
+            + info(f"""{len(con)}&nbsp;bp excluding the insert; no UMI or cell barcode."""))
 
 
 # ========================================================== SMART-seq3 family
@@ -292,14 +264,8 @@ def ss3_oligos() -> str:
         oligo("Rev_PCR_primer", [seg("", ss.SS3_OLIGO_DT_HANDLE, "r3")]),
     ]
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
-            + info(f"""The two handles now <b>differ</b>, so PCR uses two primers rather than
-            one. Note what the TSO actually is: <me>{ss.SS3_TSO_ME3}</me> is the 3' end of the
-            Nextera <me>mosaic end</me>, so the forward PCR primer
-            (<s5>s5</s5>&nbsp;+&nbsp;<me>ME</me>&nbsp;+&nbsp;<r1>tag</r1>) rebuilds a
-            complete Nextera s5 arm as it amplifies &mdash; the TSO was already most of one.
-            The three family members differ <i>only</i> in the spacer between UMI and G tail:
-            {", ".join(f"<code>{x}</code>" if x else "none"
-                       for x in ss.SS3_TSO_SPACERS.values())}."""))
+            + info(f"""The forward and reverse PCR handles differ. The TSO contains the
+            terminal 8 nt of the Nextera ME, the 11-bp 5' tag and the 8-bp UMI."""))
 
 
 SS3_DT_HANDLE = seg("dT handle", ss.SS3_OLIGO_DT_HANDLE, "r3")
@@ -334,10 +300,8 @@ def ss3_steps() -> str:
                        "and no longer suppressive. The forward primer's s5 + ME head overhangs: "
                        "only its last 8 nt of ME and the tag anneal.")
     return "<h2>Step-by-step library generation</h2>\n" + p3 + p4 + info(
-        """Steps 1, 2 and 5&ndash;8 are as for SMART-seq2: oligo-dT priming and reverse
-        transcription (here with <b>Maxima H&minus;</b>, in NaCl with 5% PEG), the untemplated
-        CCC, then purification, Nextera tagmentation, the 72&nbsp;&deg;C gap fill-in and the
-        index PCR.""")
+        """Oligo-dT priming, reverse transcription, tagmentation, gap fill and index PCR
+        are drawn above for SMART-seq2; the structures are unchanged here.""")
 
 
 def ss3_final() -> str:
@@ -352,15 +316,9 @@ def ss3_final() -> str:
          for v, s in ss.SS3_TSO_SPACERS.items()])
     return ("<h3>(9) Final library structures</h3>\n"
             + "<h3>5' fragments &mdash; these retained the TSO</h3>\n" + panel(r5, cls="long")
-            + info("""Carries the <r1>11-bp tag</r1> and the <umi>UMI</umi>. A read beginning
-            with the tag is known to come from the transcript's 5' end, and the following
-            8&nbsp;nt count the molecule it came from.""")
+            + info("""Contains the <r1>11-bp 5' tag</r1> followed by the
+            <umi>8-bp UMI</umi>.""")
             + "<h3>Internal fragments &mdash; these did not</h3>\n" + panel(ri, cls="long")
-            + caveat("""<b>This is character-for-character a SMART-seq2 fragment</b> &mdash;
-            no tag, no UMI, no positional information. The page's self-test asserts it.
-            Which is exactly why the 11-bp tag has to exist: without it there is no way to
-            tell a 5' fragment from an internal one, and therefore no way to count
-            molecules.""")
             + "<h3>The three variants</h3>\n" + variants)
 
 
@@ -401,14 +359,8 @@ def sequencing() -> str:
               + sp.section(ss.smartseq3_library(), ss.SS3_SEQ_PRIMERS,
                            heading="Sequencing primers: SMART-seq3 5' fragments"))
     return ('<h2 id="seq-primers">Library sequencing</h2>\n'
-            + info("""Stock Nextera: all four primers are built from the same two pieces,
-            the <me>mosaic end</me> and an entry point. The tables below are computed from
-            the final libraries; a SMART-seq3 <i>internal</i> fragment is identical to a
-            SMART-seq2 fragment, and SMART-seq3xpress / FLASH-seq 5' fragments read the
-            same first bases as SMART-seq3 (their spacer follows the UMI). The self-test
-            verifies the primers on every one of them. Note Read&nbsp;1 on a SMART-seq3
-            5' fragment: the TSO supplied the last 8&nbsp;nt of the <me>ME</me>, so the
-            stock primer ends exactly where the <r1>tag</r1> begins.""")
+            + info("""All four reads use the stock Nextera sequencing primers. Primer
+            positions and the first bases read are shown below.""")
             + tables
             + "<h3>(1) Read 1 &mdash; bottom strand as template</h3>\n"
             + panel(p["R1"], cls="long")
@@ -418,8 +370,15 @@ def sequencing() -> str:
             + panel(p["I2"], cls="long")
             + "<h3>(4) Read 2 &mdash; top strand as template</h3>\n"
             + panel(p["R2"], cls="long")
-            + info("""The cell is identified by the <b>i5 + i7 pair</b>, read in steps 2 and
-            3 &mdash; one well, one index combination, one cell.""")
+            + info("""The i5 + i7 index pair identifies the source well.""")
+            + '<details class="sources"><summary>Sources and evidence</summary>'
+              '<ul><li><a href="https://doi.org/10.1038/nbt.2282">SMART-seq</a></li>'
+              '<li><a href="https://doi.org/10.1038/nmeth.2639">SMART-seq2</a></li>'
+              '<li><a href="https://doi.org/10.1038/s41587-020-0497-0">SMART-seq3</a></li>'
+              '<li><a href="https://doi.org/10.1038/s41587-022-01311-4">SMART-seq3xpress</a></li>'
+              '<li><a href="https://doi.org/10.1038/s41587-022-01312-3">FLASH-seq</a></li>'
+              '</ul>'
+              '</details>'
             + "</div>")
 
 
