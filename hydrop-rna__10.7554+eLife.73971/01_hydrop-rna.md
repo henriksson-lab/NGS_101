@@ -63,7 +63,7 @@ DTT is what dissolves them in the droplet is inferred from the chemistry).
 |---|---|---|
 | 1 | **Dissolvable** hydrogel beads (BAC cross-linker + disulfide-linked acrydite primer), barcoded by **3 × 96 split-pool primer extension** → 884,736 barcodes 🟢 | inDrop bead barcoding (Klein 2015; Zilionis 2017), acrydite hydrogel beads (Ren 2021 / Wang 2020) |
 | 2 | One unbarcoded bead → **RNA or ATAC** beads by choosing only the last barcoding plate 🟢 | — |
-| 3 | RNA side copied from Drop-seq: same 3' handle on the bead, same TSO, same single-primer cDNA PCR 🟡 *(computed, see §2)* | Drop-seq ([note](../drop-seq-seq-well__10.1016+j.cell.2015.05.002/01_drop-seq-seq-well.md)); [template switching](../ref/concepts/template-switching.md) |
+| 3 | RNA side copied from Drop-seq: same 3' handle on the bead, same TSO, same single-primer cDNA PCR 🟡 *(computed, see §2)* | Drop-seq ([note](../drop-seq__10.1016+j.cell.2015.05.002/01_drop-seq-seq-well.md)); [template switching](../ref/concepts/template-switching.md) |
 | 4 | Library made by **NEB Ultra II FS** (enzymatic fragmentation + dA-tail + NEB hairpin adapter) instead of Nextera, and the **cell barcode read as Read 2** with a custom primer; the sample index sits on **both** P5 and P7 🟢 | — |
 | 5 | **Exo I** after droplet breaking, to remove unused bead primers before the bulk PCR; **GTP + PEG** in the RT 🟢 | GTP/PEG from Smart-seq3 🟢 (paper); Exo I clean-up as in Drop-seq 🟡 |
 

@@ -18,7 +18,7 @@ Other papers in the catalogue rows for this method:
 
 - **Seq-Well** (the platform it modifies) — Gierahn TM et al., *Nat Methods* 2017;14:395–398,
   doi:10.1038/nmeth.4179. Written up in
-  [Drop-seq / Seq-Well](../drop-seq-seq-well__10.1016+j.cell.2015.05.002/01_drop-seq-seq-well.md).
+  [Seq-Well](../seq-well__10.1038+nmeth.4179/01_seq-well.md).
 - **Drop-seq** (same beads, same oligos) — Macosko EZ et al., *Cell* 2015, doi:10.1016/j.cell.2015.05.002.
 - nanoCAGE / CAGEscan — Plessy C et al., *Nat Methods* 2010, doi:10.1038/nmeth.1470; cited by
   the upstream page only for the term "semi-suppressive PCR" (single-primer WTA).
@@ -76,7 +76,7 @@ Builds on: [reverse transcription](../ref/concepts/reverse-transcription.md) fro
 bead-bound oligo-dT, [template switching](../ref/concepts/template-switching.md) (SMART
 handle), and [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) (Nextera XT) with
 3'-end selection by a custom P5 hybrid primer — all exactly as in
-[Seq-Well v1 / Drop-seq](../drop-seq-seq-well__10.1016+j.cell.2015.05.002/01_drop-seq-seq-well.md).
+[Seq-Well v1](../seq-well__10.1038+nmeth.4179/01_seq-well.md).
 
 ## 2. Oligos
 
@@ -172,7 +172,7 @@ Consequences:
 
 Seq-Well front end (arrays, membranes, lysis, hybridisation, bead recovery) is unchanged
 from Seq-Well v1: see steps 1–7 of the
-[Seq-Well note](../drop-seq-seq-well__10.1016+j.cell.2015.05.002/01_drop-seq-seq-well.md). This
+[Seq-Well note](../seq-well__10.1038+nmeth.4179/01_seq-well.md). This
 paper: 10,000–15,000 cells per array, preloaded with MACOSKO-2011-10 beads, sealed with a
 hydroxylated polycarbonate membrane (10 nm pores), lysis, hybridisation, bead removal. 🟢
 
