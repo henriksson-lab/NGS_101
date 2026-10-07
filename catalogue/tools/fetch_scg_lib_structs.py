@@ -693,19 +693,52 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
     for r in rows:
         if r["protocol"] not in matched_protocols and r["protocol"].casefold() in by_name:
             matched_protocols[r["protocol"]] = by_name[r["protocol"].casefold()]
-    used = {m["dir"] for m in matched_protocols.values()}
-    by_doi = {m["doi"]: m for m in mine if m["doi"] and m["dir"] not in used}
+    # An upstream aggregate page can contain several protocols that we document
+    # separately.  Its paper-anchor text names the individual method; when that name and
+    # DOI both agree with ours, join that paper row to the individual directory without
+    # assigning the whole aggregate to one member.
+    matched_rows = {}
+    for i, r in enumerate(rows):
+        m = by_name.get(r["citation_text"].casefold())
+        aggregate = (r["protocol"] + ";" + r["family_members"]).casefold()
+        if m is None:
+            candidates = [x for x in mine if x["doi"]
+                          and x["doi"].casefold() == r["doi"].casefold()
+                          and x["protocol"].casefold() in aggregate]
+            m = candidates[0] if len(candidates) == 1 else None
+        if (m and r["protocol"] not in matched_protocols
+                and m["protocol"].casefold() in
+                aggregate and m["doi"]
+                and m["doi"].casefold() == r["doi"].casefold()):
+            matched_rows[i] = m
+    used = ({m["dir"] for m in matched_protocols.values()}
+            | {m["dir"] for m in matched_rows.values()})
+    doi_mine = {}
+    for m in mine:
+        if m["doi"] and m["dir"] not in used:
+            doi_mine.setdefault(m["doi"], []).append(m)
+    # A DOI shared by two separately documented protocols is not enough to select one.
+    by_doi = {doi: ms[0] for doi, ms in doi_mine.items() if len(ms) == 1}
     primary_count = {p: sum(x["role"] == "primary" for x in rows if x["protocol"] == p)
                      for p in {x["protocol"] for x in rows}}
+    for r in rows:
+        if r["protocol"] in matched_protocols or primary_count[r["protocol"]] != 1 \
+                or r["is_defining"] != "yes":
+            continue
+        head = re.split(r"\s*/\s*", r["protocol"], maxsplit=1)[0].casefold()
+        m = by_name.get(head)
+        if m and m["doi"].casefold() == r["doi"].casefold():
+            matched_protocols[r["protocol"]] = m
     for r in rows:
         if (r["protocol"] not in matched_protocols and r["is_defining"] == "yes"
                 and primary_count[r["protocol"]] == 1 and r["doi"] in by_doi):
             matched_protocols[r["protocol"]] = by_doi[r["doi"]]
-    for r in rows:
-        m = matched_protocols.get(r["protocol"])
+    for i, r in enumerate(rows):
+        m = matched_rows.get(i) or matched_protocols.get(r["protocol"])
         r["our_dir"] = m["dir"] if m else ""
         r["our_status"] = m["status"] if m else ""
-    hit = {m["dir"] for m in matched_protocols.values()}
+    hit = ({m["dir"] for m in matched_protocols.values()}
+           | {m["dir"] for m in matched_rows.values()})
     for m in mine:
         if m["dir"] in hit:
             continue

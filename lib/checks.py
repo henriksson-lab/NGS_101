@@ -1,8 +1,9 @@
 """
 Shared self-test harness, plus the checks that hold for every protocol.
 
-Each protocol's selftest.py calls `run_common()` and then adds its own checks through
-the same `Check` recorder, so one runner prints one report.
+`run_common()` is retained for older protocol suites. New protocol suites keep only
+source-boundary behavior that cannot be enforced by the model; shared primitives are
+checked once by the repository-level suite.
 
 The point of these is regression, not discovery: every identity below was verified once
 by hand, and is encoded here so that an edit to a shared sequence cannot silently break

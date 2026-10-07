@@ -64,6 +64,8 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans);
 
 h1 { font-size:clamp(1.5rem,1.1rem + 1.6vw,2.1rem); font-weight:600; line-height:1.2;
      text-wrap:balance; margin:0 0 .2em; letter-spacing:-0.01em; }
+.research-notes { margin:0 0 .7em; font-size:.86rem; }
+.research-notes a { color:var(--ink-muted); }
 h2 { font-size:1.3rem; font-weight:600; text-wrap:balance; margin:2.2em 0 .2em;
      padding-bottom:.3em; border-bottom:2px solid var(--rule); }
 h3 { font-size:1rem; font-weight:600; text-wrap:balance; margin:2em 0 .3em;

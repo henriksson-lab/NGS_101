@@ -4,9 +4,13 @@ Base-by-base documentation of sequencing library chemistries — what the DNA co
 actually looks like at every step of a protocol, drawn in the idiom of the Teichmann lab's
 [scg_lib_structs](https://teichlab.github.io/scg_lib_structs/) pages.
 
+Project-level presentation and modelling choices are recorded in [DESIGN.md](DESIGN.md)
+so they can be reviewed independently of the implementation.
+
 Each protocol gets a set of reference notes and one generated HTML page. The sequences and
-diagrams are **generated from a segment table, not hand-written**, and a self-test pins
-every verified fact so a later edit cannot quietly break it.
+diagrams are **generated from a segment table, not hand-written**. Intended invariants are
+enforced by the functions that construct and render the model; tests cover only properties
+that cannot be made true by construction.
 
 ## Why it is built this way
 
@@ -17,8 +21,8 @@ caught this way during the first protocol — a primer line double-counting an o
 between two adjacent sequences, an adapter strand written 5'→3' where it should have been
 3'→5', a junction base on the wrong strand.
 
-So: define the construct once, derive every diagram from it, and assert the things you
-checked by hand.
+So: define the construct once, derive every diagram from it, and make invalid structures
+unrepresentable in the construction API.
 
 **No hand-typed columns.** Any panel with more than one strand is a `chemdraw.Scene`: each
 strand is given 5'→3' as ordered, and placed by naming which of its segments pairs with
@@ -193,9 +197,11 @@ python3 -m http.server -d _site    # preview at http://localhost:8000/
 `build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
 `build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
 diagram pages, a `.nojekyll`, and the few files of ours those pages deliberately link to.
-Reference notes and work in progress remain in the repository but are not public site
-navigation or search content. It never copies third-party material -- nothing from `_data/`, `pdf/`, the
-catalogue's download cache, archived exemplars such as `ref/SPLiT-seq.html`, any `ref/`
+The main research note for a finished schematic is available through a quiet link on that
+schematic page. Other reference notes and work in progress remain in the repository and are
+not public site navigation or search content. It never copies third-party material --
+nothing from `_data/`, `pdf/`, the catalogue's download cache, archived exemplars such as
+`ref/SPLiT-seq.html`, any `ref/`
 data file, or a file type `.gitignore` treats as source material -- and the working debug
 logs in `to_debug/` are not published either (a link to them becomes plain text). It then
 checks that every relative link and anchor in `_site/` resolves, and fails if one does not.
@@ -239,8 +245,9 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
 3. Write `<name>/tools/<name>.py` defining the construct as a list of `Segment`s. Import
    canonical sequences from `illumina` rather than retyping them — that is the single
    biggest source of avoidable error, and it means a correction propagates everywhere.
-4. Write `<name>/tools/selftest.py`: call `run_common(check)` from `lib.checks`, then add
-   the checks specific to the chemistry. **Encode every identity you verified by hand.**
+4. Put chemistry invariants in the model and rendering functions used by the page. Add a
+   self-test only for source transcription or behavior that cannot be enforced by those
+   functions; do not restate model constants as checks.
 5. Write `<name>/tools/build_page.py` to emit the page from the construct.
 
 Each script starts with the same three-line bootstrap:

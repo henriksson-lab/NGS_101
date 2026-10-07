@@ -13,9 +13,10 @@ Steps:
    -- the index does not link it, and a short stand-in page explains why, so that a link
    to it from another page still lands somewhere.
 2. Run `build_docs.py` (maintainer-facing rendered notes) and `build_index.py`.
-3. Assemble `_site/` from a whitelist: index.html, the diagram pages that built, and the
-   files those pages link to -- provided they are ours. Notes therefore appear only when
-   a schematic deliberately links them as supporting material. Never third-party material:
+3. Assemble `_site/` from a whitelist: index.html, the diagram pages that built, each
+   diagram's main research note, and files those pages link to -- provided they are ours.
+   Notes therefore appear only as supporting material reached from a finished schematic.
+   Never third-party material:
    nothing from `_data/`, `pdf/`, download
    caches, archived exemplars (`ref/*.html` with no Markdown twin), or any `ref/`
    directory's data files, and no file of a type `.gitignore` treats as source material.
@@ -152,6 +153,21 @@ def resolve(page: str, path: str) -> str:
     return posixpath.normpath(posixpath.join(posixpath.dirname(page), path))
 
 
+H1_END = re.compile(r"(</h1>)", re.I)
+
+
+def link_research_note(page: str, note: Path) -> str:
+    """Add one quiet route from a schematic to its protocol's main research note."""
+    if 'class="research-notes"' in page:
+        return page
+    link = (f'\n<p class="research-notes"><a href="{html.escape(note.with_suffix(".html").name)}">'
+            'Research notes</a></p>')
+    linked, n = H1_END.subn(r"\1" + link, page, count=1)
+    if n != 1:
+        raise ValueError(f"cannot add research-note link: schematic has {n} closing h1 tags")
+    return linked
+
+
 def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     if SITE.exists():
         shutil.rmtree(SITE)
@@ -170,7 +186,14 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
         if out is None:
             continue
         if ok and out.exists():
-            files[rel(out)] = out
+            page = out.read_text(encoding="utf-8")
+            notes = sorted((ROOT / d).glob("0*.md"))
+            if notes:
+                note = notes[0]
+                note_html = note.with_suffix(".html")
+                files[rel(note_html)] = note_html
+                page = link_research_note(page, note)
+            files[rel(out)] = page
         else:
             skipped.append(d)
             files[rel(out)] = placeholder(d, out, why or "build failed")

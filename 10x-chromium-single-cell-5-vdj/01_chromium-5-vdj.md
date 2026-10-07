@@ -2,10 +2,8 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`). Claims taken only from
-> the upstream scg_lib_structs page are 🟡 (secondary source), even where they quote
-> sequences.
+> writing this note. Claims taken only from the upstream scg_lib_structs page are 🟡
+> (secondary source), even where they quote sequences.
 
 **Chromium Single Cell 5' Immune Profiling (V(D)J)** — a commercial kit from 10x
 Genomics. There is **no defining publication** (the catalogue row says "vendor/kit
@@ -16,6 +14,9 @@ protocol"); the primary source is the vendor user guide:
   PN-1000263/1000265, Gel Bead Kit v2 PN-1000264/1000267, Library Construction Kit
   PN-1000190, Human/Mouse TCR/BCR Amplification Kits PN-1000252…1000255, Chip K,
   Dual Index Kit TT Set A PN-1000215. 🟢
+- 10x Genomics, *Chromium GEM-X Single Cell 5' Reagent Kits v3 with Cell Surface
+  Protein User Guide*, CG000734, Rev A. This guide prints the 12-nt-UMI gel-bead primer,
+  complete V(D)J library, v2-labelled enrichment-kit identities, and run layout. 🟢
 - Upstream drawing: Teichlab scg_lib_structs, "10x Chromium 5' Immune Profiling Feature
   Barcoding" (based on the v2 Feature Barcoding user guide, Rev A, which upstream names
   but which was **not** fetched here).
@@ -25,9 +26,10 @@ committed):
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_10xChromium5vdjfb.html.txt` | scg_lib_structs method page (fetched by `tools/get_sources.py`) | second account of oligos, steps, all three libraries (GEX, Feature, V(D)J), read layout; the **only** source for Feature Barcode and v3 |
+| `upstream_10xChromium5vdjfb.html.txt` | scg_lib_structs method page (fetched by `tools/get_sources.py`) | second account of oligos, steps, all three libraries (GEX, Feature, V(D)J), read layout |
 | `CG000331_5v2_UserGuide_RevF.pdf(.txt)` | 10x user guide CG000331 Rev F (fetched by hand, see below) | **all oligos** (Appendix "Oligonucleotide Sequences"), every reaction step and condition, sequencing |
 | `CG000331_5v2_UserGuide_RevE.pdf(.txt)` | the same guide, Rev E | cross-check: the set of sequences ≥12 nt is identical to Rev F |
+| `scg_CG000734_ChromiumGEM-X_SingleCell5_ReagentKitsv3_CellSurfaceProtein_UserGuide_RevA.pdf(.txt)` | 10x GEM-X v3 user guide CG000734 Rev A | v3 gel-bead primer, complete V(D)J library, amplification-kit identities and sequencing |
 
 The two PDFs were not found by `get_sources.py` (no DOI); they were downloaded by hand
 from public mirrors at the NCI CRTP site
@@ -39,7 +41,6 @@ Not fetched (get by hand into the same directory):
 | Document | Why it matters | URL |
 |---|---|---|
 | CG000330, 5' v2 Dual Index **with Feature Barcode** (cell surface protein + immune receptor), the guide upstream drew from | Feature Barcode oligo, "Feature cDNA Primers 4", Dual Index Kit TN Set A, feature library steps — all 🟡 here | https://support.10xgenomics.com/permalink/user-guide-chromium-single-cell-5-reagent-kits-user-guide-v2-chemistry-dual-index-with-feature-barcoding-technology-for-cell-surface-protein-and-immune-receptor-mapping |
-| GEM-X Universal 5' v3 user guide | the 12-nt UMI and new barcode whitelist claimed by upstream | https://www.10xgenomics.com/support/universal-five-prime-gene-expression |
 | Dual Index Kit TT Set A index table | the 10-nt i5/i7 sequences and their written orientation | 10x support site, "Dual Index Kit TT Set A" sample-index CSV |
 
 ---
@@ -184,7 +185,7 @@ Dual Index Kit TN Set A  PN-3000510
 
 ### How the oligos interlock — 🟡 (computed)
 
-- **Gel Bead Primer** (61 nt with v2's 10-nt UMI; 63 nt with v3's 12-nt UMI per upstream)
+- **Gel Bead Primer** (61 nt with v2's 10-nt UMI; 63 nt with v3's 12-nt UMI)
   = `illumina.TRUSEQ_READ1[11:]` (the last 22 nt of TruSeq Read 1 — "partial Read 1") +
   N16 + N10 + the 13-nt TSO `TTTCTTATATGGG` (last three bases ribo).
 - **Poly-dT RT Primer** (57 nt) = **`rt.SMART_HANDLE`** (23 nt, `…CGCAGAGT`) + `AC` +
@@ -268,7 +269,7 @@ amplicon and reads back toward the 5' end — collectively tiling C → J → D 
 
 ## 4. Final library structures — 🟡 (assembled from the guide's appendix)
 
-**V(D)J (TCR or BCR)** — the guide's appendix writes exactly this:
+**V(D)J (TCR or BCR)** — the v2 and v3 guides' appendices write this layout:
 
 ```
 5'- P5 · i5(10) · TruSeq Read 1 (33) · BC(16) · UMI(10) · TSO TTTCTTATATGGG (13) · <5'UTR-V-D-J-C fragment> · A · adaptor top (A + adaptor top = revcomp of TruSeq Read 2) · i7(10) · P7' -3'
@@ -289,8 +290,9 @@ amplicon (guide steps 5.1–5.5, index PCR cycles by cDNA input). 🟢 structure
 
 ## 5. Sequencing
 
-🟢 Paired end, dual index: **Read 1 26 cycles** (16 BC + 10 UMI), **i7 10**, **i5 10**,
-**Read 2 90 cycles**. Depth ≥5,000 read pairs per cell for V(D)J, ≥20,000 for GEX.
+🟢 Paired end, dual index: v2 **Read 1 26 cycles** (16 BC + 10 UMI), v3 **Read 1
+28 cycles** (16 BC + 12 UMI), **i7 10**, **i5 10**, **Read 2 90 cycles**. Depth
+≥5,000 read pairs per cell for V(D)J, ≥20,000 for GEX.
 Primers 🟡 (computed): Read 1 = `illumina.TRUSEQ_READ1`; i7 read = `illumina.INDEX1_PRIMER`
 (= adaptor top strand); i5 read primed by `illumina.INDEX2_PRIMER_RC` (= revcomp of `TRUSEQ_READ1`, upstream's "Truseq i5 index sequencing primer", on the regenerated top strand); Read 2 =
 `illumina.TRUSEQ_READ2`. Feature library: i7 read with `nextera.INDEX1_PRIMER`, Read 2 with
@@ -311,7 +313,7 @@ full-length contigs are assembled computationally (Cell Ranger `vdj`). 🟡
 | Dual Index Kit TT Set A part number | PN-3000431 | PN-1000215 (kit) | **disagree** on PN (probably plate vs kit number 🟡); primer sequences identical |
 | Adaptor part number | PN-220026 | PN-2000094 (DNA Ligase is 220110/220131) | **disagree** on PN; sequence identical |
 | Index kit for the protein library | TN Set A, PN-3000510 | not in this guide | upstream only 🟡 |
-| UMI length | 10 nt v1/v2, 12 nt v3; Read 1 26 / 28 cycles | 10 nt, Read 1 26 cycles (v2 only) | agree for v2; v3 unverified |
+| UMI length | 10 nt v1/v2, 12 nt v3; Read 1 26 / 28 cycles | 10 nt / 26 cycles in CG000331; 12 nt / 28 cycles in CG000734 | agree |
 | Sequencing | R2 90, i7 10, i5 10 | same | agree |
 | Fragmentation | "fragment and A-tailing" | 32 °C 2 min (V(D)J) vs 5 min (GEX), then 65 °C 30 min | guide adds detail |
 
@@ -325,7 +327,6 @@ full-length contigs are assembled computationally (Cell Ranger `vdj`). 🟡
 - 🔴 The 10-nt i5/i7 sequences of Dual Index Kit TT Set A, and whether they are written
   as read or as reverse complement in the primers.
 - 🟡 Feature Barcode oligo, primers and TN index kit — upstream only; fetch CG000330.
-- 🟡 v3 (GEM-X) 12-nt UMI and 28-cycle Read 1 — upstream only.
 - 🟡 What the "13 nt TSO" of the guide is chemically: the appendix writes the 3' three
   bases as ribo-G (`rGrGrG`) and the rest as DNA; whether any LNA is used is not stated.
 

@@ -20,7 +20,7 @@ ROOT = HERE.parent
 sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT))
 
-from checks import Check  # noqa: E402
+from checks import Check, run_common  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 
 def _raise_fact():
@@ -34,6 +34,7 @@ def _raise_fact():
 
 
 check = Check()
+run_common(check)
 
 
 def r(md: str) -> str:

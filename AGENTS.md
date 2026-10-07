@@ -8,13 +8,16 @@ authoritative, detailed description; this file is the condensed working guide fo
 agents of any kind (Claude Code, Codex, Cursor, Gemini, ...). `CLAUDE.md` only imports it,
 so edit this file, not that one.
 
+Project policy and its rationale live in `DESIGN.md`. Read it before changing site
+presentation, protocol boundaries, evidence display, or model/test responsibilities.
+
 ## Commands
 
 Pure Python 3 standard library — **no third-party dependencies, don't add any** (that is
 why `lib/mdrender.py` is a home-grown Markdown renderer). R is used only in `gcbias/R/`.
 
 ```sh
-# self-tests: run first and after any edit (each suite = shared checks + its own)
+# self-tests: shared primitives once, then only protocol suites affected by an edit
 for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
 python3 small-seq__10.1038+nbt.3701/tools/selftest.py   # a single protocol's suite
 python3 tools/selftest.py          # Markdown renderer, computed facts, docs build
@@ -77,7 +80,7 @@ finds oligos, not reaction order: the methods still have to be **read**.
   helpers (`rt.py`, `padlock.py`, `crispr.py`, `plasmid.py`), `seqprimers.py` (locates
   Read 1/2 + index primers on a library by computation), `mdfacts.py` + `mdrender.py`
   (Markdown with computed facts), `page.py` (shared HTML/CSS), `checks.py` (harness +
-  `run_common`, checks true for every protocol).
+  `run_common`, retained for legacy suites; new protocol suites do not repeat it).
 - **`<protocol>__<doi with / → +>/`** — one directory per protocol, named for its defining
   paper. `catalogue/ours.tsv` is the single record mapping protocol → directory, and the
   catalogue self-test rebuilds directory names from it (so renames must go through it).
@@ -90,8 +93,9 @@ finds oligos, not reaction order: the methods still have to be **read**.
   its own lib, download scripts, tools and R plots; protocol pages never depend on it.
   Workflow is in `gcbias/README.md`.
 - **Website** — `build_site.py` builds every page but publishes only the front page,
-  finished schematic pages, and files those pages deliberately link to. Reference notes,
-  evidence logs, catalogue internals and work in progress stay out of public navigation
+  finished schematic pages, their main research note (linked quietly from the schematic),
+  and files those pages deliberately link to. Other reference notes, evidence logs,
+  catalogue internals and work in progress stay out of public navigation
   and search; never publish `_data/`, `pdf/`, caches, `ref/` data files or `to_debug/`.
   Broken relative links fail the build. A diagram page whose build needs a missing source
   is omitted (a stand-in page explains why). `index.html` is a searchable list of the
@@ -114,13 +118,16 @@ finds oligos, not reaction order: the methods still have to be **read**.
 - **Sequencing primers are declared** by reference (`seqprimers`), and `sp.section()`
   derives where they bind; a declared primer without a site fails the build unless the
   protocol says why.
-- **Encode every hand-verified identity as a check** in the protocol's selftest.
+- **Put invariants in construction functions, not tests.** Derive complements and adapter
+  assemblies, use `Scene` to reject invalid pairing, and let sequencing-page generation
+  fail when primers do not land. Tests are for source transcription or behavior that the
+  model cannot enforce; do not restate constants or prose as checks.
 - **Drawing convention:** the bottom strand is the plain complement (not revcomp),
   written left to right as `3'-…-5'`. Placeholders (barcodes, linkers, inserts) are never
   complemented as bases — that is a property of the `Segment`; their complements render
   lowercase.
-- **Uncertainty is a switch, not prose:** make an uncertain length/structure a module
-  constant (e.g. `D_ARM_INCLUDES_CCGATCT`) and add a check of what flipping it changes.
+- **Uncertainty is a constructor property, not prose:** uncertain helpers must create
+  inferred segments by default, so callers cannot accidentally render them as established.
 - **Evidence marking** in notes: 🟢 verbatim from source · 🟡 derived/inferred · 🔴 not
   published. On pages, inferred regions need all three: a preamble caveat, an
   `INFERRED — …` step caption, and `<inf>` around the bases.

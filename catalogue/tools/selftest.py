@@ -104,7 +104,8 @@ check("each SMART-seq protocol is named for its own defining paper",
 JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
          "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
-         "10.1038/nbt.2282"}             # upstream aggregate plus our split SMART-seq entry
+         "10.1038/nbt.2282",             # upstream aggregate plus our split SMART-seq entry
+         "10.1186/gb-2013-14-4-r31"}     # upstream aggregate plus our split Quartz-Seq entry
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
     if r["doi"]:

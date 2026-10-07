@@ -133,8 +133,12 @@ def locate(lib: Construct, p: SeqPrimer, n: int = 12) -> Landing | None:
     return Landing(strand, a, b, _covers(lib, a, b), reads, frm, free5)
 
 
-def verify(lib: Construct, primers) -> list[str]:
-    """Problems with a declared primer list (empty = all good)."""
+def verify(lib: Construct, primers, required_roles=ROLES) -> list[str]:
+    """Problems with declared primer sites and required run roles (empty = all good).
+
+    `required_roles` describes the actual run. Single-end or single-index methods pass
+    only the roles they use instead of inventing primers for absent reads.
+    """
     errs = []
     for p in primers:
         hit = locate(lib, p)
@@ -143,16 +147,16 @@ def verify(lib: Construct, primers) -> list[str]:
         if hit is not None and p.expect_mismatch:
             errs.append(f"{p.role} / {p.name}: declared mismatching but matches exactly")
     roles = {p.role for p in primers}
-    missing = [r for r in ROLES if r not in roles]
+    missing = [r for r in required_roles if r not in roles]
     if missing:
         errs.append(f"no primer declared for {', '.join(missing)}")
     return errs
 
 
 def section(lib: Construct, primers, heading: str = "Sequencing primers",
-            intro: str = "") -> str:
+            intro: str = "", required_roles=ROLES) -> str:
     """Render the page section. Raises if `verify` finds anything."""
-    errs = verify(lib, primers)
+    errs = verify(lib, primers, required_roles=required_roles)
     if errs:
         raise ValueError("sequencing primers: " + "; ".join(errs))
     order = {r: i for i, r in enumerate(ROLES)}

@@ -13,7 +13,7 @@ import atrandi as A
 import illumina as il
 import seqprimers as sp
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments, oligo,
-                      panel, revcomp, strand_row, tm)
+                      panel, strand_row)
 from page import head
 
 OUT = HERE.parent / "atrandi_wgs.html"
@@ -50,43 +50,17 @@ def preamble() -> str:
     return f"""<div class="wrap">
 <h1>Atrandi semi-permeable capsules + PTA &mdash; single-microbe whole-genome sequencing</h1>
 
-<p><info>This page documents the molecular structure of the single-cell microbial WGS libraries
-produced by the protocol in <a href="https://doi.org/10.1101/2025.06.20.660799">Gourl&eacute; et al.,
-"Scalable single-cell metagenomic analysis with Bascet and Zorn", bioRxiv 2025.06.20.660799</a>.
-The workflow is built on the <b>Atrandi Biosciences Single-Microbe DNA Barcoding Kit</b>
-(P/N CKP-BARK1) and its <i>Library Prep for Sequencing</i> guide, with two deliberate changes:
-whole-genome amplification is <b>PTA</b> (BioSkryb ResolveDNA, #100954) rather than the kit's MDA,
-and the <b>debranching step is therefore omitted</b>.</info></p>
-
-<p><info>Cells are encapsulated in <b>semi-permeable capsules</b> (SPCs) &mdash; a picolitre aqueous
-core inside a hydrogel shell that lets enzymes, detergents and salts diffuse freely while retaining
-genomic DNA. That is what makes harsh lysis, repeated buffer exchange and four rounds of split-pool
-ligation possible without ever isolating a single cell. Four barcode rounds of 24 variants each give
-24<sup>4</sup> = <b>331,776</b> combinations.</info></p>
-
-<div class="legend">
-<b>How to read this page.</b> Colour says what a region <i>is</i>; a
-<inf>dotted underline</inf> says how well it is <i>known</i>. Dotted regions are
-<b>inferred</b>, not documented, and each inferred step carries a caption saying what the inference
-rests on. Barcodes and linkers are drawn as placeholders
-(<cbc>AAAAAAAA</cbc>&hellip;<cbc>DDDDDDDD</cbc>, <r2>LLLL</r2>) because the real sequences do not
-affect the architecture.
-</div>
+<p><info>Protocol: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourl&eacute; et al.</a>, using
+the Atrandi Single-Microbe DNA Barcoding Kit with PTA amplification and no debranching step.</info></p>
 
 <div class="caveat">
-<b>What is <i>not</i> documented anywhere.</b> Atrandi publish the sequences of their ligation
-adapter and indexing primers, but <b>not the barcode cassette</b> &mdash; no strand design, no
-overhangs, no linker sequences. Since the ligation adapter demonstrably installs only the
-Read&nbsp;1 / P5 side (step 8), the Read&nbsp;2 / P7 arm <i>must</i> come from the barcode cassette,
-and steps 4&ndash;5 below are a <b>model</b> consistent with everything we can check &mdash; not
-published chemistry. The two sequences it predicts are marked.
+<b>Inferred structure.</b> Atrandi does not publish the barcode-cassette strands, linkers or
+Read&nbsp;2 arm. Dotted regions and steps labelled <b>INFERRED</b> show the minimal model used here.
 </div>
 """
 
 
 def oligos() -> str:
-    tmp5 = tm(A.ATRANDI_P5_ANNEAL)
-    tmp7 = tm(A.ATRANDI_I7_ANNEAL)
     rows = [
         oligo("Exo-resistant random primer (PTA)",
               [seg("", "NpNpNpNpsNpsN", "tso", placeholder=True)],
@@ -109,28 +83,11 @@ def oligos() -> str:
 <seq>
 {chr(10).join(rows)}
 </seq>
-<p><info>The <code>*</code> in Atrandi's published primers is a 3'-terminal phosphorothioate,
-protecting against Q5's proofreading exonuclease. Note both PCR primers are <b>truncated</b>
-relative to canonical Illumina: the P5 primer's 3' annealing portion is exactly
-{len(A.ATRANDI_P5_ANNEAL)}&nbsp;nt, the same length as the ligation adapter's single-stranded arm,
-with zero slack. That sizing is what sets the 54&nbsp;&deg;C annealing temperature
-(T<sub>m</sub> {tmp5:.1f}&nbsp;&deg;C for P5 vs {tmp7:.1f}&nbsp;&deg;C for i7) &mdash; and why NEB's
-own primers cannot be substituted. The sequencing primers, and where each lands on this
-library, are under <a href="#seqprimers">Sequencing primers</a>.</info></p>
 
-<h3>Our indexing primers</h3>
+<h3>Indexing primers</h3>
 <seq>
 {chr(10).join(our_rows)}
 </seq>
-<p><info>What we actually order, for both the MDA/PTA scWGS and the
-<a href="../florian-pta-rnaseq/florian-PTA-rnaseq.html">florian-PTA-rnaseq</a> libraries
-(<code>ref/our_index_primers.tsv</code>). Atrandi's design kept verbatim except the i7 index:
-the 6-nt <code>{A.ATRANDI_I7_INDEX}</code> becomes a {A.OUR_I7_INDEX_LEN}-nt IDT UDP i7, carried as
-the reverse complement, so the Index&nbsp;1 read and the sample sheet give
-{", ".join(f"{k} <code>{revcomp(v)}</code>" for k, v in A.OUR_I7_INDEX.items())}.
-The P5 primer is identical to Atrandi's and has <b>no i5 index</b>: an Index&nbsp;2 read runs
-into P5 itself and reports the same bases for every sample (see
-<a href="#seqprimers">Sequencing primers</a>).</info></p>
 """
 
 
@@ -162,31 +119,6 @@ def step_pta() -> str:
 2.5&nbsp;h &rarr; 65&nbsp;&deg;C 5&nbsp;min)</h3>
 {p1}
 {p2}
-<p><info><b>5' end</b> &mdash; the exo-resistant random primer, <tso>5'-NpNpNpNpsNpsN-3'</tso>: six
-random bases whose last two internucleotide linkages are phosphorothioate (Dean <i>et al.</i> 2002;
-6&ndash;9mer in the commercial kit). Synthetic oligos carry a <b>5'-hydroxyl</b>, so these ends are
-<b>not ligatable until kinased</b> &mdash; which is why end-prep cannot be skipped.</info></p>
-<p><info><b>3' end</b> &mdash; an <w1>alpha-thio-dideoxynucleotide</w1>, i.e. a
-2',3'-dideoxyribonucleoside 5'-O-(1-thiotriphosphate). Two separate features at two different atoms,
-and both are needed: the <b>2',3'-dideoxy sugar</b> blocks extension, and the <b>alpha-thio group</b>
-makes the new linkage a phosphorothioate that resists phi29's 3'&rarr;5' proofreading exonuclease.
-With plain ddNTPs the polymerase simply removes them and repriming generates chimeras &mdash; mapping
-rates were 15.0&nbsp;&plusmn;&nbsp;2&nbsp;%; with the alpha-thio group, 97.9&nbsp;&plusmn;&nbsp;0.6&nbsp;%
-(<a href="https://doi.org/10.1073/pnas.2024176118">Gonzalez-Pena <i>et al.</i> 2021</a>).</info></p>
-<div class="caveat">
-<b>No debranching step.</b> Terminating extension after ~250&ndash;2000&nbsp;bp means PTA never
-builds MDA's hyperbranched network, so the Atrandi kit's debranching enzyme (37&nbsp;&deg;C, 1&nbsp;h)
-is dropped. <a href="https://doi.org/10.1101/2025.09.10.675331">Negreira <i>et al.</i> 2025</a>,
-running PTA in the same Atrandi SPC workflow, state it directly: the PTA samples
-<i>"did not require debranching and were directly submitted to barcoding instead."</i>
-End-prep is still required.
-<br><br>
-<b>Amplicon size vs capsule retention.</b> PTA products centre near 1.3&nbsp;kb in human cells and
-<b>~900&nbsp;bp in bacteria</b>, against an SPC retention cutoff of &gt;500&nbsp;bp.
-<a href="https://doi.org/10.1101/2025.03.14.643253">Mullaney <i>et al.</i> 2025</a> observed
-150&ndash;1500&nbsp;bp amplified DNA leaking into the supernatant during a 30&nbsp;&deg;C PTA
-reaction, and entering empty capsules. This is the central unquantified risk of PTA-in-capsules.
-</div>
 """
 
 
@@ -213,17 +145,6 @@ def step_endprep() -> str:
 {panel(dead, caption="Ends terminating in the alpha-thio-dideoxynucleotide are not: no 3'-OH to "
                      "extend, and the phosphorothioate linkage resists the exonuclease that would "
                      "otherwise trim it back.")}
-<div class="caveat">
-<b>An open question, shown rather than smoothed over.</b> The PTA patents list "removing the
-terminator" as a workflow step (US11643682B2 Fig.&nbsp;1D; WO2019148119A1 claim&nbsp;80) but
-<b>name no enzyme</b> &mdash; and the same specification states elsewhere that irreversible
-terminators are <i>"not capable of substantial removal by an exonuclease"</i>. The PNAS paper drops
-the clause entirely and says amplicons <i>"undergo direct ligation of adapters"</i>.
-<br><br>
-<i>Most likely resolution (inferred):</i> barcoding happens at the ends that <b>do</b> carry a normal
-3'-OH &mdash; from polymerase dissociation before terminator incorporation, from nicks, and from
-fill-in at recessed ends. Each ~1&nbsp;kb amplicon has two ends and only needs one.
-</div>
 """
 
 
@@ -287,18 +208,7 @@ def step_barcode_bcd() -> str:
                "round would concatemerise; the placeholder letters do not show that.")}
 {panel(done, cls="small", caption="After all four rounds.")}
 <p><info>Ligation order is <b>A &rarr; B &rarr; C &rarr; D</b>, so D ends up outermost and is read
-<b>first</b> in Read&nbsp;2. The round-D cassette must also carry the <t7>Read&nbsp;2 / P7 arm</t7>,
-because &mdash; as step&nbsp;8 shows &mdash; the ligation adapter does not. That end must be
-ligation-dead, or it would pick up a Read&nbsp;1 arm during library prep and the molecule would
-carry P5 at both ends.</info></p>
-<div class="caveat">
-<b>The model reproduces an independent fact.</b> "Four 8-nt barcodes, three 4-nt cohesive junctions,
-one TA ligation base" predicts a Read&nbsp;2 layout of <b>8+4+8+4+8+4+8+1</b>, with barcodes anchored
-at offsets <b>0, 12, 24, 36</b> and <b>45&nbsp;nt</b> trimmed. Those are exactly the constants
-hard-coded in <a href="https://github.com/henriksson-lab/bascet">Bascet</a>, derived independently
-from sequencing data. This page's diagrams are generated from the segment table, and a self-test
-asserts the agreement.
-</div>
+<b>first</b> in Read&nbsp;2.</info></p>
 """
 
 
@@ -334,25 +244,9 @@ def step_adapter() -> str:
 {panel(ad, cls="small",
        caption="The Atrandi ligation adapter. This is NOT a forked/Y adapter: the 13-nt bottom "
                "strand pairs over all 12 of its 5'-proximal bases, leaving one arm, not two.")}
-<p><info>Verified base-by-base: <code>revcomp({A.LIGADAPT_BOT[:-1]}) = {A.LIGADAPT_STEM}</code>, so the stem is
-exactly {len(A.LIGADAPT_STEM)}&nbsp;bp; <code>revcomp({A.LIGADAPT_ARM})</code> is the <b>first {len(A.LIGADAPT_ARM)}&nbsp;nt of the
-TruSeq Read&nbsp;1 primer</b>; and the bottom strand is the <b>last {len(A.LIGADAPT_BOT)}&nbsp;nt</b> of that same
-primer. After ligation the strand reads <code>{A.TRIM_SEEN_IN_R2}</code> &mdash;
-character for character, Illumina's canonical Read&nbsp;2 adapter-trimming sequence, the leading A
-being the dA tail.</info></p>
-<p><info>The <code>/5AmMC6/</code> amino block sits at the fork point and makes that 5' end
-permanently ligation-incompetent. Unlike a bare 5'-OH it cannot be rescued by the kinase activity
-carried over from the FS end-repair mix, so adapter&ndash;adapter dimers cannot form.</info></p>
 {panel([strand_row(both, "top"), strand_row(both, "bottom")], cls="small",
        caption="A fragment that received the adapter but NO barcode: the same Read-1 / P5 site at "
                "both ends.")}
-<div class="caveat">
-<b>Why only barcoded molecules amplify.</b> The adapter installs <b>only</b> the Read&nbsp;1 / P5
-side, at every end. A fragment lacking the barcode cassette therefore has a P5 landing site at both
-ends; after one P5 extension its new 3' end is <code>A{A.LIGADAPT_STEM}</code>, for which no primer
-exists, so it amplifies <b>linearly</b>. Only molecules carrying the barcode cassette &mdash; and
-hence the i7 landing site &mdash; go exponential. This is a suppression PCR.
-</div>
 """
 
 
@@ -381,30 +275,17 @@ def step_pcr() -> str:
                "zero slack -- its 25-nt P5 tail hangs off the end. The i7 primer lands on the "
                "bottom strand's copy of the Read-2 arm supplied by the round-D cassette, its P7 "
                "and index tail unpaired. Each tail is copied in on the next cycle.")}
-<p><info>Both primers are truncated to match their landing sites exactly, which is why
-Atrandi's own primers are required and NEB's cannot be substituted: a full-length Illumina P5 primer
-would have 13 unpaired 3' bases here and could not prime at all. The 20-nt P5 arm also sets the
-annealing temperature &mdash; T<sub>m</sub> {tm(A.ATRANDI_P5_ANNEAL):.1f}&nbsp;&deg;C, hence
-54&nbsp;&deg;C rather than NEB's 65&nbsp;&deg;C.</info></p>
 """
 
 
 def step_final() -> str:
     rows = [strand_row(lib, "top"), strand_row(lib, "bottom")] + annotation_rows(lib, prefix_width=PRE)
     return f"""<h3>(10) Final library structure</h3>
-{panel(rows)}
+{panel(rows, caption="INFERRED -- the barcode cassette and Read-2 arm are not published; dotted "
+                     "segments show the modelled portions.")}
 <p><info>Total {len(lib) - len(lib.get("insert"))}&nbsp;bp excluding the insert. There is <b>no UMI</b> in this chemistry, and
 the i5 position carries no index &mdash; Atrandi's P5 primer is the plain universal primer, so i5 is
 optional.</info></p>
-<div class="caveat">
-<b>One inferred length.</b> The round-D Read&nbsp;2 arm is drawn as
-{len(A.ATRANDI_I7_ANNEAL)}&nbsp;nt, the exact length of the i7 primer's annealing portion, following
-the design rule proven on the P5 side. It may instead be the full 34&nbsp;nt canonical arm, with the
-primer landing 7&nbsp;nt further out &mdash; the PCR primer-binding site is identical either way, so
-only those {len(A._D_ARM_TAIL)}&nbsp;nt (<t7>{A._D_ARM_TAIL}</t7>) are uncertain. <b>Sequencing argues for the
-34&nbsp;nt arm:</b> the stock Read&nbsp;2 primer has no exact site on the 27&nbsp;nt arm, yet
-Bascet reads barcode D at Read&nbsp;2 offset 0 (see <a href="#seqprimers">Sequencing primers</a>).
-</div>
 """
 
 
@@ -460,27 +341,16 @@ def sequencing() -> str:
         r2.mark("Read 2 primer", "R2 3'", f"3'-terminal {A._D_ARM_TAIL} has no partner on a 27-nt "
                                           "arm: a stock Read 2 primer cannot extend")
     return f"""<h2>Library sequencing</h2>
-<p><info>Paired-end on an Illumina NovaSeq&nbsp;X. Atrandi's guide specifies Read&nbsp;1
-128&nbsp;bp (genomic insert) and Read&nbsp;2 172&nbsp;bp (cell barcode + insert); the read lengths
-actually used in the preprint are not stated, but Read&nbsp;2 must exceed 45&nbsp;nt to contain all
-four barcodes.</info></p>
+<p><info>Paired-end: Read&nbsp;1 is genomic insert; Read&nbsp;2 begins with the four cell barcodes.</info></p>
 
 <h3>(1) Read 1 &mdash; genomic insert, primed from the P5 side (top strand as template)</h3>
 {panel(r1.rows())}
 
 <h3>(2) Index 1 read &mdash; the 6-bp i7 sample index (top strand as template)</h3>
 {panel(i1.rows())}
-<p><info>The index is reported as the reverse complement of the bases in the PCR primer: the
-oligo carries <code>{A.ATRANDI_I7_INDEX}</code>, so the index read gives
-<code>{revcomp(A.ATRANDI_I7_INDEX)}</code>.</info></p>
 
 <h3>(3) Read 2 &mdash; cell barcode then insert (bottom strand as template)</h3>
 {panel(r2.rows())}
-<p><info>Read&nbsp;2 reports the top-strand sequence: barcode <cbc>D</cbc> first, then
-<cbc>C</cbc>, <cbc>B</cbc>, <cbc>A</cbc>, then the insert. Whether the stock primers have an exact
-site on the round-D arm drawn here is computed under <a href="#seqprimers">Sequencing
-primers</a>; the drawing keeps the {len(A.ATRANDI_I7_ANNEAL)}-nt model so that the open question
-stays visible.</info></p>
 
 <div id="seqprimers"></div>
 {sp.section(lib, A.SEQ_PRIMERS)}
@@ -492,9 +362,6 @@ stays visible.</info></p>
 {read2_layout_rows()}
 </table>
 </div>
-<p><info>Demultiplexing uses a cascading match (D, then C, then B, then A) allowing one mismatch per
-barcode and four in total, with the anchors re-derived from the first 10,000 reads.
-Barcode&nbsp;A is checked first, being the most likely to be lost to over-fragmentation.</info></p>
 </div>
 """
 

@@ -14,7 +14,7 @@ import rt
 import seqprimers as sp
 import smartseq as ss
 from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments, oligo, panel,
-                      revcomp, strand_row)
+                      revcomp)
 from illumina import P5, P7
 from page import head, info, table
 
@@ -249,7 +249,9 @@ def tagmentation() -> str:
 
 def ss2_final() -> str:
     con = ss.smartseq2_library()
-    rows = [strand_row(con, "top"), strand_row(con, "bottom")] + annotation_rows(con, prefix_width=PRE)
+    duplex = Scene.duplex(con.segments)
+    duplex.strands["top"].label = duplex.strands["bottom"].label = ""
+    rows = duplex.rows() + annotation_rows(con, prefix_width=PRE)
     return ("<h3>(7&ndash;8) Index PCR, and the final library</h3>\n"
             + panel(rows, cls="long")
             + info(f"""{len(con)}&nbsp;bp excluding the insert; no UMI or cell barcode."""))
@@ -314,7 +316,12 @@ def ss3_pcr(variant: str = "SMART-seq3") -> list[Row]:
 
 
 def ss3_steps(variant: str = "SMART-seq3") -> str:
-    _, _, s3 = ss3_rt(variant)
+    s1, s2, s3 = ss3_rt(variant)
+    p1 = panel(s1.rows(), cls="small",
+               caption="(1) The anchored oligo-dT primer anneals at the poly(A) junction; "
+                       "MMLV reverse transcribes.")
+    p2 = panel(s2.rows(), cls="small",
+               caption="(2) At the mRNA 5' end, MMLV adds three untemplated C.")
     p3 = panel(s3.rows(), cls="small",
                caption="(3) Template switching, but the TSO now carries an 11-bp tag and an "
                        "8-bp UMI. Both are attached BEFORE any amplification, and only at a "
@@ -323,16 +330,19 @@ def ss3_steps(variant: str = "SMART-seq3") -> str:
                caption="(4) Two different primers. Amplification is no longer single-primer, "
                        "and no longer suppressive. The forward primer's s5 + ME head overhangs: "
                        "only its last 8 nt of ME and the tag anneal.")
-    return "<h2>Step-by-step library generation</h2>\n" + p3 + p4 + info(
-        """Oligo-dT priming, reverse transcription, tagmentation, gap fill and index PCR
-        are drawn above for SMART-seq2; the structures are unchanged here.""")
+    return ("<h2>Step-by-step library generation</h2>\n"
+            + p1 + p2 + p3 + p4 + tagmentation())
 
 
 def ss3_final(variant: str = "SMART-seq3") -> str:
     five = ss.smartseq3_library(variant)
     internal = ss.smartseq3_library(five_prime=False)
-    r5 = [strand_row(five, "top"), strand_row(five, "bottom")] + annotation_rows(five, prefix_width=PRE)
-    ri = [strand_row(internal, "top"), strand_row(internal, "bottom")]
+    five_duplex = Scene.duplex(five.segments)
+    five_duplex.strands["top"].label = five_duplex.strands["bottom"].label = ""
+    internal_duplex = Scene.duplex(internal.segments)
+    internal_duplex.strands["top"].label = internal_duplex.strands["bottom"].label = ""
+    r5 = five_duplex.rows() + annotation_rows(five, prefix_width=PRE)
+    ri = internal_duplex.rows()
     return ("<h3>(9) Final library structures</h3>\n"
             + "<h3>5' fragments &mdash; these retained the TSO</h3>\n" + panel(r5, cls="long")
             + info("""Contains the <r1>11-bp 5' tag</r1> followed by the
