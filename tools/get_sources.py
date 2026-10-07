@@ -301,6 +301,9 @@ def paper(job: Job, doi: str, title: str = "", year: str = "", pmcid: str = "",
     job.seen.add(doi.lower())
     folder = job.folder
     tag = doi_tag(doi)
+    old = folder.rows.get(f"(manual) {tag}")          # older code's catch-all row
+    if old and old[4] == "no open copy found: publisher page only":
+        del folder.rows[f"(manual) {tag}"]
     kind = doi_kind(doi)
     say(f"  {doi}  [{kind}]  {title[:60]}")
     for h in handlers_for_doi(doi):
@@ -420,10 +423,9 @@ def revalidate(dirs: list[Path]) -> None:
                 if twin.exists():
                     twin.replace(inv / twin.name)
                 folder.rows.pop(f.name, None)
-                url = row[1] if row else ""
-                what = row[4] if row else "file found on disk"
-                folder.rows[f"(manual) {f.name}"] = [f"(manual) {f.name}", url, "", "",
-                                                     f"{what}; invalid on disk: {reason}"]
+                if row and row[1].startswith("http"):     # something to fetch again by hand
+                    folder.rows[f"(manual) {f.name}"] = [f"(manual) {f.name}", row[1], "", "",
+                                                         f"{row[4]}; invalid on disk: {reason}"]
                 say(f"  {d.name}: demoted {f.name}: {reason}")
                 bad += 1
                 continue
@@ -440,6 +442,18 @@ def revalidate(dirs: list[Path]) -> None:
                     twin.unlink()
                 folder.to_text(f)
                 remade += twin.exists()
+        # rows of older code: "(manual) <tag>  no open copy found" for papers now handled
+        for k in [k for k, r in folder.rows.items()
+                  if k.startswith("(manual) ") and r[4] == "no open copy found: publisher page only"]:
+            tag, url = k.removeprefix("(manual) "), folder.rows.pop(k)[1]
+            if not tag.startswith("protocols.io") and \
+                    not any(n.startswith(tag) and n.endswith((".xml", ".html", ".pdf"))
+                            and not n.startswith("(") and "supp" not in n.lower()
+                            and "ESM" not in n for n in folder.rows) \
+                    and f"(manual) {tag} full text" not in folder.rows:
+                folder.rows[f"(manual) {tag} full text"] = [
+                    f"(manual) {tag} full text", url, "", "",
+                    "journal article; no open full text found (publisher page only)"]
         folder.write()
         say(f"{d.name:70s} {bad} demoted, {adopted} adopted, {remade} text twins made")
 

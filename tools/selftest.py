@@ -349,25 +349,104 @@ _hits = {h.label or h.seq: h for h in spx.scan(Path("doc"), _doc, spx.known_sequ
 check("RA3: bases without the modifications", _hits["RA3"].seq, "TGGAATTCTCGGGTGCCAAGG")
 check("RA3: written with them", _hits["RA3"].written, "rAppTGGAATTCTCGGGTGCCAAGG-ddC")
 check("RA3: 5' adenylation and 3' dideoxy C are named", _hits["RA3"].mods,
-      ["5' rApp", "3' ddC"])
+      ["5' adenylated (rApp)", "3' dideoxy (ddC)"])
 check("RA5: per-base RNA marks rejoin into one sequence", _hits["RA5"].seq,
       "GUUCAGAGUUCUACAGUCCGA")
 check("RA5: amino linker and RNA bases are named", _hits["RA5"].mods,
-      ["5' NH2", "RNA bases x21"])
+      ["5' amine (NH2)", "RNA bases x21"])
 check("RP1: a sequence broken by PDF extraction is rejoined", len(_hits["RP1"].seq), 50)
 check("RP1: and recognised as containing P5", "illumina.P5" in _hits["RP1"].known)
 check("RP1: a repeat is listed as a further line, not a second hit", _hits["RP1"].also, [8])
 check("TSO: IDT 5' biotin and the rGrG+G 3' end are kept", _hits["TSO"].mods,
-      ["5' /5Biosg/", "3' rGrG+G"])
+      ["5' biotin (/5Biosg/)", "3' rGrG+G"])
 check("mixed case: vector context in lower case stays attached",
       any(h.seq == "ctctagaGATCGGAAGAGCACACGT" for h in _hits.values()))
 check("phosphorothioates and internal spacers are named",
       [h.mods for h in _hits.values() if h.seq.startswith("ACGTACGT")],
-      [["3' /3Phos/", "phosphorothioate x3", "internal /iSp18/"]])
+      [["3' phosphate (/3Phos/)", "phosphorothioate x3", "internal /iSp18/"]])
 check("upper-case English words and all-lower-case runs are not sequences",
       [h.seq for h in _hits.values() if "CATS" in h.seq or h.seq.islower()], [])
 check("--find matches the reverse strand across a line break",
       spx.find(_doc, "TCGGACTGTAGAACTCTGAACG"), [3, 8])
+
+# Regression corpus for the source forms described in tools/scrape_primers.py.
+_d2 = ("STRT-V3-T30 (5'-biotin-AAGCAGTGGTATCAACGCAGAGTCGACT30VN-3')\n"
+       "STRT-V2-n (5'-AAGCAGTGGTATCAACGCAGAGTGCAGTGCTXXXXXXrGrGrG-3')\n"
+       "DI-P1A-idx (5'Bio-AATGATACGGCGACCACCGAGATCTACAC-XXXXX-CTACACGACGCTCTTCCGATC)\n"
+       "RT (5'-/5Phos/CAGAGCNNNNNNNN[10bp barcode]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3')\n"
+       "CEL GAGTTCTACAGTCCGACGATC[8 base\nbarcode]TTTTTTTTTTTTTTTTTTTTTTTTV\n"
+       "BEAD CTACACGACGCTCTTCCGATCT-N16-N12-TTTCTTATATrGrGrG and (dT)30\n"
+       "Idx CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG\n"
+       "C1-P1-RNA-TSO\tBio-AAUGAUACGGCGACCACCGAUNNNNNGGG\n"
+       "P7-1\tCAAGCAGAAGACGGCATACGAGATccgaatccgaGTCTCGTGGGCTCGG\n"
+       "P5-gMac\taatgatacggcgaccaccgagatctacattgtatagaattcgcggccgctcgcgaT*A*c\n"
+       "Randomer (5' TCA GAC GTG TGC TCT TCC GAT CTNNNNNNNNN 3')\n"
+       "TSO-P\tAAGCAGTGGTATCAACGCAGAGT\n"
+       "TSO AAGCAGTGGTATCAACGCAG\nAG TGAATrGrGrG\n"
+       "S-P7\tCAAGCAGAAGACGGCATACGAGAT[NNNNNN]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-s-T\n"
+       "oligo1 ([Btn]CTACACGACGCTCTTCCGATCTNNNNNNNNN) and E5V6NEXT 5'-iCiGiCACACTCTTTCCCTACACGACGCrGrGrG-3'\n"
+       "TTTCTTATATGGGcDNA (101 nt) and T30 oligo in prose\n")
+_h2 = {h.label: h for h in spx.scan(Path("doc"), _d2, spx.known_sequences())}
+check("T30VN shorthand expands inside the oligo; written stays as in the source",
+      (_h2["STRT-V3-T30"].seq.count("T") >= 30, _h2["STRT-V3-T30"].seq.endswith("VN"),
+       _h2["STRT-V3-T30"].written), (True, True, "5'-biotin-AAGCAGTGGTATCAACGCAGAGTCGACT30VN"))
+check("XXXXXX placeholder is one N each, and the rGrGrG 3' end is kept",
+      (_h2["STRT-V2-n"].seq[-6:], _h2["STRT-V2-n"].mods), ("NNNNNN", ["3' rGrGrG"]))
+check("a hyphenated XXXXX index does not split the oligo",
+      _h2["DI-P1A-idx"].length, 55)
+check("[10bp barcode] expands to 10 N; the oligo stays whole with its 5' phosphate",
+      (_h2["RT"].length, _h2["RT"].mods), (54, ["5' phosphate (/5Phos/)"]))
+check("[8 base\\nbarcode] wrapped over a line is still one placeholder",
+      "NNNNNNNNTTTT" in _h2["CEL"].seq)
+check("N16-N12 shorthand keeps a bead oligo whole", _h2["BEAD"].length, 60)
+check("an uncounted placeholder ([i7]) is a gap '…' and the length reads N+ nt",
+      (spx.GAP in _h2["Idx"].seq, _h2["Idx"].length_text), (True, "39+ nt"))
+check("U without r prefix is flagged as RNA; 'Bio-' is named biotin",
+      _h2["C1-P1-RNA-TSO"].mods, ["5' biotin (Bio)", "RNA (written with U)"])
+check("lower-case index inside a table row is part of the oligo",
+      _h2["P7-1"].seq, "CAAGCAGAAGACGGCATACGAGATccgaatccgaGTCTCGTGGGCTCGG")
+check("an all-lower-case table cell with marks is an oligo", _h2["P5-gMac"].length, 58)
+check("codon-spaced triplets are one sequence", _h2["Randomer"].length, 32)
+check("'TSO-P' is a name, not a 5' phosphate", _h2["TSO-P"].mods, [])
+check("a stray space and a 2-base piece after a wrap are bridged", _h2["TSO"].length, 27)
+check("-s- phosphorothioate is looked through and [NNNNNN] read as bases",
+      (_h2["S-P7"].length, _h2["S-P7"].mods), (64, ["phosphorothioate x1"]))
+check("[Btn] is a 5' biotin, not a name or bases", _h2["oligo1"].mods, ["5' biotin ([Btn])"])
+check("iCiGiC iso-bases are a 5' modification, not a C",
+      _h2["E5V6NEXT"].mods, ["5' iso-dC/iso-dG (iCiGiC)", "3' rGrGrG"])
+check("'cDNA' glued to a sequence is not bases; T30 in prose is not an oligo",
+      sorted(h.seq for h in _h2.values() if h.seq.startswith(("TTTCTTATAT", "TTTTTTTTTT"))),
+      ["TTTCTTATATGGG"])
+_lst = "".join(f"AAAAAAAAAAAANNNNNN{b}CGATCGTGTCACCGA\n" for b in ("CCTAAA", "TGGAAT", "TTGAGC"))
+check("one-sequence-per-line lists of equal length are not joined",
+      [h.length for h in spx.scan(Path("l"), _lst, {})], [39, 39, 39])
+check("a drawn duplex (second strand indented under the first) is not joined",
+      [h.seq for h in spx.scan(Path("d"), "5'- TCGTCGGCAGCGTCAGATGTGTAT\n"
+                                         "        AGCAGTCTACACATA -5'\n", {})],
+      ["TCGTCGGCAGCGTCAGATGTGTAT", "AGCAGTCTACACATA"])
+_fam = "".join(f"P7-{i}\tCAAGCAGAAGACGGCATACGAGAT{b}GTCTCGTGGGCTCGG\n"
+               for i, b in enumerate(["ccgaatccga", "ataagccgga", "ccggcggcga", "ggcttgccaa"], 1))
+_c = spx.collapse(spx.scan(Path("f"), _fam, {}))
+check("a barcode table collapses into one family hit with its variable window",
+      [(len(h.family), h.windows) for h in _c], [(4, [(25, 33)])])
+check("--find: query N and text N, U = T, lower case, IUPAC S, '*' and line wraps",
+      [spx.find("x\tAAUGAUACGGCGACCACCGAUNNNNNGGG\n", "AATGATACGGCGACCACCGATNNNNNGGG"),
+       spx.find("P7-1\tCAAGCAGAAGACGGCATACGAGATccgaatccgaGTC\n", "caagcagaagacggcatacgagatCCGAATCCGAgtc"),
+       spx.find("SB84 GCCAGASACGTTAGGCAGGACCTAACGT\n", "GCCAGACACGTTAGGCAGGACCTAACGT"),
+       spx.find("AATGATACGGCGACC\nACCGAGATCTACACGCCTGTCCGCG-GAAGCAG TGGTATCAACGCAGAGT∗A∗C\n",
+                "AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC")],
+      [[2 - 1], [1], [1], [1]])
+check("--find: a pasted query with ends, mods, marks and a placeholder",
+      spx.find(_d2, "5'-/5Phos/CAGAGCNNNNNNNN[10bp barcode]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3'"), [4])
+check("--find: rGrGrG / +rG marks and -s- in the text are looked through",
+      [spx.find("ACACTCTTTCCCTACACGACGC+rGrGrG\n", "ACACTCTTTCCCTACACGACGCGGG"),
+       spx.find(_d2, "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT")], [[1], [16]])
+check("--find: tags exact vs only through IUPAC letters; mostly-N text is not a hit",
+      [t[2] for t in spx.find("AAGCAGTGGTATCAACGCAGAGTGANNNGG\nNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN\n",
+                              "AAGCAGTGGTATCAACGCAGAGTGAATGG", detail=True)], ["iupac"])
+check("--find: a strand written 3'->5' is found as 'rev'",
+      [t[1] for t in spx.find("3'-TCTCTTACTCCTTGGGCCCCGTC-5'\n", "CTGCCCCGGGTTCCTCATTCTCT",
+                              detail=True)], ["rev"])
 
 check.section("documents to text (tools/doctext.py)")
 import tempfile  # noqa: E402

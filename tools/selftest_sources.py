@@ -153,6 +153,27 @@ with tempfile.TemporaryDirectory() as tmp:
     check("...and turns its row into (manual) keeping the URL",
           (g.rows["(manual) old_supp.pdf"][1], "old_supp.pdf" in g.rows), ("https://pmc/x.pdf", False))
 
+    # revalidate upgrades the old ambiguous paper row without mistaking a supplement
+    # for the article itself.
+    legacy = t / "legacy"
+    legacy.mkdir()
+    tag = "s41587-023-01685-z"
+    (legacy / f"{tag}_supp_table.xlsx").write_bytes(XLSX)
+    (legacy / "MANIFEST.tsv").write_text(
+        base.Folder.HEADER
+        + f"{tag}_supp_table.xlsx\thttps://x/table.xlsx\t1\t0\tsupplementary file\n"
+        + f"(manual) {tag}\thttps://doi.org/10.1038/{tag}\t\t\t"
+          "no open copy found: publisher page only\n")
+    with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+        gs.revalidate([legacy])
+    migrated = base.Folder(legacy, convert=False)
+    check("revalidate renames an old catch-all manual row to a full-text row",
+          (f"(manual) {tag}" in migrated.rows, f"(manual) {tag} full text" in migrated.rows),
+          (False, True))
+    check("a fetched supplement does not count as fetched article full text",
+          migrated.rows[f"(manual) {tag} full text"][1],
+          f"https://doi.org/10.1038/{tag}")
+
 # ------------------------------------------------------------------------------
 check.section("extra sources table")
 SAMPLE = ("# comment\nslug\tsource\twhat\twhy\n"

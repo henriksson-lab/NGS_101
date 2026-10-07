@@ -42,16 +42,20 @@ hit back to the original, which is reported "as written"):
 
 Each hit lists: the bases; the oligo as written with its modifications; the parsed
 modifications, named the same way however they are written ("5' biotin (/5Biosg/)",
-"5' biotin (Bio)", "5' phosphate ([5Phos])", "3' rGrGrG", "RNA (written with U)"); a
-nearby name; the lib/ sequences it contains on either strand (whole, or a >= 15-nt piece
-"(nt a-b of L)"); other lines with the same oligo; and the sentence around it (for a
-table row, the row). Tuned for recall: expect false hits.
+"5' biotin (Bio)", "5' phosphate ([5Phos])", "3' rGrGrG", "RNA (written with U)", and
+"written 3'->5'" for a strand drawn 3'-...-5'); a nearby name (in a table, the row's
+identifier cell; else the token before it or a short line above it); the lib/ sequences
+it contains on either strand (whole, or a >= 15-nt piece "(nt a-b of L)"); other lines
+with the same oligo; and the sentence around it (for a table row, the row). Tuned for
+recall: expect false hits.
 
-Large tables: consecutive rows of the same length that differ only inside one window (a
-barcode or index plate) are collapsed into one hit, "family: 96 variants, lines a-b,
-variable at nt i-j" -- `--all` lists every row. Files are ordered by their most
-oligo-like hit and each hit has a `score`; `--max-hits` (default 200 per file, counted
-after collapsing) keeps the highest scorers and says how many it cut.
+Large tables: 4+ consecutive rows that are one oligo with a varying barcode or index
+(same length and differing at a minority of positions, or the same name stem -- P7-1,
+P7-2, ... -- and a shared 12-nt stretch) are collapsed into one hit, "family: 96
+variants, lines a-b, variable at nt i-j" -- `--all` lists every row. Files are ordered by
+their most oligo-like hit and each hit has a `score`; `--max-hits` (default 200 per file,
+counted after collapsing) keeps the highest scorers and says how many it cut. A 30 MB
+table text takes a few seconds, a 100 MB guide library about a minute.
 
 --find SEQ (repeatable) lists where SEQ occurs. The query may be pasted as written:
 5'/3' ends, /mods/, rN/mN/+N/* marks, spaces, hyphens, shorthand and placeholders are
@@ -60,7 +64,9 @@ base, U = T, R = A/G, ...; a query N-run also matches a "…" placeholder in the
 (--strict: letters must be equal, so N matches only N). Line wraps, spaces, hyphens,
 tabs and modification marks in the text are skipped. Each location is tagged with the
 strand it was found on (+, rc; rev and comp = a strand written 3'->5') and "exact" or
-"iupac" (matched only through a degenerate letter, e.g. a query N on a concrete base).
+"iupac" (matched only through a degenerate letter, e.g. a query N on a concrete base);
+a place where under 60% of the query's A/C/G/T meet the same letter (a drawn NNN...N) is
+not listed. Per file, exact locations come first; --max-hits caps the lines shown.
 """
 from __future__ import annotations
 
@@ -934,7 +940,7 @@ def _common_prefix(a: str, b: str) -> str:
 
 # ------------------------------------------------------------------------- find
 
-_FIND_GAP = r"(?:[ \t\n\-*∗]|-s-|/[\w-]{1,20}/|[rm+](?=[A-Z]))*"
+_FIND_GAP = r"(?:[ \t\n\-*∗]|-s-|/[\w-]{1,20}/|\+?[rm+](?=[A-Z]))*"
 
 
 _MODLIKE = re.compile(rf"(?:{_MOD})+")
