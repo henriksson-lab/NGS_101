@@ -14,6 +14,7 @@ import illumina as il
 import seqprimers as sp
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments, oligo,
                       panel, strand_row)
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head
 
 OUT = HERE.parent / "atrandi_wgs.html"
@@ -124,13 +125,8 @@ def step_pta() -> str:
 
 def step_endprep() -> str:
     body = seg("body", "XXXXXXXXXXXX...XXXXXXXXXXXX", placeholder=True)
-    good = Scene()
-    good.strand("top", [body, seg("dA", "A")], label="", mod5="p")
-    good.anneal("bottom", [*complement_segments([body]), seg("dA", "A")], to="top",
-                pair=("body'", "body"), label="", mod5="p")
-    good.mark("top", "dA", "dA")
-    good.mark("bottom", "dA", "dA")
-    rows = good.rows()
+    prepared = repair_and_dA_tail(Construct([body], name="extendable PTA product"))
+    rows = dA_tailed_scene(prepared, label="").rows()
     dead = Scene()
     dead.strand("top", [seg("5' end", "N"), body, seg("ddN", "N", "w1")], label="")
     dead.anneal("bottom", [seg("5' end", "N"), *complement_segments([body]),

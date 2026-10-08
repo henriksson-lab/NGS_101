@@ -6,6 +6,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE)); sys.path.insert(0,str(HERE.parents[1]/"lib"))
 import drop_seq as D
+import seqprimers as sp
 from chemdraw import Scene,Segment,annotation_rows,oligo,panel,strand_row
 from page import caveat,head,info,table
 OUT=HERE.parent/"drop-seq.html"
@@ -40,10 +41,12 @@ def construction()->str:
 
 
 def sequencing()->str:
+    lib=D.final_library()
     rows=[]
     for p,h in D.primer_landings(): rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1 reports the 12-base cell barcode + 8-base UMI; paired Read 2 is typically 50 bases of transcript sequence. The exact custom primer bases shown are inferred.')}
+{sp.diagram(lib,D.seq_primers())}
 {table(("Read","Primer","Primer site","First bases"),rows)}
 <h3>Read 1 layout</h3>{table(("Cycles","Content"),D.read1_layout(),scroll=False)}
 '''

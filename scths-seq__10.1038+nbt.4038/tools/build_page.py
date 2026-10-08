@@ -62,6 +62,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('HiSeq layout: Read 1 50 cycles; Index 1 8; Index 2 32; no Read 2. The long Index 2 read covers i5, connector, r5 cell barcode and three s5 bases.')}
+{sp.diagram(lib, S.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
 
 

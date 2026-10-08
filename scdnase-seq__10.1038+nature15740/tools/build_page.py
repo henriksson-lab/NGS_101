@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 
 import scdnase_seq as S
+import seqprimers as sp
 from chemdraw import Scene, oligo, panel, annotation_rows
 from page import head, info, table
 
@@ -17,6 +18,7 @@ OUT = HERE.parent / "scdnase-seq.html"
 
 
 def sequencing() -> str:
+    lib = S.final_library()
     rows = []
     for primer, hit in S.primer_landings():
         if hit is None:
@@ -27,6 +29,7 @@ def sequencing() -> str:
     return "".join([
         '<h2>Sequencing</h2>',
         info("TruSeq Read 1 and Read 2 interrogate the genomic fragment from opposite ends; the single i7 read identifies the library."),
+        sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
     ])
 

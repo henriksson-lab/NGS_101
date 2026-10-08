@@ -31,6 +31,7 @@ def sequencing(lib) -> str:
     return ('<h2>Final library and read layout</h2>' +
             info('Paired-end, dual-index sequencing: Read 1 26 cycles, i7 10, i5 10, '
                  'Read 2 90. Read 1 reports the 16-base cell barcode and 10-base UMI.') +
+            sp.diagram(lib, C.seq_primers) +
             table(("Read", "Primer", "Primer site", "First bases"), rows) +
             table(("Read 1 cycles", "Content"),
                   [("1–16", "cell barcode"), ("17–26", "UMI")], scroll=False))

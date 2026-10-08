@@ -5,6 +5,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import dscatac as D
 import nextera as nx
+import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,annotation_rows,oligo,panel,strand_row
 from page import head,info,table
 
@@ -33,5 +34,5 @@ def render_page(protocol):
       panel(D.bead_priming_scene().rows(),cls="long",caption="The released bead oligo primes through its published 3' s5 sequence."),
       '<h3>(3) Droplet PCR copies the bead barcode onto s5/s7 fragments</h3>',
       panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — complete supported inner structure; dotted bead/P5/Read-1 arm stops at the paper's sequence boundary."),
-      '<h2>Read layout</h2>',panel([strand_row(Construct(r1),prefix="Read 1  ",suffix="")],cls="long",caption="Custom Read 1 begins at BC1; the paper does not publish that primer's sequence."),
+      '<h2>Read layout</h2>',sp.unavailable_diagram(final,"the custom Read-1 and library-primer sequences are unpublished"),panel([strand_row(Construct(r1),prefix="Read 1  ",suffix="")],cls="long",caption="Custom Read 1 begins at BC1; the paper does not publish that primer's sequence."),
       table(("Read","Reports"),rows),'</div>'])

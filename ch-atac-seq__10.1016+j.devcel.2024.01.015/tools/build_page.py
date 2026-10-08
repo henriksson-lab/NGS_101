@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import ch_atac as C
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel
 from page import head, info, table
 
@@ -47,6 +48,7 @@ def render() -> str:
         panel([*duplex.rows(), *annotation_rows(lib)], cls="small", caption="INFERRED — reconstructed final DNBSEQ library. Every dotted adapter region depends on sources other than the unavailable defining oligo table."),
         '<h2>Sequencing</h2>',
         info('The secondary reconstruction reports paired 100-cycle reads and a 10-cycle index read, with Read 1 dark cycles over the constant handle and mosaic end.'),
+        sp.diagram(lib, C.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), landings),
         '<h3>Read 1 layout</h3>', table(("Cycles", "Content"), C.read1_layout(), scroll=False),
         '</div>'

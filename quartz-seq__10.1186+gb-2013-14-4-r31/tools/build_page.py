@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import quartz_seq as Q
+import seqprimers as sp
 from chemdraw import Scene, Segment, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -63,6 +64,7 @@ def construction() -> str:
 
 
 def sequencing() -> str:
+    lib = Q.final_library()
     rows = []
     for primer, hit in Q.primer_landings():
         rows.append((html.escape(primer.role), html.escape(primer.name),
@@ -70,6 +72,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Paired-end 50-base reads with a 6-base Index 1. Cell identity is the library tube/index; there is no molecular cell barcode or UMI.')}
+{sp.diagram(lib, Q.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 '''
 

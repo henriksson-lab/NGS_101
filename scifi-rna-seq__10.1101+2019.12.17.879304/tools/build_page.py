@@ -63,6 +63,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('NovaSeq layout: Read 1 21 cycles; Index 1 8; Index 2 16; Read 2 78. Read 1 carries the plate barcode and UMI; Index 2 carries the bead barcode.')}
+{sp.diagram(lib, S.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 1 layout</h3>
 {table(("Cycles", "Content"), S.read1_layout(), scroll=False)}'''

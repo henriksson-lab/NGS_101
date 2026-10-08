@@ -77,6 +77,11 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── plasmid.py           GenBank parsing, restriction digest, primer binding, amplicons
 │   ├── crispr.py            U6/scaffold landmarks, guide oligos, cloning simulation
 │   ├── padlock.py           padlock / MIP capture, gap-fill, circularisation
+│   ├── endprep.py           end repair, opposed dA tails, compatible TA ligation
+│   ├── hairpin.py           self-pairing oligos and site-specific loop opening
+│   ├── dumbbell.py          covalently closed hairpin-ended sequencing templates
+│   ├── restriction.py       typed restriction cuts, cohesive-end fill and junctions
+│   ├── telomere.py          chromosome 3′ overhangs, repeat phases and affinity capture
 │   ├── seqprimers.py        Read 1/2 + index primers, located on a library by computation
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding

@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import indrop as I
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
-                      oligo, panel, revcomp, strand_row)
+                      junction_row, oligo, panel, revcomp, strand_row)
 import illumina as il
 from page import head, info, table
 import seqprimers as sp
@@ -79,7 +79,7 @@ def bead_steps(protocol: str) -> str:
 def v1_steps() -> str:
     lig = Construct([seg("aRNA fragment", "XXXXXXXX...XXXXXXXX", placeholder=True, inferred=True), seg("RLO", I.RLO, "r2", inferred=True)])
     return f'''<h2>v1 library conversion</h2>
-<h3>(5) Fragment aRNA and ligate the blocked RLO</h3>{panel([strand_row(lig), *annotation_rows(lig)], caption="INFERRED — secondary-source v1 RLO ligated to the aRNA 3' end.")}
+<h3>(5) Fragment aRNA and ligate the blocked RLO</h3>{panel([strand_row(lig), junction_row(lig, "aRNA fragment", "RLO"), *annotation_rows(lig)], caption="INFERRED — secondary-source v1 RLO ligated to the aRNA 3' end.")}
 <h3>(6) Second RT from RLO, then P5/P7 enrichment PCR</h3>{final_panel(I.V1)}'''
 
 
@@ -104,7 +104,8 @@ def sequencing(protocol: str) -> str:
     rows = ([("Read 1", "51 (secondary source)", "barcode 1 &middot; W1 &middot; barcode 2 &middot; UMI &middot; poly(T)"), ("Read 2", "secondary source", "cDNA")]
             if protocol == I.V1 else
             [("Read 1", "not available", "sense cDNA"), ("Index 1", "6", "sample index"), ("Read 2", "at least 51", "barcode 1 &middot; W1 &middot; barcode 2 &middot; UMI &middot; poly(T)")])
-    return '<h2>Read layout</h2>' + table(("Read", "Cycles", "Content"), rows) + '</div>'
+    return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
+            + table(("Read", "Cycles", "Content"), rows) + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

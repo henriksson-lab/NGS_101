@@ -7,6 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import sci_rna_seq as S
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -39,11 +40,13 @@ def construction() -> str:
 
 
 def sequencing() -> str:
+    lib=S.final_library()
     rows=[]
     for p,h in S.primer_landings():
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 18 cycles; Index 1: 10; Index 2: 10; Read 2: 52. Read 1 contains UMI + RT barcode; Read 2 contains transcript sequence.')}
+{sp.diagram(lib,S.SEQ_PRIMERS)}
 {table(("Read","Primer","Primer site","First bases"),rows)}
 <h3>Read 1 barcode layout</h3>{table(("Cycles","Content"),S.read1_layout(),scroll=False)}
 '''

@@ -9,7 +9,9 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import marsseq as M
-from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+import seqprimers as sp
+from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
+                      strand_row)
 from page import head, info, table
 
 
@@ -38,6 +40,8 @@ def render_page(protocol: str) -> str:
                             list(M.mars2_ligation_adapter()), mods="/5Phos/ … /3SpC3/"))
     ds = M.ds_cdna(protocol)
     lig = M.ligated_arna(protocol)
+    ligation_adaptor = ("ordered pool barcode" if exact
+                        else "unavailable pool-barcoded adapter")
     final = M.final_library(protocol)
     if exact:
         r1 = Construct([seg("random diversity", "N" * 5, placeholder=True),
@@ -75,13 +79,15 @@ def render_page(protocol: str) -> str:
                                           "[T7 TAG / WELL BC / UMI]XXXXXXXX...",
                                           placeholder=True)]))], cls="long"),
         '<h3>(4) Ligate a pool-barcoded adapter to the fragmented aRNA</h3>',
-        panel([strand_row(lig), *annotation_rows(lig)], cls="long",
+        panel([strand_row(lig), junction_row(lig, "antisense insert", ligation_adaptor),
+               *annotation_rows(lig)], cls="long",
               caption=("The 5'-phosphorylated, 3'-blocked adapter adds pool identity."
                        if exact else
                        "INFERRED — ligation architecture only; the 2014 adapter bases are unavailable.")),
         '<h3>(5) RT2, then library PCR</h3>',
         panel([strand_row(final), *annotation_rows(final)], cls="long",
               caption="INFERRED — supported inner order with unpublished PCR arms dotted."),
+        sp.unavailable_diagram(final, "the defining sources do not print the library-primer sequences"),
         '<h2>Read layout</h2>',
         panel([strand_row(r1, prefix="Read 1  ", suffix=""),
                strand_row(r2, prefix="Read 2  ", suffix="")], cls="small",

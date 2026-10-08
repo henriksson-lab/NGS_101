@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import vasa as V
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -54,6 +55,7 @@ def rtp_scene() -> Scene:
     sc.strand("aRNA + RA3", list(arna), label="aRNA")
     sc.anneal("RTP", V.rtp_segments(), to="aRNA + RA3", pair=("RTP core", "RA3"),
               unpaired=("RTP 5' G",))
+    sc.junction("aRNA + RA3", "rRNA-depleted aRNA", "RA3")
     sc.arrow("RTP", "reverse transcriptase")
     return sc
 
@@ -94,6 +96,8 @@ def steps() -> str:
 
 def sequencing() -> str:
     return f'''<h2>Read layout</h2>
+{sp.unavailable_diagram(V.plate_library(), "the VASA-plate library-primer sequences are not printed")}
+{sp.unavailable_diagram(V.drop_library(), "the complete VASA-drop primer landing sites are not published")}
 {table(("Format", "Read", "Content"), V.read_layouts())}
 </div>'''
 

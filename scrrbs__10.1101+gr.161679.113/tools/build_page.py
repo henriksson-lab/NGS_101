@@ -12,7 +12,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import illumina as il
 import scrrbs as S
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
+                      strand_row)
 from page import head, info
 
 OUT = HERE.parent / "scrrbs.html"
@@ -68,14 +69,18 @@ def ligate_and_convert() -> str:
         seg("converted filled end", "UGA", placeholder=True),
         seg("protected right adaptor", "GATC", "r2", inferred=True),
     ]
+    before_con = Construct(before)
+    after_con = Construct(after)
     return f"""<h3>(3) Ligate the premethylated indexed Y-adaptor</h3>
 {panel(S.adapter_scene().rows(), cls="small",
        caption="INFERRED — exact adaptor bases come from the secondary reconstruction. "
                "The universal and indexed oligos meet only in the 12-bp TruSeq stem; "
                "3'-T joins each dA-tailed insert end.")}
 <h3>(4) Bisulfite-convert the ligated molecules</h3>
-{panel([strand_row(Construct(before), prefix="before  5'- ", suffix=" -3'"),
-        strand_row(Construct(after), prefix="after   5'- ", suffix=" -3'")],
+{panel([strand_row(before_con, prefix="before  5'- ", suffix=" -3'"),
+        junction_row(before_con, "protected left adaptor", "MspI end", prefix_width=12),
+        junction_row(before_con, "filled end", "protected right adaptor", prefix_width=12),
+        strand_row(after_con, prefix="after   5'- ", suffix=" -3'")],
        cls="small", caption="Representative unmethylated C becomes U; methylated genomic C "
                             "stays C. Premethylated adaptor C is protected. PCR later copies "
                             "U as T.")}"""

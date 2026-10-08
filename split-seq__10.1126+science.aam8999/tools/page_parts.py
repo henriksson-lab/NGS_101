@@ -5,6 +5,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import splitseq as S
+import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -55,5 +56,6 @@ def render_page(protocol):
                                   seg("template-switch handle", "[TSO HANDLE]", "tso",placeholder=True)]))],cls="long"),
       '<h3>(5) Build the indexed sequencing library</h3>',
       panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — supported inner barcode order; unpublished or unresolved outer library arms are dotted."),
+      sp.unavailable_diagram(final,"the downstream library-primer sequences are unavailable"),
       '<h2>Read layout</h2>',panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption=("Published microSPLiT run: Read 1 74 nt, Read 2 86 nt, index 6 nt." if micro else "Published SPLiT-seq architecture: transcript in Read 1; combinatorial identity in Read 2.")),
       table(("Read","Reports"),rows),'</div>'])

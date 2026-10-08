@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import s3atac as S
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -70,6 +71,7 @@ def sequencing() -> str:
     layout_rows = [(cycles, content) for cycles, content in S.read2_layout()]
     return f'''<h2>Sequencing</h2>
 {info('Paired-end 85 + 85 with 10-cycle index reads. Cell identity is the i5 + i7 + Tn5-barcode combination.')}
+{sp.diagram(lib, S.SEQ_PRIMERS)}
 {table(("Read", "Standard primer", "Primer site", "First bases"), landing_rows)}
 <h3>Read 2 before genomic DNA</h3>
 {table(("Cycles", "Content"), layout_rows, scroll=False)}

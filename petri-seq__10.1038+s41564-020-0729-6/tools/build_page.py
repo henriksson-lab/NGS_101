@@ -12,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import petri_seq as P
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, junction_row, oligo, panel, strand_row
 from page import head, info, table
 
 OUT = HERE.parent / "petri-seq.html"
@@ -37,10 +37,12 @@ def construction() -> str:
 {panel([strand_row(r1), *annotation_rows(r1)], cls="small",
        caption="A phosphorylated random-hexamer primer installs the first 7-nt barcode in fixed, permeabilised cells.")}
 <h3>(2) Ligate the second barcode across the round-2 linker</h3>
-{panel([strand_row(r2), *annotation_rows(r2)], cls="small",
+{panel([strand_row(r2), junction_row(r2, "round-2 junction", "round-1 constant"),
+        *annotation_rows(r2)], cls="small",
        caption="The 16-nt splint spans the round-2/round-1 junction; blocking oligos sequester unused linker and arms.")}
 <h3>(3) Ligate the UMI and third barcode across the round-3 linker</h3>
-{panel([strand_row(r3), *annotation_rows(r3)], cls="small",
+{panel([strand_row(r3), junction_row(r3, "round-3 junction", "round-2 constant"),
+        *annotation_rows(r3)], cls="small",
        caption="The third oligo supplies the 7-nt UMI, barcode 3 and the future Read-1-side library handle.")}
 <h3>(4) Lyse, make the second strand, tagment and selectively PCR</h3>
 {panel([*P.final_scene().rows(), *annotation_rows(lib)], cls="small",
@@ -57,6 +59,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('NextSeq layout: Read 1 58 cycles; Read 2 17; Index 1 and Index 2 8 cycles each. Read 1 carries the UMI and three cell barcodes.')}
+{sp.diagram(lib, P.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 1 layout</h3>
 {table(("Cycles", "Content"), P.read1_layout(), scroll=False)}'''

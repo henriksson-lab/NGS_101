@@ -23,13 +23,19 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def oligos() -> str:
+    hp = L.NEBNEXT_HAIRPIN
+    cut = il.NEBNEXT_HAIRPIN_DU_POS
+    stem_end = len(hp.sequence) - hp.stem_len - hp.overhang_3_len
     rows = [
         oligo("LIANTI hairpin transposon", L.transposon_segments(), mods="/5Phos/"),
         oligo("Second-strand primer", L.second_strand_primer_segments()),
         oligo("NEBNext hairpin adaptor",
-              [seg("Read 2 arm", il.NEBNEXT_ARM_READ2, "r2"),
-               seg("dU", "U", placeholder=True),
-               seg("Read 1 arm + T", il.NEBNEXT_ARM_READ1, "r1")],
+              [seg("5' stem", hp.left_stem, "r2"),
+               seg("Read 2 arm", hp.sequence[hp.stem_len:cut], "r2"),
+               seg("dU", hp.sequence[cut], placeholder=True),
+               seg("Read 1 arm", hp.sequence[cut + 1:stem_end], "r1"),
+               seg("3' stem", hp.right_stem, "r1"),
+               seg("3' T", hp.overhang_3, "r1")],
               mods="/5Phos/"),
     ]
     return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"

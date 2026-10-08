@@ -76,7 +76,7 @@ def splint_scene(round_no: int) -> Scene:
     sc = Scene(); sc.strand("joined strand", junction, label="barcoded cDNA")
     sc.anneal("linker", derived, to="joined strand",
               pair=(derived[0].name, right[0].name), label="splint")
-    sc.mark("joined strand", left[-1].name, "ligated nick", through=right[0].name)
+    sc.junction("joined strand", left[-1].name, right[0].name)
     return sc
 
 def final_boundary(protocol: str) -> Construct:

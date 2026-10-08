@@ -14,7 +14,7 @@ def sequencing(lib):
         h=sp.locate(lib,p)
         if h is None: raise ValueError(f"{p.name} has no site")
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses the TSO-derived segment before reaching the sgRNA feature; i7 identifies the sample.')+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)
+    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses the TSO-derived segment before reaching the sgRNA feature; i7 identifies the sample.')+sp.diagram(lib,C.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)
 def render():
     product=C.feature_cdna(); lib=C.final_library()
     return "\n".join([head("10x 3' v3 CRISPR Screening chemistry"),'<div class="wrap">','<h1>10x Chromium Single Cell 3&#39; v3 &mdash; CRISPR Screening</h1>',info('Primary chemistry source: <a href="https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf">10x Genomics User Guide CG000184 Rev A</a>.'),

@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import quartz_seq2 as Q
+import seqprimers as sp
 from chemdraw import Scene, Segment, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -66,6 +67,7 @@ def construction() -> str:
 
 
 def sequencing() -> str:
+    lib = Q.final_library()
     rows = []
     for primer, hit in Q.primer_landings():
         rows.append((html.escape(primer.role), html.escape(primer.name),
@@ -73,6 +75,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Quartz-Seq2 v3.2 uses Read 1: 23 cycles, Index 1: 6, and Read 2: 63. Read 1 reports the 15-base cell barcode followed by the 8-base UMI; Read 2 reports cDNA.')}
+{sp.diagram(lib, Q.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 1 barcode layout</h3>
 {table(("Cycles", "Content"), Q.read1_layout(), scroll=False)}

@@ -142,15 +142,18 @@ def steps(protocol: str) -> str:
 def sequencing(protocol: str) -> str:
     lib = S.library(protocol)
     if protocol == S.STRT:
+        primers = (S.STRT_READ1,)
         hit = sp.locate(lib, S.STRT_READ1)
         rows = [("Read 1", "~55", "6-nt cell barcode &middot; GGG &middot; transcript 5' end")]
         note = "The paper does not publish the custom primer sequence; the drawn landing site ends immediately before the barcode."
     elif protocol == S.C1:
+        primers = S.C1_PRIMERS
         hits = [sp.locate(lib, p) for p in S.C1_PRIMERS]
         if any(h is None for h in hits): raise ValueError("C1 read site missing")
         rows = [("Read 1", "50", "5-nt UMI &middot; GGG &middot; transcript 5' end"), ("Index 1", "8", "Tn5 cell barcode")]
         note = "Read 1 and index-primer sequences are not printed in the accessible paper materials; their landing sites follow from the published molecule."
     else:
+        primers = S.TWO_I_INDEX_PRIMERS
         hits = [sp.locate(lib, p) for p in S.TWO_I_INDEX_PRIMERS]
         if any(h is None for h in hits): raise ValueError("2i index site missing")
         rows = [("Read 1", "45 or 48", "6-nt UMI &middot; GGG &middot; transcript 5' end"), ("Index 1", "8", "subarray index"), ("Index 2", "5", "well index")]
@@ -166,7 +169,8 @@ def sequencing(protocol: str) -> str:
         note += panel(sc.rows(), cls="small", caption="The printed 6-N Read-1 primer spans the last P5 base plus the five-base well index, then pairs exactly over P1B.")
     if protocol == S.STRT and hit is None:
         raise ValueError("STRT Read 1 site missing")
-    return '<h2>Read layout</h2>' + table(("Read", "Cycles", "Content"), rows) + info(note) + '</div>'
+    return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
+            + table(("Read", "Cycles", "Content"), rows) + info(note) + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

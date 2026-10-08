@@ -29,6 +29,7 @@ def sequencing(lib) -> str:
     return "".join([
         '<h2>Sequencing</h2>',
         info("Paired-end TruSeq reads interrogate the protected fragment from opposite ends; the single i7 read identifies the library."),
+        sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
     ])
 

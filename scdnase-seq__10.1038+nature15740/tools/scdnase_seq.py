@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment
+from endprep import dA_tailed_scene, repair_and_dA_tail
 
 INDEX_NT = 6
 
@@ -29,15 +30,8 @@ def digested_fragment_scene() -> Scene:
 
 def a_tailed_fragment_scene() -> Scene:
     """End-repaired fragment with one unpaired 3'-A at each end."""
-    core = [seg("end-repaired fragment", "X" * 32, placeholder=True)]
-    sc = Scene()
-    sc.strand("top", [*core, inferred("right dA", "A")], label="fragment")
-    sc.anneal("bottom", [*complement_segments(core), inferred("left dA", "A")],
-              to="top", pair=("end-repaired fragment'", "end-repaired fragment"),
-              label="fragment", unpaired=("left dA",))
-    sc.mark("top", "right dA", "3'-A")
-    sc.mark("bottom", "left dA", "3'-A")
-    return sc
+    core = Construct([inferred("end-repaired fragment", "X" * 32, placeholder=True)])
+    return dA_tailed_scene(repair_and_dA_tail(core, inferred=True), label="fragment")
 
 
 def adapter_bottom() -> list[Segment]:

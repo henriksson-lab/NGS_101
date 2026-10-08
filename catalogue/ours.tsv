@@ -7,6 +7,12 @@ smart-seq3xpress__10.1038+s41587-022-01311-4	SMART-seq3xpress	10.1038/s41587-022
 flash-seq__10.1038+s41587-022-01312-3	FLASH-seq	10.1038/s41587-022-01312-3	documented	published	RNA	FLASH-seq protocol; defining source is Hahaut et al. 2022.
 small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	published	RNA	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
 lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	published	DNA	Pooled-screen readout across four vector systems; named for Shalem 2014.
+crop-seq__10.1038+nmeth.4177	CROP-seq	10.1038/nmeth.4177	documented	published	RNA	Original CROP-seq vector trick and Drop-seq single-cell transcriptome readout from Datlinger et al. 2017.
+in-situ-hi-c__10.1016+j.cell.2014.11.021	in situ Hi-C	10.1016/j.cell.2014.11.021	documented	published	DNA	MboI-based in situ Hi-C from Rao et al. 2014, including biotin fill-in and proximity-ligation junctions.
+fisseq__10.1126+science.1250212	FISSEQ	10.1126/science.1250212	documented	published	RNA	Transcriptome-wide fluorescent in situ RNA sequencing from Lee et al. 2014; detailed chemistry follows the authors' 2015 Nature Protocols paper.
+oxford-nanopore-ligation-sequencing-v14	Oxford Nanopore Ligation Sequencing V14 (SQK-LSK114)		documented	published	DNA	Commercial motor-adapter ligation workflow defined by Oxford Nanopore protocol GDE_9161_v114 Rev AC.
+pacbio-smrtbell-prep-kit-3-0	PacBio SMRTbell prep kit 3.0		documented	published	DNA	Commercial PCR-free WGS/metagenome workflow defined by PacBio procedure 102-166-600 Rev09.
+nebnext-ultra-ii-dna-library-prep-user-adaptor	NEBNext Ultra II DNA Library Prep (USER adaptor)		documented	published	DNA	Commercial E7645/E7103 workflow with the E7600 hairpin adaptor, USER opening and dual-index PCR.
 crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	wip	DNA	sgRNA quantification by molecular inversion probe.
 crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	published	DNA	Also covers the unrelated Michlits CRISPR-UMI, 10.1038/nmeth.4466, and our padlock draft.
 florian-pta-rnaseq	florian-PTA-rnaseq		draft	wip	RNA	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
@@ -78,3 +84,9 @@ scrrbs__10.1101+gr.161679.113	scRRBS	10.1101/gr.161679.113	documented	published	
 lianti__10.1126+science.aak9787	LIANTI	10.1126/science.aak9787	documented	published	DNA	Linear WGA schematic from the defining paper; exact LIANTI oligos are visibly marked as secondary-source because the supplement is unavailable.
 scnome-seq__10.7554+eLife.23203	scNOMe-seq	10.7554/eLife.23203	documented	published	multi	GpC accessibility marking plus Pico Methyl-Seq bisulfite library; combined provenance for scCOOL-seq remains in this protocol's note.
 sccool-seq__10.1038+cr.2017.82	scCOOL-seq	10.1038/cr.2017.82	documented	published	multi	Single-cell GpC marking plus PBAT-style two-primer bisulfite library from Guo et al. 2017.
+telopcr-seq__10.1002+1873-3468.12444	TeloPCR-seq	10.1002/1873-3468.12444	documented	published	DNA	Anchor ligation, chromosome-end PCR and PacBio circular sequencing of S. pombe telomeres.
+yeast-telotag__10.1101+gr.275868.121	Yeast TeloTag	10.1101/gr.275868.121	documented	published	DNA	Poly(A)-assisted terminal tagging and nanopore sequencing of S. cerevisiae telomeres.
+pacbio-telobait__10.1038+s41467-023-35823-7	PacBio telobait	10.1038/s41467-023-35823-7	documented	published	DNA	Phased biotinylated telobait capture and PacBio HiFi sequencing of human chromosome ends.
+telo-seq__10.1038+s41467-024-48917-7	Telo-seq	10.1038/s41467-024-48917-7	documented	published	DNA	Telorette-directed Oxford Nanopore sequencing from native human telomere ends.
+digital-telomere-measurement__10.1038+s41467-024-49007-4	Digital Telomere Measurement	10.1038/s41467-024-49007-4	documented	published	DNA	Barcoded capture/tether ligation, gap fill and nanopore measurement of individual telomeres.
+telomere-profiling__10.1126+science.ado0431	Telomere Profiling	10.1126/science.ado0431	documented	published	DNA	Restriction-assisted biotin TeloTag enrichment and nanopore sequencing of human telomeres.

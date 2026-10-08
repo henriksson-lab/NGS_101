@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import surecell as S
+import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows, complement_segments, panel, strand_row
 from page import head, info, table
 
@@ -84,9 +85,11 @@ def steps() -> str:
 
 
 def sequencing() -> str:
+    final = S.selected_fragment()
     boundaries = S.read_boundaries()
     rows = [(read, boundary) for read, boundary in boundaries]
     return f'''<h2>Supported read boundaries</h2>
+{sp.unavailable_diagram(final, "the vendor does not publish Sequencing Primer SP or the other library-primer sequences")}
 {table(("Read", "Starts on"), rows)}
 {info('The guide requires the supplied custom Sequencing Primer SP for Read 1 and names the N7xx sample index. It does not publish read lengths or oligo sequences, so no base-resolved layout is asserted here.')}
 </div>'''

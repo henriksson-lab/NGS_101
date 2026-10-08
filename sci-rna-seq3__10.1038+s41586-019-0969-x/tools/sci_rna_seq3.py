@@ -63,6 +63,13 @@ def ligation_scene() -> Scene:
     sc.mark("hairpin","6-nt overhang","splints the ligation nick"); return sc
 
 
+def ligated_scene() -> Scene:
+    product = ligated_product()
+    sc = Scene(); sc.strand("product", list(product), label="ligated strand")
+    sc.junction("product", "barcode reverse complement", "ligation site")
+    return sc
+
+
 def ligated_product() -> Construct:
     return Construct([*hairpin_oligo(),*list(first_strand())],name="hairpin-ligated sci-RNA-seq3 cDNA")
 

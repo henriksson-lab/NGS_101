@@ -59,6 +59,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 50 cycles; Index 1 sample index: 8; Index 2 cell barcode: 16; Read 2: 50. All four use standard Nextera sequencing primers.')}
+{sp.diagram(lib, C.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
 
 

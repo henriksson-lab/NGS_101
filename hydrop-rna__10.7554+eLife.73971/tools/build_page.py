@@ -60,6 +60,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 50 cycles of cDNA; Index 1 and Index 2: 10-cycle sample indices; Read 2: 58 cycles covering the three cell barcodes, two linkers and 8-nt UMI.')}
+{sp.diagram(lib, H.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 2 barcode layout</h3>
 {table(("Cycles", "Content"), H.read2_layout(), scroll=False)}'''

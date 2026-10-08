@@ -50,6 +50,11 @@ Examples:
 - derive complementary strands with `complement_segments` or `revcomp`;
 - draw multi-strand states with `Scene`, which rejects non-pairing columns;
 - assemble adapters from canonical `illumina` / `nextera` components;
+- construct recurring end-prep, hairpin and dumbbell states through `endprep`, `hairpin`
+  and `dumbbell`, so overhang compatibility and topology are enforced once;
+- construct chromosome ends and phased terminal adapters through `telomere`, so every
+  repeat phase is derived from one motif and every telomere drawing retains its native
+  duplex-to-3′-overhang geometry;
 - locate sequencing primers through `seqprimers` while building the page, so a missing
   site makes the build fail;
 - construct uncertain segments through helpers that apply `inferred=True`, rather than
@@ -67,6 +72,28 @@ makes every consumer safer by default.
 
 **Review when.** When a test looks like a restatement of model content, first ask whether
 the model API can make the invalid state unrepresentable.
+
+## 2026-10-08 — Reaction junctions and sequencing-primer sites are part of the drawing
+
+**Decision.** Every covalent ligation shown in a construct is marked at the exact boundary
+with `** ligation`. Callers name the two adjacent segments through `Scene.junction` or
+`junction_row`; the renderer refuses a missing or non-adjacent boundary.
+
+Every finished library also shows its declared sequencing primers annealed to the final
+duplex, including extension direction. `seqprimers.diagram` derives those positions from
+the same `seqprimers.locate` result that validates the library. A protocol for which a
+primer sequence or site is genuinely unavailable must say so explicitly instead of
+silently omitting the binding diagram.
+
+Human-readable bracketed role tokens are orientation-independent display text. Reversing
+a strand may reverse molecular sequence, but must never render prose backwards.
+
+**Why.** Junctions and primer sites are chemically important relationships, not captions.
+Anchoring them to named model segments keeps them visible and makes diagram drift a build
+error.
+
+**Review when.** Revisit the marker glyph or layout if readability demands it; retain the
+named-boundary and computed-primer requirements.
 
 ## 2026-10-07 — Evidence and uncertainty remain visible but secondary
 

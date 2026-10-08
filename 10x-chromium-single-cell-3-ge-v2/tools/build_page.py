@@ -15,7 +15,7 @@ def sequencing(lib):
         h=sp.locate(lib,p)
         if h is None: raise ValueError(f"{p.name} has no site")
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Read 1 is 26 cycles: 16-base cell barcode then 10-base UMI. Index 1 identifies the sample; Read 2 sequences cDNA.')+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
+    return '<h2>Sequencing</h2>'+info('Read 1 is 26 cycles: 16-base cell barcode then 10-base UMI. Index 1 identifies the sample; Read 2 sequences cDNA.')+sp.diagram(lib,V.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
 
 def render():
     lib=V.final_library(); cdna=V.amplified_cdna()

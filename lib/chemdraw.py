@@ -27,9 +27,9 @@ from typing import Iterable, Sequence
 
 # --------------------------------------------------------------------------- bases
 
-_COMPLEMENT = str.maketrans("ACGTacgtNn", "TGCAtgcaNn")
+_COMPLEMENT = str.maketrans("ACGTUacgtuNn", "TGCAAtgcaaNn")
 
-REAL_BASES = set("ACGTNacgtn")
+REAL_BASES = set("ACGTUNacgtun")
 
 
 def complement(seq: str) -> str:
@@ -128,10 +128,16 @@ class Segment:
         if self.bottom is not None:
             return self.bottom
         if self.placeholder:
+            if self.is_role_token():
+                return self.top
             # lowercase marks "complement of a placeholder": AAAAAAAA (barcode A) -> aaaaaaaa,
             # which can never be mistaken for the dA/dT junction base or for real bases
             return self.top.lower()
         return complement(self.top)
+
+    def is_role_token(self) -> bool:
+        """Whether this placeholder is prose for a region, rather than molecular text."""
+        return self.placeholder and self.top.startswith("[") and self.top.endswith("]")
 
 
 # ----------------------------------------------------------------------- construct
@@ -278,6 +284,26 @@ def annotation_rows(con: Construct, indent: int = 0, prefix_width: int = 4,
     return rows
 
 
+def junction_row(con: Construct, left: str, right: str, text: str = "ligation",
+                 ch: str = "*", indent: int = 0, prefix_width: int = 4) -> Row:
+    """Mark the exact boundary between two adjacent construct segments.
+
+    Naming both sides makes the marker follow the chemistry when segment lengths change,
+    and refuses to draw it if another segment is inserted at the claimed junction.
+    """
+    names = [s.name for s in con]
+    try:
+        i, j = names.index(left), names.index(right)
+    except ValueError as exc:
+        raise ValueError(f"ligation junction needs segments {left!r} and {right!r}") from exc
+    if j != i + 1:
+        raise ValueError(f"ligation junction segments are not adjacent: {left!r}, {right!r}")
+    boundary = con.span(left)[1]
+    marker = ch * 2 + (" " + text if text else "")
+    return Row(chunks=[(" " * (boundary - 1) + marker, None, False)],
+               indent=indent + prefix_width)
+
+
 def primer_row(con: Construct, seq_segments: Sequence[Segment], anchor: str,
                direction: str = ">", indent: int = 0, prefix_width: int = 4,
                arrow: int = 8, label_5p: bool = True) -> Row:
@@ -361,6 +387,30 @@ def bridge(left: int, right: int, inner: Sequence[Sequence[tuple]] = (),
     return rows
 
 
+def circle_rows(con: Construct, closure_label: str = "covalently closed") -> list[Row]:
+    """Draw one circular strand opened at its last-to-first bond.
+
+    The sequence stays linear and readable, while the return path makes the topology
+    explicit.  Because the displayed break is always the boundary between the final and
+    first segments, callers cannot accidentally mark some unrelated internal bond as the
+    circularisation junction.
+    """
+    if not len(con):
+        raise ValueError("a circle needs at least one base")
+    lead = "  .-> "
+    molecule = strand_row(con, prefix=lead, suffix=" -.")
+    left, right = lead.index("."), len(molecule.plain()) - 1
+    width = right - left - 1
+    label = (f" ** {closure_label}: {con.segments[-1].name} -> "
+             f"{con.segments[0].name} ** ")
+    if len(label) > width:
+        label = " ** circularisation ** "
+    pad = width - len(label)
+    close = (" " * left + "'" + "-" * (pad // 2) + label
+             + "-" * (pad - pad // 2) + "'")
+    return [molecule, Row(chunks=[(close, None, False)])]
+
+
 # ------------------------------------------------------------------- pairing
 # One rule for "may these two characters be drawn in the same column of a duplex", used both
 # by Scene (refuses to build a wrong drawing) and by tools/lint_pairing.py (finds wrong
@@ -421,8 +471,10 @@ class _Strand:
     def drawn(self) -> list[Segment]:
         if not self.rev:
             return self.segs
-        return [Segment(s.name, s.top[::-1], s.tag, s.placeholder, s.inferred,
-                        None if s.bottom is None else s.bottom[::-1], s.note)
+        return [Segment(s.name, s.top if s.is_role_token() else s.top[::-1],
+                        s.tag, s.placeholder, s.inferred,
+                        None if s.bottom is None else
+                        (s.bottom if s.is_role_token() else s.bottom[::-1]), s.note)
                 for s in reversed(self.segs)]
 
     def text(self) -> str:
@@ -458,7 +510,7 @@ def complement_segments(segs: Sequence[Segment], suffix: str = "'") -> list[Segm
     """
     out = []
     for s in reversed(segs):
-        top = s.bottom_text()[::-1]
+        top = s.bottom_text() if s.is_role_token() else s.bottom_text()[::-1]
         out.append(Segment(s.name + suffix if s.name else "", top, s.tag,
                            s.placeholder, s.inferred))
     return out
@@ -557,6 +609,28 @@ class Scene:
         b = st.span(through) if through else a
         s, e = min(a[0], b[0]), max(a[1], b[1])
         self._decor("mark", strand, (s, ch * (e - s) + (" " + text if text else "")))
+
+    def junction(self, strand: str, left: str, right: str, text: str = "ligation",
+                 ch: str = "*") -> None:
+        """Mark the exact boundary between two adjacent segments on a drawn strand."""
+        st = self.strands[strand]
+        drawn = [s.name for s in st.drawn()]
+        try:
+            i, j = drawn.index(left), drawn.index(right)
+        except ValueError as exc:
+            raise ValueError(
+                f"ligation junction needs {left!r} and {right!r} on strand {strand!r}"
+            ) from exc
+        if abs(i - j) != 1:
+            raise ValueError(
+                f"ligation junction segments are not adjacent on {strand!r}: "
+                f"{left!r}, {right!r}"
+            )
+        a, b = sorted((st.span(left), st.span(right)))
+        if a[1] != b[0]:
+            raise ValueError(f"ligation junction has a gap on strand {strand!r}")
+        marker = ch * 2 + (" " + text if text else "")
+        self._decor("mark", strand, (a[1] - 1, marker))
 
     def note(self, strand: str, text: str) -> None:
         """A free line under the strand, starting at its first drawn base."""

@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import txci_atac as T
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel
 from page import head, info, table
 
@@ -49,6 +50,7 @@ def render() -> str:
         panel([*duplex.rows(), *annotation_rows(lib)], cls="small", caption="Final library, P5 to P7\'. Cell identity combines the GEM and Tn5 barcodes; i7 identifies the lane."),
         '<h2>Sequencing</h2>',
         info('Read 1: 51 cycles; i7: 8 usable cycles; i5: 16 cycles; Read 2: 78 cycles. Standard Illumina primer mixes are used.'),
+        sp.diagram(lib, T.SEQ_PRIMERS),
         table(("Read", "Standard primer", "Primer site", "First bases"), landings),
         '<h3>Read 2 before genomic DNA</h3>',
         table(("Cycles", "Content"), T.read2_layout(), scroll=False),

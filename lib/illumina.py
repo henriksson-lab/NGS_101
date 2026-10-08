@@ -19,6 +19,8 @@ universal community names for the flow-cell lawn oligos.
 
 from __future__ import annotations
 
+from hairpin import Hairpin
+
 # ----------------------------------------------------------- flow cell and read primers
 P5 = "AATGATACGGCGACCACCGAGATCTACAC"                    # 29 nt
 P7 = "CAAGCAGAAGACGGCATACGAGAT"                         # 24 nt
@@ -52,9 +54,13 @@ NEBNEXT_HAIRPIN = ("GATCGGAAGAGCACACGTCTGAACTCCAGTC"      # 1-31, stem + read-2 
                    "ACACTCTTTCCCTACACGACGCTCTTCCGATCT")   # 33-65, read-1 arm + 3'-T
 NEBNEXT_HAIRPIN_DU_POS = 31                                # 0-based index of the U
 
+NEBNEXT_HAIRPIN_MODEL = Hairpin("NEBNext Adaptor for Illumina", NEBNEXT_HAIRPIN,
+                                stem_len=12, overhang_3_len=1)
+NEBNEXT_USER_OPENED = NEBNEXT_HAIRPIN_MODEL.user_open_at(NEBNEXT_HAIRPIN_DU_POS)
+
 # After USER (UDG + Endo VIII) opens the loop:
-NEBNEXT_ARM_READ2 = "GATCGGAAGAGCACACGTCTGAACTCCAGTC"     # 31 nt, carries the 5'-phosphate
-NEBNEXT_ARM_READ1 = "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"   # 33 nt, carries the 3'-T
+NEBNEXT_ARM_READ2 = NEBNEXT_USER_OPENED.left_arm
+NEBNEXT_ARM_READ1 = NEBNEXT_USER_OPENED.right_arm
 
 # The full-length read-2-side arm of a canonical TruSeq adapter, for comparison:
 # revcomp(TRUSEQ_READ2) minus its leading dA.

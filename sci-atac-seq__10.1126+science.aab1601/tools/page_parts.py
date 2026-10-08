@@ -130,7 +130,8 @@ def sequencing(protocol: str) -> str:
         rows = [("Read 1", "not available", "genomic insert"), ("Index 1", "8 + 27 constant + PCR i7", "first- and second-round barcodes"), ("Index 2", "8 + 21 constant + PCR i5", "first- and second-round barcodes"), ("Read 2", "not available", "genomic insert")]
     else:
         rows = [("Read 1", "51", "genomic insert"), ("Index 1", "10 + 15 dark + 10", "N7 + i7"), ("Index 2", "10 + 15 dark + 10", "N5 + i5"), ("Read 2", "51", "genomic insert")]
-    return '<h2>Read layout</h2>' + table(("Read", "Cycles", "Content"), rows) + '</div>'
+    return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
+            + table(("Read", "Cycles", "Content"), rows) + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

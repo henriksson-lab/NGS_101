@@ -46,6 +46,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 98 cycles of cDNA; Index 1: 14-nt cell barcode; Index 2: 8-nt sample index; Read 2: 10-nt UMI. The v1 guide requires standard Illumina primers.')}
+{sp.diagram(lib, C.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
 
 

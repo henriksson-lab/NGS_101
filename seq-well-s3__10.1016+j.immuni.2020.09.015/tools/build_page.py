@@ -65,6 +65,7 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1 reports the 12-nt cell barcode and 8-nt UMI; Index 1 reports the N700 sample index; Read 2 reports cDNA from the Tn5 end.')}
+{sp.diagram(lib, S.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
 
 

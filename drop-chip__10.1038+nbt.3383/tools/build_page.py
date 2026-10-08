@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import dropchip as D
+import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -33,9 +34,12 @@ def oligos() -> str:
 
 def ligation() -> str:
     molecule = D.blunt_ligated_fragment()
+    sc = Scene.duplex(list(molecule))
+    sc.junction("top", "left right blunt end", "nucleosomal DNA")
+    sc.junction("top", "nucleosomal DNA", "right left blunt end")
     return f"""<h2>Library construction</h2>
 <h3>(1) End-repair nucleosomal DNA and blunt-ligate barcode adaptors</h3>
-{panel(Scene.duplex(list(molecule)).rows(), cls="long",
+{panel(sc.rows(), cls="long",
        caption="Representative ligation orientation. A double-stranded barcode adaptor is "
                "joined to both blunt fragment ends; either adaptor may ligate in either "
                "orientation.")}"""
@@ -67,6 +71,7 @@ def bcivi_and_boundary() -> str:
 
 
 def reads() -> str:
+    final = D.inferred_final_library()
     rows = [
         ("Read 1", "8-nt cell barcode at bases 1–8, then TTAA and genomic DNA"),
         ("Read 2", "11-nt constant, 8-nt cell barcode at bases 12–19, then TTAA and genomic DNA"),
@@ -80,6 +85,7 @@ def reads() -> str:
                     seg("PacI half", "TTAA"),
                     seg("genomic DNA", "XXXXXXXX...", placeholder=True)], name="Read 2")
     return f"""<h2>Read layout</h2>
+{sp.unavailable_diagram(final, "the paper does not publish the Illumina library-primer sequences")}
 {panel([strand_row(r1, prefix="Read 1  ", suffix=""),
         strand_row(r2, prefix="Read 2  ", suffix="")],
        cls="small", caption="Published barcode coordinates. The sequencing run uses 11 "

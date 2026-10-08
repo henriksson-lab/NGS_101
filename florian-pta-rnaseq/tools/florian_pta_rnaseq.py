@@ -37,6 +37,7 @@ import illumina as il
 import seqprimers as sp
 import rt
 from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from endprep import dA_tailed_scene, repair_and_dA_tail
 
 # --------------------------------------------------------------- the ordered oligos
 # Smartseq3expressTSO
@@ -211,14 +212,9 @@ def scene_switching() -> Scene:
 
 
 def scene_dA_tailing() -> Scene:
-    top = [_seg("cDNA", "X" * 20, "w1", placeholder=True), _seg("dA", "A")]
-    sc = Scene()
-    sc.strand("top", top, label="")
-    sc.anneal("bottom", [*complement_segments(top[:1]), _seg("dA", "A")], to="top",
-              pair=("cDNA'", "cDNA"), label="")
-    sc.mark("top", "dA", "dA")
-    sc.mark("bottom", "dA", "dA")
-    return sc
+    insert = Construct([_seg("cDNA", "X" * 20, "w1", placeholder=True)],
+                       name="amplified cDNA")
+    return dA_tailed_scene(repair_and_dA_tail(insert), label="")
 
 
 def scene_faked() -> Scene:

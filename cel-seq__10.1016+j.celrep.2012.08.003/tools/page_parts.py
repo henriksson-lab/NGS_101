@@ -9,7 +9,9 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import celseq as C
-from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+import seqprimers as sp
+from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
+                      strand_row)
 from page import head, info, table
 
 
@@ -73,7 +75,9 @@ def cel1_back() -> str:
         ("Read 2", "transcript sequence from the 3' tag"),
     ]
     return f"""<h3>(4) Fragment aRNA and ligate the RNA 3' adaptor</h3>
-{panel([strand_row(ligated), *annotation_rows(ligated)], cls="long",
+{panel([strand_row(ligated),
+        junction_row(ligated, "poly(U)/insert", "unpublished RNA 3' adaptor"),
+        *annotation_rows(ligated)], cls="long",
        caption="INFERRED — the defining chemistry ligates a second adaptor to fragmented aRNA, "
                "but its exact bases are unavailable in the accessible primary sources.")}
 <h3>(5) Reverse transcribe and library-PCR</h3>
@@ -81,6 +85,7 @@ def cel1_back() -> str:
        caption="INFERRED — supported inner order with unpublished library-PCR arms shown as "
                "dotted placeholders.")}
 <h2>Read layout</h2>
+{sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
 {table(("Read", "Reports"), reads)}"""
 
 
@@ -104,6 +109,7 @@ def cel2_back() -> str:
        caption="INFERRED — supported inner order with unpublished library-PCR arms shown as "
                "dotted placeholders.")}
 <h2>Read layout</h2>
+{sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
 {panel([strand_row(Construct(r1), prefix="Read 1  ", suffix=""),
         strand_row(Construct(r2), prefix="Read 2  ", suffix="")],
        cls="small", caption="Paired-end sequencing keeps cell identity in Read 1 and "

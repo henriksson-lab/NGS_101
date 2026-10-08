@@ -249,6 +249,7 @@ def scene_lig3() -> Scene:
     sc.strand("+ RA3", [seg("RA3", sm.RA3, "r2")], mod5="rApp", mod3="ddC")
     sc.strand("= ligated", [seg("small RNA", INSERT, None, placeholder=True),
                             seg("RA3", sm.RA3, "r2")], mod5="p", mod3="ddC")
+    sc.junction("= ligated", "small RNA", "RA3")
     return sc
 
 
@@ -315,6 +316,7 @@ def scene_lig5() -> Scene:
     sc.strand("RA5", ra5, mod5="NH2", mod3="OH")
     sc.strand("+ acceptor", acc, mod5="p", mod3="ddC")
     sc.strand("= ligated", ra5 + acc, mod5="NH2", mod3="ddC")
+    sc.junction("= ligated", "CA", "small RNA")
     sc.labels("= ligated")
     return sc
 

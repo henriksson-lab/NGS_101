@@ -17,7 +17,7 @@ from dataclasses import dataclass, replace
 
 import illumina as il
 import nextera as nx
-from chemdraw import Construct, revcomp
+from chemdraw import Construct, Row, panel, revcomp, strand_row
 
 ROLES = ("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2")
 
@@ -110,27 +110,35 @@ def _hits(top: str, seq: str) -> list[tuple[str, int, int]]:
     return hits
 
 
-def locate(lib: Construct, p: SeqPrimer, n: int = 12) -> Landing | None:
-    """Site of `p` on the library, or None. The 3' end must match exactly over at least
-    MIN_ANNEAL bases; the longest such match wins and any unpaired 5' remainder is reported
-    as `free5`. Raises if the site is not unique."""
+def locate_all(lib: Construct, p: SeqPrimer, n: int = 12) -> list[Landing]:
+    """Every best-length site of ``p`` on ``lib``.
+
+    Repeated sites are intentional in rolling-circle products. Ordinary sequencing
+    libraries should call :func:`locate`, which continues to require uniqueness.
+    """
     top = lib.top()
     hits = []
     for free5 in range(0, max(1, len(p.seq) - MIN_ANNEAL + 1)):
         hits = _hits(top, p.seq[free5:])
         if hits:
             break
-    if not hits:
-        return None
+    out = []
+    for strand, a, b in hits:
+        if strand == "bottom":   # same sense as top: extends rightwards, reports top
+            reads, frm = top[b:b + n], _seg_at(lib, b)
+        else:                    # anneals to top: extends leftwards, reports bottom 5'->3'
+            # from the drawn bottom strand, so placeholders stay stand-ins, not bases
+            reads, frm = lib.bottom()[max(0, a - n):a][::-1], _seg_at(lib, a - 1)
+        out.append(Landing(strand, a, b, _covers(lib, a, b), reads, frm, free5))
+    return out
+
+
+def locate(lib: Construct, p: SeqPrimer, n: int = 12) -> Landing | None:
+    """Unique site of ``p`` on the library, or ``None``."""
+    hits = locate_all(lib, p, n)
     if len(hits) > 1:
         raise ValueError(f"{p.name}: {len(hits)} exact sites on {lib.name!r} -- ambiguous")
-    strand, a, b = hits[0]
-    if strand == "bottom":       # same sense as top: extends rightwards, reports top
-        reads, frm = top[b:b + n], _seg_at(lib, b)
-    else:                        # anneals to top: extends leftwards, reports bottom 5'->3'
-        # from the drawn bottom strand, so placeholders stay stand-ins (x), not "complemented"
-        reads, frm = lib.bottom()[max(0, a - n):a][::-1], _seg_at(lib, a - 1)
-    return Landing(strand, a, b, _covers(lib, a, b), reads, frm, free5)
+    return hits[0] if hits else None
 
 
 def verify(lib: Construct, primers, required_roles=ROLES) -> list[str]:
@@ -151,6 +159,43 @@ def verify(lib: Construct, primers, required_roles=ROLES) -> list[str]:
     if missing:
         errs.append(f"no primer declared for {', '.join(missing)}")
     return errs
+
+
+def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the final library") -> str:
+    """Draw every declared sequencing primer at its computed site on the final duplex."""
+    located = [(p, locate(lib, p)) for p in primers]
+    gutter = len("final library  ")
+
+    def primer_row(p: SeqPrimer, hit: Landing) -> Row:
+        role = f"{p.role} / {p.name}"
+        tag = "r1" if p.role == "Read 1" else "r2" if p.role == "Read 2" else "cbc"
+        if hit.strand == "bottom":
+            # Same sense as the top strand; a 5' flap extends to the left of the match.
+            start = hit.start - hit.free5
+            return Row(chunks=[(p.seq, tag, False)], indent=gutter + start, prefix="5'- ",
+                       suffix=f" -3'  --------> {role}")
+        # Antiparallel below the top strand.  Reverse for the left-to-right 3'->5' drawing;
+        # a 5' flap consequently extends to the right of the exact match.
+        return Row(chunks=[(p.seq[::-1], tag, False)], indent=gutter + hit.start, prefix="3'- ",
+                   suffix=f" -5'  <-------- {role}")
+
+    above = [primer_row(p, h) for p, h in located if h and h.strand == "bottom"]
+    below = [primer_row(p, h) for p, h in located if h and h.strand == "top"]
+    missing = [Row(chunks=[(f"{p.role} / {p.name}: no exact site — {p.expect_mismatch}",
+                            None, False)]) for p, h in located if h is None]
+    top = strand_row(lib, "top", prefix="final library  5'- ", suffix=" -3'")
+    bottom = strand_row(lib, "bottom", prefix="               3'- ", suffix=" -5'")
+    return panel([*above, top, bottom, *below, *missing], cls="long", caption=caption)
+
+
+def unavailable_diagram(lib: Construct, reason: str,
+                        roles: tuple[str, ...] = ("Read 1", "Index", "Read 2"),
+                        caption: str = "Sequencing-primer binding on the final library") -> str:
+    """Draw the final duplex and make an unsupported primer placement visibly absent."""
+    rows = [strand_row(lib, "top", prefix="final library  5'- ", suffix=" -3'"),
+            strand_row(lib, "bottom", prefix="               3'- ", suffix=" -5'")]
+    rows.extend(Row(chunks=[(f"{role} primer: ?  {reason}", None, False)]) for role in roles)
+    return panel(rows, cls="long", caption=caption)
 
 
 def section(lib: Construct, primers, heading: str = "Sequencing primers",
@@ -183,6 +228,6 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
     return (f"<h2>{html.escape(heading)}</h2>\n{intro_html}"
             "<p><info>Sequences come from <code>lib/</code>; the landing site and the first "
             "bases of each read are computed from this page's final library, so they cannot "
-            "drift from it.</info></p>\n<div class=\"tw\"><table>\n"
+            "drift from it.</info></p>\n" + diagram(lib, primers) + "\n<div class=\"tw\"><table>\n"
             "<tr><th>Read</th><th>Primer</th><th>Sequence</th><th>Lands on</th>"
             "<th>First bases read</th></tr>\n" + "\n".join(rows) + "\n</table></div>\n")

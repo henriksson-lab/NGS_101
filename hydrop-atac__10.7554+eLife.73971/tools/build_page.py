@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import hydrop_atac as H
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -62,6 +63,7 @@ def sequencing() -> str:
                              f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 50 cycles; cell-barcode Index 1: 52; sample Index 2: 10; Read 2: 50. All four use standard Nextera sequencing primers.')}
+{sp.diagram(lib, H.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), landing_rows)}
 <h3>Index 1 cell-barcode read</h3>
 {table(("Cycles", "Content"), H.index1_layout(), scroll=False)}

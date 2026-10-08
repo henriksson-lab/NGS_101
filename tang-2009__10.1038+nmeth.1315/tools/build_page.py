@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import tang2009 as T
+import seqprimers as sp
 from chemdraw import Scene, Segment, annotation_rows, complement_segments, oligo, panel
 from page import head, info
 
@@ -108,12 +109,16 @@ def solid_library() -> str:
     lib = T.final_library()
     duplex = Scene.duplex(lib.segments)
     duplex.strands["top"].label = duplex.strands["bottom"].label = ""
+    duplex.junction("top", "SOLiD P1", "cDNA fragment")
+    duplex.junction("top", "cDNA fragment", "SOLiD P2")
     rows = [*duplex.rows(), *annotation_rows(lib, prefix_width=4)]
     return ("<h2>Fragment library</h2>\n"
             + info("The amplified cDNA is sheared to about 100–110 bp, end-repaired, ligated to unbarcoded SOLiD P1/P2 adapters and nick-translated.")
             + solid_adapters()
             + panel(rows, cls="long",
                     caption="2009 final library: one cell per unbarcoded library. Adapter ligation is not directional, so either cDNA strand may face P1.")
+            + sp.unavailable_diagram(lib, "the SOLiD sequencing-primer sequence is not published",
+                                     roles=("Read 1",))
             + "<h3>Sequencing</h3>\n"
             + info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. The sequencing-primer sequence was not published in the sources read, so none is drawn or declared.")
             + '<details class="sources"><summary>Related source</summary><ul>'

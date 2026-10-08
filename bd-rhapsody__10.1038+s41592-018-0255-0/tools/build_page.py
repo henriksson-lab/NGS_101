@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent;sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import rhapsody as R
+import seqprimers as sp
 from chemdraw import Construct,annotation_rows,oligo,panel,strand_row
 from page import head,info,table
 OUT=HERE.parent/"bd-rhapsody.html"
@@ -32,6 +33,7 @@ def render():
       '<h3>(5) RPE PCR and indexed library PCR</h3>',
       panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — supported inner order with proprietary bead/PCR arms dotted."),
       '<h2>Read layout</h2>',
+      sp.unavailable_diagram(final,'BD does not publish the proprietary primer sequences'),
       panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption="The platform paper used 101 × 2 sequencing. Exact primer bases are proprietary."),
       table(("Read","Reports"),[("Read 1","cell label, UMI, then poly(T)"),("Index 1","library index"),("Read 2","cDNA from the random-primed end")]),'</div>'])
 

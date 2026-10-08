@@ -93,7 +93,10 @@ def sequencing(protocol: str) -> str:
     rows = ([("Read 1", "100", "bisulfite insert; first 6 bases clipped"), ("Index 1", "6", "cell/sample index"), ("Read 2", "100", "bisulfite insert; non-directional")]
             if protocol == N.SCNOME else
             [("Read 1", "150", "primer-1 N9, then bisulfite insert"), ("Index 1", "indexed", "cell/sample index"), ("Read 2", "150", "primer-2 N9, then bisulfite insert")])
-    return '<h2>Read layout</h2>' + table(("Read", "Cycles", "Content"), rows) + info('There is no molecular cell barcode or UMI; the final sample index identifies the well.') + '</div>'
+    return ('<h2>Read layout</h2>' + sp.diagram(lib, N.SEQ_PRIMERS)
+            + table(("Read", "Cycles", "Content"), rows)
+            + info('There is no molecular cell barcode or UMI; the final sample index identifies the well.')
+            + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

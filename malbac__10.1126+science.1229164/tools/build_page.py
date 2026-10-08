@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import malbac as M
+import seqprimers as sp
 from chemdraw import Scene, Segment, oligo, panel, strand_row
 from page import head, info
 
@@ -74,6 +75,10 @@ def render() -> str:
               caption="Amplified MALBAC product. The protocol itself adds no cell barcode, UMI "
                       "or sequencing adapter."),
         '<h2>Sequencing library</h2>',
+        sp.unavailable_diagram(M.full_amplicon(),
+            'a separate, unspecified library-preparation kit must first add platform adapters',
+            roles=('Read 1', 'Read 2'),
+            caption='Sequencing primers cannot bind the MALBAC amplification product'),
         info('MALBAC ends at amplified genomic DNA. A separate standard library-preparation kit '
              'adds the platform adapters; the accessible defining paper does not identify that kit.'),
         '</div>',

@@ -132,7 +132,8 @@ def sequencing(protocol: str) -> str:
     else:
         rows = [("Read 1", "16", "well barcode 1&ndash;6 &middot; UMI 7&ndash;16"),
                 ("Index 1", "8", "plate i7"), ("Read 2", "50", "cDNA, sense to the mRNA")]
-    return '<h2>Read layout</h2>' + table(("Read", "Cycles", "Content"), rows) + '</div>'
+    return ('<h2>Read layout</h2>' + sp.diagram(lib, S.READ_PRIMERS)
+            + table(("Read", "Cycles", "Content"), rows) + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:
@@ -140,4 +141,3 @@ def render_page(protocol: str, out: Path) -> None:
                               oligos(protocol), steps(protocol), sequencing(protocol)]),
                    encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
-

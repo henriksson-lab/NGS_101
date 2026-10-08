@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from endprep import dA_tailed_scene, repair_and_dA_tail
 
 INDEX_NT = 6
 MSPI_SITE = "CCGG"
@@ -90,15 +91,9 @@ def digested_fragment_scene() -> Scene:
 
 def a_tailed_fragment_scene() -> Scene:
     """Filled MspI fragment with one unpaired 3'-A at each end."""
-    core = [_seg("filled fragment", "CGGXXXXXXXX...XXXXXXXXCCG", placeholder=True)]
-    sc = Scene()
-    sc.strand("top", [*core, _seg("right dA", "A")], label="fragment")
-    sc.anneal("bottom", [*complement_segments(core), _seg("left dA", "A")],
-              to="top", pair=("filled fragment'", "filled fragment"), label="fragment",
-              unpaired=("left dA",))
-    sc.mark("top", "right dA", "3'-A")
-    sc.mark("bottom", "left dA", "3'-A")
-    return sc
+    core = Construct([_seg("filled fragment", "CGGXXXXXXXX...XXXXXXXXCCG",
+                           placeholder=True)])
+    return dA_tailed_scene(repair_and_dA_tail(core), label="fragment")
 
 
 def final_library() -> Construct:

@@ -6,6 +6,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE)); sys.path.insert(0,str(HERE.parents[1]/"lib"))
 import sci_rna_seq3 as S
+import seqprimers as sp
 from chemdraw import Scene,annotation_rows,oligo,panel,strand_row
 from page import head,info,table
 OUT=HERE.parent/"sci-rna-seq3.html"
@@ -27,7 +28,7 @@ def construction()->str:
 
 <h3>(2) Ligate a second well-specific barcode through the hairpin splint</h3>
 {panel(S.ligation_scene().rows(),cls="small",caption="The hairpin's GCTCTG overhang pairs with the RT primer's CAGAGC. Its barcode arms are reverse complements by construction.")}
-{panel([strand_row(lig),*annotation_rows(lig)],cls="small",caption="Continuous ligated strand shown linearly; in solution the barcode arms form the hairpin stem around dU + the Read 1 handle.")}
+{panel([*S.ligated_scene().rows(),*annotation_rows(lig)],cls="small",caption="Continuous ligated strand shown linearly; in solution the barcode arms form the hairpin stem around dU + the Read 1 handle.")}
 
 <h3>(3) Make the second strand, tagment with N7-only Tn5, then open the hairpin with USER</h3>
 {panel([strand_row(opened),*annotation_rows(opened)],cls="small",caption="USER removes dU and releases the short outer hairpin arm. The retained handle-to-s7 fragment carries both in-nucleus barcodes.")}
@@ -38,10 +39,12 @@ def construction()->str:
 
 
 def sequencing()->str:
+    lib=S.final_library()
     rows=[]
     for p,h in S.primer_landings(): rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
     return f'''<h2>Sequencing</h2>
 {info('Read 1: 34 cycles; Index 1: 10; Index 2: 10; Read 2: 52. Read 1 contains ligation barcode + CAGAGC + UMI + RT barcode; Read 2 contains transcript sequence.')}
+{sp.diagram(lib,S.SEQ_PRIMERS)}
 {table(("Read","Primer","Primer site","First bases"),rows)}
 <h3>Read 1 layout (representative 10-base ligation barcode)</h3>{table(("Cycles","Content"),S.read1_layout(),scroll=False)}
 {info('The published adaptor set mixes 9- and 10-base ligation barcodes; a 9-base member shifts the following fields one cycle earlier.')}

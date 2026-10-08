@@ -11,6 +11,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Segment, revcomp
+from endprep import dA_tailed_scene, repair_and_dA_tail
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -27,6 +28,8 @@ UMI_NT = 8
 # Library-prep assignment is also only available in the upstream page.  These bases are
 # canonical vendor sequences, imported rather than copied; the upstream specifies 6-nt i7.
 I7_NT = 6
+NEBNEXT_HAIRPIN = il.NEBNEXT_HAIRPIN_MODEL
+NEBNEXT_OPENED = il.NEBNEXT_USER_OPENED
 
 
 def transposon_segments(*, inferred: bool = True) -> list[Segment]:
@@ -98,19 +101,33 @@ def umi_amplicon(insert_nt: int = 28) -> Construct:
     ], name="UMI-tagged LIANTI amplicon")
 
 
+def end_prepared_amplicon(insert_nt: int = 28):
+    """The standard NEBNext-polished, dA-tailed LIANTI amplicon."""
+    return repair_and_dA_tail(umi_amplicon(insert_nt), inferred=True)
+
+
+def end_prep_scene(insert_nt: int = 28):
+    return dA_tailed_scene(end_prepared_amplicon(insert_nt), label="LIANTI amplicon")
+
+
+SEQ_PRIMERS = [sp.TRUSEQ[k] for k in ("R1", "I1", "I2", "R2")]
+
+
 def final_library(insert_nt: int = 28) -> Construct:
     """One of the two possible adapter-ligation orientations, P5 to P7'."""
     insert = "X" * insert_nt if insert_nt <= 30 else "XXXXXXXXXXXX...XXXXXXXXXXXX"
-    return Construct([
+    d_a = end_prepared_amplicon(insert_nt).three_prime_overhang
+    lib = Construct([
         # P5 overlaps the first four bases of the Read 1 site (ACAC).
         seg("P5", il.P5[:-4], "p5"),
-        seg("Read 1 site", il.TRUSEQ_READ1, "r1"),
+        seg("Read 1 site", NEBNEXT_OPENED.right_arm, "r1"),
         seg("UMI", "N" * UMI_NT, "umi", placeholder=True, inferred=True),
         seg("T7 start", T7_START, "t7", inferred=True),
         seg("mosaic end", nx.ME, "me", inferred=True),
         seg("genomic insert", insert, placeholder=True),
-        seg("dA", "A"),
-        seg("index-read site", il.INDEX1_PRIMER, "r2"),
+        seg("dA", d_a, inferred=True),
+        seg("index-read site", NEBNEXT_OPENED.left_arm
+            + il.INDEX1_PRIMER[len(NEBNEXT_OPENED.left_arm):], "r2"),
         seg("i7", "I" * I7_NT, "cbc", placeholder=True, inferred=True),
         seg("P7'", il.P7_RC, "p7"),
     ], name="LIANTI sequencing library, UMI at P5 end")
@@ -118,6 +135,3 @@ def final_library(insert_nt: int = 28) -> Construct:
     if problems:
         raise ValueError("invalid LIANTI final library: " + "; ".join(problems))
     return lib
-
-
-SEQ_PRIMERS = [sp.TRUSEQ[k] for k in ("R1", "I1", "I2", "R2")]

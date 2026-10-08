@@ -14,7 +14,7 @@ def sequencing(lib):
         h=sp.locate(lib,p)
         if h is None: raise ValueError(f"{p.name} has no site")
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Read 1 reports the 16-base cell barcode and 10-base UMI; i7 identifies the sample; Read 2 sequences the transcript-facing fragment.')+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
+    return '<h2>Sequencing</h2>'+info('Read 1 reports the 16-base cell barcode and 10-base UMI; i7 identifies the sample; Read 2 sequences the transcript-facing fragment.')+sp.diagram(lib,V.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
 def render():
     lib=V.final_library(); cdna=V.amplified_cdna()
     return "\n".join([head("10x Chromium 5' Gene Expression v1 chemistry"),'<div class="wrap">','<h1>10x Chromium Single Cell 5&#39; Gene Expression v1</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support">10x Genomics Technical Note CG000109 Rev D</a>.'),

@@ -50,3 +50,19 @@ txci-atac-seq__10.1101+2023.05.11.540245	https://www.protocols.io/view/ten-10-x-
 hydrop-atac__10.7554+eLife.73971	https://www.protocols.io/view/hydrop-atac-v1-0-bxsbpnan	HyDrop-ATAC v1.0 protocols.io protocol	bulk PCR cycle number
 hydrop-atac__10.7554+eLife.73971	protocolsio:10.17504/protocols.io.b4cyqsxw	HyDrop bead synthesis protocols.io protocol	bead oligo synthesis
 hydrop-rna__10.7554+eLife.73971	protocolsio:10.17504/protocols.io.b4cyqsxw	HyDrop bead synthesis protocols.io protocol	bead oligo synthesis
+in-situ-hi-c__10.1016+j.cell.2014.11.021	https://www.encodeproject.org/documents/0dd3624f-d1f9-4505-b97c-da01b90a70f4/@@download/attachment/Hi-C%20Protocol.pdf	ENCODE transcription of Rao et al. 2014 Extended Experimental Procedures section I.a.1	the paper's supplementary zip is behind PMC's interactive download gate
+fisseq__10.1126+science.1250212	https://pmc.ncbi.nlm.nih.gov/articles/PMC4327781/	Lee et al. 2015 Nature Protocols FISSEQ procedure	open full protocol with verbatim RT, RCA and sequencing-primer sequences
+fisseq__10.1126+science.1250212	https://pmc.ncbi.nlm.nih.gov/articles/PMC4140943/	Lee et al. 2014 Science author manuscript	open manuscript of the defining report
+oxford-nanopore-ligation-sequencing-v14	https://nanoporetech.com/resources/technique/whole-genome-sequencing/document/genomic-dna-by-ligation-sqk-lsk114	Oxford Nanopore SQK-LSK114 genomic DNA by ligation protocol	GDE_9161_v114_revAC_24Sep2025
+oxford-nanopore-ligation-sequencing-v14	https://nanoporetech.com/document/chemistry-technical-document	Oxford Nanopore chemistry technical document	CHTD_500_v1_revAV_24July2026; adapter sequences and motor/tether roles
+pacbio-smrtbell-prep-kit-3-0	https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-whole-genome-and-metagenome-libraries-using-SMRTbell-prep-kit-3.0.pdf	PacBio SMRTbell prep kit 3.0 WGS/metagenome procedure	102-166-600 REV09 AUG2026
+pacbio-smrtbell-prep-kit-3-0	https://www.pacb.com/wp-content/uploads/Whole-genome-and-metagenome-library-preparation-using-SMRTbell-prep-kit-3.0-training.pdf	PacBio SMRTbell prep kit 3.0 training	102-390-900 Rev03 Nov2025
+nebnext-ultra-ii-dna-library-prep-user-adaptor	https://www.neb.com/en-us/-/media/nebus/files/manuals/manuale7103-e7645.pdf	NEBNext Ultra II DNA Library Prep manual	E7103/E7645 v7.0_9/22
+nebnext-ultra-ii-dna-library-prep-user-adaptor	https://www.neb.com/en/-/media/nebus/files/manuals/manuale7600.pdf	NEBNext Dual Index Primers Set 1 manual	E7600 v6.0_6/24; exact hairpin adaptor and PCR oligos
+telo-seq__10.1038+s41467-024-48917-7	https://nanoporetech.com/document/requirements/TELO-seq	Oxford Nanopore TELO-seq requirements	current commercial implementation; defining source remains Schmidt et al. 2024
+telopcr-seq__10.1002+1873-3468.12444	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+yeast-telotag__10.1101+gr.275868.121	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+pacbio-telobait__10.1038+s41467-023-35823-7	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+telo-seq__10.1038+s41467-024-48917-7	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+digital-telomere-measurement__10.1038+s41467-024-49007-4	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+telomere-profiling__10.1126+science.ado0431	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context

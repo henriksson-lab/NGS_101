@@ -52,6 +52,7 @@ def ligation_scene() -> Scene:
     # because BRIDGE is the reverse complement of s5 + the first 21 nt of Read 1.
     if revcomp(BRIDGE) != nx.S5 + il.TRUSEQ_READ1[:21]:
         raise ValueError("bridge no longer joins s5 directly to TruSeq Read 1")
+    sc.junction("product", "s5", "Read-1 bridge site")
     return sc
 
 
