@@ -14,28 +14,16 @@ import illumina as il
 import seqprimers as sp
 from chemdraw import (Construct, Row, Scene, Segment, annotation_rows, bridge,
                       complement_segments, oligo, panel, revcomp, strand_row)
-from crispr import SCAFFOLD_V1, clone_guide
-from padlock import capture
+from crispr import SCAFFOLD_V1
 from page import caveat, head, info, legend, table
-from plasmid import amplify, read_genbank
+from plasmid import amplify
 
 OUT = HERE.parent / "crisprmip.html"
 PRE = 4
 SPACER = cm.EXAMPLE_SPACER
-VEC = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
-
-# The page is computed from the real vector map, so it cannot be built without it. That map
-# is third-party material and is not committed; fail with the one thing the reader needs.
-if not VEC.exists():
-    print(f"cannot build {OUT.name}: missing {VEC.relative_to(HERE.parents[1])}"
-          " -- the lentiCRISPRv2 map (Addgene #52961). It is third-party material and is not"
-          " committed; see lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/"
-          "MANIFEST.md for how to re-obtain it.", file=sys.stderr)
-    sys.exit(1)
 
 probe = cm.probe()
-vector = clone_guide(read_genbank(str(VEC)), SPACER)
-cap = capture(vector, probe)[0]
+cap = cm.modeled_capture(SPACER)
 lib_seq = amplify(cap.circle, cm.P5_TRACR_FWD, cm.P7_TRACR_REV, min_anneal=15)[0]
 FILL = cap.fill
 
@@ -163,7 +151,8 @@ any amplification and the readout becomes a count of molecules rather than of re
 reveals GC and oversampling bias in pooled CRISPR screens.</i> bioRxiv 2024.03.28.587082.
 <a href="https://doi.org/10.1101/2024.03.28.587082">doi:10.1101/2024.03.28.587082</a>.
 Sequences are from Table S2; every length, position and product below is recomputed from
-the real lentiCRISPRv2 map (Addgene #52961) each time this page is built.""")}
+the protocol landmarks. Those landmarks are cross-checked against the real lentiCRISPRv2
+map (Addgene #52961) when that optional source file is available.""")}
 
 {legend("""<b>The idea in one line.</b> A padlock probe finds its target with <i>two</i>
 arms instead of one primer, the gap between them is filled and sealed into a circle, and an

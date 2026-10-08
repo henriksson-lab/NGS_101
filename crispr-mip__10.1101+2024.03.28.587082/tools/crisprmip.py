@@ -22,8 +22,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Segment, revcomp
-from crispr import SCAFFOLD_V1
-from padlock import Padlock
+from crispr import SCAFFOLD_V1, U6_PLUS1
+from padlock import Capture, Padlock, capture
+from plasmid import Plasmid
 
 # --------------------------------------------------------------- probe design
 # All sequences verbatim from Table S2 of the preprint (supplementary media-2.xlsx).
@@ -47,6 +48,12 @@ PROBE_INDICES = ("ATCACGAC", "ACAGTGGT", "CAGATCCA", "ACAAACGG", "ACCCAGCA",
 EXAMPLE_SPACER = "ATCGATCGATCGATCGATCG"
 
 CAPTURED_SPAN = 112      # published, and computed from the real vector
+# The 15 bases between the end of the v1 scaffold and the ligation arm.  This is the
+# only local vector context needed to construct the captured molecule; it was extracted
+# from Addgene #52961 and is cross-checked against that map whenever the optional source
+# file is present.  Keeping this small, reviewed landmark in the model lets a clean clone
+# build the page without bundling the third-party GenBank file.
+CAPTURE_3PRIME_FLANK = "TTTTTTGAATTCGCT"
 UMI_LEN = 13
 READ1_CYCLES = 60        # published: reads the captured sgRNA
 READ2_CYCLES = 15        # published: enough for the 13-nt UMI
@@ -93,6 +100,30 @@ def probe(index: str = PROBE_INDICES[0]) -> Padlock:
     """One of the nine CRISPR-MIP probes, selected by its i7 index."""
     return Padlock(f"CRISPR-MIP-{index}", ext_arm=EXT_ARM, lig_arm=LIG_ARM,
                    backbone=backbone(index))
+
+
+def capture_fill(spacer: str = EXAMPLE_SPACER) -> str:
+    """Sequence copied between the two probe arms for a cloned guide.
+
+    U6 contributes a +1 G only when the 20-nt spacer does not already begin with G.
+    The rest is the canonical v1 scaffold and the verified 15-nt vector flank.
+    """
+    spacer = spacer.upper()
+    if len(spacer) != 20 or any(b not in "ACGT" for b in spacer):
+        raise ValueError("CRISPR-MIP example spacer must be 20 DNA bases")
+    return ("" if spacer.startswith("G") else U6_PLUS1) + spacer + SCAFFOLD_V1 + CAPTURE_3PRIME_FLANK
+
+
+def modeled_capture(spacer: str = EXAMPLE_SPACER,
+                    index: str = PROBE_INDICES[0]) -> Capture:
+    """Build the capture from the protocol landmarks, independent of a plasmid file."""
+    target = Plasmid("lentiCRISPRv2 guide cassette",
+                     EXT_ARM + capture_fill(spacer) + LIG_ARM,
+                     circular=False, features=[])
+    hits = capture(target, probe(index))
+    if len(hits) != 1:
+        raise ValueError(f"modeled guide cassette gives {len(hits)} CRISPR-MIP captures")
+    return hits[0]
 
 
 # ------------------------------------------------------------------ protocol

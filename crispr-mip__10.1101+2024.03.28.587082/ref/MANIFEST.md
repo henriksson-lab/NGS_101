@@ -6,9 +6,10 @@ clone will not have them, and that is expected: `tools/selftest.py` guards every
 reads one, records a SKIP naming the file and where to get it, and **passes** on the remaining
 checks. A missing source file means the clone is incomplete, not that the chemistry is wrong.
 
-Page builders are stricter: `tools/build_page.py` and `tools/show_probe.py` compute everything
-from the real vector map, so without it they print one line saying which file is missing and
-exit 1 rather than emitting a half-computed page.
+The website page builds from the reviewed protocol landmarks in `tools/crisprmip.py`; when
+the map is present, the self-test checks those landmarks against it. The diagnostic
+`tools/show_probe.py` still requires the complete map and exits with retrieval instructions
+when it is absent.
 
 - **Protocol:** Selinger M, Yakovenko I, Nazir I, Henriksson J. "CRISPR-MIP replaces PCR and
   reveals GC and oversampling bias in pooled CRISPR screens." *bioRxiv* 2024.03.28.587082,
@@ -34,7 +35,7 @@ and are listed here because the checks here depend on them:
 
 | Source | Used for | Where to get it |
 |---|---|---|
-| `lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb` | The real vector the screens used. Everything measured rather than quoted: the single capture site in the 13 kb vector, the 112-nt gap fill, the closed circle, the 269-bp inverse-PCR product, the restriction sites that spare the probe footprint, and all of `crisprmip.html`'s drawings. Guarded by `HAVE_VEC` in `tools/selftest.py`; fatal for the two page builders. | Addgene **#52961** (lentiCRISPRv2, Zhang lab). That directory's own `ref/plasmids/MANIFEST.md` records the exact route, which is no longer a plain download. |
+| `lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb` | The real vector the screens used. It optionally cross-checks the single capture site, 112-nt gap fill, closed circle, 269-bp inverse-PCR product and restriction sites. The page itself is built from the smaller verified landmarks in `tools/crisprmip.py`, so a clean clone does not require third-party source material. | Addgene **#52961** (lentiCRISPRv2, Zhang lab). That directory's own `ref/plasmids/MANIFEST.md` records the exact route, which is no longer a plain download. |
 | `ref/concepts/padlock-circularization.md` (repo root) | Prose only: the general padlock chemistry, linked from `01_crispr-mip.md`. No check reads it. | Written in this repo, not third-party. |
 
 The Brunello kinome library itself (Addgene **#75314**) is named in the page as the library

@@ -329,16 +329,17 @@ EXTRA_CSS = """<style>
 .wipbox { border-left:3px solid var(--note-rule); padding-left:14px; }
 
 /* property finder */
-.finder { margin:1em 0; padding:12px; border:1px solid var(--rule); border-radius:6px;
+.index { padding-top:14px; }
+.index .wrap > h1 { font-size:1.55rem; margin:0; line-height:1.1; }
+.finder { margin:.35em 0 .55em; padding:8px 10px; border:1px solid var(--rule); border-radius:6px;
           background:var(--surface); }
-.finder-head { display:flex; gap:10px; align-items:baseline; margin-bottom:9px; }
+.finder-head { display:flex; gap:8px; align-items:baseline; margin-bottom:5px; }
 .finder-head h2 { margin:0; font-size:1rem; }
 .finder-head h2::before { content:none; }
-.finder-head p { margin:0; color:var(--ink-muted); font-size:.84rem; }
-.facetbar { display:flex; flex-wrap:wrap; gap:6px; align-items:flex-start; }
+.facetbar { display:flex; flex-wrap:wrap; gap:5px; align-items:flex-start; }
 .facet { position:relative; }
 .facet summary, .more-facets > summary, .text-search > summary { list-style:none; cursor:pointer;
-          font-size:.82rem; padding:4px 10px; border:1px solid var(--rule); border-radius:999px;
+          font-size:.8rem; padding:3px 8px; border:1px solid var(--rule); border-radius:999px;
           color:var(--ink-muted); background:var(--bg); user-select:none; }
 .facet summary::-webkit-details-marker, .more-facets > summary::-webkit-details-marker,
 .text-search > summary::-webkit-details-marker { display:none; }
@@ -354,19 +355,20 @@ EXTRA_CSS = """<style>
           border-radius:3px; font-size:.84rem; cursor:pointer; }
 .facet-options label:hover { background:var(--surface-2); }
 .facet-options small { color:var(--ink-muted); font-variant-numeric:tabular-nums; }
-.more-facets { width:100%; margin-top:2px; }
+.more-facets { margin:0; }
 .more-facets > summary, .text-search > summary { display:inline-block; }
-.more-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
-.finder-foot { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:9px; }
+.more-grid { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+.finder-foot { display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px; margin-top:5px; }
 .clear { font:inherit; font-size:.8rem; color:var(--accent); border:0; background:none;
          padding:2px; cursor:pointer; }
-.search { margin-top:7px; }
-.search input[type=search] { font:inherit; font-size:.9rem; width:min(580px,100%); box-sizing:border-box;
-          padding:7px 10px; border:1px solid var(--key-rule); border-radius:6px;
+.text-search[open] { flex:1 1 300px; }
+.search { display:inline; margin-left:5px; }
+.search input[type=search] { font:inherit; font-size:.82rem; width:min(360px,100%); box-sizing:border-box;
+          padding:3px 7px; border:1px solid var(--key-rule); border-radius:5px;
           background:var(--bg); color:var(--ink); }
-.count { color:var(--ink-muted); font-size:.85rem; margin-left:auto;
+.count { color:var(--ink-muted); font-size:.8rem; margin-left:auto; padding:3px 0;
          font-variant-numeric:tabular-nums; }
-.plist { list-style:none; padding:0; margin:.6em 0; display:grid; gap:6px;
+.plist { list-style:none; padding:0; margin:.25em 0; display:grid; gap:6px;
          grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); }
 .pr { border:1px solid var(--rule); border-radius:4px; padding:9px 12px;
       background:var(--surface); }
@@ -531,14 +533,13 @@ def facet_controls(ps: list[dict]) -> str:
 def search_section(ps: list[dict]) -> str:
     items = "\n".join(result_item(i, p) for i, p in enumerate(ps))
     return f"""<form class="finder" role="search" onsubmit="return false">
-<div class="finder-head"><h2>Find by chemistry</h2>
-<p>Choices within one group are alternatives; different groups combine.</p></div>
+<div class="finder-head"><h2>Filter protocols</h2></div>
 {facet_controls(ps)}
-<details class="text-search"><summary>Optional text search</summary>
-<div class="search"><label for="q" class="sr-only">Search protocol text</label>
-<input id="q" type="search" placeholder="Title, alias, paper or description"
-       autocomplete="off" spellcheck="false"></div></details>
-<div class="finder-foot"><span class="count" id="count" aria-live="polite">{len(ps)} protocols</span>
+<div class="finder-foot"><details class="text-search"><summary>Text search</summary>
+<span class="search"><label for="q" class="sr-only">Search protocol text</label>
+<input id="q" type="search" placeholder="Name, paper or description"
+       autocomplete="off" spellcheck="false"></span></details>
+<span class="count" id="count" aria-live="polite">{len(ps)} protocols</span>
 <button class="clear" id="clear" type="button" hidden>Clear filters</button></div>
 </form>
 <ol class="plist" id="plist">
@@ -558,11 +559,12 @@ def build(omit: set[str] = frozenset(), run_checks: bool = True) -> tuple[str, i
     total = (sum(p["checks"] for p in every)
              + (sum(checks(d)[0] for d in EXTRA_SUITES) if run_checks else 0))
     body = f"""<div class="wrap">
-<h1>NGS library structures</h1>
+<h1>NGS 101</h1>
 {search_section(pub)}
 </div>"""
-    page = ("<!doctype html>\n<html lang=\"en\">\n<head>\n" + head("NGS Protocol Chemistry")
-            + "\n" + EXTRA_CSS + "\n</head>\n<body>\n" + body + "\n</body>\n</html>\n")
+    page = ("<!doctype html>\n<html lang=\"en\">\n<head>\n" + head("NGS 101")
+            + "\n" + EXTRA_CSS + "\n</head>\n<body class=\"index\">\n" + body
+            + "\n</body>\n</html>\n")
     return page, total
 
 

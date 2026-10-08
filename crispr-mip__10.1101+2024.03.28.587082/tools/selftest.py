@@ -47,6 +47,7 @@ HAVE_VEC = have(check, VEC, label="everything measured on the real lentiCRISPRv2
                                   "and the page's drawings")
 
 probe = cm.probe()
+model_cap = cm.modeled_capture(N_SPACER)
 
 check.section("probe geometry, from Table S2")
 check("probe is 126 nt as actually listed in Table S2", len(probe), 126)
@@ -94,6 +95,18 @@ check("ligation arm Tm is ~58 C (published 58.3)", round(l_tm), 58)
 check("the LIGATION arm is the hotter one -- otherwise the polymerase displaces it "
       "and the circle never closes", probe.arm_tm_gap() > 0)
 
+check.section("source-independent capture model")
+check("modeled gap-fill is 112 nt for a non-G spacer", model_cap.gap, cm.CAPTURED_SPAN)
+check("modeled fill contains the complete spacer", N_SPACER in model_cap.fill)
+check("modeled fill is +1 G + spacer + canonical scaffold + verified flank",
+      model_cap.fill,
+      "G" + N_SPACER + cm.SCAFFOLD_V1 + cm.CAPTURE_3PRIME_FLANK)
+check("a G-initiated spacer gives one base less",
+      cm.modeled_capture(G_SPACER).gap, cm.CAPTURED_SPAN - 1)
+model_amp = amplify(model_cap.circle, cm.P5_TRACR_FWD, cm.P7_TRACR_REV, min_anneal=15)
+check("modeled circle gives exactly one inverse-PCR product", len(model_amp), 1)
+check("modeled final library is 269 bp", model_amp[0].length, 269)
+
 check.section("where the arms land on the real vector")
 check("the extension arm ends exactly at the U6 +1 position",
       cm.EXT_ARM.endswith(U6_3PRIME))
@@ -106,6 +119,8 @@ if HAVE_VEC:
     check("the probe is not promiscuous on the empty backbone either",
           len(capture(p, probe)) <= 1)
     c = caps_n[0]
+    check("source map and source-independent model give the same gap-fill",
+          c.fill, model_cap.fill)
     check("gap-fill is the published 112 nt (non-G spacer)", c.gap, cm.CAPTURED_SPAN)
     check("a G-initiated spacer gives one base less", caps_g[0].gap, cm.CAPTURED_SPAN - 1)
     check("the captured sequence contains the complete sgRNA spacer", N_SPACER in c.fill)
