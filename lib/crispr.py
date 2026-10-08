@@ -1,7 +1,7 @@
 """
 Pooled CRISPR screening: the shared sequence landmarks and guide cloning.
 
-Sequences here were extracted from real Addgene maps in lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/ using
+Sequences here were extracted from real Addgene maps in lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/ using
 lib/plasmid.py, not retyped from papers. The cloning simulation below is the check that
 matters: digest a real vector, ligate a guide, and confirm the product reconstitutes
 U6 -> spacer -> scaffold contiguously.

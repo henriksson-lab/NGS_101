@@ -430,4 +430,4 @@ are the non-templated graft.
 so the first cycles prime inefficiently on this side. Once a strand carries the full 27-nt
 site it is no longer limiting, so expect a few extra cycles rather than failure; a 50–52 °C
 anneal for the first 2–3 cycles would avoid it. The graft itself is the same trick the v2
-adaptor uses in [`../lenticrispr-gecko-screen__10.1126+science.1247005/crisprscreen.html`](../lenticrispr-gecko-screen__10.1126+science.1247005/crisprscreen.html), Part 3.
+adaptor uses recorded in the [pooled-screen research notes](../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.html).

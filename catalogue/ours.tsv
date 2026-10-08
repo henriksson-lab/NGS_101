@@ -6,15 +6,26 @@ smart-seq3__10.1038+s41587-020-0497-0	SMART-seq3	10.1038/s41587-020-0497-0	docum
 smart-seq3xpress__10.1038+s41587-022-01311-4	SMART-seq3xpress	10.1038/s41587-022-01311-4	documented	published	RNA	Smart-seq3xpress protocol; defining source is Hagemann-Jensen et al. 2022.
 flash-seq__10.1038+s41587-022-01312-3	FLASH-seq	10.1038/s41587-022-01312-3	documented	published	RNA	FLASH-seq protocol; defining source is Hahaut et al. 2022.
 small-seq__10.1038+nbt.3701	Small-seq	10.1038/nbt.3701	documented	published	RNA	Named for the original method (Faridani 2016); the page is drawn from the 2018 Nat Protoc version, 10.1038/s41596-018-0049-y.
-lenticrispr-gecko-screen__10.1126+science.1247005	lentiCRISPR / GeCKO screen	10.1126/science.1247005	documented	published	DNA	Pooled-screen readout across four vector systems; named for Shalem 2014.
+lenticrispr-v1-screening__10.1126+science.1247005	lentiCRISPR v1 screening	10.1126/science.1247005	documented	published	DNA	Original Shalem all-in-one pooled knockout screen; readout variants are separate protocols.
+lenticrispr-v2-screening__10.1038+nmeth.3047	lentiCRISPR v2 screening	10.1038/nmeth.3047	documented	published	DNA	Higher-titre v2 vector and GeCKO v2 library from Sanjana, Shalem and Zhang 2014.
+joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016	Joung one-PCR CRISPR screen readout	10.1038/nprot.2017.016	documented	published	DNA	Single-PCR genomic guide recovery with complete single-index Illumina arms.
+moffat-two-step-crispr-screen-readout	Moffat two-step CRISPR screen readout		documented	published	DNA	Vendor-hosted TKOv3 workflow: locus-enrichment PCR1 followed by dual-index library PCR2.
 crop-seq__10.1038+nmeth.4177	CROP-seq	10.1038/nmeth.4177	documented	published	RNA	Original CROP-seq vector trick and Drop-seq single-cell transcriptome readout from Datlinger et al. 2017.
+5-direct-capture-perturb-seq__10.1038+s41587-020-0470-y	5' direct-capture Perturb-seq	10.1038/s41587-020-0470-y	documented	published	RNA	Standard-guide 5-prime direct capture using an oJR160 RT spike-in, 10x cell-barcode transfer and a separate guide-library PCR.
 in-situ-hi-c__10.1016+j.cell.2014.11.021	in situ Hi-C	10.1016/j.cell.2014.11.021	documented	published	DNA	MboI-based in situ Hi-C from Rao et al. 2014, including biotin fill-in and proximity-ligation junctions.
+micro-c__10.1016+j.molcel.2015.05.020	Micro-C	10.1016/j.molcel.2015.05.020	documented	published	DNA	Original nucleosome-resolution Micro-C workflow from Hsieh et al. 2015: MNase fragmentation, biotin end repair, blunt proximity ligation and two-stage junction selection.
+nagano-single-cell-hi-c__10.1038+nature12593	Nagano single-cell Hi-C	10.1038/nature12593	documented	published	DNA	Foundational scHi-C with BglII biotin fill, bulk proximity ligation, then single-nucleus isolation and junction capture.
+sci-hi-c__10.1038+nmeth.4155	sci-Hi-C	10.1038/nmeth.4155	documented	published	DNA	Two-level combinatorial-indexing Hi-C with an internal indexed bridge and a second indexed library adapter.
+dip-c__10.1126+science.aat5641	Dip-C	10.1126/science.aat5641	documented	published	DNA	Biotin-free single-cell contact ligation followed by multiplex end-tagging amplification (META).
+snhi-c__10.1038+nature21711	snHi-C	10.1038/nature21711	documented	published	DNA	Flyamer single-nucleus Hi-C with DpnII ligation, no biotin selection, and phi29 MDA.
+stevens-single-cell-hi-c__10.1038+nature21429	Stevens single-cell Hi-C	10.1038/nature21429	documented	published	DNA	Early single-nucleus isolation, blunt AluI processing, biotin marking, proximity ligation and PCR.
+sn-m3c-seq__10.1038+s41592-019-0547-z	sn-m3C-seq	10.1038/s41592-019-0547-z	documented	published	multi	Joint single-nucleus chromosome contacts and DNA methylation by ligation, bisulfite conversion and indexed random priming.
 fisseq__10.1126+science.1250212	FISSEQ	10.1126/science.1250212	documented	published	RNA	Transcriptome-wide fluorescent in situ RNA sequencing from Lee et al. 2014; detailed chemistry follows the authors' 2015 Nature Protocols paper.
 oxford-nanopore-ligation-sequencing-v14	Oxford Nanopore Ligation Sequencing V14 (SQK-LSK114)		documented	published	DNA	Commercial motor-adapter ligation workflow defined by Oxford Nanopore protocol GDE_9161_v114 Rev AC.
 pacbio-smrtbell-prep-kit-3-0	PacBio SMRTbell prep kit 3.0		documented	published	DNA	Commercial PCR-free WGS/metagenome workflow defined by PacBio procedure 102-166-600 Rev09.
 nebnext-ultra-ii-dna-library-prep-user-adaptor	NEBNext Ultra II DNA Library Prep (USER adaptor)		documented	published	DNA	Commercial E7645/E7103 workflow with the E7600 hairpin adaptor, USER opening and dual-index PCR.
 crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	wip	DNA	sgRNA quantification by molecular inversion probe.
-crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	published	DNA	Also covers the unrelated Michlits CRISPR-UMI, 10.1038/nmeth.4466, and our padlock draft.
+crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	published	DNA	Schmierer guide-library RSL construction, genomic recovery, nested library PCR and sequencing layout.
 florian-pta-rnaseq	florian-PTA-rnaseq		draft	wip	RNA	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
 astar-seq__10.1101+829960	ASTAR-seq	10.1101/829960	documented	published	multi	Schematic and research notes from the defining preprint and its Supplementary Information and oligo table.
 strt-seq__10.1101+gr.110882.110	STRT-seq	10.1101/gr.110882.110	documented	published	RNA	Original plate-based STRT protocol from Islam et al. 2011; the retained family research note also records provenance for later variants.
@@ -27,7 +38,7 @@ quartz-seq2__10.1186+s13059-018-1407-3	Quartz-Seq2	10.1186/s13059-018-1407-3	doc
 cel-seq__10.1016+j.celrep.2012.08.003	CEL-Seq	10.1016/j.celrep.2012.08.003	documented	published	RNA	Original barcoded T7-amplified 3' RNA-seq workflow, with unpublished Small-RNA-kit arms left explicit.
 cel-seq2__10.1186+s13059-016-0938-8	CEL-Seq2	10.1186/s13059-016-0938-8	documented	published	RNA	UMI-bearing CEL-Seq2 workflow with random-hexamer library RT in place of RNA-adaptor ligation.
 10x-chromium-single-cell-3-v3-cell-surface-protein	10x Chromium Single Cell 3' v3 Cell Surface Protein		documented	published	RNA	Commercial antibody Feature Barcode chemistry defined by 10x user guide CG000185 Rev B.
-10x-chromium-single-cell-3-v3-crispr-screening	10x Chromium Single Cell 3' v3 CRISPR Screening		documented	published	RNA	Commercial direct-guide-capture chemistry defined by 10x user guide CG000184 Rev A.
+10x-chromium-single-cell-3-v3-crispr-screening	10x Chromium Single Cell 3' v3 gRNA Capture (Feature Barcode)		documented	published	RNA	Commercial direct-guide-capture chemistry using an engineered CS1/CS2 sgRNA, defined by 10x guides CG000184 and CG000197.
 10x-chromium-single-cell-3-ge-v2	10x Chromium Single Cell 3' Gene Expression v2		documented	published	RNA	Commercial v2 chemistry defined by 10x technical note CG000108 Rev A.
 10x-chromium-single-cell-3-ge-v3	10x Chromium Single Cell 3' Gene Expression v3		documented	published	RNA	Commercial v3 chemistry defined by 10x user guide CG000183 Rev A.
 10x-chromium-gem-x-single-cell-3-ge-v4	10x Chromium GEM-X Single Cell 3' Gene Expression v4		documented	published	RNA	Commercial v4 chemistry defined by 10x user guide CG000731 Rev A.
@@ -39,7 +50,7 @@ cel-seq2__10.1186+s13059-016-0938-8	CEL-Seq2	10.1186/s13059-016-0938-8	documente
 surecell-3-wta-for-ddseq	SureCell 3' WTA for ddSEQ		documented	published	RNA	Commercial protocol schematic from Illumina Reference Guide #1000000021452 v01; undisclosed oligo regions remain inferred placeholders.
 mars-seq__10.1126+science.1247651	MARS-seq	10.1126/science.1247651	documented	published	RNA	Original three-level barcoded MARS-seq workflow; unavailable 2014 oligos remain explicit boundaries.
 mars-seq2-0__10.1038+s41596-019-0164-4	MARS-seq2.0	10.1038/s41596-019-0164-4	documented	published	RNA	MARS-seq2.0 RT1, pool-adapter ligation, T7 amplification and dual-read barcode layout.
-scrb-seq__10.1101+003236	SCRB-seq	10.1101/003236	documented	published	RNA	Original plate-based SCRB-seq protocol; its research note also preserves the shared provenance for mcSCRB-seq.
+scrb-seq__10.1101+003236	SCRB-seq	10.1101/003236	documented	published	RNA	Plate-barcoded, UMI-tagged reverse transcription followed by pooled WTA and selective 3-prime library amplification.
 mcscrb-seq__10.1038+s41467-018-05347-6	mcSCRB-seq	10.1038/s41467-018-05347-6	documented	published	RNA	Molecular-crowding SCRB-seq protocol from Bagnoli et al. 2018, with its protocols.io procedure as an additional primary protocol source.
 split-seq__10.1126+science.aam8999	SPLiT-seq	10.1126/science.aam8999	documented	published	RNA	Published split-pool RT and two-ligation barcode architecture; unavailable oligo supplement remains explicit.
 microsplit__10.1126+science.aba5257	microSPLiT	10.1126/science.aba5257	documented	published	RNA	Bacterial split-pool RNA barcoding with primary-source preprint oligos and published read layout.
@@ -55,7 +66,7 @@ petri-seq__10.1038+s41564-020-0729-6	PETRI-seq	10.1038/s41564-020-0729-6	documen
 vasa-seq__10.1038+s41587-022-01361-8	VASA-seq	10.1038/s41587-022-01361-8	documented	published	RNA	Fragmentation and poly(A)-tailing total-RNA workflow with VASA-plate and VASA-drop library branches.
 fipresci__10.1186+s13059-023-02893-1	FIPRESCI	10.1186/s13059-023-02893-1	documented	published	RNA	Plate-indexed RNA/cDNA-hybrid tagmentation followed by overloaded 10x 5-prime droplet barcoding and paired-end readout.
 pip-seq__10.1038+s41587-023-01685-z	PIP-seq	10.1038/s41587-023-01685-z	documented	published	RNA	Paper-described particle-templated bead capture, bulk template switching and bead-end-selective Nextera library; unpublished barcode blocks remain explicit.
-indrop-v1__10.1016+j.cell.2015.04.044	inDrop v1	10.1016/j.cell.2015.04.044	documented	published	RNA	Original Cell 2015 inDrop protocol; unavailable author oligos are visibly reconstructed from the secondary source, and combined provenance remains here.
+indrop-v1__10.1016+j.cell.2015.04.044	inDrop v1	10.1016/j.cell.2015.04.044	documented	published	RNA	Photo-released bead barcodes, droplet RT, T7 linear amplification and ligation-based v1 library conversion.
 indrop-v2__10.1038+nprot.2016.154	inDrop v2	10.1038/nprot.2016.154	documented	published	RNA	Nature Protocols 2017 inDrop chemistry with PE2-N6 conversion and flipped biological/metadata reads.
 sci-atac-seq__10.1126+science.aab1601	sci-ATAC-seq	10.1126/science.aab1601	documented	published	DNA	Original two-level sci-ATAC-seq; combined research provenance for later variants remains with this protocol.
 sci-atac-seq-2018__10.1038+nature25981	sci-ATAC-seq (2018)	10.1038/nature25981	documented	published	DNA	Improved two-level protocol with authoritative 10-nt PCR-index oligos from Supplementary Table S12.
@@ -63,7 +74,7 @@ sci-atac-seq3__10.1126+science.aba7612	sci-ATAC-seq3	10.1126/science.aba7612	doc
 plate-scatac-seq__10.1038+s41467-018-07771-0	Plate_scATAC-seq	10.1038/s41467-018-07771-0	documented	published	DNA	Bulk tagmentation followed by single-nucleus sorting and per-well Nextera index PCR.
 pi-atac-seq__10.1038+s41467-018-07115-y	Pi-ATAC-seq	10.1038/s41467-018-07115-y	documented	published	DNA	Protein-indexed FACS with bulk tagmentation and per-well ATAC library PCR.
 10x-chromium-single-cell-atac	10x Chromium Single Cell ATAC v1		documented	published	DNA	Commercial protocol documented from 10x CG000168: bulk tagmentation, droplet barcode extension and dual-index Nextera readout.
-dscatac-seq__10.1038+s41587-019-0147-6	dscATAC-seq	10.1038/s41587-019-0147-6	documented	published	DNA	Bulk tagmentation followed by bead-barcode PCR in droplets.
+dscatac-seq__10.1038+s41587-019-0147-6	dscATAC-seq	10.1038/s41587-019-0147-6	documented	published	DNA	Bulk Tn5 tagmentation followed by three-block bead-barcode PCR in droplets and paired-end ATAC readout.
 dsciatac-seq__10.1038+s41587-019-0147-6	dsciATAC-seq	10.1038/s41587-019-0147-6	documented	published	DNA	Plate-barcoded Tn5 followed by bead-barcode PCR in droplets.
 scdnase-seq__10.1038+nature15740	scDNase-seq	10.1038/nature15740	documented	published	DNA	Single-cell DNase I digestion followed by inferred TruSeq-style ligation-library construction.
 scmnase-seq__10.1038+s41586-018-0567-3	scMNase-seq	10.1038/s41586-018-0567-3	documented	published	DNA	Single-cell MNase digestion followed by inferred TruSeq-style ligation-library construction.
@@ -82,7 +93,7 @@ malbac__10.1126+science.1229164	MALBAC	10.1126/science.1229164	documented	publis
 s3-wgs__10.1038+s41587-021-00962-z	s3-WGS	10.1038/s41587-021-00962-z	documented	published	DNA	Symmetrical-strand combinatorial-indexed whole-genome sequencing.
 scrrbs__10.1101+gr.161679.113	scRRBS	10.1101/gr.161679.113	documented	published	DNA	MspI reduction, end repair, premethylated TruSeq adaptor ligation, bisulfite conversion and paired-end read layout.
 lianti__10.1126+science.aak9787	LIANTI	10.1126/science.aak9787	documented	published	DNA	Linear WGA schematic from the defining paper; exact LIANTI oligos are visibly marked as secondary-source because the supplement is unavailable.
-scnome-seq__10.7554+eLife.23203	scNOMe-seq	10.7554/eLife.23203	documented	published	multi	GpC accessibility marking plus Pico Methyl-Seq bisulfite library; combined provenance for scCOOL-seq remains in this protocol's note.
+scnome-seq__10.7554+eLife.23203	scNOMe-seq	10.7554/eLife.23203	documented	published	multi	M.CviPI GpC accessibility marking followed by Pico Methyl-Seq bisulfite library construction.
 sccool-seq__10.1038+cr.2017.82	scCOOL-seq	10.1038/cr.2017.82	documented	published	multi	Single-cell GpC marking plus PBAT-style two-primer bisulfite library from Guo et al. 2017.
 telopcr-seq__10.1002+1873-3468.12444	TeloPCR-seq	10.1002/1873-3468.12444	documented	published	DNA	Anchor ligation, chromosome-end PCR and PacBio circular sequencing of S. pombe telomeres.
 yeast-telotag__10.1101+gr.275868.121	Yeast TeloTag	10.1101/gr.275868.121	documented	published	DNA	Poly(A)-assisted terminal tagging and nanopore sequencing of S. cerevisiae telomeres.

@@ -226,7 +226,7 @@ Our i7 primer is truncated like Atrandi's, so only its 3' {I7_FOOT} nt pair with
 (Tm &asymp; {tm(f.FAKED_TOP[:I7_FOOT]):.0f}&nbsp;&deg;C, below Atrandi's 54&nbsp;&deg;C anneal &mdash;
 the first cycles will be inefficient until products carry the full 27-nt site). The same trick the
 Zhang v2 adaptor uses, drawn in
-<a href="../lenticrispr-gecko-screen__10.1126+science.1247005/crisprscreen.html">crisprscreen</a> Part 3.""")}
+<a href="../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.html">pooled-screen research notes</a>.""")}
 """
 
 

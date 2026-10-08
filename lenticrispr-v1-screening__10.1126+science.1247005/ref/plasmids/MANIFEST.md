@@ -2,7 +2,7 @@
 
 Full plasmid maps for checking primer-binding sites *in silico* and deriving expected PCR products.
 
-- **Directory:** `lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids` (repo-relative)
+- **Directory:** `lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids` (repo-relative)
 - **Downloaded:** 2026-10-03
 - **Format:** GenBank (`.gb`), circular, with the depositor/Addgene feature annotations
 - **Primary files:** 10 plasmids, all verbatim downloads
@@ -516,4 +516,3 @@ strong end-to-end check on both the sequences and the circular coordinate handli
 so the nicks are offset from the recognition sites, and the arithmetic was not independently
 validated against a known-good digest — if you need the precise cut positions, run the sequence
 through a restriction tool rather than relying on numbers in this file.
-

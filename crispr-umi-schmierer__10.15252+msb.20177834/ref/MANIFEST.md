@@ -15,7 +15,7 @@ without the real map would be a guess, so they print one line and exit 1.
 - **Where to get plasmid sequence:** `https://www.addgene.org/<id>/sequences/` — note that
   Addgene put its sequence downloads behind a login in October 2025; the routes that still work
   are written up in
-  [`../../lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/MANIFEST.md`](../../lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/MANIFEST.md)
+  [`../../lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/MANIFEST.md`](../../lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/MANIFEST.md)
 
 ---
 
@@ -47,7 +47,7 @@ Depended on by `tools/selftest.py`: *pRetro-UMI as deposited* — the same five 
 
 These are **not copies**: the Addgene maps for the pooled-screening vectors are kept once, with
 the lentiCRISPR screen notes, in
-`../../lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/`. That directory has its
+`../../lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/`. That directory has its
 own manifest describing how each file was obtained.
 
 ### `addgene-52963_lentiGuide-Puro.gb` — the parent vector

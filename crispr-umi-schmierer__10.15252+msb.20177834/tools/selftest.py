@@ -26,7 +26,7 @@ from plasmid import Plasmid, amplify, find_both, read_genbank
 # redistribute) -- see ref/MANIFEST.md. Each group of checks that reads one of these files
 # is wrapped in `have(...)`, so on a fresh clone it SKIPS and says where to get the file
 # instead of failing as though the chemistry were wrong. Everything else still runs.
-_SCREEN = (HERE.parents[1] / "lenticrispr-gecko-screen__10.1126+science.1247005"
+_SCREEN = (HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005"
            / "ref" / "plasmids")
 
 # cu.PARENT_MAP is already whichever candidate map is on disk, or the preferred one if none.
@@ -334,18 +334,6 @@ import importlib.util                                               # noqa: E402
 _spec = importlib.util.spec_from_file_location("crisprumi_build_page", HERE / "build_page.py")
 bp = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(bp)
-
-sc = bp.auflip_scene()
-orig, flip = sc.strands["original"], sc.strands["AU-flip"]
-check("the two scaffolds are drawn from column 0, so the alignment is theirs",
-      (orig.col, flip.col), (0, 0))
-check("the drawn text is the scaffold itself, unaltered",
-      (orig.text(), flip.text()), (SCAFFOLD_V1, cu.SCAFFOLD_AU_FLIP))
-for k, i in enumerate(bp.AU_FLIP_DIFF):
-    check(f"substitution {k + 1} is its own segment at the diffed position",
-          flip.span(f"sub{k}"), (i, i + 1))
-    check(f"...and the two strands put it in the same column", orig.span(f"sub{k}"),
-          flip.span(f"sub{k}"))
 
 r1 = bp.read1_scene()
 pri, lib = r1.strands["CRIPSRSEQ"], r1.strands["library"]

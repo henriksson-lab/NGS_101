@@ -46,6 +46,8 @@ RSAI = RestrictionEnzyme("RsaI", "GTAC", 2, 2)
 ECORV = RestrictionEnzyme("EcoRV", "GATATC", 3, 3)
 ECORI = RestrictionEnzyme("EcoRI", "GAATTC", 1, 5)
 HINFI = RestrictionEnzyme("HinfI", "GANTC", 1, 4)
+BGLII = RestrictionEnzyme("BglII", "AGATCT", 1, 5)
+ALUI = RestrictionEnzyme("AluI", "AGCT", 2, 2)
 
 
 @dataclass(frozen=True)

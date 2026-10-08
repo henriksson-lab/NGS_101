@@ -14,7 +14,7 @@ from crispr import clone_guide
 from padlock import capture
 from plasmid import read_genbank
 
-VEC = HERE.parents[1] / "lenticrispr-gecko-screen__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
+VEC = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
 SPACER = cm.EXAMPLE_SPACER              # a Brunello-style, non-G-initiated spacer
 
 # Everything below is measured on the real vector map, so there is nothing to print without
@@ -22,7 +22,7 @@ SPACER = cm.EXAMPLE_SPACER              # a Brunello-style, non-G-initiated spac
 if not VEC.exists():
     print(f"cannot run: missing {VEC.relative_to(HERE.parents[1])}"
           " -- the lentiCRISPRv2 map (Addgene #52961). It is third-party material and is not"
-          " committed; see lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/"
+          " committed; see lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/"
           "MANIFEST.md for how to re-obtain it.", file=sys.stderr)
     sys.exit(1)
 

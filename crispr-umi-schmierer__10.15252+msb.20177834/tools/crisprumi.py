@@ -87,7 +87,7 @@ def insert(spacer: str = "N" * SPACER_LEN, rsl: str = "N" * RSL_LEN) -> str:
 PARENT_MAP_ORIGIN = ("Addgene #52963 (lentiGuide-Puro), full sequence -- see "
                      "ref/MANIFEST.md in this directory")
 PARENT_MAP_CANDIDATES = (
-    _HERE.parents[1] / "lenticrispr-gecko-screen__10.1126+science.1247005" / "ref"
+    _HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref"
     / "plasmids" / "addgene-52963_lentiGuide-Puro.gb",
     _HERE.parents[1] / "to_debug" / "lentiGuide-Puro.dna",
 )

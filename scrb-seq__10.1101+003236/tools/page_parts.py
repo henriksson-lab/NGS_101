@@ -28,11 +28,14 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def preamble(protocol: str) -> str:
     doi, title = PAPERS[protocol]
+    notes = ("01_scrb-seq.html" if protocol == S.SCRB else
+             "../scrb-seq__10.1101+003236/01_scrb-seq.html")
     distinguishing = ("The TSO has a 5' iso-base block; cells are barcoded in RT and pooled before amplification."
                       if protocol == S.SCRB else
                       "Molecular crowding (7.5% PEG 8000) enhances RT; the TSO is unblocked. Cells are barcoded in RT and pooled before amplification.")
     return f'''<div class="wrap">
 <h1>{title} &mdash; plate-based 3' tag single-cell RNA sequencing</h1>
+<p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
 {info(distinguishing + ' Each molecule carries a 6-nt well barcode and 10-nt UMI.')}
 '''

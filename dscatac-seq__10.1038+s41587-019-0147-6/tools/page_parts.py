@@ -12,6 +12,8 @@ from page import head,info,table
 def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 def render_page(protocol):
     sci=protocol=="dsciATAC-seq"
+    notes=("01_dscatac-seq.html" if not sci else
+           "../dscatac-seq__10.1038+s41587-019-0147-6/01_dscatac-seq.html")
     bead=oligo("published 3' portion of bead oligo",D.bead_published_segments())
     tn5=oligo(("barcoded Tn5 Read-1 adaptor" if sci else "Tn5 Read-1 adaptor"),D.tn5_r1(protocol))
     frag=D.filled_fragment(protocol); final=D.final_library(protocol)
@@ -24,6 +26,7 @@ def render_page(protocol):
           ("Index 1 (8)","sample index"),("Read 2 (40)","genomic DNA from the s7 end")]
     return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap">',
       f'<h1>{protocol} &mdash; droplet-barcoded single-cell ATAC-seq</h1>',
+      f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',
       info('Defining source: <a href="https://doi.org/10.1038/s41587-019-0147-6">Lareau et al., <i>Nature Biotechnology</i> (2019)</a>.'),
       '<div class="caveat"><b>Bead sequence boundary.</b> The paper publishes the bead barcode/constant/s5 portion but leaves its linker cell empty. Dotted 5\' sequence is an unpublished placeholder, not the upstream Bio-Rad reconstruction.</div>',
       f'<h2>Key oligos</h2><seq>{tn5}{bead}</seq>',

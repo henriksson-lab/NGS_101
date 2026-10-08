@@ -31,6 +31,11 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def preamble(protocol: str) -> str:
     doi, title = PAPERS[protocol]
+    notes = {
+        S.STRT: "01_strt-seq.html",
+        S.C1: "../strt-seq__10.1101+gr.110882.110/01_strt-seq.html",
+        S.TWO_I: "../strt-seq__10.1101+gr.110882.110/01_strt-seq.html",
+    }[protocol]
     caveat = ""
     if protocol == S.STRT:
         caveat = '<div class="caveat"><b>Primer sequence unavailable.</b> The defining paper states that Read 1 uses a custom primer but does not print it. Its landing site is reconstructed from the published final construct.</div>'
@@ -40,6 +45,7 @@ def preamble(protocol: str) -> str:
         caveat = '<div class="caveat"><b>Inferred junction.</b> The published P2 PCR primer overlaps the first three bases of the subarray barcode. The dotted barcode/P7 end shows the full-barcode outcome; the paper does not state whether proofreading instead trims the primer or overwrites those bases.</div>'
     return f'''<div class="wrap">
 <h1>{title} &mdash; 5'-end single-cell RNA sequencing</h1>
+<p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
 {caveat}
 '''
@@ -104,6 +110,17 @@ def indexed_tn5_scene() -> Scene:
     return sc
 
 
+def strt_p2_scene() -> Scene:
+    """The original STRT TSO-end fragment after P2-adapter ligation."""
+    top = [seg("TSO end", S.H, "tso"),
+           seg("cell barcode", "B" * 6, "cbc", placeholder=True),
+           seg("5′ cDNA fragment", "XXXXXXXX...XXXXXXXX", placeholder=True),
+           seg("P2 adapter'", revcomp(S.P2_TOP), "p7")]
+    sc = Scene.duplex(top)
+    sc.junction("top", "5′ cDNA fragment", "P2 adapter'", "P2 ligation")
+    return sc
+
+
 def final_panel(protocol: str) -> str:
     lib = S.library(protocol)
     caption = "Final Read-1-sense library molecule."
@@ -121,7 +138,7 @@ def steps(protocol: str) -> str:
         mid = '''<h3>(3) Pool wells and amplify from the shared SMART handles</h3>
 ''' + panel(Scene.duplex([seg("SMART handle / TSO end", S.H, "tso"), seg("cell barcode", "B" * 6, "cbc", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("SMART handle / oligo-dT end", S.H, "tso")]).rows(), caption="Biotinylated single-primer PCR preserves the TSO barcode; all 96 wells can now be handled together.") + '''
 <h3>(4) Immobilise, fragment, repair, A-tail and ligate the P2 adapter</h3>
-''' + panel(Scene.duplex([seg("TSO end", S.H, "tso"), seg("cell barcode", "B" * 6, "cbc", placeholder=True), seg("5' cDNA fragment", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("P2 adapter'", revcomp(S.P2_TOP), "p7")]).rows(), caption="SalI releases oligo-dT-end fragments at the published handle/poly(T) site; bead-bound TSO-end fragments receive P2 and remain for library PCR.")
+''' + panel(strt_p2_scene().rows(), caption="SalI releases oligo-dT-end fragments at the published handle/poly(T) site; bead-bound TSO-end fragments receive P2 and remain for library PCR. ** marks the adapter ligation.")
     elif protocol == S.C1:
         mid = '''<h3>(3) Amplify full-length cDNA from the shared C1 handles</h3>
 ''' + panel(Scene.duplex([seg("C1 handle / TSO end", S.C1_HANDLE, "p5"), seg("UMI", "N" * 5, "umi", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("C1 handle / oligo-dT end", S.C1_HANDLE, "p5")]).rows(), caption="The all-RNA TSO is not a competing PCR primer; C1-P1-PCR-2 supplies biotin.") + '''
@@ -136,7 +153,8 @@ def steps(protocol: str) -> str:
 ''' + panel(indexed_tn5_scene().rows(), cls="small", caption="Each of 96 subarray pools receives a different indexed Tn5 adapter.") + '''
 <h3>(5) Streptavidin capture, single-strand elution and eight-cycle PCR</h3>
 ''' + panel([strand_row(S.two_i_library(), "top"), *annotation_rows(S.two_i_library())], caption="INFERRED — selected TSO-end strand after the final P1/P2 PCR; dotted regions mark the unresolved P2/barcode junction.")
-    return common + mid + '<h3>(6) Final library</h3>' + final_panel(protocol)
+    final_step = 5 if protocol == S.STRT else 6
+    return common + mid + f'<h3>({final_step}) Final library</h3>' + final_panel(protocol)
 
 
 def sequencing(protocol: str) -> str:

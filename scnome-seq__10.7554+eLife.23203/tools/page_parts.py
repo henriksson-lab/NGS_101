@@ -27,11 +27,14 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def preamble(protocol: str) -> str:
     doi, title = PAPERS[protocol]
+    notes = ("01_scnome-seq-sccool-seq.html" if protocol == N.SCNOME else
+             "../scnome-seq__10.7554+eLife.23203/01_scnome-seq-sccool-seq.html")
     if protocol == N.SCNOME:
         caveat = '<div class="caveat"><b>Commercial kit interior.</b> Pico Methyl-Seq random primers and internal adapters are proprietary. Dotted question marks preserve the unknown insert junctions; the published P5/P7 amplification primers fix the outer library arms.</div>'
     else:
         caveat = '<div class="caveat"><b>PCR-primer sequences unavailable.</b> The paper prints both random primers but only names Forward PE1.0 and the NEB indexed reverse primer. Dotted outer arms show the standard TruSeq-shaped model implied by those reagents.</div>'
     return f'''<div class="wrap"><h1>{title} &mdash; accessibility and DNA methylation from one cell</h1>
+<p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
 {info('M.CviPI marks accessible GpC cytosines before bisulfite conversion. Retained GpC-C reports accessibility; retained CpG-C reports endogenous DNA methylation.')}{caveat}'''
 

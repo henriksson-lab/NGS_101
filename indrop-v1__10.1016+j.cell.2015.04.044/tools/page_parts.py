@@ -28,9 +28,12 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def preamble(protocol: str) -> str:
     doi, title = PAPERS[protocol]
+    notes = ("01_indrop.html" if protocol == I.V1 else
+             "../indrop-v1__10.1016+j.cell.2015.04.044/01_indrop.html")
     caveat = ('''<div class="caveat"><b>Upstream-only v1 oligos.</b> The Cell supplement containing the author sequences was unavailable. Every dotted v1 oligo and final-library base follows the secondary scg_lib_structs reconstruction; only the reaction outline is established by the defining paper.</div>'''
               if protocol == I.V1 else "")
     return f'''<div class="wrap"><h1>{title} &mdash; droplet barcoding with photo-released hydrogel primers</h1>
+<p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
 {info('Each bead carries a split-pool cell barcode, a 6-nt UMI, oligo-dT and a T7 promoter. UV releases the primers into the droplet; pooled cDNA is amplified linearly by IVT.')}{caveat}'''
 

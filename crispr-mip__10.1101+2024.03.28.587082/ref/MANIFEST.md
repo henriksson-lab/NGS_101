@@ -34,7 +34,7 @@ and are listed here because the checks here depend on them:
 
 | Source | Used for | Where to get it |
 |---|---|---|
-| `lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb` | The real vector the screens used. Everything measured rather than quoted: the single capture site in the 13 kb vector, the 112-nt gap fill, the closed circle, the 269-bp inverse-PCR product, the restriction sites that spare the probe footprint, and all of `crisprmip.html`'s drawings. Guarded by `HAVE_VEC` in `tools/selftest.py`; fatal for the two page builders. | Addgene **#52961** (lentiCRISPRv2, Zhang lab). That directory's own `ref/plasmids/MANIFEST.md` records the exact route, which is no longer a plain download. |
+| `lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb` | The real vector the screens used. Everything measured rather than quoted: the single capture site in the 13 kb vector, the 112-nt gap fill, the closed circle, the 269-bp inverse-PCR product, the restriction sites that spare the probe footprint, and all of `crisprmip.html`'s drawings. Guarded by `HAVE_VEC` in `tools/selftest.py`; fatal for the two page builders. | Addgene **#52961** (lentiCRISPRv2, Zhang lab). That directory's own `ref/plasmids/MANIFEST.md` records the exact route, which is no longer a plain download. |
 | `ref/concepts/padlock-circularization.md` (repo root) | Prose only: the general padlock chemistry, linked from `01_crispr-mip.md`. No check reads it. | Written in this repo, not third-party. |
 
 The Brunello kinome library itself (Addgene **#75314**) is named in the page as the library

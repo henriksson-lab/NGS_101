@@ -27,7 +27,7 @@ from plasmid import amplify, find_both
 from padlock import Padlock, capture, survives_exonuclease
 from plasmid import Plasmid, read_genbank
 
-VEC = Source(HERE.parents[1] / "lenticrispr-gecko-screen__10.1126+science.1247005" /
+VEC = Source(HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" /
              "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb",
              "Addgene #52961 (lentiCRISPRv2, Zhang lab); that directory's "
              "ref/plasmids/MANIFEST.md records exactly how the map was obtained")

@@ -22,14 +22,14 @@ from plasmid import amplify, read_genbank
 OUT = HERE.parent / "crisprmip.html"
 PRE = 4
 SPACER = cm.EXAMPLE_SPACER
-VEC = HERE.parents[1] / "lenticrispr-gecko-screen__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
+VEC = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
 
 # The page is computed from the real vector map, so it cannot be built without it. That map
 # is third-party material and is not committed; fail with the one thing the reader needs.
 if not VEC.exists():
     print(f"cannot build {OUT.name}: missing {VEC.relative_to(HERE.parents[1])}"
           " -- the lentiCRISPRv2 map (Addgene #52961). It is third-party material and is not"
-          " committed; see lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/"
+          " committed; see lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/"
           "MANIFEST.md for how to re-obtain it.", file=sys.stderr)
     sys.exit(1)
 

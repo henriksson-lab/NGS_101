@@ -298,7 +298,7 @@ check asserts what the flip should and should not change.
 | `smart-seq3xpress__10.1038+s41587-022-01311-4/` | RNA. SMART-seq3xpress | schematic + shared construct checks |
 | `flash-seq__10.1038+s41587-022-01312-3/` | RNA. FLASH-seq | schematic + shared construct checks |
 | `small-seq__10.1038+nbt.3701/` | RNA. Small-seq: single-cell small RNA / miRNA. TruSeq **Small RNA** adapters, sequential ligation, UMI in the ligated 5' adapter, 5.8S rRNA masking oligo | notes + constructs + page + 167 checks; the SRX index primer is not published, so its arm is bracketed from two published library sizes |
-| `lenticrispr-gecko-screen__10.1126+science.1247005/` | DNA. Pooled CRISPR screening: lentiCRISPR/GeCKO, Broad GPP, and the single-cell screens | notes, plasmid maps, page, and primer/amplicon checks against real maps |
+| `lenticrispr-v1-screening__10.1126+science.1247005/` | DNA. lentiCRISPR v1 screening; v2 and the one-/two-PCR readouts have separate pages | notes, plasmid-map provenance, and a focused schematic |
 | `crispr-umi-schmierer__10.15252+msb.20177834/` | DNA. A lineage UMI cloned into the guide library &mdash; Schmierer and Michlits | notes + page + checks against the real parent map |
 | `astar-seq__10.1101+829960/` | DNA + RNA. C1 chip; Tn5 first, then RT; cDNA biotinylated by PCR and pulled away from the ATAC fragments | reference notes only (status `notes`): no model or page yet |
 | `crispr-mip__10.1101+2024.03.28.587082/` | DNA. Padlock/MIP capture with a UMI, replacing the screen readout PCR | notes + full probe from Table S2 + end-to-end checks to the 269 bp library; no page yet |

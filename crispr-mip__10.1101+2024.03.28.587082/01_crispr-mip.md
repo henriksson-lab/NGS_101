@@ -80,7 +80,7 @@ The gap-fill is `+1 G` + the 20 nt spacer + the scaffold + terminator.
 > ⚠ **The 112 assumes a non-G-initiated spacer.** ✅ A spacer already starting with G gives
 > **111**, because the vector's `+1 G` is then supplied by the spacer itself rather than
 > appended. Brunello spacers are not G-initiated, so 112 is the working value — the same
-> off-by-one that shifts the GPP amplicon sizes in `../lenticrispr-gecko-screen__10.1126+science.1247005/01_lenticrispr_gecko.md`.
+> off-by-one recorded in `../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.md`.
 
 ## 4. Protocol 🟢
 
@@ -129,10 +129,10 @@ removes the sequencing-depth bias.
 ## 8. Screen context 🟢
 
 Brunello **kinome** library (Addgene #75314), backbone **lentiCRISPRv2** (#52961) — the map
-in `../lenticrispr-gecko-screen__10.1126+science.1247005/ref/plasmids/`, which is what all the ✅ values above are computed
+in `../lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/`, which is what all the ✅ values above are computed
 against. Library amplified per the Broad "Amplification of pDNA Libraries" protocol and QC'd
 by the Broad "PCR of sgRNAs for Illumina Sequencing" protocol — i.e. the GPP ARGON/BEAKER
-scheme documented in `../lenticrispr-gecko-screen__10.1126+science.1247005/01_lenticrispr_gecko.md`. GFP-targeting sgRNA from
+scheme documented in `../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.md`. GFP-targeting sgRNA from
 LentiGuide-Puro-GFPg1 (BB09).
 
 ## 9. Open 🔴
