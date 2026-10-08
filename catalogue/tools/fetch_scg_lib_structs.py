@@ -742,6 +742,8 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
         m = matched_rows.get(i) or matched_protocols.get(r["protocol"])
         r["our_dir"] = m["dir"] if m else ""
         r["our_status"] = m["status"] if m else ""
+        if m and not r.get("note"):
+            r["note"] = m["note"]
     hit = ({m["dir"] for m in matched_protocols.values()}
            | {m["dir"] for m in matched_rows.values()})
     for m in mine:

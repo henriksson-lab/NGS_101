@@ -47,7 +47,10 @@ OUT = ROOT / "index.html"
 EXTRA_SUITES = ["catalogue", "gcbias", "gcbias/datasets"]
 
 BLURB_CHARS = 330          # a blurb is cut at a sentence end before this many characters
-OUT_RE = re.compile(r'^OUT\s*=\s*HERE\.parent\s*/\s*"([^"]+\.html)"', re.M)
+# Build scripts all declare an OUT path, but older pages use either HERE.parent or
+# Path(__file__).resolve().parents[1], with varying whitespace.  The filename after the
+# final path-join slash is the stable part; page discovery must not depend on source style.
+OUT_RE = re.compile(r'(?:^|;)\s*OUT\s*=[^\n]*/\s*"([^"]+\.html)"', re.M)
 
 
 # ------------------------------------------------------------------ the notes
@@ -182,7 +185,9 @@ def diagram_out(d: str) -> Path | None:
     if not bp.exists():
         return None
     m = OUT_RE.search(bp.read_text(encoding="utf-8"))
-    return ROOT / d / m.group(1) if m else None
+    if not m:
+        raise ValueError(f"{bp}: cannot determine generated HTML from its OUT assignment")
+    return ROOT / d / m.group(1)
 
 
 def checks(d: str) -> tuple[int, bool]:

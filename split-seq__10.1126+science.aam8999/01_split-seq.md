@@ -2,9 +2,9 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published, or published only in a file that could not be fetched. Relationships marked
-> 🟡 *(computed)* were worked out with `lib/` while writing this note; they are not yet
-> asserted in a self-test, because this protocol has no `tools/` module yet (status
-> `notes`). Claims taken only from the upstream scg_lib_structs page are 🟡 *(upstream)*:
+> 🟡 *(computed)* were worked out with `lib/`; the schematic's construct identities are
+> encoded in its protocol module and checked by its self-test. Claims taken only from the
+> upstream scg_lib_structs page are 🟡 *(upstream)*:
 > a careful secondary source, not the paper.
 
 **SPLiT-seq** — Rosenberg AB, Roco CM, Muscat RA, Kuchina A, Sample P, Yao Z, Gray L,

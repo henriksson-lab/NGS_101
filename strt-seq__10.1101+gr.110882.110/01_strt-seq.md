@@ -2,8 +2,8 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published / not available to us. Relationships marked 🟡 *(computed)* were worked out
-> with `lib/` while writing this note; they are not yet asserted in a self-test, because
-> this protocol has no `tools/` module yet (status `notes`). Claims that only the upstream
+> with `lib/`; the schematic's construct identities are encoded in its protocol module and
+> checked by its self-test. Claims that only the upstream
 > scg_lib_structs page makes are 🟡 *(upstream only)* — a secondary source.
 
 Three generations from the Linnarsson lab, all **5'-end counting by template switching**,

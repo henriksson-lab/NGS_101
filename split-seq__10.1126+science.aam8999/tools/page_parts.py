@@ -15,6 +15,8 @@ def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 
 def render_page(protocol):
     doi,author,year=PAPERS[protocol]; micro=protocol=="microSPLiT"
+    notes=("01_split-seq.html" if not micro else
+           "../split-seq__10.1126+science.aam8999/01_split-seq.html")
     caveat=("The published oligo supplement was unavailable. Dotted protocol-specific "
             "regions show architecture only; upstream sequences are not promoted to fact."
             if not micro else
@@ -38,6 +40,7 @@ def render_page(protocol):
           ("Index","sublibrary barcode (round 4)")]
     return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap">',
       f'<h1>{protocol} &mdash; split-pool ligation barcoding in fixed cells</h1>',
+      f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',
       info(f'Defining source: <a href="https://doi.org/{doi}">{author}, <i>Science</i> ({year})</a>.'),
       f'<div class="caveat"><b>Sequence boundary.</b> {caveat}</div>',
       f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',

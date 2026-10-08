@@ -1,9 +1,9 @@
 # scNOMe-seq / scCOOL-seq — GpC methylase footprinting plus bisulfite sequencing in one cell
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`).
+> published. Relationships marked 🟡 *(computed)* were worked out with `lib/`; the
+> schematic's construct identities are encoded in its protocol module and checked by its
+> self-test.
 
 Two independent papers, one principle, two different library chemistries:
 

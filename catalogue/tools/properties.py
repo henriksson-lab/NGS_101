@@ -20,48 +20,58 @@ FACETS = OrderedDict([
         "PCR", "ligation", "transposition", "reverse transcription", "extension / fill-in",
         "combinatorial indexing", "pre-indexed adaptor", "no index"))),
     ("index_architecture", ("Index architecture", (
-        "TruSeq", "Nextera", "custom Illumina", "PacBio barcode", "Nanopore barcode",
+        "TruSeq", "Nextera", "custom Illumina", "DNBSEQ", "PacBio barcode", "Nanopore barcode",
         "inline barcode", "UDI", "CDI", "single index", "dual index", "no barcode"))),
     ("assay", ("Assay type", (
-        "RNA-seq", "DNA-seq / WGS", "ATAC / accessibility", "DNA methylation",
-        "chromatin conformation", "CRISPR screening", "protein / feature detection",
-        "spatial / in situ", "telomere", "multiomic"))),
+        "RNA-seq", "RNA detection", "DNA-seq / WGS", "ATAC / accessibility", "DNA methylation",
+        "chromatin conformation", "chromatin protein mapping", "CRISPR screening", "protein / feature detection",
+        "translation profiling", "nascent transcription", "RNA-protein interaction",
+        "promoter / RNA 5-prime mapping", "RNA structure", "targeted DNA sequencing",
+        "amplicon profiling", "metagenomics", "spatial / in situ", "telomere", "multiomic"))),
     ("platform", ("Sequencing platform", (
-        "Illumina", "PacBio", "Oxford Nanopore", "in situ imaging"))),
+        "Illumina", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry"))),
     ("partitioning", ("Partitioning", (
         "bulk", "plate / well", "droplet", "microwell", "combinatorial indexing",
         "single nucleus", "single cell", "spatial / in situ"))),
     ("starting_material", ("Starting material", (
         "genomic DNA", "total RNA", "poly(A) RNA", "small RNA", "chromatin",
-        "fixed cells / nuclei", "amplicon", "pre-amplified cDNA"))),
+        "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
+        "amplicon", "pre-amplified cDNA", "microbial community DNA",
+        "ribosome-protected RNA", "nascent RNA"))),
     ("fragmentation", ("Fragmentation or entry", (
         "mechanical", "enzymatic", "restriction digest", "Tn5 / tagmentation",
         "RNase / MNase", "no fragmentation"))),
     ("adapter_installation", ("Adapter installation", (
-        "ligation", "Tn5", "PCR-added", "template switching", "tailing + priming",
-        "padlock / circularization", "hairpin / dumbbell", "full-length adaptor"))),
+        "ligation", "Tn5", "PCR-added", "reverse transcription", "template switching", "tailing + priming",
+        "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
+        "hybridization scaffold"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
-        "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR"))),
+        "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
+        "branched-DNA signal amplification"))),
     ("topology", ("Molecular topology", (
         "linear", "circular", "hairpin", "dumbbell / SMRTbell", "concatemer",
-        "proximity-ligation junction"))),
+        "proximity-ligation junction", "RNA-DNA hybrid", "DNA nanoball",
+        "branched hybridization tree"))),
     ("strand_handling", ("Strand handling", (
         "unstranded", "directional RNA", "strand displacement", "second-strand destruction",
-        "single-stranded library", "duplex sequencing"))),
+        "single-stranded library", "duplex sequencing", "native RNA sequencing",
+        "RNA hybridization"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
         "lineage barcode", "no UMI"))),
     ("read_structure", ("Read structure", (
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
-        "barcode in Read 2", "custom sequencing primer", "long-read consensus"))),
+        "barcode in Read 2", "custom sequencing primer", "long-read consensus",
+        "microscopy", "flow cytometry"))),
     ("selection", ("Selection or enrichment", (
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
-        "restriction-site selection", "affinity / antibody capture",
-        "guide-specific enrichment", "none"))),
+        "restriction-site selection", "spatial capture", "affinity / antibody capture",
+        "guide-specific enrichment", "circularization selection", "ribosome-footprint selection",
+        "cap selection", "none"))),
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
-        "dUTP strand marking", "chemical conversion", "none"))),
+        "adenine methyltransferase", "dUTP strand marking", "chemical conversion", "none"))),
     ("availability", ("Availability", (
         "published academic protocol", "commercial kit", "discontinued / historical",
         "exact oligos public", "proprietary sequences", "schematic complete",
@@ -173,6 +183,24 @@ PROFILES = {
         fragmentation="no fragmentation", adapter_installation="padlock / circularization",
         amplification="rolling-circle amplification", topology="circular|concatemer",
         identifiers="spatial barcode|no UMI", read_structure="single-end|inline barcode"),
+    "bdna_imaging": _from(
+        _ILLUMINA, index_introduction="no index", index_architecture="no barcode",
+        assay="RNA detection|spatial / in situ", platform="in situ imaging",
+        partitioning="spatial / in situ", starting_material="total RNA",
+        fragmentation="no fragmentation", adapter_installation="hybridization scaffold",
+        amplification="branched-DNA signal amplification",
+        topology="branched hybridization tree", strand_handling="RNA hybridization",
+        identifiers="no UMI", read_structure="microscopy", selection="none",
+        availability="commercial kit|proprietary sequences|schematic complete"),
+    "bdna_flow": _from(
+        _ILLUMINA, index_introduction="no index", index_architecture="no barcode",
+        assay="RNA detection|protein / feature detection|multiomic", platform="flow cytometry",
+        partitioning="single cell", starting_material="total RNA",
+        fragmentation="no fragmentation", adapter_installation="hybridization scaffold",
+        amplification="branched-DNA signal amplification",
+        topology="branched hybridization tree", strand_handling="RNA hybridization",
+        identifiers="no UMI", read_structure="flow cytometry", selection="none",
+        availability="commercial kit|proprietary sequences|schematic complete"),
 }
 
 

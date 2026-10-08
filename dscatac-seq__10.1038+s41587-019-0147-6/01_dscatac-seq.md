@@ -1,9 +1,9 @@
 # dscATAC-seq / dsciATAC-seq — droplet scATAC-seq with super-loaded beads, optionally on barcoded Tn5
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet. Claims that rest only on the upstream scg_lib_structs page
+> published. Relationships marked 🟡 *(computed)* were worked out with `lib/`; the
+> schematic's construct identities are encoded in its protocol module and checked by its
+> self-test. Claims that rest only on the upstream scg_lib_structs page
 > (or its Bio-Rad spreadsheet) are 🟡 *(upstream)*: a secondary source, not the paper.
 
 **dscATAC-seq / dsciATAC-seq** — Lareau CA\*, Duarte FM\*, Chew JG\*, Kartha VK, Burkett ZD,
