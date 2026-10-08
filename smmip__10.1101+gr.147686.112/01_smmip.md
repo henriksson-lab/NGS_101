@@ -8,6 +8,8 @@ smMIP combines gap-fill molecular inversion probes with a twelve-base random mol
 
 🟢 Hiatt JB, Pritchard CC, Salipante SJ, O'Roak BJ, Shendure J. *Single molecule molecular inversion probes for targeted, high-accuracy detection of low-frequency variation.* Genome Research 2013. DOI: [10.1101/gr.147686.112](https://doi.org/10.1101/gr.147686.112).
 
+🟢 O'Roak et al. *Targeted Capture and High-Throughput Sequencing Using Molecular Inversion Probes (MIPs).* Methods in Molecular Biology 2017. DOI: [10.1007/978-1-4939-6442-0_6](https://doi.org/10.1007/978-1-4939-6442-0_6). This author protocol supplies the complete PCR and run-primer sequences. The original paper's publisher supplement could not be fetched automatically and remains a manual source in the manifest.
+
 ## 3. Published probe architecture
 
 🟢 The paper describes two 16–24 nt targeting arms joined by a constant 28 nt backbone and a 12 nt degenerate molecular tag. The tag is attached during capture, before universal PCR.
@@ -28,4 +30,10 @@ The extension arm supplies the polymerase 3′-OH. The ligation arm supplies the
 
 ## 5. Read layout and scope
 
-🟡 Target-specific arms and gap lengths vary across a probe panel. The diagram therefore shows the invariant architecture rather than inventing one universal target sequence. The paper's original library is represented with its universal paired-end Illumina roles; exact modern index sequences depend on the implementation.
+🟢 Universal forward PCR primer: `AATGATACGGCGACCACCGAGATCTACACATACGAGATCCGTAATCGGGAAGCTGAAG`.
+
+🟢 Universal reverse PCR primer: `CAAGCAGAAGACGGCATACGAGATNNNNNNNNACACGCACGATCCGACGGTAGTGT`.
+
+🟢 Custom forward, reverse and index sequencing primers are respectively `CATACGAGATCCGTAATCGGGAAGCTGAAG`, `ACACGCACGATCCGACGGTAGTGT` and `ACACTACCGTCGGATCGTGCGTGT`.
+
+The original assay collects paired reads and one eight-base i7 index read; it has no i5 read. Read 2 encounters the twelve-base molecular tag first. 🟡 Target-specific arms and captured-gap lengths remain variable, so the diagram shows their roles without inventing target sequence.

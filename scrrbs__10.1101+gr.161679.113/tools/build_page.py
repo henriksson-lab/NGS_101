@@ -56,25 +56,25 @@ def digest_and_repair() -> str:
 
 def ligate_and_convert() -> str:
     before = [
-        seg("protected left adaptor", "GATCT", "r1", inferred=True),
+        seg("protected left adaptor", "GATCT", "r1"),
         seg("MspI end", "CGG"),
         seg("genomic DNA", "CXCXXXXXXXX...XXXXXXXXC", placeholder=True),
         seg("filled end", "CGA"),
-        seg("protected right adaptor", "GATC", "r2", inferred=True),
+        seg("protected right adaptor", "GATC", "r2"),
     ]
     after = [
-        seg("protected left adaptor", "GATCT", "r1", inferred=True),
+        seg("protected left adaptor", "GATCT", "r1"),
         seg("converted MspI end", "UGG", placeholder=True),
         seg("converted genomic DNA", "UXUXXXXXXXX...XXXXXXXXU", placeholder=True),
         seg("converted filled end", "UGA", placeholder=True),
-        seg("protected right adaptor", "GATC", "r2", inferred=True),
+        seg("protected right adaptor", "GATC", "r2"),
     ]
     before_con = Construct(before)
     after_con = Construct(after)
     return f"""<h3>(3) Ligate the premethylated indexed Y-adaptor</h3>
 {panel(S.adapter_scene().rows(), cls="small",
-       caption="INFERRED — exact adaptor bases come from the secondary reconstruction. "
-               "The universal and indexed oligos meet only in the 12-bp TruSeq stem; "
+       caption="The standard premethylated universal and indexed oligos meet only in "
+               "the 12-bp TruSeq stem; "
                "3'-T joins each dA-tailed insert end.")}
 <h3>(4) Bisulfite-convert the ligated molecules</h3>
 {panel([strand_row(before_con, prefix="before  5'- ", suffix=" -3'"),
@@ -91,10 +91,11 @@ def amplify_and_sequence() -> str:
     sc = Scene.duplex(list(lib))
     return f"""<h3>(5) Uracil-tolerant PCR, then indexed PCR</h3>
 {panel([*sc.rows(), *annotation_rows(lib)], cls="long",
-       caption="INFERRED — PCR-completed library assembled from the reconstructed adaptors. "
+       caption="PCR-completed single-index TruSeq library. "
                "The six-base i7 identifies the cell; there is no UMI or i5 index.")}
 {sp.section(lib, S.SEQ_PRIMERS, intro="Paired-end TruSeq sequencing. Read 1 starts at the "
-            "MspI end; the i7 read identifies the cell. Y denotes a bisulfite call (C/T).")}"""
+            "MspI end; the i7 read identifies the cell. Y denotes a bisulfite call (C/T).",
+            required_roles=("Read 1", "Index 1 (i7)", "Read 2"))}"""
 
 
 def render() -> str:
@@ -105,10 +106,9 @@ def render() -> str:
              '<i>Genome Research</i> (2013)</a>. Detailed protocol: '
              '<a href="https://doi.org/10.1038/nprot.2015.039">Guo et al., '
              '<i>Nature Protocols</i> (2015)</a>.'),
-        '<div class="caveat"><b>Adaptor sequence.</b> The defining paper specifies '
-        'premethylated indexed Illumina adaptors but does not print their bases. Dotted '
-        'adaptor regions use the TruSeq sequences recorded by the upstream '
-        'scg_lib_structs reconstruction.</div>',
+        info('The paper specifies standard premethylated indexed Illumina adapters. '
+             'The displayed six-base single-index sequences are the corresponding '
+             'vendor-published TruSeq adapters; there is no i5 index.'),
         oligos(), digest_and_repair(), ligate_and_convert(), amplify_and_sequence(),
         '</div>',
     ])

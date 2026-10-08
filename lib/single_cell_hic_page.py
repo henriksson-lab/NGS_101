@@ -4,7 +4,6 @@ from __future__ import annotations
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, junction_row, panel
 from page import head, info
-from single_cell_hic import SEQ_PRIMERS
 
 
 def render(module) -> str:
@@ -21,13 +20,19 @@ def render(module) -> str:
                   *annotation_rows(final)]
     steps = "".join(f'<h3>({i}) {title}</h3><p>{text}</p>'
                     for i, (title, text) in enumerate(module.STEPS, 1))
-    sequencing = sp.section(final, SEQ_PRIMERS, heading="Sequencing",
-        intro=module.READOUT,
-        required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
+    primers = getattr(module, "SEQ_PRIMERS", ())
+    required = getattr(module, "REQUIRED_ROLES", ())
+    if primers:
+        sequencing = sp.section(final, primers, heading="Sequencing",
+            intro=module.READOUT, required_roles=required)
+    else:
+        sequencing = (f'<h2>Sequencing</h2><p>{module.READOUT}</p>' +
+            sp.unavailable_diagram(final, module.SEQUENCING_UNAVAILABLE))
     return "\n".join([
         head(module.TITLE), '<div class="wrap">', f'<h1>{module.TITLE}</h1>',
         f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',
         info(module.CITATION), info(module.SUMMARY),
+        info(module.LIBRARY_CAVEAT) if getattr(module, "LIBRARY_CAVEAT", "") else "",
         '<h2>Protocol path</h2>', steps,
         '<h2>The proximity-ligation product</h2>',
         panel(contact_rows, cls="small", caption=module.JUNCTION_CAPTION),

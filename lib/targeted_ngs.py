@@ -49,12 +49,3 @@ def smmip_rows() -> list[Row]:
         Row(chunks=[("                         ligase closes probe + copied target", None, False)]),
         Row(chunks=[("linear probe and genomic DNA --exonuclease--> removed; circle survives", None, False)]),
     ]
-
-
-def smmip_library():
-    return truseq_library([
-        seg("left probe arm / backbone", "X" * 18, placeholder=True),
-        seg("12-nt single-molecule tag", "U" * 12, "umi", placeholder=True),
-        seg("captured target", "N" * 30, placeholder=True),
-        seg("right probe arm / backbone", "Y" * 18, placeholder=True),
-    ], "amplified smMIP capture product")

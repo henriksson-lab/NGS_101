@@ -1,8 +1,8 @@
 """Construct model for single-cell reduced-representation bisulfite sequencing.
 
-The wet-lab order is from Guo et al. (Genome Research 2013).  The paper identifies
-premethylated indexed Illumina adaptors but does not print them; the exact oligos below
-are the standard TruSeq sequences recorded by the upstream scg_lib_structs page.
+The wet-lab order is from Guo et al. (Genome Research 2013). The paper identifies
+standard premethylated indexed Illumina adapters; their single-index sequences are
+published in Illumina's authoritative adapter-sequence document.
 """
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ UNIVERSAL = il.TRUSEQ_P5_FULL
 INDEXED_FIXED_5 = il.INDEX1_PRIMER
 
 
-def universal_segments(*, inferred: bool = True) -> list[Segment]:
+def universal_segments(*, inferred: bool = False) -> list[Segment]:
     """Universal premethylated adaptor, split without duplicating the ACAC overlap."""
     return [
         _seg("P5", il.P5, "p5", inferred=inferred),
@@ -39,7 +39,7 @@ def universal_segments(*, inferred: bool = True) -> list[Segment]:
     ]
 
 
-def indexed_segments(*, inferred: bool = True) -> list[Segment]:
+def indexed_segments(*, inferred: bool = False) -> list[Segment]:
     return [
         _seg("Index-primer / Read 2 arm", INDEXED_FIXED_5, "r2", inferred=inferred),
         _seg("i7 cell index", "N" * INDEX_NT, "cbc", placeholder=True,
@@ -56,15 +56,15 @@ def adapter_scene() -> Scene:
     """
     stem_n = len(il.STEM)
     universal = [
-        _seg("universal fork", UNIVERSAL[:-(stem_n + 1)], "p5", inferred=True),
-        _seg("universal stem", UNIVERSAL[-(stem_n + 1):-1], "r1", inferred=True),
-        _seg("3' T", UNIVERSAL[-1], "r1", inferred=True),
+        _seg("universal fork", UNIVERSAL[:-(stem_n + 1)], "p5"),
+        _seg("universal stem", UNIVERSAL[-(stem_n + 1):-1], "r1"),
+        _seg("3' T", UNIVERSAL[-1], "r1"),
     ]
     indexed = [
-        _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2", inferred=True),
-        _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2", inferred=True),
-        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True, inferred=True),
-        _seg("P7'", il.P7_RC, "p7", inferred=True),
+        _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2"),
+        _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2"),
+        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True),
+        _seg("P7'", il.P7_RC, "p7"),
     ]
     sc = Scene()
     sc.strand("universal", universal, label="universal")
@@ -110,11 +110,6 @@ def final_library() -> Construct:
 SEQ_PRIMERS = [
     sp.TRUSEQ["R1"],
     sp.TRUSEQ["I1"],
-    sp.SeqPrimer("Index 2 (i5)", "TruSeq Index 2 (no i5 index)",
-                 il.INDEX2_PRIMER_RC,
-                 'Illumina "Indexed Sequencing Overview Guide" #15057455',
-                 "The primer site is present, but P5 is followed directly by Read 1: "
-                 "there is no i5 index."),
     sp.TRUSEQ["R2"],
 ]
 
@@ -126,7 +121,8 @@ def _validate_model() -> None:
         raise ValueError("A-tail plus indexed adaptor no longer forms the Read 2 site")
     # Constructing the Scene validates every paired base in the Y-adaptor stem.
     adapter_scene().rows()
-    problems = sp.verify(final_library(), SEQ_PRIMERS)
+    problems = sp.verify(final_library(), SEQ_PRIMERS,
+                         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
     if problems:
         raise ValueError("invalid scRRBS sequencing layout: " + "; ".join(problems))
 

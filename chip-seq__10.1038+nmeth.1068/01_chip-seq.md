@@ -20,8 +20,10 @@ target-specific antibody. Crosslinks are reversed and DNA recovered. The sequenc
 workflow repairs ends, phosphorylates them, adds a single 3′ dA, ligates an asymmetric
 Illumina adapter, size-selects and PCR-amplifies.
 
-## 4. Evidence boundary
+## 4. Historical library identity
 
-🟢 Reaction order is explicit in the protocol. 🟡 The old proprietary Illumina adapter is
-shown as a dotted canonical paired-end TruSeq layout so primer geometry is visible without
-claiming that current adapter bases were printed in the 2007 paper.
+🟢 The contemporary protocol identifies Illumina Genomic Adapter Oligo Mix (part
+1000521) and Genomic PCR primers 1.1 and 2.1. Illumina's archived Genomic DNA Sample
+Prep documentation and adapter-sequence guide publish the corresponding single-read
+oligos. The 2007 experiment produced unindexed single-end reads on the Solexa Genome
+Analyzer; representing it as paired-end, indexed TruSeq would be anachronistic.

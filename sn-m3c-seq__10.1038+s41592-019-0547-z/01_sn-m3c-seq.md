@@ -9,7 +9,9 @@ A single-nucleus multi-omic protocol that reads chromosome contacts and cytosine
 - 🟢 Lee et al., *Nature Methods* 2019, DOI [10.1038/s41592-019-0547-z](https://doi.org/10.1038/s41592-019-0547-z); full text [PMC6765423](https://pmc.ncbi.nlm.nih.gov/articles/PMC6765423/).
 - 🟢 Proximity-ligation products are carried into bisulfite conversion without a biotin-junction pull-down.
 - 🟢 Library construction follows the snmC-seq2 strategy: indexed P5-bearing random priming, adapter tagging and PCR.
-- 🟡 The page shows the invariant contact topology and an inferred canonical outer adapter shell; converted insert bases are sample-dependent and are not falsely written as a fixed sequence.
+- 🔴 The defining sn-m3C source does not print a complete outer adapter/primer set. The
+  page keeps those arms unresolved rather than assigning canonical TruSeq; converted
+  insert bases are sample-dependent and are not falsely written as a fixed sequence.
 - 🟢 The authors trim the first 25 bases and final 3 bases of each read to remove random-primer sequence and the low-complexity Adaptase tail; both regions remain explicit in the model.
 
 ## 3. Distinguishing chemistry

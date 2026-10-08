@@ -1,8 +1,8 @@
 """Sequence model for Smallwood et al. scBS-seq (Nature Methods, 2014).
 
-The defining paper prints oligo1, oligo2 and PE1.0.  It names the indexed iPCRTag
-primer but refers to Quail et al. for its sequence; that historical arm is therefore
-marked inferred wherever it is used in the final construct.
+The defining paper prints oligo1, oligo2 and PE1.0 and cites Quail et al. for the
+indexed iPCRTag primer.  Quail's Supplementary Table 1 prints that primer family,
+the PE adapter and the dedicated index-read primer.
 """
 from __future__ import annotations
 
@@ -26,12 +26,11 @@ OLIGO2_HANDLE = "TGCTGAACCGCTCTTCCGATCT"
 RANDOM_NT = 9
 PE1 = il.P5 + il.TRUSEQ_READ1[4:]  # the shared ACAC is present only once
 
-# Secondary sequence source: the upstream scg_lib_structs rendering of the Quail
-# iPCRTag design.  Keep it separate from the paper-derived constants above.
+# Quail et al. 2012, doi:10.1038/nmeth.1814, Supplementary Table 1.
 IPCRTAG_INDEX_NT = 8
 READ2_PRIMER = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
 IPCRTAG_3_ARM = "GAGAT" + READ2_PRIMER
-INDEX_PRIMER = revcomp(IPCRTAG_3_ARM)
+INDEX_PRIMER = "AAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC"
 
 
 def oligo1_segments() -> list[Segment]:
@@ -45,11 +44,11 @@ def oligo2_segments() -> list[Segment]:
 
 
 def ipcrtag_primer_segments() -> list[Segment]:
-    """Secondary-source primer; inference styling is inseparable from construction."""
+    """Quail iPCRTag primer family; the eight-base member index is variable."""
     return [
-        _seg("P7", il.P7, "p7", inferred=True),
-        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True, inferred=True),
-        _seg("3' arm", IPCRTAG_3_ARM, "r2", inferred=True),
+        _seg("P7", il.P7, "p7"),
+        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True),
+        _seg("3' arm", IPCRTAG_3_ARM, "r2"),
     ]
 
 
@@ -67,14 +66,12 @@ def final_library(insert_nt: int = 28) -> Construct:
         _seg("oligo1 N9", "N" * RANDOM_NT, placeholder=True),
         _seg("bisulfite insert", insert, placeholder=True),
         _seg("oligo2 N9", "N" * RANDOM_NT, placeholder=True),
-        _seg("index-read site", INDEX_PRIMER, "r2", inferred=True,
-             note="iPCRTag arm from the secondary upstream page"),
-        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True, inferred=True,
-             note="indexed iPCRTag named by the paper; index sequence not printed"),
-        _seg("P7'", il.P7_RC, "p7", inferred=True,
-             note="iPCRTag sequence supplied by the secondary upstream page"),
+        _seg("index-read site", revcomp(IPCRTAG_3_ARM), "r2"),
+        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True),
+        _seg("P7'", il.P7_RC, "p7"),
     ], name="scBS-seq indexed library")
-    problems = sp.verify(lib, SEQ_PRIMERS)
+    problems = sp.verify(lib, SEQ_PRIMERS,
+                         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
     if problems:
         raise ValueError("invalid scBS-seq final library: " + "; ".join(problems))
     return lib
@@ -84,11 +81,7 @@ SEQ_PRIMERS = [
     sp.custom("Read 1", "TruSeq Read 1", il.TRUSEQ_READ1,
               'Illumina "Illumina Adapter Sequences" #1000000002694'),
     sp.custom("Index 1 (i7)", "historical iPCRTag index primer", INDEX_PRIMER,
-              "Quail et al. design, via upstream scg_lib_structs"),
-    sp.SeqPrimer("Index 2 (i5)", "TruSeq Index 2 (no i5 index)",
-                 il.INDEX2_PRIMER_RC,
-                 'Illumina "Indexed Sequencing Overview Guide" #15057455',
-                 "The primer can bind, but this single-indexed library has no i5 index."),
+              "Quail et al. 2012 Supplementary Table 1"),
     sp.custom("Read 2", "historical paired-end Read 2", READ2_PRIMER,
-              "Quail et al. design, via upstream scg_lib_structs"),
+              'Illumina "Oligonucleotide Sequences for Paired End DNA" (obsolete)'),
 ]

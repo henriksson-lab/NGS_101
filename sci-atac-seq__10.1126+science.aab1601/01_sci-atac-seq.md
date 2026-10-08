@@ -53,6 +53,7 @@ Fetched by `tools/get_sources.py` into
 | `x_moesm2/nature25981-s2/Table_S12.xlsx.txt` | 2018 *Nature* Table S12, unzipped from `…MOESM2_ESM.zip` | **PCR primers (96 + 96), Tn5 oligos, seq primers** |
 | `nature25981_PMC5866720.html.txt` | 2018 *Nature* Online Methods | 2018 step-by-step, cycling, NextSeq |
 | `science.aba7612_PMC7785298.html.txt` | 2020 *Science* (sci-ATAC-seq3) methods | sci-ATAC-seq3 steps and read recipe |
+| `scg_aba7612_domcke_table-s7.xlsx.txt` | original Domcke 2020 Supplementary Table S7, mirrored by scg_lib_structs | every sci-ATAC-seq3 splint, N5/N7 ligation oligo, PCR oligo and custom sequencing primer |
 | `nature25981_…MOESM1_ESM.pdf`, `…MOESM3_ESM.xlsx`, `x_moesm2/…/Table_S11.xlsx` | reporting summary, enrichment tables, enhancer-cloning primers | not chemistry |
 
 Could not be fetched (PMC download gate). The URLs are in `MANIFEST.tsv`:
@@ -60,7 +61,7 @@ Could not be fetched (PMC download gate). The URLs are in `MANIFEST.tsv`:
 | Missing | Why it matters |
 |---|---|
 | 2015 *Science* Supplementary Material (`NIHMS776051-supplement-Supplementary_Material.pdf`) and `Table_S2.txt` | **the 2015 methods and its own oligo/primer list**. 🔴 The 2015 PCR primers (8 or 10 nt indices?) are therefore unknown to us |
-| sci-ATAC-seq3 supplementary PDF (`NIHMS1652075-supplement-manuscript_supplementary.pdf`), which holds **Table S7** | every sci-ATAC-seq3 splint, N5/N7 and PCR oligo. All sci-ATAC-seq3 sequences below come from upstream only (🟡) |
+| sci-ATAC-seq3 supplementary PDF (`NIHMS1652075-supplement-manuscript_supplementary.pdf`) | figures and prose remain gated; the separate original Table S7 workbook is available and read |
 | Amini 2014 `Figures___Tables.doc` | duplicate of the Springer supplement, probably |
 | 2018 `Supplementary_tables.zip`, `Supplementary_table_4.zip` (PMC copies) | the Springer copy `MOESM2_ESM.zip` was obtained instead |
 | protocols.io be8mjhu6 | detailed sci-ATAC-seq3 volumes, oligo concentrations |
@@ -287,7 +288,7 @@ The **upstream page agrees** with this final library segment for segment, includ
 
 ## 6. sci-ATAC-seq3 (Domcke 2020)
 
-### 6.1 Oligos: 🟡 upstream only (Table S7 of the paper is gated, 🔴)
+### 6.1 Oligos: 🟢 Supplementary Table S7
 
 As upstream writes them (spaces added around the placeholders):
 
@@ -353,7 +354,7 @@ The barcode oligos are ligated to the top-strand 5' ends only. The 9-nt gap and 
 missing complement are filled by the 72 °C step before PCR. Only fragments with an s5
 end (N5-ligated) and an s7 end (N7-ligated) carry both PCR handles.
 
-### 6.4 Final library (sci-ATAC-seq3): 🟡 (assembled; agrees with upstream)
+### 6.4 Final library (sci-ATAC-seq3): 🟡 assembled from 🟢 Table S7 oligos
 
 ```
 5'- P5 · i5 <10> · N5 head (CACCGCACGAGAGGT) · N5 <10> · GTAATCAG
@@ -380,14 +381,12 @@ How samples map to plates is in Table S1 / S7 🔴.
 | Index 1 = 45 cycles (8 + 27 dark + 10), Index 2 = 39 (8 + 21 dark + 10) | not stated in the papers | consistent with the computed gaps 🟡 |
 | Same-end products not amplifiable ("semi-suppressive PCR") | not stated in the fetched papers | upstream interpretation 🟡 |
 | sci-ATAC-seq3: PNK, N5 then N7 splint ligation, 384 × 4 plates, reverse crosslink, indexed PCR, 10+15+10 index reads, 50-cycle reads | 2020 methods: same steps. Reads are **51** cycles each; upstream says 50 | agrees, except the 50/51 read length |
-| sci-ATAC-seq3 oligo sequences | Table S7, gated | **unchecked** 🔴 |
+| sci-ATAC-seq3 oligo sequences | original Table S7 workbook mirror | **agree** 🟢 |
 
 ## 8. Open questions
 
 - 🔴 The 2015 *Science* supplement (methods and Table S2): its tagmentation conditions,
   PCR primers (Nextera kit, 8 nt, or the 10-nt set?), cycle numbers and sequencer.
-- 🔴 sci-ATAC-seq3 Table S7: verify every upstream sequence, the splints' exact 3'
-  modification and the N5/N7 barcode lists. Also oligo concentrations (protocols.io).
 - 🟡 Barcode orientation in the reads: whether i5 is read as written in the primer or
   as its reverse complement depends on the instrument's i5 workflow. This was not
   checked against demultiplexing code (github shendurelab/human-atac;

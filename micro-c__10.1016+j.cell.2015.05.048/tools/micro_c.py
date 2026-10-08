@@ -4,10 +4,9 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-import illumina as il
-import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments
 from end_repair import fill_five_prime_overhang
+from single_cell_hic import unresolved_illumina_library
 
 
 def seg(name, top, tag=None, **kw):
@@ -76,22 +75,6 @@ def selected_insert():
     ], name="biotin-selected Micro-C insert")
 
 
-SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
-
-
 def final_library():
-    """Canonical single-index TruSeq structure; adapter bases were not printed."""
-    lib = Construct([
-        seg("P5", il.P5, "p5", inferred=True),
-        seg("Read 1 arm", il.TRUSEQ_READ1[4:], "r1", inferred=True),
-        *list(selected_insert()),
-        seg("dA junction", "A", inferred=True),
-        seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=True),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True),
-        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
-    ], name="Micro-C sequencing library")
-    problems = sp.verify(lib, SEQ_PRIMERS,
-                         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
-    if problems:
-        raise ValueError("invalid Micro-C final library: " + "; ".join(problems))
-    return lib
+    return unresolved_illumina_library(selected_insert(),
+        "Micro-C sequencing library", indexed=None)

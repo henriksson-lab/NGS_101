@@ -5,12 +5,9 @@
 > available to us. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
 > writing this note; they are not yet asserted in a self-test (no `tools/` module yet).
 >
-> **Read this first:** the CH-ATAC-seq paper itself (Developmental Cell, subscription) and
-> its Supplementary Table 1 could **not** be fetched. Everything specific to the ATAC
-> chemistry comes from the upstream scg_lib_structs page (🟡). The hybridization,
-> blocking, P5 and MGI P7 oligos are confirmed 🟢 from the same group's open-access
-> **CH-RNA-seq** paper (Nature Communications 2022), which uses the identical second-round
-> hybridization system. Reaction conditions for the ATAC version are 🔴.
+> **Source boundary:** the subscription article text remains unavailable, but its original
+> Supplementary Table 1 is present as an XLSX mirror. It directly confirms every
+> CH-ATAC oligo used in the schematic. Detailed reaction conditions remain 🔴.
 
 **CH-ATAC-seq** — Zhang G, Fu Y, Yang L, Ye F, Zhang P, Zhang S, Ma L, Li J, Wu H, Han X,
 Wang J, Guo G. "Construction of single-cell cross-species chromatin accessibility
@@ -35,6 +32,7 @@ Sources read (in `_data/sources/ch-atac-seq__10.1016+j.devcel.2024.01.015/`, nev
 
 | File | What | Used for |
 |---|---|---|
+| `scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt` | defining paper's original Supplementary Table 1, mirrored by scg_lib_structs | 🟢 common primers, 384 Tn5 barcode primers, 768 HY primers and 96 MGI P7 index primers |
 | `upstream_CH-ATAC-seq.html.txt` | scg_lib_structs page for CH-ATAC-seq (secondary; says its oligos come from the paper's Supplementary Table 1) | **all CH-ATAC-specific oligos**, step order, final library, read layout |
 | `related_CH-RNA-seq_PMC9307617.html.txt` | CH-RNA-seq full text (Europe PMC JATS XML, fetched by hand) | hybridization / blocking conditions, MGI sequencing with dark cycles |
 | `related_CH-RNA-seq_MOESM4_ESM.xlsx.txt` | CH-RNA-seq Supplementary Data 1 = "Table S1. List of all oligonucleotide sequences used in CH-RNA-seq" (fetched by hand) | 🟢 HY head, 768 barcoded HY oligos, block tail, PCR P5 (with modification), 96 MGI P7 index primers |
@@ -44,7 +42,6 @@ Could not be fetched:
 | What | URL | Why it matters |
 |---|---|---|
 | CH-ATAC-seq paper (STAR Methods) | https://doi.org/10.1016/j.devcel.2024.01.015 | every reaction condition; Tn5 loading; whether a ligase is used; cycle numbers; sequencing recipe |
-| CH-ATAC-seq Supplementary Table 1 (oligos) | via https://www.cell.com/developmental-cell/fulltext/S1534-5807(24)00040-7 (supplemental information tab) | 🟢 for the Tn5 barcode oligo, Primer C, ME bottom, 384 Tn5 barcodes, sequencing primers |
 
 ---
 
@@ -59,7 +56,7 @@ the line of sci-ATAC-seq3 🟡 (upstream):
    SPLiT-seq; the HY oligo is itself a pre-annealed partial duplex.
 3. Pool → split; **i7 index PCR** (96 MGI P7 index primers).
 
-384 × 768 × 96 barcode combinations 🟡 (upstream barcode counts).
+384 × 768 × 96 barcode combinations 🟡 (computed from the three primary-source sheets).
 
 | | New thing here | Builds on |
 |---|---|---|
@@ -237,10 +234,8 @@ cycles. The CH-ATAC cycle numbers themselves are not confirmed 🔴.
   hybridization, PCR cycles, size selection) — STAR Methods not read.
 - 🔴 Is the HY barcode joined by ligation (upstream's word) or only by fill-in / extension
   (CH-RNA-seq states its hybridization round needs no T4 ligase)? Is the Tn5 barcode oligo 5'-phosphorylated?
-- 🔴 The 384 Tn5 barcode sequences; whether the 768 HY barcodes are the same list as
-  CH-RNA-seq's (in CH-RNA-seq 324 of the 384 RT barcodes also occur among the 768 HY
-  barcodes 🟡 computed — so the lists overlap but are not a simple prefix).
-- 🔴 Whether CH-ATAC's PCR P5 is 5'-phosphorylated as in CH-RNA-seq.
+- 🟢 The defining table supplies all 384 Tn5 barcodes, all 768 HY oligos and all 96 MGI
+  P7 primers. Its PCR P5 entry explicitly carries a 5′ phosphate.
 - 🟡 Product with the barcoded adapter at both ends: upstream calls it non-amplifiable by
   semi-suppressive PCR. With HY at both ends it carries s5 at both ends and only P5 primes
   it; whether it is truly negligible in the data is not stated.
@@ -249,10 +244,8 @@ cycles. The CH-ATAC cycle numbers themselves are not confirmed 🔴.
 
 ## 7. How this note was made (tool evaluation)
 
-`tools/get_sources.py` found no open copy of the Developmental Cell paper and fetched only
-the upstream page. The related open-access CH-RNA-seq paper (not in the catalogue for this
-protocol) and its Supplementary Data 1 were fetched by hand (Europe PMC JATS XML;
-Springer static ESM URL) and converted with `tools/doctext.py`. `tools/scrape_primers.py`
-on the directory found all oligos on the upstream page and recognised `rt.SMART_HANDLE`,
-`nextera.ME`, `ADAPTOR_S5/S7`; it does not know MGI_P5 / MGI_P7. Every 🟢 sequence above
-was confirmed with `scrape_primers.py --find`.
+`tools/get_sources.py` found no open copy of the Developmental Cell article text, but the
+source catalogue retrieved the defining Supplementary Table 1 mirror and converted it with
+`tools/doctext.py`. The related open-access CH-RNA-seq material independently agrees with
+the shared hybridization system. `tools/scrape_primers.py` recognises `rt.SMART_HANDLE`,
+`nextera.ME` and `ADAPTOR_S5/S7`; MGI_P5 / MGI_P7 remain protocol-local constants.

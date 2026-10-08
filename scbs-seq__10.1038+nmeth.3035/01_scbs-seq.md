@@ -39,7 +39,7 @@ Not fetched / not available:
 
 | What | Why it matters |
 |---|---|
-| Quail *et al.* 2012 (iPCRTag primer), doi:10.1038/nmeth.1814 | the **only source** of the indexing reverse primer sequence and its index list; this paper only cites it 🔴 |
+| Quail *et al.* 2012 (iPCRTag primer), doi:10.1038/nmeth.1814 | fetched after the first review; Supplementary Table 1 supplies the PE adapter, index-read primer and 24 indexed PCR primers 🟢 |
 | Clark *et al.* 2017 *Nat. Protoc.* doi:10.1038/nprot.2016.187 | later, detailed protocol; may give oligo vendors/purifications |
 | Miura *et al.* 2012 PBAT (doi:10.1093/nar/gks454) | the bisulfite clean-up "as described previously" |
 
@@ -85,12 +85,12 @@ The hyphen in PE1.0 is a line-break artefact of the manuscript (`TCTTTC-CCTACAC`
 bases are `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, which is also
 exactly how the upstream page writes it. 🟡
 
-🟡 From the upstream scg_lib_structs page only (secondary source; not in the paper):
+🟢 From Quail *et al.* 2012 Supplementary Table 1, the source cited by Smallwood *et al.*:
 
 ```
 iPCRtag reverse primer      CAAGCAGAAGACGGCATACGAGAT [8-bp sample index] GAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT   74 nt
 Read 1 sequencing primer    ACACTCTTTCCCTACACGACGCTCTTCCGATCT
-Index sequencing primer     AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC
+Index sequencing primer     AAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC
 Read 2 sequencing primer    CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT
 ```
 
@@ -103,8 +103,8 @@ adapter layout (the old PE / multiplexing read-2 arm, not the TruSeq one).
 |---|---|---|---|
 | oligo1, oligo2, PE1.0 bases | as above | identical | agree 🟢 |
 | 5' modification of oligo1 | `[Btn]` | `/Bio/` | same thing, different notation |
-| iPCRTag sequence | not given (cites Quail 2012) | given | upstream only 🟡 |
-| read / index primers | not given | given | upstream only 🟡 |
+| iPCRTag sequence | not given (cites Quail 2012) | given | confirmed in cited Quail Supplementary Table 1 🟢 |
+| read / index primers | not given | given | confirmed in cited Quail Supplementary Table 1 🟢 |
 | rounds of oligo1 priming | 1 + 1 + 3 = 5 | step "repeated five times" | agree (upstream wording loosely) |
 | exonuclease I + 0.8× AMPure before capture | yes | not mentioned | upstream omits |
 | capture, NaOH washes, oligo2 and PCR **on the beads** | yes | "purify products" between oligo2 and PCR | upstream simplifies |
@@ -123,7 +123,8 @@ adapter layout (the old PE / multiplexing read-2 arm, not the TruSeq one).
   primer and of the iPCRtag 3' arm: iPCRtag 3' arm (42 nt) = `GAGAT` + Read 2 primer
   (37 nt), and the Read 2 primer ends with the oligo2 handle.
 - **iPCRtag 5' arm = `illumina.P7`** exactly.
-- The **index sequencing primer is the exact reverse complement** of the iPCRtag 3' arm.
+- The **index sequencing primer** is the dedicated 35-nt Quail primer. It anneals within
+  the reverse-complemented iPCRtag arm; it is not the full 42-nt reverse complement.
 - The two handles share their 3' 14 nt, `CGCTCTTCCGATCT`, which contains
   `illumina.STEM_COMPLEMENT` (`GCTCTTCCGATC`). So oligo1 and oligo2 differ only in their
   5' 8 nt (`CTACACGA` vs `TGCTGAAC`). Neither handle is the TruSeq Read 2 arm
@@ -207,16 +208,12 @@ multiple oligo1 rounds make the library non-directional 🟢; hence all four bis
 strands (OT, OB, CTOT, CTOB) can appear in Read 1 🟡. Reads were first mapped to human (to
 remove contaminants; 1.4 % mapped there), then the rest to mouse in **single-end** mode.
 
-Read primers 🟡 (upstream only): Read 1 = `illumina.TRUSEQ_READ1`; index read = the
-index primer above, reading 8 nt (the sample / cell index); Read 2 = the old-style
-`CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT`, which is not the TruSeq Read 2 primer. Whether
-the run used a custom read-2/index primer or the HiSeq PE kit's standard primers is not
-stated 🔴.
+Read primers 🟢: Read 1 and Read 2 are the obsolete Illumina PE primers, and the dedicated
+35-nt Quail index-read primer reads the eight-base iPCRTag. This is single-indexed: there
+is no i5 index or Index 2 read.
 
 ## 6. Open questions
 
-- 🔴 The iPCRTag primer and its index set (Quail 2012) were not fetched; the sequence here
-  is the upstream page's, and the index list is unknown.
 - 🔴 Oligo purification (HPLC / PAGE) and whether the N9 is hand-mixed are not given.
 - 🔴 The **poly-T** artefact (reads with ≥50 T, present in negative controls too, main
   cause of low mapping; Supplementary Fig. 2) — its origin is called "a contaminant" and

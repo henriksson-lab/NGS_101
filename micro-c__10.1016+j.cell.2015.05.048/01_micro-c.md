@@ -1,8 +1,8 @@
 # Micro-C
 
-Hsieh T-HS, Weiner A, Lajoie B, Dekker J, Friedman N, Rando OJ. “Mapping Nucleosome
-Resolution Chromosome Folding in Yeast by Micro-C.” *Molecular Cell* 58, 1208–1218
-(2015). doi:[10.1016/j.molcel.2015.05.020](https://doi.org/10.1016/j.molcel.2015.05.020).
+Hsieh T-HS, Fudenberg G, Goloborodko A, Rando OJ. “Mapping Nucleosome Resolution
+Chromosome Folding in Yeast by Micro-C.” *Cell* 162, 108–119 (2015).
+doi:[10.1016/j.cell.2015.05.048](https://doi.org/10.1016/j.cell.2015.05.048).
 
 Evidence: 🟢 stated by the defining paper · 🟡 computed molecular consequence · 🔴 unknown.
 
@@ -24,8 +24,8 @@ protein–protein crosslinker and is a separate 2016 variant.
   and sequencing.”
 - 🟢 The paper’s Figure 1 overview and description of the two-stage ligation-product
   purification.
-- 🟡 Canonical TruSeq arms from `lib/illumina.py`; the paper names Illumina adaptors and
-  paired-end primers but does not print their sequences.
+- 🔴 The paper names Illumina adaptors and paired-end primers but does not identify a kit,
+  index architecture, or oligo sequences. The schematic therefore does not assign TruSeq.
 
 ## 3. Workflow
 
@@ -63,11 +63,11 @@ protein–protein crosslinker and is a separate 2016 variant.
 
 ## 5. Final library and sequencing
 
-🟡 The paper specifies Illumina indexed adapters without their bases. The page therefore
-marks a canonical single-index TruSeq structure as inferred:
+🔴 The paper specifies Illumina adapters without their bases or an index architecture.
+The page keeps the two outer arms explicitly unresolved:
 
 ```
-P5 · Read 1 · nucleosome A DNA · variable repaired/ligated junction · nucleosome B DNA · Read 2' · i7' · P7'
+[Illumina left arm] · nucleosome A DNA · variable repaired/ligated junction · nucleosome B DNA · [Illumina right arm]
 ```
 
 Read 1 and Read 2 begin at opposite genomic ends. They are mapped separately to recover

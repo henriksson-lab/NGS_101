@@ -4,7 +4,10 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from restriction import BGLII
-from single_cell_hic import ContactWorkflow, inferred_truseq_library
+import illumina as il
+import seqprimers as sp
+from single_cell_hic import (ContactWorkflow, HISTORICAL_PE_READ2,
+                             historical_inline_pe_library)
 from chemdraw import Construct, Segment
 
 WORKFLOW = ContactWorkflow("Nagano single-cell Hi-C", BGLII,
@@ -19,7 +22,7 @@ STEPS = (("Crosslink and digest", "Digest fixed chromatin in intact nuclei with 
          ("Capture and amplify", "Fragment DNA, enrich biotin-bearing junctions on streptavidin and PCR-amplify an Illumina library."))
 READOUT = "Paired reads start in the two genomic fragments on either side of a captured contact junction."
 JUNCTION_CAPTION = "BglII-compatible ends form the contact boundary; the experimental junction is selected through the biotin-bearing fill-in. ** marks ligation."
-LIBRARY_CAPTION = "PCR-completed paired-end library. Dotted adapter arms are canonical TruSeq structure because the paper names the Illumina workflow without printing those bases."
+LIBRARY_CAPTION = "PCR-completed paired-end library with the paper's 3-bp identification tag at each read end. The CAA member of the twelve-adapter set is shown."
 JUNCTIONS = (("left filled end", "right filled end", "proximity ligation"),)
 def contact_product():
     j = WORKFLOW.digest().fill_in(biotin_base="A").junction
@@ -33,4 +36,11 @@ def contact_product():
         Segment("junction after opposite biotin", j[8:], "me"),
         Segment("locus B", "X"*22, placeholder=True),
     ], name="BglII biotin-filled contact")
-def final_library(): return inferred_truseq_library(contact_product(), "Nagano scHi-C library")
+SEQ_PRIMERS = (
+    sp.custom("Read 1", "historical Illumina Read 1", il.TRUSEQ_READ1,
+              "Nagano et al. 2013 Supplementary Methods"),
+    sp.custom("Read 2", "historical paired-end Read 2", HISTORICAL_PE_READ2,
+              "Nagano et al. 2013 Supplementary Methods"),
+)
+REQUIRED_ROLES = ("Read 1", "Read 2")
+def final_library(): return historical_inline_pe_library(contact_product(), "Nagano scHi-C library")

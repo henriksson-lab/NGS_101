@@ -93,15 +93,15 @@ def two_level_library(protocol: str) -> Construct:
 
 SCI3_PRIMERS = (
     sp.NEXTERA["R1"],
-    sp.custom("Index 1 (i7)", "3LV2 Index 1", SCI3_I1, "Table S7 sequence via secondary source"),
-    sp.custom("Index 2 (i5)", "3LV2 Index 2", SCI3_I2, "Table S7 sequence via secondary source"),
+    sp.custom("Index 1 (i7)", "3LV2 Index 1", SCI3_I1, "Domcke 2020 Table S7"),
+    sp.custom("Index 2 (i5)", "3LV2 Index 2", SCI3_I2, "Domcke 2020 Table S7"),
     sp.NEXTERA["R2"],
 )
 
 
 def sci3_library() -> Construct:
-    """Final sci-ATAC-seq3 library; ligation oligo bases are visibly inferred."""
-    inf = True
+    """Final sci-ATAC-seq3 library from Domcke 2020 Supplementary Table S7."""
+    inf = False
     con = Construct([
         seg("P5", il.P5, "p5"), variable("i5", PCR_BC_LEN, "I", "cbc"),
         seg("N5 head", N5_HEAD, "r2", inferred=inf),
@@ -122,4 +122,3 @@ def sci3_library() -> Construct:
 
 def library(protocol: str) -> Construct:
     return sci3_library() if protocol == SCI3 else two_level_library(protocol)
-

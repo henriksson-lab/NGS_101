@@ -3,17 +3,50 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row
-from targeted_ngs import smmip_library,smmip_rows
+import illumina as il
+import seqprimers as sp
+from batch_ngs import seg
+from chemdraw import Construct, Row
+from targeted_ngs import smmip_rows
 
 TITLE="Single-molecule molecular inversion probes (smMIPs)"
 NOTES="01_smmip.html"
-SOURCE='Hiatt et al. 2013, <a href="https://doi.org/10.1101/gr.147686.112">doi:10.1101/gr.147686.112</a>.'
+SOURCE='Hiatt et al. 2013, <a href="https://doi.org/10.1101/gr.147686.112">doi:10.1101/gr.147686.112</a>; detailed MIP protocol: <a href="https://doi.org/10.1007/978-1-4939-6442-0_6">O\'Roak et al. 2017</a>.'
 SUMMARY="A 12-nt-tagged inversion probe copies a target gap, circularizes, survives exonuclease and is universally amplified so reads can be collapsed by original molecule."
-CAVEAT="Probe arms and captured gaps are target-specific. The invariant 12-nt tag and capture topology are published; the final diagram uses generic target bases and universal Illumina roles."
-FINAL_LIBRARY,SEQ_PRIMERS=smmip_library()
-FINAL_CAPTION="Universal-PCR product from one captured smMIP circle. The twelve-base tag precedes amplification and identifies the original captured molecule."
-SEQUENCING_INTRO="Paired-end reads traverse probe backbone/tag and the captured target; sample indexes are introduced by universal PCR."
+CAVEAT="Probe arms and captured gaps are target-specific. The model uses the published invariant backbone/run primers and leaves only the arms, target, twelve-base molecular tag and eight-base sample index variable."
+
+FORWARD_HANDLE="ATACGAGATCCGTAATCGGGAAGCTGAAG"
+REVERSE_HANDLE_TOP="ACACTACCGTCGGATCGTGCGTGT"
+READ1_PRIMER="CATACGAGATCCGTAATCGGGAAGCTGAAG"
+READ2_PRIMER="ACACGCACGATCCGACGGTAGTGT"
+INDEX1_PRIMER=REVERSE_HANDLE_TOP
+
+FINAL_LIBRARY=Construct([
+ seg("P5",il.P5,"p5"),
+ seg("smMIP forward handle",FORWARD_HANDLE,"r1"),
+ seg("extension targeting arm","X"*18,placeholder=True),
+ seg("captured target","N"*34,placeholder=True),
+ seg("ligation targeting arm","Y"*22,placeholder=True),
+ seg("12-nt single-molecule tag","U"*12,"umi",placeholder=True),
+ seg("smMIP reverse handle",REVERSE_HANDLE_TOP,"r2"),
+ seg("eight-base i7 index reverse complement","I"*8,"cbc",placeholder=True),
+ seg("P7 reverse complement",il.P7_RC,"p7"),
+],name="single-index smMIP capture product")
+SEQ_PRIMERS=(
+ sp.custom("Read 1","MIP forward sequencing primer",READ1_PRIMER,
+           "O'Roak et al. 2017 detailed protocol",
+           "The 5'-terminal C is an unpaired flap; the 31-nt 3' end anneals exactly."),
+ sp.custom("Index 1 (i7)","MIP sample-index sequencing primer",INDEX1_PRIMER,
+           "O'Roak et al. 2017 detailed protocol"),
+ sp.custom("Read 2","MIP reverse sequencing primer",READ2_PRIMER,
+           "O'Roak et al. 2017 detailed protocol"),
+)
+if problems:=sp.verify(FINAL_LIBRARY,SEQ_PRIMERS,
+                        required_roles=("Read 1","Index 1 (i7)","Read 2")):
+ raise ValueError("smMIP final library: "+"; ".join(problems))
+
+FINAL_CAPTION="Single-index smMIP amplicon. Read 2 encounters the twelve-base molecular tag first; the separate eight-base index read identifies the sample."
+SEQUENCING_INTRO="The original assay collects paired reads plus one eight-base sample-index read using three custom primers. It has no i5/Index 2 read."
 
 def sections():
  return [

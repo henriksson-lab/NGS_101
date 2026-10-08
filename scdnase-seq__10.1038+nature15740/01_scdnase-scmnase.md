@@ -5,10 +5,10 @@
 > writing this note. They are not asserted in a self-test because the primary papers do
 > not print the oligo sequences.
 >
-> **Important for this protocol:** neither paper prints a single library oligo. Every
-> adaptor and primer sequence below comes from the upstream scg_lib_structs page (a
-> secondary source) and is therefore 🟡, not 🟢 — even though each one was confirmed to
-> occur in that page's text.
+> **Important for these protocols:** neither defining paper prints a library oligo.
+> Pico-Seq's cited library method identifies the exact historical Illumina kit, whose
+> oligos are vendor-published and therefore 🟢 below. scMNase-seq only points to an
+> older universal-adapter method; its reconstructed endpoint remains 🟡.
 
 **scDNase-seq** (the paper calls it **Pico-Seq**) — Jin W, Tang Q, Wan M, Cui K, Zhang Y,
 Ren G, Ni B, Sklar J, Przytycka TM, Childs R, Levens D, Zhao K. "Genome-wide detection of
@@ -25,7 +25,9 @@ Data: GEO GSE96688.
 Both from Keji Zhao's lab (NHLBI). The library-construction step of each paper points to an
 earlier lab paper instead of describing it: Pico-Seq to Hu *et al.* 2013 *Nat Immunol*
 (doi:10.1038/ni.2712, ref. 29), scMNase-seq to Barski *et al.* 2007 *Cell*
-(doi:10.1016/j.cell.2007.05.009, ref. 33). Neither was fetched.
+(doi:10.1016/j.cell.2007.05.009, ref. 33). Hu *et al.* was fetched and identifies
+Illumina Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709. Barski's exact
+adapter/index bases remain unavailable.
 
 Sources read (fetched by `tools/get_sources.py`, into
 `$CHEM_DATA/sources/scdnase-seq-scmnase-seq__10.1038+nature15740/`, never committed):
@@ -41,6 +43,8 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41586-018-0567-3_41586_2018_567_MOESM1_ESM.pdf.txt` | scMNase-seq Supplementary Information | **all scMNase-seq wet-lab methods** |
 | `s41586-018-0567-3_..._MOESM3_ESM.xlsx.txt`, `MOESM4_ESM.xlsx.txt` | per-library QC stats, dataset accessions | library counts; not chemistry |
 | `s41586-018-0567-3_..._MOESM2_ESM.pdf.txt` | Reporting Summary | not chemistry |
+| Hu *et al.* 2013, doi:10.1038/ni.2712 | Pico-Seq's cited library method | identifies Illumina Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709 |
+| Illumina adapter-sequence guide | authoritative vendor document | obsolete Multiplexing-kit adapter and sequencing-primer bases |
 
 Could not be fetched (listed `(manual)` in `MANIFEST.tsv`):
 
@@ -49,7 +53,6 @@ Could not be fetched (listed `(manual)` in `MANIFEST.tsv`):
 | Pico-Seq PMC supplement | https://pmc.ncbi.nlm.nih.gov/articles/instance/4697938/bin/NIHMS723562-supplement-1.pdf | maybe — may duplicate MOESM35, but could hold library details 🔴 |
 | scMNase-seq Supplementary Methods (PMC copy) | https://pmc.ncbi.nlm.nih.gov/articles/instance/8353605/bin/NIHMS1727380-supplement-1727380_SupMethod.pdf | probably the same text as MOESM1 |
 | scMNase-seq Sup. Tables 1–2 (PMC copy) | https://pmc.ncbi.nlm.nih.gov/articles/instance/8353605/bin/NIHMS1727380-supplement-1727380_SupTab1.xlsx , `..._SupTab2.xlsx` | probably the same as MOESM3/4 |
-| Hu *et al.* 2013 (the cited library protocol for Pico-Seq) | https://doi.org/10.1038/ni.2712 | **yes** — the only place the adaptor / index primers could be named |
 | Barski *et al.* 2007 (the cited library protocol for scMNase-seq) | https://doi.org/10.1016/j.cell.2007.05.009 | **yes**, same reason |
 
 ---
@@ -85,8 +88,11 @@ data analysis)
 
 ## 2. Oligos
 
-🟡 (secondary: upstream scg_lib_structs page; **not printed in either paper**). Upstream
-notation: `/Phos/` = 5' phosphate, `*` = phosphorothioate bond, `[i7]` = sample index.
+For Pico-Seq, 🟢: Hu *et al.* identifies Multiplexing kit ref. 1005709 and Illumina
+publishes the obsolete kit sequences. For scMNase-seq, the same layout remains 🟡:
+it agrees with upstream scg_lib_structs, but the defining paper and cited Barski method
+do not establish the precise indexed oligo set. Notation: `/Phos/` = 5' phosphate,
+`*` = phosphorothioate bond, `[i7]` = sample index.
 
 ```
 Illumina adaptor top              /Phos/ GATCGGAAGAGCACACGTCT
@@ -103,10 +109,10 @@ TruSeq Read 2 primer              GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT
 Sample index sequencing primer    GATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 ```
 
-What the papers do say about these 🟢: Pico-Seq — "Illumina kits", first PCR with "index
-primers", second PCR with "the P5 and P7 primers"; scMNase-seq — "Universal adaptors",
-"indexed primers". That matches upstream's choice of the Illumina multiplexing
-(TruSeq-style) set, but the exact catalogue oligos and the i7 list are not given. 🔴
+What the papers do say: Pico-Seq — "Illumina kits", first PCR with "index primers",
+second PCR with "the P5 and P7 primers"; its cited Hu method supplies the missing kit
+identity. scMNase-seq says only "Universal adaptors" and "indexed primers". The exact
+scMNase-seq index catalogue and length are not given. 🔴
 
 ### How they interlock — 🟡 (computed with `lib/illumina`)
 
@@ -181,9 +187,10 @@ Note on the size window 🟡: a 160–300 bp library minus 122 nt of adaptor/pri
 sub-nucleosomal (≤ 80 bp) to mono-nucleosome (140–180 bp) range scMNase-seq analyses, and
 it excludes di-nucleosomes.
 
-## 4. Final library — 🟡 (computed from the upstream oligos with `lib/illumina`)
+## 4. Final library
 
-Same for both methods:
+For Pico-Seq this is computed from the identified vendor kit (🟢 source, 🟡
+assembly); for scMNase-seq it remains an upstream-supported reconstruction (🟡):
 
 ```
 5'- P5 · TruSeq Read 1 (minus its first 4 nt, shared with P5) · <insert> · A · INDEX1_PRIMER (= TruSeq Read 2') · <i7'> · P7' -3'
@@ -196,7 +203,8 @@ The `A` before `GATCGG…` is the A-tail; strictly it pairs with the adaptor's 3
 insert's genomic sequence is bounded by the T on one side and the A on the other. 🟡
 
 Agreement with upstream: identical, including the 6-nt i7 placeholder `NNNNNN`. The
-index length is upstream's; neither paper states it. 🔴
+six-base width is defined for the historical Multiplexing kit used by Pico-Seq; for
+scMNase-seq it is only the upstream reconstruction. 🟡
 
 ## 5. Sequencing
 
@@ -204,10 +212,9 @@ index length is upstream's; neither paper states it. 🔴
   Pico-Seq: reads handled "if pair-end sequencing was performed" — so at least some
   Pico-Seq libraries were paired-end, some apparently single-end. 🟢 Read lengths: not
   given. 🔴
-- 🟡 (upstream) Read 1 with the TruSeq Read 1 primer → genomic insert; **Index read (i7,
-  6 cycles) with the sample index primer = the cell identity**; Read 2 with the TruSeq
-  Read 2 primer → genomic insert from the other end. No i5 index (PCR Primer 1.0 has
-  none).
+- Pico-Seq: 🟢 historical Multiplexing-kit Read 1, Index 1 and Read 2 primers;
+  one six-base i7 identifies the library, and there is no i5. scMNase-seq: the same
+  three-primer placement is 🟡 because its exact adapter/index set is unresolved.
 - 🟢 Mapping detail: unmapped single-cell and low-input Pico-Seq reads were iteratively
   trimmed by 5 bp and re-aligned, until shorter than 26 bp. 🟡 (our reading) This is
   consistent with short DHS inserts read through into the adaptor.
@@ -226,8 +233,8 @@ index length is upstream's; neither paper states it. 🔴
 
 ## 7. Open questions
 
-- 🔴 Which Illumina kit and which index primers exactly (Hu 2013 / Barski 2007 not fetched),
-  and the i7 sequences / length.
+- 🔴 Which exact adapter and indexed-primer set scMNase-seq used; Barski 2007 does
+  not publish enough sequence detail to establish it.
 - 🔴 Was carrier DNA used in scMNase-seq? The 2018 methods do not mention it, while the
   2015 paper presents it as essential.
 - 🔴 The identity of the circular carrier plasmid (not named), and whether linearised
@@ -239,12 +246,14 @@ index length is upstream's; neither paper states it. 🔴
 
 ## 8. How this note was made (tool evaluation)
 
-`tools/get_sources.py` fetched both PMC full texts and the Springer supplements, but the
-Pico-Seq PMC supplement and the scMNase-seq PMC copies sat behind the download gate.
+`tools/get_sources.py` fetched both PMC full texts, the Springer supplements, and the
+Hu *et al.* paper cited for Pico-Seq's library construction; the Pico-Seq PMC supplement
+and the scMNase-seq PMC copies sat behind the download gate.
 `tools/doctext.py` made no `.txt` twins for the legacy `.xls` (BIFF) and `.ppt` files;
 the `.xls` were read via a LibreOffice CSV conversion in scratch (GO tables and a VCF, no
 chemistry), the `.ppt` gave no text. `tools/scrape_primers.py` found the library oligos
-only in the upstream page (all recognised against `lib/illumina`); in the papers it found
-only Sanger, ChIP-qPCR and EMSA/reporter oligos unrelated to the library. Every
-sequence in §2 was confirmed with `--find` to occur in
-`upstream_scDNase_scMNase.html.txt`, and in no paper file — hence 🟡 throughout.
+in the upstream page (all recognised against `lib/illumina`); the biological papers
+contain only unrelated Sanger, ChIP-qPCR and EMSA/reporter oligos. Pico-Seq's promotion
+rests on the cited Hu method's exact kit reference plus Illumina's vendor sequence table,
+not on sequence text in the paper. scMNase-seq remains 🟡 because that source chain
+does not identify its indexed set.

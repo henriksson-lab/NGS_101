@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Segment
 from restriction import DPNII
-from single_cell_hic import ContactWorkflow, inferred_truseq_library
+from single_cell_hic import ContactWorkflow, unresolved_illumina_library
 WORKFLOW = ContactWorkflow("sn-m3C-seq", DPNII, "after ligation", "none", "bisulfite-PCR")
 TITLE = "sn-m3C-seq — contacts and DNA methylation from one nucleus"
 NOTES = "01_sn-m3c-seq.html"
@@ -17,7 +17,9 @@ STEPS = (("Digest and ligate nuclei", "Generate proximity-ligation products in f
          ("Indexed random priming and PCR", "Copy converted fragments with an indexed P5-bearing random primer, add the opposite adapter and amplify."))
 READOUT = "Paired bisulfite reads jointly encode the two contact fragments and cytosine-conversion state."
 JUNCTION_CAPTION = "The unconverted contact architecture is shown here; after ligation, bisulfite treatment changes sequence content but not the contact boundary. ** marks ligation."
-LIBRARY_CAPTION = "Representative bisulfite-compatible paired-end product. The canonical outer adapter shell is inferred; the protocol-specific random-priming transition is called out above."
+LIBRARY_CAPTION = "Bisulfite-compatible snmC-seq2 product. The 25-base random-primer-derived prefix and 3-base Adaptase tail are experimentally trimmed; the sn-m3C paper does not print the complete adapter oligos."
+LIBRARY_CAVEAT = "INFERRED — the trim-defined protocol-specific regions are established, but the complete outer adapter bases are not reported in the defining sn-m3C source."
+SEQUENCING_UNAVAILABLE = "The source specifies paired-end reads and trimming 25 bases from the start and 3 bases from the end of each read, but does not print a complete sequencing-primer set on which base-level placement can be verified."
 def contact_product(): return WORKFLOW.junction()
 RANDOM_PRIMER_TRIM_NT = 25
 ADAPTASE_TAIL_TRIM_NT = 3
@@ -29,4 +31,4 @@ def final_library():
         Segment("Adaptase low-complexity tail", "N"*ADAPTASE_TAIL_TRIM_NT,
                 "me", placeholder=True),
     ], name="converted and tagged contact")
-    return inferred_truseq_library(converted, "sn-m3C-seq bisulfite library")
+    return unresolved_illumina_library(converted, "sn-m3C-seq bisulfite library", indexed=True)

@@ -11,6 +11,11 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
+def kit_boundary(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    """10x-kit sequence known here only through the secondary reconstruction."""
+    return seg(name, top, tag, inferred=True, **kw)
+
+
 TN5_BARCODE = "GAACCGCG"       # representative A1 well, Supplementary Table S5
 I7_OLIGO_INDEX = "TCGCCTTA"    # P7.S701, Supplementary Table S7
 SHORT_SBS = il.TRUSEQ_READ2[-18:]
@@ -41,9 +46,9 @@ def transposome_scene(which: str = "A") -> Scene:
 
 
 def bead_oligo() -> list[Segment]:
-    return [seg("P5", il.P5, "p5"),
-            seg("GEM barcode", "N" * 16, "cbc", placeholder=True),
-            seg("s5", nx.S5, "s5")]
+    return [kit_boundary("P5", il.P5, "p5"),
+            kit_boundary("GEM barcode", "N" * 16, "cbc", placeholder=True),
+            kit_boundary("s5", nx.S5, "s5")]
 
 
 def p7_primer() -> list[Segment]:

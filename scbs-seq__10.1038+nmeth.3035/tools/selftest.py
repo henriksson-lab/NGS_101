@@ -20,4 +20,7 @@ check("oligo2", S.OLIGO2_HANDLE + "N" * S.RANDOM_NT,
       "TGCTGAACCGCTCTTCCGATCTNNNNNNNNN")
 check("PE1.0", S.PE1,
       "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT")
+check.section("Quail Supplementary Table 1 transcription")
+check("dedicated iPCRTag index primer", S.INDEX_PRIMER,
+      "AAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC")
 check.report()

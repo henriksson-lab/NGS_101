@@ -14,8 +14,9 @@ from checks import Check
 
 c = Check()
 c.section("CH-ATAC source boundaries")
-c("CH-RNA HY barcode 1", C.HY_BARCODE, "TTCTCGCATG")
-c("CH-RNA MGI P7 index 1", C.I7_OLIGO_INDEX, "TAGGTCCGAT")
+c("CH-ATAC HY barcode 1", C.HY_BARCODE, "TTCTCGCATG")
+c("CH-ATAC Tn5 barcode 1", C.TN5_BARCODE, "TCCTACCAGT")
+c("CH-ATAC MGI P7 index 1", C.I7_OLIGO_INDEX, "TAGGTCCGAT")
 c("MGI P5", C.MGI_P5, "GAACGACATGGCTACGATCCGACTT")
 c("MGI P7", C.MGI_P7, "TGTGAGCCAAGGAGTTGTTGTCTTC")
 c.report()

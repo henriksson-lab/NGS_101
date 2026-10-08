@@ -29,8 +29,8 @@ def render_page(protocol: str) -> str:
     doi, journal, year = PAPERS[protocol]
     author = "Jaitin et al." if protocol == "MARS-seq" else "Keren-Shaul et al."
     exact = protocol == "MARS-seq2.0"
-    caveat = ("The 2014 oligo supplement was unavailable; dotted protocol-specific regions "
-              "show architecture only and do not copy secondary sequences."
+    caveat = ("The 2014 author supplement publishes RT1, the ligation adapters and both "
+              "library-PCR primers; the final library below is assembled from those oligos."
               if not exact else
               "The supplements publish RT1 and the pool-barcoded ligation adapters, but not "
               "RT2 or the PCR-primer sequences; dotted outer arms stop at that boundary.")
@@ -38,10 +38,20 @@ def render_page(protocol: str) -> str:
     if exact:
         oligos.append(oligo("representative pool ligation adapter",
                             list(M.mars2_ligation_adapter()), mods="/5Phos/ … /3SpC3/"))
+    else:
+        oligos.extend([
+            oligo("representative pool ligation adapter",
+                  [seg("pool barcode", M.POOL_ORDERED, "cbc"),
+                   seg("random diversity", "N" * M.MARS1_POOL_RANDOM_NT,
+                       placeholder=True),
+                   seg("ligation/RT2 handle", M.LIG_CONSTANT, "r1")],
+                  mods="/5Phos/ … /3SpC3/"),
+            oligo("P5_Rd1 PCR", [seg("P5 + Read 1", M.MARS1_P5_PCR, "r1")]),
+            oligo("P7_Rd2 PCR", [seg("P7 + Read 2", M.MARS1_P7_PCR, "r2")]),
+        ])
     ds = M.ds_cdna(protocol)
     lig = M.ligated_arna(protocol)
-    ligation_adaptor = ("ordered pool barcode" if exact
-                        else "unavailable pool-barcoded adapter")
+    ligation_adaptor = "ordered pool barcode"
     final = M.final_library(protocol)
     if exact:
         r1 = Construct([seg("random diversity", "N" * 5, placeholder=True),
@@ -54,13 +64,15 @@ def render_page(protocol: str) -> str:
         read_rows = [("Read 1", "N5, 4-nt pool barcode, sense cDNA"),
                      ("Read 2", "7-nt well barcode, 8-nt UMI, poly(T)")]
     else:
-        r1 = Construct([seg("pool barcode", "[POOL BC]", "cbc", inferred=True,
-                            placeholder=True), seg("cDNA", "XXXXXXXX...", placeholder=True)])
-        r2 = Construct([seg("well barcode / UMI", "[CELL BC][UMI]", inferred=True,
-                            placeholder=True), seg("poly(T)", "TTTTT", inferred=True)])
-        read_caption = "INFERRED — qualitative read order; exact 2014 oligos were unavailable."
-        read_rows = [("Read 1", "pool barcode, then cDNA"),
-                     ("Read 2", "well barcode, UMI, then poly(T)")]
+        r1 = Construct([seg("random diversity", "N" * 3, placeholder=True),
+                        seg("pool barcode", M.POOL_READ, "cbc"),
+                        seg("cDNA", "XXXXXXXX...", placeholder=True)])
+        r2 = Construct([seg("well barcode", "N" * 6, "cbc", placeholder=True),
+                        seg("UMI", "N" * 4, "umi", placeholder=True),
+                        seg("poly(T), ignored", "TTTTT")])
+        read_caption = "Published MARS-seq read design: N3, 4-nt pool barcode, then cDNA; Read 2 reports cell barcode and UMI."
+        read_rows = [("Read 1", "N3, 4-nt pool barcode, sense cDNA"),
+                     ("Read 2", "6-nt well barcode, 4-nt UMI, poly(T)")]
     return "\n".join([
         head(f"{protocol} library chemistry"), '<div class="wrap">',
         f'<h1>{protocol} &mdash; three-level barcoded RNA-seq with T7 amplification</h1>',
@@ -81,13 +93,13 @@ def render_page(protocol: str) -> str:
         '<h3>(4) Ligate a pool-barcoded adapter to the fragmented aRNA</h3>',
         panel([strand_row(lig), junction_row(lig, "antisense insert", ligation_adaptor),
                *annotation_rows(lig)], cls="long",
-              caption=("The 5'-phosphorylated, 3'-blocked adapter adds pool identity."
-                       if exact else
-                       "INFERRED — ligation architecture only; the 2014 adapter bases are unavailable.")),
+              caption="The 5'-phosphorylated, 3'-blocked adapter adds pool identity."),
         '<h3>(5) RT2, then library PCR</h3>',
         panel([strand_row(final), *annotation_rows(final)], cls="long",
-              caption="INFERRED — supported inner order with unpublished PCR arms dotted."),
-        sp.unavailable_diagram(final, "the defining sources do not print the library-primer sequences"),
+              caption=("INFERRED — supported inner order with unpublished PCR arms dotted."
+                       if exact else "Final MARS-seq library; no index read is used.")),
+        (sp.unavailable_diagram(final, "the defining sources do not print the library-primer sequences")
+         if exact else sp.diagram(final, M.SEQ_PRIMERS)),
         '<h2>Read layout</h2>',
         panel([strand_row(r1, prefix="Read 1  ", suffix=""),
                strand_row(r2, prefix="Read 2  ", suffix="")], cls="small",

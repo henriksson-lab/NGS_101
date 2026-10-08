@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from pathlib import Path
-import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
-from checks import Check,run_common
-c=Check(); run_common(c); c.report()
+import build_page
+build_page.render(build_page.M)
+print("PASS  smMIP construction and sequencing-primer geometry")

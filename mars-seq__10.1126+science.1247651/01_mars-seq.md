@@ -25,6 +25,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | File | What | Used for |
 |---|---|---|
 | `science.1247651_PMC4412462.html.txt` | 2014 author manuscript, main text only | three-level barcoding, 1536 cells/lane, 384-well FACS |
+| `scg_jaitin-sm.pdf.txt` | 2014 Science author supplement, mirrored byte-for-byte by scg_lib_structs | Materials and Methods; Tables S7–S8 with MARS-seq RT1, ligation adapters, RT2 and library-PCR primers |
 | `s41596-019-0164-4_41596_2019_164_MOESM4_ESM.xlsx.txt` | MARS-seq2.0 Supplementary Table 1, sheet "MARS-seq2.0_RT1 primers" | **all 384 RT1 primers** |
 | `s41596-019-0164-4_41596_2019_164_MOESM5_ESM.xlsx.txt` | MARS-seq2.0 Supplementary Table 2, sheet "MARS-seq2.0_Ligation adapter" | **all 32 ligation adapters**, their read-out barcodes |
 | `s41596-019-0164-4_41596_2019_164_MOESM1_ESM.pdf.txt` | MARS-seq2.0 Supplementary Information (Supp. Figs 1–10, Manuals 1–3) | step names, QC, read-design syntax, FACS handling |
@@ -36,11 +37,11 @@ Could **not** be fetched (get by hand and drop in the same directory):
 
 | What | URL | Why it matters |
 |---|---|---|
-| 2014 supplementary materials (methods, Tables S7/S8 = MARS-seq1 oligos) | https://pmc.ncbi.nlm.nih.gov/articles/instance/4412462/bin/NIHMS666898-supplement-Sup_Figures.pdf (PMC download gate; Europe PMC and science.org both 403) | the only author source for MARS-seq1 RT1, RT2, PCR primers and every reaction condition |
 | MARS-seq2.0 main text (procedure, reagents, Box/Table of primers) | https://www.nature.com/articles/s41596-019-0164-4 (paywalled) | every volume, temperature and enzyme; RT2 and PCR primer sequences; sequencing run parameters |
 
-So: 🟢 covers the MARS-seq2.0 barcoded oligos and the QC/analysis supplement; the reaction
-order and all chemistry conditions are 🟡 (upstream, plus Supp. Fig. legends) or 🔴.
+So: 🟢 covers the 2014 MARS-seq oligos and methods as well as the MARS-seq2.0 barcoded
+oligos and QC/analysis supplement. The unavailable boundary is now the MARS-seq2.0 main
+protocol, not the 2014 library structure.
 
 ---
 
@@ -240,16 +241,18 @@ and neither is the aRNA's first 5 nt `GGGGC` (RT1 nt 31–35): the RT2 cDNA ends
 `…CACGTCGCCCC-3'`, but the P7_Rd2 primer anneals only over RT1 nt 36–55 and its 5' part
 replaces the `GCCCC` in the copies made from it. 🟡
 
-MARS-seq (2014): same, with N3 instead of N5, a 6-nt well barcode and 4-nt UMI 🟡
-(upstream; 🔴 against the paper).
+MARS-seq (2014): same, with N3 instead of N5, a 6-nt well barcode and 4-nt UMI 🟢
+(Supplementary Tables S7–S8).
 
 ## 6. Read layout / sequencing
 
 - Read 1 (TruSeq Read 1 primer): N5 (2.0) or N3 (MARS-seq1), pool barcode (4), then cDNA
-  (sense strand, near the 3' end of the transcript). 🟡
-- Read 2 (TruSeq Read 2 primer): well barcode (7), UMI (8), then poly(T). 🟡
-- No index reads needed: demultiplexing is by pool barcode in Read 1 and well barcode in
-  Read 2. 🟡
+  (sense strand, near the 3' end of the transcript). MARS-seq1 is 🟢 from Tables S7–S8;
+  the 2.0 placement is 🟡 derived from its published adapter table.
+- Read 2 (TruSeq Read 2 primer): MARS-seq1 reports the 6-nt well barcode, 4-nt UMI, then
+  poly(T) 🟢; MARS-seq2.0 analogously uses 7 + 8 nt 🟡.
+- No index reads are needed: demultiplexing is by inline pool and well barcodes. 🟢 for
+  the 2014 construct.
 - The pipeline's read-design syntax 🟢 (Supp. Manual 2): fields `R1_design`, `I5_design`,
   `R2_design`, codes P = pool barcode, M = mRNA, W = well barcode, R = UMI, I = ignore. The
   worked example is `R1_design = 3I.4P.50M`, `R2_design = 7W.8R.5I`: Read 2 matches the
@@ -266,12 +269,12 @@ MARS-seq (2014): same, with N3 instead of N5, a 6-nt well barcode and 4-nt UMI �
 | MARS-seq2.0 RT1 = constant + 7-bp cell barcode + 8-bp UMI + T20 + N | all 384 rows of `MOESM4` | **agrees** 🟢 |
 | 32 adapters `lig_N5X4_ix1..32`, sequences listed | diffed against `MOESM5` | **identical** 🟢 |
 | MARS-seq2.0 plate barcode "9 bp" | `MOESM5` "Read" column: N5 + 4-nt barcode | agrees in length; only 4 nt are the barcode, 5 are random 🟢 |
-| MARS-seq1 UMI 4 bp vs "4–8 bp" in 2014 methods; plate bc 7 bp vs "6 bp" | 2014 supplement not fetched | unverified 🔴 |
-| "2nd RT primer" in Table S7 printed 3'→5' | not fetched | unverified 🔴; the RT2 sequence upstream uses is the correct orientation (= revcomp of adapter constant) 🟡 |
+| MARS-seq1 UMI 4 bp and cell barcode 6 bp | 2014 Supplementary Table S7 | **agrees** 🟢 |
+| "2nd RT primer" in Table S7 | author supplement prints `TCTAGCCTTCTCGCAGCACATC`; it does not match the adapter reverse complement used by the upstream reconstruction | retain the verbatim sequence in the model as evidence, but do not use it to override the final construct established by the two PCR primers 🟢/🟡 |
 | aRNA drawn as `5'-GGCGACGUGUG…` | T7 +1 is the first G of `GGGG` in RT1 | upstream drops two G's; immaterial to the library 🟡 |
 | "the 5'-/acrydite/iSpPC/ is omitted for simplicity" | `MOESM4` RT1 has no modifications | appears to be a leftover from another page (inDrop); MARS-seq RT1 is unmodified as listed 🟡 |
 | "not sure what NNN between Partial Rd1 and plate barcode is" | `MOESM5` | in 2.0 it is N5 and the pipeline treats it as ignore (I); a UMI-like role is not stated 🔴 |
-| P5_Rd1 / P7_Rd2 / RT2 sequences | not in fetched author files | 🟡 upstream only |
+| P5_Rd1 / P7_Rd2 / RT2 sequences | 2014 Supplementary Table S7 | P5 and P7 PCR primers agree exactly; RT2 discrepancy recorded above 🟢 |
 
 ## 8. Open questions
 

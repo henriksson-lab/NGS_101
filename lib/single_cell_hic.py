@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment
+from chemdraw import Construct, Segment, revcomp
 from restriction import Digest, RestrictionEnzyme
 
 
@@ -71,3 +71,40 @@ def inferred_truseq_library(insert: Construct, name: str) -> Construct:
     if errors:
         raise ValueError("invalid Hi-C library: " + "; ".join(errors))
     return lib
+
+
+def unresolved_illumina_library(insert: Construct, name: str, *, indexed: bool | None) -> Construct:
+    """Library whose source identifies Illumina prep but not the adapter oligos.
+
+    Role-labelled placeholders deliberately prevent a named kit generation, index count,
+    or modern primer set from being smuggled into a historical protocol.
+    """
+    index = ("indexed adapter (sequence not reported)" if indexed is True else
+             "adapter/index region (not reported)" if indexed is None else
+             "adapter arm (sequence not reported)")
+    return Construct([
+        Segment("Illumina left arm (not reported)", "X" * 20,
+                placeholder=True, inferred=True),
+        *list(insert),
+        Segment(index, "X" * 20, placeholder=True, inferred=True),
+    ], name=name)
+
+
+# Nagano 2013 and Stevens 2017 print this historical paired-end primer in their
+# supplementary methods.  It is not the modern TruSeq Read 2 primer.
+HISTORICAL_PE_READ2 = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
+
+
+def historical_inline_pe_library(insert: Construct, name: str, barcode: str = "CAA") -> Construct:
+    """Exact custom 3-bp inline-tag architecture shared by Nagano and Stevens."""
+    if len(barcode) != 3 or any(b not in "ACGT" for b in barcode):
+        raise ValueError("historical Hi-C identification tag must be three DNA bases")
+    return Construct([
+        Segment("P5", il.P5, "p5"),
+        Segment("historical Read 1 arm", il.TRUSEQ_READ1[4:], "r1"),
+        Segment("3-bp identification tag", barcode, "cbc"),
+        *list(insert),
+        Segment("opposite 3-bp identification tag", revcomp(barcode), "cbc"),
+        Segment("historical Read 2 site", revcomp(HISTORICAL_PE_READ2), "r2"),
+        Segment("P7 reverse complement", il.P7_RC, "p7"),
+    ], name=name)

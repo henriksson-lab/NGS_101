@@ -72,3 +72,10 @@ pacbio-telobait__10.1038+s41467-023-35823-7	doi:10.3389/fmolb.2025.1725112	Makar
 telo-seq__10.1038+s41467-024-48917-7	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
 digital-telomere-measurement__10.1038+s41467-024-49007-4	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
 telomere-profiling__10.1126+science.ado0431	doi:10.3389/fmolb.2025.1725112	Makarova et al. telomere-method review	comparative workflow context
+pro-seq__10.1101+gr.150027.112	pmccloud:PMC5502525	Mahat et al. 2016 PRO-seq Nature Protocols article	verbatim VRA3, VRA5, RP1 and RPI-n oligos and sequencing orientation
+eclip__10.1038+nmeth.3810	https://www.encodeproject.org/documents/842f7424-5396-424a-a1a3-3f18707c3222/@@download/attachment/eCLIP_SOP_v1.P_110915.pdf	ENCODE eCLIP SOP v1.P	verbatim RNA adapters, AR17, rand103Tr3 and D5/D7 PCR primers
+ribo-seq__10.1126+science.1168978	pmccloud:PMC3535016	Ingolia et al. 2012 Nature Protocols article	verbatim linker, RT primer, indexed PCR primers and standard sequencing-primer statement
+smmip__10.1101+gr.147686.112	pmccloud:PMC3638140	Hiatt et al. 2013 full text	original capture topology, index width and three-read run
+smmip__10.1101+gr.147686.112	doi:10.1007/978-1-4939-6442-0_6	detailed MIP protocol by the method developers	published universal PCR and custom sequencing-primer sequences
+earth-microbiome-project-its	https://earthmicrobiome.org/wp-content/uploads/2022/06/ITS1f_ITS2_Nov2016.xlsx	EMP ITS1f-ITS2 primer workbook	fusion primers, 12-nt Golay barcodes and custom Read 1, Read 2 and index primers
+sci-hi-c__10.1038+nmeth.4155	pmccloud:PMC5330809	PMC author manuscript and supplementary oligo table	Primary supplementary data print the indexed bridge and 96 Y-adapter oligos.

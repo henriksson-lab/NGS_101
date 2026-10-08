@@ -21,7 +21,8 @@ FACETS = OrderedDict([
         "combinatorial indexing", "pre-indexed adaptor", "no index"))),
     ("index_architecture", ("Index architecture", (
         "TruSeq", "Nextera", "custom Illumina", "DNBSEQ", "PacBio barcode", "Nanopore barcode",
-        "inline barcode", "UDI", "CDI", "single index", "dual index", "no barcode"))),
+        "inline barcode", "UDI", "CDI", "single index", "dual index", "no barcode",
+        "not reported"))),
     ("assay", ("Assay type", (
         "RNA-seq", "RNA detection", "DNA-seq / WGS", "ATAC / accessibility", "DNA methylation",
         "chromatin conformation", "chromatin protein mapping", "CRISPR screening", "protein / feature detection",

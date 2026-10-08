@@ -18,9 +18,9 @@ doi:[10.1016/j.cell.2014.11.021](https://doi.org/10.1016/j.cell.2014.11.021).
 - 🟢 Extended Experimental Procedures I.a.1 through the ENCODE transcription of the Rao
   supplement. ENCODE says it is a transcription and marks its own deviations; only the
   undeviated Rao procedure is used here.
-- 🟡 Canonical TruSeq adapter and sequencing-primer bases from `lib/illumina.py`. The Rao
-  procedure specifies an “Illumina indexed adapter” and Illumina PCR primers but does not
-  print their sequences, so the final adapter regions are visibly inferred.
+- 🔴 The Rao procedure specifies an “Illumina indexed adapter” and Illumina PCR primers
+  but does not identify a kit generation, index count, or oligo sequences. The final
+  adapter regions therefore remain role-labelled unknowns rather than canonical TruSeq.
 
 ## 3. Restriction digestion as a strand operation
 

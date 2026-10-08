@@ -7,7 +7,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import insitu_hic as H
-import seqprimers as sp
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info
 
@@ -44,14 +43,13 @@ def library() -> str:
 <h3>(5) Reverse crosslinks, shear, and capture biotin</h3>
 {panel([strand_row(insert), *annotation_rows(insert)], cls="small", caption="DNA is sheared to 300–500 bp. Streptavidin retains fragments containing the internal biotin-marked contact junction.")}
 <h3>(6) Repair ends, add dA, ligate an indexed Illumina adapter, and PCR</h3>
-{panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small", caption="PCR-completed paired-end library. Dotted adapter regions are the canonical TruSeq structure: the Rao protocol names an Illumina indexed adapter but does not print its bases.")}
+{panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small", caption="PCR-completed paired-end library. The protocol says only ‘Illumina indexed adapter’; it does not identify a kit generation, index count, or adapter bases.")}
 '''
 
 
 def sequencing() -> str:
-    return sp.section(H.final_library(), H.SEQ_PRIMERS, heading="Sequencing",
-        intro="Paired reads begin in the two genomic loci at opposite ends of the selected molecule. The proximity-ligation junction normally lies inside the insert; the two reads are mapped separately to recover the contacting loci.",
-        required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
+    return ('<h2>Sequencing</h2><p>Paired reads begin in the two genomic loci at opposite ends of the selected molecule.</p>' +
+        '<div class="info">Primer placement unavailable: Rao et al. name an Illumina indexed adapter and Illumina PCR primers but do not print or identify the sequencing-primer set.</div>')
 
 
 def render() -> str:

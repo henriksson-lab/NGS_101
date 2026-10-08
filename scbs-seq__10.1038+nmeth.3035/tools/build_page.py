@@ -29,9 +29,9 @@ def preamble() -> str:
 <p><info>Protocol: <a href="https://doi.org/10.1038/nmeth.3035">Smallwood et al.,
 <i>Nature Methods</i> (2014)</a>. Bisulfite conversion comes first; two random-primer
 handles are then added without ligation.</info></p>
-<div class="caveat"><b>Historical indexing arm.</b> The paper names an indexed iPCRTag
-primer but does not print it. Dotted regions use the Quail-style sequence recorded by
-the upstream scg_lib_structs page; the paper-derived part of the construct is solid.</div>
+<p><info>The indexed arm is the eight-base iPCRTag design cited by the paper and printed
+in Quail et al. 2012 Supplementary Table&nbsp;1. This is the obsolete paired-end layout,
+not a modern TruSeq dual-index library.</info></p>
 """
 
 
@@ -92,8 +92,8 @@ def final_library() -> str:
     lib = S.final_library()
     sc = Scene.duplex(list(lib))
     drawing = panel([*sc.rows(), *annotation_rows(lib)],
-                    caption="INFERRED -- final paired-end library. Dotted bases belong to the "
-                    "secondary-source iPCRTag arm.")
+                    caption="Final single-index paired-end library using the historical "
+                    "eight-base iPCRTag arm.")
     return f"""<h3>(4) Indexed PCR on the beads</h3>
 <p><info>PE1.0 adds the P5 / Read&nbsp;1 end. The indexed iPCRTag primer adds the
 single-cell sample index and P7 end.</info></p>
@@ -103,8 +103,9 @@ single-cell sample index and P7 end.</info></p>
 def sequencing() -> str:
     primer_table = sp.section(
         S.final_library(), S.SEQ_PRIMERS,
-        intro="The historical Read 2 and index primers follow the same secondary "
-              "iPCRTag source as the dotted library arm.")
+        intro="The dedicated Quail iPCRTag index primer reads one eight-base i7 index; "
+              "there is no i5 index.",
+        required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
     return f"""<h2>Sequencing</h2>
 <p><info>100-bp paired-end sequencing. Each read begins with a random N9, which is
 clipped before non-directional bisulfite alignment; the index read identifies the cell.</info></p>

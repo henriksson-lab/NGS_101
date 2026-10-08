@@ -4,10 +4,9 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-import illumina as il
-import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments
 from restriction import Digest, MBOI
+from single_cell_hic import unresolved_illumina_library
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -104,25 +103,7 @@ def sheared_insert() -> Construct:
     ], name="biotin-selected Hi-C insert")
 
 
-SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
-
-
 def final_library() -> Construct:
-    """PCR-completed single-index Illumina library.
-
-    Rao's protocol names an Illumina indexed adapter and Illumina PCR primers without
-    printing their sequences. The canonical TruSeq arms are consequently marked inferred.
-    """
-    lib = Construct([
-        seg("P5", il.P5, "p5", inferred=True),
-        seg("Read 1 arm", il.TRUSEQ_READ1[4:], "r1", inferred=True),
-        *list(sheared_insert()), seg("dA junction", "A", inferred=True),
-        seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=True),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True),
-        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
-    ], name="in situ Hi-C sequencing library")
-    problems = sp.verify(lib, SEQ_PRIMERS,
-                         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
-    if problems:
-        raise ValueError("invalid in situ Hi-C final library: " + "; ".join(problems))
-    return lib
+    """Indexed Illumina library; the protocol does not disclose adapter bases."""
+    return unresolved_illumina_library(sheared_insert(),
+        "in situ Hi-C sequencing library", indexed=True)

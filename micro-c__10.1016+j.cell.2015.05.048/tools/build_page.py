@@ -7,7 +7,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import micro_c as M
-import seqprimers as sp
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info, table
 
@@ -23,7 +22,7 @@ def render():
         head("Micro-C library chemistry"), '<div class="wrap">',
         '<h1>Micro-C &mdash; nucleosome-resolution proximity ligation</h1>',
         '<p class="research-notes"><a href="01_micro-c.html">Research notes</a></p>',
-        info('Defining source: <a href="https://doi.org/10.1016/j.molcel.2015.05.020">Hsieh et al., <i>Molecular Cell</i> (2015)</a>.'),
+        info('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.05.048">Hsieh et al., <i>Cell</i> (2015)</a>.'),
         '<h2>Fragment crosslinked chromatin to mononucleosomes</h2>',
         panel(M.mnase_scene().rows(), cls="small",
               caption="MNase digests accessible linker DNA. Unlike restriction Hi-C, there is no invariant recognition-site sequence at the fragment ends."),
@@ -43,10 +42,9 @@ def render():
         panel([strand_row(insert), *annotation_rows(insert)], cls="small",
               caption="After crosslink reversal, the original protocol gel-selects 250–350-bp ligation products."),
         panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)],
-              cls="small", caption="End repair, dA-tailing and indexed Illumina-adapter ligation precede streptavidin capture and 12–15 PCR cycles. Dotted adapter regions are canonical TruSeq because the paper does not print their bases."),
-        sp.section(lib, M.SEQ_PRIMERS, heading="Sequencing",
-                   intro="Paired reads begin in the two nucleosome-derived genomic ends. Their separate alignments identify the chromatin contact; the variable proximity junction normally remains internal.",
-                   required_roles=("Read 1", "Index 1 (i7)", "Read 2")),
+              cls="small", caption="End repair, dA-tailing and Illumina-adapter ligation precede streptavidin capture and 12–15 PCR cycles. The paper does not identify the adapter or index architecture."),
+        '<h2>Sequencing</h2><p>Paired reads begin in the two nucleosome-derived genomic ends.</p>',
+        '<div class="info">Primer placement unavailable: the source specifies Illumina paired-end sequencing but not the library kit or sequencing-primer sequences.</div>',
         '</div>'
     ])
 

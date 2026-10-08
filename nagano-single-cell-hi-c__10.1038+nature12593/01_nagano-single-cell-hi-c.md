@@ -8,7 +8,9 @@ The foundational single-cell Hi-C implementation: proximity ligation is performe
 
 - 🟢 Nagano et al., *Nature* 2013, DOI [10.1038/nature12593](https://doi.org/10.1038/nature12593), defining paper.
 - 🟢 Nagano et al., *Nature Protocols* 2015, DOI [10.1038/nprot.2015.127](https://doi.org/10.1038/nprot.2015.127), detailed implementation used to resolve BglII, biotin-14-dATP, streptavidin capture and PCR ordering.
-- 🟡 Canonical TruSeq outer arms on the schematic are kit-level reconstruction; the defining paper does not print their bases.
+- 🟢 The 2013 supplementary methods print twelve customized Illumina adapters, each with
+  a 3-bp identification tag, and both PCR primers. The schematic uses the printed CAA
+  adapter member and the historical paired-end primer sites; there is no invented i7 read.
 
 ## 3. Distinguishing chemistry
 

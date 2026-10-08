@@ -21,8 +21,11 @@ cell is isolated. Hoechst sensitization and UV introduce nicks selectively into 
 the damaged nascent strand is excluded during library construction. Sequencing reads from
 the retained templates map in chromosome-scale orientation patterns.
 
-## 4. Evidence boundary
+## 4. Historical library architecture
 
-🟢 Strand selection and its inheritance signal are defining-paper facts. 🟡 Historical
-library-kit bases are unavailable in the article, so the page marks canonical paired-end
-arms as inferred while keeping the actual selected molecule explicit.
+🟢 The Online Methods specify Illumina PE adapters, PE 1.0, a custom P7/index/PE2 PCR
+primer, paired 76-nt reads, and the custom index-read primer sequence. The barcode is
+called a fault-tolerant hexamer even though the displayed degenerate run has seven Ns;
+the seven-cycle index read therefore contains the six barcode bases plus the adjacent
+fixed P7′ base. 🟡 The standard PE adapter and Read 1/Read 2 primer bases are matched to
+Illumina's authoritative obsolete paired-end oligo table, rather than to modern TruSeq.

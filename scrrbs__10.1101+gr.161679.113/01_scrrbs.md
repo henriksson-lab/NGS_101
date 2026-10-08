@@ -1,5 +1,12 @@
 # scRRBS — single-cell reduced-representation bisulfite sequencing
 
+## Adapter-source audit
+
+🟢 The defining paper calls the ligated oligos “Illumina standard premethylated indexed
+adaptors,” and uses paired-end HiSeq 2000 sequencing. Illumina's adapter-sequence guide
+publishes the matching TruSeq universal adapter, six-base single-index adapter, Read 1,
+Index 1 and Read 2 primers. The library is single-indexed; it does not contain i5.
+
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived, inferred, or only from
 > the secondary upstream page · 🔴 not published / not available. Relationships marked
 > 🟡 *(computed)* were worked out with `lib/` while writing this note; they are not yet
