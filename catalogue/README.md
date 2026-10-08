@@ -97,6 +97,13 @@ Recorded in `ours.tsv`, which is also the source of the directory names on disk 
 lists it: `published` protocols in the searchable list, `wip` for our own unpublished work),
 `modality` (`DNA` / `RNA` / `multi`; checked against the scg_lib_structs category where that
 implies one), and a free-text `note`.
+
+`properties.tsv` is the separate property catalogue used by the front-page finder. Each
+row chooses a complete profile and supplies semicolon-separated `facet=value|value`
+overrides. The vocabulary and profiles live in `tools/properties.py`; its loader is used by
+the site builder and refuses incomplete coverage, unknown values and duplicate directories.
+This is intentional: indexing method, adapter architecture, assay, platform and the other
+chemistry facets are curated facts, not guesses extracted from protocol names or prose.
 **{{= catalogue.n_ours_documented() }} documented, {{= catalogue.n_ours() }} in total:**
 
 {{= catalogue.ours_table() }}

@@ -8,9 +8,10 @@ category, family members, papers and year. Every published protocol is listed by
 name becomes a link only when a generated diagram page exists. Notes and work in progress
 stay out of the public index.
 
-The published schematics get a client-side search over their catalogue metadata and short
-blurb. No note bodies are embedded in the public page. No library, no fetch() -- it works
-from file:// too, and without JavaScript the full list is simply shown.
+The published schematics get a client-side property finder backed by the validated chemistry
+facets in `catalogue/properties.tsv`; free text is secondary. No note bodies are embedded in
+the public page. No library, no fetch() -- it works from file:// too, and without JavaScript
+the full list is simply shown.
 
 Check counts are read by actually running each suite, so the page cannot drift from
 reality: if a suite is failing, the page says so.
@@ -35,6 +36,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 
 import catalogue as cat  # noqa: E402
+import properties as props  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
 from page import head, info  # noqa: E402
@@ -201,7 +203,7 @@ CATEGORY_LABEL = {"TODO list": "on the scg_lib_structs TODO list",
                   "Ours, not in scg_lib_structs": "not in scg_lib_structs"}
 
 
-def entry(r: dict, omit: set[str], run_checks: bool) -> dict:
+def entry(r: dict, properties: dict, omit: set[str], run_checks: bool) -> dict:
     d = r["dir"]
     crows = cat.rows_for_dir(d)
     defining = next((x for x in crows if x["is_defining"] == "yes"), {})
@@ -235,11 +237,14 @@ def entry(r: dict, omit: set[str], run_checks: bool) -> dict:
         "text": " ".join(n_["text"] for n_ in notes),
         "page": (str(page.relative_to(ROOT)).replace("\\", "/") if has_page else ""),
         "checks": n, "checks_ok": ok,
+        "properties": properties,
     }
 
 
 def collect(omit: set[str] = frozenset(), run_checks: bool = True) -> list[dict]:
-    return [entry(r, set(omit), run_checks) for r in cat.ours()]
+    ours = cat.ours()
+    properties = props.load({r["dir"] for r in ours})
+    return [entry(r, properties[r["dir"]], set(omit), run_checks) for r in ours]
 
 
 # ------------------------------------------------------------------- render
@@ -288,7 +293,8 @@ def search_data(ps: list[dict]) -> str:
     recs = [{"n": p["name"], "a": p["aka"], "c": p["category"], "m": p["modality"],
              "s": status_label(p),
              "d": p["doi"], "y": p["year"],
-             "t": " ".join([*p["papers"], p["blurb"]])} for p in ps]
+             "t": " ".join([*p["papers"], p["blurb"]]),
+             "p": p["properties"]} for p in ps]
     # embedded in a <script>, so no "</" may appear literally
     return json.dumps(recs, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
@@ -317,19 +323,42 @@ EXTRA_CSS = """<style>
 .links .ext::after { content:' \\2197'; }
 .wipbox { border-left:3px solid var(--note-rule); padding-left:14px; }
 
-/* search */
-.search { position:sticky; top:0; z-index:2; background:var(--bg); padding:10px 0 8px;
-          display:flex; flex-direction:column; gap:8px; border-bottom:1px solid var(--rule); }
-.search input[type=search] { font:inherit; font-size:1rem; width:100%; box-sizing:border-box;
-          padding:9px 12px; border:1px solid var(--key-rule); border-radius:6px;
-          background:var(--surface); color:var(--ink); }
-.facets { display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:.85rem; }
-.facets button { font:inherit; font-size:.82rem; padding:3px 10px; border-radius:999px;
-          border:1px solid var(--rule); background:var(--surface); color:var(--ink-muted);
-          cursor:pointer; }
-.facets button[aria-pressed=true] { background:var(--accent); border-color:var(--accent);
-          color:var(--bg); }
-.facets .sep { width:1px; height:1.2em; background:var(--rule); margin:0 4px; }
+/* property finder */
+.finder { margin:1em 0; padding:12px; border:1px solid var(--rule); border-radius:6px;
+          background:var(--surface); }
+.finder-head { display:flex; gap:10px; align-items:baseline; margin-bottom:9px; }
+.finder-head h2 { margin:0; font-size:1rem; }
+.finder-head h2::before { content:none; }
+.finder-head p { margin:0; color:var(--ink-muted); font-size:.84rem; }
+.facetbar { display:flex; flex-wrap:wrap; gap:6px; align-items:flex-start; }
+.facet { position:relative; }
+.facet summary, .more-facets > summary, .text-search > summary { list-style:none; cursor:pointer;
+          font-size:.82rem; padding:4px 10px; border:1px solid var(--rule); border-radius:999px;
+          color:var(--ink-muted); background:var(--bg); user-select:none; }
+.facet summary::-webkit-details-marker, .more-facets > summary::-webkit-details-marker,
+.text-search > summary::-webkit-details-marker { display:none; }
+.facet summary::after, .more-facets > summary::after, .text-search > summary::after {
+          content:' +'; color:var(--accent); }
+.facet[open] summary, .facet summary.active { border-color:var(--accent); color:var(--ink); }
+.facet[open] summary::after, .more-facets[open] > summary::after,
+.text-search[open] > summary::after { content:' \2212'; }
+.facet-options { position:absolute; z-index:4; top:calc(100% + 5px); left:0; width:max-content;
+          max-width:min(340px,85vw); padding:8px; border:1px solid var(--rule); border-radius:6px;
+          background:var(--surface); box-shadow:0 5px 18px rgba(0,0,0,.14); display:grid; gap:3px; }
+.facet-options label { display:flex; gap:7px; align-items:baseline; padding:3px 5px;
+          border-radius:3px; font-size:.84rem; cursor:pointer; }
+.facet-options label:hover { background:var(--surface-2); }
+.facet-options small { color:var(--ink-muted); font-variant-numeric:tabular-nums; }
+.more-facets { width:100%; margin-top:2px; }
+.more-facets > summary, .text-search > summary { display:inline-block; }
+.more-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+.finder-foot { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:9px; }
+.clear { font:inherit; font-size:.8rem; color:var(--accent); border:0; background:none;
+         padding:2px; cursor:pointer; }
+.search { margin-top:7px; }
+.search input[type=search] { font:inherit; font-size:.9rem; width:min(580px,100%); box-sizing:border-box;
+          padding:7px 10px; border:1px solid var(--key-rule); border-radius:6px;
+          background:var(--bg); color:var(--ink); }
 .count { color:var(--ink-muted); font-size:.85rem; margin-left:auto;
          font-variant-numeric:tabular-nums; }
 .plist { list-style:none; padding:0; margin:.6em 0; display:grid; gap:6px;
@@ -346,9 +375,11 @@ mark { background:var(--note-bg); color:var(--ink); box-shadow:0 0 0 1px var(--n
 .concept { margin:1.1em 0; }
 .concept p { margin:.2em 0 0; max-width:76ch; font-size:.95rem; }
 @media (max-width:600px) {
-  .search { position:static; }      /* a sticky search box would eat a phone screen */
   .pr, .card { padding:10px 12px; }
   .count { margin-left:0; width:100%; }
+  .finder-head { display:block; }
+  .facet-options { position:fixed; left:12px; right:12px; top:18%; width:auto; max-height:65vh;
+                   overflow:auto; }
 }
 </style>"""
 
@@ -358,7 +389,8 @@ SEARCH_JS = r"""<script>
   var list = document.getElementById('plist');
   var items = Array.prototype.slice.call(list.children);
   var q = document.getElementById('q'), count = document.getElementById('count');
-  var empty = document.getElementById('empty');
+  var empty = document.getElementById('empty'), clear = document.getElementById('clear');
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.facet-options input'));
   function norm(s) {
     return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
@@ -385,9 +417,17 @@ SEARCH_JS = r"""<script>
   }
   function run() {
     var terms = norm(q.value).split(/\s+/).filter(Boolean);
+    var active = {};
+    boxes.forEach(function (box) {
+      if (box.checked) (active[box.dataset.facet] || (active[box.dataset.facet] = [])).push(box.value);
+    });
     var hits = [];
     for (var i = 0; i < recs.length; i++) {
       var r = data[i], f = recs[i];
+      var matches = Object.keys(active).every(function (facet) {
+        return active[facet].some(function (value) { return r.p[facet].indexOf(value) >= 0; });
+      });
+      if (!matches) continue;
       var s = terms.length ? score(f, terms) : 1;
       if (s) hits.push([s, i]);
     }
@@ -402,32 +442,99 @@ SEARCH_JS = r"""<script>
     items.forEach(function (li, i) { if (!shown[i]) li.hidden = true; });
     count.textContent = hits.length + ' of ' + items.length + ' protocols';
     empty.hidden = hits.length > 0;
+    clear.hidden = !q.value && !boxes.some(function (box) { return box.checked; });
+    document.querySelectorAll('.facet').forEach(function (group) {
+      var n = group.querySelectorAll('input:checked').length, summary = group.querySelector('summary');
+      summary.classList.toggle('active', n > 0);
+      summary.querySelector('.selected').textContent = n ? ' (' + n + ')' : '';
+    });
     var h = [];
     if (q.value) h.push('q=' + encodeURIComponent(q.value));
+    boxes.forEach(function (box) {
+      if (box.checked) h.push('f=' + encodeURIComponent(box.dataset.facet + '~' + box.value));
+    });
     try { history.replaceState(null, '', h.length ? '#' + h.join('&') : location.pathname); }
     catch (err) { /* file:// in some browsers */ }
   }
   q.addEventListener('input', run);
+  boxes.forEach(function (box) { box.addEventListener('change', run); });
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.facet'));
+  groups.forEach(function (group) {
+    group.addEventListener('toggle', function () {
+      if (group.open) groups.forEach(function (other) { if (other !== group) other.open = false; });
+    });
+  });
+  document.addEventListener('click', function (ev) {
+    if (!ev.target.closest('.facet')) groups.forEach(function (group) { group.open = false; });
+  });
+  clear.addEventListener('click', function () {
+    q.value = ''; boxes.forEach(function (box) { box.checked = false; }); run();
+  });
   q.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { q.value = ''; run(); } });
   document.addEventListener('keydown', function (ev) {
     if (ev.key === '/' && document.activeElement !== q) { ev.preventDefault(); q.focus(); }
+    if (ev.key === 'Escape') groups.forEach(function (group) { group.open = false; });
   });
   location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
     var p = kv.split('='), v = decodeURIComponent(p[1] || '');
     if (p[0] === 'q') q.value = v;
+    if (p[0] === 'f') {
+      var bits = v.split('~'), facet = bits.shift(), value = bits.join('~');
+      boxes.forEach(function (box) {
+        if (box.dataset.facet === facet && box.value === value) box.checked = true;
+      });
+    }
   });
   run();
 })();
 </script>"""
 
 
+PRIMARY_FACETS = ("assay", "platform", "index_introduction", "index_architecture",
+                  "partitioning", "amplification")
+
+
+def facet_group(key: str, counts: dict[str, dict[str, int]]) -> str:
+    label, allowed = props.FACETS[key]
+    options = []
+    for i, value in enumerate(allowed):
+        n = counts[key][value]
+        if not n:
+            continue
+        ident = f"f-{key}-{i}"
+        options.append(
+            f'<label for="{ident}"><input id="{ident}" type="checkbox" '
+            f'data-facet="{e(key)}" value="{e(value)}">'
+            f'<span>{e(value)}</span> <small>{n}</small></label>')
+    return (f'<details class="facet"><summary>{e(label)}'
+            f'<span class="selected"></span></summary>'
+            f'<div class="facet-options">{"".join(options)}</div></details>')
+
+
+def facet_controls(ps: list[dict]) -> str:
+    counts = props.option_counts(ps)
+    primary = "".join(facet_group(key, counts) for key in PRIMARY_FACETS)
+    more = "".join(facet_group(key, counts) for key in props.FACETS
+                   if key not in PRIMARY_FACETS)
+    return f"""<div class="facetbar">
+{primary}
+<details class="more-facets"><summary>More filters</summary>
+<div class="more-grid">{more}</div></details>
+</div>"""
+
+
 def search_section(ps: list[dict]) -> str:
     items = "\n".join(result_item(i, p) for i, p in enumerate(ps))
-    return f"""<form class="search" role="search" onsubmit="return false">
-<label for="q" class="sr-only">Search protocols</label>
-<input id="q" type="search" placeholder="e.g. template switching, Tn5, 10x, UMI, 2017, nbt.2282"
-       autocomplete="off" spellcheck="false">
-<span class="sr-only" id="count" aria-live="polite">{len(ps)} protocols</span>
+    return f"""<form class="finder" role="search" onsubmit="return false">
+<div class="finder-head"><h2>Find by chemistry</h2>
+<p>Choices within one group are alternatives; different groups combine.</p></div>
+{facet_controls(ps)}
+<details class="text-search"><summary>Optional text search</summary>
+<div class="search"><label for="q" class="sr-only">Search protocol text</label>
+<input id="q" type="search" placeholder="Title, alias, paper or description"
+       autocomplete="off" spellcheck="false"></div></details>
+<div class="finder-foot"><span class="count" id="count" aria-live="polite">{len(ps)} protocols</span>
+<button class="clear" id="clear" type="button" hidden>Clear filters</button></div>
 </form>
 <ol class="plist" id="plist">
 {items}

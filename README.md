@@ -214,20 +214,33 @@ checks that every relative link and anchor in `_site/` resolves, and fails if on
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
 - **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
-  in a compact list with a client-side search. A title opens its schematic when one exists;
-  entries without one remain listed by name rather than exposing their working notes. The search covers
-  the name, family members and other names from the catalogue, the scg_lib_structs category,
-  modality (`DNA` / `RNA` / `multi`), DOI, year, paper titles and a short method blurb. It
-  does not expose the reference-note bodies. The index is JSON embedded in the page and
-  filtered by a few lines of vanilla JavaScript: no library, no network, so it works from
-  `file://` too, and without JavaScript the full list is still shown. Query and filters are
-  kept in the URL (`index.html#q=tn5&m=DNA`), so a search can be linked.
+  in a compact list led by chemistry filters rather than a name search. The filter data are
+  `catalogue/properties.tsv`: sixteen closed facets covering indexing, assay, platform,
+  partitioning, input, fragmentation, adapter installation, amplification, topology,
+  strand handling, identifiers, reads, selection, conversion and availability. Profiles
+  supply shared facts and each row records only its differences. `properties.load()` expands
+  and validates the records; a missing protocol, empty facet or unknown value stops the
+  build. Options within a facet are OR, while facets combine with AND. An unobtrusive text
+  search remains for titles, aliases, papers and descriptions. Filter state is kept in the
+  URL, so a result set can be linked.
+
+  A title opens its schematic when one exists; entries without one remain listed by name
+  rather than exposing their working notes. The index is JSON embedded in the page and
+  filtered by vanilla JavaScript: no library or network, so it works from `file://` too,
+  and without JavaScript the full list is still shown. Reference-note bodies are never
+  embedded.
 
 Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
 paragraph of its first note that describes the method (preferring the `## 1. What it is`
 section), kept in the search data rather than printed on every entry. A new protocol appears
 by name from `ours.tsv`; its title becomes a link when `tools/build_page.py` produces a
 finished schematic.
+
+When adding a protocol, add its row to both `catalogue/ours.tsv` and
+`catalogue/properties.tsv`. Choose the closest named profile, then override every facet
+where the protocol differs. In particular, keep **library amplification** separate from
+**how an index is introduced**, and keep **adapter architecture** (TruSeq, Nextera, custom)
+separate from **adapter installation chemistry** (ligation, Tn5, PCR, template switching).
 
 **In CI** (`.github/workflows/pages.yml`, on every push to `main` and on demand) the runner
 has only what is committed. The self-tests skip what needs a third-party file, and the

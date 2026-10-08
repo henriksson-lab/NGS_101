@@ -21,6 +21,7 @@ why `lib/mdrender.py` is a home-grown Markdown renderer). R is used only in `gcb
 for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
 python3 small-seq__10.1038+nbt.3701/tools/selftest.py   # a single protocol's suite
 python3 tools/selftest.py          # Markdown renderer, computed facts, docs build
+python3 tools/selftest_sources.py  # source fetcher: DOI routing, download validation, fetchers (offline)
 python3 tools/lint_pairing.py [page.html ...]   # drawn duplex columns must base-pair
 
 # build
@@ -44,13 +45,23 @@ note or a protocol module, and mark it 🟢 only once you have read it there.
 
 | Tool | Does | Typical call |
 |---|---|---|
-| `tools/get_sources.py` | Fetches everything legitimately reachable for a protocol in the catalogue (or a DOI): the upstream scg_lib_structs page, PMC full text, bioRxiv PDF + supplements, Nature-family supplements from Springer; matches a journal paper to its preprint. Into `$CHEM_DATA/sources/<slug>/` with a `MANIFEST.tsv`; files it could not get are listed there as `(manual)` with their URL. Skips what is on disk. | `python3 tools/get_sources.py "sci-CAR-seq"` · `--doi 10.1101/829960` · `--todo` · `--list` |
+| `tools/get_sources.py` | Fetches everything legitimately reachable for a protocol in the catalogue (or a DOI): the upstream scg_lib_structs page, PMC full text, the **PMC Cloud** bucket (JATS XML, PDF and supplements — also of author manuscripts whose PMC download page is gated), bioRxiv PDF + supplements, Nature-family supplements from Springer; links preprints and published versions both ways; then runs every special-case **fetcher** (below). Into `$CHEM_DATA/sources/<slug>/` with a `MANIFEST.tsv`. Every download is validated by type (a PDF must be a PDF, an XLSX a whole zip, an article page not a challenge page); a failed or invalid one becomes a `(manual)` row with its URL and reason. Skips what is on disk and valid. | `python3 tools/get_sources.py "sci-CAR-seq"` · `--slugs a,b` · `--doi 10.1101/829960` · `--todo` · `--all-ours` · `--revalidate` · `--list` · `--fetchers` |
 | `tools/doctext.py` | PDF / DOCX / XLSX / HTML → a plain-text twin `FILE.txt` beside the original (XLSX as tab-separated rows under `## sheet <name>`). `get_sources.py` runs it on everything it fetches. **Read and cite the `.txt`**: line numbers from the other tools point into it. | `python3 tools/doctext.py DIR` · `FILE --stdout` |
-| `tools/scrape_primers.py` | Lists every oligo-like sequence: the bases (PDF line-wrap rejoined), the oligo **as written with its modifications** (`/5Phos/`, `rApp`, `-ddC`, `rGrG+G`, `*`, RNA `rN`), the parsed modifications, a nearby name, the `lib/` sequences it contains on either strand, other lines with the same oligo, and ~400 characters of context. Tuned for **recall**: expect false hits. Files are ordered by their most oligo-like hit and each hit has a `score`; `--max-hits` (default 200/file) cuts the lowest scorers (motif tables, guide libraries). | `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` · `--tsv` · `--known-only` · `--find SEQ` (where does an oligo occur, either strand) |
+| `tools/scrape_primers.py` | Lists every oligo-like sequence: the bases (PDF line-wrap rejoined; shorthand like `T30VN` and placeholders like `[8-bp barcode]` kept inside the oligo), the oligo **as written with its modifications** (`/5Phos/`, `rApp`, `-ddC`, `rGrG+G`, `*`, RNA `rN` or U), the parsed modifications, a nearby name, the `lib/` sequences it contains on either strand, other lines with the same oligo, and context. Tuned for **recall**: expect false hits. A family of table rows differing only in an index/barcode window is collapsed into one hit; files are ordered by their most oligo-like hit; `--max-hits` cuts the lowest scorers. `--find` treats N, U and IUPAC letters as base classes and sees through modifications and placeholders. | `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` · `--tsv` · `--all` · `--known-only` · `--find SEQ` (either strand; `--strict` for letter-equal) |
 
-What they cannot do: PMC supplements of non-open-access papers sit behind a JavaScript
-download gate, and Science / Cell / publisher PDFs behind Cloudflare or a paywall — get
-those by hand (the manifest has the URL) and drop them in the same directory. The scraper
+**Special sources are fetchers, not hand downloads.** A source the generic routes miss
+(a vendor user guide, a GitHub repository, protocols.io, a publisher API) gets either a
+row in `catalogue/extra_sources.tsv` (slug, source, what, why — `source` is a URL or
+`handler:arg`, e.g. `scg:data/BD/*`, `protocolsio:<doi>`, `doi:<doi>`, `pmccloud:<PMCID>`)
+or, for a new kind of source, a module in `tools/fetchers/` (how-to in
+`tools/fetchers/__init__.py`; `--fetchers` lists them). For 10x Genomics and BD the
+scg_lib_structs GitHub repo (`scg:` handler) mirrors the vendor guides, oligo tables and
+barcode whitelists; it is fetched automatically for every protocol upstream has drawn.
+Offline checks for all of this: `python3 tools/selftest_sources.py`.
+
+What is still out of reach: Science / Cell / most publisher PDFs and supplements behind
+Cloudflare or a paywall — get those by hand (the manifest has the URL) and drop them in
+the same directory; `--revalidate` then checks them like any download. The scraper
 finds oligos, not reaction order: the methods still have to be **read**.
 
 ## Writing up a protocol (notes first)
@@ -88,7 +99,10 @@ finds oligos, not reaction order: the methods still have to be **read**.
   `<chem>.py` (segment definitions), `build_page.py`, `selftest.py` — except status
   `notes` directories, which hold reference notes only. Scripts bootstrap
   `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see README "Adding a protocol").
-- **`catalogue/`** — scraped worklist of protocols from scg_lib_structs (`tools/fetch_scg_lib_structs.py`, network, cached).
+- **`catalogue/`** — scraped worklist of protocols from scg_lib_structs
+  (`tools/fetch_scg_lib_structs.py`, network, cached). `properties.tsv` drives the public
+  chemistry finder: every `ours.tsv` directory must choose a profile and record overrides;
+  `tools/properties.py` rejects missing facets and vocabulary drift during the normal build.
 - **`gcbias/`** — separate, self-contained analysis (PCR GC bias via lineage UMIs) with
   its own lib, download scripts, tools and R plots; protocol pages never depend on it.
   Workflow is in `gcbias/README.md`.

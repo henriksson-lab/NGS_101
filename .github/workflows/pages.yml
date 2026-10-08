@@ -52,6 +52,9 @@ jobs:
       - name: Renderer and docs self-test
         run: python3 tools/selftest.py
 
+      - name: Source-fetcher self-test (offline)
+        run: python3 tools/selftest_sources.py
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

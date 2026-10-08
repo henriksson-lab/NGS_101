@@ -101,3 +101,8 @@ pacbio-telobait__10.1038+s41467-023-35823-7	PacBio telobait	10.1038/s41467-023-3
 telo-seq__10.1038+s41467-024-48917-7	Telo-seq	10.1038/s41467-024-48917-7	documented	published	DNA	Telorette-directed Oxford Nanopore sequencing from native human telomere ends.
 digital-telomere-measurement__10.1038+s41467-024-49007-4	Digital Telomere Measurement	10.1038/s41467-024-49007-4	documented	published	DNA	Barcoded capture/tether ligation, gap fill and nanopore measurement of individual telomeres.
 telomere-profiling__10.1126+science.ado0431	Telomere Profiling	10.1126/science.ado0431	documented	published	DNA	Restriction-assisted biotin TeloTag enrichment and nanopore sequencing of human telomeres.
+nebnext-ultra-ii-directional-rna	NEBNext Ultra II Directional RNA		documented	published	RNA	Commercial E7760 strand-specific RNA-seq workflow using dUTP-marked second-strand cDNA and USER selection.
+nebnext-low-bias-small-rna	NEBNext Low-bias Small RNA		documented	published	RNA	Commercial E3420 randomized-splint small-RNA ligation workflow; undisclosed adaptor sequences remain placeholders.
+nebnext-enzymatic-methyl-seq-v2	NEBNext Enzymatic Methyl-seq v2		documented	published	DNA	Commercial E8015 enzymatic methyl-seq workflow using TET2/T4-BGT protection and APOBEC conversion.
+nebnext-single-cell-low-input-rna	NEBNext Single Cell Low Input RNA		documented	published	RNA	Commercial E6420 template-switching whole-transcript cDNA workflow followed by Ultra II FS library preparation.
+nebnext-ultra-ii-fs-dna-pcr-free	NEBNext Ultra II FS DNA PCR-free		documented	published	DNA	Commercial E7430 fragmentation/end prep and full-length UDI-UMI adaptor workflow without library PCR.
