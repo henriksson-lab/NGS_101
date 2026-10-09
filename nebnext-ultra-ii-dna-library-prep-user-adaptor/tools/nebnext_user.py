@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from dumbbell import Dumbbell
 from endprep import dA_tailed_scene, repair_and_dA_tail
 
@@ -48,12 +48,12 @@ def hairpin_oligo() -> Construct:
 def final_library() -> Construct:
     lib = Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5", I5, "cbc"),
+        seg("i5", I5, "cbc", feature=feature("sample_i5", "sample_index", "whitelist", whitelist="NEBNext index set 1")),
         seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
         seg("insert", "X" * 42, placeholder=True),
         seg("dA junction", "A"),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        seg("i7 reverse complement", I7_READ, "cbc"),
+        seg("i7 reverse complement", I7_READ, "cbc", feature=feature("sample_i7", "sample_index", "whitelist", whitelist="NEBNext index set 1")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="PCR-completed NEBNext library")
     problems = sp.verify(lib, sequencing_primers())

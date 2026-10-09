@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 
 # The accessible defining paper names these oligos but does not print their sequences.
 # Exact bases are from the upstream scg_lib_structs reconstruction and are therefore
@@ -68,7 +68,8 @@ def final_library(insert_nt: int = 28) -> Construct:
         secondary("Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
         *preamp_product(insert_nt),
         secondary("Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        secondary("i7", "I" * INDEX_NT, "cbc", placeholder=True),
+        secondary("i7", "I" * INDEX_NT, "cbc", placeholder=True,
+                  feature=feature("cell_i7", "cell_barcode", "unknown")),
         secondary("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scDamID sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS, required_roles=RUN_ROLES)

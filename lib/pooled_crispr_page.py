@@ -4,12 +4,12 @@ from __future__ import annotations
 import html
 import pooled_crispr as M
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
+from chemdraw import duplex_rows, oligo, panel
 from page import head, info
 
 
 def construct_panel(con, caption: str) -> str:
-    return panel([*Scene.duplex(list(con), label=con.name).rows(), *annotation_rows(con)],
+    return panel(duplex_rows(con, label=con.name),
                  cls="small", caption=caption)
 
 

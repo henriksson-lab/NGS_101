@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, revcomp
+from chemdraw import Construct, Row, feature, revcomp
 
 TITLE = "Earth Microbiome Project ITS amplicon sequencing"
 NOTES = "01_emp-its.html"
@@ -40,7 +40,8 @@ FINAL_LIBRARY = Construct([
     seg("Read 2 locus extension reverse complement", revcomp(R2_EXTENSION)),
     seg("ITS2 site reverse complement", revcomp(REV_LOCUS), "r2"),
     seg("reverse linker", revcomp(REV_LINK)),
-    seg("twelve-base Golay barcode", "B" * 12, "cbc", placeholder=True),
+    seg("twelve-base Golay barcode", "B" * 12, "cbc", placeholder=True,
+        feature=feature("sample_golay", "sample_index", "whitelist", whitelist="EMP 12-base Golay barcode set")),
     seg("P7-side fusion arm reverse complement", revcomp(REV_ARM), "p7"),
 ], name="EMP ITS fusion-primer library")
 

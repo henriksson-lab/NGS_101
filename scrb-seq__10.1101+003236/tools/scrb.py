@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment
+from chemdraw import Construct, Segment, feature
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -26,9 +26,15 @@ UNBLOCKED_TSO_BASES = PCR_HANDLE + "GGG"
 
 SOURCE_E3 = "ACACTCTTTCCCTACACGACGCTCTTCCGATCTBBBBBBNNNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN"
 SOURCE_MC_TSO = "ACACTCTTTCCCTACACGACGCGGG"
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="scrb-seq-e3-primer-set")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE, "i7'": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

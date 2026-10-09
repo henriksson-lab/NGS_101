@@ -43,9 +43,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from illumina import P5, P7, P7_RC
 import seqprimers as sp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "whitelist",
+                     whitelist="small-seq-srx-192-index-set")
+FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 
 # ======================================================================= oligos
 # TODO(lib): move RA5 / RA3 / RTP (TruSeq Small RNA adapters) to illumina.py.
@@ -172,6 +177,7 @@ ENZYMES = [
 
 # ======================================================================= constructs
 def _seg(name, top, tag=None, **kw):
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

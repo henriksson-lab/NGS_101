@@ -3,10 +3,17 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="quartz-seq2-v3.2-rt-primer-set")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE, "i7": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -112,7 +119,5 @@ def primer_landings(lib: Construct | None = None):
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    lib = final_library()
-    bc, umi = lib.get("cell barcode"), lib.get("UMI")
-    return [(f"1&ndash;{len(bc)}", "cell barcode"),
-            (f"{len(bc) + 1}&ndash;{len(bc) + len(umi)}", "UMI")]
+    return [(x.cycles, x.feature.label) for x in
+            sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 23})]

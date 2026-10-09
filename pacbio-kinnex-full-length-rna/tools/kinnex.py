@@ -4,14 +4,15 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Row, Segment, revcomp
+from chemdraw import (Construct, Row, Segment, feature, feature_rows, revcomp,
+                      strand_row)
 from concatemer import SegmentedArray
 from dumbbell import Dumbbell, dumbbell_rows
 from rna_special import template_switch_scene
 
 
-def role(name: str, width: int, tag: str | None = None) -> Segment:
-    return Segment(name, "X" * width, tag, placeholder=True)
+def role(name: str, width: int, tag: str | None = None, **kw) -> Segment:
+    return Segment(name, "X" * width, tag, placeholder=True, **kw)
 
 
 TITLE = "PacBio Kinnex full-length RNA — eight-insert arrays"
@@ -26,10 +27,15 @@ SUMMARY = ("Full-length cDNA is copied in eight parallel orientation-specific PC
 CAVEAT = ("Kinnex primer, segmentation-junction and terminal-adapter bases are proprietary. "
           "Their experimentally specified order and topology are shown as named unknown DNA.")
 
-INSERTS = tuple(Construct([role("full-length cDNA", 18, "r1")],
+ISOSEQ_INDEX = feature("isoseq_sample_index", "sample_index", "whitelist",
+                       whitelist="PacBio Iso-Seq primer barcodes bc01–12")
+INSERTS = tuple(Construct([
+                    Segment("Iso-Seq primer barcode", "[Iso-Seq barcode]", "cbc",
+                            placeholder=True, inferred=True, feature=ISOSEQ_INDEX),
+                    role("full-length cDNA", 18, "r1")],
                           name=f"orientation-specific Kinnex product {i}")
                 for i in range(1, 9))
-JUNCTIONS = tuple(role(f"segmentation junction {i}|{i + 1}", 8, "cbc")
+JUNCTIONS = tuple(role(f"segmentation junction {i}|{i + 1}", 8, "r3")
                   for i in range(1, 8))
 ARRAY = SegmentedArray(INSERTS, JUNCTIONS,
                        role("left terminal adapter", 12, "r2"),
@@ -60,9 +66,12 @@ def sections():
          "INFERRED — the current kit discloses the poly(A)-primed, template-switch workflow "
          "but not the oligo bases. Iso-Seq barcode primers are added during cDNA PCR."),
         ("Install eight orientation-specific segmentation ends", [
-            Row(chunks=[("one cDNA pool → PCR A | B | C | D | E | F | G | HQ", "cbc", False)])
+            Row(chunks=[("one cDNA pool → PCR A | B | C | D | E | F | G | HQ", "r3", False)]),
+            strand_row(INSERTS[0]),
+            *feature_rows(INSERTS[0], prefix_width=4),
         ], "Eight parallel Kinnex PCRs give each copy the end identities needed for ordered "
-           "array formation; equal volumes of all eight products are pooled."),
+           "array formation; the Iso-Seq primer barcode retains sample identity, and equal "
+           "volumes of all eight products are pooled."),
         ("Assemble the eight-insert array", ARRAY.rows(),
          "Kinnex enzyme and ligase assemble the eight products between barcoded terminal "
          "adapters. Every ** is a covalent insert–segmentation-junction boundary."),

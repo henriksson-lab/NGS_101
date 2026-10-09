@@ -129,6 +129,10 @@ finds oligos, not reaction order: the methods still have to be **read**.
 - **Sequencing primers are declared** by reference (`seqprimers`), and `sp.section()`
   derives where they bind; a declared primer without a site fails the build unless the
   protocol says why.
+- **Identifier meaning is structured data.** Attach a `chemdraw.feature(...)` to every
+  barcode, sample index and UMI segment. Do not infer meaning from `cbc`/`umi` colours,
+  placeholder letters or prose names. Preserve feature identity through transforms and
+  derive read-cycle spans with `seqprimers.feature_spans()` from declared run lengths.
 - **Put invariants in construction functions, not tests.** Derive complements and adapter
   assemblies, use `Scene` to reject invalid pairing, and let sequencing-page generation
   fail when primers do not land. Tests are for source transcription or behavior that the

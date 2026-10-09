@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment, complement_segments, feature
 
 R1_HANDLE = "ACTGTGG"
 R1_BARCODE = "ACTCGTAA"
@@ -19,7 +19,14 @@ LINK3 = "TACGCCGATGCGAAACATCG"
 TSO_BODY = "AAGCAGTGGTATCAACGCAGAGTGAAT"
 TSO = TSO_BODY + "GGG"  # chemical 3' tail is rGrG+G
 
-def _s(name, top, tag=None, **kw): return Segment(name, top, tag, **kw)
+BC1_FEATURE=feature("cell_barcode_round1","cell_barcode","combinatorial",group="cell_barcode",part="RT round")
+BC2_FEATURE=feature("cell_barcode_round2","cell_barcode","combinatorial",group="cell_barcode",part="ligation round 2")
+BC3_FEATURE=feature("cell_barcode_round3","cell_barcode","combinatorial",group="cell_barcode",part="ligation round 3")
+UMI_FEATURE=feature("umi","umi","random")
+FEATURES={"barcode 1":BC1_FEATURE,"barcode 2":BC2_FEATURE,"barcode 3":BC3_FEATURE,"UMI":UMI_FEATURE}
+
+def _s(name, top, tag=None, **kw):
+    kw.setdefault("feature",FEATURES.get(name)); return Segment(name, top, tag, **kw)
 
 def round1(protocol: str):
     if protocol == "microSPLiT":
@@ -80,9 +87,12 @@ def splint_scene(round_no: int) -> Scene:
     return sc
 
 def final_boundary(protocol: str) -> Construct:
+    inferred = protocol == "SPLiT-seq"
     inner = [_s("cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
-             _s("barcode chain", "[BC1 / BC2 / BC3 / UMI]", "cbc", placeholder=True,
-                inferred=protocol == "SPLiT-seq")]
+             _s("barcode 1", "B" * 8, "cbc", placeholder=True, inferred=inferred),
+             _s("barcode 2", "B" * 8, "cbc", placeholder=True),
+             _s("barcode 3", "B" * 8, "cbc", placeholder=True),
+             _s("UMI", "N" * R3_UMI_NT, "umi", placeholder=True)]
     return Construct([_s("unpublished left library arm", "[LEFT ARM]", inferred=True,
                          placeholder=True), *inner,
                       _s("unpublished indexed right arm", "[RIGHT ARM + i7]", inferred=True,

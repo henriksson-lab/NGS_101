@@ -4,7 +4,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -67,15 +67,18 @@ def final_library(insert_nt: int = 28) -> Construct:
     """Final duplex represented by its P5-to-P7' strand (5' to 3')."""
     lib = Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5", I5_INDEX, "cbc"),
+        seg("i5", I5_INDEX, "cbc",
+            feature=feature("cell_i5", "cell_barcode", "combinatorial", group="cell_id", part="i5")),
         seg("s5", nx.S5, "s5"),
         seg("mosaic end", nx.ME, "me"),
         seg("genomic insert", "X" * insert_nt, placeholder=True),
         seg("opposite mosaic end", nx.ME_RC, "me"),
         seg("copied dU", "A", "w1"),
-        seg("Tn5 barcode, read orientation", revcomp(TN5_INDEX), "cbc"),
+        seg("Tn5 barcode, read orientation", revcomp(TN5_INDEX), "cbc",
+            feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        seg("i7", I7_READ, "cbc"),
+        seg("i7", I7_READ, "cbc",
+            feature=feature("cell_i7", "cell_barcode", "combinatorial", group="cell_id", part="i7")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="s3-WGS sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)

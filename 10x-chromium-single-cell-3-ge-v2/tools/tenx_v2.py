@@ -4,13 +4,20 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment, complement_segments, feature
 
 PARTIAL_R1 = il.TRUSEQ_READ1[11:]
 TSO_DNA = rt.SMART_HANDLE + "ACAT"
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-chromium-3prime-v2")
+UMI = feature("umi", "umi", "random")
+SAMPLE_INDEX = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI,
+            "i7 reverse complement": SAMPLE_INDEX}
 
 
 def seg(name, top, tag=None, **kw):
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -90,5 +97,6 @@ def final_library(insert_nt=36):
 
 
 def read1_layout():
-    return [("1–16", "cell barcode"), ("17–26", "UMI")]
+    return [(x.cycles, x.feature.label) for x in
+            sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 26})]
 

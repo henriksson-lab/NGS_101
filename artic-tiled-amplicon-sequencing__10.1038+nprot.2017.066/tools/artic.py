@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene
+from chemdraw import Construct, Row, Scene, feature
 from tiled_amplicon import alternating_scheme, scheme_rows
 
 TITLE = "ARTIC / PrimalSeq — two-pool tiled viral amplicon sequencing"
@@ -30,7 +30,8 @@ FINAL_LIBRARY = Construct([
     seg("one tiled viral amplicon", "X" * 42, placeholder=True),
     seg("dA junction", "A", inferred=True),
     seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=True),
-    seg("sample index reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True),
+    seg("sample index reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
+        feature=feature("sample_i7", "sample_index", "unknown")),
     seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
 ], name="inferred SureSelectXT2-indexed MiSeq branch")
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
@@ -55,7 +56,8 @@ def illumina_ligation_scene() -> Scene:
 def nanopore_ligation_scene() -> Scene:
     parts = [
         seg("sequencing adapter and motor", "[sequencing adapter + motor]", "me", placeholder=True),
-        seg("native barcode", "[native barcode]", "cbc", placeholder=True),
+        seg("native barcode", "[native barcode]", "cbc", placeholder=True,
+            feature=feature("sample_native", "sample_index", "whitelist", whitelist="Oxford Nanopore native barcode set")),
         seg("tiled amplicon", "[tiled viral amplicon]", placeholder=True),
     ]
     sc = Scene(); sc.strand("nanopore library", parts, label="MinION branch")

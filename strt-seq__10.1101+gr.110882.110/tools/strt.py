@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import nextera as nx
 import rt
@@ -56,9 +56,17 @@ TWO_I_INDEX2 = il.P5
 SOURCE_STRT_V3 = "AAGCAGTGGTATCAACGCAGAGTCGACTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN"
 SOURCE_C1_TN5_1 = "CAAGCAGAAGACGGCATACGACGTCTAATGCGTCAGATGTGTATAAGAGACAG"
 SOURCE_TWO_I_WELL = "AATGATACGGCGACCACCGAGATCTACACXXXXXCTACACGACGCTCTTCCGATC"
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="strt-well-barcode-set")
+UMI_FEATURE = feature("umi", "umi", "random")
+SUBARRAY_FEATURE = feature("subarray_index", "sample_index", "whitelist",
+                           whitelist="strt-subarray-index-set")
+FEATURES = {"cell barcode": CELL_BARCODE, "well index": CELL_BARCODE,
+            "UMI": UMI_FEATURE, "subarray barcode": SUBARRAY_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -100,7 +108,7 @@ def c1_library() -> Construct:
         variable("UMI", C1_UMI_LEN, "N", "umi"), seg("GGG", "GGG", "tso"),
         variable("mRNA 5' end", 19, "X", "r1"),
         *[Segment(s.name + "'", revcomp(s.top) if not s.placeholder else s.top.lower(),
-                  s.tag, s.placeholder) for s in reversed(right)],
+                  s.tag, s.placeholder, feature=s.feature) for s in reversed(right)],
     ], name="STRT-C1 library")
     for primer in C1_PRIMERS:
         if sp.locate(con, primer) is None:
@@ -121,7 +129,7 @@ def two_i_library() -> Construct:
         seg("P1B", P1B, "r1"), variable("UMI", TWO_I_UMI_LEN, "N", "umi"),
         seg("GGG", "GGG", "tso"), variable("mRNA 5' end", 19, "X", "r1"),
         *[Segment(s.name + "'", revcomp(s.top) if not s.placeholder else s.top.lower(),
-                  s.tag, s.placeholder, True) for s in reversed(right)],
+                  s.tag, s.placeholder, True, feature=s.feature) for s in reversed(right)],
         seg("P7'", il.P7_RC, "p7", inferred=True),
     ], name="STRT-seq-2i library")
     for primer in TWO_I_INDEX_PRIMERS:

@@ -12,7 +12,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment, complement_segments, feature
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="cel-seq-rt-primer-set")
+UMI_FEATURE = feature("umi", "umi", "random")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE}
 
 T7_PROMOTER = "TAATACGACTCACTATAGGG"
 T7_TRANSCRIBED_G = "GGG"
@@ -34,6 +39,7 @@ RANDOMHEX_RT = RANDOMHEX_TAIL + "N" * RANDOMHEX_NT
 
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

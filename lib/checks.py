@@ -21,7 +21,7 @@ import nextera as nx
 from plasmid import Plasmid, amplify, bind
 import rt
 from chemdraw import (Construct, Scene, Segment, bases_pair, bridge, complement,
-                      complement_segments, revcomp, tm)
+                      complement_segments, feature, revcomp, tm)
 
 
 class Check:
@@ -144,6 +144,12 @@ def run_common(check: Check) -> None:
                  lambda: Construct([Segment("x", "ACGT")]).span("nope"))
     check("placeholders are not complemented as if they were bases",
           Segment("bc", "AAAAAAAA", placeholder=True).bottom_text() != "TTTTTTTT")
+    _feature = feature("cell_barcode", "cell_barcode", "unknown")
+    check("identifier semantics survive strand complementation",
+          complement_segments([Segment("bc", "B" * 8, placeholder=True,
+                                       feature=_feature)])[0].feature is _feature)
+    check.raises("a whitelist encoding without a whitelist reference is rejected",
+                 lambda: feature("bc", "cell_barcode", "whitelist"))
 
     check.section("Scene: strands placed by pairing, never by indent (lib/chemdraw.py)")
     check("A pairs T, G pairs C", bases_pair("A", "T") and bases_pair("G", "C"))
@@ -202,6 +208,17 @@ def run_common(check: Check) -> None:
                     sp.TRUSEQ["R1"]), None)
     check("verify() demands all four roles", any("Read 2" in e for e in
           sp.verify(_lib, [sp.TRUSEQ["R1"]])))
+    _annotated = Construct([
+        Segment("R1", il.TRUSEQ_READ1),
+        Segment("cell barcode", "B" * 8, placeholder=True,
+                feature=feature("cell_barcode", "cell_barcode", "unknown")),
+        Segment("UMI", "U" * 6, placeholder=True,
+                feature=feature("umi", "umi", "random")),
+    ])
+    _spans = sp.feature_spans(_annotated, [sp.TRUSEQ["R1"]], {"Read 1": 10})
+    check("identifier cycles derive from primer direction and clip at the run length",
+          [(x.feature.role, x.cycle_start, x.cycle_end) for x in _spans],
+          [("cell_barcode", 1, 8), ("umi", 9, 10)])
 
     check.section("bridge / loop rendering (lib/chemdraw.py)")
     rows = bridge(4, 40, [[("hello", None, False)]], label="backbone")

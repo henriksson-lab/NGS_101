@@ -3,11 +3,16 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,complement_segments
+from chemdraw import Construct,Scene,Segment,complement_segments,feature
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
 SWITCH_SPACER="TTTCTTATAT"
-def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
+CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-5prime-v1")
+UMI_FEATURE=feature("umi","umi","random")
+SAMPLE_INDEX=feature("sample_index_i7","sample_index","unknown")
+FEATURES={"cell barcode":CELL_BARCODE,"UMI":UMI_FEATURE,"i7 reverse complement":SAMPLE_INDEX}
+def seg(name,top,tag=None,**kw):
+    kw.setdefault("feature",FEATURES.get(name)); return Segment(name=name,top=top,tag=tag,**kw)
 def bead_tso(): return [seg("Partial Read 1",PARTIAL_R1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*10,"umi",placeholder=True),seg("switch spacer",SWITCH_SPACER,"tso"),seg("rGrGrG","GGG","tso")]
 def rt_primer(): return [seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("AC","AC"),seg("poly(dT)30","T"*30),seg("V","V",placeholder=True),seg("N","N",placeholder=True)]
 def capture_scene():
@@ -27,4 +32,6 @@ def final_library(insert_nt=38):
     problems=sp.verify(lib,SEQ_PRIMERS,required_roles=("Read 1","Index 1 (i7)","Read 2"))
     if problems: raise ValueError("invalid 5' v1 library: "+"; ".join(problems))
     return lib
-def read1_layout(): return [("1–16","cell barcode"),("17–26","UMI"),("27 onward","switch spacer, then transcript 5' end")]
+def read1_layout():
+    identifiers=[(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":26})]
+    return [*identifiers,("27 onward","switch spacer, then transcript 5' end")]

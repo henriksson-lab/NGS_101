@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -45,19 +45,26 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def variable(name: str, n: int, letter: str, tag: str, inferred: bool = False) -> Segment:
-    return seg(name, letter * n, tag, placeholder=True, inferred=inferred)
+def variable(name: str, n: int, letter: str, tag: str | None,
+             inferred: bool = False, **kw) -> Segment:
+    return seg(name, letter * n, tag, placeholder=True, inferred=inferred, **kw)
 
 
 def t5(value: str | None = None) -> list[Segment]:
-    bc = variable("t5 barcode", TN5_BC_LEN, "A", "cbc") if value is None else seg("t5 barcode", value, "cbc")
+    semantic = feature("cell_tn5_a", "cell_barcode", "combinatorial",
+                       group="cell_id", part="tagmentation A")
+    bc = (variable("t5 barcode", TN5_BC_LEN, "A", "cbc", feature=semantic)
+          if value is None else seg("t5 barcode", value, "cbc", feature=semantic))
     if len(bc) != TN5_BC_LEN: raise ValueError("t5 barcode must be 8 nt")
     return [seg("s5", nx.S5, "s5"), seg("connector A", A_LINK, "r2"), bc,
             seg("Read 1 extension", R1_EXT, "r1"), seg("ME", nx.ME, "me")]
 
 
 def t7(value: str | None = None) -> list[Segment]:
-    bc = variable("t7 barcode", TN5_BC_LEN, "B", "cbc") if value is None else seg("t7 barcode", value, "cbc")
+    semantic = feature("cell_tn5_b", "cell_barcode", "combinatorial",
+                       group="cell_id", part="tagmentation B")
+    bc = (variable("t7 barcode", TN5_BC_LEN, "B", "cbc", feature=semantic)
+          if value is None else seg("t7 barcode", value, "cbc", feature=semantic))
     if len(bc) != TN5_BC_LEN: raise ValueError("t7 barcode must be 8 nt")
     return [seg("s7", nx.S7, "s7"), seg("connector B", B_LINK, "r3"), bc,
             seg("Read 2 extension", R2_EXT, "r1"), seg("ME", nx.ME, "me")]
@@ -80,11 +87,13 @@ def two_level_library(protocol: str) -> Construct:
         raise ValueError(protocol)
     right = t7()
     con = Construct([
-        seg("P5", il.P5, "p5"), variable("PCR i5", pcr_n, "N", "cbc", inferred),
+        seg("P5", il.P5, "p5"), variable("PCR i5", pcr_n, "N", "cbc", inferred,
+                                           feature=feature("cell_pcr_i5", "cell_barcode", "combinatorial", group="cell_id", part="PCR i5")),
         *t5(), variable("genomic insert", 19, "X", None),
         *[Segment(s.name + "'", revcomp(s.top) if not s.placeholder else s.top.lower(),
-                  s.tag, s.placeholder) for s in reversed(right)],
-        variable("PCR i7'", pcr_n, "N", "cbc", inferred), seg("P7'", il.P7_RC, "p7"),
+                  s.tag, s.placeholder, feature=s.feature) for s in reversed(right)],
+        variable("PCR i7'", pcr_n, "N", "cbc", inferred,
+                 feature=feature("cell_pcr_i7", "cell_barcode", "combinatorial", group="cell_id", part="PCR i7")), seg("P7'", il.P7_RC, "p7"),
     ], name=f"{protocol} library")
     errors = sp.verify(con, TWO_LEVEL_PRIMERS)
     if errors: raise ValueError("invalid two-level sci-ATAC library: " + "; ".join(errors))
@@ -103,17 +112,21 @@ def sci3_library() -> Construct:
     """Final sci-ATAC-seq3 library from Domcke 2020 Supplementary Table S7."""
     inf = False
     con = Construct([
-        seg("P5", il.P5, "p5"), variable("i5", PCR_BC_LEN, "I", "cbc"),
+        seg("P5", il.P5, "p5"), variable("i5", PCR_BC_LEN, "I", "cbc",
+                                          feature=feature("cell_pcr_i5", "cell_barcode", "combinatorial", group="cell_id", part="PCR i5")),
         seg("N5 head", N5_HEAD, "r2", inferred=inf),
-        variable("N5 barcode", LIG_BC_LEN, "A", "cbc", inf),
+        variable("N5 barcode", LIG_BC_LEN, "A", "cbc", inf,
+                 feature=feature("cell_ligation_n5", "cell_barcode", "combinatorial", group="cell_id", part="ligation N5")),
         seg("N5 tail", N5_TAIL, "r2", inferred=inf),
         seg("s5", nx.S5, "s5"), seg("ME", nx.ME, "me"),
         variable("genomic insert", 19, "X", None),
         seg("ME'", nx.ME_RC, "me"), seg("s7'", nx.S7_RC, "s7"),
         seg("N7 tail'", revcomp(N7_TAIL), "r3", inferred=inf),
-        variable("N7 barcode'", LIG_BC_LEN, "B", "cbc", inf),
+        variable("N7 barcode'", LIG_BC_LEN, "B", "cbc", inf,
+                 feature=feature("cell_ligation_n7", "cell_barcode", "combinatorial", group="cell_id", part="ligation N7")),
         seg("N7 head'", revcomp(N7_HEAD), "r3", inferred=inf),
-        variable("i7'", PCR_BC_LEN, "I", "cbc"), seg("P7'", il.P7_RC, "p7"),
+        variable("i7'", PCR_BC_LEN, "I", "cbc",
+                 feature=feature("cell_pcr_i7", "cell_barcode", "combinatorial", group="cell_id", part="PCR i7")), seg("P7'", il.P7_RC, "p7"),
     ], name="sci-ATAC-seq3 library")
     errors = sp.verify(con, SCI3_PRIMERS)
     if errors: raise ValueError("invalid sci-ATAC-seq3 library: " + "; ".join(errors))

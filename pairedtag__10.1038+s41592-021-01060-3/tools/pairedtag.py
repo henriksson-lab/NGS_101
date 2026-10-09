@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Segment
+from chemdraw import Construct, Row, Segment, feature
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -39,19 +39,27 @@ PUBLISHED_READ2_BARCODE_WINDOWS = ((10, 13), (47, 50), (84, 87))
 def barcode_cassette(modality: str) -> list[Segment]:
     """Top-strand order; Read 2 traverses this list from right to left."""
     return [
-        seg(f"round-1 {modality} barcode", "B" * 6, "cbc", placeholder=True),
+        seg(f"round-1 {modality} barcode", "B" * 6, "cbc", placeholder=True,
+            feature=feature(f"cell_bc1_{modality.lower()}", "cell_barcode", "combinatorial",
+                            group="cell_id", part="round 1")),
         seg("round-2 linker plus ligation boundary", "L" * 31, placeholder=True),
-        seg("round-2 barcode", "B" * 6, "cbc", placeholder=True),
+        seg("round-2 barcode", "B" * 6, "cbc", placeholder=True,
+            feature=feature("cell_bc2", "cell_barcode", "combinatorial",
+                            group="cell_id", part="round 2")),
         seg("round-3 linker", "L" * 30, placeholder=True),
-        seg("round-3 barcode", "B" * 6, "cbc", placeholder=True),
-        seg("10-nt UMI", "U" * 10, "umi", placeholder=True),
+        seg("round-3 barcode", "B" * 6, "cbc", placeholder=True,
+            feature=feature("cell_bc3", "cell_barcode", "combinatorial",
+                            group="cell_id", part="round 3")),
+        seg("10-nt UMI", "U" * 10, "umi", placeholder=True,
+            feature=feature("umi", "umi", "random")),
     ]
 
 
 def _right_end() -> list[Segment]:
     return [seg("adapter junction", "A"),
             seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-            seg("i7 reverse complement", "I" * 6, "cbc", placeholder=True),
+            seg("i7 reverse complement", "I" * 6, "cbc", placeholder=True,
+                feature=feature("sample_i7", "sample_index", "unknown")),
             seg("P7 reverse complement", il.P7_RC, "p7")]
 
 
@@ -63,7 +71,8 @@ DNA_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
 
 RNA_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
-    seg("N5 carried index", "J" * 8, "cbc", placeholder=True),
+    seg("N5 carried index", "J" * 8, "cbc", placeholder=True,
+        feature=feature("sample_i5", "sample_index", "unknown")),
     seg("S5", nx.S5, "s5"), seg("mosaic end", nx.ME, "me"),
     seg("transcript cDNA", "X" * 34, placeholder=True),
     *barcode_cassette("RNA"), *_right_end()], name="PairedTag RNA library")

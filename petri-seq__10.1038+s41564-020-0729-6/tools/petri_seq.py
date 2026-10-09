@@ -4,10 +4,17 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment
+from chemdraw import Construct, Scene, Segment, feature
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "fixed")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    if name == "UMI": kw.setdefault("feature", UMI_FEATURE)
+    elif name == "i5 index": kw.setdefault("feature", I5_FEATURE)
+    elif name == "i7 index read": kw.setdefault("feature", I7_FEATURE)
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -24,7 +31,10 @@ I7_INDEX_READ = "TCGCCTTA"
 
 
 def barcode(name: str) -> Segment:
-    return seg(name, "B" * 7, "cbc", placeholder=True)
+    round_name = name.replace("barcode ", "round ")
+    return seg(name, "B" * 7, "cbc", placeholder=True,
+               feature=feature(name.replace(" ", "_"), "cell_barcode", "combinatorial",
+                               group="cell_barcode", part=round_name))
 
 
 def round1_primer() -> list[Segment]:
@@ -89,9 +99,9 @@ def final_scene() -> Scene:
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    return [("1&ndash;7", "UMI"), ("8&ndash;14", "cell barcode 3"),
-            ("15&ndash;29", "round-3/round-2 junction"),
-            ("30&ndash;36", "cell barcode 2"),
-            ("37&ndash;50", "round-2/round-1 junction"),
-            ("51&ndash;57", "cell barcode 1"),
+    spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":58})
+    by_start={x.cycle_start:(x.cycles,x.feature.label+(
+              f" ({x.feature.part})" if x.feature.part else "")) for x in spans}
+    return [by_start[1],by_start[8], ("15–29", "round-3/round-2 junction"),
+            by_start[30], ("37–50", "round-2/round-1 junction"), by_start[51],
             ("58", "first random-hexamer-derived base")]

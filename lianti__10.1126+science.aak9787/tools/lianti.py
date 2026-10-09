@@ -10,11 +10,16 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 from endprep import dA_tailed_scene, repair_and_dA_tail
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

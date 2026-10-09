@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import html
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence
 
@@ -89,6 +90,68 @@ def tm(seq: str, primer_molar: float = 0.5e-6, na_molar: float = 0.05) -> float:
 
 # ------------------------------------------------------------------------ segments
 
+FEATURE_ROLES = (
+    "umi",
+    "cell_barcode",
+    "sample_index",
+    "feature_barcode",
+    "spatial_barcode",
+    "guide_barcode",
+    "inline_barcode",
+)
+FEATURE_ENCODINGS = ("random", "whitelist", "fixed", "combinatorial", "unknown")
+_FEATURE_ID = re.compile(r"^[a-z][a-z0-9_.-]*$")
+
+
+@dataclass(frozen=True)
+class MolecularFeature:
+    """Machine-readable meaning of an identifier-bearing molecular region.
+
+    This metadata is deliberately independent of ``Segment.tag`` (presentation), the
+    displayed bases (which may be placeholders), and any particular interchange format.
+    ``id`` is the stable logical identity carried through copying and strand transforms;
+    multipart barcodes share ``group`` and use distinct ``part`` values.
+    """
+
+    id: str
+    role: str
+    encoding: str
+    group: str = ""
+    part: str = ""
+    whitelist: str = ""
+    note: str = ""
+
+    def __post_init__(self) -> None:
+        if not _FEATURE_ID.fullmatch(self.id):
+            raise ValueError(
+                f"feature id {self.id!r} must start with a lowercase letter and contain "
+                "only lowercase letters, digits, '.', '_' or '-'"
+            )
+        if self.role not in FEATURE_ROLES:
+            raise ValueError(f"unknown feature role {self.role!r}; choose from {FEATURE_ROLES}")
+        if self.encoding not in FEATURE_ENCODINGS:
+            raise ValueError(
+                f"unknown feature encoding {self.encoding!r}; choose from {FEATURE_ENCODINGS}"
+            )
+        if self.encoding == "whitelist" and not self.whitelist:
+            raise ValueError(f"whitelist feature {self.id!r} needs a whitelist reference")
+        if self.whitelist and self.encoding not in ("whitelist", "combinatorial"):
+            raise ValueError(
+                f"feature {self.id!r}: a whitelist is incompatible with {self.encoding!r}"
+            )
+        if self.part and not self.group:
+            raise ValueError(f"feature {self.id!r}: multipart feature needs a group")
+
+    @property
+    def label(self) -> str:
+        return "UMI" if self.role == "umi" else self.role.replace("_", " ")
+
+
+def feature(identifier: str, role: str, encoding: str, **kw) -> MolecularFeature:
+    """Concise constructor used by protocol modules at the point a region is defined."""
+    return MolecularFeature(identifier, role, encoding, **kw)
+
+
 @dataclass
 class Segment:
     """One named region of a construct.
@@ -100,6 +163,7 @@ class Segment:
     inferred    wrap in <inf>; the region is a guess, not documented
     bottom      explicit bottom-strand text, overriding the computed complement
     note        free text, surfaced by describe()
+    feature     optional format-neutral identifier semantics; preserved through transforms
     """
     name: str
     top: str
@@ -108,6 +172,7 @@ class Segment:
     inferred: bool = False
     bottom: str | None = None
     note: str = ""
+    feature: MolecularFeature | None = None
 
     def __post_init__(self) -> None:
         if self.bottom is not None and len(self.bottom) != len(self.top):
@@ -149,11 +214,19 @@ class Construct:
         self.segments = list(segments)
         self.name = name
         seen: set[str] = set()
+        features: dict[str, MolecularFeature] = {}
         for s in self.segments:
             if s.name and s.name in seen:
                 raise ValueError(f"duplicate segment name {s.name!r} in construct {name!r}")
             if s.name:
                 seen.add(s.name)
+            if s.feature:
+                earlier = features.setdefault(s.feature.id, s.feature)
+                if earlier != s.feature:
+                    raise ValueError(
+                        f"feature id {s.feature.id!r} has conflicting definitions in "
+                        f"construct {name!r}"
+                    )
 
     def __len__(self) -> int:
         return sum(len(s) for s in self.segments)
@@ -200,6 +273,9 @@ class Construct:
             flags = ",".join(
                 f for f, on in (("placeholder", s.placeholder), ("inferred", s.inferred)) if on
             )
+            if s.feature:
+                flags += (("," if flags else "")
+                          + f"{s.feature.role}/{s.feature.encoding}:{s.feature.id}")
             rows.append(f"{s.name or '-':24s} {pos:6d} {len(s):5d} {s.tag or '-':<6s} {flags}")
             pos += len(s)
         rows.append(f"{'TOTAL':24s} {'':6s} {pos:5d}")
@@ -282,6 +358,43 @@ def annotation_rows(con: Construct, indent: int = 0, prefix_width: int = 4,
             col = start + len(label)
         rows.append(Row(chunks=chunks, indent=indent + prefix_width))
     return rows
+
+
+def feature_rows(con: Construct, indent: int = 0, prefix_width: int = 0) -> list[Row]:
+    """Rows locating identifier semantics beneath a construct.
+
+    One row per occurrence keeps multipart barcodes readable and makes the marker's
+    starting column exact.  It is intentionally derived from ``Segment.feature`` rather
+    than colour tags or prose names.
+    """
+    rows, pos = [], 0
+    for s in con:
+        if s.feature:
+            f = s.feature
+            details = [f.label]
+            if f.part:
+                details.append(f.part)
+            rows.append(Row(chunks=[(" " * pos + "^ " + " · ".join(details),
+                                     s.tag, s.inferred)],
+                            indent=indent + prefix_width))
+        pos += len(s)
+    return rows
+
+
+def duplex_rows(con: Construct, label: str = "", *,
+                bottom: Sequence[Segment] | None = None,
+                unpaired: Sequence[str] = ()) -> list[Row]:
+    """A complete final-library duplex with aligned names and feature markers.
+
+    ``Scene`` owns the molecular placement, while the two annotation helpers operate in
+    construct coordinates.  Keeping the gutter calculation here prevents callers from
+    guessing how much room the scene's strand label and 5'/3' end label consume.
+    """
+    scene = Scene.duplex(list(con), label=label, bottom=bottom, unpaired=unpaired)
+    sequence_column = (len(label) + 1 if label else 0) + len("5'- ")
+    return [*scene.rows(),
+            *annotation_rows(con, prefix_width=sequence_column),
+            *feature_rows(con, prefix_width=sequence_column)]
 
 
 def junction_row(con: Construct, left: str, right: str, text: str = "ligation",
@@ -531,7 +644,8 @@ class _Strand:
         return [Segment(s.name, s.top if s.is_role_token() else s.top[::-1],
                         s.tag, s.placeholder, s.inferred,
                         None if s.bottom is None else
-                        (s.bottom if s.is_role_token() else s.bottom[::-1]), s.note)
+                        (s.bottom if s.is_role_token() else s.bottom[::-1]), s.note,
+                        s.feature)
                 for s in reversed(self.segs)]
 
     def text(self) -> str:
@@ -569,7 +683,7 @@ def complement_segments(segs: Sequence[Segment], suffix: str = "'") -> list[Segm
     for s in reversed(segs):
         top = s.bottom_text() if s.is_role_token() else s.bottom_text()[::-1]
         out.append(Segment(s.name + suffix if s.name else "", top, s.tag,
-                           s.placeholder, s.inferred))
+                           s.placeholder, s.inferred, feature=s.feature))
     return out
 
 

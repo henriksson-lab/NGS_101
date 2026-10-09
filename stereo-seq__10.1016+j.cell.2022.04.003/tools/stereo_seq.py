@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg
-from chemdraw import Construct, Row, circle_rows
+from chemdraw import Construct, Row, circle_rows, feature
 from circular import circularize_ssdna
 from multimodal_spatial import surface_capture_rows
 
@@ -13,11 +13,13 @@ NOTES="01_stereo-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2022.04.003">Chen et al., <i>Cell</i> (2022)</a>.'
 SUMMARY="Spatially indexed DNA nanoballs are arrayed and decoded before receiving a UMI and oligo-dT capture sequence. Tissue mRNA is reverse-transcribed on this surface; released cDNA retains the coordinate identifier and is converted to a DNBSEQ library."
 CAVEAT="The paper establishes coordinate-identifier and molecular-identifier roles, but complete STOmics chip and sequencing-primer bases are commercial. They are shown as inferred placeholders and no proprietary sequence is invented."
+SPATIAL=feature("coordinate_identifier","spatial_barcode","unknown")
+UMI_FEATURE=feature("molecular_identifier","umi","random")
 SEQ_PRIMERS=()
 FINAL_LIBRARY=None
 SEQUENCING_ENDING="The completed library is circularized and amplified into sequencing DNA nanoballs. A DNBSEQ/cPAS primer anneals to the repeated platform-adapter site immediately before the coordinate-identifier/UMI-bearing insert. The current primer and adapter bases are proprietary, so the final panel shows the binding geometry and extension direction rather than a fabricated sequence."
 
-LINEAR=Construct([seg("DNBSEQ primer site","P"*18,"r1",placeholder=True,inferred=True),seg("coordinate identifier","C"*25,"cbc",placeholder=True),seg("molecular identifier","M"*10,"umi",placeholder=True),seg("captured cDNA","X"*38,placeholder=True),seg("distal DNBSEQ adapter","Q"*18,placeholder=True,inferred=True)],name="Stereo-seq ssDNA library")
+LINEAR=Construct([seg("DNBSEQ primer site","P"*18,"r1",placeholder=True,inferred=True),seg("coordinate identifier","C"*25,"cbc",placeholder=True,feature=SPATIAL),seg("molecular identifier","M"*10,"umi",placeholder=True,feature=UMI_FEATURE),seg("captured cDNA","X"*38,placeholder=True),seg("distal DNBSEQ adapter","Q"*18,placeholder=True,inferred=True)],name="Stereo-seq ssDNA library")
 CIRCLE=circularize_ssdna(LINEAR,five_prime_phosphate=True)
 
 def sections():

@@ -4,7 +4,7 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,revcomp
+from chemdraw import Construct,Scene,Segment,feature,revcomp
 
 CS1 = "TTGCTAGGACCGGCCTTAAAGC"
 CS2 = "CCTTAGCCGCTAATAGGTGAGC"
@@ -17,7 +17,14 @@ FEATURE_CDNA_FORWARD = nx.READ1_PRIMER[-27:]
 FEATURE_CDNA_REVERSE = rt.SMART_HANDLE[:22]
 FEATURE_SI_FORWARD = il.P5 + nx.READ1_PRIMER
 FEATURE_SI_REVERSE = il.TRUSEQ_READ2 + FEATURE_CDNA_REVERSE
-def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
+CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-3prime-v3")
+UMI_FEATURE=feature("umi","umi","random")
+GUIDE_FEATURE=feature("guide","guide_barcode","unknown")
+I7_FEATURE=feature("sample_index_i7","sample_index","unknown")
+FEATURES={"cell barcode":CELL_BARCODE,"UMI":UMI_FEATURE,"protospacer":GUIDE_FEATURE,
+          "protospacer complement":GUIDE_FEATURE,"i7 reverse complement":I7_FEATURE}
+def seg(name,top,tag=None,**kw):
+    kw.setdefault("feature",FEATURES.get(name)); return Segment(name=name,top=top,tag=tag,**kw)
 def bead_primer(): return [seg("Partial Read 1N",PARTIAL_R1N,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*12,"umi",placeholder=True),seg("Capture Sequence 1",CS1,"tso")]
 def tso(): return [seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("ACAT","ACAT","tso"),seg("rGrGrG","GGG","tso")]
 def sgrna():
@@ -46,4 +53,8 @@ def final_library():
     problems=sp.verify(lib,SEQ_PRIMERS,required_roles=("Read 1","Index 1 (i7)","Read 2"))
     if problems: raise ValueError("invalid CRISPR Screening library: "+"; ".join(problems))
     return lib
-def read_layout(): return [("Read 1, 1–16","cell barcode"),("Read 1, 17–28","UMI"),("Read 2, 1–30","TSO-derived sequence"),("Read 2, 31–50","protospacer / guide identity"),("Read 2, 51 onward","CR1 scaffold")]
+def read_layout():
+    spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28,"Read 2":50})
+    rows=lambda role:[(f"{x.read}, {x.cycles}",x.feature.label) for x in spans if x.read==role]
+    return [*rows("Read 1"),("Read 2, 1–30","TSO-derived sequence"),
+            *rows("Read 2"),("Read 2, 51 onward","CR1 scaffold")]

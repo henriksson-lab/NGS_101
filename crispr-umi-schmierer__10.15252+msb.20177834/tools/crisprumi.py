@@ -31,7 +31,7 @@ sys.path.append(str(_HERE.parents[1] / "crispr-mip__10.1101+2024.03.28.587082" /
 import crisprmip as cm
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import crispr
 from crispr import SCAFFOLD_V1, SPACER_LEN, U6_3PRIME_WITH_G, clone_guide
 from plasmid import Plasmid, read_genbank
@@ -244,7 +244,15 @@ I7_CYCLES = 6                                     # i7 = the RSL  <-- note which
 
 
 # ----------------------------------------------------- the finished library, as sequenced
+_GUIDE_FEATURE = feature("guide", "guide_barcode", "unknown")
+_SAMPLE_INDEX_FEATURE = feature("sample_index_i5", "sample_index", "unknown")
+_RSL_FEATURE = feature("rsl_lineage_barcode", "umi", "random")
+_FEATURES = {"sgRNA spacer": _GUIDE_FEATURE, "i5 sample index": _SAMPLE_INDEX_FEATURE,
+             "RSL": _RSL_FEATURE}
+
+
 def _seg(name, top, tag=None, **kw) -> Segment:
+    kw.setdefault("feature", _FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

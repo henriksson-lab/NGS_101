@@ -3,7 +3,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,complement_segments
+from chemdraw import Construct,Scene,Segment,complement_segments,feature
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
 def inferred(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,inferred=True,**kw)
@@ -18,9 +18,9 @@ def tagmented_scene():
 
 SEQ_PRIMERS=tuple(sp.NEXTERA[k] for k in ("R1","I1","I2","R2"))
 def final_library(insert_nt=34):
- lib=Construct([inferred("P5",il.P5,"p5"),inferred("i5","I"*8,"cbc",placeholder=True),inferred("s5",nx.S5,"s5"),inferred("ME",nx.ME,"me"),
+ lib=Construct([inferred("P5",il.P5,"p5"),inferred("i5","I"*8,"cbc",placeholder=True,feature=feature("sample_i5","sample_index","unknown")),inferred("s5",nx.S5,"s5"),inferred("ME",nx.ME,"me"),
  seg("accessible genomic DNA","X"*insert_nt,placeholder=True),inferred("ME reverse complement",nx.ME_RC,"me"),inferred("s7 reverse complement",nx.S7_RC,"s7"),
- inferred("i7 reverse complement","J"*8,"cbc",placeholder=True),inferred("P7 reverse complement",il.P7_RC,"p7")],name="inferred Pi-ATAC-seq library")
+ inferred("i7 reverse complement","J"*8,"cbc",placeholder=True,feature=feature("sample_i7","sample_index","unknown")),inferred("P7 reverse complement",il.P7_RC,"p7")],name="inferred Pi-ATAC-seq library")
  problems=sp.verify(lib,SEQ_PRIMERS)
  if problems: raise ValueError("invalid inferred Pi-ATAC-seq library: "+"; ".join(problems))
  return lib

@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 from rna_special import adapter_ligation_scene, circular_cdna_rows
 
 TITLE = "Ribo-seq — ribosome profiling"
@@ -28,7 +28,8 @@ FINAL_LIBRARY = Construct([
     seg("Read 1 site after shared ACAC", il.TRUSEQ_READ1[4:], "r1"),
     seg("ribosome footprint cDNA", "X" * 30, placeholder=True),
     seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-    seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True),
+    seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True,
+        feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published indexed reverse-primer set")),
     seg("P7 reverse complement", il.P7_RC, "p7"),
 ], name="single-index ribosome-profiling library")
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"])

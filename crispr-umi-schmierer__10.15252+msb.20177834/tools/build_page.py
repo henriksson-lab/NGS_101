@@ -78,7 +78,10 @@ def render() -> str:
         panel(read1_scene().rows(), cls="small",
               caption="The paper’s CRIPSRSEQ primer ends on the U6 +1 G, so Read 1 starts at guide base 1."),
         sp.section(lib, C.SEQ_PRIMERS,
-                   intro="Read 1 reports the 20-nt guide, Index 1 reports the 6-nt RSL, and the forward-strand i5 read reports the sample index."),
+                   intro="Read 1 reports the 20-nt guide, Index 1 reports the 6-nt RSL, and the forward-strand i5 read reports the sample index.",
+                   read_lengths={"Read 1": C.READ1_CYCLES,
+                                 "Index 1 (i7)": C.I7_CYCLES,
+                                 "Index 2 (i5)": C.I5_CYCLES}),
         '</div>',
     ])
 

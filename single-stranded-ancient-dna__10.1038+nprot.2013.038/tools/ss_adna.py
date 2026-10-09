@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene
+from chemdraw import Construct, Row, Scene, feature
 
 TITLE = "Single-stranded library preparation for ancient or damaged DNA"
 NOTES = "01_single-stranded-library.html"
@@ -17,11 +17,13 @@ CAVEAT = "Modified oligos are shown with their published modifications. The dama
 CL72 = "ACACTCTTTCCCTACACGACGCTCTTCC"
 GES_INDEX2 = "GGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 FINAL_LIBRARY = Construct([
-    seg("P5", il.P5, "p5"), seg("i5", "J" * 8, "cbc", placeholder=True),
+    seg("P5", il.P5, "p5"), seg("i5", "J" * 8, "cbc", placeholder=True,
+                                  feature=feature("sample_i5", "sample_index", "unknown")),
     seg("CL72 custom Read 1 site", CL72, "r1"),
     seg("ancient DNA insert", "X" * 34, placeholder=True), seg("dA junction", "A"),
     seg("CL9 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-    seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True),
+    seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+        feature=feature("sample_i7", "sample_index", "unknown")),
     seg("P7 reverse complement", il.P7_RC, "p7")], name="single-stranded ancient-DNA library")
 SEQ_PRIMERS = (sp.custom("Read 1", "CL72", CL72, "Gansauge & Meyer 2013"),
                sp.TRUSEQ["I1"],

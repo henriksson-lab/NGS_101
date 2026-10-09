@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from crispr import SCAFFOLD_V1, U6_PLUS1
 from padlock import Capture, Padlock, capture
 from plasmid import Plasmid
@@ -80,6 +80,10 @@ BACKBONE_LEN = len(backbone())                              # 84
 # 126 nt, and decompose exactly as above. We follow Table S2 and flag the discrepancy.
 PROBE_LEN_IN_TEXT = 134
 
+UMI_FEATURE = feature("probe_umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "whitelist",
+                     whitelist="crispr-mip-nine-probe-index-set")
+
 def probe_construct(index: str = PROBE_INDICES[0]) -> Construct:
     """The probe as ordered, 5'->3': lig arm - UMI - Read 2 site - i7 - Read 1 site - ext arm.
 
@@ -88,9 +92,9 @@ def probe_construct(index: str = PROBE_INDICES[0]) -> Construct:
     """
     return Construct([
         Segment("ligation arm", LIG_ARM, "r3"),
-        Segment("UMI", UMI, "umi", placeholder=True),
+        Segment("UMI", UMI, "umi", placeholder=True, feature=UMI_FEATURE),
         Segment("Read 2 site", READ2_SITE, "t7"),
-        Segment("i7", index, None),
+        Segment("i7", index, None, feature=I7_FEATURE),
         Segment("Read 1 site", READ1_SITE, "s5"),
         Segment("extension arm", EXT_ARM, "r1"),
     ], name="CRISPR-MIP probe")

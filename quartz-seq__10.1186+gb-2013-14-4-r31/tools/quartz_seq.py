@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -79,7 +79,9 @@ def final_library(insert_nt: int = 36) -> Construct:
         seg("TruSeq Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
         seg("cDNA fragment", "X" * insert_nt, placeholder=True),
         seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        seg("i7", TRSI2_INDEX, "cbc"),
+        seg("i7", TRSI2_INDEX, "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist",
+                            whitelist="published TRSI-2 index set")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="Quartz-Seq sequencing library")
     for primer in SEQ_PRIMERS:

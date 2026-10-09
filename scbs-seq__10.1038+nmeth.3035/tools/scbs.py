@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 
 
 def _seg(name, top, tag=None, **kw):
@@ -47,7 +47,8 @@ def ipcrtag_primer_segments() -> list[Segment]:
     """Quail iPCRTag primer family; the eight-base member index is variable."""
     return [
         _seg("P7", il.P7, "p7"),
-        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True),
+        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True,
+             feature=feature("cell_i7", "cell_barcode", "whitelist", whitelist="published iPCRTag primer set")),
         _seg("3' arm", IPCRTAG_3_ARM, "r2"),
     ]
 
@@ -67,7 +68,8 @@ def final_library(insert_nt: int = 28) -> Construct:
         _seg("bisulfite insert", insert, placeholder=True),
         _seg("oligo2 N9", "N" * RANDOM_NT, placeholder=True),
         _seg("index-read site", revcomp(IPCRTAG_3_ARM), "r2"),
-        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True),
+        _seg("i7", "I" * IPCRTAG_INDEX_NT, "cbc", placeholder=True,
+             feature=feature("cell_i7", "cell_barcode", "whitelist", whitelist="published iPCRTag primer set")),
         _seg("P7'", il.P7_RC, "p7"),
     ], name="scBS-seq indexed library")
     problems = sp.verify(lib, SEQ_PRIMERS,

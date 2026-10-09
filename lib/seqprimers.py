@@ -17,7 +17,7 @@ from dataclasses import dataclass, replace
 
 import illumina as il
 import nextera as nx
-from chemdraw import Construct, Row, panel, revcomp, strand_row
+from chemdraw import Construct, MolecularFeature, Row, feature_rows, panel, revcomp, strand_row
 
 ROLES = ("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2")
 
@@ -72,6 +72,21 @@ class Landing:
     reads_from: str    # segment the read starts in
     free5: int = 0     # 5'-terminal primer bases with no exact partner (harmless: extension
                        # starts at the 3' end, which must match)
+
+
+@dataclass(frozen=True)
+class FeatureReadSpan:
+    """One annotated molecular feature observed in a declared sequencing read."""
+    read: str
+    feature: MolecularFeature
+    segment: str
+    cycle_start: int
+    cycle_end: int
+
+    @property
+    def cycles(self) -> str:
+        return (str(self.cycle_start) if self.cycle_start == self.cycle_end else
+                f"{self.cycle_start}–{self.cycle_end}")
 
 
 def _seg_at(lib: Construct, pos: int) -> str:
@@ -161,10 +176,55 @@ def verify(lib: Construct, primers, required_roles=ROLES) -> list[str]:
     return errs
 
 
+def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list[FeatureReadSpan]:
+    """Map annotated regions to read cycles from primer geometry and declared run lengths.
+
+    Cycle coordinates are never stored on a segment: they follow from the final construct,
+    the primer landing strand, and the protocol's actual number of cycles.  Features beyond
+    a read's declared length are omitted; a feature crossing the end is clipped.
+    """
+    unknown = set(read_lengths) - {p.role for p in primers}
+    if unknown:
+        raise ValueError(f"read lengths name undeclared roles: {', '.join(sorted(unknown))}")
+    if any(not isinstance(n, int) or n <= 0 for n in read_lengths.values()):
+        raise ValueError("read lengths must be positive integers")
+    coords, pos = [], 0
+    for s in lib:
+        coords.append((s, pos, pos + len(s)))
+        pos += len(s)
+    out = []
+    for primer in primers:
+        limit = read_lengths.get(primer.role)
+        if limit is None:
+            continue
+        hit = locate(lib, primer)
+        if hit is None:
+            continue
+        for segment, start, end in coords:
+            if not segment.feature:
+                continue
+            if hit.strand == "bottom":
+                if end <= hit.end:
+                    continue
+                first = max(start, hit.end) - hit.end + 1
+                last = end - hit.end
+            else:
+                if start >= hit.start:
+                    continue
+                first = hit.start - min(end, hit.start) + 1
+                last = hit.start - start
+            if first > limit:
+                continue
+            out.append(FeatureReadSpan(primer.role, segment.feature, segment.name,
+                                       first, min(last, limit)))
+    return sorted(out, key=lambda x: (ROLES.index(x.read), x.cycle_start, x.feature.id))
+
+
 def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the final library") -> str:
     """Draw every declared sequencing primer at its computed site on the final duplex."""
     located = [(p, locate(lib, p)) for p in primers]
-    gutter = len("final library  ")
+    label = "final library  "
+    sequence_column = len(label + "5'- ")
 
     def primer_row(p: SeqPrimer, hit: Landing) -> Row:
         role = f"{p.role} / {p.name}"
@@ -172,11 +232,11 @@ def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the f
         if hit.strand == "bottom":
             # Same sense as the top strand; a 5' flap extends to the left of the match.
             start = hit.start - hit.free5
-            return Row(chunks=[(p.seq, tag, False)], indent=gutter + start, prefix="5'- ",
+            return Row(chunks=[(p.seq, tag, False)], indent=len(label) + start, prefix="5'- ",
                        suffix=f" -3'  --------> {role}")
         # Antiparallel below the top strand.  Reverse for the left-to-right 3'->5' drawing;
         # a 5' flap consequently extends to the right of the exact match.
-        return Row(chunks=[(p.seq[::-1], tag, False)], indent=gutter + hit.start, prefix="3'- ",
+        return Row(chunks=[(p.seq[::-1], tag, False)], indent=len(label) + hit.start, prefix="3'- ",
                    suffix=f" -5'  <-------- {role}")
 
     above = [primer_row(p, h) for p, h in located if h and h.strand == "bottom"]
@@ -185,7 +245,9 @@ def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the f
                             None, False)]) for p, h in located if h is None]
     top = strand_row(lib, "top", prefix="final library  5'- ", suffix=" -3'")
     bottom = strand_row(lib, "bottom", prefix="               3'- ", suffix=" -5'")
-    return panel([*above, top, bottom, *below, *missing], cls="long", caption=caption)
+    semantics = feature_rows(lib, prefix_width=sequence_column)
+    return panel([*above, top, bottom, *below, *semantics, *missing],
+                 cls="long", caption=caption)
 
 
 def unavailable_diagram(lib: Construct, reason: str,
@@ -194,12 +256,14 @@ def unavailable_diagram(lib: Construct, reason: str,
     """Draw the final duplex and make an unsupported primer placement visibly absent."""
     rows = [strand_row(lib, "top", prefix="final library  5'- ", suffix=" -3'"),
             strand_row(lib, "bottom", prefix="               3'- ", suffix=" -5'")]
+    rows.extend(feature_rows(lib, prefix_width=len("final library  5'- ")))
     rows.extend(Row(chunks=[(f"{role} primer: ?  {reason}", None, False)]) for role in roles)
     return panel(rows, cls="long", caption=caption)
 
 
 def section(lib: Construct, primers, heading: str = "Sequencing primers",
-            intro: str = "", required_roles=ROLES) -> str:
+            intro: str = "", required_roles=ROLES,
+            read_lengths: dict[str, int] | None = None) -> str:
     """Render the page section. Raises if `verify` finds anything."""
     errs = verify(lib, primers, required_roles=required_roles)
     if errs:
@@ -225,9 +289,26 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
                     f"<td><code>5'-{p.seq}-3'</code> ({len(p.seq)} nt){note}</td>"
                     f"<td>{where}</td><td>{first}</td></tr>")
     intro_html = f"<p><info>{intro}</info></p>\n" if intro else ""
+    feature_table = ""
+    if read_lengths:
+        spans = feature_spans(lib, primers, read_lengths)
+        if spans:
+            body = "\n".join(
+                f"<tr><td>{html.escape(x.read)}</td><td>{x.cycles}</td>"
+                f"<td>{html.escape(x.feature.label)}</td>"
+                f"<td>{html.escape(x.segment)}</td>"
+                f"<td>{html.escape(x.feature.encoding)}</td></tr>" for x in spans
+            )
+            feature_table = ("\n<h3>Identifier cycles</h3>\n"
+                "<p><info>Cycle ranges are computed from the final construct, primer "
+                "landing direction and declared run length.</info></p>\n"
+                "<div class=\"tw\"><table><tr><th>Read</th><th>Cycles</th>"
+                "<th>Role</th><th>Region</th><th>Encoding</th></tr>\n" + body
+                + "\n</table></div>\n")
     return (f"<h2>{html.escape(heading)}</h2>\n{intro_html}"
             "<p><info>Sequences come from <code>lib/</code>; the landing site and the first "
             "bases of each read are computed from this page's final library, so they cannot "
             "drift from it.</info></p>\n" + diagram(lib, primers) + "\n<div class=\"tw\"><table>\n"
             "<tr><th>Read</th><th>Primer</th><th>Sequence</th><th>Lands on</th>"
-            "<th>First bases read</th></tr>\n" + "\n".join(rows) + "\n</table></div>\n")
+            "<th>First bases read</th></tr>\n" + "\n".join(rows)
+            + "\n</table></div>\n" + feature_table)

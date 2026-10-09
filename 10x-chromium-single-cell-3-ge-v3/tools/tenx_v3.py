@@ -3,10 +3,15 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment
+from chemdraw import Construct,Scene,Segment,feature
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
-def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
+CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-3prime-v3")
+UMI_FEATURE=feature("umi","umi","random")
+SAMPLE_INDEX=feature("sample_index_i7","sample_index","unknown")
+FEATURES={"cell barcode":CELL_BARCODE,"UMI":UMI_FEATURE,"i7 reverse complement":SAMPLE_INDEX}
+def seg(name,top,tag=None,**kw):
+    kw.setdefault("feature",FEATURES.get(name)); return Segment(name=name,top=top,tag=tag,**kw)
 def bead_oligo(): return [seg("Partial Read 1",PARTIAL_R1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*12,"umi",placeholder=True),seg("poly(dT)30","T"*30)]
 def tso(): return [seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("ACAT","ACAT","tso"),seg("rGrGrG","GGG","tso")]
 def capture_scene():
@@ -26,4 +31,4 @@ def final_library(insert_nt=36):
     problems=sp.verify(lib,SEQ_PRIMERS,required_roles=("Read 1","Index 1 (i7)","Read 2"))
     if problems: raise ValueError("invalid v3 library: "+"; ".join(problems))
     return lib
-def read1_layout(): return [("1–16","cell barcode"),("17–28","UMI")]
+def read1_layout(): return [(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28})]

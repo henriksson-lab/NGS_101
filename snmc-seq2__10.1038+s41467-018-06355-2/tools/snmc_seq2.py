@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from base_conversion import bisulfite_path
 from batch_ngs import seg, truseq_library
-from chemdraw import Row, Scene
+from chemdraw import Row, Scene, feature
 
 TITLE = "snmC-seq2 — indexed single-nucleus methylomes"
 NOTES = "01_snmc-seq2.html"
@@ -17,7 +17,8 @@ INLINE = "CGATGT"  # representative P5L_AD002 random-primer barcode
 
 
 def library():
-    inserts = [seg("6-nt inline cell barcode", INLINE, "cbc"),
+    inserts = [seg("6-nt inline cell barcode", INLINE, "cbc",
+                   feature=feature("cell_inline", "cell_barcode", "whitelist", whitelist="published random-primer barcode set")),
                seg("random N9", "N" * 9, placeholder=True),
                seg("bisulfite-converted genomic insert", "X" * 36, placeholder=True),
                seg("Adaptase-added bases", "[Adaptase bases]", placeholder=True, inferred=True,

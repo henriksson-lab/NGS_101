@@ -28,7 +28,8 @@ def repair_and_dA_tail(insert: Construct, *, inferred: bool = False) -> EndPrepa
 
 def dA_tailed_scene(product: EndPreparedDuplex, label: str = "end-prepared DNA") -> Scene:
     """Draw the two opposed 3' dA overhangs from an :class:`EndPreparedDuplex`."""
-    body = [Segment(s.name, s.top, s.tag, s.placeholder, s.inferred, s.bottom, s.note)
+    body = [Segment(s.name, s.top, s.tag, s.placeholder, s.inferred, s.bottom, s.note,
+                    s.feature)
             for s in product.insert]
     top_a = Segment("top 3-prime dA", product.three_prime_overhang,
                     inferred=product.overhang_inferred)

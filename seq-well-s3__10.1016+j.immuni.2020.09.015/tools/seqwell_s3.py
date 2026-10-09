@@ -5,10 +5,17 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
+            "i7 index read": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

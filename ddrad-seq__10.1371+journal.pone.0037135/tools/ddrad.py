@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment
+from chemdraw import Construct, Row, Scene, Segment, feature
 from restriction import ECORI, MSPI
 
 TITLE = "ddRAD-seq — double-digest RAD sequencing"
@@ -33,13 +33,17 @@ def final_library() -> tuple[Construct, tuple]:
     lib = Construct([
         Segment("P5 before shared ACAC", il.P5[:-4], "p5"),
         Segment("Read 1 site (shares ACAC with P5)", il.TRUSEQ_READ1, "r1"),
-        Segment("inline sample barcode", INLINE, "cbc"),
+        Segment("inline sample barcode", INLINE, "cbc",
+                feature=feature("inline_sample_barcode", "sample_index", "whitelist",
+                                whitelist="published P1 adapter barcode set")),
         Segment("EcoRI remnant", ECORI.overhang),
         Segment("size-selected genomic insert", "X" * 34, placeholder=True),
         Segment("MspI remnant", MSPI.overhang),
         Segment("Read 2 site start", "A", "r2"),
         Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        Segment("6-nt i7", I7, "cbc"),
+        Segment("6-nt i7", I7, "cbc",
+                feature=feature("sample_i7", "sample_index", "whitelist",
+                                whitelist="published indexed PCR primer set")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="ddRAD-seq library")
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])

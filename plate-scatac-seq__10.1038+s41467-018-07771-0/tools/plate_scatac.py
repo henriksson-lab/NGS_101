@@ -3,7 +3,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,complement_segments,revcomp
+from chemdraw import Construct,Scene,Segment,complement_segments,feature,revcomp
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
 
@@ -26,9 +26,9 @@ def tagmented_scene():
 
 SEQ_PRIMERS=tuple(sp.NEXTERA[k] for k in ("R1","I1","I2","R2"))
 def final_library(insert_nt=34):
-    lib=Construct([seg("P5",il.P5,"p5"),seg("i5",I5_S502,"cbc"),seg("s5",nx.S5,"s5"),seg("ME",nx.ME,"me"),
+    lib=Construct([seg("P5",il.P5,"p5"),seg("i5",I5_S502,"cbc",feature=feature("sample_i5","sample_index","whitelist",whitelist="Nextera index set")),seg("s5",nx.S5,"s5"),seg("ME",nx.ME,"me"),
       seg("accessible genomic DNA","X"*insert_nt,placeholder=True),seg("ME reverse complement",nx.ME_RC,"me"),seg("s7 reverse complement",nx.S7_RC,"s7"),
-      seg("i7 reverse complement",revcomp(I7_N701),"cbc"),seg("P7 reverse complement",il.P7_RC,"p7")],name="Plate_scATAC-seq library")
+      seg("i7 reverse complement",revcomp(I7_N701),"cbc",feature=feature("sample_i7","sample_index","whitelist",whitelist="Nextera index set")),seg("P7 reverse complement",il.P7_RC,"p7")],name="Plate_scATAC-seq library")
     problems=sp.verify(lib,SEQ_PRIMERS)
     if problems: raise ValueError("invalid Plate_scATAC-seq library: "+"; ".join(problems))
     return lib

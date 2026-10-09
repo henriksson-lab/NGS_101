@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg, truseq_library
-from chemdraw import Row
+from chemdraw import Row, feature
 from multimodal_spatial import adjacent_probe_scene
 
 TITLE="10x Fixed RNA Profiling (Flex)"
@@ -14,8 +14,10 @@ SUMMARY="Pairs of gene-specific probes hybridize adjacently on formaldehyde-fixe
 CAVEAT="Probe-pair and gel-bead sequences are commercial. Their published adjacency, ligation and barcode roles are drawn with inferred placeholders."
 
 LIB, PRIMERS = truseq_library([
-    seg("cell barcode", "B"*16, "cbc", placeholder=True, inferred=True),
-    seg("UMI", "U"*12, "umi", placeholder=True, inferred=True),
+    seg("cell barcode", "B"*16, "cbc", placeholder=True, inferred=True,
+        feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="10x Flex whitelist")),
+    seg("UMI", "U"*12, "umi", placeholder=True, inferred=True,
+        feature=feature("umi", "umi", "random")),
     seg("ligated probe-pair identifier", "X"*30, placeholder=True, inferred=True)],
     "Flex gene-expression library", inferred_adapters=True)
 FINAL_LIBRARIES=(("Final probe-derived gene-expression library", LIB, PRIMERS,

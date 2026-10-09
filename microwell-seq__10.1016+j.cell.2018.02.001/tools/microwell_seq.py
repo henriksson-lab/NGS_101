@@ -5,10 +5,17 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    if name == "UMI":
+        kw.setdefault("feature", UMI_FEATURE)
+    elif name == "i7 index read":
+        kw.setdefault("feature", I7_FEATURE)
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -25,7 +32,10 @@ CUSTOM_R1 = P5_SPACER + rt.SMART_HANDLE + BEAD_END
 
 
 def barcode(name: str) -> Segment:
-    return seg(name, "B" * 6, "cbc", placeholder=True)
+    part = name.replace("barcode ", "round ")
+    return seg(name, "B" * 6, "cbc", placeholder=True,
+               feature=feature(name.replace(" ", "_"), "cell_barcode", "combinatorial",
+                               group="cell_barcode", part=part))
 
 
 def bead_oligo() -> Construct:
@@ -86,6 +96,8 @@ def final_scene() -> Scene:
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    return [("1&ndash;6", "cell barcode 1"), ("7&ndash;21", "linker 1"),
-            ("22&ndash;27", "cell barcode 2"), ("28&ndash;42", "linker 2"),
-            ("43&ndash;48", "cell barcode 3"), ("49&ndash;54", "UMI")]
+    spans = sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 54})
+    by_start = {x.cycle_start: (x.cycles, x.feature.label +
+                (f" ({x.feature.part})" if x.feature.part else "")) for x in spans}
+    return [by_start[1], ("7–21", "linker 1"), by_start[22],
+            ("28–42", "linker 2"), by_start[43], by_start[49]]

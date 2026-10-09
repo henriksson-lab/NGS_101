@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, revcomp
+from chemdraw import Construct, Row, Scene, feature, revcomp
 
 TITLE = "RAMPAGE — paired-end promoter profiling"
 NOTES = "01_rampage.html"
@@ -19,7 +19,8 @@ R1_PRIMER = TSO_HANDLE
 R2_PRIMER = RT_HANDLE
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"), seg("custom Read 1 site", R1_PRIMER, "r1"),
-    seg("inline sample barcode", "B"*6, "cbc", placeholder=True),
+    seg("inline sample barcode", "B"*6, "cbc", placeholder=True,
+        feature=feature("sample_inline", "sample_index", "whitelist", whitelist="published RAMPAGE TSO set")),
     seg("5-prime-complete cDNA", "X"*42, placeholder=True),
     seg("custom Read 2 site reverse complement", revcomp(R2_PRIMER), "r2"),
     seg("P7 reverse complement", il.P7_RC, "p7")], name="RAMPAGE library")

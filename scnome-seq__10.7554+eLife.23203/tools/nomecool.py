@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import seqprimers as sp
 
@@ -58,7 +58,8 @@ def nome_library() -> Construct:
         seg("kit remnant'", "?", inferred=True, placeholder=True,
             note="Pico Methyl-Seq internal primer sequence and length not published"),
         seg("Read 2 arm'", revcomp(il.TRUSEQ_READ2), "r2"),
-        seg("i7'", "I" * INDEX_NT_NOME, "cbc", placeholder=True),
+        seg("i7'", "I" * INDEX_NT_NOME, "cbc", placeholder=True,
+            feature=feature("sample_i7", "sample_index", "unknown")),
         seg("P7'", il.P7_RC, "p7"),
     ], name="scNOMe-seq library")
     _validate(con)
@@ -79,7 +80,8 @@ def cool_library() -> Construct:
         seg("primer-2 handle'", known, "r2"),
         seg("reverse-primer extension", arm[len(known):], "r2", inferred=True,
             note="standard TruSeq-shaped NEB indexed primer; exact product not printed"),
-        seg("i7'", "I" * INDEX_NT_COOL, "cbc", placeholder=True, inferred=True),
+        seg("i7'", "I" * INDEX_NT_COOL, "cbc", placeholder=True, inferred=True,
+            feature=feature("sample_i7", "sample_index", "unknown")),
         seg("P7'", il.P7_RC, "p7", inferred=True),
     ], name="scCOOL-seq library")
     _validate(con)

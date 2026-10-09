@@ -4,7 +4,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -47,7 +47,8 @@ def transposome_scene(which: str = "A") -> Scene:
 
 def bead_oligo() -> list[Segment]:
     return [kit_boundary("P5", il.P5, "p5"),
-            kit_boundary("GEM barcode", "N" * 16, "cbc", placeholder=True),
+            kit_boundary("GEM barcode", "N" * 16, "cbc", placeholder=True,
+                         feature=feature("cell_gem", "cell_barcode", "whitelist", whitelist="10x ATAC whitelist", group="cell_id", part="GEM")),
             kit_boundary("s5", nx.S5, "s5")]
 
 
@@ -65,9 +66,11 @@ def final_library(insert_nt: int = 32) -> Construct:
         *bead_oligo(), seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("opposite mosaic end", nx.ME_RC, "me"),
-        seg("Tn5 barcode, read orientation", revcomp(TN5_BARCODE), "cbc"),
+        seg("Tn5 barcode, read orientation", revcomp(TN5_BARCODE), "cbc",
+            feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc"),
+        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published P7 index set")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="txci-ATAC sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)

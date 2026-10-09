@@ -10,7 +10,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, circle_rows
+from chemdraw import Construct, Row, Scene, circle_rows, feature
 
 
 # Illumina's mate-pair technical note prints the common, duplicated junction as
@@ -35,7 +35,8 @@ def recovered_truseq_library() -> tuple[Construct, tuple]:
         seg("P5", il.P5, "p5"), seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
         *insert, seg("dA junction", "A"),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True),
+        seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="Nextera mate-pair junction library")
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])

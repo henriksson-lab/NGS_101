@@ -4,10 +4,22 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
+                         group="cell_barcode", part="indexed Tn5 round")
+DROPLET_FEATURE = feature("cell_barcode_droplet", "cell_barcode", "combinatorial",
+                          group="cell_barcode", part="droplet")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"round-1 barcode": ROUND1_FEATURE,
+            "round-1 barcode reverse complement": ROUND1_FEATURE,
+            "droplet barcode": DROPLET_FEATURE, "UMI": UMI_FEATURE,
+            "i7 sample index read": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

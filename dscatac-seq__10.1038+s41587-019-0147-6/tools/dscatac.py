@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 import illumina as il
 import nextera as nx
-from chemdraw import Construct, Scene, Segment
+from chemdraw import Construct, Scene, Segment, feature
 
 C1="TATGCATGAC"; C2="AGTCACTGAG"; BC_NT=7; TN5_BC_NT=6
 REP_TN5_BC="AAAGAA"
@@ -13,15 +13,15 @@ REP_TN5_BC="AAAGAA"
 def _s(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 
 def bead_published_segments():
-    return [_s("BC1","N"*BC_NT,"cbc",placeholder=True),
+    return [_s("BC1","N"*BC_NT,"cbc",placeholder=True,feature=feature("cell_bc1","cell_barcode","whitelist",whitelist="published bead barcode set",group="cell_id",part="BC1")),
             _s("phase block","NN",placeholder=True),_s("constant 1",C1),
-            _s("BC2","N"*BC_NT,"cbc",placeholder=True),_s("constant 2",C2),
-            _s("BC3","N"*BC_NT,"cbc",placeholder=True),_s("s5 primer",nx.S5,"s5")]
+            _s("BC2","N"*BC_NT,"cbc",placeholder=True,feature=feature("cell_bc2","cell_barcode","whitelist",whitelist="published bead barcode set",group="cell_id",part="BC2")),_s("constant 2",C2),
+            _s("BC3","N"*BC_NT,"cbc",placeholder=True,feature=feature("cell_bc3","cell_barcode","whitelist",whitelist="published bead barcode set",group="cell_id",part="BC3")),_s("s5 primer",nx.S5,"s5")]
 
 def tn5_r1(protocol):
     if protocol=="dscATAC-seq": return [_s("s5",nx.S5,"s5"),_s("ME",nx.ME,"me")]
     if protocol=="dsciATAC-seq": return [_s("s5",nx.S5,"s5"),
-        _s("Tn5 barcode",REP_TN5_BC,"cbc"),_s("ME",nx.ME,"me")]
+        _s("Tn5 barcode",REP_TN5_BC,"cbc",feature=feature("cell_tn5","cell_barcode","whitelist",whitelist="published Tn5 barcode set",group="cell_id",part="Tn5")),_s("ME",nx.ME,"me")]
     raise ValueError(protocol)
 
 def bead_priming_scene():
@@ -44,11 +44,11 @@ def filled_fragment(protocol):
 
 def final_library(protocol):
     inner=[*bead_published_segments()]
-    if protocol=="dsciATAC-seq": inner.append(_s("Tn5 barcode", "N"*TN5_BC_NT,"cbc",placeholder=True))
+    if protocol=="dsciATAC-seq": inner.append(_s("Tn5 barcode", "N"*TN5_BC_NT,"cbc",placeholder=True,feature=feature("cell_tn5","cell_barcode","whitelist",whitelist="published Tn5 barcode set",group="cell_id",part="Tn5")))
     elif protocol!="dscATAC-seq": raise ValueError(protocol)
     inner += [_s("ME",nx.ME,"me"),_s("genomic insert","XXXXXXXX...XXXXXXXX",placeholder=True),
               _s("ME'",nx.ME_RC,"me"),_s("s7'",nx.S7_RC,"s7"),
-              _s("i7'","N"*8,"cbc",placeholder=True),_s("P7'",il.P7_RC,"p7")]
+              _s("i7'","N"*8,"cbc",placeholder=True,feature=feature("sample_i7","sample_index","unknown")),_s("P7'",il.P7_RC,"p7")]
     return Construct([_s("unpublished bead/P5 arm","[BEAD RELEASE / P5 / R1 ARM]",inferred=True,
                          placeholder=True),*inner],name=f"{protocol} final library")
 

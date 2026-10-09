@@ -167,15 +167,15 @@ PROFILES = {
         read_structure="single-end|index reads|custom sequencing primer",
         selection="guide-specific enrichment"),
     "pacbio": _from(
-        _ILLUMINA, index_introduction="pre-indexed adaptor", index_architecture="PacBio barcode",
+        _ILLUMINA, index_introduction="no index", index_architecture="no barcode",
         platform="PacBio", fragmentation="mechanical", adapter_installation="hairpin / dumbbell",
-        amplification="PCR-free", topology="dumbbell / SMRTbell", identifiers="sample index|no UMI",
+        amplification="PCR-free", topology="dumbbell / SMRTbell", identifiers="no UMI",
         read_structure="long-read consensus"),
     "nanopore": _from(
-        _ILLUMINA, index_introduction="ligation|pre-indexed adaptor",
-        index_architecture="Nanopore barcode", platform="Oxford Nanopore",
+        _ILLUMINA, index_introduction="no index",
+        index_architecture="no barcode", platform="Oxford Nanopore",
         fragmentation="no fragmentation", adapter_installation="ligation|full-length adaptor",
-        amplification="PCR-free", identifiers="sample index|no UMI",
+        amplification="PCR-free", identifiers="no UMI",
         read_structure="single-end"),
     "in_situ": _from(
         _ILLUMINA, index_introduction="reverse transcription", index_architecture="inline barcode",

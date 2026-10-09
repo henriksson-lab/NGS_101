@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, circle_rows, revcomp
+from chemdraw import Construct, Row, Scene, Segment, circle_rows, feature, revcomp
 from circular import circularize_ssdna
 
 TITLE = "Human NET-seq — nascent RNA 3′ ends"
@@ -17,12 +17,14 @@ LINKER = "N" * 6 + "CTGTAGGCACCATCAAT"
 RT_PRIMER = "ATCTCGTATGCCGTCTTCTGCTTG" + "CACTCA" + "TCCGACGATCATTGATGGTGCCTACAG"
 REVERSE_PCR = "CAAGCAGAAGACGGCATACGA"
 SEQUENCING = "TCCGACGATCATTGATGGTGCCTACAG"
+MOLECULAR_BARCODE = feature("molecular_barcode", "umi", "random")
 
 def circular_cdna():
     linear = Construct([
         Segment("RT-primer body", RT_PRIMER[:-len(SEQUENCING)]),
         Segment("custom sequencing-primer site", SEQUENCING, "r1"),
-        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True),
+        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True,
+                feature=MOLECULAR_BARCODE),
         Segment("nascent-RNA 3′-end cDNA", "X" * 36, placeholder=True),
     ], name="human NET-seq first-strand cDNA")
     return circularize_ssdna(linear, five_prime_phosphate=True, three_prime_oh=True)
@@ -31,9 +33,12 @@ CIRCLE = circular_cdna()
 
 def final_library() -> tuple[Construct, tuple]:
     lib = Construct([
-        Segment("Illumina P5/index PCR arm", "[Illumina P5 + index]", "p5+cbc", placeholder=True),
+        Segment("Illumina P5/index PCR arm", "[Illumina P5 + index]", "p5+cbc", placeholder=True,
+                feature=feature("sample_index_region", "sample_index", "unknown",
+                                note="index sub-boundary is not printed")),
         Segment("custom sequencing-primer site", SEQUENCING, "r1"),
-        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True),
+        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True,
+                feature=MOLECULAR_BARCODE),
         Segment("nascent-RNA 3′-end cDNA", "X" * 36, placeholder=True),
         Segment("P7-side reverse-primer complement", revcomp(REVERSE_PCR), "p7"),
     ], name="human NET-seq library")
@@ -50,7 +55,8 @@ def sections():
     lig = Construct([
         Segment("nascent RNA", "X" * 28, placeholder=True),
         Segment("ligation junction", "N", placeholder=True),
-        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True),
+        Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True,
+                feature=MOLECULAR_BARCODE),
         Segment("linker common region", LINKER[6:]),
     ], name="linker-ligated nascent RNA")
     sc = Scene.duplex(list(lig), label="schematic RNA/linker product", unpaired=tuple(s.name + "'" for s in lig))

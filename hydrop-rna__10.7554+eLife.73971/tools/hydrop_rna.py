@@ -4,10 +4,17 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "fixed")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    if name == "UMI": kw.setdefault("feature", UMI_FEATURE)
+    elif name in ("i5", "i5 sample index"): kw.setdefault("feature", I5_FEATURE)
+    elif name in ("i7", "i7 reverse complement"): kw.setdefault("feature", I7_FEATURE)
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -26,7 +33,10 @@ CUSTOM_READ2 = HYI7_SITE
 
 
 def barcode(name: str) -> Segment:
-    return seg(name, "B" * 10, "cbc", placeholder=True)
+    part = name.replace("barcode ", "round ")
+    return seg(name, "B" * 10, "cbc", placeholder=True,
+               feature=feature(name.replace(" ", "_"), "cell_barcode", "combinatorial",
+                               group="cell_barcode", part=part))
 
 
 def bead_oligo() -> Construct:
@@ -119,15 +129,8 @@ def final_scene() -> Scene:
 
 
 def read2_layout() -> list[tuple[str, str]]:
-    names = [("barcode 1", "cell barcode 1"),
-             ("linker 1, plate orientation", "linker 1"),
-             ("barcode 2", "cell barcode 2"),
-             ("linker 2, plate orientation", "linker 2"),
-             ("barcode 3", "cell barcode 3"), ("UMI", "UMI")]
-    rows, cycle = [], 1
-    lib = final_library()
-    for name, label in names:
-        end = cycle + len(lib.get(name)) - 1
-        rows.append((f"{cycle}&ndash;{end}", label))
-        cycle = end + 1
-    return rows
+    spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 2":58})
+    by_start={x.cycle_start:(x.cycles,x.feature.label+(
+              f" ({x.feature.part})" if x.feature.part else "")) for x in spans}
+    return [by_start[1],("11–20","linker 1"),by_start[21],
+            ("31–40","linker 2"),by_start[41],by_start[51]]

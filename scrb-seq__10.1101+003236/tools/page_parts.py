@@ -13,7 +13,7 @@ import scrb as S
 from chemdraw import Scene, Segment, annotation_rows, complement_segments, oligo, panel, strand_row
 import illumina as il
 import nextera as nx
-from page import head, info, table
+from page import head, info
 import seqprimers as sp
 
 PAPERS = {
@@ -126,17 +126,16 @@ def steps(protocol: str) -> str:
 
 def sequencing(protocol: str) -> str:
     lib = S.final_library(protocol)
-    hits = {p.role: sp.locate(lib, p) for p in S.READ_PRIMERS}
-    if any(h is None for h in hits.values()):
-        raise ValueError("incomplete SCRB read layout")
     if protocol == S.SCRB:
-        rows = [("Read 1", "17", "well barcode 1&ndash;6 &middot; UMI 7&ndash;16 &middot; first poly(T) base"),
-                ("Index 1", "8", "plate i7"), ("Read 2", "34", "cDNA, sense to the mRNA")]
+        lengths = {"Read 1": 17, "Index 1 (i7)": 8, "Read 2": 34}
+        intro = ("Read 1 continues one base into poly(T) after its identifiers; Read 2 "
+                 "reports 34 bases of cDNA in the mRNA sense.")
     else:
-        rows = [("Read 1", "16", "well barcode 1&ndash;6 &middot; UMI 7&ndash;16"),
-                ("Index 1", "8", "plate i7"), ("Read 2", "50", "cDNA, sense to the mRNA")]
-    return ('<h2>Read layout</h2>' + sp.diagram(lib, S.READ_PRIMERS)
-            + table(("Read", "Cycles", "Content"), rows) + '</div>')
+        lengths = {"Read 1": 16, "Index 1 (i7)": 8, "Read 2": 50}
+        intro = "Read 1 ends with the UMI; Read 2 reports 50 bases of cDNA in the mRNA sense."
+    return (sp.section(lib, S.READ_PRIMERS, heading="Read layout", intro=intro,
+                       required_roles=tuple(p.role for p in S.READ_PRIMERS),
+                       read_lengths=lengths) + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

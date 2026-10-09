@@ -4,25 +4,28 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import duplex_family_rows, seg, truseq_library
-from chemdraw import Row, Scene
+from chemdraw import Row, Scene, feature
 
 TITLE = "Duplex Sequencing — complementary-strand consensus"
 NOTES = "01_duplex-sequencing.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1073/pnas.1208715109">Schmitt et al., <i>PNAS</i> (2012)</a>.'
 SUMMARY = "Complementary double-stranded random tags identify both strands of each original DNA duplex. PCR descendants first form two single-strand consensuses, which are paired by their swapped end tags to form a duplex consensus."
 CAVEAT = "α and β denote the two independently random 12-nt end tags on one original fragment. They are molecule identifiers, not fixed sequences; complementary strands carry the reciprocal αβ/βα relationship by construction."
+TAG_ALPHA=feature("duplex_tag_alpha","umi","random",group="duplex_tag",part="alpha")
+TAG_BETA=feature("duplex_tag_beta","umi","random",group="duplex_tag",part="beta")
 
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([
-    seg("duplex tag α", "N" * 12, "umi", placeholder=True),
+    seg("duplex tag α", "N" * 12, "umi", placeholder=True, feature=TAG_ALPHA),
     seg("genomic insert", "X" * 38, placeholder=True),
-    seg("duplex tag β", "N" * 12, "umi", placeholder=True)],
+    seg("duplex tag β", "N" * 12, "umi", placeholder=True, feature=TAG_BETA)],
     "Duplex Sequencing library", dual_index=False)
 FINAL_CAPTION = "Each end contributes a 12-nt duplex tag, giving a 24-nt αβ identity for one strand family. The complementary family is recognized by the reciprocal βα tag relationship."
 SEQUENCING_INTRO = "Paired-end sequencing observes the two end tags and the intervening insert. Consensus construction is part of the molecular design: strand families are linked only when their tags are complementary and swapped."
 
 def sections():
     adapter = [seg("asymmetric PCR arm", "X" * 12, placeholder=True),
-               seg("12-nt random tag", "N" * 12, "umi", placeholder=True),
+               seg("12-nt random tag", "N" * 12, "umi", placeholder=True,
+                   feature=feature("duplex_tag_adapter", "umi", "random")),
                seg("3-prime dA", "A")]
     return [
         ("Synthesize a double-stranded random-tag adapter",

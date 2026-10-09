@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg, truseq_library
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -15,21 +15,28 @@ NOTES = "01_multiome.html"
 SOURCE = 'Commercial protocol: 10x Genomics <a href="https://www.10xgenomics.com/support/instruments/chromium-x-series/chromium-next-gem-single-cell-multiome-atac-plus-gene-expression-reagent-kits-user-guide">CG000338 Rev G</a>.'
 SUMMARY = "Nuclei are tagmented before GEM formation. Inside each GEM, one gel-bead barcode is transferred to both accessible-DNA fragments and poly(A)-derived cDNA, yielding linked ATAC and gene-expression libraries from the same nucleus."
 CAVEAT = "10x does not disclose the complete gel-bead oligos. Published barcode, UMI and adapter roles are shown as length-preserving placeholders; no proprietary bases are inferred."
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-multiome-gem-barcode")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
 
 GEX, GEX_PRIMERS = truseq_library([
-    seg("cell barcode", "B" * 16, "cbc", placeholder=True, inferred=True),
-    seg("UMI", "U" * 12, "umi", placeholder=True, inferred=True),
+    seg("cell barcode", "B" * 16, "cbc", placeholder=True, inferred=True,
+        feature=CELL_BARCODE),
+    seg("UMI", "U" * 12, "umi", placeholder=True, inferred=True,
+        feature=UMI_FEATURE),
     seg("poly(dT) junction", "T" * 12, placeholder=True, inferred=True),
     seg("cDNA", "X" * 36, placeholder=True)], "Multiome gene-expression library",
     inferred_adapters=True)
 ATAC = Construct([
     seg("P5", il.P5, "p5"),
-    seg("10x cell barcode", "B" * 16, "cbc", placeholder=True, inferred=True),
+    seg("10x cell barcode", "B" * 16, "cbc", placeholder=True, inferred=True,
+        feature=CELL_BARCODE),
     seg("S5", nx.S5, "s5"), seg("left mosaic end", nx.ME, "me"),
     seg("accessible genomic DNA", "X" * 34, placeholder=True),
     seg("right mosaic end reverse complement", nx.ME_RC, "me"),
     seg("S7 reverse complement", nx.S7_RC, "s7"),
-    seg("i7 sample index", "I" * 8, "cbc", placeholder=True),
+    seg("i7 sample index", "I" * 8, "cbc", placeholder=True, feature=I7_FEATURE),
     seg("P7 reverse complement", il.P7_RC, "p7")], name="Multiome ATAC library")
 ATAC_PRIMERS = tuple(sp.NEXTERA[k] for k in ("R1", "I1", "I2", "R2"))
 _atac_problems = sp.verify(ATAC, ATAC_PRIMERS,

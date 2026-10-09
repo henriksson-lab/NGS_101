@@ -7,7 +7,7 @@ from base_conversion import PartialUDGProduct
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene
+from chemdraw import Construct, Row, Scene, feature
 
 TITLE = "Double-stranded ancient DNA with partial UDG"
 NOTES = "01_partial-udg-ds-adna.html"
@@ -24,14 +24,18 @@ def library():
         return seg(name, bases, tag, inferred=True, **kw)
     lib = Construct([
         adapter("P5", il.P5, "p5"),
-        adapter("7-nt i5", "J"*7, "cbc", placeholder=True),
+        adapter("7-nt i5", "J"*7, "cbc", placeholder=True,
+                feature=feature("sample_i5", "sample_index", "unknown")),
         adapter("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-        seg("P5-side 7-nt molecular barcode", P5_BARCODE, "cbc"),
+        seg("P5-side 7-nt molecular barcode", P5_BARCODE, "cbc",
+            feature=feature("molecular_barcode_p5", "umi", "whitelist", whitelist="published molecular barcode set", group="molecular_id", part="P5 side")),
         seg("partial-UDG ancient DNA insert", "X"*36, placeholder=True),
-        seg("P7-side 7-nt molecular barcode", P7_BARCODE, "cbc"),
+        seg("P7-side 7-nt molecular barcode", P7_BARCODE, "cbc",
+            feature=feature("molecular_barcode_p7", "umi", "whitelist", whitelist="published molecular barcode set", group="molecular_id", part="P7 side")),
         adapter("Read 2 site start", "A"),
         adapter("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        adapter("7-nt i7 reverse complement", "I"*7, "cbc", placeholder=True),
+        adapter("7-nt i7 reverse complement", "I"*7, "cbc", placeholder=True,
+                feature=feature("sample_i7", "sample_index", "unknown")),
         adapter("P7 reverse complement", il.P7_RC, "p7"),
     ], name="partial-UDG ancient-DNA library")
     primers=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["I2"],sp.TRUSEQ["R2"])

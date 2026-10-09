@@ -51,10 +51,10 @@ def dropseq_library() -> str:
 
 
 def sequencing() -> str:
-    return f'''{sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing", intro="The Supplementary Protocol specifies 20 cycles of custom Read 1, 8 cycles of Index 1, and 64 cycles of Read 2. Read 2 also supplies transcriptome sequence.", required_roles=("Read 1", "Index 1 (i7)", "Read 2"))}
-<h3>Read 1</h3>
-{table(("Cycles", "Content"), C.read1_layout(), scroll=False)}
-'''
+    return sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",
+        intro="The Supplementary Protocol specifies 20 cycles of custom Read 1, 8 cycles of Index 1, and 64 cycles of Read 2. Read 2 also supplies transcriptome sequence.",
+        required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+        read_lengths={"Read 1": 20, "Index 1 (i7)": 8, "Read 2": 64})
 
 
 def render() -> str:

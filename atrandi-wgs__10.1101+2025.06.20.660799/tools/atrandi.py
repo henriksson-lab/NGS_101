@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 
 # ------------------------------------------------------- canonical Illumina (by reference)
 # The sequences live once, in lib/illumina.py; these are local aliases, never copies.
@@ -96,7 +96,14 @@ def barcode_block() -> list[Segment]:
     """D - linker - C - linker - B - linker - A, as read in R2."""
     out: list[Segment] = []
     for i, letter in enumerate("DCBA"):
-        out.append(_seg(f"BC-{letter}", letter * BARCODE_LEN, "cbc", placeholder=True))
+        out.append(_seg(
+            f"BC-{letter}", letter * BARCODE_LEN, "cbc", placeholder=True,
+            feature=feature(
+                f"cell_barcode_{letter.lower()}", "cell_barcode", "combinatorial",
+                group="cell_barcode", part=f"round {letter}",
+                note="Atrandi split-pool ligation barcode",
+            ),
+        ))
         if i < 3:
             out.append(_seg("", "L" * LINKER_LEN, "r2", placeholder=True, inferred=True,
                             note="4-nt cohesive overhang, inferred; sequence not published"))
@@ -114,7 +121,8 @@ def final_library() -> Construct:
     """The finished Illumina library, top strand 5'->3' from the P7 end (Atrandi Fig. 2)."""
     segs: list[Segment] = [
         _seg("Illumina P7", P7_SEQ, "p7"),
-        _seg("i7", ATRANDI_I7_INDEX, None),
+        _seg("i7", ATRANDI_I7_INDEX, None,
+             feature=feature("sample_i7", "sample_index", "fixed")),
         *read2_arm_segments(),
         *barcode_block(),
         _seg("", "T", None, placeholder=True, inferred=True, bottom="A",

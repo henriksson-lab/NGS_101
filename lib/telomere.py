@@ -64,6 +64,7 @@ class PhasedTelomereAdapter:
     arm_repeat: str = HUMAN_C_REPEAT
     arm_copies: int = 3
     phosphorylated_5: bool = True
+    core_segments: tuple[Segment, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.core or set(self.core.upper()) - set("ACGTNX"):
@@ -72,6 +73,8 @@ class PhasedTelomereAdapter:
             raise ValueError("telomere arm repeat must be real DNA")
         if self.arm_copies < 1:
             raise ValueError("adapter needs at least one repeat copy")
+        if self.core_segments and "".join(s.top for s in self.core_segments) != self.core:
+            raise ValueError("structured adapter-core segments must exactly rebuild the core")
 
     @property
     def arms(self) -> tuple[str, ...]:
@@ -89,14 +92,18 @@ class PhasedTelomereAdapter:
         sc = Scene(); sc.strand("G-rich strand", top, label="chromosome")
         sc.anneal("C-rich strand", bottom, to="G-rich strand",
                   pair=("duplex telomere'", "duplex telomere"), label="chromosome")
-        adapter = [Segment("adapter core", self.core, "r3", placeholder="N" in self.core or "X" in self.core),
-                   Segment("telomere-complement arm", arm, "r2")]
+        core = list(self.core_segments) or [
+            Segment("adapter core", self.core, "r3",
+                    placeholder="N" in self.core or "X" in self.core)
+        ]
+        adapter = [*core, Segment("telomere-complement arm", arm, "r2")]
         sc.anneal("terminal adapter", adapter, to="G-rich strand",
                   pair=("telomere-complement arm", "G-rich overhang"),
                   shift=len(end.overhang) - len(arm), label="adapter",
-                  unpaired=("adapter core",), mod5="p" if self.phosphorylated_5 else "")
+                  unpaired=tuple(s.name for s in core),
+                  mod5="p" if self.phosphorylated_5 else "")
         sc.footer("** ligase seals the adapter 5′ end to the native C-rich 3′ end",
-                  "terminal adapter", "adapter core")
+                  "terminal adapter", core[0].name)
         return sc
 
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 
 # Representative row 1 from Supplementary Table 2.  Every other barcode adaptor has
 # the same core and replaces the eight-base barcode and its reversed copy.
@@ -33,9 +33,11 @@ def barcode_adaptor(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
         raise ValueError("Drop-ChIP barcode must be eight DNA bases")
     return Construct([
         _seg("left blunt end", END),
-        _seg("barcode", barcode, "cbc"),
+        _seg("barcode", barcode, "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("symmetric adaptor core", ADAPTOR_CORE),
-        _seg("reversed barcode", barcode[::-1], "cbc"),
+        _seg("reversed barcode", barcode[::-1], "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("right blunt end", END),
     ], name="Drop-ChIP barcode adaptor")
 
@@ -53,9 +55,9 @@ def blunt_ligated_fragment(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
     left = barcode_adaptor(barcode)
     right = barcode_adaptor(barcode)
     return Construct([
-        *[_seg("left " + s.name, s.top, s.tag, placeholder=s.placeholder) for s in left],
+        *[_seg("left " + s.name, s.top, s.tag, placeholder=s.placeholder, feature=s.feature) for s in left],
         _seg("nucleosomal DNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
-        *[_seg("right " + s.name, s.top, s.tag, placeholder=s.placeholder) for s in right],
+        *[_seg("right " + s.name, s.top, s.tag, placeholder=s.placeholder, feature=s.feature) for s in right],
     ], name="blunt-ligated Drop-ChIP fragment")
 
 
@@ -74,11 +76,13 @@ def paci_product(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
         raise ValueError("PacI product no longer preserves the symmetric barcode junctions")
     return Construct([
         _seg("SC-PCR1 site", SC_PCR1),
-        _seg("left barcode", barcode[::-1], "cbc"),
+        _seg("left barcode", barcode[::-1], "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("left PacI half", END),
         _seg("nucleosomal DNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
         _seg("right PacI half", END),
-        _seg("right barcode", barcode, "cbc"),
+        _seg("right barcode", barcode, "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("SC-PCR2 site'", revcomp(SC_PCR2)),
     ], name="PacI-trimmed Drop-ChIP fragment")
 
@@ -117,11 +121,13 @@ def bcivi_product(barcode: str = REPRESENTATIVE_BARCODE) -> tuple[Scene, Constru
         raise ValueError("BciVI right product must end in the published single-A overhang")
     paired = [
         _seg("left 11-nt constant", left[:11]),
-        _seg("left barcode", left[11:19], "cbc"),
+        _seg("left barcode", left[11:19], "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("left PacI half", left[19:]),
         _seg("nucleosomal DNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
         _seg("right PacI half", right[:4]),
-        _seg("right barcode", right[4:12], "cbc"),
+        _seg("right barcode", right[4:12], "cbc",
+             feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="published Drop-ChIP adapter set")),
         _seg("right 11-nt constant", right[12:-1]),
     ]
     product = Construct([*paired, _seg("right 3' A", right[-1])],

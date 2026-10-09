@@ -29,8 +29,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Segment
+from chemdraw import Construct, Segment, feature
 from illumina import P5, P7_RC
+
+UMI_FEATURE = feature("umi", "umi", "random")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "unknown")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"UMI": UMI_FEATURE, "i5": I5_FEATURE, "i7": I7_FEATURE}
 
 # =============================================================== SMART-seq / SMART-seq2
 # One handle, used for priming, for template switching and for amplification.
@@ -65,6 +70,7 @@ def ss3_tso(variant: str = "SMART-seq3") -> str:
 
 
 def _seg(name, top, tag=None, **kw):
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

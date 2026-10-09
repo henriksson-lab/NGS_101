@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 import illumina as il
 import seqprimers as sp
 
@@ -36,9 +36,17 @@ MARS1_P5_PCR = il.TRUSEQ_P5_FULL
 MARS1_P7_PCR = il.P7 + il.TRUSEQ_READ2
 
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["R2"])
+CELL_BARCODE = feature("cell_barcode_well", "cell_barcode", "whitelist",
+                       whitelist="mars-seq-rt-primer-set")
+UMI_FEATURE = feature("umi", "umi", "random")
+POOL_BARCODE = feature("pool_barcode", "sample_index", "fixed")
+FEATURES = {"well barcode": CELL_BARCODE, "well barcode'": CELL_BARCODE,
+            "UMI": UMI_FEATURE, "UMI'": UMI_FEATURE,
+            "ordered pool barcode": POOL_BARCODE, "pool barcode": POOL_BARCODE}
 
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

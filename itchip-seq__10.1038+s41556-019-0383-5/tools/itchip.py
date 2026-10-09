@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 
 # Verbatim representative oligos from Ai et al., Supplementary Table 1.
 SOURCE_T5_1 = "TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG"
@@ -36,14 +36,16 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def t5_segments() -> list[Segment]:
     return [seg("connector A", CONNECTOR_A, "s5"),
-            seg("T5 barcode", T5_BARCODE, "cbc"),
+            seg("T5 barcode", T5_BARCODE, "cbc",
+                feature=feature("cell_t5", "cell_barcode", "combinatorial", group="cell_id", part="T5")),
             seg("ME-A spacer", ME_A_SPACER, "r1"),
             seg("ME", nx.ME, "me")]
 
 
 def t7_segments() -> list[Segment]:
     return [seg("connector B", CONNECTOR_B, "s7"),
-            seg("T7 barcode", T7_BARCODE, "cbc"),
+            seg("T7 barcode", T7_BARCODE, "cbc",
+                feature=feature("cell_t7", "cell_barcode", "combinatorial", group="cell_id", part="T7")),
             seg("ME-B spacer", ME_B_SPACER, "r2"),
             seg("ME", nx.ME, "me")]
 
@@ -86,11 +88,13 @@ def final_library() -> Construct:
     right = complement_segments(t7_segments(), suffix="'")
     return Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5", I5_OLIGO_INDEX, "cbc"),
+        seg("i5", I5_OLIGO_INDEX, "cbc",
+            feature=feature("sample_i5", "sample_index", "whitelist", whitelist="published Nextera PCR index set")),
         *t5_segments(),
         seg("immunoprecipitated DNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
         *right,
-        seg("i7", revcomp(I7_OLIGO_INDEX), "cbc"),
+        seg("i7", revcomp(I7_OLIGO_INDEX), "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published Nextera PCR index set")),
         seg("P7'", il.P7_RC, "p7"),
     ], name="itChIP-seq custom-Nextera library")
 

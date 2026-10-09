@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from restriction import DPNII
 from single_cell_hic import ContactWorkflow
 WORKFLOW = ContactWorkflow("sci-Hi-C", DPNII, "combinatorial indexing", "bridge-adaptor", "PCR", barcoding_rounds=2)
@@ -25,8 +25,10 @@ JUNCTIONS = (("locus A", "DpnII end A", "restriction end"),
              ("round-1 barcode B", "DpnII end B", "adapter ligation"))
 def contact_product():
     return Construct([Segment("locus A", "X"*22, placeholder=True), Segment("DpnII end A", "GATC", "me"),
-        Segment("round-1 barcode A", "B"*8, "cbc", placeholder=True), Segment("bridge EcoRI site", "GAATTC", "me"),
-        Segment("round-1 barcode B", "B"*8, "cbc", placeholder=True), Segment("DpnII end B", "GATC", "me"),
+        Segment("round-1 barcode A", "B"*8, "cbc", placeholder=True,
+                feature=feature("cell_bc1_a", "cell_barcode", "combinatorial", group="cell_id", part="round 1, end A")), Segment("bridge EcoRI site", "GAATTC", "me"),
+        Segment("round-1 barcode B", "B"*8, "cbc", placeholder=True,
+                feature=feature("cell_bc1_b", "cell_barcode", "combinatorial", group="cell_id", part="round 1, end B")), Segment("DpnII end B", "GATC", "me"),
         Segment("locus B", "X"*22, placeholder=True)], name="sci-Hi-C bridged contact")
 BC2_EXAMPLE = "TGACCTTG"  # A1 adapter, Supplementary Data oligo table
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["R2"])
@@ -36,9 +38,11 @@ def final_library():
     lib = Construct([
         Segment("P5", il.P5, "p5"),
         Segment("Read 1 arm", il.TRUSEQ_READ1[4:], "r1"),
-        Segment("BC2 A1", BC2_EXAMPLE, "cbc"), Segment("fixed read prefix", "CGT", "me"),
+        Segment("BC2 A1", BC2_EXAMPLE, "cbc",
+                feature=feature("cell_bc2_a", "cell_barcode", "combinatorial", group="cell_id", part="round 2, end A")), Segment("fixed read prefix", "CGT", "me"),
         *list(contact_product()),
-        Segment("opposite fixed prefix and BC2", revcomp(read_prefix), "cbc"),
+        Segment("opposite fixed prefix and BC2", revcomp(read_prefix), "cbc",
+                feature=feature("cell_bc2_b_with_prefix", "cell_barcode", "combinatorial", group="cell_id", part="round 2, end B", note="segment also contains the fixed CGT prefix")),
         Segment("Read 2 site", revcomp(il.TRUSEQ_READ2), "r2"),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="sci-Hi-C two-barcode library")

@@ -4,7 +4,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -37,7 +37,8 @@ def adapter_b() -> list[Segment]:
 def bead_oligo() -> list[Segment]:
     """Unmodified 10x scATAC v1.1 gel-bead oligo from its vendor guide."""
     return [seg("P5", il.P5, "p5"),
-            seg("GEM barcode", "C" * 16, "cbc", placeholder=True),
+            seg("GEM barcode", "C" * 16, "cbc", placeholder=True,
+                feature=feature("cell_gem", "cell_barcode", "whitelist", whitelist="10x scATAC v1.1 whitelist", group="cell_id", part="GEM")),
             seg("s5", nx.S5, "s5")]
 
 
@@ -61,14 +62,17 @@ SEQ_PRIMERS = (
 def final_library(insert_nt: int = 28) -> Construct:
     lib = Construct([
         *bead_oligo(), seg("spacer A", SPACER_A),
-        seg("Tn5 barcode A", "A" * 5, "cbc", placeholder=True),
+        seg("Tn5 barcode A", "A" * 5, "cbc", placeholder=True,
+            feature=feature("cell_tn5_a", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 A")),
         seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("opposite ME reverse complement", nx.ME_RC, "me"),
-        seg("Tn5 barcode B reverse complement", "B" * 5, "cbc", placeholder=True),
+        seg("Tn5 barcode B reverse complement", "B" * 5, "cbc", placeholder=True,
+            feature=feature("cell_tn5_b", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 B")),
         seg("spacer B reverse complement", revcomp(SPACER_B)),
         seg("s7 reverse complement", nx.S7_RC, "s7"),
-        seg("i7 sample index read", I7_INDEX_READ, "cbc"),
+        seg("i7 sample index read", I7_INDEX_READ, "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published i7 primer set")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scifi-ATAC-seq sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)

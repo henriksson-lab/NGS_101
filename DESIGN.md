@@ -5,6 +5,32 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-09 — Identifier semantics belong to the molecular model
+
+**Decision.** Barcode and UMI meaning is stored as format-neutral structured metadata on
+the `Segment` that carries the bases. A molecular feature has a stable logical identity,
+a controlled role, an encoding/source class, and optional multipart group, part and
+whitelist reference. These semantics are independent of the displayed bases, placeholder
+letters, colour tag and any external interchange format.
+
+Construction and strand-transform helpers preserve feature identity. A final library's
+identifier cycle ranges are derived from its annotated segments, sequencing-primer landing
+sites, primer direction and declared run lengths. Pages render those computed locations;
+they do not maintain a second hand-written read layout. Whitelist references identify an
+authoritative list but do not require committing third-party sequence lists to this repo.
+
+The repository does not infer semantics from names such as “barcode”, from `N`/`X`, or
+from the legacy `cbc`/`umi` presentation colours. Those signals are ambiguous: the same
+colours are also used for non-identifier chemistry. Unknown encoding is stated as such.
+
+**Why.** Identifier positions are useful beyond any one exchange format: they support
+read-cycle explanation, processing configuration, protocol comparison and validation.
+Keeping them in the construct makes every renderer consume the same molecular truth and
+prevents prose tables from drifting when a construct changes.
+
+**Review when.** Add an exporter only if a useful target format is chosen. It must consume
+this model rather than becoming another source of protocol data.
+
 ## 2026-10-09 — CRISPR-MIP analysis is a downstream repository
 
 **Decision.** This repository retains the published CRISPR-MIP protocol, reviewed source

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, panel
+from chemdraw import duplex_rows, panel
 from page import head, info
 
 
@@ -22,13 +22,12 @@ def render(m) -> str:
         # validation avoids pretending that a literal "[adapter]" has a complement.
         unknown = tuple(s.name + "'" for s in lib if s.is_role_token())
         parts.extend(['<h2>Final sequencing library</h2>',
-                      panel([*Scene.duplex(list(lib), label="library",
-                                           unpaired=unknown).rows(),
-                             *annotation_rows(lib)], cls="long",
+                      panel(duplex_rows(lib, label="library", unpaired=unknown), cls="long",
                             caption=m.FINAL_CAPTION)])
     if primers:
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,
-                                required_roles=tuple(p.role for p in primers)))
+                                required_roles=tuple(p.role for p in primers),
+                                read_lengths=getattr(m, "READ_LENGTHS", None)))
     else:
         ending = getattr(m, "SEQUENCING_ENDING", "")
         if not ending:

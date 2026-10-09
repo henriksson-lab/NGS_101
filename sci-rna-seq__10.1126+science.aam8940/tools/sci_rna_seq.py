@@ -4,10 +4,19 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+RT_BARCODE = feature("cell_barcode_rt", "cell_barcode", "combinatorial",
+                     group="cell_barcode", part="RT round")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "unknown")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"UMI": UMI_FEATURE, "RT barcode": RT_BARCODE, "i5": I5_FEATURE,
+            "i7": I7_FEATURE, "i7 reverse complement": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -102,7 +111,5 @@ def primer_landings(lib: Construct | None = None):
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    lib = final_library()
-    umi, bc = lib.get("UMI"), lib.get("RT barcode")
-    return [(f"1&ndash;{len(umi)}", "UMI"),
-            (f"{len(umi) + 1}&ndash;{len(umi) + len(bc)}", "RT barcode")]
+    return [(x.cycles, x.feature.label) for x in
+            sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 18})]

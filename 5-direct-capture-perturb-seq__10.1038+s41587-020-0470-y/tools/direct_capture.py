@@ -5,10 +5,20 @@ import crispr
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-chromium-5prime-v1")
+UMI_FEATURE = feature("umi", "umi", "random")
+GUIDE_FEATURE = feature("guide", "guide_barcode", "unknown")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
+            "protospacer": GUIDE_FEATURE, "copied protospacer": GUIDE_FEATURE,
+            "i7": I7_FEATURE, "i7 reverse complement": I7_FEATURE}
 
 
 def seg(name, top, tag=None, **kw):
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -147,9 +157,6 @@ def sequencing_primers():
 
 
 def read_layout():
-    return [
-        ("Read 1", "1–16", "cell barcode"),
-        ("Read 1", "17–26", "UMI"),
-        ("Index 1", "1–8", "sample index"),
-        ("Read 2", "98 cycles recommended", "constant region, then protospacer"),
-    ]
+    lengths = {"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98}
+    spans = sp.feature_spans(final_library(), sequencing_primers(), lengths)
+    return [(x.read, x.cycles, x.feature.label) for x in spans]

@@ -255,6 +255,9 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
 3. Write `<name>/tools/<name>.py` defining the construct as a list of `Segment`s. Import
    canonical sequences from `illumina` rather than retyping them — that is the single
    biggest source of avoidable error, and it means a correction propagates everywhere.
+   Give every barcode, sample index and UMI a `MolecularFeature` via `feature(...)`; never
+   infer its meaning from a colour, prose name or placeholder letter. Reuse the same feature
+   identity when that molecular region is copied or reverse-complemented.
 4. Put chemistry invariants in the model and rendering functions used by the page. Add a
    self-test only for source transcription or behavior that cannot be enforced by those
    functions; do not restate model constants as checks.
@@ -279,6 +282,14 @@ bases share a column. `revcomp()` exists separately, for working out primer sequ
 `Segment`, never of the characters, so `AAAAAAAA` (barcode A) can never become eight
 thymines. Their complements render lowercase, which keeps them visually distinct from real
 bases and from a dA/dT ligation junction sitting next to them.
+
+**Identifier semantics.** `Segment.feature` records what an identifier does independently
+of how it is drawn. Its role distinguishes UMIs, cell/sample/feature/spatial/guide and
+inline barcodes; its encoding says whether values are random, fixed, whitelist-backed,
+combinatorial or unknown. Multipart barcodes share a group and name their parts. A
+whitelist field is a stable reference, not a reason to commit the vendor's barcode file.
+Read-cycle spans are computed by `seqprimers.feature_spans()` from the final construct,
+primer geometry and declared run length; do not type those ranges into a second model.
 
 **Evidence marking.** Notes mark every claim 🟢 verbatim from the source · 🟡 derived or
 inferred · 🔴 not published anywhere. On the page, inference is marked three ways, all

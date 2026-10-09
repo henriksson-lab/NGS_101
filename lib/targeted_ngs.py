@@ -1,7 +1,7 @@
 """Reusable molecular views for targeted and microbial library preparations."""
 from __future__ import annotations
 
-from chemdraw import Construct, Row, Scene, Segment, complement_segments
+from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature
 from batch_ngs import nextera_library, seg, truseq_library
 
 
@@ -36,9 +36,13 @@ def shotgun_library():
 def sureselect_library():
     """HS2 MBC form: five inline molecular-barcode bases at each insert end."""
     return truseq_library([
-        seg("left molecular barcode", "U" * 5, "umi", placeholder=True),
+        seg("left molecular barcode", "U" * 5, "umi", placeholder=True,
+            feature=feature("molecular_barcode_left", "umi", "random",
+                            group="molecular_barcode", part="left")),
         seg("captured target insert", "N" * 34, placeholder=True),
-        seg("right molecular barcode", "V" * 5, "umi", placeholder=True),
+        seg("right molecular barcode", "V" * 5, "umi", placeholder=True,
+            feature=feature("molecular_barcode_right", "umi", "random",
+                            group="molecular_barcode", part="right")),
     ], "SureSelect XT HS2 captured library")
 
 

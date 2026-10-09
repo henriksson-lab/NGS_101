@@ -10,11 +10,12 @@ from __future__ import annotations
 import crispr
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 
-def seg(name: str, seq: str, tag: str | None = None, *, placeholder: bool = False) -> Segment:
-    return Segment(name, seq, tag, placeholder=placeholder)
+def seg(name: str, seq: str, tag: str | None = None, *, placeholder: bool = False,
+        **kw) -> Segment:
+    return Segment(name, seq, tag, placeholder=placeholder, **kw)
 
 
 SPACER = "N" * crispr.SPACER_LEN
@@ -30,7 +31,8 @@ def cloned_guide_cassette() -> Construct:
     return Construct([
         seg("hU6 promoter", crispr.U6_UPSTREAM + crispr.U6_3PRIME, "s5"),
         seg("Pol III +1 G", crispr.U6_PLUS1, "me"),
-        seg("20-nt guide", SPACER, "cbc", placeholder=True),
+        seg("20-nt guide", SPACER, "cbc", placeholder=True,
+            feature=feature("guide", "guide_barcode", "unknown")),
         seg("sgRNA scaffold", crispr.SCAFFOLD_V1, "r2"),
     ], name="cloned guide cassette")
 
@@ -71,11 +73,13 @@ def one_pcr_library() -> Construct:
         seg("stagger", JOUNG_STAGGER, "me"),
         seg("hU6 primer site", JOUNG_U6_SITE, "s5"),
         seg("Pol III +1 G", crispr.U6_PLUS1, "me"),
-        seg("20-nt guide", SPACER, "cbc", placeholder=True),
+        seg("20-nt guide", SPACER, "cbc", placeholder=True,
+            feature=feature("guide", "guide_barcode", "unknown")),
         seg("scaffold before reverse site", crispr.SCAFFOLD_V1[:50], "r2"),
         seg("reverse-primer site", JOUNG_SCAFFOLD_SITE_TOP, "r2"),
         seg("Read 2 site", revcomp(il.TRUSEQ_READ2), "t7"),
-        seg("i7", revcomp(JOUNG_I7), "cbc"),
+        seg("i7", revcomp(JOUNG_I7), "cbc",
+            feature=feature("sample_index_i7", "sample_index", "fixed")),
         seg("P7", revcomp(il.P7), "p7"),
     ], name="Joung one-PCR library")
     problems = sp.verify(con, one_pcr_sequencing_primers(),
@@ -104,7 +108,8 @@ def two_step_intermediate() -> Construct:
         seg("PCR1 forward site", MOFFAT_PCR1_F, "s5"),
         seg("left vector / genomic flank", "X" * 12, "w1", placeholder=True),
         seg("hU6", crispr.U6_3PRIME + crispr.U6_PLUS1, "s5"),
-        seg("20-nt guide", SPACER, "cbc", placeholder=True),
+        seg("20-nt guide", SPACER, "cbc", placeholder=True,
+            feature=feature("guide", "guide_barcode", "unknown")),
         seg("scaffold", crispr.SCAFFOLD_V1[:24], "r2"),
         seg("right vector / genomic flank", "X" * 12, "w1", placeholder=True),
         seg("PCR1 reverse site", revcomp(MOFFAT_PCR1_R), "r2"),
@@ -115,13 +120,16 @@ def two_step_library() -> Construct:
     """Finished dual-index LCV2::TKOv3 PCR2 library from the printed primer sequences."""
     con = Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5", MOFFAT_I5, "cbc"),
+        seg("i5", MOFFAT_I5, "cbc",
+            feature=feature("sample_index_i5", "sample_index", "fixed")),
         seg("Read 1 site", il.TRUSEQ_READ1, "s5"),
         seg("PCR2 hU6 site", MOFFAT_PCR2_SITE_F, "s5"),
-        seg("20-nt guide", SPACER, "cbc", placeholder=True),
+        seg("20-nt guide", SPACER, "cbc", placeholder=True,
+            feature=feature("guide", "guide_barcode", "unknown")),
         seg("PCR2 scaffold site", revcomp(MOFFAT_PCR2_SITE_R), "r2"),
         seg("Read 2 site", revcomp(il.TRUSEQ_READ2), "t7"),
-        seg("i7", revcomp(MOFFAT_I7), "cbc"),
+        seg("i7", revcomp(MOFFAT_I7), "cbc",
+            feature=feature("sample_index_i7", "sample_index", "fixed")),
         seg("P7", revcomp(il.P7), "p7"),
     ], name="Moffat two-step PCR library")
     problems = sp.verify(con, two_step_sequencing_primers(),

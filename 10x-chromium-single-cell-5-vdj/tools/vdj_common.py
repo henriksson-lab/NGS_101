@@ -9,16 +9,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 PARTIAL_R1 = il.TRUSEQ_READ1[11:]
 TSO = "TTTCTTATATGGG"
 VDJ_FORWARD = "GATCTACACTCTTTCCCTACACGACGC"
 POLY_DT_NT = 30
 INDEX_NT = 10
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-5prime-vdj")
+UMI_FEATURE = feature("umi", "umi", "random")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "unknown")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
+            "i5": I5_FEATURE, "i7": I7_FEATURE, "i7 oligo": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

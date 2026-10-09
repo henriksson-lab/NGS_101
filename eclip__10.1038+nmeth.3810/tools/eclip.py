@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 from rna_special import adapter_ligation_scene
 
 TITLE = "eCLIP — enhanced crosslinking and immunoprecipitation"
@@ -14,6 +14,11 @@ NOTES = "01_eclip.html"
 SOURCE = 'Defining paper and protocol: <a href="https://doi.org/10.1038/nmeth.3810">Van Nostrand et al. (2016)</a>; <a href="https://www.encodeproject.org/documents/842f7424-5396-424a-a1a3-3f18707c3222/@@download/attachment/eCLIP_SOP_v1.P_110915.pdf">ENCODE eCLIP SOP v1.P</a>.'
 SUMMARY = "UV-crosslinked RBP–RNA complexes are immunoprecipitated and RNase-trimmed. A 3′ RNA adapter precedes reverse transcription; a second adapter is ligated to cDNA so both read-through and crosslink-truncated cDNAs can amplify."
 CAVEAT = "The SOP provides several color-balanced RNA barcode and D5/D7 index choices. The final panel uses the published X1A, D501 and D701 examples; their positions, widths and primer family do not vary."
+I5_FEATURE=feature("sample_index_i5","sample_index","fixed")
+I7_FEATURE=feature("sample_index_i7","sample_index","fixed")
+INLINE_FEATURE=feature("inline_rna_barcode","inline_barcode","fixed")
+RANDOMER_5=feature("molecular_barcode_rna_adapter","umi","random",group="molecular_barcode",part="RNA adapter")
+RANDOMER_10=feature("molecular_barcode_cdna_adapter","umi","random",group="molecular_barcode",part="cDNA adapter")
 
 RIL19 = "AGATCGGAAGAGCGTCGTGTG"
 RNA_X1A_BARCODE = "ATATAGG"
@@ -24,15 +29,15 @@ D701_I7_OLIGO = "CGAGTAAT"
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
-    seg("D501 i5", D501_I5, "cbc"),
+    seg("D501 i5", D501_I5, "cbc", feature=I5_FEATURE),
     seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-    seg("X1A inline RNA barcode", RNA_X1A_BARCODE, "cbc"),
-    seg("X1A five-base randomer", "U" * 5, "umi", placeholder=True),
+    seg("X1A inline RNA barcode", RNA_X1A_BARCODE, "cbc", feature=INLINE_FEATURE),
+    seg("X1A five-base randomer", "U" * 5, "umi", placeholder=True, feature=RANDOMER_5),
     seg("RBP-bound RNA cDNA", "X" * 34, placeholder=True),
-    seg("rand103Tr3 ten-base randomer", "V" * 10, "umi", placeholder=True),
+    seg("rand103Tr3 ten-base randomer", "V" * 10, "umi", placeholder=True, feature=RANDOMER_10),
     seg("Read 2 arm first base", "A", "r2"),
     seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-    seg("D701 i7 reverse complement", "ATTACTCG", "cbc"),
+    seg("D701 i7 reverse complement", "ATTACTCG", "cbc", feature=I7_FEATURE),
     seg("P7 reverse complement", il.P7_RC, "p7"),
 ], name="paired-end dual-index eCLIP library")
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])

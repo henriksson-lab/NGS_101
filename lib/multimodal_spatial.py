@@ -1,7 +1,7 @@
 """Reusable molecular views for multimodal and spatial barcode-transfer protocols."""
 from __future__ import annotations
 
-from chemdraw import Row, Scene, Segment
+from chemdraw import Row, Scene, Segment, feature
 
 
 def barcode_rounds(rounds: int, *, label: str = "cell barcode") -> list[Row]:
@@ -30,10 +30,14 @@ def adjacent_probe_scene() -> Scene:
     """Adjacent probe halves on fixed RNA; Scene enforces the duplex geometry."""
     target = [Segment("target RNA left", "X" * 18, placeholder=True),
               Segment("target RNA right", "X" * 18, placeholder=True)]
-    left = [Segment("left probe barcode", "L" * 12, "cbc", placeholder=True),
+    left = [Segment("left probe barcode", "L" * 12, "cbc", placeholder=True,
+                    feature=feature("probe_barcode_left", "feature_barcode", "unknown",
+                                    group="probe_barcode", part="left")),
             Segment("left probe target arm", "X" * 18, placeholder=True)]
     right = [Segment("right probe target arm", "X" * 18, placeholder=True),
-             Segment("right probe barcode", "R" * 12, "cbc", placeholder=True)]
+             Segment("right probe barcode", "R" * 12, "cbc", placeholder=True,
+                     feature=feature("probe_barcode_right", "feature_barcode", "unknown",
+                                     group="probe_barcode", part="right"))]
     sc = Scene(); sc.strand("RNA", target, label="fixed target RNA")
     sc.anneal("left probe", left, to="RNA", pair=("left probe target arm", "target RNA left"),
               label="left probe", unpaired=("left probe barcode",))

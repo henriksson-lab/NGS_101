@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Construct, Segment
+from chemdraw import Construct, Segment, feature
 from restriction import DPNII
 from single_cell_hic import ContactWorkflow, unresolved_illumina_library
 WORKFLOW = ContactWorkflow("sn-m3C-seq", DPNII, "after ligation", "none", "bisulfite-PCR")
@@ -26,7 +26,9 @@ ADAPTASE_TAIL_TRIM_NT = 3
 def final_library():
     converted = Construct([
         Segment("indexed random-primer-derived sequence", "N"*RANDOM_PRIMER_TRIM_NT,
-                "cbc", placeholder=True),
+                "cbc", placeholder=True,
+                feature=feature("cell_index", "cell_barcode", "unknown",
+                                note="exact barcode sub-boundary is unresolved")),
         *list(contact_product()),
         Segment("Adaptase low-complexity tail", "N"*ADAPTASE_TAIL_TRIM_NT,
                 "me", placeholder=True),

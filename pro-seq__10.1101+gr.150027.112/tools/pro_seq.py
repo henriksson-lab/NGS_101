@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 from rna_special import adapter_ligation_scene
 
 TITLE = "PRO-seq — precision nuclear run-on sequencing"
@@ -29,7 +29,8 @@ FINAL_LIBRARY = Construct([
     seg("reverse-complement nascent RNA", "X" * 34, placeholder=True),
     seg("VRA5-derived Read 2 side", "TGGAATTCTCGGGTGCCAAGG", "r2"),
     seg("Index 1 continuation", "AACTCCAGTCAC", "cbc"),
-    seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True),
+    seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True,
+        feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published RPI-n primer set")),
     seg("P7 reverse complement", il.P7_RC, "p7"),
 ], name="single-index PRO-seq library")
 SEQ_PRIMERS = (

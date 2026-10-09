@@ -9,7 +9,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -136,15 +136,18 @@ def final_library(insert_nt: int = 28) -> Construct:
     """
     lib = Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5", I5_OLIGO_INDEX, "cbc"),
+        seg("i5", I5_OLIGO_INDEX, "cbc",
+            feature=feature("cell_i5", "cell_barcode", "combinatorial", group="cell_id", part="i5")),
         seg("s5", nx.S5, "s5"),
         seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("opposite mosaic end", nx.ME_RC, "me"),
         seg("base opposite dU", "A", "w1"),
-        seg("Tn5 barcode, read orientation", revcomp(TN5_INDEX), "cbc"),
+        seg("Tn5 barcode, read orientation", revcomp(TN5_INDEX), "cbc",
+            feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc"),
+        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc",
+            feature=feature("cell_i7", "cell_barcode", "combinatorial", group="cell_id", part="i7")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="s3-ATAC sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)

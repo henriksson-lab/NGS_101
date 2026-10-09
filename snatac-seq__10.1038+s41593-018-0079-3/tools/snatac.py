@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -47,7 +47,11 @@ def barcode(name: str, value: str | None, letter: str) -> Segment:
     seq = letter * BARCODE_LEN if value is None else value
     if len(seq) != BARCODE_LEN:
         raise ValueError(f"{name} must be {BARCODE_LEN} nt")
-    return _seg(name, seq, "cbc", placeholder=value is None)
+    role = "cell_barcode" if name in ("p5 barcode", "p7 barcode") else "cell_barcode"
+    part = name.replace(" barcode", "")
+    return _seg(name, seq, "cbc", placeholder=value is None,
+                feature=feature(f"cell_{part.replace(' ', '_')}", role, "combinatorial",
+                                group="cell_id", part=part))
 
 
 def p5_transposon(value: str | None = None) -> list[Segment]:
@@ -69,7 +73,7 @@ def tagged_fragment() -> Construct:
         *p5_transposon(),
         _seg("genomic insert", "XXXXXXXX...XXXXXXXX", placeholder=True),
         *[Segment(s.name + "'", revcomp(s.top) if not s.placeholder else s.top.lower(),
-                  s.tag, s.placeholder) for s in reversed(right)],
+                  s.tag, s.placeholder, feature=s.feature) for s in reversed(right)],
     ], name="gap-filled snATAC fragment")
 
 
@@ -95,9 +99,11 @@ def final_library() -> Construct:
     tagged = tagged_fragment()
     con = Construct([
         _seg("P5", il.P5, "p5"),
-        _seg("i5", "N" * PCR_INDEX_LEN, "cbc", placeholder=True),
+        _seg("i5", "N" * PCR_INDEX_LEN, "cbc", placeholder=True,
+             feature=feature("cell_i5", "cell_barcode", "combinatorial", group="cell_id", part="i5")),
         *tagged.segments,
-        _seg("i7 read", "N" * PCR_INDEX_LEN, "cbc", placeholder=True),
+        _seg("i7 read", "N" * PCR_INDEX_LEN, "cbc", placeholder=True,
+             feature=feature("cell_i7", "cell_barcode", "combinatorial", group="cell_id", part="i7")),
         _seg("P7'", il.P7_RC, "p7"),
     ], name="snATAC-seq library")
     errors = sp.verify(con, SEQ_PRIMERS)

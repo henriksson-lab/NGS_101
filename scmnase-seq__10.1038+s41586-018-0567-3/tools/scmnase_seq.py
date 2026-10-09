@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment
+from chemdraw import Construct, Scene, Segment, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
 
 INDEX_NT = 6
@@ -82,7 +82,8 @@ def final_library(insert_nt: int = 44) -> Construct:
         seg("MNase-protected genomic insert", "X" * insert_nt, placeholder=True),
         inferred("dA junction", "A"),
         inferred("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        inferred("i7 reverse complement", "N" * INDEX_NT, "cbc", placeholder=True),
+        inferred("i7 reverse complement", "N" * INDEX_NT, "cbc", placeholder=True,
+                 feature=feature("cell_i7", "cell_barcode", "unknown")),
         inferred("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scMNase-seq library")
     for primer in SEQ_PRIMERS:

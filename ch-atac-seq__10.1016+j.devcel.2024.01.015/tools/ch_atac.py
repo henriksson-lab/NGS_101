@@ -4,7 +4,7 @@ from __future__ import annotations
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -45,14 +45,17 @@ def final_library(insert_nt: int = 32) -> Construct:
     lib = Construct([
         seg("MGI P5", MGI_P5, "p5"), seg("s5", nx.S5, "s5"),
         seg("mosaic end", nx.ME, "me"),
-        seg("HY barcode, read orientation", revcomp(HY_BARCODE), "cbc"),
+        seg("HY barcode, read orientation", revcomp(HY_BARCODE), "cbc",
+            feature=feature("cell_hy", "cell_barcode", "combinatorial", group="cell_id", part="HY")),
         seg("SMART handle", rt.SMART_HANDLE, "tso"),
-        seg("Tn5 barcode", TN5_BARCODE, "cbc"),
+        seg("Tn5 barcode", TN5_BARCODE, "cbc",
+            feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("mosaic end after barcodes", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("opposite mosaic end", nx.ME_RC, "me"),
         seg("s7 reverse complement", nx.S7_RC, "s7"),
-        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc"),
+        seg("i7, read orientation", revcomp(I7_OLIGO_INDEX), "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published MGI P7 index set")),
         seg("MGI P7 reverse complement", revcomp(MGI_P7), "p7"),
     ], name="CH-ATAC sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS,

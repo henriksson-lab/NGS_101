@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from base_conversion import taps_path
-from chemdraw import Construct, Row, Scene, Segment
+from chemdraw import Construct, Row, Scene, Segment, feature
 
 TITLE = "TAPS — bisulfite-free methylation sequencing"
 NOTES = "01_taps.html"
@@ -23,7 +23,8 @@ def library():
         Segment("TAPS-treated genomic insert", "X" * 36, placeholder=True),
         Segment("dA junction / Read 2 site start", "A"),
         Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        Segment("i7 reverse complement", INDEX6, "cbc"),
+        Segment("i7 reverse complement", INDEX6, "cbc",
+                feature=feature("sample_i7", "sample_index", "whitelist", whitelist="TruSeq index set")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="TAPS TruSeq library")
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])

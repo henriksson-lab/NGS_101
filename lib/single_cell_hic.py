@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from restriction import Digest, RestrictionEnzyme
 
 
@@ -63,7 +63,8 @@ def inferred_truseq_library(insert: Construct, name: str) -> Construct:
         Segment("Read 1 arm", il.TRUSEQ_READ1[4:], "r1", inferred=True),
         *list(insert), Segment("dA junction", "A", inferred=True),
         Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=True),
-        Segment("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True),
+        Segment("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
+                feature=feature("sample_i7", "sample_index", "unknown")),
         Segment("P7 reverse complement", il.P7_RC, "p7", inferred=True),
     ], name=name)
     errors = sp.verify(lib, SEQ_PRIMERS,
@@ -82,11 +83,14 @@ def unresolved_illumina_library(insert: Construct, name: str, *, indexed: bool |
     index = ("indexed adapter (sequence not reported)" if indexed is True else
              "adapter/index region (not reported)" if indexed is None else
              "adapter arm (sequence not reported)")
+    semantic = (feature("sample_index_region", "sample_index", "unknown",
+                        note="index sub-boundary is not reported")
+                if indexed is True else None)
     return Construct([
         Segment("Illumina left arm (not reported)", "X" * 20,
                 placeholder=True, inferred=True),
         *list(insert),
-        Segment(index, "X" * 20, placeholder=True, inferred=True),
+        Segment(index, "X" * 20, placeholder=True, inferred=True, feature=semantic),
     ], name=name)
 
 
@@ -102,9 +106,13 @@ def historical_inline_pe_library(insert: Construct, name: str, barcode: str = "C
     return Construct([
         Segment("P5", il.P5, "p5"),
         Segment("historical Read 1 arm", il.TRUSEQ_READ1[4:], "r1"),
-        Segment("3-bp identification tag", barcode, "cbc"),
+        Segment("3-bp identification tag", barcode, "cbc",
+                feature=feature("cell_inline_a", "cell_barcode", "whitelist",
+                                whitelist="published identification-tag set", group="cell_id", part="read 1 end")),
         *list(insert),
-        Segment("opposite 3-bp identification tag", revcomp(barcode), "cbc"),
+        Segment("opposite 3-bp identification tag", revcomp(barcode), "cbc",
+                feature=feature("cell_inline_b", "cell_barcode", "whitelist",
+                                whitelist="published identification-tag set", group="cell_id", part="read 2 end")),
         Segment("historical Read 2 site", revcomp(HISTORICAL_PE_READ2), "r2"),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name=name)

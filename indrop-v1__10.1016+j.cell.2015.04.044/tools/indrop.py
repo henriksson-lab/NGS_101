@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import seqprimers as sp
 
@@ -33,9 +33,19 @@ V2_R2 = PE1
 
 SOURCE_ACRYDITE_BASES = "CGATGACGTAATACGACTCACTATAGGGATACCACCATGGCTCTTTCCCTACACGACGCTCTTC"
 SOURCE_PE2_N6 = "TCGGCATTCCTGCTGAACCGCTCTTCCGATCTNNNNNN"
+BC1_FEATURE = feature("cell_barcode_1", "cell_barcode", "combinatorial",
+                      group="cell_barcode", part="barcode 1")
+BC2_FEATURE = feature("cell_barcode_2", "cell_barcode", "combinatorial",
+                      group="cell_barcode", part="barcode 2")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"barcode 1": BC1_FEATURE, "barcode 1'": BC1_FEATURE,
+            "barcode 2": BC2_FEATURE, "barcode 2'": BC2_FEATURE,
+            "UMI": UMI_FEATURE, "i7 read": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

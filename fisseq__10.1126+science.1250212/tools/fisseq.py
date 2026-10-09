@@ -35,7 +35,7 @@ def rt_scene() -> Scene:
               seg("random landing site", "N" * 6, placeholder=True),
               seg("RNA downstream", "N" * 18, placeholder=True)]
     primer = [seg("5-prime adapter", ADAPTER, "r1"),
-              seg("random hexamer", RANDOM_HEXAMER, "umi", placeholder=True)]
+              seg("random hexamer", RANDOM_HEXAMER, "r3", placeholder=True)]
     sc = Scene(); sc.strand("RNA", target, label="cellular RNA")
     sc.anneal("RT primer", primer, to="RNA",
               pair=("random hexamer", "random landing site"),
@@ -47,7 +47,7 @@ def rt_scene() -> Scene:
 def linear_cdna() -> Construct:
     return Construct([
         seg("adapter", ADAPTER, "r1"),
-        seg("random hexamer", RANDOM_HEXAMER, "umi", placeholder=True),
+        seg("random hexamer", RANDOM_HEXAMER, "r3", placeholder=True),
         seg("cDNA", CDNA, placeholder=True),
     ], name="cross-linked single-stranded cDNA")
 
@@ -75,7 +75,7 @@ def rolony() -> Construct:
         parts.extend([
             seg(f"adapter complement {i}", one[0], "r1"),
             seg(f"transcript copy {i}", one[1], placeholder=True),
-            seg(f"random hexamer copy {i}", one[2], "umi", placeholder=True),
+            seg(f"random hexamer copy {i}", one[2], "r3", placeholder=True),
         ])
     product = Construct(parts, name="RCA concatemer (three repeats drawn)")
     if product.top() != RCA.sequence:

@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from chromatin_epigenetics import strand_selection_rows
 
 
@@ -73,7 +73,8 @@ def final_library() -> Construct:
         *pe1_segments(),
         seg("retained parental template fragment", "X" * 36, placeholder=True),
         seg("PE Read 2 site", revcomp(PE_READ2), "r2"),
-        seg("i7 reverse complement", "N" * INDEX_NT, "cbc", placeholder=True),
+        seg("i7 reverse complement", "N" * INDEX_NT, "cbc", placeholder=True,
+            feature=feature("cell_i7", "cell_barcode", "whitelist", whitelist="published hexamer index set")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="Strand-seq library")
     problems = sp.verify(lib, SEQ_PRIMERS,

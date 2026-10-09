@@ -5,10 +5,17 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
+            "i7 reverse complement": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -95,5 +102,5 @@ def primer_landings(lib: Construct|None=None):
 
 
 def read1_layout() -> list[tuple[str,str]]:
-    lib=final_library(); bc=lib.get("cell barcode"); umi=lib.get("UMI")
-    return [(f"1&ndash;{len(bc)}","cell barcode"),(f"{len(bc)+1}&ndash;{len(bc)+len(umi)}","UMI")]
+    return [(x.cycles, x.feature.label) for x in
+            sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 20})]

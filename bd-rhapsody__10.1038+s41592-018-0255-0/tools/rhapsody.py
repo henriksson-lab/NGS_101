@@ -3,14 +3,19 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Construct,Scene,Segment
+from chemdraw import Construct,Scene,Segment,feature
+
+CELL_LABEL=feature("cell_label","cell_barcode","whitelist",whitelist="bd-rhapsody-cell-label-set")
+UMI_FEATURE=feature("umi","umi","random")
+FEATURES={"cell label":CELL_LABEL,"cell label'":CELL_LABEL,"UMI":UMI_FEATURE,"UMI'":UMI_FEATURE}
 
 # Printed by BD in Whole Transcriptome Analysis Alpha Protocol 23-21179-00 (12/2018).
 RANDOMER_HANDLE="TCAGACGTGTGCTCTTCCGATCT"
 RANDOM_NT=9
 DRAWN_POLYT=15  # visual tract only; BD does not publish the bead oligo's exact sequence
 
-def _s(n,t,g=None,**kw): return Segment(n,t,g,**kw)
+def _s(n,t,g=None,**kw):
+    kw.setdefault("feature",FEATURES.get(n)); return Segment(n,t,g,**kw)
 
 def bead_capture_segments():
     """Vendor-published architecture, with proprietary bases represented symbolically."""

@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import seqprimers as sp
 from captrap import CapTrappedHybrid
-from chemdraw import Construct, Row, Scene, Segment, revcomp
+from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
 
 TITLE = "CAGE — cap analysis of gene expression"
 NOTES = "01_cage.html"
@@ -32,7 +32,8 @@ def final_library() -> tuple[Construct, tuple]:
     lib = Construct([
         Segment("P5-side PCR prefix", FWD[:7], "p5"),
         Segment("custom CAGE sequencing-primer site", SEQUENCING, "r1"),
-        Segment("3-nt sample barcode", BARCODE, "cbc"),
+        Segment("3-nt sample barcode", BARCODE, "cbc",
+                feature=feature("sample_inline", "sample_index", "whitelist", whitelist="published CAGE linker set")),
         Segment("EcoP15I recognition site", ECOP_SITE),
         Segment("27-nt capped 5′ tag", "X" * 27, placeholder=True),
         Segment("two-base EcoP15I ligation overhang", "N" * 2, placeholder=True),

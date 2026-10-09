@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from illumina import P5, P7
 import nextera as nx
 import seqprimers as sp
@@ -58,13 +58,15 @@ def nextera_library(insert_name: str = "insert") -> Construct:
     """Dual-indexed Nextera library used for either ASTAR modality."""
     lib = Construct([
         _seg("P5", P5, "p5"),
-        _seg("i5", "N" * INDEX_LEN, "cbc", placeholder=True),
+        _seg("i5", "N" * INDEX_LEN, "cbc", placeholder=True,
+             feature=feature("sample_i5", "sample_index", "unknown")),
         _seg("s5", nx.S5, "s5"),
         _seg("ME", nx.ME, "me"),
         _seg(insert_name, "XXXXXXXX...XXXXXXXX", placeholder=True),
         _seg("ME'", nx.ME_RC, "me"),
         _seg("s7'", nx.S7_RC, "s7"),
-        _seg("i7'", "N" * INDEX_LEN, "cbc", placeholder=True),
+        _seg("i7'", "N" * INDEX_LEN, "cbc", placeholder=True,
+             feature=feature("sample_i7", "sample_index", "unknown")),
         _seg("P7'", revcomp(P7), "p7"),
     ], name=f"ASTAR {insert_name} library")
     problems = sp.verify(lib, SEQ_PRIMERS)

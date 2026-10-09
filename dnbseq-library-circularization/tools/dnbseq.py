@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
-from chemdraw import Construct, Row, circle_rows
+from chemdraw import Construct, Row, circle_rows, feature
 from circular import circularize_ssdna, rolling_circle
 
 TITLE = "DNBSEQ library circularization and DNA-nanoball preparation"
@@ -20,7 +20,8 @@ LINEAR = Construct([seg("adapter A / primer site", "X" * 16, "r1", placeholder=T
                         inferred=True),
                     seg("insert", "N" * 30, placeholder=True),
                     seg("adapter B / barcode", "Y" * 16, "cbc", placeholder=True,
-                        inferred=True)], name="denatured DNBSEQ library strand")
+                        inferred=True, feature=feature("sample_barcode_region", "sample_index", "unknown",
+                                                       note="barcode sub-boundary is proprietary"))], name="denatured DNBSEQ library strand")
 CIRCLE = circularize_ssdna(LINEAR, five_prime_phosphate=True)
 RCA = rolling_circle(CIRCLE, "X" * 16, copies=3)
 

@@ -1,15 +1,16 @@
 """Reusable molecular states for RNA-specialized sequencing workflows."""
 from __future__ import annotations
 
-from chemdraw import Construct, Row, Scene, Segment, circle_rows
+from chemdraw import Construct, Row, Scene, Segment, circle_rows, feature
 from dumbbell import Dumbbell, dumbbell_rows
 
 
-def role(name: str, width: int, tag: str | None = None, *, inferred: bool = False) -> Segment:
+def role(name: str, width: int, tag: str | None = None, *, inferred: bool = False,
+         **kw) -> Segment:
     """A length-preserving unknown region whose evidence state cannot be forgotten."""
     if width < 1:
         raise ValueError(f"{name}: molecular roles must have positive width")
-    return Segment(name, "X" * width, tag, placeholder=True, inferred=inferred)
+    return Segment(name, "X" * width, tag, placeholder=True, inferred=inferred, **kw)
 
 
 def rna_fragment(name: str = "RNA fragment", width: int = 32) -> list[Segment]:
@@ -29,7 +30,7 @@ def adapter_ligation_scene(*, fragment_name: str = "RNA fragment",
 
 def template_switch_scene(*, body: str = "RNA body", tail: str = "poly(A)",
                           switch: str = "template-switch handle",
-                          inferred: bool = False) -> Scene:
+                          inferred: bool = False, umi: bool = False) -> Scene:
     """Poly(A)-primed RT with a template-switch handle at the completed cDNA 5-prime end."""
     mrna = [role(body, 30), Segment(tail, "A" * 14)]
     primer = [role("RT/PCR handle", 14, "r2", inferred=inferred), Segment("poly(dT)", "T" * 14)]
@@ -37,8 +38,15 @@ def template_switch_scene(*, body: str = "RNA body", tail: str = "poly(A)",
     sc.anneal("RT primer", primer, to="RNA", pair=("poly(dT)", tail),
               label="RT primer", unpaired=("RT/PCR handle",))
     sc.arrow("RT primer", "reverse transcription to the RNA 5-prime end")
-    sc.strand("switch oligo", [role(switch, 15, "r1", inferred=inferred),
-                               Segment("rGrGrG", "GGG")], label="template-switch oligo")
+    switch_parts = [role(switch, 15, "r1", inferred=inferred)]
+    if umi:
+        switch_parts.append(role("UMI", 8, "umi", inferred=inferred,
+                                 feature=feature("umi", "umi", "random",
+                                                 note="exact length is proprietary")))
+    switch_parts.append(Segment("rGrGrG", "GGG"))
+    sc.strand("switch oligo", switch_parts, label="template-switch oligo")
+    if umi:
+        sc.mark("switch oligo", "UMI", "UMI")
     return sc
 
 

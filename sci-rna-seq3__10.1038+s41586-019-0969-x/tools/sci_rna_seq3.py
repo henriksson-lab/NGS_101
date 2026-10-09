@@ -4,10 +4,24 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+LIGATION_BARCODE = feature("cell_barcode_ligation", "cell_barcode", "combinatorial",
+                           group="cell_barcode", part="ligation round")
+RT_BARCODE = feature("cell_barcode_rt", "cell_barcode", "combinatorial",
+                     group="cell_barcode", part="RT round")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "fixed")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"UMI": UMI_FEATURE, "ligation barcode": LIGATION_BARCODE,
+            "ligation barcode, read orientation": LIGATION_BARCODE,
+            "barcode reverse complement": LIGATION_BARCODE, "RT barcode": RT_BARCODE,
+            "i5": I5_FEATURE, "i7": I7_FEATURE,
+            "i7 reverse complement": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -111,8 +125,7 @@ def primer_landings(lib: Construct|None=None):
 
 
 def read1_layout() -> list[tuple[str,str]]:
-    lib=final_library(); names=[("ligation barcode, read orientation","ligation barcode"),("ligation site","CAGAGC"),("UMI","UMI"),("RT barcode","RT barcode")]
-    rows=[]; cycle=1
-    for name,label in names:
-        end=cycle+len(lib.get(name))-1; rows.append((f"{cycle}&ndash;{end}",label)); cycle=end+1
-    return rows
+    spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":34})
+    by_id={x.feature.id:(x.cycles,x.feature.label) for x in spans}
+    return [by_id["cell_barcode_ligation"],("11–16","CAGAGC"),
+            by_id["umi"],by_id["cell_barcode_rt"]]

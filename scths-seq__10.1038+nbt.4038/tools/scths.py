@@ -4,7 +4,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment, complement_segments, feature
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -60,14 +60,17 @@ RUN_ROLES = ("Read 1", "Index 1 (i7)", "Index 2 (i5)")
 
 def final_library(insert_nt: int = 28) -> Construct:
     lib = Construct([
-        seg("P5", il.P5, "p5"), seg("i5 index", I5_OLIGO_INDEX, "cbc"),
+        seg("P5", il.P5, "p5"), seg("i5 index", I5_OLIGO_INDEX, "cbc",
+                                        feature=feature("cell_i5", "cell_barcode", "combinatorial", group="cell_id", part="i5")),
         seg("IVT/i5 connector", CONNECTOR, "t7"),
-        seg("round-1 r5 barcode", "B" * 6, "cbc", placeholder=True),
+        seg("round-1 r5 barcode", "B" * 6, "cbc", placeholder=True,
+            feature=feature("cell_r5", "cell_barcode", "combinatorial", group="cell_id", part="round 1 r5")),
         seg("s5", nx.S5, "s5"), seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("second mosaic end reverse complement", nx.ME_RC, "me"),
         seg("s7 reverse complement", nx.S7_RC, "s7"),
-        seg("i7 index read", I7_INDEX_READ, "cbc"),
+        seg("i7 index read", I7_INDEX_READ, "cbc",
+            feature=feature("cell_i7", "cell_barcode", "combinatorial", group="cell_id", part="i7")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scTHS-seq sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS, required_roles=RUN_ROLES)

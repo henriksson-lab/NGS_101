@@ -5,7 +5,7 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -32,7 +32,9 @@ I5_OLIGO_INDEX = "TCGTGGAGCG"
 def barcode(name: str) -> Segment:
     digit = next(c for c in reversed(name) if c.isdigit())
     symbol = {"1": "B", "2": "C", "3": "D"}[digit]
-    return seg(name, symbol * 10, "cbc", placeholder=True)
+    return seg(name, symbol * 10, "cbc", placeholder=True,
+               feature=feature(f"cell_bc{digit}", "cell_barcode", "combinatorial",
+                               group="cell_id", part=f"round {digit}"))
 
 
 def bead_oligo() -> Construct:
@@ -131,7 +133,8 @@ def final_library(insert_nt: int = 28) -> Construct:
     bead = bead_oligo()
     lib = Construct([
         seg("P5", il.P5, "p5"),
-        seg("i5 sample index", I5_OLIGO_INDEX, "cbc"),
+        seg("i5 sample index", I5_OLIGO_INDEX, "cbc",
+            feature=feature("sample_i5", "sample_index", "whitelist", whitelist="published HYi5 primer set")),
         seg("s5", nx.S5, "s5"),
         seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
@@ -144,7 +147,8 @@ def final_library(insert_nt: int = 28) -> Construct:
         barcode("barcode 1"),
         seg("bead-backbone tail", revcomp(BEAD_HYI7_SITE), "tso"),
         seg("HYi7 spacer reverse complement", revcomp(HYI7_SPACER)),
-        seg("i7 reverse complement", revcomp(I7_OLIGO_INDEX), "cbc"),
+        seg("i7 reverse complement", revcomp(I7_OLIGO_INDEX), "cbc",
+            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published HYi7 primer set")),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="HyDrop-ATAC sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)

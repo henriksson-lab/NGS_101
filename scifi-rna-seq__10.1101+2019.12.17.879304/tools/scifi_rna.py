@@ -5,10 +5,20 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+UMI_FEATURE = feature("umi", "umi", "random")
+ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
+                         group="cell_barcode", part="RT plate")
+ROUND2_FEATURE = feature("cell_barcode_round2", "cell_barcode", "combinatorial",
+                         group="cell_barcode", part="bead")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"UMI": UMI_FEATURE, "round-1 barcode": ROUND1_FEATURE,
+            "round-2 bead barcode": ROUND2_FEATURE, "i7 index read": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -109,5 +119,7 @@ def final_scene() -> Scene:
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    return [("1&ndash;8", "UMI"), ("9", "fixed N"),
-            ("10&ndash;20", "round-1 cell barcode"), ("21", "fixed V")]
+    spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":21})
+    by_id={x.feature.id:(x.cycles,x.feature.label) for x in spans}
+    return [by_id["umi"],("9","fixed N"),by_id["cell_barcode_round1"],
+            ("21","fixed V")]

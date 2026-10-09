@@ -8,7 +8,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, revcomp
+from chemdraw import Construct, Row, Scene, feature, revcomp
 
 TITLE = "SCI-seq — single-cell combinatorial-indexed genome sequencing"
 NOTES = "01_sci-seq.html"
@@ -32,17 +32,21 @@ I2_SEQ = nx.ME_RC + revcomp(C15)
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
-    seg("PCR i5", "J" * 10, "cbc", placeholder=True),
+    seg("PCR i5", "J" * 10, "cbc", placeholder=True,
+        feature=feature("cell_pcr_i5", "cell_barcode", "combinatorial", group="cell_id", part="PCR i5")),
     seg("S5", nx.S5, "s5"), seg("A connector", CONNECTOR_A, "me"),
-    seg("transposase i5", "K" * 8, "cbc", placeholder=True),
+    seg("transposase i5", "K" * 8, "cbc", placeholder=True,
+        feature=feature("cell_tn5_i5", "cell_barcode", "combinatorial", group="cell_id", part="transposase i5")),
     seg("C15", C15, "me"), seg("left mosaic end", nx.ME, "me"),
     seg("genomic DNA", "X" * 38, placeholder=True),
     seg("right mosaic end reverse complement", nx.ME_RC, "me"),
     seg("D15 reverse complement", revcomp(D15), "me"),
-    seg("transposase i7 reverse complement", "L" * 8, "cbc", placeholder=True),
+    seg("transposase i7 reverse complement", "L" * 8, "cbc", placeholder=True,
+        feature=feature("cell_tn5_i7", "cell_barcode", "combinatorial", group="cell_id", part="transposase i7")),
     seg("B connector reverse complement", revcomp(CONNECTOR_B), "me"),
     seg("S7 reverse complement", nx.S7_RC, "s7"),
-    seg("PCR i7 reverse complement", "I" * 10, "cbc", placeholder=True),
+    seg("PCR i7 reverse complement", "I" * 10, "cbc", placeholder=True,
+        feature=feature("cell_pcr_i7", "cell_barcode", "combinatorial", group="cell_id", part="PCR i7")),
     seg("P7 reverse complement", il.P7_RC, "p7"),
 ], name="quad-index SCI-seq library")
 

@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from illumina import P5, P7
 import nextera as nx
 
@@ -23,9 +23,23 @@ INDEX_LEN = 8
 UFI_LEN = 6
 DROP_BARCODE_LEN = 8
 PLATE_BARCODE_LEN = 8
+UFI_FEATURE = feature("ufi", "umi", "random")
+PLATE_CELL = feature("cell_barcode_plate", "cell_barcode", "whitelist",
+                     whitelist="vasa-plate-barcode-set")
+DROP_BC1 = feature("cell_barcode_drop_1", "cell_barcode", "combinatorial",
+                   group="cell_barcode", part="barcode 1")
+DROP_BC2 = feature("cell_barcode_drop_2", "cell_barcode", "combinatorial",
+                   group="cell_barcode", part="barcode 2")
+I5_FEATURE = feature("sample_index_i5", "sample_index", "unknown")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"UFI": UFI_FEATURE, "UFI'": UFI_FEATURE,
+            "cell barcode": PLATE_CELL, "barcode 1'": DROP_BC1,
+            "barcode 2'": DROP_BC2, "i5": I5_FEATURE, "i7": I7_FEATURE,
+            "i7'": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

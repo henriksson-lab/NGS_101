@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, panel
+from chemdraw import duplex_rows, panel
 from page import head, info
 
 
@@ -21,9 +21,10 @@ def render(m) -> str:
         if not primers:
             raise ValueError(f"{m.TITLE}: {heading} has no declared sequencing primers")
         parts.extend([f'<h2>{heading}</h2>',
-                      panel([*Scene.duplex(list(library), label="library").rows(),
-                             *annotation_rows(library)], cls="long", caption=caption),
+                      panel(duplex_rows(library, label="library"),
+                            cls="long", caption=caption),
                       sp.section(library, primers, intro=intro,
-                                 required_roles=tuple(p.role for p in primers))])
+                                 required_roles=tuple(p.role for p in primers),
+                                 read_lengths=getattr(m, "READ_LENGTHS", {}).get(heading))])
     parts.append('</div>')
     return "\n".join(parts)

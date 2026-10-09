@@ -6,7 +6,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 from targeted_ngs import smmip_rows
 
 TITLE="Single-molecule molecular inversion probes (smMIPs)"
@@ -14,6 +14,8 @@ NOTES="01_smmip.html"
 SOURCE='Hiatt et al. 2013, <a href="https://doi.org/10.1101/gr.147686.112">doi:10.1101/gr.147686.112</a>; detailed MIP protocol: <a href="https://doi.org/10.1007/978-1-4939-6442-0_6">O\'Roak et al. 2017</a>.'
 SUMMARY="A 12-nt-tagged inversion probe copies a target gap, circularizes, survives exonuclease and is universally amplified so reads can be collapsed by original molecule."
 CAVEAT="Probe arms and captured gaps are target-specific. The model uses the published invariant backbone/run primers and leaves only the arms, target, twelve-base molecular tag and eight-base sample index variable."
+MOLECULAR_TAG=feature("molecular_tag","umi","random")
+I7_FEATURE=feature("sample_index_i7","sample_index","unknown")
 
 FORWARD_HANDLE="ATACGAGATCCGTAATCGGGAAGCTGAAG"
 REVERSE_HANDLE_TOP="ACACTACCGTCGGATCGTGCGTGT"
@@ -27,9 +29,9 @@ FINAL_LIBRARY=Construct([
  seg("extension targeting arm","X"*18,placeholder=True),
  seg("captured target","N"*34,placeholder=True),
  seg("ligation targeting arm","Y"*22,placeholder=True),
- seg("12-nt single-molecule tag","U"*12,"umi",placeholder=True),
+ seg("12-nt single-molecule tag","U"*12,"umi",placeholder=True,feature=MOLECULAR_TAG),
  seg("smMIP reverse handle",REVERSE_HANDLE_TOP,"r2"),
- seg("eight-base i7 index reverse complement","I"*8,"cbc",placeholder=True),
+ seg("eight-base i7 index reverse complement","I"*8,"cbc",placeholder=True,feature=I7_FEATURE),
  seg("P7 reverse complement",il.P7_RC,"p7"),
 ],name="single-index smMIP capture product")
 SEQ_PRIMERS=(

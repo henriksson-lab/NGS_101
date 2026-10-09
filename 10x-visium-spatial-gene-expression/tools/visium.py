@@ -4,17 +4,19 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg, spatial_rt_scene, truseq_library
-from chemdraw import Row
+from chemdraw import Row, feature
 
 TITLE = "10x Visium Spatial Gene Expression — array capture"
 NOTES = "01_visium.html"
 SOURCE = 'Commercial protocol: 10x Genomics <a href="https://cdn.10xgenomics.com/image/upload/v1660261286/support-documents/CG000239_Visium_Spatial_Gene_Expression_User_Guide_Rev_F.pdf">CG000239 Rev F</a>.'
 SUMMARY = "A tissue section is permeabilized over an array of spatially indexed oligo-dT spots. Released polyadenylated RNA is copied on the slide so each cDNA receives the spot barcode and a UMI before standard short-read library construction."
 CAVEAT = "The spot barcode whitelist and complete surface oligo are commercial. Their published roles and lengths are drawn as placeholders; no undisclosed bases are invented."
+SPATIAL=feature("spatial_barcode","spatial_barcode","whitelist",whitelist="10x-visium-spot-barcode-set")
+UMI_FEATURE=feature("umi","umi","random")
 
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([
-    seg("spatial barcode", "B" * 16, "cbc", placeholder=True),
-    seg("UMI", "U" * 12, "umi", placeholder=True),
+    seg("spatial barcode", "B" * 16, "cbc", placeholder=True, feature=SPATIAL),
+    seg("UMI", "U" * 12, "umi", placeholder=True, feature=UMI_FEATURE),
     seg("poly(dT) junction", "T" * 12, placeholder=True),
     seg("captured cDNA", "X" * 38, placeholder=True)],
     "Visium gene-expression library", dual_index=False, inferred_adapters=True)

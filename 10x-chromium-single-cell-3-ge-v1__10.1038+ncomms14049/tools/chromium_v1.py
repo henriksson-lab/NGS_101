@@ -3,10 +3,18 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-chromium-3prime-v1")
+UMI = feature("umi", "umi", "random")
+I5 = feature("sample_index_i5", "sample_index", "unknown")
+FEATURES = {"cell barcode": CELL_BARCODE, "cell barcode reverse complement": CELL_BARCODE,
+            "UMI": UMI, "i5 sample index": I5}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

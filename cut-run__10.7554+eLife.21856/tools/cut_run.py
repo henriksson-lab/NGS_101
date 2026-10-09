@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import duplex_fragment, seg, targeting_rows
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 
 TITLE = "CUT&RUN — antibody-tethered MNase chromatin profiling"
 NOTES = "01_cut-run.html"
@@ -16,7 +16,8 @@ FINAL_LIBRARY = Construct([
     seg("unreported left adapter", "[adapter]", placeholder=True, inferred=True),
     seg("released target-proximal DNA", "X" * 38, placeholder=True),
     seg("unreported right adapter / index", "[adapter/index]", placeholder=True,
-        inferred=True),
+        inferred=True, feature=feature("sample_index_region", "sample_index", "unknown",
+                                      note="index count and sub-boundary are not reported")),
 ], name="CUT&RUN library (adapter identity unavailable)")
 SEQ_PRIMERS = ()
 FINAL_CAPTION = "INFERRED — the released MNase fragment is end-repaired, dA-tailed, adapter-ligated and PCR-amplified. Dotted role tokens mark adapter information that the defining paper does not report."

@@ -510,7 +510,10 @@ captured vector sequence.""")}
        caption="Read 2 primes on the same site from the other strand, reading the "
                "opposite way: straight into the UMI.")}
 
-{sp.section(LIB, cm.SEQ_PRIMERS)}
+{sp.section(LIB, cm.SEQ_PRIMERS,
+            read_lengths={"Read 1": cm.READ1_CYCLES,
+                          "Index 1 (i7)": cm.INDEX_LEN,
+                          "Read 2": cm.READ2_CYCLES})}
 {info("""<b>Why the UMI is the point.</b> It was attached during the capture, before any
 amplification, so two reads sharing a UMI came from the same original genomic molecule.
 Deduplicating on it converts read counts into molecule counts &mdash; which removes the

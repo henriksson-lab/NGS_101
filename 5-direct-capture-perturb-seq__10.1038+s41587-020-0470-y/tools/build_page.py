@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import direct_capture as C
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
 
@@ -39,8 +39,8 @@ def render() -> str:
               caption=f"Final guide library: {len(C.final_library())} bp for the printed AGGAGTCC example index (reported as approximately 250 bp)."),
         sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",
                    intro="Read 1 records cell barcode and UMI. Read 2 crosses the constant region before reaching the protospacer; the protocol recommends 98 Read 2 cycles.",
-                   required_roles=("Read 1", "Index 1 (i7)", "Read 2")),
-        table(("Read", "Cycles", "Content"), C.read_layout(), scroll=False),
+                   required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+                   read_lengths={"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98}),
         "</div>",
     ])
 

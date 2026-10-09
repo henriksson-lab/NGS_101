@@ -10,11 +10,20 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from crispr import SCAFFOLD_V1
-from chemdraw import Construct, Segment, revcomp
+from chemdraw import Construct, Segment, feature, revcomp
 from lentivirus import TransferGenome
+
+GUIDE_FEATURE = feature("guide", "guide_barcode", "unknown")
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
+UMI_FEATURE = feature("umi", "umi", "random")
+I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+FEATURES = {"guide": GUIDE_FEATURE, "guide cDNA": GUIDE_FEATURE,
+            "cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
+            "i7 reverse complement": I7_FEATURE}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
@@ -98,4 +107,5 @@ def final_library() -> Construct:
 
 
 def read1_layout() -> list[tuple[str, str]]:
-    return [("1-12", "cell barcode"), ("13-20", "UMI")]
+    return [(x.cycles, x.feature.label) for x in
+            sp.feature_spans(final_library(), sequencing_primers(), {"Read 1": 20})]

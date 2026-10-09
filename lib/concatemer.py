@@ -37,7 +37,7 @@ class SegmentedArray:
         parts = []
         for i, insert in enumerate(self.inserts):
             parts.extend(Segment(f"insert {i + 1}: {s.name}", s.top, s.tag,
-                                 s.placeholder, s.inferred, s.bottom, s.note)
+                                 s.placeholder, s.inferred, s.bottom, s.note, s.feature)
                          for s in insert)
             if i < len(self.junctions):
                 parts.append(self.junctions[i])

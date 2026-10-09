@@ -3,10 +3,16 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,complement_segments
+from chemdraw import Construct,Scene,Segment,complement_segments,feature
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]; SWITCH_SPACER="TTTCTTATAT"
-def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
+CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-gem-x-5prime-v3")
+UMI_FEATURE=feature("umi","umi","random")
+I5_FEATURE=feature("sample_index_i5","sample_index","unknown")
+I7_FEATURE=feature("sample_index_i7","sample_index","unknown")
+FEATURES={"cell barcode":CELL_BARCODE,"UMI":UMI_FEATURE,"i5":I5_FEATURE,"i7 reverse complement":I7_FEATURE}
+def seg(name,top,tag=None,**kw):
+    kw.setdefault("feature",FEATURES.get(name)); return Segment(name=name,top=top,tag=tag,**kw)
 def inferred(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,inferred=True,**kw)
 def bead_tso(): return [seg("Partial Read 1",PARTIAL_R1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*12,"umi",placeholder=True),seg("switch spacer",SWITCH_SPACER,"tso"),seg("rGrGrG","GGG","tso")]
 def inferred_rt_primer(): return [inferred("RT handle",rt.SMART_HANDLE+"AC","tso"),inferred("poly(dT)30","T"*30),inferred("V","V",placeholder=True),inferred("N","N",placeholder=True)]
@@ -27,4 +33,4 @@ def final_library(insert_nt=38):
     problems=sp.verify(lib,SEQ_PRIMERS)
     if problems: raise ValueError("invalid 5' v3 library: "+"; ".join(problems))
     return lib
-def read1_layout(): return [("1–16","cell barcode"),("17–28","UMI")]
+def read1_layout(): return [(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28})]

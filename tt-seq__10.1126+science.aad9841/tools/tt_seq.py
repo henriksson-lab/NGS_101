@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row
+from chemdraw import Construct, Row, feature
 
 TITLE = "TT-seq — transient transcriptome sequencing"
 NOTES = "01_tt-seq.html"
@@ -26,7 +26,8 @@ FINAL_LIBRARY = Construct([
     seg("dA junction", "A", inferred=True),
     seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=True),
     seg("six-base i7 index reverse complement", "I" * 6, "cbc",
-        placeholder=True, inferred=True),
+        placeholder=True, inferred=True,
+        feature=feature("sample_i7", "sample_index", "unknown")),
     seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
 ], name="inferred single-index TT-seq library")
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])

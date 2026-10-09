@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment
+from chemdraw import Construct, Row, Scene, Segment, feature
 
 TITLE = "MethylC-seq — conventional whole-genome bisulfite sequencing"
 NOTES = "01_methylc-seq.html"
@@ -40,7 +40,8 @@ def nextflex_library(index: str = NEXTFLEX_I7[0], *,
         Segment(insert_label, "X" * 36, placeholder=True),
         Segment("dA junction / Read 2 site start", "A"),
         Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        Segment("6-nt i7", index, "cbc"),
+        Segment("6-nt i7", index, "cbc",
+                feature=feature("sample_i7", "sample_index", "whitelist", whitelist="NEXTflex Bisulfite-Seq Barcodes-12")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="NEXTflex MethylC-seq library")
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])

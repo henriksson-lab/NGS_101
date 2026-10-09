@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from endprep import dA_tailed_scene, repair_and_dA_tail
 
 INDEX_NT = 6
@@ -63,7 +63,8 @@ def adapter_scene() -> Scene:
     indexed = [
         _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2"),
         _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2"),
-        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True),
+        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True,
+             feature=feature("cell_i7", "cell_barcode", "whitelist", whitelist="published indexed primer set")),
         _seg("P7'", il.P7_RC, "p7"),
     ]
     sc = Scene()

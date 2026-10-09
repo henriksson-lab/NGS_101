@@ -4,10 +4,16 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments
+from chemdraw import Construct, Scene, Segment, complement_segments, feature
+
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x-chromium-atac-v1")
+SAMPLE_INDEX = feature("sample_index_i7", "sample_index", "fixed")
+FEATURES = {"10x cell barcode": CELL_BARCODE, "i7 sample index read": SAMPLE_INDEX}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, **kw)
 
 

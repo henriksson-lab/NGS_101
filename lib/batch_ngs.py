@@ -8,7 +8,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, complement_segments
+from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -21,11 +21,13 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
         left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+                        feature=feature("sample_index_i5", "sample_index", "unknown"),
                         inferred=inferred_adapters))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=inferred_adapters))
     lib = Construct([*left, *insert, seg("dA junction", "A", inferred=inferred_adapters),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred_adapters),
         seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown"),
             inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred_adapters)], name=name)
     primers = ((sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
@@ -40,11 +42,13 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
 def nextera_library(insert: list[Segment], name: str) -> tuple[Construct, tuple]:
     """Heterologous S5/S7 Tn5 product after indexed PCR, with validated run sites."""
     lib = Construct([
-        seg("P5", il.P5, "p5"), seg("i5", "J" * 8, "cbc", placeholder=True),
+        seg("P5", il.P5, "p5"), seg("i5", "J" * 8, "cbc", placeholder=True,
+                                    feature=feature("sample_index_i5", "sample_index", "unknown")),
         seg("S5", nx.S5, "s5"), seg("left mosaic end", nx.ME, "me"), *insert,
         seg("right mosaic end reverse complement", nx.ME_RC, "me"),
         seg("S7 reverse complement", nx.S7_RC, "s7"),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True),
+        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
         seg("P7 reverse complement", il.P7_RC, "p7")], name=name)
     primers = (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["I2"], sp.NEXTERA["R2"])
     problems = sp.verify(lib, primers)
@@ -61,10 +65,16 @@ def spatial_rt_scene(*, barcode_parts: tuple[tuple[str, int], ...], umi: int,
                      surface: str) -> Scene:
     """Poly(A)-primed spatial RT; barcode provenance is encoded in named segments."""
     mrna = [seg("transcript", "X" * 28, placeholder=True), seg("poly(A)", "A" * 18)]
-    primer = [seg(surface, "X" * 6, placeholder=True),
-              *(seg(name, "B" * n, "cbc", placeholder=True) for name, n in barcode_parts)]
+    primer = [seg(surface, "X" * 6, placeholder=True)]
+    primer.extend(
+        seg(name, "B" * n, "cbc", placeholder=True,
+            feature=feature(f"spatial_barcode_{i}", "spatial_barcode", "combinatorial",
+                            group="spatial_barcode", part=name))
+        for i, (name, n) in enumerate(barcode_parts, 1)
+    )
     if umi:
-        primer.append(seg("UMI", "U" * umi, "umi", placeholder=True))
+        primer.append(seg("UMI", "U" * umi, "umi", placeholder=True,
+                          feature=feature("umi", "umi", "random")))
     primer.append(seg("poly(dT)", "T" * 18))
     sc = Scene(); sc.strand("mRNA", mrna, label="tissue mRNA")
     sc.anneal("capture primer", primer, to="mRNA", pair=("poly(dT)", "poly(A)"),
