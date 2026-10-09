@@ -36,6 +36,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 
 import catalogue as cat  # noqa: E402
+import citations as cites  # noqa: E402
 import properties as props  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
@@ -208,7 +209,8 @@ CATEGORY_LABEL = {"TODO list": "on the scg_lib_structs TODO list",
                   "Ours, not in scg_lib_structs": "not in scg_lib_structs"}
 
 
-def entry(r: dict, properties: dict, omit: set[str], run_checks: bool) -> dict:
+def entry(r: dict, properties: dict, citation: cites.Citation | None,
+          omit: set[str], run_checks: bool) -> dict:
     d = r["dir"]
     crows = cat.rows_for_dir(d)
     defining = next((x for x in crows if x["is_defining"] == "yes"), {})
@@ -243,13 +245,19 @@ def entry(r: dict, properties: dict, omit: set[str], run_checks: bool) -> dict:
         "page": (str(page.relative_to(ROOT)).replace("\\", "/") if has_page else ""),
         "checks": n, "checks_ok": ok,
         "properties": properties,
+        "citations": citation.citations if citation else None,
+        "citations_retrieved": citation.retrieved if citation else "",
+        "citation_openalex": citation.openalex_id if citation else "",
+        "commercial": "commercial kit" in properties["availability"],
     }
 
 
 def collect(omit: set[str] = frozenset(), run_checks: bool = True) -> list[dict]:
     ours = cat.ours()
     properties = props.load({r["dir"] for r in ours})
-    return [entry(r, properties[r["dir"]], set(omit), run_checks) for r in ours]
+    citations = cites.load()
+    return [entry(r, properties[r["dir"]], citations.get(r["doi"].lower()),
+                  set(omit), run_checks) for r in ours]
 
 
 # ------------------------------------------------------------------- render
@@ -288,8 +296,20 @@ def badges(p: dict) -> str:
 def result_item(i: int, p: dict) -> str:
     first = p["page"]
     name = f'<a href="{e(first)}">{e(p["name"])}</a>' if first else e(p["name"])
+    if p["citations"] is not None:
+        n = p["citations"]
+        label = f'{n:,} citation' + ("" if n == 1 else "s")
+        citation = (f'<a class="cites" href="{e(p["citation_openalex"])}" '
+                    f'title="OpenAlex snapshot, {e(p["citations_retrieved"])}">'
+                    f'{label}</a>')
+    elif not p["doi"] and p["commercial"]:
+        citation = '<span class="cites no-count">commercial protocol</span>'
+    elif not p["doi"]:
+        citation = '<span class="cites no-count">no defining paper</span>'
+    else:
+        citation = '<span class="cites no-count">citation count unavailable</span>'
     return f"""<li class="pr" data-i="{i}" id="p-{e(p['dir'])}">
-<h3>{name}</h3>
+<h3>{name}</h3>{citation}
 </li>"""
 
 
@@ -299,7 +319,7 @@ def search_data(ps: list[dict]) -> str:
              "s": status_label(p),
              "d": p["doi"], "y": p["year"],
              "t": " ".join([*p["papers"], p["blurb"]]),
-             "p": p["properties"]} for p in ps]
+             "p": p["properties"], "x": p["citations"]} for p in ps]
     # embedded in a <script>, so no "</" may appear literally
     return json.dumps(recs, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
@@ -372,6 +392,9 @@ EXTRA_CSS = """<style>
          grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); }
 .pr { border:1px solid var(--rule); border-radius:4px; padding:9px 12px;
       background:var(--surface); }
+.pr .cites { display:block; margin-top:3px; color:var(--ink-muted); font-size:.75rem;
+             font-variant-numeric:tabular-nums; }
+.pr .no-count { font-style:italic; }
 .pr p { margin:0; font-size:.93rem; max-width:90ch; }
 .pr .aka { font-size:.84rem; color:var(--ink-muted); }
 .pr .snip { font-size:.84rem; color:var(--ink-muted); border-left:2px solid var(--key-rule);
@@ -381,6 +404,12 @@ mark { background:var(--note-bg); color:var(--ink); box-shadow:0 0 0 1px var(--n
 .empty { color:var(--ink-muted); font-style:italic; }
 .concept { margin:1.1em 0; }
 .concept p { margin:.2em 0 0; max-width:76ch; font-size:.95rem; }
+.citation-filter { display:flex; flex-wrap:wrap; align-items:center; gap:5px 9px;
+                   margin-top:6px; font-size:.8rem; color:var(--ink-muted); }
+.citation-filter input[type=range] { width:min(240px,52vw); accent-color:var(--accent); }
+.citation-filter output { min-width:7.5em; color:var(--ink); font-variant-numeric:tabular-nums; }
+.citation-filter .unknown { display:flex; align-items:center; gap:5px; }
+.citation-filter .snapshot { color:var(--ink-muted); }
 @media (max-width:600px) {
   .pr, .card { padding:10px 12px; }
   .count { margin-left:0; width:100%; }
@@ -398,6 +427,10 @@ SEARCH_JS = r"""<script>
   var q = document.getElementById('q'), count = document.getElementById('count');
   var empty = document.getElementById('empty'), clear = document.getElementById('clear');
   var boxes = Array.prototype.slice.call(document.querySelectorAll('.facet-options input'));
+  var citation = document.getElementById('citation-min');
+  var citationValue = document.getElementById('citation-value');
+  var keepUnknown = document.getElementById('citation-unknown');
+  var citationSteps = JSON.parse(citation.dataset.steps);
   function norm(s) {
     return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
@@ -429,12 +462,15 @@ SEARCH_JS = r"""<script>
       if (box.checked) (active[box.dataset.facet] || (active[box.dataset.facet] = [])).push(box.value);
     });
     var hits = [];
+    var minCitations = citationSteps[Number(citation.value)];
+    citationValue.textContent = minCitations ? minCitations.toLocaleString() + '+' : 'any';
     for (var i = 0; i < recs.length; i++) {
       var r = data[i], f = recs[i];
       var matches = Object.keys(active).every(function (facet) {
         return active[facet].some(function (value) { return r.p[facet].indexOf(value) >= 0; });
       });
       if (!matches) continue;
+      if (r.x === null ? !keepUnknown.checked : r.x < minCitations) continue;
       var s = terms.length ? score(f, terms) : 1;
       if (s) hits.push([s, i]);
     }
@@ -449,7 +485,8 @@ SEARCH_JS = r"""<script>
     items.forEach(function (li, i) { if (!shown[i]) li.hidden = true; });
     count.textContent = hits.length + ' of ' + items.length + ' protocols';
     empty.hidden = hits.length > 0;
-    clear.hidden = !q.value && !boxes.some(function (box) { return box.checked; });
+    clear.hidden = !q.value && citation.value === '0' && keepUnknown.checked
+      && !boxes.some(function (box) { return box.checked; });
     document.querySelectorAll('.facet').forEach(function (group) {
       var n = group.querySelectorAll('input:checked').length, summary = group.querySelector('summary');
       summary.classList.toggle('active', n > 0);
@@ -457,6 +494,8 @@ SEARCH_JS = r"""<script>
     });
     var h = [];
     if (q.value) h.push('q=' + encodeURIComponent(q.value));
+    if (minCitations) h.push('c=' + minCitations);
+    if (!keepUnknown.checked) h.push('unknown=0');
     boxes.forEach(function (box) {
       if (box.checked) h.push('f=' + encodeURIComponent(box.dataset.facet + '~' + box.value));
     });
@@ -464,6 +503,8 @@ SEARCH_JS = r"""<script>
     catch (err) { /* file:// in some browsers */ }
   }
   q.addEventListener('input', run);
+  citation.addEventListener('input', run);
+  keepUnknown.addEventListener('change', run);
   boxes.forEach(function (box) { box.addEventListener('change', run); });
   var groups = Array.prototype.slice.call(document.querySelectorAll('.facet'));
   groups.forEach(function (group) {
@@ -475,7 +516,8 @@ SEARCH_JS = r"""<script>
     if (!ev.target.closest('.facet')) groups.forEach(function (group) { group.open = false; });
   });
   clear.addEventListener('click', function () {
-    q.value = ''; boxes.forEach(function (box) { box.checked = false; }); run();
+    q.value = ''; citation.value = '0'; keepUnknown.checked = true;
+    boxes.forEach(function (box) { box.checked = false; }); run();
   });
   q.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { q.value = ''; run(); } });
   document.addEventListener('keydown', function (ev) {
@@ -485,6 +527,11 @@ SEARCH_JS = r"""<script>
   location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
     var p = kv.split('='), v = decodeURIComponent(p[1] || '');
     if (p[0] === 'q') q.value = v;
+    if (p[0] === 'c') {
+      var wanted = Number(v), at = citationSteps.indexOf(wanted);
+      if (at >= 0) citation.value = String(at);
+    }
+    if (p[0] === 'unknown' && v === '0') keepUnknown.checked = false;
     if (p[0] === 'f') {
       var bits = v.split('~'), facet = bits.shift(), value = bits.join('~');
       boxes.forEach(function (box) {
@@ -530,11 +577,33 @@ def facet_controls(ps: list[dict]) -> str:
 </div>"""
 
 
+def citation_controls(ps: list[dict]) -> str:
+    """A useful nonlinear citation threshold plus explicit handling of absent data."""
+    maximum = max((p["citations"] for p in ps if p["citations"] is not None), default=0)
+    steps = [x for x in (0, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000)
+             if x <= maximum]
+    if maximum and maximum not in steps:
+        steps.append(maximum)
+    encoded = e(json.dumps(steps, separators=(",", ":")), quote=True)
+    dates = sorted({p["citations_retrieved"] for p in ps if p["citations_retrieved"]})
+    dated = dates[0] if len(dates) == 1 else "various dates"
+    return f"""<div class="citation-filter">
+<label for="citation-min">Minimum citations</label>
+<input id="citation-min" type="range" min="0" max="{len(steps) - 1}" value="0"
+       step="1" data-steps="{encoded}">
+<output id="citation-value" for="citation-min">any</output>
+<label class="unknown"><input id="citation-unknown" type="checkbox" checked>
+Keep protocols without citation data</label>
+<span class="snapshot">OpenAlex snapshot · {e(dated)}</span>
+</div>"""
+
+
 def search_section(ps: list[dict]) -> str:
     items = "\n".join(result_item(i, p) for i, p in enumerate(ps))
     return f"""<form class="finder" role="search" onsubmit="return false">
 <div class="finder-head"><h2>Filter protocols</h2></div>
 {facet_controls(ps)}
+{citation_controls(ps)}
 <div class="finder-foot"><details class="text-search"><summary>Text search</summary>
 <span class="search"><label for="q" class="sr-only">Search protocol text</label>
 <input id="q" type="search" placeholder="Name, paper or description"

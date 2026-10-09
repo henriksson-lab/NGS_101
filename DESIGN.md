@@ -5,6 +5,29 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-09 — Citation counts are dated discovery metadata
+
+**Decision.** The protocol index may show citation counts for defining papers and filter
+on them, but normal builds never query a citation service. A manually invoked script
+resolves the DOI set against OpenAlex and replaces a checked-in snapshot containing the
+count, OpenAlex work ID and retrieval date. The index labels the values as a dated
+snapshot.
+
+A missing paper or unresolved DOI is not zero citations. Such protocols remain visible by
+default when a citation threshold is applied, with a separate control to exclude entries
+without citation data. Commercial protocols without a defining paper are labelled as
+commercial rather than assigned a synthetic count. Citation numbers rank discoverability,
+not scientific quality or evidentiary authority.
+
+**Why.** Citation count is useful as the catalogue grows into niche protocols, but it is
+mutable external metadata and varies by provider. A deliberate snapshot gives useful
+filtering without making builds network-dependent or pretending the number is live.
+DOI-exact lookup avoids title matching.
+
+**Review when.** Refresh the snapshot when maintainers want a newer view, or reconsider
+the provider if its DOI coverage or count definition stops being useful. Do not schedule
+automatic refreshes without revisiting this decision.
+
 ## 2026-10-09 — Identifier semantics belong to the molecular model
 
 **Decision.** Barcode and UMI meaning is stored as format-neutral structured metadata on

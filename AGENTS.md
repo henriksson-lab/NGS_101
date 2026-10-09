@@ -33,6 +33,10 @@ python3 build_site.py              # all of the above + _site/ (the website), li
 python3 -m http.server -d _site    # preview; CI deploys it (.github/workflows/pages.yml)
 ```
 
+Citation counts are a checked-in OpenAlex snapshot, not a build dependency. Refresh them
+only when requested with `python3 tools/fetch_citations.py` (optional
+`OPENALEX_API_KEY`); normal builds remain offline.
+
 There is no test framework: a selftest is a script using `checks.Check` (`check(label, got,
 want)`), prints PASS/FAIL/SKIP and exits 1 on failure. To run one check, run its suite.
 

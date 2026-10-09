@@ -192,6 +192,10 @@ python3 build_site.py              # every page, then _site/, then a link check
 python3 -m http.server -d _site    # preview at http://localhost:8000/
 ```
 
+Citation counts on the index come from the dated, checked-in
+`catalogue/citations.tsv` snapshot. Refresh it deliberately—not during a normal build—with
+`python3 tools/fetch_citations.py`; `OPENALEX_API_KEY` is optional and is never stored.
+
 `build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
 `build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
 diagram pages, a `.nojekyll`, and the few files of ours those pages deliberately link to.
