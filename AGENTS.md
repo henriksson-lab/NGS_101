@@ -129,6 +129,10 @@ finds oligos, not reaction order: the methods still have to be **read**.
   `MolecularState` and call `react()` for each operation; it automatically uses the prior
   output as the next input. Render it once with `workflow_panel()`. Reserve `panel()` for
   a molecular state such as a final library or primer-binding view.
+- **SVG geometry comes from model semantics, not punctuation.** `Scene` marks strands,
+  binding spans and process arrows as typed row visuals; shared rendering supplies arrow
+  boxes, proportional-font comments and segment hover text/Tm. Do not draw `^^^^` or
+  `<--------` in new SVG-specific code or hand-write tooltip values in page builders.
 - **Import canonical sequences** from `illumina` / `nextera` rather than retyping them.
 - **Facts in Markdown come from the model:** `{{= module.EXPR }}` and
   ```` {{oligo: module.fn()}} ```` are expanded by `build_docs.py`; every lib and protocol

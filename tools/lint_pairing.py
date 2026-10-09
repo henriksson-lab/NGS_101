@@ -72,6 +72,8 @@ def lint_text(text: str) -> list[tuple[str, str, str, int]]:
             continue
         lines = []
         for row in re.findall(r"<text\b[^>]*>(.*?)</text>", svg.group(1), flags=re.S):
+            # SVG accessibility/hover metadata is not visible sequence text.
+            row = re.sub(r"<title\b[^>]*>.*?</title>", "", row, flags=re.S)
             row = re.sub(
                 r'<tspan class="[^"]*\bchem-unp\b[^"]*">(.*?)</tspan>',
                 lambda m: " " * len(html.unescape(re.sub(r"<[^>]+>", "", m.group(1)))),

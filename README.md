@@ -302,6 +302,12 @@ pages therefore never hand-align reaction arrows or separately repeat a step's i
 Ordering-oligo lists stay as raw HTML text; `panel()` remains for non-reaction construct
 views such as final libraries and sequencing-primer binding.
 
+`Scene` rows retain molecular meaning into rendering: strands become directional boxes,
+binding spans become vector brackets, and synthesis/enzyme movement becomes a vector
+arrow. Comments use the proportional UI font while bases remain selectable monospaced
+text. Hovering a named concrete sequence shows its model name and, for an unambiguous
+annealing-length DNA region, a Tm computed from that same `Segment`.
+
 **Evidence marking.** Notes mark every claim 🟢 verbatim from the source · 🟡 derived or
 inferred · 🔴 not published anywhere. On the page, inference is marked three ways, all
 required: a standing caveat in the preamble, an `INFERRED — …` caption on each affected

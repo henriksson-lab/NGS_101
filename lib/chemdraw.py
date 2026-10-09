@@ -204,6 +204,21 @@ class Segment:
         """Whether this placeholder is prose for a region, rather than molecular text."""
         return self.placeholder and self.top.startswith("[") and self.top.endswith("]")
 
+    def hover_text(self) -> str | None:
+        """Model-derived SVG tooltip for this region.
+
+        A melting temperature is useful for a concrete annealing region, but not for a
+        short linker, a placeholder, or an ambiguity-bearing region. The threshold avoids
+        presenting physically unhelpful values for two- and three-base structural pieces.
+        """
+        if not self.name:
+            return None
+        parts = [self.name]
+        seq = self.top.upper()
+        if not self.placeholder and len(seq) >= 8 and set(seq) <= set("ACGT"):
+            parts.append(f"Tm {tm(seq):.1f} °C")
+        return " · ".join(parts)
+
 
 # ----------------------------------------------------------------------- construct
 
@@ -296,11 +311,22 @@ def _wrap(text: str, tag: str | None, inferred: bool) -> str:
 
 @dataclass
 class Row:
-    """One rendered line. `indent` is in characters; chunks are (text, tag, inferred)."""
+    """One rendered line, optionally with geometry derived from molecular semantics.
+
+    ``plain`` and ``html`` retain the character-grid representation for copying and the
+    legacy renderer. SVG uses ``visual`` rather than inferring chemistry from punctuation.
+    ``chunk_titles`` carries model-derived hover text for corresponding chunks.
+    """
     chunks: list[tuple[str, str | None, bool]] = field(default_factory=list)
     indent: int = 0
     prefix: str = ""
     suffix: str = ""
+    visual: "StrandVisual | SpanVisual | ArrowVisual | None" = None
+    chunk_titles: list[str | None] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if self.chunk_titles and len(self.chunk_titles) != len(self.chunks):
+            raise ValueError("chunk_titles must be empty or parallel to chunks")
 
     def plain(self) -> str:
         return " " * self.indent + self.prefix + "".join(c[0] for c in self.chunks) + self.suffix
@@ -310,6 +336,43 @@ class Row:
         # escape < > & (arrows live here) but leave apostrophes as-is for readability
         esc = lambda t: html.escape(t, quote=False)
         return " " * self.indent + esc(self.prefix) + body + esc(self.suffix)
+
+
+@dataclass(frozen=True)
+class StrandVisual:
+    """Arrow-shaped molecular strand spanning character columns ``start:end``."""
+    start: int
+    end: int
+    direction: str
+
+    def __post_init__(self) -> None:
+        if self.direction not in ("left", "right") or self.end <= self.start:
+            raise ValueError("strand visual needs a non-empty span and left/right direction")
+
+
+@dataclass(frozen=True)
+class SpanVisual:
+    """A binding or annealing span located from segment coordinates."""
+    start: int
+    end: int
+    label: str = ""
+
+    def __post_init__(self) -> None:
+        if self.end <= self.start:
+            raise ValueError("span visual needs a non-empty span")
+
+
+@dataclass(frozen=True)
+class ArrowVisual:
+    """Direction of synthesis or enzyme travel, located from a strand end."""
+    start: int
+    end: int
+    direction: str
+    label: str = ""
+
+    def __post_init__(self) -> None:
+        if self.direction not in ("left", "right") or self.end <= self.start:
+            raise ValueError("arrow visual needs a non-empty span and left/right direction")
 
 
 @dataclass(frozen=True)
@@ -388,7 +451,11 @@ def strand_row(con: Construct, strand: str = "top", indent: int = 0,
         ((s.top if strand == "top" else s.bottom_text()), s.tag, s.inferred)
         for s in con if len(s)
     ]
-    return Row(chunks=chunks, indent=indent, prefix=prefix, suffix=suffix)
+    start = indent + len(prefix)
+    return Row(chunks=chunks, indent=indent, prefix=prefix, suffix=suffix,
+               visual=StrandVisual(start, start + len(con),
+                                   "right" if strand == "top" else "left"),
+               chunk_titles=[s.hover_text() for s in con if len(s)])
 
 
 def annotation_rows(con: Construct, indent: int = 0, prefix_width: int = 4,
@@ -524,6 +591,71 @@ def _svg_classes(tag: str | None, inferred: bool) -> str:
     return " ".join(classes)
 
 
+def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[str]:
+    """Render one row; molecular geometry comes from typed metadata, never ASCII art."""
+    baseline = y + font
+    visual = row.visual
+    out: list[str] = []
+
+    if isinstance(visual, StrandVisual):
+        x1, x2 = x + visual.start * cell - 4, x + visual.end * cell + 4
+        top, bottom, middle = y - 1, y + font + 4, y + (font + 3) / 2
+        head = min(10.0, max(5.0, (x2 - x1) / 4))
+        if visual.direction == "right":
+            points = ((x1, top), (x2 - head, top), (x2, middle),
+                      (x2 - head, bottom), (x1, bottom))
+        else:
+            points = ((x2, top), (x1 + head, top), (x1, middle),
+                      (x1 + head, bottom), (x2, bottom))
+        coords = " ".join(f"{a:.2f},{b:.2f}" for a, b in points)
+        out.append(f'<polygon class="chem-strand-box" points="{coords}"/>')
+
+    if isinstance(visual, SpanVisual):
+        x1, x2 = x + visual.start * cell, x + visual.end * cell
+        rule_y = y + 3.0
+        out.append(f'<path class="chem-binding-span" d="M {x1:.2f} {rule_y + 4:.2f} '
+                   f'V {rule_y:.2f} H {x2:.2f} V {rule_y + 4:.2f}"/>')
+        if visual.label:
+            out.append(f'<text class="chem-binding-label" x="{x2 + 7:.2f}" '
+                       f'y="{baseline:.2f}">{html.escape(visual.label)}</text>')
+        return out
+
+    if isinstance(visual, ArrowVisual):
+        x1, x2 = x + visual.start * cell, x + visual.end * cell
+        line_y = y + font * .58
+        tip = x1 if visual.direction == "left" else x2
+        tail = x2 if visual.direction == "left" else x1
+        out.append(f'<line class="chem-process-arrow" x1="{tail:.2f}" y1="{line_y:.2f}" '
+                   f'x2="{tip:.2f}" y2="{line_y:.2f}"/>')
+        sign = 1 if visual.direction == "left" else -1
+        points = ((tip, line_y), (tip + sign * 7, line_y - 4),
+                  (tip + sign * 7, line_y + 4))
+        coords = " ".join(f"{a:.2f},{b:.2f}" for a, b in points)
+        out.append(f'<polygon class="chem-process-arrowhead" points="{coords}"/>')
+        if visual.label:
+            label_x = x1 - 7 if visual.direction == "left" else x2 + 7
+            anchor = "end" if visual.direction == "left" else "start"
+            out.append(f'<text class="chem-process-label" x="{label_x:.2f}" '
+                       f'y="{baseline:.2f}" text-anchor="{anchor}">'
+                       f'{html.escape(visual.label)}</text>')
+        return out
+
+    start = " " * row.indent + row.prefix
+    pieces = [html.escape(start, quote=False)]
+    titles = row.chunk_titles or [None] * len(row.chunks)
+    for (text, tag, inferred), title in zip(row.chunks, titles):
+        classes = _svg_classes(tag, inferred)
+        if title:
+            classes = (classes + " chem-has-tip").strip()
+        attr = f' class="{classes}"' if classes else ""
+        tooltip = f"<title>{html.escape(title)}</title>" if title else ""
+        pieces.append(f"<tspan{attr}>{tooltip}{html.escape(text, quote=False)}</tspan>")
+    pieces.append(html.escape(row.suffix, quote=False))
+    out.append(f'<text x="{x:g}" y="{baseline:.2f}" xml:space="preserve">'
+               + "".join(pieces) + "</text>")
+    return out
+
+
 def panel_svg(rows: Iterable[Row], cls: str = "long",
               caption: str | None = None) -> str:
     """Render a selectable, fixed-scale SVG character grid.
@@ -543,17 +675,8 @@ def panel_svg(rows: Iterable[Row], cls: str = "long",
     height = max(42.0, pad_y * 2 + max(1, len(rows)) * line)
     text_rows = []
     for i, row in enumerate(rows):
-        y = pad_y + font + i * line
-        start = " " * row.indent + row.prefix
-        pieces = [html.escape(start, quote=False)]
-        for text, tag, inferred in row.chunks:
-            classes = _svg_classes(tag, inferred)
-            attr = f' class="{classes}"' if classes else ""
-            pieces.append(f"<tspan{attr}>{html.escape(text, quote=False)}</tspan>")
-        pieces.append(html.escape(row.suffix, quote=False))
-        text_rows.append(
-            f'<text x="{pad_x:g}" y="{y:.2f}" xml:space="preserve">'
-            + "".join(pieces) + "</text>")
+        text_rows.extend(_svg_row(row, x=pad_x, y=pad_y + i * line,
+                                  font=font, cell=cell))
     label = html.escape(caption or "Molecular construct diagram", quote=True)
     cap = (f'<figcaption>{html.escape(caption)}</figcaption>' if caption else "")
     svg = (f'<svg class="chem-svg {html.escape(cls)}" width="{width:.0f}" '
@@ -564,19 +687,11 @@ def panel_svg(rows: Iterable[Row], cls: str = "long",
 
 def _svg_rows(rows: Sequence[Row], *, x: float, y: float, font: float,
               line: float) -> tuple[list[str], float]:
-    """SVG text elements for one state, returning elements and the next y coordinate."""
+    """SVG elements for one state, returning elements and the next y coordinate."""
     out = []
+    cell = font * 0.602
     for row in rows:
-        baseline = y + font
-        start = " " * row.indent + row.prefix
-        pieces = [html.escape(start, quote=False)]
-        for text, tag, inferred in row.chunks:
-            classes = _svg_classes(tag, inferred)
-            attr = f' class="{classes}"' if classes else ""
-            pieces.append(f"<tspan{attr}>{html.escape(text, quote=False)}</tspan>")
-        pieces.append(html.escape(row.suffix, quote=False))
-        out.append(f'<text x="{x:g}" y="{baseline:.2f}" xml:space="preserve">'
-                   + "".join(pieces) + "</text>")
+        out.extend(_svg_row(row, x=x, y=y, font=font, cell=cell))
         y += line
     return out, y
 
@@ -923,7 +1038,9 @@ class Scene:
         a = st.span(seg)
         b = st.span(through) if through else a
         s, e = min(a[0], b[0]), max(a[1], b[1])
-        self._decor("mark", strand, (s, ch * (e - s) + (" " + text if text else "")))
+        self._decor("mark", strand,
+                    (s, ch * (e - s) + (" " + text if text else ""),
+                     SpanVisual(s, e, text)))
 
     def junction(self, strand: str, left: str, right: str, text: str = "ligation",
                  ch: str = "*") -> None:
@@ -945,11 +1062,11 @@ class Scene:
         if a[1] != b[0]:
             raise ValueError(f"ligation junction has a gap on strand {strand!r}")
         marker = ch * 2 + (" " + text if text else "")
-        self._decor("mark", strand, (a[1] - 1, marker))
+        self._decor("mark", strand, (a[1] - 1, marker, None))
 
     def note(self, strand: str, text: str) -> None:
         """A free line under the strand, starting at its first drawn base."""
-        self._decor("mark", strand, (self.strands[strand].col, text))
+        self._decor("mark", strand, (self.strands[strand].col, text, None))
 
     def footer(self, text: str, strand: str, seg: str | None = None) -> None:
         """A line at the very bottom of the scene, starting at segment `seg` of `strand`
@@ -957,7 +1074,7 @@ class Scene:
         st = self.strands[strand]
         col = st.span(seg)[0] if seg else st.col
         key = f"mark{len(self.extras)}"
-        self.extras[key] = (col, text)
+        self.extras[key] = (col, text, None)
         self.order.append(("mark", key))
         self._footers.add(key)
 
@@ -1012,7 +1129,7 @@ class Scene:
         """(screen column of scene column 0, gutter width), as rows() lays it out -- for
         helpers that add rows aligned to the scene (e.g. a padlock bridge)."""
         lefts = [st.col - len(st.ends()[0]) for st in self.strands.values()]
-        lefts += [c for c, _ in self.extras.values()]
+        lefts += [value[0] for value in self.extras.values()]
         gutter = max(len(st.label) for st in self.strands.values()) + 1
         if not any(st.label for st in self.strands.values()):
             gutter = 0
@@ -1023,9 +1140,13 @@ class Scene:
         st = self.strands[strand]
         if st.rev:
             body = f"{text} <" + "-" * length
-            self._decor("arrow", strand, (st.col - len(body), body))
+            self._decor("arrow", strand,
+                        (st.col - len(body), body,
+                         ArrowVisual(st.col - length, st.col, "left", text)))
         else:
-            self._decor("arrow", strand, (st.end(), "-" * length + "> " + text))
+            self._decor("arrow", strand,
+                        (st.end(), "-" * length + "> " + text,
+                         ArrowVisual(st.end(), st.end() + length, "right", text)))
 
     def _decor(self, kind: str, strand: str, payload: tuple) -> None:
         key = f"{kind}{len(self.extras)}"
@@ -1053,18 +1174,31 @@ class Scene:
                 st = self.strands[key]
                 l_end, r_end = st.ends()
                 lead = st.label.ljust(gutter) + " " * (shift - gutter + st.col - len(l_end))
+                drawn = [s for s in st.drawn() if s.top]
+                seq_start = len(lead) + len(l_end)
+                seq_len = sum(len(s.top) for s in drawn)
                 out.append(Row(chunks=[(lead + l_end, None, False)]
                                + [(s.top, (s.tag or "") + ("+unp" if s.name in st.unpaired
                                                             else ""), s.inferred)
-                                  for s in st.drawn() if s.top]
-                               + [(r_end, None, False)]))
+                                  for s in drawn]
+                               + [(r_end, None, False)],
+                               visual=StrandVisual(seq_start, seq_start + seq_len,
+                                                   "left" if st.rev else "right"),
+                               chunk_titles=[None]
+                               + [s.hover_text() for s in drawn] + [None]))
                 keys.append(key)
             elif kind == "blank":
                 out.append(Row())
                 keys.append(None)
             else:
-                c, text = self.extras[key]
-                out.append(Row(chunks=[(" " * (shift + c) + text, None, False)]))
+                c, text, visual = self.extras[key]
+                if isinstance(visual, SpanVisual):
+                    visual = SpanVisual(shift + visual.start, shift + visual.end, visual.label)
+                elif isinstance(visual, ArrowVisual):
+                    visual = ArrowVisual(shift + visual.start, shift + visual.end,
+                                         visual.direction, visual.label)
+                out.append(Row(chunks=[(" " * (shift + c) + text, None, False)],
+                               visual=visual))
                 keys.append(None)
         for host, guest in self._same_line:
             hi, gi = keys.index(host), keys.index(guest)

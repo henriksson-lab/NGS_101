@@ -106,6 +106,13 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-svg text { user-select:text; -webkit-user-select:text; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
+.chem-svg .chem-has-tip { cursor:help; }
+.chem-strand-box { fill:var(--surface-2); stroke:var(--ink-muted); stroke-width:1; }
+.chem-binding-span { fill:none; stroke:var(--accent); stroke-width:1.5; }
+.chem-binding-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.92em; }
+.chem-process-arrow { stroke:var(--accent); stroke-width:2; }
+.chem-process-arrowhead { fill:var(--accent); }
+.chem-process-label { fill:var(--ink); font-family:var(--sans); font-weight:600; }
 .chem-workflow .chem-state-label { fill:var(--ink-muted); font-family:var(--sans);
                                    font-weight:600; }
 .chem-reaction-arrow { stroke:var(--accent); stroke-width:2; }
