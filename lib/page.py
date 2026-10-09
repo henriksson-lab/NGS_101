@@ -108,7 +108,6 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-svg text { user-select:text; -webkit-user-select:text; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
-.chem-has-tip { cursor:help; }
 .chem-inline-sequence { white-space:nowrap; }
 .chem-selection-badge { position:fixed; z-index:1000; pointer-events:none; user-select:none;
                         padding:3px 7px; border:1px solid var(--rule); border-radius:4px;
