@@ -39,6 +39,7 @@ jobs:
       - name: Protocol and catalogue self-tests
         run: |
           set -e
+          shopt -s nullglob
           for t in */tools/selftest.py */*/tools/selftest.py; do
             echo "::group::$t"
             python3 "$t"
