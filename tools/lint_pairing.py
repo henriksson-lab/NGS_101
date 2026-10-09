@@ -71,7 +71,16 @@ def lint_text(text: str) -> list[tuple[str, str, str, int]]:
         if not svg:
             continue
         lines = []
-        for row in re.findall(r"<text\b[^>]*>(.*?)</text>", svg.group(1), flags=re.S):
+        for attrs, row in re.findall(r"<text\b([^>]*)>(.*?)</text>", svg.group(1), flags=re.S):
+            # Typed SVG annotations can contain strings such as "5'-phosphate" without
+            # being molecular strands. Only untyped text remains eligible for the legacy
+            # orientation heuristic.
+            if re.search(
+                r'\bclass="[^"]*\b(?:chem-comment|chem-(?:binding|process|state|reaction)-label)\b',
+                attrs,
+            ):
+                lines.append("")       # keep separate duplex groups from becoming adjacent
+                continue
             # SVG accessibility/hover metadata is not visible sequence text.
             row = re.sub(r"<title\b[^>]*>.*?</title>", "", row, flags=re.S)
             row = re.sub(

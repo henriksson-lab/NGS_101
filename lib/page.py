@@ -113,6 +113,7 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-process-arrow { stroke:var(--accent); stroke-width:2; }
 .chem-process-arrowhead { fill:var(--accent); }
 .chem-process-label { fill:var(--ink); font-family:var(--sans); font-weight:600; }
+.chem-comment { fill:var(--ink-muted); font-family:var(--sans); font-style:italic; }
 .chem-workflow .chem-state-label { fill:var(--ink-muted); font-family:var(--sans);
                                    font-weight:600; }
 .chem-reaction-arrow { stroke:var(--accent); stroke-width:2; }

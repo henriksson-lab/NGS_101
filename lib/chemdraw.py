@@ -321,7 +321,7 @@ class Row:
     indent: int = 0
     prefix: str = ""
     suffix: str = ""
-    visual: "StrandVisual | SpanVisual | ArrowVisual | None" = None
+    visual: "StrandVisual | SpanVisual | ArrowVisual | CommentVisual | None" = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -373,6 +373,13 @@ class ArrowVisual:
     def __post_init__(self) -> None:
         if self.direction not in ("left", "right") or self.end <= self.start:
             raise ValueError("arrow visual needs a non-empty span and left/right direction")
+
+
+@dataclass(frozen=True)
+class CommentVisual:
+    """Prose annotation anchored to a molecular column."""
+    start: int
+    text: str
 
 
 @dataclass(frozen=True)
@@ -638,6 +645,11 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
             out.append(f'<text class="chem-process-label" x="{label_x:.2f}" '
                        f'y="{baseline:.2f}" text-anchor="{anchor}">'
                        f'{html.escape(visual.label)}</text>')
+        return out
+
+    if isinstance(visual, CommentVisual):
+        out.append(f'<text class="chem-comment" x="{x + visual.start * cell:.2f}" '
+                   f'y="{baseline:.2f}">{html.escape(visual.text)}</text>')
         return out
 
     start = " " * row.indent + row.prefix
@@ -1066,7 +1078,8 @@ class Scene:
 
     def note(self, strand: str, text: str) -> None:
         """A free line under the strand, starting at its first drawn base."""
-        self._decor("mark", strand, (self.strands[strand].col, text, None))
+        start = self.strands[strand].col
+        self._decor("mark", strand, (start, text, CommentVisual(start, text)))
 
     def footer(self, text: str, strand: str, seg: str | None = None) -> None:
         """A line at the very bottom of the scene, starting at segment `seg` of `strand`
@@ -1197,6 +1210,8 @@ class Scene:
                 elif isinstance(visual, ArrowVisual):
                     visual = ArrowVisual(shift + visual.start, shift + visual.end,
                                          visual.direction, visual.label)
+                elif isinstance(visual, CommentVisual):
+                    visual = CommentVisual(shift + visual.start, visual.text)
                 out.append(Row(chunks=[(" " * (shift + c) + text, None, False)],
                                visual=visual))
                 keys.append(None)
