@@ -49,17 +49,36 @@ FINAL_CAPTION = "INFERRED — completed dual-index Illumina endpoint around the 
 SEQUENCING_INTRO = "Read 1 and Read 2 each begin with a molecular barcode; i5 and i7 distinguish experiments after indexing PCR."
 
 
+def partial_user_rows(product):
+    damaged = [
+        seg("left terminal U", "U", "w1"),
+        seg("left surviving interior", "ACG"),
+        seg("internal U cleavage site", "U", "w1"),
+        seg("right surviving interior", "TCG"),
+        seg("right terminal U", "U", "w1"),
+    ]
+    before = Scene()
+    before.strand("damaged strand", damaged)
+    before.mark("damaged strand", "internal U cleavage site", "USER cleavage")
+
+    survivor = Scene()
+    survivor.strand("surviving termini", [
+        seg("retained left terminal U", product.left_terminal, "w1"),
+        seg("surviving interior", product.interior),
+        seg("retained right terminal U", product.right_terminal, "w1"),
+    ])
+    survivor.note("surviving termini", "internal U-containing pieces removed")
+    return [*before.rows(), *survivor.rows()]
+
+
 def sections():
     survivor=PartialUDGProduct("U","ACGTCG","U")
     lig=Scene.duplex(list(FINAL_LIBRARY),label="barcoded library")
     lig.junction("top","P5-side 7-nt molecular barcode","partial-UDG ancient DNA insert","adapter ligation")
     lig.junction("top","partial-UDG ancient DNA insert","P7-side 7-nt molecular barcode","adapter ligation")
     return [
-        ("Partial USER treatment", [
-            Row(chunks=[("damaged strand:  U—ACG—U—TCG—U", "w1", False)]),
-            Row(chunks=[("USER cleavage removes internal U-containing pieces", None, False)]),
-            Row(chunks=[("surviving termini:  "+survivor.text(), "w1", False)]),
-        ], "UDG and Endonuclease VIII act before T4 polymerase and kinase; terminal uracils remain inefficiently removed."),
+        ("Partial USER treatment", partial_user_rows(survivor),
+         "UDG and Endonuclease VIII act before T4 polymerase and kinase; terminal uracils remain inefficiently removed."),
         ("End repair and barcode-adapter ligation", lig.rows(),
          "T4 polymerase/PNK blunt the surviving fragments; distinct P5- and P7-side 7-mers are ligated. ** marks both ligations."),
         ("INFERRED — fill in and indexed PCR", [Row(chunks=[("short barcoded library → fill-in → i5/i7 PCR → sequencing library",None,False)])],

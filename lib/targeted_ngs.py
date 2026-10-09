@@ -1,7 +1,8 @@
 """Reusable molecular views for targeted and microbial library preparations."""
 from __future__ import annotations
 
-from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature
+from chemdraw import (Construct, Row, Scene, Segment, circle_rows, complement_segments,
+                      feature)
 from batch_ngs import nextera_library, seg, truseq_library
 
 
@@ -47,9 +48,19 @@ def sureselect_library():
 
 
 def smmip_rows() -> list[Row]:
-    return [
-        Row(chunks=[("5'-p [ligation arm]—[12-nt molecular tag]—[backbone]—[extension arm] 3'", "umi", False)]),
-        Row(chunks=[("         \\________ target gap: polymerase fill ________/", None, False)]),
-        Row(chunks=[("                         ligase closes probe + copied target", None, False)]),
-        Row(chunks=[("linear probe and genomic DNA --exonuclease--> removed; circle survives", None, False)]),
-    ]
+    """Closed smMIP capture product after gap fill and ligation.
+
+    The ordered segments make the circular junction unambiguous: polymerase extends the
+    extension arm across the captured gap, then ligase joins that copy to the ligation
+    arm.  ``circle_rows`` supplies strand geometry and segment-derived hover text instead
+    of leaving the molecular structure embedded in punctuation.
+    """
+    circle = Construct([
+        Segment("ligation targeting arm", "X" * 18, placeholder=True),
+        Segment("12-nt molecular tag", "U" * 12, "umi", placeholder=True,
+                feature=feature("molecular_tag", "umi", "random")),
+        Segment("invariant probe backbone", "N" * 24, placeholder=True),
+        Segment("extension targeting arm", "Y" * 18, placeholder=True),
+        Segment("copied target gap", "N" * 28, placeholder=True),
+    ], name="closed smMIP capture product")
+    return circle_rows(circle, "gap fill + ligation")

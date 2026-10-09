@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Construct, Row, revcomp
+from chemdraw import Construct, Row, revcomp, strand_row
 from chemdraw import bases_pair
 
 
@@ -51,12 +51,13 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     left, right = "left hairpin", "right hairpin"
     gutter = len(left) + 2
     between = len(molecule.insert) + 14
-    top = Row(chunks=[(" " * gutter + "|** 5'- ", None, False)]
-              + [(s.top, s.tag, s.inferred) for s in molecule.insert]
-              + [(" -3' **|", None, False)])
-    bottom = Row(chunks=[(" " * gutter + "|** 3'- ", None, False)]
-                 + [(s.bottom_text(), s.tag, s.inferred) for s in molecule.insert]
-                 + [(" -5' **|", None, False)])
+    # Keep the hairpin/junction punctuation outside the molecular span, but construct
+    # both insert strands through the shared typed-row helper.  This gives SVG renderers
+    # direction, segment hover text and computed Tm without duplicating that logic here.
+    top = strand_row(molecule.insert, "top",
+                     prefix=" " * gutter + "|** 5'- ", suffix=" -3' **|")
+    bottom = strand_row(molecule.insert, "bottom",
+                        prefix=" " * gutter + "|** 3'- ", suffix=" -5' **|")
     cap = Row(chunks=[(left + "  ." + " " * between + ".  " + right,
                        None, False)])
     close = Row(chunks=[(" " * gutter + "'" + "-" * between + "'",

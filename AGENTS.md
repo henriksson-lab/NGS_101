@@ -131,7 +131,7 @@ finds oligos, not reaction order: the methods still have to be **read**.
   a molecular state such as a final library or primer-binding view.
 - **SVG geometry comes from model semantics, not punctuation.** `Scene` marks strands,
   binding spans and process arrows as typed row visuals; shared rendering supplies arrow
-  boxes, proportional-font comments and segment hover text/Tm. Do not draw `^^^^` or
+  boxes, proportional-font comments and segment hover name/length/Tm. Do not draw `^^^^` or
   `<--------` in new SVG-specific code or hand-write tooltip values in page builders.
 - **Import canonical sequences** from `illumina` / `nextera` rather than retyping them.
 - **Facts in Markdown come from the model:** `{{= module.EXPR }}` and

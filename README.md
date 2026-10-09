@@ -306,7 +306,7 @@ views such as final libraries and sequencing-primer binding.
 binding spans become vector brackets, and synthesis/enzyme movement becomes a vector
 arrow. Comments use the proportional UI font while bases remain selectable monospaced
 text. Hovering a named concrete sequence shows its model name and, for an unambiguous
-annealing-length DNA region, a Tm computed from that same `Segment`.
+region, its known length plus a Tm computed from that same `Segment` when relevant.
 
 **Evidence marking.** Notes mark every claim 🟢 verbatim from the source · 🟡 derived or
 inferred · 🔴 not published anywhere. On the page, inference is marked three ways, all

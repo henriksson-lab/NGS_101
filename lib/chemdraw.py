@@ -164,6 +164,7 @@ class Segment:
     bottom      explicit bottom-strand text, overriding the computed complement
     note        free text, surfaced by describe()
     feature     optional format-neutral identifier semantics; preserved through transforms
+    length_bp   known molecular length when ``top`` is only a schematic stand-in
     """
     name: str
     top: str
@@ -173,6 +174,7 @@ class Segment:
     bottom: str | None = None
     note: str = ""
     feature: MolecularFeature | None = None
+    length_bp: int | None = None
 
     def __post_init__(self) -> None:
         if self.bottom is not None and len(self.bottom) != len(self.top):
@@ -184,6 +186,14 @@ class Segment:
             raise ValueError(
                 f"segment {self.name!r}: {self.top!r} is not real DNA -- "
                 f"set placeholder=True if this is a stand-in"
+            )
+        if self.length_bp is not None and self.length_bp < 1:
+            raise ValueError(f"segment {self.name!r}: length_bp must be positive")
+        if (self.length_bp is not None and not self.placeholder and self.top
+                and self.length_bp != len(self.top)):
+            raise ValueError(
+                f"segment {self.name!r}: declared length {self.length_bp} bp "
+                f"!= concrete sequence length {len(self.top)}"
             )
 
     def __len__(self) -> int:
@@ -215,6 +225,14 @@ class Segment:
             return None
         parts = [self.name]
         seq = self.top.upper()
+        known_length = self.length_bp
+        if self.is_role_token():
+            stated = re.search(r"\b(\d+)\s*(?:-\s*)?bp\b", self.top, re.I)
+            known_length = known_length or (int(stated.group(1)) if stated else None)
+        elif (not self.placeholder or self.feature is not None) and seq and "." not in seq:
+            known_length = len(seq)
+        if known_length is not None:
+            parts.append(f"{known_length} bp")
         if not self.placeholder and len(seq) >= 8 and set(seq) <= set("ACGT"):
             parts.append(f"Tm {tm(seq):.1f} °C")
         return " · ".join(parts)
@@ -321,7 +339,8 @@ class Row:
     indent: int = 0
     prefix: str = ""
     suffix: str = ""
-    visual: "StrandVisual | SpanVisual | ArrowVisual | CommentVisual | None" = None
+    visual: ("StrandVisual | SpanVisual | ArrowVisual | CommentVisual | "
+             "tuple[StrandVisual | SpanVisual | ArrowVisual | CommentVisual, ...] | None") = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -604,11 +623,13 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
     visual = row.visual
     out: list[str] = []
 
-    if isinstance(visual, StrandVisual):
-        x1, x2 = x + visual.start * cell - 4, x + visual.end * cell + 4
+    visuals = visual if isinstance(visual, tuple) else (() if visual is None else (visual,))
+    for strand_visual in (v for v in visuals if isinstance(v, StrandVisual)):
+        x1 = x + strand_visual.start * cell - 4
+        x2 = x + strand_visual.end * cell + 4
         top, bottom, middle = y - 1, y + font + 4, y + (font + 3) / 2
         head = min(10.0, max(5.0, (x2 - x1) / 4))
-        if visual.direction == "right":
+        if strand_visual.direction == "right":
             points = ((x1, top), (x2 - head, top), (x2, middle),
                       (x2 - head, bottom), (x1, bottom))
         else:
@@ -663,7 +684,10 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
         tooltip = f"<title>{html.escape(title)}</title>" if title else ""
         pieces.append(f"<tspan{attr}>{tooltip}{html.escape(text, quote=False)}</tspan>")
     pieces.append(html.escape(row.suffix, quote=False))
-    out.append(f'<text x="{x:g}" y="{baseline:.2f}" xml:space="preserve">'
+    text_class = ' class="chem-strand-text"' if any(
+        isinstance(v, StrandVisual) for v in visuals
+    ) else ""
+    out.append(f'<text{text_class} x="{x:g}" y="{baseline:.2f}" xml:space="preserve">'
                + "".join(pieces) + "</text>")
     return out
 
@@ -954,7 +978,8 @@ def complement_segments(segs: Sequence[Segment], suffix: str = "'") -> list[Segm
     for s in reversed(segs):
         top = s.bottom_text() if s.is_role_token() else s.bottom_text()[::-1]
         out.append(Segment(s.name + suffix if s.name else "", top, s.tag,
-                           s.placeholder, s.inferred, feature=s.feature))
+                           s.placeholder, s.inferred, feature=s.feature,
+                           length_bp=s.length_bp))
     return out
 
 
@@ -1225,7 +1250,17 @@ class Scene:
                 raise ValueError(f"{host!r} and {guest!r} overlap on one line")
             h = list(out[hi].chunks)
             h[-1] = (h[-1][0].rstrip(), h[-1][1], h[-1][2])
-            out[hi] = Row(chunks=h + [(lead[len(left):], None, False)] + list(out[gi].chunks[1:]))
+            host_titles = out[hi].chunk_titles or [None] * len(out[hi].chunks)
+            guest_titles = out[gi].chunk_titles or [None] * len(out[gi].chunks)
+            host_visuals = (out[hi].visual if isinstance(out[hi].visual, tuple)
+                            else (out[hi].visual,) if out[hi].visual else ())
+            guest_visuals = (out[gi].visual if isinstance(out[gi].visual, tuple)
+                             else (out[gi].visual,) if out[gi].visual else ())
+            out[hi] = Row(
+                chunks=h + [(lead[len(left):], None, False)] + list(out[gi].chunks[1:]),
+                visual=host_visuals + guest_visuals,
+                chunk_titles=host_titles + [None] + guest_titles[1:],
+            )
             out[gi] = None
         drop = {i for i, k in enumerate(keys) if k is not None and k in omit}
         return [r for i, r in enumerate(out) if r is not None and i not in drop]

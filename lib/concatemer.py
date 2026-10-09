@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Construct, Row, Segment
+from chemdraw import Construct, Row, Scene, Segment
 
 
 @dataclass(frozen=True)
@@ -48,16 +48,20 @@ class SegmentedArray:
                          name=self.name)
 
     def rows(self) -> list[Row]:
-        chunks = [(self.left_terminal.top, self.left_terminal.tag,
-                   self.left_terminal.inferred)]
-        for i, insert in enumerate(self.inserts):
-            label = f"[cDNA {i + 1}]"
-            chunks.append((label, "r1", False))
-            if i < len(self.junctions):
-                chunks.append((" ** ", None, False))
-                chunks.append((f"[segment {i + 1}|{i + 2}]",
-                               self.junctions[i].tag, self.junctions[i].inferred))
-                chunks.append((" ** ", None, False))
-        chunks.append((self.right_terminal.top, self.right_terminal.tag,
-                       self.right_terminal.inferred))
-        return [Row(chunks=chunks)]
+        """Draw the complete array as one typed strand with exact junction marks.
+
+        The earlier compact row replaced each insert with prose such as ``[cDNA 1]``.
+        That made the SVG renderer see untyped text rather than a molecule and also
+        discarded the segments' model-derived hover information.  The linear construct
+        already owns the complete ordered sequence, so render that model directly and
+        anchor both sides of every covalent segmentation junction by segment name.
+        """
+        linear = self.linear()
+        scene = Scene()
+        scene.strand("array", list(linear), label="")
+        for i, junction in enumerate(self.junctions):
+            left = f"insert {i + 1}: {self.inserts[i].segments[-1].name}"
+            right = f"insert {i + 2}: {self.inserts[i + 1].segments[0].name}"
+            scene.junction("array", left, junction.name)
+            scene.junction("array", junction.name, right)
+        return scene.rows()
