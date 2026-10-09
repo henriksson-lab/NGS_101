@@ -36,6 +36,13 @@ def _raise_fact():
 check = Check()
 run_common(check)
 
+check.section("restriction adapter compatibility")
+from restriction import ECORI, MSPI  # noqa: E402
+check("cohesive ends are derived from cut coordinates",
+      (ECORI.overhang, MSPI.overhang), ("AATT", "CG"))
+check.raises("a mismatched adapter overhang is rejected at construction",
+             lambda: ECORI.adapter_end("CG"))
+
 
 def r(md: str) -> str:
     return render(md)

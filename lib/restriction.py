@@ -39,12 +39,34 @@ class RestrictionEnzyme:
             return "blunt"
         return "5-prime" if self.top_cut < self.bottom_cut else "3-prime"
 
+    def adapter_end(self, written_overhang: str) -> "CohesiveAdapterEnd":
+        """Validate that a source-transcribed adapter fits this restriction end."""
+        return CohesiveAdapterEnd(self, written_overhang)
+
+
+@dataclass(frozen=True)
+class CohesiveAdapterEnd:
+    """An adapter overhang whose compatibility is guaranteed at construction."""
+    enzyme: RestrictionEnzyme
+    written_overhang: str
+
+    def __post_init__(self) -> None:
+        seq = self.written_overhang.upper()
+        if self.enzyme.end == "blunt":
+            raise ValueError(f"{self.enzyme.name} makes a blunt end, not a cohesive end")
+        if seq != self.enzyme.overhang:
+            raise ValueError(
+                f"{self.enzyme.name} requires {self.enzyme.overhang!r}, got {seq!r}"
+            )
+        object.__setattr__(self, "written_overhang", seq)
+
 
 MBOI = RestrictionEnzyme("MboI", "GATC", 0, 4)
 DPNII = RestrictionEnzyme("DpnII", "GATC", 0, 4)
 RSAI = RestrictionEnzyme("RsaI", "GTAC", 2, 2)
 ECORV = RestrictionEnzyme("EcoRV", "GATATC", 3, 3)
 ECORI = RestrictionEnzyme("EcoRI", "GAATTC", 1, 5)
+MSPI = RestrictionEnzyme("MspI", "CCGG", 1, 3)
 HINFI = RestrictionEnzyme("HinfI", "GANTC", 1, 4)
 BGLII = RestrictionEnzyme("BglII", "AGATCT", 1, 5)
 ALUI = RestrictionEnzyme("AluI", "AGCT", 2, 2)
