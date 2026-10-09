@@ -44,7 +44,7 @@ from page import head, info  # noqa: E402
 OUT = ROOT / "index.html"
 
 # Suites that are not a protocol directory but still count towards the total.
-EXTRA_SUITES = ["catalogue", "gcbias", "gcbias/datasets"]
+EXTRA_SUITES = ["catalogue"]
 
 BLURB_CHARS = 330          # a blurb is cut at a sentence end before this many characters
 # Build scripts all declare an OUT path, but older pages use either HERE.parent or

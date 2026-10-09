@@ -398,52 +398,12 @@ def panel(rows: Iterable[Row], cls: str = "long", caption: str | None = None,
 
 
 def oligo(name: str, segments: Sequence[Segment], five: str = "5'-", three: str = "-3'",
-          mods: str = "", tm_segments: str | Sequence[str] | None = None) -> str:
-    """A selectable SVG oligo arrow with a model-derived tooltip.
-
-    ``tm_segments`` explicitly names the annealing region. Adapter tails and indexes are
-    consequently never included in a melting-temperature calculation by accident.
-    """
-    segs = list(segments)
-    seq = "".join(s.top for s in segs)
-    cell, font, height = 8.25, 13.4, 42
-    width = max(220, int(34 + len(seq) * cell))
-    tip = 14
-    points = f"4,4 {width-tip},4 {width-4},{height/2:g} {width-tip},{height-4} 4,{height-4}"
-    tspans = []
-    for s in segs:
-        classes = _svg_classes(s.tag, s.inferred)
-        attr = f' class="{classes}"' if classes else ""
-        tspans.append(f"<tspan{attr}>{html.escape(s.top, quote=False)}</tspan>")
-    requested = ((tm_segments,) if isinstance(tm_segments, str)
-                 else tuple(tm_segments or ()))
-    tm_text = ""
-    if requested:
-        known = {s.name: s for s in segs}
-        missing = [n for n in requested if n not in known]
-        if missing:
-            raise ValueError(f"{name}: Tm region names missing from oligo: {missing}")
-        anneal = "".join(known[n].top for n in requested)
-        tm_text = (f'<dt>Annealing region</dt><dd><code>5′-{html.escape(anneal)}-3′</code></dd>'
-                   f'<dt>Tm</dt><dd>{tm(anneal):.1f} °C '
-                   '<small>(0.5 µM, 50 mM Na⁺)</small></dd>')
-    modifications = " ".join(x for x in (mods, five if five != "5'-" else "",
-                                           three if three != "-3'" else "") if x)
-    mod_row = (f'<span class="oligo-endmods">{html.escape(modifications)}</span>'
-               if modifications else "")
-    tooltip = (f'<span class="molecule-tooltip" role="tooltip"><strong>{html.escape(name)}</strong>'
-               f'<dl><dt>Sequence</dt><dd><code>5′-{html.escape(seq)}-3′</code></dd>'
-               f'<dt>Length</dt><dd>{len(seq)} nt</dd>{tm_text}'
-               + (f'<dt>Modifications</dt><dd>{html.escape(modifications)}</dd>'
-                  if modifications else "") + '</dl></span>')
-    return (f'<div class="oligo-card"><span class="oligo-name">{html.escape(name)}</span>{mod_row}'
-            f'<div class="diagram-scroll"><span class="oligo-target" tabindex="0" '
-            f'aria-label="{html.escape(name, quote=True)}">'
-            f'<svg class="oligo-svg" width="{width}" height="{height}" '
-            f'viewBox="0 0 {width} {height}" role="img">'
-            f'<polygon class="oligo-arrow" points="{points}"/>'
-            f'<text x="12" y="{height/2 + font*.36:.1f}" xml:space="preserve">'
-            f'{"".join(tspans)}</text></svg></span></div>{tooltip}</div>')
+          mods: str = "") -> str:
+    """One raw-text line for ordering or copying an oligo sequence."""
+    body = "".join(_wrap(s.top, s.tag, s.inferred) for s in segments)
+    lead = f"{five} {mods} " if mods else f"{five} "
+    return (f"<p>{html.escape(name)}: {html.escape(lead, quote=False)}"
+            f"{body} {html.escape(three, quote=False)}</p>")
 
 
 # ------------------------------------------------------------------- loops

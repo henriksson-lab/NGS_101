@@ -79,17 +79,14 @@ def insert(spacer: str = "N" * SPACER_LEN, rsl: str = "N" * RSL_LEN) -> str:
 # selftest and the padlock design script alike.
 #
 # The map is third-party (Addgene's / the depositor's annotation) and so is not committed
-# here; see ref/MANIFEST.md. Two files carry the same plasmid and either will do -- they are
-# the same 10,183 bp at different origins, which is immaterial because every measurement
-# below is made with find_both()/amplify() on a circle:
-#   1. the Addgene GenBank deposit kept with the lentiCRISPR screen notes -- the citable one;
-#   2. a SnapGene .dna of the same plasmid, if a local copy happens to be around.
+# here; see ref/MANIFEST.md. The Addgene GenBank deposit kept with the lentiCRISPR screen
+# notes is the citable source. Every measurement below is made with find_both()/amplify()
+# on a circle, so its deposited origin is immaterial.
 PARENT_MAP_ORIGIN = ("Addgene #52963 (lentiGuide-Puro), full sequence -- see "
                      "ref/MANIFEST.md in this directory")
 PARENT_MAP_CANDIDATES = (
     _HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref"
     / "plasmids" / "addgene-52963_lentiGuide-Puro.gb",
-    _HERE.parents[1] / "to_debug" / "lentiGuide-Puro.dna",
 )
 
 
@@ -216,7 +213,7 @@ PCR2_REV = il.P7[5:] + VECTOR_ANNEAL_REV          # P7 less its 5' CAAGC
 PCR3_REV = il.P7 + VECTOR_ANNEAL_REV[:10]
 LIBRARY_LEN_PUBLISHED = 288                       # the paper's own figure, reproduced in selftest
 
-# Martin's CRISPR_PCR1-F / -R, as transcribed from the workbook in to_debug/. Defined here
+# Martin's CRISPR_PCR1-F / -R, as transcribed from the supplied workbook. Defined here
 # once, and used by both the page and the selftest: -F is Schmierer's PCR1-F with a 3-nt 5'
 # extension, -R shares only its 5' 15 nt with Schmierer's PCR1-R and then diverges.
 OUR_PCR1_FW = "AAT" + PCR1_FW

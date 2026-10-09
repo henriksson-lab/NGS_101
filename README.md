@@ -96,12 +96,6 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── scg_lib_structs_style.md   the house style, reverse-engineered
 │   ├── SPLiT-seq.html             archived style exemplar
 │   └── page_format.css            its stylesheet
-├── gcbias/                  ALL the GC-bias work, self-contained
-│   ├── datasets/            which public data exists per paper, and if it is reusable
-│   ├── download/            download scripts (data is NEVER committed)
-│   ├── lib/umimodel.py      lineage-UMI molecule counting: collisions, dropout, Chao1
-│   ├── tools/               extract, diagnostics, model fit, simulation, controls
-│   └── R/                   plots and the GAM non-linearity test
 ├── catalogue/               what exists out there, and what we have tackled
 │   ├── scg_lib_structs.tsv  the scraped worklist (protocol x paper), built by tools/
 │   ├── ours.tsv             our own coverage -- and the source of the names below
@@ -116,7 +110,6 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │       ├── build_page.py    emits the HTML
 │       └── selftest.py      shared checks + this protocol's checks
 │                            (the seven that exist are listed in catalogue/ours.tsv)
-└── to_debug/                a live problem: ira1.md + check.py reproduce the analysis
 ```
 
 ## Using it
@@ -164,7 +157,7 @@ python3 build_docs.py            # render anything that changed
 python3 build_docs.py --check    # exit 1 and name the stale pages; nothing written
 python3 build_docs.py --force    # re-render everything
 python3 build_docs.py --list     # list the notes it would render
-python3 build_docs.py gcbias/README.md   # just these files
+python3 build_docs.py crispr-mip__10.1101+2024.03.28.587082/01_crispr-mip.md
 ```
 
 `--check` is the one to put in CI or a pre-commit hook: it fails if a `.md` was edited
@@ -207,9 +200,8 @@ schematic page. Other reference notes and work in progress remain in the reposit
 not public site navigation or search content. It never copies third-party material --
 nothing from `_data/`, `pdf/`, the catalogue's download cache, archived exemplars such as
 `ref/SPLiT-seq.html`, any `ref/`
-data file, or a file type `.gitignore` treats as source material -- and the working debug
-logs in `to_debug/` are not published either (a link to them becomes plain text). It then
-checks that every relative link and anchor in `_site/` resolves, and fails if one does not.
+data file, or a file type `.gitignore` treats as source material. It then checks that every
+relative link and anchor in `_site/` resolves, and fails if one does not.
 
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
@@ -363,8 +355,9 @@ What that means in practice:
 - Derived tables (count matrices, fitted parameters) are also data: they go to `$CHEM_DATA`
   too. Only the script that produces them is tracked.
 
-Download scripts live in [`gcbias/download/`](gcbias/download/) for the GC-bias work; a new
-analysis adds its own `download/` beside its tools.
+CRISPR-MIP analysis download scripts live in the companion `chem_crisprmip` repository. A
+new analysis keeps its download tooling beside that analysis rather than in this chemistry
+catalogue.
 
 ### Nor any third-party source document
 
@@ -392,27 +385,12 @@ Two conventions make this workable:
   is an incomplete clone, not a wrong chemistry. Build scripts, which genuinely cannot
   produce a page without their data, exit with that same message instead.
 
-## GC-bias analysis
+## CRISPR-MIP analysis
 
-[`gcbias/`](gcbias/README.md) is a separate track from the protocol pages: not chemistry but
-an analysis, and **self-contained** — its own `datasets/` catalogue, its own
-`lib/umimodel.py`, its own download scripts, tools and R plots. Nothing in it is needed to
-build a protocol page, and nothing in a protocol page depends on it.
-
-It was started to answer a reviewer question about PCR GC bias in CRISPR-MIP. Two things in
-it are worth knowing even from outside:
-
-- **The obvious statistic is wrong.** Reads per distinct UMI invents a GC trend where none
-  exists — by up to +1.4 log2 per unit GC in simulation — because distinct-UMI counts
-  saturate and saturation tracks abundance. `lib/umimodel.py` models the collisions and the
-  unseen molecules so that "expected reads" is a prediction rather than a restatement.
-- **Both published CRISPR-UMI datasets fail, for opposite reasons** — one UMI is 82 %
-  saturated, the other was never deposited. `datasets/` records which public data exists per
-  paper, whether it is reusable, and the criteria a dataset has to meet, so the search does
-  not have to be redone.
-
-On the Schmierer plasmid input the real effect is small, strongly non-linear, and
-concentrated above ~65 % GC; on genomic DNA it is roughly 1.7× larger.
+This repository keeps the published CRISPR-MIP chemistry and protocol schematic. GC-bias
+work, dataset investigations, proposed experiments and live protocol troubleshooting live
+in the companion `chem_crisprmip` repository, which may depend on this one. The dependency
+never runs in the other direction: this site builds without the analysis checkout.
 
 ## A note on what the checks are for
 

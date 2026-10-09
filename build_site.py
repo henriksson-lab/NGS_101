@@ -46,11 +46,8 @@ import build_docs  # noqa: E402
 import build_index  # noqa: E402
 from page import MD_STYLE, STYLE  # noqa: E402
 
-# Notes that are rendered locally but not published: working debug logs that quote
-# correspondence and refer to files we may not redistribute.
-UNPUBLISHED = {"to_debug"}
 # Never published from here, whatever links to it.
-NEVER = {"_data", "pdf", ".cache", ".git", "__pycache__", "_site", *UNPUBLISHED}
+NEVER = {"_data", "pdf", ".cache", ".git", "__pycache__", "_site"}
 # Files a page may link to and that we may copy, if they are ours. Everything else -- in
 # particular the types .gitignore lists as third-party source material (pdf, xlsx, txt,
 # images, plasmid maps) -- is never copied.

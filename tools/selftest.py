@@ -50,12 +50,9 @@ check("SVG is the default diagram renderer", '<svg class="chem-svg' in svg_panel
 check("SVG keeps sequence as selectable text", "<tspan class=\"chem-r1\">ACGT</tspan>" in svg_panel)
 check("the legacy renderer remains explicitly available",
       panel([Row(chunks=[("ACGT", None, False)])], renderer="legacy").startswith("<pre>"))
-tm_oligo = oligo("PCR primer", [Segment("binding", "ACGTACGTACGT")],
-                  tm_segments="binding")
-check("an explicitly named annealing region gets a Tm", "<dt>Tm</dt>" in tm_oligo)
-check.raises("an unknown Tm region is rejected",
-             lambda: oligo("PCR primer", [Segment("binding", "ACGT")],
-                           tm_segments="adapter tail"))
+text_oligo = oligo("PCR primer", [Segment("binding", "ACGTACGT")])
+check("ordering oligos stay raw selectable text", "<svg" not in text_oligo)
+check("ordering oligos retain explicit strand ends", "5'- ACGTACGT -3'" in text_oligo)
 
 
 def r(md: str) -> str:
@@ -303,10 +300,11 @@ check("it redefines the palette for an explicit dark choice",
 check("tables are wrapped so the page never scrolls sideways", 'class="tw"' in one)
 check("it links back to the front page", 'href="index.html"' in one)
 check("a nested note's breadcrumb walks up to the root",
-      'href="../index.html"' in build_docs.build_page(ROOT / "gcbias" / "README.md"))
+      'href="../index.html"' in build_docs.build_page(
+          ROOT / "crispr-mip__10.1101+2024.03.28.587082" / "01_crispr-mip.md"))
 check("a twice-nested note walks up twice",
       'href="../../index.html"' in build_docs.build_page(
-          ROOT / "gcbias" / "datasets" / "README.md"))
+          ROOT / "crispr-mip__10.1101+2024.03.28.587082" / "ref" / "MANIFEST.md"))
 check("the rendered HTML is on disk for every note",
       [str(p.relative_to(ROOT)) for p in notes if not p.with_suffix(".html").exists()], [])
 check("rendering is deterministic -- building twice gives the same bytes",

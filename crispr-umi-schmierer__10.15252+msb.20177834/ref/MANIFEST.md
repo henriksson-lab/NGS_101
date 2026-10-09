@@ -69,11 +69,6 @@ Depended on by:
   readout run on plain lentiGuide-Puro* (249 bp, 39 bp short of the published 288), and
   *universal arm on lentiGuide-Puro*.
 
-A SnapGene map of the same plasmid, `to_debug/lentiGuide-Puro.dna`, is accepted as a fallback
-if a local copy happens to be present — it is the same 10,183 bp at a different origin, which
-is immaterial because every measurement is made on a circle. `*.dna` is gitignored (the
-annotation is SnapGene's), so do not rely on it.
-
 ### `addgene-49535_lentiCRISPRv1.gb`, `addgene-52961_lentiCRISPRv2.gb`
 
 **Sources:** Addgene **#49535** (lentiCRISPR v1) and **#52961** (lentiCRISPRv2), full sequences.

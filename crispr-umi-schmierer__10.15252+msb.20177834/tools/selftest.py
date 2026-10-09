@@ -305,7 +305,7 @@ check("...and priming there would start Read 1 in U6, not on the spacer",
 check("all four roles are declared", sorted({q.role for q in cu.SEQ_PRIMERS}),
       sorted(sp.ROLES))
 
-check.section("the published readout vs the primers in to_debug/")
+check.section("the published readout vs the supplied primers")
 # Martin's CRISPR_PCR1-F/-R, defined once in crisprumi.py and used by the page too.
 USR_F, USR_R = cu.OUR_PCR1_FW, cu.OUR_PCR1_REV
 check("CRISPR_PCR1-F is Schmierer's PCR1_FW with a 3-nt 5' extension",

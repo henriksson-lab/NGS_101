@@ -14,7 +14,7 @@ presentation, protocol boundaries, evidence display, or model/test responsibilit
 ## Commands
 
 Pure Python 3 standard library — **no third-party dependencies, don't add any** (that is
-why `lib/mdrender.py` is a home-grown Markdown renderer). R is used only in `gcbias/R/`.
+why `lib/mdrender.py` is a home-grown Markdown renderer).
 
 ```sh
 # self-tests: shared primitives once, then only protocol suites affected by an edit
@@ -103,14 +103,11 @@ finds oligos, not reaction order: the methods still have to be **read**.
   (`tools/fetch_scg_lib_structs.py`, network, cached). `properties.tsv` drives the public
   chemistry finder: every `ours.tsv` directory must choose a profile and record overrides;
   `tools/properties.py` rejects missing facets and vocabulary drift during the normal build.
-- **`gcbias/`** — separate, self-contained analysis (PCR GC bias via lineage UMIs) with
-  its own lib, download scripts, tools and R plots; protocol pages never depend on it.
-  Workflow is in `gcbias/README.md`.
 - **Website** — `build_site.py` builds every page but publishes only the front page,
   finished schematic pages, their main research note (linked quietly from the schematic),
   and files those pages deliberately link to. Other reference notes, evidence logs,
   catalogue internals and work in progress stay out of public navigation
-  and search; never publish `_data/`, `pdf/`, caches, `ref/` data files or `to_debug/`.
+  and search; never publish `_data/`, `pdf/`, caches or `ref/` data files.
   Broken relative links fail the build. A diagram page whose build needs a missing source
   is omitted (a stand-in page explains why). `index.html` is a searchable list of the
   published protocol names from `catalogue/ours.tsv`; names link only to successfully built

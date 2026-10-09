@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "lib"))
 from chemdraw import bases_pair  # noqa: E402
 
-SKIP = {"ref", "to_debug", "_data", "gcbias", ".cache", "_site"}   # archived exemplars, download caches, the assembled site
+SKIP = {"ref", "_data", ".cache", "_site"}   # archived exemplars, download caches, the assembled site
 SEQ_TOKEN = re.compile(r"[ACGTUNWSRYKMBDHVXIacgtunwsrykmbdhvxi.]{3,}")
 WORD = re.compile(r"[A-Za-z.]+")
 

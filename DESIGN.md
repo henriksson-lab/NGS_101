@@ -5,6 +5,23 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-09 — CRISPR-MIP analysis is a downstream repository
+
+**Decision.** This repository retains the published CRISPR-MIP protocol, reviewed source
+note, chemistry model and schematic. Project-specific work around that protocol — GC-bias
+analysis, dataset investigations, proposed experiments and live troubleshooting — belongs
+in the sibling `chem_crisprmip` repository.
+
+The dependency runs one way: `chem_crisprmip` may use models and primitives from `chem`,
+but protocol pages and site builds in `chem` must not depend on the analysis repository.
+
+**Why.** The chemistry catalogue should remain a reusable explanation of published library
+construction. Active analysis has different data, tooling, privacy and revision needs and
+should not enlarge or leak into the public protocol site.
+
+**Review when.** Move material back only if it becomes a reusable chemistry primitive or a
+necessary part of accurately documenting the published protocol.
+
 ## 2026-10-09 — SVG is the default schematic renderer
 
 **Decision.** Protocol diagrams render as SVG by default. Sequence and annotation content
@@ -12,21 +29,26 @@ remains SVG text, not outlined paths, so readers can select and copy it. Each SV
 intrinsic width derived from its character grid and sits in a horizontal scroll port;
 narrow screens must scroll rather than shrink bases below the established font size.
 
-Free oligos render as 5′→3′ arrow-shaped objects. Their hover/focus details give the oligo
-name, full sequence, length and modifications. A melting temperature is shown only when
-the caller explicitly names the annealing segment or segments; adapter tails and indexes
-must not silently enter that calculation.
+Reaction and construct diagrams use SVG. Ordering-oligo lists remain raw HTML text with
+explicit 5′ and 3′ ends, because direct selection and copying into an order form matters
+more there than geometric presentation.
+
+A reaction panel stays aligned to the normal text column when its intrinsic content fits.
+Only an oversized panel may expand toward the viewport edge; it scrolls horizontally once
+the viewport itself is narrower than the construct.
 
 The original character-grid HTML renderer remains available through
 `panel(..., renderer="legacy")` for comparison and possible future uses, but is not
 duplicated invisibly in SVG pages.
 
-**Why.** SVG permits clearer molecular geometry and interaction without sacrificing
-copy/paste or forcing long libraries into unreadably small responsive images. Explicit Tm
-regions keep a useful computed property tied to the part of the oligo that actually binds.
+**Why.** SVG permits clearer molecular geometry without forcing long libraries into
+unreadably small responsive images. Raw oligo text preserves the simplest ordering
+workflow, while conditional breakout gives complex reactions room without misaligning
+every short diagram from the prose.
 
-**Review when.** Revisit the visual grammar as richer topology is added. Keep text
-selectable, fixed-scale horizontal scrolling, explicit Tm scope and the legacy fallback.
+**Review when.** Revisit the visual grammar as richer topology is added. Keep reaction SVG
+text selectable, retain fixed-scale horizontal scrolling and the legacy fallback, and keep
+ordering oligos as copyable text.
 
 ## 2026-10-07 — One schematic per protocol
 

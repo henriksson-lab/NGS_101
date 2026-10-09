@@ -168,7 +168,7 @@ UMI placed before the insert cannot distinguish molecules by position: counting 
 🟡 6,561 is small. The paper calls it *"in principle, high enough to count all the
 molecules transcribed from a single locus"*; for an abundant miRNA in a single cell that is
 an assumption, not a result, and saturation would bias counts downward — exactly the
-failure mode `gcbias/lib/umimodel.py` exists to model.
+failure mode addressed by lineage-UMI collision models.
 
 ## 6. Final library, and where the sizes come from
 

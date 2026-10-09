@@ -21,7 +21,7 @@ doi:[10.15252/msb.20177834](https://doi.org/10.15252/msb.20177834) · PMC5658704
 
 Both are "CRISPR + UMI" and both improve a screen's statistics, but they intervene at
 opposite ends of the experiment. Mixing up which one a vector belongs to is an easy and
-expensive mistake — see [`../to_debug/ira1.md`](../to_debug/ira1.md).
+expensive mistake.
 
 Schmierer calls the UMI a **Random Sequence Label (RSL)**, which is the less ambiguous name.
 
