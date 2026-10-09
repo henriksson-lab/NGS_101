@@ -17,7 +17,8 @@ from dataclasses import dataclass, replace
 
 import illumina as il
 import nextera as nx
-from chemdraw import Construct, MolecularFeature, Row, feature_rows, panel, revcomp, strand_row
+from chemdraw import (ArrowVisual, Construct, MolecularFeature, Row, Segment, StrandVisual,
+                      feature_rows, inline_sequence, panel, revcomp, strand_row)
 
 ROLES = ("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2")
 
@@ -232,12 +233,25 @@ def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the f
         if hit.strand == "bottom":
             # Same sense as the top strand; a 5' flap extends to the left of the match.
             start = hit.start - hit.free5
-            return Row(chunks=[(p.seq, tag, False)], indent=len(label) + start, prefix="5'- ",
-                       suffix=f" -3'  --------> {role}")
+            primer = Construct([Segment(p.name, p.seq, tag)], name=p.name)
+            row = strand_row(primer, "top", indent=len(label) + start,
+                             prefix="5'- ", suffix=" -3'")
+            strand = row.visual
+            assert isinstance(strand, StrandVisual)
+            arrow_start = strand.end + len(row.suffix) + 2
+            row.visual = (strand, ArrowVisual(arrow_start, arrow_start + 8, "right", role))
+            return row
         # Antiparallel below the top strand.  Reverse for the left-to-right 3'->5' drawing;
         # a 5' flap consequently extends to the right of the exact match.
-        return Row(chunks=[(p.seq[::-1], tag, False)], indent=len(label) + hit.start, prefix="3'- ",
-                   suffix=f" -5'  <-------- {role}")
+        primer = Construct([Segment(p.name, revcomp(p.seq), tag)], name=p.name)
+        row = strand_row(primer, "bottom", indent=len(label) + hit.start,
+                         prefix="3'- ", suffix=" -5'")
+        strand = row.visual
+        assert isinstance(strand, StrandVisual)
+        arrow_start = strand.end + len(row.suffix) + 2
+        row.visual = (strand, ArrowVisual(arrow_start, arrow_start + 8, "left", role,
+                                          label_after=True))
+        return row
 
     above = [primer_row(p, h) for p, h in located if h and h.strand == "bottom"]
     below = [primer_row(p, h) for p, h in located if h and h.strand == "top"]
@@ -285,8 +299,9 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
             first = "&mdash;"
         note = f"<br><small>{html.escape(p.note)}</small>" if p.note else ""
         src = f"<br><small>{html.escape(p.source)}</small>" if p.source else ""
+        sequence = inline_sequence(p.seq, p.name)
         rows.append(f"<tr><td>{html.escape(p.role)}</td><td>{html.escape(p.name)}{src}</td>"
-                    f"<td><code>5'-{p.seq}-3'</code> ({len(p.seq)} nt){note}</td>"
+                    f"<td>{sequence}{note}</td>"
                     f"<td>{where}</td><td>{first}</td></tr>")
     intro_html = f"<p><info>{intro}</info></p>\n" if intro else ""
     feature_table = ""

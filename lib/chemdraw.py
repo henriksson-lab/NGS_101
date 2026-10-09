@@ -21,6 +21,7 @@ Conventions
 from __future__ import annotations
 
 import html
+import json
 import math
 import re
 from dataclasses import dataclass, field
@@ -62,9 +63,12 @@ _NN = {
     "CG": (-10.6, -27.2), "GC": (-9.8, -24.4), "GG": (-8.0, -19.9), "CC": (-8.0, -19.9),
 }
 _R = 1.987
+TM_PRIMER_MOLAR = 0.5e-6
+TM_NA_MOLAR = 0.05
 
 
-def tm(seq: str, primer_molar: float = 0.5e-6, na_molar: float = 0.05) -> float:
+def tm(seq: str, primer_molar: float = TM_PRIMER_MOLAR,
+       na_molar: float = TM_NA_MOLAR) -> float:
     """Nearest-neighbour melting temperature in degrees C.
 
     Absolute values depend on buffer (Q5 is not 50 mM Na+); use these comparatively.
@@ -86,6 +90,27 @@ def tm(seq: str, primer_molar: float = 0.5e-6, na_molar: float = 0.05) -> float:
             ds += 4.1
     ds += 0.368 * (len(s) - 1) * math.log(na_molar)  # salt correction
     return (dh * 1000.0) / (ds + _R * math.log(primer_molar / 4.0)) - 273.15
+
+
+def tm_javascript() -> str:
+    """The browser equivalent of :func:`tm`, generated from the same parameters."""
+    nn = json.dumps(_NN, separators=(",", ":"))
+    return f"""function chemTm(sequence) {{
+  const nn = {nn};
+  const s = sequence.toUpperCase();
+  if (!/^[ACGT]{{2,}}$/.test(s)) return null;
+  let dh = 0, ds = 0;
+  for (let i = 0; i < s.length - 1; i++) {{
+    const pair = nn[s.slice(i, i + 2)];
+    dh += pair[0]; ds += pair[1];
+  }}
+  for (const end of [s[0], s[s.length - 1]]) {{
+    if (end === "G" || end === "C") {{ dh += 0.1; ds -= 2.8; }}
+    else {{ dh += 2.3; ds += 4.1; }}
+  }}
+  ds += 0.368 * (s.length - 1) * Math.log({TM_NA_MOLAR!r});
+  return (dh * 1000) / (ds + {_R!r} * Math.log({TM_PRIMER_MOLAR!r} / 4)) - 273.15;
+}}"""
 
 
 # ------------------------------------------------------------------------ segments
@@ -388,6 +413,7 @@ class ArrowVisual:
     end: int
     direction: str
     label: str = ""
+    label_after: bool = False
 
     def __post_init__(self) -> None:
         if self.direction not in ("left", "right") or self.end <= self.start:
@@ -648,24 +674,27 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
                        f'y="{baseline:.2f}">{html.escape(visual.label)}</text>')
         return out
 
-    if isinstance(visual, ArrowVisual):
-        x1, x2 = x + visual.start * cell, x + visual.end * cell
+    arrow_visuals = [v for v in visuals if isinstance(v, ArrowVisual)]
+    for arrow_visual in arrow_visuals:
+        x1, x2 = x + arrow_visual.start * cell, x + arrow_visual.end * cell
         line_y = y + font * .58
-        tip = x1 if visual.direction == "left" else x2
-        tail = x2 if visual.direction == "left" else x1
+        tip = x1 if arrow_visual.direction == "left" else x2
+        tail = x2 if arrow_visual.direction == "left" else x1
         out.append(f'<line class="chem-process-arrow" x1="{tail:.2f}" y1="{line_y:.2f}" '
                    f'x2="{tip:.2f}" y2="{line_y:.2f}"/>')
-        sign = 1 if visual.direction == "left" else -1
+        sign = 1 if arrow_visual.direction == "left" else -1
         points = ((tip, line_y), (tip + sign * 7, line_y - 4),
                   (tip + sign * 7, line_y + 4))
         coords = " ".join(f"{a:.2f},{b:.2f}" for a, b in points)
         out.append(f'<polygon class="chem-process-arrowhead" points="{coords}"/>')
-        if visual.label:
-            label_x = x1 - 7 if visual.direction == "left" else x2 + 7
-            anchor = "end" if visual.direction == "left" else "start"
+        if arrow_visual.label:
+            after = arrow_visual.label_after or arrow_visual.direction == "right"
+            label_x = x2 + 7 if after else x1 - 7
+            anchor = "start" if after else "end"
             out.append(f'<text class="chem-process-label" x="{label_x:.2f}" '
                        f'y="{baseline:.2f}" text-anchor="{anchor}">'
-                       f'{html.escape(visual.label)}</text>')
+                       f'{html.escape(arrow_visual.label)}</text>')
+    if arrow_visuals and not any(isinstance(v, StrandVisual) for v in visuals):
         return out
 
     if isinstance(visual, CommentVisual):
@@ -812,6 +841,23 @@ def oligo(name: str, segments: Sequence[Segment], five: str = "5'-", three: str 
     lead = f"{five} {mods} " if mods else f"{five} "
     return (f"<p>{html.escape(name)}: {html.escape(lead, quote=False)}"
             f"{body} {html.escape(three, quote=False)}</p>")
+
+
+def inline_sequence(seq: str, name: str = "", five: str = "5'-", three: str = "-3'",
+                    unit: str = "nt") -> str:
+    """Copyable inline sequence with model-derived metadata in a native tooltip.
+
+    This is for tables and prose, where a strand-shaped SVG would add visual weight and
+    make ordering sequences less convenient to copy. Direction is explicit in the text;
+    length and, for an unambiguous DNA annealing sequence, Tm stay available on hover.
+    """
+    parts = [name] if name else []
+    parts.append(f"{len(seq)} {unit}")
+    if len(seq) >= 8 and set(seq.upper()) <= set("ACGT"):
+        parts.append(f"Tm {tm(seq):.1f} °C")
+    title = html.escape(" · ".join(parts), quote=True)
+    shown = html.escape(f"{five}{seq}{three}", quote=False)
+    return f'<code class="chem-inline-sequence chem-has-tip" title="{title}">{shown}</code>'
 
 
 # ------------------------------------------------------------------- loops
@@ -1234,7 +1280,7 @@ class Scene:
                     visual = SpanVisual(shift + visual.start, shift + visual.end, visual.label)
                 elif isinstance(visual, ArrowVisual):
                     visual = ArrowVisual(shift + visual.start, shift + visual.end,
-                                         visual.direction, visual.label)
+                                         visual.direction, visual.label, visual.label_after)
                 elif isinstance(visual, CommentVisual):
                     visual = CommentVisual(shift + visual.start, visual.text)
                 out.append(Row(chunks=[(" " * (shift + c) + text, None, False)],

@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import html
 
+from chemdraw import tm_javascript
+
 STYLE = """<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,7 +108,12 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-svg text { user-select:text; -webkit-user-select:text; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
-.chem-svg .chem-has-tip { cursor:help; }
+.chem-has-tip { cursor:help; }
+.chem-inline-sequence { white-space:nowrap; }
+.chem-selection-badge { position:fixed; z-index:1000; pointer-events:none; user-select:none;
+                        padding:3px 7px; border:1px solid var(--rule); border-radius:4px;
+                        background:var(--surface-2); color:var(--ink); box-shadow:0 2px 8px #0003;
+                        font:600 .78rem/1.35 var(--sans); white-space:nowrap; }
 .chem-strand-box { fill:var(--surface-2); stroke:var(--ink-muted); stroke-width:1; }
 .chem-binding-span { fill:none; stroke:var(--accent); stroke-width:1.5; }
 .chem-binding-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.92em; }
@@ -154,6 +161,81 @@ w1{color:var(--c-w1)}
 /* and how well it is KNOWN -- orthogonal, nests freely inside the above */
 inf { border-bottom:1px dotted var(--inf); }
 </style>"""
+
+
+INTERACTION = """<script>
+(() => {
+  "use strict";
+""" + tm_javascript() + """
+
+  let badge = null;
+  let queued = false;
+
+  function hideBadge() {
+    if (badge) badge.hidden = true;
+  }
+
+  function selectedSequence(selection) {
+    if (!selection || selection.isCollapsed || selection.rangeCount !== 1) return null;
+    const raw = selection.toString().trim();
+    if (!raw || raw.length > 10000) return null;
+    let sequence = raw.replace(/\\s+/g, "");
+    sequence = sequence
+      .replace(/^(?:5|3)[\\u2032'\\u2019][-\\u2013\\u2014]?/i, "")
+      .replace(/[-\\u2013\\u2014]?(?:5|3)[\\u2032'\\u2019]$/i, "");
+    if (!/^[ACGTURYSWKMBDHVN]+$/i.test(sequence)) return null;
+
+    const node = selection.getRangeAt(0).commonAncestorContainer;
+    const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+    const molecularContext = element && element.closest(
+      "code, seq, align, .chem-svg, .chem-inline-sequence"
+    );
+    if (sequence.length < 8 && !molecularContext) return null;
+    if (!molecularContext && raw !== raw.toUpperCase()) return null;
+    return sequence.toUpperCase();
+  }
+
+  function updateBadge() {
+    queued = false;
+    const selection = window.getSelection();
+    const sequence = selectedSequence(selection);
+    if (!sequence) { hideBadge(); return; }
+
+    if (!badge) {
+      badge = document.createElement("div");
+      badge.className = "chem-selection-badge";
+      badge.setAttribute("aria-hidden", "true");
+      document.body.appendChild(badge);
+    }
+    let label = `${sequence.length} nt`;
+    if (/^[ACGT]{8,}$/.test(sequence)) {
+      label += ` · Tm ${chemTm(sequence).toFixed(1)} °C`;
+    }
+    badge.textContent = label;
+    badge.hidden = false;
+
+    const rect = selection.getRangeAt(0).getBoundingClientRect();
+    if (!rect.width && !rect.height) { hideBadge(); return; }
+    const half = badge.offsetWidth / 2;
+    const x = Math.max(half + 8,
+      Math.min(window.innerWidth - half - 8, rect.left + rect.width / 2));
+    let y = rect.bottom + 8;
+    if (y + badge.offsetHeight > window.innerHeight - 8) {
+      y = rect.top - badge.offsetHeight - 8;
+    }
+    badge.style.left = `${x}px`;
+    badge.style.top = `${Math.max(8, y)}px`;
+    badge.style.transform = "translateX(-50%)";
+  }
+
+  document.addEventListener("selectionchange", () => {
+    if (!queued) { queued = true; requestAnimationFrame(updateBadge); }
+  });
+  document.addEventListener("scroll", hideBadge, true);
+})();
+</script>"""
+
+ASSETS = STYLE + "\n" + INTERACTION
 
 
 MD_STYLE = """<style>
@@ -208,7 +290,7 @@ MD_STYLE = """<style>
 
 def head(title: str) -> str:
     """<title> plus fonts and the shared stylesheet."""
-    return f"<title>{html.escape(title)}</title>\n{STYLE}"
+    return f"<title>{html.escape(title)}</title>\n{ASSETS}"
 
 
 def legend(body_html: str) -> str:
