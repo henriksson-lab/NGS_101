@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import duplex_rows, panel
+from chemdraw import duplex_rows, panel, workflow_from_sections, workflow_panel
 from page import head, info
 
 
@@ -12,8 +12,10 @@ def render(m) -> str:
              info(m.SOURCE), info(m.SUMMARY)]
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
-    for heading, rows, caption in m.sections():
-        parts.extend([f'<h2>{heading}</h2>', panel(rows, cls="long", caption=caption)])
+    sections = list(m.sections())
+    if sections:
+        parts.extend(['<h2>Reaction workflow</h2>',
+                      workflow_panel(workflow_from_sections(sections), cls="long")])
     finals = tuple(getattr(m, "FINAL_LIBRARIES", ()))
     if not finals:
         raise ValueError(f"{m.TITLE}: no final sequencing libraries declared")

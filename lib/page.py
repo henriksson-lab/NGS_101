@@ -106,6 +106,15 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-svg text { user-select:text; -webkit-user-select:text; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
+.chem-workflow .chem-state-label { fill:var(--ink-muted); font-family:var(--sans);
+                                   font-weight:600; }
+.chem-reaction-arrow { stroke:var(--accent); stroke-width:2; }
+.chem-reaction-arrowhead { fill:var(--accent); }
+.chem-reaction-box { fill:var(--surface-2); stroke:var(--accent); stroke-width:1; }
+.chem-reaction-label { fill:var(--ink); font-family:var(--sans); font-weight:600; }
+.reaction-panel > figcaption { margin-top:.45em; }
+.reaction-notes { margin:.2em 0 0; padding-left:1.5em; }
+.reaction-notes li { margin:.22em 0; }
 .chem-p5{fill:var(--c-p5)} .chem-p7{fill:var(--c-p7)}
 .chem-s5{fill:var(--c-s5)} .chem-s7{fill:var(--c-s7)} .chem-me{fill:var(--c-me)}
 .chem-t7{fill:var(--c-t7)} .chem-cbc{fill:var(--c-cbc)} .chem-umi{fill:var(--c-umi)}

@@ -13,8 +13,8 @@ import nextera as nx
 import rt
 import seqprimers as sp
 import smartseq as ss
-from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments, oligo, panel,
-                      revcomp)
+from chemdraw import (MolecularState, Row, Scene, Segment, Workflow, annotation_rows,
+                      complement_segments, oligo, panel, revcomp, workflow_panel)
 from illumina import P5, P7
 from page import head, info, table
 
@@ -170,19 +170,25 @@ def ss2_pcr() -> list[Row]:
 
 def ss2_steps(protocol: str = "SMART-seq2") -> str:
     s1, s2, s3 = ss2_rt()
-    p1 = panel(s1.rows(), cls="small",
-               caption="(1) The anchored oligo-dTVN anneals at the poly(A) junction; "
-                       "MMLV reverse transcribes.")
-    p2 = panel(s2.rows(), cls="small",
-               caption="(2) Running off the 5' end, MMLV's terminal transferase adds "
-                       "three untemplated C.")
-    p3 = panel(s3.rows(), cls="small",
-               caption=f"(3) The TSO's {'rGrG+G' if protocol == 'SMART-seq2' else 'rGrGrG'} "
-                       "pairs with that CCC overhang and the "
-                       "polymerase switches template, copying the handle.")
-    p4 = panel(ss2_pcr(), cls="long",
-               caption="(4) ISPCR amplifies the cDNA from the identical handles at both ends.")
-    return "<h2>Step-by-step library generation</h2>\n" + p1 + p2 + p3 + p4 + tagmentation()
+    tagged, filled = tagmentation_states()
+    initial = Scene()
+    initial.strand("mRNA", _mrna())
+    workflow = Workflow(MolecularState("Starting poly(A) RNA", tuple(initial.rows())))
+    workflow.react("oligo-dTVN annealing", s1.rows(),
+                   note="The anchored primer sits at the poly(A) junction.")
+    workflow.react("MMLV reverse transcription + terminal transferase", s2.rows(),
+                   note="Running off the RNA 5′ end adds three untemplated C.")
+    workflow.react("template switching", s3.rows(),
+                   note=f"The TSO's {'rGrG+G' if protocol == 'SMART-seq2' else 'rGrGrG'} "
+                        "pairs with CCC and contributes the second handle.")
+    workflow.react("ISPCR", ss2_pcr(),
+                   note="The identical terminal handles amplify full-length cDNA.")
+    workflow.react("Nextera tagmentation", tagged,
+                   note="Tn5 inserts s5/s7 entry points and leaves 9-nt gaps.")
+    workflow.react("72 °C gap fill", filled,
+                   note="The first Nextera PCR hold fills both gaps before denaturation.")
+    return ("<h2>Step-by-step library generation</h2>\n"
+            + workflow_panel(workflow, cls="long"))
 
 
 def _entry(which: str) -> Segment:
@@ -228,7 +234,7 @@ def gap_filled() -> Scene:
     return sc
 
 
-def tagmentation() -> str:
+def tagmentation_states() -> tuple[list[Row], list[Row]]:
     rows = []
     for a, b, amp, why in nx.TAGMENTATION_OUTCOMES:
         rows.append(Row(chunks=chunks((f"Product {a}/{b}: {why}",))))
@@ -237,14 +243,7 @@ def tagmentation() -> str:
         t.same_line("bottom", "nt-top")
         rows.extend(t.rows())
         rows.append(Row())
-    p5 = panel(rows, cls="long",
-               caption="(5) Nextera tagmentation. The Tn5 dimer inserts both adaptors at "
-                       "random, leaving a 9-bp gap at each end.")
-    p6 = panel(gap_filled().rows(), cls="long",
-               caption="(6) 72 C gap fill-in -- the first hold of the Nextera PCR, before any "
-                       "denaturation. It is a fill-in, not an extension; skip it and the "
-                       "library is lost.")
-    return p5 + p6
+    return rows, gap_filled().rows()
 
 
 def ss2_final() -> str:
@@ -317,21 +316,24 @@ def ss3_pcr(variant: str = "SMART-seq3") -> list[Row]:
 
 def ss3_steps(variant: str = "SMART-seq3") -> str:
     s1, s2, s3 = ss3_rt(variant)
-    p1 = panel(s1.rows(), cls="small",
-               caption="(1) The anchored oligo-dT primer anneals at the poly(A) junction; "
-                       "MMLV reverse transcribes.")
-    p2 = panel(s2.rows(), cls="small",
-               caption="(2) At the mRNA 5' end, MMLV adds three untemplated C.")
-    p3 = panel(s3.rows(), cls="small",
-               caption="(3) Template switching, but the TSO now carries an 11-bp tag and an "
-                       "8-bp UMI. Both are attached BEFORE any amplification, and only at a "
-                       "genuine transcript 5' end.")
-    p4 = panel(ss3_pcr(variant), cls="long",
-               caption="(4) Two different primers. Amplification is no longer single-primer, "
-                       "and no longer suppressive. The forward primer's s5 + ME head overhangs: "
-                       "only its last 8 nt of ME and the tag anneal.")
+    tagged, filled = tagmentation_states()
+    initial = Scene()
+    initial.strand("mRNA", _mrna())
+    workflow = Workflow(MolecularState("Starting poly(A) RNA", tuple(initial.rows())))
+    workflow.react("oligo-dT annealing", s1.rows(),
+                   note="The anchored primer sits at the poly(A) junction.")
+    workflow.react("MMLV reverse transcription + terminal transferase", s2.rows(),
+                   note="At the RNA 5′ end, MMLV adds three untemplated C.")
+    workflow.react("template switching", s3.rows(),
+                   note="The TSO adds the 11-bp tag and 8-bp UMI before amplification.")
+    workflow.react("two-primer cDNA PCR", ss3_pcr(variant),
+                   note="The forward primer contributes its s5 + ME overhang.")
+    workflow.react("Nextera tagmentation", tagged,
+                   note="Tn5 inserts s5/s7 entry points and leaves 9-nt gaps.")
+    workflow.react("72 °C gap fill", filled,
+                   note="The first Nextera PCR hold fills both gaps before denaturation.")
     return ("<h2>Step-by-step library generation</h2>\n"
-            + p1 + p2 + p3 + p4 + tagmentation())
+            + workflow_panel(workflow, cls="long"))
 
 
 def ss3_final(variant: str = "SMART-seq3") -> str:

@@ -295,6 +295,13 @@ whitelist field is a stable reference, not a reason to commit the vendor's barco
 Read-cycle spans are computed by `seqprimers.feature_spans()` from the final construct,
 primer geometry and declared run length; do not type those ranges into a second model.
 
+**Reaction workflows.** `chemdraw.Workflow` owns the ordered molecular states of a
+reaction path. `Workflow.react()` always connects the current state to the newly produced
+state, and `workflow_panel()` derives the labelled SVG arrows from that chain. Protocol
+pages therefore never hand-align reaction arrows or separately repeat a step's input.
+Ordering-oligo lists stay as raw HTML text; `panel()` remains for non-reaction construct
+views such as final libraries and sequencing-primer binding.
+
 **Evidence marking.** Notes mark every claim 🟢 verbatim from the source · 🟡 derived or
 inferred · 🔴 not published anywhere. On the page, inference is marked three ways, all
 required: a standing caveat in the preamble, an `INFERRED — …` caption on each affected

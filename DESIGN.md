@@ -82,6 +82,13 @@ Reaction and construct diagrams use SVG. Ordering-oligo lists remain raw HTML te
 explicit 5′ and 3′ ends, because direct selection and copying into an order form matters
 more there than geometric presentation.
 
+A reaction diagram is not a character-grid construct placed inside an SVG element.
+Reaction pages build a `Workflow`: one initial molecular state followed by ordered
+transitions. Each transition consumes the workflow's current state, so its input cannot
+drift from the preceding output. The shared renderer draws every state once and connects
+them with labelled vector arrows. Plain construct panels remain appropriate for final
+libraries, primer binding and other states that are not transformations.
+
 A reaction panel stays aligned to the normal text column when its intrinsic content fits.
 Only an oversized panel may expand toward the viewport edge; it scrolls horizontally once
 the viewport itself is narrower than the construct.

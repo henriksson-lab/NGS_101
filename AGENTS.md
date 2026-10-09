@@ -125,6 +125,10 @@ finds oligos, not reaction order: the methods still have to be **read**.
   give strands 5'→3' and place them with `sc.anneal(..., pair=(segA, segB))`; the Scene
   computes columns and raises if bases don't pair. Anchor marks/arrows to segments.
   `Row(indent=...)` and `markers([(col, ...)])` are legacy — don't add new uses.
+- **A reaction is a `chemdraw.Workflow`, not several unrelated panels.** Start from one
+  `MolecularState` and call `react()` for each operation; it automatically uses the prior
+  output as the next input. Render it once with `workflow_panel()`. Reserve `panel()` for
+  a molecular state such as a final library or primer-binding view.
 - **Import canonical sequences** from `illumina` / `nextera` rather than retyping them.
 - **Facts in Markdown come from the model:** `{{= module.EXPR }}` and
   ```` {{oligo: module.fn()}} ```` are expanded by `build_docs.py`; every lib and protocol

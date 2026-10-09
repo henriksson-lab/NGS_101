@@ -312,6 +312,69 @@ class Row:
         return " " * self.indent + esc(self.prefix) + body + esc(self.suffix)
 
 
+@dataclass(frozen=True)
+class MolecularState:
+    """One rendered molecular state in an ordered reaction workflow."""
+    name: str
+    rows: tuple[Row, ...]
+
+    def __post_init__(self) -> None:
+        if not self.rows:
+            raise ValueError(f"molecular state {self.name!r} has no drawing")
+
+
+@dataclass(frozen=True)
+class Reaction:
+    """A transition whose input is always the preceding workflow state."""
+    action: str
+    before: MolecularState
+    after: MolecularState
+    note: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.action.strip():
+            raise ValueError("reaction action must not be empty")
+
+
+class Workflow:
+    """Construct a linear reaction path without separately maintained before/after links.
+
+    ``react`` always consumes ``current`` and makes its output the next current state, so
+    a renderer cannot accidentally connect a reaction to a stale or unrelated drawing.
+    """
+
+    def __init__(self, initial: MolecularState):
+        self.initial = initial
+        self.reactions: list[Reaction] = []
+        self.current = initial
+
+    def react(self, action: str, rows: Iterable[Row], *, name: str = "", note: str = ""):
+        after = MolecularState(name, tuple(rows))
+        reaction = Reaction(action, self.current, after, note)
+        self.reactions.append(reaction)
+        self.current = after
+        return self
+
+    @property
+    def states(self) -> tuple[MolecularState, ...]:
+        return (self.initial, *(r.after for r in self.reactions))
+
+
+def workflow_from_sections(sections, *, initial_rows: Iterable[Row] | None = None,
+                           initial_name: str = "Starting material") -> Workflow:
+    """Adapt ordered ``(action, resulting rows, note)`` sections to a checked workflow.
+
+    Existing protocol modules can therefore gain reaction rendering centrally. Modules
+    with a known molecular input should pass ``initial_rows``; otherwise the renderer is
+    explicit that the first input is only identified as starting material.
+    """
+    start = tuple(initial_rows or (Row(chunks=[("[starting material]", None, False)]),))
+    workflow = Workflow(MolecularState(initial_name, start))
+    for action, rows, note in sections:
+        workflow.react(action, rows, note=note)
+    return workflow
+
+
 def strand_row(con: Construct, strand: str = "top", indent: int = 0,
                prefix: str | None = None, suffix: str | None = None) -> Row:
     """A full duplex strand. Defaults label top as 5'-...-3' and bottom as 3'-...-5'."""
@@ -497,6 +560,87 @@ def panel_svg(rows: Iterable[Row], cls: str = "long",
            f'height="{height:.0f}" viewBox="0 0 {width:.2f} {height:.2f}" '
            f'role="img" aria-label="{label}">\n' + "\n".join(text_rows) + "\n</svg>")
     return f'<figure class="chem-panel">{cap}<div class="diagram-scroll">{svg}</div></figure>'
+
+
+def _svg_rows(rows: Sequence[Row], *, x: float, y: float, font: float,
+              line: float) -> tuple[list[str], float]:
+    """SVG text elements for one state, returning elements and the next y coordinate."""
+    out = []
+    for row in rows:
+        baseline = y + font
+        start = " " * row.indent + row.prefix
+        pieces = [html.escape(start, quote=False)]
+        for text, tag, inferred in row.chunks:
+            classes = _svg_classes(tag, inferred)
+            attr = f' class="{classes}"' if classes else ""
+            pieces.append(f"<tspan{attr}>{html.escape(text, quote=False)}</tspan>")
+        pieces.append(html.escape(row.suffix, quote=False))
+        out.append(f'<text x="{x:g}" y="{baseline:.2f}" xml:space="preserve">'
+                   + "".join(pieces) + "</text>")
+        y += line
+    return out, y
+
+
+def workflow_panel(workflow: Workflow, cls: str = "long",
+                   caption: str = "Reaction workflow") -> str:
+    """Render molecular states once, connected by real vector reaction arrows.
+
+    The SVG is derived only from ``Workflow``. Protocol pages do not draw arrows or copy
+    input states themselves, and the workflow constructor guarantees every arrow starts
+    at the immediately preceding molecular state.
+    """
+    font = 11.8 if cls == "long" else 13.4
+    cell = font * 0.602
+    line = font * 1.42
+    pad_x, pad_y = 14.0, 12.0
+    arrow_h, label_h = 54.0, 22.0
+    states = workflow.states
+    row_columns = max((len(row.plain()) for state in states for row in state.rows), default=1)
+    action_columns = max((len(r.action) for r in workflow.reactions), default=1) + 13
+    width = max(420.0, pad_x * 2 + max(row_columns, action_columns) * cell)
+    x_arrow = pad_x + 13.0
+    y = pad_y
+    elements = []
+
+    if workflow.initial.name:
+        elements.append(f'<text class="chem-state-label" x="{pad_x:g}" y="{y + font:.2f}">'
+                        f'{html.escape(workflow.initial.name)}</text>')
+        y += line
+    block, y = _svg_rows(workflow.initial.rows, x=pad_x, y=y, font=font, line=line)
+    elements.extend(block)
+
+    for reaction in workflow.reactions:
+        y += 7.0
+        top, bottom = y, y + arrow_h
+        elements.append(f'<line class="chem-reaction-arrow" x1="{x_arrow:g}" y1="{top:.2f}" '
+                        f'x2="{x_arrow:g}" y2="{bottom - 8:.2f}"/>')
+        elements.append(f'<path class="chem-reaction-arrowhead" d="M {x_arrow - 5:g} '
+                        f'{bottom - 10:.2f} L {x_arrow:g} {bottom:.2f} L {x_arrow + 5:g} '
+                        f'{bottom - 10:.2f} Z"/>')
+        label_width = max(70.0, len(reaction.action) * cell + 16.0)
+        label_y = top + (arrow_h - label_h) / 2
+        elements.append(f'<rect class="chem-reaction-box" x="{x_arrow + 14:g}" '
+                        f'y="{label_y:.2f}" width="{label_width:.2f}" height="{label_h:g}" '
+                        f'rx="6"/>')
+        elements.append(f'<text class="chem-reaction-label" x="{x_arrow + 22:g}" '
+                        f'y="{label_y + font + 3:.2f}">{html.escape(reaction.action)}</text>')
+        y = bottom + 5.0
+        block, y = _svg_rows(reaction.after.rows, x=pad_x, y=y, font=font, line=line)
+        elements.extend(block)
+
+    height = max(42.0, y + pad_y)
+    label = html.escape(caption, quote=True)
+    notes = [r for r in workflow.reactions if r.note]
+    note_html = ""
+    if notes:
+        items = "".join(f'<li><b>{html.escape(r.action)}.</b> {html.escape(r.note)}</li>'
+                        for r in notes)
+        note_html = f'<figcaption><ol class="reaction-notes">{items}</ol></figcaption>'
+    svg = (f'<svg class="chem-svg chem-workflow {html.escape(cls)}" width="{width:.0f}" '
+           f'height="{height:.0f}" viewBox="0 0 {width:.2f} {height:.2f}" role="img" '
+           f'aria-label="{label}">\n' + "\n".join(elements) + "\n</svg>")
+    return (f'<figure class="chem-panel reaction-panel"><div class="diagram-scroll">'
+            f'{svg}</div>{note_html}</figure>')
 
 
 def panel(rows: Iterable[Row], cls: str = "long", caption: str | None = None,

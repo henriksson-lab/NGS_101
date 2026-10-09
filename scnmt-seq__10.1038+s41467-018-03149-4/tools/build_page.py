@@ -4,7 +4,8 @@ import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import scnmt_seq as M
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, panel
+from chemdraw import (Scene, annotation_rows, panel, workflow_from_sections,
+                      workflow_panel)
 from page import head, info
 
 OUT=H.parent/"scnmt-seq.html"
@@ -13,7 +14,8 @@ def main():
     p=[head(M.TITLE),'<div class="wrap">',f'<h1>{M.TITLE}</h1>',
        f'<p class="research-notes"><a href="{M.NOTES}">Research notes</a></p>',
        info(M.SOURCE),info(M.SUMMARY)]
-    for h,rows,cap in M.sections(): p += [f'<h2>{h}</h2>',panel(rows,cls="long",caption=cap)]
+    p += ['<h2>Reaction workflow</h2>',
+          workflow_panel(workflow_from_sections(M.sections()), cls="long")]
     for name,lib,primers,caption,intro in (
         ("RNA branch",M.RNA_LIBRARY,M.RNA_PRIMERS,"Nextera XT library made from Smart-seq2 cDNA.","Nextera sequencing reads the RNA-derived insert."),
         ("DNA branch",M.DNA_LIBRARY,M.DNA_PRIMERS,"Historical scBS-seq random-primed library.","The dedicated historical iPCRTag primer reads i7; there is no i5.")):

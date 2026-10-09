@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import Construct, Scene, annotation_rows, duplex_rows, panel, strand_row
+from chemdraw import (Construct, Scene, annotation_rows, duplex_rows, panel, strand_row,
+                      workflow_from_sections, workflow_panel)
 from page import head, info
 
 
@@ -21,8 +22,10 @@ def render(module) -> str:
     caveat = getattr(module, "CAVEAT", "")
     if caveat:
         chunks.append(f'<div class="caveat"><b>INFERRED boundary.</b> {caveat}</div>')
-    for i, (heading, obj, caption) in enumerate(module.STEPS, 1):
-        chunks.extend([f'<h2>({i}) {heading}</h2>', panel(_rows(obj), cls="small", caption=caption)])
+    sections = [(heading, _rows(obj), caption) for heading, obj, caption in module.STEPS]
+    if sections:
+        chunks.extend(['<h2>Reaction workflow</h2>',
+                       workflow_panel(workflow_from_sections(sections), cls="small")])
     lib = module.final_library()
     chunks.extend(['<h2>Final sequencing molecule</h2>',
                    panel(duplex_rows(lib, label="library"),

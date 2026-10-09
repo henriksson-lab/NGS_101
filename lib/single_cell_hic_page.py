@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import duplex_rows, junction_row, panel
+from chemdraw import Row, duplex_rows, junction_row, panel, workflow_from_sections, workflow_panel
 from page import head, info
 
 
@@ -21,8 +21,10 @@ def render(module) -> str:
                     *contact_duplex[2:]]
     final = module.final_library()
     final_rows = duplex_rows(final, label="sequencing library")
-    steps = "".join(f'<h3>({i}) {title}</h3><p>{text}</p>'
-                    for i, (title, text) in enumerate(module.STEPS, 1))
+    path = workflow_from_sections([
+        (title, [Row(chunks=[(text, None, False)])], "")
+        for title, text in module.STEPS
+    ])
     primers = getattr(module, "SEQ_PRIMERS", ())
     required = getattr(module, "REQUIRED_ROLES", ())
     if primers:
@@ -37,7 +39,7 @@ def render(module) -> str:
         f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',
         info(module.CITATION), info(module.SUMMARY),
         info(module.LIBRARY_CAVEAT) if getattr(module, "LIBRARY_CAVEAT", "") else "",
-        '<h2>Protocol path</h2>', steps,
+        '<h2>Protocol path</h2>', workflow_panel(path, cls="long"),
         '<h2>The proximity-ligation product</h2>',
         panel(contact_rows, cls="small", caption=module.JUNCTION_CAPTION),
         '<h2>Final sequencing molecule</h2>',
