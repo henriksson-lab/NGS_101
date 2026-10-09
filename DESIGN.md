@@ -5,6 +5,29 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-09 — SVG is the default schematic renderer
+
+**Decision.** Protocol diagrams render as SVG by default. Sequence and annotation content
+remains SVG text, not outlined paths, so readers can select and copy it. Each SVG keeps an
+intrinsic width derived from its character grid and sits in a horizontal scroll port;
+narrow screens must scroll rather than shrink bases below the established font size.
+
+Free oligos render as 5′→3′ arrow-shaped objects. Their hover/focus details give the oligo
+name, full sequence, length and modifications. A melting temperature is shown only when
+the caller explicitly names the annealing segment or segments; adapter tails and indexes
+must not silently enter that calculation.
+
+The original character-grid HTML renderer remains available through
+`panel(..., renderer="legacy")` for comparison and possible future uses, but is not
+duplicated invisibly in SVG pages.
+
+**Why.** SVG permits clearer molecular geometry and interaction without sacrificing
+copy/paste or forcing long libraries into unreadably small responsive images. Explicit Tm
+regions keep a useful computed property tied to the part of the oligo that actually binds.
+
+**Review when.** Revisit the visual grammar as richer topology is added. Keep text
+selectable, fixed-scale horizontal scrolling, explicit Tm scope and the legacy fallback.
+
 ## 2026-10-07 — One schematic per protocol
 
 **Decision.** A public schematic represents one protocol, using that protocol's defining

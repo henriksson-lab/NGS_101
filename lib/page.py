@@ -90,6 +90,57 @@ align.small { font-size:.84rem; line-height:1.3; }
 align i { color:var(--ink-muted); display:block; font-style:italic; line-height:1.5;
           margin-bottom:.7em; max-width:96ch; white-space:pre-wrap; }
 
+/* Default molecular-diagram renderer: fixed-scale, selectable SVG in a scroll port. */
+.chem-panel { margin:.65em 0 .25em; padding:0; min-width:0; }
+.chem-panel figcaption { color:var(--ink-muted); font-style:italic; font-size:.86rem;
+                         line-height:1.45; margin:0 0 .35em; max-width:96ch; }
+.diagram-scroll { overflow-x:auto; overflow-y:hidden; min-width:0; max-width:100%;
+                  scrollbar-gutter:stable; overscroll-behavior-inline:contain;
+                  background:var(--surface); border-left:3px solid var(--rule);
+                  padding:8px 10px; }
+.chem-svg, .oligo-svg { display:block; max-width:none; flex:none; overflow:visible;
+                        font-family:var(--mono); fill:var(--ink); }
+.chem-svg text, .oligo-svg text { user-select:text; -webkit-user-select:text; }
+.chem-svg.long { font-size:11.8px; }
+.chem-svg.small { font-size:13.4px; }
+.chem-p5{fill:var(--c-p5)} .chem-p7{fill:var(--c-p7)}
+.chem-s5{fill:var(--c-s5)} .chem-s7{fill:var(--c-s7)} .chem-me{fill:var(--c-me)}
+.chem-t7{fill:var(--c-t7)} .chem-cbc{fill:var(--c-cbc)} .chem-umi{fill:var(--c-umi)}
+.chem-r1{fill:var(--c-r1)} .chem-r2{fill:var(--c-r2)} .chem-r3{fill:var(--c-r3)}
+.chem-tso{fill:var(--c-tso)} .chem-w1{fill:var(--c-w1)}
+.chem-inferred { text-decoration-line:underline; text-decoration-style:dotted;
+                 text-decoration-color:var(--inf); text-underline-offset:2px; }
+
+/* Free oligos are directional molecular objects: the arrowhead is the 3' end. */
+seq { display:grid; gap:.65rem; }
+.oligo-card { position:relative; min-width:0; }
+.oligo-name { display:block; font-family:var(--sans); font-size:.8rem;
+              font-weight:600; margin-bottom:.2em; color:var(--ink); }
+.oligo-endmods { display:block; color:var(--ink-muted); font-size:.72rem;
+                 margin:-.1em 0 .2em; }
+.oligo-target { display:inline-block; cursor:help; }
+.oligo-arrow { fill:var(--surface-2); stroke:var(--key-rule); stroke-width:1.25; }
+.oligo-target:hover .oligo-arrow, .oligo-target:focus .oligo-arrow {
+  stroke:var(--accent); stroke-width:1.8;
+}
+.molecule-tooltip { display:none; position:absolute; z-index:20; left:12px; top:100%;
+                    width:min(38rem,calc(100vw - 64px)); margin-top:5px; padding:10px 12px;
+                    background:var(--bg); color:var(--ink); border:1px solid var(--rule);
+                    border-radius:5px; box-shadow:0 8px 28px rgba(0,0,0,.18);
+                    font-family:var(--sans); font-size:.78rem; line-height:1.35; }
+.oligo-card:hover > .molecule-tooltip,
+.oligo-card:focus-within > .molecule-tooltip { display:block; }
+.molecule-tooltip dl { display:grid; grid-template-columns:max-content 1fr; gap:.2em .7em;
+                       margin:.45em 0 0; }
+.molecule-tooltip dt { color:var(--ink-muted); }
+.molecule-tooltip dd { margin:0; min-width:0; overflow-wrap:anywhere; }
+.molecule-tooltip code { white-space:normal; }
+@media print {
+  .diagram-scroll { overflow:visible; }
+  .chem-svg, .oligo-svg { max-width:100%; height:auto; }
+  .molecule-tooltip { display:none !important; }
+}
+
 .legend, .caveat { padding:12px 16px; margin:1em 0; max-width:88ch; font-size:.95rem; }
 .legend { background:var(--key-bg); border-left:3px solid var(--key-rule); }
 .caveat { background:var(--note-bg); border-left:3px solid var(--note-rule); }

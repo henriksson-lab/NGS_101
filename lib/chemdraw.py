@@ -330,8 +330,9 @@ def primer_row(con: Construct, seq_segments: Sequence[Segment], anchor: str,
     return Row(chunks=chunks, indent=indent)
 
 
-def panel(rows: Iterable[Row], cls: str = "long", caption: str | None = None) -> str:
-    """Render rows as one <pre><align> block, with an optional <i> caption inside."""
+def panel_legacy(rows: Iterable[Row], cls: str = "long",
+                 caption: str | None = None) -> str:
+    """The original character-grid ``<pre>`` renderer, retained as a fallback."""
     body = []
     if caption:
         body.append(f"<i>{html.escape(caption)}</i>")
@@ -340,13 +341,109 @@ def panel(rows: Iterable[Row], cls: str = "long", caption: str | None = None) ->
     return f'<pre>\n<align class="{cls}">\n' + "\n".join(body) + "\n</align>\n</pre>"
 
 
+def _svg_classes(tag: str | None, inferred: bool) -> str:
+    classes = [f"chem-{t}" for t in (tag or "").split("+") if t]
+    if inferred:
+        classes.append("chem-inferred")
+    return " ".join(classes)
+
+
+def panel_svg(rows: Iterable[Row], cls: str = "long",
+              caption: str | None = None) -> str:
+    """Render a selectable, fixed-scale SVG character grid.
+
+    Every row remains one SVG text node, with coloured sequence regions as ``tspan``
+    children.  Decorative geometry can therefore evolve without turning bases into
+    paths or compromising copy/paste.  The intrinsic pixel width deliberately follows
+    the longest row; CSS scrolls it instead of shrinking the font.
+    """
+    rows = list(rows)
+    font = 11.8 if cls == "long" else 13.4
+    cell = font * 0.602                 # IBM Plex Mono advance width
+    line = font * 1.42
+    pad_x, pad_y = 14.0, 12.0
+    columns = max([len(r.plain()) for r in rows] or [1])
+    width = max(280.0, pad_x * 2 + columns * cell)
+    height = max(42.0, pad_y * 2 + max(1, len(rows)) * line)
+    text_rows = []
+    for i, row in enumerate(rows):
+        y = pad_y + font + i * line
+        start = " " * row.indent + row.prefix
+        pieces = [html.escape(start, quote=False)]
+        for text, tag, inferred in row.chunks:
+            classes = _svg_classes(tag, inferred)
+            attr = f' class="{classes}"' if classes else ""
+            pieces.append(f"<tspan{attr}>{html.escape(text, quote=False)}</tspan>")
+        pieces.append(html.escape(row.suffix, quote=False))
+        text_rows.append(
+            f'<text x="{pad_x:g}" y="{y:.2f}" xml:space="preserve">'
+            + "".join(pieces) + "</text>")
+    label = html.escape(caption or "Molecular construct diagram", quote=True)
+    cap = (f'<figcaption>{html.escape(caption)}</figcaption>' if caption else "")
+    svg = (f'<svg class="chem-svg {html.escape(cls)}" width="{width:.0f}" '
+           f'height="{height:.0f}" viewBox="0 0 {width:.2f} {height:.2f}" '
+           f'role="img" aria-label="{label}">\n' + "\n".join(text_rows) + "\n</svg>")
+    return f'<figure class="chem-panel">{cap}<div class="diagram-scroll">{svg}</div></figure>'
+
+
+def panel(rows: Iterable[Row], cls: str = "long", caption: str | None = None,
+          renderer: str = "svg") -> str:
+    """Render a diagram; SVG is default, ``renderer="legacy"`` keeps the old form."""
+    rows = list(rows)
+    if renderer == "svg":
+        return panel_svg(rows, cls, caption)
+    if renderer == "legacy":
+        return panel_legacy(rows, cls, caption)
+    raise ValueError("panel renderer must be 'svg' or 'legacy'")
+
+
 def oligo(name: str, segments: Sequence[Segment], five: str = "5'-", three: str = "-3'",
-          mods: str = "") -> str:
-    """One line of the 'Adapter and primer sequences' list."""
-    body = "".join(_wrap(s.top, s.tag, s.inferred) for s in segments)
-    lead = f"{five} {mods} " if mods else f"{five} "
-    return (f"<p>{html.escape(name)}: {html.escape(lead, quote=False)}"
-            f"{body} {html.escape(three, quote=False)}</p>")
+          mods: str = "", tm_segments: str | Sequence[str] | None = None) -> str:
+    """A selectable SVG oligo arrow with a model-derived tooltip.
+
+    ``tm_segments`` explicitly names the annealing region. Adapter tails and indexes are
+    consequently never included in a melting-temperature calculation by accident.
+    """
+    segs = list(segments)
+    seq = "".join(s.top for s in segs)
+    cell, font, height = 8.25, 13.4, 42
+    width = max(220, int(34 + len(seq) * cell))
+    tip = 14
+    points = f"4,4 {width-tip},4 {width-4},{height/2:g} {width-tip},{height-4} 4,{height-4}"
+    tspans = []
+    for s in segs:
+        classes = _svg_classes(s.tag, s.inferred)
+        attr = f' class="{classes}"' if classes else ""
+        tspans.append(f"<tspan{attr}>{html.escape(s.top, quote=False)}</tspan>")
+    requested = ((tm_segments,) if isinstance(tm_segments, str)
+                 else tuple(tm_segments or ()))
+    tm_text = ""
+    if requested:
+        known = {s.name: s for s in segs}
+        missing = [n for n in requested if n not in known]
+        if missing:
+            raise ValueError(f"{name}: Tm region names missing from oligo: {missing}")
+        anneal = "".join(known[n].top for n in requested)
+        tm_text = (f'<dt>Annealing region</dt><dd><code>5′-{html.escape(anneal)}-3′</code></dd>'
+                   f'<dt>Tm</dt><dd>{tm(anneal):.1f} °C '
+                   '<small>(0.5 µM, 50 mM Na⁺)</small></dd>')
+    modifications = " ".join(x for x in (mods, five if five != "5'-" else "",
+                                           three if three != "-3'" else "") if x)
+    mod_row = (f'<span class="oligo-endmods">{html.escape(modifications)}</span>'
+               if modifications else "")
+    tooltip = (f'<span class="molecule-tooltip" role="tooltip"><strong>{html.escape(name)}</strong>'
+               f'<dl><dt>Sequence</dt><dd><code>5′-{html.escape(seq)}-3′</code></dd>'
+               f'<dt>Length</dt><dd>{len(seq)} nt</dd>{tm_text}'
+               + (f'<dt>Modifications</dt><dd>{html.escape(modifications)}</dd>'
+                  if modifications else "") + '</dl></span>')
+    return (f'<div class="oligo-card"><span class="oligo-name">{html.escape(name)}</span>{mod_row}'
+            f'<div class="diagram-scroll"><span class="oligo-target" tabindex="0" '
+            f'aria-label="{html.escape(name, quote=True)}">'
+            f'<svg class="oligo-svg" width="{width}" height="{height}" '
+            f'viewBox="0 0 {width} {height}" role="img">'
+            f'<polygon class="oligo-arrow" points="{points}"/>'
+            f'<text x="12" y="{height/2 + font*.36:.1f}" xml:space="preserve">'
+            f'{"".join(tspans)}</text></svg></span></div>{tooltip}</div>')
 
 
 # ------------------------------------------------------------------- loops

@@ -2,10 +2,11 @@
 """
 Lint every generated page for duplex drawings whose columns do not base-pair.
 
-Two consecutive lines inside a <pre> block, one drawn 5'->3' and the next 3'->5' (read off
-their 5'-/-3' and 3'-/-5' end labels), are taken to be a duplex: every column where both
-carry a base must satisfy chemdraw.bases_pair. That catches the hand-indent class of error
-(an oligo-dT over the cDNA, a GGG nowhere near its CCC) whichever chemistry it is in.
+Two consecutive lines in either the current SVG diagrams or legacy <pre> diagrams, one
+drawn 5'->3' and the next 3'->5' (read off their end labels), are taken to be a duplex:
+every column where both carry a base must satisfy chemdraw.bases_pair. That catches the
+hand-indent class of error (an oligo-dT over the cDNA, a GGG nowhere near its CCC)
+whichever chemistry it is in.
 
 New drawings should be built with chemdraw.Scene, which cannot produce these at all.
 
@@ -62,6 +63,21 @@ def cells(line: str) -> dict[int, str]:
 def lint_text(text: str) -> list[tuple[str, str, str, int]]:
     """-> [(caption, upper line, lower line, n bad columns)]"""
     found = []
+    blocks: list[tuple[str, list[str]]] = []
+    for figure in re.findall(r'<figure class="chem-panel">(.*?)</figure>', text, flags=re.S):
+        cap = re.search(r"<figcaption>(.*?)</figcaption>", figure, flags=re.S)
+        caption = html.unescape(re.sub(r"<[^>]+>", "", cap.group(1)))[:90] if cap else ""
+        svg = re.search(r'<svg class="chem-svg[^>]*>(.*?)</svg>', figure, flags=re.S)
+        if not svg:
+            continue
+        lines = []
+        for row in re.findall(r"<text\b[^>]*>(.*?)</text>", svg.group(1), flags=re.S):
+            row = re.sub(
+                r'<tspan class="[^"]*\bchem-unp\b[^"]*">(.*?)</tspan>',
+                lambda m: " " * len(html.unescape(re.sub(r"<[^>]+>", "", m.group(1)))),
+                row, flags=re.S)
+            lines.append(html.unescape(re.sub(r"<[^>]+>", "", row)))
+        blocks.append((caption, lines))
     for block in re.findall(r"<pre>(.*?)</pre>", text, flags=re.S):
         cap = re.search(r"<i>(.*?)</i>", block, flags=re.S)
         caption = html.unescape(re.sub(r"<[^>]+>", "", cap.group(1)))[:90] if cap else ""
@@ -69,7 +85,8 @@ def lint_text(text: str) -> list[tuple[str, str, str, int]]:
         block = re.sub(r"<unp>(.*?)</unp>", lambda m: " " * len(
             html.unescape(re.sub(r"<[^>]+>", "", m.group(1)))), block, flags=re.S)
         plain = html.unescape(re.sub(r"<[^>]+>", "", block))
-        lines = plain.split("\n")
+        blocks.append((caption, plain.split("\n")))
+    for caption, lines in blocks:
         for a, b in zip(lines, lines[1:]):
             oa, ob = orientation(a), orientation(b)
             if not oa or not ob or oa == ob:

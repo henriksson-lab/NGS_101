@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT))
 
 from checks import Check, run_common  # noqa: E402
+from chemdraw import Row, Segment, oligo, panel  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 
 def _raise_fact():
@@ -42,6 +43,19 @@ check("cohesive ends are derived from cut coordinates",
       (ECORI.overhang, MSPI.overhang), ("AATT", "CG"))
 check.raises("a mismatched adapter overhang is rejected at construction",
              lambda: ECORI.adapter_end("CG"))
+
+check.section("molecular diagram renderers")
+svg_panel = panel([Row(chunks=[("ACGT", "r1", False)])])
+check("SVG is the default diagram renderer", '<svg class="chem-svg' in svg_panel)
+check("SVG keeps sequence as selectable text", "<tspan class=\"chem-r1\">ACGT</tspan>" in svg_panel)
+check("the legacy renderer remains explicitly available",
+      panel([Row(chunks=[("ACGT", None, False)])], renderer="legacy").startswith("<pre>"))
+tm_oligo = oligo("PCR primer", [Segment("binding", "ACGTACGTACGT")],
+                  tm_segments="binding")
+check("an explicitly named annealing region gets a Tm", "<dt>Tm</dt>" in tm_oligo)
+check.raises("an unknown Tm region is rejected",
+             lambda: oligo("PCR primer", [Segment("binding", "ACGT")],
+                           tm_segments="adapter tail"))
 
 
 def r(md: str) -> str:

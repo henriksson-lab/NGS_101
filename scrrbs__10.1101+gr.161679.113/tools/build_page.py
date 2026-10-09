@@ -29,8 +29,8 @@ def oligos() -> str:
               mods="all C = 5mC"),
         oligo("premethylated indexed TruSeq adaptor", S.indexed_segments(),
               mods="/5Phos/; all C = 5mC"),
-        oligo("QP1 / P5 PCR primer", [seg("P5", il.P5, "p5")]),
-        oligo("QP2 / P7 PCR primer", [seg("P7", il.P7, "p7")]),
+        oligo("QP1 / P5 PCR primer", [seg("P5", il.P5, "p5")], tm_segments="P5"),
+        oligo("QP2 / P7 PCR primer", [seg("P7", il.P7, "p7")], tm_segments="P7"),
     ]
     return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"
 
