@@ -171,7 +171,7 @@ pore-c__10.1038+s41587-022-01289-z	Pore-C	10.1038/s41587-022-01289-z	documented	
 grid-seq__10.1038+nbt.3968	GRID-seq	10.1038/nbt.3968	documented	published	multi	A bivalent RNA-DNA bridge joins nuclear RNA to nearby chromatin for genome-wide contact mapping.
 scribo-seq__10.1038+s41586-021-03887-4	scRibo-seq	10.1038/s41586-021-03887-4	documented	published	RNA	Single-cell ribosome profiling with footprint end repair, two RNA ligations, UMIs and well indices.
 miclip__10.1038+nmeth.3453	miCLIP	10.1038/nmeth.3453	documented	published	RNA	Antibody crosslink-induced reverse-transcription signatures map m6A and m6Am at nucleotide resolution.
-airr-umi-5-race__10.1007+978-1-0716-2115-8_19	Bulk UMI 5-prime-RACE AIRR-seq	10.1007/978-1-0716-2115-8_19	documented	published	RNA	UMI-bearing SMART reverse transcription and semi-nested constant-region PCR recover B-cell receptor repertoires.
+airr-umi-5-race__10.1007+978-1-0716-2115-8_19	AIRR UMI 5' RACE	10.1007/978-1-0716-2115-8_19	documented	published	RNA	UMI-bearing SMART reverse transcription and semi-nested constant-region PCR recover B-cell receptor repertoires.
 sctaps__10.1101+2024.02.12.579864	scTAPS	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell TAPS reports 5mC plus 5hmC after TET oxidation, pyridine-borane reduction and combinatorial indexing.
 sccaps__10.1101+2024.02.12.579864	scCAPS+	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell CAPS+ selectively reports 5hmC after βGT protection, chemical conversion and combinatorial indexing.
 fiber-seq__10.1126+science.aaz1646	Fiber-seq	10.1126/science.aaz1646	documented	published	DNA	Hia5 adenine-methyltransferase footprinting of native chromatin followed by PCR-free PacBio HiFi sequencing.
@@ -193,13 +193,37 @@ microbe-seq__10.1126+science.abm1483	Microbe-seq	10.1126/science.abm1483	documen
 tail-seq__10.1016+j.molcel.2014.02.007	TAIL-seq	10.1016/j.molcel.2014.02.007	documented	published	RNA	Biotin-adapter selection of native RNA 3-prime ends for paired transcript identification and poly(A)-tail measurement.
 slide-tags__10.1038+s41586-023-06837-4	Slide-tags	10.1038/s41586-023-06837-4	documented	published	multi	Photocleaved spatial bead barcodes transferred into intact nuclei before 10x RNA or Multiome processing.
 cobatch__10.1016+j.molcel.2019.07.015	CoBATCH	10.1016/j.molcel.2019.07.015	documented	published	DNA	Antibody-tethered barcoded Protein-A–Tn5 followed by a second PCR-well index for single-cell chromatin profiling.
-m6a-seq__10.1038+nature11112	m6A-seq / MeRIP-seq	10.1038/nature11112	documented	published	RNA	Anti-m6A enrichment of fragmented poly(A) RNA followed by matched input and IP cDNA libraries.
+m6a-seq__10.1038+nature11112	m6A-seq	10.1038/nature11112	documented	published	RNA	Anti-m6A enrichment of fragmented poly(A) RNA followed by matched input and IP cDNA libraries; also known as MeRIP-seq.
 last-seq__10.1186+s13059-023-03025-5	LAST-seq	10.1186/s13059-023-03025-5	documented	published	RNA	Direct T7 linear amplification from the original single-stranded mRNA after hairpin/rU-dT capture and promoter attachment.
 matq-seq__10.1038+nmeth.4145	MATQ-seq	10.1038/nmeth.4145	documented	published	RNA	Multiple-annealing total-RNA reverse transcription followed by dC tailing, G-anchored second-strand synthesis and common-handle amplification.
 trac-looping__10.1038+s41592-018-0107-y	TrAC-looping	10.1038/s41592-018-0107-y	documented	published	DNA	Bivalent Tn5 bridges nearby genomic sites before restriction, circularization and rolling-circle amplification recover chromatin contacts.
 methyl-hic__10.1038+s41592-019-0502-z	Methyl-HiC	10.1038/s41592-019-0502-z	documented	published	DNA	Single-cell chromatin contacts and CpG methylation from DpnII proximity ligation followed by bisulfite library construction.
 drop-bs__10.1038+s41467-023-40411-w	Drop-BS	10.1038/s41467-023-40411-w	documented	published	DNA	Droplet ligation installs cell barcodes before a second emulsion performs bisulfite conversion and random-primer library construction.
 epidamid__10.1016+j.molcel.2022.03.009	EpiDamID	10.1016/j.molcel.2022.03.009	documented	published	multi	ProteinA-Dam chromatin marking is combined with CEL-seq2 transcript capture from the same single cell.
+snare-seq__10.1038+s41587-019-0290-0	SNARE-seq	10.1038/s41587-019-0290-0	documented	published	multi	A poly(A)-bearing splint lets pre-tagmented accessible DNA and RNA acquire the same droplet cell barcode.
+issaac-seq__10.1038+s41592-022-01601-4	ISSAAC-seq	10.1038/s41592-022-01601-4	documented	published	multi	Biotin oligo-dT RNA capture and Tn5 accessibility profiling with shared cellular indexing.
+dr-seq__10.1038+nbt.3129	DR-seq	10.1038/nbt.3129	documented	published	multi	Genome and transcript cDNA are quasilinearly co-amplified before branch-specific library construction.
+scm-t-seq__10.1038+nmeth.3728	scM&T-seq	10.1038/nmeth.3728	documented	published	multi	Oligo-dT bead separation couples Smart-seq2 RNA with scBS-seq DNA from one cell.
+sctrio-seq__10.1038+cr.2016.23	scTrio-seq	10.1038/cr.2016.23	documented	published	multi	Cytoplasm/nucleus separation couples RNA-seq to one scRRBS library reporting methylation and copy number.
+scdam-t-seq__10.1038+s41587-019-0150-y	scDam&T-seq	10.1038/s41587-019-0150-y	documented	published	multi	Dam-marked protein contacts and bead-separated CEL-seq2 transcriptomes from the same cell.
+crispr-sciatac__10.1038+s41587-021-00902-x	CRISPR-sciATAC	10.1038/s41587-021-00902-x	documented	published	multi	Combinatorial ATAC indexing with targeted recovery of each cell's integrated perturbation guide.
+drop-scchip-seq__10.1038+s41588-019-0424-9	Drop-scChIP-seq	10.1038/s41588-019-0424-9	documented	published	DNA	MNase fragmentation, immunoprecipitation and droplet barcode transfer for single-cell chromatin profiling.
+multi-cut-tag__10.1016+j.molcel.2021.09.019	Multi-CUT&Tag	10.1016/j.molcel.2021.09.019	documented	published	DNA	Target-coded pA-Tn5 complexes record several antibody-defined chromatin proteins in the same cell.
+hires__10.1126+science.adg3797	HiRES	10.1126/science.adg3797	documented	published	multi	Coordinated combinatorial indexes pair single-cell Hi-C contact and RNA libraries.
+scgro-seq__10.1038+s41586-024-07517-7	scGRO-seq	10.1038/s41586-024-07517-7	documented	published	RNA	O-propargyl run-on termination and click attachment of identifiers capture nascent RNA 3-prime ends.
+captrap-seq__10.1038+s41467-024-49523-3	CapTrap-seq	10.1038/s41467-024-49523-3	documented	published	RNA	Two-stage cap- and poly(A)-dependent selection of full-length cDNA for ONT or PacBio.
+paiso-seq__10.1038+s41467-019-13228-9	PAIso-seq	10.1038/s41467-019-13228-9	documented	published	RNA	dU-templated end extension preserves native poly(A)-tail length and composition in PacBio isoform reads.
+trael-seq__10.1371+journal.pbio.3000886	TrAEL-seq	10.1371/journal.pbio.3000886	documented	published	DNA	Pre-adenylated biotin hairpin capture of native DNA 3-prime OH ends before directional sequencing.
+ok-seq__10.1038+ncomms10208	OK-seq	10.1038/ncomms10208	documented	published	DNA	EdU-labelled Okazaki-fragment purification and strand-preserving adapter ligation map fork direction.
+imargi__10.1073+pnas.1819788116	iMARGI	10.1073/pnas.1819788116	documented	published	multi	In situ bivalent-linker ligation converts RNA–chromatin proximity into RNA–linker–DNA chimeras.
+char-seq__10.7554+eLife.27024	ChAR-seq	10.7554/eLife.27024	documented	published	multi	Biotinylated bridge ligation and cDNA conversion recover chromatin-associated RNA–DNA contacts.
+meta3c__10.7554+eLife.03318	meta3C	10.7554/eLife.03318	documented	published	DNA	Restriction digestion and dilute proximity ligation add chromosome-contact information to metagenomic shotgun libraries.
+sum-seq__10.1038+s41592-025-02700-8	SUM-seq	10.1038/s41592-025-02700-8	documented	published	multi	Modality-specific sample pre-indexing plus overloaded 10x barcoding jointly profiles RNA and ATAC.
+uda-seq__10.1038+s41592-024-02586-y	UDA-seq	10.1038/s41592-024-02586-y	documented	published	multi	A universal droplet-first and post-emulsion well-index wrapper for multiple single-cell modalities.
+oak__10.1038+s41467-024-53227-z	OAK	10.1038/s41467-024-53227-z	documented	published	multi	Overloading and unpacking use fixed cells as carriers between droplet and aliquot indexing rounds.
+scrica-seq__10.1038+s41467-024-52335-0	scRICA-seq	10.1038/s41467-024-52335-0	documented	published	multi	UMI-labelled circular-cDNA amplification reconstructs RNA isoforms alongside matched single-cell ATAC.
+cello-seq__10.1038+s41587-021-01093-1	CELLO-seq	10.1038/s41587-021-01093-1	documented	published	RNA	Splint-ligated 22-nt patterned UMIs enable consensus correction of full-length single-cell nanopore reads.
+scisor-seq2__10.1038+s41593-024-01616-4	ScISOr-seq2	10.1038/s41593-024-01616-4	documented	published	RNA	LAP-CAP enriches barcode-bearing 10x cDNA for PacBio or nanopore isoform sequencing.
 scget-seq__10.1038+s41587-021-01031-1	scGET-seq	10.1038/s41587-021-01031-1	documented	published	DNA	Two differently barcoded Tn5 complexes distinguish accessible from HP1α-associated heterochromatin in each cell.
 ntt-seq__10.1038+s41587-022-01588-5	NTT-seq	10.1038/s41587-022-01588-5	documented	published	DNA	Species-selective nanobody–Tn5 fusions add target barcodes before 10x ATAC cell indexing.
 nano-cut-tag__10.1038+s41587-022-01535-4	nano-CUT&Tag	10.1038/s41587-022-01535-4	documented	published	DNA	Nanobody–Tn5 fusions simultaneously encode several antibody-bound chromatin targets before single-cell indexing.
