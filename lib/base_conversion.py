@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-CYTOSINES = {"C", "5mC", "5hmC", "5caC", "DHU", "U", "T", "s4U", "IAA-s4U"}
+CYTOSINES = {"C", "5mC", "5hmC", "5fC", "5caC", "DHU", "U", "T", "s4U", "IAA-s4U"}
 
 
 @dataclass(frozen=True)
@@ -22,6 +22,12 @@ class BasePath:
     def text(self) -> str:
         return " → ".join(self.states)
 
+    def after(self, reactions: int) -> str:
+        """State after a numbered conversion step; unchanged paths remain unchanged."""
+        if reactions < 0:
+            raise ValueError("reaction count cannot be negative")
+        return self.states[min(reactions, len(self.states) - 1)]
+
 
 def taps_path(base: str) -> BasePath:
     """TAPS chemistry and PCR readout for one cytosine state."""
@@ -30,6 +36,15 @@ def taps_path(base: str) -> BasePath:
     if base == "C":
         return BasePath(("C", "C"))
     raise ValueError("TAPS input must be C, 5mC or 5hmC")
+
+
+def caps_plus_path(base: str) -> BasePath:
+    """CAPS+ selective 5hmC oxidation, borane reduction and PCR readout."""
+    if base == "5hmC":
+        return BasePath(("5hmC", "5fC", "5caC", "DHU", "T"))
+    if base in {"5mC", "C"}:
+        return BasePath((base, base))
+    raise ValueError("CAPS+ input must be C, 5mC or 5hmC")
 
 
 def bisulfite_path(*, protected: bool) -> BasePath:

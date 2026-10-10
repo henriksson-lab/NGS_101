@@ -26,7 +26,6 @@ pacbio-smrtbell-prep-kit-3-0	PacBio SMRTbell prep kit 3.0		documented	published	
 nebnext-ultra-ii-dna-library-prep-user-adaptor	NEBNext Ultra II DNA Library Prep (USER adaptor)		documented	published	DNA	Commercial E7645/E7103 workflow with the E7600 hairpin adaptor, USER opening and dual-index PCR.
 crispr-mip__10.1101+2024.03.28.587082	CRISPR-MIP	10.1101/2024.03.28.587082	documented	wip	DNA	sgRNA quantification by molecular inversion probe.
 crispr-umi-schmierer__10.15252+msb.20177834	CRISPR-UMI (Schmierer)	10.15252/msb.20177834	documented	published	DNA	Schmierer guide-library RSL construction, genomic recovery, nested library PCR and sequencing layout.
-florian-pta-rnaseq	florian-PTA-rnaseq		draft	wip	RNA	Our own design, unpublished: Smart-seq3xpress front end read out through the Atrandi PTA/SPC back end. No paper, so the directory is named by name alone.
 astar-seq__10.1101+829960	ASTAR-seq	10.1101/829960	documented	published	multi	Schematic and research notes from the defining preprint and its Supplementary Information and oligo table.
 strt-seq__10.1101+gr.110882.110	STRT-seq	10.1101/gr.110882.110	documented	published	RNA	Original plate-based STRT protocol from Islam et al. 2011; the retained family research note also records provenance for later variants.
 strt-c1__10.1038+nmeth.2772	STRT-C1	10.1038/nmeth.2772	documented	published	RNA	Fluidigm C1 STRT protocol with a TSO UMI and barcoded Tn5 adapter.
@@ -161,3 +160,17 @@ sci-seq__10.1038+nmeth.4154	SCI-seq	10.1038/nmeth.4154	documented	published	DNA	
 nextera-mate-pair	Nextera Mate Pair		documented	published	DNA	Commercial long-fragment tagmentation, circularization, re-fragmentation and biotin-junction recovery workflow.
 double-stranded-ancient-dna-with-partial-udg__10.1098+rstb.2013.0624	Double-stranded ancient DNA with partial UDG	10.1098/rstb.2013.0624	documented	published	DNA	Double-stranded ancient-DNA library preparation that removes internal uracils while retaining terminal damage signatures.
 artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066	ARTIC tiled-amplicon sequencing	10.1038/nprot.2017.066	documented	published	DNA	Alternating multiplex-primer pools tile viral genomes before platform-specific barcode and sequencing-adapter attachment.
+sherry__10.1073+pnas.1919800117	SHERRY	10.1073/pnas.1919800117	documented	published	RNA	Direct Tn5 tagmentation of RNA/DNA hybrids.
+ramda-seq__10.1038+s41467-018-02866-0	RamDA-seq	10.1038/s41467-018-02866-0	documented	published	RNA	NSR-primed random displacement amplification during reverse transcription.
+tgirt-seq__10.1261+rna.054809.115	TGIRT-seq	10.1261/rna.054809.115	documented	published	RNA	Group-II-intron reverse transcriptase template switching onto structured and small RNAs.
+snrandom-seq__10.1038+s41467-023-38409-5	snRandom-seq	10.1038/s41467-023-38409-5	documented	published	RNA	Random-primed FFPE single-nucleus total RNA sequencing with droplet bead barcoding.
+r2c2__10.1073+pnas.1806447115	R2C2	10.1073/pnas.1806447115	documented	published	RNA	Gibson-splint circularization, phi29 rolling-circle amplification and nanopore concatemer consensus of full-length cDNA.
+tell-seq__10.1101+gr.260380.119	TELL-seq	10.1101/gr.260380.119	documented	published	DNA	MuA strand-transfer complexes and clonally barcoded beads preserve linked-read identity in one tube.
+nanopore-cas9-targeted-sequencing-ncats__10.1038+s41587-020-0407-5	nanopore Cas9-targeted sequencing (nCATS)	10.1038/s41587-020-0407-5	documented	published	DNA	CIP blocks old ends while Cas9 exposes fresh phosphorylated target ends for selective nanopore-adapter ligation.
+pore-c__10.1038+s41587-022-01289-z	Pore-C	10.1038/s41587-022-01289-z	documented	published	DNA	Restriction digestion and in-nucleus ligation retain multiway chromatin contacts in intact nanopore concatemers.
+grid-seq__10.1038+nbt.3968	GRID-seq	10.1038/nbt.3968	documented	published	multi	A bivalent RNA-DNA bridge joins nuclear RNA to nearby chromatin for genome-wide contact mapping.
+scribo-seq__10.1038+s41586-021-03887-4	scRibo-seq	10.1038/s41586-021-03887-4	documented	published	RNA	Single-cell ribosome profiling with footprint end repair, two RNA ligations, UMIs and well indices.
+miclip__10.1038+nmeth.3453	miCLIP	10.1038/nmeth.3453	documented	published	RNA	Antibody crosslink-induced reverse-transcription signatures map m6A and m6Am at nucleotide resolution.
+airr-umi-5-race__10.1007+978-1-0716-2115-8_19	Bulk UMI 5-prime-RACE AIRR-seq	10.1007/978-1-0716-2115-8_19	documented	published	RNA	UMI-bearing SMART reverse transcription and semi-nested constant-region PCR recover B-cell receptor repertoires.
+sctaps__10.1101+2024.02.12.579864	scTAPS	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell TAPS reports 5mC plus 5hmC after TET oxidation, pyridine-borane reduction and combinatorial indexing.
+sccaps__10.1101+2024.02.12.579864	scCAPS+	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell CAPS+ selectively reports 5hmC after βGT protection, chemical conversion and combinatorial indexing.

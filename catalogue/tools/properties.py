@@ -27,6 +27,8 @@ FACETS = OrderedDict([
         "RNA-seq", "RNA detection", "DNA-seq / WGS", "ATAC / accessibility", "DNA methylation",
         "chromatin conformation", "chromatin protein mapping", "CRISPR screening", "protein / feature detection",
         "translation profiling", "nascent transcription", "RNA-protein interaction",
+        "RNA-DNA contacts", "RNA modification mapping", "immune repertoire",
+        "linked-read sequencing",
         "promoter / RNA 5-prime mapping", "RNA structure", "targeted DNA sequencing",
         "amplicon profiling", "metagenomics", "spatial / in situ", "telomere", "multiomic"))),
     ("platform", ("Sequencing platform", (
@@ -38,14 +40,16 @@ FACETS = OrderedDict([
         "genomic DNA", "total RNA", "poly(A) RNA", "small RNA", "chromatin",
         "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
         "amplicon", "pre-amplified cDNA", "microbial community DNA",
-        "ribosome-protected RNA", "nascent RNA"))),
+        "ribosome-protected RNA", "nascent RNA", "RNA-DNA hybrid",
+        "immune-receptor RNA"))),
     ("fragmentation", ("Fragmentation or entry", (
         "mechanical", "enzymatic", "restriction digest", "Tn5 / tagmentation",
-        "RNase / MNase", "no fragmentation"))),
+        "RNase / MNase", "Cas nuclease cleavage", "no fragmentation"))),
     ("adapter_installation", ("Adapter installation", (
         "ligation", "Tn5", "PCR-added", "reverse transcription", "template switching", "tailing + priming",
         "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
-        "hybridization scaffold"))),
+        "hybridization scaffold", "bead-mediated barcoding", "RNA-DNA bridge",
+        "random priming", "overlap assembly"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
         "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
@@ -53,14 +57,14 @@ FACETS = OrderedDict([
     ("topology", ("Molecular topology", (
         "linear", "circular", "hairpin", "dumbbell / SMRTbell", "concatemer",
         "proximity-ligation junction", "RNA-DNA hybrid", "DNA nanoball",
-        "branched hybridization tree"))),
+        "branched hybridization tree", "bead-bound complex"))),
     ("strand_handling", ("Strand handling", (
         "unstranded", "directional RNA", "strand displacement", "second-strand destruction",
         "single-stranded library", "duplex sequencing", "native RNA sequencing",
-        "RNA hybridization"))),
+        "RNA hybridization", "crosslink-induced RT signature"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
-        "lineage barcode", "no UMI"))),
+        "lineage barcode", "linked-read barcode", "no UMI"))),
     ("read_structure", ("Read structure", (
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
         "barcode in Read 2", "custom sequencing primer", "long-read consensus",
@@ -69,7 +73,7 @@ FACETS = OrderedDict([
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
         "restriction-site selection", "spatial capture", "affinity / antibody capture",
         "guide-specific enrichment", "circularization selection", "ribosome-footprint selection",
-        "cap selection", "none"))),
+        "cap selection", "constant-region enrichment", "none"))),
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
         "adenine methyltransferase", "dUTP strand marking", "chemical conversion", "none"))),

@@ -136,8 +136,8 @@ primers** → double-sided AMPure → Qubit dsDNA HS (Thermo Q32854) → Agilent
 
 ### Our index PCR primers 🟢 (as ordered — `ref/our_index_primers.tsv`)
 
-Shared by both our protocols: this MDA/PTA scWGS and
-[`../florian-pta-rnaseq/01_primers.md`](../florian-pta-rnaseq/01_primers.md).
+Shared by both our protocols: this MDA/PTA scWGS and the work-in-progress
+[florian-PTA-rnaseq design](https://henriksson-lab.github.io/chem_florian/01_primers.html).
 
 ```
 i7 + P7:  CAAGCAGAAGACGGCATACGAGAT  [10-nt i7]  GTGACTGGAGTTCAGACGTGTGCTCT*T     61 nt

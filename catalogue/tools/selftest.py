@@ -104,7 +104,8 @@ check("each SMART-seq protocol is named for its own defining paper",
 JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 2017 paper
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
          "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
-         "10.1038/s41587-019-0147-6"}    # dscATAC-seq and dsciATAC-seq
+         "10.1038/s41587-019-0147-6",    # dscATAC-seq and dsciATAC-seq
+         "10.1101/2024.02.12.579864"}    # scTAPS and scCAPS+
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
     if r["doi"]:
@@ -221,8 +222,7 @@ check("section is one of published / wip",
       sorted({r["dir"] for r in cat.ours() if r["section"] not in cat.SECTIONS}), [])
 # Declared here on purpose: moving a directory between website sections is a decision,
 # so it must be made twice -- in ours.tsv and in this list.
-WIP = {"crispr-mip__10.1101+2024.03.28.587082",   # CRISPR-MIP, our own method in progress
-       "florian-pta-rnaseq"}                      # our own unpublished RNA-seq design
+WIP = {"crispr-mip__10.1101+2024.03.28.587082"}   # our own method in progress
 check("the work-in-progress section is exactly the declared set",
       sorted(r["dir"] for r in cat.wip()), sorted(WIP))
 check("every other directory is a published protocol",

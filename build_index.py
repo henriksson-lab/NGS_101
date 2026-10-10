@@ -51,7 +51,10 @@ BLURB_CHARS = 330          # a blurb is cut at a sentence end before this many c
 # Build scripts all declare an OUT path, but older pages use either HERE.parent or
 # Path(__file__).resolve().parents[1], with varying whitespace.  The filename after the
 # final path-join slash is the stable part; page discovery must not depend on source style.
-OUT_RE = re.compile(r'(?:^|;)\s*OUT\s*=[^\n]*/\s*"([^"]+\.html)"', re.M)
+OUT_RE = re.compile(
+    r'(?:^|;)\s*OUT\s*=[^\n]*/\s*(?P<quote>["\'])(?P<out>[^"\']+\.html)(?P=quote)',
+    re.M,
+)
 
 
 # ------------------------------------------------------------------ the notes
@@ -188,7 +191,7 @@ def diagram_out(d: str) -> Path | None:
     m = OUT_RE.search(bp.read_text(encoding="utf-8"))
     if not m:
         raise ValueError(f"{bp}: cannot determine generated HTML from its OUT assignment")
-    return ROOT / d / m.group(1)
+    return ROOT / d / m.group("out")
 
 
 def checks(d: str) -> tuple[int, bool]:

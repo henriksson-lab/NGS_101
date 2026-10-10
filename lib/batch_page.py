@@ -12,10 +12,16 @@ def render(m) -> str:
              info(m.SOURCE), info(m.SUMMARY)]
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
-    sections = list(m.sections())
-    if sections:
-        parts.extend(['<h2>Reaction workflow</h2>',
-                      workflow_panel(workflow_from_sections(sections), cls="long")])
+    if callable(getattr(m, "workflow", None)):
+        workflow = m.workflow()
+    else:
+        sections = list(m.sections())
+        workflow = (workflow_from_sections(
+            sections, initial_rows=getattr(m, "INITIAL_ROWS", None),
+            initial_name=getattr(m, "INITIAL_NAME", "Starting material"))
+            if sections else None)
+    if workflow is not None:
+        parts.extend(['<h2>Reaction workflow</h2>', workflow_panel(workflow, cls="long")])
     lib = getattr(m, "FINAL_LIBRARY", None)
     primers = getattr(m, "SEQ_PRIMERS", ())
     if lib is not None:
@@ -30,6 +36,9 @@ def render(m) -> str:
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,
                                 required_roles=tuple(p.role for p in primers),
                                 read_lengths=getattr(m, "READ_LENGTHS", None)))
+        unavailable = getattr(m, "SEQUENCING_UNAVAILABLE", "")
+        if unavailable:
+            parts.append(sp.unavailable_diagram(lib, unavailable))
     else:
         ending = getattr(m, "SEQUENCING_ENDING", "")
         if not ending:

@@ -122,6 +122,7 @@ FEATURE_ROLES = (
     "feature_barcode",
     "spatial_barcode",
     "guide_barcode",
+    "linked_read_barcode",
     "inline_barcode",
 )
 FEATURE_ENCODINGS = ("random", "whitelist", "fixed", "combinatorial", "unknown")
