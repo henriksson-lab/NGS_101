@@ -61,6 +61,22 @@ def duplex_fragment(label: str = "genomic fragment", length: int = 34) -> Scene:
     return Scene.duplex([seg(label, "X" * length, placeholder=True)], label=label)
 
 
+def joined_scene(parts: list[Segment], junctions: tuple[tuple[str, str, str], ...],
+                 *, label: str, duplex: bool = True) -> Scene:
+    """Draw covalently joined parts; ``Scene.junction`` validates every boundary."""
+    if duplex:
+        sc = Scene.duplex(parts, label=label)
+        strand = "top"
+    else:
+        sc = Scene()
+        strand = "molecule"
+        sc.strand(strand, parts, label=label)
+    for left, right, kind in junctions:
+        sc.junction(strand, left, right, kind)
+    sc.labels(strand)
+    return sc
+
+
 def spatial_rt_scene(*, barcode_parts: tuple[tuple[str, int], ...], umi: int,
                      surface: str) -> Scene:
     """Poly(A)-primed spatial RT; barcode provenance is encoded in named segments."""

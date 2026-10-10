@@ -64,7 +64,7 @@ FACETS = OrderedDict([
         "RNA hybridization", "crosslink-induced RT signature"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
-        "lineage barcode", "linked-read barcode", "no UMI"))),
+        "lineage barcode", "linked-read barcode", "cluster barcode", "feature barcode", "no UMI"))),
     ("read_structure", ("Read structure", (
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
         "barcode in Read 2", "custom sequencing primer", "long-read consensus",

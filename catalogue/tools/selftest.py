@@ -105,7 +105,8 @@ JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 201
          "10.7554/eLife.73971",          # HyDrop-RNA and HyDrop-ATAC
          "10.1038/s41587-021-00962-z",   # s3-ATAC and s3-WGS
          "10.1038/s41587-019-0147-6",    # dscATAC-seq and dsciATAC-seq
-         "10.1101/2024.02.12.579864"}    # scTAPS and scCAPS+
+         "10.1101/2024.02.12.579864",    # scTAPS and scCAPS+
+         "10.1038/s41587-021-00927-2"}   # ASAP-seq and DOGMA-seq
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
     if r["doi"]:
