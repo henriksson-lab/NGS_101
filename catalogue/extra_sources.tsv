@@ -94,3 +94,10 @@ nextera-mate-pair	https://support.illumina.com/content/dam/illumina-support/docu
 artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066	https://artic.network/protocols	ARTIC Network tiled-amplicon protocols	Maintainer source for primer-pool and current platform workflows.
 slam-seq__10.1038+nmeth.4435	pmccloud:PMC5712218	SLAM-seq author manuscript and supplements	Defining paper, chemical-conversion evidence and library-preparation methods.
 slam-seq__10.1038+nmeth.4435	doi:10.1038/protex.2017.105	SLAM-seq Protocol Exchange protocol	Detailed authoritative experimental procedure.
+modified-smart-seq__10.1007+7651_2021_435	https://xichenlab.com/posts/2021-10-17-smart/7651_2021_435.pdf	Author-hosted Modified SMART-Seq protocol	Defining protocol text and oligo sequences.
+select-seq__10.64898+2026.07.07.736965	https://www.biorxiv.org/content/10.1101/2026.07.07.736965v1.full.pdf	SELECT-seq preprint	Defining named method and detailed workflow.
+safe-seqs__10.1073+pnas.1105422108	pmccloud:PMC3111315	Safe-SeqS full text and supplementary information	Defining paper, exogenous-UID primer construction and family-consensus method.
+safe-seqs__10.1073+pnas.1105422108	https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3111315/fullTextXML	Safe-SeqS JATS full text	Europe PMC fallback when the PMC Cloud object is unavailable.
+saferseqs__10.1038+s41587-021-00900-z	pmccloud:PMC8627329	SaferSeqS author manuscript and supplementary tables	Defining workflow, adapter construction, nested-PCR oligos and custom sequencing primers.
+saferseqs__10.1038+s41587-021-00900-z	https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8627329/fullTextXML	SaferSeqS JATS full text	Europe PMC fallback when the PMC Cloud object is unavailable.
+saferseqs__10.1038+s41587-021-00900-z	https://pmc.ncbi.nlm.nih.gov/articles/instance/8627329/bin/NIHMS1712433-supplement-SupplTables.xlsx	SaferSeqS supplementary tables	Authoritative adapter, PCR and custom sequencing-primer oligo sequences.

@@ -1,4 +1,4 @@
-"""Diagram-first renderer shared by the eight protocol-class gap pages."""
+"""Diagram-first renderer shared by compact, source-backed protocol modules."""
 from __future__ import annotations
 
 import seqprimers as sp

@@ -1,0 +1,13 @@
+# Nano3P-seq — research notes
+
+Defining source: Begik *et al.*, [10.1038/s41592-022-01714-w](https://doi.org/10.1038/s41592-022-01714-w).
+
+## Evidence used
+
+- 🟢 Nano3P-seq is Nanopore 3′-end-capture cDNA sequencing and accepts total, ribodepleted or poly(A)-selected RNA.
+- 🟢 Template switching captures RNA-derived molecules from the native 3′ end without RNA-adapter ligation and without PCR amplification.
+- 🟢 Long reads support simultaneous abundance, tail-length and tail-composition analysis for polyadenylated and non-polyadenylated RNAs.
+
+## Protocol boundary
+
+This is distinct from Oxford Nanopore Direct RNA Sequencing: Nano3P-seq sequences cDNA produced from the RNA 3′ end.

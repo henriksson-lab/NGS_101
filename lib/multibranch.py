@@ -37,13 +37,13 @@ def illumina_branch(name: str, payload: str, *, architecture: str = "truseq",
                     cell: int = 0,
                     cell_parts: tuple[tuple[str, int], ...] = (),
                     umi: int = 0, guide: int = 0, target: int = 0,
-                    encoding: str = "unknown"):
+                    encoding: str = "unknown", inferred_adapters: bool = False):
     """Build and primer-validate a final branch around structured identifiers."""
     insert = [*identifier_segments(cell=cell, cell_parts=cell_parts, umi=umi,
                                    guide=guide, target=target, encoding=encoding),
               seg(payload, "X" * 34, placeholder=True)]
     if architecture == "truseq":
-        return truseq_library(insert, name)
+        return truseq_library(insert, name, inferred_adapters=inferred_adapters)
     if architecture == "nextera":
-        return nextera_library(insert, name)
+        return nextera_library(insert, name, inferred_adapters=inferred_adapters)
     raise ValueError(f"unsupported Illumina architecture {architecture!r}")

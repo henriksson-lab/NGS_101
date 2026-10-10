@@ -5,6 +5,22 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-10 — Catalogue entries require a protocol name
+
+**Decision.** A method enters the protocol catalogue only when its authors or vendor give
+the workflow an explicit name. A paper that happens to describe an interesting sequencing
+procedure is not enough: do not invent a catalogue name from its assay, paper title or a
+descriptive phrase. Acronyms, versioned product names and explicitly titled modifications
+of an established method all qualify. Closely related named protocols remain separate.
+
+**Why.** A stable, source-owned name makes the catalogue unit reviewable and searchable,
+and prevents arbitrary boundaries around every one-off library preparation found in a
+methods section.
+
+**Review when.** If an important unnamed chemistry cannot be represented through a named
+parent protocol or a reusable concept page, reconsider whether concept pages need a more
+prominent role; do not silently lower the catalogue bar.
+
 ## 2026-10-09 — Citation counts are dated discovery metadata
 
 **Decision.** The protocol index may show citation counts for defining papers and filter

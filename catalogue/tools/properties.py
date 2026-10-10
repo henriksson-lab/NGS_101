@@ -28,9 +28,10 @@ FACETS = OrderedDict([
         "chromatin conformation", "chromatin protein mapping", "CRISPR screening", "protein / feature detection",
         "translation profiling", "nascent transcription", "RNA-protein interaction",
         "RNA-DNA contacts", "RNA modification mapping", "immune repertoire",
-        "linked-read sequencing",
+        "linked-read sequencing", "RNA-RNA interaction", "DNA damage mapping",
         "promoter / RNA 5-prime mapping", "RNA structure", "targeted DNA sequencing",
-        "amplicon profiling", "metagenomics", "spatial / in situ", "telomere", "multiomic"))),
+        "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
+        "replication timing", "multiomic"))),
     ("platform", ("Sequencing platform", (
         "Illumina", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry"))),
     ("partitioning", ("Partitioning", (
@@ -39,7 +40,7 @@ FACETS = OrderedDict([
     ("starting_material", ("Starting material", (
         "genomic DNA", "total RNA", "poly(A) RNA", "small RNA", "chromatin",
         "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
-        "amplicon", "pre-amplified cDNA", "microbial community DNA",
+        "amplicon", "pre-amplified cDNA", "synthetic DNA reporter", "microbial community DNA",
         "ribosome-protected RNA", "nascent RNA", "RNA-DNA hybrid",
         "immune-receptor RNA"))),
     ("fragmentation", ("Fragmentation or entry", (
@@ -76,7 +77,8 @@ FACETS = OrderedDict([
         "cap selection", "constant-region enrichment", "none"))),
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
-        "adenine methyltransferase", "dUTP strand marking", "chemical conversion", "none"))),
+        "adenine methyltransferase", "dUTP strand marking", "chemical conversion",
+        "enzymatic deamination", "none"))),
     ("availability", ("Availability", (
         "published academic protocol", "commercial kit", "discontinued / historical",
         "exact oligos public", "proprietary sequences", "schematic complete",

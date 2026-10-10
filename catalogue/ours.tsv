@@ -240,3 +240,98 @@ direct-seq__10.1186+s13059-020-02044-w	Direct-seq	10.1186/s13059-020-02044-w	doc
 snmc2t-seq__10.1016+j.xgen.2022.100107	snmC2T-seq	10.1016/j.xgen.2022.100107	documented	published	multi	Methylated RNA-derived cDNA and genomic DNA share a bisulfite library and separate computationally by non-CG methylation.
 probac-seq__10.1038+s41596-024-01002-1	ProBac-seq	10.1038/s41596-024-01002-1	documented	published	RNA	Polyadenylated DNA probes report bacterial transcripts through a droplet feature-barcode library.
 sec-seq__10.1038+s41467-023-39367-8	SEC-seq	10.1038/s41467-023-39367-8	documented	published	multi	Nanovials capture a cell's secreted proteins for oligo-antibody measurement alongside its 10x transcriptome.
+modified-smart-seq__10.1007+7651_2021_435	Modified SMART-Seq	10.1007/7651_2021_435	documented	published	RNA	Xi Chen laboratory 3-prime-counting SMART-derived single-cell RNA-seq protocol.
+insight__10.1126+sciadv.abe5054	INSIGHT	10.1126/sciadv.abe5054	documented	published	RNA	Barcoded NASBA installs paired sample identities during decentralized viral-RNA amplification before pooled Illumina sequencing.
+genie__10.1093+nar+gkaa960	GenIE	10.1093/nar/gkaa960	documented	published	RNA	Arrayed endogenous variant editing followed by allele-specific targeted cDNA amplification and sequencing.
+genie-atac__10.1093+nar+gkad332	GenIE-ATAC	10.1093/nar/gkad332	documented	published	DNA	Single-adapter Tn5 tagmentation followed by nested allele-specific enrichment measures accessibility at edited regulatory sites.
+scsnv-seq__10.1186+s13059-024-03169-y	scSNV-seq	10.1186/s13059-024-03169-y	documented	published	multi	Transcribed integrated barcodes couple targeted genotype calls, guide identity and droplet single-cell transcriptomes.
+select-seq__10.64898+2026.07.07.736965	SELECT-seq	10.64898/2026.07.07.736965	notes	published	RNA	One-pot whole-transcriptome amplification, SNP-specific PCR and Cas12a fluorescence enrich edited single cells before sequencing.
+spear-atac__10.1038+s41467-021-23213-w	Spear-ATAC	10.1038/s41467-021-23213-w	documented	published	multi	Single-cell chromatin-accessibility CRISPR screening with direct guide capture.
+paired-seq__10.1038+s41594-019-0323-x	Paired-seq	10.1038/s41594-019-0323-x	documented	published	multi	Combinatorial indexing jointly profiles chromatin accessibility and gene expression.
+sccat-seq__10.1038+s41467-018-08205-7	scCAT-seq	10.1038/s41467-018-08205-7	documented	published	multi	Physical separation of cytoplasmic RNA and nuclear chromatin accessibility from the same cell.
+scmt-seq__10.1186+s13059-016-0950-z	scMT-seq	10.1186/s13059-016-0950-z	documented	published	multi	Joint single-cell transcriptome and DNA-methylome profiling.
+spatial-atac-seq__10.1101+2021.06.06.447244	Spatial-ATAC-seq	10.1101/2021.06.06.447244	documented	published	DNA	Spatially resolved chromatin-accessibility profiling by orthogonal in-tissue barcoding.
+simple-seq__10.1038+s41587-024-02148-9	SIMPLE-seq	10.1038/s41587-024-02148-9	notes	published	DNA	Joint single-cell measurement of 5mC and 5hmC.
+scrcat-seq__10.1038+s41467-020-18976-7	scRCAT-seq	10.1038/s41467-020-18976-7	documented	published	RNA	Single-cell RNA cap-and-tail sequencing for paired transcript-end information.
+snaptotal-seq__10.1038+s41467-024-50291-3	snapTotal-seq	10.1038/s41467-024-50291-3	documented	published	RNA	Single-cell total-RNA sequencing designed to retain non-polyadenylated RNA.
+easyshare-seq__10.1101+2024.02.26.581705	easySHARE-seq	10.1101/2024.02.26.581705	documented	published	multi	Joint combinatorial-index profiling of gene expression and chromatin accessibility.
+codec__10.1038+s41588-023-01376-0	CODEC	10.1038/s41588-023-01376-0	documented	published	DNA	Physically concatenates both strands of one original duplex for single-cluster error correction.
+nanoseq__10.1038+s41586-021-03477-4	NanoSeq	10.1038/s41586-021-03477-4	documented	published	DNA	Restriction fragmentation and restrictive end repair for ultralow-error duplex sequencing.
+stlfr__10.1101+gr.245126.118	stLFR	10.1101/gr.245126.118	documented	published	DNA	Bead co-barcoding reconnects short reads to their original long DNA molecule.
+nano3p-seq__10.1038+s41592-022-01714-w	Nano3P-seq	10.1038/s41592-022-01714-w	documented	published	RNA	Template-switching Nanopore cDNA capture of native RNA 3-prime ends and tails.
+paris__10.1016+j.cell.2016.04.028	PARIS	10.1016/j.cell.2016.04.028	documented	published	RNA	AMT crosslinking, 2D-gel enrichment and proximity ligation map RNA duplexes.
+splash__10.1016+j.molcel.2016.04.028	SPLASH	10.1016/j.molcel.2016.04.028	documented	published	RNA	Biotin-psoralen selection and proximity ligation map paired RNA regions.
+ligr-seq__10.1016+j.molcel.2016.04.030	LIGR-seq	10.1016/j.molcel.2016.04.030	documented	published	RNA	RNase R enrichment and proximity ligation map psoralen-crosslinked RNA duplexes.
+mario__10.1038+ncomms12023	MARIO	10.1038/ncomms12023	documented	published	RNA	A selectable linker joins two RNAs co-bound by one UV-crosslinked protein.
+maester__10.1038+s41587-022-01210-8	MAESTER	10.1038/s41587-022-01210-8	documented	published	RNA	Target enrichment recovers mitochondrial variants from barcoded scRNA-seq cDNA.
+redeem__10.1038+s41586-024-07066-z	ReDeeM	10.1038/s41586-024-07066-z	documented	published	multi	Deep hybrid-capture mtDNA genotyping alongside matched 10x Multiome RNA and ATAC.
+rage-seq__10.1038+s41467-019-11049-4	RAGE-Seq	10.1038/s41467-019-11049-4	documented	published	RNA	Targeted long-read immune-receptor sequencing linked to droplet gene expression.
+malbac-dt__10.1101+2019.12.31.892190	MALBAC-DT	10.1101/2019.12.31.892190	documented	published	RNA	Barcoded RT and MALBAC quasi-linear amplification for high-detectability scRNA-seq.
+seq-scope__10.1016+j.cell.2021.05.010	Seq-Scope	10.1016/j.cell.2021.05.010	documented	published	RNA	A decoded Illumina flow-cell barcode array captures spatially resolved transcripts.
+chil-seq__10.1038+s41596-020-0375-8	ChIL-seq	10.1038/s41596-020-0375-8	documented	published	DNA	Oligo-conjugated antibody targeting, nearby Tn5 integration and T7 linear amplification.
+bliss__10.1038+ncomms15058	BLISS	10.1038/ncomms15058	documented	published	DNA	In-situ DSB adapter ligation with UMIs followed by T7 linear amplification.
+scsplat__10.1101+2021.10.14.464375	scSPLAT	10.1101/2021.10.14.464375	documented	published	DNA	Cell-barcoded random synthesis and pooled splinted ligation after bisulfite conversion.
+cfmedip-seq__10.1038+s41596-019-0202-2	cfMeDIP-seq	10.1038/s41596-019-0202-2	documented	published	DNA	Low-input antibody enrichment of methylated adapter-ligated cell-free DNA.
+dart-seq__10.1038+s41592-019-0570-0	DART-seq	10.1038/s41592-019-0570-0	documented	published	RNA	YTH-targeted APOBEC1 writes C-to-U marks beside m6A for RNA sequencing.
+snubar-atac__10.1016+j.molcel.2021.09.026	SNuBar-ATAC	10.1016/j.molcel.2021.09.026	documented	published	DNA	A transposome-complementary oligo adds sample barcode and UMI before 10x scATAC pooling.
+ric-seq__10.1038+s41586-020-2249-1	RIC-seq	10.1038/s41586-020-2249-1	documented	published	RNA	In-situ proximity ligation maps spatial RNA-RNA contacts in crosslinked RNPs.
+plac-seq__10.1038+cr.2016.137	PLAC-seq	10.1038/cr.2016.137	documented	published	DNA	In-nucleus proximity ligation followed by ChIP enriches protein-anchored chromatin contacts.
+safe-seqs__10.1073+pnas.1105422108	Safe-SeqS	10.1073/pnas.1105422108	documented	published	DNA	Primer-borne random UIDs group redundant descendants of one target strand for rare-variant consensus.
+saferseqs__10.1038+s41587-021-00900-z	SaferSeqS	10.1038/s41587-021-00900-z	documented	published	DNA	A copied 14-nt duplex UID and oriented nested PCR reconnect Watson and Crick target families.
+gro-seq__10.1126+science.1162228	GRO-seq	10.1126/science.1162228	documented	published	RNA	Global run-on sequencing of BrUTP-labelled nascent RNA.
+chro-seq__10.1038+s41588-018-0244-3	ChRO-seq	10.1038/s41588-018-0244-3	documented	published	RNA	Chromatin run-on sequencing from isolated chromatin.
+icshape__10.1038+nprot.2016.011	icSHAPE	10.1038/nprot.2016.011	documented	published	RNA	In vivo click-SHAPE RNA-structure protocol.
+got__10.1038+s41586-019-1367-0	GoT	10.1038/s41586-019-1367-0	documented	published	RNA	Genotyping of Transcriptomes from identifier-preserving 10x cDNA.
+target-seq__10.1016+j.molcel.2019.01.009	TARGET-seq	10.1016/j.molcel.2019.01.009	documented	published	multi	Matched targeted gDNA/cDNA genotyping and transcriptome sequencing.
+scgestalt__10.1038+s41596-018-0058-x	scGESTALT	10.1038/s41596-018-0058-x	documented	published	multi	Expressed CRISPR lineage cassette recovered with inDrops transcriptomes.
+prox-seq__10.1038+s41592-022-01684-z	Prox-seq	10.1038/s41592-022-01684-z	documented	published	multi	DNA proximity reporters for surface-protein pairs plus scRNA-seq.
+find-seq__10.1038+s41596-024-01021-y	FIND-seq	10.1038/s41596-024-01021-y	documented	published	multi	TaqMan-guided rare-cell sorting with retained transcriptomes.
+drip-seq__10.1016+j.molcel.2012.01.017	DRIP-seq	10.1016/j.molcel.2012.01.017	documented	published	DNA	S9.6 enrichment of restriction-digested RNA:DNA hybrids followed by non-strand-specific sequencing of captured DNA.
+dripc-seq__10.1016+j.molcel.2016.05.032	DRIPc-seq	10.1016/j.molcel.2016.05.032	documented	published	RNA	S9.6 hybrid capture followed by DNase, RNA-to-cDNA conversion and dUTP/UNG strand-specific library construction.
+r-chip__10.1016+j.molcel.2017.10.008	R-ChIP	10.1016/j.molcel.2017.10.008	documented	published	DNA	In-vivo capture with inactive RNASEH1 and tailed-N9 one-ended adapter construction for strand-specific R-loop DNA reads.
+oxbs-seq__10.1126+science.1220671	oxBS-seq	10.1126/science.1220671	documented	published	DNA	Potassium-perruthenate oxidation of 5hmC followed by bisulfite sequencing for a 5mC-specific C readout.
+tab-seq__10.1016+j.cell.2012.04.027	TAB-seq	10.1016/j.cell.2012.04.027	documented	published	DNA	β-GT protection of 5hmC and mTet1 oxidation of 5mC before bisulfite for a direct 5hmC readout.
+ace-seq__10.1038+nbt.4204	ACE-seq	10.1038/nbt.4204	documented	published	DNA	β-GT protection of 5hmC followed by APOBEC3A conversion of C/5mC and Accel Methyl-NGS library construction.
+4c-seq__10.1016+j.ymeth.2019.07.014	4C-seq	10.1016/j.ymeth.2019.07.014	documented	published	DNA	Two restriction digests, recircularization and viewpoint inverse PCR recover one-versus-all chromatin contacts.
+ng-capture-c__10.1038+nmeth.3664	NG Capture-C	10.1038/nmeth.3664	documented	published	DNA	Double biotin-oligo capture of selected viewpoints from sonicated indexed 3C libraries.
+umi-4c__10.1038+nmeth.3922	UMI-4C	10.1038/nmeth.3922	documented	published	DNA	Random sonication endpoints identify molecules before single-end adapter ligation and nested viewpoint PCR.
+tri-c__10.1038+s41588-018-0253-2	Tri-C	10.1038/s41588-018-0253-2	documented	published	DNA	Targeted capture of long 3C fragments retaining two or more simultaneous contact junctions.
+e-l-repli-seq__10.1038+nprot.2017.148	E/L Repli-seq	10.1038/nprot.2017.148	documented	published	DNA	BrdU-labelled nascent DNA from sorted early- and late-S fractions is adapter-ligated, immunoprecipitated and sequenced.
+screpli-seq__10.1038+s41596-020-0378-5	scRepli-seq	10.1038/s41596-020-0378-5	documented	published	DNA	Single-cell WGA and DNA copy-number sequencing distinguish replicated and unreplicated S-phase domains.
+mnet-seq__10.1016+j.cell.2015.03.027	mNET-seq	10.1016/j.cell.2015.03.027	documented	published	RNA	Pol II-state immunoprecipitation and sequencing of native nascent-RNA 3-prime ends.
+start-seq__10.1126+science.1181421	Start-seq	10.1126/science.1181421	documented	published	RNA	Paired endpoint libraries from short capped nuclear RNAs report initiation and pausing.
+gro-cap__10.1038+ng.3142	GRO-cap	10.1038/ng.3142	documented	published	RNA	Cap selection applied to BrUTP global-run-on RNA maps nascent transcription start sites.
+pro-cap__10.1126+science.1229386	PRO-cap	10.1126/science.1229386	documented	published	RNA	Cap selection applied to precision-run-on RNA maps nascent transcription start sites.
+timelapse-seq__10.1038+nmeth.4582	TimeLapse-seq	10.1038/nmeth.4582	documented	published	RNA	Chemical recoding of 4sU marks newly synthesized RNA as T-to-C mismatches.
+tuc-seq__10.1002+anie.201707465	TUC-seq	10.1002/anie.201707465	documented	published	RNA	Osmium-mediated 4sU-to-cytidine conversion marks newly synthesized RNA.
+snu-seq__10.1093+nar+gkag652	SNU-Seq	10.1093/nar/gkag652	documented	published	RNA	Affinity-purified intact 4sU RNA is polyadenylated for native-end sequencing.
+sf4su-seq__10.1093+nar+gkag652	sf4sU-Seq	10.1093/nar/gkag652	documented	published	RNA	Size-fractionated affinity-purified 4sU RNA maps native short-RNA endpoints.
+cagescan__10.1038+nmeth.1470	CAGEscan	10.1038/nmeth.1470	documented	published	RNA	Cap-dependent template switching and random priming link promoters to transcript bodies.
+tirtl-seq__10.1038+s41592-025-02907-9	TIRTL-seq	10.1038/s41592-025-02907-9	documented	published	RNA	Miniaturized two-stage targeted TCR amplification with plate barcodes and well UDIs.
+sdr-seq__10.1038+s41592-025-02805-0	SDR-seq	10.1038/s41592-025-02805-0	documented	published	multi	Targeted droplet single-cell gDNA and RNA amplification with shared cell identity.
+smol-seq__10.1038+s41587-025-02554-7	smol-seq	10.1038/s41587-025-02554-7	documented	published	DNA	Structure-switching aptamers release analyte-identity DNA barcodes for sequencing.
+sccc__10.1016+j.cell.2020.06.037	scCC	10.1016/j.cell.2020.06.037	documented	published	multi	Self-reporting transposon junctions retain droplet cell barcodes and UMIs alongside gene expression.
+cotech__10.1038+s41592-021-01129-z	CoTECH	10.1038/s41592-021-01129-z	documented	published	multi	Combinatorial co-indexing of antibody-targeted chromatin and poly(A) transcriptomes.
+got-cha__10.1101+2022.05.11.491515	GoT-ChA	10.1101/2022.05.11.491515	documented	published	multi	Targeted genomic-variant enrichment retaining the parent scATAC cell barcode.
+scone-seq__10.1126+sciadv.abp8901	scONE-seq	10.1126/sciadv.abp8901	documented	published	multi	One-tube DNA and total-RNA amplification with explicit branch barcodes and UMIs.
+scito-seq__10.1038+s41592-021-01222-3	SCITO-seq	10.1038/s41592-021-01222-3	documented	published	multi	Antibody and staining-pool splint barcodes combined with droplet barcodes for cytometry sequencing.
+phospho-seq__10.1101+2023.03.27.534442	Phospho-seq	10.1101/2023.03.27.534442	documented	published	multi	Intracellular antibody tags captured alongside single-cell ATAC fragments.
+cropseq-multi__10.1101+2024.03.17.585235	CROPseq-multi	10.1101/2024.03.17.585235	documented	published	multi	Multiplexed tRNA-processed guide arrays with internal barcodes for several readout modes.
+chair__10.1038+s41592-025-02658-7	ChAIR	10.1038/s41592-025-02658-7	documented	published	multi	Single-cell chromatin accessibility, proximity contacts and RNA from one 10x Multiome barcode.
+spatial-atac-rna-seq__10.1038+s41586-023-05795-1	spatial-ATAC-RNA-seq	10.1038/s41586-023-05795-1	documented	published	multi	Orthogonal in-tissue barcodes join accessible chromatin and RNA to the same tissue pixel.
+spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1	spatial-CUT&Tag-RNA-seq	10.1038/s41586-023-05795-1	documented	published	multi	Orthogonal in-tissue barcodes join antibody-targeted histone-mark DNA and RNA to the same tissue pixel.
+slide-seq__10.1126+science.aaw1219	Slide-seq	10.1126/science.aaw1219	documented	published	RNA	Pre-decoded 10-micrometre bead pucks capture spatially registered 3-prime transcriptomes.
+sciplex-atac-seq__10.1101+2023.03.05.531201	sciPlex-ATAC-seq	10.1101/2023.03.05.531201	documented	published	DNA	Absorbed ssDNA sample hashes accompany combinatorially indexed single-nucleus ATAC profiles.
+wellda-seq__10.1101+2024.09.06.611519	wellDA-seq	10.1101/2024.09.06.611519	documented	published	multi	Single-cell whole-genome and chromatin-accessibility branches retain a shared well identity.
+easysci__10.1038+s41588-023-01572-y	EasySci	10.1038/s41588-023-01572-y	documented	published	RNA	Three-round combinatorial nuclear RNA indexing with matched oligo(dT) and random-hexamer RT.
+indrops-2__10.1093+nar+gkae1312	inDrops-2	10.1093/nar/gkae1312	documented	published	RNA	Droplet 3-prime RNA capture with alternative IVT-linear and template-switching PCR branches.
+multi-tag__10.1038+s41587-022-01522-9	MulTI-Tag	10.1038/s41587-022-01522-9	documented	published	DNA	Sequential target-barcoded pA-Tn5 reactions measure several chromatin proteins in the same cell.
+tip-seq__10.1083+jcb.202103078	TIP-seq	10.1083/jcb.202103078	documented	published	DNA	Targeted pA-Tn5 insertion of T7 promoters enables linear amplification of protein-proximal chromatin.
+phage-atac__10.1038+s41587-021-01065-5	PHAGE-ATAC	10.1038/s41587-021-01065-5	documented	published	multi	Nanobody-phage protein tags and ATAC fragments receive the same 10x droplet barcode.
+sctem-seq__10.1038+s41598-022-09765-x	scTEM-seq	10.1038/s41598-022-09765-x	documented	published	multi	Targeted bisulfite sequencing of transposable elements with parallel RNA from the same cell.
+sc-end5-seq__10.1101+2021.04.04.438388	sc-end5-seq	10.1101/2021.04.04.438388	documented	published	RNA	Droplet template switching retains single-cell transcript 5-prime ends after oligo(dT) or random priming.
+speac-seq__10.1038+s41596-024-01056-1	SPEAC-seq	10.1038/s41596-024-01056-1	documented	published	DNA	Functionally sorted cell-pair droplets are read out by pooled CRISPR-guide amplicon sequencing.
+disco__10.1038+s41592-021-01391-1	DisCo	10.1038/s41592-021-01391-1	documented	published	RNA	Machine vision deterministically co-encapsulates one low-input cell and one RNA-capture bead.
+spindrop__10.1038+s41467-023-40322-w	spinDrop	10.1038/s41467-023-40322-w	documented	published	RNA	Fluorescence-sorted inDrop droplets receive reverse-transcription reagent by downstream picoinjection.
+limca__10.1038+s41592-024-02239-0	LiMCA	10.1038/s41592-024-02239-0	documented	published	multi	Physical compartment separation links Smart-seq2 transcriptomes to deeply amplified single-cell Hi-C.
+butt-seq__10.1101+gad.350434.123	Butt-seq	10.1101/gad.350434.123	documented	published	RNA	TGIRT template switching captures native nascent-RNA 3-prime termini without fragmentation.

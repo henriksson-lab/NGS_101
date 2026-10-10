@@ -8,7 +8,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-CYTOSINES = {"C", "5mC", "5hmC", "5fC", "5caC", "DHU", "U", "T", "s4U", "IAA-s4U"}
+CYTOSINES = {"C", "5mC", "5hmC", "5gmC", "5fC", "5caC", "DHU", "U", "T",
+             "s4U", "IAA-s4U"}
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,39 @@ def caps_plus_path(base: str) -> BasePath:
 
 def bisulfite_path(*, protected: bool) -> BasePath:
     return BasePath(("5mC", "C")) if protected else BasePath(("C", "U", "T"))
+
+
+def oxbs_path(base: str) -> BasePath:
+    """Oxidative-bisulfite state and PCR readout for one genomic cytosine."""
+    if base == "5hmC":
+        return BasePath(("5hmC", "5fC", "U", "T"))
+    if base == "5mC":
+        return BasePath(("5mC", "5mC", "C"))
+    if base == "C":
+        return BasePath(("C", "U", "T"))
+    raise ValueError("oxBS input must be C, 5mC or 5hmC")
+
+
+def tab_path(base: str) -> BasePath:
+    """TAB-seq protection/oxidation, bisulfite conversion and PCR readout."""
+    if base == "5hmC":
+        return BasePath(("5hmC", "5gmC", "5gmC", "C"))
+    if base == "5mC":
+        return BasePath(("5mC", "5caC", "U", "T"))
+    if base == "C":
+        return BasePath(("C", "C", "U", "T"))
+    raise ValueError("TAB-seq input must be C, 5mC or 5hmC")
+
+
+def ace_path(base: str) -> BasePath:
+    """ACE-seq glucosylation, APOBEC3A deamination and PCR readout."""
+    if base == "5hmC":
+        return BasePath(("5hmC", "5gmC", "5gmC", "C"))
+    if base == "5mC":
+        return BasePath(("5mC", "5mC", "U", "T"))
+    if base == "C":
+        return BasePath(("C", "C", "U", "T"))
+    raise ValueError("ACE-seq input must be C, 5mC or 5hmC")
 
 
 def slam_path(*, labelled: bool) -> BasePath:

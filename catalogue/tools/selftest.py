@@ -107,11 +107,18 @@ JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 201
          "10.1038/s41587-019-0147-6",    # dscATAC-seq and dsciATAC-seq
          "10.7554/eLife.63632",           # TEA-seq and ICICLE-seq
          "10.1101/2024.02.12.579864",    # scTAPS and scCAPS+
-         "10.1038/s41587-021-00927-2"}   # ASAP-seq and DOGMA-seq
+         "10.1038/s41587-021-00927-2",   # ASAP-seq and DOGMA-seq
+         "10.1093/nar/gkag652",          # SNU-Seq and sf4sU-Seq
+         "10.1038/s41586-023-05795-1"}   # spatial-ATAC-RNA-seq and spatial-CUT&Tag-RNA-seq
+_ours_doi = {r["protocol"]: r["doi"] for r in cat.ours()}
 by_doi: dict[str, list[str]] = {}
 for r in cat.defining():
-    if r["doi"]:
-        by_doi.setdefault(r["doi"], []).append(r["protocol"])
+    # A very new DOI may not yet be returned by Crossref/NCBI.  ours.tsv remains the
+    # authoritative protocol-to-paper record, so metadata lag must not disable the
+    # one-defining-paper invariant.
+    doi = r["doi"] or _ours_doi.get(r["protocol"], "")
+    if doi:
+        by_doi.setdefault(doi, []).append(r["protocol"])
 check("no two protocols share a defining paper, except the known joint papers",
       {d: ps for d, ps in by_doi.items() if len(ps) > 1 and d not in JOINT}, {})
 check("...and each joint paper really is shared",
@@ -177,10 +184,13 @@ check("a paper whose anchor names a family member is too",
       roles["https://doi.org/10.9/fam"], "primary")
 check("a paper cited from inside a step is incidental",
       roles["https://doi.org/10.2/aside"], "cited")
-check("the real table classifies the semi-suppressive-PCR paper as incidental everywhere",
-      sorted({r["role"] for r in rows if r["doi"] == "10.1038/nmeth.1470"}), ["cited"])
-check("...and it is not the defining paper of anything",
-      [r["protocol"] for r in cat.defining() if r["doi"] == "10.1038/nmeth.1470"], [])
+check("upstream uses of the CAGEscan paper remain incidental",
+      sorted({r["role"] for r in rows
+              if r["doi"] == "10.1038/nmeth.1470" and r["source"] == "scg_lib_structs"}),
+      ["cited"])
+check("CAGEscan itself is defined by that paper",
+      [r["protocol"] for r in cat.defining() if r["doi"] == "10.1038/nmeth.1470"],
+      ["CAGEscan"])
 
 check.section("our own coverage (catalogue/ours.tsv)")
 check("ours.tsv exists", cat.OURS.exists())
