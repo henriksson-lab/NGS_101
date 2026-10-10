@@ -123,6 +123,7 @@ FEATURE_ROLES = (
     "spatial_barcode",
     "guide_barcode",
     "linked_read_barcode",
+    "molecular_complex_barcode",
     "inline_barcode",
 )
 FEATURE_ENCODINGS = ("random", "whitelist", "fixed", "combinatorial", "unknown")

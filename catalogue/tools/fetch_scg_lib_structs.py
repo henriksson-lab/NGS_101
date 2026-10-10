@@ -353,6 +353,19 @@ def crossref(doi: str, cache: Path, offline: bool) -> dict:
             "type": msg.get("type", "")}
 
 
+# Stable identifiers used only when the general metadata services fail to join a
+# legitimate DOI.  eLife 63632 is indexed in PubMed, but Crossref intermittently omits
+# it and NCBI's DOI search is case-sensitive for the publisher's mixed-case suffix.
+KNOWN_DOI_PMIDS = {"10.7554/elife.63632": "33835024"}
+KNOWN_DOI_METADATA = {
+    "10.7554/elife.63632": {
+        "title": "Simultaneous trimodal single-cell measurement of transcripts, epitopes, and chromatin accessibility using TEA-seq",
+        "journal": "eLife",
+        "year": "2021",
+    },
+}
+
+
 def esummary(pmids: list[str], cache: Path, offline: bool) -> dict[str, dict]:
     """PMID -> {title, journal, year} from NCBI, for papers Crossref did not answer for."""
     out: dict[str, dict] = {}
@@ -626,7 +639,8 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
         more = {d: pmid_of_doi(d, cache, offline) for d in gaps}
         for r in rows:
             if not r["pmid"]:
-                r["pmid"] = more.get(r["doi"], "")
+                r["pmid"] = (more.get(r["doi"], "")
+                             or KNOWN_DOI_PMIDS.get(r["doi"].casefold(), ""))
 
     meta_by_pmid = esummary([r["pmid"] for r in rows], cache, offline)
     for r in rows:
@@ -754,7 +768,13 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
             meta, pm = known[url], known[url]["pmid"]
         else:
             meta = crossref(m["doi"], cache, offline) if m["doi"] else {}
-            pm = pmid_of_doi(m["doi"], cache, offline) if m["doi"] else ""
+            pm = ((pmid_of_doi(m["doi"], cache, offline)
+                   or KNOWN_DOI_PMIDS.get(m["doi"].casefold(), ""))
+                  if m["doi"] else "")
+            if not meta.get("title") and pm:
+                meta = esummary([pm], cache, offline).get(pm, {})
+            if not meta.get("title"):
+                meta = KNOWN_DOI_METADATA.get(m["doi"].casefold(), {})
         rows.append({"source": "ours", "category": "Ours, not in scg_lib_structs",
                      "protocol": m["protocol"], "family_members": "", "documented": "ours",
                      "role": "primary", "scg_page": "", "paper_url": url,

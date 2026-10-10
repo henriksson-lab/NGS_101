@@ -12,6 +12,10 @@ def render(m) -> str:
              info(m.SOURCE), info(m.SUMMARY)]
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
+    if callable(getattr(m, "oligos", None)):
+        rows = list(m.oligos())
+        if rows:
+            parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
     sections = list(m.sections())
     if sections:
         parts.extend(['<h2>Reaction workflow</h2>',
