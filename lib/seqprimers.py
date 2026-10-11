@@ -494,24 +494,27 @@ def ensure_read_content(page_html: str, reason: str) -> str:
     return page_html[:closing] + fallback + "\n" + page_html[closing:]
 
 
-def unresolved_read_content_table(lib: Construct, reason: str,
+def unresolved_read_content_table(lib: Construct | None, reason: str,
                                   read_lengths: dict[str, int] | None = None,
                                   acquired_roles=None) -> str:
-    """Honest fallback when the final construct exists but read entry sites do not.
+    """Honest fallback when exact read-entry geometry is unavailable.
 
-    Content is summarized from structured molecular features and non-technical regions;
-    no cycle placement or read direction is invented.  Protocols should replace this with
-    :func:`read_spec_table` once a source establishes their run layout.
+    When a final construct exists, content is summarized from structured molecular
+    features and non-technical regions.  Platform workflows whose proprietary adapter
+    sequence prevents a final construct may pass ``None``; they still receive an explicit
+    generic sequencing-output row.  No cycle placement or read direction is invented.
+    Protocols should replace this with :func:`read_spec_table` once a source establishes
+    their run layout.
     """
     technical_tags = {"p5", "p7", "s5", "s7", "me", "r1", "r2", "r3", "tso",
                       "cbc", "umi", "insert", "t7", "w1"}
     labels = []
-    for segment in lib:
+    for segment in lib or ():
         label = segment.feature.label if segment.feature else ""
         if label and label not in labels:
             labels.append(label)
     payloads = []
-    for segment in lib:
+    for segment in lib or ():
         tags = set((segment.tag or "").split("+"))
         if segment.feature or tags & technical_tags or not segment.name:
             continue
@@ -520,7 +523,8 @@ def unresolved_read_content_table(lib: Construct, reason: str,
     shown_payloads = payloads[:4]
     if len(payloads) > len(shown_payloads):
         shown_payloads.append("other library regions")
-    summary = ", ".join([*labels, *shown_payloads]) or "final-library molecule"
+    summary = (", ".join([*labels, *shown_payloads]) or
+               ("final-library molecule" if lib is not None else "sequencing output"))
     summary += " (read orientation and cycle boundaries unresolved)"
     if labels and payloads:
         use = "extract_then_include"

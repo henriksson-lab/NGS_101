@@ -359,19 +359,25 @@ def linked_protocols(job: Job) -> None:
 # ------------------------------------------------------------------------ driver
 
 def protocol_rows(query: str) -> tuple[str, list[dict]]:
-    slugs = {r["slug"] for r in cat.rows()}
+    catalogue_rows = cat.rows()
+    our_dirs = {r["dir"] for r in cat.ours()}
+    if query in our_dirs:
+        rows = [r for r in catalogue_rows if r["our_dir"] == query]
+        if rows:
+            return query, rows
+    slugs = {r["slug"] for r in catalogue_rows}
     if query in slugs:
-        rows = [r for r in cat.rows() if r["slug"] == query]
+        rows = [r for r in catalogue_rows if r["slug"] == query]
         names = list(dict.fromkeys(r["protocol"] for r in rows))
-        return query, [r for r in cat.rows() if r["protocol"] == names[0]]
+        return query, [r for r in catalogue_rows if r["protocol"] == names[0]]
     q = re.sub(r"[^a-z0-9]", "", query.lower())
     flat = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())  # noqa: E731
     names = [p for p in cat.protocols() if q == flat(p)] or \
             [p for p in cat.protocols()
-             if q in flat(p) or q in flat(next(r["slug"] for r in cat.rows() if r["protocol"] == p))]
+             if q in flat(p) or q in flat(next(r["slug"] for r in catalogue_rows if r["protocol"] == p))]
     if len(names) != 1:
         raise SystemExit(f"{query!r} matches {len(names)} protocols: {names[:10]}")
-    rows = [r for r in cat.rows() if r["protocol"] == names[0]]
+    rows = [r for r in catalogue_rows if r["protocol"] == names[0]]
     return rows[0]["slug"], rows
 
 
@@ -509,8 +515,7 @@ def main(argv: list[str]) -> int:
         targets += [(r["slug"], [x for x in cat.rows() if x["protocol"] == r["protocol"]])
                     for r in cat.untackled()]
     if a.all_ours:
-        slugs = {r["slug"] for r in cat.rows()}
-        targets += [protocol_rows(o["dir"]) for o in cat.ours() if o["dir"] in slugs]
+        targets += [protocol_rows(o["dir"]) for o in cat.ours()]
     seen, uniq = set(), []
     for t in targets:
         if t[0] not in seen:

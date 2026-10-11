@@ -60,6 +60,18 @@ def ours() -> tuple[dict, ...]:
         return tuple(csv.DictReader(fh, delimiter="\t"))
 
 
+def source_slugs() -> set[str]:
+    """Directory keys accepted by the source-fetching machinery.
+
+    Most are the generated catalogue ``slug``.  A covered protocol can instead join an
+    upstream row whose own slug differs (for example a renamed published method), so its
+    canonical ``ours.tsv`` directory is an equally valid source target.
+    """
+    return ({r["slug"] for r in rows()} |
+            {r["dir"] for r in ours()} |
+            {r["our_dir"] for r in rows() if r["our_dir"]})
+
+
 def ours_in(section: str) -> list[dict]:
     """Our directories listed in one website section (`published` or `wip`)."""
     if section not in SECTIONS:
