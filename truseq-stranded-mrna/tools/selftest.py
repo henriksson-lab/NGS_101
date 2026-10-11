@@ -9,7 +9,9 @@ from illumina_vendor_workflows import get
 
 c = Check()
 m = get("truseq-stranded-mrna")
+actions = [r.action for r in m.workflow().reactions]
 c("dUTP marking precedes selective enrichment",
-  [r.action for r in m.workflow().reactions][-2:],
-  ["End-repair and add one 3-prime dA", "Ligate TruSeq adapters and selectively PCR-enrich"])
+  actions.index("RNase H / DNA polymerase I second-strand synthesis with dUTP")
+  < actions.index("Ligate TruSeq adapters and selectively PCR-enrich"),
+  True)
 c.report()
