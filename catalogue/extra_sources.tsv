@@ -179,3 +179,6 @@ time-seq__10.1038+s43587-023-00555-2	pmccloud:PMC11332592	TIME-seq defining pape
 cirseq__10.1038+nprot.2014.118	pmccloud:PMC4418788	CirSeq defining protocol	RNA fragmentation and circularization, rolling-circle cDNA synthesis, TruSeq completion and MiSeq readout.
 duplex-repair__10.1093+nar+gkab855	pmccloud:PMC8755016	Duplex-Repair defining paper and supplement	Four-stage restricted end repair, dATP-only tailing, custom duplex-UMI adapter ligation and paired-end sequencing.
 invadeseq__10.1038+s41596-023-00888-7	doi:10.1038/s41586-022-05435-0	Original INVADEseq application paper	Initial biological application and relationship between the host GEX and bacterial 16S branches.
+rnascope__10.1016+j.jmoldx.2011.08.002	https://patents.google.com/patent/US7709198B2/en	Core double-Z patent	Exact GAPD double-Z probe examples and preamplifier SEQ ID NO:1.
+dbit-seq__10.1016+j.cell.2020.10.026	pmccloud:PMC7736559	DBiT-seq author manuscript and supplements	Open defining article and associated source bundle.
+dbit-seq__10.1016+j.cell.2020.10.026	pmccloud:PMC8132129	DBiT-seq STAR Protocols article and supplements	Open protocol DOI 10.1016/j.xpro.2021.100532 republishes the exact oligo table as mmc2.xlsx.

@@ -6,6 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from batch_ngs import seg, truseq_library
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Workflow, annotation_rows, oligo
 from rna_amplification import poly_a_capture, terminal_tail
 
@@ -80,8 +81,8 @@ def workflow():
     wf.react("GAT21-6N3G priming and second-strand synthesis",
              second_strand_scene().rows(),
              note="The terminal GGG anchors at the dC tail; random bases promote repeated annealing/looping amplification.")
-    wf.react("GAT27 PCR, 3NGAT24 conversion, shearing and Illumina library construction",
-             final_rows(),
+    wf.ligate_adapter("GAT27 PCR, 3NGAT24 conversion, shearing and Illumina library construction",
+             AdapterLigationGeometry.unavailable("The MATQ-seq supplement specifies paired-end Illumina library construction after shearing but does not print or identify the adapter reagent or its ligation-ready end geometry."), final_rows(),
              note="The supplementary protocol defines WTA and shearing; the exact sequencing-adapter kit sequence was not printed.")
     return wf
 

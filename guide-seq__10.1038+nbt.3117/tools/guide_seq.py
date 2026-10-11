@@ -2,7 +2,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import joined_scene,seg,truseq_library
-from chemdraw import Row,Scene,Segment,feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import MolecularState,Row,Scene,Segment,Workflow,feature
 
 TITLE="GUIDE-seq — cellular capture of nuclease-cut sites"
 NOTES="01_guide-seq.html"
@@ -27,3 +28,8 @@ def sections(): return [
  ("Run dsODN-to-adapter STAT-PCR in both orientations",[Row(chunks=[("dsODN strand A primer ---> flank A    |    dsODN strand B primer ---> flank B", "r1",False)])],"Separate reactions recover genomic sequence from both sides of the integrated tag."),
  ("Nested PCR adds UMI, index and complete Illumina arms",[Row(chunks=[("P5 -- UMI -- dsODN -- genomic flank -- P7",None,False)])],"The random 8-bp molecular barcode supports PCR-bias correction before sequencing."),
 ]
+
+def workflow():
+ s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
+ g=AdapterLigationGeometry.unavailable("The GUIDE-seq paper and supplement identify a single-tail adapter, but its cut-facing strands and prepared shear-end geometry have not yet been verified for this schematic.")
+ w.ligate_adapter(s[1][0],g,s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2]);w.react(s[3][0],s[3][1],note=s[3][2]);return w

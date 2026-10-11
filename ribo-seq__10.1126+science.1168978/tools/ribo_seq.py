@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature
 from rna_special import adapter_ligation_scene, circular_cdna_rows
 
 TITLE = "Ribo-seq — ribosome profiling"
@@ -40,9 +41,11 @@ if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
 FINAL_CAPTION = "PCR-linearized product from the circular cDNA: single-end, six-base single-index, with the physical P5/Read 1 ACAC overlap represented once."
 SEQUENCING_INTRO = "The protocol explicitly uses the standard Illumina genomic Read 1 and indexing primers. Read 1 enters the footprint; one six-base i7 read identifies the sample."
 
-def sections():
-    return [
-        ("Digest unprotected RNA", [Row(chunks=[("mRNA ——— [80S ribosome protects ~28–30 nt] ——— mRNA", None, False)]), Row(chunks=[("RNase I ↓          retained ribosome footprint", "umi", False)])], "RNase digestion and monosome isolation select ribosome-protected fragments."),
-        ("Ligate the footprint 3′ adapter", adapter_ligation_scene(fragment_name="ribosome footprint").rows(), "A preadenylated adapter is joined to the footprint 3′ end before reverse transcription."),
-        ("Reverse-transcribe and circularize cDNA", circular_cdna_rows([seg("footprint cDNA", "X"*30, placeholder=True), seg("published RT-primer handles", "X"*24, "r2", placeholder=True)]), "The phosphorylated RT primer contains the sequencing/PCR handles separated by two C18 spacers. CircLigase closes first-strand cDNA, providing the second PCR boundary without a second RNA ligation."),
-    ]
+def workflow():
+    w=Workflow(MolecularState("translated mRNA",(Row(chunks=[("mRNA — [80S-protected footprint] — mRNA",None,False)]),)))
+    w.react("Digest unprotected RNA",[Row(chunks=[("RNase I ↓ retained 28–30-nt footprint","umi",False)])],name="ribosome footprint",note="RNase digestion and monosome isolation select protected fragments.")
+    end=Scene(); end.strand("linker",[seg("5′-rApp ligating end",LINKER),seg("3′ ddC block","[3ddC]",placeholder=True)],label="published footprint linker"); end.ligation_end("linker","5′-rApp ligating end",kind="single-strand",polarity="5-prime",owner="adapter",text="5′-rApp single-strand end")
+    geometry=AdapterLigationGeometry.known("single-strand",end,statement="The detailed protocol prints /5rApp/-CTGTAGGCACCATCAAT-/3ddC/: its activated 5′ end ligates to the footprint 3′-OH; this is not a duplex overhang.")
+    w.ligate_adapter("Ligate the footprint 3′ adapter",geometry,adapter_ligation_scene(fragment_name="ribosome footprint").rows(),name="adapter-ligated footprint",note="The 3′ block prevents linker concatemerization.")
+    w.react("Reverse-transcribe and circularize cDNA",circular_cdna_rows([seg("footprint cDNA","X"*30,placeholder=True),seg("published RT-primer handles","X"*24,"r2",placeholder=True)]),name="circular cDNA",note="CircLigase supplies the second PCR boundary without a second RNA-adapter ligation.")
+    return w

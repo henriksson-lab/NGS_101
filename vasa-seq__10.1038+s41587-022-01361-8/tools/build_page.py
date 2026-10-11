@@ -84,6 +84,7 @@ def steps() -> str:
 {info('DNA probes hybridize to rRNA-derived aRNA; thermostable RNase H removes those molecules, then DNase removes the probes.')}
 
 <h3>(5) Ligate a 3' adapter to aRNA, then reverse-transcribe</h3>
+{panel(V.ra3_ligation_geometry().rows(), cls="small", caption=V.ra3_ligation_geometry().statement)}
 {panel(rtp_scene().rows(), cls="small", caption="The supplement prints this RA3/RTP pair, which anneals exactly. Its assignment to VASA-drop does not interlock with the printed drop PCR arm, so the drop adapter junction remains unresolved below.")}
 
 <h3>(6a) VASA-plate: amplify with the cited plate PCR system</h3>

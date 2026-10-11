@@ -4,7 +4,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import duplex_fragment, seg, targeting_rows
-from chemdraw import Construct, Row, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Workflow, feature
 
 TITLE = "CUT&RUN — antibody-tethered MNase chromatin profiling"
 NOTES = "01_cut-run.html"
@@ -25,6 +26,7 @@ SEQUENCING_ENDING = "The paper reports 25-cycle paired-end HiSeq 2500 sequencing
 SEQUENCING_UNAVAILABLE = "adapter and sequencing-primer identities are absent from the defining paper"
 
 def sections():
+    missing=AdapterLigationGeometry.unavailable("Skene and Henikoff specify KAPA end repair/dA-tailing but do not identify the separately supplied adapter/index oligos; the complementary adapter overhang is therefore unavailable.")
     return [
         ("Immobilize nuclei and tether pA–MNase",
          targeting_rows("MNase", "inactive nuclease positioned at the epitope"),
@@ -34,6 +36,11 @@ def sections():
           Row(chunks=[("              Ca²⁺-activated cuts; two-cut fragment enters supernatant", "me", False)])],
          "Calcium activates MNase at 0 °C. Chelators stop digestion; fragments cleaved on both sides of a particle are recovered from the soluble fraction."),
         ("Recover DNA for conventional library preparation",
-         duplex_fragment("released MNase fragment").rows(),
+         duplex_fragment("released MNase fragment").rows()+missing.rows(),
          "Proteinase treatment and extraction yield an unadapted duplex. Adapter ligation is a separate downstream operation, unlike CUT&Tag."),
     ]
+
+def workflow():
+    s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])));w.react(s[1][0],s[1][1],note=s[1][2])
+    g=AdapterLigationGeometry.unavailable("Skene and Henikoff specify KAPA end repair/dA-tailing but do not identify the separately supplied adapter/index oligos; the complementary adapter overhang is therefore unavailable.")
+    w.ligate_adapter("Attach the unreported library adapters",g,s[2][1],note=s[2][2]);return w

@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
 from rna_dna_bridge import BivalentRNADNABridge
@@ -18,6 +19,7 @@ CAVEAT = "The tag bases are molecule-specific placeholders; linker bases, modifi
 
 GRID_R1 = il.TRUSEQ_READ1
 GRID_P7_ARM = "AGATCGGAAGAGCACACGTCT"  # printed phosphorylated Y-adapter strand
+GRID_Y_BOTTOM = "ACACTCTTTCCCTACACGACGCTCTTCCGATCTNN"
 BRIDGE = BivalentRNADNABridge(
     "GRID-seq bridge", "GTTGGAGTTCGGTGTGTGGGAGTGAGCTGTGTC",
     "GUUGGAUUC", 3, "G", "GACACAGCTCACTCCCACACACCGAACTCCAAC",
@@ -60,7 +62,14 @@ INITIAL_NAME = "Fixed RNA–chromatin contact"
 
 def workflow():
     reagent = BRIDGE.unligated_contact_scene(rna_length=28, dna_length=34)
+    reagent.ligation_end("bridge hybrid", "RNA-arm fixed bases", kind="single-strand", polarity="5-prime", owner="adapter", text="5′-App RNA-ligation end")
+    reagent.ligation_end("chromatin RNA", "chromatin-associated RNA", kind="single-strand", polarity="3-prime", owner="substrate", text="RNA 3′-OH")
+    rna_geometry=AdapterLigationGeometry.known("single-strand",reagent,statement="The paper prints the mixed RNA/DNA bridge strand and states that its RNA-facing 5′ end is pre-adenylated for ATP-free ligation to chromatin RNA 3′ ends.")
     joined = BRIDGE.contact_scene()
+    dna_ready=BRIDGE.unligated_contact_scene(rna_length=28,dna_length=34)
+    dna_ready.ligation_end("bridge DNA","bridge DNA strand",kind="blunt",owner="adapter",text="5′-phosphorylated blunt bridge end")
+    dna_ready.ligation_end("genomic DNA","nearby genomic DNA",kind="blunt",owner="substrate",text="blunt AluI genomic end")
+    dna_geometry=AdapterLigationGeometry.known("blunt",dna_ready,statement="AluI produces a blunt genomic end, and the source prints the 5′-phosphorylated DNA bridge strand used for T4 DNA ligation.")
     captured = Scene.duplex([seg("RNA-derived cDNA", "R" * 20, placeholder=True),
                              seg("biotin linker", "X" * 36, "me", placeholder=True),
                              seg("genomic DNA", "D" * 20, placeholder=True)],
@@ -74,15 +83,22 @@ def workflow():
     tags.mark("top", "RNA MmeI boundary", "MmeI cut")
     tags.mark("top", "DNA MmeI boundary", "MmeI cut")
     final = Scene.duplex(list(FINAL_LIBRARY), label="194-bp PCR library")
+    y=Scene();y.strand("Y bottom",[seg("Y bottom duplex arm",GRID_Y_BOTTOM[:-2],"r1"),seg("two-base Y overhang",GRID_Y_BOTTOM[-2:],placeholder=True)],label="printed Y-adapter bottom")
+    y.strand("Y phosphorylated strand",[seg("phosphorylated Y strand",GRID_P7_ARM,"r2")],label="5′-phosphorylated Y strand",mod5="p")
+    y.overhang("Y bottom","two-base Y overhang",polarity="3-prime",owner="adapter",text="3′-NN MmeI-compatible overhang")
+    y.strand("MmeI tag",[seg("two-base MmeI end","N"*2,placeholder=True),seg("85-bp tag pair","X"*30,placeholder=True)],label="MmeI-cut tag pair")
+    y.overhang("MmeI tag","two-base MmeI end",polarity="5-prime",owner="substrate",text="two-base MmeI end")
+    y_geometry=AdapterLigationGeometry.known("cohesive",y,statement="The GRID-seq Methods print a Y adapter whose bottom strand terminates in NN; MmeI creates the matching two-base tag end before ligation.")
     w = Workflow(MolecularState(INITIAL_NAME, INITIAL_ROWS))
     w.react("Add the pre-annealed bivalent linker", reagent.rows(), name="Fixed contact plus free bridge",
             note="RNA, genomic DNA and both bridge strands are all retained; the bridge carries rNNN, internal biotin and a pre-adenylated RNA end.")
-    w.react("Ligate RNA, reverse-transcribe, then ligate nearby DNA", joined.rows(), name="RNA–linker–DNA contact",
-            note="T4 Rnl2(tr) joins RNA; SuperScript III copies it; T4 DNA ligase joins the AluI end.")
+    w.ligate_adapter("Ligate chromatin RNA to the bridge",rna_geometry,joined.rows(),name="RNA-ligated bridge",note="T4 Rnl2(tr) joins the pre-adenylated bridge to the RNA 3′ end.")
+    w.react("Reverse-transcribe the bridge-bound RNA",joined.rows(),name="RNA-copied bridge",note="SuperScript III copies the ligated RNA.")
+    w.ligate_adapter("Ligate the bridge to nearby DNA",dna_geometry,joined.rows(),name="RNA–linker–DNA contact",note="T4 DNA ligase joins the blunt AluI end.")
     w.react("Capture and make the second strand", captured.rows(), name="Captured duplex",
             note="Biotin capture, alkaline strand release and random-hexamer Klenow make dsDNA.")
     w.react("Cut both tags with MmeI", tags.rows(), name="MmeI tag pair",
             note="MmeI releases about 20 nt on each side; the desired band is 85 bp.")
-    w.react("Ligate Y adapters and PCR", final.rows(), name="Sequencing library",
+    w.ligate_adapter("Ligate Y adapters and PCR",y_geometry,final.rows(),name="Sequencing library",
             note="Printed adapter and PCR-primer sequences produce the 194-bp library.")
     return w

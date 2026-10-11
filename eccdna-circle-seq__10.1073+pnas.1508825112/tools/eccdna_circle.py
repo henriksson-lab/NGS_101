@@ -2,7 +2,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import joined_scene,seg,truseq_library
-from chemdraw import Construct,Row,Segment,circle_rows
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct,MolecularState,Row,Segment,Workflow,circle_rows
 from circular import circularize_ssdna,rolling_circle
 
 TITLE="eccDNA Circle-Seq — enrichment of native DNA circles"
@@ -21,5 +22,10 @@ def sections(): return [
  ("Purify circular DNA from cells",circle_rows(UNIT,"native eccDNA junction"),"The molecular input is already circular in vivo; column purification enriches the circular fraction."),
  ("Cut linear chromosomes and digest every free-ended molecule",[Row(chunks=[("native circle survives  |  NotI-cut linear DNA -- Plasmid-Safe DNase (130 h) -> degraded",None,False)])],"NotI increases accessible ends and repeated ATP/DNase additions deplete linear DNA by many orders of magnitude."),
  ("Amplify surviving circles with phi29",[Row(chunks=[(f"rolling-circle concatemer: {RCA.sequence}","r1",False)])],"Random-primed strand-displacing synthesis makes tandem copies of each surviving circular template."),
- ("Sonicate the concatemer and attach indexed adapters",joined_scene([seg("indexed Illumina left arm","X"*20,"r1",placeholder=True,inferred=True),seg("sonicated phi29 concatemer fragment","X"*40,placeholder=True),seg("indexed Illumina right arm","X"*20,"r2",placeholder=True,inferred=True)],(("indexed Illumina left arm","sonicated phi29 concatemer fragment","adapter ligation"),("sonicated phi29 concatemer fragment","indexed Illumina right arm","adapter ligation")),label="INFERRED adapter-ligated eccDNA fragment").rows(),"The amplified product is made into a conventional single-end sequencing library."),
+ ("Sonicate the concatemer and attach indexed adapters",AdapterLigationGeometry.unavailable("Møller et al. identify Apollo 324 library preparation but do not print its adapter oligos or ligation-facing overhang geometry.").rows()+joined_scene([seg("indexed Illumina left arm","X"*20,"r1",placeholder=True,inferred=True),seg("sonicated phi29 concatemer fragment","X"*40,placeholder=True),seg("indexed Illumina right arm","X"*20,"r2",placeholder=True,inferred=True)],(("indexed Illumina left arm","sonicated phi29 concatemer fragment","adapter ligation"),("sonicated phi29 concatemer fragment","indexed Illumina right arm","adapter ligation")),label="INFERRED adapter-ligated eccDNA fragment").rows(),"The amplified product is made into a conventional single-end sequencing library."),
 ]
+
+def workflow():
+ s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])));w.react(s[1][0],s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2])
+ g=AdapterLigationGeometry.unavailable("Møller et al. identify Apollo 324 library preparation but do not print its adapter oligos or ligation-facing overhang geometry.")
+ w.ligate_adapter(s[3][0],g,s[3][1],note=s[3][2]);return w

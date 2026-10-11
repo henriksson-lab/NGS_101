@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Row, Segment
+from adapter_ligation import reported_adapter_end
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from nebnext import STANDARD_PRIMERS, indexed_library
 TITLE="NEBNext Ultra II Directional RNA"
 NOTES="01_nebnext-ultra-ii-directional-rna.html"
@@ -13,9 +15,14 @@ RNA=Construct([Segment("fragmented RNA", "R"*42, placeholder=True)], name="RNA f
 FIRST=Construct([Segment("first-strand cDNA", "X"*42, placeholder=True)], name="RNA:cDNA product")
 SECOND=[Row(chunks=[("first-strand cDNA  3′-xxxxxxxxxxxxxxxx-5′",None,False)]), Row(chunks=[("second strand      5′-xxxUxxxxUxxxxxxx-3′", "w1",False)])]
 USER=[Row(chunks=[("USER cuts the dUTP-labelled second strand → it cannot seed library PCR",None,False)]), Row(chunks=[("the unmarked first strand defines the sequenced orientation",None,False)])]
+END_PREP=repair_and_dA_tail(Construct([Segment("dUTP-marked cDNA duplex", "X"*42, placeholder=True)]))
+ADAPTOR_END=reported_adapter_end(
+    "NEBNext adaptor", kind="cohesive", polarity="3-prime", terminal_sequence="T",
+    substrate_scenes=(dA_tailed_scene(END_PREP),),
+    statement="The Ultra II directional workflow dA-tails the cDNA before ligating the complementary 3′-dT NEBNext adaptor; the selected oligo-set body varies by kit configuration.")
 STEPS=(("Fragment RNA and synthesize the first cDNA strand", FIRST, "Random priming copies enriched or rRNA-depleted RNA fragments."),
        ("Make a dUTP-marked second strand", SECOND, "dUTP substitutes for dT during second-strand synthesis; the mark belongs only to strand two."),
-       ("End-prep, ligate adaptor and remove strand two", USER, "USER excises the dU-containing strand. Strand-specificity reagent reinforces the same directional selection."),
+       ("End-prep, ligate adaptor and remove strand two", USER, "USER excises the dU-containing strand. Strand-specificity reagent reinforces the same directional selection.", ADAPTOR_END),
        ("PCR-complete the surviving strand", Construct([Segment("orientation-preserving cDNA insert", "X"*42, placeholder=True)], name="directional insert"), "NEBNext dual-index primers amplify molecules derived from the surviving first strand."))
 SEQ_PRIMERS=STANDARD_PRIMERS; REQUIRED_ROLES=tuple(p.role for p in SEQ_PRIMERS)
 READOUT="Read 1 and Read 2 traverse opposite ends of the cDNA insert; their orientation is interpretable because the dUTP-labelled second strand was removed before amplification."

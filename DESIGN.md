@@ -285,6 +285,27 @@ error.
 **Review when.** Revisit the marker glyph or layout if readability demands it; retain the
 named-boundary and computed-primer requirements.
 
+### Adapter-end geometry
+
+Every adapter-ligation step also shows the ligation-ready adapter end before sealing.  If
+the authoritative source gives the overhang, the drawing includes its polarity, bases and
+the substrate end it pairs with; blunt ends are stated and drawn as blunt.  Splinted
+ligations show both ligating oligos annealed side-by-side on the splint, including the
+unpaired adapter tails.  The sealed product remains a separate state with the covalent
+junction marked at the exact segment boundary.
+
+If the source identifies an adapter-ligation reaction but does not disclose the end
+geometry, the page says that the adapter overhang is not reported.  It must not replace
+the missing bases with a generic sticky end or infer them merely from the final library.
+This availability is structured construction data, not an optional prose caveat, so the
+shared page path can require and render one of the two states: known geometry or an
+explicit source limitation.
+
+**Why.** A ligation product alone hides the chemical compatibility that made ligation
+possible.  Showing the reagent end distinguishes blunt, cohesive and splinted reactions;
+an explicit unavailable state prevents a sparse drawing from looking like evidence that
+the end was blunt.
+
 ## 2026-10-07 — Evidence and uncertainty remain visible but secondary
 
 **Decision.** Research notes retain the detailed evidence vocabulary (verbatim, derived,

@@ -4,7 +4,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature
 
 TITLE = "MethylC-seq — conventional whole-genome bisulfite sequencing"
 NOTES = "01_methylc-seq.html"
@@ -72,13 +73,10 @@ def ligated_nextflex_scene() -> Scene:
     return sc
 
 def sections():
-    return [
-        ("Fragment, end-repair and dA-tail", [Row(chunks=[("genomic DNA → ~200-bp fragments → blunt 5′-phosphorylated ends → 3′ dA", None, False)])],
-         "Mechanical fragmentation is followed by conventional end preparation."),
-        ("Ligate protected NEXTflex adapters before conversion", ligated_nextflex_scene().rows(),
-         "NEXTflex Bisulfite-Seq Barcodes–12 is a methylated, single-i7, "
-         "TruSeq-compatible Y-adapter; ** marks both ligations."),
-        ("Convert and amplify", [Row(chunks=[("unmethylated C → U → T in PCR     5mC → C", "w1", False)]),
-                                  Row(chunks=[("adapter-ligated duplex → denatured non-complementary single strands → PCR duplex", None, False)])],
-         "Bisulfite conversion occurs after adapter ligation and can break already tagged molecules."),
-    ]
+    wf=Workflow(MolecularState("Fragmented genomic DNA",(Row(chunks=[("~200-bp genomic fragments",None,False)]),)))
+    wf.react("End-repair and dA-tail",[Row(chunks=[("blunt 5′-phosphorylated ends → 3′ dA",None,False)])],note="Mechanical fragmentation is followed by conventional end preparation.")
+    wf.ligate_adapter("Ligate protected NEXTflex adapters before conversion",
+        AdapterLigationGeometry.unavailable("The protocol identifies NEXTflex Bisulfite-Seq Barcodes–12 and dA-tailed inserts, but the accessible source does not print the ligation adapter duplex or explicitly report its overhang."),
+        ligated_nextflex_scene().rows(),note="The PCR-restored endpoint is TruSeq-compatible; ** marks the final adapter/insert boundaries, not evidence for an unprinted reagent end.")
+    wf.react("Convert and amplify",[Row(chunks=[("unmethylated C → U → T in PCR     5mC → C","w1",False)]),Row(chunks=[("adapter-ligated duplex → denatured non-complementary single strands → PCR duplex",None,False)])],note="Bisulfite conversion occurs after adapter ligation and can break already tagged molecules.")
+    return [(r.action,r.after.rows,r.note) for r in wf.reactions]

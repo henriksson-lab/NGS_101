@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, Row, Scene, feature
 from tiled_amplicon import alternating_scheme, scheme_rows
@@ -68,6 +69,8 @@ def nanopore_ligation_scene() -> Scene:
 
 
 def sections():
+    ont = AdapterLigationGeometry.unavailable("Quick et al. name SQK-LSK208/SQK-LSK108 and native barcoding, but Oxford Nanopore does not disclose the motor/barcode ligation-facing sequences or overhangs for these kits.")
+    miseq = AdapterLigationGeometry.unavailable("Quick et al. name SureSelectXT2 indexing adapters but do not print their ligation-facing strands or overhang geometry.")
     return [
         ("Design one alternating tiling path", scheme_rows(SCHEME),
          "Neighboring overlapping amplicons are assigned to different pools by construction."),
@@ -76,8 +79,8 @@ def sections():
             Row(chunks=[("cDNA or viral DNA + pool 2 -> even tiled amplicons", "cbc", False)]),
             Row(chunks=[("98 °C denaturation / 65 °C combined anneal-extension; clean each pool", None, False)]),
         ], "Low per-primer concentration and a five-minute anneal/extension support a highly multiplexed reaction."),
-        ("MinION branch", nanopore_ligation_scene().rows(),
+        ("MinION branch", ont.rows()+nanopore_ligation_scene().rows(),
          "After end repair/dA-tailing, pools may receive separate native barcodes. The paper used 2D SQK-LSK208 and also specifies compatibility with 1D SQK-LSK108."),
-        ("INFERRED — MiSeq branch", illumina_ligation_scene().rows(),
+        ("INFERRED — MiSeq branch", miseq.rows()+illumina_ligation_scene().rows(),
          "KAPA Hyper performs end repair/dA-tailing and amplification; SureSelectXT2 indexing adapters replace the KAPA adapters."),
     ]

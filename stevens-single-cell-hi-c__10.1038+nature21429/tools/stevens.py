@@ -8,6 +8,10 @@ import seqprimers as sp
 from restriction import MBOI
 from single_cell_hic import (ContactWorkflow, HISTORICAL_PE_READ2,
                              historical_inline_pe_library)
+from batch_ngs import seg
+from chemdraw import Construct, MolecularState, Scene, Workflow
+from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
+                     dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
 WORKFLOW = ContactWorkflow("Stevens single-cell Hi-C", MBOI,
     "before digestion and ligation", "biotin-fill", "PCR", capture=True)
 TITLE = "Stevens single-cell Hi-C — single nuclei before AluI ligation"
@@ -21,6 +25,17 @@ STEPS = (("Isolate nuclei", "Lyse fixed cells and distribute individual nuclei b
 READOUT = "Paired reads report the two MboI fragments joined within one nucleus; the first three bases identify the library adapter."
 JUNCTION_CAPTION = "Biotin-filled MboI ends form the contact boundary. AluI acts only after contact capture. ** marks ligation."
 LIBRARY_CAPTION = "The source-printed adapter-ligation route, with the CAA 3-bp identification tag shown. The paper also reports a dual-index Nextera XT alternative."
+
+def adapter_workflow():
+    insert=Construct([seg("AluI contact fragment","X"*38,placeholder=True)])
+    tailed=repair_and_dA_tail(insert)
+    w=Workflow(MolecularState("AluI-digested captured contacts",tuple(Scene.duplex(list(insert)).rows())))
+    w.react("End-repair and add 3′ dA",dA_tailed_scene(tailed).rows(),name="dA-tailed contact fragments",note="The source-printed ligation route dA-tails the AluI fragments.")
+    adapter=ThreePrimeOverhangAdapter("3-bp-tagged Illumina adapter ligating stem","GCTCTTCCGATCT","GATCGGAAGAGC")
+    geometry=cohesive_ligation_geometry(tailed,adapter,statement="The source-printed customized Illumina adapter retains the standard 3′-T ligating end, complementary to the fragment 3′-dA; CAA is the inline identification tag.")
+    product=ligation_product_scene(final_library(),"3-bp identification tag","opposite 3-bp identification tag",label="Stevens scHi-C library")
+    w.ligate_adapter("Ligate the 3-bp-tagged Illumina adapter",geometry,product.rows(),name="adapter-ligated contact library",note="Nextera XT was a published alternative.")
+    return w
 def contact_product(): return WORKFLOW.junction()
 SEQ_PRIMERS = (
     sp.custom("Read 1", "historical Illumina Read 1", il.TRUSEQ_READ1,

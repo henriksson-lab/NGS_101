@@ -1,45 +1,179 @@
 """Original Liu et al. DBiT-seq architecture."""
 from __future__ import annotations
+
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from batch_ngs import nextera_library, seg, spatial_rt_scene
-from chemdraw import Row, feature
+
+from batch_ngs import nextera_library, seg
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
+                      complement_segments, feature, oligo, revcomp)
+
 
 TITLE = "DBiT-seq — deterministic barcoding in tissue"
 NOTES = "01_dbit-seq.html"
-SOURCE = 'Defining source: <a href="https://doi.org/10.1016/j.cell.2020.10.026">Liu et al., <i>Cell</i> (2020)</a>.'
-SUMMARY = "Two perpendicular 50-channel microfluidic flows install an 8-nt A barcode during reverse transcription and ligate an 8-nt B barcode plus UMI at each channel intersection, creating up to 2,500 addressable tissue pixels."
-CAVEAT = "The paper publishes the barcode and linker tables in supplements. This page models their verified roles and lengths; the individual whitelist bases are represented by placeholders."
-BARCODE_A=feature("spatial_barcode_a","spatial_barcode","combinatorial",group="spatial_barcode",part="flow A")
-BARCODE_B=feature("spatial_barcode_b","spatial_barcode","combinatorial",group="spatial_barcode",part="flow B")
-UMI_FEATURE=feature("umi","umi","random")
+SOURCE = ('Defining source: <a href="https://doi.org/10.1016/j.cell.2020.10.026">'
+          'Liu et al., <i>Cell</i> (2020)</a>; exact oligos: '
+          '<a href="https://doi.org/10.1016/j.xpro.2021.100532">'
+          'Liu et al., <i>STAR Protocols</i> (2021)</a>.')
+SUMMARY = ("Two perpendicular 50-channel microfluidic flows install an 8-nt A barcode "
+           "during reverse transcription and ligate an 8-nt B barcode plus UMI at each "
+           "channel intersection, creating up to 2,500 addressable tissue pixels.")
+CAVEAT = ("The exact A and B whitelist entries vary by channel. The page uses published "
+          "A-1 and B-1 to show the source-disclosed splinted ligation geometry.")
 
-FINAL_LIBRARY, SEQ_PRIMERS = nextera_library([
-    seg("cDNA / ADT insert", "X" * 34, placeholder=True),
-    seg("poly(dT) junction", "T" * 10, placeholder=True),
-    seg("barcode A", "A" * 8, "cbc", placeholder=True, feature=BARCODE_A),
-    seg("ligation linker", "L" * 15, "me", placeholder=True),
-    seg("barcode B", "B" * 8, "cbc", placeholder=True, feature=BARCODE_B),
-    seg("UMI", "U" * 10, "umi", placeholder=True, feature=UMI_FEATURE),
-    seg("PCR handle", "H" * 22, placeholder=True)], "DBiT-seq library")
-FINAL_CAPTION = "After tissue recovery, template switching and cDNA amplification, Nextera XT tagmentation produces the paired-end library. The internal A–B junction retains the row/column address."
-SEQUENCING_INTRO = "The original 2×100 run reads the A/B spatial barcode and UMI from one end and transcript or antibody-tag sequence from the other."
+BARCODE_A = feature("spatial_barcode_a", "spatial_barcode", "whitelist",
+                    group="spatial_barcode", part="flow A",
+                    whitelist="DBiT-seq barcode A table")
+BARCODE_B = feature("spatial_barcode_b", "spatial_barcode", "whitelist",
+                    group="spatial_barcode", part="flow B",
+                    whitelist="DBiT-seq barcode B table")
+UMI_FEATURE = feature("umi", "umi", "random")
 
-def sections():
+# STAR Protocols Table S2, written 5′→3′.
+A_LINKER = "AGGCCAGAGCATTCG"
+A1_BARCODE = "AACGTGAT"
+B_LINKER = "ATCCACGTGCTTGAG"
+B1_BARCODE = "AACGTGAT"
+B_PCR_HANDLE = "CAAGCGTTGGCTTCTCGCATCT"
+PRIMER_2 = "AAGCAGTGGTATCAACGCAGAGT"
+LIGATION_SPLINT = "CGAATGCTCTGGCCTCTCAAGCACGTGGAT"
+
+if LIGATION_SPLINT != revcomp(B_LINKER + A_LINKER):
+    raise ValueError("published DBiT splint must bridge the B and A linker arms")
+
+
+def a_oligo() -> list[Segment]:
+    return [seg("A linker", A_LINKER, "me"),
+            seg("barcode A", A1_BARCODE, "cbc", feature=BARCODE_A),
+            seg("poly(dT)16", "T" * 16), seg("V", "V", placeholder=True),
+            seg("N", "N", placeholder=True)]
+
+
+def b_oligo() -> list[Segment]:
+    return [seg("B PCR handle", B_PCR_HANDLE, "r1"),
+            seg("UMI", "N" * 10, "umi", placeholder=True, feature=UMI_FEATURE),
+            seg("barcode B", B1_BARCODE, "cbc", feature=BARCODE_B),
+            seg("B linker", B_LINKER, "me")]
+
+
+def rt_scene() -> Scene:
+    mrna = [seg("transcript", "R" * 34, placeholder=True),
+            seg("poly(A)", "A" * 18, placeholder=True)]
+    sc = Scene(); sc.strand("mRNA", mrna, label="polyadenylated RNA")
+    sc.anneal("A oligo", a_oligo(), to="mRNA", pair=("poly(dT)16", "poly(A)"),
+              label="Barcode A-1", mod5="p", unpaired=("A linker", "barcode A", "V", "N"))
+    sc.mark("A oligo", "A linker", "5′-phosphorylated A linker remains unpaired")
+    sc.arrow("A oligo", "reverse transcriptase")
+    return sc
+
+
+def ligation_ready_scene() -> Scene:
+    """The two oligos annealed side-by-side before the central nick is sealed."""
+    a = [*a_oligo(), seg("cDNA", "X" * 34, placeholder=True)]
+    b = b_oligo()
+    splint = [seg("A splint arm", revcomp(A_LINKER), "me"),
+              seg("B splint arm", revcomp(B_LINKER), "me")]
+    if "".join(s.top for s in splint) != LIGATION_SPLINT:
+        raise ValueError("derived DBiT splint differs from the published oligo")
+    sc = Scene(); sc.strand("ligation splint", splint, label="universal ligation linker")
+    sc.anneal("B oligo", b, to="ligation splint", pair=("B linker", "B splint arm"),
+              label="Barcode B-1", mod5="biotin",
+              unpaired=tuple(s.name for s in b if s.name != "B linker"))
+    sc.anneal("A oligo/cDNA", a, to="ligation splint", pair=("A linker", "A splint arm"),
+              label="Barcode A-1/cDNA", mod5="p",
+              unpaired=tuple(s.name for s in a if s.name != "A linker"))
+    sc.ligation_end("B oligo", "B linker", kind="splinted", polarity="3-prime",
+                    owner="adapter", text="B 3′-OH at nick")
+    sc.ligation_end("A oligo/cDNA", "A linker", kind="splinted", polarity="5-prime",
+                    owner="adapter", text="A 5′-phosphate at nick")
+    sc.footer("The barcode/UMI/primer bodies project beyond opposite splint ends",
+              "ligation splint", "A splint arm")
+    return sc
+
+
+def ligation_geometry() -> AdapterLigationGeometry:
+    return AdapterLigationGeometry.known(
+        "splinted", ligation_ready_scene(),
+        statement="Table S2 prints both 15-nt linker arms and their 30-nt universal splint.")
+
+
+def ligation_scene() -> Scene:
+    """Show the exact sealed B–A nick and both long, unpaired oligo bodies."""
+    a_body = [s for s in a_oligo() if s.name != "A linker"]
+    joined = [*b_oligo(), seg("A linker", A_LINKER, "me"), *a_body,
+              seg("cDNA", "X" * 34, placeholder=True)]
+    # The published splint is constructed from the arms it must pair with; the explicit
+    # equality above prevents either source transcription from drifting independently.
+    arms = [seg("B linker arm", B_LINKER, "me"), seg("A linker arm", A_LINKER, "me")]
+    splint = complement_segments(arms)
+    if "".join(s.top for s in splint) != LIGATION_SPLINT:
+        raise ValueError("derived DBiT splint differs from the published oligo")
+
+    unpaired = tuple(s.name for s in joined if s.name not in ("B linker", "A linker"))
+    sc = Scene(); sc.strand("joined strand", joined, label="B-1 + A-1/cDNA", mod3="OH")
+    sc.anneal("ligation splint", splint, to="joined strand",
+              pair=("B linker arm'", "B linker"), label="universal ligation linker",
+              unpaired=unpaired)
+    sc.component("joined strand", "B PCR handle", "B linker", "Barcode B oligo")
+    sc.component("joined strand", "A linker", "cDNA", "Barcode A oligo + cDNA")
+    sc.junction("joined strand", "B linker", "A linker", "T4 ligation")
+    sc.footer("B oligo body and A/cDNA body are overhangs beyond the 30-nt splint",
+              "joined strand", "B PCR handle")
+    return sc
+
+
+def amplified_scene() -> Scene:
+    first = [*b_oligo(), seg("A linker", A_LINKER, "me"),
+             *[s for s in a_oligo() if s.name != "A linker"],
+             seg("cDNA", "X" * 34, placeholder=True), seg("template-switch handle", PRIMER_2, "r2")]
+    return Scene.duplex(first, label="spatially barcoded cDNA amplicon",
+                        unpaired=("V'", "N'", "cDNA'"))
+
+
+FINAL_INSERT = [*b_oligo(), seg("A linker", A_LINKER, "me"),
+                *[s for s in a_oligo() if s.name != "A linker"],
+                seg("cDNA / ADT insert", "X" * 34, placeholder=True)]
+FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(FINAL_INSERT, "DBiT-seq library")
+FINAL_CAPTION = ("After recovery, template switching and cDNA amplification, Nextera XT "
+                 "tagmentation makes the paired-end library. The internal A–B junction "
+                 "retains the row/column address.")
+SEQUENCING_INTRO = ("The original 2×100 run reads spatial identifiers and transcript or "
+                    "antibody-tag sequence from the opposite library ends.")
+READ_LENGTHS = {"Read 1": 100, "Index 1 (i7)": 8,
+                "Index 2 (i5)": 8, "Read 2": 100}
+READ_USES = {"Read 1": "extract", "Index 1 (i7)": "demultiplex",
+             "Index 2 (i5)": "demultiplex", "Read 2": "include"}
+
+
+def workflow() -> Workflow:
+    start = Scene(); start.strand("mRNA", [seg("transcript", "R" * 34, placeholder=True),
+                                           seg("poly(A)", "A" * 18, placeholder=True)],
+                                    label="polyadenylated RNA in fixed tissue")
+    w = Workflow(MolecularState("Fixed tissue RNA", tuple(start.rows())))
+    w.react("Flow phosphorylated Barcode A oligo-dT and reverse-transcribe",
+            rt_scene().rows(), name="A-coordinate cDNA")
+    w.ligate_adapter(
+        "T4 DNA ligase seals the B–A nick", ligation_geometry(),
+        ligation_scene().rows(), ready_name="B and A oligos annealed on the splint",
+        name="sealed B–A ligation",
+        note="The B 3′-OH is joined to the A 5′-phosphate at the central nick.")
+    w.react("Recover biotinylated material, template-switch and PCR-amplify",
+            amplified_scene().rows(), name="spatially barcoded cDNA")
+    w.react("Tagment with Nextera XT and index by PCR",
+            Scene.duplex(list(FINAL_LIBRARY), label=FINAL_LIBRARY.name,
+                         unpaired=("V'", "N'", "cDNA / ADT insert'")).rows(),
+            name="sequencing library")
+    return w
+
+
+def oligos():
     return [
-        ("Flow A stripes: reverse-transcribe with the first coordinate",
-         spatial_rt_scene(barcode_parts=(("barcode A (8 nt)",8),), umi=0,
-                          surface="15-nt ligation linker").rows(),
-         "Each of 50 parallel channels supplies one A barcode attached to oligo-dT; in situ reverse transcription writes that stripe identity into cDNA."),
-        ("Flow B stripes: ligate the perpendicular coordinate",
-         [Row(chunks=[("A1  A2  A3  …  A50", "cbc", False)]),
-          Row(chunks=[(" ╳   ╳   ╳       ╳    ← B1", "me", False)]),
-          Row(chunks=[(" ╳   ╳   ╳       ╳    ← B2", "me", False)]),
-          Row(chunks=[("each intersection: [A 8 nt] ** [B 8 nt][UMI][PCR handle]", "cbc", False)])],
-         "A second chip is rotated 90°. T4 ligase joins the two 15-nt linker system at each intersection; ** marks the in-tissue ligation boundary."),
-        ("Recover, template-switch, amplify and tagment",
-         [Row(chunks=[("spatial cDNA → streptavidin recovery → template switch → PCR", None, False)]),
-          Row(chunks=[("→ Nextera XT tagmentation → paired-end library", "me", False)])],
-         "Biotin on barcode B enables recovery. The spatial address is installed before bulk extraction and survives the downstream library conversion."),
+        oligo("Barcode A-1 (5′-phosphorylated)", a_oligo()),
+        oligo("Barcode B-1 (5′ biotin)", b_oligo()),
+        oligo("universal ligation linker", [seg("splint", LIGATION_SPLINT)]),
+        oligo("Primer 1", [seg("B PCR handle", B_PCR_HANDLE)]),
+        oligo("Primer 2", [seg("template-switch/PCR primer", PRIMER_2)]),
     ]

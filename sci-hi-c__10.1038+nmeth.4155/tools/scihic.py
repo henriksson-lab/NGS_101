@@ -5,7 +5,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Segment, feature, revcomp
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
 from restriction import DPNII
 from single_cell_hic import ContactWorkflow
 WORKFLOW = ContactWorkflow("sci-Hi-C", DPNII, "combinatorial indexing", "bridge-adaptor", "PCR", barcoding_rounds=2)
@@ -30,6 +31,15 @@ def contact_product():
         Segment("round-1 barcode B", "B"*8, "cbc", placeholder=True,
                 feature=feature("cell_bc1_b", "cell_barcode", "combinatorial", group="cell_id", part="round 1, end B")), Segment("DpnII end B", "GATC", "me"),
         Segment("locus B", "X"*22, placeholder=True)], name="sci-Hi-C bridged contact")
+
+def adapter_workflow():
+    start=Scene.duplex([Segment("DpnII fragment", "X"*20+"GATC", placeholder=True)],label="DpnII-digested chromatin")
+    w=Workflow(MolecularState("DpnII restriction ends",tuple(start.rows())))
+    bridge=AdapterLigationGeometry.unavailable("The defining paper says the indexed bridge-adaptor oligos are in publisher-hosted Supplementary Data, but the locally fetched authoritative source does not expose their terminal overhang bases.")
+    w.ligate_adapter("Ligate first-round bridge adapters",bridge,Scene.duplex(list(contact_product()),label="bridged contact").rows(),name="bridge-adapter contact",note="BC1 remains internal after proximity ligation.")
+    yend=AdapterLigationGeometry.unavailable("The defining paper identifies custom second-round Illumina Y adapters, but the locally fetched authoritative source does not expose their ligating-end bases.")
+    w.ligate_adapter("Ligate second-round indexed Y adapters",yend,Scene.duplex(list(final_library()),label="sci-Hi-C library").rows(),name="BC2 library",note="BC2 begins each genomic read.")
+    return w
 BC2_EXAMPLE = "TGACCTTG"  # A1 adapter, Supplementary Data oligo table
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["R2"])
 REQUIRED_ROLES = ("Read 1", "Read 2")

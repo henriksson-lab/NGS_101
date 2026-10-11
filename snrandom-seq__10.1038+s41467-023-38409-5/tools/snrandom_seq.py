@@ -3,7 +3,9 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/"lib")]
 from batch_ngs import truseq_library, seg
-from chemdraw import MolecularState, Scene, Segment, Workflow, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from rna_prep import rna_template, single_strand
 
 TITLE="snRandom-seq — FFPE single-nucleus total RNA"
@@ -63,5 +65,9 @@ def workflow():
     barcoded=barcode_sc.rows()
     w.react("Droplet bead extension",barcoded,name="cell-barcoded cDNA",note="A hydrogel bead assembled by three split-pool ligations contributes three 10-base barcode parts and an 8-base UMI.")
     w.react("PCR-select barcoded cDNA",single_strand("PCR product",bead_product,"amplified barcoded cDNA"),name="purified barcoded amplicons",note="After emulsion breakage, primer PCR amplifies bead-linked cDNA; AMPure purification removes the blocked genomic material.")
-    w.react("INFERRED — vendor end prep, ligation and PCR",Scene.duplex(list(FINAL_LIBRARY),label="sequencing library").rows(),name="final library",note="The named Vazyme universal kit fragments, end-repairs/A-tails, ligates an Illumina-compatible adapter and amplifies; its adapter bases are not printed in the paper.")
+    vendor_insert=Construct([seg("barcoded cDNA fragment","X"*42,placeholder=True)])
+    vendor_tailed=repair_and_dA_tail(vendor_insert,inferred=True)
+    w.react("INFERRED — vendor fragmentation, end repair and dA-tailing",dA_tailed_scene(vendor_tailed).rows(),name="vendor-prepared cDNA fragments",note="The named Vazyme universal kit performs the end preparation; the precise kit implementation is not printed in the paper.")
+    geometry=AdapterLigationGeometry.unavailable("The paper names a Vazyme universal Illumina library kit but does not print its adapter oligos or terminal ligation geometry; no generic T overhang is substituted.")
+    w.ligate_adapter("INFERRED — vendor adapter ligation and PCR",geometry,Scene.duplex(list(FINAL_LIBRARY),label="sequencing library").rows(),name="final library",note="Only the published inline barcode/UMI architecture is source-exact; outer arms remain inferred.")
     return w

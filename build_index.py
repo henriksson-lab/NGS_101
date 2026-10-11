@@ -452,7 +452,9 @@ SEARCH_JS = r"""<script>
   var keepUnknown = document.getElementById('citation-unknown');
   var citationSteps = JSON.parse(citation.dataset.steps);
   var sortButtons = Array.prototype.slice.call(document.querySelectorAll('.sort-button'));
-  var sortKey = '', sortDirection = 'asc';
+  // Protocol name is the explicit default, rather than relying on catalogue row order.
+  // This also lets showSortState() expose the initial ordering in the table header.
+  var sortKey = 'name', sortDirection = 'asc';
   function norm(s) {
     return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
@@ -714,7 +716,10 @@ def build(omit: set[str] = frozenset(), run_checks: bool = True) -> tuple[str, i
     # Keep the complete published catalogue visible. Reference notes and work in progress
     # remain out of the reader-facing index; entries without a finished schematic are
     # listed by name but do not send readers into the notes.
-    pub = [p for p in every if p["section"] == "published"]
+    # Keep the non-JavaScript table in the same explicit A-Z order as the interactive
+    # default. JavaScript may subsequently apply a sort encoded in the URL.
+    pub = sorted((p for p in every if p["section"] == "published"),
+                 key=lambda p: p["name"].casefold())
     total = (sum(p["checks"] for p in every)
              + (sum(checks(d)[0] for d in EXTRA_SUITES) if run_checks else 0))
     body = f"""<div class="wrap">

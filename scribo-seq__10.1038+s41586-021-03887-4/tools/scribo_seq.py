@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature, revcomp
 
 TITLE = "scRibo-seq — single-cell ribosome profiling"
@@ -74,8 +75,11 @@ def workflow():
             note="The ribosome shields a 30–45-nt footprint in each single-cell well.")
     w.react("Repair footprint ends", repaired.rows(), name="Ligatable RPF",
             note="T4 PNK prepares both ends for the two RNA ligations.")
-    w.react("Ligate 3′ and 5′ RNA adapters", ligated.rows(), name="Adapter-ligated RPF",
-            note="T4 Rnl2(tr) KQ adds the pre-adenylated 3′ adapter; T4 Rnl1 adds the UMI-bearing 5′ adapter.")
+    g3=AdapterLigationGeometry.unavailable("The scRibo-seq supplement establishes a pre-adenylated single-strand 3′-adapter ligation but the verified local source does not contain the full ordering oligo or terminal bases; no duplex overhang is implied.")
+    three=Scene(); three.strand("RNA",[seg("RPF","R"*35,placeholder=True),seg("3′ adapter","X"*18,placeholder=True)],label="3′-adapter-ligated RPF"); three.junction("RNA","RPF","3′ adapter","RNA ligation")
+    w.ligate_adapter("Ligate the pre-adenylated 3′ RNA adapter",g3,three.rows(),name="3′-adapter-ligated RPF",note="T4 Rnl2(tr) KQ performs the ATP-independent single-strand ligation.")
+    g5=AdapterLigationGeometry.unavailable("The scRibo-seq supplement establishes UMI-bearing single-strand 5′-adapter ligation but the verified local source does not contain the full ordering oligo or terminal bases; no duplex overhang is implied.")
+    w.ligate_adapter("Ligate the UMI-bearing 5′ RNA adapter",g5,ligated.rows(),name="Adapter-ligated RPF",note="T4 Rnl1 joins the second single-strand RNA adapter.")
     w.react("Reverse-transcribe and index each well", indexed.rows(), name="Indexed cDNA library",
             note="Maxima H-minus RT copies RNA; well forward and RPI reverse primers install cell and plate indices.")
     w.react("Pool and footprint-size select", selected.rows(), name="Footprint-selected pool",

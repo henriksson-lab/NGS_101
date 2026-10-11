@@ -4,6 +4,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from captrap import CapTrappedHybrid
 from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
 
@@ -65,12 +66,18 @@ def sections():
     sc.junction("top", "EcoP15I recognition site", "27-nt capped 5′ tag", "5′ linker ligation")
     sc.junction("top", "two-base EcoP15I ligation overhang", "P7-side linker / reverse-primer complement", "3′ linker ligation")
     sc.labels("top")
+    five = AdapterLigationGeometry.unavailable("The CAGE protocol prints the 5′ linker composition and ligated product but does not provide a strand-resolved cut-facing end from which an overhang can be verified.")
+    three_sc=Scene();three_sc.strand("3′ linker",[Segment("linker duplex arm",revcomp(REV),"p7"),Segment("two-base protrusion","NN",placeholder=True)],label="3′ CAGE linker")
+    three_sc.overhang("3′ linker","two-base protrusion",polarity="3-prime",owner="adapter",text="published two-base protrusion; bases variable")
+    three_sc.strand("EcoP15I tag",[Segment("two-base EcoP15I end","NN",placeholder=True),Segment("27-nt cap tag","X"*27,placeholder=True)],label="EcoP15I-cut tag")
+    three_sc.overhang("EcoP15I tag","two-base EcoP15I end",polarity="5-prime",owner="substrate",text="two-base EcoP15I end")
+    three=AdapterLigationGeometry.known("cohesive",three_sc,statement="The source specifies a two-base protrusion on the 3′ linker; its variable bases pair with the two-base EcoP15I tag end.")
     return [
         ("Cap trap full-length first strands", hybrid,
          "Only RNA/cDNA hybrids protected through the oxidized, biotinylated cap survive capture."),
-        ("Install the 5′ linker and make the second strand", [Row(chunks=[
+        ("Install the 5′ linker and make the second strand", five.rows()+[Row(chunks=[
             ("captured cDNA → barcoded partial-duplex linker ligation → second-strand synthesis", None, False)])],
          "The linker supplies the custom sequencing site, a three-base sample barcode and an EcoP15I site."),
-        ("Cut a 27-nt tag and ligate the 3′ linker", sc.rows(),
+        ("Cut a 27-nt tag and ligate the 3′ linker", three.rows()+sc.rows(),
          "EcoP15I cuts 27 nt into the cap-derived cDNA; a linker with a two-base protrusion closes the other end. ** marks ligations."),
     ]

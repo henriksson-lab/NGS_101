@@ -12,7 +12,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import quartz_seq as Q
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, oligo, panel, strand_row
+from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head, info, table
 
 OUT = HERE.parent / "quartz-seq.html"
@@ -58,6 +59,10 @@ def construction() -> str:
        caption="One amplified full-length cDNA. A single G+M primer amplifies both ends; short M/M products self-anneal and are suppressed.")}
 
 <h3>(4) Shear cDNA and ligate the single-index TruSeq adapter</h3>
+{panel(dA_tailed_scene(repair_and_dA_tail(Construct([seg("sheared cDNA fragment", "X" * 32, placeholder=True)]))).rows(), cls="small",
+       caption="End repair and dA-tailing create one 3′-A overhang at each fragment end.")}
+{panel(Q.adapter_scene().rows(), cls="small",
+       caption="TRSU and phosphorylated TRSI-2 form the published 12-bp fork stem; TRSU's terminal 3′-T pairs with the insert dA.")}
 {panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small",
        caption="Final Quartz-Seq library, P5 to P7'. The insert is a sheared fragment of amplified cDNA.")}
 '''

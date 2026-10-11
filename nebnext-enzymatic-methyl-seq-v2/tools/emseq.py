@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Row, Segment
+from adapter_ligation import reported_adapter_end
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from nebnext import STANDARD_PRIMERS, indexed_library
 TITLE="NEBNext Enzymatic Methyl-seq v2"
@@ -13,11 +14,15 @@ SUMMARY="Adapters are ligated before enzymatic conversion. TET2 and T4-BGT prote
 OUTCOME={"C":"U","5mC":"C","5hmC":"C"}
 DNA=Construct([Segment("fragmented DNA", "X"*42, placeholder=True)], name="fragmented DNA")
 END_PREP=repair_and_dA_tail(DNA)
+ADAPTOR_END=reported_adapter_end(
+    "EM-seq adaptor", kind="cohesive", polarity="3-prime", terminal_sequence="T",
+    substrate_scenes=(dA_tailed_scene(END_PREP),),
+    statement="The E8015 workflow specifies dA-tailed DNA and its complementary 3′-dT conversion-resistant adaptor end; the remaining adaptor body is proprietary.")
 PROTECTION=[Row(chunks=[("C → C     5mC → 5caC     5hmC → 5gmC",None,False)])]
 DEAMINATION=[Row(chunks=[("unmodified C → U     protected 5caC / 5gmC → C in sequence",None,False)])]
 def final_library(): return indexed_library(Construct([Segment("enzymatically converted insert", "X"*42, placeholder=True)]), "EM-seq v2 library")
 STEPS=(("End-repair and add one 3-prime dA to each end", dA_tailed_scene(END_PREP), "The dA-tailed product is shown before the conversion-resistant adaptor is introduced."),
-       ("Ligate the EM-seq adaptors", final_library(), "The conversion-resistant EM-seq adaptor is attached before base conversion."),
+       ("Ligate the EM-seq adaptors", final_library(), "The conversion-resistant EM-seq adaptor is attached before base conversion.", ADAPTOR_END),
        ("Protect modified cytosines", PROTECTION, "TET2 oxidizes 5mC through 5caC; T4-BGT glucosylates 5hmC. Both products resist APOBEC."),
        ("Deaminate unmodified cytosine", DEAMINATION, "APOBEC changes unprotected C to U while protected derivatives remain readable as C."),
        ("Amplify converted strands with Q5U", Construct([Segment("converted insert: T where C was unmethylated", "X"*46, placeholder=True)], name="converted library"), "Q5U copies uracil-containing templates; dual-index primers complete the flow-cell arms."))

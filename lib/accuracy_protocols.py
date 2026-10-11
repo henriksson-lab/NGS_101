@@ -12,7 +12,8 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
-from endprep import (ligation_product_scene, react_dA_tail_then_ligate,
+from endprep import (ThreePrimeOverhangAdapter, ligation_product_scene,
+                     react_dA_tail_then_ligate,
                      repair_and_dA_tail)
 from protocol_model import closed_circle, molecule, role
 
@@ -26,6 +27,8 @@ TRUEPRIME_INACTIVATION_C = 65
 BOTSEQS_TYPICAL_DILUTION_FOLD = 100_000
 BOTSEQS_INSERT_BP = 350
 BOTSEQS_READ_BP = 100
+TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
+    "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
 
 
 def _workflow(initial: Scene, steps) -> Workflow:
@@ -71,7 +74,8 @@ def _botseqs_workflow(library: Construct) -> Workflow:
             Scene.duplex(list(repaired), unpaired=("genomic insert'",)).rows(),
             name="end-repaired DNA")
     react_dA_tail_then_ligate(
-        w, prepared, ligated, dA_action="Add one 3-prime dA to each end",
+        w, prepared, TRUSEQ_Y_END, ligated,
+        dA_action="Add one 3-prime dA to each end",
         ligation_action="Ligate Illumina Y adapters",
         ligation_note="Adapter orientation distinguishes Watson and Crick descendants.")
     w.react("Dilute to about one haploid-genome equivalent", ligated_plain.rows(),
@@ -118,7 +122,8 @@ def _cirseq_workflow(library: Construct) -> Workflow:
     w.react("Synthesize the second strand and blunt the cDNA", ds.rows(),
             name="double-stranded tandem-repeat cDNA")
     react_dA_tail_then_ligate(
-        w, prepared, ligated, dA_action="Add one 3-prime dA to each cDNA end",
+        w, prepared, TRUSEQ_Y_END, ligated,
+        dA_action="Add one 3-prime dA to each cDNA end",
         ligation_action="Ligate TruSeq indexed adapters",
         ligation_note="Size selection retains tandem inserts long enough for within-read consensus.")
     return w

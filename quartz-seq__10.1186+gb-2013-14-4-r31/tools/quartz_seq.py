@@ -59,6 +59,19 @@ def tagging_scene() -> Scene:
     return sc
 
 
+def adapter_scene() -> Scene:
+    """Source-printed TruSeq ligating stem and its single 3′-T overhang."""
+    bottom = [seg("stem complement", TRSU[-13:-1], "r1"),
+              seg("3′ T", TRSU[-1], "r1")]
+    top = [seg("stem", TRSI2[:12], "r2")]
+    sc = Scene(); sc.strand("TRSU", bottom, label="TRSU ligating end")
+    sc.anneal("TRSI-2", top, to="TRSU", pair=("stem", "stem complement"),
+              label="5′-phosphorylated TRSI-2", mod5="p")
+    sc.overhang("TRSU", "3′ T", polarity="3-prime", owner="adapter",
+                text="adapter 3′-T overhang")
+    return sc
+
+
 def wta_amplicon() -> Construct:
     return Construct([
         seg("tagging-end M", M, "tso"),

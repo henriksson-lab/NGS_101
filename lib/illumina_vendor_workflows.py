@@ -10,9 +10,15 @@ from dataclasses import dataclass
 from types import SimpleNamespace
 
 import nextera as nx
+import illumina as il
 from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
-from endprep import dA_tailed_scene, ligation_product_scene, repair_and_dA_tail
+from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
+                     dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
+
+
+TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
+    "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
 
 
 def _duplex(name: str, *, bases: str = "N" * 36) -> Scene:
@@ -62,22 +68,27 @@ def nextera_final_rows(library: Construct) -> list:
 def _pcr_free_workflow(final: Construct) -> Workflow:
     sheared = _duplex("Covaris-sheared genomic insert")
     repaired = _duplex("blunt size-selected genomic insert")
-    tailed = dA_tailed_scene(repair_and_dA_tail(
-        Construct([Segment("size-selected genomic insert", "N" * 36,
-                           placeholder=True)])), "dA-tailed genomic insert")
-    return _workflow("high-quality genomic DNA", _duplex("high-molecular-weight genomic DNA"), (
+    end_prep = repair_and_dA_tail(Construct([
+        Segment("size-selected genomic insert", "N" * 36, placeholder=True)]))
+    tailed = dA_tailed_scene(end_prep, "dA-tailed genomic insert")
+    w = _workflow("high-quality genomic DNA", _duplex("high-molecular-weight genomic DNA"), (
         ("Covaris shear", "fragmented DNA", sheared,
          "The guide specifies 350-bp or 550-bp insert workflows."),
         ("End-repair and bead size-selection", "blunt size-selected DNA", repaired,
          "End repair removes the 3-prime and 5-prime overhangs made by shearing."),
         ("Add one 3-prime dA to each end", "dA-tailed DNA", tailed,
          "The complementary adapter overhang is a single 3-prime T."),
-        ("Ligate indexed TruSeq adapters", "PCR-free sequencing library",
-         ligation_product_scene(final, "genomic DNA insert",
-                                label="PCR-free sequencing library",
-                                adapter_group="TruSeq adapter"),
-         "No enrichment PCR follows ligation; qPCR measures cluster-forming molecules."),
     ))
+    w.ligate_adapter(
+        "Ligate indexed TruSeq adapters",
+        cohesive_ligation_geometry(end_prep, TRUSEQ_Y_END,
+            statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed DNA."),
+        ligation_product_scene(final, "genomic DNA insert",
+                               label="PCR-free sequencing library",
+                               adapter_group="TruSeq adapter").rows(),
+        name="PCR-free sequencing library",
+        note="No enrichment PCR follows ligation; qPCR measures cluster-forming molecules.")
+    return w
 
 
 def _stranded_mrna_workflow(final: Construct) -> Workflow:
@@ -89,10 +100,10 @@ def _stranded_mrna_workflow(final: Construct) -> Workflow:
         Segment("antisense first-strand cDNA", "N" * 36, placeholder=True)
     ], label="dUTP-marked cDNA duplex")
     marked.mark("bottom", "antisense first-strand cDNA'", "second strand contains dUTP")
-    tailed = dA_tailed_scene(repair_and_dA_tail(
-        Construct([Segment("stranded cDNA insert", "N" * 36, placeholder=True)])),
-        "dA-tailed stranded cDNA")
-    return _workflow("total RNA", _single("RNA", [Segment("total RNA", "R" * 40,
+    end_prep = repair_and_dA_tail(Construct([
+        Segment("stranded cDNA insert", "N" * 36, placeholder=True)]))
+    tailed = dA_tailed_scene(end_prep, "dA-tailed stranded cDNA")
+    w = _workflow("total RNA", _single("RNA", [Segment("total RNA", "R" * 40,
                                                         placeholder=True)], label="total RNA"), (
         ("Select poly(A) RNA twice and fragment at elevated temperature",
          "fragmented poly(A) RNA", selected,
@@ -105,12 +116,16 @@ def _stranded_mrna_workflow(final: Construct) -> Workflow:
          "Replacing dTTP with dUTP marks the second strand for exclusion during enrichment."),
         ("End-repair and add one 3-prime dA", "dA-tailed cDNA", tailed,
          "A-tailed cDNA accepts the complementary T-overhang adapters."),
-        ("Ligate TruSeq adapters and selectively PCR-enrich",
-         "stranded sequencing library",
-         ligation_product_scene(final, "antisense cDNA insert", label="stranded library",
-                                adapter_group="TruSeq adapter"),
-         "The enrichment polymerase does not copy past dUTP, so Read 1 maps antisense and Read 2 sense."),
     ))
+    w.ligate_adapter(
+        "Ligate TruSeq adapters and selectively PCR-enrich",
+        cohesive_ligation_geometry(end_prep, TRUSEQ_Y_END,
+            statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed cDNA."),
+        ligation_product_scene(final, "antisense cDNA insert", label="stranded library",
+                               adapter_group="TruSeq adapter").rows(),
+        name="stranded sequencing library",
+        note="The enrichment polymerase does not copy past dUTP, so Read 1 maps antisense and Read 2 sense.")
+    return w
 
 
 def _tagged_intermediate(label: str) -> Scene:

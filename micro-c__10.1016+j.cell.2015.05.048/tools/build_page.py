@@ -8,6 +8,7 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import micro_c as M
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info, table
 
@@ -42,6 +43,8 @@ def render():
         '<h2>Recover contacts and build the Illumina library</h2>',
         panel([strand_row(insert), *annotation_rows(insert)], cls="small",
               caption="After crosslink reversal, the original protocol gel-selects 250–350-bp ligation products."),
+        panel(AdapterLigationGeometry.unavailable("The original Micro-C paper names Illumina adapter ligation but does not identify the adapter kit or report its ligation-ready end geometry.").rows(),
+              cls="small", caption="Source limitation before sequencing-adapter ligation."),
         panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)],
               cls="small", caption="End repair, dA-tailing and Illumina-adapter ligation precede streptavidin capture and 12–15 PCR cycles. The paper does not identify the adapter or index architecture."),
         '<h2>Sequencing</h2><p>Paired reads begin in the two nucleosome-derived genomic ends.</p>',

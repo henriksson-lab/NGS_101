@@ -1,6 +1,8 @@
 """ScISOr-seq2 barcoded 10x cDNA enrichment for PacBio and ONT."""
 from batch_ngs import seg
-from chemdraw import Construct, Row, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature, revcomp
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from longread_footprinting import conventional_smrtbell, pacbio_entry, smrtbell_rows
 TITLE="ScISOr-seq2 — enriched single-cell isoforms by long reads"
 NOTES="01_scisor-seq2.html"
@@ -11,5 +13,13 @@ SMRTBELL=conventional_smrtbell("ScISOr-seq2 enriched cDNA")
 FINAL_LIBRARY=None; SEQ_PRIMERS=(); SEQUENCING_ENDING=pacbio_entry(SMRTBELL)+" The same enriched cDNA may instead receive an ONT motor adapter, in which case no synthesis sequencing primer is used."
 def oligos():
     return ["<b>Partial Read 1</b> — 5′-CTACACGACGCTCTTCCGATCT-3′","<b>Partial TSO</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACAT-3′"]
-def sections():
-    return [("Make barcoded 10x 3-prime cDNA",[Row(chunks=[("Read1 handle—cell barcode—UMI—transcript cDNA—TSO", "cbc", False)])],"The original droplet RT fixes cell and molecule identity before long-read enrichment."),("Perform linear/asymmetric then exponential amplification",[Row(chunks=[("Partial Read1-only cycles → strand bias; + Partial TSO → full amplicon", "r1", False)])],"LAP removes non-barcoded products while retaining both terminal handles."),("Capture spliced cDNA with exon probes",[Row(chunks=[("blocked cDNA + biotin exon probes ● streptavidin → CAP enrichment", "w1", False)])],"Hybrid capture enriches multi-exonic transcripts before long-read conversion."),("Prepare a long-read library",smrtbell_rows(SMRTBELL),"PacBio uses repair, A-tailing and hairpin ligation; ONT is a documented alternative using ligation adapters."),]
+def workflow():
+    w=Workflow(MolecularState("10x 3′ cDNA",(Row(chunks=[("Read1 handle—cell barcode—UMI—transcript cDNA—TSO","cbc",False)]),)))
+    w.react("Perform linear/asymmetric then exponential amplification",[Row(chunks=[("Partial Read1-only cycles → strand bias; + Partial TSO → full amplicon","r1",False)])],name="LAP amplicons",note="LAP removes non-barcoded products while retaining both terminal handles.")
+    w.react("Capture spliced cDNA with exon probes",[Row(chunks=[("blocked cDNA + biotin exon probes ● streptavidin → CAP enrichment","w1",False)])],name="CAP-enriched cDNA",note="Hybrid capture enriches multi-exonic transcripts.")
+    tailed=repair_and_dA_tail(Construct([seg("ScISOr-seq2 enriched cDNA","X"*42,placeholder=True)]))
+    w.react("Repair and add 3′ dA",dA_tailed_scene(tailed).rows(),name="dA-tailed enriched cDNA",note="PacBio end prep creates the two hairpin-ligation substrates.")
+    adapter=Scene(); adapter.strand("hairpin end",[seg("proprietary PacBio hairpin core","[proprietary hairpin]",placeholder=True),seg("3′ T","T")],label="PacBio hairpin ligating end"); adapter.overhang("hairpin end","3′ T",polarity="3-prime",owner="adapter")
+    geometry=AdapterLigationGeometry.known("cohesive",dA_tailed_scene(tailed),adapter,statement="The PacBio SMRTbell workflow uses proprietary hairpin sequences with a disclosed 3′-T ligating overhang complementary to each insert 3′-dA.")
+    w.ligate_adapter("Ligate PacBio hairpins",geometry,smrtbell_rows(SMRTBELL),name="closed SMRTbell",note="The ONT alternative instead uses a proprietary motor-bearing ligation adapter whose end bases are not disclosed here.")
+    return w

@@ -5,6 +5,7 @@ import illumina as il
 import nextera as nx
 import rt
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature
 
 CELL_CASSETTE = feature("cell_barcode_cassette", "cell_barcode", "combinatorial",
@@ -13,6 +14,11 @@ UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
 FEATURES = {"ligated barcode/linker cassette": CELL_CASSETTE, "UMI": UMI_FEATURE,
             "i7 index read": I7_FEATURE}
+
+
+def bead_ligation_geometry():
+    return AdapterLigationGeometry.unavailable(
+        "The defining PIP-seq paper states that the hydrogel-bead barcode cassette is assembled by split-pool ligation, but it does not publish the barcode-block ends or splint oligos.")
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:

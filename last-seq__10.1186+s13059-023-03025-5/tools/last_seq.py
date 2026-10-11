@@ -7,7 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       annotation_rows, feature, oligo)
 from rna_amplification import direct_ssrna_ivt, poly_a_capture
 
@@ -23,6 +24,7 @@ DTRU_LINKER = "CCACCTTTCATTCACCCT"
 DTRU_DNA = "TTTTTT"
 DTRU_RNA = "U" * 19
 DTRU_TAIL = DTRU_LINKER + DTRU_DNA + DTRU_RNA
+HAIRPIN_LINKER_ARM = "GGGTGAATGAAAGGTGG"
 CELL_BARCODE_LEN = 6
 UMI_LEN = 8
 
@@ -47,6 +49,23 @@ def capture_scene():
     sc.junction("primer", "hairpin module", "complementary linker", "primer assembly ligation")
     sc.note("primer", "the dT/rU tract is nicked by RNase H; 3′ ddC blocks extension from the primer end")
     return sc
+
+
+def primer_ligation_geometry():
+    sc = Scene(); sc.strand("hairpin", [seg("hairpin linker arm", HAIRPIN_LINKER_ARM),
+                                         seg("folded barcode/promoter hairpin", "[folded hairpin]", placeholder=True)],
+                                    label="hairpin module")
+    sc.anneal("rU-dT module", [seg("phosphorylated paired linker", DTRU_LINKER[:-1]),
+                                seg("linker 3-prime dT overhang", DTRU_LINKER[-1])],
+              to="hairpin", pair=("phosphorylated paired linker", "hairpin linker arm"),
+              label="rU-dT module", mod5="p")
+    sc.ligation_end("rU-dT module", "phosphorylated paired linker", kind="splinted",
+                    polarity="5-prime", owner="adapter", text="5′-phosphorylated nick end")
+    sc.overhang("rU-dT module", "linker 3-prime dT overhang", polarity="3-prime",
+                owner="adapter", text="one unpaired dT")
+    return AdapterLigationGeometry.known(
+        "splinted", sc,
+        statement="Supplementary Table S2 gives a 17-base hairpin arm complementary to the first 17 bases of the 18-base rU-dT linker; E. coli DNA ligase seals their annealed nick and one linker dT remains unpaired.")
 
 
 def promoter_scene():
@@ -109,8 +128,12 @@ def final_rows():
 
 
 def workflow():
-    wf = Workflow(MolecularState("Poly(A) capture by the assembled hairpin/rU-dT primer",
-                                 tuple(capture_scene().rows())))
+    wf = Workflow(MolecularState("Separate hairpin and rU-dT primer modules",
+                                 (Row(chunks=[("hairpin module + 5′-phosphorylated rU-dT module", None, False)]),)))
+    wf.ligate_adapter("Anneal and nick-ligate the LAST-seq capture primer",
+                      primer_ligation_geometry(), capture_scene().rows(),
+                      name="assembled hairpin/rU-dT primer",
+                      note="The gel-purified product is then annealed to mRNA poly(A).")
     wf.react("RNase H nicking and Klenow exo− extension", promoter_scene().rows(),
              note="A short rA/dT hybrid is nicked and extended so the original RNA gains a duplex T7 promoter without reverse transcription.")
     wf.react("T7 in-vitro transcription directly from ssRNA", arna_scene().rows(),

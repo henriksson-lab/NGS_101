@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import pta
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Workflow
 from endprep import dA_tailed_scene, repair_and_dA_tail
@@ -61,8 +62,8 @@ def workflow():
              note="The defining KAPA HyperPlus workflow explicitly omits fragmentation because PTA already creates shorter products.")
     sc = Scene.duplex(list(FINAL_LIBRARY), label="INFERRED adapter-completed library")
     sc.labels("top")
-    wf.react("INFERRED — ligate IDT UDI adapters and amplify 15 PCR cycles",
-             sc.rows(), name="Dual-index Illumina library",
+    wf.ligate_adapter("INFERRED — ligate IDT UDI adapters and amplify 15 PCR cycles",
+             AdapterLigationGeometry.unavailable("The defining PTA paper identifies IDT UDI adapters used with KAPA HyperPlus but does not print their oligos or state their ligation-ready end geometry."), sc.rows(), name="Dual-index Illumina library",
              note="Exact adapter and primer bases are unavailable. Gel extraction retains 400–700-bp products for NovaSeq 6000 sequencing.")
     return wf
 

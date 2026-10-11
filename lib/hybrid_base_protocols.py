@@ -5,9 +5,17 @@ from dataclasses import dataclass
 from types import SimpleNamespace
 
 import seqprimers as sp
+import illumina as il
+from adapter_ligation import AdapterLigationGeometry
 from base_conversion import ace_path, oxbs_path, tab_path
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
+from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
+                     repair_and_dA_tail)
+
+
+TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
+    "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
 
 
 def _part(name: str, symbol: str = "X", n: int = 24, **kw) -> Segment:
@@ -47,10 +55,14 @@ class RLoopCapture:
         return sc
 
 
-def _workflow(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workflow:
+def _workflow(initial: Scene, steps) -> Workflow:
     w = Workflow(MolecularState("Starting material", tuple(initial.rows())))
-    for action, scene, note in steps:
-        w.react(action, scene.rows(), name=action, note=note)
+    for step in steps:
+        action, scene, note, *geometry = step
+        if geometry:
+            w.ligate_adapter(action, geometry[0], scene.rows(), name=action, note=note)
+        else:
+            w.react(action, scene.rows(), name=action, note=note)
     return w
 
 
@@ -73,6 +85,10 @@ def _conversion_workflow(key: str) -> Workflow:
     initial = _conversion_scene((("original C", "C"), ("original 5mC", "5mC"),
                                  ("original 5hmC", "5hmC")), "genomic cytosines")
     if key == "oxbs-seq":
+        end_prep = repair_and_dA_tail(Construct([_part("unconverted genomic insert")]))
+        truseq_ends = cohesive_ligation_geometry(
+            end_prep, TRUSEQ_Y_END,
+            statement="The protocol specifies TruSeq adapters: their public 3′-T end pairs with the dA-tailed insert.")
         tagged = _role_library_scene("adapter-ligated oxBS precursor", ("unconverted genomic insert",))
         oxidized = _conversion_scene((("original C", "C"), ("original 5mC", "5mC"),
                                       ("original 5hmC", "5fC")), "after oxidation")
@@ -83,7 +99,8 @@ def _conversion_workflow(key: str) -> Workflow:
              _role_library_scene("dA-tailed oxBS insert", ("unconverted genomic insert",), ligated=False),
              "The dA-tailed insert is the substrate for the following adapter ligation."),
             ("Ligate TruSeq adapters", tagged,
-             "The Nature Protocols workflow installs the library adapters before oxidation and bisulfite."),
+             "The Nature Protocols workflow installs the library adapters before oxidation and bisulfite.",
+             truseq_ends),
             ("Oxidize 5hmC selectively with potassium perruthenate", oxidized,
              "5hmC becomes 5fC; 5mC remains protected."),
             ("Bisulfite-convert, then amplify with uracil-tolerant polymerase", readout,
@@ -104,7 +121,9 @@ def _conversion_workflow(key: str) -> Workflow:
             ("Oxidize 5mC to 5caC with excess mTet1", oxidized,
              "The protected 5hmC branch remains 5gmC."),
             ("Prepare the Illumina WGBS library, bisulfite-convert and amplify", readout,
-             "Only original 5hmC reads as C; C and original 5mC read as T."),
+             "Only original 5hmC reads as C; C and original 5mC read as T.",
+             AdapterLigationGeometry.unavailable(
+                 "The defining TAB-seq source names its WGBS library preparation but does not print the adapter-end oligos.")),
         ))
     protected = _conversion_scene((("original C", "C"), ("original 5mC", "5mC"),
                                    ("original 5hmC", "5gmC")), "after β-GT")
@@ -119,7 +138,9 @@ def _conversion_workflow(key: str) -> Workflow:
          "C and 5mC read as T; protected 5hmC remains C without bisulfite."),
         ("Install Accel Methyl-NGS adapters and index by PCR",
          _role_library_scene("ACE-seq library", ("ACE-treated insert",), ligated=False),
-         "Adapter construction follows deamination; the commercial oligo sequences are not public."),
+         "Adapter construction follows deamination; the commercial oligo sequences are not public.",
+         AdapterLigationGeometry.unavailable(
+             "Accel Methyl-NGS adapter-end geometry is proprietary and not disclosed by the defining source.")),
     ))
 
 
@@ -136,7 +157,9 @@ def _hybrid_workflow(key: str) -> Workflow:
              "The dA-tailed captured fragment is shown before adapter ligation."),
             ("Ligate adapters to the dA-tailed captured DNA",
              _role_library_scene("non-strand-specific DRIP-seq library", ("captured DNA fragment",)),
-             "The DNA component is sequenced; the original implementation used a standard dsDNA library."),
+             "The DNA component is sequenced; the original implementation used a standard dsDNA library.",
+             AdapterLigationGeometry.unavailable(
+                 "The detailed DRIP-seq source specifies a standard dsDNA library but does not print the adapter-end oligos.")),
         ))
     if key == "dripc-seq":
         cap = RLoopCapture("S9.6 antibody", "RNA")
@@ -147,7 +170,9 @@ def _hybrid_workflow(key: str) -> Workflow:
              "Poly(dT) and random hexamers copy the RNA component into cDNA."),
             ("Make the second strand with dUTP, sonicate and ligate indexed adapters",
              _role_library_scene("dUTP-marked DRIPc-seq library", ("R-loop RNA-derived cDNA", "dUTP strand")),
-             "UNG removes the dUTP-containing strand before PCR, preserving RNA strand identity."),
+             "UNG removes the dUTP-containing strand before PCR, preserving RNA strand identity.",
+             AdapterLigationGeometry.unavailable(
+                 "The DRIPc-seq source specifies indexed adapters but does not print their ligation-end geometry.")),
         ))
     cap = RLoopCapture("V5-tagged catalytically inactive RNASEH1 D210N", "DNA", in_vivo=True)
     primed = Scene(); primed.strand("copied molecule", [
@@ -163,7 +188,9 @@ def _hybrid_workflow(key: str) -> Workflow:
          "The tailed N9-primer end remains blocked; only the opposite end becomes ligation-ready."),
         ("Ligate one Illumina adapter and PCR-amplify",
          _rchip_library_scene(),
-         "Only the unobstructed end accepts the adapter, so read orientation is retained."),
+         "Only the unobstructed end accepts the adapter, so read orientation is retained.",
+         AdapterLigationGeometry.unavailable(
+             "The R-ChIP source prints the tailed N9 primer but identifies the opposite reagent only as an Illumina adapter.")),
     ))
 
 

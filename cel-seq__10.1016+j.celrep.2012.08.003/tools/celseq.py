@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, complement_segments, feature
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
@@ -130,6 +131,13 @@ def cel1_ligated_arna() -> Construct:
         _seg("unpublished RNA 3' adaptor", "[RNA 3' ADAPTOR]", placeholder=True,
              inferred=True),
     ], name="CEL-Seq ligated aRNA")
+
+
+def cel1_adapter_geometry() -> AdapterLigationGeometry:
+    return AdapterLigationGeometry.unavailable(
+        "The original CEL-Seq paper establishes 3′-adapter ligation to fragmented aRNA, "
+        "but neither accessible primary-source package prints the adapter bases, terminal "
+        "modifications or ligation-facing end geometry.")
 
 
 def final_library(protocol: str) -> Construct:

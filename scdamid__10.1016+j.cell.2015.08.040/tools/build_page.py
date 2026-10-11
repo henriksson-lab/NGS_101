@@ -12,6 +12,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import scdamid as D
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel
+from adapter_ligation import AdapterLigationGeometry
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head, info
 
 OUT = HERE.parent / "scdamid.html"
@@ -49,6 +51,10 @@ def construction() -> str:
        caption="INFERRED — the same restored adaptor/GATC junction at both ends lets one primer "
                "amplify the selected fragment.")}
 <h3>(4) End repair, dA-tail, ligate the indexed Illumina adaptor and PCR</h3>
+{panel(dA_tailed_scene(repair_and_dA_tail(D.preamp_product(), inferred=True)).rows(), cls="small",
+       caption="INFERRED — reconstructed end preparation produces the dA-tailed substrate before adapter ligation.")}
+{panel(AdapterLigationGeometry.unavailable("The accessible defining paper establishes indexed Illumina adapter ligation but does not print that adapter's terminal bases; the secondary-source completed library is not used to assert reagent-end geometry.").rows(), cls="small",
+       caption="The authoritative source does not disclose the indexed adapter overhang.")}
 {panel([*final_sc.rows(), *annotation_rows(final)], cls="long",
        caption="INFERRED — final library reconstructed from secondary-source oligos. Dotted "
                "outer regions are not printed in the accessible defining paper.")}"""

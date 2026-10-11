@@ -40,6 +40,8 @@ def construction() -> str:
     lib = P.final_library()
     return f'''<h2>Library construction</h2>
 <h3>(1) Build split-pool-barcoded hydrogel beads</h3>
+{panel(P.bead_ligation_geometry().rows(), cls="small",
+       caption="Source limitation for the bead-building ligation substrate.")}
 {panel([strand_row(bead), *annotation_rows(bead)], cls="small",
        caption="INFERRED — the paper gives the bead's fixed ends, UMI and poly(T), but does not publish the intervening barcode blocks or splints.")}
 <h3>(2) Vortex cells and beads into particle-templated droplets, then lyse</h3>

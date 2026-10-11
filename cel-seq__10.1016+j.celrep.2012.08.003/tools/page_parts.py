@@ -75,7 +75,7 @@ def cel1_back() -> str:
         ("Read 2", "transcript sequence from the 3' tag"),
     ]
     return f"""<h3>(4) Fragment aRNA and ligate the RNA 3' adaptor</h3>
-{panel([strand_row(ligated),
+{panel([*C.cel1_adapter_geometry().rows(), strand_row(ligated),
         junction_row(ligated, "poly(U)/insert", "unpublished RNA 3' adaptor"),
         *annotation_rows(ligated)], cls="long",
        caption="INFERRED — the defining chemistry ligates a second adaptor to fragmented aRNA, "

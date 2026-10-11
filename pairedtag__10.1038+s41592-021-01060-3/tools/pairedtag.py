@@ -7,7 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -112,21 +113,24 @@ FINAL_LIBRARIES = (
 
 
 def sections():
-    return [
-        ("Mark chromatin and RNA with matched round-1 identities", [
+    wf = Workflow(MolecularState("Nuclei with chromatin and RNA", (Row(chunks=[("chromatin + nuclear RNA", None, False)]),)))
+    wf.react("Mark chromatin and RNA with matched round-1 identities", [
             Row(chunks=[("antibody — pA–Tn5 — DNA adapter/BC1 ** histone-mark DNA", "me", False)]),
             Row(chunks=[("RNA primer/BC1 ** poly(A) or random-primed nuclear RNA → cDNA", "r1", False)]),
-        ], "Twelve first-round wells receive a matching DNA transposome barcode and RNA "
-           "RT-primer barcode. ** marks adapter transfer or primer extension into the target."),
-        ("Add rounds 2 and 3 by split-pool ligation", [
-            Row(chunks=[("molecule — BC1 ** linker 2 — BC2 ** linker 3 — BC3 — UMI", None, False)]),
-            Row(chunks=[("12 choices       × 96 choices       × 96 choices", "cbc", False)]),
-        ], "Nuclei are pooled and redistributed between rounds. Blocker-R02 terminates "
-           "round 2; the round-3 termination oligo also contributes the 10-nt UMI nearest Read 2."),
-        ("Amplify together, then split by modality", [
+        ], note="Twelve first-round wells receive a matching DNA transposome barcode and RNA RT-primer barcode.")
+    for n, linker in ((2, LINKER_R02), (3, LINKER_R03)):
+        rc = revcomp(linker)
+        sc = Scene(); sc.strand("splint", [seg(f"linker R0{n} new half", linker[15:]), seg(f"linker R0{n} old half", linker[:15])], label=f"Linker-R0{n}")
+        sc.anneal("barcode ends", [seg(f"round-{n} 5-prime arm", rc[:15]), seg("previous barcode 3-prime arm", rc[15:])], to="splint", pair=(f"round-{n} 5-prime arm", f"linker R0{n} new half"), label="adjacent barcode oligos", mod5="p")
+        sc.ligation_end("barcode ends", f"round-{n} 5-prime arm", kind="splinted", polarity="5-prime", owner="adapter", text="5′-phosphorylated nick partner")
+        geometry = AdapterLigationGeometry.known("splinted", sc, statement=f"The supplement prints Linker-R0{n}; its two 15-base halves anneal the adjacent barcode oligos across the ligation nick.")
+        wf.ligate_adapter(f"Ligate barcode round {n}", geometry, [Row(chunks=[(f"molecule — BC1 ** " + " ** ".join(f"BC{x}" for x in range(2, n + 1)), "cbc", False)])], note="Nuclei are pooled and redistributed between barcode plates.")
+    wf.react("Amplify together, then split by modality", [
             Row(chunks=[("TdT dC tail → anchor extension → common pre-amplification", None, False)]),
-            Row(chunks=[("DNA: SbfI + FokI → P5-adapter ligation", "r1", False)]),
             Row(chunks=[("RNA: NotI → N5-Tn5 tagmentation", "r2", False)]),
-        ], "The shared barcode cassette is copied before the material is divided. Distinct "
-           "digests and second-adapter reactions then create the two sequencing libraries."),
-    ]
+        ], note="The shared barcode cassette is copied before the material is divided; distinct finishing reactions create the two libraries.")
+    wf.ligate_adapter("Ligate the P5 adapter to the SbfI/FokI-cut DNA branch",
+        AdapterLigationGeometry.unavailable("The PairedTag supplement identifies the P5-FokI finishing adapter and restriction steps, but the current source transcription does not establish a ligation-ready adapter overhang sequence and polarity."),
+        [Row(chunks=[("DNA: SbfI + FokI → P5-adapter ** histone-mark insert", "r1", False)])],
+        note="The unavailable state is kept separate from the RNA branch's ligation-free N5-Tn5 finishing reaction.")
+    return [(r.action, r.after.rows, r.note) for r in wf.reactions]

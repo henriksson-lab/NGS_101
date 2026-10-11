@@ -6,8 +6,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from base_conversion import PartialUDGProduct
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, feature
+from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature
 
 TITLE = "Double-stranded ancient DNA with partial UDG"
 NOTES = "01_partial-udg-ds-adna.html"
@@ -79,8 +80,13 @@ def sections():
     return [
         ("Partial USER treatment", partial_user_rows(survivor),
          "UDG and Endonuclease VIII act before T4 polymerase and kinase; terminal uracils remain inefficiently removed."),
-        ("End repair and barcode-adapter ligation", lig.rows(),
+        ("End repair and barcode-adapter ligation", AdapterLigationGeometry.unavailable("Rohland et al. specify blunt end repair and two seven-base molecular barcodes, but the supplementary adapter oligo table is absent from the accessible primary-source package; the adapter-facing ends cannot be verified.").rows()+lig.rows(),
          "T4 polymerase/PNK blunt the surviving fragments; distinct P5- and P7-side 7-mers are ligated. ** marks both ligations."),
         ("INFERRED — fill in and indexed PCR", [Row(chunks=[("short barcoded library → fill-in → i5/i7 PCR → sequencing library",None,False)])],
          "The paper explicitly describes this order; unavailable supplementary oligo bases are not presented as source-transcribed."),
     ]
+
+def workflow():
+    s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
+    g=AdapterLigationGeometry.unavailable("Rohland et al. specify blunt end repair and two seven-base molecular barcodes, but the supplementary adapter oligo table is absent from the accessible primary-source package; the adapter-facing ends cannot be verified.")
+    w.ligate_adapter(s[1][0],g,s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2]);return w

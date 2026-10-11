@@ -121,6 +121,20 @@ def strt_p2_scene() -> Scene:
     return sc
 
 
+def strt_p2_adapter_scene() -> Scene:
+    """Source-exact P2 fork before ligation to the dA-tailed cDNA fragment."""
+    top = [seg("paired stem", S.P2_TOP[:-1], "r2"),
+           seg("3′ T", S.P2_TOP[-1], "r2")]
+    bottom = [seg("paired stem reverse complement", revcomp(S.P2_TOP[:-1]), "r2")]
+    sc = Scene(); sc.strand("top", top, label="P2 adapter top")
+    sc.anneal("bottom", bottom, to="top",
+              pair=("paired stem reverse complement", "paired stem"),
+              label="P2 adapter bottom", mod5="p")
+    sc.overhang("top", "3′ T", polarity="3-prime", owner="adapter",
+                text="adapter 3′-T overhang")
+    return sc
+
+
 def final_panel(protocol: str) -> str:
     lib = S.library(protocol)
     caption = "Final Read-1-sense library molecule."
@@ -138,7 +152,7 @@ def steps(protocol: str) -> str:
         mid = '''<h3>(3) Pool wells and amplify from the shared SMART handles</h3>
 ''' + panel(Scene.duplex([seg("SMART handle / TSO end", S.H, "tso"), seg("cell barcode", "B" * 6, "cbc", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("SMART handle / oligo-dT end", S.H, "tso")]).rows(), caption="Biotinylated single-primer PCR preserves the TSO barcode; all 96 wells can now be handled together.") + '''
 <h3>(4) Immobilise, fragment, repair, A-tail and ligate the P2 adapter</h3>
-''' + panel(strt_p2_scene().rows(), caption="SalI releases oligo-dT-end fragments at the published handle/poly(T) site; bead-bound TSO-end fragments receive P2 and remain for library PCR. ** marks the adapter ligation.")
+''' + panel(strt_p2_adapter_scene().rows(), cls="small", caption="The published P2 strands form a fork ending in the single 3′-T that accepts the cDNA 3′-dA.") + panel(strt_p2_scene().rows(), caption="SalI releases oligo-dT-end fragments at the published handle/poly(T) site; bead-bound TSO-end fragments receive P2 and remain for library PCR. ** marks the adapter ligation.")
     elif protocol == S.C1:
         mid = '''<h3>(3) Amplify full-length cDNA from the shared C1 handles</h3>
 ''' + panel(Scene.duplex([seg("C1 handle / TSO end", S.C1_HANDLE, "p5"), seg("UMI", "N" * 5, "umi", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("C1 handle / oligo-dT end", S.C1_HANDLE, "p5")]).rows(), caption="The all-RNA TSO is not a competing PCR primer; C1-P1-PCR-2 supplies biotin.") + '''

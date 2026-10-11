@@ -448,6 +448,17 @@ class CommentVisual:
 
 
 @dataclass(frozen=True)
+class LigationEndRecord:
+    """A source-known terminal adapter end used for ligation."""
+    strand: str
+    first: str
+    last: str
+    kind: str
+    polarity: str | None
+    owner: str
+
+
+@dataclass(frozen=True)
 class MolecularState:
     """One rendered molecular state in an ordered reaction workflow."""
     name: str
@@ -490,6 +501,29 @@ class Workflow:
                 "dA-tailing and adapter ligation need separate molecular states; "
                 "use endprep.react_dA_tail_then_ligate()"
             )
+        after = MolecularState(name, tuple(rows))
+        reaction = Reaction(action, self.current, after, note)
+        self.reactions.append(reaction)
+        self.current = after
+        return self
+
+    def ligate_adapter(self, action: str, geometry, rows: Iterable[Row], *,
+                        ready_name: str = "ligation-ready adapter ends",
+                        name: str = "adapter-ligated product", note: str = ""):
+        """Render a required adapter-end state, then the distinct sealed product.
+
+        ``geometry`` is intentionally duck-typed to keep the core workflow independent
+        of protocol helpers, but it must be an ``AdapterLigationGeometry``-like object.
+        Its constructor has already required either semantic overhangs or an explicit
+        source-limitation state.
+        """
+        if getattr(geometry, "availability", None) not in ("known", "unavailable"):
+            raise TypeError("adapter ligation needs structured end geometry")
+        ready = MolecularState(ready_name, tuple(geometry.rows()))
+        preparation = Reaction("Present adapter and substrate ends", self.current, ready,
+                               geometry.statement)
+        self.reactions.append(preparation)
+        self.current = ready
         after = MolecularState(name, tuple(rows))
         reaction = Reaction(action, self.current, after, note)
         self.reactions.append(reaction)
@@ -1088,6 +1122,7 @@ class Scene:
         self._same_line: list[tuple[str, str]] = []
         self._footers: set[str] = set()
         self._components: dict[str, list[ComponentVisual]] = {}
+        self._ligation_ends: list[LigationEndRecord] = []
 
     @classmethod
     def duplex(cls, top: Sequence[Segment], on: str | None = None, label: str = "",
@@ -1163,6 +1198,57 @@ class Scene:
         self._decor("mark", strand,
                     (s, ch * (e - s) + (" " + text if text else ""),
                      SpanVisual(s, e, text)))
+
+    def overhang(self, strand: str, first: str, *, through: str | None = None,
+                 polarity: str, owner: str = "adapter", text: str = "") -> None:
+        """Declare and mark a terminal single-stranded span used for ligation.
+
+        ``polarity`` describes the molecular end, independent of drawing direction.
+        Requiring the named span to touch that end prevents an internal region from being
+        labelled as an overhang merely because a caption says so.
+        """
+        self.ligation_end(strand, first, through=through, kind="cohesive",
+                          polarity=polarity, owner=owner, text=text)
+
+    def ligation_end(self, strand: str, first: str, *, through: str | None = None,
+                     kind: str, polarity: str | None = None,
+                     owner: str = "adapter", text: str = "") -> None:
+        """Declare and mark a terminal end in a ligation-ready reagent drawing."""
+        if kind not in ("cohesive", "blunt", "splinted", "single-strand"):
+            raise ValueError("unknown adapter-ligation end kind")
+        if polarity not in (None, "5-prime", "3-prime"):
+            raise ValueError("ligation-end polarity must be 5-prime, 3-prime or None")
+        if kind in ("cohesive", "splinted", "single-strand") and polarity is None:
+            raise ValueError(f"{kind} ligation end needs a polarity")
+        if owner not in ("adapter", "substrate"):
+            raise ValueError("ligation-end owner must be adapter or substrate")
+        st = self.strands[strand]
+        names = [s.name for s in st.segs]
+        last = through or first
+        try:
+            i, j = names.index(first), names.index(last)
+        except ValueError as exc:
+            raise ValueError("overhang names a segment absent from its strand") from exc
+        lo, hi = sorted((i, j))
+        if polarity is not None:
+            expected = 0 if polarity == "5-prime" else len(names) - 1
+            if (lo if polarity == "5-prime" else hi) != expected:
+                raise ValueError(f"{polarity} ligation end must touch that molecular strand end")
+        elif lo != 0 and hi != len(names) - 1:
+            raise ValueError("blunt ligation end must touch a molecular strand end")
+        self._ligation_ends.append(
+            LigationEndRecord(strand, first, last, kind, polarity, owner))
+        end = polarity.replace("-prime", "′") if polarity else ""
+        label = text or " ".join(x for x in (owner, end, kind, "end") if x)
+        self.mark(strand, first, label, through=last)
+
+    @property
+    def ligation_ends(self) -> tuple[LigationEndRecord, ...]:
+        return tuple(self._ligation_ends)
+
+    @property
+    def overhangs(self) -> tuple[LigationEndRecord, ...]:
+        return tuple(e for e in self._ligation_ends if e.kind == "cohesive")
 
     def junction(self, strand: str, left: str, right: str, text: str = "ligation",
                  ch: str = "*") -> None:

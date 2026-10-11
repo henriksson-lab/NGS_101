@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Row, circle_rows, feature
 from circular import circularize_ssdna, rolling_circle
 
@@ -26,12 +27,14 @@ CIRCLE = circularize_ssdna(LINEAR, five_prime_phosphate=True)
 RCA = rolling_circle(CIRCLE, "X" * 16, copies=3)
 
 def sections():
+    upstream=AdapterLigationGeometry.unavailable("The current MGI kit manuals describe upstream adapter ligation but keep the adapter strands and ligation-facing end geometry proprietary.")
+    circular=AdapterLigationGeometry.unavailable("The DNB-preparation manual describes splint-assisted circle closure but does not disclose the splint bases or the aligned adapter-end sequences.")
     return [
         ("Denature the indexed double-stranded library",
-         [Row(chunks=[("indexed dsDNA → heat/alkali → one adapter-bearing ssDNA strand", None, False)])],
+         upstream.rows()+[Row(chunks=[("indexed dsDNA → heat/alkali → one adapter-bearing ssDNA strand", None, False)])],
          "Upstream fragmentation, repair, adapter ligation and PCR produce the platform library; DNB preparation begins by making it single-stranded."),
         ("Splint-ligate the strand into a closed circle",
-         circle_rows(CIRCLE.linear, closure_label="splint ligation"),
+         circular.rows()+circle_rows(CIRCLE.linear, closure_label="splint ligation"),
          "A complementary splint aligns the two adapter ends for ligation. The closure joins the final adapter segment back to the first; exonuclease removes unclosed linear molecules."),
         ("Copy the circle into a compact DNA nanoball",
          [Row(chunks=[("circle → φ29 rolling-circle replication", None, False)]),

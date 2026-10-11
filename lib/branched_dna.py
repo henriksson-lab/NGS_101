@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Row, Scene, Segment
+from chemdraw import Row, Scene, Segment, revcomp
 
 
 @dataclass(frozen=True)
@@ -28,6 +28,45 @@ class BranchModel:
     def labels_per_target(self) -> tuple[int, int]:
         return (self.target_pairs_min * self.labels_per_tree,
                 self.target_pairs_max * self.labels_per_tree)
+
+
+@dataclass(frozen=True)
+class SequenceExample:
+    """A disclosed implementation without implying identity to a current product."""
+    title: str
+    note: str
+    oligos: tuple[tuple[str, tuple[Segment, ...]], ...]
+    scene: Scene
+    caption: str
+
+
+def paired_tail_docking_scene(left_tail: str, right_tail: str,
+                              preamplifier_site: str) -> Scene:
+    """Draw and validate a preamplifier across two adjacent probe-tail halves.
+
+    The two top segments are separate probe molecules conceptually; joining them in one
+    Scene strand supplies a common coordinate system for the 28-base docking duplex.
+    The footer makes that representational boundary explicit.
+    """
+    tails = left_tail + right_tail
+    expected = revcomp(tails)
+    if preamplifier_site.upper() != expected:
+        raise ValueError("preamplifier site is not the reverse complement of both Z tails")
+    sc = Scene()
+    sc.strand("paired Z tails", [
+        Segment("left-probe Z tail", left_tail, "cbc"),
+        Segment("right-probe Z tail", right_tail, "cbc"),
+    ], label="two adjacent Z-probe tails")
+    sc.anneal("preamplifier", [
+        Segment("preamplifier docking site", preamplifier_site, "r1"),
+    ], to="paired Z tails",
+              pair=("preamplifier docking site", "left-probe Z tail"),
+              label="preamplifier", above=True)
+    sc.mark("paired Z tails", "left-probe Z tail", "tail supplied by probe 1")
+    sc.mark("paired Z tails", "right-probe Z tail", "tail supplied by probe 2")
+    sc.footer("the two tail segments belong to separate target probes",
+              "paired Z tails")
+    return sc
 
 
 def target_scene() -> Scene:

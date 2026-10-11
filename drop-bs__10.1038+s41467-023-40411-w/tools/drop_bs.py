@@ -3,8 +3,9 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from base_conversion import bisulfite_path
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import nextera_library,seg
-from chemdraw import Row,feature,oligo
+from chemdraw import MolecularState,Row,Scene,Workflow,feature,oligo
 
 CELL_LEN=15
 RANDOM_PRIMER="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"+"N"*9
@@ -20,9 +21,24 @@ SOURCE='<a href="https://doi.org/10.1038/s41467-023-40411-w">Fu et al., <i>Natur
 SUMMARY="MNase-fragmented DNA and a photocleavable barcode bead meet in one droplet. Ligation attaches cell identity before a second droplet conversion, and random priming plus indexed PCR completes the library."
 FINAL_CAPTION="Nextera-ended Drop-BS library carrying the bead-derived 15-nt cell barcode on the converted genomic molecule."
 SEQUENCING_INTRO="Paired-end genomic reads retain the bead barcode; i5 and i7 are added during the final indexing PCR."
+BEAD_LIGATION_END="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
+BLOCKED_SPLINT="CTGTCTCTTATACACATCT"  # 5′→3′; source figure prints this strand 3′→5′
+
+def bead_ligation_geometry():
+ sc=Scene();sc.strand("released bead oligo",[seg("bead barcode and PCR arm","CAAGCAGAAGACGGCATACGAGAT"+"D"*15,"cbc",placeholder=True),seg("ligation-end arm",BEAD_LIGATION_END[:-len(BLOCKED_SPLINT)],"me"),seg("splint-paired terminus",BEAD_LIGATION_END[-len(BLOCKED_SPLINT):],"me")],label="photocleaved bead oligo")
+ sc.anneal("blocked complement",[seg("3′-blocked ligation splint",BLOCKED_SPLINT,"me")],to="released bead oligo",pair=("3′-blocked ligation splint","splint-paired terminus"),label="3′-SpC3; 5′-phosphorylated")
+ sc.ligation_end("released bead oligo","splint-paired terminus",kind="splinted",polarity="3-prime",owner="adapter",text="published splinted bead-oligo 3′ end")
+ sc.strand("insert DNA",[seg("prepared insert end","X"*20,placeholder=True)],label="MNase fragment after end repair")
+ sc.ligation_end("insert DNA","prepared insert end",kind="splinted",polarity="5-prime",owner="substrate",text="insert end presented to splint")
+ return AdapterLigationGeometry.known("splinted",sc,statement="Drop-BS Supplementary Figure 1 prints the bead ligation sequence and the 3′-SpC3-blocked, 5′-phosphorylated complementary oligo that presents the ligation site.")
 def oligos(): yield oligo("random primer",[seg("S5+ME","TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG","me"),seg("N9","N"*9,placeholder=True)])
 def sections(): return [
  ("Lyse and fragment one nucleus in a droplet",[Row(chunks=[("nucleus + MNase → genomic fragments",None,False)])],"MNase fragmentation is optimized independently of conversion."),
- ("Fuse with one barcode-bead droplet",[Row(chunks=[("UV release: bead barcode ** genomic fragment", "cbc",False)])],"End repair and ligation append the photocleaved 15-nt bead barcode."),
+ ("Fuse with one barcode-bead droplet",bead_ligation_geometry().rows()+[Row(chunks=[("UV release: bead barcode ** genomic fragment", "cbc",False)])],"End repair and splint-supported ligation append the photocleaved 15-nt bead barcode."),
  ("Bisulfite-convert barcoded DNA in droplets",[Row(chunks=[(bisulfite_path(protected=False).text(),None,False)]),Row(chunks=[(bisulfite_path(protected=True).text(),"w1",False)])],"Cell identity is already covalent before droplets are broken."),
  ("Random-prime and index",[Row(chunks=[("S5—ME—N9 → extension; i5/i7 PCR completes P5/P7",None,False)])],"The printed N9 primer installs the second amplification handle."),]
+
+def workflow():
+ w=Workflow(MolecularState("MNase-fragmented nucleus and barcode bead",tuple(sections()[0][1])))
+ w.ligate_adapter("Ligate the photocleaved bead oligo",bead_ligation_geometry(),[Row(chunks=[("bead barcode ** genomic fragment","cbc",False)])],note="The blocked complementary oligo aligns the published ligation end.")
+ return w

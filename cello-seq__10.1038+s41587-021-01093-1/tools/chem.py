@@ -1,5 +1,6 @@
 """CELLO-seq long-UMI, full-length single-cell cDNA."""
-from chemdraw import Construct, Row, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Segment, Workflow, feature
 from protocol_extensions import capped_full_length_cdna
 TITLE="CELLO-seq — long-UMI single-cell long-read RNA-seq"
 NOTES="01_cello-seq.html"
@@ -12,3 +13,11 @@ SEQ_PRIMERS=()
 SEQUENCING_ENDING="There is no synthesis sequencing primer. The ONT ligation adapter's motor meters the adapted cDNA through the pore; reads sharing the 22-nt patterned UMI are grouped for consensus correction."
 def sections():
     return [("Reverse-transcribe at high temperature and template-switch",capped_full_length_cdna(retain_poly_a=True).rows(),"A 3-prime-amino-blocked TSO suppresses TSO-primed artefact inserts while retaining full-length cDNA."),("Digest unused oligos and splint-ligate identifiers",[Row(chunks=[("TSO—full-length cDNA—oligo(dT) ** cell barcode—22-nt RYN UMI", "umi", False)])],"HiFi Taq ligase joins the annealed splint carrying cell and molecule identity."),("Amplify deliberately to obtain UMI families",[Row(chunks=[("one barcoded cDNA → many PCR copies with the same 22-nt UMI", "umi", False)])],"High duplicate depth is intentional: multiple noisy long reads form one corrected consensus."),("INFERRED — attach ONT ligation adapters",[Row(chunks=[("motor adapter ** full-length barcoded cDNA → pore", "r2", False)])],"The published experiments use ONT ligation kits; the proprietary adapter sequence is not disclosed."),]
+
+def workflow():
+    s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
+    internal=AdapterLigationGeometry.unavailable("The 2022 CELLO-seq article establishes splint ligation but does not print its strand-resolved termini; the cited 2025 protocol still requires verification before bases are assigned.")
+    w.ligate_adapter(s[1][0],internal,s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2])
+    g=AdapterLigationGeometry.unavailable("The defining CELLO-seq paper identifies an Oxford Nanopore ligation kit, whose motor-adapter end sequence and overhang geometry are proprietary and not disclosed.")
+    w.ligate_adapter("Attach the ONT ligation adapter",g,s[3][1],note=s[3][2])
+    return w

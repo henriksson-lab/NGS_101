@@ -3,7 +3,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import joined_scene, seg, truseq_library
-from chemdraw import Row
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import MolecularState, Row, Scene, Segment, Workflow
 from end_capture import UserHairpin, captured_break_scene, user_opening_rows
 
 TITLE = "END-seq — direct capture of DNA double-strand-break ends"
@@ -16,6 +17,13 @@ A2 = UserHairpin("ENDseq adaptor 2", "GATCGGAAGAGCACACGTCUUUUUUUUAGACGTGTGCTCTTC
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([seg("break-derived genomic insert", "X"*42, placeholder=True)], "END-seq library", inferred_adapters=False)
 FINAL_CAPTION = "USER-opened hairpin arms are completed by TruSeq index PCR; the captured DSB boundary is adjacent to the Read 1 arm."
 SEQUENCING_INTRO = "Single-end END-seq uses Read 1 to enter the captured genomic end; the complete construct also shows the standard TruSeq index and opposite-end primer sites created by PCR."
+
+def hairpin_ligation_geometry(adapter: UserHairpin):
+    sc=Scene();sc.strand("prepared DNA",[Segment("DNA duplex","X"*24,placeholder=True),Segment("DNA 3′ dA","A")],label="dA-tailed DNA")
+    sc.overhang("prepared DNA","DNA 3′ dA",polarity="3-prime",owner="substrate",text="substrate 3′-A")
+    sc.strand("hairpin adapter",[Segment("USER hairpin body",adapter.sequence[:-1],"r1"),Segment("hairpin 3′ dT",adapter.sequence[-1],"r1")],label=adapter.name,mod5="p")
+    sc.overhang("hairpin adapter","hairpin 3′ dT",polarity="3-prime",owner="adapter",text="adapter 3′-T")
+    return AdapterLigationGeometry.known("cohesive",sc,statement=f"The END-seq protocol prints {adapter.name}; its terminal 3′-T pairs with the prepared DNA 3′-A overhang.")
 
 def sections():
     captured = [seg("P5 hairpin", "X"*20, "r1", placeholder=True),
@@ -31,3 +39,9 @@ def sections():
         ("Open both hairpins with USER and index-amplify", user_opening_rows(A1,A2),
          "USER cleavage at deoxyuridines exposes the two PCR-addressable Illumina arms."),
     ]
+
+def workflow():
+    s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
+    w.ligate_adapter(s[1][0],hairpin_ligation_geometry(A1),s[1][1],note=s[1][2])
+    w.ligate_adapter(s[2][0],hairpin_ligation_geometry(A2),s[2][1],note=s[2][2])
+    w.react(s[3][0],s[3][1],note=s[3][2]);return w

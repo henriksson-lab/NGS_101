@@ -131,6 +131,11 @@ finds oligos, not reaction order: the methods still have to be **read**.
   `MolecularState` and call `react()` for each operation; it automatically uses the prior
   output as the next input. Render it once with `workflow_panel()`. Reserve `panel()` for
   a molecular state such as a final library or primer-binding view.
+- **Adapter ends are part of the ligation-ready state.** Use
+  `AdapterLigationGeometry` with `Workflow.ligate_adapter()`: draw source-known cohesive,
+  blunt, splinted or single-strand end geometry (including polarity and bases when known),
+  or construct an explicit `unavailable(...)` state when the authoritative source does
+  not disclose it. The sealed product is a separate state with its exact junction marked.
 - **SVG geometry comes from model semantics, not punctuation.** `Scene` marks strands,
   binding spans and process arrows as typed row visuals; shared rendering supplies arrow
   boxes, proportional-font comments and segment hover name/length/Tm. Do not draw `^^^^` or

@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       annotation_rows, circle_rows, feature)
+from adapter_ligation import AdapterLigationGeometry
 
 
 def seg(name, top, tag=None, **kw):
@@ -104,6 +105,12 @@ def workflow():
     wf = Workflow(MolecularState(INITIAL_NAME, INITIAL_ROWS))
     for action, rows, note in steps:
         wf.react(action, rows, note=note)
+    geometry = AdapterLigationGeometry.unavailable(
+        "The R2C2 paper names the ONT 1D ligation kit, but neither the paper nor its "
+        "oligo table discloses the motor and distal adapter terminal bases.")
+    wf.ligate_adapter("Attach ONT 1D adapters", geometry, final_rows(),
+                      name="motor-loaded R2C2 nanopore library",
+                      note="This is a proprietary single-strand nanopore adapter attachment, not an inferred sticky-end sequence.")
     return wf
 
 

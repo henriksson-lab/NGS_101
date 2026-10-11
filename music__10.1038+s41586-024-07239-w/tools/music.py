@@ -4,7 +4,8 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct,Row,Segment,feature,oligo
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,feature,oligo
 RNA_LINKER="CGAGGAGCGCTTNNNNN"+"ATAGCATTGC"
 DNA_TOP="CTAGACACTGTGCGTATCTNBA"+"A"*30
 DNA_BOTTOM="CGAGGAGNNNNNACAACGCACAGTGTCTAGT"
@@ -22,4 +23,18 @@ def oligos():
  yield oligo("RNA linker",[Segment("DNA portion + 5-nt UMI",RNA_LINKER[:17],"umi",placeholder=True),Segment("RNA portion",RNA_LINKER[17:])],mods="5′-OH; final 10 bases are RNA; 3′-OH")
  yield oligo("DNA linker top",[Segment("phosphorylated top",DNA_TOP,placeholder=True)],mods="5′ phosphate")
  yield oligo("DNA linker bottom",[Segment("bottom with 5-nt UMI",DNA_BOTTOM,"umi",placeholder=True)])
-def sections():return [("Attach analyte-specific linkers",[Row(chunks=[("RNA — chimeric RNA linker     DNA — dA ** Y linker",None,False)])],"The linker sequence later distinguishes RNA from DNA; each linker contains a 5-nt UMI."),("Ligate three cell barcodes",[Row(chunks=[("round 1 ** round 2 ** round 3 ** linker ** insert","cbc",False)])],"Three 96-member sets create 96³ cell identities with ordered complementary overhangs."),("Preserve molecular complexes",[Row(chunks=[("crosslinked complex: RNA + DNA + DNA",None,False)])],"Associated molecules remain together through nuclear fragmentation."),("Add complex barcodes in 10x GEMs",[Row(chunks=[("16-nt GEM barcode + 12-nt UMI + 8-nt i7 → complex identity","cbc",False)])],"Molecules sharing GEM and i7 identify the same molecular complex."),]
+def dna_linker_geometry():
+ sc=Scene(); sc.strand("linker",[Segment("Y-linker body","[published Y-linker duplex]",placeholder=True),Segment("single-base dT","T")],label="DNA linker")
+ sc.ligation_end("linker","single-base dT",kind="cohesive",polarity="3-prime",owner="adapter",text="published 3′-dT sticky end")
+ sub=Scene(); sub.strand("DNA",[Segment("dA-tailed genomic DNA","X"*24,placeholder=True),Segment("genomic 3-prime dA","A")],label="DNA")
+ sub.ligation_end("DNA","genomic 3-prime dA",kind="cohesive",polarity="3-prime",owner="substrate",text="3′-dA")
+ return AdapterLigationGeometry.known("cohesive",sc,sub,statement="The published MUSIC Y linker has a single-base sticky end complementary to dA-tailed genomic DNA; its full top and bottom oligos remain copyable above.")
+
+def sections():
+ wf=Workflow(MolecularState("Crosslinked RNA and fragmented DNA",(Row(chunks=[("RNA … crosslinked complex … dA-tailed DNA",None,False)]),)))
+ wf.ligate_adapter("Ligate the analyte-specific DNA linker",dna_linker_geometry(),[Row(chunks=[("DNA — dA:T ** Y linker","me",False)])],note="The linker sequence distinguishes DNA and carries a five-base UMI.")
+ wf.react("Attach the chimeric RNA linker",[Row(chunks=[("RNA ** chimeric RNA linker",None,False)])],note="RNA ligation is a single-strand end reaction, not a duplex-overhang ligation.")
+ wf.react("Ligate three cell barcodes",[Row(chunks=[("round 1 ** round 2 ** round 3 ** linker ** insert","cbc",False)])],note="Three 96-member sets create 96³ cell identities with ordered complementary overhangs.")
+ wf.react("Preserve molecular complexes",[Row(chunks=[("crosslinked complex: RNA + DNA + DNA",None,False)])],note="Associated molecules remain together through nuclear fragmentation.")
+ wf.react("Add complex barcodes in 10x GEMs",[Row(chunks=[("16-nt GEM barcode + 12-nt UMI + 8-nt i7 → complex identity","cbc",False)])],note="Molecules sharing GEM and i7 identify the same molecular complex.")
+ return [(r.action,r.after.rows,r.note) for r in wf.reactions]

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from branched_dna import target_scene, tree_rows
-from chemdraw import Row, panel
+from chemdraw import Row, oligo, panel
 from page import head, info
 import seqprimers as sp
 
@@ -11,17 +11,27 @@ def render(module) -> str:
     model = module.MODEL
     lo, hi = model.labels_per_target
     total = f"{lo:,}" if lo == hi else f"{lo:,}–{hi:,}"
+    boundary = getattr(
+        module, "SEQUENCE_BOUNDARY",
+        "Target, preamplifier, amplifier and label-probe sequences are proprietary. "
+        "Role-labelled placeholders show only the published hybridization architecture.")
     chunks = [head(module.TITLE), '<div class="wrap">', f'<h1>{module.TITLE}</h1>',
               f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',
               info(module.SOURCE), info(module.SUMMARY),
-              '<div class="caveat"><b>Sequence boundary.</b> Target, preamplifier, amplifier '
-              'and label-probe sequences are proprietary. Role-labelled placeholders show '
-              'only the published hybridization architecture.</div>',
+              f'<div class="caveat"><b>Sequence boundary.</b> {boundary}</div>',
               '<h2>(1) Prepare the specimen</h2>',
               panel([Row(chunks=[(module.PREPARATION, None, False)])],
                     caption=module.PREPARATION_CAPTION),
               '<h2>(2) Hybridize adjacent target-probe pairs</h2>',
-              panel(target_scene().rows(), cls="small", caption=module.TARGET_CAPTION),
+              panel(target_scene().rows(), cls="small", caption=module.TARGET_CAPTION)]
+    if hasattr(module, "sequence_example"):
+        example = module.sequence_example()
+        chunks.extend([
+            f'<h3>{example.title}</h3>', info(example.note), '<seq>',
+            *(oligo(name, segments) for name, segments in example.oligos), '</seq>',
+            panel(example.scene.rows(), cls="small", caption=example.caption),
+        ])
+    chunks.extend([
               '<h2>(3) Assemble the branched-DNA signal tree</h2>',
               panel(tree_rows(model), cls="small",
                     caption=(f"One tree carries {model.labels_per_tree} label-probe sites; "
@@ -35,5 +45,5 @@ def render(module) -> str:
                   sp.read_spec("Sequencing output", None,
                                "No sequencing library or sequencing reads", "not_applicable")
               ], "This is a branched-DNA imaging/flow-cytometry assay, not an NGS library."),
-              '</div>']
+              '</div>'])
     return "\n".join(chunks)

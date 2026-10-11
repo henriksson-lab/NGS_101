@@ -97,6 +97,18 @@ def ligated_arna() -> Construct:
     ], name="rRNA-depleted aRNA after RA3 ligation")
 
 
+def ra3_ligation_geometry():
+    from adapter_ligation import AdapterLigationGeometry
+    sc = Scene(); sc.strand("RA3", [seg("5′-rApp ligating end", RA3, "r2"),
+                                    inferred("3′ blocking group", "[3SpC3]")],
+                            label="published RA3")
+    sc.ligation_end("RA3", "5′-rApp ligating end", kind="single-strand",
+                    polarity="5-prime", owner="adapter",
+                    text="5′-rApp single-strand end")
+    return AdapterLigationGeometry.known("single-strand", sc,
+        statement="Table 12 prints /5rApp/-RA3-/3SpC3/: its activated 5′ end ligates to aRNA 3′-OH, while the 3′ block prevents concatemerization; this is not a duplex overhang.")
+
+
 def rtp_segments() -> list[Segment]:
     """RTP assembled so its published 21-nt annealing core is guaranteed from RA3."""
     core = revcomp(RA3)

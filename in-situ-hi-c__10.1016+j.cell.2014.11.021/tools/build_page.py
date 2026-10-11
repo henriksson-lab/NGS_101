@@ -8,6 +8,7 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import insitu_hic as H
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info
 
@@ -44,6 +45,7 @@ def library() -> str:
 <h3>(5) Reverse crosslinks, shear, and capture biotin</h3>
 {panel([strand_row(insert), *annotation_rows(insert)], cls="small", caption="DNA is sheared to 300–500 bp. Streptavidin retains fragments containing the internal biotin-marked contact junction.")}
 <h3>(6) Repair ends, add dA, ligate an indexed Illumina adapter, and PCR</h3>
+{panel(AdapterLigationGeometry.unavailable("Rao et al. name an indexed Illumina adapter but do not identify the kit or report its ligation-ready end geometry.").rows(), cls="small", caption="Source limitation before adapter ligation.")}
 {panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small", caption="PCR-completed paired-end library. The protocol says only ‘Illumina indexed adapter’; it does not identify a kit generation, index count, or adapter bases.")}
 '''
 

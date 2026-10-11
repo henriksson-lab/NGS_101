@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from chemdraw import (ComponentVisual, Construct, Scene, Segment, Workflow, bases_pair,
                       complement_segments, revcomp)
+from adapter_ligation import AdapterLigationGeometry
 
 
 @dataclass(frozen=True)
@@ -43,8 +44,8 @@ def dA_tailed_scene(product: EndPreparedDuplex, label: str = "end-prepared DNA")
     sc.anneal("bottom", [*bottom_body, bottom_a], to="top",
               pair=(bottom_body[0].name, body[0].name), label=label,
               unpaired=role_tokens, mod5="p" if product.five_prime_phosphate else "")
-    sc.mark("top", top_a.name, "3′ dA")
-    sc.mark("bottom", bottom_a.name, "3′ dA")
+    sc.overhang("top", top_a.name, polarity="3-prime", owner="substrate", text="3′ dA")
+    sc.overhang("bottom", bottom_a.name, polarity="3-prime", owner="substrate", text="3′ dA")
     return sc
 
 
@@ -72,6 +73,27 @@ class ThreePrimeOverhangAdapter:
     def accepts(self, product: EndPreparedDuplex) -> bool:
         return (product.five_prime_phosphate
                 and bases_pair(self.overhang_3, product.three_prime_overhang))
+
+    def scene(self) -> Scene:
+        """Draw the source-known duplex core and its terminal 3′ overhang."""
+        top = [Segment(f"{self.name} duplex core", self.core),
+               Segment(f"{self.name} 3-prime overhang", self.overhang_3)]
+        bottom = [Segment(f"{self.name} bottom", self.bottom)]
+        sc = Scene(); sc.strand("adapter top", top, label=self.name)
+        sc.anneal("adapter bottom", bottom, to="adapter top",
+                  pair=(bottom[0].name, top[0].name), label=self.name)
+        sc.overhang("adapter top", top[-1].name, polarity="3-prime", owner="adapter")
+        return sc
+
+
+def cohesive_ligation_geometry(product: EndPreparedDuplex,
+                                adapter: ThreePrimeOverhangAdapter,
+                                *, statement: str) -> AdapterLigationGeometry:
+    """The two explicit, compatible reagent ends before dA/dT adapter ligation."""
+    if not adapter.accepts(product):
+        raise ValueError("adapter and end-prepared substrate overhangs are incompatible")
+    return AdapterLigationGeometry.known(
+        "cohesive", dA_tailed_scene(product), adapter.scene(), statement=statement)
 
 
 @dataclass(frozen=True)
@@ -154,7 +176,8 @@ def ligation_product_scene(library: Construct, insert_first: str,
 
 
 def react_dA_tail_then_ligate(workflow: Workflow, product: EndPreparedDuplex,
-                              ligated: Scene, *, dA_action: str = "Add 3-prime dA tails",
+                              adapter: ThreePrimeOverhangAdapter, ligated: Scene, *,
+                              dA_action: str = "Add 3-prime dA tails",
                               ligation_action: str = "Ligate adapters",
                               dA_name: str = "dA-tailed DNA",
                               ligated_name: str = "adapter-ligated library",
@@ -171,5 +194,9 @@ def react_dA_tail_then_ligate(workflow: Workflow, product: EndPreparedDuplex,
             for row in ligated_rows):
         raise ValueError("sticky-end ligation product needs semantic component backgrounds")
     workflow.react(dA_action, dA_tailed_scene(product).rows(), name=dA_name, note=dA_note)
-    workflow.react(ligation_action, ligated_rows, name=ligated_name,
-                   note=ligation_note)
+    geometry = cohesive_ligation_geometry(
+        product, adapter,
+        statement=(f"{adapter.name} carries a 3′-{adapter.overhang_3} overhang "
+                   f"complementary to the substrate 3′-{product.three_prime_overhang}."))
+    workflow.ligate_adapter(ligation_action, geometry, ligated_rows,
+                            name=ligated_name, note=ligation_note)

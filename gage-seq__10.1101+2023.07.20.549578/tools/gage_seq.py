@@ -3,7 +3,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import nextera_library,seg
-from chemdraw import Row,feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import MolecularState,Row,Workflow,feature
 CELL1=feature("gage_cell_round1","cell_barcode","combinatorial",group="gage_cell",part="ligation round 1",whitelist="96-well adapter set")
 CELL2=feature("gage_cell_round2","cell_barcode","combinatorial",group="gage_cell",part="ligation round 2",whitelist="96-well adapter set")
 def payload(label,rna=False):
@@ -19,4 +20,7 @@ SUMMARY="In fixed cells, RNA is reverse-transcribed and genomic contacts are pro
 CAVEAT="The source establishes the two combinatorial barcode rounds and final Nextera/TruSeq PCR design. Representative barcode bases are typed placeholders because the full adapter table is supplementary."
 FINAL_LIBRARIES=(("Chromatin-contact library",DNA,DNA_P,"Proximity-ligated DNA is preamplified, tagmented and indexed.","Paired reads traverse the two genomic sides of captured contacts."),("RNA library",RNA,RNA_P,"Biotinylated cDNA is recovered, dC-tailed, amplified and tagmented.","Cell barcode rounds and the RT UMI identify each transcript observation."))
 READ_LENGTHS={"Chromatin-contact library":{"Read 1":150,"Read 2":150},"RNA library":{"Read 1":150,"Read 2":150}}
-def sections():return [("Fix and prepare contacts",[Row(chunks=[("locus A ** proximity-ligation junction ** locus B",None,False)])],"Crosslinked chromatin is digested, filled and ligated in situ."),("Reverse-transcribe RNA",[Row(chunks=[("biotin-poly(dT) or random hexamer — UMI — cDNA","umi",False)])],"RNA receives an RT UMI and affinity handle."),("Ligate two cell indexes",[Row(chunks=[("round-1 barcode ** round-2 barcode ** DNA or cDNA","cbc",False)])],"Separate DNA- and cDNA-compatible adapter sets preserve modality while encoding cell identity."),("Separate and build libraries",[Row(chunks=[("streptavidin cDNA ──► RNA library\nsupernatant DNA  ──► contact library",None,False)])],"Each branch is preamplified, Nextera-tagmented and sequenced PE150.")]
+def barcode_geometry():return AdapterLigationGeometry.unavailable("The GAGE-seq preprint establishes analyte-specific two-round ligation adapters, but no strand-resolved adapter table has yet been verified from the supplementary source; their overhangs are not asserted.")
+def sections():return [("Fix and prepare contacts",[Row(chunks=[("locus A ** proximity-ligation junction ** locus B",None,False)])],"Crosslinked chromatin is digested, filled and ligated in situ."),("Reverse-transcribe RNA",[Row(chunks=[("biotin-poly(dT) or random hexamer — UMI — cDNA","umi",False)])],"RNA receives an RT UMI and affinity handle."),("Ligate two cell indexes",barcode_geometry().rows()+[Row(chunks=[("round-1 barcode ** round-2 barcode ** DNA or cDNA","cbc",False)])],"Separate DNA- and cDNA-compatible adapter sets preserve modality while encoding cell identity; their overhang geometry remains explicitly unavailable."),("Separate and build libraries",[Row(chunks=[("streptavidin cDNA ──► RNA library\nsupernatant DNA  ──► contact library",None,False)])],"Each branch is preamplified, Nextera-tagmented and sequenced PE150.")]
+def workflow():
+ s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])));w.react(s[1][0],s[1][1],note=s[1][2]);w.ligate_adapter(s[2][0],barcode_geometry(),s[2][1],note=s[2][2]);return w

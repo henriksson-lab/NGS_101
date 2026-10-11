@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from batch_ngs import duplex_fragment, seg
 from chemdraw import Construct, MolecularState, Workflow, feature
+from adapter_ligation import AdapterLigationGeometry
 from molecular_consensus import CopiedDuplexUID
 
 TITLE = "SaferSeqS — copied duplex UID with strand-specific enrichment"
@@ -48,10 +49,16 @@ def workflow():
     chemistry = CopiedDuplexUID(14)
     w = Workflow(MolecularState("End-repaired genomic fragment",
                                 tuple(duplex_fragment("blunt dephosphorylated DNA").rows())))
-    w.react("Ligate the UID-bearing 3′ adapter",
+    uid_end = AdapterLigationGeometry.unavailable(
+        "The defining article establishes ligation to the dephosphorylated 3′ fragment ends, "
+        "but the fetched article does not disclose Supplementary Table 7 adapter-end bases.")
+    w.ligate_adapter("Ligate the UID-bearing 3′ adapter", uid_end,
             chemistry.three_prime_adapter().rows(), name="3′-adapter-ligated duplex",
             note="The adapter is installed at the two 3′ fragment ends after dephosphorylation and blunting.")
-    w.react("Extend the UID and ligate the 5′ adapter",
+    five_prime_end = AdapterLigationGeometry.unavailable(
+        "The defining article establishes the later 5′-adapter ligation, but the fetched "
+        "article does not disclose Supplementary Table 7 adapter-end bases.")
+    w.ligate_adapter("Extend the UID and ligate the 5′ adapter", five_prime_end,
             chemistry.copied_barcode().rows(), name="duplex-barcoded library",
             note="Extension copies one random UID into both strands before redundant amplification.")
     w.react("Partition into Watson- and Crick-specific hemi-nested PCRs",

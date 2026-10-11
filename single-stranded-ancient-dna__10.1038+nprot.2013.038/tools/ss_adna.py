@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, feature
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature
 
 TITLE = "Single-stranded library preparation for ancient or damaged DNA"
 NOTES = "01_single-stranded-library.html"
@@ -36,18 +37,22 @@ if problems: raise ValueError("ancient-DNA library: " + "; ".join(problems))
 FINAL_CAPTION = "Indexed PCR supplies full flow-cell arms around the recovered ancient strand. The P5-side primer site is deliberately truncated and uses the published CL72 custom Read 1 primer."
 SEQUENCING_INTRO = "CL72 replaces the standard Read 1 primer because the P5-side library arm is truncated. The read begins directly in the captured ancient DNA strand."
 
-def sections():
-    ss = Scene(); ss.strand("damaged strand", [seg("damaged DNA", "X" * 30, placeholder=True)], label="heat-denatured input")
-    return [
-        ("Denature and ligate the first adapter to individual strands", ss.rows() +
-         [Row(chunks=[("3′-OH ** 5′-p-CL78-[C3 spacer]10-[TEG-biotin]", "cbc", False)])],
-         "CircLigase joins the 3′ end of each input strand to phosphorylated CL78. ** marks the single-strand ligation; the terminal biotin enables capture."),
-        ("Immobilize and copy the captured strand",
-         [Row(chunks=[("streptavidin bead—biotin—CL78—ancient DNA", "cbc", False)]),
-          Row(chunks=[("                         ||||||||||||||  ← polymerase copy", None, False)])],
-         "The bead retains the adapter-bearing template through washes. An extension primer copies the complete captured strand into a duplex."),
-        ("Blunt-ligate the second adapter and index by PCR",
-         [Row(chunks=[("CL53/CL73 duplex ** copied ancient-DNA duplex ** first-adapter end", "me", False)]),
-          Row(chunks=[("                    indexed P5/P7 primers complete the library", None, False)])],
-         "A second adapter is added by blunt-end ligation. PCR releases and completes the sequenceable molecules; ** marks ligation boundaries."),
-    ]
+def _cl78_geometry():
+    sc=Scene(); sc.strand("CL78",[seg("5′ phosphorylated CL78 ligating end","X"*12,placeholder=True),seg("C3 spacers + TEG-biotin","[C3 spacer]10-[TEG-biotin]",placeholder=True)],label="published CL78")
+    sc.ligation_end("CL78","5′ phosphorylated CL78 ligating end",kind="single-strand",polarity="5-prime",owner="adapter",text="5′-p single-strand ligating end")
+    return AdapterLigationGeometry.known("single-strand",sc,statement="The protocol specifies CircLigase joining the input 3′-OH to the phosphorylated 5′ end of CL78; this is not a duplex overhang.")
+
+def _cl53_cl73_geometry():
+    sc=Scene.duplex([seg("CL53/CL73 paired end","X"*20,placeholder=True)],label="CL53/CL73 adapter")
+    sc.ligation_end("top","CL53/CL73 paired end",kind="blunt",owner="adapter",text="blunt adapter end")
+    return AdapterLigationGeometry.known("blunt",sc,statement="The protocol explicitly blunt-ligates the CL53/CL73 duplex to the copied ancient-DNA duplex.")
+
+def workflow():
+    ss=Scene(); ss.strand("damaged strand",[seg("damaged DNA","X"*30,placeholder=True)],label="heat-denatured input")
+    w=Workflow(MolecularState("heat-denatured ancient DNA",tuple(ss.rows())))
+    joined=Scene(); joined.strand("captured strand",[seg("damaged DNA","X"*30,placeholder=True),seg("CL78","X"*16,placeholder=True)],label="CL78-ligated strand"); joined.junction("captured strand","damaged DNA","CL78","CircLigase")
+    w.ligate_adapter("Ligate CL78 to individual strands",_cl78_geometry(),joined.rows(),name="CL78-ligated ancient DNA",note="The terminal biotin enables capture.")
+    w.react("Immobilize and copy the captured strand",[Row(chunks=[("streptavidin bead—biotin—CL78—ancient-DNA duplex","cbc",False)])],name="copied ancient-DNA duplex",note="The bead retains the adapter-bearing template through washes.")
+    product=Scene.duplex([seg("CL53/CL73 adapter","X"*18,placeholder=True),seg("copied ancient DNA","X"*30,placeholder=True),seg("first-adapter end","X"*16,placeholder=True)],label="dual-adapter molecule"); product.junction("top","CL53/CL73 adapter","copied ancient DNA","blunt ligation")
+    w.ligate_adapter("Blunt-ligate the second adapter",_cl53_cl73_geometry(),product.rows(),name="dual-adapter ancient-DNA duplex",note="Indexed PCR releases and completes the sequenceable molecule.")
+    return w
