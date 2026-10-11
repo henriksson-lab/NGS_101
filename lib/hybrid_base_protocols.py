@@ -115,7 +115,7 @@ def _conversion_workflow(key: str) -> Workflow:
         ("Denature, then deaminate C and 5mC with APOBEC3A", readout,
          "C and 5mC read as T; protected 5hmC remains C without bisulfite."),
         ("Install Accel Methyl-NGS adapters and index by PCR",
-         _role_library_scene("ACE-seq library", ("ACE-treated insert",)),
+         _role_library_scene("ACE-seq library", ("ACE-treated insert",), ligated=False),
          "Adapter construction follows deamination; the commercial oligo sequences are not public."),
     ))
 
@@ -154,16 +154,33 @@ def _hybrid_workflow(key: str) -> Workflow:
         ("Denature and copy captured DNA with the tailed N9 primer", primed,
          "Random priming converts the DNA component to dsDNA and creates a blocking 5′ overhang."),
         ("dA-tail, ligate one Illumina adapter and PCR-amplify",
-         _role_library_scene("strand-specific R-ChIP library", ("tailed-N9 end", "R-loop DNA-derived insert")),
+         _rchip_library_scene(),
          "Only the unobstructed end accepts the adapter, so read orientation is retained."),
     ))
 
 
-def _role_library_scene(name: str, payload: tuple[str, ...]) -> Scene:
+def _role_library_scene(name: str, payload: tuple[str, ...], *, ligated: bool = True) -> Scene:
     lib = _role_library(name, payload)
     sc = Scene.duplex(list(lib), label=name)
-    sc.junction("top", "Illumina-compatible left adapter", payload[0], "adapter ligation")
-    sc.junction("top", payload[-1], "Illumina-compatible right adapter", "adapter ligation")
+    if ligated:
+        sc.junction("top", "Illumina-compatible left adapter", payload[0], "adapter ligation")
+        sc.junction("top", payload[-1], "Illumina-compatible right adapter", "adapter ligation")
+    return sc
+
+
+def _rchip_library() -> Construct:
+    return Construct([
+        Segment("tailed N9 handle", "CAAGCAGAAGACGGCATACGAG", "p7"),
+        _part("N9 random-primer remnant", "N", 9),
+        _part("R-loop DNA-derived insert"),
+        _part("one ligated Illumina adapter", "R", 18),
+    ], name="strand-specific R-ChIP library")
+
+
+def _rchip_library_scene() -> Scene:
+    sc = Scene.duplex(list(_rchip_library()), label="strand-specific R-ChIP library")
+    sc.junction("top", "R-loop DNA-derived insert", "one ligated Illumina adapter",
+                "adapter ligation")
     return sc
 
 
@@ -218,7 +235,8 @@ def get(key: str):
         final, primers = truseq_library([seg(d.payload[0], "X" * 34, placeholder=True)],
                                         d.title + " final library", dual_index=False)
     else:
-        final, primers = _role_library(d.title + " final library", d.payload), ()
+        final, primers = ((_rchip_library() if key == "r-chip" else
+                           _role_library(d.title + " final library", d.payload)), ())
     return SimpleNamespace(
         TITLE=d.title, NOTES=d.notes,
         SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.source}</a>.' +

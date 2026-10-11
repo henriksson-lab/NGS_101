@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import sys
+
+HERE = Path(__file__).resolve().parent
+sys.path[:0] = [str(HERE.parents[1] / "lib")]
+from checks import Check
+from open_chromatin_conformation import HICAR7_I0_WRITTEN, TRUSEQ_R1_SPLINT
+
+c = Check()
+c.section("HiCAR source transcription")
+c("HiCAR7-i0 ordering string", HICAR7_I0_WRITTEN,
+  "/5Phos/taGGTCTGAGTTCGCACAAAGGGAAGAGCGTCGTGTGGAGATGTGTATAAGAGACAG")
+c("TruseqR1 splint", TRUSEQ_R1_SPLINT, "ACACGACGCTCTTCCGATCT")
+c.report()

@@ -33,8 +33,10 @@ def render(m) -> str:
         # Scene still owns placement; excluding those prose columns from base-pair
         # validation avoids pretending that a literal "[adapter]" has a complement.
         unknown = tuple(s.name + "'" for s in lib if s.is_role_token())
+        final_rows = (m.final_rows() if callable(getattr(m, "final_rows", None))
+                      else duplex_rows(lib, label="library", unpaired=unknown))
         parts.extend(['<h2>Final sequencing library</h2>',
-                      panel(duplex_rows(lib, label="library", unpaired=unknown), cls="long",
+                      panel(final_rows, cls="long",
                             caption=m.FINAL_CAPTION)])
     if primers:
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,

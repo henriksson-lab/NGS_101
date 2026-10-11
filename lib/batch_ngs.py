@@ -16,8 +16,11 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
-                    inferred_adapters: bool = False) -> tuple[Construct, tuple]:
+                    inferred_adapters: bool = False,
+                    i7_nt: int = 8) -> tuple[Construct, tuple]:
     """Canonical TruSeq library with validated R1/I1/(I2)/R2 sites."""
+    if i7_nt < 1:
+        raise ValueError("a TruSeq indexed library needs a positive i7 length")
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
         left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
@@ -26,7 +29,7 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=inferred_adapters))
     lib = Construct([*left, *insert, seg("dA junction", "A", inferred=inferred_adapters),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred_adapters),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
             feature=feature("sample_index_i7", "sample_index", "unknown"),
             inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred_adapters)], name=name)
@@ -40,24 +43,29 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
 
 
 def nextera_library(insert: list[Segment], name: str, *,
-                    inferred_adapters: bool = False) -> tuple[Construct, tuple]:
+                    inferred_adapters: bool = False, dual_index: bool = True,
+                    i7_nt: int = 8) -> tuple[Construct, tuple]:
     """Heterologous S5/S7 Tn5 product after indexed PCR, with validated run sites."""
-    lib = Construct([
-        seg("P5", il.P5, "p5", inferred=inferred_adapters),
-        seg("i5", "J" * 8, "cbc", placeholder=True,
-            feature=feature("sample_index_i5", "sample_index", "unknown"),
-            inferred=inferred_adapters),
-        seg("S5", nx.S5, "s5", inferred=inferred_adapters),
+    if i7_nt < 1:
+        raise ValueError("a Nextera indexed library needs a positive i7 length")
+    left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
+    if dual_index:
+        left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+                        feature=feature("sample_index_i5", "sample_index", "unknown"),
+                        inferred=inferred_adapters))
+    left.append(seg("S5", nx.S5, "s5", inferred=inferred_adapters))
+    lib = Construct([*left,
         seg("left mosaic end", nx.ME, "me", inferred=inferred_adapters), *insert,
         seg("right mosaic end reverse complement", nx.ME_RC, "me",
             inferred=inferred_adapters),
         seg("S7 reverse complement", nx.S7_RC, "s7", inferred=inferred_adapters),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
             feature=feature("sample_index_i7", "sample_index", "unknown"),
             inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred_adapters)], name=name)
-    primers = (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["I2"], sp.NEXTERA["R2"])
-    problems = sp.verify(lib, primers)
+    primers = ((sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["I2"], sp.NEXTERA["R2"])
+               if dual_index else (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["R2"]))
+    problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
     if problems:
         raise ValueError(f"{name}: " + "; ".join(problems))
     return lib, primers

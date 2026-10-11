@@ -33,7 +33,7 @@ FACETS = OrderedDict([
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
         "replication timing", "multiomic"))),
     ("platform", ("Sequencing platform", (
-        "Illumina", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry"))),
+        "Illumina", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry"))),
     ("partitioning", ("Partitioning", (
         "bulk", "plate / well", "droplet", "microwell", "combinatorial indexing",
         "single nucleus", "single cell", "spatial / in situ"))),
@@ -45,12 +45,12 @@ FACETS = OrderedDict([
         "immune-receptor RNA"))),
     ("fragmentation", ("Fragmentation or entry", (
         "mechanical", "enzymatic", "restriction digest", "Tn5 / tagmentation",
-        "RNase / MNase", "Cas nuclease cleavage", "no fragmentation"))),
+        "RNase / MNase", "Cas nuclease cleavage", "chemical fragmentation", "no fragmentation"))),
     ("adapter_installation", ("Adapter installation", (
         "ligation", "Tn5", "PCR-added", "reverse transcription", "template switching", "tailing + priming",
         "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
         "hybridization scaffold", "bead-mediated barcoding", "RNA-DNA bridge",
-        "random priming", "overlap assembly"))),
+        "random priming", "extension / fill-in", "overlap assembly"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
         "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
@@ -65,10 +65,11 @@ FACETS = OrderedDict([
         "RNA hybridization", "crosslink-induced RT signature"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
-        "lineage barcode", "linked-read barcode", "cluster barcode", "feature barcode", "no UMI"))),
+        "lineage barcode", "linked-read barcode", "molecular complex barcode", "cluster barcode", "feature barcode", "no UMI"))),
     ("read_structure", ("Read structure", (
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
-        "barcode in Read 2", "custom sequencing primer", "long-read consensus",
+        "barcode in Read 2", "barcode in Index 1", "barcode in Index 2",
+        "custom sequencing primer", "long-read consensus",
         "microscopy", "flow cytometry"))),
     ("selection", ("Selection or enrichment", (
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
@@ -78,7 +79,8 @@ FACETS = OrderedDict([
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
         "adenine methyltransferase", "dUTP strand marking", "chemical conversion",
-        "enzymatic deamination", "none"))),
+        "enzymatic deamination", "enzymatic demethylation", "RNA end repair",
+        "modification-induced misincorporation", "aniline cleavage", "none"))),
     ("availability", ("Availability", (
         "published academic protocol", "commercial kit", "discontinued / historical",
         "exact oligos public", "proprietary sequences", "schematic complete",

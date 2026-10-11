@@ -53,6 +53,14 @@ PAGE_BASE = "https://teichlab.github.io/scg_lib_structs/methods_html/"
 REPO = "https://github.com/Teichlab/scg_lib_structs"
 UA = "chem-catalogue/1.0 (+https://github.com/henriksson-lab; mailto:he.johan@gmail.com)"
 
+# Earlier names of protocols that were renamed for journal publication.  These are
+# aliases, not a second chemistry page.  The mapping participates in the catalogue join
+# so the original name remains searchable through the joined upstream row.
+OURS_PROTOCOL_ALIASES = {
+    "hsrchst-seq": "Spatial-CUT&Tag",
+    "Spatial C&T": "Spatial-CUT&Tag",
+}
+
 # A link on a method page is a paper if it points at one of these.
 PAPER_HOSTS = re.compile(
     r"(doi\.org|pubmed\.ncbi|ncbi\.nlm\.nih\.gov/pmc|biorxiv\.org|medrxiv\.org|"
@@ -704,6 +712,14 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
     by_dir = {m["dir"]: m for m in mine}
     matched_protocols = {r["protocol"]: by_dir[r["slug"]] for r in rows if r["slug"] in by_dir}
     by_name = {m["protocol"].casefold(): m for m in mine}
+    for alias, canonical in OURS_PROTOCOL_ALIASES.items():
+        target = by_name.get(canonical.casefold())
+        if target is None:
+            raise ValueError(f"protocol alias {alias!r} names missing canonical row {canonical!r}")
+        existing = by_name.get(alias.casefold())
+        if existing is not None and existing is not target:
+            raise ValueError(f"protocol alias {alias!r} collides with {existing['protocol']!r}")
+        by_name[alias.casefold()] = target
     for r in rows:
         if r["protocol"] not in matched_protocols and r["protocol"].casefold() in by_name:
             matched_protocols[r["protocol"]] = by_name[r["protocol"].casefold()]

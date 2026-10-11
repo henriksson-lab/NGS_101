@@ -146,6 +146,15 @@ closely related methods look interchangeable when they are not.
 **Review when.** Revisit only if the site gains an explicit comparison view. A comparison
 view would sit above protocol pages; it would not replace them.
 
+### Preprint names that change at publication
+
+When the same chemistry is renamed between its preprint and journal article, it keeps one
+protocol page under the published name. The earlier name is an explicit catalogue alias,
+so it remains searchable and its paper remains linked, but it must not create a duplicate
+schematic. This applies only when the sources establish identity of the workflow; related
+or versioned methods still receive separate pages. Spatial-CUT&Tag, introduced as
+hsrChST-seq, is the first recorded instance.
+
 ## 2026-10-07 — Schematic pages are diagrams, not research reports
 
 **Decision.** Public protocol pages contain the source link, key oligos, construct-changing

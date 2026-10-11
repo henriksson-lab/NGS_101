@@ -193,6 +193,17 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
     for s in lib:
         coords.append((s, pos, pos + len(s)))
         pos += len(s)
+
+    def crosses_unknown(a: int, b: int) -> bool:
+        """Whether a cycle path crosses a schematic region of unknown real length.
+
+        Role tokens have a printable width so diagrams can show them, but that width is
+        not a molecular length.  Identifier cycles beyond such a token are unknowable and
+        must not be derived from the number of characters in its label.
+        """
+        lo, hi = sorted((a, b))
+        return any(s.is_role_token() and s.length_bp is None and start < hi and end > lo
+                   for s, start, end in coords)
     out = []
     for primer in primers:
         limit = read_lengths.get(primer.role)
@@ -207,10 +218,16 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
             if hit.strand == "bottom":
                 if end <= hit.end:
                     continue
+                if crosses_unknown(hit.end, start) or (
+                        segment.is_role_token() and segment.length_bp is None):
+                    continue
                 first = max(start, hit.end) - hit.end + 1
                 last = end - hit.end
             else:
                 if start >= hit.start:
+                    continue
+                if crosses_unknown(end, hit.start) or (
+                        segment.is_role_token() and segment.length_bp is None):
                     continue
                 first = hit.start - min(end, hit.start) + 1
                 last = hit.start - start

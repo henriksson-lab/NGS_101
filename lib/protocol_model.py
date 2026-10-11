@@ -6,7 +6,18 @@ junction marking and workflow continuity in one place.
 """
 from __future__ import annotations
 
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
+from dataclasses import dataclass
+
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, circle_rows
+
+
+@dataclass(frozen=True)
+class Drawing:
+    """A checked row drawing that can be used as a workflow molecular state."""
+    data: tuple[Row, ...]
+
+    def rows(self) -> list[Row]:
+        return list(self.data)
 
 
 def role(name: str, *, tag: str | None = None, length_bp: int | None = None,
@@ -24,6 +35,13 @@ def molecule(label: str, parts: tuple[Segment, ...], *,
         sc.junction("molecule", left, right, kind)
     sc.labels("molecule")
     return sc
+
+
+def closed_circle(label: str, parts: tuple[Segment, ...], *,
+                  closure_label: str = "covalently closed") -> Drawing:
+    """A readable circular molecule whose last-to-first closure is model-derived."""
+    con = Construct(parts, name=label)
+    return Drawing(tuple(circle_rows(con, closure_label)))
 
 
 def chain(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workflow:

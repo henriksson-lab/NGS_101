@@ -17,6 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
+import pta as pta_chem
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
 
@@ -155,11 +156,14 @@ PTA_PRIMER_PS_LINKAGES = 2  # two 3'-terminal phosphorothioates (Thermo SO181 / 
 
 def pta_amplicon() -> Construct:
     """One PTA amplicon as drawn on the page. Both termini are chemically distinctive."""
+    shared = pta_chem.amplification_product(
+        primer_len=PTA_PRIMER_LEN,
+        primer_note="5'-OH; last two linkages are phosphorothioate -- needs T4 PNK before ligation")
     return Construct([
-        _seg("random primer", "N" * PTA_PRIMER_LEN, "tso", placeholder=True,
-             note="5'-OH; last two linkages are phosphorothioate -- needs T4 PNK before ligation"),
+        _seg("random primer", shared.segments[0].top, "tso", placeholder=True,
+             note=shared.segments[0].note),
         _seg("amplified genomic DNA", "XXX...XXX", None, placeholder=True),
-        _seg("terminator", "ddN", "w1", placeholder=True,
+        _seg("terminator", shared.segments[-1].top, "w1", placeholder=True,
              note="alpha-thio-dideoxy: no 3'-OH, PS linkage; cannot be A-tailed or exo-rescued"),
     ], name="PTA amplicon")
 

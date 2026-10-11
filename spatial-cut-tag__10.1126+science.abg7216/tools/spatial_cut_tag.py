@@ -1,20 +1,42 @@
-"""Spatial-CUT&Tag molecular model."""
+"""Spatial-CUT&Tag / hsrChST-seq molecular model."""
 from pathlib import Path
 import sys
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row
-from chromatin_epigenetics import antibody_enzyme_rows,spatial_barcoded_library
-from multimodal_spatial import barcode_rounds
-FINAL_LIBRARY,SEQ_PRIMERS=spatial_barcoded_library("CUT&Tag chromatin fragment")
-TITLE="Spatial-CUT&Tag — orthogonal in-tissue barcoding of chromatin marks"
-NOTES="01_spatial-cut-tag.html"
-SOURCE='<a href="https://doi.org/10.1126/science.abg7216">Deng et al., <i>Science</i> (2022)</a>.'
-SUMMARY="Antibody-tethered pA–Tn5 tags a histone mark in a fixed tissue section. Two perpendicular microfluidic flows ligate barcode A and then barcode B, so their ordered pair defines a tissue pixel."
-CAVEAT="INFERRED — the defining article establishes two in-tissue ligation rounds, but the accessible paper text does not print complete sequencing-adapter oligos. Outer TruSeq geometry is shown as an inferred shell."
-FINAL_CAPTION="Representative doubly barcoded CUT&Tag fragment. Barcode A and barcode B form one combinatorial spatial-pixel identity."
-SEQUENCING_INTRO="Paired reads map the CUT&Tag fragment; the two ligated barcode blocks identify its row-by-column tissue pixel."
-def sections(): return [
- ("Bind antibody and pA–Tn5 in the section",antibody_enzyme_rows("Tn5","targeted tagmentation"),"CUT&Tag installs adapter-bearing ends at the chosen histone modification."),
- ("Flow barcode A through parallel channels",barcode_rounds(1,label="spatial barcode A"),"Each channel ligates one A identity in situ."),
- ("Rotate the chip and flow barcode B",barcode_rounds(1,label="spatial barcode B"),"The orthogonal B channel crosses A channels; the A×B pair defines a pixel."),
- ("Reverse crosslinks and PCR",[Row(chunks=[("P5 — A — B — targeted genomic insert — P7",None,False)])],"Released fragments are PCR-completed for paired-end sequencing."),]
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
+
+import spatial_epigenome as se
+
+
+TITLE = "Spatial-CUT&Tag (hsrChST-seq)"
+NOTES = "01_spatial-cut-tag.html"
+SOURCE = ('Defining source: <a href="https://doi.org/10.1126/science.abg7216">'
+          'Deng et al., <i>Science</i> (2022)</a>; first named hsrChST-seq in the '
+          '<a href="https://doi.org/10.1101/2021.03.11.434985">2021 preprint</a>. '
+          'Exact oligos: <a href="https://doi.org/10.1038/s41596-024-01013-y">'
+          'Farzad et al., <i>Nature Protocols</i> (2024)</a>.')
+SUMMARY = ("Antibody-tethered pA–Tn5 transfers linker-bearing adapters beside a chosen "
+           "histone mark. Two perpendicular in-tissue ligations append 8-nt A and B "
+           "barcodes whose ordered pair identifies a tissue pixel.")
+FINAL_LIBRARY, SEQ_PRIMERS = se.library("histone-mark-associated genomic fragment")
+READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8}
+FINAL_CAPTION = ("The custom-primer end reads barcode B, linker 2, barcode A, linker 1 "
+                 "and then genomic DNA. ** marks the two in-tissue ligations.")
+SEQUENCING_INTRO = ("HiSeq 4000 paired-end 150 sequencing was used. Raw Read 1 carries "
+                    "barcode B at cycles 1–8 and barcode A at cycles 39–46 before "
+                    "entering genomic DNA; Read 2 reports the opposite genomic end.")
+
+
+def oligos():
+    return se.oligos()
+
+
+def workflow():
+    return se.workflow(
+        "histone-mark-associated genomic fragment",
+        first_action="Bind primary/secondary antibody, recruit pA–Tn5 and activate tagmentation",
+        first_note="Antibody-tethered pA–Tn5 transfers ligation-linker 1 at chromatin carrying the selected histone modification.",
+    )
+
+
+def final_rows():
+    return se.final_rows(FINAL_LIBRARY)
