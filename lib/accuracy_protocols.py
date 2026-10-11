@@ -12,6 +12,8 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
+from endprep import (ligation_product_scene, react_dA_tail_then_ligate,
+                     repair_and_dA_tail)
 from protocol_model import closed_circle, molecule, role
 
 
@@ -52,42 +54,59 @@ def _trueprime_workflow() -> Workflow:
     ))
 
 
-def _botseqs_workflow() -> Workflow:
+def _botseqs_workflow(library: Construct) -> Workflow:
     dna = molecule("sheared genomic DNA", (role("genomic fragments with native endpoints"),))
-    ligated = molecule("TruSeq PCR-free molecules", (
-        role("P5-side adapter"), role("genomic insert"), role("P7-side adapter")),
-        junctions=(("P5-side adapter", "genomic insert", "adapter ligation"),
-                   ("genomic insert", "P7-side adapter", "adapter ligation")))
+    repaired = Construct([role("genomic insert")], name="end-repaired genomic insert")
+    prepared = repair_and_dA_tail(repaired)
+    ligated = ligation_product_scene(library, "genomic insert",
+                                     label="TruSeq PCR-free molecules",
+                                     adapter_group="Illumina Y adapter")
+    ligated_plain = ligation_product_scene(
+        library, "genomic insert", label="bottlenecked adapter-ligated library",
+        adapter_group="Illumina Y adapter", highlight_components=False)
     families = molecule("redundantly sequenced bottleneck", (
         role("Watson read family"), role("same two genomic endpoints"), role("Crick read family")))
-    return _workflow(dna, (
-        ("End-repair, dA-tail and ligate Illumina Y adapters", ligated,
-         "Adapter orientation distinguishes Watson and Crick descendants."),
-        ("Dilute the adapter-ligated library to about one haploid-genome equivalent", ligated,
-         "For 500 ng input the typical dilution was 100,000-fold; it is imposed before PCR."),
-        ("PCR-amplify and paired-end sequence each retained molecule redundantly", families,
-         "The two genomic endpoints are the endogenous family key; no synthetic UMI is used."),
-    ))
+    w = Workflow(MolecularState("Sheared genomic DNA", tuple(dna.rows())))
+    w.react("End-repair the sheared fragments",
+            Scene.duplex(list(repaired), unpaired=("genomic insert'",)).rows(),
+            name="end-repaired DNA")
+    react_dA_tail_then_ligate(
+        w, prepared, ligated, dA_action="Add one 3-prime dA to each end",
+        ligation_action="Ligate Illumina Y adapters",
+        ligation_note="Adapter orientation distinguishes Watson and Crick descendants.")
+    w.react("Dilute to about one haploid-genome equivalent", ligated_plain.rows(),
+            name="bottlenecked adapter-ligated library",
+            note="For 500 ng input the typical dilution was 100,000-fold; it is imposed before PCR.")
+    w.react("PCR-amplify and paired-end sequence redundantly", families.rows(),
+            name="Watson and Crick read families",
+            note="The two genomic endpoints are the endogenous family key; no synthetic UMI is used.")
+    return w
 
 
 def _botseqs_final_rows(library: Construct):
     """Draw the actual adapter-ligation boundaries on the canonical TruSeq molecule."""
-    sc = Scene.duplex(list(library), label=library.name,
-                      unpaired=("genomic insert'",))
-    sc.junction("top", "Read 1 arm", "genomic insert", "adapter ligation")
-    sc.junction("top", "dA junction", "Index 1 / Read 2 arm", "adapter ligation")
+    sc = ligation_product_scene(library, "genomic insert", label=library.name,
+                                adapter_group="Illumina Y adapter",
+                                highlight_components=False)
     sc.labels("top")
     return sc.rows()
 
 
-def _cirseq_workflow() -> Workflow:
+def _cirseq_workflow(library: Construct) -> Workflow:
     rna = molecule("purified viral RNA", (role("viral RNA"),))
     fragment = molecule("size-selected RNA", (role("85–100-nt RNA fragment", length_bp=92),))
     circ = closed_circle("circular RNA template", (role("RNA fragment"),),
                          closure_label="RNA intramolecular ligation")
     tandem = molecule("rolling-circle cDNA", (
         role("template copy 1"), role("template copy 2"), role("template copy 3")))
-    ds = molecule("double-stranded tandem-repeat cDNA", (role("three or more template copies"),))
+    ds_insert = Construct([role("tandem-repeat cDNA")],
+                          name="double-stranded tandem-repeat cDNA")
+    ds = Scene.duplex(list(ds_insert), label=ds_insert.name,
+                      unpaired=("tandem-repeat cDNA'",))
+    prepared = repair_and_dA_tail(ds_insert)
+    ligated = ligation_product_scene(library, "tandem-repeat cDNA",
+                                     label="TruSeq-ligated CirSeq library",
+                                     adapter_group="TruSeq indexed adapter")
     w = Workflow(MolecularState("Starting material", tuple(rna.rows())))
     w.react("Fragment with Zn2+ and size-select", fragment.rows(), name="Fragment and size-select",
             note="Fragments are kept short enough for at least three copies in one read.")
@@ -96,9 +115,12 @@ def _cirseq_workflow() -> Workflow:
     w.react("Random-prime rolling-circle reverse transcription", tandem.rows(),
             name="Rolling-circle reverse transcription",
             note="Physically linked repeats derive independently from the same RNA template.")
-    w.react("Synthesize second strand, blunt, dA-tail and ligate TruSeq adapters", ds.rows(),
-            name="Complete the Illumina library",
-            note="Size selection retains tandem inserts long enough for within-read consensus.")
+    w.react("Synthesize the second strand and blunt the cDNA", ds.rows(),
+            name="double-stranded tandem-repeat cDNA")
+    react_dA_tail_then_ligate(
+        w, prepared, ligated, dA_action="Add one 3-prime dA to each cDNA end",
+        ligation_action="Ligate TruSeq indexed adapters",
+        ligation_note="Size selection retains tandem inserts long enough for within-read consensus.")
     return w
 
 
@@ -108,14 +130,16 @@ def _duplex_repair_workflow() -> Workflow:
     blunt = molecule("blunt repaired duplex", (role("restricted fill-in"), role("remaining nicks")))
     sealed = molecule("nick-sealed duplex", (role("original duplex interior"),))
     ata = molecule("dA-tailed duplex", (role("original duplex interior"), role("3′ dA", length_bp=1)))
-    adapted = molecule("duplex-UMI library", (
+    adapted_construct = Construct((
         role("custom duplex UMI adapter A", tag="umi",
              molecular_feature=feature("duplex_umi_a", "umi", "random")),
         role("repaired insert"),
         role("custom duplex UMI adapter B", tag="umi",
              molecular_feature=feature("duplex_umi_b", "umi", "random"))),
-        junctions=(("custom duplex UMI adapter A", "repaired insert", "adapter ligation"),
-                   ("repaired insert", "custom duplex UMI adapter B", "adapter ligation")))
+        name="duplex-UMI library")
+    adapted = ligation_product_scene(
+        adapted_construct, "repaired insert", adapter_group="duplex UMI adapter A",
+        right_adapter_group="duplex UMI adapter B")
     return _workflow(damaged, (
         ("Excise damaged bases and remove single-stranded overhangs", excised,
          "EndoIV, Fpg, UDG, T4 PDG and EndoVIII act with ExoVII."),
@@ -230,7 +254,7 @@ def get(key: str):
             TITLE="BotSeqS — bottleneck sequencing system", NOTES="01_botseqs.html",
             SOURCE='<a href="https://doi.org/10.1073/pnas.1607794113">Hoang et al., <i>PNAS</i> (2016)</a>.',
             SUMMARY="A TruSeq PCR-free library is diluted after adapter ligation and before PCR; native fragment endpoints group redundant Watson and Crick read families without a synthetic UMI.",
-            CAVEAT="", oligos=lambda: (), workflow=_botseqs_workflow,
+            CAVEAT="", oligos=lambda: (), workflow=lambda: _botseqs_workflow(lib),
             FINAL_LIBRARY=lib, SEQ_PRIMERS=primers,
             READ_LENGTHS={"Read 1": BOTSEQS_READ_BP, "Read 2": BOTSEQS_READ_BP},
             final_rows=lambda: _botseqs_final_rows(lib),
@@ -242,8 +266,12 @@ def get(key: str):
             TITLE="CirSeq — circular resequencing of RNA virus populations", NOTES="01_cirseq.html",
             SOURCE='<a href="https://doi.org/10.1038/nprot.2014.118">Acevedo and Andino, <i>Nature Protocols</i> (2014)</a>.',
             SUMMARY="Short viral RNA fragments are circularized and copied repeatedly by rolling-circle reverse transcription, placing at least three linked template copies inside one Illumina read.",
-            CAVEAT="", oligos=lambda: (), workflow=_cirseq_workflow,
+            CAVEAT="", oligos=lambda: (), workflow=lambda: _cirseq_workflow(lib),
             FINAL_LIBRARY=lib, SEQ_PRIMERS=primers, READ_LENGTHS={"Read 1": 300, "Index 1 (i7)": 8, "Read 2": 300},
+            final_rows=lambda: ligation_product_scene(
+                lib, "tandem-repeat cDNA", label=lib.name,
+                adapter_group="TruSeq indexed adapter",
+                highlight_components=False).rows(),
             FINAL_CAPTION="TruSeq adapters flank a double-stranded cDNA insert containing tandem copies of one circular RNA fragment.",
             SEQUENCING_INTRO="The protocol used single-end 300-cycle MiSeq reads; the binding view also shows the adapter's documented index and opposite-end primer sites.")
     if key == "duplex-repair":

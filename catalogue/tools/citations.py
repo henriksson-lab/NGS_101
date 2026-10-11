@@ -23,8 +23,13 @@ class Citation:
     retrieved: str
 
 
-def load(path: Path = TSV) -> dict[str, Citation]:
-    """Return DOI-keyed records, rejecting malformed or ambiguous snapshot rows."""
+def load(path: Path = TSV, expected_dois: set[str] | None = None) -> dict[str, Citation]:
+    """Return DOI-keyed records, rejecting malformed or incomplete snapshots.
+
+    When the site supplies its defining DOI set, every DOI must have a row, including an
+    explicitly unresolved row.  Adding a protocol therefore cannot silently omit its
+    citation metadata: the maintainer is directed to refresh the checked-in snapshot.
+    """
     if not path.exists():
         return {}
     with path.open(encoding="utf-8", newline="") as fh:
@@ -51,4 +56,14 @@ def load(path: Path = TSV) -> dict[str, Citation]:
             raise ValueError(f"{path}:{line}: invalid retrieval date {retrieved!r}") from exc
         out[doi] = Citation(doi, int(raw) if raw else None,
                             row["openalex_id"].strip(), retrieved)
+    if expected_dois is not None:
+        expected = {d.strip().lower() for d in expected_dois if d.strip()}
+        missing = expected - set(out)
+        extra = set(out) - expected
+        if missing or extra:
+            raise ValueError(
+                f"{path}: DOI snapshot mismatch; missing={sorted(missing)}, "
+                f"extra={sorted(extra)}. Run python3 tools/fetch_citations.py after "
+                "adding or removing a protocol with a defining paper."
+            )
     return out

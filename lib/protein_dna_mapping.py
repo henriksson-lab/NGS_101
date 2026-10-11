@@ -4,7 +4,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 
 from batch_ngs import truseq_library
-from protocol_model import chain, molecule, role
+from protocol_model import chain, da_tailed, molecule, role
 
 
 # Orsi et al., Current Protocols 2015, Basic Protocol 3.  The asterisk is an
@@ -93,7 +93,10 @@ def nice_workflow():
          molecule("randomly sheared labelled fragments", (
              role("random shear end"), role("biotin-labelled accessible-chromatin tract"), role("random shear end"))),
          "Unlike DNase-seq, the nick itself is not used as a fragment end: mechanical shearing creates both library boundaries, while internal biotin records accessibility."),
-        ("End-repair, dA-tail and ligate the NEBNext Ultra adapter",
+        ("End-repair and add one 3-prime dA to each end",
+         da_tailed("dA-tailed labelled genomic fragment", "labelled or unlabelled genomic insert"),
+         "The cohesive dA ends are shown before the adapter is introduced."),
+        ("Ligate the NEBNext Ultra adapter",
          molecule("adapter-ligated fragments before selection", (
              role("NEBNext adapter"), role("labelled or unlabelled genomic insert"), role("NEBNext adapter"))),
          "The paper uses the discontinued E7370S kit before affinity capture, so every sheared molecule can receive adapters."),
@@ -138,7 +141,10 @@ def organic_workflow():
          molecule("purified paired-boundary footprints", (
              role("MNase boundary"), role("20–40-bp single-factor footprint or longer co-occupied fragment"), role("MNase boundary"))),
          "Proteinase K and DNA purification leave the original paired MNase endpoints; fragment length is biological signal and must not be discarded."),
-        ("End-repair, dA-tail, ligate indexed adapters and PCR-enrich",
+        ("End-repair and add one 3-prime dA to each end",
+         da_tailed("dA-tailed native footprint", "native MNase footprint"),
+         "The short footprint remains bounded by its two repaired MNase endpoints."),
+        ("Ligate indexed adapters and PCR-enrich",
          molecule("single-index paired-end ORGANIC library", (
              role("P5 and Read 1 arm"), role("native MNase footprint"),
              role("Read 2 arm, six-base i7 and P7"))),

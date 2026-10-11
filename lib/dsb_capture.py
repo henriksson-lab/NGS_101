@@ -13,7 +13,7 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, Segment, feature
-from protocol_model import chain, molecule, role
+from protocol_model import chain, da_tailed, molecule, role
 
 
 @dataclass(frozen=True)
@@ -119,7 +119,10 @@ def _dsbcapture_workflow():
         ("Digest free adapter with lambda exonuclease, extract and sonicate",
          molecule("labelled sonication fragment", (role("modified P5 at native break"), role("break-to-random genomic fragment"), role("sonication-created free end"))),
          "Covalently break-labelled fragments retain biotin; free adapters are removed before extraction."),
-        ("Streptavidin-capture, blunt, dA-tail and ligate modified P7",
+        ("Streptavidin-capture, blunt and add one 3-prime dA to the distal end",
+         da_tailed("distal-end dA-tailed DSBCapture fragment", "modified-P5-labelled break-to-random genomic DNA"),
+         "The native-break P5 end is already labelled; only the sonication-created distal end is prepared."),
+        ("Ligate modified P7 to the dA-tailed distal end",
          molecule("dual-adapter DSBCapture fragment", (role("modified P5"), role("break-to-random genomic DNA"), role("modified P7")),
                   junctions=(("modified P5", "break-to-random genomic DNA", "native-break ligation"),
                              ("break-to-random genomic DNA", "modified P7", "distal T/A ligation"))),
@@ -135,7 +138,10 @@ def _site_seq_workflow():
         ("Cleave naked genomic DNA with Cas9–sgRNA in vitro",
          molecule("Cas9-digested genome", (role("genomic DNA"), role("programmable Cas9 cleavage ends"))),
          "A concentration series of each sgRNP exposes biochemically accessible on- and off-target sites; this is not a measurement of cleavage inside cells."),
-        ("Add 3-prime dA and ligate biotinylated Adapter 1 to cleavage ends",
+        ("Add one 3-prime dA to each Cas9 cleavage end",
+         da_tailed("dA-tailed Cas9-cleaved genome", "Cas9-cleavage-adjacent genomic DNA"),
+         "The Cas9-created ends are shown in their cohesive ligation-ready state."),
+        ("Ligate biotinylated Adapter 1 to the dA-tailed cleavage ends",
          molecule("cut-end-labelled genome", (role("5-prime-biotin Adapter 1"), role("Cas9-cleavage-adjacent genomic DNA")),
                   junctions=(("5-prime-biotin Adapter 1", "Cas9-cleavage-adjacent genomic DNA", "T/A ligation"),)),
          "Adapter 1 is installed before fragmentation, so its biotin identifies the Cas9-created end."),
@@ -167,7 +173,10 @@ def _digenome_workflow():
         ("Covaris-shear the whole digenome",
          molecule("mixed-origin WGS fragments", (role("fragments carrying one Cas9 end and one shear end"), role("fragments carrying two random shear ends"))),
          "Cas9 ends survive among a much larger background of ordinary random WGS fragment ends."),
-        ("End-repair, size-select, dA-tail and ligate TruSeq adapters without PCR",
+        ("End-repair, size-select and add one 3-prime dA to each end",
+         da_tailed("dA-tailed Digenome-seq WGS fragment", "unenriched genomic fragment"),
+         "Both the Cas9-derived and randomly sheared endpoint classes pass through this end-prepared state."),
+        ("Ligate TruSeq adapters without PCR",
          molecule("PCR-free Digenome-seq library", (role("TruSeq P5 arm"), role("unenriched genomic fragment"), role("TruSeq indexed P7 arm"))),
          "PCR-free preparation preserves read-start counts; there is no cut-end affinity capture or locus-specific amplification."),
         ("Paired-end whole-genome sequencing and cleavage-score analysis",

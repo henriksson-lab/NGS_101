@@ -258,7 +258,8 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
 def collect(omit: set[str] = frozenset(), run_checks: bool = True) -> list[dict]:
     ours = cat.ours()
     properties = props.load({r["dir"] for r in ours})
-    citations = cites.load()
+    citations = cites.load(expected_dois={r["doi"].strip().lower()
+                                          for r in ours if r["doi"].strip()})
     return [entry(r, properties[r["dir"]], citations.get(r["doi"].lower()),
                   set(omit), run_checks) for r in ours]
 
@@ -301,19 +302,25 @@ def result_item(i: int, p: dict) -> str:
     name = f'<a href="{e(first)}">{e(p["name"])}</a>' if first else e(p["name"])
     if p["citations"] is not None:
         n = p["citations"]
-        label = f'{n:,} citation' + ("" if n == 1 else "s")
         citation = (f'<a class="cites" href="{e(p["citation_openalex"])}" '
                     f'title="OpenAlex snapshot, {e(p["citations_retrieved"])}">'
-                    f'{label}</a>')
+                    f'{n:,}</a>')
     elif not p["doi"] and p["commercial"]:
         citation = '<span class="cites no-count">commercial protocol</span>'
     elif not p["doi"]:
         citation = '<span class="cites no-count">no defining paper</span>'
     else:
         citation = '<span class="cites no-count">citation count unavailable</span>'
-    return f"""<li class="pr" data-i="{i}" id="p-{e(p['dir'])}">
-<h3>{name}</h3>{citation}
-</li>"""
+    family = ", ".join(p["properties"]["assay"])
+    scale = ", ".join(p["properties"]["scale"])
+    platform = ", ".join(p["properties"]["platform"])
+    return f"""<tr class="pr" data-i="{i}" id="p-{e(p['dir'])}">
+<th scope="row">{name}</th>
+<td class="citation-cell">{citation}</td>
+<td>{e(family)}</td>
+<td>{e(scale)}</td>
+<td>{e(platform)}</td>
+</tr>"""
 
 
 def search_data(ps: list[dict]) -> str:
@@ -334,8 +341,8 @@ EXTRA_CSS = """<style>
          margin:1.2em 0; align-items:start; }
 .card { border:1px solid var(--rule); border-radius:6px; padding:16px 18px;
         background:var(--surface); display:flex; flex-direction:column; gap:8px; }
-.card h3, .pr h3, .concept h3 { margin:0; font-size:1.06rem; }
-.card h3::before, .pr h3::before, .concept h3::before { content:none; }
+.card h3, .concept h3 { margin:0; font-size:1.06rem; }
+.card h3::before, .concept h3::before { content:none; }
 .card p { margin:0; font-size:.95rem; }
 .kind { font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
         color:var(--ink-muted); font-weight:600; }
@@ -391,17 +398,21 @@ EXTRA_CSS = """<style>
           background:var(--bg); color:var(--ink); }
 .count { color:var(--ink-muted); font-size:.8rem; margin-left:auto; padding:3px 0;
          font-variant-numeric:tabular-nums; }
-.plist { list-style:none; padding:0; margin:.25em 0; display:grid; gap:6px;
-         grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); }
-.pr { border:1px solid var(--rule); border-radius:4px; padding:9px 12px;
-      background:var(--surface); }
-.pr .cites { display:block; margin-top:3px; color:var(--ink-muted); font-size:.75rem;
-             font-variant-numeric:tabular-nums; }
+.protocol-table-wrap { overflow-x:auto; margin:.35em 0; border:1px solid var(--rule);
+                       border-radius:5px; background:var(--surface); }
+.plist { width:100%; border-collapse:collapse; font-size:.86rem; line-height:1.35; }
+.plist th, .plist td { padding:7px 10px; text-align:left; vertical-align:top;
+                       border-bottom:1px solid var(--rule); }
+.plist thead th { position:sticky; top:0; z-index:1; background:var(--surface-2);
+                  color:var(--ink-muted); font-size:.74rem; letter-spacing:.035em;
+                  text-transform:uppercase; white-space:nowrap; }
+.plist tbody tr:last-child > * { border-bottom:0; }
+.plist tbody tr:hover > * { background:var(--bg); }
+.plist tbody th { min-width:14rem; font-weight:600; }
+.plist td { color:var(--ink-muted); }
+.plist .citation-cell { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.pr .cites { color:var(--ink-muted); font-variant-numeric:tabular-nums; }
 .pr .no-count { font-style:italic; }
-.pr p { margin:0; font-size:.93rem; max-width:90ch; }
-.pr .aka { font-size:.84rem; color:var(--ink-muted); }
-.pr .snip { font-size:.84rem; color:var(--ink-muted); border-left:2px solid var(--key-rule);
-            padding-left:8px; }
 mark { background:var(--note-bg); color:var(--ink); box-shadow:0 0 0 1px var(--note-rule);
        border-radius:2px; }
 .empty { color:var(--ink-muted); font-style:italic; }
@@ -414,7 +425,8 @@ mark { background:var(--note-bg); color:var(--ink); box-shadow:0 0 0 1px var(--n
 .citation-filter .unknown { display:flex; align-items:center; gap:5px; }
 .citation-filter .snapshot { color:var(--ink-muted); }
 @media (max-width:600px) {
-  .pr, .card { padding:10px 12px; }
+  .card { padding:10px 12px; }
+  .plist th, .plist td { padding:6px 8px; }
   .count { margin-left:0; width:100%; }
   .finder-head { display:block; }
   .facet-options { position:fixed; left:12px; right:12px; top:18%; width:auto; max-height:65vh;
@@ -547,12 +559,12 @@ SEARCH_JS = r"""<script>
 </script>"""
 
 
-PRIMARY_FACETS = ("assay", "platform", "index_introduction", "index_architecture",
+PRIMARY_FACETS = ("scale", "assay", "platform", "index_introduction", "index_architecture",
                   "partitioning", "amplification")
 
 
 def facet_group(key: str, counts: dict[str, dict[str, int]]) -> str:
-    label, allowed = props.FACETS[key]
+    label, allowed = props.FILTER_FACETS[key]
     options = []
     for i, value in enumerate(allowed):
         n = counts[key][value]
@@ -571,7 +583,7 @@ def facet_group(key: str, counts: dict[str, dict[str, int]]) -> str:
 def facet_controls(ps: list[dict]) -> str:
     counts = props.option_counts(ps)
     primary = "".join(facet_group(key, counts) for key in PRIMARY_FACETS)
-    more = "".join(facet_group(key, counts) for key in props.FACETS
+    more = "".join(facet_group(key, counts) for key in props.FILTER_FACETS
                    if key not in PRIMARY_FACETS)
     return f"""<div class="facetbar">
 {primary}
@@ -614,9 +626,12 @@ def search_section(ps: list[dict]) -> str:
 <span class="count" id="count" aria-live="polite">{len(ps)} protocols</span>
 <button class="clear" id="clear" type="button" hidden>Clear filters</button></div>
 </form>
-<ol class="plist" id="plist">
-{items}
-</ol>
+<div class="protocol-table-wrap"><table class="plist">
+<thead><tr><th scope="col">Protocol</th><th scope="col">Citations</th>
+<th scope="col">Protocol family</th><th scope="col">Bulk / single-cell</th>
+<th scope="col">Target sequencer</th></tr></thead>
+<tbody id="plist">{items}</tbody>
+</table></div>
 <p class="empty" id="empty" hidden>Nothing matches. Try fewer words, or clear the filters.</p>
 <script type="application/json" id="search-data">{search_data(ps)}</script>
 {SEARCH_JS}"""

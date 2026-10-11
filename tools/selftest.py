@@ -315,7 +315,7 @@ import build_index  # noqa: E402
 _front, _ = build_index.build(run_checks=False)
 _public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]
 check("the public index retains the complete published catalogue",
-      _front.count('<li class="pr"'), len(_public))
+      _front.count('<tr class="pr"'), len(_public))
 check("a protocol title opens its schematic, not its first reference note",
       ('href="smart-seq2__10.1038+nmeth.2639/smart-seq2.html">SMART-seq2</a>' in _front,
        'href="smart-seq__10.1038+nbt.2282/01_smart-seq.html"' in _front),

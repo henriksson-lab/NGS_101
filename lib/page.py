@@ -114,6 +114,11 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
                         background:var(--surface-2); color:var(--ink); box-shadow:0 2px 8px #0003;
                         font:600 .78rem/1.35 var(--sans); white-space:nowrap; }
 .chem-strand-box { fill:var(--surface-2); stroke:var(--ink-muted); stroke-width:1; }
+.chem-component { stroke:none; opacity:.34; pointer-events:none; }
+.chem-component-1 { fill:var(--c-s5); }
+.chem-component-2 { fill:var(--c-tso); }
+.chem-component-3 { fill:var(--c-cbc); }
+.chem-component-4 { fill:var(--note-rule); }
 .chem-binding-span { fill:none; stroke:var(--accent); stroke-width:1.5; }
 .chem-binding-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.92em; }
 .chem-process-arrow { stroke:var(--accent); stroke-width:2; }

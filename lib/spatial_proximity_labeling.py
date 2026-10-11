@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import seqprimers as sp
 from batch_ngs import seg, truseq_library
-from protocol_model import chain, molecule, role
+from protocol_model import chain, da_tailed, molecule, role
 
 
 def tsa_library():
@@ -44,7 +44,10 @@ def tsa_workflow():
              role("random sonication end"), role("biotin-enriched genomic fragment"),
              role("random sonication end"))),
          "Stringent washes enrich fragments in proportion to their direct tyramide-biotin labelling; pulldown coverage is compared with the matched input."),
-        ("Blunt-end, dA-tail, ligate indexed Kapa adapters and PCR for 8–16 cycles",
+        ("Blunt-end and add one 3-prime dA to each end",
+         da_tailed("dA-tailed TSA-seq pulldown DNA", "biotin-enriched genomic insert"),
+         "The dA-tailed pulldown fragment is the substrate for Kapa adapter ligation."),
+        ("Ligate indexed Kapa adapters and PCR for 8–16 cycles",
          molecule("single-index TSA-seq library", (
              role("P5 and Read 1 arm", inferred=True),
              role("biotin-enriched genomic insert"),

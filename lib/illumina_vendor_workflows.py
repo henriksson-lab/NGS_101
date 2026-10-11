@@ -12,7 +12,7 @@ from types import SimpleNamespace
 import nextera as nx
 from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
-from endprep import dA_tailed_scene, repair_and_dA_tail
+from endprep import dA_tailed_scene, ligation_product_scene, repair_and_dA_tail
 
 
 def _duplex(name: str, *, bases: str = "N" * 36) -> Scene:
@@ -44,11 +44,10 @@ def _nextera_final(insert_name: str, title: str):
 
 
 def truseq_final_rows(library: Construct) -> list:
-    sc = Scene.duplex(list(library), label=library.name)
     insert = next(s.name for s in library if "insert" in s.name or "cDNA" in s.name)
-    sc.junction("top", "Read 1 arm", insert, "adapter ligation")
-    sc.junction("top", "dA junction", "Index 1 / Read 2 arm", "adapter ligation")
-    return sc.rows()
+    return ligation_product_scene(
+        library, insert, label=library.name, adapter_group="TruSeq adapter",
+        highlight_components=False).rows()
 
 
 def nextera_final_rows(library: Construct) -> list:
@@ -74,7 +73,9 @@ def _pcr_free_workflow(final: Construct) -> Workflow:
         ("Add one 3-prime dA to each end", "dA-tailed DNA", tailed,
          "The complementary adapter overhang is a single 3-prime T."),
         ("Ligate indexed TruSeq adapters", "PCR-free sequencing library",
-         Scene.duplex(list(final), label="PCR-free sequencing library"),
+         ligation_product_scene(final, "genomic DNA insert",
+                                label="PCR-free sequencing library",
+                                adapter_group="TruSeq adapter"),
          "No enrichment PCR follows ligation; qPCR measures cluster-forming molecules."),
     ))
 
@@ -105,7 +106,9 @@ def _stranded_mrna_workflow(final: Construct) -> Workflow:
         ("End-repair and add one 3-prime dA", "dA-tailed cDNA", tailed,
          "A-tailed cDNA accepts the complementary T-overhang adapters."),
         ("Ligate TruSeq adapters and selectively PCR-enrich",
-         "stranded sequencing library", Scene.duplex(list(final), label="stranded library"),
+         "stranded sequencing library",
+         ligation_product_scene(final, "antisense cDNA insert", label="stranded library",
+                                adapter_group="TruSeq adapter"),
          "The enrichment polymerase does not copy past dUTP, so Read 1 maps antisense and Read 2 sense."),
     ))
 

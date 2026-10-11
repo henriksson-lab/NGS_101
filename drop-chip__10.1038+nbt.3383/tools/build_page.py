@@ -12,6 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import dropchip as D
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+from endprep import ligation_product_scene
 from page import head, info, table
 
 OUT = HERE.parent / "drop-chip.html"
@@ -59,15 +60,19 @@ def paci_and_pcr() -> str:
 def bcivi_and_boundary() -> str:
     scene, _ = D.bcivi_product()
     final = D.inferred_final_library()
+    ligated = ligation_product_scene(
+        final, "left 11-nt constant", "right 3' A", label="adapter-ligated library",
+        adapter_group="same unpublished Illumina adapter")
     return f"""<h3>(4) BciVI removes the SC-PCR ends and leaves 3'-A overhangs</h3>
 {panel(scene.rows(), cls="long",
        caption="Type-IIS cutting retains, at each insert end, an 11-nt constant, the 8-nt "
                "cell barcode and the TTAA PacI half-site.")}
 <h3>(5) Ligate Illumina adaptors and perform library PCR</h3>
-{panel([strand_row(final), *annotation_rows(final)], cls="long",
-       caption="INFERRED — final architecture only. The paper does not publish the Illumina "
-               "adaptor or library-primer sequences, so the dotted outer arms stop at that "
-               "authoritative boundary.")}"""
+{panel([*ligated.rows(), *annotation_rows(final)], cls="long",
+       caption="INFERRED — the matching background at both ends denotes two copies of the "
+               "same Illumina adapter ligated to the displayed 3'-A-ended product. The paper "
+               "does not publish its bases or library-primer sequences, so the dotted outer "
+               "arms stop at that authoritative boundary.")}"""
 
 
 def reads() -> str:

@@ -9,7 +9,7 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import truseq_library
 from chemdraw import Construct, Segment, feature
-from protocol_model import chain, closed_circle, molecule, role
+from protocol_model import chain, closed_circle, da_tailed, molecule, role
 
 
 UDITAS_TOP_N501 = "AATGATACGGCGACCACCGAGATCTACACTAGATCGCNNNNNNNNNNTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
@@ -173,7 +173,10 @@ def change_workflow():
         ("Cut circles with Cas9–sgRNA",
          molecule("target-containing circles linearized at Cas9 sites", (role("Cas9 cleavage end"), role("off-target or on-target genomic DNA"), role("Cas9 cleavage end"))),
          "Only a circle containing a sequence cleaved by the programmed RNP acquires the free ends needed for library construction."),
-        ("Add 3-prime dA and ligate the NEBNext hairpin adapter",
+        ("Add one 3-prime dA to each Cas9-cleaved end",
+         da_tailed("dA-tailed Cas9 cleavage product", "Cas9-to-Cas9 genomic fragment"),
+         "The newly exposed Cas9 ends are shown before the hairpin adapter is introduced."),
+        ("Ligate the NEBNext hairpin adapter",
          molecule("hairpin-adapter-ligated cleavage products", (role("NEBNext hairpin"), role("Cas9-to-Cas9 genomic fragment"), role("NEBNext hairpin"))),
          "A-tailing and the NEBNext adapter preserve each newly exposed Cas9 end as a sequencing boundary."),
         ("Open the hairpins with USER and PCR with dual indexes",

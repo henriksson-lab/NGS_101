@@ -10,6 +10,7 @@ from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, featur
 from chromosome_capture import (Circular4CTemplate, ThreeCLibrary,
                                 inverse_pcr_product, multiway_contact, region)
 from replication_labeling import CopyNumberReplication, NascentPulse
+from protocol_model import da_tailed
 
 
 def role(name: str, *, tag=None, molecular_feature=None) -> Segment:
@@ -75,7 +76,10 @@ def workflow_for(key: str) -> Workflow:
         return chain(molecule("formaldehyde-fixed chromatin", ("viewpoint", "proximal chromatin")), (
             ("Digest with DpnII, proximity-ligate and reverse crosslinks", contact.scene(),
              "This is a linear 3C library; UMI-4C does not perform 4C recircularization."),
-            ("Sonicate, end-repair, dA-tail and ligate a single-end adapter", one_end,
+            ("Sonicate, end-repair and add one 3-prime dA to the ligatable end",
+             da_tailed("dA-tailed UMI-4C fragment", "viewpoint-contact fragment with random sonication endpoint"),
+             "The random shearing coordinate is already fixed before adapter ligation."),
+            ("Ligate the single-end adapter", one_end,
              "The random shearing coordinate acts as the molecular identifier; it is not a synthesized random barcode."),
             ("Amplify with two nested viewpoint PCRs", one_end,
              "The nested viewpoint primer and universal adapter primer create the sequencing library."),
@@ -128,7 +132,10 @@ def workflow_for(key: str) -> Workflow:
              "Replicated domains have twice the DNA dosage of unreplicated domains in the same cell."),
             ("Whole-genome amplify each cell by SeqPlex DOP-PCR", amplified,
              "G1 cells processed in parallel provide the amplification and mappability reference."),
-            ("Fragment WGA DNA, end-repair, dA-tail and ligate Illumina adapters", adapted,
+            ("Fragment WGA DNA, end-repair and add one 3-prime dA to each end",
+             da_tailed("dA-tailed single-cell WGA fragment", "WGA genomic fragment"),
+             "The amplified genomic fragment is shown before adapter ligation."),
+            ("Ligate Illumina adapters", adapted,
              "The protocol permits KAPA LTP or NEBNext Ultra II library construction."),
             ("PCR-index each single-cell library and sequence", adapted,
              "The index assigns reads to one cell; it is not an inline cell barcode."),

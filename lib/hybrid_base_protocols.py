@@ -79,7 +79,10 @@ def _conversion_workflow(key: str) -> Workflow:
         readout = _conversion_scene(tuple((b, oxbs_path(b).states[-1])
                                           for b in ("C", "5mC", "5hmC")), "PCR readout")
         return _workflow(initial, (
-            ("Sonicate, end-repair, dA-tail and ligate TruSeq adapters", tagged,
+            ("Sonicate, end-repair and add one 3-prime dA to each end",
+             _role_library_scene("dA-tailed oxBS insert", ("unconverted genomic insert",), ligated=False),
+             "The dA-tailed insert is the substrate for the following adapter ligation."),
+            ("Ligate TruSeq adapters", tagged,
              "The Nature Protocols workflow installs the library adapters before oxidation and bisulfite."),
             ("Oxidize 5hmC selectively with potassium perruthenate", oxidized,
              "5hmC becomes 5fC; 5mC remains protected."),
@@ -128,7 +131,10 @@ def _hybrid_workflow(key: str) -> Workflow:
              "The five-enzyme cocktail preserves RNA:DNA hybrids while reducing fragment size."),
             ("Immunoprecipitate RNA:DNA hybrids with S9.6", cap.captured_component(),
              "An RNase H-treated aliquot is the hybrid-specificity control."),
-            ("Sonicate captured DNA, end-repair, dA-tail and ligate adapters",
+            ("Sonicate captured DNA, end-repair and add one 3-prime dA to each end",
+             _role_library_scene("dA-tailed captured DNA", ("captured DNA fragment",), ligated=False),
+             "The dA-tailed captured fragment is shown before adapter ligation."),
+            ("Ligate adapters to the dA-tailed captured DNA",
              _role_library_scene("non-strand-specific DRIP-seq library", ("captured DNA fragment",)),
              "The DNA component is sequenced; the original implementation used a standard dsDNA library."),
         ))
@@ -153,7 +159,9 @@ def _hybrid_workflow(key: str) -> Workflow:
          "The D210N mutant binds R-loops; the binding-defective WKKD mutant is the control."),
         ("Denature and copy captured DNA with the tailed N9 primer", primed,
          "Random priming converts the DNA component to dsDNA and creates a blocking 5′ overhang."),
-        ("dA-tail, ligate one Illumina adapter and PCR-amplify",
+        ("Add one 3-prime dA to the unobstructed end", primed,
+         "The tailed N9-primer end remains blocked; only the opposite end becomes ligation-ready."),
+        ("Ligate one Illumina adapter and PCR-amplify",
          _rchip_library_scene(),
          "Only the unobstructed end accepts the adapter, so read orientation is retained."),
     ))

@@ -42,7 +42,10 @@ def batches(values: list[str], size: int = BATCH):
 
 def request_batch(dois: list[str], api_key: str = "") -> list[dict]:
     query = {
-        "filter": "doi:" + "|".join("https://doi.org/" + d for d in dois),
+        # OpenAlex accepts bare DOI values in an OR filter. Supplying full doi.org URLs
+        # makes the embedded ':' ambiguous to its filter parser and can return unrelated
+        # works, so keep the transport URL out of the identifier values.
+        "filter": "doi:" + "|".join(dois),
         "per_page": "100",
         "select": "id,doi,cited_by_count",
     }
@@ -65,6 +68,31 @@ def request_batch(dois: list[str], api_key: str = "") -> list[dict]:
     return results
 
 
+def request_one(doi: str, api_key: str = "") -> dict | None:
+    """Resolve one requested DOI, preserving that DOI even when OpenAlex canonicalizes it.
+
+    A preprint DOI can resolve to a work whose returned ``doi`` is the journal DOI. Batch
+    responses then cannot say which requested alias produced the record, so unresolved
+    batch inputs are retried through the identifier endpoint one by one.
+    """
+    ident = urllib.parse.quote("https://doi.org/" + doi, safe="")
+    url = API + "/" + ident + "?select=id,doi,cited_by_count"
+    headers = {"User-Agent": USER_AGENT}
+    if api_key:
+        headers["Authorization"] = "Bearer " + api_key
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers),
+                                    timeout=60) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return None
+        detail = exc.read().decode("utf-8", "replace")[:500]
+        raise RuntimeError(f"OpenAlex returned HTTP {exc.code}: {detail}") from exc
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"could not read OpenAlex: {exc}") from exc
+
+
 def fetch(dois: list[str], api_key: str = "") -> dict[str, tuple[int, str]]:
     out: dict[str, tuple[int, str]] = {}
     for group in batches(dois):
@@ -72,11 +100,21 @@ def fetch(dois: list[str], api_key: str = "") -> dict[str, tuple[int, str]]:
             doi_url = work.get("doi") or ""
             doi = doi_url.removeprefix("https://doi.org/").lower()
             count, work_id = work.get("cited_by_count"), work.get("id") or ""
-            if doi not in group or not isinstance(count, int) or count < 0 or not work_id:
+            if doi not in group:
+                continue                    # canonical record returned for a DOI alias
+            if not isinstance(count, int) or count < 0 or not work_id:
                 raise RuntimeError(f"unexpected OpenAlex work record: {work!r}")
             if doi in out:
                 raise RuntimeError(f"OpenAlex returned DOI {doi!r} more than once")
             out[doi] = (count, work_id)
+    for doi in (d for d in dois if d not in out):
+        work = request_one(doi, api_key)
+        if work is None:
+            continue
+        count, work_id = work.get("cited_by_count"), work.get("id") or ""
+        if not isinstance(count, int) or count < 0 or not work_id:
+            raise RuntimeError(f"unexpected OpenAlex work record: {work!r}")
+        out[doi] = (count, work_id)
     return out
 
 

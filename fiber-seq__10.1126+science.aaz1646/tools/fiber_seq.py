@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Row
+from chemdraw import Row, Scene, Segment
 from longread_footprinting import conventional_smrtbell, marked_fiber, pacbio_entry, smrtbell_rows
 
 TITLE = "Fiber-seq — long-read chromatin fibers"
@@ -21,6 +21,9 @@ def sections():
          "SAM-dependent m6dA is deposited where chromatin does not protect adenines."),
         ("Extract high-molecular-weight marked DNA", [Row(chunks=[("one native, m6dA-bearing DNA fiber", "w1", False)])],
          "No amplification is introduced: the modification pattern must remain on the sequenced template."),
-        ("Shear, repair, dA-tail and ligate PacBio hairpins", smrtbell_rows(SMRTBELL),
+        ("Shear, repair and add one 3-prime dA to each end",
+         Scene.duplex([Segment("3-prime dA", "A"), Segment("m6dA-marked long DNA", "X" * 48, placeholder=True), Segment("3-prime dA", "A")], label="dA-tailed marked DNA").rows(),
+         "The long marked insert is shown before either SMRTbell hairpin is attached."),
+        ("Ligate PacBio hairpins", smrtbell_rows(SMRTBELL),
          "Both hairpins close the duplex into a nuclease-resistant SMRTbell; the drawing marks both sealed insert-adapter junctions."),
     ]

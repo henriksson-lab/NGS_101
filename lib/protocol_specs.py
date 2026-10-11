@@ -230,7 +230,10 @@ def workflow_for(key: str) -> Workflow:
         ))
     if key == "cfmedip-seq":
         return workflow(molecule("plasma cfDNA", ("naturally fragmented cfDNA",)), (
-            ("End-repair, dA-tail and ligate Illumina adapters",
+            ("End-repair and add one 3-prime dA to each end",
+             molecule("dA-tailed cfDNA", ("3-prime dA", "cfDNA", "3-prime dA")),
+             "The cohesive dA ends are the substrates for the following adapter ligation."),
+            ("Ligate Illumina adapters to the dA-tailed cfDNA",
              molecule("adapter-ligated cfDNA", ("P5-side adapter", "cfDNA", "P7-side adapter"), joined=True,
                       junctions=(("P5-side adapter", "cfDNA", "adapter ligation"),
                                  ("cfDNA", "P7-side adapter", "adapter ligation"))),

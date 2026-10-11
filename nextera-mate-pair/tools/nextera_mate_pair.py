@@ -8,6 +8,8 @@ from chemdraw import Row
 from chemdraw import Scene
 from mate_pair import (DUPLICATE_JUNCTION, circularization_rows, recovered_truseq_library,
                        recovery_scene, tagmentation_scene)
+from endprep import dA_tailed_scene, repair_and_dA_tail
+from chemdraw import Construct, Segment
 
 TITLE = "Nextera Mate Pair — circular junction recovery"
 NOTES = "01_nextera-mate-pair.html"
@@ -46,6 +48,9 @@ def sections():
          "Blunt intramolecular ligation closes the two distant ends; exonuclease removes molecules that remain linear."),
         ("Shear and recover the old circle junction", recovery_scene().rows(),
          "Covaris shearing yields short pieces. Streptavidin beads retain the biotin-marked junction-spanning subset."),
-        ("End-repair, dA-tail and ligate TruSeq index adapter", adapter_ligation_scene().rows(),
+        ("End-repair and add one 3-prime dA to each end",
+         dA_tailed_scene(repair_and_dA_tail(Construct([Segment("captured mate-pair junction fragment", "X" * 46, placeholder=True)]))).rows(),
+         "The captured junction fragment is shown after dA-tailing and before the index adapter is added."),
+        ("Ligate TruSeq index adapter", adapter_ligation_scene().rows(),
          "The final library uses the TruSeq DNA LT single-index workflow, not Nextera sequencing primers."),
     ]

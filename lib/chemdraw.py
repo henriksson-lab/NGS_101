@@ -366,8 +366,9 @@ class Row:
     indent: int = 0
     prefix: str = ""
     suffix: str = ""
-    visual: ("StrandVisual | SpanVisual | ArrowVisual | CommentVisual | "
-             "tuple[StrandVisual | SpanVisual | ArrowVisual | CommentVisual, ...] | None") = None
+    visual: ("StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | CommentVisual | "
+             "tuple[StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | "
+             "CommentVisual, ...] | None") = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -394,6 +395,23 @@ class StrandVisual:
     def __post_init__(self) -> None:
         if self.direction not in ("left", "right") or self.end <= self.start:
             raise ValueError("strand visual needs a non-empty span and left/right direction")
+
+
+@dataclass(frozen=True)
+class ComponentVisual:
+    """Background span for one physical component in a newly ligated molecule.
+
+    Reusing ``group`` on disjoint spans gives them the same fill.  This matters for a
+    symmetric adapter ligated to both ends: the two copies are one component identity,
+    not two unrelated colours.
+    """
+    start: int
+    end: int
+    group: str
+
+    def __post_init__(self) -> None:
+        if self.end <= self.start or not self.group.strip():
+            raise ValueError("component visual needs a non-empty span and group")
 
 
 @dataclass(frozen=True)
@@ -466,6 +484,12 @@ class Workflow:
         self.current = initial
 
     def react(self, action: str, rows: Iterable[Row], *, name: str = "", note: str = ""):
+        words = action.lower().replace("′", "'").replace("’", "'")
+        if re.search(r"\b(?:d\s*a|a)[ -]?tail(?:ing)?\b", words) and "ligat" in words:
+            raise ValueError(
+                "dA-tailing and adapter ligation need separate molecular states; "
+                "use endprep.react_dA_tail_then_ligate()"
+            )
         after = MolecularState(name, tuple(rows))
         reaction = Reaction(action, self.current, after, note)
         self.reactions.append(reaction)
@@ -665,6 +689,18 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
                       (x1 + head, bottom), (x2, bottom))
         coords = " ".join(f"{a:.2f},{b:.2f}" for a, b in points)
         out.append(f'<polygon class="chem-strand-box" points="{coords}"/>')
+
+    # Component fills sit over the neutral strand box but under selectable sequence text.
+    # The palette is derived deterministically from identity, so the same adapter at both
+    # ends always receives the same background without callers choosing colours.
+    for component in (v for v in visuals if isinstance(v, ComponentVisual)):
+        x1 = x + component.start * cell
+        x2 = x + component.end * cell
+        palette = sum((i + 1) * ord(ch) for i, ch in enumerate(component.group)) % 4 + 1
+        out.append(f'<rect class="chem-component chem-component-{palette}" '
+                   f'x="{x1:.2f}" y="{y - 1:.2f}" width="{x2 - x1:.2f}" '
+                   f'height="{font + 5:.2f}" rx="2"><title>'
+                   f'{html.escape(component.group)}</title></rect>')
 
     if isinstance(visual, SpanVisual):
         x1, x2 = x + visual.start * cell, x + visual.end * cell
@@ -1051,6 +1087,7 @@ class Scene:
         self.extras: dict[str, tuple] = {}
         self._same_line: list[tuple[str, str]] = []
         self._footers: set[str] = set()
+        self._components: dict[str, list[ComponentVisual]] = {}
 
     @classmethod
     def duplex(cls, top: Sequence[Segment], on: str | None = None, label: str = "",
@@ -1148,6 +1185,18 @@ class Scene:
             raise ValueError(f"ligation junction has a gap on strand {strand!r}")
         marker = ch * 2 + (" " + text if text else "")
         self._decor("mark", strand, (a[1] - 1, marker, None))
+
+    def component(self, strand: str, first: str, last: str, group: str) -> None:
+        """Shade a contiguous physical component on a ligation-product strand.
+
+        Coordinates come from named segments and ``group`` is molecular identity.  Two
+        copies of the same adapter therefore share a colour even when they occur on
+        opposite sides of an insert.
+        """
+        st = self.strands[strand]
+        a, b = st.span(first), st.span(last)
+        start, end = min(a[0], b[0]), max(a[1], b[1])
+        self._components.setdefault(strand, []).append(ComponentVisual(start, end, group))
 
     def note(self, strand: str, text: str) -> None:
         """A free line under the strand, starting at its first drawn base."""
@@ -1263,13 +1312,18 @@ class Scene:
                 drawn = [s for s in st.drawn() if s.top]
                 seq_start = len(lead) + len(l_end)
                 seq_len = sum(len(s.top) for s in drawn)
+                strand_visual = StrandVisual(seq_start, seq_start + seq_len,
+                                              "left" if st.rev else "right")
+                component_visuals = tuple(
+                    ComponentVisual(shift + v.start, shift + v.end, v.group)
+                    for v in self._components.get(key, ())
+                )
                 out.append(Row(chunks=[(lead + l_end, None, False)]
                                + [(s.top, (s.tag or "") + ("+unp" if s.name in st.unpaired
                                                             else ""), s.inferred)
                                   for s in drawn]
                                + [(r_end, None, False)],
-                               visual=StrandVisual(seq_start, seq_start + seq_len,
-                                                   "left" if st.rev else "right"),
+                               visual=(strand_visual, *component_visuals),
                                chunk_titles=[None]
                                + [s.hover_text() for s in drawn] + [None]))
                 keys.append(key)

@@ -75,6 +75,9 @@ def sections():
         ("Immunoprecipitate the target",
          antibody_enzyme_rows("bead capture", "retain target-associated fragments"),
          "A target-specific antibody enriches crosslinked protein–DNA complexes; crosslinks are then reversed."),
-        ("Repair, dA-tail and ligate the Genomic Adapter", adapter_scene().rows(),
+        ("Repair and add one 3-prime dA to each end",
+         Scene.duplex([seg("3-prime dA", "A"), seg("ChIP-enriched DNA", "X" * 36, placeholder=True), seg("3-prime dA", "A")], label="dA-tailed ChIP DNA").rows(),
+         "The 3-prime dA overhangs are shown before the forked adapter is introduced."),
+        ("Ligate the Genomic Adapter", adapter_scene().rows(),
          "The original Illumina single-read fork has a 3′-T ligation overhang. PCR primers 1.1 and 2.1 complete the flow-cell arms."),
     ]

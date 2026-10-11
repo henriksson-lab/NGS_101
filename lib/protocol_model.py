@@ -28,13 +28,21 @@ def role(name: str, *, tag: str | None = None, length_bp: int | None = None,
 
 
 def molecule(label: str, parts: tuple[Segment, ...], *,
-             junctions: tuple[tuple[str, str, str], ...] = ()) -> Scene:
+             junctions: tuple[tuple[str, str, str], ...] = (),
+             components: tuple[tuple[str, str, str], ...] = ()) -> Scene:
     sc = Scene()
     sc.strand("molecule", list(parts), label=label)
     for left, right, kind in junctions:
         sc.junction("molecule", left, right, kind)
+    for first, last, identity in components:
+        sc.component("molecule", first, last, identity)
     sc.labels("molecule")
     return sc
+
+
+def da_tailed(label: str, insert: str = "end-repaired DNA insert") -> Scene:
+    """Role-level product after dA-tailing and before adapter ligation."""
+    return molecule(label, (role("3-prime dA"), role(insert), role("3-prime dA")))
 
 
 def closed_circle(label: str, parts: tuple[Segment, ...], *,

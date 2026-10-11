@@ -87,6 +87,13 @@ FACETS = OrderedDict([
         "inferred regions present"))),
 ])
 
+# Values below are computed from the required molecular facets.  They are exposed to the
+# finder like ordinary facets but are never hand-maintained in properties.tsv.
+DERIVED_FACETS = OrderedDict([
+    ("scale", ("Bulk or single-cell", ("bulk", "single-cell", "spatial / in situ"))),
+])
+FILTER_FACETS = FACETS | DERIVED_FACETS
+
 COLUMNS = ["dir", "profile", "overrides"]
 
 
@@ -257,6 +264,19 @@ def load(expected_dirs: set[str] | None = None, path: Path = TSV) -> dict[str, d
             if bad:
                 raise ValueError(f"{path}:{line}: {d}: unknown {key}: {sorted(bad)}")
             rec[key] = values
+        partitioning = set(rec["partitioning"])
+        scales = []
+        if "bulk" in partitioning:
+            scales.append("bulk")
+        if partitioning & {"single cell", "single nucleus"} or (
+                partitioning & {"droplet", "microwell", "combinatorial indexing"}
+                and "cell barcode" in rec["identifiers"]):
+            scales.append("single-cell")
+        if "spatial / in situ" in partitioning:
+            scales.append("spatial / in situ")
+        # Plate/well is a container, not proof of single-cell resolution. Anything not
+        # explicitly single-cell or spatial is therefore bulk.
+        rec["scale"] = tuple(scales or ["bulk"])
         out[d] = rec
     if expected_dirs is not None and set(out) != expected_dirs:
         missing, extra = expected_dirs - set(out), set(out) - expected_dirs
@@ -268,4 +288,4 @@ def option_counts(records: list[dict]) -> dict[str, dict[str, int]]:
     """Counts shown beside filters, derived from exactly the records being rendered."""
     return {key: {value: sum(value in r["properties"][key] for r in records)
                   for value in allowed}
-            for key, (_, allowed) in FACETS.items()}
+            for key, (_, allowed) in FILTER_FACETS.items()}

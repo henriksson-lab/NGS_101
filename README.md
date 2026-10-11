@@ -195,6 +195,9 @@ python3 -m http.server -d _site    # preview at http://localhost:8000/
 Citation counts on the index come from the dated, checked-in
 `catalogue/citations.tsv` snapshot. Refresh it deliberately—not during a normal build—with
 `python3 tools/fetch_citations.py`; `OPENALEX_API_KEY` is optional and is never stored.
+Run that command whenever a defining DOI is added or removed. The offline index build
+requires a snapshot row for every defining DOI, so citation coverage cannot silently lag
+behind the protocol catalogue; an unresolved DOI is retained as an explicit blank row.
 
 `build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
 `build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
@@ -210,10 +213,12 @@ relative link and anchor in `_site/` resolves, and fails if one does not.
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
 - **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
-  in a compact list led by chemistry filters rather than a name search. The filter data are
+  in a compact table led by chemistry filters rather than a name search. The filter data are
   `catalogue/properties.tsv`: sixteen closed facets covering indexing, assay, platform,
   partitioning, input, fragmentation, adapter installation, amplification, topology,
-  strand handling, identifiers, reads, selection, conversion and availability. Profiles
+  strand handling, identifiers, reads, selection, conversion and availability. A derived
+  bulk/single-cell/spatial facet comes from partitioning and identifier semantics rather
+  than another hand-maintained field. Profiles
   supply shared facts and each row records only its differences. `properties.load()` expands
   and validates the records; a missing protocol, empty facet or unknown value stops the
   build. Options within a facet are OR, while facets combine with AND. An unobtrusive text
@@ -266,6 +271,8 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
    self-test only for source transcription or behavior that cannot be enforced by those
    functions; do not restate model constants as checks.
 5. Write `<name>/tools/build_page.py` to emit the page from the construct.
+6. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
+   `python3 tools/fetch_citations.py` so every defining DOI has a dated snapshot row.
 
 Each script starts with the same three-line bootstrap:
 
@@ -301,6 +308,12 @@ state, and `workflow_panel()` derives the labelled SVG arrows from that chain. P
 pages therefore never hand-align reaction arrows or separately repeat a step's input.
 Ordering-oligo lists stay as raw HTML text; `panel()` remains for non-reaction construct
 views such as final libraries and sequencing-primer binding.
+
+When sticky-end adapter ligation follows dA-tailing, use
+`endprep.react_dA_tail_then_ligate()` so the ligation-ready dA-tailed molecule is a visible
+state rather than being swallowed by a combined step. Use `ligation_product_scene()` for
+the product: its subtle component backgrounds distinguish insert from adapter, and two
+copies of the same adapter are guaranteed to share one background identity.
 
 `Scene` rows retain molecular meaning into rendering: strands become directional boxes,
 binding spans become vector brackets, and synthesis/enzyme movement becomes a vector
