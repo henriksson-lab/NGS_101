@@ -406,6 +406,11 @@ EXTRA_CSS = """<style>
 .plist thead th { position:sticky; top:0; z-index:1; background:var(--surface-2);
                   color:var(--ink-muted); font-size:.74rem; letter-spacing:.035em;
                   text-transform:uppercase; white-space:nowrap; }
+.sort-button { appearance:none; border:0; padding:0; background:none; color:inherit;
+               font:inherit; letter-spacing:inherit; text-transform:inherit; cursor:pointer; }
+.sort-button:hover, .sort-button:focus-visible { color:var(--ink); }
+.plist thead th[aria-sort="ascending"] .sort-button::after { content:' \\2191'; color:var(--accent); }
+.plist thead th[aria-sort="descending"] .sort-button::after { content:' \\2193'; color:var(--accent); }
 .plist tbody tr:last-child > * { border-bottom:0; }
 .plist tbody tr:hover > * { background:var(--bg); }
 .plist tbody th { min-width:14rem; font-weight:600; }
@@ -446,6 +451,8 @@ SEARCH_JS = r"""<script>
   var citationValue = document.getElementById('citation-value');
   var keepUnknown = document.getElementById('citation-unknown');
   var citationSteps = JSON.parse(citation.dataset.steps);
+  var sortButtons = Array.prototype.slice.call(document.querySelectorAll('.sort-button'));
+  var sortKey = '', sortDirection = 'asc';
   function norm(s) {
     return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
@@ -470,6 +477,43 @@ SEARCH_JS = r"""<script>
     }
     return total;
   }
+  function sortValue(r, key) {
+    if (key === 'name') return r.n;
+    if (key === 'citations') return r.x;
+    if (key === 'family') return r.p.assay.join(', ');
+    if (key === 'scale') return r.p.scale.join(', ');
+    if (key === 'platform') return r.p.platform.join(', ');
+    return '';
+  }
+  function orderHits(hits) {
+    if (!sortKey) {
+      hits.sort(function (x, y) { return y[0] - x[0] || x[1] - y[1]; });
+      return;
+    }
+    var sign = sortDirection === 'asc' ? 1 : -1;
+    hits.sort(function (x, y) {
+      var a = sortValue(data[x[1]], sortKey), b = sortValue(data[y[1]], sortKey);
+      // Unknown citation counts are metadata gaps, not zero; keep them after known
+      // values in either direction.
+      if (sortKey === 'citations') {
+        if (a === null || b === null) return a === b ? x[1] - y[1] : (a === null ? 1 : -1);
+        if (a !== b) return sign * (a - b);
+      } else {
+        var compared = String(a).localeCompare(String(b), undefined,
+                                                {numeric:true, sensitivity:'base'});
+        if (compared) return sign * compared;
+      }
+      return data[x[1]].n.localeCompare(data[y[1]].n, undefined,
+                                        {numeric:true, sensitivity:'base'});
+    });
+  }
+  function showSortState() {
+    sortButtons.forEach(function (button) {
+      var active = button.dataset.sort === sortKey;
+      button.parentNode.setAttribute('aria-sort', active
+        ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none');
+    });
+  }
   function run() {
     var terms = norm(q.value).split(/\s+/).filter(Boolean);
     var active = {};
@@ -489,7 +533,7 @@ SEARCH_JS = r"""<script>
       var s = terms.length ? score(f, terms) : 1;
       if (s) hits.push([s, i]);
     }
-    hits.sort(function (x, y) { return y[0] - x[0] || x[1] - y[1]; });
+    orderHits(hits);
     var shown = {};
     hits.forEach(function (h) {
       var li = items[h[1]];
@@ -511,6 +555,10 @@ SEARCH_JS = r"""<script>
     if (q.value) h.push('q=' + encodeURIComponent(q.value));
     if (minCitations) h.push('c=' + minCitations);
     if (!keepUnknown.checked) h.push('unknown=0');
+    if (sortKey) {
+      h.push('sort=' + encodeURIComponent(sortKey));
+      h.push('order=' + sortDirection);
+    }
     boxes.forEach(function (box) {
       if (box.checked) h.push('f=' + encodeURIComponent(box.dataset.facet + '~' + box.value));
     });
@@ -521,6 +569,18 @@ SEARCH_JS = r"""<script>
   citation.addEventListener('input', run);
   keepUnknown.addEventListener('change', run);
   boxes.forEach(function (box) { box.addEventListener('change', run); });
+  sortButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      if (sortKey === button.dataset.sort) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortKey = button.dataset.sort;
+        sortDirection = button.dataset.first || 'asc';
+      }
+      showSortState();
+      run();
+    });
+  });
   var groups = Array.prototype.slice.call(document.querySelectorAll('.facet'));
   groups.forEach(function (group) {
     group.addEventListener('toggle', function () {
@@ -547,6 +607,10 @@ SEARCH_JS = r"""<script>
       if (at >= 0) citation.value = String(at);
     }
     if (p[0] === 'unknown' && v === '0') keepUnknown.checked = false;
+    if (p[0] === 'sort' && sortButtons.some(function (button) {
+      return button.dataset.sort === v;
+    })) sortKey = v;
+    if (p[0] === 'order' && (v === 'asc' || v === 'desc')) sortDirection = v;
     if (p[0] === 'f') {
       var bits = v.split('~'), facet = bits.shift(), value = bits.join('~');
       boxes.forEach(function (box) {
@@ -554,6 +618,7 @@ SEARCH_JS = r"""<script>
       });
     }
   });
+  showSortState();
   run();
 })();
 </script>"""
@@ -627,9 +692,16 @@ def search_section(ps: list[dict]) -> str:
 <button class="clear" id="clear" type="button" hidden>Clear filters</button></div>
 </form>
 <div class="protocol-table-wrap"><table class="plist">
-<thead><tr><th scope="col">Protocol</th><th scope="col">Citations</th>
-<th scope="col">Protocol family</th><th scope="col">Bulk / single-cell</th>
-<th scope="col">Target sequencer</th></tr></thead>
+<thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="name">Protocol</button></th>
+<th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="citations" data-first="desc">Citations</button></th>
+<th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="family">Protocol family</button></th>
+<th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="scale">Bulk / single-cell</button></th>
+<th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="platform">Target sequencer</button></th></tr></thead>
 <tbody id="plist">{items}</tbody>
 </table></div>
 <p class="empty" id="empty" hidden>Nothing matches. Try fewer words, or clear the filters.</p>
