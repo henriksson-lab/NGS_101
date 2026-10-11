@@ -4,6 +4,7 @@ import sys
 H = Path(__file__).resolve().parent
 sys.path[:0] = [str(H), str(H.parents[1] / "lib")]
 import r2c2 as R
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, panel, workflow_panel
 from page import head, info
 
@@ -23,6 +24,9 @@ def render():
               caption="Debranched tandem repeats receive the paper's ONT 1D ligation adapters. Three repeat units are drawn; the molecular copy number varies. ** marks adapter ligation."),
         '<h2>Nanopore entry</h2>',
         info('There is no sequencing primer. The motor-bearing ONT 1D adapter engages the pore and feeds one intact concatemer strand through it; C3POa detects splint copies and computes the repeated-molecule consensus.'),
+        sp.read_spec_table([sp.read_spec("Sequencing output", None,
+            "concatemeric tandem copies used to compute one insert consensus", "include")],
+            "Nanopore sequencing is primer-free; repeat count and read length are molecule-dependent."),
         '</div>'])
 
 if __name__ == '__main__':

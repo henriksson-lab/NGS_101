@@ -21,6 +21,16 @@ from chemdraw import (ArrowVisual, Construct, MolecularFeature, Row, Segment, St
                       feature_rows, inline_sequence, panel, revcomp, strand_row)
 
 ROLES = ("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2")
+READ_USES = {
+    "include": "Yes — include in sequence analysis",
+    "extract": "No — extract identifiers only",
+    "extract_then_include": "Yes — after extracting identifiers",
+    "demultiplex": "No — use for sample demultiplexing",
+    "extract_and_demultiplex": "No — extract identifiers and demultiplex",
+    "technical": "No — technical sequence only",
+    "not_applicable": "No — assay readout is not sequencing",
+    "undetermined": "Undetermined",
+}
 
 
 @dataclass(frozen=True)
@@ -63,6 +73,34 @@ NEXTERA = {
 }
 
 
+def standard_primers(lib: Construct, acquired_roles=ROLES) -> tuple[SeqPrimer, ...]:
+    """Infer the standard Illumina primers used by an acquired run from ``lib``.
+
+    A protocol supplies only which reads were acquired.  Primer family, binding strand
+    and direction come from sequence matching against the completed construct.  If no
+    standard primer—or more than one distinct standard primer—can supply a requested
+    role, construction fails and the protocol must declare its custom primer explicitly.
+    """
+    roles = tuple(acquired_roles)
+    unknown = set(roles) - set(ROLES)
+    if unknown:
+        raise ValueError(f"unknown acquired read roles: {', '.join(sorted(unknown))}")
+    out = []
+    standards = (*TRUSEQ.values(), *NEXTERA.values())
+    for role in roles:
+        by_sequence = {}
+        for primer in standards:
+            if primer.role == role and locate(lib, primer) is not None:
+                by_sequence.setdefault(primer.seq, primer)
+        if not by_sequence:
+            raise ValueError(f"no standard Illumina primer binds for {role}")
+        if len(by_sequence) != 1:
+            names = ", ".join(p.name for p in by_sequence.values())
+            raise ValueError(f"multiple standard Illumina primers bind for {role}: {names}")
+        out.append(next(iter(by_sequence.values())))
+    return tuple(out)
+
+
 @dataclass(frozen=True)
 class Landing:
     strand: str        # "bottom" (primer = top-strand sequence, anneals to bottom) or "top"
@@ -88,6 +126,15 @@ class FeatureReadSpan:
     def cycles(self) -> str:
         return (str(self.cycle_start) if self.cycle_start == self.cycle_end else
                 f"{self.cycle_start}–{self.cycle_end}")
+
+
+@dataclass(frozen=True)
+class ReadContent:
+    """One run read, with content and handling derived from library geometry."""
+    read: str
+    cycles: str
+    content: str
+    handling: str
 
 
 def _seg_at(lib: Construct, pos: int) -> str:
@@ -238,6 +285,267 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
     return sorted(out, key=lambda x: (ROLES.index(x.read), x.cycle_start, x.feature.id))
 
 
+def read_contents(lib: Construct, primers,
+                  read_lengths: dict[str, int] | None = None,
+                  read_uses: dict[str, str] | None = None,
+                  acquired_roles=None) -> list[ReadContent]:
+    """Describe R1/I1/I2/R2 from the construct and declared primer sites.
+
+    The construct supplies order and meaning; primer geometry supplies direction.  A
+    protocol need only declare actual run lengths when the source fixes them.  Missing
+    primer roles and declared primer sites omitted from ``acquired_roles`` become explicit
+    ``not acquired`` rows rather than disappearing.
+    """
+    primers = tuple(primers)
+    read_lengths = read_lengths or {}
+    read_uses = read_uses or {}
+    unknown = set(read_lengths) - {p.role for p in primers}
+    if unknown:
+        raise ValueError(f"read lengths name undeclared roles: {', '.join(sorted(unknown))}")
+    unknown_uses = set(read_uses) - {p.role for p in primers}
+    if unknown_uses:
+        raise ValueError(f"read uses name undeclared roles: {', '.join(sorted(unknown_uses))}")
+    invalid_uses = set(read_uses.values()) - set(READ_USES)
+    if invalid_uses:
+        raise ValueError(f"unknown read use: {', '.join(sorted(invalid_uses))}")
+    by_role = {p.role: p for p in primers}
+    if len(by_role) != len(primers):
+        raise ValueError("at most one sequencing primer may be declared for each read role")
+    acquired = set(by_role) if acquired_roles is None else set(acquired_roles)
+    undeclared_acquired = acquired - set(by_role)
+    if undeclared_acquired:
+        raise ValueError("acquired reads lack a declared primer: "
+                         + ", ".join(sorted(undeclared_acquired)))
+
+    coords, pos = [], 0
+    for segment in lib:
+        coords.append((segment, pos, pos + len(segment)))
+        pos += len(segment)
+
+    out = []
+    for role in ROLES:
+        primer = by_role.get(role)
+        if primer is None or role not in acquired:
+            out.append(ReadContent(role, "—", "not acquired", "No — not sequenced"))
+            continue
+        hit = locate(lib, primer)
+        if hit is None:
+            out.append(ReadContent(role, "not fixed", "cannot be derived from an exact site",
+                                   "Undetermined"))
+            continue
+        limit = read_lengths.get(role)
+        candidates = []
+        for segment, start, end in coords:
+            if hit.strand == "bottom":
+                if end <= hit.end:
+                    continue
+                first = max(start, hit.end) - hit.end + 1
+                last = end - hit.end
+            else:
+                if start >= hit.start:
+                    continue
+                first = hit.start - min(end, hit.start) + 1
+                last = hit.start - start
+            if limit is not None and first > limit:
+                continue
+            last = min(last, limit) if limit is not None else last
+            if first > last:
+                continue
+            candidates.append((segment, first, last))
+
+        # Reading order is reverse genomic order for a primer annealed to the top strand.
+        candidates.sort(key=lambda x: x[1])
+        path = []
+        following_unresolved = None
+        short_molecule_readthrough = False
+        for candidate_no, (segment, first, last) in enumerate(candidates):
+            # Identifier placeholders such as B*16 have a real, modelled length even
+            # though their bases vary.  An unfeatured payload placeholder such as
+            # ``cDNA insert`` is the molecule-dependent case.
+            unknown_length = (segment.placeholder and not segment.feature
+                              and segment.length_bp is None)
+            path.append((segment, first, last))
+            if unknown_length:
+                short_molecule_readthrough = candidate_no + 1 < len(candidates)
+                if segment.inferred and candidate_no + 1 < len(candidates):
+                    following_unresolved = candidates[candidate_no + 1][0]
+                break
+            if (limit is None and role.startswith("Index")
+                                   and segment.feature
+                                   and segment.feature.role == "sample_index"):
+                break
+        parts = []
+        for segment, first, last in path:
+            label = segment.feature.label if segment.feature else (segment.name or "unnamed region")
+            span = str(first) if first == last else f"{first}–{last}"
+            parts.append(f"{label} (cycles {span})")
+            # With no declared run length, a schematic payload length must not expose later
+            # adapter sequence merely because its placeholder happens to have drawing width.
+            if segment.placeholder and not segment.feature and segment.length_bp is None:
+                parts[-1] = f"{label} (from cycle {first}; molecule-dependent length)"
+                break
+        if short_molecule_readthrough:
+            parts.append("short molecules may read through into the opposite library end")
+        if following_unresolved is not None:
+            label = (following_unresolved.feature.label if following_unresolved.feature
+                     else (following_unresolved.name or "unnamed region"))
+            parts.append(f"then {label} (cycle boundary unresolved)")
+
+        features = {segment.feature.role for segment, _, _ in path if segment.feature}
+        identifier = bool(features - {"sample_index"})
+        technical_tags = {"p5", "p7", "s5", "s7", "me", "r1", "r2", "tso",
+                          "cbc", "umi", "insert"}
+        payload = any(not segment.feature and not set((segment.tag or "").split("+"))
+                      & technical_tags for segment, _, _ in path)
+        if role.startswith("Index") and identifier and "sample_index" in features:
+            handling = "No — extract identifiers and demultiplex"
+        elif role.startswith("Index") and identifier:
+            handling = "No — extract identifiers only"
+        elif role.startswith("Index") and "sample_index" in features:
+            handling = "No — use for sample demultiplexing"
+        elif role.startswith("Index") and payload:
+            handling = "Undetermined — non-identifier content in an index read"
+        elif role.startswith("Index"):
+            handling = "No — technical sequence only"
+        elif identifier and payload:
+            handling = "Yes — after extracting identifiers"
+        elif identifier:
+            handling = "No — extract identifiers only"
+        elif payload:
+            handling = "Yes — include in sequence analysis"
+        else:
+            handling = "No — technical sequence only"
+        if role in read_uses:
+            handling = READ_USES[read_uses[role]]
+        cycles = str(limit) if limit is not None else "not fixed"
+        out.append(ReadContent(role, cycles, "; ".join(parts) or "read-through beyond library",
+                               handling))
+    return out
+
+
+def read_content_table(lib: Construct, primers,
+                       read_lengths: dict[str, int] | None = None,
+                       read_uses: dict[str, str] | None = None,
+                       acquired_roles=None) -> str:
+    """Render the four standard run reads, including roles that are not acquired."""
+    rows = read_contents(lib, tuple(primers), read_lengths, read_uses, acquired_roles)
+    body = "\n".join(
+        f"<tr><td>{html.escape(x.read)}</td><td>{html.escape(x.cycles)}</td>"
+        f"<td>{html.escape(x.content)}</td><td>{html.escape(x.handling)}</td></tr>"
+        for x in rows)
+    return ("<h3>Read content and handling</h3>\n"
+            "<p><info>Content and cycle positions are derived from the final construct, "
+            "primer direction, molecular-feature annotations and declared run lengths. "
+            "\u2018No\u2019 means the read is auxiliary or absent, not that its information is "
+            "unimportant.</info></p>\n<div class=\"tw\"><table>\n"
+            "<tr><th>Read</th><th>Cycles</th><th>Content</th>"
+            "<th>Include in sequence analysis?</th></tr>\n" + body + "\n</table></div>\n")
+
+
+def read_spec(read: str, cycles: int | str | None, content: str,
+              use: str) -> ReadContent:
+    """Construct one source-declared read row using the controlled handling vocabulary."""
+    if read not in ROLES and read != "Sequencing output":
+        raise ValueError(f"unknown read role: {read}")
+    if use not in READ_USES:
+        raise ValueError(f"unknown read use: {use}")
+    if isinstance(cycles, int) and cycles <= 0:
+        raise ValueError("read cycles must be positive")
+    cycle_text = "not fixed" if cycles is None else str(cycles)
+    return ReadContent(read, cycle_text, content, READ_USES[use])
+
+
+def read_spec_table(rows, note: str = "") -> str:
+    """Render structured source-declared reads when exact primer geometry is unavailable."""
+    rows = tuple(rows)
+    if not rows:
+        raise ValueError("a read-content table needs at least one row")
+    body = "\n".join(
+        f"<tr><td>{html.escape(x.read)}</td><td>{html.escape(x.cycles)}</td>"
+        f"<td>{html.escape(x.content)}</td><td>{html.escape(x.handling)}</td></tr>"
+        for x in rows)
+    explanation = (note or "Read roles and contents are source-declared because exact "
+                   "sequencing-primer geometry is unavailable.")
+    return ("<h3>Read content and handling</h3>\n"
+            f"<p><info>{html.escape(explanation)}</info></p>\n<div class=\"tw\"><table>\n"
+            "<tr><th>Read</th><th>Cycles</th><th>Content</th>"
+            "<th>Include in sequence analysis?</th></tr>\n" + body + "\n</table></div>\n")
+
+
+def ensure_read_content(page_html: str, reason: str) -> str:
+    """Ensure a generated protocol page cannot silently omit its read description.
+
+    Protocol builders should provide geometry-derived or source-declared rows.  This is
+    the final publication boundary: it adds an explicit unresolved row when a legacy or
+    source-dependent builder provides neither.  It deliberately does not infer read names,
+    orientation or handling from prose.
+    """
+    if "<h3>Read content and handling</h3>" in page_html:
+        return page_html
+    fallback = read_spec_table(
+        [read_spec("Sequencing output", None,
+                   "Read structure is not yet represented as structured data on this page",
+                   "undetermined")],
+        "Structured read placement is unresolved: " + reason,
+    )
+    closing = page_html.rfind("</div>")
+    if closing < 0:
+        return page_html + "\n" + fallback
+    return page_html[:closing] + fallback + "\n" + page_html[closing:]
+
+
+def unresolved_read_content_table(lib: Construct, reason: str,
+                                  read_lengths: dict[str, int] | None = None,
+                                  acquired_roles=None) -> str:
+    """Honest fallback when the final construct exists but read entry sites do not.
+
+    Content is summarized from structured molecular features and non-technical regions;
+    no cycle placement or read direction is invented.  Protocols should replace this with
+    :func:`read_spec_table` once a source establishes their run layout.
+    """
+    technical_tags = {"p5", "p7", "s5", "s7", "me", "r1", "r2", "r3", "tso",
+                      "cbc", "umi", "insert", "t7", "w1"}
+    labels = []
+    for segment in lib:
+        label = segment.feature.label if segment.feature else ""
+        if label and label not in labels:
+            labels.append(label)
+    payloads = []
+    for segment in lib:
+        tags = set((segment.tag or "").split("+"))
+        if segment.feature or tags & technical_tags or not segment.name:
+            continue
+        if segment.name not in payloads:
+            payloads.append(segment.name)
+    shown_payloads = payloads[:4]
+    if len(payloads) > len(shown_payloads):
+        shown_payloads.append("other library regions")
+    summary = ", ".join([*labels, *shown_payloads]) or "final-library molecule"
+    summary += " (read orientation and cycle boundaries unresolved)"
+    if labels and payloads:
+        use = "extract_then_include"
+    elif labels:
+        use = "extract"
+    elif payloads:
+        use = "include"
+    else:
+        use = "technical"
+    read_lengths = read_lengths or {}
+    acquired = tuple(acquired_roles or read_lengths)
+    if acquired:
+        unknown = set(acquired) - set(ROLES)
+        if unknown:
+            raise ValueError(f"unknown acquired read roles: {', '.join(sorted(unknown))}")
+        rows = [read_spec(role, read_lengths.get(role), summary, use) for role in ROLES
+                if role in acquired]
+        rows.extend(ReadContent(role, "—", "not acquired", "No — not sequenced")
+                    for role in ROLES if role not in acquired)
+        rows.sort(key=lambda x: ROLES.index(x.read))
+    else:
+        rows = [read_spec("Sequencing output", None, summary, use)]
+    return read_spec_table(rows, "Exact read placement is unresolved: " + reason)
+
+
 def diagram(lib: Construct, primers, caption: str = "Sequencing primers on the final library") -> str:
     """Draw every declared sequencing primer at its computed site on the final duplex."""
     located = [(p, locate(lib, p)) for p in primers]
@@ -294,8 +602,16 @@ def unavailable_diagram(lib: Construct, reason: str,
 
 def section(lib: Construct, primers, heading: str = "Sequencing primers",
             intro: str = "", required_roles=ROLES,
-            read_lengths: dict[str, int] | None = None) -> str:
-    """Render the page section. Raises if `verify` finds anything."""
+            read_lengths: dict[str, int] | None = None,
+            read_uses: dict[str, str] | None = None,
+            content_primers=None,
+            show_read_content: bool = True) -> str:
+    """Render primers and reads; ``required_roles`` is also the set actually acquired.
+
+    ``content_primers`` selects the loaded primer when ``primers`` deliberately includes
+    alternatives or counterexamples for explanation.  The full set remains in the primer
+    table, while read content is derived only from the selected run primers.
+    """
     errs = verify(lib, primers, required_roles=required_roles)
     if errs:
         raise ValueError("sequencing primers: " + "; ".join(errs))
@@ -322,7 +638,7 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
                     f"<td>{where}</td><td>{first}</td></tr>")
     intro_html = f"<p><info>{intro}</info></p>\n" if intro else ""
     feature_table = ""
-    if read_lengths:
+    if read_lengths and not show_read_content:
         spans = feature_spans(lib, primers, read_lengths)
         if spans:
             body = "\n".join(
@@ -337,10 +653,14 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
                 "<div class=\"tw\"><table><tr><th>Read</th><th>Cycles</th>"
                 "<th>Role</th><th>Region</th><th>Encoding</th></tr>\n" + body
                 + "\n</table></div>\n")
+    content_table = (read_content_table(lib, content_primers or primers,
+                                        read_lengths, read_uses,
+                                        acquired_roles=required_roles)
+                     if show_read_content else "")
     return (f"<h2>{html.escape(heading)}</h2>\n{intro_html}"
             "<p><info>Sequences come from <code>lib/</code>; the landing site and the first "
             "bases of each read are computed from this page's final library, so they cannot "
             "drift from it.</info></p>\n" + diagram(lib, primers) + "\n<div class=\"tw\"><table>\n"
             "<tr><th>Read</th><th>Primer</th><th>Sequence</th><th>Lands on</th>"
             "<th>First bases read</th></tr>\n" + "\n".join(rows)
-            + "\n</table></div>\n" + feature_table)
+            + "\n</table></div>\n" + content_table + feature_table)

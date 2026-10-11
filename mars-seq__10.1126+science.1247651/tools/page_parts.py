@@ -104,5 +104,10 @@ def render_page(protocol: str) -> str:
         panel([strand_row(r1, prefix="Read 1  ", suffix=""),
                strand_row(r2, prefix="Read 2  ", suffix="")], cls="small",
               caption=read_caption),
-        table(("Read", "Reports"), read_rows), '</div>',
+        table(("Read", "Reports"), read_rows),
+        sp.read_spec_table([
+            sp.read_spec("Read 1", None, read_rows[0][1], "extract_then_include"),
+            sp.read_spec("Read 2", None, read_rows[1][1], "extract"),
+        ], "Read contents are source-declared; the defining sources do not fix a complete run recipe."),
+        '</div>',
     ])

@@ -178,7 +178,8 @@ def sequencing() -> str:
 <h3>RNA Read 1 and Read 2</h3>
 {read_scene(rna, sp.NEXTERA["R1"], "Read 1 into cDNA")}
 {read_scene(rna, sp.NEXTERA["R2"], "Read 2 into the opposite end")}
-{sp.section(atac, A.SEQ_PRIMERS, heading="Sequencing-primer sites", intro="The ATAC and RNA libraries share the same adapter geometry; only the insert differs.")}
+{sp.section(atac, A.SEQ_PRIMERS, heading="Sequencing-primer sites and ATAC read content", intro="The ATAC and RNA libraries share adapter geometry, but their genomic-DNA and cDNA payloads are reported separately.", read_lengths={"Read 1": 50, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 50}, show_read_content=True)}
+{sp.read_content_table(rna, A.SEQ_PRIMERS, {"Read 1": 101, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 101})}
 </div>'''
 
 

@@ -34,7 +34,9 @@ def sequencing(lib) -> str:
             sp.diagram(lib, C.seq_primers) +
             table(("Read", "Primer", "Primer site", "First bases"), rows) +
             table(("Read 1 cycles", "Content"),
-                  [("1–16", "cell barcode"), ("17–26", "UMI")], scroll=False))
+                  [("1–16", "cell barcode"), ("17–26", "UMI")], scroll=False) +
+            sp.read_content_table(lib, C.seq_primers,
+                {"Read 1":26,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90}))
 
 
 def render() -> str:

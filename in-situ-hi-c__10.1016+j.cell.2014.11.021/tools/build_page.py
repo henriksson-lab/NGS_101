@@ -7,6 +7,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import insitu_hic as H
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info
 
@@ -49,7 +50,11 @@ def library() -> str:
 
 def sequencing() -> str:
     return ('<h2>Sequencing</h2><p>Paired reads begin in the two genomic loci at opposite ends of the selected molecule.</p>' +
-        '<div class="info">Primer placement unavailable: Rao et al. name an Illumina indexed adapter and Illumina PCR primers but do not print or identify the sequencing-primer set.</div>')
+        '<div class="info">Primer placement unavailable: Rao et al. name an Illumina indexed adapter and Illumina PCR primers but do not print or identify the sequencing-primer set.</div>' +
+        sp.read_spec_table([
+            sp.read_spec("Read 1", None, "genomic locus on one side of the contact junction", "include"),
+            sp.read_spec("Read 2", None, "genomic locus on the other side of the contact junction", "include")],
+            "Paired-read content is source-declared; adapter identity, primer sequences and cycle counts are unavailable."))
 
 
 def render() -> str:

@@ -109,6 +109,12 @@ SEQ_PRIMERS = [
     sp.custom("Read 2", "itChIP Read 2", EXTENDED_ME_B,
               "Ai et al. Supplementary Table 1"),
 ]
+READ_LENGTHS = {
+    "Read 1": 150,
+    "Index 1 (i7)": len(T7_BARCODE) + len(CONNECTOR_B) + len(I7_OLIGO_INDEX),
+    "Index 2 (i5)": len(I5_OLIGO_INDEX) + len(CONNECTOR_A) + len(T5_BARCODE),
+    "Read 2": 150,
+}
 
 
 def _validate_model() -> None:

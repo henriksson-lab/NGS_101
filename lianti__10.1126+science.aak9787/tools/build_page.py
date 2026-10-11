@@ -130,7 +130,10 @@ def render() -> str:
         self_primed_rt(), final_library(),
         sp.section(L.final_library(), L.SEQ_PRIMERS,
                    intro="Standard TruSeq primers address the NEBNext-built library. The 6-nt "
-                         "i7 placement follows the secondary upstream reconstruction."),
+                         "i7 placement follows the secondary upstream reconstruction.",
+                   required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+                   read_lengths={"Index 1 (i7)": L.I7_NT},
+                   show_read_content=True),
         '</div>'
     ])
 

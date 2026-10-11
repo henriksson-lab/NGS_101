@@ -31,6 +31,8 @@ def sequencing(lib) -> str:
         info("Paired-end TruSeq reads interrogate the protected fragment from opposite ends; the single i7 read identifies the library."),
         sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
+        sp.read_content_table(lib, S.SEQ_PRIMERS,
+                              acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS)),
     ])
 
 

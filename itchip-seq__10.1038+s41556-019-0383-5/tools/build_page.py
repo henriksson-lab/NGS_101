@@ -45,7 +45,9 @@ def construction() -> str:
 {sp.section(final, I.SEQ_PRIMERS, heading="Final library and read layout",
             intro="Paired-end 150-bp sequencing uses four custom primers. Read 1 and Read "
                   "2 enter genomic DNA; Index 1 crosses the T7 barcode and Index 2 crosses "
-                  "the T5 barcode. There is no UMI.")}"""
+                  "the T5 barcode. There is no UMI.",
+            read_lengths=I.READ_LENGTHS,
+            show_read_content=True)}"""
 
 
 def render() -> str:

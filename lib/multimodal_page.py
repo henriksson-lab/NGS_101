@@ -31,6 +31,8 @@ def render(m) -> str:
                             cls="long", caption=caption),
                       sp.section(library, primers, intro=intro,
                                  required_roles=tuple(p.role for p in primers),
-                                 read_lengths=getattr(m, "READ_LENGTHS", {}).get(heading))])
+                                 read_lengths=getattr(m, "READ_LENGTHS", {}).get(heading),
+                                 read_uses=getattr(m, "READ_USES", {}).get(heading),
+                                 show_read_content=getattr(m, "SHOW_READ_CONTENT", True))])
     parts.append('</div>')
     return "\n".join(parts)

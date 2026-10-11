@@ -583,7 +583,11 @@ def sequencing() -> str:
             stock run loads; each has no site, for the reason given. The read-1 entry is the
             site the construct requires, not a vendor oligo &mdash; the TruSeq Small RNA
             primers are not yet in <code>lib/</code>. Read 1 reports <umi>UMI</umi> +
-            <tso>CA</tso> before the insert, the {sm.TRIM_5P}&nbsp;nt the pipeline trims.""")
+            <tso>CA</tso> before the insert, the {sm.TRIM_5P}&nbsp;nt the pipeline trims.""",
+            required_roles=("Read 1", "Index 1 (i7)"),
+            content_primers=(sm.SEQ_PRIMERS[0], sm.SEQ_PRIMERS[3]),
+            read_lengths={"Read 1": sm.READ_LEN,
+                          "Index 1 (i7)": sm.SRX_INDEX_NT})
             + "<h3>Read processing</h3>\n"
             + table(["Step", "What happens"],
                     [[f"{sm.READ_LEN}-bp single read",

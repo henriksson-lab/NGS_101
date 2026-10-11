@@ -14,6 +14,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=bacterial_rna_library("bacdrop","BacDrop RNA library")
 FINAL_CAPTION="The plate barcode, droplet barcode and UMI remain physically linked to each bacterial cDNA insert."
 SEQUENCING_INTRO="Read cycles recover the two-part cell identity and UMI before transcript sequence."
 READ_LENGTHS={"Read 1":28,"Read 2":90}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Fix, permeabilize and deplete abundant rRNA in cells",[Row(chunks=[("bacterium: RNA — rRNA probes/RNase H — DNase I cleanup",None,False)])],"Universal rRNA probes and RNase H reduce ribosomal molecules before indexing."),

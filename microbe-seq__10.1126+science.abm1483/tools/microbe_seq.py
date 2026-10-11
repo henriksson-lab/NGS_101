@@ -16,6 +16,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([seg("microbe barcode","B"*16,"cbc",pl
 FINAL_CAPTION="A bead barcode identifies all tagmented MDA fragments derived from one microbial droplet."
 SEQUENCING_INTRO="Paired genomic reads are associated with the bead-derived microbe barcode and sample indexes."
 READ_LENGTHS={"Read 1":150,"Read 2":150}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Encapsulate and lyse individual microbes",[Row(chunks=[("one microbe + lysis droplet",None,False)])],"Lysis remains physically partitioned by cell."),

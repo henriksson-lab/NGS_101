@@ -2,7 +2,6 @@
 """Build the diagram-centric CH-ATAC-seq page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import ch_atac as C
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "ch-atac-seq.html"
 
@@ -21,10 +20,6 @@ OUT = HERE.parent / "ch-atac-seq.html"
 def render() -> str:
     lib = C.final_library()
     duplex = Scene.duplex(list(lib), label="library")
-    landings = [(html.escape(p.role), html.escape(p.name),
-                 html.escape(", ".join(hit.covers)),
-                 f"<code>{html.escape(hit.reads)}</code>&hellip;")
-                for p, hit in C.primer_landings(lib)]
     oligos = "\n".join([
         oligo("Indexed Tn5 transfer strand", C.indexed_tn5_transfer()),
         oligo("Tn5 Primer C", C.primer_c()),
@@ -45,11 +40,11 @@ def render() -> str:
         info('A pre-annealed HY duplex uses its SMART-handle overhang to capture the indexed Tn5 end. The HY head supplies s5; a blocking oligo occupies free capture overhangs.'),
         '<h3>(3) Fill, amplify and add MGI ends</h3>',
         panel([*duplex.rows(), *annotation_rows(lib)], cls="small", caption="Final DNBSEQ library assembled from the defining paper's Supplementary Table 1."),
-        '<h2>Sequencing</h2>',
-        info('Paired 100-cycle reads and a 10-cycle index read are used, with Read 1 dark cycles over the constant handle and mosaic end.'),
-        sp.diagram(lib, C.SEQ_PRIMERS),
-        table(("Read", "Primer", "Primer site", "First bases"), landings),
-        '<h3>Read 1 layout</h3>', table(("Cycles", "Content"), C.read1_layout(), scroll=False),
+        sp.section(lib, C.SEQ_PRIMERS, heading="Sequencing",
+                   intro='Paired 100-cycle reads and a 10-cycle index read are used, with Read 1 dark cycles over the constant handle and mosaic end.',
+                   required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+                   read_lengths={"Read 1": 100, "Index 1 (i7)": 10, "Read 2": 100},
+                   show_read_content=True),
         '</div>'
     ])
 

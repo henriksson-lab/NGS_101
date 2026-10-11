@@ -177,6 +177,97 @@ def _pars() -> Workflow:
     ))
 
 
+def _fragseq() -> Workflow:
+    return chain(molecule("purified nuclear RNA", (role("native folded RNA"),)), (
+        ("Refold RNA and split treated and undigested-control aliquots",
+         molecule("refolded RNA", (role("RNA secondary structure"),)),
+         "The control measures fragmentation and library-preparation background."),
+        ("Partially digest exposed single-stranded RNA with nuclease P1",
+         molecule("P1 accessibility fragments", (role("5-prime phosphate at accessible site"),
+                  role("downstream RNA fragment"))),
+         "Nuclease P1 preferentially cleaves single-stranded nucleic acid; fragment starts encode accessibility."),
+        ("Size-select and ligate small-RNA sequencing adapters",
+         molecule("adapter-ligated FragSeq RNA", (role("5-prime sequencing adapter"),
+                  role("P1-cleavage-defined RNA"), role("3-prime sequencing adapter"))),
+         "Treated and control branches are converted independently so their endpoint enrichments can be compared."),
+        ("Reverse-transcribe, amplify and sequence fragment ends",
+         molecule("FragSeq library", (role("SOLiD P1 end"),
+                  role("P1-cleavage-defined cDNA"), role("SOLiD P2 end"))),
+         "Mapped fragment termini provide nucleotide-resolution nuclease-accessibility scores."),
+    ))
+
+
+def _hrf_seq() -> Workflow:
+    return chain(molecule("folded RNA pool", (role("RNA tertiary structure"),)), (
+        ("Expose RNA to hydroxyl radicals alongside an untreated control",
+         molecule("hydroxyl-radical-cleaved RNA", (role("intact RNA regions"),
+                  role("backbone break at solvent-accessible ribose"))),
+         "Backbone cleavage reports solvent accessibility rather than base identity."),
+        ("Random-prime reverse transcription from primers carrying a 5-prime Illumina tail",
+         molecule("break-terminated cDNA", (role("Illumina-tailed random primer"),
+                  role("cDNA ending at radical-induced break"))),
+         "The cDNA endpoint records the probing position; random priming records the opposite end."),
+        ("Ligate a seven-base molecular-barcode adapter to each cDNA 3-prime end",
+         molecule("barcoded HRF cDNA", (role("Illumina-tailed cDNA"),
+                  role("7-nt molecular barcode", tag="umi", length_bp=7,
+                       molecular_feature=feature("umi", "umi", "random")),
+                  role("ligation adapter"))),
+         "Unique barcode counting corrects PCR and fragment-length sampling bias."),
+        ("PCR-add indexes, size-select and paired-end sequence",
+         molecule("HRF-Seq library", (role("P5"), role("random-primer coordinate"),
+                  role("accessibility-defined cDNA"), role("7-nt molecular barcode", tag="umi",
+                       length_bp=7, molecular_feature=feature("umi", "umi", "random")),
+                  role("sample index"), role("P7"))),
+         "The paired reads recover the priming position and the hydroxyl-radical termination position."),
+    ))
+
+
+def _shape_seq() -> Workflow:
+    return chain(molecule("barcoded in-vitro RNA pool", (role("RNA-specific 3-prime DNA barcode"),
+                  role("folded RNA"))), (
+        ("Modify flexible riboses with a SHAPE reagent and retain a minus-reagent control",
+         molecule("SHAPE-modified RNA", (role("RNA"),
+                  role("2-prime-O-adduct at flexible nucleotide"))),
+         "The pre-attached RNA barcode lets many defined RNAs share the chemical and library workflow."),
+        ("Primer-extend until reverse transcriptase reaches a SHAPE adduct",
+         molecule("SHAPE-stop cDNA", (role("common primer handle"),
+                  role("cDNA ending before modified nucleotide"), role("RNA identity barcode"))),
+         "Treated and control stop distributions are interpreted jointly rather than as presence/absence calls."),
+        ("Ligate the second sequencing adapter to cDNA",
+         molecule("dual-adapter SHAPE cDNA", (role("paired-end adapter"),
+                  role("stop-defined cDNA"), role("RNA identity barcode"),
+                  role("paired-end adapter"))),
+         "The two ends separately identify the assayed RNA and the primer-extension stop."),
+        ("PCR-amplify and paired-end sequence",
+         molecule("SHAPE-Seq library", (role("P5"), role("SHAPE-stop coordinate"),
+                  role("RNA identity barcode"), role("P7"))),
+         "Maximum-likelihood comparison of plus- and minus-reagent channels yields nucleotide reactivities."),
+    ))
+
+
+def _protein_pip_seq() -> Workflow:
+    return chain(molecule("cross-linked cellular ribonucleoproteins", (role("RNA"),
+                  role("bound proteins"))), (
+        ("Split material into footprint and structure-control branches",
+         molecule("four PIP-seq branches", (role("protein-bound ssRNase branch"),
+                  role("protein-bound dsRNase branch"), role("protein-removed ssRNase branch"),
+                  role("protein-removed dsRNase branch"))),
+         "Proteinase K precedes nuclease only in controls; footprint branches retain protein during digestion."),
+        ("Digest exposed single- or double-stranded RNA",
+         molecule("RNase-protected fragments", (role("ssRNase-resistant RNA"),
+                  role("dsRNase-resistant RNA"))),
+         "The paired nuclease specificities distinguish RNA structure while the branch order reveals protein protection."),
+        ("Reverse cross-links, purify RNA and prepare strand-specific libraries",
+         molecule("strand-specific PIP-seq libraries", (role("5-prime sequencing adapter"),
+                  role("RNase-protected RNA-derived cDNA"), role("3-prime sequencing adapter"))),
+         "Rehybridization and duplex-specific nuclease normalization reduce abundant-transcript domination."),
+        ("Sequence and compare footprint with protein-depleted controls",
+         molecule("PIP-seq library quartet", (role("P5"),
+                  role("branch-specific protected-fragment cDNA"), role("sample index"), role("P7"))),
+         "Enrichment in footprint libraries marks protein-protected sites; control branches report RNA accessibility."),
+    ))
+
+
 def _glori() -> Workflow:
     readout = BaseConversionReadout("glyoxal plus nitrite", "adenosine", "inosine", "G", "m6A")
     return chain(molecule("fragmented poly(A) RNA", (role("RNA containing A and m6A"),)), (
@@ -269,6 +360,38 @@ def get(key: str):
             oligos=lambda: (), workflow=_pars,
             FINAL_LIBRARY=Construct((role("SOLiD P1 adapter"), role("V1- or S1-cleavage-defined cDNA"), role("SOLiD P2 adapter")), name="PARS library"),
             FINAL_CAPTION="One library is made for each nuclease branch; the defining experiment used the SOLiD platform.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining libraries were sequenced on Applied Biosystems SOLiD; their ligation-sequencing primer oligos are not printed in the defining paper.", SEQUENCING_UNAVAILABLE="The public source describes the SOLiD adapter roles but does not reproduce exact adapter or sequencing-primer sequences.")
+    if key == "fragseq":
+        return SimpleNamespace(
+            TITLE="FragSeq — nuclease accessibility profiling of RNA", NOTES="01_fragseq.html",
+            SOURCE='Underwood et al., Nature Methods (2010), <a href="https://doi.org/10.1038/nmeth.1529">doi:10.1038/nmeth.1529</a>.',
+            SUMMARY="Partial nuclease P1 digestion converts exposed single-stranded RNA into mapped fragment termini, directly profiling RNA accessibility across many transcripts.", CAVEAT="FragSeq probes purified, refolded RNA. It reports nuclease accessibility, not native intracellular accessibility or abundance alone.",
+            oligos=lambda: (), workflow=_fragseq,
+            FINAL_LIBRARY=Construct((role("SOLiD P1 adapter"), role("P1-cleavage-defined cDNA"), role("SOLiD P2 adapter")), name="FragSeq library"),
+            FINAL_CAPTION="The informative coordinate is a nuclease-P1-defined RNA fragment end.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining experiment converted treated and control RNA fragments with the SOLiD small-RNA workflow and sequenced their ends.", SEQUENCING_UNAVAILABLE="Exact proprietary SOLiD adapter and sequencing-primer sequences are not represented.")
+    if key == "hrf-seq":
+        return SimpleNamespace(
+            TITLE="HRF-Seq — hydroxyl-radical RNA accessibility", NOTES="01_hrf_seq.html",
+            SOURCE='Kielpinski and Vinther, Nucleic Acids Research (2014), <a href="https://doi.org/10.1093/nar/gku167">doi:10.1093/nar/gku167</a>.',
+            SUMMARY="Hydroxyl radicals cleave solvent-exposed ribose backbones; random-primed RT, a seven-base molecular barcode and paired-end sequencing recover both break and priming coordinates.", CAVEAT="The defining demonstration probes purified RNAs. Hydroxyl-radical accessibility reflects backbone solvent exposure and tertiary packing, not only base pairing.",
+            oligos=lambda: (), workflow=_hrf_seq,
+            FINAL_LIBRARY=Construct((role("P5"), role("random-primer coordinate"), role("accessibility-defined cDNA"), role("7-nt molecular barcode", tag="umi", length_bp=7, molecular_feature=feature("umi", "umi", "random")), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="HRF-Seq library"),
+            FINAL_CAPTION="Paired-end library linking the random-primer coordinate to the hydroxyl-radical termination coordinate; the seven-base random tag deduplicates molecules.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="Illumina paired-end sequencing reports probing and priming positions; the paper's exact oligos remain source-specific.", SEQUENCING_UNAVAILABLE="The final role layout is published, but exact primer landing sequences are not yet transcribed into the shared model.")
+    if key == "shape-seq":
+        return SimpleNamespace(
+            TITLE="SHAPE-Seq — multiplexed RNA flexibility probing", NOTES="01_shape_seq.html",
+            SOURCE='Lucks et al., PNAS (2011), <a href="https://doi.org/10.1073/pnas.1106501108">doi:10.1073/pnas.1106501108</a>.',
+            SUMMARY="SHAPE chemistry acylates flexible riboses, reverse transcriptase stops at the adducts, and paired-end sequencing links each stop to a pre-attached RNA identity barcode.", CAVEAT="The original SHAPE-Seq protocol assays designed RNA pools in vitro; later in-cell and transcriptome-wide SHAPE methods use different capture architectures.",
+            oligos=lambda: (), workflow=_shape_seq,
+            FINAL_LIBRARY=Construct((role("P5"), role("SHAPE-stop-defined cDNA"), role("RNA identity barcode", tag="cbc", molecular_feature=feature("assay_barcode", "feature_barcode", "fixed")), role("P7")), name="SHAPE-Seq library"),
+            FINAL_CAPTION="Paired-end reads connect a primer-extension stop to the barcode identifying the assayed RNA.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining method used multiplexed paired-end Illumina sequencing of primer-extension products.", SEQUENCING_UNAVAILABLE="The defining paper's adapter and primer table has not yet been represented as exact shared sequence segments.")
+    if key == "protein-pip-seq":
+        return SimpleNamespace(
+            TITLE="PIP-seq — protein interaction profile sequencing", NOTES="01_protein_pip_seq.html",
+            SOURCE='Silverman et al., Genome Biology (2014), <a href="https://doi.org/10.1186/gb-2014-15-1-r3">doi:10.1186/gb-2014-15-1-r3</a>.',
+            SUMMARY="Four matched libraries combine single- and double-strand-specific RNases with protein-present and protein-removed branches, revealing both RNA accessibility and protein-protected sites.", CAVEAT="This is protein-interaction-profile PIP-seq, not the unrelated particle-templated single-cell RNA-seq protocol with the same acronym.",
+            oligos=lambda: (), workflow=_protein_pip_seq,
+            FINAL_LIBRARY=Construct((role("P5"), role("RNase-protected strand-specific cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="protein-interaction-profile PIP-seq library"),
+            FINAL_CAPTION="One strand-specific sequencing library is made for each protein-state × nuclease-specificity branch.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining study sequenced strand-specific libraries from all four branches; branch identity must be retained through sample indexing.", SEQUENCING_UNAVAILABLE="Exact commercial library-kit primer sequences are not represented in the defining schematic.")
     if key == "glori":
         return SimpleNamespace(
             TITLE="GLORI — absolute m6A quantification by A-to-I conversion", NOTES="01_glori.html",

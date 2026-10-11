@@ -13,6 +13,7 @@ CAVEAT = "The contact panel derives the original MboI fill and GATCGATC ligation
 FINAL_LIBRARY, SEQ_PRIMERS = tagmented_library("protein-enriched contact fragment")
 FINAL_CAPTION = "Tn5-built paired-end library from immunoprecipitated, biotin-bearing proximity-ligation products."
 SEQUENCING_INTRO = "Paired reads recover the two genomic ends of each protein-enriched contact molecule; an internal ligation scar identifies informative contacts."
+SHOW_READ_CONTENT = True
 
 def sections():
     return [

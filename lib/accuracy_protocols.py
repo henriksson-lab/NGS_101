@@ -312,6 +312,7 @@ def get(key: str):
             ), workflow=_time_workflow,
             FINAL_LIBRARY=lib, SEQ_PRIMERS=primers,
             READ_LENGTHS={"Read 1": 145, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 5},
+            SHOW_READ_CONTENT=True,
             FINAL_CAPTION="The internal five-base Tn5 barcode identifies the pre-pooling sample; i5 and i7 identify the PCR pool. TS301 is drawn as one published representative.",
             SEQUENCING_INTRO="Read 2 and Index 1 use the two published custom sequencing primers; Read 1 and Index 2 use the matching Nextera sites. The economical run described in the Supplementary Information uses 145–153 Read 1 cycles, 8 i7 cycles, optional 8 i5 cycles and 5 Read 2 cycles; this view uses the 145-cycle Read 1 endpoint.")
     raise KeyError(key)

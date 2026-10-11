@@ -381,13 +381,16 @@ def seq_primer_drawings() -> dict[str, tuple[list[Segment], str, tuple[str, str]
 def sequencing(protocol: str) -> str:
     if protocol in ("SMART-seq", "SMART-seq2"):
         tables = sp.section(ss.smartseq2_library(), ss.SS2_SEQ_PRIMERS,
-                            heading=f"Sequencing primers: {protocol}")
+                            heading=f"Sequencing primers: {protocol}",
+                            show_read_content=True)
     else:
         tables = (sp.section(ss.smartseq3_library(protocol), ss.SS3_SEQ_PRIMERS,
-                             heading=f"Sequencing primers: {protocol} 5' fragments")
+                             heading=f"Sequencing primers: {protocol} 5' fragments",
+                             show_read_content=True)
                   + sp.section(ss.smartseq3_library(protocol, five_prime=False),
                                ss.SS3_SEQ_PRIMERS,
-                               heading=f"Sequencing primers: {protocol} internal fragments"))
+                               heading=f"Sequencing primers: {protocol} internal fragments",
+                               show_read_content=True))
     return ('<h2 id="seq-primers">Library sequencing</h2>\n'
             + info("""All four reads use the stock Nextera sequencing primers. Primer
             positions and the first bases read are shown below.""")

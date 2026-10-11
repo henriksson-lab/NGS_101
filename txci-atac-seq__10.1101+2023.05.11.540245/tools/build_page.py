@@ -55,6 +55,8 @@ def render() -> str:
         table(("Read", "Standard primer", "Primer site", "First bases"), landings),
         '<h3>Read 2 before genomic DNA</h3>',
         table(("Cycles", "Content"), T.read2_layout(), scroll=False),
+        sp.read_content_table(lib, T.SEQ_PRIMERS,
+            {"Read 1":51,"Index 1 (i7)":8,"Index 2 (i5)":16,"Read 2":78}),
         '</div>'
     ])
 

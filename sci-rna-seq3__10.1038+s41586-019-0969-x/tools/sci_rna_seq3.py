@@ -102,6 +102,8 @@ def user_cleaved_tagmented(insert_nt: int=34) -> Construct:
 
 
 SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.NEXTERA["I1"],sp.TRUSEQ["I2"],sp.NEXTERA["R2"])
+READ_LENGTHS={"Read 1":34,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":52}
+READ_USES={"Read 1":"extract"}
 
 
 def final_library(insert_nt: int=34) -> Construct:

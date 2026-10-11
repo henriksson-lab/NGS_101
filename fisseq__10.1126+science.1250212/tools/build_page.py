@@ -7,6 +7,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import fisseq as F
+import seqprimers as sp
 from chemdraw import annotation_rows, circle_rows, oligo, panel, strand_row
 from page import head, info, table
 
@@ -48,6 +49,11 @@ def sequencing() -> str:
 {panel(F.sequencing_scene().rows(), cls="long", caption="All five sliding primers are shown on the middle repeat. The three primer-N sites in this three-repeat drawing are found computationally; every physical repeat carries the same nested sites.")}
 {info("SOLiD sequencing-by-ligation uses primer N, then four primers shortened successively at the 5′ end. The offsets make the five-base ligation stride interrogate all positions.")}
 {table(("Primer", "Sequence", "Length"), rows, scroll=False)}
+{sp.read_spec_table([
+    sp.read_spec("Sequencing output", None,
+                 "in-situ rolony cDNA interrogated by five offset SOLiD ligation primers",
+                 "include")],
+    "FISSEQ uses SOLiD sequencing-by-ligation rather than an R1/I1/I2/R2 run.")}
 '''
 
 

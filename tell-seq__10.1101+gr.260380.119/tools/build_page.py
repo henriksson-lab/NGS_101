@@ -18,5 +18,11 @@ def render():
       '<h2>Final Illumina library</h2>',panel(T.rows(T.FINAL,'TELL-seq'),cls='long',caption='Index 1 is the 18-base linked-molecule barcode; Index 2 is the 8-base sample index. Adaptor ordering is shown from the published architecture; proprietary bases remain role tokens.'),
       '<h2>Sequencing-primer binding</h2>',
       info('TELL-seq requires vendor custom Read 1, Read 2 and Index 1 primers, plus a custom Index 2 primer on instruments that do not use grafted P5 for i5. Their sequences are not disclosed in the paper or public sequencing guide, so exact annealing cannot be computed without fabricating bases. The guide specifies 2 × 146 reads, an 18-cycle Index 1 read and an 8-cycle Index 2 read.'),
-      sp.unavailable_diagram(T.FINAL,'custom primer sequence is proprietary',roles=('Read 1','Read 2','Index 1 (18 cycles)','Index 2 (8 cycles)')),'</div>'])
+      sp.unavailable_diagram(T.FINAL,'custom primer sequence is proprietary',roles=('Read 1','Read 2','Index 1 (18 cycles)','Index 2 (8 cycles)')),
+      sp.read_spec_table([
+          sp.read_spec('Read 1',146,'genomic insert','include'),
+          sp.read_spec('Index 1 (i7)',18,'linked-molecule barcode','extract'),
+          sp.read_spec('Index 2 (i5)',8,'sample index','demultiplex'),
+          sp.read_spec('Read 2',146,'genomic insert','include')],
+          'The vendor guide declares the run layout; custom primer sequences are proprietary.'),'</div>'])
 if __name__=='__main__': OUT.write_text(render(),encoding='utf-8'); print(f'wrote {OUT}')

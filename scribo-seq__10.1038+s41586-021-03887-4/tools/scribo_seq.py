@@ -39,6 +39,7 @@ SEQ_PRIMERS = (
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS, required_roles=tuple(p.role for p in SEQ_PRIMERS)):
     raise ValueError("scRibo-seq final library: " + "; ".join(problems))
 READ_LENGTHS = {"Read 1": 75, "Index 1 (i7)": 6, "Index 2 (i5)": 10}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = "Read 1 begins with the 10-nt UMI and then enters the 30–45-nt footprint. The six-cycle i7 read is the plate index; the ten-cycle i5 read is the well/cell index."
 SEQUENCING_INTRO = "The defining paper specifies 75 cycles Read 1, six i7 cycles and ten i5 cycles on NextSeq 500. Identifier cycle spans are derived from the annotated final construct."
 

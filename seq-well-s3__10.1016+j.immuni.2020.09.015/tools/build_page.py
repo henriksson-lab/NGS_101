@@ -66,7 +66,10 @@ def sequencing() -> str:
     return f'''<h2>Sequencing</h2>
 {info('Read 1 reports the 12-nt cell barcode and 8-nt UMI; Index 1 reports the N700 sample index; Read 2 reports cDNA from the Tn5 end.')}
 {sp.diagram(lib, S.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
+{table(("Read", "Primer", "Primer site", "First bases"), rows)}
+{sp.read_content_table(lib,S.SEQ_PRIMERS,
+    {"Read 1":20,"Index 1 (i7)":8,"Read 2":50},
+    acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS))}'''
 
 
 def main() -> None:

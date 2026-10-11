@@ -2,7 +2,6 @@
 """Build the diagram-centric HyDrop-ATAC chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import hydrop_atac as H
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "hydrop-atac.html"
 
@@ -56,18 +55,10 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = H.final_library()
-    landing_rows = []
-    for primer, hit in H.primer_landings(lib):
-        landing_rows.append((html.escape(primer.role), html.escape(primer.name),
-                             html.escape(", ".join(hit.covers)),
-                             f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Read 1: 50 cycles; cell-barcode Index 1: 52; sample Index 2: 10; Read 2: 50. All four use standard Nextera sequencing primers.')}
-{sp.diagram(lib, H.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), landing_rows)}
-<h3>Index 1 cell-barcode read</h3>
-{table(("Cycles", "Content"), H.index1_layout(), scroll=False)}
-'''
+    return sp.section(lib, H.SEQ_PRIMERS, heading="Sequencing",
+        intro='Read 1: 50 cycles; cell-barcode Index 1: 52; sample Index 2: 10; Read 2: 50. All four use standard Nextera sequencing primers.',
+        read_lengths={"Read 1":50,"Index 1 (i7)":52,"Index 2 (i5)":10,"Read 2":50},
+        show_read_content=True)
 
 
 def render() -> str:

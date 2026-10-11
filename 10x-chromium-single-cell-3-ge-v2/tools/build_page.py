@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import html, sys
+import sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v2 as V
 import seqprimers as sp
 from chemdraw import Scene,annotation_rows,oligo,panel
-from page import head,info,table
+from page import head,info
 OUT=HERE.parent/"10x-3prime-v2.html"
 
 def sequencing(lib):
-    rows=[]
-    for p in V.SEQ_PRIMERS:
-        h=sp.locate(lib,p)
-        if h is None: raise ValueError(f"{p.name} has no site")
-        rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Read 1 is 26 cycles: 16-base cell barcode then 10-base UMI. Index 1 identifies the sample; Read 2 sequences cDNA.')+sp.diagram(lib,V.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
+    return sp.section(lib,V.SEQ_PRIMERS,heading="Sequencing",intro='Read 1 is 26 cycles: 16-base cell barcode then 10-base UMI. Index 1 identifies the sample; Read 2 sequences cDNA.',required_roles=("Read 1","Index 1 (i7)","Read 2"),read_lengths={"Read 1":26,"Index 1 (i7)":8},show_read_content=True)
 
 def render():
     lib=V.final_library(); cdna=V.amplified_cdna()

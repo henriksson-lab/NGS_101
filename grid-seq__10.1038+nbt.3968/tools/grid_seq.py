@@ -30,13 +30,13 @@ FINAL_LIBRARY = Construct([
         feature=feature("sample_index_i5", "sample_index", "unknown")),
     seg("Read 1 site", GRID_R1, "r1"),
     seg("RNA-derived tag", "R" * 20, placeholder=True, length_bp=20),
-    seg("RNA-side MmeI boundary", "X" * 6, "me", placeholder=True),
+    seg("RNA-side MmeI boundary", "X" * 6, "me", placeholder=True, length_bp=6),
     seg("linker RNA-arm fixed bases", BRIDGE.rna_fixed_5.replace("U", "T")),
     seg("three-base molecular barcode", "N" * BRIDGE.barcode_length, "umi", placeholder=True,
         feature=feature("grid_linker_umi", "umi", "random")),
     seg("linker RNA-arm terminal G", BRIDGE.rna_terminal),
     seg("linker duplex fixed bases", BRIDGE.duplex_arm),
-    seg("DNA-side MmeI boundary", "X" * 6, "me", placeholder=True),
+    seg("DNA-side MmeI boundary", "X" * 6, "me", placeholder=True, length_bp=6),
     seg("genomic-DNA tag", "D" * 20, placeholder=True, length_bp=20),
     seg("P7-side Y-adapter arm", GRID_P7_ARM, "r2"),
     seg("P7 reverse complement", il.P7_RC, "p7"),
@@ -45,6 +45,7 @@ SEQ_PRIMERS = (sp.TRUSEQ["R1"],)
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS, required_roles=("Read 1",)):
     raise ValueError("GRID-seq final library: " + "; ".join(problems))
 READ_LENGTHS = {"Read 1": 100}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = "The 100-nt read crosses an ~20-nt RNA tag, the orientation-defining bivalent linker and an ~20-nt genomic-DNA tag. PCR Primer #1 places a five-base multiplex barcode between P5 and the Read 1 site."
 SEQUENCING_INTRO = "The published HiSeq 2500 run prints the Read 1 primer. The linker orientation identifies which flanking MmeI tag came from RNA and which from DNA."
 SEQUENCING_UNAVAILABLE = "The paper prints the five-base barcode inside PCR Primer #1 but does not state the index-read recipe or a separate index sequencing primer; its binding geometry is therefore not asserted."

@@ -22,6 +22,7 @@ CAVEAT = ("The vendor publishes the construct order and exact lengths but not th
           "to explain standard-primer binding; UMI, RTS-ID and UDI values remain placeholders.")
 FINAL_LIBRARY, SEQ_PRIMERS = dsp.library()
 READ_LENGTHS = {"Read 1": 27, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 27}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = ("Vendor-published final order and lengths. Inferred canonical adapter "
                  "bases are visibly marked; the central 14-nt UMI and 12-nt target ID, "
                  "and the two AOI indexes, are structured features with undisclosed values.")

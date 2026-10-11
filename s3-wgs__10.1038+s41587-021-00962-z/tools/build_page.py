@@ -110,7 +110,9 @@ def render() -> str:
         transposome(), tagmentation(), gap_fill_and_switch(), final_library(),
         sp.section(S.final_library(), S.SEQ_PRIMERS,
                    intro="The protocol uses stock Nextera Read 1 / Index 2 and stock TruSeq "
-                         "Read 2 / Index 1 primers."),
+                         "Read 2 / Index 1 primers.",
+                   read_lengths=S.READ_LENGTHS,
+                   show_read_content=True),
         '</div>'
     ])
 

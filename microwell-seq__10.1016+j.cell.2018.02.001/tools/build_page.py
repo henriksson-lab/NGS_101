@@ -2,7 +2,6 @@
 """Build the diagram-centric Microwell-seq chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -14,7 +13,7 @@ import microwell_seq as M
 import nextera as nx
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "microwell-seq.html"
 
@@ -55,18 +54,11 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = M.final_library()
-    rows = []
-    for primer in M.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Read 1 needs 54 cycles to cover the three cell-barcode blocks and UMI; Index 1 reports the sample index; Read 2 reports cDNA.')}
-{sp.diagram(lib, M.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}
-<h3>Read 1 layout</h3>
-{table(("Cycles", "Content"), M.read1_layout(), scroll=False)}'''
+    return sp.section(lib, M.SEQ_PRIMERS, heading="Sequencing",
+        intro='Read 1 needs 54 cycles to cover the three cell-barcode blocks and UMI; Index 1 reports the sample index; Read 2 reports cDNA.',
+        required_roles=M.RUN_ROLES,
+        read_lengths={"Read 1":54,"Index 1 (i7)":8},
+        read_uses={"Read 1":"extract"}, show_read_content=True)
 
 
 def main() -> None:

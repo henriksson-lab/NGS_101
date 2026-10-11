@@ -19,6 +19,8 @@ from endprep import dA_tailed_scene, repair_and_dA_tail
 INDEX_NT = 6
 MSPI_SITE = "CCGG"
 MSPI_OVERHANG = "CG"
+CELL_INDEX = feature("cell_i7", "cell_barcode", "whitelist",
+                     whitelist="published indexed primer set")
 
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -43,7 +45,7 @@ def indexed_segments(*, inferred: bool = False) -> list[Segment]:
     return [
         _seg("Index-primer / Read 2 arm", INDEXED_FIXED_5, "r2", inferred=inferred),
         _seg("i7 cell index", "N" * INDEX_NT, "cbc", placeholder=True,
-             inferred=inferred),
+             inferred=inferred, feature=CELL_INDEX),
         _seg("P7'", il.P7_RC, "p7", inferred=inferred),
     ]
 
@@ -64,7 +66,7 @@ def adapter_scene() -> Scene:
         _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2"),
         _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2"),
         _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True,
-             feature=feature("cell_i7", "cell_barcode", "whitelist", whitelist="published indexed primer set")),
+             feature=CELL_INDEX),
         _seg("P7'", il.P7_RC, "p7"),
     ]
     sc = Scene()

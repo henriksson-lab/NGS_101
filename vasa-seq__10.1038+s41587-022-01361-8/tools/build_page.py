@@ -99,6 +99,11 @@ def sequencing() -> str:
 {sp.unavailable_diagram(V.plate_library(), "the VASA-plate library-primer sequences are not printed")}
 {sp.unavailable_diagram(V.drop_library(), "the complete VASA-drop primer landing sites are not published")}
 {table(("Format", "Read", "Content"), V.read_layouts())}
+{sp.read_spec_table([
+    sp.read_spec("Sequencing output", None,
+                 "format-dependent VASA-plate or VASA-drop reads listed above",
+                 "extract_then_include")],
+    "The defining source reports two format-specific layouts; incomplete primer sequences prevent one geometry-derived table.")}
 </div>'''
 
 

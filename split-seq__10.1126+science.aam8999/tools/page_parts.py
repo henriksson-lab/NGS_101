@@ -61,4 +61,12 @@ def render_page(protocol):
       panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — supported inner barcode order; unpublished or unresolved outer library arms are dotted."),
       sp.unavailable_diagram(final,"the downstream library-primer sequences are unavailable"),
       '<h2>Read layout</h2>',panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption=("Published microSPLiT run: Read 1 74 nt, Read 2 86 nt, index 6 nt." if micro else "Published SPLiT-seq architecture: transcript in Read 1; combinatorial identity in Read 2.")),
-      table(("Read","Reports"),rows),'</div>'])
+      table(("Read","Reports"),rows),
+      sp.read_spec_table([
+          sp.read_spec("Read 1", 74 if micro else None, "transcript sequence", "include"),
+          sp.read_spec("Read 2", 86 if micro else None,
+                       "UMI, barcode 3, barcode 2, barcode 1", "extract"),
+          sp.read_spec("Index 1 (i7)", 6 if micro else None,
+                       "sublibrary barcode (round 4)", "demultiplex"),
+      ], "Read roles and contents are source-declared because exact downstream primer sequences are unavailable."),
+      '</div>'])

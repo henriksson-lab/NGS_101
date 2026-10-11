@@ -72,6 +72,51 @@ read-cycle explanation, processing configuration, protocol comparison and valida
 Keeping them in the construct makes every renderer consume the same molecular truth and
 prevents prose tables from drifting when a construct changes.
 
+Read-content tables follow the same rule: derive R1, I1, I2 and R2 content from the final
+construct, primer direction, feature annotations and declared run lengths. Index reads are
+auxiliary demultiplexing reads; identifier-only reads are extracted rather than aligned;
+payload reads enter sequence analysis; undeclared roles are shown as not acquired. A small
+structured override may be added for exceptional processing, but cycle layouts must not be
+duplicated as page prose. The opt-in pilot spans SMART-seq2, Drop-seq, 10x 3′ v3,
+ATAC-seq, SMART-seq3, TIME-seq, 5′ direct-capture Perturb-seq, 10x single-cell ATAC,
+sci-RNA-seq3, inDrop v1, scNOMe-seq and CITE-seq. Together these exercise ordinary
+payload, identifier-only, mixed identifier/payload, index-carried cell identity,
+multimodal final libraries, custom short and absent reads before catalogue-wide use.
+Processing overrides use a controlled vocabulary and may state handling when clipping,
+unresolved proprietary sequence or protocol-specific analysis makes it impossible to
+infer safely from molecular features alone; they never duplicate cycle layouts.
+
+Standard sequencing-primer identity is likewise derived from the completed construct.
+Protocol modules declare which read roles were acquired; the shared model matches canonical
+TruSeq/Nextera primers to the final sequence and derives strand and direction. A protocol may
+declare a primer locally only when the source specifies a genuinely custom primer. Missing or
+ambiguous standard matches fail during construction rather than inviting a local relabelling.
+Existing protocol modules should migrate to this rule as their chemistry is reviewed.
+
+A subsequent 50-protocol expansion made three further distinctions explicit. A primer
+site present on a construct is not proof that the corresponding read was acquired, so
+protocol models declare acquired roles separately when the run omits an otherwise valid
+primer. A schematic placeholder with a source-known molecular length records
+`length_bp`, preventing its drawing width from becoming a false cycle span. Finally,
+technical-only index reads are not called demultiplexing reads unless a structured sample
+index feature is actually present. These rules are enforced in the shared renderer and
+consumed by protocol modules; pages do not restate their cycle maps in prose.
+
+An insert or cDNA placeholder with no molecular length never expands to fill a declared
+run length. Its row starts at the computed cycle, calls the extent molecule-dependent, and
+warns that a short molecule can read through into the opposite library end. This is the
+same geometry in Atrandi, 10x, Parse and other variable-insert libraries; protocol pages do
+not independently guess how many cycles contain payload.
+
+The read-content section is now a publication invariant rather than an opt-in feature.
+The preferred tier is computed from exact primer geometry; the second tier is a structured
+source-declared layout for proprietary or otherwise unavailable primer sequences. At the
+site-build boundary, a legacy page that supplies neither receives one explicit unresolved
+``Sequencing output`` row. That last tier is deliberately uninformative: it prevents silent
+omission while never guessing read names, direction, cycle boundaries or analysis handling.
+Source-dependent stand-in pages receive the same row. As legacy models gain authoritative
+data, their structured declaration replaces the fallback automatically.
+
 **Review when.** Add an exporter only if a useful target format is chosen. It must consume
 this model rather than becoming another source of protocol data.
 

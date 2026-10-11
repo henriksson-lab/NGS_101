@@ -21,6 +21,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([
     "Duplex Sequencing library", dual_index=False)
 FINAL_CAPTION = "Each end contributes a 12-nt duplex tag, giving a 24-nt αβ identity for one strand family. The complementary family is recognized by the reciprocal βα tag relationship."
 SEQUENCING_INTRO = "Paired-end sequencing observes the two end tags and the intervening insert. Consensus construction is part of the molecular design: strand families are linked only when their tags are complementary and swapped."
+SHOW_READ_CONTENT = True
 
 def sections():
     adapter = [seg("asymmetric PCR arm", "X" * 12, placeholder=True),

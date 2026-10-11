@@ -86,7 +86,12 @@ def cel1_back() -> str:
                "dotted placeholders.")}
 <h2>Read layout</h2>
 {sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
-{table(("Read", "Reports"), reads)}"""
+{table(("Read", "Reports"), reads)}
+{sp.read_spec_table([
+    sp.read_spec("Read 1", None, "cell barcode, then poly(T)", "extract"),
+    sp.read_spec("Index 1 (i7)", None, "library index", "demultiplex"),
+    sp.read_spec("Read 2", None, "transcript sequence from the 3' tag", "include"),
+], "Read roles are source-declared; exact primer sequences and cycle counts are unavailable.")}"""
 
 
 def cel2_back() -> str:
@@ -114,7 +119,12 @@ def cel2_back() -> str:
         strand_row(Construct(r2), prefix="Read 2  ", suffix="")],
        cls="small", caption="Paired-end sequencing keeps cell identity in Read 1 and "
                             "transcript sequence in Read 2.")}
-{table(("Read", "Published layout"), reads)}"""
+{table(("Read", "Published layout"), reads)}
+{sp.read_spec_table([
+    sp.read_spec("Read 1", 15, "6-nt UMI, 6-nt cell barcode, then three T", "extract"),
+    sp.read_spec("Index 1 (i7)", 7, "indexed library identity", "demultiplex"),
+    sp.read_spec("Read 2", 36, "transcript sequence from the random-primed end", "include"),
+], "Read roles, cycle counts and contents are source-declared; exact primer sequences are unavailable.")}"""
 
 
 def render_page(protocol: str) -> str:

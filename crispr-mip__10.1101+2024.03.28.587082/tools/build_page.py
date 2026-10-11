@@ -511,6 +511,8 @@ captured vector sequence.""")}
                "opposite way: straight into the UMI.")}
 
 {sp.section(LIB, cm.SEQ_PRIMERS,
+            required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+            content_primers=(cm.SEQ_PRIMERS[0], cm.SEQ_PRIMERS[1], cm.SEQ_PRIMERS[4]),
             read_lengths={"Read 1": cm.READ1_CYCLES,
                           "Index 1 (i7)": cm.INDEX_LEN,
                           "Read 2": cm.READ2_CYCLES})}

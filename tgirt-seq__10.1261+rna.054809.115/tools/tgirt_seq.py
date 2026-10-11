@@ -47,6 +47,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=_library()
 FINAL_CAPTION="The detailed protocol's optional-6N-UMI, six-base dual-index example after PCR; all adapter and primer sequences are printed by that protocol."
 SEQUENCING_INTRO="This page selects the published 6N-UMI R1R option and the protocol's six-base TruSeq-barcode example on both PCR primers. Read 1 reports the UMI and then RNA-derived insert."
 READ_LENGTHS={"Read 1":75,"Index 1 (i7)":6,"Index 2 (i5)":6,"Read 2":75}
+SHOW_READ_CONTENT=True
 
 def _starter():
     sc=group_ii_starter_scene(R2_RNA,R2R_DNA,rna_3_block="3SpC3")

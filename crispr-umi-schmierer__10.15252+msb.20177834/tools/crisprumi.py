@@ -316,3 +316,9 @@ SEQ_PRIMERS = [
                    "Index-1 oligo, one A short of the 34-nt revcomp of Read 2, and that "
                    "missing A is exactly where the primer's 3' base would pair"),
 ]
+
+# Primers actually used in the run.  SEQ_PRIMERS additionally retains stock primers as
+# explicit contrasts explaining why they are not loaded for this library.
+RUN_PRIMERS = (SEQ_PRIMERS[0], SEQ_PRIMERS[2], SEQ_PRIMERS[3])
+READ_LENGTHS = {"Read 1": READ1_CYCLES, "Index 1 (i7)": I7_CYCLES,
+                "Index 2 (i5)": I5_CYCLES}

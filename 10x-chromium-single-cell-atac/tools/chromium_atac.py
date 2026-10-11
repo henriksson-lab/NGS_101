@@ -63,6 +63,8 @@ def capture_scene(insert_nt: int = 28) -> Scene:
 
 
 SEQ_PRIMERS = tuple(sp.NEXTERA[k] for k in ("R1", "I1", "I2", "R2"))
+READ_LENGTHS = {"Read 1": 50, "Index 1 (i7)": 8,
+                "Index 2 (i5)": 16, "Read 2": 50}
 
 
 def final_library(insert_nt: int = 28) -> Construct:

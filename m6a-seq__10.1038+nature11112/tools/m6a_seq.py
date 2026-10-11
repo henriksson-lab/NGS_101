@@ -15,6 +15,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=truseq_library([seg("m6A-enriched RNA-derived cDNA","X
 FINAL_CAPTION="The IP and matched input use the same cDNA-library chemistry; enrichment is biological selection, not a retained molecular barcode."
 SEQUENCING_INTRO="Standard Illumina primers read the enriched cDNA insert and sample indexes."
 READ_LENGTHS={"Read 1":50,"Read 2":50}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Select polyadenylated RNA and fragment it",[Row(chunks=[("poly(A)+ RNA → approximately 100-nt RNA fragments",None,False)])],"Fragmentation limits immunoprecipitation enrichment to a local interval around a modified residue."),

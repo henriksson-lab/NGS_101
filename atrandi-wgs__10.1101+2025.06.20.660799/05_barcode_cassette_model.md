@@ -95,8 +95,9 @@ which is exactly the Bascet layout. ✓
 ### The D-side (Read-2 / P7) arm — a qualified guess 🟡
 
 The outer end of the round-D cassette is **semi-known**: it must be a TruSeq Read-2 arm, because
-Atrandi's i7 primer has to land on it. The open question is *how long*, and the primer sizing tells
-us something.
+Atrandi's i7 primer and the standard Illumina Read 2 primer both land on it. The PCR primer alone
+only establishes 27 nt; successful standard paired-end sequencing constrains the complete final
+library to contain the full 34-nt Read 2 site.
 
 **The design rule, established on the P5 side where both halves are known:**
 
@@ -139,18 +140,18 @@ Q5 buffer differs, so read these as relative, not absolute):
   unpaired 3' bases and could not prime at all, and the whole reaction has to drop to ~54 °C.
 
 **Confidence, stated honestly.** The P5-side truncation is *proven* — the adapter sequence is
-published and the arithmetic is exact. The i7-side arm length is a **qualified guess by analogy**:
+published and the arithmetic is exact. The i7 PCR primer establishes the first 27 nt directly:
 
-- *Supporting it:* the demonstrated primer-sized-to-arm design rule; the fact that Atrandi print
-  their own i7 primer rather than only citing NEB's; and the consistent 54 °C/65 °C split.
-- *Against it:* a short primer is also compatible with a **full-length 34 nt arm** — the primer
-  would simply land 7 nt further out and still extend normally. And Atrandi may print their own
-  primer merely because they use a **6 nt single index** with no i5, which is format-incompatible
-  with NEB's 8 nt dual-index sets — a simpler explanation that has nothing to do with arm length.
+- The short PCR primer is compatible with a **full-length 34 nt arm**: it anneals over 27 nt and
+  extends across the remaining seven bases into the barcode cassette.
+- A stock Read 2 sequencing primer cannot extend from the 27-nt-only alternative because its
+  seven 3'-terminal bases would lack partners.
+- Standard Illumina paired-end sequencing works for this library, so the final library must
+  provide the complete 34-nt site. The physical reagent or synthesis step supplying the terminal
+  `CCGATCT` remains unpublished.
 
-**Therefore: draw 27 nt, label it as inferred, and note the 34 nt alternative in the caption.**
-Either way the primer-binding site is correct and the construct is drawable; only the 7 nt
-`CCGATCT` between the arm and barcode D is uncertain.
+**Therefore: draw all 34 nt.** Keep the terminal `CCGATCT` marked inferred because its source is
+unpublished, but do not present a 27-nt final library that could not use the standard Read 2 primer.
 
 ### Where the P7 arm enters — two candidate models
 

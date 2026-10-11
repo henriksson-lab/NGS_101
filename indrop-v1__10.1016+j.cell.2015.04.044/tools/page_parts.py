@@ -104,11 +104,27 @@ def final_panel(protocol: str) -> str:
 def sequencing(protocol: str) -> str:
     lib = I.library(protocol); primers = I.V1_PRIMERS if protocol == I.V1 else I.V2_PRIMERS
     if any(sp.locate(lib, p) is None for p in primers): raise ValueError("inDrop read site missing")
+    if protocol == I.V1:
+        return (sp.section(
+            lib, primers, heading="Read layout",
+            intro=("Read 1 reports the two bead-barcode blocks and UMI; Read 2 "
+                   "reports cDNA. Primer and layout sequences are secondary-source "
+                   "reconstructions, as marked throughout this page."),
+            required_roles=tuple(p.role for p in primers),
+            read_lengths=I.V1_READ_LENGTHS, read_uses=I.V1_READ_USES,
+            show_read_content=True) + '</div>')
     rows = ([("Read 1", "51 (secondary source)", "barcode 1 &middot; W1 &middot; barcode 2 &middot; UMI &middot; poly(T)"), ("Read 2", "secondary source", "cDNA")]
             if protocol == I.V1 else
             [("Read 1", "not available", "sense cDNA"), ("Index 1", "6", "sample index"), ("Read 2", "at least 51", "barcode 1 &middot; W1 &middot; barcode 2 &middot; UMI &middot; poly(T)")])
+    specs = [
+        sp.read_spec("Read 1", None, "sense cDNA", "include"),
+        sp.read_spec("Index 1 (i7)", 6, "sample index", "demultiplex"),
+        sp.read_spec("Read 2", 51, "barcode 1, W1, barcode 2, UMI, then poly(T)", "extract"),
+    ]
     return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
-            + table(("Read", "Cycles", "Content"), rows) + '</div>')
+            + table(("Read", "Cycles", "Content"), rows)
+            + sp.read_spec_table(specs, "The v2 source fixes the index and minimum barcode-read lengths; Read 1 length is run-dependent.")
+            + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

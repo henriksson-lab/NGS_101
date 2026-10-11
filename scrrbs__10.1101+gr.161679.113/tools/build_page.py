@@ -95,7 +95,9 @@ def amplify_and_sequence() -> str:
                "The six-base i7 identifies the cell; there is no UMI or i5 index.")}
 {sp.section(lib, S.SEQ_PRIMERS, intro="Paired-end TruSeq sequencing. Read 1 starts at the "
             "MspI end; the i7 read identifies the cell. Y denotes a bisulfite call (C/T).",
-            required_roles=("Read 1", "Index 1 (i7)", "Read 2"))}"""
+            required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+            read_lengths={"Index 1 (i7)": S.INDEX_NT},
+            show_read_content=True)}"""
 
 
 def render() -> str:

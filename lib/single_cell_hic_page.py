@@ -33,7 +33,11 @@ def render(module) -> str:
             read_lengths=getattr(module, "READ_LENGTHS", None))
     else:
         sequencing = (f'<h2>Sequencing</h2><p>{module.READOUT}</p>' +
-            sp.unavailable_diagram(final, module.SEQUENCING_UNAVAILABLE))
+            sp.unavailable_diagram(final, module.SEQUENCING_UNAVAILABLE) +
+            sp.unresolved_read_content_table(
+                final, module.SEQUENCING_UNAVAILABLE,
+                read_lengths=getattr(module, "READ_LENGTHS", None),
+                acquired_roles=getattr(module, "REQUIRED_ROLES", None)))
     return "\n".join([
         head(module.TITLE), '<div class="wrap">', f'<h1>{module.TITLE}</h1>',
         f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',

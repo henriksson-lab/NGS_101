@@ -29,7 +29,8 @@ FACETS = OrderedDict([
         "translation profiling", "nascent transcription", "RNA-protein interaction",
         "RNA-DNA contacts", "RNA modification mapping", "immune repertoire",
         "linked-read sequencing", "RNA-RNA interaction", "DNA damage mapping",
-        "promoter / RNA 5-prime mapping", "RNA structure", "targeted DNA sequencing",
+        "promoter / RNA 5-prime mapping", "RNA structure", "RNA accessibility",
+        "targeted DNA sequencing",
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
         "replication timing", "multiomic"))),
     ("platform", ("Sequencing platform", (

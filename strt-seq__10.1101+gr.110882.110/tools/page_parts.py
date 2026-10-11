@@ -187,8 +187,15 @@ def sequencing(protocol: str) -> str:
         note += panel(sc.rows(), cls="small", caption="The printed 6-N Read-1 primer spans the last P5 base plus the five-base well index, then pairs exactly over P1B.")
     if protocol == S.STRT and hit is None:
         raise ValueError("STRT Read 1 site missing")
+    specs = [sp.read_spec({"Index 1": "Index 1 (i7)",
+                           "Index 2": "Index 2 (i5)"}.get(r, r),
+                          c, content.replace("&middot;", "·"),
+                          "extract_then_include" if r == "Read 1" else "extract")
+             for r, c, content in rows]
     return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
-            + table(("Read", "Cycles", "Content"), rows) + info(note) + '</div>')
+            + table(("Read", "Cycles", "Content"), rows) + info(note)
+            + sp.read_spec_table(specs, "Read roles and cycle counts are reported by the defining source.")
+            + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

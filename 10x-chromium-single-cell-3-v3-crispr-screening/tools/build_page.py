@@ -14,7 +14,7 @@ def sequencing(lib):
         h=sp.locate(lib,p)
         if h is None: raise ValueError(f"{p.name} has no site")
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses 30 TSO-derived bases, then reads the protospacer; i7 identifies the sample.')+sp.diagram(lib,C.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)
+    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses 30 TSO-derived bases, then reads the protospacer; i7 identifies the sample.')+sp.diagram(lib,C.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)+sp.read_content_table(lib,C.SEQ_PRIMERS,{"Read 1":28,"Index 1 (i7)":8,"Read 2":50},acquired_roles=tuple(p.role for p in C.SEQ_PRIMERS))
 def render():
     product=C.feature_cdna(); lib=C.final_library()
     fwd,rev=C.feature_cdna_primers(); si_fwd,si_rev=C.feature_si_primers()

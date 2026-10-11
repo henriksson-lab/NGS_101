@@ -81,7 +81,9 @@ def render() -> str:
                    intro="Read 1 reports the 20-nt guide, Index 1 reports the 6-nt RSL, and the forward-strand i5 read reports the sample index.",
                    read_lengths={"Read 1": C.READ1_CYCLES,
                                  "Index 1 (i7)": C.I7_CYCLES,
-                                 "Index 2 (i5)": C.I5_CYCLES}),
+                                 "Index 2 (i5)": C.I5_CYCLES},
+                   show_read_content=False),
+        sp.read_content_table(lib, C.RUN_PRIMERS, C.READ_LENGTHS),
         '</div>',
     ])
 

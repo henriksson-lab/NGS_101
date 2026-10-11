@@ -16,6 +16,8 @@ FINAL_LIBRARY, SEQ_PRIMERS=nextera_library([seg("RamDA cDNA insert","X"*38,place
 FINAL_CAPTION="Nextera XT library made from double-stranded RT-RamDA product."
 SEQUENCING_INTRO="The defining study used single-read 76-cycle NextSeq sequencing; the page also locates the complete standard Nextera primer set present on the finished library."
 READ_LENGTHS={"Read 1":76}
+ACQUIRED_ROLES=("Read 1",)
+SHOW_READ_CONTENT=True
 
 def workflow():
     amplified=single_strand("displaced cDNA",[seg("gp32-protected displaced cDNA","X"*46,placeholder=True)],"displaced cDNA products")

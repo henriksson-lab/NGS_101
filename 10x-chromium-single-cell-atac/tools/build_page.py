@@ -2,7 +2,6 @@
 """Build the 10x Chromium Single Cell ATAC v1 chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -14,7 +13,7 @@ import chromium_atac as C
 import nextera as nx
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "10x-chromium-single-cell-atac.html"
 
@@ -51,16 +50,11 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = C.final_library()
-    rows = []
-    for primer in C.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Read 1: 50 cycles; Index 1 sample index: 8; Index 2 cell barcode: 16; Read 2: 50. All four use standard Nextera sequencing primers.')}
-{sp.diagram(lib, C.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
+    return sp.section(
+        lib, C.SEQ_PRIMERS, heading="Sequencing",
+        intro=("Read 1 and Read 2 cover accessible genomic DNA; Index 1 carries the "
+               "sample index and Index 2 carries the 10x cell barcode."),
+        read_lengths=C.READ_LENGTHS, show_read_content=True)
 
 
 def main() -> None:

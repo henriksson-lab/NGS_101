@@ -38,4 +38,12 @@ def render_page(protocol):
       '<h3>(3) Droplet PCR copies the bead barcode onto s5/s7 fragments</h3>',
       panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — complete supported inner structure; dotted bead/P5/Read-1 arm stops at the paper's sequence boundary."),
       '<h2>Read layout</h2>',sp.unavailable_diagram(final,"the custom Read-1 and library-primer sequences are unpublished"),panel([strand_row(Construct(r1),prefix="Read 1  ",suffix="")],cls="long",caption="Custom Read 1 begins at BC1; the paper does not publish that primer's sequence."),
-      table(("Read","Reports"),rows),'</div>'])
+      table(("Read","Reports"),rows),
+      sp.read_spec_table([
+          sp.read_spec("Read 1",118,
+              "bead barcode" + (", Tn5 barcode" if sci else "") + ", then genomic DNA",
+              "extract_then_include"),
+          sp.read_spec("Index 1 (i7)",8,"sample index","demultiplex"),
+          sp.read_spec("Read 2",40,"genomic DNA from the s7 end","include")],
+          "Read roles and cycle counts are source-declared; custom primer sequences are unpublished."),
+      '</div>'])

@@ -29,7 +29,7 @@ def adapter_scene():
     sc=Scene(); sc.strand("top",inferred_adapter_top(),label="Read 2 adapter"); sc.anneal("bottom",inferred_adapter_bottom(),to="top",pair=("stem complement","Read 2 adapter"),label="short strand"); sc.mark("bottom","3' T","ligation overhang"); return sc
 SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["I2"],sp.TRUSEQ["R2"])
 def final_library(insert_nt=36):
-    lib=Construct([seg("P5",il.P5,"p5"),seg("i5","J"*10,"cbc",placeholder=True),seg("Read 1 arm",il.TRUSEQ_READ1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*12,"umi",placeholder=True),seg("poly(dT)30","T"*30),seg("V","V",placeholder=True),seg("N","N",placeholder=True),seg("cDNA insert","X"*insert_nt,placeholder=True),seg("dA junction","A"),seg("Index 1 / Read 2 arm",il.INDEX1_PRIMER,"r2"),seg("i7 reverse complement","I"*10,"cbc",placeholder=True),seg("P7 reverse complement",il.P7_RC,"p7")],name="10x 3' v4 library")
+    lib=Construct([seg("P5",il.P5,"p5"),seg("i5","J"*10,"cbc",placeholder=True,feature=I5_FEATURE),seg("Read 1 arm",il.TRUSEQ_READ1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True,feature=CELL_BARCODE),seg("UMI","U"*12,"umi",placeholder=True,feature=UMI_FEATURE),seg("poly(dT)30","T"*30),seg("V","V",placeholder=True),seg("N","N",placeholder=True),seg("cDNA insert","X"*insert_nt,placeholder=True),seg("dA junction","A"),seg("Index 1 / Read 2 arm",il.INDEX1_PRIMER,"r2"),seg("i7 reverse complement","I"*10,"cbc",placeholder=True,feature=I7_FEATURE),seg("P7 reverse complement",il.P7_RC,"p7")],name="10x 3' v4 library")
     problems=sp.verify(lib,SEQ_PRIMERS)
     if problems: raise ValueError("invalid v4 library: "+"; ".join(problems))
     return lib

@@ -7,6 +7,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import nanopore_ligation as N
+import seqprimers as sp
 from chemdraw import Row, annotation_rows, oligo, panel
 from page import head, info
 
@@ -34,6 +35,9 @@ def render() -> str:
         panel([Row(chunks=[("[flow-cell tether at membrane]   pore | motor -> one DNA strand through nanopore", None, False)]),
                Row(chunks=[("                              no sequencing primer", None, False)])],
               cls="small", caption="The flow-cell tether is supplied during flow-cell priming; the vendor does not establish it as a covalent DNA segment."),
+        sp.read_spec_table([sp.read_spec("Sequencing output", None,
+            "one intact strand entered from either motor-adapted end", "include")],
+            "Nanopore sequencing is primer-free; read length and captured-end orientation are molecule-dependent."),
         '</div>'])
 
 

@@ -35,7 +35,12 @@ def render():
       '<h2>Read layout</h2>',
       sp.unavailable_diagram(final,'BD does not publish the proprietary primer sequences'),
       panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption="The platform paper used 101 × 2 sequencing. Exact primer bases are proprietary."),
-      table(("Read","Reports"),[("Read 1","cell label, UMI, then poly(T)"),("Index 1","library index"),("Read 2","cDNA from the random-primed end")]),'</div>'])
+      table(("Read","Reports"),[("Read 1","cell label, UMI, then poly(T)"),("Index 1","library index"),("Read 2","cDNA from the random-primed end")]),
+      sp.read_spec_table([
+          sp.read_spec("Read 1",101,"cell label, UMI, then poly(T)","extract"),
+          sp.read_spec("Index 1 (i7)",None,"library index","demultiplex"),
+          sp.read_spec("Read 2",101,"cDNA from the random-primed end","include")],
+          "The run layout is source-declared because BD's primer sequences are proprietary."),'</div>'])
 
 if __name__=="__main__":
     OUT.write_text(render(),encoding="utf-8");print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

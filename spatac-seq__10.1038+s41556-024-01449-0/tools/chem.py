@@ -25,6 +25,7 @@ READ_LENGTHS = {
     "Index 2 (i5)": 8,
     "Read 2": 100,
 }
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = ("The hybrid final library uses a TruSeq Read 1 site on the left and a "
                  "Nextera S7/Read 2 site on the right. ** marks the two split-pool "
                  "ligation bonds. Barcode pieces are structured parts of one 32-nt "

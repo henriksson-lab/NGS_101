@@ -75,6 +75,8 @@ V2_PRIMERS = (
     sp.custom("Index 1 (i7)", "Custom Index Read", V2_INDEX, "Nature Protocols supplementary oligo table"),
     sp.custom("Read 2", "Custom Read 2", V2_R2, "Nature Protocols supplementary oligo table"),
 )
+V1_READ_LENGTHS = {"Read 1": 51}
+V1_READ_USES = {"Read 1": "extract", "Read 2": "include"}
 
 
 def v1_library(bc1_len: int = 8) -> Construct:

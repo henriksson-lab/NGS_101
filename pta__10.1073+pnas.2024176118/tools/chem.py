@@ -25,6 +25,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
     [seg("PTA-amplified genomic insert", "X" * 48, placeholder=True)],
     "PTA KAPA HyperPlus library", dual_index=True, inferred_adapters=True)
 READ_LENGTHS = {"Index 1 (i7)": 8, "Index 2 (i5)": 8}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = ("INFERRED adapter bases: the published KAPA HyperPlus plus IDT UDI route "
                  "fixes a standard dual-index Illumina topology but does not print its "
                  "oligos. The genomic insert was already shortened by PTA, so HyperPlus "

@@ -19,6 +19,7 @@ SUMMARY = ("Antibody-tethered pA–Tn5 transfers linker-bearing adapters beside 
            "barcodes whose ordered pair identifies a tissue pixel.")
 FINAL_LIBRARY, SEQ_PRIMERS = se.library("histone-mark-associated genomic fragment")
 READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = ("The custom-primer end reads barcode B, linker 2, barcode A, linker 1 "
                  "and then genomic DNA. ** marks the two in-tissue ligations.")
 SEQUENCING_INTRO = ("HiSeq 4000 paired-end 150 sequencing was used. Raw Read 1 carries "

@@ -15,6 +15,7 @@ for x in IDENTIFIERS: x.bind(FINAL_LIBRARY)
 FINAL_CAPTION="Read 1 reports genomic DNA plus DPM; Read 2 traverses the other five tags. The first three tags identify the nucleus and all six identify a spatial cluster."
 SEQUENCING_INTRO="Read 1 is at least 120 bp and begins with genomic information plus DPM; Read 2 is at least 95 bp and reads Odd–Even–Odd–Even–Y-even."
 READ_LENGTHS={"Read 1":120,"Read 2":95}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Crosslink, permeabilize, repair and dA-tail nuclei",[Row(chunks=[("intact nucleus: repaired genomic fragments remain compartmentalized",None,False)])],"Keeping nuclei intact makes the first barcode rounds cell-specific."),

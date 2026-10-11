@@ -45,6 +45,7 @@ sys.path.insert(0, str(ROOT))
 import build_docs  # noqa: E402
 import build_index  # noqa: E402
 from page import ASSETS, MD_STYLE  # noqa: E402
+from seqprimers import ensure_read_content  # noqa: E402
 
 # Never published from here, whatever links to it.
 NEVER = {"_data", "pdf", ".cache", ".git", "__pycache__", "_site"}
@@ -71,6 +72,16 @@ def build_pages() -> dict[str, tuple[bool, str]]:
                            cwd=ROOT)
         msg = (r.stdout + r.stderr).strip().splitlines()
         last = msg[-1] if msg else ""
+        if r.returncode == 0:
+            page_out = build_index.diagram_out(d)
+            if page_out is not None and page_out.exists():
+                rendered = page_out.read_text(encoding="utf-8")
+                rendered = ensure_read_content(
+                    rendered,
+                    "this protocol builder has not declared sequencing primers or a "
+                    "source-defined read layout",
+                )
+                page_out.write_text(rendered, encoding="utf-8")
         out[d] = (r.returncode == 0, last)
         print(f"  {'ok  ' if r.returncode == 0 else 'FAIL'}  {d}: {last[:150]}")
     return out
@@ -97,7 +108,7 @@ def published(p: Path) -> bool:
 
 def placeholder(d: str, out: Path, why: str) -> str:
     up = "../" * (len(out.relative_to(ROOT).parts) - 1)
-    return (f"<!doctype html>\n<title>{html.escape(out.name)} — not in this build</title>\n"
+    page = (f"<!doctype html>\n<title>{html.escape(out.name)} — not in this build</title>\n"
             f"{ASSETS}\n{MD_STYLE}\n<div class=\"wrap\">\n"
             f'<nav class="crumb"><a href="{up}index.html">chem</a> &nbsp;/&nbsp; '
             f"{html.escape(d)}</nav>\n<article class=\"md\">\n"
@@ -108,6 +119,10 @@ def placeholder(d: str, out: Path, why: str) -> str:
             f"files listed in the protocol's <code>ref/MANIFEST.md</code> are in place.</p>\n"
             f"<p>The build script said: <code>{html.escape(why)}</code></p>\n"
             + "</article>\n</div>\n")
+    return ensure_read_content(
+        page,
+        "the source material required to build this protocol page is unavailable",
+    )
 
 
 class Links(HTMLParser):

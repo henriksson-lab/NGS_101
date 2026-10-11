@@ -75,6 +75,8 @@ def sequencing() -> str:
 {table(("Read", "Standard primer", "Primer site", "First bases"), landing_rows)}
 <h3>Read 2 before genomic DNA</h3>
 {table(("Cycles", "Content"), layout_rows, scroll=False)}
+{sp.read_content_table(lib, S.SEQ_PRIMERS,
+    {"Read 1":85,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":85})}
 '''
 
 

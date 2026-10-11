@@ -174,11 +174,13 @@ are **NOT STATED**; bulk metagenomics was 2×150. 🟡 **INFERRED** 2×150 (R2 m
 ```
 
 🟢 Barcodes run **D, C, B, A** from the P7 side — reverse of ligation order. 🟡 The unlabelled block
-between i7 and D is **inferred** to be the Read-2 primer site, and "Adapter" on the P5 side the
-Read-1 site — the figure labels neither. 🟢 Cell barcode is read in **R2**; 🟢 **no UMI**
+between i7 and D supplies the barcode-side standard primer site, and "Adapter" on the P5 side is
+the non-barcode, insert-side standard primer site. **Read 1 enters genomic DNA from the
+non-barcode adapter; Read 2 reads D, C, B, A and then genomic DNA.** Both paired-end reads are acquired;
+only Index 2/i5 is omitted. 🟢 There is **no UMI**
 (`umi_from == umi_to == 0` in Bascet).
 
-## 8. Read structure (authoritative — from Bascet source)
+## 8. Barcode-read structure (authoritative offsets from Bascet source)
 
 `crates/bascet-cli/src/barcode/atrandi_wgs_barcode_illumina.rs`:
 
@@ -191,7 +193,7 @@ trim_bcread_len = 8+4+8+4+8+4+8+1;   // = 45
 //8 barcodes, 3 spacers, and 1 to account for ligation
 ```
 
-| R2 offset (0-based) | Len | Content |
+| Read 2 offset (0-based) | Len | Content |
 |---|---|---|
 | 0–7 | 8 | Barcode **D** (round 4) |
 | 8–11 | 4 | linker |
@@ -216,8 +218,9 @@ Barcode positions are not hard-coded blindly: they are **detected from the first
 scanning for whitelist entries, with ±1 bp slack per barcode and 4 bp total.
 
 ### Trimming
-R1 is the genomic read and must be trimmed when the insert is short enough to read into the
-barcode. "This analysis is complicated by the fact that **there is no fixed adapter sequence**."
+Read 1 enters genomic DNA from the non-barcode adapter. Its genomic extent is molecule-dependent;
+when the insert is short enough it can read through into the barcode-side structure.
+"This analysis is complicated by the fact that **there is no fixed adapter sequence**."
 fastp (v0.23.4) was insufficient; they wrote their own trimmer that reverse-complements a **16 bp
 window** and scans for it in the opposite read, deliberately scanning into the barcode for
 confidence on short reads.

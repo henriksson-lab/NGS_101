@@ -26,6 +26,7 @@ def adapter_bottom(): return [seg("stem complement",il.STEM_COMPLEMENT,"r2"),seg
 def adapter_scene():
     sc=Scene(); sc.strand("top",adapter_top(),label="Read 2 adapter"); sc.anneal("bottom",adapter_bottom(),to="top",pair=("stem complement","Partial Read 2"),label="short strand"); sc.mark("bottom","3' T","ligation overhang"); return sc
 SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["R2"])
+READ_LENGTHS={"Read 1":28,"Index 1 (i7)":8,"Read 2":91}
 def final_library(insert_nt=36):
     lib=Construct([seg("P5",il.P5,"p5"),seg("Read 1 arm",il.TRUSEQ_READ1[4:],"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True),seg("UMI","U"*12,"umi",placeholder=True),seg("poly(dT)30","T"*30),seg("cDNA insert","X"*insert_nt,placeholder=True),seg("dA junction","A"),seg("Index 1 / Read 2 arm",il.INDEX1_PRIMER,"r2"),seg("i7 reverse complement","I"*8,"cbc",placeholder=True),seg("P7 reverse complement",il.P7_RC,"p7")],name="10x 3' v3 library")
     problems=sp.verify(lib,SEQ_PRIMERS,required_roles=("Read 1","Index 1 (i7)","Read 2"))

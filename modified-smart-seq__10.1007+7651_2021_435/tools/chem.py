@@ -27,6 +27,7 @@ SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.NEXTERA["I1"],sp.NEXTERA["R2"])
 FINAL_CAPTION="Read 1 begins with the well barcode and UMI; Read 2 reads transcript sequence from the tagmented end."
 SEQUENCING_INTRO="The protocol specifies at least 18 Read 1 cycles, an 8-cycle plate-index read and at least 50 Read 2 cycles."
 READ_LENGTHS={"Read 1":18,"Index 1 (i7)":8,"Read 2":75}
+SHOW_READ_CONTENT=True
 def oligos(): return [
  "<b>Barcoded RT primer</b> — 5′-CTACACGACGCTCTTCCGATCT[8-bp well barcode]NNNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTVN-3′",
  "<b>Template-switching oligo</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3′"]

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from chemdraw import Row, panel, workflow_from_sections, workflow_panel
 from page import head, info
+import seqprimers as sp
 
 
 def render_page(*, title: str, notes: str, citation_html: str, panels: list[tuple[str, object, str]],
@@ -22,5 +23,9 @@ def render_page(*, title: str, notes: str, citation_html: str, panels: list[tupl
     body.extend(['<h2>Sequencing entry</h2>',
                  panel([Row(chunks=[(entry, "r2", False)])], cls="long",
                        caption="Primer or motor entry is shown explicitly for the completed library."),
+                 sp.read_spec_table([
+                     sp.read_spec("Sequencing output", None, entry, "include")
+                 ], "This protocol's source describes a platform-specific sequencing entry "
+                    "rather than an Illumina R1/I1/I2/R2 cycle layout."),
                  '</div>'])
     return "\n".join(body)

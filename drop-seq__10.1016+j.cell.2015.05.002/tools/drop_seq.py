@@ -12,6 +12,7 @@ UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
 FEATURES = {"cell barcode": CELL_BARCODE, "UMI": UMI_FEATURE,
             "i7 reverse complement": I7_FEATURE}
+READ_LENGTHS = {"Read 1": 20, "Index 1 (i7)": 8, "Read 2": 50}
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:

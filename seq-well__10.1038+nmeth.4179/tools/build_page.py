@@ -50,6 +50,9 @@ def sequencing()->str:
 {sp.diagram(lib,S.SEQ_PRIMERS)}
 {table(("Read","Primer","Primer site","First bases"),rows)}
 <h3>Read 1 layout</h3>{table(("Cycles","Content"),S.read1_layout(),scroll=False)}
+{sp.read_content_table(lib,S.SEQ_PRIMERS,
+    {"Read 1":20,"Index 1 (i7)":8,"Read 2":50},
+    acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS))}
 '''
 
 

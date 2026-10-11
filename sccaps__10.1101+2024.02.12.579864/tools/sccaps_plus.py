@@ -32,6 +32,7 @@ FINAL_LIBRARY = Construct([
 SEQ_PRIMERS=(sp.NEXTERA["R1"],sp.NEXTERA["I1"],sp.NEXTERA["I2"],sp.NEXTERA["R2"])
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS): raise ValueError("scCAPS+ final library: "+"; ".join(problems))
 READ_LENGTHS={"Read 1":120,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":120}
+SHOW_READ_CONTENT=True
 FINAL_CAPTION="Custom i5/i7 transposomes encode the cell before pooling. Paired reads interrogate genomic DNA in which 5hmC—but not 5mC or C—is read as T."
 SEQUENCING_INTRO="Custom NovaSeq primers read the Nextera landing sites; the two eight-cycle index reads recover the combinatorial Tn5 cell barcode."
 

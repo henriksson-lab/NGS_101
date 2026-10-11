@@ -2,7 +2,6 @@
 """Build the diagram-centric FIPRESCI chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import fipresci as F
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "fipresci.html"
 
@@ -54,16 +53,11 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = F.final_library()
-    rows = []
-    for primer in F.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Paired-end 150: Read 1 reports the 16-nt droplet barcode, 10-nt UMI and transcript 5-prime end; Index 1 reports the sample index; Read 2 starts with the 6-nt round-1 barcode.')}
-{sp.diagram(lib, F.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
+    return sp.section(lib, F.SEQ_PRIMERS, heading="Sequencing",
+        intro='Paired-end 150: Read 1 reports the 16-nt droplet barcode, 10-nt UMI and transcript 5-prime end; Index 1 reports the sample index; Read 2 starts with the 6-nt round-1 barcode.',
+        required_roles=F.RUN_ROLES,
+        read_lengths={"Read 1":150,"Index 1 (i7)":6,"Read 2":150},
+        show_read_content=True)
 
 
 def main() -> None:

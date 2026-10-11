@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from batch_ngs import seg
+from batch_ngs import nextera_library, seg
 from chemdraw import Row
 from chromatin_epigenetics import tagmented_library, tagmentation_scene
 
@@ -11,9 +11,12 @@ NOTES = "01_atac-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.2688">Buenrostro et al., <i>Nature Methods</i> (2013)</a>.'
 SUMMARY = "Tn5 simultaneously cleaves accessible native chromatin and transfers sequencing-adapter ends; extension and indexed PCR complete the paired-end library."
 CAVEAT = "The paper uses Nextera transposase and prints its PCR primers. The final construct is assembled from the repository’s canonical Nextera components."
-FINAL_LIBRARY, SEQ_PRIMERS = tagmented_library("accessible chromatin fragment")
+FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
+    [seg("accessible chromatin fragment", "X" * 36, placeholder=True)],
+    "accessible chromatin fragment library", dual_index=False)
 FINAL_CAPTION = "Productive heterologous Tn5 product after 72 °C extension and limited indexed PCR."
 SEQUENCING_INTRO = "Paired reads enter the accessible chromatin fragment from its two transposition sites; the index reads identify the PCR-added sample indexes."
+SHOW_READ_CONTENT = True
 
 def sections():
     return [

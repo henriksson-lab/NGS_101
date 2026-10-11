@@ -2,7 +2,6 @@
 """Build the 10x Chromium Single Cell 3' Gene Expression v1 page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import chromium_v1 as C
 import seqprimers as sp
 from chemdraw import annotation_rows, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "10x-chromium-single-cell-3-ge-v1.html"
 
@@ -38,16 +37,10 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = C.final_library()
-    rows = []
-    for primer in C.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Read 1: 98 cycles of cDNA; Index 1: 14-nt cell barcode; Index 2: 8-nt sample index; Read 2: 10-nt UMI. The v1 guide requires standard Illumina primers.')}
-{sp.diagram(lib, C.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
+    return sp.section(lib, C.SEQ_PRIMERS, heading="Sequencing",
+        intro='Read 1: 98 cycles of cDNA; Index 1: 14-nt cell barcode; Index 2: 8-nt sample index; Read 2: 10-nt UMI. The v1 guide requires standard Illumina primers.',
+        read_lengths={"Read 1":98,"Index 1 (i7)":14,"Index 2 (i5)":8,"Read 2":10},
+        show_read_content=True)
 
 
 def main() -> None:

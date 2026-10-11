@@ -64,7 +64,9 @@ def sequencing() -> str:
     return f'''<h2>Sequencing</h2>
 {info('Read 1 reports the bead barcode cassette and 12-nt UMI; Index 1 reports the sample index; Read 2 reports cDNA. Exact barcode-cycle parsing is intentionally left to the research note because the paper does not publish the blocks.')}
 {sp.diagram(lib, P.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}'''
+{table(("Read", "Primer", "Primer site", "First bases"), rows)}
+{sp.read_content_table(lib,P.SEQ_PRIMERS,
+    acquired_roles=tuple(p.role for p in P.SEQ_PRIMERS))}'''
 
 
 def main() -> None:

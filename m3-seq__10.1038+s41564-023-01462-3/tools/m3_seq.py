@@ -14,6 +14,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=bacterial_rna_library("m3seq","M3-seq RNA library")
 FINAL_CAPTION="The final cDNA library retains the round-one barcode, round-two barcode and UMI through T7 amplification and depletion."
 SEQUENCING_INTRO="Read cycles recover the combinatorial cell identity, UMI and bacterial transcript insert."
 READ_LENGTHS={"Read 1":28,"Read 2":90}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Index fixed bacteria by random-primed in-situ RT",indexed_random_rt_scene(method="m3seq").rows(),"The RT primer carries BC1 and a UMI."),

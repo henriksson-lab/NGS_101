@@ -61,6 +61,7 @@ if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
 
 FINAL_CAPTION = "EMP.ITSkabir paired-end, single-index fusion-primer product. The twelve-base Golay barcode is read in its own custom index read."
 SEQUENCING_INTRO = "Three published custom primers sequence the fungal insert from both ends and read the twelve-base Golay barcode. There is no i5/Index 2 read. The Read 2 oligo shown for landing is one member of the ordered V/R-degenerate pool."
+SHOW_READ_CONTENT = True
 
 def sections():
     return [

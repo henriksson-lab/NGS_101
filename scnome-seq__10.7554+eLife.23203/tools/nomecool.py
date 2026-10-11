@@ -46,6 +46,8 @@ SEQ_PRIMERS = (
     sp.custom("Read 2", "TruSeq Read 2", il.TRUSEQ_READ2,
               "Illumina adapter sequence"),
 )
+SCNOME_READ_LENGTHS = {"Read 1": 100, "Index 1 (i7)": 6, "Read 2": 100}
+SCNOME_READ_USES = {"Read 1": "include", "Read 2": "include"}
 
 
 def nome_library() -> Construct:

@@ -7,6 +7,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import smrtbell as S
+import seqprimers as sp
 from chemdraw import Row, annotation_rows, panel, strand_row
 from dumbbell import dumbbell_rows
 from page import head, info
@@ -36,6 +37,9 @@ def render() -> str:
         panel(primer_rows, cls="long", caption="Both identical hairpin adapters contain a standard sequencing-primer site. The current adapter and primer sequences are not published; both possible sites are shown without fabricated bases."),
         '<h3>One productive polymerase trajectory</h3>',
         panel([strand_row(cycle), *annotation_rows(cycle)], cls="long", caption="The polymerase reads insert strand 1, traverses the opposite hairpin, reads the reverse-complement strand, traverses the first hairpin, and continues for repeated passes. This order is generated from the dumbbell topology."),
+        sp.read_spec_table([sp.read_spec("Sequencing output", None,
+            "HiFi consensus from repeated passes over both insert strands", "include")],
+            "PacBio records repeated polymerase passes around a SMRTbell; cycle count is molecule- and movie-dependent."),
         '</div>'])
 
 

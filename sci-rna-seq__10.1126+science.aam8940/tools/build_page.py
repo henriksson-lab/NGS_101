@@ -49,6 +49,8 @@ def sequencing() -> str:
 {sp.diagram(lib,S.SEQ_PRIMERS)}
 {table(("Read","Primer","Primer site","First bases"),rows)}
 <h3>Read 1 barcode layout</h3>{table(("Cycles","Content"),S.read1_layout(),scroll=False)}
+{sp.read_content_table(lib, S.SEQ_PRIMERS,
+    {"Read 1":18,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":52})}
 '''
 
 

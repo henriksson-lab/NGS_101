@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import html,sys
+import sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v4 as V
 import seqprimers as sp
 from chemdraw import Scene,annotation_rows,oligo,panel
-from page import head,info,table
+from page import head,info
 OUT=HERE.parent/"10x-3prime-v4.html"
 def sequencing(lib):
-    rows=[]
-    for p in V.SEQ_PRIMERS:
-        h=sp.locate(lib,p)
-        if h is None: raise ValueError(f"{p.name} has no site")
-        rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Paired-end, dual-index sequencing: Read 1 28 cycles, i7 10 cycles, i5 10 cycles, Read 2 90 cycles. Read 1 contains the 16-base cell barcode and 12-base UMI.')+sp.diagram(lib,V.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
+    return sp.section(lib,V.SEQ_PRIMERS,heading="Sequencing",intro='Paired-end, dual-index sequencing: Read 1 28 cycles, i7 10 cycles, i5 10 cycles, Read 2 90 cycles. Read 1 contains the 16-base cell barcode and 12-base UMI.',read_lengths={"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90},show_read_content=True)
 def render():
     lib=V.final_library(); cdna=V.amplified_cdna()
     return "\n".join([head("10x GEM-X 3' Gene Expression v4 chemistry"),'<div class="wrap">','<h1>10x Chromium GEM-X Single Cell 3&#39; Gene Expression v4</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/chromium-gem-x-single-cell-3-v4-gene-expression-user-guide">10x Genomics User Guide CG000731</a>.'),

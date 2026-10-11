@@ -69,11 +69,6 @@ OUR_I7_INDEX_LEN = 10
 OUR_I7 = {k: P7_SEQ + v + ATRANDI_I7_ANNEAL for k, v in OUR_I7_INDEX.items()}
 OUR_P5 = ATRANDI_P5
 
-# --------------------------------------------------------------- open design questions
-# 05_barcode_cassette_model.md: does the round-D cassette carry the full 34-nt TruSeq
-# Read 2 region, or 27 nt (canonical minus the terminal CCGATCT)? Flip this to switch the
-# drawing; every diagram re-aligns.
-D_ARM_INCLUDES_CCGATCT = False
 BARCODE_LEN = 8
 LINKER_LEN = 4
 
@@ -86,11 +81,11 @@ def _seg(name, top, tag=None, **kw) -> Segment:
 
 def read2_arm_segments() -> list[Segment]:
     """The Read-2 / P7 landing site that the round-D cassette must present."""
-    segs = [_seg("TruSeq Read 2", ATRANDI_I7_ANNEAL, "t7")]
-    if D_ARM_INCLUDES_CCGATCT:
-        segs.append(_seg("", _D_ARM_TAIL, "t7", inferred=True,
-                         note="present only if the cassette carries the full 34-nt arm"))
-    return segs
+    return [
+        _seg("TruSeq Read 2", ATRANDI_I7_ANNEAL, "t7"),
+        _seg("", _D_ARM_TAIL, "t7", inferred=True,
+             note="required for the standard Read 2 primer to bind and extend"),
+    ]
 
 
 def barcode_block() -> list[Segment]:
@@ -106,7 +101,9 @@ def barcode_block() -> list[Segment]:
             ),
         ))
         if i < 3:
-            out.append(_seg("", "L" * LINKER_LEN, "r2", placeholder=True, inferred=True,
+            out.append(_seg(f"{letter}-{chr(ord(letter) - 1)} linker",
+                            "L" * LINKER_LEN, "r2", placeholder=True, inferred=True,
+                            length_bp=LINKER_LEN,
                             note="4-nt cohesive overhang, inferred; sequence not published"))
     return out
 
@@ -126,7 +123,8 @@ def final_library() -> Construct:
              feature=feature("sample_i7", "sample_index", "fixed")),
         *read2_arm_segments(),
         *barcode_block(),
-        _seg("", "T", None, placeholder=True, inferred=True, bottom="A",
+        _seg("ligation junction", "T", None, placeholder=True, inferred=True,
+             bottom="A", length_bp=1,
              note="dA/dT ligation junction; Bascet's '+1 to account for ligation'"),
         _seg("insert", "XXX...XXX", None, placeholder=True),
         dA_junction(),
@@ -136,12 +134,12 @@ def final_library() -> Construct:
     return Construct(segs, name="Atrandi/PTA scWGS final library")
 
 
-def r2_read() -> Construct:
-    """What Read 2 actually reads: barcode block onward. Offsets must match Bascet."""
+def barcode_read() -> Construct:
+    """The barcode-side read: barcode block onward. Offsets must match Bascet."""
     lib = final_library()
     names = [s.name for s in lib]
     start = names.index("BC-D")
-    return Construct(lib.segments[start:], name="Read 2")
+    return Construct(lib.segments[start:], name="barcode-side read")
 
 
 # ----------------------------------------------------------------- PTA amplicon (06_pta.md)
@@ -171,7 +169,8 @@ def pta_amplicon() -> Construct:
 def pre_pcr() -> Construct:
     """The barcoded, adapter-ligated molecule as it enters indexing PCR (no P7/i7/P5 yet)."""
     segs = [*read2_arm_segments(), *barcode_block(),
-            _seg("", "T", None, placeholder=True, inferred=True, bottom="A"),
+            _seg("ligation junction", "T", None, placeholder=True, inferred=True,
+                 bottom="A", length_bp=1),
             _seg("insert", "XXX...XXX", None, placeholder=True),
             dA_junction(),
             _seg("TruSeq Read 1", LIGADAPT_TOP, "s5")]
@@ -188,24 +187,7 @@ def adapter_both_ends() -> Construct:
 
 
 # ------------------------------------------------------- sequencing primers (lib/seqprimers.py)
-def seq_primers() -> list:
-    """The primers this library is sequenced with, by reference. Landing sites and first
-    bases are computed by seqprimers from final_library(); what depends on the open
-    round-D arm question follows D_ARM_INCLUDES_CCGATCT."""
-    # Index 1 on the 27-nt arm: its 3' end pairs, its 5' GATCGG is a flap facing barcode D.
-    # seqprimers locates and reports that itself, so no declaration is needed either way.
-    r2 = sp.TRUSEQ["R2"]
-    if not D_ARM_INCLUDES_CCGATCT:
-        r2 = sp.mismatching(r2, (
-            f"its 3'-terminal {_D_ARM_TAIL} has no partner on the {len(ATRANDI_I7_ANNEAL)}-nt "
-            "round-D arm, so it cannot extend. Bascet reads barcode D at Read 2 offset 0, "
-            "which implies either the full 34-nt arm (D_ARM_INCLUDES_CCGATCT) or a custom "
-            f"Read 2 primer ending ...{ATRANDI_I7_ANNEAL[-6:]}"))
-    return [sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], r2]
-
-
-def __getattr__(name):
-    # SEQ_PRIMERS is recomputed on access so it always follows D_ARM_INCLUDES_CCGATCT.
-    if name == "SEQ_PRIMERS":
-        return seq_primers()
-    raise AttributeError(name)
+# The run acquires both mates and i7, but not i5.  Which standard primers bind, their
+# strands and their read directions are inferred centrally from the final sequence.
+ACQUIRED_ROLES = ("Read 1", "Index 1 (i7)", "Read 2")
+SEQ_PRIMERS = sp.standard_primers(final_library(), ACQUIRED_ROLES)

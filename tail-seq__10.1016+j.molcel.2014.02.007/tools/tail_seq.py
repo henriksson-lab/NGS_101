@@ -11,10 +11,11 @@ NOTES="01_tail-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.molcel.2014.02.007">Chang et al., <i>Molecular Cell</i> (2014)</a>.'
 SUMMARY="A biotinylated 3-prime adapter preserves native RNA termini through partial RNase T1 digestion and capture; paired reads identify the transcript and traverse its complete poly(A) tail."
 CAVEAT="The defining paper is authoritative for reaction order and paired-read roles. Adapter bases not available in the fetched source are left inferred rather than copied from later TAIL-seq variants."
-FINAL_LIBRARY,SEQ_PRIMERS=truseq_library([seg("gene-proximal RNA fragment","X"*34,placeholder=True),seg("native poly(A) tail","A"*24),seg("native terminal additions","X"*6,placeholder=True),seg("3-prime adapter","D"*18,"r2",placeholder=True)],"TAIL-seq library",inferred_adapters=True)
+FINAL_LIBRARY,SEQ_PRIMERS=truseq_library([seg("gene-proximal RNA fragment","X"*34,placeholder=True),seg("native poly(A) tail","A"*24),seg("native terminal additions","X"*6,placeholder=True,length_bp=6),seg("3-prime adapter","D"*18,"r2",placeholder=True,length_bp=18)],"TAIL-seq library",inferred_adapters=True)
 FINAL_CAPTION="Read 1 identifies the gene-proximal fragment; the long opposite read crosses terminal additions and the poly(A) tract from the native 3-prime end."
 SEQUENCING_INTRO="Paired-end sequencing assigns the transcript with one read and measures the tail with raw fluorescence from the opposite read."
 READ_LENGTHS={"Read 1":51,"Read 2":251}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Ligate a biotinylated adapter to native RNA 3-prime ends",three_prime_adapter_scene(biotin=True).rows(),"The adapter fixes the precise RNA terminus and supplies the affinity handle."),

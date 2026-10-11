@@ -83,7 +83,7 @@ def random_rt_scene():
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"), seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-    seg("random-primer N6", "N" * 6, placeholder=True),
+    seg("random-primer N6", "N" * 6, placeholder=True, length_bp=6),
     seg("aRNA-derived cDNA", "X" * 38, placeholder=True),
     seg("cell barcode", "B" * CELL_BARCODE_LEN, "cbc", placeholder=True,
         feature=CELL_FEATURE),
@@ -131,6 +131,7 @@ SUMMARY = ("A ligated hairpin/rU-dT primer installs a short duplex T7 promoter a
 FINAL_CAPTION = "Representative PCR-completed LAST-seq molecule. Read 2 reaches the hairpin-derived UMI and cell barcode; Read 1 enters the randomly primed aRNA-derived insert."
 SEQUENCING_INTRO = "NextSeq 550: Read 1, 50 cycles; Read 2, 25 cycles. The paper reports 6-nt cellular barcodes and 8-nt UMIs."
 READ_LENGTHS = {"Read 1": 50, "Read 2": 25}
+SHOW_READ_CONTENT = True
 
 
 def oligos():

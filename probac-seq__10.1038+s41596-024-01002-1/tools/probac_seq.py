@@ -12,6 +12,9 @@ SUMMARY="Amplified gene-specific DNA probes receive a 12-nt UMI and poly(A)30, h
 FINAL_CAPTION="Representative captured probe. Probe identity reports the target gene; the probe-specific UMI was installed before hybridization and the 10x cell barcode in the GEM."
 SEQUENCING_INTRO="The protocol uses an 8-cycle i7 read and a 119-cycle Read 1 on NextSeq 2000 with 30% PhiX; the drawn canonical endpoint exposes the cell barcode, UMI and gene-specific probe region."
 READ_LENGTHS={"Read 1":119,"Index 1 (i7)":8}
+ACQUIRED_ROLES=("Read 1","Index 1 (i7)")
+READ_USES={"Read 1":"extract"}
+SHOW_READ_CONTENT=True
 def sections(): return [
  ("Design and RCA-amplify gene-specific probes",[Row(chunks=[("PCR handle — 50-nt transcript-binding region — HindIII extender",None,False)])],"Three RCA rounds produce enough probe in the orientation complementary to bacterial mRNA."),
  ("Add probe UMI and poly(A)",[Row(chunks=[("probe identity — random N12 UMI — poly(A)30", "umi",False)])],"Isothermal extension gives every probe molecule a counting UMI and a 10x-compatible tail."),

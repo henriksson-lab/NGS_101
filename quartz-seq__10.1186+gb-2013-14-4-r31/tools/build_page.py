@@ -74,6 +74,9 @@ def sequencing() -> str:
 {info('Paired-end 50-base reads with a 6-base Index 1. Cell identity is the library tube/index; there is no molecular cell barcode or UMI.')}
 {sp.diagram(lib, Q.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
+{sp.read_content_table(lib, Q.SEQ_PRIMERS,
+    {"Read 1":50,"Index 1 (i7)":6,"Read 2":50},
+    acquired_roles=tuple(p.role for p in Q.SEQ_PRIMERS))}
 '''
 
 

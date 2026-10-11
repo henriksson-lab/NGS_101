@@ -121,6 +121,9 @@ def solid_library() -> str:
                                      roles=("Read 1",))
             + "<h3>Sequencing</h3>\n"
             + info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. The sequencing-primer sequence was not published in the sources read, so none is drawn or declared.")
+            + sp.read_spec_table([sp.read_spec("Sequencing output", "35 or 50",
+                  "single-end cDNA sequence entered from P1", "include")],
+                  "The source declares the SOLiD output; the sequencing-primer sequence is unavailable.")
             + '<details class="sources"><summary>Related source</summary><ul>'
               '<li><a href="https://doi.org/10.1038/nprot.2009.236">Tang et al. 2010 '
               'protocol</a>: adds sixteen 6-nt barcoded P2 adapters for multiplexing; '

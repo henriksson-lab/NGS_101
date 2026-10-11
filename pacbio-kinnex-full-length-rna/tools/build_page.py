@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import kinnex as K
+import seqprimers as sp
 from chemdraw import (Row, annotation_rows, panel, strand_row, workflow_from_sections,
                       workflow_panel)
 from dumbbell import dumbbell_rows
@@ -20,7 +21,10 @@ def render():
         panel([Row(chunks=[("sequencing primer + polymerase  --->  [terminal-adapter primer site]", "r2", False)]),
                *dumbbell_rows(K.SMRTBELL)],cls="long",caption="The sequencing primer anneals in a proprietary terminal adapter; its bases are unavailable, so the binding site and extension direction are shown without a fabricated sequence."),
         '<h2>HiFi passes and segmentation</h2>',
-        panel([strand_row(cycle),*annotation_rows(cycle)],cls="long",caption="One polymerase circuit traverses the eight-insert array in both orientations. Consensus is formed first; the seven ordered segmentation junctions then delimit the eight original cDNAs."),'</div>'])
+        panel([strand_row(cycle),*annotation_rows(cycle)],cls="long",caption="One polymerase circuit traverses the eight-insert array in both orientations. Consensus is formed first; the seven ordered segmentation junctions then delimit the eight original cDNAs."),
+        sp.read_spec_table([sp.read_spec('Sequencing output',None,
+            'HiFi consensus of an eight-cDNA segmented SMRTbell array','include')],
+            'PacBio records repeated polymerase passes; cycle count is molecule- and movie-dependent.'),'</div>'])
     return '\n'.join(parts)
 
 if __name__=='__main__': OUT.write_text(render(),encoding='utf-8'); print(f'wrote {OUT}')

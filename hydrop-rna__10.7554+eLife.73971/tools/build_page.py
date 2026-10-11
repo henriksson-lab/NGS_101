@@ -2,7 +2,6 @@
 """Build the diagram-centric HyDrop-RNA chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import hydrop_rna as H
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "hydrop-rna.html"
 
@@ -52,18 +51,10 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = H.final_library()
-    rows = []
-    for primer in H.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('Read 1: 50 cycles of cDNA; Index 1 and Index 2: 10-cycle sample indices; Read 2: 58 cycles covering the three cell barcodes, two linkers and 8-nt UMI.')}
-{sp.diagram(lib, H.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}
-<h3>Read 2 barcode layout</h3>
-{table(("Cycles", "Content"), H.read2_layout(), scroll=False)}'''
+    return sp.section(lib, H.SEQ_PRIMERS, heading="Sequencing",
+        intro='Read 1: 50 cycles of cDNA; Index 1 and Index 2: 10-cycle sample indices; Read 2: 58 cycles covering the three cell barcodes, two linkers and 8-nt UMI.',
+        read_lengths={"Read 1":50,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":58},
+        read_uses={"Read 2":"extract"}, show_read_content=True)
 
 
 def main() -> None:

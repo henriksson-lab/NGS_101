@@ -4,6 +4,7 @@ from __future__ import annotations
 from branched_dna import target_scene, tree_rows
 from chemdraw import Row, panel
 from page import head, info
+import seqprimers as sp
 
 
 def render(module) -> str:
@@ -29,5 +30,10 @@ def render(module) -> str:
               '<h2>(4) Detect the signal</h2>',
               panel([Row(chunks=[(module.DETECTION, "umi", True)])],
                     caption=module.DETECTION_CAPTION),
-              '<h2>Measurement, not sequencing</h2>', info(module.READOUT), '</div>']
+              '<h2>Measurement, not sequencing</h2>', info(module.READOUT),
+              sp.read_spec_table([
+                  sp.read_spec("Sequencing output", None,
+                               "No sequencing library or sequencing reads", "not_applicable")
+              ], "This is a branched-DNA imaging/flow-cytometry assay, not an NGS library."),
+              '</div>']
     return "\n".join(chunks)

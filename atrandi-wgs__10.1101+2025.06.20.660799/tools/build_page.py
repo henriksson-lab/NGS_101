@@ -39,9 +39,6 @@ INDEX1_SEQ = il.INDEX1_PRIMER                        # standard TruSeq Index 1 r
 _I1_TAIL = len(INDEX1_SEQ) - len(A.ATRANDI_I7_ANNEAL)  # its 5' GATCGG
 INDEX1_PRIMER = [seg("I1 tail", INDEX1_SEQ[:_I1_TAIL], "t7"),
                  seg("I1 anneal", INDEX1_SEQ[_I1_TAIL:], "t7")]
-_R2_ARM = len(A.ATRANDI_I7_ANNEAL)
-READ2_PRIMER = [seg("R2 5'", A.TRUSEQ_R2[:_R2_ARM], "t7"), seg("R2 3'", A.TRUSEQ_R2[_R2_ARM:], "t7")]
-
 lib = A.final_library()
 PRE = 4  # width of the "5'- " prefix
 
@@ -295,11 +292,11 @@ _R2_CONTENT = {"BC-D": "Barcode D (ligated last, read first)",
                "BC-A": "Barcode A (ligated first, read last)"}
 
 
-def read2_layout_rows() -> str:
-    """Read-2 offsets, computed from A.r2_read() (the same construct the selftest pins to
+def barcode_layout_rows() -> str:
+    """Barcode-read offsets, computed from A.barcode_read() (the same construct the selftest pins to
     Bascet)."""
     rows, pos = [], 0
-    for s in A.r2_read():
+    for s in A.barcode_read():
         if s.name == "insert":
             rows.append(f"<tr><td>{pos}&ndash;</td><td>&mdash;</td><td>genomic insert</td></tr>")
             break
@@ -314,48 +311,42 @@ def read2_layout_rows() -> str:
 
 
 def sequencing() -> str:
-    # Read 1 and Index 1 primers are bottom-strand sense: they anneal to the TOP strand, drawn
-    # above it. The Read 2 primer is top-strand sense: it anneals to the BOTTOM strand.
+    # These panels use the same shared standard-primer definitions that are matched to the
+    # final construct for the generated table below.
     r1 = lib_scene()
-    r1.anneal("Read 1 primer", [seg("R1", A.TRUSEQ_R1, "s5")], to="top", pair=("R1", "dA"),
-              above=True)
-    r1.arrow("Read 1 primer", "Read 1: insert")
-    full_arm = A.D_ARM_INCLUDES_CCGATCT
+    r1.anneal("Read 1 primer", [seg("R1", A.TRUSEQ_R1, "s5")], to="top",
+              pair=("R1", "dA"), above=True)
+    r1.arrow("Read 1 primer", "Read 1: genomic insert")
+    r2 = lib_scene()
+    r2.anneal("Read 2 primer", [seg("R2", A.TRUSEQ_R2, "t7")], to="bottom",
+              pair=("R2", "TruSeq Read 2'"))
+    r2.arrow("Read 2 primer", "Read 2: D, C, B, A, genomic DNA")
     i1 = lib_scene()
     i1.anneal("Index 1 primer", INDEX1_PRIMER, to="top", pair=("I1 anneal", "TruSeq Read 2"),
-              above=True, unpaired=[] if full_arm else ["I1 tail"])
+              above=True)
     i1.arrow("Index 1 primer", "Index 1: i7", length=4)
-    if not full_arm:
-        i1.mark("Index 1 primer", "I1 tail",
-                f"5' {INDEX1_SEQ[:_I1_TAIL]}: no partner on a 27-nt arm, hangs off")
-    r2 = lib_scene()
-    r2.anneal("Read 2 primer", READ2_PRIMER, to="bottom", pair=("R2 5'", "TruSeq Read 2'"),
-              unpaired=[] if full_arm else ["R2 3'"])
-    if full_arm:
-        r2.arrow("Read 2 primer", "Read 2: D, C, B, A, insert")
-    else:
-        r2.mark("Read 2 primer", "R2 3'", f"3'-terminal {A._D_ARM_TAIL} has no partner on a 27-nt "
-                                          "arm: a stock Read 2 primer cannot extend")
     return f"""<h2>Library sequencing</h2>
-<p><info>Paired-end: Read&nbsp;1 is genomic insert; Read&nbsp;2 begins with the four cell barcodes.</info></p>
+<p><info>Paired-end: Read&nbsp;1 enters genomic DNA from the non-barcode adapter; Read&nbsp;2 begins with the four cell barcodes and then enters genomic DNA.</info></p>
 
-<h3>(1) Read 1 &mdash; genomic insert, primed from the P5 side (top strand as template)</h3>
+<h3>(1) Read 1 &mdash; genomic DNA from the non-barcode adapter</h3>
 {panel(r1.rows())}
 
 <h3>(2) Index 1 read &mdash; the 6-bp i7 sample index (top strand as template)</h3>
 {panel(i1.rows())}
 
-<h3>(3) Read 2 &mdash; cell barcode then insert (bottom strand as template)</h3>
+<h3>(3) Read 2 &mdash; cell barcode then genomic DNA</h3>
 {panel(r2.rows())}
 
 <div id="seqprimers"></div>
-{sp.section(lib, A.SEQ_PRIMERS)}
+{sp.section(lib, A.SEQ_PRIMERS,
+            required_roles=A.ACQUIRED_ROLES,
+            read_lengths={"Index 1 (i7)": 6})}
 
-<h2>Read 2 layout</h2>
+<h2>Read 2 barcode layout</h2>
 <div class="tw">
 <table>
 <tr><th>Offset (0-based)</th><th>Length</th><th>Content</th></tr>
-{read2_layout_rows()}
+{barcode_layout_rows()}
 </table>
 </div>
 </div>

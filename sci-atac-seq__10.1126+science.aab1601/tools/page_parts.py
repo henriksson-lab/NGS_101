@@ -130,8 +130,16 @@ def sequencing(protocol: str) -> str:
         rows = [("Read 1", "not available", "genomic insert"), ("Index 1", "8 + 27 constant + PCR i7", "first- and second-round barcodes"), ("Index 2", "8 + 21 constant + PCR i5", "first- and second-round barcodes"), ("Read 2", "not available", "genomic insert")]
     else:
         rows = [("Read 1", "51", "genomic insert"), ("Index 1", "10 + 15 dark + 10", "N7 + i7"), ("Index 2", "10 + 15 dark + 10", "N5 + i5"), ("Read 2", "51", "genomic insert")]
+    specs = []
+    for role, cycles, content in rows:
+        role = {"Index 1": "Index 1 (i7)", "Index 2": "Index 2 (i5)"}.get(role, role)
+        fixed = int(cycles) if str(cycles).isdigit() else None
+        use = "include" if role.startswith("Read") else "extract_and_demultiplex"
+        specs.append(sp.read_spec(role, fixed, content.replace(" + ", "; "), use))
     return ('<h2>Read layout</h2>' + sp.diagram(lib, primers)
-            + table(("Read", "Cycles", "Content"), rows) + '</div>')
+            + table(("Read", "Cycles", "Content"), rows)
+            + sp.read_spec_table(specs, "Read roles and contents are source-declared; compound dark-cycle recipes remain in the layout table above.")
+            + '</div>')
 
 
 def render_page(protocol: str, out: Path) -> None:

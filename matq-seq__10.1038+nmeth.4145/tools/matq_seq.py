@@ -96,6 +96,7 @@ CAVEAT = "INFERRED — the source specifies paired-end Illumina sequencing and s
 FINAL_CAPTION = "INFERRED — representative sheared MATQ amplicon in a canonical paired-end Illumina library; the GAT27 amplification products themselves are source-defined."
 SEQUENCING_INTRO = "The supplementary figures report paired-end 85-base reads. Standard TruSeq primer sites are inferred from the unreported final adapter kit."
 READ_LENGTHS = {"Read 1": 85, "Read 2": 85}
+SHOW_READ_CONTENT = True
 
 
 def oligos():

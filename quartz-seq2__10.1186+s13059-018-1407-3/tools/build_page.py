@@ -79,6 +79,9 @@ def sequencing() -> str:
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 1 barcode layout</h3>
 {table(("Cycles", "Content"), Q.read1_layout(), scroll=False)}
+{sp.read_content_table(lib, Q.SEQ_PRIMERS,
+    {"Read 1":23,"Index 1 (i7)":6,"Read 2":63},
+    acquired_roles=tuple(p.role for p in Q.SEQ_PRIMERS))}
 '''
 
 

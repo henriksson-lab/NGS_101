@@ -99,10 +99,10 @@ check("P5 and the Read-1 arm really do overlap by ACAC",
       il.P5.endswith("ACAC") and A.ATRANDI_P5_ANNEAL.startswith("ACAC"))
 
 # -------------------------------------- read layout must match Bascet, independently
-check.section("Read 2 layout vs Bascet (crates/bascet-cli/src/barcode/)")
-r2 = A.r2_read()
+check.section("barcode-read layout vs Bascet (crates/bascet-cli/src/barcode/)")
+r2 = A.barcode_read()
 for name, want in (("BC-D", 0), ("BC-C", 12), ("BC-B", 24), ("BC-A", 36)):
-    check(f"{name} anchors at R2 offset {want}", r2.offset(name), want)
+    check(f"{name} anchors at barcode-read offset {want}", r2.offset(name), want)
 check("trim_bcread_len == 45  (8+4+8+4+8+4+8+1)", r2.offset("insert"), 45)
 check("four barcodes", sum(1 for s in r2 if s.name.startswith("BC-")), 4)
 check("three linkers between them",
@@ -120,8 +120,9 @@ check("barcode A placeholder is not complemented to 8 thymines",
       lib.get("BC-A").bottom_text() != "TTTTTTTT")
 check("placeholder bottom strand is lowercased, distinct from the dA/dT junction",
       lib.get("BC-A").bottom_text(), "aaaaaaaa")
+_barcode_junction = next(s for s in lib if s.note.startswith("dA/dT ligation junction"))
 check("the dA/dT junction base IS complemented (T over A)",
-      lib.segments[10].top == "T" and lib.segments[10].bottom_text() == "A")
+      _barcode_junction.top == "T" and _barcode_junction.bottom_text() == "A")
 check("every linker is flagged inferred, for <inf> rendering",
       all(s.inferred for s in lib if s.tag == "r2" and s.placeholder))
 
@@ -135,31 +136,13 @@ check("two 3'-terminal phosphorothioate linkages", A.PTA_PRIMER_PS_LINKAGES, 2)
 check("both termini carry a note explaining why they matter",
       all(amp.segments[i].note for i in (0, -1)))
 
-# ------------------------------------- the open design question stays switchable
-check.section("open design question: 27-nt vs 34-nt round-D arm")
-base = len(A.final_library())
-A.D_ARM_INCLUDES_CCGATCT = True
-grown, alt = len(A.final_library()), A.r2_read()
-A.D_ARM_INCLUDES_CCGATCT = False
-check("flipping to the 34-nt arm leaves R2 offsets unchanged", alt.offset("BC-A"), 36)
-check("...and the construct grows by exactly 7 nt", grown - base, 7)
-check("flipping back restores the original length", len(A.final_library()), base)
-
 # ------------------------------------ drawings: every multi-strand panel is a checked Scene
 check.section("drawings (chemdraw.Scene verifies every paired column)")
 import build_page as B  # noqa: E402
-for flag in (False, True):
-    A.D_ARM_INCLUDES_CCGATCT = flag
-    B.lib = A.final_library()
-    try:
-        html = "".join(f() for f in (B.step_pta, B.step_endprep, B.step_barcode_a,
-                                     B.step_barcode_bcd, B.step_release_frag, B.step_adapter,
-                                     B.step_pcr, B.sequencing))
-        check(f"all panels build with {'34' if flag else '27'}-nt round-D arm", bool(html))
-    except ValueError as e:
-        check(f"all panels build with {'34' if flag else '27'}-nt round-D arm: {e}", False)
-A.D_ARM_INCLUDES_CCGATCT = False
-B.lib = A.final_library()
+html = "".join(f() for f in (B.step_pta, B.step_endprep, B.step_barcode_a,
+                             B.step_barcode_bcd, B.step_release_frag, B.step_adapter,
+                             B.step_pcr, B.sequencing))
+check("all panels build", bool(html))
 
 check.section("P5-side dA junction and sequencing-primer sites")
 t = lib.top()
@@ -175,17 +158,12 @@ check("pre-PCR bottom strand ends (5'-amino) at the adapter stem",
 check("...so the 20-nt P5 arm is single-stranded", _pp["top"].end() - _pp["bottom"].end(),
       len(A.LIGADAPT_ARM))
 import seqprimers  # noqa: E402
-for flag in (False, True):
-    A.D_ARM_INCLUDES_CCGATCT = flag
-    _l = A.final_library()
-    check(f"every declared sequencing primer lands where declared ({'34' if flag else '27'}-nt "
-          "arm, lib/seqprimers.py)", seqprimers.verify(_l, A.SEQ_PRIMERS), [])
-    check(f"stock Read 2 declared mismatching iff the arm is 27 nt ({flag})",
-          bool([p for p in A.SEQ_PRIMERS if p.role == "Read 2"][0].expect_mismatch), not flag)
-A.D_ARM_INCLUDES_CCGATCT = False
-_i2 = seqprimers.locate(lib, [p for p in A.SEQ_PRIMERS if p.role.startswith("Index 2")][0])
-check("no i5 index: the Index 2 read runs straight into P5", _i2.reads_from, "Illumina P5")
-check("stock Read 2 primer is fully templated only with the 34-nt arm",
-      (il.TRUSEQ_READ2 in t), A.D_ARM_INCLUDES_CCGATCT)
+check("every inferred standard sequencing primer lands",
+      seqprimers.verify(lib, A.SEQ_PRIMERS, required_roles=A.ACQUIRED_ROLES), [])
+check("no i5 read is declared", any(p.role.startswith("Index 2") for p in A.SEQ_PRIMERS), False)
+_r1 = seqprimers.locate(lib, [p for p in A.SEQ_PRIMERS if p.role == "Read 1"][0])
+_r2 = seqprimers.locate(lib, [p for p in A.SEQ_PRIMERS if p.role == "Read 2"][0])
+check("Read 1 enters genomic DNA from the non-barcode adapter", _r1.reads_from, "insert")
+check("Read 2 starts at barcode D", _r2.reads_from, "BC-D")
 
 check.report()

@@ -93,11 +93,27 @@ def sequencing(protocol: str) -> str:
     lib = N.library(protocol)
     if any(sp.locate(lib, p) is None for p in N.SEQ_PRIMERS):
         raise ValueError("sequencing primer missing")
+    if protocol == N.SCNOME:
+        return (sp.section(
+            lib, N.SEQ_PRIMERS, heading="Read layout",
+            intro=("Read 1 and Read 2 report the bisulfite-converted insert; the first "
+                   "six Read 1 bases are clipped. Index 1 identifies the well."),
+            required_roles=tuple(p.role for p in N.SEQ_PRIMERS),
+            read_lengths=N.SCNOME_READ_LENGTHS, read_uses=N.SCNOME_READ_USES,
+            show_read_content=True)
+            + info('There is no molecular cell barcode or UMI; the final sample index identifies the well.')
+            + '</div>')
     rows = ([("Read 1", "100", "bisulfite insert; first 6 bases clipped"), ("Index 1", "6", "cell/sample index"), ("Read 2", "100", "bisulfite insert; non-directional")]
             if protocol == N.SCNOME else
             [("Read 1", "150", "primer-1 N9, then bisulfite insert"), ("Index 1", "indexed", "cell/sample index"), ("Read 2", "150", "primer-2 N9, then bisulfite insert")])
+    specs = [
+        sp.read_spec("Read 1", 150, "primer-1 N9, then bisulfite insert", "include"),
+        sp.read_spec("Index 1 (i7)", None, "cell/sample index", "demultiplex"),
+        sp.read_spec("Read 2", 150, "primer-2 N9, then bisulfite insert", "include"),
+    ]
     return ('<h2>Read layout</h2>' + sp.diagram(lib, N.SEQ_PRIMERS)
             + table(("Read", "Cycles", "Content"), rows)
+            + sp.read_spec_table(specs, "The scCOOL-seq run layout is source-declared.")
             + info('There is no molecular cell barcode or UMI; the final sample index identifies the well.')
             + '</div>')
 

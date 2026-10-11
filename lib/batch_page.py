@@ -39,9 +39,12 @@ def render(m) -> str:
                       panel(final_rows, cls="long",
                             caption=m.FINAL_CAPTION)])
     if primers:
+        acquired_roles = getattr(m, "ACQUIRED_ROLES", tuple(p.role for p in primers))
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,
-                                required_roles=tuple(p.role for p in primers),
-                                read_lengths=getattr(m, "READ_LENGTHS", None)))
+                                required_roles=acquired_roles,
+                                read_lengths=getattr(m, "READ_LENGTHS", None),
+                                read_uses=getattr(m, "READ_USES", None),
+                                show_read_content=getattr(m, "SHOW_READ_CONTENT", True)))
         unavailable = getattr(m, "SEQUENCING_UNAVAILABLE", "")
         if unavailable:
             parts.append(sp.unavailable_diagram(lib, unavailable))
@@ -53,5 +56,13 @@ def render(m) -> str:
         unavailable = getattr(m, "SEQUENCING_UNAVAILABLE", "")
         if unavailable:
             parts.append(sp.unavailable_diagram(lib, unavailable))
+        specs = getattr(m, "READ_SPECS", ())
+        if specs:
+            parts.append(sp.read_spec_table(specs))
+        else:
+            parts.append(sp.unresolved_read_content_table(
+                lib, unavailable or "the exact sequencing-primer site is not represented",
+                read_lengths=getattr(m, "READ_LENGTHS", None),
+                acquired_roles=getattr(m, "ACQUIRED_ROLES", None)))
     parts.extend(['</div>'])
     return "\n".join(parts)

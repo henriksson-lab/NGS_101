@@ -21,11 +21,11 @@ FINAL_LIBRARY=Construct([
  seg("targeted chromatin fragment","X"*42,placeholder=True),seg("right mosaic end reverse complement",nx.ME_RC,"me"),
  seg("T7 inner connector reverse complement","GAGGCGGAGACGGTG"),seg("T7 well barcode reverse complement","B"*8,"cbc",placeholder=True,feature=cb("cobatch_t7","PAT-T7 well")),seg("T7 outer connector reverse complement","GGACAGGGACAG"),seg("S7 reverse complement",nx.S7_RC,"s7"),
  seg("PCR-well i7 reverse complement","I"*8,"cbc",placeholder=True,feature=cb("cobatch_i7","PCR well i7")),seg("P7 reverse complement",il.P7_RC,"p7")],name="CoBATCH library")
-COBATCH_READ1=nx.S5
-COBATCH_READ2=nx.S7
+COBATCH_READ1="GCGATCGAGGACGGC"+nx.ME
+COBATCH_READ2="CACCGTCTCCGCCTC"+nx.ME
 SEQ_PRIMERS=(
- sp.custom("Read 1","CoBATCH S5-side read primer",COBATCH_READ1,"Wang et al. supplementary oligo table"),
- sp.custom("Read 2","CoBATCH S7-side read primer",COBATCH_READ2,"Wang et al. supplementary oligo table"),
+ sp.custom("Read 1","CoBATCH extended mosaic-end T5 primer",COBATCH_READ1,"Wang et al. supplementary oligo table"),
+ sp.custom("Read 2","CoBATCH extended mosaic-end T7 primer",COBATCH_READ2,"Wang et al. supplementary oligo table"),
 )
 _problems=sp.verify(FINAL_LIBRARY,SEQ_PRIMERS,required_roles=("Read 1","Read 2"))
 if _problems: raise ValueError("CoBATCH library: "+"; ".join(_problems))
@@ -33,6 +33,7 @@ FINAL_CAPTION="The first plate is encoded beside both mosaic ends; the second pl
 SEQUENCING_INTRO="Paired genomic reads map targeted chromatin fragments; index and inline cycles recover the two-round cell identity."
 SEQUENCING_UNAVAILABLE="The fetched source establishes i5/i7 PCR indexes but does not state a standalone custom index-read primer sequence; the two genomic read-primer sites are shown exactly."
 READ_LENGTHS={"Read 1":50,"Read 2":50}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Bind antibody at the chromatin feature",antibody_enzyme_rows("Tn5","targeted adapter transfer"),"Protein A tethers Tn5 to the antibody-bound histone mark or chromatin protein."),

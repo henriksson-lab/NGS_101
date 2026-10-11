@@ -81,6 +81,8 @@ def render() -> str:
             caption='Sequencing primers cannot bind the MALBAC amplification product'),
         info('MALBAC ends at amplified genomic DNA. A separate standard library-preparation kit '
              'adds the platform adapters; the accessible defining paper does not identify that kit.'),
+        sp.unresolved_read_content_table(M.full_amplicon(),
+            'the defining paper leaves the downstream sequencing-library kit unspecified'),
         '</div>',
     ])
 

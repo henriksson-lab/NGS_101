@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import html,sys
+import sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v3 as V
 import seqprimers as sp
 from chemdraw import Scene,annotation_rows,oligo,panel
-from page import head,info,table
+from page import head,info
 OUT=HERE.parent/"10x-3prime-v3.html"
 def sequencing(lib):
-    rows=[]
-    for p in V.SEQ_PRIMERS:
-        h=sp.locate(lib,p)
-        if h is None: raise ValueError(f"{p.name} has no site")
-        rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Paired-end, single-index sequencing: Read 1 28 cycles, i7 8 cycles, Read 2 91 cycles. Read 1 contains the 16-base cell barcode and 12-base UMI.')+sp.diagram(lib,V.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Read 1 cycles","Content"),V.read1_layout(),scroll=False)
+    return sp.section(lib,V.SEQ_PRIMERS,heading="Sequencing primers and reads",
+        intro="Paired-end, single-index sequencing. Read 1 contains the cell barcode and UMI.",
+        required_roles=tuple(p.role for p in V.SEQ_PRIMERS),
+        read_lengths=V.READ_LENGTHS,show_read_content=True)
 def render():
     lib=V.final_library(); cdna=V.amplified_cdna()
     return "\n".join([head("10x Chromium 3' Gene Expression v3 chemistry"),'<div class="wrap">','<h1>10x Chromium Single Cell 3&#39; Gene Expression v3</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support">10x Genomics User Guide CG000183 Rev A</a>.'),

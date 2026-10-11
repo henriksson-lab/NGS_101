@@ -32,6 +32,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=truseq_library(insert,"snRandom-seq library",inferred_
 FINAL_CAPTION="Published 30-nt split-pool cell barcode, 8-nt UMI and transcript insert inside inferred vendor-standard Illumina outer adapters."
 SEQUENCING_INTRO="The paper used paired-end 150-base NovaSeq sequencing and explicitly extracted the 30-base cell barcode plus 8-base UMI from Read 1; Read 2 generated the expression matrix."
 READ_LENGTHS={"Read 1":150,"Read 2":150}
+SHOW_READ_CONTENT=True
 
 def workflow():
     w=Workflow(MolecularState(INITIAL_NAME,tuple(INITIAL_ROWS)))

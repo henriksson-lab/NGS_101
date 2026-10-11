@@ -111,7 +111,7 @@ def smartseq3_library(variant: str = "SMART-seq3", five_prime: bool = True) -> C
         spacer = SS3_TSO_SPACERS[variant]
         if spacer:
             middle.append(_seg("", spacer, "r1", placeholder=True))
-        middle.append(_seg("", "GGG", "tso"))
+        middle.append(_seg("template-switch GGG", "GGG", "tso"))
     return Construct([*_nextera_i5(), *middle,
                       _seg("cDNA", "XXXXXXXX...XXXXXXXX", None, placeholder=True),
                       *_nextera_i7()],

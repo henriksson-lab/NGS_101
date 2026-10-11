@@ -92,6 +92,11 @@ def sequencing() -> str:
 {sp.unavailable_diagram(final, "the vendor does not publish Sequencing Primer SP or the other library-primer sequences")}
 {table(("Read", "Starts on"), rows)}
 {info('The guide requires the supplied custom Sequencing Primer SP for Read 1 and names the N7xx sample index. It does not publish read lengths or oligo sequences, so no base-resolved layout is asserted here.')}
+{sp.read_spec_table([
+    sp.read_spec("Read 1", None, "cell barcode, UMI, then transcript-facing sequence", "extract_then_include"),
+    sp.read_spec("Index 1 (i7)", None, "N7xx sample index", "demultiplex"),
+    sp.read_spec("Read 2", None, "transcript sequence from the tagmented end", "include"),
+], "Read boundaries are vendor-declared; primer sequences and cycle counts are proprietary.")}
 </div>'''
 
 

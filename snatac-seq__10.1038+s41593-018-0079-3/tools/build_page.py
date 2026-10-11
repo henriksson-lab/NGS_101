@@ -156,6 +156,8 @@ def sequencing() -> str:
 {read_scene(S.SEQ_PRIMERS[2], "37 cycles")}
 <h3>Read 2 &mdash; insert from the B end</h3>
 {read_scene(S.SEQ_PRIMERS[3], "Read 2: genomic insert")}
+{sp.read_content_table(lib, S.SEQ_PRIMERS,
+    {"Read 1":50,"Index 1 (i7)":43,"Index 2 (i5)":37,"Read 2":50})}
 </div>'''
 
 

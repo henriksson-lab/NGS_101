@@ -93,3 +93,4 @@ SEQ_PRIMERS = [
     sp.NEXTERA["I2"],
     sp.TRUSEQ["R2"],
 ]
+READ_LENGTHS = {"Index 1 (i7)": len(I7_READ), "Index 2 (i5)": len(I5_INDEX)}

@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import ncats as N
+import seqprimers as sp
 from chemdraw import panel, workflow_panel
 from page import head, info
 OUT=H.parent/'ncats.html'
@@ -15,5 +16,8 @@ def render():
       info('Dephosphorylate every pre-existing DNA end, then let Cas9 expose fresh phosphorylated ends at chosen loci. Only those new ends efficiently receive nanopore adapters.'),
       '<h2>Reaction workflow</h2>',workflow_panel(N.workflow(),cls='long'),
       '<h2>Final targeted library</h2>',panel(N.final_rows(),cls='long',caption='The selected native target remains unamplified, preserving long-range sequence and base modifications. ** marks the exact checked T:A adapter-ligation boundaries; adapter roles are proprietary.'),
-      '<h2>Nanopore entry</h2>',info('There is no sequencing primer. An LSK109 motor-loaded adapter engages a pore and controls passage of the intact native target strand. Reads begin at a Cas9-created adapter-bearing end and extend into the region of interest.'),'</div>'])
+      '<h2>Nanopore entry</h2>',info('There is no sequencing primer. An LSK109 motor-loaded adapter engages a pore and controls passage of the intact native target strand. Reads begin at a Cas9-created adapter-bearing end and extend into the region of interest.'),
+      sp.read_spec_table([sp.read_spec('Sequencing output',None,
+          'native target strand from a Cas9-created adapter-bearing end','include')],
+          'Nanopore sequencing is primer-free; read length is molecule-dependent.'),'</div>'])
 if __name__=='__main__': OUT.write_text(render(),encoding='utf-8'); print(f'wrote {OUT}')

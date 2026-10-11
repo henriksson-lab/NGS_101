@@ -2,7 +2,6 @@
 """Build the diagram-centric PETRI-seq chemistry page."""
 from __future__ import annotations
 
-import html
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import petri_seq as P
 import seqprimers as sp
 from chemdraw import annotation_rows, junction_row, oligo, panel, strand_row
-from page import head, info, table
+from page import head, info
 
 OUT = HERE.parent / "petri-seq.html"
 
@@ -51,18 +50,10 @@ def construction() -> str:
 
 def sequencing() -> str:
     lib = P.final_library()
-    rows = []
-    for primer in P.SEQ_PRIMERS:
-        hit = sp.locate(lib, primer)
-        rows.append((html.escape(primer.role), html.escape(primer.name),
-                     html.escape(", ".join(hit.covers)),
-                     f"<code>{html.escape(hit.reads)}</code>&hellip;"))
-    return f'''<h2>Sequencing</h2>
-{info('NextSeq layout: Read 1 58 cycles; Read 2 17; Index 1 and Index 2 8 cycles each. Read 1 carries the UMI and three cell barcodes.')}
-{sp.diagram(lib, P.SEQ_PRIMERS)}
-{table(("Read", "Primer", "Primer site", "First bases"), rows)}
-<h3>Read 1 layout</h3>
-{table(("Cycles", "Content"), P.read1_layout(), scroll=False)}'''
+    return sp.section(lib, P.SEQ_PRIMERS, heading="Sequencing",
+        intro='NextSeq layout: Read 1 58 cycles; Read 2 17; Index 1 and Index 2 8 cycles each. Read 1 carries the UMI and three cell barcodes.',
+        read_lengths={"Read 1":58,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":17},
+        read_uses={"Read 1":"extract"}, show_read_content=True)
 
 
 def main() -> None:

@@ -18,6 +18,7 @@ FINAL_CAPTION="Representative NTT-seq chromatin molecule. The transposome barcod
 SEQUENCING_INTRO="Custom Read 1 enters through the connector and ME; i5 is 38 cycles to recover cell and assay structure, i7 is 8 cycles, and paired genomic reads are 60 cycles (50 cycles in the stated PBMC run without surface proteins)."
 SEQUENCING_UNAVAILABLE="The public page places the printed custom Read 1 and genomic Read 2 sites. The complete 10x cell-barcode primer remains vendor-supplied."
 READ_LENGTHS={"Read 1":60,"Index 1 (i7)":8,"Read 2":60}
+SHOW_READ_CONTENT=True
 def oligos():
  yield oligo("MEDSA_1",[Segment("S5","TCGTCGGCAGCGTC","s5"),Segment("8-nt modality barcode","GGATTGCT","cbc"),Segment("connector","GCGATCGAGGACGGC"),Segment("ME","AGATGTGTATAAGAGACAG","me")])
  yield oligo("Custom R1",[Segment("binding region",CUSTOM_R1,"r1")])

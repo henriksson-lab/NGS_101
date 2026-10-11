@@ -31,6 +31,8 @@ def sequencing() -> str:
         info("The historical Multiplexing-kit Read 1 and Read 2 primers interrogate the genomic fragment from opposite ends; the single i7 read identifies the library."),
         sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
+        sp.read_content_table(lib, S.SEQ_PRIMERS,
+                              acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS)),
     ])
 
 

@@ -66,7 +66,9 @@ def sequencing() -> str:
 {sp.diagram(lib, S.SEQ_PRIMERS)}
 {table(("Read", "Primer", "Primer site", "First bases"), rows)}
 <h3>Read 1 layout</h3>
-{table(("Cycles", "Content"), S.read1_layout(), scroll=False)}'''
+{table(("Cycles", "Content"), S.read1_layout(), scroll=False)}
+{sp.read_content_table(lib,S.SEQ_PRIMERS,
+    {"Read 1":21,"Index 1 (i7)":8,"Index 2 (i5)":16,"Read 2":78})}'''
 
 
 def main() -> None:

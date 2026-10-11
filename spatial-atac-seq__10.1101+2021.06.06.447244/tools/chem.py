@@ -18,6 +18,7 @@ SUMMARY = ("Tn5 tags accessible chromatin in a fixed tissue section. Two perpend
            "identifies a tissue pixel.")
 FINAL_LIBRARY, SEQ_PRIMERS = se.library("accessible genomic fragment")
 READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = ("The custom-primer end reads barcode B, linker 2, barcode A, linker 1 "
                  "and then accessible genomic DNA. ** marks the two in-tissue ligations.")
 SEQUENCING_INTRO = ("Paired-end 150 sequencing was used. Raw Read 1 carries barcode B "

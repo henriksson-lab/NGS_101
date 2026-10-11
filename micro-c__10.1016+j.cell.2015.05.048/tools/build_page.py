@@ -7,6 +7,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import micro_c as M
+import seqprimers as sp
 from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
 from page import head, info, table
 
@@ -45,6 +46,10 @@ def render():
               cls="small", caption="End repair, dA-tailing and Illumina-adapter ligation precede streptavidin capture and 12–15 PCR cycles. The paper does not identify the adapter or index architecture."),
         '<h2>Sequencing</h2><p>Paired reads begin in the two nucleosome-derived genomic ends.</p>',
         '<div class="info">Primer placement unavailable: the source specifies Illumina paired-end sequencing but not the library kit or sequencing-primer sequences.</div>',
+        sp.read_spec_table([
+            sp.read_spec("Read 1", None, "one nucleosome-derived genomic end", "include"),
+            sp.read_spec("Read 2", None, "the other nucleosome-derived genomic end", "include")],
+            "Paired-read content is source-declared; adapter identity, primer sequences and cycle counts are unavailable."),
         '</div>'
     ])
 

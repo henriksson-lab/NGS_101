@@ -15,6 +15,7 @@ CLUSTER_ID.bind(FINAL_LIBRARY)
 FINAL_CAPTION="Read 1 reports the DPM tag and genomic DNA; Read 2 reports the remaining split-pool tag chain."
 SEQUENCING_INTRO="Paired-end sequencing reads genomic sequence from the DPM end and reconstructs the cluster identifier from DPM plus the four tag parts read from the opposite end."
 READ_LENGTHS={"Read 1":100,"Read 2":75}
+SHOW_READ_CONTENT=True
 
 def sections(): return [
  ("Crosslink, isolate and fragment chromatin",[Row(chunks=[("crosslinked complex: [DNA fragment] ... [DNA fragment] ... [RNA/protein]",None,False)])],"DSG and formaldehyde preserve multiway complexes; sonication and DNase make sequenceable DNA fragments."),

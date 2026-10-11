@@ -16,6 +16,7 @@ SOURCE='<a href="https://doi.org/10.1126/science.aax6234">Srivatsan et al., <i>S
 SUMMARY="Each treated sample is labeled with a well-specific polyadenylated ssDNA hash oligo. Pooled nuclei then undergo sci-RNA-seq, so hash oligos and endogenous transcripts receive the same combinatorial cell indexes."
 FINAL_CAPTION="A sci-RNA-seq product representing either endogenous cDNA or a captured nuclear-hash oligo; both retain the same cell barcode combination and UMI."
 SEQUENCING_INTRO="The combinatorial index combination identifies a nucleus; hash-derived reads recover treatment/sample identity and transcript-derived reads measure expression."
+SHOW_READ_CONTENT=True
 def sections(): return [
  ("Treat samples in separate wells",[Row(chunks=[("sample 1 | sample 2 | … | sample 4992",None,False)])],"Perturbation identity initially exists as physical well identity."),
  ("Hash permeabilized nuclei",[Row(chunks=[("well-specific ssDNA hash barcode — poly(A) → nucleus", "cbc",False)])],"Unmodified polyadenylated DNA associates with exposed nuclei and is fixed in place."),

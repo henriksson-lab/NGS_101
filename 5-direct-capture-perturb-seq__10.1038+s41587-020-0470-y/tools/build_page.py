@@ -40,7 +40,8 @@ def render() -> str:
         sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",
                    intro="Read 1 records cell barcode and UMI. Read 2 crosses the constant region before reaching the protospacer; the protocol recommends 98 Read 2 cycles.",
                    required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
-                   read_lengths={"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98}),
+                   read_lengths={"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98},
+                   show_read_content=True),
         "</div>",
     ])
 

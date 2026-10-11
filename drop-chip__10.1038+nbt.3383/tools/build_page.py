@@ -95,7 +95,12 @@ def reads() -> str:
         strand_row(r2, prefix="Read 2  ", suffix="")],
        cls="small", caption="Published barcode coordinates. The sequencing run uses 11 "
                             "initial dark cycles before collecting base calls.")}
-{table(("Read", "Published layout"), rows)}"""
+{table(("Read", "Published layout"), rows)}
+{sp.read_spec_table([
+    sp.read_spec("Read 1", None, "8-nt cell barcode at cycles 1–8, TTAA, then genomic DNA", "extract_then_include"),
+    sp.read_spec("Read 2", None, "11-nt constant, 8-nt cell barcode at cycles 12–19, TTAA, then genomic DNA", "extract_then_include"),
+    sp.read_spec("Index 1 (i7)", None, "sample index", "demultiplex"),
+], "Barcode coordinates are published; total read and index lengths and exact primer sequences are not.")}"""
 
 
 def render() -> str:

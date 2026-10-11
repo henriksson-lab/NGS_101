@@ -43,6 +43,7 @@ SEQ_PRIMERS = (sp.custom("Read 1", "miCLIP small-RNA Read 1", CLIP_R1,
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS, required_roles=("Read 1",)):
     raise ValueError("miCLIP final library: " + "; ".join(problems))
 READ_LENGTHS = {"Read 1": 51}
+SHOW_READ_CONTENT = True
 FINAL_CAPTION = "Read 1 begins with NNN–BBBB–NN: five random bases form a split UMI and the central four bases identify the library; RNA-derived cDNA follows."
 SEQUENCING_INTRO = "The inline identifier cycles are computed from the Read 1 landing site. Crosslink-induced substitutions or stops are interpreted within the following RNA-derived cDNA."
 
