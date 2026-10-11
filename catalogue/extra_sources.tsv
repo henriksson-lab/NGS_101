@@ -178,3 +178,4 @@ botseqs__10.1073+pnas.1607794113	pmccloud:PMC5024639	BotSeqS defining paper	TruS
 time-seq__10.1038+s43587-023-00555-2	pmccloud:PMC11332592	TIME-seq defining paper and supplementary files	Library workflow, bisulfite-resistant barcoded Tn5 adaptors, indexed PCR and custom sequencing-primer readout.
 cirseq__10.1038+nprot.2014.118	pmccloud:PMC4418788	CirSeq defining protocol	RNA fragmentation and circularization, rolling-circle cDNA synthesis, TruSeq completion and MiSeq readout.
 duplex-repair__10.1093+nar+gkab855	pmccloud:PMC8755016	Duplex-Repair defining paper and supplement	Four-stage restricted end repair, dATP-only tailing, custom duplex-UMI adapter ligation and paired-end sequencing.
+invadeseq__10.1038+s41596-023-00888-7	doi:10.1038/s41586-022-05435-0	Original INVADEseq application paper	Initial biological application and relationship between the host GEX and bacterial 16S branches.
