@@ -37,7 +37,9 @@ sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 
 import catalogue as cat  # noqa: E402
 import citations as cites  # noqa: E402
+import paper_overrides  # noqa: E402
 import properties as props  # noqa: E402
+import vendors  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
 from page import head, info  # noqa: E402
@@ -216,7 +218,12 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
           omit: set[str], run_checks: bool) -> dict:
     d = r["dir"]
     crows = cat.rows_for_dir(d)
-    defining = next((x for x in crows if x["is_defining"] == "yes"), {})
+    # Our one-protocol-per-paper record is authoritative when an upstream aggregate
+    # (for example the former SMART-seq family page) marks a different family paper as
+    # its defining row.
+    defining = (next((x for x in crows if x["doi"].lower() == r["doi"].lower()
+                      and r["doi"]), None)
+                or next((x for x in crows if x["is_defining"] == "yes"), {}))
     primary = [x for x in crows if x["role"] == "primary"]
     # Other names it goes by: family members, and the catalogue's protocol name where it
     # differs from ours. (A paper's anchor text is searchable but not shown: upstream
@@ -233,6 +240,24 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
     has_page = bool(page and page.exists() and d not in omit)
     n, ok = checks(d) if run_checks else (0, False)
     category = crows[0]["category"] if crows else ""
+    commercial = "commercial kit" in properties["availability"]
+    if r["doi"]:
+        override = paper_overrides.BY_DIRECTORY.get(d)
+        author = (override.first_author if override else
+                  html.unescape(defining.get("first_author", "")).strip())
+        year = override.year if override else defining.get("year", "").strip()
+        journal = (override.journal if override else
+                   html.unescape(defining.get("journal", "")).strip())
+        if not (author and year and journal):
+            raise ValueError(f"{d}: defining paper lacks author/year/journal metadata")
+        reference = f"{author} et al., {year}, {journal}"
+        reference_href = override.href if override else f"https://doi.org/{r['doi']}"
+    elif commercial:
+        reference = vendors.company_for(d)
+        reference_href = ""
+    else:
+        reference = ""
+        reference_href = ""
     return {
         "dir": d, "name": r["protocol"], "doi": r["doi"], "status": r["status"],
         "section": r["section"], "modality": r["modality"],
@@ -251,7 +276,9 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
         "citations": citation.citations if citation else None,
         "citations_retrieved": citation.retrieved if citation else "",
         "citation_openalex": citation.openalex_id if citation else "",
-        "commercial": "commercial kit" in properties["availability"],
+        "commercial": commercial,
+        "reference": reference,
+        "reference_href": reference_href,
     }
 
 
@@ -314,8 +341,15 @@ def result_item(i: int, p: dict) -> str:
     family = ", ".join(p["properties"]["assay"])
     scale = ", ".join(p["properties"]["scale"])
     platform = ", ".join(p["properties"]["platform"])
+    if p["reference_href"]:
+        reference = f'<a href="{e(p["reference_href"])}">{e(p["reference"])}</a>'
+    elif p["reference"]:
+        reference = f'<span class="company">{e(p["reference"])}</span>'
+    else:
+        reference = '<span class="no-reference">&mdash;</span>'
     return f"""<tr class="pr" data-i="{i}" id="p-{e(p['dir'])}">
 <th scope="row">{name}</th>
+<td class="reference-cell">{reference}</td>
 <td class="citation-cell">{citation}</td>
 <td>{e(family)}</td>
 <td>{e(scale)}</td>
@@ -328,6 +362,7 @@ def search_data(ps: list[dict]) -> str:
     recs = [{"n": p["name"], "a": p["aka"], "c": p["category"], "m": p["modality"],
              "s": status_label(p),
              "d": p["doi"], "y": p["year"],
+             "r": p["reference"],
              "t": " ".join([*p["papers"], p["blurb"]]),
              "p": p["properties"], "x": p["citations"]} for p in ps]
     # embedded in a <script>, so no "</" may appear literally
@@ -415,6 +450,9 @@ EXTRA_CSS = """<style>
 .plist tbody tr:hover > * { background:var(--bg); }
 .plist tbody th { min-width:14rem; font-weight:600; }
 .plist td { color:var(--ink-muted); }
+.plist .reference-cell { min-width:13rem; }
+.plist .reference-cell .company { color:var(--ink-muted); }
+.plist .reference-cell .no-reference { color:var(--ink-muted); }
 .plist .citation-cell { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
 .pr .cites { color:var(--ink-muted); font-variant-numeric:tabular-nums; }
 .pr .no-count { font-style:italic; }
@@ -462,7 +500,7 @@ SEARCH_JS = r"""<script>
   // pre-normalise every searchable field once
   var recs = data.map(function (r) {
     var f = {n: norm(r.n), a: norm(r.a.join(' | ')), c: norm(r.c + ' ' + r.m + ' ' + r.s),
-             d: norm(r.d + ' ' + r.y), t: norm(r.t)};
+             d: norm(r.d + ' ' + r.y + ' ' + r.r), t: norm(r.t)};
     f.ns = squash(f.n + ' ' + f.a);
     return f;
   });
@@ -481,6 +519,7 @@ SEARCH_JS = r"""<script>
   }
   function sortValue(r, key) {
     if (key === 'name') return r.n;
+    if (key === 'reference') return r.r;
     if (key === 'citations') return r.x;
     if (key === 'family') return r.p.assay.join(', ');
     if (key === 'scale') return r.p.scale.join(', ');
@@ -696,6 +735,8 @@ def search_section(ps: list[dict]) -> str:
 <div class="protocol-table-wrap"><table class="plist">
 <thead><tr><th scope="col" aria-sort="none"><button type="button" class="sort-button"
 data-sort="name">Protocol</button></th>
+<th scope="col" aria-sort="none"><button type="button" class="sort-button"
+data-sort="reference">Paper / company</button></th>
 <th scope="col" aria-sort="none"><button type="button" class="sort-button"
 data-sort="citations" data-first="desc">Citations</button></th>
 <th scope="col" aria-sort="none"><button type="button" class="sort-button"

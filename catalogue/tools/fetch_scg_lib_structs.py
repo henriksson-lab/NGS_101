@@ -353,7 +353,10 @@ def crossref(doi: str, cache: Path, offline: bool) -> dict:
         return {}
     title = (msg.get("title") or [""])[0]
     date = (msg.get("issued", {}).get("date-parts") or [[""]])[0]
+    authors = msg.get("author") or []
+    first_author = (authors[0].get("family", "") if authors else "")
     return {"title": re.sub(r"\s+", " ", html.unescape(title)).strip(),
+            "first_author": re.sub(r"\s+", " ", html.unescape(first_author)).strip(),
             "journal": (msg.get("container-title") or msg.get("institution", [{}])[0]
                         .get("name", "") if msg.get("institution") else
                         (msg.get("container-title") or [""])[0]),
@@ -371,11 +374,13 @@ KNOWN_DOI_PMIDS = {
 KNOWN_DOI_METADATA = {
     "10.7554/elife.63632": {
         "title": "Simultaneous trimodal single-cell measurement of transcripts, epitopes, and chromatin accessibility using TEA-seq",
+        "first_author": "Swanson",
         "journal": "eLife",
         "year": "2021",
     },
     "10.1038/nprot.2014.072": {
         "title": "Using TRIP for genome-wide position effect analysis in cultured cells",
+        "first_author": "Akhtar",
         "journal": "Nature Protocols",
         "year": "2014",
     },
@@ -400,7 +405,11 @@ def esummary(pmids: list[str], cache: Path, offline: bool) -> dict[str, dict]:
             rec = res.get(pmid)
             if not rec:
                 continue
+            first_author = rec.get("sortfirstauthor", "")
+            if not first_author and rec.get("authors"):
+                first_author = rec["authors"][0].get("name", "").split()[0]
             out[pmid] = {"title": re.sub(r"\s+", " ", rec.get("title", "")).strip(". "),
+                         "first_author": first_author,
                          "journal": rec.get("fulljournalname") or rec.get("source", ""),
                          "year": (rec.get("pubdate", "") or "")[:4]}
     return out
@@ -523,10 +532,11 @@ def same_paper(a: str, b: str) -> bool:
 
 COLUMNS = ["source", "category", "protocol", "family_members", "documented", "role",
            "scg_page", "paper_url", "citation_text", "doi", "pmid", "pmcid", "title",
-           "journal", "year", "slug", "is_defining", "our_dir", "our_status", "note"]
+           "first_author", "journal", "year", "slug", "is_defining", "our_dir",
+           "our_status", "note"]
 
 
-RESOLVED = ("doi", "pmid", "pmcid", "title", "journal", "year")
+RESOLVED = ("doi", "pmid", "pmcid", "title", "first_author", "journal", "year")
 
 
 # ours.tsv: one row per directory of ours. `section` says where the website lists it
@@ -562,7 +572,7 @@ def known_papers(tsv: Path) -> dict[str, dict]:
     if not tsv.exists():
         return {}
     with tsv.open(encoding="utf-8") as fh:
-        return {r["paper_url"]: {k: r[k] for k in RESOLVED}
+        return {r["paper_url"]: {k: r.get(k, "") for k in RESOLVED}
                 for r in csv.DictReader(fh, delimiter="\t")
                 if r["paper_url"] and r["title"] and r["doi"]}
 
@@ -666,6 +676,7 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
         if not meta.get("title") and r["pmid"]:
             meta = meta_by_pmid.get(r["pmid"], {})
         r["title"] = meta.get("title", "")
+        r["first_author"] = meta.get("first_author", "")
         r["journal"] = meta.get("journal", "")
         r["year"] = meta.get("year", "")
 
@@ -684,6 +695,7 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
                     r["doi"] = real
                 meta = crossref(r["doi"], cache, offline)
                 r["title"] = meta.get("title", "")
+                r["first_author"] = meta.get("first_author", "")
                 r["journal"] = meta.get("journal", "")
                 r["year"] = meta.get("year", "")
         ids = resolve_dois([r["doi"] for r in rows if not r["pmid"]], cache, offline)
@@ -694,7 +706,8 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
     for r in rows:
         if not r["title"] and r["pmid"]:
             m = esummary([r["pmid"]], cache, offline).get(r["pmid"], {})
-            r.update({k: m.get(k, r[k]) for k in ("title", "journal", "year")})
+            r.update({k: m.get(k, r[k]) for k in
+                      ("title", "first_author", "journal", "year")})
     rows = old
 
     # One directory per protocol, named for its defining paper -- so every row of a
@@ -803,7 +816,9 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
                      "protocol": m["protocol"], "family_members": "", "documented": "ours",
                      "role": "primary", "scg_page": "", "paper_url": url,
                      "citation_text": "", "doi": m["doi"], "pmid": pm, "pmcid": "",
-                     "title": meta.get("title", ""), "journal": meta.get("journal", ""),
+                     "title": meta.get("title", ""),
+                     "first_author": meta.get("first_author", ""),
+                     "journal": meta.get("journal", ""),
                      "year": meta.get("year", ""), "slug": m["dir"], "is_defining": "yes",
                      "our_dir": m["dir"], "our_status": m["status"], "note": m["note"]})
 
@@ -840,7 +855,12 @@ def main() -> int:
     with args.out.open("w", encoding="utf-8") as fh:
         fh.write("\t".join(COLUMNS) + "\n")
         for r in rows:
-            fh.write("\t".join(str(r.get(c, "")).replace("\t", " ") for c in COLUMNS) + "\n")
+            fields = [str(r.get(c, "")).replace("\t", " ") for c in COLUMNS]
+            # An explicit quoted empty final field is still parsed as an empty note, but
+            # avoids a trailing tab (and therefore false-positive whitespace warnings).
+            if not fields[-1]:
+                fields[-1] = '""'
+            fh.write("\t".join(fields) + "\n")
 
     print(f"  ours: {len({r['our_dir'] for r in rows if r['our_dir']})} protocols "
           f"documented here, over {sum(1 for r in rows if r['our_dir'])} rows",
