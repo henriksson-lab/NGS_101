@@ -1,7 +1,99 @@
 """Reusable molecular views for multimodal and spatial barcode-transfer protocols."""
 from __future__ import annotations
 
-from chemdraw import Row, Scene, Segment, feature
+from dataclasses import dataclass
+
+from chemdraw import MolecularFeature, Row, Scene, Segment, feature, revcomp
+
+
+@dataclass(frozen=True)
+class HybridizationLigationRound:
+    """One split-pool barcode oligo pre-annealed to a two-arm splint.
+
+    The splint must be exactly the reverse complement of the prior molecule's
+    exposed 5′ arm followed by the reverse complement of the barcode oligo's
+    ligating 3′ arm.  This makes both overhangs and the covalent product order
+    consequences of the ordered oligos rather than separately drawn claims.
+    """
+
+    name: str
+    previous_5_arm: str
+    barcode_5_arm: str
+    barcode_3_arm: str
+    linker: str
+    feature: MolecularFeature
+    phosphorylated_5: bool = False
+    barcode_length: int = 8
+
+    def __post_init__(self) -> None:
+        expected = revcomp(self.previous_5_arm) + revcomp(self.barcode_3_arm)
+        if self.linker != expected:
+            raise ValueError(
+                f"{self.name}: linker does not bridge the prior molecule and barcode oligo"
+            )
+        if self.barcode_length < 1:
+            raise ValueError(f"{self.name}: barcode length must be positive")
+
+    def product_segments(self) -> list[Segment]:
+        """The barcode strand in 5′→3′ product order."""
+        return [
+            Segment(f"{self.name} outgoing arm", self.barcode_5_arm),
+            Segment(f"{self.name} barcode", "B" * self.barcode_length, "cbc",
+                    placeholder=True, feature=self.feature),
+            Segment(f"{self.name} ligating arm", self.barcode_3_arm),
+        ]
+
+    @property
+    def blocking_oligo(self) -> str:
+        """Sequence that sequesters an unbound barcode/linker assembly."""
+        return revcomp(self.linker)
+
+    def adapter_scene(self) -> Scene:
+        """The complete splinted nick, including both molecules being joined.
+
+        The preceding molecule ends in ``previous_5_arm`` and supplies the
+        obligatory 5′ phosphate.  The new barcode oligo supplies the 3′ OH at
+        the end of ``barcode_3_arm``.  Both anneal next to one another on the
+        linker; omitting the preceding strand would turn the actual ligation
+        partner into an unexplained label on the splint.
+        """
+        linker = [
+            Segment(f"{self.name} prior-molecule splint", revcomp(self.previous_5_arm)),
+            Segment(f"{self.name} barcode splint", revcomp(self.barcode_3_arm)),
+        ]
+        barcode = self.product_segments()
+        sc = Scene()
+        sc.strand(f"{self.name} linker", linker, label=f"{self.name} linker")
+        sc.anneal(
+            f"{self.name} preceding molecule",
+            [Segment(f"{self.name} preceding 5-prime arm", self.previous_5_arm)],
+            to=f"{self.name} linker",
+            pair=(f"{self.name} preceding 5-prime arm",
+                  f"{self.name} prior-molecule splint"),
+            label=f"{self.name} preceding molecule", mod5="/5Phos/",
+        )
+        sc.anneal(
+            f"{self.name} barcode oligo", barcode,
+            to=f"{self.name} linker",
+            pair=(f"{self.name} ligating arm", f"{self.name} barcode splint"),
+            label=f"{self.name} barcode oligo",
+            mod5="/5Phos/" if self.phosphorylated_5 else "",
+        )
+        sc.ligation_end(
+            f"{self.name} preceding molecule",
+            f"{self.name} preceding 5-prime arm",
+            kind="splinted", polarity="5-prime", owner="substrate",
+            text="5′-phosphate at the ligation nick",
+        )
+        sc.ligation_end(
+            f"{self.name} barcode oligo", f"{self.name} ligating arm",
+            kind="splinted", polarity="3-prime", owner="adapter",
+            text="3′-OH at the ligation nick",
+        )
+        sc.labels(f"{self.name} linker")
+        sc.labels(f"{self.name} preceding molecule")
+        sc.labels(f"{self.name} barcode oligo")
+        return sc
 
 
 def barcode_rounds(rounds: int, *, label: str = "cell barcode") -> list[Row]:

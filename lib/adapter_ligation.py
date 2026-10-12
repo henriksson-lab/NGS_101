@@ -8,7 +8,86 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Row, Scene, Segment
+from chemdraw import MolecularFeature, Row, Scene, Segment, revcomp
+
+
+@dataclass(frozen=True)
+class CohesiveDuplex:
+    """A duplex reconstructed from two source-written 5′→3′ oligos.
+
+    The common case for split-pool barcode plates is a paired core flanked by a
+    5′ overhang on each strand.  Callers provide the oligos exactly as printed;
+    this constructor finds the longest exact antiparallel overlap and rejects
+    internal, 3′-overhang, blunt or ambiguous arrangements.  The resulting
+    :class:`Scene` therefore cannot silently draw an incompatible sticky end.
+    """
+
+    name: str
+    top_5to3: str
+    bottom_5to3: str
+    top_overhang: str
+    paired_core: str
+    bottom_overhang: str
+    scene: Scene
+
+
+def cohesive_duplex(name: str, top_5to3: str, bottom_5to3: str, *,
+                     core_name: str = "paired core",
+                     core_feature: MolecularFeature | None = None,
+                     top_mod5: str = "", bottom_mod5: str = "",
+                     bottom_mod3: str = "") -> CohesiveDuplex:
+    """Build a checked two-sided 5′-cohesive duplex from written oligos.
+
+    One side may be blunt (the common flanking adapters in an assembly often
+    expose only one cohesive end), but at least one 5′ overhang is required.
+    """
+    top = top_5to3.upper().replace(" ", "")
+    bottom = bottom_5to3.upper().replace(" ", "")
+    if not top or not bottom or set(top + bottom) - set("ACGT"):
+        raise ValueError("cohesive-duplex oligos must be non-empty DNA sequences")
+    bottom_drawn = revcomp(bottom)
+    candidates = []
+    for offset in range(0, len(top) + 1):
+        end = min(len(top), offset + len(bottom_drawn))
+        if end <= offset:
+            continue
+        overlap = top[offset:end]
+        if overlap == bottom_drawn[:len(overlap)] and end == len(top):
+            # A 5′ overhang on the bottom strand appears to the right when drawn.
+            candidates.append((len(overlap), offset, bottom_drawn[len(overlap):]))
+    if not candidates:
+        raise ValueError(f"{name}: oligos do not form a terminal antiparallel duplex")
+    longest = max(n for n, _, _ in candidates)
+    best = [(n, offset, right) for n, offset, right in candidates if n == longest]
+    if len(best) != 1:
+        raise ValueError(f"{name}: ambiguous longest antiparallel overlap")
+    _, offset, right = best[0]
+    left, core = top[:offset], top[offset:]
+    if not left and not right:
+        raise ValueError(f"{name}: duplex is blunt, not cohesive")
+
+    top_parts = []
+    if left:
+        top_parts.append(Segment(f"{name} left 5′ overhang", left))
+    top_parts.append(Segment(core_name, core, feature=core_feature))
+    bottom_parts = []
+    if right:
+        bottom_parts.append(Segment(f"{name} right 5′ overhang", revcomp(right)))
+    bottom_parts.append(Segment(f"{core_name} complement", revcomp(core),
+                                feature=core_feature))
+    sc = Scene()
+    sc.strand("top", top_parts, label=f"{name} top", mod5=top_mod5)
+    sc.anneal("bottom", bottom_parts, to="top",
+              pair=(f"{core_name} complement", core_name), label=f"{name} bottom",
+              mod5=bottom_mod5, mod3=bottom_mod3)
+    if left:
+        sc.overhang("top", f"{name} left 5′ overhang", polarity="5-prime",
+                    text=f"5′-{left} cohesive end")
+    if right:
+        sc.overhang("bottom", f"{name} right 5′ overhang", polarity="5-prime",
+                    text=f"5′-{revcomp(right)} cohesive end")
+    sc.labels("top")
+    return CohesiveDuplex(name, top, bottom, left, core, revcomp(right), sc)
 
 
 @dataclass(frozen=True)

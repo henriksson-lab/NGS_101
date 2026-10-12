@@ -1,23 +1,167 @@
-"""CELLO-seq long-UMI, full-length single-cell cDNA."""
+"""Original 22-nt-UMI CELLO-seq chemistry from the defining paper."""
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, MolecularState, Row, Segment, Workflow, feature
-from protocol_extensions import capped_full_length_cdna
-TITLE="CELLO-seq — long-UMI single-cell long-read RNA-seq"
-NOTES="01_cello-seq.html"
-SOURCE='Defining source: <a href="https://doi.org/10.1038/s41587-021-01093-1">Berrens et al., <i>Nature Biotechnology</i> (2022)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-025-01203-2">Nat. Protocols (2025)</a>.'
-SUMMARY="High-temperature template-switch RT creates full-length cDNA, then a splint ligation adds a cell barcode and 22-nt RYN-patterned UMI; deliberate duplicate generation enables long-read consensus correction."
-CAVEAT="The ONT ligation adapter's molecular role is established, but its proprietary bases are not disclosed; that terminal segment is inferred."
-FINAL_LIBRARY=Construct([Segment("motor-loaded ONT adapter","[motor adapter]","r2",placeholder=True,inferred=True),Segment("template-switch end","X"*18,"tso",placeholder=True),Segment("full-length cDNA","X"*42,placeholder=True),Segment("cell barcode","B"*8,"cbc",placeholder=True,feature=feature("cell_barcode","cell_barcode","unknown")),Segment("22-nt RYN UMI","U"*22,"umi",placeholder=True,feature=feature("umi","umi","random",note="constrained RYN repeat design")),Segment("oligo(dT)-derived end","T"*18)],name="ONT-adapted CELLO-seq cDNA")
-FINAL_CAPTION="INFERRED — full-length cDNA with splint-ligated cell barcode and 22-nt patterned UMI after proprietary nanopore-adapter attachment."
-SEQ_PRIMERS=()
-SEQUENCING_ENDING="There is no synthesis sequencing primer. The ONT ligation adapter's motor meters the adapted cDNA through the pore; reads sharing the 22-nt patterned UMI are grouped for consensus correction."
-def sections():
-    return [("Reverse-transcribe at high temperature and template-switch",capped_full_length_cdna(retain_poly_a=True).rows(),"A 3-prime-amino-blocked TSO suppresses TSO-primed artefact inserts while retaining full-length cDNA."),("Digest unused oligos and splint-ligate identifiers",[Row(chunks=[("TSO—full-length cDNA—oligo(dT) ** cell barcode—22-nt RYN UMI", "umi", False)])],"HiFi Taq ligase joins the annealed splint carrying cell and molecule identity."),("Amplify deliberately to obtain UMI families",[Row(chunks=[("one barcoded cDNA → many PCR copies with the same 22-nt UMI", "umi", False)])],"High duplicate depth is intentional: multiple noisy long reads form one corrected consensus."),("INFERRED — attach ONT ligation adapters",[Row(chunks=[("motor adapter ** full-length barcoded cDNA → pore", "r2", False)])],"The published experiments use ONT ligation kits; the proprietary adapter sequence is not disclosed."),]
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
+                      duplex_rows, feature, revcomp)
 
-def workflow():
-    s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
-    internal=AdapterLigationGeometry.unavailable("The 2022 CELLO-seq article establishes splint ligation but does not print its strand-resolved termini; the cited 2025 protocol still requires verification before bases are assigned.")
-    w.ligate_adapter(s[1][0],internal,s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2])
-    g=AdapterLigationGeometry.unavailable("The defining CELLO-seq paper identifies an Oxford Nanopore ligation kit, whose motor-adapter end sequence and overhang geometry are proprietary and not disclosed.")
-    w.ligate_adapter("Attach the ONT ligation adapter",g,s[3][1],note=s[3][2])
-    return w
+
+TITLE = "CELLO-seq — long-UMI single-cell long-read RNA-seq"
+NOTES = "01_cello-seq.html"
+SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-021-01093-1">'
+          'Berrens et al., <i>Nature Biotechnology</i> (2022)</a>. An '
+          '<a href="https://doi.org/10.1038/s41596-025-01203-2">updated 2025 protocol</a> '
+          'replaces the original 22-nt UMI with a 50-nt UMI.')
+SUMMARY = ("A phosphorylated oligo(dT) and amino-blocked TSO make full-length first-strand "
+           "cDNA. An exact two-strand splint then ligates a 24-nt cell barcode and "
+           "22-nt RYN-patterned UMI onto its 5′ end before deliberate duplicate generation "
+           "and Oxford Nanopore sequencing.")
+CAVEAT = ("This page represents the defining 2022 CELLO-seq protocol and its 22-nt UMI. "
+          "The 2025 protocol publishes a revised 50-nt-UMI bottom splint and should not be "
+          "silently mixed into the original chemistry. ONT motor-adapter bases remain proprietary.")
+
+NEXTERA_R1 = "CGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+NEXTERA_R2 = "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
+DT_HANDLE = "TGGCGTAGCGGGTTCGAGCGCACCGCAGGGTATCCGGCTA"
+DT_TRACT = "T" * 30 + "VN"
+DT_OLIGO = DT_HANDLE + DT_TRACT
+TSO_DNA = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACA"
+TSO_WRITTEN = TSO_DNA + "rGrGrGAmn"
+TOP_SPLINT = "TAGCCGGATACCCTGCGGTGCGCTCGAACCCGCTACGCCATGTAAAACGACGGCCAGT"
+BARCODE_1 = "AAGAAAGTTGTCGGTGTCTTTGTG"
+SPLINT_CONSTANT = "AGTGGTATC"
+UMI_PATTERN = "NRY" * 7 + "N"
+BOTTOM_SPLINT = (NEXTERA_R2 + BARCODE_1 + SPLINT_CONSTANT + UMI_PATTERN
+                 + revcomp(TOP_SPLINT) + "T" * 14)
+
+CELL = feature("cello_cell_barcode", "cell_barcode", "whitelist",
+               whitelist="Berrens et al. Supplementary Table 5, splintlig_spc_idx1–96")
+UMI = feature("cello_umi", "umi", "random",
+              note="original 22-nt NRY repeat design")
+
+FINAL_LIBRARY = Construct([
+    Segment("proprietary motor-loaded ONT adapter", "[motor adapter]", "r2",
+            placeholder=True, inferred=True),
+    Segment("Nextera R2 priming site", NEXTERA_R2, "r2"),
+    Segment("cell barcode 1 representative", BARCODE_1, "cbc", feature=CELL),
+    Segment("barcode/UMI boundary", SPLINT_CONSTANT),
+    Segment("22-nt RYN UMI", UMI_PATTERN, "umi", placeholder=True, feature=UMI),
+    Segment("splint-derived junction", revcomp(TOP_SPLINT)),
+    Segment("splint terminal dT14", "T" * 14),
+    Segment("oligo(dT) handle", DT_HANDLE),
+    Segment("oligo(dT)-derived tract", DT_TRACT, placeholder=True),
+    Segment("full-length cDNA", "X" * 42, placeholder=True),
+    Segment("template-switch / Nextera R1 site reverse complement",
+            revcomp(TSO_DNA), "tso"),
+], name="ONT-adapted original CELLO-seq cDNA")
+FINAL_CAPTION = ("Original CELLO-seq identifier end, with the exact idx1 splint member and "
+                 "22-nt NRY UMI, joined to full-length cDNA. Only the terminal ONT motor "
+                 "adapter is inferred because its bases are proprietary.")
+SEQ_PRIMERS = ()
+SEQUENCING_ENDING = ("There is no synthesis sequencing primer. The ONT motor meters the "
+                     "adapted strand through the pore; the exact cell barcode and patterned "
+                     "UMI are recovered inline and UMI families form corrected consensuses.")
+
+
+def oligos():
+    return (
+        f"<b>Phosphorylated oligo(dT)</b> — 5′-/5Phos/{DT_OLIGO}-3′",
+        f"<b>3′-amino-blocked TSO</b> — 5′-{TSO_WRITTEN}-3′",
+        f"<b>Top splint</b> — 5′-{TOP_SPLINT}/3InvdT/-3′",
+        f"<b>Bottom splint, idx1</b> — 5′-{BOTTOM_SPLINT}-3′",
+        f"<b>Nextera R1 oligo</b> — 5′-{NEXTERA_R1}-3′",
+        f"<b>Nextera R2 oligo</b> — 5′-{NEXTERA_R2}-3′",
+    )
+
+
+def _rt_scene() -> Scene:
+    mrna = [Segment("transcript", "X" * 34, placeholder=True),
+            Segment("poly(A)", "A" * 30)]
+    primer = [Segment("phosphorylated dT handle", DT_HANDLE),
+              Segment("dT30", "T" * 30), Segment("VN anchor", "VN", placeholder=True)]
+    sc = Scene(); sc.strand("mRNA", mrna, label="polyadenylated full-length RNA")
+    sc.anneal("dT oligo", primer, to="mRNA", pair=("dT30", "poly(A)"),
+              unpaired=("phosphorylated dT handle", "VN anchor"),
+              label="phosphorylated oligo(dT)", mod5="/5Phos/")
+    sc.arrow("dT oligo", "high-temperature reverse transcription")
+    sc.labels("dT oligo")
+    return sc
+
+
+def _template_switch_scene() -> Scene:
+    cDNA = [Segment("oligo(dT) primer and cDNA", "X" * 38, placeholder=True),
+            Segment("MMLV-added CCC", "CCC")]
+    tso = [Segment("Nextera R1 / TSO handle", TSO_DNA, "tso"),
+           Segment("three RNA G", "GGG")]
+    sc = Scene(); sc.strand("first-strand cDNA", cDNA, label="full-length first strand")
+    sc.anneal("TSO", tso, to="first-strand cDNA",
+              pair=("three RNA G", "MMLV-added CCC"),
+              unpaired=("Nextera R1 / TSO handle",), label="3′-amino-blocked TSO",
+              mod3="/3Amn/")
+    sc.arrow("TSO", "template switching")
+    sc.labels("TSO")
+    return sc
+
+
+def splint_scene() -> Scene:
+    top = [Segment("cDNA-handle splint arm", TOP_SPLINT[:40]),
+           Segment("identifier splint arm", TOP_SPLINT[40:])]
+    bottom = [
+        Segment("Nextera R2 tail", NEXTERA_R2, "r2"),
+        Segment("idx1 cell barcode", BARCODE_1, "cbc", feature=CELL),
+        Segment("barcode/UMI boundary", SPLINT_CONSTANT),
+        Segment("22-nt NRY UMI", UMI_PATTERN, "umi", placeholder=True, feature=UMI),
+        Segment("identifier-arm complement", revcomp(TOP_SPLINT[40:])),
+        Segment("cDNA-handle-arm complement", revcomp(TOP_SPLINT[:40])),
+        Segment("terminal dT14", "T" * 14),
+    ]
+    sc = Scene(); sc.strand("top splint", top, label="top splint", mod3="/3InvdT/")
+    sc.anneal("bottom splint", bottom, to="top splint",
+              pair=("identifier-arm complement", "identifier splint arm"),
+              unpaired=("Nextera R2 tail", "idx1 cell barcode", "barcode/UMI boundary",
+                        "22-nt NRY UMI", "terminal dT14"), label="bottom splint idx1")
+    sc.ligation_end("bottom splint", "terminal dT14", kind="splinted",
+                    polarity="3-prime", owner="adapter",
+                    text="3′ splinted ligation end presented to phosphorylated cDNA")
+    sc.labels("bottom splint")
+    return sc
+
+
+def _ligated_scene() -> Scene:
+    parts = [Segment("Nextera R2 tail", NEXTERA_R2, "r2"),
+             Segment("idx1 cell barcode", BARCODE_1, "cbc", feature=CELL),
+             Segment("barcode/UMI boundary", SPLINT_CONSTANT),
+             Segment("22-nt NRY UMI", UMI_PATTERN, "umi", placeholder=True, feature=UMI),
+             Segment("splint-derived junction", revcomp(TOP_SPLINT)),
+             Segment("terminal dT14", "T" * 14),
+             Segment("phosphorylated oligo(dT) and full-length cDNA", "X" * 40,
+                     placeholder=True),
+             Segment("template-switch end", revcomp(TSO_DNA), "tso")]
+    sc = Scene(); sc.strand("ligated cDNA", parts, label="identifier-ligated full-length cDNA")
+    sc.junction("ligated cDNA", "terminal dT14",
+                "phosphorylated oligo(dT) and full-length cDNA", "HiFi Taq ligation")
+    sc.labels("ligated cDNA")
+    return sc
+
+
+def workflow() -> Workflow:
+    wf = Workflow(MolecularState("Poly(A)-primed RNA", tuple(_rt_scene().rows())))
+    wf.react("Reverse-transcribe at high temperature and template-switch",
+             _template_switch_scene().rows(), name="Full-length first-strand cDNA",
+             note="The TSO carries the exact Nextera R1-derived handle and a 3′ amino block that suppresses TSO-primed artefacts.")
+    geometry = AdapterLigationGeometry.known(
+        "splinted", splint_scene(),
+        statement="Supplementary Table 5 prints both splint strands, including idx1, the 22-nt NRY UMI, the inverted-dT block and terminal dT14.")
+    wf.ligate_adapter("Anneal the two splint strands and ligate identifiers to cDNA",
+                      geometry, _ligated_scene().rows(),
+                      name="Cell- and molecule-indexed cDNA",
+                      note="HiFi Taq ligase joins the splint-presented 3′ end to the phosphorylated oligo(dT)-derived cDNA end.")
+    wf.react("PCR-amplify deliberately to create UMI families",
+             _ligated_scene().rows(), name="Duplicate family for consensus correction",
+             note="Nextera R1 and R2 sites flank the full-length molecule. High duplicate depth is intentional rather than treated as duplication noise.")
+    proprietary = AdapterLigationGeometry.unavailable(
+        "The defining paper identifies an Oxford Nanopore ligation kit, but its motor-adapter end sequence and overhang geometry are proprietary.")
+    wf.ligate_adapter("Attach the ONT motor adapter", proprietary,
+                      duplex_rows(FINAL_LIBRARY, label="ONT library",
+                                  unpaired=("proprietary motor-loaded ONT adapter'",)),
+                      name="ONT-adapted CELLO-seq library",
+                      note="Only the proprietary terminal adapter remains inferred; the internal CELLO-seq oligos are source-exact.")
+    return wf

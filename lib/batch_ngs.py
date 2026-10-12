@@ -42,6 +42,41 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
     return lib, primers
 
 
+def truseq_amplicon_library(insert: list[Segment], name: str, *,
+                             dual_index: bool = True,
+                             inferred_adapters: bool = False,
+                             i7_nt: int = 8) -> tuple[Construct, tuple]:
+    """TruSeq-compatible PCR amplicon, without inventing a dA-ligation junction.
+
+    Amplicon workflows install the terminal sequencing shell through tailed primers.
+    Keeping this constructor distinct from :func:`truseq_library` prevents those
+    protocols from inheriting the single dA base that belongs only to adapter ligation.
+    """
+    if i7_nt < 1:
+        raise ValueError("a TruSeq indexed amplicon needs a positive i7 length")
+    left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
+    if dual_index:
+        left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+                        feature=feature("sample_index_i5", "sample_index", "unknown"),
+                        inferred=inferred_adapters))
+    left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1",
+                    inferred=inferred_adapters))
+    lib = Construct([*left, *insert,
+        seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2",
+            inferred=inferred_adapters),
+        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown"),
+            inferred=inferred_adapters),
+        seg("P7 reverse complement", il.P7_RC, "p7",
+            inferred=inferred_adapters)], name=name)
+    primers = ((sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
+               if dual_index else (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"]))
+    problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
+    if problems:
+        raise ValueError(f"{name}: " + "; ".join(problems))
+    return lib, primers
+
+
 def nextera_library(insert: list[Segment], name: str, *,
                     inferred_adapters: bool = False, dual_index: bool = True,
                     i7_nt: int = 8) -> tuple[Construct, tuple]:

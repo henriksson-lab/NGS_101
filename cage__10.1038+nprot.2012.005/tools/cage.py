@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from captrap import CapTrappedHybrid
-from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
+                      feature, revcomp)
 
 TITLE = "CAGE — cap analysis of gene expression"
 NOTES = "01_cage.html"
@@ -24,6 +25,11 @@ FWD = "AATGATACGGCGACCACCGACAGGTTCAGAGTTC"
 REV = "CAAGCAGAAGACGGCATACGA"
 SEQUENCING = "CGGCGACCACCGACAGGTTCAGAGTTCTACAG"
 THREE_UPPER = "NN" + revcomp(REV)
+FIVE_UPPER_N6 = LINKER_CORE + BARCODE + ECOP_SITE + "N" * 6
+FIVE_UPPER_GN5 = LINKER_CORE + BARCODE + ECOP_SITE + "G" + "N" * 5
+FIVE_LOWER = revcomp(LINKER_CORE + BARCODE + ECOP_SITE)
+SECOND_STRAND_PRIMER = LINKER_CORE
+THREE_LOWER = REV
 CAPTURED = CapTrappedHybrid(cdna_reaches_cap=True, cap_biotinylated=True)
 
 
@@ -55,29 +61,146 @@ SEQUENCING_INTRO = ("This protocol explicitly uses its Table 1 custom CAGE seque
                     "primer, not the standard Illumina Read 1 primer.")
 
 
-def sections():
-    hybrid = [
-        Row(chunks=[("5′ cap—RNA ================================ 3′", "w1", False)]),
-        Row(chunks=[("          cDNA <========================= random N15–EcoP15I", "r1", False)]),
-        Row(chunks=[("oxidize cap diol → biotin hydrazide → RNase I removes unprotected RNA → streptavidin capture", None, False)]),
-    ]
-    lib = FINAL_LIBRARY
-    sc = Scene.duplex(list(lib), label="CAGE tag")
-    sc.junction("top", "EcoP15I recognition site", "27-nt capped 5′ tag", "5′ linker ligation")
-    sc.junction("top", "two-base EcoP15I ligation overhang", "P7-side linker / reverse-primer complement", "3′ linker ligation")
+def oligos():
+    return (
+        f"<b>RT-N15-EcoP</b> — 5′-{RT_ECOP}-3′",
+        f"<b>5′ SOL N6, AGA representative</b> — 5′-{FIVE_UPPER_N6}/3Phos/-3′",
+        f"<b>5′ SOL GN5, AGA representative</b> — 5′-{FIVE_UPPER_GN5}/3Phos/-3′",
+        f"<b>5′ SOL lower, AGA</b> — 5′-/5Phos/{FIVE_LOWER}/3AmMO/-3′",
+        f"<b>biotinylated second-strand primer</b> — 5′-/5Bio/{SECOND_STRAND_PRIMER}-3′",
+        f"<b>3′ upper linker</b> — 5′-{THREE_UPPER}-3′",
+        f"<b>3′ lower linker</b> — 5′-{THREE_LOWER}-3′",
+    )
+
+
+def _rt_scene() -> Scene:
+    sc = Scene()
+    sc.strand("RNA", [Segment("5-prime cap", "m7G", placeholder=True),
+                       Segment("RNA body", "R" * 38, placeholder=True)],
+              label="capped RNA")
+    sc.anneal("RT primer", [Segment("EcoP15I RT handle", RT_ECOP[:15], "r1"),
+                             Segment("random N15", "N" * 15, placeholder=True)],
+              to="RNA", pair=("random N15", "RNA body"),
+              unpaired=("EcoP15I RT handle",), label="RT-N15-EcoP")
+    sc.arrow("RT primer", "reverse transcription toward the cap")
+    sc.labels("RT primer")
+    return sc
+
+
+def _captured_scene() -> Scene:
+    sc = Scene()
+    sc.strand("RNA", [Segment("biotinylated cap", "m7G", "w1", placeholder=True),
+                       Segment("cap-protected RNA", "R" * 34, placeholder=True)],
+              label="oxidized, biotinylated capped RNA")
+    sc.anneal("cDNA", [Segment("cap-complete cDNA", "Y" * 34, placeholder=True),
+                        Segment("RT EcoP15I handle", RT_ECOP[:15], "r1")],
+              to="RNA", pair=("cap-complete cDNA", "cap-protected RNA"),
+              unpaired=("RT EcoP15I handle",), label="cap-complete first strand")
+    sc.mark("RNA", "biotinylated cap", "streptavidin-selected cap")
+    sc.labels("cDNA")
+    return sc
+
+
+def _five_prime_geometry() -> AdapterLigationGeometry:
+    sc = Scene()
+    upper = [Segment("upper paired handle", LINKER_CORE),
+             Segment("three-base sample barcode", BARCODE, "cbc",
+                     feature=feature("sample_inline", "sample_index", "whitelist",
+                                     whitelist="published CAGE linker set")),
+             Segment("upper EcoP15I site", ECOP_SITE),
+             Segment("N6 splint tail", "N" * 6, placeholder=True)]
+    sc.strand("upper linker", upper, label="5′ SOL-N6-AGA", mod3="p")
+    sc.anneal("lower linker", [Segment("lower ligating strand", FIVE_LOWER)],
+              to="upper linker", pair=("lower ligating strand", "upper paired handle"),
+              label="5′ SOL-lower-AGA", mod5="p", mod3="/3AmMO/")
+    sc.strand("cDNA substrate", [Segment("captured cDNA", "C" * 28, placeholder=True)],
+              label="cap-selected single-strand cDNA")
+    sc.ligation_end("lower linker", "lower ligating strand", kind="splinted",
+                    polarity="5-prime", owner="adapter",
+                    text="5′-phosphate aligned by the N6/GN5 splint tail")
+    sc.ligation_end("cDNA substrate", "captured cDNA", kind="splinted",
+                    polarity="3-prime", owner="substrate", text="cDNA 3′-OH")
+    sc.mark("upper linker", "N6 splint tail", "randomly anneals at the cDNA terminus")
+    sc.labels("upper linker")
+    return AdapterLigationGeometry.known(
+        "splinted", sc,
+        statement="Table 1 prints a 3′-phosphate-blocked N6/GN5 upper strand and a 5′-phosphorylated, 3′-amino-blocked lower strand; the random upper tail splints the lower 5′ phosphate beside the cDNA 3′-OH.")
+
+
+def _five_prime_product() -> Scene:
+    sc = Scene()
+    sc.strand("ligated cDNA", [Segment("captured cDNA", "C" * 28, placeholder=True),
+                                Segment("lower-linker-derived handle", FIVE_LOWER, "r1")],
+              label="5′-linker-ligated cDNA")
+    sc.junction("ligated cDNA", "captured cDNA", "lower-linker-derived handle",
+                "splinted ssDNA ligation")
+    sc.labels("ligated cDNA")
+    return sc
+
+
+def _second_strand_scene() -> Scene:
+    sc = Scene.duplex([
+        Segment("custom sequencing handle", LINKER_CORE, "r1"),
+        Segment("three-base sample barcode", BARCODE, "cbc",
+                feature=feature("sample_inline", "sample_index", "whitelist",
+                                whitelist="published CAGE linker set")),
+        Segment("EcoP15I site", ECOP_SITE),
+        Segment("cap-derived cDNA", "X" * 36, placeholder=True),
+        Segment("RT-primer EcoP15I site", RT_ECOP[:15], "r1"),
+    ], label="second-strand CAGE duplex")
+    sc.mark("top", "custom sequencing handle", "5′-biotinylated second-strand primer")
     sc.labels("top")
-    five = AdapterLigationGeometry.unavailable("The CAGE protocol prints the 5′ linker composition and ligated product but does not provide a strand-resolved cut-facing end from which an overhang can be verified.")
-    three_sc=Scene();three_sc.strand("3′ linker",[Segment("linker duplex arm",revcomp(REV),"p7"),Segment("two-base protrusion","NN",placeholder=True)],label="3′ CAGE linker")
-    three_sc.overhang("3′ linker","two-base protrusion",polarity="3-prime",owner="adapter",text="published two-base protrusion; bases variable")
-    three_sc.strand("EcoP15I tag",[Segment("two-base EcoP15I end","NN",placeholder=True),Segment("27-nt cap tag","X"*27,placeholder=True)],label="EcoP15I-cut tag")
-    three_sc.overhang("EcoP15I tag","two-base EcoP15I end",polarity="5-prime",owner="substrate",text="two-base EcoP15I end")
-    three=AdapterLigationGeometry.known("cohesive",three_sc,statement="The source specifies a two-base protrusion on the 3′ linker; its variable bases pair with the two-base EcoP15I tag end.")
-    return [
-        ("Cap trap full-length first strands", hybrid,
-         "Only RNA/cDNA hybrids protected through the oxidized, biotinylated cap survive capture."),
-        ("Install the 5′ linker and make the second strand", five.rows()+[Row(chunks=[
-            ("captured cDNA → barcoded partial-duplex linker ligation → second-strand synthesis", None, False)])],
-         "The linker supplies the custom sequencing site, a three-base sample barcode and an EcoP15I site."),
-        ("Cut a 27-nt tag and ligate the 3′ linker", three.rows()+sc.rows(),
-         "EcoP15I cuts 27 nt into the cap-derived cDNA; a linker with a two-base protrusion closes the other end. ** marks ligations."),
-    ]
+    return sc
+
+
+def _three_prime_geometry() -> AdapterLigationGeometry:
+    sc = Scene()
+    sc.strand("3′ upper linker", [Segment("two-base 5-prime protrusion", "NN",
+                                           placeholder=True),
+                                   Segment("upper paired arm", revcomp(REV), "p7")],
+              label="3′ upper linker")
+    sc.anneal("3′ lower linker", [Segment("lower paired arm", THREE_LOWER, "p7")],
+              to="3′ upper linker", pair=("lower paired arm", "upper paired arm"),
+              unpaired=("two-base 5-prime protrusion",), label="3′ lower linker")
+    sc.overhang("3′ upper linker", "two-base 5-prime protrusion", polarity="5-prime",
+                owner="adapter", text="published 5′-NN protrusion")
+    sc.strand("EcoP15I tag", [Segment("two-base EcoP15I end", "NN", placeholder=True),
+                               Segment("27-nt cap tag", "X" * 27, placeholder=True)],
+              label="EcoP15I-cut tag")
+    sc.overhang("EcoP15I tag", "two-base EcoP15I end", polarity="5-prime",
+                owner="substrate", text="two-base EcoP15I end")
+    return AdapterLigationGeometry.known(
+        "cohesive", sc,
+        statement="Table 1 writes NN at the 5′ end of the 3′ upper linker; that two-base protrusion is the cohesive end used at the EcoP15I-cut tag boundary.")
+
+
+def _final_scene() -> Scene:
+    sc = Scene.duplex(list(FINAL_LIBRARY), label="96-bp CAGE tag")
+    sc.junction("top", "EcoP15I recognition site", "27-nt capped 5′ tag",
+                "5′ linker / cap-tag boundary")
+    sc.junction("top", "two-base EcoP15I ligation overhang",
+                "P7-side linker / reverse-primer complement", "3′ linker ligation")
+    sc.labels("top")
+    return sc
+
+
+def workflow() -> Workflow:
+    w = Workflow(MolecularState("Capped RNA plus RT-N15-EcoP", tuple(_rt_scene().rows())))
+    w.react("Reverse-transcribe toward the RNA cap, oxidize and biotinylate RNA diols, then cap-trap",
+            _captured_scene().rows(), name="Cap-complete RNA/cDNA hybrid",
+            note="RNase I removes unprotected RNA; only cDNA that protects the biotinylated cap remains attached for streptavidin capture.")
+    w.ligate_adapter("Ligate the barcoded 5′ SOL linker to captured cDNA",
+                      _five_prime_geometry(), _five_prime_product().rows(),
+                      name="5′-linker-ligated cDNA",
+                      note="N6 and GN5 upper linkers are mixed; their random tail supplies the transient splint while only the lower strand is covalently joined.")
+    w.react("Prime with biotinylated 2nd SOL and synthesize the second strand",
+            _second_strand_scene().rows(), name="Double-stranded CAGE construct",
+            note="The exact second-strand primer recreates the custom sequencing handle upstream of the sample barcode and EcoP15I site.")
+    w.react("Dephosphorylate the 5′ linker and cut 27 nt into cDNA with EcoP15I",
+            _second_strand_scene().rows(), name="27-nt EcoP15I cap tag",
+            note="Antarctic phosphatase suppresses linker dimers before EcoP15I creates the two-base tag end.")
+    w.ligate_adapter("Ligate the exact 3′ linker and PCR-amplify",
+                      _three_prime_geometry(), _final_scene().rows(),
+                      name="96-bp CAGE tag library",
+                      note="The upper strand's leading NN forms the source-written cohesive end; PCR forward/reverse primers complete the flow-cell-compatible product.")
+    return w

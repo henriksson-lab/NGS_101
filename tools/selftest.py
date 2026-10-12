@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT))
 
 from checks import Check, run_common  # noqa: E402
+from adapter_ligation import cohesive_duplex  # noqa: E402
 from chemdraw import Row, Segment, oligo, panel  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 
@@ -43,6 +44,11 @@ check("cohesive ends are derived from cut coordinates",
       (ECORI.overhang, MSPI.overhang), ("AATT", "CG"))
 check.raises("a mismatched adapter overhang is rejected at construction",
              lambda: ECORI.adapter_end("CG"))
+sticky = cohesive_duplex("round", "TTCGGCTTGGTTGCGCTTGGTTGC",
+                         "GTCAGCAACCAAGCGCAACCAAGC")
+check("source-written sticky duplex derives both 5-prime ends",
+      (sticky.top_overhang, sticky.paired_core, sticky.bottom_overhang),
+      ("TTCG", "GCTTGGTTGCGCTTGGTTGC", "GTCA"))
 
 check.section("molecular diagram renderers")
 svg_panel = panel([Row(chunks=[("ACGT", "r1", False)])])

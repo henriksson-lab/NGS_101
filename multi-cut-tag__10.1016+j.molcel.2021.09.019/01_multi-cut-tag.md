@@ -2,8 +2,23 @@
 
 ## Sources read
 
-- 🟢 Gopalan et al. 2021, DOI `10.1016/j.molcel.2021.09.019`, PMC JATS Methods and bioRxiv full text/supplement.
+- 🟢 Gopalan et al. 2021, DOI `10.1016/j.molcel.2021.09.019`, PMC full text and STAR Methods.
+- 🟢 Supplementary Table 1 in the bioRxiv supplement (`2021.04.27.441642_media-1.pdf`): complete target-coded A/B oligos, Tn5MErev and custom sequencing primers.
 
-## Construct path
+## Exact adapter design
 
-🟢 Antibodies recruit separately barcoded pA–Tn5 complexes to several chromatin proteins in the same cells. Tagmentation transfers the target-specific adapter code to nearby DNA. Subsequent cellular indexing yields a final fragment carrying both target and cell identities; this is molecularly different from running several ordinary CUT&Tag reactions side by side.
+🟢 Four A-family and four B-family top oligos are printed in Table S1. Each contains a custom sequencing-primer site, an 8-nt antibody barcode, a conserved connector and the 19-nt Tn5 mosaic end. The common bottom strand is `5′-/5Phos/CTGTCTCTTATACACATCT-3′`; it pairs only to the mosaic end, leaving the barcode-containing part single-stranded in the loaded transposome.
+
+🟢 A-family structure: `TCGTCGGCAGCGTCTCCACGC` + 8-nt antibody barcode + `GCGATCGAGGACGGC` + `AGATGTGTATAAGAGACAG`.
+
+🟢 B-family structure: `GTCTCGTGGGCTCGGCTGTCCCTGTCC` + 8-nt antibody barcode + `CACCGTCTCCGCCTC` + `AGATGTGTATAAGAGACAG`.
+
+🟢 Each antibody is pre-coupled to pA–Tn5 loaded with its matched barcoded adapters. Magnesium activation transfers those adapters to nearby chromatin. A fragment may carry the same antibody code at both ends (homogeneous) or different codes at its ends (mixed, interpreted as co-localization).
+
+## Completion and sequencing
+
+🟢 Bulk libraries receive a 72 °C, 5-minute gap fill, then 17 PCR cycles with indexed i5 and i7 primers. The source run is Read 1 72 cycles, Read 2 72 cycles, Index 1 8 cycles and Index 2 8 cycles. Both genomic reads begin with 8-nt antibody barcode + 15-nt connector + 19-nt mosaic end; the paper trims these first 42 bases before alignment.
+
+🟢 The custom sequencing primers are Read1 `TCGTCGGCAGCGTCTCCACGC`, Read2 `GTCTCGTGGGCTCGGCTGTCCCTGTCC`, Index1 `GGACAGGGACAGCCGAGCCCACGAGAC`, and Index2 `GCGTGGAGACGCTGCCGACGA`.
+
+🟢 For single-cell Multi-CUT&Tag, the target-coded fragments enter the 10x Chromium Single Cell ATAC workflow. The paper uses only one GEM amplification cycle and 16 Index 2 cycles, but does not print the proprietary gel-bead oligo sequence. The public schematic therefore does not invent that molecule.

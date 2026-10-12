@@ -16,10 +16,14 @@ def render(m) -> str:
         rows = list(m.oligos())
         if rows:
             parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
-    sections = list(m.sections())
-    if sections:
+    if callable(getattr(m, "workflow", None)):
+        workflow = m.workflow()
+    else:
+        sections = list(m.sections())
+        workflow = workflow_from_sections(sections) if sections else None
+    if workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>',
-                      workflow_panel(workflow_from_sections(sections), cls="long")])
+                      workflow_panel(workflow, cls="long")])
     finals = tuple(getattr(m, "FINAL_LIBRARIES", ()))
     if not finals:
         raise ValueError(f"{m.TITLE}: no final sequencing libraries declared")

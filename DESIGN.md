@@ -256,6 +256,14 @@ lengths, temperatures, step counts, or prose already stored in the model and not
 Shared primitive behavior is checked once in the repository-level suite; protocol suites
 do not rerun the same shared checks.
 
+An exact oligo list beside a schematic does not make a prose reaction state molecularly
+complete. When an authoritative source gives the relevant oligo, a construct-changing
+step must consume named `Segment`/`Scene` structures derived from it and show the annealed
+region, exposed end and resulting junction. Plain `Row` prose is reserved for sample-level
+operations that do not change a construct, or for a structured source-limitation state.
+Hybridization-guided barcode adapters use `HybridizationLigationRound`, which reconstructs
+the splint from the incoming and barcode arms and rejects incompatible sequence geometry.
+
 **Why.** An invariant checked only by a test can still be bypassed by another caller. An
 invariant encoded in the API keeps the logic at the point where the state is created and
 makes every consumer safer by default.

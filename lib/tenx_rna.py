@@ -9,7 +9,13 @@ from chemdraw import Construct, Segment, feature
 SEQ_PRIMERS = (sp.NEXTERA["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
 
 
-def _shell(payload: list[Segment], name: str) -> Construct:
+def captured_rna_library(payload: list[Segment], name: str) -> Construct:
+    """Finish a 10x 3′ v3 captured-cDNA payload with checked run-primer sites.
+
+    Protocols whose captured RNA is not ordinary mRNA (guides, feature tags,
+    synthetic standards) pass their source-derived cDNA segments here instead
+    of rebuilding or approximating the common cell-barcode/UMI library shell.
+    """
     lib = Construct([
         Segment("P5", il.P5, "p5"),
         Segment("10x Read 1", nx.READ1_PRIMER, "r1"),
@@ -33,7 +39,7 @@ def _shell(payload: list[Segment], name: str) -> Construct:
 
 
 def transcript_library(name: str = "10x 3-prime gene-expression library") -> Construct:
-    return _shell([
+    return captured_rna_library([
         Segment("poly(dT)-derived tract", "T" * 20),
         Segment("cDNA insert", "X" * 40, placeholder=True),
     ], name)
@@ -45,7 +51,7 @@ def poly_a_feature_library(feature_name: str, *, feature_len: int,
                            name: str | None = None) -> Construct:
     if feature_len < 1:
         raise ValueError("a captured feature needs positive length")
-    return _shell([
+    return captured_rna_library([
         Segment("poly(dT)-derived tract", "T" * 20),
         Segment(feature_name, "F" * feature_len, "cbc", placeholder=True,
                 feature=feature(feature_id, feature_role, "whitelist",
