@@ -7,6 +7,22 @@
 
 ## Construct path
 
-🟢 Nuclei are tagmented before droplets. The phosphorylated Nextera-R1-rc-polyA oligo anneals to Nextera-R1-bk and exposes a poly(A) tract, allowing the tagmented chromatin product to use the same poly(dT) bead capture system as RNA. 🟢 A 12-base cell barcode is therefore shared between RNA and accessibility products; the adjacent 8-base UMI belongs to the RNA readout.
+🟢 Nuclei are tagmented before droplets. Supplementary Table 4 prints
+Nextera-R1-rc-polyA as `/5Phos/`–ME reverse complement–S5 reverse
+complement–A31. Its complete 33-nt Nextera arm therefore anneals across an S5+ME
+transposition end, while A31 pairs with the bead's terminal dT30. The page derives this
+three-strand capture intermediate from those exact oligos rather than drawing a generic
+"splint". 🟢 A 12-base cell barcode is therefore shared between RNA and accessibility
+products; the adjacent 8-base UMI belongs to the RNA readout.
 
-🟢 The RNA branch uses template switching and cDNA amplification. The chromatin branch selectively amplifies tagmented genomic products. Supplementary Table 4 is the authority for the two modified splint oligos and TSO shown on the page.
+🟢 The combined reverse-transcription/ligation mix contains Hemo KlenTaq, T7 ligase and
+reverse transcriptase. The captured chromatin intermediate is gap-filled, and the
+splint-side nick can be sealed because Nextera-R1-rc-polyA is 5′ phosphorylated. The
+other nick is not shown as covalently sealed: the source reconstruction notes that its S5
+end lacks a phosphate and that the completed bottom strand is sufficient for PCR.
+
+🟢 The common amplification uses Nextera-R2 with TSO-PCR. Their exact sequences select
+the asymmetric S5/S7 chromatin product and retain the bead barcode. The RNA branch uses
+template switching and TSO-PCR sites at both ends. The products are then split: RNA is
+TSO-enriched and Nextera-XT-finished, whereas chromatin receives P5xx-TSO/Ad2.x indexes.
+Supplementary Table 4 is the authority for all modified and amplification oligos shown.

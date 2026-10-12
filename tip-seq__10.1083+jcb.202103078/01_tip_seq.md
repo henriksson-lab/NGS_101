@@ -2,10 +2,28 @@
 
 **Defining source:** doi:10.1083/jcb.202103078.
 
-## Molecular boundary
+## Sources read
 
-🟢 pA–Tn5 inserts a T7 promoter adjacent to antibody-bound chromatin, enabling linear amplification of flanking DNA by in-vitro transcription.
+- 🟢 PMC full text and Methods (PMCID `PMC8600797`).
+- 🟢 Supplementary Table S1, including the bulk and 384-member sciTIP ME-T7
+  families, second-strand primers, sequencing primers and indexed PCR primers.
 
-## Evidence boundary
+## Construct path
 
-🟢 The published ME-reverse oligo is transcribed exactly; target panels and sciTIP barcode sets remain in the source tables.
+🟢 `ME-scT7-r5001` anneals to 5′-phosphorylated ME-rev only across the terminal
+19-nt mosaic end. Its T7 promoter, r5 barcode and S5 handle remain a single-stranded
+transposome overhang. pA–Tn5 transfers this end at antibody-bound chromatin and Taq
+fills the staggered gap.
+
+🟢 T7 RNA polymerase transcribes outward into the target-proximal genomic DNA.
+Random-hexamer RT creates first-strand cDNA; the published `sss_sci-nXTv2` primer
+then binds immediately downstream of the T7 start and creates the second strand.
+
+🟢 A separate MeB-only Tn5 fragments the cDNA and supplies its opposite adapter.
+Representative S502 and N701 primers then add the second-well i5/i7 indexes, P5 and
+P7. The final molecule retains the first-well r5 barcode between the second-strand
+site and S5.
+
+🟡 The public page draws the representative r5001/S502/N701 combination. The source
+table contains 384 r5 transposons and the full indexed-PCR families; the representative
+does not imply that those are the only usable indexes.

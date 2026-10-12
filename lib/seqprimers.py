@@ -182,9 +182,13 @@ def locate_all(lib: Construct, p: SeqPrimer, n: int = 12,
     """
     top = lib.top()
     hits = []
-    if min_anneal < 1 or min_anneal > len(p.seq):
-        raise ValueError("minimum annealing length must fit within the primer")
-    for free5 in range(0, max(1, len(p.seq) - min_anneal + 1)):
+    if min_anneal < 1:
+        raise ValueError("minimum annealing length must be positive")
+    # A primer shorter than the general threshold can still have one valid site: its
+    # entire sequence must match.  This preserves exact placement of short custom
+    # sequencing primers while preventing any 5′ trimming below the requested footprint.
+    effective_min = min(min_anneal, len(p.seq))
+    for free5 in range(0, len(p.seq) - effective_min + 1):
         hits = _hits(top, p.seq[free5:])
         if hits:
             break

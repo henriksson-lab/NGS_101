@@ -17,25 +17,25 @@ dms-mapseq__10.1038+nmeth.4057	high	post-RT library completion is absent despite
 i-bless__10.1038+s42003-018-0165-9	high	hairpin ligation uses roles despite exact proximal/distal adapters	candidate
 icicle-seq__10.7554+eLife.63632	high	custom Tn5, GEM capture and branch PCR are prose	candidate
 m3-seq__10.1038+s41564-023-01462-3	high	BC1 RT and downstream IVT/depletion/RT states omit published oligos	candidate
-nano-cut-tag__10.1038+s41587-022-01535-4	high	MeA/MeB loading and successive tagmentation are prose	candidate
-ntt-seq__10.1038+s41587-022-01588-5	high	MEDSA/MEDSB family and Chromium completion are prose	candidate
-pro-seq__10.1101+gr.150027.112	high	RNA adapter ligations revert exact oligos to generic labels	candidate
+nano-cut-tag__10.1038+s41587-022-01535-4	high	exact BcdA MeA/Tn5_Rev and MeB/Tn5_Rev loading, successive transferred intermediates, custom R1/I2 geometry and explicit proprietary 10x PCR boundary	fixed
+ntt-seq__10.1038+s41587-022-01588-5	high	exact MEDSA/MEDSB loaded duplexes, transferred intermediate, custom R1/i5 geometry and explicit proprietary Chromium boundary	fixed
+pro-seq__10.1101+gr.150027.112	high	exact 5′-phosphorylated/3′-blocked VRA3 ligation, repaired-end VRA5 ligation, RP1 RT and RPI-n indexed PCR geometry	fixed
 pixel-seq__10.1016+j.cell.2022.10.021	high	polony construction, restriction exposure and capture RT remain roles	candidate
 slide-seqv2__10.1038+s41587-020-0739-1	high	capture, RT, TSO and tagmentation are icons/prose despite printed oligos	candidate
-snare-seq__10.1038+s41587-019-0290-0	high	Nextera splint ligation and bead capture lack exact duplex geometry	candidate
+snare-seq__10.1038+s41587-019-0290-0	high	exact phosphorylated MErc+S5rc+A31 capture splint, dT30 bead annealing, gap fill/ligation and Nextera-R2/TSO-PCR selection	fixed
 sprite__10.1016+j.cell.2018.05.024	high	DPM, Odd, Even and Terminal ligations retain only lengths/placeholders	candidate
 scsprite__10.1101+2020.08.11.242081	high	cell and spatial barcode ligations retain only lengths/placeholders	candidate
 snmc-seq2__10.1038+s41467-018-06355-2	high	indexed random priming and PCR omit published primer families	candidate
-scdam-t-seq__10.1038+s41587-019-0150-y	high	DpnI adapter and RNA branch omit printed oligos	candidate
+scdam-t-seq__10.1038+s41587-019-0150-y	high	exact CEL-seq2 RT, forked DamID duplex, blunt GA/TC ligation, joint T7 IVT, randomhexRT and indexed terminal PCR	fixed
 trael-seq__10.1371+journal.pbio.3000886	high	hairpin fill/displacement and second ligation abbreviate published adapters	candidate
-scget-seq__10.1038+s41587-021-01031-1	high	Tn5/TnH tagmentation and GEM transfer remain prose	candidate
+scget-seq__10.1038+s41587-021-01031-1	high	exact Tn5ME-A.1/TnHME-A.4 loaded duplexes and transferred intermediates; proprietary Chromium completion explicitly bounded	fixed
 scone-seq__10.1126+sciadv.abp8901	high	custom Tn5, internal RT and joint amplification omit exact oligos	candidate
 sccc__10.1016+j.cell.2020.06.037	high	cDNA circularization and junction recovery remain generic	candidate
-tip-seq__10.1083+jcb.202103078	high	T7-promoter Tn5, IVT and cDNA states omit published ME oligo	candidate
+tip-seq__10.1083+jcb.202103078	high	exact ME-scT7/ME-rev loading, promoter-tagged DNA, IVT/RT/second-strand intermediates, MeB-only cDNA tagmentation and representative indexed-PCR geometry	fixed
 snubar-atac__10.1016+j.molcel.2021.09.026	high	SBO annealing/extension lacks transposome-tail geometry	candidate
 target-seq__10.1016+j.molcel.2019.01.009	high	target preamplification and CS1/CS2 completion remain generic	candidate
 scrica-seq__10.1038+s41467-024-52335-0	high	end labelling, circle, RCA and tagmentation are prose	candidate
 sum-seq__10.1038+s41592-025-02700-8	high	barcoded RT and indexed Tn5 states omit supplementary oligos	candidate
 sccare-seq__10.1038+s41594-023-01066-9	high	Tn5 and RNA capture/contact states omit printed oligos	candidate
-spatial-atac-rna-seq__10.1038+s41586-023-05795-1	high	orthogonal ATAC/RNA ligations are generic roles	candidate
-spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1	high	orthogonal CUT&Tag/RNA ligations are generic roles	candidate
+spatial-atac-rna-seq__10.1038+s41586-023-05795-1	high	A/B ligations and DNA-branch N501/N701 PCR shell are exact; RNA post-amplification Nextera cut position is molecule-specific	candidate
+spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1	high	A/B ligations and DNA-branch N501/N701 PCR shell are exact; RNA post-amplification Nextera cut position is molecule-specific	candidate

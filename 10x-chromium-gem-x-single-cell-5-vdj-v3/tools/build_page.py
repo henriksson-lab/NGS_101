@@ -88,7 +88,7 @@ def render() -> str:
         workflow_panel(indexed, caption="Dual-index primer binding and selected product"),
         info('Only fragments retaining the Read 1/barcode end acquire P5; Read 2 starts at '
              'variable fragmentation points across V(D)J.'),
-        '<p class="quiet"><a href="01_10x-5prime-vdj-v3.html">Research notes</a></p>',
+        '<p class="quiet"><a href="01_10x-5p-vdj-v3.html">Research notes</a></p>',
         sequencing(lib), '</div>',
     ])
 

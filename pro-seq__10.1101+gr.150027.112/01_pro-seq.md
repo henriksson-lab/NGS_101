@@ -16,4 +16,16 @@ PRO-seq maps the active sites and directions of engaged RNA polymerases by allow
 
 The information-bearing boundary is the run-on RNA 3′ end. Its genomic coordinate and strand identify an engaged polymerase active site.
 
-The final construct is therefore modeled from the published PCR primers and adapter-derived landing sites, not as generic dual-index TruSeq. Read 1 sequences the reverse complement of the nascent RNA beginning at its informative 3′ end; the separate index primer reads the six-base RPI-n barcode.
+The molecular workflow now retains the two RNA ligations separately. VRA3 is drawn as a
+5′-phosphorylated single-strand adapter whose 5′ end joins the run-on RNA 3′-OH; its
+3′ inverted dT remains visible as the ligation blocker. After biotin selection, decapping
+and 5′-end repair, VRA5's 3′-OH joins the RNA 5′ phosphate. Both covalent junctions are
+marked on the dual-adapter RNA rather than collapsing them into a generic library icon.
+
+RP1 anneals through its 21-nt 3′ suffix within VRA3 and contributes P5 as a non-annealing
+tail. The RPI-n primer family anneals through the VRA5 sequence and contributes its
+six-base i7 index plus P7. Primer landing, extension direction and amplicon boundaries are
+derived from those exact Table 1 sequences. The final construct is therefore modeled from
+the published PCR primers and adapter-derived landing sites, not as generic dual-index
+TruSeq. Read 1 sequences the reverse complement of nascent RNA beginning at its
+informative 3′ end; the separate index primer reads the six-base RPI-n barcode.

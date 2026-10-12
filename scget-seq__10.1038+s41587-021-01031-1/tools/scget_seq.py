@@ -1,21 +1,127 @@
-"""scGET-seq molecular model."""
+"""scGET-seq molecular model from Tedesco et al. Supplementary Table 10."""
 from pathlib import Path
 import sys
-sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row
-from chromatin_epigenetics import droplet_targeted_tagment_library
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-TITLE="scGET-seq — open and heterochromatic DNA in the same cell"
-NOTES="01_scget-seq.html"
-SOURCE='<a href="https://doi.org/10.1038/s41587-021-01031-1">Tedesco et al., <i>Nature Biotechnology</i> (2022)</a>.'
-SUMMARY="Ordinary barcoded Tn5 marks accessible chromatin while HP1α–Tn5 carrying a distinct adaptor barcode marks H3K9me3-associated heterochromatin; Chromium ATAC supplies a shared cell identity."
-CAVEAT="The molecule shows one HP1α–Tn5 modality barcode. Parallel ordinary-Tn5 products use a different published barcode and share the same droplet cell barcode."
-FINAL_LIBRARY,SEQ_PRIMERS=droplet_targeted_tagment_library("accessible or H3K9me3-associated DNA",assay_name="Tn5-versus-TnH barcode")
-FINAL_CAPTION="Representative scGET-seq product. The inline transposase barcode identifies open-chromatin Tn5 versus HP1α-targeted TnH; the 10x barcode identifies the cell."
-SEQUENCING_INTRO="Paired genomic reads identify the insertion locus. A protocol barcode distinguishes the two transposases and the Chromium barcode joins them to one cell."
-SEQUENCING_UNAVAILABLE="The complete dedicated 10x cell-barcode sequencing-primer oligo is vendor-supplied; genomic Read 1, Index 1 and Read 2 landing sites are shown."
-def sections(): return [
- ("Tag open chromatin",[Row(chunks=[("ordinary barcoded Tn5 → accessible DNA",None,False)])],"A modality-specific adaptor records accessible insertions."),
- ("Tag heterochromatin",[Row(chunks=[("HP1α–Tn5 (TnH) → H3K9me3-associated DNA",None,False)])],"The HP1α fusion supplies targeting and carries a distinct adaptor barcode."),
- ("Encapsulate nuclei in Chromium ATAC droplets",[Row(chunks=[("both modality tags + one 10x cell barcode", "cbc",False)])],"The same gel-bead barcode links both chromatin modalities to one nucleus."),
- ("PCR-complete and sequence",[Row(chunks=[("P5 — cell barcode — modality barcode — ME — genomic insert — ME — P7",None,False)])],"PCR produces the paired-end library."),]
+import illumina as il
+import nextera as nx
+import seqprimers as sp
+from batch_ngs import seg
+from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo
+from pcr import PCRGeometry
+from tagmentation import loaded_tn5_adapter
+
+TITLE = "scGET-seq — open and heterochromatic DNA in the same cell"
+NOTES = "01_scget-seq.html"
+SOURCE = '<a href="https://doi.org/10.1038/s41587-021-01031-1">Tedesco et al., <i>Nature Biotechnology</i> (2022)</a>.'
+SUMMARY = ("Ordinary Tn5 and HP1α–Tn5 transfer different inline adapter barcodes; "
+           "Chromium ATAC subsequently adds a shared cell identity.")
+CAVEAT = ("The representative Tn5ME-A.1 and TnHME-A.4 top oligos are exact. Their common "
+          "mosaic-end reverse strand follows standard Tn5 loading. Complete 10x gel-bead "
+          "and SI-PCR oligos are proprietary and remain explicit unavailable regions.")
+
+CONNECTOR = "TCCGATCT"
+TN5_BARCODE = "CGTACTAG"
+TNH_BARCODE = "TAAGGCGA"
+TN5MEA1 = nx.S5 + CONNECTOR + TN5_BARCODE + nx.ME
+TNHMEA4 = nx.S5 + CONNECTOR + TNH_BARCODE + nx.ME
+ME_REV = nx.ME_RC
+
+
+def modality_feature():
+    return feature("scget_modality", "feature_barcode", "whitelist",
+                   whitelist="Tedesco et al. Supplementary Table 10")
+
+
+def adapter_parts(kind, barcode):
+    return [seg("S5", nx.S5, "s5"), seg("adapter connector", CONNECTOR),
+            seg(kind + " modality barcode", barcode, "cbc", feature=modality_feature()),
+            seg(kind + " mosaic end", nx.ME, "me")]
+
+
+def loaded(kind, barcode):
+    return loaded_tn5_adapter(
+        adapter_parts(kind, barcode), mosaic_end=kind + " mosaic end",
+        label=kind + "ME-A top oligo", bottom_name="ME reverse",
+        bottom_label="5′-phosphorylated ME reverse", bottom_sequence=ME_REV, mod5="p")
+
+
+def tagged(kind, barcode, dna):
+    return Construct([*adapter_parts(kind, barcode),
+                      seg(dna, "X" * 38, placeholder=True)],
+                     name=kind + "-tagged genomic fragment")
+
+
+TN5_TAGGED = tagged("Tn5", TN5_BARCODE, "accessible genomic DNA")
+TNH_TAGGED = tagged("TnH", TNH_BARCODE, "H3K9me3-associated genomic DNA")
+
+PRE_PCR = Construct([
+    seg("10x gel-bead amplification handle", "H" * 18, placeholder=True, inferred=True),
+    seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
+        feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                        whitelist="10x Chromium ATAC whitelist")),
+    *list(TNH_TAGGED),
+    seg("opposite mosaic end reverse complement", nx.ME_RC, "me"),
+    seg("S7 reverse complement", nx.S7_RC, "s7"),
+], name="cell-barcoded scGET-seq molecule before proprietary PCR")
+
+FINAL_LIBRARY = Construct([
+    seg("P5", il.P5, "p5"),
+    seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
+        feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                        whitelist="10x Chromium ATAC whitelist")),
+    *list(TNH_TAGGED),
+    seg("opposite mosaic end reverse complement", nx.ME_RC, "me"),
+    seg("S7 reverse complement", nx.S7_RC, "s7"),
+    seg("i7 sample index reverse complement", "I" * 8, "cbc", placeholder=True,
+        feature=feature("sample_index_i7", "sample_index", "unknown")),
+    seg("P7 reverse complement", il.P7_RC, "p7"),
+], name="representative TnH scGET-seq library")
+
+SEQ_PRIMERS = (
+    sp.custom("Read 1", "S5-side genomic read", nx.S5,
+              "scGET-seq adapter and 10x scATAC structure"),
+    sp.NEXTERA["I1"],
+    sp.NEXTERA["R2"],
+)
+_problems = sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
+                      required_roles=tuple(p.role for p in SEQ_PRIMERS))
+if _problems:
+    raise ValueError("scGET-seq final library: " + "; ".join(_problems))
+
+FINAL_CAPTION = ("Representative TnHME-A.4 product. The inline barcode distinguishes "
+                 "HP1α-targeted TnH from ordinary Tn5; the 10x barcode identifies the cell.")
+SEQUENCING_INTRO = ("Paired genomic reads identify the insertion locus; the inline adapter "
+                    "barcode assigns chromatin modality and the 10x barcode assigns cell.")
+SEQUENCING_UNAVAILABLE = ("The complete dedicated 10x cell-barcode sequencing-primer oligo "
+                          "is vendor-supplied; genomic Read 1, Index 1 and Read 2 sites are shown.")
+
+
+def oligos():
+    yield oligo("Tn5ME-A.1", adapter_parts("Tn5", TN5_BARCODE))
+    yield oligo("TnHME-A.4", adapter_parts("TnH", TNH_BARCODE))
+    yield oligo("ME reverse", [Segment("ME reverse", ME_REV, "me")], mods="/5Phos/")
+
+
+def workflow():
+    start = Scene.duplex([seg("nuclear chromatin", "X" * 38, placeholder=True)],
+                         label="permeabilized nuclear chromatin")
+    w = Workflow(MolecularState("Permeabilized nuclei", tuple(start.rows())))
+    w.react("Anneal Tn5ME-A.1 and TnHME-A.4 separately to ME reverse and load Tn5/TnH",
+            [*loaded("Tn5", TN5_BARCODE).rows(), *loaded("TnH", TNH_BARCODE).rows()],
+            name="two modality-coded transposomes")
+    w.react("Tagment accessible DNA with Tn5 and H3K9me3-associated DNA with HP1α–Tn5",
+            [*Scene.duplex(list(TN5_TAGGED), label="accessible-DNA product").rows(),
+             *Scene.duplex(list(TNH_TAGGED), label="heterochromatin product").rows()],
+            name="modality-coded genomic fragments")
+    w.react("INFERRED — linearly amplify and barcode both product classes in Chromium ATAC droplets",
+            Scene.duplex(list(PRE_PCR), label="representative cell-barcoded TnH product").rows(),
+            name="cell-barcoded linear products",
+            note="The source establishes the 10x workflow and molecule roles, but not the complete gel-bead oligo.")
+    geometry = PCRGeometry.unavailable(
+        PRE_PCR,
+        reason="The source follows the 10x scATAC kit but does not print the complete SI-PCR primer sequences.")
+    w.pcr("PCR-complete the Chromium ATAC library", geometry,
+          Scene.duplex(list(FINAL_LIBRARY), label="scGET-seq sequencing library").rows(),
+          name="scGET-seq sequencing library")
+    return w

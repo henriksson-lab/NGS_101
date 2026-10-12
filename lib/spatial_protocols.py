@@ -7,8 +7,12 @@ from types import SimpleNamespace
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from batch_ngs import seg, truseq_library
-from chemdraw import Construct, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
+from batch_ngs import joined_scene, seg, truseq_library
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow, duplex_rows,
+                      feature, oligo, revcomp)
+from multimodal_spatial import HybridizationLigationRound
+from pcr import PCRGeometry, PCRPrimer
 from protocol_model import chain, molecule, role, role_library
 
 
@@ -29,33 +33,177 @@ SPACE_HASH = ident("printed spatial hash", "sci_space.grid", "spatial_barcode")
 SECTION_HASH = ident("section hash", "sci_space.section", "sample_index")
 
 
+# Li et al., Nat Protoc 2025 Supplementary Table 1.  The first member of each
+# 100-oligo pool is retained as a representative; the molecular feature records
+# the full published plate as the identifier source.
+SPATIAL_RT_HANDLE = "CATCGGCGTACGACT"
+SPATIAL_RT_UMI = "N" * 10
+SPATIAL_RT_POLYT = "T" * 15 + "VN"
+SPATIAL_LINKER_1 = "AGTCGTACGCCGATGCGAAACATCGGCCAC"
+SPATIAL_LINKER_2 = "CGAATGCTCTGGCCTCTCAAGCACGTGGAT"
+SPATIAL_A_PREFIX = "AGGCCAGAGCATTCG"
+SPATIAL_A1 = "AACGTGAT"
+SPATIAL_A_SUFFIX = "GTGGCCGATGTTTCG"
+SPATIAL_B_PREFIX = "CAAGCGTTGGCTTCTCGCATCT"
+SPATIAL_B1 = "AACGTGAT"
+SPATIAL_B_SUFFIX = "ATCCACGTGCTTGAG"
+SPATIAL_TN5_A = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+SPATIAL_TN5_B = "CATCGGCGTACGACTAGATGTGTATAAGAGACAG"
+SPATIAL_TN5_REV = "CTGTCTCTTATACACATCT"
+SPATIAL_N501 = "AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+SPATIAL_N701 = "CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGCAAGCGTTGGCTTCTCGCATCT"
+
+_SPATIAL_A_FEATURE = feature(
+    "spatial_a", "spatial_barcode", "whitelist",
+    whitelist="100-member barcode A plate (Li et al. Supplementary Table 1)")
+_SPATIAL_B_FEATURE = feature(
+    "spatial_b", "spatial_barcode", "whitelist",
+    whitelist="100-member barcode B plate (Li et al. Supplementary Table 1)")
+
+SPATIAL_A_ROUND = HybridizationLigationRound(
+    "barcode A", SPATIAL_RT_HANDLE, SPATIAL_A_PREFIX, SPATIAL_A_SUFFIX,
+    SPATIAL_LINKER_1, _SPATIAL_A_FEATURE, phosphorylated_5=True,
+    barcode_length=8)
+SPATIAL_B_ROUND = HybridizationLigationRound(
+    "barcode B", SPATIAL_A_PREFIX, SPATIAL_B_PREFIX, SPATIAL_B_SUFFIX,
+    SPATIAL_LINKER_2, _SPATIAL_B_FEATURE, barcode_length=8)
+
+
+def _spatial_branch_scene(kind: str, stage: int) -> Scene:
+    """Representative source-exact strand after RT/tagmentation and A/B ligation."""
+    if kind == "RNA":
+        core = [seg("RT handle", SPATIAL_RT_HANDLE, "r1"),
+                seg("10-nt UMI", "U" * 10, "umi", placeholder=True,
+                    feature=feature("spatial_rna_umi", "umi", "random")),
+                seg("poly(dT)VN", SPATIAL_RT_POLYT, placeholder=True),
+                seg("transcript cDNA", "X" * 28, placeholder=True),
+                seg("TSO-derived end", "CCCATTC ACTCTGCGTTGATACCACTGCTT".replace(" ", ""))]
+    else:
+        core = [seg("Tn5ME-B RT handle", SPATIAL_RT_HANDLE, "r1"),
+                seg("Tn5ME-B mosaic end", "AGATGTGTATAAGAGACAG", "me"),
+                seg(f"{kind} genomic DNA", "X" * 30, placeholder=True),
+                seg("Tn5ME-A mosaic end reverse complement",
+                    "CTGTCTCTTATACACATCT", "me"),
+                seg("Tn5ME-A outer arm reverse complement", "TCGTCGGCAGCGTCAG")]
+    parts = core
+    junctions = []
+    if stage >= 1:
+        a = [seg("barcode A outgoing arm", SPATIAL_A_PREFIX),
+             seg("barcode A", "A" * 8, "cbc", placeholder=True,
+                 feature=_SPATIAL_A_FEATURE),
+             seg("barcode A ligating arm", SPATIAL_A_SUFFIX)]
+        parts = [*a, *parts]
+        junctions.append(("barcode A ligating arm", core[0].name, "ligation A"))
+    if stage >= 2:
+        b = [seg("barcode B PCR arm", SPATIAL_B_PREFIX),
+             seg("barcode B", "B" * 8, "cbc", placeholder=True,
+                 feature=_SPATIAL_B_FEATURE),
+             seg("barcode B ligating arm", SPATIAL_B_SUFFIX)]
+        parts = [*b, *parts]
+        junctions.insert(0, ("barcode B ligating arm", "barcode A outgoing arm",
+                             "ligation B"))
+    return joined_scene(parts, tuple(junctions), label=f"{kind} branch", duplex=False)
+
+
+def _spatial_rows(stage: int, dna_kind: str) -> list:
+    return [*_spatial_branch_scene(dna_kind, stage).rows(),
+            *_spatial_branch_scene("RNA", stage).rows()]
+
+
+def _spatial_oligos():
+    return (
+        oligo("RT primer (5′-phosphate; one dT is internal biotin)", [
+            seg("RT handle", SPATIAL_RT_HANDLE),
+            seg("10-nt UMI", SPATIAL_RT_UMI, "umi", placeholder=True),
+            seg("biotin-dT / poly(dT)VN", SPATIAL_RT_POLYT, placeholder=True)]),
+        oligo("Tn5ME-B", [seg("RT-compatible handle", SPATIAL_RT_HANDLE),
+                           seg("mosaic end", "AGATGTGTATAAGAGACAG")]),
+        oligo("Barcode A-1 (5′-phosphate)", [seg("A outgoing arm", SPATIAL_A_PREFIX),
+              seg("A-1", SPATIAL_A1, "cbc", feature=_SPATIAL_A_FEATURE),
+              seg("A ligating arm", SPATIAL_A_SUFFIX)]),
+        oligo("Ligation linker 1", [seg("splint", SPATIAL_LINKER_1)]),
+        oligo("Barcode B-1", [seg("PCR arm", SPATIAL_B_PREFIX),
+              seg("B-1", SPATIAL_B1, "cbc", feature=_SPATIAL_B_FEATURE),
+              seg("B ligating arm", SPATIAL_B_SUFFIX)]),
+        oligo("Ligation linker 2", [seg("splint", SPATIAL_LINKER_2)]),
+    )
+
+
+def _spatial_dna_libraries(dna_kind: str):
+    """Exact representative DNA branch before and after N501/N701 PCR.
+
+    The source draws the barcode-bearing end P7-to-insert.  Constructs use the
+    canonical P5-to-P7 top-strand orientation, hence the reverse complements of
+    the B/A/RT chain on the right side of the insert.
+    """
+    i5 = feature("spatial_i5", "sample_index", "whitelist",
+                 whitelist="N501 index from Li et al. Supplementary Table 1")
+    i7 = feature("spatial_i7", "sample_index", "whitelist",
+                 whitelist="N701 index from Li et al. Supplementary Table 1")
+    insert = [
+        seg("Tn5ME-A outer arm", nx.S5, "s5"),
+        seg("Tn5ME-A mosaic end", nx.ME, "me"),
+        seg(f"{dna_kind} genomic DNA", "X" * 30, placeholder=True),
+        seg("Tn5ME-B mosaic end reverse complement", nx.ME_RC, "me"),
+        seg("shared RT/Tn5ME-B handle reverse complement", revcomp(SPATIAL_RT_HANDLE)),
+        seg("barcode A ligating arm reverse complement", revcomp(SPATIAL_A_SUFFIX)),
+        seg("barcode A reverse complement", "A" * 8, "cbc", placeholder=True,
+            feature=_SPATIAL_A_FEATURE),
+        seg("barcode A outgoing arm reverse complement", revcomp(SPATIAL_A_PREFIX)),
+        seg("barcode B ligating arm reverse complement", revcomp(SPATIAL_B_SUFFIX)),
+        seg("barcode B reverse complement", "B" * 8, "cbc", placeholder=True,
+            feature=_SPATIAL_B_FEATURE),
+        seg("barcode B PCR arm reverse complement", revcomp(SPATIAL_B_PREFIX)),
+    ]
+    template = Construct(insert, name=f"{dna_kind} branch before indexed PCR")
+    final = Construct([
+        seg("P5", il.P5, "p5"),
+        seg("i5 (N501)", "TAGATCGC", "cbc", feature=i5),
+        *insert,
+        seg("Nextera Read 2 mosaic end reverse complement", nx.ME_RC, "me"),
+        seg("S7 reverse complement", nx.S7_RC, "s7"),
+        seg("i7 (N701) reverse complement", revcomp("TCGCCTTA"), "cbc", feature=i7),
+        seg("P7 reverse complement", il.P7_RC, "p7"),
+    ], name=f"representative {dna_kind} sequencing library")
+    geometry = PCRGeometry.exact(
+        template,
+        PCRPrimer("N501", SPATIAL_N501, anneal_nt=len(nx.ADAPTOR_S5)),
+        PCRPrimer("N701", SPATIAL_N701, anneal_nt=len(SPATIAL_B_PREFIX)),
+        statement="The 2025 protocol oligo table gives the complete N501 and N701 primers; their 3′ arms land exactly on Tn5ME-A and the barcode-B PCR arm.")
+    primers = sp.standard_primers(final)
+    return template, final, geometry, primers
+
+
 def _dbit(*, cuttag: bool):
-    target = (role("antibody-bound histone mark"), role("poly(A) RNA")) if cuttag else (
-        role("accessible chromatin"), role("poly(A) RNA"))
     enzyme = "antibody-tethered pA–Tn5" if cuttag else "Tn5"
     dna_kind = "histone-mark DNA" if cuttag else "accessible DNA"
-    return chain(molecule("fixed permeabilized tissue section", target), (
-        (f"Tag {dna_kind} in situ with {enzyme}",
-         molecule("tagged DNA branch", (role("universal ligation linker"), role(dna_kind),
-                                         role("transposase end"))),
-         "The DNA linker is the landing site for the first spatial barcode."),
-        ("Reverse-transcribe poly(A) RNA with a biotinylated poly(dT) primer",
-         molecule("DNA and cDNA branches in tissue", (role("tagged DNA branch"),
-             role("biotinylated RT handle"), UMI, role("transcript cDNA"))),
-         "DNA and RNA are still physically registered in the same tissue section."),
-        ("Flow the first barcode set through parallel microfluidic channels",
-         molecule("A-barcoded branches", (SPATIAL_A, role("DNA or cDNA insert"))),
-         "Barcode A records one tissue coordinate on both molecular branches."),
-        ("Rotate the device and ligate the orthogonal barcode set",
-         molecule("two-dimensional pixel address", (SPATIAL_A, SPATIAL_B,
-                                                       role("DNA or cDNA insert")),
-                  junctions=(("spatial barcode A", "spatial barcode B", "ligation"),)),
-         "The ordered A–B pair identifies the channel intersection, not an inferred cell."),
-        ("Reverse crosslinks, recover molecules and build separate DNA and RNA libraries",
-         molecule("matched spatial libraries", (SPATIAL_A, SPATIAL_B, UMI,
-                                                   role(f"{dna_kind} or transcript insert"))),
-         "The physical libraries are separated while retaining the same two-dimensional address."),
-    ))
+    start = Scene(); start.strand("targets", [role(dna_kind), role("poly(A) RNA")],
+                                 label="fixed permeabilized tissue")
+    wf = Workflow(MolecularState("Fixed tissue targets", tuple(start.rows())))
+    wf.react(f"Tag {dna_kind} with {enzyme} and reverse-transcribe RNA",
+             _spatial_rows(0, dna_kind), name="shared ligation handle on both branches",
+             note="Tn5ME-B and the 5′-phosphorylated RT primer carry the same exact CATCGGCGTACGACT handle.")
+    g1 = AdapterLigationGeometry.known(
+        "splinted", SPATIAL_A_ROUND.adapter_scene(),
+        statement="Linker 1 is exactly the reverse complement of the shared RT/Tn5ME-B handle followed by the barcode-A ligating arm.")
+    wf.ligate_adapter("Ligate barcode A in the first microfluidic channel set", g1,
+                      _spatial_rows(1, dna_kind), name="A-barcoded DNA and RNA branches",
+                      note="The A-oligo 3′-OH is sealed to the shared 5′-phosphate; A-1 is shown from the 100-member plate.")
+    g2 = AdapterLigationGeometry.known(
+        "splinted", SPATIAL_B_ROUND.adapter_scene(),
+        statement="Linker 2 is exactly the reverse complement of the barcode-A outgoing arm followed by the barcode-B ligating arm.")
+    wf.ligate_adapter("Rotate the device and ligate barcode B", g2,
+                      _spatial_rows(2, dna_kind), name="two-dimensional pixel address",
+                      note="The B-oligo 3′-OH is sealed to the barcode-A 5′-phosphate; the ordered A–B pair identifies one channel intersection.")
+    wf.react("Recover the biotin-selected RNA branch and amplify both libraries",
+             _spatial_rows(2, dna_kind), name="separate matched DNA and RNA libraries",
+             note="Both physical libraries retain the same exact B–A spatial chain; only the RNA branch carries the RT UMI and poly(dT).")
+    _template, final, geometry, _primers = _spatial_dna_libraries(dna_kind)
+    wf.pcr("Add the indexed Illumina shell to the DNA branch", geometry,
+           duplex_rows(final, label="DNA library", unpaired=(f"{dna_kind} genomic DNA'",)),
+           name="indexed DNA-branch library",
+           note="N501 supplies P5/i5 at the Tn5ME-A end; N701 supplies P7/i7 at the spatial-barcode end. The independently recovered RNA branch is Nextera-tagmented after pre-amplification and is not collapsed into this fixed cut site.")
+    return wf
 
 
 def _slide_seq():
@@ -230,10 +378,10 @@ DEFS = {
         "Separate transcript, printed-grid-hash and section-hash molecules share the same combinatorial nucleus indices; the representative final construct below is a spatial-hash molecule.", "01_sci_space.html"),
     "spatial-atac-rna": Definition("spatial-ATAC–RNA-seq", "10.1038/s41586-023-05795-1",
         "Zhang et al., Nature (2023)", "Tn5 tags accessible DNA and in-situ poly(dT) RT captures RNA before orthogonal microfluidic barcode ligations assign both branches the same tissue pixel.",
-        "Separate ATAC and RNA libraries retain spatial barcode A plus B; the RNA branch additionally carries a UMI.", "01_spatial_atac_rna_seq.html"),
+        "The exact representative panel is the ATAC branch: Read 1 enters accessible DNA, while Read 2 enters the B–A spatial chain from the N701 end. The separately recovered RNA branch retains the same spatial address plus a UMI and is Nextera-tagmented after pre-amplification.", "01_spatial_atac_rna_seq.html"),
     "spatial-cuttag-rna": Definition("spatial-CUT&Tag–RNA-seq", "10.1038/s41586-023-05795-1",
         "Zhang et al., Nature (2023)", "Antibody-tethered pA–Tn5 tags histone-marked DNA and in-situ poly(dT) RT captures RNA before both branches receive orthogonal spatial barcodes.",
-        "Separate CUT&Tag and RNA libraries retain spatial barcode A plus B; the RNA branch additionally carries a UMI.", "01_spatial_cuttag_rna_seq.html"),
+        "The exact representative panel is the CUT&Tag branch: Read 1 enters histone-mark DNA, while Read 2 enters the B–A spatial chain from the N701 end. The separately recovered RNA branch retains the same spatial address plus a UMI and is Nextera-tagmented after pre-amplification.", "01_spatial_cuttag_rna_seq.html"),
     "slide-seq": Definition("Slide-seq (v1)", "10.1126/science.aaw1219",
         "Rodriques et al., Science (2019)", "A pre-decoded monolayer of 10-µm DNA-barcoded beads captures RNA released from a tissue section for spatially registered 3′ RNA sequencing.",
         "The barcode read identifies a bead's decoded position and its UMI; the paired insert read identifies the captured transcript.", "01_slide_seq.html"),
@@ -266,6 +414,10 @@ def get(key: str):
         final, primers = sci_space_library()
     elif key == "hdst":
         final, primers = hdst_library()
+    elif key in ("spatial-atac-rna", "spatial-cuttag-rna"):
+        dna_kind = ("accessible DNA" if key == "spatial-atac-rna"
+                    else "histone-mark DNA")
+        _template, final, _geometry, primers = _spatial_dna_libraries(dna_kind)
     else:
         final = role_library(d.title + " final library roles", payloads[key], index=SAMPLE)
         primers = ()
@@ -280,6 +432,7 @@ def get(key: str):
         SEQUENCING_ENDING=("" if primers else d.endpoint),
         SEQUENCING_UNAVAILABLE=("" if primers else "The defining source establishes the read roles; kit revisions and barcode panels prevent one universal sequencing-primer sequence from being asserted here."),
         workflow=workflows[key],
-        oligos=(lambda: (f"Bead primer precursor, as written — {HDST_PRECURSOR_WRITTEN}",)
-                if key == "hdst" else ()),
+        oligos=(_spatial_oligos if key in ("spatial-atac-rna", "spatial-cuttag-rna")
+                else (lambda: (f"Bead primer precursor, as written — {HDST_PRECURSOR_WRITTEN}",)
+                      if key == "hdst" else ())),
     )

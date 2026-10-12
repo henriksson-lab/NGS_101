@@ -5,9 +5,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
-from chemdraw import Construct, Row, feature
-from rna_special import adapter_ligation_scene
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
 
 TITLE = "PRO-seq — precision nuclear run-on sequencing"
 NOTES = "01_pro-seq.html"
@@ -20,6 +21,7 @@ VRA3 = "GATCGTCGGACTGTAGAACTCTGAAC"
 VRA5 = "CCTTGGCACCCGAGAATTCCA"
 RP1 = "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA"
 RPI_BIND = "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
+RPI = il.P7 + "N" * 6 + RPI_BIND
 SMALL_RNA_R1 = "GTTCAGAGTTCTACAGTCCGACGATC"
 SMALL_RNA_I1 = "TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC"
 
@@ -46,10 +48,129 @@ if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
 FINAL_CAPTION = "Mahat et al. single-end, six-base single-index library. Read 1 sequences the reverse complement of nascent RNA from its informative 3′ end."
 SEQUENCING_INTRO = "The TruSeq Small RNA Read 1 primer enters the reverse-complement nascent-RNA insert; the custom small-RNA index primer reads one six-base i7 index. There is no i5 read."
 
-def sections():
-    return [
-        ("Biotin nuclear run-on", [Row(chunks=[("DNA template ————— RNAP — nascent RNA—3′", None, False)]), Row(chunks=[("                            + biotin-NTP → RNA—●—3′ (stalled)", "umi", False)])], "Permeabilized cells undergo a short run-on with biotinylated NTPs; the bulky incorporated nucleotide both marks and limits extension."),
-        ("Ligate the 3′ RNA adapter", adapter_ligation_scene(fragment_name="biotinylated nascent RNA").rows(), "The adapter is joined at the informative nascent-RNA 3′ end."),
-        ("Capture, decap and ligate the 5′ adapter", [Row(chunks=[("biotin-RNA—3′ adapter  → streptavidin capture → 5′ end repair", None, False)]), Row(chunks=[("5′ adapter ** nascent RNA ** 3′ adapter", "r1", False)])], "Repeated streptavidin enrichment retains biotin-run-on RNA; 5′ processing permits the second RNA-adapter ligation."),
-        ("Reverse-transcribe and PCR-index", [Row(chunks=[("RP1/P5 — reverse-complement nascent RNA — VRA5-derived arm — i7(6) — P7", None, True)])], "RP1 primes reverse transcription and is reused for PCR with one RPI-n primer, which installs a six-base i7 index."),
-    ]
+def _runon_scene():
+    sc = Scene(); sc.strand("nascent RNA", [
+        Segment("nascent RNA body", "X" * 42, placeholder=True),
+        Segment("biotin-NTP run-on base", "N", "umi", placeholder=True)],
+        label="biotin-labelled nascent RNA")
+    sc.mark("nascent RNA", "biotin-NTP run-on base",
+            "informative polymerase-active-site 3′ end")
+    sc.labels("nascent RNA")
+    return sc
+
+
+def _vra3_geometry():
+    adapter = Scene(); adapter.strand("VRA3", [Segment("VRA3", VRA3, "r1")],
+                                      label="VRA3", mod5="/5Phos/",
+                                      mod3="/3InvdT/")
+    adapter.ligation_end("VRA3", "VRA3", kind="single-strand",
+                         polarity="5-prime", owner="adapter",
+                         text="5′-phosphorylated VRA3 ligating end")
+    substrate = _runon_scene()
+    substrate.ligation_end("nascent RNA", "biotin-NTP run-on base",
+                           kind="single-strand", polarity="3-prime",
+                           owner="substrate", text="nascent-RNA 3′-OH")
+    return AdapterLigationGeometry.known(
+        "single-strand", adapter, substrate,
+        statement="Mahat et al. Table 1 prints VRA3 as 5′ phosphorylated and 3′ inverted-dT blocked; its 5′ end ligates to the informative nascent-RNA 3′-OH.")
+
+
+def _three_prime_product_scene():
+    sc = Scene(); sc.strand("product", [
+        Segment("biotin-labelled nascent RNA", "X" * 42, placeholder=True),
+        Segment("VRA3", VRA3, "r1")], label="3′-adapter-ligated nascent RNA",
+        mod3="/3InvdT/")
+    sc.junction("product", "biotin-labelled nascent RNA", "VRA3",
+                "3′ RNA-adapter ligation")
+    sc.labels("product")
+    return sc
+
+
+def _repaired_five_prime_scene():
+    sc = Scene(); sc.strand("RNA", [
+        Segment("selected nascent RNA", "X" * 42, placeholder=True),
+        Segment("VRA3", VRA3, "r1")], label="decapped / 5′-repaired RNA",
+        mod5="p", mod3="/3InvdT/")
+    sc.mark("RNA", "selected nascent RNA", "5′ monophosphate after end repair")
+    sc.labels("RNA")
+    return sc
+
+
+def _vra5_geometry():
+    adapter = Scene(); adapter.strand("VRA5", [Segment("VRA5", VRA5, "r2")],
+                                      label="VRA5")
+    adapter.ligation_end("VRA5", "VRA5", kind="single-strand",
+                         polarity="3-prime", owner="adapter",
+                         text="VRA5 3′-OH ligating end")
+    substrate = _repaired_five_prime_scene()
+    substrate.ligation_end("RNA", "selected nascent RNA", kind="single-strand",
+                           polarity="5-prime", owner="substrate",
+                           text="repaired RNA 5′ monophosphate")
+    return AdapterLigationGeometry.known(
+        "single-strand", adapter, substrate,
+        statement="The detailed protocol prints VRA5 and repairs the selected RNA 5′ end before T4 RNA-ligase-mediated 5′ adapter ligation.")
+
+
+def _dual_adapter_scene():
+    sc = Scene(); sc.strand("RNA", [Segment("VRA5", VRA5, "r2"),
+        Segment("selected nascent RNA", "X" * 42, placeholder=True),
+        Segment("VRA3", VRA3, "r1")], label="dual-adapter PRO-seq RNA",
+        mod3="/3InvdT/")
+    sc.junction("RNA", "VRA5", "selected nascent RNA", "5′ RNA-adapter ligation")
+    sc.junction("RNA", "selected nascent RNA", "VRA3", "3′ RNA-adapter ligation")
+    sc.labels("RNA")
+    return sc
+
+
+def _rt_scene():
+    sc = Scene(); sc.strand("RNA", [Segment("VRA5", VRA5, "r2"),
+        Segment("selected nascent RNA", "X" * 42, placeholder=True),
+        Segment("VRA3", VRA3, "r1")], label="dual-adapter PRO-seq RNA")
+    sc.anneal("RP1", [Segment("RP1 P5 tail", RP1[:-21], "p5"),
+                       Segment("RP1 annealing suffix", RP1[-21:], "r1")],
+              to="RNA", pair=("RP1 annealing suffix", "VRA3"), label="RP1",
+              shift=5, unpaired=("RP1 P5 tail",))
+    sc.arrow("RP1", "reverse transcriptase")
+    sc.labels("RP1")
+    return sc
+
+
+def _pre_pcr_template():
+    return Construct([Segment("RP1", RP1, "p5"),
+                      Segment("reverse-complement nascent RNA", "X" * 42,
+                              placeholder=True),
+                      Segment("VRA5 reverse complement", revcomp(VRA5), "r2")],
+                     name="PRO-seq first-strand cDNA")
+
+
+def _pre_pcr_scene():
+    return Scene.duplex(list(_pre_pcr_template()), label="PRO-seq first-strand cDNA")
+
+
+def workflow():
+    w = Workflow(MolecularState("Engaged polymerase and nascent RNA",
+                                tuple(_runon_scene().rows())))
+    w.react("Run on briefly with biotin-NTPs", _runon_scene().rows(),
+            name="biotin-labelled nascent RNA",
+            note="The last incorporated biotin nucleotide marks the active polymerase position and stalls further extension.")
+    w.ligate_adapter("Ligate VRA3 to the nascent-RNA 3′ end", _vra3_geometry(),
+                     _three_prime_product_scene().rows(),
+                     name="3′-adapter-ligated biotin RNA",
+                     note="The covalent junction is the information-bearing RNA 3′ boundary; inverted dT blocks VRA3 self-ligation.")
+    w.react("Streptavidin-purify, decap and repair the RNA 5′ end",
+            _repaired_five_prime_scene().rows(), name="5′-monophosphorylated selected RNA",
+            note="Repeated biotin capture retains run-on products while end processing makes the opposite end ligatable.")
+    w.ligate_adapter("Ligate VRA5 to the repaired RNA 5′ end", _vra5_geometry(),
+                     _dual_adapter_scene().rows(), name="dual-adapter PRO-seq RNA",
+                     note="VRA5's 3′ end joins the repaired RNA 5′ phosphate; both covalent RNA-adapter junctions remain marked.")
+    w.react("Reverse-transcribe from RP1 annealed to VRA3", _rt_scene().rows(),
+            name="RP1-primed first-strand cDNA",
+            note="RP1 contributes P5 as a non-annealing 5′ tail and uses its 21-nt suffix to prime VRA3.")
+    geometry = PCRGeometry.exact(
+        _pre_pcr_template(), PCRPrimer("RP1", RP1), PCRPrimer("RPI-n", RPI),
+        statement="Mahat et al. Table 1 prints RP1 and the RPI-n family; RP1 lands at the VRA3-derived end and the RPI-n 3′ suffix lands on VRA5-derived cDNA.")
+    w.pcr("PCR-add the six-base i7 index and P7", geometry,
+          Scene.duplex(list(FINAL_LIBRARY), label="indexed PRO-seq library").rows(),
+          name="single-index PRO-seq library",
+          note="The RPI-n member supplies one six-base i7 index; the protocol has no i5 read.")
+    return w

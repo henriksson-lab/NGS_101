@@ -364,12 +364,20 @@ def crossref(doi: str, cache: Path, offline: bool) -> dict:
 # Stable identifiers used only when the general metadata services fail to join a
 # legitimate DOI.  eLife 63632 is indexed in PubMed, but Crossref intermittently omits
 # it and NCBI's DOI search is case-sensitive for the publisher's mixed-case suffix.
-KNOWN_DOI_PMIDS = {"10.7554/elife.63632": "33835024"}
+KNOWN_DOI_PMIDS = {
+    "10.7554/elife.63632": "33835024",
+    "10.1038/nprot.2014.072": "24810036",
+}
 KNOWN_DOI_METADATA = {
     "10.7554/elife.63632": {
         "title": "Simultaneous trimodal single-cell measurement of transcripts, epitopes, and chromatin accessibility using TEA-seq",
         "journal": "eLife",
         "year": "2021",
+    },
+    "10.1038/nprot.2014.072": {
+        "title": "Using TRIP for genome-wide position effect analysis in cultured cells",
+        "journal": "Nature Protocols",
+        "year": "2014",
     },
 }
 
