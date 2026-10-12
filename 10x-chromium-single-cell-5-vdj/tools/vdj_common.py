@@ -10,10 +10,13 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
 
 PARTIAL_R1 = il.TRUSEQ_READ1[11:]
 TSO = "TTTCTTATATGGG"
 VDJ_FORWARD = "GATCTACACTCTTTCCCTACACGACGC"
+CDNA_FORWARD = "CTACACGACGCTCTTCCGATCT"
+CDNA_REVERSE = "AAGCAGTGGTATCAACGCAGAG"
 POLY_DT_NT = 30
 INDEX_NT = 10
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
@@ -96,6 +99,65 @@ class VDJChemistry:
                 placeholder=True),
         ], name=f"10x 5' V(D)J {self.version} nested amplicon")
 
+    def cdna_template(self) -> Construct:
+        """Representative full-length cDNA carrying both published amplification sites."""
+        return Construct([
+            seg("partial Read 1", CDNA_FORWARD, "r1"),
+            seg("cell barcode", "N" * 16, "cbc", placeholder=True),
+            seg("UMI", "N" * self.umi_nt, "umi", placeholder=True),
+            seg("TSO", TSO, "tso"),
+            seg("5' UTR–transcript–poly(A)", "XXXXXXXX...XXXXXXXX", placeholder=True),
+            seg("cDNA reverse-primer site", revcomp(CDNA_REVERSE), "r2"),
+        ], name=f"10x 5' {self.version} full-length cDNA")
+
+    def cdna_pcr(self) -> PCRGeometry:
+        return PCRGeometry.exact(
+            self.cdna_template(), PCRPrimer("cDNA Forward", CDNA_FORWARD),
+            PCRPrimer("cDNA Reverse", CDNA_REVERSE),
+            statement=f"{self.guide} prints both cDNA-primer sequences.")
+
+    def vdj_template(self, *, inner: bool = False) -> Construct:
+        return Construct([
+            seg("partial Read 1", CDNA_FORWARD, "r1"),
+            seg("cell barcode", "N" * 16, "cbc", placeholder=True),
+            seg("UMI", "N" * self.umi_nt, "umi", placeholder=True),
+            seg("TSO", TSO, "tso"),
+            seg("5' UTR–V(D)J", "XXXXXXXX...XXXXXXXX", placeholder=True),
+            seg("constant region", "XXXXXXXXXXXXXXXXXXXX", placeholder=True,
+                note="outer or inner pool target; exact transcript coordinate not reported"),
+        ], name=("inner" if inner else "outer") + " V(D)J PCR template")
+
+    def vdj_pcr(self, *, inner: bool) -> PCRGeometry:
+        stage = "inner Mix 2" if inner else "outer Mix 1"
+        return PCRGeometry.regional(
+            self.vdj_template(inner=inner),
+            PCRPrimer("V(D)J universal forward", VDJ_FORWARD, anneal_nt=11),
+            reverse_pool=f"{stage} constant-region primer pool",
+            reverse_region="constant region",
+            statement=(f"{self.guide} prints every {stage} reverse-primer sequence and "
+                       "states that the pool binds constant regions, but does not map "
+                       "each oligo to a transcript coordinate."))
+
+    def pre_index_library(self) -> Construct:
+        return Construct([
+            seg("GATCT extension", "GATCT", "p5"),
+            seg("Read 1", il.TRUSEQ_READ1, "r1"),
+            seg("cell barcode", "N" * 16, "cbc", placeholder=True),
+            seg("UMI", "N" * self.umi_nt, "umi", placeholder=True),
+            seg("TSO", TSO, "tso"),
+            seg("V(D)J fragment", "XXXXXXXX...XXXXXXXX", placeholder=True),
+            seg("dA junction", "A"),
+            seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
+        ], name=f"10x 5' V(D)J {self.version} adapter-ligated fragment")
+
+    def index_pcr(self) -> PCRGeometry:
+        forward = "".join(s.top for s in self.index_p5_segments())
+        reverse = "".join(s.top for s in self.index_p7_segments())
+        return PCRGeometry.exact(
+            self.pre_index_library(), PCRPrimer("TT i5 / P5 primer", forward),
+            PCRPrimer("TT i7 / P7 primer", reverse),
+            statement=f"{self.guide} prints both Dual Index TT Set A primer structures.")
+
     def adapter_top(self) -> list[Segment]:
         return [seg("Read 2 adapter", il.INDEX1_PRIMER, "r2")]
 
@@ -143,6 +205,10 @@ class VDJChemistry:
         self.capture_scene().rows()
         self.template_switch_scene().rows()
         self.adapter_scene().rows()
+        self.cdna_pcr().rows()
+        self.vdj_pcr(inner=False).rows()
+        self.vdj_pcr(inner=True).rows()
+        self.index_pcr().rows()
         Scene.duplex(list(self.vdj_amplicon())).rows()
         Scene.duplex(list(self.final_library())).rows()
         problems = sp.verify(self.final_library(), self.seq_primers)

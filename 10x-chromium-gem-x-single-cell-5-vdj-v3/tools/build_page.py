@@ -11,7 +11,8 @@ AUDIT_TOOLS = HERE.parents[1] / "10x-chromium-single-cell-5-vdj" / "tools"
 sys.path[:0] = [str(HERE), str(AUDIT_TOOLS), str(HERE.parents[1] / "lib")]
 
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, oligo, panel
+from chemdraw import (MolecularState, Segment, Workflow, duplex_rows, oligo, panel,
+                      workflow_panel)
 from page import head, info, table
 from vdj_common import VDJ_FORWARD
 from vdj_v3 import CHEM as C
@@ -42,6 +43,20 @@ def sequencing(lib) -> str:
 def render() -> str:
     amplicon = C.vdj_amplicon()
     lib = C.final_library()
+    cdna = Workflow(MolecularState("Amplification-ready full-length cDNA",
+                                  tuple(duplex_rows(C.cdna_template()))))
+    cdna.pcr("Amplify full-length cDNA", C.cdna_pcr(),
+             duplex_rows(C.cdna_template()), name="amplified full-length cDNA")
+    nested = Workflow(MolecularState("Full-length cDNA selected for V(D)J enrichment",
+                                     tuple(duplex_rows(C.vdj_template()))))
+    nested.pcr("Outer V(D)J PCR (Mix 1)", C.vdj_pcr(inner=False),
+               duplex_rows(C.vdj_template(inner=True)), name="outer V(D)J amplicon")
+    nested.pcr("Inner V(D)J PCR (Mix 2)", C.vdj_pcr(inner=True),
+               duplex_rows(amplicon), name="nested V(D)J amplicon")
+    indexed = Workflow(MolecularState("Adapter-ligated barcode-bearing fragment",
+                                      tuple(duplex_rows(C.pre_index_library()))))
+    indexed.pcr("Dual-index PCR", C.index_pcr(), duplex_rows(lib),
+                name="cluster-ready V(D)J library")
     return "\n".join([
         head("10x GEM-X Single Cell 5' V(D)J v3 chemistry"), '<div class="wrap">',
         '<h1>10x Chromium GEM-X Single Cell 5&#39; V(D)J v3</h1>',
@@ -58,16 +73,22 @@ def render() -> str:
         panel(C.capture_scene().rows(), cls="small"),
         panel(C.template_switch_scene().rows(), cls="long",
               caption="The GEM-X TSO installs the cell barcode, 12-base UMI and Read 1 handle."),
-        '<h3>(2) Amplify cDNA, then enrich V(D)J with outer and inner constant-region pools</h3>',
-        panel([*Scene.duplex(list(amplicon)).rows(), *annotation_rows(amplicon)], cls="long",
-              caption="The v3 guide specifies the same v2-labelled TCR/BCR enrichment kits."),
-        '<h3>(3) Fragment, end-repair, A-tail and ligate the Read 2 adaptor</h3>',
+        '<h3>(2) Amplify full-length cDNA</h3>',
+        workflow_panel(cdna, caption="cDNA amplification primer binding and product"),
+        '<h3>(3) Enrich V(D)J with outer and inner constant-region pools</h3>',
+        workflow_panel(nested, caption="Nested V(D)J PCR primer binding and products"),
+        info('The guide publishes every outer and inner reverse-primer sequence and places '
+             'the pools in constant regions, but does not identify the exact transcript '
+             'coordinate for each oligo. The shared forward primer lands exactly on the '
+             'partial Read 1 handle. Individual pool sequences are retained in the research note.'),
+        '<h3>(4) Fragment, end-repair, A-tail and ligate the Read 2 adaptor</h3>',
         panel(C.adapter_scene().rows(), cls="small",
               caption="The half adaptor has a 12-base stem and 3'-T overhang."),
-        '<h3>(4) Select the barcode-bearing fragment by dual-index PCR</h3>',
-        panel([*Scene.duplex(list(lib)).rows(), *annotation_rows(lib)], cls="long",
-              caption="Only fragments retaining the Read 1/barcode end acquire P5; Read 2 "
-                      "starts at variable fragmentation points across V(D)J."),
+        '<h3>(5) Select the barcode-bearing fragment by dual-index PCR</h3>',
+        workflow_panel(indexed, caption="Dual-index primer binding and selected product"),
+        info('Only fragments retaining the Read 1/barcode end acquire P5; Read 2 starts at '
+             'variable fragmentation points across V(D)J.'),
+        '<p class="quiet"><a href="01_10x-5prime-vdj-v3.html">Research notes</a></p>',
         sequencing(lib), '</div>',
     ])
 

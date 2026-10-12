@@ -173,7 +173,8 @@ def _hits(top: str, seq: str) -> list[tuple[str, int, int]]:
     return hits
 
 
-def locate_all(lib: Construct, p: SeqPrimer, n: int = 12) -> list[Landing]:
+def locate_all(lib: Construct, p: SeqPrimer, n: int = 12,
+               min_anneal: int = MIN_ANNEAL) -> list[Landing]:
     """Every best-length site of ``p`` on ``lib``.
 
     Repeated sites are intentional in rolling-circle products. Ordinary sequencing
@@ -181,7 +182,9 @@ def locate_all(lib: Construct, p: SeqPrimer, n: int = 12) -> list[Landing]:
     """
     top = lib.top()
     hits = []
-    for free5 in range(0, max(1, len(p.seq) - MIN_ANNEAL + 1)):
+    if min_anneal < 1 or min_anneal > len(p.seq):
+        raise ValueError("minimum annealing length must fit within the primer")
+    for free5 in range(0, max(1, len(p.seq) - min_anneal + 1)):
         hits = _hits(top, p.seq[free5:])
         if hits:
             break
@@ -196,9 +199,10 @@ def locate_all(lib: Construct, p: SeqPrimer, n: int = 12) -> list[Landing]:
     return out
 
 
-def locate(lib: Construct, p: SeqPrimer, n: int = 12) -> Landing | None:
+def locate(lib: Construct, p: SeqPrimer, n: int = 12,
+           min_anneal: int = MIN_ANNEAL) -> Landing | None:
     """Unique site of ``p`` on the library, or ``None``."""
-    hits = locate_all(lib, p, n)
+    hits = locate_all(lib, p, n, min_anneal)
     if len(hits) > 1:
         raise ValueError(f"{p.name}: {len(hits)} exact sites on {lib.name!r} -- ambiguous")
     return hits[0] if hits else None

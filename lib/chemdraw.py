@@ -530,6 +530,29 @@ class Workflow:
         self.current = after
         return self
 
+    def pcr(self, action: str, geometry, rows: Iterable[Row], *,
+            binding_name: str = "PCR primer binding",
+            name: str = "PCR product", note: str = ""):
+        """Render primer binding before a PCR product can enter the workflow.
+
+        PCR is not represented by a product-only transition: callers must supply a
+        structured ``PCRGeometry``-like object which has already established two
+        inward-facing primer sites, or explicitly records why a site is unavailable.
+        """
+        if getattr(geometry, "availability", None) not in ("exact", "regional",
+                                                            "unavailable"):
+            raise TypeError("PCR needs structured primer-binding geometry")
+        bound = MolecularState(binding_name, tuple(geometry.rows()))
+        preparation = Reaction("Anneal PCR primers", self.current, bound,
+                               geometry.statement)
+        self.reactions.append(preparation)
+        self.current = bound
+        after = MolecularState(name, tuple(rows))
+        reaction = Reaction(action, self.current, after, note)
+        self.reactions.append(reaction)
+        self.current = after
+        return self
+
     @property
     def states(self) -> tuple[MolecularState, ...]:
         return (self.initial, *(r.after for r in self.reactions))

@@ -314,6 +314,21 @@ possible.  Showing the reagent end distinguishes blunt, cohesive and splinted re
 an explicit unavailable state prevents a sparse drawing from looking like evidence that
 the end was blunt.
 
+### PCR primer-binding geometry
+
+Every PCR transition shows the template before amplification, both primer-binding sites,
+primer-extension direction and the resulting amplicon boundaries.  Protocol builders use
+`Workflow.pcr` with structured `PCRGeometry`; they do not jump directly from an unrelated
+input to an amplified product.  Exact sites are located from the primer and template
+sequences.  If a source gives a primer pool and only names its target region, the drawing
+may show that region but must explicitly say that exact coordinates are not reported.  If
+a primer sequence or target is unavailable, that absence is a structured state rather
+than a silent omission.
+
+**Why.** PCR defines which part of a molecule survives and which adapter tails are added.
+A finished amplicon by itself cannot distinguish those choices or reveal an incorrectly
+oriented primer.
+
 ## 2026-10-07 — Evidence and uncertainty remain visible but secondary
 
 **Decision.** Research notes retain the detailed evidence vocabulary (verbatim, derived,
