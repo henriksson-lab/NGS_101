@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import hydrop_atac as H
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info
 
 OUT = HERE.parent / "hydrop-atac.html"
@@ -31,26 +31,7 @@ def oligos() -> str:
 
 
 def construction() -> str:
-    template = H.gap_filled_template()
-    product = H.bead_primed_product()
-    lib = H.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Tagment nuclei in bulk with s5 and s7 Tn5 adaptors</h3>
-{panel(H.tagmented_scene().rows(), cls="small",
-       caption="The amplifiable s5/s7 fragment is shown before the two 9-nt gaps are filled.")}
-
-<h3>(2) Co-encapsulate with one bead; DTT releases its primers</h3>
-{panel([strand_row(template), *annotation_rows(template)], cls="small",
-       caption="The initial 72 °C step fills the gaps, creating s7' at the end captured by the bead primer.")}
-{panel(H.capture_scene().rows(), cls="small",
-       caption="The bead oligo's 3' s7 pairs with s7'. Thirteen droplet cycles linearly copy fragments; the cell barcode remains attached to every new strand.")}
-{panel([strand_row(product), *annotation_rows(product)], cls="small",
-       caption="One cell-barcoded linear-extension product.")}
-
-<h3>(3) HYi5/HYi7 bulk PCR adds flow-cell adapters and sample indices</h3>
-{panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small",
-       caption="Final HyDrop-ATAC library, P5 to P7'. HYi7 primes within the bead backbone, so T8 and most of the T7 promoter are absent.")}
-'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(H.protocol_graph(),cls="long")
 
 
 def sequencing() -> str:
@@ -63,7 +44,7 @@ def sequencing() -> str:
 
 def render() -> str:
     return "\n".join([
-        head("HyDrop-ATAC library chemistry"), '<div class="wrap">',
+        head("HyDrop-ATAC library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>HyDrop-ATAC &mdash; droplet single-cell chromatin accessibility</h1>',
         info('Defining source: <a href="https://doi.org/10.7554/eLife.73971">De Rop et al., <i>eLife</i> (2022)</a>.'),
         oligos(), construction(), sequencing(), '</div>'

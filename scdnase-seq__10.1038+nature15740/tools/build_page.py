@@ -11,7 +11,7 @@ sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 
 import scdnase_seq as S
 import seqprimers as sp
-from chemdraw import Scene, oligo, panel, annotation_rows
+from chemdraw import Scene, oligo, panel, annotation_rows, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "scdnase-seq.html"
@@ -38,8 +38,9 @@ def sequencing() -> str:
 
 def render() -> str:
     lib = S.final_library()
+    graph = S.protocol_graph()
     return "\n".join([
-        head("scDNase-seq library chemistry"), '<div class="wrap">',
+        head("scDNase-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scDNase-seq (Pico-Seq) &mdash; DNase-accessible DNA from one cell</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/nature15740">Jin et al., <i>Nature</i> (2015)</a>.'),
         info('The paper’s cited library method identifies Illumina Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709. The displayed obsolete six-base single-index oligos are the corresponding vendor-published set; there is no i5 index.'),
@@ -49,7 +50,8 @@ def render() -> str:
         oligo("PCR Primer 1.0", S.p5_primer()),
         oligo("indexed multiplexing primer", S.indexed_p7_primer()),
         '</seq>',
-        '<h2>Library construction</h2>',
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>',
         '<h3>(1) Digest one lysed cell with DNase I</h3>',
         panel(S.digested_fragment_scene().rows(), cls="small",
               caption="DNase I releases short fragments from accessible genomic DNA; circular carrier DNA is added before purification."),

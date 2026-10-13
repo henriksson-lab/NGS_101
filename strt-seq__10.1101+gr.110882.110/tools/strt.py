@@ -88,6 +88,35 @@ def tn5_indexed_top(value: str | None = None, *, inferred: bool = False) -> list
             seg("ME", nx.ME, "me", inferred=inferred)]
 
 
+def strt_preamp_product() -> Construct:
+    return Construct([
+        seg("TSO-end SMART handle", H, "tso"),
+        seg("TSO spacer", STRT_TSO_LINK, "r1"),
+        variable("cell barcode", STRT_BC_LEN, "B", "cbc"),
+        seg("GGG", "GGG", "tso"), variable("cDNA", 32, "X", "r1"),
+        seg("oligo-dT-end SMART handle reverse complement", revcomp(H), "tso"),
+    ], name="STRT-seq amplified full-length cDNA")
+
+
+def c1_preamp_product() -> Construct:
+    return Construct([
+        seg("TSO-end C1 PCR site", C1_PCR, "p5"),
+        variable("UMI", C1_UMI_LEN, "N", "umi"), seg("GGG", "GGG", "tso"),
+        variable("cDNA", 32, "X", "r1"),
+        seg("oligo-dT-end C1 PCR site reverse complement", revcomp(C1_PCR), "p5"),
+    ], name="STRT-C1 amplified full-length cDNA")
+
+
+def two_i_preamp_product() -> Construct:
+    return Construct([
+        seg("P5", il.P5, "p5"),
+        variable("well index", WELL_INDEX_LEN, "W", "cbc"),
+        seg("P1B", P1B, "r1"), variable("UMI", TWO_I_UMI_LEN, "N", "umi"),
+        seg("GGG", "GGG", "tso"), variable("cDNA", 32, "X", "r1"),
+        seg("P1A reverse complement", revcomp(il.P5[:20]), "p5"),
+    ], name="STRT-seq-2i well-indexed cDNA")
+
+
 def strt_library() -> Construct:
     con = Construct([
         seg("P5 fragment", il.P5[:25], "p5"), seg("SMART handle", H, "tso"),

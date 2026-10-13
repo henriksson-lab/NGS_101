@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import nomecool as N
-from chemdraw import Construct, Scene, Segment, annotation_rows, complement_segments, oligo, panel, strand_row
+from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
+                      oligo, panel, protocol_graph_panels, strand_row)
 import illumina as il
 from page import head, info, table
 import seqprimers as sp
@@ -119,6 +120,14 @@ def sequencing(protocol: str) -> str:
 
 
 def render_page(protocol: str, out: Path) -> None:
+    graph = N.protocol_graph(protocol)
     lib_steps = nome_library_steps() if protocol == N.SCNOME else cool_priming() + '<h3>(5) Indexed PCR on the beads</h3>' + final_panel(N.SCCOOL)
-    out.write_text("\n".join([head(f"{protocol} library chemistry"), preamble(protocol), oligos(protocol), mark_and_convert(), lib_steps, sequencing(protocol)]), encoding="utf-8")
+    html = "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
+                       oligos(protocol), '<h2>Reaction workflow</h2>',
+                       protocol_graph_panels(graph, cls="long"),
+                       '<h2>Molecular details</h2>', mark_and_convert(), lib_steps,
+                       sequencing(protocol)])
+    html = html.replace('<div class="wrap">',
+                        '<div class="wrap" data-protocol-complete="true">', 1)
+    out.write_text(html, encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")

@@ -8,6 +8,7 @@ from adapter_ligation import reported_adapter_end
 from chemdraw import Construct, Segment
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from nebnext import STANDARD_PRIMERS, indexed_library
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 
 TITLE="NEBNext Ultra II FS DNA PCR-free"
 NOTES="01_nebnext-ultra-ii-fs-pcr-free.html"
@@ -31,3 +32,26 @@ SEQ_PRIMERS=STANDARD_PRIMERS; REQUIRED_ROLES=tuple(p.role for p in SEQ_PRIMERS)
 READOUT="Read 1 and Read 2 sequence the insert; Index 2 reports i5, while the 20-cycle Index 1 read contains the 8-base i7 followed by the 12-base UMI."
 FINAL_CAPTION="Full-length PCR-free molecule. The adapter sequence was withdrawn as proprietary by NEB; documented functional blocks and computed primer sites are retained without inventing bases."
 def final_library(): return indexed_library(Construct([Segment("DNA insert", "X"*42, placeholder=True)]), "Ultra II FS PCR-free library", umi_nt=UMI_NT, inferred_adaptors=True)
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=g.input("dna","intact genomic DNA",MaterialKind.BIOLOGICAL,state=DNA,primary=True)
+    fs=g.input("fs_mix","Ultra II FS fragmentation/end-prep enzyme mix",MaterialKind.CATALYST)
+    fragmented=g.product("fragmented","FS-fragmented DNA",MaterialKind.MOLECULAR,state=END_PREP.insert)
+    g.react("fragment","Fragment DNA",StepKind.FRAGMENTATION,((dna,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fragmented,))
+    repaired=g.product("repaired","end-repaired FS fragments",MaterialKind.MOLECULAR,state=END_PREP.insert)
+    g.react("end_repair","Repair fragmented DNA ends",StepKind.END_REPAIR,((fragmented,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(repaired,))
+    tailed=g.product("tailed","fragmented, repaired and dA-tailed DNA",MaterialKind.MOLECULAR,state=dA_tailed_scene(END_PREP))
+    g.react("da_tail","Add one 3-prime dA to each repaired end",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(tailed,))
+    adapter=g.input("adapter","full-length UDI-UMI adapter",MaterialKind.ADAPTER,state=ADAPTOR,inferred=True,source=SOURCE+" (adapter body proprietary)")
+    ligase=g.input("ligase","NEBNext ligation enzyme",MaterialKind.CATALYST)
+    ligated=g.product("ligated","adapter-ligated PCR-free molecules",MaterialKind.LIBRARY,state=final_library(),inferred=True,source=SOURCE+" (adapter body proprietary)")
+    g.react("ligate","Ligate full-length UDI-UMI adapters",StepKind.LIGATION,((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=ADAPTOR_END)
+    beads=g.input("beads","size-selection beads",MaterialKind.SELECTION)
+    library=g.product("library","size-selected Ultra II FS PCR-free library",MaterialKind.LIBRARY,state=final_library(),inferred=True,source=SOURCE+" (adapter body proprietary)")
+    waste=g.product("size_waste","free adapters and excluded fragment sizes",MaterialKind.WASTE)
+    g.react("size_select","Size-select without amplification",StepKind.SELECTION,((ligated,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(library,waste),changes_molecule=False)
+    g.discard(waste,"is excluded by bead size selection")
+    g.sequence(library,SequencingPlan(library=final_library(),primers=tuple(SEQ_PRIMERS),acquired_roles=REQUIRED_ROLES,read_lengths={"Index 1 (i7)":I7_READ_NT}))
+    g.declare_reviewed_scope(["dna","fs_mix","fragment","end_repair","da_tail","adapter","ligase","ligate","beads","size_select","library"],SOURCE)
+    return g.require_publishable()

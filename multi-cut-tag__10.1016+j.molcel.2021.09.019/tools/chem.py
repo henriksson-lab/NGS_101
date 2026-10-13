@@ -14,6 +14,10 @@ from batch_ngs import seg
 from chemdraw import (Construct, MolecularState, Row, Scene, Workflow,
                       duplex_rows, feature, revcomp)
 from tagmentation import loaded_tn5_adapter
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 TITLE = "Multi-CUT&Tag — antibody-coded targeted transposition"
 NOTES = "01_multi-cut-tag.html"
@@ -170,3 +174,124 @@ def workflow() -> Workflow:
              name="Single-cell branch (vendor oligo sequence unavailable)",
              note="The paper uses 16 Index 2 cycles for the single-cell run; the proprietary gel-bead construct is not printed.")
     return wf
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    nuclei = graph.input(
+        "nuclei", "permeabilized native-chromatin nuclei", MaterialKind.BIOLOGICAL,
+        state=molecule("native chromatin", (role("multiple antibody-defined epitopes"),)),
+        primary=True)
+    antibodies = graph.input("coded_antibodies", "target antibodies assigned matched A/B codes",
+                             MaterialKind.SELECTION)
+    loaded_adapters = graph.input(
+        "loaded_ab_adapters", "published A/B barcode-loaded pA–Tn5 transposomes",
+        MaterialKind.ADAPTER,
+        state=(loaded_adapter_scene(adapter_a(), "adapter A"),
+               loaded_adapter_scene(adapter_b(), "adapter B")))
+    pa_tn5 = graph.input("pa_tn5", "Protein A–Tn5 transposase", MaterialKind.CATALYST)
+    targeted = graph.product("targeted_nuclei", "washed antibody-coded pA–Tn5 chromatin",
+                             MaterialKind.MOLECULAR, state=nuclei.state)
+    wash = graph.product("unbound_targeting_reagents", "unbound antibodies and transposomes",
+                         MaterialKind.WASTE)
+    graph.react("target_chromatin", "Tether coded pA–Tn5 complexes through their antibodies",
+                StepKind.AFFINITY_CAPTURE,
+                ((nuclei, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION),
+                 (loaded_adapters, InputRole.STRUCTURAL), (pa_tn5, InputRole.CATALYST)),
+                (targeted, wash))
+    graph.discard(wash, "is removed before magnesium activation")
+    magnesium = graph.input("magnesium", "magnesium tagmentation condition",
+                            MaterialKind.CONDITION)
+    tagged = graph.product("target_coded_fragments", TRANSFERRED.name,
+                           MaterialKind.MOLECULAR, state=TRANSFERRED)
+    tn5_waste = graph.product("tn5_waste", "non-amplifiable or mistargeted Tn5 products",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Transfer antibody-coded adapters at target-proximal chromatin",
+                StepKind.TAGMENTATION,
+                ((targeted, InputRole.TEMPLATE), (loaded_adapters, InputRole.STRUCTURAL),
+                 (pa_tn5, InputRole.CATALYST), (magnesium, InputRole.CONDITION)),
+                (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not retain a productive A/B target-code pair")
+    gap_polymerase = graph.input("gap_fill_polymerase", "Tn5-gap-fill polymerase",
+                                 MaterialKind.CATALYST)
+    filled = graph.product("gap_filled", "gap-filled antibody-coded fragments",
+                           MaterialKind.MOLECULAR, state=TRANSFERRED)
+    graph.react("gap_fill", "Fill the 9-bp staggered Tn5 gaps", StepKind.EXTENSION,
+                ((tagged, InputRole.TEMPLATE), (gap_polymerase, InputRole.CATALYST)),
+                (filled,))
+    bulk = graph.product("bulk_branch", "bulk Multi-CUT&Tag fragments",
+                         MaterialKind.MOLECULAR, state=TRANSFERRED)
+    single_cell = graph.product("single_cell_branch", "single-cell Multi-CUT&Tag fragments",
+                                MaterialKind.MOLECULAR, state=TRANSFERRED)
+    graph.react("split_branches", "Route target-coded fragments to bulk or single-cell preparation",
+                StepKind.SPLIT, ((filled, InputRole.TEMPLATE),), (bulk, single_cell),
+                changes_molecule=False)
+
+    bulk_forward = graph.input("bulk_forward", "published indexed i5 PCR primer family",
+                               MaterialKind.OLIGO)
+    bulk_reverse = graph.input("bulk_reverse", "published indexed i7 PCR primer family",
+                               MaterialKind.OLIGO)
+    bulk_polymerase = graph.input("bulk_polymerase", "bulk library PCR polymerase",
+                                  MaterialKind.CATALYST)
+    bulk_library = graph.product("bulk_library", FINAL_LIBRARY.name,
+                                 MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    graph.react("bulk_pcr", "Amplify the bulk target-coded library",
+                StepKind.PCR,
+                ((bulk, InputRole.TEMPLATE), (bulk_forward, InputRole.STRUCTURAL),
+                 (bulk_reverse, InputRole.STRUCTURAL),
+                 (bulk_polymerase, InputRole.CATALYST)), (bulk_library,),
+                geometry=PCRGeometry.unavailable(
+                    TRANSFERRED,
+                    reason="Table S1 prints the indexed primer families, but a representative fixed i5/i7 pair is not selected for this population graph."))
+    graph.sequence(bulk_library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS,
+        read_uses=READ_USES))
+
+    gel_bead = graph.input(
+        "gel_bead_oligo", "10x scATAC gel-bead cell-barcode oligo",
+        MaterialKind.OLIGO, inferred=True,
+        source=SOURCE + " (complete proprietary oligo sequence unavailable)")
+    sc_polymerase = graph.input("single_cell_polymerase", "Chromium amplification polymerase",
+                                MaterialKind.CATALYST)
+    cell_barcoded = graph.product(
+        "cell_barcoded", "10x-cell-barcoded target-coded fragments",
+        MaterialKind.MOLECULAR,
+        state=molecule("single-cell Multi-CUT&Tag product", (
+            role("10x cell barcode"), role("A/B antibody-coded chromatin fragment"))),
+        inferred=True, source=SOURCE + " (complete gel-bead sequence unavailable)")
+    graph.react("cell_barcode", "Linearly amplify and cell-barcode in Chromium GEMs",
+                StepKind.EXTENSION,
+                ((single_cell, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
+                 (sc_polymerase, InputRole.CATALYST)), (cell_barcoded,))
+    sc_forward = graph.input("sc_forward", "10x scATAC SI-PCR forward primer",
+                             MaterialKind.OLIGO, inferred=True,
+                             source=SOURCE + " (complete proprietary sequence unavailable)")
+    sc_reverse = graph.input("sc_reverse", "10x scATAC SI-PCR reverse primer",
+                             MaterialKind.OLIGO, inferred=True,
+                             source=SOURCE + " (complete proprietary sequence unavailable)")
+    sc_pcr_polymerase = graph.input("sc_pcr_polymerase", "single-cell library PCR polymerase",
+                                    MaterialKind.CATALYST)
+    sc_library = graph.product(
+        "single_cell_library", "single-cell Multi-CUT&Tag sequencing library",
+        MaterialKind.LIBRARY, inferred=True,
+        source=SOURCE + " (library order established; complete vendor arms unavailable)")
+    graph.react("single_cell_pcr", "PCR-complete the single-cell Multi-CUT&Tag library",
+                StepKind.PCR,
+                ((cell_barcoded, InputRole.TEMPLATE), (sc_forward, InputRole.STRUCTURAL),
+                 (sc_reverse, InputRole.STRUCTURAL),
+                 (sc_pcr_polymerase, InputRole.CATALYST)), (sc_library,),
+                geometry=PCRGeometry.unavailable(
+                    TRANSFERRED,
+                    reason="The paper uses the 10x scATAC workflow but does not print the proprietary gel-bead or SI-PCR oligos."))
+    graph.sequence(sc_library, SequencingPlan(
+        acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
+        limitation="The source establishes the single-cell run roles but not the complete proprietary 10x primer-binding construct."))
+    graph.declare_reviewed_scope((
+        "nuclei", "coded_antibodies", "loaded_ab_adapters", "pa_tn5",
+        "target_chromatin", "magnesium", "tagment", "gap_fill_polymerase",
+        "gap_fill", "split_branches", "bulk_forward", "bulk_reverse",
+        "bulk_polymerase", "bulk_pcr", "bulk_library", "gel_bead_oligo",
+        "single_cell_polymerase", "cell_barcode", "sc_forward", "sc_reverse",
+        "sc_pcr_polymerase", "single_cell_pcr", "single_cell_library"), SOURCE)
+    return graph.require_publishable()

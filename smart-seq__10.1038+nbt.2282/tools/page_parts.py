@@ -13,10 +13,14 @@ import nextera as nx
 import rt
 import seqprimers as sp
 import smartseq as ss
-from chemdraw import (MolecularState, Row, Scene, Segment, Workflow, annotation_rows,
-                      complement_segments, oligo, panel, revcomp, workflow_panel)
+from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow, annotation_rows,
+                      complement_segments, oligo, panel, protocol_graph_panels,
+                      revcomp, workflow_panel)
 from illumina import P5, P7
 from page import head, info, table
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 PRE = 4
 H = rt.SMART_HANDLE
@@ -40,9 +44,10 @@ PAPERS = {
 }
 
 
-def preamble(protocol: str) -> str:
+def preamble(protocol: str, *, complete: bool = False) -> str:
     doi, title = PAPERS[protocol]
-    return f"""<div class="wrap">
+    complete_attr = ' data-protocol-complete="true"' if complete else ""
+    return f"""<div class="wrap"{complete_attr}>
 <h1>{title} &mdash; full-length single-cell mRNA</h1>
 
 {info(f'''Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.''')}
@@ -160,12 +165,21 @@ def ss2_rt() -> tuple[Scene, ...]:
 
 
 def ss2_pcr() -> list[Row]:
-    top = [seg("H5", H, "tso"), seg("ACAT", ss.SS2_TSO_LINKER), seg("GGG", "GGG", "tso"),
-           seg("body", "X" * BODY, placeholder=True), seg("B", "B", placeholder=True),
-           seg("polyA", "A" * POLYA), seg("GT", revcomp(ss.SS2_DT_LINKER)), seg("H3", revcomp(H), "tso")]
+    top = list(ss2_preamp_template())
     return _ds_cdna(top, _cdna(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)]), SS2_TSO[:2],
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H'"),
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H3"))
+
+
+def ss2_preamp_template() -> Construct:
+    return Construct([
+        seg("H5", H, "tso"), seg("ACAT", ss.SS2_TSO_LINKER),
+        seg("GGG", "GGG", "tso"),
+        seg("body", "X" * BODY, placeholder=True),
+        seg("B", "B", placeholder=True), seg("polyA", "A" * POLYA),
+        seg("GT", revcomp(ss.SS2_DT_LINKER)),
+        seg("H3", revcomp(H), "tso")],
+        name="SMART-seq full-length cDNA before ISPCR")
 
 
 def ss2_steps(protocol: str = "SMART-seq2") -> str:
@@ -304,14 +318,20 @@ def ss3_rt(variant: str = "SMART-seq3") -> tuple[Scene, ...]:
 
 
 def ss3_pcr(variant: str = "SMART-seq3") -> list[Row]:
-    top = [*ss3_tso_scene(variant)[:-1], seg("GGG", "GGG", "tso"),
-           seg("body", "X" * BODY, placeholder=True), seg("B", "B", placeholder=True),
-           seg("polyA", "A" * POLYA),
-           seg("handle3", revcomp(ss.SS3_OLIGO_DT_HANDLE), "r3")]
+    top = list(ss3_preamp_template(variant))
     fwd = [seg("s5", nx.S5, "s5"), seg("ME", nx.ME, "me"), seg("tag", ss.SS3_TSO_TAG, "r1")]
     return _ds_cdna(top, _cdna(SS3_DT_HANDLE, []), ss3_tso_scene(variant)[:-1],
                     fwd, ("tag", "tag'"),
                     [seg("Rev", ss.SS3_REV_PCR, "r3")], ("Rev", "handle3"))
+
+
+def ss3_preamp_template(variant: str = "SMART-seq3") -> Construct:
+    return Construct([
+        *ss3_tso_scene(variant)[:-1], seg("GGG", "GGG", "tso"),
+        seg("body", "X" * BODY, placeholder=True),
+        seg("B", "B", placeholder=True), seg("polyA", "A" * POLYA),
+        seg("handle3", revcomp(ss.SS3_OLIGO_DT_HANDLE), "r3")],
+        name=f"{variant} full-length cDNA before PCR")
 
 
 def ss3_steps(variant: str = "SMART-seq3") -> str:
@@ -416,10 +436,165 @@ def sources(protocol: str) -> str:
             + links + '</ul></details>')
 
 
-def render_page(protocol: str) -> str:
+def protocol_graph(protocol: str) -> ProtocolGraph:
+    doi, _ = PAPERS[protocol]
+    source = f"Defining source: doi:{doi}"
+    graph = ProtocolGraph(protocol, authority=source)
+    initial = Scene(); initial.strand("mRNA", _mrna())
+    mrna = graph.input("mrna", "single-cell poly(A) RNA", MaterialKind.MOLECULAR,
+                       state=initial, primary=True)
+
     if protocol in ("SMART-seq", "SMART-seq2"):
-        body = [ss2_oligos(protocol), ss2_steps(protocol), ss2_final()]
+        priming, first_scene, switch_scene = ss2_rt()
+        rt_label = "anchored oligo-dTVN with SMART handle"
+        tso_label = ("SMART-seq2 LNA template-switch oligo" if protocol == "SMART-seq2"
+                     else "SMART-seq template-switch oligo")
+        preamp_template = ss2_preamp_template()
     else:
-        body = [ss3_oligos(protocol), ss3_steps(protocol), ss3_final(protocol)]
-    return "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
+        priming, first_scene, switch_scene = ss3_rt(protocol)
+        rt_label = "biotinylated anchored oligo(dT) primer"
+        tso_label = protocol + " UMI template-switch oligo"
+        preamp_template = ss3_preamp_template(protocol)
+
+    rt_primer = graph.input("rt_primer", rt_label, MaterialKind.OLIGO,
+                            state=priming)
+    reverse_transcriptase = graph.input(
+        "reverse_transcriptase", "MMLV-derived template-switching reverse transcriptase",
+        MaterialKind.CATALYST)
+    first = graph.product("first_strand", "first-strand cDNA with untemplated CCC",
+                          MaterialKind.MOLECULAR, state=first_scene)
+    graph.react("reverse_transcription",
+                "Reverse-transcribe from the anchored poly(dT) primer",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((mrna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (first,))
+
+    tso = graph.input("tso", tso_label, MaterialKind.OLIGO, state=switch_scene)
+    switched = graph.product("switched", "template-switched full-length cDNA",
+                             MaterialKind.MOLECULAR, state=preamp_template)
+    graph.react("template_switch", "Template-switch at the transcript 5-prime end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (switched,))
+
+    preamp_polymerase = graph.input("preamp_polymerase", "full-length cDNA PCR polymerase",
+                                    MaterialKind.CATALYST)
+    if protocol in ("SMART-seq", "SMART-seq2"):
+        ispcr = graph.input("ispcr", "ISPCR primer used at both cDNA ends",
+                            MaterialKind.OLIGO)
+        preamp_geometry = PCRGeometry.symmetric(
+            preamp_template, PCRPrimer("ISPCR", H),
+            statement=("The source-defined SMART handle occurs in opposite orientations "
+                       "at the two cDNA ends, so one ISPCR reagent supplies both inward sites."))
+        preamp_inputs = ((switched, InputRole.TEMPLATE),
+                         (ispcr, InputRole.STRUCTURAL),
+                         (preamp_polymerase, InputRole.CATALYST))
+        primer_reviewed = ["ispcr"]
+    else:
+        forward = graph.input("preamp_forward", "s5-ME-tag forward PCR primer",
+                              MaterialKind.OLIGO)
+        reverse = graph.input("preamp_reverse", "oligo-dT-handle reverse PCR primer",
+                              MaterialKind.OLIGO)
+        preamp_geometry = PCRGeometry.exact(
+            preamp_template,
+            PCRPrimer("Fwd PCR primer", ss.SS3_FWD_PCR),
+            PCRPrimer("Rev PCR primer", ss.SS3_REV_PCR),
+            statement=("The published asymmetric forward and reverse primers face inward "
+                       "around the full-length template-switched cDNA."))
+        preamp_inputs = ((switched, InputRole.TEMPLATE),
+                         (forward, InputRole.STRUCTURAL),
+                         (reverse, InputRole.STRUCTURAL),
+                         (preamp_polymerase, InputRole.CATALYST))
+        primer_reviewed = ["preamp_forward", "preamp_reverse"]
+    amplified = graph.product("amplified", "amplified full-length cDNA",
+                              MaterialKind.MOLECULAR, state=preamp_template)
+    graph.react("preamp", "PCR-amplify full-length cDNA", StepKind.PCR,
+                preamp_inputs, (amplified,), geometry=preamp_geometry)
+
+    transposome = graph.input("transposome", "s5/s7-loaded Nextera transposome",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagmented_product = graph.product(
+        "tagmented", "heterologous s5/s7-tagmented cDNA fragments",
+        MaterialKind.MOLECULAR, state=tagmented("s5", "s7"))
+    tagment_waste = graph.product(
+        "tagment_waste", "s5/s5, s7/s7 and other non-library Tn5 products",
+        MaterialKind.WASTE)
+    graph.react("tagment", "Tagment amplified cDNA with Nextera s5/s7 adapters",
+                StepKind.TAGMENTATION,
+                ((amplified, InputRole.TEMPLATE),
+                 (transposome, InputRole.STRUCTURAL), (tn5, InputRole.CATALYST)),
+                (tagmented_product, tagment_waste))
+    graph.discard(tagment_waste,
+                  "lacks the heterologous s5/s7 end combination required for amplification")
+
+    gap_polymerase = graph.input("gap_polymerase", "Nextera nine-base gap-fill polymerase",
+                                 MaterialKind.CATALYST)
+    filled = graph.product("gap_filled", "gap-filled heterologous Nextera fragments",
+                           MaterialKind.MOLECULAR, state=gap_filled())
+    graph.react("gap_fill", "Fill both nine-base Tn5 gaps at 72 degrees C",
+                StepKind.EXTENSION,
+                ((tagmented_product, InputRole.TEMPLATE),
+                 (gap_polymerase, InputRole.CATALYST)), (filled,))
+
+    final = (ss.smartseq2_library() if protocol in ("SMART-seq", "SMART-seq2")
+             else ss.smartseq3_library(protocol))
+    index_forward = graph.input("index_forward", "Nextera N5xx index primer",
+                                MaterialKind.OLIGO)
+    index_reverse = graph.input("index_reverse", "Nextera N7xx index primer",
+                                MaterialKind.OLIGO)
+    index_polymerase = graph.input("index_polymerase", "Nextera index-PCR polymerase",
+                                   MaterialKind.CATALYST)
+    index_geometry = PCRGeometry.exact(
+        final, PCRPrimer("N5xx", nx.n5xx_primer("N" * 8)),
+        PCRPrimer("N7xx", nx.n7xx_primer("N" * 8)),
+        statement=("The canonical N5xx and N7xx primers face inward from the s5 and s7 "
+                   "entry points and install the indexed P5/P7 ends."))
+    primers = tuple(ss.SS2_SEQ_PRIMERS if protocol in ("SMART-seq", "SMART-seq2")
+                    else ss.SS3_SEQ_PRIMERS)
+    finals = []
+    main_library = graph.product("library", protocol + " sequencing-library molecules",
+                                 MaterialKind.LIBRARY, state=final)
+    finals.append((main_library, final))
+    outputs = [main_library]
+    if protocol not in ("SMART-seq", "SMART-seq2"):
+        internal = ss.smartseq3_library(protocol, five_prime=False)
+        internal_library = graph.product(
+            "internal_library", protocol + " internal-fragment library molecules",
+            MaterialKind.LIBRARY, state=internal)
+        finals.append((internal_library, internal)); outputs.append(internal_library)
+    graph.react("index_pcr", "Amplify and install indexed P5/P7 ends",
+                StepKind.PCR,
+                ((filled, InputRole.TEMPLATE),
+                 (index_forward, InputRole.STRUCTURAL),
+                 (index_reverse, InputRole.STRUCTURAL),
+                 (index_polymerase, InputRole.CATALYST)),
+                outputs, geometry=index_geometry)
+    for material, construct in finals:
+        graph.sequence(material, SequencingPlan(
+            library=construct, primers=primers,
+            acquired_roles=tuple(p.role for p in primers)))
+
+    reviewed = [
+        "mrna", "rt_primer", "reverse_transcriptase", "reverse_transcription",
+        "tso", "template_switch", *primer_reviewed, "preamp_polymerase", "preamp",
+        "transposome", "tn5", "tagment", "gap_polymerase", "gap_fill",
+        "index_forward", "index_reverse", "index_polymerase", "index_pcr",
+        "library",
+    ]
+    if protocol not in ("SMART-seq", "SMART-seq2"):
+        reviewed.append("internal_library")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def render_page(protocol: str) -> str:
+    graph = protocol_graph(protocol)
+    graph_workflow = ("<h2>Step-by-step library generation</h2>\n"
+                      + protocol_graph_panels(graph, cls="long"))
+    if protocol in ("SMART-seq", "SMART-seq2"):
+        body = [ss2_oligos(protocol), graph_workflow, ss2_final()]
+    else:
+        body = [ss3_oligos(protocol), graph_workflow, ss3_final(protocol)]
+    return "\n".join([head(f"{protocol} library chemistry"), preamble(protocol, complete=True),
                       *body, sequencing(protocol)])

@@ -7,6 +7,10 @@ from chemdraw import Row
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState, Scene, Workflow
 from terminal_rna import three_prime_adapter_scene,terminal_fragment_selection_rows
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule,role
 
 TITLE="TAIL-seq — poly(A)-tail length and terminal-base sequencing"
 NOTES="01_tail-seq.html"
@@ -29,3 +33,39 @@ def workflow():
  w.ligate_adapter("Repair the 5′ end and ligate the second RNA adapter",g5,joined.rows(),name="two-adapter terminal RNA",note="The selected fragment now has priming sites at both ends.")
  w.react("Reverse-transcribe and PCR-complete",[Row(chunks=[("terminal RNA → cDNA → indexed Illumina library",None,False)])],name="TAIL-seq library",note="One read identifies the gene and the other reads the complete tail.")
  return w
+
+
+def protocol_graph():
+ graph=ProtocolGraph(TITLE,authority=SOURCE)
+ rna=graph.input("rna","native polyadenylated RNA",MaterialKind.BIOLOGICAL,state=molecule("polyadenylated RNA",(role("gene body"),role("native poly(A) and terminal additions"))),primary=True)
+ adapter3=graph.input("three_prime_adapter","biotinylated 3-prime RNA adapter",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (terminal bases unavailable)")
+ ligase3=graph.input("three_prime_ligase","3-prime RNA ligase",MaterialKind.CATALYST)
+ tagged=graph.product("tagged","biotin-adapter-tagged native RNA termini",MaterialKind.MOLECULAR,state=three_prime_adapter_scene(biotin=True))
+ graph.react("ligate_three_prime","Ligate the biotinylated 3-prime adapter",StepKind.LIGATION,((rna,InputRole.TEMPLATE),(adapter3,InputRole.STRUCTURAL),(ligase3,InputRole.CATALYST)),(tagged,),geometry=AdapterLigationGeometry.unavailable("The fetched defining source does not disclose the single-strand RNA adapter terminal bases or activation chemistry."))
+ rnase=graph.input("rnase_t1","RNase T1",MaterialKind.CATALYST)
+ fragments=graph.product("fragments","partially digested adapter-bearing terminal RNA fragments",MaterialKind.MOLECULAR,state=tagged.state)
+ graph.react("digest","Partially digest RNA with RNase T1",StepKind.DIGESTION,((tagged,InputRole.TEMPLATE),(rnase,InputRole.CATALYST)),(fragments,))
+ beads=graph.input("streptavidin","streptavidin capture matrix",MaterialKind.SELECTION)
+ captured=graph.product("captured","captured native-terminal RNA fragments",MaterialKind.MOLECULAR,state=fragments.state)
+ rejected=graph.product("rejected","non-terminal RNA fragments",MaterialKind.WASTE)
+ graph.react("capture","Retain biotin-linked native terminal fragments",StepKind.AFFINITY_CAPTURE,((fragments,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(captured,rejected))
+ graph.discard(rejected,"lacks the biotinylated native 3-prime-end adapter")
+ repair=graph.input("end_repair","5-prime RNA-end repair enzyme",MaterialKind.CATALYST)
+ repaired=graph.product("repaired","5-prime-repaired captured RNA",MaterialKind.MOLECULAR,state=captured.state)
+ graph.react("repair","Repair the selected RNA 5-prime end",StepKind.END_REPAIR,((captured,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
+ adapter5=graph.input("five_prime_adapter","5-prime RNA adapter",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (terminal bases unavailable)")
+ ligase5=graph.input("five_prime_ligase","5-prime RNA ligase",MaterialKind.CATALYST)
+ dual=graph.product("dual_adapter","two-adapter terminal RNA",MaterialKind.MOLECULAR,state=repaired.state)
+ graph.react("ligate_five_prime","Ligate the second RNA adapter",StepKind.LIGATION,((repaired,InputRole.TEMPLATE),(adapter5,InputRole.STRUCTURAL),(ligase5,InputRole.CATALYST)),(dual,),geometry=AdapterLigationGeometry.unavailable("The fetched defining source does not disclose the single-strand 5-prime adapter terminal bases."))
+ rt_primer=graph.input("rt_primer","adapter-complementary RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence unavailable)")
+ rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+ cdna=graph.product("cdna","TAIL-seq cDNA",MaterialKind.MOLECULAR,state=dual.state)
+ graph.react("reverse_transcribe","Reverse-transcribe the selected terminal RNA",StepKind.REVERSE_TRANSCRIPTION,((dual,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+ fwd=graph.input("pcr_forward","library PCR forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (adapter sequence unavailable)")
+ rev=graph.input("pcr_reverse","library PCR reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (adapter sequence unavailable)")
+ pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+ library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (canonical compatible shell inferred)")
+ graph.react("library_pcr","Complete the indexed Illumina library",StepKind.PCR,((cdna,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),(rev,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The original adapter bases are not disclosed."))
+ graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS))
+ graph.declare_reviewed_scope(["rna","three_prime_adapter","three_prime_ligase","ligate_three_prime","rnase_t1","digest","streptavidin","capture","end_repair","repair","five_prime_adapter","five_prime_ligase","ligate_five_prime","rt_primer","reverse_transcriptase","reverse_transcribe","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"],SOURCE)
+ return graph.require_publishable()

@@ -5,14 +5,15 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_5p_v3 as V
 import seqprimers as sp
-from chemdraw import Scene,annotation_rows,oligo,panel
+from chemdraw import Scene,annotation_rows,oligo,panel,protocol_graph_panels
 from page import head,info
 OUT=HERE.parent/"10x-5prime-v3.html"
 def sequencing(lib):
     return sp.section(lib,V.SEQ_PRIMERS,heading="Sequencing",intro='Paired-end, dual-index sequencing: Read 1 28 cycles, i7 10 cycles, i5 10 cycles, Read 2 90 cycles. Read 1 contains the 16-base cell barcode and 12-base UMI.',read_lengths={"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90},show_read_content=True)
 def render():
-    lib=V.final_library(); cdna=V.amplified_cdna()
-    return "\n".join([head("10x GEM-X 5' Gene Expression v3 chemistry"),'<div class="wrap">','<h1>10x Chromium GEM-X Single Cell 5&#39; Gene Expression v3</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support/universal-five-prime-gene-expression/documentation/steps/library-prep/chromium-gem-x-single-cell-5-v3-gene-expression-user-guide">10x Genomics User Guide CG000733 Rev A</a>.'),
+    lib=V.final_library(); cdna=V.amplified_cdna(); graph=V.protocol_graph()
+    return "\n".join([head("10x GEM-X 5' Gene Expression v3 chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>10x Chromium GEM-X Single Cell 5&#39; Gene Expression v3</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support/universal-five-prime-gene-expression/documentation/steps/library-prep/chromium-gem-x-single-cell-5-v3-gene-expression-user-guide">10x Genomics User Guide CG000733 Rev A</a>.'),
+      '<h2>Reaction workflow</h2>'+protocol_graph_panels(graph,cls="long"),
       '<div class="caveat"><b>Intermediate oligos.</b> CG000733 prints the gel-bead TSO and complete final library but not the RT-primer or ligation-adapter bases. Dotted regions and steps labelled <b>INFERRED</b> reconstruct those intermediates from v1 and the final product.</div>',
       '<h2>Key oligo</h2><seq>'+oligo("barcoded GEM-X gel-bead TSO",V.bead_tso(),mods="bead; 3' rGrGrG")+'</seq>',
       '<h2>Library construction</h2><h3>(1) INFERRED &mdash; prime reverse transcription from the mRNA poly(A) tail</h3>'+panel(V.capture_scene().rows(),cls="small",caption="INFERRED — the guide names Poly-dT RT Primer B but does not print its bases."),

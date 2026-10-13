@@ -2,6 +2,9 @@
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       duplex_rows, feature, revcomp)
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 TITLE = "CELLO-seq — long-UMI single-cell long-read RNA-seq"
@@ -165,3 +168,74 @@ def workflow() -> Workflow:
                       name="ONT-adapted CELLO-seq library",
                       note="Only the proprietary terminal adapter remains inferred; the internal CELLO-seq oligos are source-exact.")
     return wf
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41587-021-01093-1"
+    graph = ProtocolGraph("CELLO-seq", authority=source)
+    rna = graph.input("rna", "polyadenylated single-cell RNA",
+                      MaterialKind.BIOLOGICAL, primary=True)
+    dt = graph.input("dt_primer", "5'-phosphorylated oligo(dT) primer",
+                     MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "high-temperature reverse transcriptase",
+                     MaterialKind.CATALYST)
+    first = graph.product("first_strand", "phosphorylated full-length first-strand cDNA",
+                          MaterialKind.MOLECULAR)
+    graph.react("reverse_transcription", "Reverse-transcribe full-length polyadenylated RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (dt, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (first,))
+    tso = graph.input("tso", "3'-amino-blocked template-switch oligo",
+                      MaterialKind.OLIGO)
+    switched = graph.product("switched_cdna", "template-switched full-length cDNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("template_switch", "Install the Nextera R1-derived handle by template switching",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (switched,))
+    splint = graph.input("identifier_splint", "cell-barcode/22-nt-UMI splint duplex",
+                         MaterialKind.ADAPTER, state=splint_scene())
+    ligase = graph.input("hifi_ligase", "HiFi Taq DNA ligase",
+                         MaterialKind.CATALYST)
+    ligated = graph.product("identifier_ligated_cdna", "cell- and molecule-indexed full-length cDNA",
+                            MaterialKind.MOLECULAR, state=_ligated_scene())
+    geometry = AdapterLigationGeometry.known(
+        "splinted", splint_scene(),
+        statement="Supplementary Table 5 prints both splint strands, the idx1 barcode, 22-nt NRY UMI, inverted-dT block and terminal dT14.")
+    graph.react("identifier_ligation", "Splint-ligate the cell barcode and UMI to cDNA",
+                StepKind.LIGATION,
+                ((switched, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
+    r1 = graph.input("nextera_r1", "Nextera R1 PCR primer", MaterialKind.OLIGO)
+    r2 = graph.input("nextera_r2", "Nextera R2 PCR primer", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
+    families = graph.product("umi_families", "deliberately amplified UMI duplicate families",
+                             MaterialKind.MOLECULAR, state=_ligated_scene())
+    graph.react("family_pcr", "PCR-amplify to create UMI families for consensus correction",
+                StepKind.PCR,
+                ((ligated, InputRole.TEMPLATE), (r1, InputRole.STRUCTURAL),
+                 (r2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (families,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The ligated cDNA is drawn as a scene; the two source-printed Nextera primer sites flank it."))
+    ont = graph.input("ont_adapter", "motor-loaded Oxford Nanopore ligation adapter",
+                      MaterialKind.ADAPTER, inferred=True,
+                      source=source + " (motor-adapter bases and end geometry are proprietary)")
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            inferred=True,
+                            source=source + " (terminal ONT motor adapter is proprietary)")
+    graph.react("ont_ligation", "Attach the Oxford Nanopore motor adapter",
+                StepKind.LIGATION,
+                ((families, InputRole.TEMPLATE), (ont, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (library,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The defining paper identifies the ONT ligation kit, but its motor-adapter bases and overhang geometry are proprietary."))
+    graph.sequence(library, SequencingPlan(
+        limitation="Nanopore sequencing uses a proprietary motor adapter rather than a synthesis sequencing primer; its exact bases are unavailable.",
+        acquired_roles=("Nanopore strand",),
+        read_uses={"Nanopore strand": "include"}))
+    graph.declare_reviewed_scope((
+        "rna", "dt_primer", "reverse_transcriptase", "reverse_transcription",
+        "tso", "template_switch", "identifier_splint", "hifi_ligase",
+        "identifier_ligation", "nextera_r1", "nextera_r2", "pcr_polymerase",
+        "family_pcr", "ont_adapter", "ont_ligation", "library"), source)
+    return graph.require_publishable()

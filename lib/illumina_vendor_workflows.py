@@ -15,6 +15,9 @@ from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
 from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
                      dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
@@ -223,6 +226,258 @@ DEFINITIONS = {
 }
 
 
+def _sequence(graph, material, library, primers, endpoint):
+    graph.sequence(material, SequencingPlan(
+        library=library, primers=tuple(primers), limitation=""))
+
+
+def _finish_pcr(graph, prefix, template, library, primers, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " index PCR forward primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " index PCR reverse primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    product = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=library)
+    graph.react(prefix + "_pcr", "Complete and index the " + label + " library",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (product,), geometry=PCRGeometry.unavailable(
+                    library,
+                    reason="The vendor workflow supports several index-component revisions; the canonical final library and sequencing sites are exact, while one universal PCR-primer pair is not."))
+    _sequence(graph, product, library, primers, endpoint)
+    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
+                     prefix + "_pcr", prefix + "_library"))
+    return product
+
+
+def _pcr_free_graph(d, library, primers):
+    source = d.source
+    graph = ProtocolGraph(d.title, authority=source)
+    dna = graph.input("dna", "high-quality high-molecular-weight genomic DNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=_duplex("high-molecular-weight genomic DNA"), primary=True)
+    shear = graph.input("shear_condition", "Covaris shearing condition",
+                        MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "Covaris-sheared genomic DNA",
+                              MaterialKind.MOLECULAR,
+                              state=_duplex("Covaris-sheared genomic insert"))
+    graph.react("shear", "Covaris-shear genomic DNA", StepKind.FRAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    repair = graph.input("repair_enzyme", "DNA end-repair enzyme mix",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "blunt repaired genomic fragments",
+                             MaterialKind.MOLECULAR,
+                             state=_duplex("blunt size-selected genomic insert"))
+    graph.react("end_repair", "End-repair sheared DNA", StepKind.END_REPAIR,
+                ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    beads = graph.input("size_selection_beads", "size-selection magnetic beads",
+                        MaterialKind.SELECTION)
+    selected = graph.product("selected", "size-selected blunt genomic inserts",
+                             MaterialKind.MOLECULAR, state=repaired.state)
+    rejected = graph.product("rejected_sizes", "off-size DNA fragments", MaterialKind.WASTE)
+    graph.react("size_select", "Select the requested insert-size range",
+                StepKind.SELECTION,
+                ((repaired, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (selected, rejected))
+    graph.discard(rejected, "falls outside the selected library insert range")
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme",
+                          MaterialKind.CATALYST)
+    end_prep = repair_and_dA_tail(Construct([
+        Segment("size-selected genomic insert", "N" * 36, placeholder=True)]))
+    tailed = graph.product("tailed", "single-dA-tailed genomic inserts",
+                           MaterialKind.MOLECULAR,
+                           state=dA_tailed_scene(end_prep, "dA-tailed genomic insert"))
+    graph.react("tail", "Add one 3-prime dA to each end", StepKind.TAILING,
+                ((selected, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    adapter = graph.input("adapter", "indexed TruSeq 3-prime-T Y adapters",
+                          MaterialKind.ADAPTER)
+    ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
+    final_product = graph.product("library", "PCR-free indexed TruSeq library",
+                                  MaterialKind.LIBRARY, state=library)
+    geometry = cohesive_ligation_geometry(
+        end_prep, TRUSEQ_Y_END,
+        statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed DNA.")
+    graph.react("ligate", "Ligate indexed TruSeq adapters without enrichment PCR",
+                StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (final_product,), geometry=geometry)
+    _sequence(graph, final_product, library, primers, d.sequencing_intro)
+    reviewed = ["dna", "shear_condition", "shear", "repair_enzyme", "end_repair",
+                "size_selection_beads", "size_select", "tailing_enzyme", "tail",
+                "adapter", "ligase", "ligate", "library"]
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _stranded_mrna_graph(d, library, primers):
+    source = d.source
+    graph = ProtocolGraph(d.title, authority=source)
+    rna = graph.input("rna", "total RNA", MaterialKind.BIOLOGICAL,
+                      state=_single("RNA", [Segment("total RNA", "R" * 40,
+                                                   placeholder=True)], label="total RNA"),
+                      primary=True)
+    beads = graph.input("polyt_beads", "poly-T RNA-selection beads",
+                        MaterialKind.SELECTION)
+    selected = graph.product("selected", "poly(A)-selected RNA", MaterialKind.MOLECULAR,
+                             state=_single("RNA", [Segment("poly(A) RNA", "R" * 36,
+                                                         placeholder=True)], label="poly(A) RNA"))
+    rejected = graph.product("non_polya", "non-polyadenylated RNA", MaterialKind.WASTE)
+    graph.react("select_polya", "Select poly(A) RNA twice", StepKind.AFFINITY_CAPTURE,
+                ((rna, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (selected, rejected))
+    graph.discard(rejected, "is depleted by the poly-T selection")
+    fragmentation = graph.input("fragmentation_condition", "elevated-temperature divalent-cation fragmentation condition",
+                                MaterialKind.CONDITION)
+    fragmented = graph.product("fragmented", "fragmented poly(A) RNA",
+                               MaterialKind.MOLECULAR, state=selected.state)
+    graph.react("fragment", "Fragment selected poly(A) RNA", StepKind.FRAGMENTATION,
+                ((selected, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
+                (fragmented,))
+    random_primer = graph.input("rt_primer", "random first-strand RT primer",
+                                MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase with actinomycin D",
+                     MaterialKind.CATALYST)
+    first = graph.product("first_strand", "antisense first-strand cDNA",
+                          MaterialKind.MOLECULAR,
+                          state=_single("first strand", [Segment("antisense first-strand cDNA",
+                              "N" * 36, placeholder=True)], label="first-strand cDNA"))
+    graph.react("reverse_transcribe", "Random-prime first-strand reverse transcription",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((fragmented, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (first,))
+    second_primer = graph.input("second_strand_primer", "second-strand synthesis primer",
+                                MaterialKind.OLIGO)
+    second_polymerase = graph.input("second_strand_polymerase", "RNase H / DNA polymerase I mix",
+                                    MaterialKind.CATALYST)
+    marked = graph.product("marked_duplex", "dUTP-marked cDNA duplex",
+                           MaterialKind.MOLECULAR, state=first.state)
+    graph.react("second_strand", "Synthesize the dUTP-marked second strand",
+                StepKind.EXTENSION,
+                ((first, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
+                 (second_polymerase, InputRole.CATALYST)), (marked,))
+    repair = graph.input("repair_enzyme", "cDNA end-repair enzyme mix",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "blunt stranded-cDNA duplexes",
+                             MaterialKind.MOLECULAR, state=marked.state)
+    graph.react("end_repair", "End-repair the cDNA duplex", StepKind.END_REPAIR,
+                ((marked, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme",
+                          MaterialKind.CATALYST)
+    end_prep = repair_and_dA_tail(Construct([
+        Segment("stranded cDNA insert", "N" * 36, placeholder=True)]))
+    tailed = graph.product("tailed", "dA-tailed stranded cDNA", MaterialKind.MOLECULAR,
+                           state=dA_tailed_scene(end_prep, "dA-tailed stranded cDNA"))
+    graph.react("tail", "Add one 3-prime dA to the cDNA ends", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    adapter = graph.input("adapter", "TruSeq 3-prime-T Y adapters", MaterialKind.ADAPTER)
+    ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
+    adapted = graph.product("adapted", "adapter-ligated directional cDNA",
+                            MaterialKind.MOLECULAR, state=tailed.state)
+    geometry = cohesive_ligation_geometry(
+        end_prep, TRUSEQ_Y_END,
+        statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed cDNA.")
+    graph.react("ligate", "Ligate TruSeq adapters", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (adapted,), geometry=geometry)
+    reviewed = ["rna", "polyt_beads", "select_polya", "fragmentation_condition", "fragment",
+                "rt_primer", "reverse_transcriptase", "reverse_transcribe",
+                "second_strand_primer", "second_strand_polymerase", "second_strand",
+                "repair_enzyme", "end_repair", "tailing_enzyme", "tail", "adapter",
+                "ligase", "ligate"]
+    _finish_pcr(graph, "library", adapted, library, primers, d.sequencing_intro,
+                reviewed, label="TruSeq stranded mRNA")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _nextera_xt_graph(d, library, primers):
+    source = d.source
+    graph = ProtocolGraph(d.title, authority=source)
+    dna = graph.input("dna", "1-ng double-stranded small-genome or amplicon DNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=_duplex("small-genome or amplicon DNA"), primary=True)
+    transposome = graph.input("transposome", "solution transposome carrying partial Nextera adapters",
+                              MaterialKind.ADAPTER, inferred=True,
+                              source=source + " Commercial transposome composition is proprietary.")
+    tn5 = graph.input("tn5", "engineered transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "heterologously tagged DNA fragments",
+                           MaterialKind.MOLECULAR,
+                           state=_tagged_intermediate("small-genome / amplicon insert"))
+    unusable = graph.product("unusable_tn5_products", "same-end or non-library tagmentation products",
+                             MaterialKind.WASTE)
+    graph.react("tagment", "Fragment and tag DNA with the solution transposome",
+                StepKind.TAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, unusable))
+    graph.discard(unusable, "cannot bridge the heterologous P5/P7 library arms")
+    neutralizer = graph.input("neutralizer", "transposase-neutralization condition",
+                              MaterialKind.CONDITION)
+    neutral = graph.product("neutral", "neutralized tagged fragments",
+                            MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("neutralize", "Neutralize transposase before PCR", StepKind.QUENCHING,
+                ((tagged, InputRole.TEMPLATE), (neutralizer, InputRole.CONDITION)),
+                (neutral,))
+    reviewed = ["dna", "transposome", "tn5", "tagment", "neutralizer", "neutralize"]
+    _finish_pcr(graph, "library", neutral, library, primers, d.sequencing_intro,
+                reviewed, label="Nextera XT")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _dna_prep_graph(d, library, primers):
+    source = d.source
+    graph = ProtocolGraph(d.title, authority=source)
+    dna = graph.input("dna", "genomic DNA", MaterialKind.BIOLOGICAL,
+                      state=_duplex("genomic DNA"), primary=True)
+    beads = graph.input("blt_beads", "bead-linked transposome complexes",
+                        MaterialKind.SELECTION, inferred=True,
+                        source=source + " Reagent-level BLT composition is proprietary.")
+    bound = graph.product("bound", "genomic DNA bound to bead-linked transposomes",
+                          MaterialKind.MOLECULAR,
+                          state=_single("bead-bound", [
+                              Segment("bead-linked transposome", "[BLT]", placeholder=True),
+                              Segment("genomic DNA", "N" * 36, placeholder=True)],
+                              label="BLT-bound genomic DNA"))
+    unbound = graph.product("unbound", "unbound excess genomic DNA", MaterialKind.WASTE)
+    graph.react("bind_blt", "Bind genomic DNA to bead-linked transposomes",
+                StepKind.BINDING,
+                ((dna, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (bound, unbound))
+    graph.discard(unbound, "is removed by the finite bead-linked transposome capacity")
+    adapter = graph.input("transposome_adapter", "BLT partial Nextera adapter",
+                          MaterialKind.ADAPTER, inferred=True,
+                          source=source + " Public endpoint architecture is used; BLT reagent composition is proprietary.")
+    tn5 = graph.input("tn5", "bead-linked transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "bead-bound tagged genomic fragments",
+                           MaterialKind.MOLECULAR,
+                           state=_tagged_intermediate("genomic DNA insert"))
+    tn5_waste = graph.product("tn5_waste", "non-library or same-end tagmentation products",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Tagment genomic DNA on bead", StepKind.TAGMENTATION,
+                ((bound, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not form a heterologous amplifiable library fragment")
+    wash = graph.input("wash_condition", "post-tagmentation wash condition",
+                       MaterialKind.CONDITION)
+    washed = graph.product("washed", "washed bead-bound tagged fragments",
+                           MaterialKind.MOLECULAR, state=tagged.state)
+    wash_waste = graph.product("wash_waste", "removed unbound DNA and reaction components",
+                               MaterialKind.WASTE)
+    graph.react("wash", "Wash bead-bound tagged fragments", StepKind.CLEANUP,
+                ((tagged, InputRole.TEMPLATE), (wash, InputRole.CONDITION)),
+                (washed, wash_waste))
+    graph.discard(wash_waste, "is removed during the post-tagmentation wash")
+    reviewed = ["dna", "blt_beads", "bind_blt", "transposome_adapter", "tn5",
+                "tagment", "wash_condition", "wash"]
+    _finish_pcr(graph, "library", washed, library, primers, d.sequencing_intro,
+                reviewed, label="Illumina DNA Prep")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
 def get(key: str):
     d = DEFINITIONS[key]
     if d.final_kind == "truseq":
@@ -231,9 +486,17 @@ def get(key: str):
     else:
         library, primers = _nextera_final(d.insert_name, d.title + " library")
         rows = lambda: nextera_final_rows(library)
-    return SimpleNamespace(
+    spec = SimpleNamespace(
         TITLE=d.title, NOTES=d.notes, SOURCE=d.source, SUMMARY=d.summary,
         CAVEAT=d.caveat, FINAL_LIBRARY=library, SEQ_PRIMERS=primers,
         FINAL_CAPTION=d.final_caption, SEQUENCING_INTRO=d.sequencing_intro,
         workflow=lambda: d.workflow_builder(library), final_rows=rows,
     )
+    factories = {
+        "truseq-dna-pcr-free": lambda: _pcr_free_graph(d, library, primers),
+        "truseq-stranded-mrna": lambda: _stranded_mrna_graph(d, library, primers),
+        "nextera-xt-dna-library-prep": lambda: _nextera_xt_graph(d, library, primers),
+        "illumina-dna-prep": lambda: _dna_prep_graph(d, library, primers),
+    }
+    spec.protocol_graph = factories[key]
+    return spec

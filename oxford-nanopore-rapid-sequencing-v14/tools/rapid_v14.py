@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Row, Scene, Segment, annotation_rows
+from nanopore_library import motor_sequencing_plan
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_model import molecule, role as molecular_role
 
 
 def role(name: str, text: str, tag: str | None = None) -> Segment:
@@ -66,3 +69,39 @@ def sections():
         ], "The motor, rather than a polymerase primer, controls strand motion through "
            "the R10.4.1 nanopore."),
     ]
+
+
+def protocol_graph():
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    dna = g.input("dna", "high-molecular-weight genomic DNA", MaterialKind.MOLECULAR,
+                  state=molecule("HMW genomic DNA", (molecular_role("genomic DNA"),)),
+                  primary=True)
+    tags = g.input("tag_complex", "Fragmentation Mix loaded tagging complex",
+                   MaterialKind.ADAPTER, inferred=True,
+                   source=SOURCE + " (tag bases and loading structure proprietary)")
+    transposase = g.input("transposase", "Fragmentation Mix transposase",
+                          MaterialKind.CATALYST)
+    tagged = g.product("tagged", "transposase-tagged genomic fragments",
+                       MaterialKind.MOLECULAR, state=TAGGED, inferred=True,
+                       source=SOURCE + " (tag bases proprietary)")
+    off_products = g.product("off_products", "non-sequenceable tagmentation products",
+                             MaterialKind.WASTE)
+    g.react("tag", "Fragment and tag genomic DNA", StepKind.TAGMENTATION,
+            ((dna, InputRole.TEMPLATE), (tags, InputRole.STRUCTURAL),
+             (transposase, InputRole.CATALYST)), (tagged, off_products))
+    g.discard(off_products, "does not carry a productive Rapid Adapter attachment end")
+    rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
+                    MaterialKind.ADAPTER, inferred=True,
+                    source=SOURCE + " (adapter bases and attachment chemistry proprietary)")
+    library = g.product("library", "motor-adapted Nanopore library",
+                        MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
+                        source=SOURCE + " (adapter bases proprietary)")
+    g.react("attach", "Attach the motor-loaded Rapid Adapter",
+            StepKind.ADAPTER_ATTACHMENT,
+            ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)),
+            (library,))
+    g.sequence(library, motor_sequencing_plan(
+        FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
+    g.declare_reviewed_scope(("dna", "tag_complex", "transposase", "tag",
+                              "rapid_adapter", "attach", "library"), SOURCE)
+    return g.require_publishable()

@@ -42,7 +42,7 @@ def dA_tailed_scene(product: EndPreparedDuplex, label: str = "end-prepared DNA")
     sc = Scene(); sc.strand("top", [*body, top_a], label=label,
                             mod5="p" if product.five_prime_phosphate else "")
     sc.anneal("bottom", [*bottom_body, bottom_a], to="top",
-              pair=(bottom_body[0].name, body[0].name), label=label,
+              pair=(bottom_body[-1].name, body[0].name), label=label,
               unpaired=role_tokens, mod5="p" if product.five_prime_phosphate else "")
     sc.overhang("top", top_a.name, polarity="3-prime", owner="substrate", text="3′ dA")
     sc.overhang("bottom", bottom_a.name, polarity="3-prime", owner="substrate", text="3′ dA")

@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from batch_ngs import duplex_fragment, seg, truseq_library
 from chemdraw import MolecularState, Workflow, feature
-from molecular_consensus import SingleStrandUID
+from molecular_consensus import SingleStrandUID, safe_seqs_graph
 
 TITLE = "Safe-SeqS — single-strand UID-family consensus"
 NOTES = "01_safe_seqs.html"
@@ -47,3 +47,6 @@ def workflow():
 
 def oligos():
     return ()
+
+
+protocol_graph = lambda: safe_seqs_graph(SOURCE, FINAL_LIBRARY, SEQ_PRIMERS)

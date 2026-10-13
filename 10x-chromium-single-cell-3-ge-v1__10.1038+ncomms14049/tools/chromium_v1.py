@@ -4,6 +4,7 @@ from __future__ import annotations
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from tenx_graph import chromium_rna_graph
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
                        whitelist="10x-chromium-3prime-v1")
@@ -42,6 +43,19 @@ def rt_scene(insert_nt: int = 28) -> Scene:
     return sc
 
 
+def first_strand(insert_nt: int = 28) -> Construct:
+    return Construct([*bead_oligo(), seg("antisense cDNA", "X" * insert_nt,
+                                        placeholder=True),
+                      inferred("template-switch end", "N" * 18, "tso",
+                               placeholder=True)],
+                     name="10x 3-prime v1 first-strand architecture")
+
+
+def amplified_cdna(insert_nt: int = 28) -> Construct:
+    return Construct(list(first_strand(insert_nt)),
+                     name="10x 3-prime v1 amplified-cDNA architecture")
+
+
 SEQ_PRIMERS = tuple(sp.TRUSEQ[k] for k in ("R1", "I1", "I2", "R2"))
 
 
@@ -63,3 +77,16 @@ def final_library(insert_nt: int = 28) -> Construct:
 
 def final_scene() -> Scene:
     return Scene.duplex(list(final_library()), label="library")
+
+
+def protocol_graph():
+    authority = ('Defining source: <a href="https://doi.org/10.1038/ncomms14049">'
+                 'Zheng et al., <i>Nature Communications</i> (2017)</a>; protocol '
+                 'authority: 10x Genomics CG00026 Rev B.')
+    return chromium_rna_graph(
+        title="10x Chromium Single Cell 3-prime Gene Expression v1",
+        authority=authority, final=final_library(), primers=SEQ_PRIMERS,
+        first_strand=first_strand(), amplified_cdna=amplified_cdna(),
+        read_lengths={"Read 1": 98, "Index 1 (i7)": 14,
+                      "Index 2 (i5)": 8, "Read 2": 10},
+        inferred_intermediates=True)

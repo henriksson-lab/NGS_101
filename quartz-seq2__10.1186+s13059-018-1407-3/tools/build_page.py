@@ -12,8 +12,14 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import quartz_seq2 as Q
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, oligo, panel, strand_row
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, Segment, oligo, protocol_graph_panels
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head, info, table
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from rna_amplification import poly_a_tagging_amplification
 
 OUT = HERE.parent / "quartz-seq2.html"
 
@@ -42,28 +48,134 @@ def oligos() -> str:
     return "<h2>Key oligos</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>"
 
 
-def construction() -> str:
-    tailed = Q.tailed_first_strand()
-    lib = Q.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Reverse-transcribe with a well-specific barcode and UMI</h3>
-{panel(Q.mrna_rt_scene().rows(), cls="small",
-       caption="The RT primer writes the cell barcode and UMI next to the transcript's poly(A) end. Wells can be pooled after this step.")}
+def protocol_graph() -> ProtocolGraph:
+    source = "https://doi.org/10.1186/s13059-018-1407-3"
+    graph = ProtocolGraph("Quartz-Seq2", authority=source)
+    mrna = graph.input("mrna", "polyadenylated RNA from one well",
+                       MaterialKind.BIOLOGICAL, state=Q.mrna_rt_scene(), primary=True)
+    rt_primer = graph.input("rt_primer", "well-barcoded Quartz-Seq2 RT primer",
+                            MaterialKind.OLIGO, state=Construct(Q.rt_primer()))
+    reverse_transcriptase = graph.input("reverse_transcriptase",
+                                       "reverse transcriptase", MaterialKind.CATALYST)
+    first = graph.product("first_strand", "well-barcoded first-strand cDNA",
+                          MaterialKind.MOLECULAR, state=Q.first_strand())
+    graph.react("reverse_transcription",
+                "Reverse-transcribe with the well-barcoded RT primer",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((mrna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (first,))
 
-<h3>(2) Add a poly(A) tail and synthesize the second strand</h3>
-{panel([strand_row(tailed), *annotation_rows(tailed)], cls="small",
-       caption="Terminal transferase creates the tagging-primer site at the cDNA 3' end.")}
-{panel(Q.tagging_scene().rows(), cls="small",
-       caption="The M-tagging primer starts the second strand; G+M then suppression-amplifies the pooled cDNA.")}
+    peers = graph.input("peer_wells", "barcoded first-strand cDNA from other wells",
+                        MaterialKind.MOLECULAR, state=Q.first_strand())
+    pooled = graph.product("pooled_first_strand", "pooled barcoded first-strand cDNA",
+                           MaterialKind.MOLECULAR, state=Q.first_strand())
+    graph.react("pool", "Pool wells after molecular cell indexing", StepKind.POOL,
+                ((first, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
+                (pooled,), changes_molecule=False)
+    column = graph.input("purification_column", "silica purification column",
+                         MaterialKind.SELECTION)
+    cleaned = graph.product("cleaned_first_strand", "column-purified first-strand cDNA",
+                            MaterialKind.MOLECULAR, state=Q.first_strand())
+    cleanup_waste = graph.product("cleanup_waste", "unretained primers and small products",
+                                  MaterialKind.WASTE)
+    graph.react("column_cleanup", "Column-purify the pooled cDNA",
+                StepKind.CLEANUP,
+                ((pooled, InputRole.TEMPLATE), (column, InputRole.SELECTION)),
+                (cleaned, cleanup_waste))
+    graph.discard(cleanup_waste, "not retained by the post-pooling column cleanup")
 
-<h3>(3) Shear, end-repair, A-tail, and ligate the truncated Y adapter</h3>
-{panel(Q.truncated_adapter_scene().rows(), cls="small",
-       caption="The P7 strand supplies the 3'-T overhang. The short strand makes a 12-bp stem and leaves an 8-nt arm unpaired.")}
+    rnase_h = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
+    rna_removed = graph.product("rna_removed_cdna", "RNA-depleted first-strand cDNA",
+                                MaterialKind.MOLECULAR, state=Q.first_strand())
+    graph.react("remove_rna", "Remove the RNA template with RNase H",
+                StepKind.DIGESTION,
+                ((cleaned, InputRole.TEMPLATE),
+                 (rnase_h, InputRole.CATALYST)), (rna_removed,))
+    amplified, shared_reviewed = poly_a_tagging_amplification(
+        graph, rna_removed, tailed_state=Q.tailed_first_strand(),
+        tagging_primer_label="Quartz-Seq2 tagging primer",
+        tagging_primer_state=Construct(Q.tagging_primer()),
+        duplex_state=Q.wta_amplicon(), suppression_primer_label="gM primer",
+        suppression_primer_sequence=Q.GM_PRIMER,
+        amplified_state=Q.wta_amplicon())
 
-<h3>(4) Select the RT-primer end with P5-gMac and complete the library with TPC2</h3>
-{panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small",
-       caption="Final Quartz-Seq2 v3.2 library, P5 to P7'. P5-gMac ends in M+AC, so only the cell-barcode/UMI end is exponentially amplified.")}
-'''
+    shear = graph.input("shearing_condition", "physical shearing condition",
+                        MaterialKind.CONDITION)
+    fragment = Construct([seg("3-prime cDNA fragment", "X" * 36,
+                              placeholder=True)])
+    sheared = graph.product("sheared_cdna", "sheared amplified cDNA",
+                            MaterialKind.MOLECULAR, state=fragment)
+    graph.react("shear", "Shear amplified cDNA", StepKind.FRAGMENTATION,
+                ((amplified, InputRole.TEMPLATE),
+                 (shear, InputRole.CONDITION)), (sheared,))
+    end_repair = graph.input("end_repair_enzymes", "end-repair enzyme mix",
+                             MaterialKind.CATALYST)
+    repaired = graph.product("end_repaired_cdna", "end-repaired cDNA fragments",
+                             MaterialKind.MOLECULAR, state=fragment)
+    graph.react("end_repair", "End-repair the sheared fragments",
+                StepKind.END_REPAIR,
+                ((sheared, InputRole.TEMPLATE),
+                 (end_repair, InputRole.CATALYST)), (repaired,))
+    da_enzyme = graph.input("da_tailing_enzyme", "dA-tailing polymerase",
+                            MaterialKind.CATALYST)
+    da_product = repair_and_dA_tail(fragment)
+    da_tailed = graph.product("da_tailed_cdna", "3′-dA-tailed cDNA fragments",
+                              MaterialKind.MOLECULAR,
+                              state=dA_tailed_scene(da_product))
+    graph.react("da_tail", "Add 3′ dA overhangs", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE),
+                 (da_enzyme, InputRole.CATALYST)), (da_tailed,))
+
+    adapter = graph.input("truncated_y_adapter", "truncated rYshape adapter",
+                          MaterialKind.ADAPTER, state=Q.truncated_adapter_scene())
+    ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
+    selective_template = Q.selective_pcr_template()
+    ligated = graph.product("ligated_template", "adapter-ligated 3′ cDNA fragment",
+                            MaterialKind.MOLECULAR, state=selective_template)
+    geometry = AdapterLigationGeometry.known(
+        "cohesive", dA_tailed_scene(da_product), Q.truncated_adapter_scene(),
+        statement="The long adapter strand exposes the source-defined 3′-T overhang.")
+    graph.react("ligate_adapter", "Ligate the truncated Y adapter",
+                StepKind.LIGATION,
+                ((da_tailed, InputRole.TEMPLATE),
+                 (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
+
+    p5_primer = PCRPrimer("P5-gMac", Q.P5_GMAC)
+    tpc2_primer = PCRPrimer("TPC2", Q.TPC2)
+    p5 = graph.input("p5_gmac", "P5-gMac selective PCR primer",
+                     MaterialKind.OLIGO,
+                     state=Construct([seg("P5-gMac", Q.P5_GMAC)]))
+    tpc2 = graph.input("tpc2", "TPC2 library-PCR primer", MaterialKind.OLIGO,
+                       state=Construct([seg("TPC2", Q.TPC2)]))
+    polymerase = graph.input("library_polymerase", "KAPA HiFi polymerase",
+                             MaterialKind.CATALYST)
+    final = Q.final_library()
+    library = graph.product("library", "Quartz-Seq2 sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("selective_pcr",
+                "Select the RT-primer end and complete the sequencing library",
+                StepKind.PCR,
+                ((ligated, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (tpc2, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.exact(
+                    final, p5_primer, tpc2_primer,
+                    statement="Supplementary Table S4 prints P5-gMac and TPC2."))
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=Q.SEQ_PRIMERS,
+        acquired_roles=tuple(p.role for p in Q.SEQ_PRIMERS),
+        read_lengths={"Read 1": 23, "Index 1 (i7)": 6, "Read 2": 63}))
+    reviewed = [
+        "mrna", "rt_primer", "reverse_transcriptase", "reverse_transcription",
+        "peer_wells", "pool", "purification_column", "column_cleanup", "rnase_h",
+        "remove_rna", *shared_reviewed, "shearing_condition", "shear",
+        "end_repair_enzymes", "end_repair", "da_tailing_enzyme", "da_tail",
+        "truncated_y_adapter", "dna_ligase", "ligate_adapter", "p5_gmac", "tpc2",
+        "library_polymerase", "selective_pcr", "library",
+    ]
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
 
 
 def sequencing() -> str:
@@ -86,10 +198,13 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("Quartz-Seq2 library chemistry"), '<div class="wrap">',
+    graph = protocol_graph()
+    construction = "<h2>Library construction</h2>\n" + protocol_graph_panels(graph)
+    page = "\n".join([head("Quartz-Seq2 library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
         '<h1>Quartz-Seq2 &mdash; barcoded 3-prime single-cell RNA sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/s13059-018-1407-3">Sasagawa et al., <i>Genome Biology</i> (2018)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        oligos(), construction, sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

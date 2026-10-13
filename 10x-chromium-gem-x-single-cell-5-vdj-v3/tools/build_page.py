@@ -12,7 +12,7 @@ sys.path[:0] = [str(HERE), str(AUDIT_TOOLS), str(HERE.parents[1] / "lib")]
 
 import seqprimers as sp
 from chemdraw import (MolecularState, Segment, Workflow, duplex_rows, oligo, panel,
-                      workflow_panel)
+                      protocol_graph_panels, workflow_panel)
 from page import head, info, table
 from vdj_common import VDJ_FORWARD
 from vdj_v3 import CHEM as C
@@ -43,6 +43,7 @@ def sequencing(lib) -> str:
 def render() -> str:
     amplicon = C.vdj_amplicon()
     lib = C.final_library()
+    graph = C.protocol_graph()
     cdna = Workflow(MolecularState("Amplification-ready full-length cDNA",
                                   tuple(duplex_rows(C.cdna_template()))))
     cdna.pcr("Amplify full-length cDNA", C.cdna_pcr(),
@@ -58,10 +59,11 @@ def render() -> str:
     indexed.pcr("Dual-index PCR", C.index_pcr(), duplex_rows(lib),
                 name="cluster-ready V(D)J library")
     return "\n".join([
-        head("10x GEM-X Single Cell 5' V(D)J v3 chemistry"), '<div class="wrap">',
+        head("10x GEM-X Single Cell 5' V(D)J v3 chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>10x Chromium GEM-X Single Cell 5&#39; V(D)J v3</h1>',
         info('Primary source: <a href="https://www.10xgenomics.com/support">10x Genomics '
              'User Guide CG000734 Rev A</a>.'),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Key oligos</h2><seq>',
         oligo("gel-bead barcoded TSO", C.gel_bead_segments()[:-1], three="rGrGrG-3'"),
         oligo("poly(dT) RT primer", C.polydt_segments()),

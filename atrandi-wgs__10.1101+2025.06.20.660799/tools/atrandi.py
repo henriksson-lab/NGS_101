@@ -20,6 +20,13 @@ import illumina as il
 import pta as pta_chem
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "Atrandi semi-permeable capsules + PTA — single-microbe WGS"
+SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourlé et al.</a>; Atrandi Single-Microbe DNA Barcoding Kit.'
 
 # ------------------------------------------------------- canonical Illumina (by reference)
 # The sequences live once, in lib/illumina.py; these are local aliases, never copies.
@@ -191,3 +198,97 @@ def adapter_both_ends() -> Construct:
 # strands and their read directions are inferred centrally from the final sequence.
 ACQUIRED_ROLES = ("Read 1", "Index 1 (i7)", "Read 2")
 SEQ_PRIMERS = sp.standard_primers(final_library(), ACQUIRED_ROLES)
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=graph.input("microbial_cells","single microbes in semi-permeable capsules",
+                      MaterialKind.BIOLOGICAL,primary=True)
+    lysis=graph.input("lysis_condition","enzymatic, proteinase-K and chaotropic lysis",
+                      MaterialKind.CONDITION)
+    genome=graph.product("encapsulated_dna","capsule-retained microbial genomic DNA",
+                         MaterialKind.MOLECULAR)
+    debris=graph.product("lysis_waste","solubilized cellular debris",MaterialKind.WASTE)
+    graph.react("lyse","Lyse microbes while retaining genomic DNA in capsules",
+                StepKind.EXTRACTION,
+                ((cells,InputRole.TEMPLATE),(lysis,InputRole.CONDITION)),(genome,debris))
+    graph.discard(debris,"solubilized cellular material passes out of the capsule")
+    random_primer=graph.input("pta_primer","exo-resistant random PTA primer",MaterialKind.OLIGO)
+    phi29=graph.input("phi29","phi29 strand-displacing polymerase",MaterialKind.CATALYST)
+    amplified=graph.product("pta_product","terminated PTA amplicons",MaterialKind.MOLECULAR,
+                            state=pta_amplicon())
+    graph.react("pta_amplify","Amplify genomic DNA by primary template-directed amplification",
+                StepKind.EXTENSION,
+                ((genome,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),
+                 (phi29,InputRole.CATALYST)),(amplified,))
+    endprep=graph.input("endprep_enzymes","blunting and phosphorylation enzymes",
+                        MaterialKind.CATALYST)
+    repaired=graph.product("repaired_pta","blunt phosphorylated PTA products",MaterialKind.MOLECULAR)
+    graph.react("end_repair","Blunt and phosphorylate extendable PTA ends",StepKind.END_REPAIR,
+                ((amplified,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(repaired,))
+    tail_pol=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
+    tailed=graph.product("tailed_pta","dA-tailed PTA products",MaterialKind.MOLECULAR)
+    graph.react("da_tail","Add 3′ dA to extendable repaired ends",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(tail_pol,InputRole.CATALYST)),(tailed,))
+    ligase=graph.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
+    current=tailed
+    for letter in "ABCD":
+        cassette=graph.input("barcode_"+letter.lower(),"round "+letter+" barcode cassette",
+            MaterialKind.ADAPTER,inferred=True,
+            source=SOURCE+" (cassette strands and linker bases not published)")
+        product=graph.product("barcoded_"+letter.lower(),"barcode rounds A–"+letter+" product",
+            MaterialKind.MOLECULAR,inferred=True,
+            source=SOURCE+" (cassette strands and linker bases not published)")
+        graph.react("ligate_"+letter.lower(),"Ligate split-pool barcode round "+letter,
+            StepKind.LIGATION,
+            ((current,InputRole.TEMPLATE),(cassette,InputRole.STRUCTURAL),
+             (ligase,InputRole.CATALYST)),(product,),
+            geometry=AdapterLigationGeometry.unavailable(
+                "The kit establishes sequential ligation but does not publish cassette-end sequences."))
+        current=product
+    release=graph.input("release_condition","capsule release reagent",MaterialKind.CONDITION)
+    released=graph.product("released_dna","released four-round-barcoded DNA",MaterialKind.MOLECULAR)
+    graph.react("release","Release barcoded DNA from the capsules",StepKind.EXTRACTION,
+                ((current,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,))
+    fs=graph.input("fs_mix","NEBNext Ultra II FS fragmentation mix",MaterialKind.CATALYST)
+    fragments=graph.product("fs_fragments","barcoded 300–700-bp DNA fragments",MaterialKind.MOLECULAR)
+    fs_waste=graph.product("fs_waste","distal fragmentation products without the barcode end",
+                           MaterialKind.WASTE)
+    graph.react("fragment","Fragment released barcoded DNA",StepKind.FRAGMENTATION,
+                ((released,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fragments,fs_waste))
+    graph.discard(fs_waste,"only barcode-proximal fragments can form the intended library")
+    fs_tailed=graph.product("fs_tailed","end-repaired and dA-tailed barcode-proximal fragments",
+                            MaterialKind.MOLECULAR)
+    graph.react("fs_endprep","End-repair and dA-tail the FS fragments",StepKind.END_REPAIR,
+                ((fragments,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fs_tailed,))
+    lig_adapter=graph.input("ligation_adapter","Atrandi T-overhang ligation adapter",
+                            MaterialKind.ADAPTER)
+    pre=graph.product("pre_pcr",pre_pcr().name,MaterialKind.MOLECULAR,state=pre_pcr(),
+                      inferred=True,source=SOURCE+" (barcode-side arm inferred)")
+    graph.react("adapter_ligation","Ligate the non-barcode sequencing adapter",
+                StepKind.LIGATION,
+                ((fs_tailed,InputRole.TEMPLATE),(lig_adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(pre,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The adapter is published, but the opposite barcode-cassette end is not."))
+    p5=graph.input("p5_primer","Atrandi P5 library primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","Atrandi indexed P7 library primer",MaterialKind.OLIGO)
+    pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
+                          source=SOURCE+" (barcode-side arm inferred)")
+    graph.react("library_pcr","Install P5, P7 and the sample index",StepKind.PCR,
+                ((pre,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="One PCR landing arm is necessarily inferred from the undisclosed cassette."))
+    graph.sequence(library,SequencingPlan(library=final,primers=tuple(SEQ_PRIMERS),
+        acquired_roles=ACQUIRED_ROLES,read_lengths={"Index 1 (i7)":6}))
+    scope=["microbial_cells","lysis_condition","lyse","pta_primer","phi29","pta_amplify",
+           "endprep_enzymes","end_repair","tailing_polymerase","da_tail","dna_ligase"]
+    for letter in "abcd": scope.extend(("barcode_"+letter,"ligate_"+letter))
+    scope.extend(("release_condition","release","fs_mix","fragment","fs_endprep",
+                  "ligation_adapter","adapter_ligation","p5_primer","i7_primer",
+                  "pcr_polymerase","library_pcr","library"))
+    graph.declare_reviewed_scope(scope,SOURCE)
+    return graph.require_publishable()

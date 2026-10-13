@@ -7,6 +7,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, complement_segments
 from end_repair import fill_five_prime_overhang
 from single_cell_hic import unresolved_illumina_library
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "Micro-C — nucleosome-resolution proximity ligation"
+SOURCE = 'Defining source: <a href="https://doi.org/10.1016/j.cell.2015.05.048">Hsieh et al., <i>Cell</i> (2015)</a>.'
 
 
 def seg(name, top, tag=None, **kw):
@@ -78,3 +85,103 @@ def selected_insert():
 def final_library():
     return unresolved_illumina_library(selected_insert(),
         "Micro-C sequencing library", indexed=None)
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    chromatin=graph.input("crosslinked_chromatin","crosslinked chromatin",
+                          MaterialKind.BIOLOGICAL,state=tuple(mnase_scene().rows()),primary=True)
+    mnase=graph.input("mnase","micrococcal nuclease",MaterialKind.CATALYST)
+    mononucleosomes=graph.product("mononucleosomes","mononucleosome-protected chromatin fragments",
+                                  MaterialKind.MOLECULAR,state=tuple(mnase_scene().rows()))
+    linker_waste=graph.product("linker_waste","MNase-digested linker DNA",MaterialKind.WASTE)
+    graph.react("mnase_digest","Digest linker DNA to mononucleosomes",StepKind.DIGESTION,
+                ((chromatin,InputRole.TEMPLATE),(mnase,InputRole.CATALYST)),
+                (mononucleosomes,linker_waste))
+    graph.discard(linker_waste,"accessible linker DNA is digested away")
+    t4pol=graph.input("t4_polymerase","T4 DNA polymerase",MaterialKind.CATALYST)
+    resected=graph.product("resected_ends","resected heterogeneous MNase ends",
+                           MaterialKind.MOLECULAR,state=tuple(resected_end_scene().rows()))
+    graph.react("resect_ends","Create repairable 5′ single-stranded ends",StepKind.END_REPAIR,
+                ((mononucleosomes,InputRole.TEMPLATE),(t4pol,InputRole.CATALYST)),(resected,))
+    labelled=graph.product("labelled_blunt_ends","biotin-filled blunt nucleosomal ends",
+                           MaterialKind.MOLECULAR,state=tuple(repaired_end_scene().rows()))
+    graph.react("fill_label","Fill ends with biotin-dATP and biotin-dCTP",StepKind.EXTENSION,
+                ((resected,InputRole.TEMPLATE),(t4pol,InputRole.CATALYST)),(labelled,))
+    ligase=graph.input("dna_ligase","T4 DNA ligase",MaterialKind.CATALYST)
+    contacts=graph.product("contact_products","blunt proximity-ligation products",
+                           MaterialKind.MOLECULAR,state=contact_junction())
+    graph.react("proximity_ligate","Join nucleosomal ends held in proximity",
+                StepKind.PROXIMITY_LIGATION,
+                ((labelled,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(contacts,))
+    exo3=graph.input("exonuclease_iii","Exonuclease III",MaterialKind.CATALYST)
+    protected=graph.product("protected_contacts","contacts with internal biotin junctions",
+                            MaterialKind.MOLECULAR,state=selected_insert())
+    free_ends=graph.product("free_end_waste","unligated terminally labelled ends",MaterialKind.WASTE)
+    graph.react("remove_free_ends","Remove unligated labelled ends",StepKind.DIGESTION,
+                ((contacts,InputRole.TEMPLATE),(exo3,InputRole.CATALYST)),(protected,free_ends))
+    graph.discard(free_ends,"terminally labelled unligated ends are exonucleolytically removed")
+    reversal=graph.input("crosslink_reversal","crosslink-reversal and proteinase condition",
+                         MaterialKind.CONDITION)
+    purified=graph.product("purified_contacts","deproteinized Micro-C contact DNA",
+                           MaterialKind.MOLECULAR,state=selected_insert())
+    graph.react("reverse_crosslinks","Reverse crosslinks and purify contact DNA",
+                StepKind.DEPROTEINIZATION,
+                ((protected,InputRole.TEMPLATE),(reversal,InputRole.CONDITION)),(purified,))
+    gel=graph.input("gel_selection","250–350-bp gel selection",MaterialKind.SELECTION)
+    selected=graph.product("selected_contacts","250–350-bp Micro-C contact inserts",
+                           MaterialKind.MOLECULAR,state=selected_insert())
+    offsize=graph.product("offsize_contacts","off-size contact molecules",MaterialKind.WASTE)
+    graph.react("size_select","Select 250–350-bp contact products",StepKind.SELECTION,
+                ((purified,InputRole.TEMPLATE),(gel,InputRole.SELECTION)),(selected,offsize))
+    graph.discard(offsize,"molecules outside the reported gel interval are excluded")
+    endprep=graph.input("library_endprep","library end-repair and dA-tailing enzymes",
+                        MaterialKind.CATALYST)
+    tailed=graph.product("tailed_contacts","end-repaired and dA-tailed contact inserts",
+                         MaterialKind.MOLECULAR,state=selected_insert())
+    graph.react("library_endprep_step","Repair and dA-tail the selected contacts",
+                StepKind.END_REPAIR,
+                ((selected,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(tailed,))
+    adapter=graph.input("illumina_adapter","unspecified Illumina adapter",MaterialKind.ADAPTER,
+                        inferred=True,source=SOURCE+" (adapter kit not identified)")
+    adapted=graph.product("adapted_contacts","Illumina-adapter-ligated contacts",
+                          MaterialKind.MOLECULAR,inferred=True,
+                          source=SOURCE+" (adapter architecture not identified)")
+    graph.react("adapter_ligation","Ligate Illumina adapters",StepKind.LIGATION,
+                ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(adapted,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper does not identify the adapter kit or ligation-ready end geometry."))
+    streptavidin=graph.input("streptavidin","streptavidin beads",MaterialKind.SELECTION)
+    captured=graph.product("captured_contacts","biotin-junction Micro-C molecules",
+                            MaterialKind.MOLECULAR)
+    uncaptured=graph.product("uncaptured_contacts","molecules lacking an internal biotin junction",
+                             MaterialKind.WASTE)
+    graph.react("capture","Capture internal-biotin contact molecules",StepKind.AFFINITY_CAPTURE,
+                ((adapted,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,uncaptured))
+    graph.discard(uncaptured,"molecules lacking a retained biotinylated contact junction are washed away")
+    fwd=graph.input("pcr_forward","unspecified Illumina PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (primer sequence not reported)")
+    rev=graph.input("pcr_reverse","unspecified Illumina PCR reverse primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (primer sequence not reported)")
+    pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
+                          source=SOURCE+" (adapter architecture not identified)")
+    graph.react("library_pcr","Amplify the captured library for 12–15 cycles",StepKind.PCR,
+                ((captured,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="The source does not report the adapter or primer sequences."))
+    graph.sequence(library,SequencingPlan(
+        acquired_roles=("Read 1","Read 2"),
+        read_uses={"Read 1":"include","Read 2":"include"},
+        limitation="The source specifies paired-end Illumina sequencing but not primer sites or cycle counts."))
+    graph.declare_reviewed_scope(("crosslinked_chromatin","mnase","mnase_digest",
+      "t4_polymerase","resect_ends","fill_label","dna_ligase","proximity_ligate",
+      "exonuclease_iii","remove_free_ends","crosslink_reversal","reverse_crosslinks",
+      "gel_selection","size_select","library_endprep","library_endprep_step",
+      "illumina_adapter","adapter_ligation","streptavidin","capture","pcr_forward",
+      "pcr_reverse","pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

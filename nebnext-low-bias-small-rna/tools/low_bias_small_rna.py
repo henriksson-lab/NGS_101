@@ -6,6 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Row, Segment
 from adapter_ligation import AdapterLigationGeometry
 from nebnext import STANDARD_PRIMERS, indexed_library
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 TITLE="NEBNext Low-bias Small RNA"
 NOTES="01_nebnext-low-bias-small-rna.html"
 SOURCE='Commercial protocol: <a href="https://www.neb.com/en-us/products/e3420-nebnext-low-bias-small-rna-library-prep-kit">NEB E3420 manual v2.0 (September 2025)</a>.'
@@ -30,3 +32,38 @@ def final_library():
     ins=Construct([Segment("5′ kit remnant", "X"*8, placeholder=True, inferred=True), Segment("small-RNA insert", "X"*28, placeholder=True), Segment("3′ kit remnant", "X"*8, placeholder=True, inferred=True), Segment("3′ adaptor boundary A", "A", inferred=True, note="required by the documented TruSeq-compatible Read 2 site; exact proprietary adaptor sequence is unavailable")])
     return indexed_library(ins, "NEBNext low-bias small-RNA library",
                            inferred_adaptors=True, dA_junction=False)
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=g.input("rna","5-prime-phosphorylated, 3-prime-hydroxyl small RNA",MaterialKind.BIOLOGICAL,state=INPUT,primary=True)
+    adapter3=g.input("adapter3","proprietary 3-prime RNA adapter",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (bases and activation chemistry not disclosed)")
+    ligase3=g.input("ligase3","3-prime RNA ligase",MaterialKind.CATALYST)
+    three=g.product("three_ligated","3-prime-adapter-ligated small RNA",MaterialKind.MOLECULAR,state=THREE,inferred=True,source=SOURCE+" (adapter bases not disclosed)")
+    g.react("ligate_three","Ligate the 3-prime adapter",StepKind.LIGATION,((rna,InputRole.TEMPLATE),(adapter3,InputRole.STRUCTURAL),(ligase3,InputRole.CATALYST)),(three,),geometry=THREE_END)
+    cleanup=g.input("adapter_cleanup","free-adapter removal enzyme",MaterialKind.CATALYST)
+    cleaned=g.product("cleaned","3-prime-ligated RNA after free-adapter removal",MaterialKind.MOLECULAR,state=three.state)
+    free=g.product("free_adapter_waste","destroyed excess 3-prime adapter",MaterialKind.WASTE)
+    g.react("remove_free_adapter","Remove excess free adapter",StepKind.DIGESTION,((three,InputRole.TEMPLATE),(cleanup,InputRole.CATALYST)),(cleaned,free),changes_molecule=False)
+    g.discard(free,"is enzymatically removed before 5-prime adapter ligation")
+    adapter5=g.input("adapter5","proprietary 5-prime RNA adapter",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (bases not disclosed)")
+    splint=g.input("splint","randomized ligation splint",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (bases not disclosed)")
+    ligase5=g.input("ligase5","5-prime RNA ligase",MaterialKind.CATALYST)
+    dual=g.product("dual_ligated","two-adapter small RNA",MaterialKind.MOLECULAR,state=CDNA,inferred=True,source=SOURCE+" (adapter boundaries not disclosed)")
+    g.react("ligate_five","Randomized-splint 5-prime adapter ligation",StepKind.LIGATION,((cleaned,InputRole.TEMPLATE),(adapter5,InputRole.STRUCTURAL),(splint,InputRole.STRUCTURAL),(ligase5,InputRole.CATALYST)),(dual,),geometry=FIVE_END)
+    rtprimer=g.input("rt_primer","adapter-complementary RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
+    rt=g.input("rt","reverse transcriptase and adapter-modification enzymes",MaterialKind.CATALYST)
+    cdna=g.product("cdna","small-RNA cDNA",MaterialKind.MOLECULAR,state=CDNA,inferred=True,source=SOURCE+" (adapter remnants not disclosed)")
+    g.react("reverse_transcribe","Modify the 3-prime adapter and reverse-transcribe",StepKind.REVERSE_TRANSCRIPTION,((dual,InputRole.TEMPLATE),(rtprimer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+    beads=g.input("beads","small-RNA size-selection beads",MaterialKind.SELECTION)
+    selected=g.product("selected","size-selected small-RNA cDNA",MaterialKind.MOLECULAR,state=cdna.state)
+    excluded=g.product("excluded_sizes","excluded cDNA sizes",MaterialKind.WASTE)
+    g.react("size_select","Select the requested small-RNA size range",StepKind.SELECTION,((cdna,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(selected,excluded),changes_molecule=False)
+    g.discard(excluded,"falls outside the selected small-RNA library size range")
+    fwd=g.input("pcr_forward","NEBNext UDI PCR forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
+    rev=g.input("pcr_reverse","NEBNext UDI PCR reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
+    pol=g.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=g.product("library","NEBNext low-bias small-RNA library",MaterialKind.LIBRARY,state=final_library(),inferred=True,source=SOURCE+" (proprietary adapter remnants)")
+    g.react("pcr","UDI-amplify the selected cDNA",StepKind.PCR,((selected,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),(rev,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(final_library(),reason="The manual does not disclose complete UDI primer sequences."))
+    g.sequence(library,SequencingPlan(library=final_library(),primers=tuple(SEQ_PRIMERS),acquired_roles=REQUIRED_ROLES,read_lengths={"Read 1":56}))
+    g.declare_reviewed_scope(["rna","adapter3","ligase3","ligate_three","adapter_cleanup","remove_free_adapter","adapter5","splint","ligase5","ligate_five","rt_primer","rt","reverse_transcribe","beads","size_select","pcr_forward","pcr_reverse","pcr_polymerase","pcr","library"],SOURCE)
+    return g.require_publishable()

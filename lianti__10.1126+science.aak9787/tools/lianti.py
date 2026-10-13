@@ -16,6 +16,9 @@ UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
 FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from adapter_ligation import reported_adapter_end
+from pcr import PCRGeometry
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -140,3 +143,124 @@ def final_library(insert_nt: int = 28) -> Construct:
     if problems:
         raise ValueError("invalid LIANTI final library: " + "; ".join(problems))
     return lib
+
+
+def protocol_graph() -> ProtocolGraph:
+    source=("Defining source: https://doi.org/10.1126/science.aak9787; "
+            "LIANTI-specific oligo bases reconstructed from scg_lib_structs because the supplement is unavailable")
+    graph=ProtocolGraph("LIANTI",authority=source)
+    genome=graph.input("genome","single-cell genomic DNA",MaterialKind.BIOLOGICAL,
+                       primary=True)
+    transposon=graph.input("hairpin_transposon","T7-promoter hairpin transposon",
+                           MaterialKind.ADAPTER,state=tuple(transposon_segments()),
+                           inferred=True,source=source)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_genome","hairpin-transposon-tagmented genomic fragments",
+                         MaterialKind.MOLECULAR,inferred=True,source=source)
+    tag_waste=graph.product("tagment_waste","non-library tagmentation products",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Insert inward-facing T7-promoter transposons",
+                StepKind.TAGMENTATION,
+                ((genome,InputRole.TEMPLATE),(transposon,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+    graph.discard(tag_waste,"fragments without usable paired promoter ends do not yield the modelled library")
+    fill_pol=graph.input("gap_fill_polymerase","gap-fill DNA polymerase",MaterialKind.CATALYST)
+    dntps=graph.input("gap_fill_dntps","gap-fill dNTPs",MaterialKind.OLIGO)
+    filled=graph.product("gap_filled",gap_filled_fragment().name,MaterialKind.MOLECULAR,
+                         state=gap_filled_fragment(),inferred=True,source=source)
+    graph.react("gap_fill","Fill the 9-nt Tn5 gaps and complete both T7 promoters",
+                StepKind.EXTENSION,
+                ((tagged,InputRole.TEMPLATE),(dntps,InputRole.STRUCTURAL),
+                 (fill_pol,InputRole.CATALYST)),(filled,))
+    t7=graph.input("t7_polymerase","T7 RNA polymerase",MaterialKind.CATALYST)
+    rna=graph.product("rna_transcript",transcript().name,MaterialKind.MOLECULAR,
+                      state=transcript(),inferred=True,source=source)
+    graph.react("ivt","Linearly amplify each fragment by T7 transcription",
+                StepKind.TRANSCRIPTION,
+                ((filled,InputRole.TEMPLATE),(t7,InputRole.CATALYST)),(rna,))
+    reverse_transcriptase=graph.input("reverse_transcriptase","reverse transcriptase",
+                                     MaterialKind.CATALYST)
+    self_primed=graph.product("self_primed_cdna","self-primed LIANTI first-strand cDNA",
+                              MaterialKind.MOLECULAR,inferred=True,source=source)
+    graph.react("self_primed_rt","Self-prime reverse transcription from the RNA 3-prime end",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna,InputRole.TEMPLATE),(rna,InputRole.SELF_PRIMER),
+                 (reverse_transcriptase,InputRole.CATALYST)),(self_primed,))
+    rna_removal=graph.input("rna_removal","RNA-removal condition",MaterialKind.CONDITION)
+    cleaned=graph.product("cleaned_cdna","RNA-free self-primed cDNA",MaterialKind.MOLECULAR,
+                          inferred=True,source=source)
+    rna_waste=graph.product("rna_waste","removed LIANTI RNA",MaterialKind.WASTE)
+    graph.react("remove_rna","Remove the RNA template",StepKind.STRAND_SEPARATION,
+                ((self_primed,InputRole.TEMPLATE),(rna_removal,InputRole.CONDITION)),
+                (cleaned,rna_waste))
+    graph.discard(rna_waste,"RNA is removed before UMI-bearing second-strand synthesis")
+    umi_primer=graph.input("umi_primer","UMI-bearing second-strand primer",MaterialKind.OLIGO,
+                           state=tuple(second_strand_primer_segments()),inferred=True,source=source)
+    second_pol=graph.input("second_strand_polymerase","second-strand DNA polymerase",
+                           MaterialKind.CATALYST)
+    amplicon=graph.product("umi_amplicon",umi_amplicon().name,MaterialKind.MOLECULAR,
+                           state=umi_amplicon(),inferred=True,source=source)
+    graph.react("second_strand","Synthesize the UMI-bearing second strand",StepKind.EXTENSION,
+                ((cleaned,InputRole.TEMPLATE),(umi_primer,InputRole.STRUCTURAL),
+                 (second_pol,InputRole.CATALYST)),(amplicon,))
+    repair=graph.input("end_repair_mix","end-repair enzyme mix",MaterialKind.CATALYST)
+    repaired=graph.product("repaired_amplicon","end-repaired LIANTI amplicon",
+                           MaterialKind.MOLECULAR,state=umi_amplicon(),inferred=True,source=source)
+    graph.react("end_repair","End-repair LIANTI amplicons",StepKind.END_REPAIR,
+                ((amplicon,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
+    tailing=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
+    datp=graph.input("datp","dATP",MaterialKind.OLIGO)
+    prepared_scene=end_prep_scene()
+    prepared=graph.product("da_tailed","dA-tailed LIANTI amplicon",MaterialKind.MOLECULAR,
+                           state=prepared_scene,inferred=True,source=source)
+    graph.react("da_tail","Add 3-prime dA overhangs",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),
+                 (tailing,InputRole.CATALYST)),(prepared,))
+    adapter=graph.input("nebnext_hairpin","NEBNext hairpin adapter",MaterialKind.ADAPTER)
+    ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
+    ligated=graph.product("hairpin_ligated","NEBNext-hairpin-ligated LIANTI amplicon",
+                          MaterialKind.MOLECULAR,inferred=True,source=source)
+    geometry=reported_adapter_end(
+        "NEBNext hairpin",kind="cohesive",polarity="3-prime",terminal_sequence="T",
+        body_sequence=NEBNEXT_HAIRPIN.sequence[:-1],
+        statement="The canonical NEBNext hairpin model has the disclosed terminal 3′ T used with dA-tailed inserts.")
+    graph.react("adapter_ligation","Ligate the NEBNext hairpin adapter in either orientation",
+                StepKind.LIGATION,
+                ((prepared,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(ligated,),geometry=geometry)
+    user=graph.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
+    opened=graph.product("opened_library","USER-opened adapter-ligated LIANTI molecules",
+                         MaterialKind.MOLECULAR,state=final_library(),inferred=True,source=source)
+    released=graph.product("released_hairpin","released hairpin loop",MaterialKind.WASTE)
+    graph.react("user_digest","Open the dU-containing hairpin",StepKind.DIGESTION,
+                ((ligated,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))
+    graph.discard(released,"the cleaved hairpin loop is not part of the final library")
+    forward=graph.input("pcr_forward","NEBNext library PCR forward primer",MaterialKind.OLIGO,
+                        inferred=True,source=source+" (exact LIANTI primer assignment secondary)")
+    reverse=graph.input("pcr_reverse","indexed NEBNext library PCR reverse primer",
+                        MaterialKind.OLIGO,inferred=True,
+                        source=source+" (exact LIANTI primer assignment secondary)")
+    pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
+                          inferred=True,source=source)
+    graph.react("library_pcr","Amplify the USER-opened indexed library",StepKind.PCR,
+                ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="The accessible source does not establish the exact LIANTI library-PCR oligo assignment."))
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=tuple(SEQ_PRIMERS),
+        acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
+        read_lengths={"Index 1 (i7)":I7_NT},
+        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
+        limitation="The 6-nt i7 placement and LIANTI-specific oligos are secondary-source reconstructions."))
+    graph.declare_reviewed_scope((
+        "genome","hairpin_transposon","tn5","tagment","gap_fill_polymerase",
+        "gap_fill_dntps","gap_fill","t7_polymerase","ivt","reverse_transcriptase",
+        "self_primed_rt","rna_removal","remove_rna","umi_primer","second_strand_polymerase",
+        "second_strand","end_repair_mix","end_repair","tailing_polymerase","datp",
+        "da_tail","nebnext_hairpin","ligase","adapter_ligation","user_enzyme",
+        "user_digest","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

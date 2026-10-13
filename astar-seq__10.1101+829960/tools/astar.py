@@ -15,6 +15,12 @@ from chemdraw import Construct, Segment, feature, revcomp
 from illumina import P5, P7
 import nextera as nx
 import seqprimers as sp
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "ASTAR-seq — chromatin accessibility and transcriptome from one cell"
+SOURCE = 'Defining source: <a href="https://doi.org/10.1101/829960">Xing et al. (2019)</a>.'
 
 
 C1_HANDLE = "GGCGACAACACCGATTGATCA"
@@ -84,3 +90,113 @@ def rna_library() -> Construct:
 
 
 SEQ_PRIMERS = tuple(sp.NEXTERA[k] for k in ("R1", "I1", "I2", "R2"))
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cell=graph.input("single_cell","one cell in a Fluidigm C1 chamber",
+                     MaterialKind.BIOLOGICAL,primary=True)
+    transposome=graph.input("atac_transposome","s5/s7-loaded ATAC transposomes",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged_dna=graph.product("tagged_dna","tagmented accessible genomic DNA",
+                             MaterialKind.MOLECULAR)
+    cellular_rna=graph.product("cellular_rna","RNA retained in the same chamber",
+                               MaterialKind.MOLECULAR)
+    tag_waste=graph.product("atac_waste","non-library tagmentation products",
+                            MaterialKind.WASTE)
+    graph.react("atac_tagment","Tagment accessible chromatin in the intact single-cell reaction",
+                StepKind.TAGMENTATION,
+                ((cell,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged_dna,cellular_rna,tag_waste))
+    graph.discard(tag_waste,"non-amplifiable strand-transfer products")
+    dt=graph.input("biotin_dt","biotinylated C1 oligo-dT primer",MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","SuperScript IV reverse transcriptase",
+                   MaterialKind.CATALYST)
+    first=graph.product("first_strand","biotinylated first-strand cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Reverse-transcribe polyadenylated RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((cellular_rna,InputRole.TEMPLATE),(dt,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    tso=graph.input("tso","all-RNA C1 template-switch oligo",MaterialKind.OLIGO)
+    switched=graph.product("switched_cdna","template-switched full-length cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("template_switch","Install the second C1 handle",StepKind.TEMPLATE_SWITCHING,
+                ((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(switched,))
+    c1_primer=graph.input("c1_primer","biotinylated C1 PCR primer",MaterialKind.OLIGO)
+    pre_pol=graph.input("preamp_polymerase","on-chip cDNA PCR polymerase",MaterialKind.CATALYST)
+    amplified=graph.product("amplified_cdna","biotinylated full-length cDNA",
+                            MaterialKind.MOLECULAR,state=c1_cdna())
+    graph.react("cdna_preamp","Amplify cDNA for five on-chip cycles",StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(c1_primer,InputRole.STRUCTURAL),
+                 (pre_pol,InputRole.CATALYST)),(amplified,),
+                geometry=PCRGeometry.symmetric(
+                    c1_cdna(),PCRPrimer("C1-P2-PCR-2",C1_PCR),
+                    statement="The one published C1 handle primer binds the shared handle at both cDNA ends."))
+    mixed=graph.product("mixed_modalities","mixed tagmented DNA and biotinylated cDNA",
+                        MaterialKind.MOLECULAR)
+    graph.react("combine_modalities","Retain both products in the same chamber output",
+                StepKind.POOL,
+                ((tagged_dna,InputRole.TEMPLATE),(amplified,InputRole.TEMPLATE)),(mixed,),
+                changes_molecule=False)
+    beads=graph.input("streptavidin","streptavidin beads",MaterialKind.SELECTION)
+    bead_cdna=graph.product("bead_cdna","streptavidin-bound biotinylated cDNA",
+                            MaterialKind.MOLECULAR)
+    atac_fraction=graph.product("atac_fraction","unbound tagmented genomic DNA",
+                                MaterialKind.MOLECULAR)
+    graph.react("separate","Separate RNA and ATAC products with streptavidin",
+                StepKind.AFFINITY_CAPTURE,
+                ((mixed,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+                (bead_cdna,atac_fraction))
+    gap_pol=graph.input("gap_fill_polymerase","ATAC gap-fill polymerase",MaterialKind.CATALYST)
+    filled=graph.product("filled_atac","gap-filled ATAC DNA",MaterialKind.MOLECULAR)
+    graph.react("atac_gap_fill","Fill the nine-base transposition gaps",StepKind.EXTENSION,
+                ((atac_fraction,InputRole.TEMPLATE),(gap_pol,InputRole.CATALYST)),(filled,))
+    atac_i5=graph.input("atac_i5","per-cell v2_Ad1.N i5 primer",MaterialKind.OLIGO)
+    atac_i7=graph.input("atac_i7","per-cell v2_Ad2.N i7 primer",MaterialKind.OLIGO)
+    index_pol=graph.input("index_polymerase","Nextera index PCR polymerase",MaterialKind.CATALYST)
+    atac_final=atac_library()
+    atac_lib=graph.product("atac_library",atac_final.name,MaterialKind.LIBRARY,state=atac_final)
+    graph.react("atac_index_pcr","Index the ATAC fraction",StepKind.PCR,
+                ((filled,InputRole.TEMPLATE),(atac_i5,InputRole.STRUCTURAL),
+                 (atac_i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),(atac_lib,),
+                geometry=PCRGeometry.unavailable(
+                    atac_final,reason="The heterogeneous gap-filled ATAC precursor is not reconstructed base-for-base."))
+    graph.sequence(atac_lib,SequencingPlan(library=atac_final,primers=SEQ_PRIMERS,
+        read_lengths={"Read 1":50,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":50}))
+    heat=graph.input("heat_release","heat strand-release condition",MaterialKind.CONDITION)
+    released=graph.product("released_cdna","released non-biotinylated cDNA strand",
+                           MaterialKind.MOLECULAR,state=c1_cdna())
+    bound=graph.product("bound_cdna_waste","bead-bound biotinylated cDNA strands",
+                        MaterialKind.WASTE)
+    graph.react("release_cdna","Heat-release the non-biotinylated cDNA strand",
+                StepKind.STRAND_SEPARATION,
+                ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,bound))
+    graph.discard(bound,"biotinylated complementary strands remain bead-bound")
+    rna_transposome=graph.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER)
+    rna_tagged=graph.product("rna_tagged","tagmented full-length cDNA",MaterialKind.MOLECULAR)
+    rna_waste=graph.product("rna_tagment_waste","non-amplifiable cDNA tagmentation products",
+                            MaterialKind.WASTE)
+    graph.react("rna_tagment","Tagment the separated cDNA",StepKind.TAGMENTATION,
+                ((released,InputRole.TEMPLATE),(rna_transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(rna_tagged,rna_waste))
+    graph.discard(rna_waste,"homotypic and otherwise non-amplifiable Tn5 products")
+    rna_i5=graph.input("rna_i5","RNA-library Nextera i5 primer",MaterialKind.OLIGO)
+    rna_i7=graph.input("rna_i7","RNA-library Nextera i7 primer",MaterialKind.OLIGO)
+    rna_final=rna_library()
+    rna_lib=graph.product("rna_library",rna_final.name,MaterialKind.LIBRARY,state=rna_final)
+    graph.react("rna_index_pcr","Complete and index the RNA library",StepKind.PCR,
+                ((rna_tagged,InputRole.TEMPLATE),(rna_i5,InputRole.STRUCTURAL),
+                 (rna_i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),(rna_lib,),
+                geometry=PCRGeometry.unavailable(
+                    rna_final,reason="The heterogeneous Tn5 precursor is not reconstructed base-for-base."))
+    graph.sequence(rna_lib,SequencingPlan(library=rna_final,primers=SEQ_PRIMERS,
+        read_lengths={"Read 1":101,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":101}))
+    graph.declare_reviewed_scope(("single_cell","atac_transposome","tn5","atac_tagment",
+      "biotin_dt","reverse_transcriptase","reverse_transcribe","tso","template_switch",
+      "c1_primer","preamp_polymerase","cdna_preamp","combine_modalities","streptavidin",
+      "separate","gap_fill_polymerase","atac_gap_fill","atac_i5","atac_i7",
+      "index_polymerase","atac_index_pcr","atac_library","heat_release","release_cdna",
+      "rna_transposome","rna_tagment","rna_i5","rna_i7","rna_index_pcr","rna_library"),SOURCE)
+    return graph.require_publishable()

@@ -3,8 +3,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Construct, Row, revcomp, strand_row
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
+from chemdraw import Construct, Row, Segment, revcomp, strand_row
 from chemdraw import bases_pair
+from protocol_graph import SequencingPlan
 
 
 @dataclass(frozen=True)
@@ -63,3 +65,51 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     close = Row(chunks=[(" " * gutter + "'" + "-" * between + "'",
                          None, False)])
     return [cap, top, bottom, close]
+
+
+def smrtbell_circuit(molecule: Dumbbell) -> Construct:
+    """Build one checked polymerase circuit from a closed dumbbell topology.
+
+    The caller supplies the insert and both hairpins once through :class:`Dumbbell`;
+    sequencing plans and protocol graphs therefore cannot silently disagree about the
+    order or orientation traversed by the polymerase.
+    """
+    circuit = Construct([
+        Segment("insert strand 1", molecule.insert.top(), placeholder=True,
+                length_bp=len(molecule.insert)),
+        Segment("right hairpin / primer site", molecule.right_adapter, "r1",
+                placeholder=True, length_bp=len(molecule.right_adapter)),
+        Segment("insert strand 2 reverse complement", revcomp(molecule.insert.top()),
+                placeholder=True, length_bp=len(molecule.insert)),
+        Segment("left hairpin / primer site", molecule.left_adapter, "r1",
+                placeholder=True, length_bp=len(molecule.left_adapter)),
+    ], name=f"one {molecule.name} polymerase circuit")
+    if circuit.top() != molecule.pass_sequence:
+        raise AssertionError("polymerase circuit must follow the closed dumbbell")
+    return circuit
+
+
+def smrtbell_hairpin_geometry(molecule: Dumbbell, *, statement: str
+                              ) -> AdapterLigationGeometry:
+    """Describe the shared cohesive end enforced by a :class:`Dumbbell`.
+
+    Hairpin bodies may remain proprietary, but the constructor has already checked that
+    the insert and adapter overhangs pair.  Rendering and graph validation can therefore
+    share one source of truth for the ligating terminal base.
+    """
+    return reported_adapter_end(
+        f"{molecule.name} hairpin", kind="cohesive", polarity="3-prime",
+        terminal_sequence=molecule.adapter_overhang, statement=statement)
+
+
+def smrtbell_sequencing_plan(molecule: Dumbbell, circuit: Construct, *,
+                             limitation: str) -> SequencingPlan:
+    """Declare a primer-sequence-limited PacBio endpoint with checked topology."""
+    if circuit.top() != molecule.pass_sequence:
+        raise ValueError("a PacBio sequencing circuit must follow the closed dumbbell")
+    if not limitation.strip():
+        raise ValueError("an undisclosed SMRTbell primer needs a source limitation")
+    return SequencingPlan(
+        library=circuit, primers=(), acquired_roles=("Polymerase read",),
+        read_uses={"Polymerase read": "include HiFi consensus from repeated circuits"},
+        limitation=limitation)

@@ -5,6 +5,10 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,feature,revcomp
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
+from tenx_graph import chromium_pcr, partition_material
 
 CS1 = "TTGCTAGGACCGGCCTTAAAGC"
 CS2 = "CCTTAGCCGCTAATAGGTGAGC"
@@ -58,3 +62,53 @@ def read_layout():
     rows=lambda role:[(f"{x.read}, {x.cycles}",x.feature.label) for x in spans if x.read==role]
     return [*rows("Read 1"),("Read 2, 1–30","TSO-derived sequence"),
             *rows("Read 2"),("Read 2, 51 onward","CR1 scaffold")]
+
+
+def protocol_graph():
+    authority=('Commercial protocol: <a href="https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf">'
+               '10x Genomics CG000184 Rev A</a>; guide design authority CG000197 Rev A.')
+    g=ProtocolGraph("10x 3-prime Feature Barcode direct guide capture",authority=authority)
+    cells=g.input("cells","cells expressing Capture Sequence 1 guide RNA",
+                  MaterialKind.BIOLOGICAL,
+                  state=molecule("programmed cells",(role("CS1 guide RNA"),role("poly(A) mRNA"))),
+                  primary=True)
+    reviewed=["cells"]
+    occupied=partition_material(g,cells,reviewed,label="guide-expressing cells")
+    bead=g.input("bead_primer","Capture Sequence 1 cell-barcode/UMI bead primer",
+                 MaterialKind.OLIGO)
+    rt_enzyme=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
+    first=g.product("first","cell-barcoded first-strand guide cDNA",MaterialKind.MOLECULAR,
+                    state=first_strand())
+    g.react("reverse_transcribe","Reverse-transcribe the engineered guide from CS1",
+            StepKind.REVERSE_TRANSCRIPTION,
+            ((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+             (rt_enzyme,InputRole.CATALYST)),(first,))
+    tso_oligo=g.input("tso","template-switch oligo",MaterialKind.OLIGO)
+    switched=g.product("switched","template-switched guide feature cDNA",
+                       MaterialKind.MOLECULAR,state=feature_cdna())
+    g.react("template_switch","Template-switch at the copied guide end",
+            StepKind.TEMPLATE_SWITCHING,
+            ((first,InputRole.TEMPLATE),(tso_oligo,InputRole.STRUCTURAL),
+             (rt_enzyme,InputRole.CATALYST)),(switched,))
+    reviewed.extend(("bead_primer","rt","reverse_transcribe","tso","template_switch"))
+    first_geometry=PCRGeometry.exact(feature_cdna(),
+        PCRPrimer("Feature cDNA forward",FEATURE_CDNA_FORWARD),
+        PCRPrimer("Feature cDNA reverse",FEATURE_CDNA_REVERSE),
+        statement="CG000184 prints the Feature cDNA primer pair.")
+    enriched=chromium_pcr(g,"feature_cdna_pcr",switched,feature_cdna(),reviewed,
+                          label="Enrich Feature Barcode cDNA",geometry=first_geometry)
+    si_geometry=PCRGeometry.exact(feature_cdna(),
+        PCRPrimer("Feature SI forward",FEATURE_SI_FORWARD),
+        PCRPrimer("Feature SI reverse",FEATURE_SI_REVERSE),
+        statement="CG000184 prints the Feature SI primer pair.")
+    completed=chromium_pcr(g,"feature_si_pcr",enriched,feature_cdna(),reviewed,
+                           label="Add P5 and the Read-2 arm",geometry=si_geometry)
+    library=chromium_pcr(g,"index_pcr",completed,final_library(),reviewed,
+                         label="Add P7 and the i7 sample index",library=True,
+                         inferred_primers=True)
+    g.sequence(library,SequencingPlan(library=final_library(),primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        read_lengths={"Read 1":28,"Index 1 (i7)":8,"Read 2":50}))
+    reviewed.append(library.id)
+    g.declare_reviewed_scope(reviewed,authority)
+    return g.require_publishable()

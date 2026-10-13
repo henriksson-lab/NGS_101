@@ -7,6 +7,9 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, Scene, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "RAMPAGE — paired-end promoter profiling"
 NOTES = "01_rampage.html"
@@ -52,3 +55,63 @@ def sections():
         ("Remove incomplete molecules and release cDNA", [Row(chunks=[("uncapped / incomplete RNA → phosphate-dependent exonuclease", None, False)]), Row(chunks=[("captured 5′-complete cDNA → released for library PCR", "r1", False)])], "Enzymatic depletion and cap capture create the high-specificity promoter boundary."),
         ("Add paired-end run structure", [Row(chunks=[("P5 / custom Read 1 — inline barcode — 5′-complete cDNA — custom Read 2 / P7", None, False)])], "Final PCR adds the flow-cell ends. RAMPAGE uses the TSO barcode inline at the start of Read 1 rather than a separate index read."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("rna","ribosome-depleted total RNA",MaterialKind.MOLECULAR,
+                    primary=True)
+    rt_primer=graph.input("rt_primer","random-N15 RT primer carrying the Read 2 handle",
+                          MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
+                   MaterialKind.CATALYST)
+    first=graph.product("first_strand","random-primed cDNA reaching RNA 5-prime ends",
+                        MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Reverse-transcribe toward RNA 5-prime ends",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    tso=graph.input("tso","barcoded rGrGrG-ended RAMPAGE template-switch oligo",
+                    MaterialKind.OLIGO)
+    complete=graph.product("complete","template-switched 5-prime-complete cDNA hybrids",
+                           MaterialKind.MOLECULAR)
+    graph.react("template_switch","Install the Read 1 arm at cap-complete cDNA ends",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(complete,))
+    captrap=graph.input("captrap","cap oxidation, biotinylation and streptavidin selection",
+                        MaterialKind.SELECTION)
+    captured=graph.product("captured","cap-trapped 5-prime-complete cDNA hybrids",
+                           MaterialKind.MOLECULAR)
+    incomplete=graph.product("incomplete","uncapped or incomplete cDNA hybrids",
+                             MaterialKind.WASTE)
+    graph.react("cap_trap","Select hybrids whose cDNA reaches a capped RNA 5-prime end",
+                StepKind.AFFINITY_CAPTURE,
+                ((complete,InputRole.TEMPLATE),(captrap,InputRole.SELECTION)),
+                (captured,incomplete))
+    graph.discard(incomplete,"uncapped or incomplete hybrids are not retained by cap trapping")
+    release=graph.input("release_condition","RNA removal and cDNA release condition",
+                        MaterialKind.CONDITION)
+    released=graph.product("released","released 5-prime-complete cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("release_cdna","Remove RNA and release the selected cDNA",
+                StepKind.EXTRACTION,
+                ((captured,InputRole.TEMPLATE),(release,InputRole.CONDITION)),
+                (released,))
+    forward=graph.input("pcr_forward","RAMPAGE P5/Read 1 PCR primer",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","RAMPAGE Read 2/P7 PCR primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Add paired-end P5 and P7 run structure",StepKind.PCR,
+                ((released,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The final custom sites are exact, but this compact model does not reconstruct the selected single-strand precursor as a PCR duplex."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "rna","rt_primer","reverse_transcriptase","reverse_transcribe","tso",
+        "template_switch","captrap","cap_trap","release_condition","release_cdna",
+        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

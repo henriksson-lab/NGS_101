@@ -5,8 +5,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from chromatin_epigenetics import strand_selection_rows
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 def seg(name, top, tag=None, **kw):
@@ -98,3 +102,59 @@ def sections():
         ("Destroy the nascent strand before PCR", strand_selection_rows()[2:],
          "Hoechst sensitization and UV nick BrdU DNA. PE 1.0 and the custom indexed primer then amplify only intact parental templates."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=graph.input("cells","cells entering one S phase",MaterialKind.BIOLOGICAL,
+                      primary=True)
+    brdu=graph.input("brdu","BrdU nucleotide label",MaterialKind.MOLECULAR)
+    replication=graph.input("replication_polymerase","cellular DNA replication machinery",
+                            MaterialKind.CATALYST)
+    replicated=graph.product("replicated","chromatids with BrdU-labelled nascent strands",
+                             MaterialKind.MOLECULAR,
+                             state=tuple(strand_selection_rows()[:2]))
+    graph.react("label_nascent","Replicate once in BrdU",StepKind.EXTENSION,
+                ((cells,InputRole.TEMPLATE),(brdu,InputRole.STRUCTURAL),
+                 (replication,InputRole.CATALYST)),(replicated,))
+    adapter=graph.input("pe_adapter","historical Illumina PE adapter",
+                        MaterialKind.ADAPTER,state=tuple(adapter_scene().rows()))
+    ligase=graph.input("adapter_ligase","PE adapter ligase",MaterialKind.CATALYST)
+    adapted=graph.product("adapted","PE-adapter-ligated BrdU-labelled DNA",
+                          MaterialKind.MOLECULAR)
+    graph.react("ligate_adapter","Ligate the historical Illumina PE adapter",
+                StepKind.LIGATION,
+                ((replicated,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(adapted,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The adapter's 3-prime dT is known, but the defining paper does not state the substrate end-preparation geometry."))
+    damage=graph.input("hoechst_uv","Hoechst and UV strand-destruction condition",
+                       MaterialKind.CONDITION)
+    parental=graph.product("parental_templates","intact parental template strands",
+                           MaterialKind.MOLECULAR)
+    nascent=graph.product("damaged_nascent","nicked BrdU-containing nascent strands",
+                          MaterialKind.WASTE)
+    graph.react("destroy_nascent","Nick BrdU-containing nascent strands selectively",
+                StepKind.CHEMICAL_CONVERSION,
+                ((adapted,InputRole.TEMPLATE),(damage,InputRole.CONDITION)),
+                (parental,nascent))
+    graph.discard(nascent,"UV-nicked BrdU strands do not support intact library amplification")
+    pe1=graph.input("pe1_primer","Illumina PE 1.0 PCR primer",MaterialKind.OLIGO)
+    indexed=graph.input("indexed_primer","custom P7/index/PE2 PCR primer",
+                        MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Amplify only intact parental-template molecules",
+                StepKind.PCR,
+                ((parental,InputRole.TEMPLATE),(pe1,InputRole.STRUCTURAL),
+                 (indexed,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The source gives the custom indexed primer and PE 1.0 by name; the historical PE1 PCR-primer base string is not independently transcribed here."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "cells","brdu","replication_polymerase","label_nascent","pe_adapter",
+        "adapter_ligase","ligate_adapter","hoechst_uv","destroy_nascent",
+        "pe1_primer","indexed_primer","pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

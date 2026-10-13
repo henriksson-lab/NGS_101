@@ -1,10 +1,14 @@
 """DR-seq co-amplification and source-backed branch intermediates."""
 from __future__ import annotations
 
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import (Construct, MolecularState, Row, Scene, Workflow,
                       complement_segments, duplex_rows, feature)
 from multibranch import illumina_branch
+from multimodal_spatial import finish_pcr_branch
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE = "DR-seq — genome and transcriptome without physical separation"
 NOTES = "01_dr-seq.html"
@@ -168,3 +172,187 @@ def workflow() -> Workflow:
              name="DR-seq genome and transcriptome libraries",
              note="The source names NEBNext Ultra for DNA and the CEL-Seq workflow for RNA; the unprinted outer oligos are marked inferred.")
     return wf
+
+
+def protocol_graph():
+    """Typed provenance for DR-seq's common amplification and two finishes."""
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    cell = g.input(
+        "cell_lysate", "one lysed cell containing genomic DNA and poly(A) RNA",
+        MaterialKind.BIOLOGICAL,
+        state=[*Scene.duplex([seg("genomic DNA", "X" * 42, placeholder=True)],
+                             label="single-cell genomic DNA").rows(),
+               *rt_scene().rows()], primary=True)
+
+    ad1 = g.input("ad1", "cell-barcoded Ad-1x oligo(dT)24V primer",
+                  MaterialKind.OLIGO, state=rt_scene())
+    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
+    copied = g.product(
+        "copied", "Ad-1x-tagged cDNA beside genomic DNA",
+        MaterialKind.MOLECULAR,
+        state=[*rt_scene().rows(),
+               *Scene.duplex([seg("genomic DNA", "X" * 42, placeholder=True)],
+                             label="unchanged genomic DNA").rows()])
+    g.react(
+        "reverse_transcribe", "Reverse-transcribe RNA with cell-barcoded Ad-1x",
+        StepKind.REVERSE_TRANSCRIPTION,
+        ((cell, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
+         (rt, InputRole.CATALYST)), (copied,))
+
+    ad2 = g.input("ad2", "Ad-2 common-handle random-N8 primer",
+                  MaterialKind.OLIGO)
+    strand_polymerase = g.input(
+        "strand_polymerase", "strand-displacing DNA polymerase",
+        MaterialKind.CATALYST)
+    primed = g.product(
+        "ad2_primed", "Ad-2-primed genomic DNA and cDNA copies",
+        MaterialKind.MOLECULAR,
+        state=[*ad2_priming_scene("genomic DNA").rows(),
+               *ad2_priming_scene("Ad-1x-tagged cDNA").rows()])
+    g.react(
+        "random_prime", "Random-prime genomic DNA and cDNA with Ad-2",
+        StepKind.EXTENSION,
+        ((copied, InputRole.TEMPLATE), (ad2, InputRole.STRUCTURAL),
+         (strand_polymerase, InputRole.CATALYST)), (primed,))
+    coamplified = g.product(
+        "coamplified", "quasilinearly co-amplified genome and transcript products",
+        MaterialKind.MOLECULAR,
+        state=[*duplex_rows(GDNA_AMPLICON, label="genome-derived Ad-2/Ad-2 species"),
+               *duplex_rows(CDNA_AMPLICON,
+                            label="transcript-derived Ad-2/Ad-1x species")])
+    g.react(
+        "quasilinear_cycles", "Run seven MALBAC-like quasilinear extension cycles",
+        StepKind.EXTENSION,
+        ((primed, InputRole.TEMPLATE), (ad2, InputRole.STRUCTURAL),
+         (strand_polymerase, InputRole.CATALYST)), (coamplified,))
+
+    dna = g.product("dna_branch", "genome finishing aliquot",
+                    MaterialKind.MOLECULAR, state=GDNA_AMPLICON)
+    rna = g.product("rna_branch", "transcriptome finishing aliquot",
+                    MaterialKind.MOLECULAR, state=CDNA_AMPLICON)
+    g.react("split", "Split the common amplification pool into DNA and RNA aliquots",
+            StepKind.SPLIT, ((coamplified, InputRole.TEMPLATE),), (dna, rna),
+            changes_molecule=False)
+
+    p2_forward = g.input("p2_forward", "P2 genome-amplification primer",
+                         MaterialKind.OLIGO)
+    p2_reverse = g.input("p2_reverse", "opposing P2 genome-amplification primer",
+                         MaterialKind.OLIGO)
+    p2_polymerase = g.input("p2_polymerase", "P2 PCR polymerase",
+                            MaterialKind.CATALYST)
+    p2_product = g.product(
+        "p2_product", "P2-amplified genomic products", MaterialKind.MOLECULAR,
+        state=GDNA_AMPLICON)
+    g.react(
+        "p2_pcr", "Amplify the genome aliquot with P2", StepKind.PCR,
+        ((dna, InputRole.TEMPLATE), (p2_forward, InputRole.STRUCTURAL),
+         (p2_reverse, InputRole.STRUCTURAL),
+         (p2_polymerase, InputRole.CATALYST)), (p2_product,),
+        geometry=PCRGeometry.unavailable(
+            GDNA_AMPLICON,
+            reason="The source gives one P2 sequence for the repeated Ad-2 handles; this representative construct does not assert a unique oriented primer pair."))
+
+    p3 = g.input("p3_biotin", "5-prime-biotin P3 primer", MaterialKind.OLIGO)
+    p3_partner = g.input("p3_partner", "opposing genome PCR primer",
+                         MaterialKind.OLIGO, inferred=True,
+                         source=SOURCE + " (opposing primer identity not resolved in this page model)")
+    p3_product = g.product(
+        "p3_product", "biotin-P3-amplified genomic products",
+        MaterialKind.MOLECULAR, state=GDNA_AMPLICON, inferred=True,
+        source=SOURCE + " (opposing primer identity not resolved in this page model)")
+    g.react(
+        "p3_pcr", "Amplify the genome branch with 5-prime-biotin P3",
+        StepKind.PCR,
+        ((p2_product, InputRole.TEMPLATE), (p3, InputRole.STRUCTURAL),
+         (p3_partner, InputRole.STRUCTURAL),
+         (p2_polymerase, InputRole.CATALYST)), (p3_product,),
+        geometry=PCRGeometry.unavailable(
+            GDNA_AMPLICON,
+            reason="The source prints biotin-P3, but this page has not resolved a unique opposing primer landing site."))
+    shear = g.input("shearing", "sonication condition", MaterialKind.CONDITION)
+    fragmented = g.product("fragmented_dna", "sonicated genome amplicons",
+                           MaterialKind.MOLECULAR, state=p3_product.state)
+    g.react("sonicate", "Sonicate the biotin-labelled genome amplicons",
+            StepKind.FRAGMENTATION,
+            ((p3_product, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
+            (fragmented,))
+    streptavidin = g.input("streptavidin", "streptavidin depletion matrix",
+                           MaterialKind.SELECTION)
+    depleted = g.product("depleted_dna", "Ad-2-depleted sonicated DNA",
+                         MaterialKind.MOLECULAR, state=fragmented.state)
+    bound = g.product("bound_ad2", "streptavidin-bound Ad-2 end fragments",
+                      MaterialKind.WASTE)
+    g.react(
+        "deplete_ad2", "Deplete biotin-labelled Ad-2 ends with streptavidin",
+        StepKind.SELECTION,
+        ((fragmented, InputRole.TEMPLATE),
+         (streptavidin, InputRole.SELECTION)), (depleted, bound),
+        changes_molecule=False)
+    g.discard(bound, "contains the biotin-labelled Ad-2 ends removed before library prep")
+    neb_adapter = g.input(
+        "neb_adapter", "NEBNext Ultra DNA-library adapter",
+        MaterialKind.ADAPTER, inferred=True,
+        source=SOURCE + " (kit named; lot-specific adapter oligos not printed)")
+    dna_adapted = g.product(
+        "dna_adapted", "NEBNext-adapted genome fragments",
+        MaterialKind.MOLECULAR, state=DNA, inferred=True,
+        source=SOURCE + " (outer NEBNext shell inferred from the named kit)")
+    g.react(
+        "adapt_dna", "Ligate the named NEBNext Ultra adapter",
+        StepKind.LIGATION,
+        ((depleted, InputRole.TEMPLATE), (neb_adapter, InputRole.STRUCTURAL)),
+        (dna_adapted,), geometry=AdapterLigationGeometry.unavailable(
+            "The paper names NEBNext Ultra but does not print its lot-specific adapter-end geometry."))
+
+    p1 = g.input("p1", "P1 transcript-branch primer", MaterialKind.OLIGO)
+    second_polymerase = g.input("second_polymerase", "second-strand polymerase",
+                                MaterialKind.CATALYST)
+    t7_template = g.product(
+        "t7_template", "P1-completed cell-barcoded T7 template",
+        MaterialKind.MOLECULAR, state=CDNA_AMPLICON)
+    g.react(
+        "second_strand", "Select transcript-derived products with P1 and make second strand",
+        StepKind.EXTENSION,
+        ((rna, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
+         (second_polymerase, InputRole.CATALYST)), (t7_template,))
+    t7_polymerase = g.input("t7_polymerase", "T7 RNA polymerase",
+                            MaterialKind.CATALYST)
+    arna = g.product("arna", "cell-barcoded antisense RNA copies",
+                     MaterialKind.MOLECULAR, state=ARNA)
+    g.react("ivt", "Amplify the transcript branch by T7 transcription",
+            StepKind.TRANSCRIPTION,
+            ((t7_template, InputRole.TEMPLATE),
+             (t7_polymerase, InputRole.CATALYST)), (arna,))
+    cel_adapter = g.input(
+        "cel_adapter", "CEL-Seq small-RNA finishing adapter",
+        MaterialKind.ADAPTER, inferred=True,
+        source=SOURCE + " (workflow referenced; outer oligos not printed)")
+    rna_adapted = g.product(
+        "rna_adapted", "CEL-Seq-finished antisense-RNA library template",
+        MaterialKind.MOLECULAR, state=RNA, inferred=True,
+        source=SOURCE + " (outer small-RNA shell inferred from the referenced workflow)")
+    g.react(
+        "adapt_rna", "Attach the referenced CEL-Seq small-RNA finishing adapter",
+        StepKind.LIGATION,
+        ((arna, InputRole.TEMPLATE), (cel_adapter, InputRole.STRUCTURAL)),
+        (rna_adapted,), geometry=AdapterLigationGeometry.unavailable(
+            "The defining paper refers to the CEL-Seq finishing workflow without printing its outer adapter oligos."))
+
+    reviewed = [
+        "cell_lysate", "ad1", "rt", "reverse_transcribe", "ad2",
+        "strand_polymerase", "random_prime", "quasilinear_cycles", "split",
+        "p2_forward", "p2_reverse", "p2_polymerase", "p2_pcr", "p3_biotin",
+        "p3_partner", "p3_pcr", "shearing", "sonicate", "streptavidin",
+        "deplete_ad2", "neb_adapter", "adapt_dna", "p1", "second_polymerase",
+        "second_strand", "t7_polymerase", "ivt", "cel_adapter", "adapt_rna",
+    ]
+    finish_pcr_branch(
+        g, "dna_final", dna_adapted, DNA, DP, reviewed,
+        label="DR-seq genome", inferred_primers=True,
+        limitation="The defining paper names NEBNext Ultra but does not print a universal lot-specific PCR-primer pair.")
+    finish_pcr_branch(
+        g, "rna_final", rna_adapted, RNA, RP, reviewed,
+        label="DR-seq transcriptome", inferred_primers=True,
+        limitation="The defining paper refers to CEL-Seq finishing without printing the outer PCR-primer pair.")
+    g.declare_reviewed_scope(reviewed, SOURCE)
+    return g.require_publishable()

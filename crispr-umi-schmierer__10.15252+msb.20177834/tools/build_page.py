@@ -11,7 +11,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import crisprumi as C
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, annotation_rows, complement_segments, panel, strand_row
+from chemdraw import (Construct, Row, Scene, Segment, annotation_rows,
+                      complement_segments, panel, protocol_graph_panels, strand_row)
 from page import caveat, head, info
 
 OUT = HERE.parent / "crisprumi.html"
@@ -51,26 +52,18 @@ def read1_scene() -> Scene:
 def render() -> str:
     cas = cassette()
     lib = C.final_library()
+    graph = C.protocol_graph()
     return "\n".join([
-        head("CRISPR-UMI (Schmierer)"), '<div class="wrap">',
+        head("CRISPR-UMI (Schmierer)"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>CRISPR-UMI (Schmierer)</h1>',
         '<p class="research-notes"><a href="01_crispr-umi-schmierer.html">Research notes</a></p>',
         info('Schmierer et al. 2017, <a href="https://doi.org/10.15252/msb.20177834">doi:10.15252/msb.20177834</a>. The paper calls the lineage barcode a Random Sequence Label (RSL).'),
         caveat('This page is only the Schmierer protocol. The unrelated Michlits method and an experimental padlock design remain in the research notes.'),
-        '<h2>Build and deliver the guide–RSL library</h2>',
+        '<h2>Guide–RSL cassette</h2>',
         '<h3>(1) Clone each guide together with a random 6-nt lineage label</h3>',
         panel([strand_row(cas), *annotation_rows(cas)], cls="long",
               caption="The AU-flip guide cassette contains a built-in Illumina Index 1 site followed immediately by the 6-nt RSL. The guide and RSL therefore travel in the same lentiviral construct."),
-        '<h3>(2) Transduce the pooled library and apply the CRISPR screen</h3>',
-        panel([Row(chunks=[("one virion: [guide]—[RSL]  ->  one integrated cassette  ->  one labelled cell lineage", None, False)])],
-              cls="long", caption="Distinct RSLs attached to one guide distinguish independently transduced lineages."),
-        '<h2>Recover the integrated cassette</h2>',
-        '<h3>(3) PCR1 amplifies the genomic integration in parallel reactions</h3>',
-        panel([Row(chunks=[("PCR1-F  --->  [integrated U6—guide—scaffold—Index 1—RSL cassette]  <---  PCR1-R", None, False)])],
-              caption="The paper uses 40 parallel genomic-DNA PCR1 reactions for 14 cycles, then pools them."),
-        '<h3>(4) PCR2 and indexed PCR3 complete the flow-cell library</h3>',
-        panel([Row(chunks=[("PCR2: 19 cycles  ->  PCR3: P5—i5 + P7, 14 cycles  ->  288-bp product", None, False)])],
-              caption="Nested amplification enriches the guide/RSL locus. PCR3 adds the P5 end, sample i5 and P7 end."),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Completed sequencing library</h2>',
         panel([strand_row(lib), *annotation_rows(lib)], cls="long",
               caption="The finished PCR3 product. The vector-templated Index 1 site places the RSL in the i7 read."),

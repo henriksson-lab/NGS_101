@@ -5,8 +5,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment
-from circular import circularize_ssdna, rolling_circle
+from chemdraw import Construct, Scene, Segment, annotation_rows, circle_rows
+from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+
+TITLE = "FISSEQ — transcriptome sequencing inside fixed cells"
+SOURCE = ("Lee et al., Science (2014), doi:10.1126/science.1250212; "
+          "Lee et al., Nature Protocols (2015), doi:10.1038/nprot.2014.191")
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -101,3 +108,94 @@ def sequencing_scene() -> Scene:
                   pair=(segment, target), label=strand, mod5="p")
     sc.arrow("primer N", "all five offsets ligate probes toward adjacent cDNA")
     return sc
+
+
+def protocol_graph() -> ProtocolGraph:
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    rna = graph.input("cellular_rna", "cellular RNA in fixed cells or tissue",
+                      MaterialKind.BIOLOGICAL, state=rt_scene(), primary=True)
+    rt_primer = graph.input(
+        "rt_primer", "5-prime-phosphorylated adapter–random-hexamer RT primer",
+        MaterialKind.OLIGO,
+        state=Construct(list(linear_cdna())[:2], name="FISSEQ RT primer"))
+    reverse_transcriptase = graph.input(
+        "reverse_transcriptase", "M-MuLV reverse transcriptase", MaterialKind.CATALYST)
+    aminoallyl_dutp = graph.input(
+        "aminoallyl_dutp", "aminoallyl-dUTP", MaterialKind.MOLECULAR)
+    hybrid = graph.product(
+        "rna_cdna_hybrid", "aminoallyl-bearing RNA–cDNA hybrid",
+        MaterialKind.MOLECULAR, state=linear_cdna())
+    graph.react(
+        "reverse_transcribe", "Random-prime reverse transcription with aminoallyl-dUTP",
+        StepKind.REVERSE_TRANSCRIPTION,
+        ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+         (reverse_transcriptase, InputRole.CATALYST),
+         (aminoallyl_dutp, InputRole.STRUCTURAL)), (hybrid,))
+
+    crosslinker = graph.input("crosslinker", "BS(PEG)9 cross-linker",
+                              MaterialKind.CONDITION)
+    immobilized_hybrid = graph.product(
+        "immobilized_hybrid", "immobilized aminoallyl-bearing RNA–cDNA hybrid",
+        MaterialKind.MOLECULAR, state=linear_cdna())
+    graph.react("immobilize_cdna", "Cross-link the aminoallyl-bearing cDNA in place",
+                StepKind.CROSS_LINKING,
+                ((hybrid, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
+                (immobilized_hybrid,))
+
+    ribonucleases = graph.input("ribonucleases", "RNase plus RNase H",
+                                MaterialKind.CATALYST)
+    linear = graph.product("linear_cdna", "immobilized linear single-stranded cDNA",
+                           MaterialKind.MOLECULAR, state=linear_cdna())
+    rna_waste = graph.product("rna_waste", "digested RNA", MaterialKind.WASTE)
+    graph.react("remove_rna", "Remove the RNA template", StepKind.DIGESTION,
+                ((immobilized_hybrid, InputRole.TEMPLATE),
+                 (ribonucleases, InputRole.CATALYST)), (linear, rna_waste))
+    graph.discard(rna_waste, "RNase and RNase H digestion products are washed away")
+
+    circligase = graph.input("circligase", "CircLigase II", MaterialKind.CATALYST)
+    circle = graph.product(
+        "cdna_circle", "covalently closed single-stranded cDNA circle",
+        MaterialKind.MOLECULAR,
+        state=tuple([*circle_rows(linear_cdna(), "CircLigase II"),
+                     *annotation_rows(linear_cdna(), prefix_width=6)]))
+    graph.react(
+        "circularize", "Join the cDNA 3-prime hydroxyl to its 5-prime phosphate",
+        StepKind.CIRCULARIZATION,
+        ((linear, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)), (circle,),
+        geometry=CircularizationGeometry.known(
+            "single-strand intramolecular ligation",
+            statement=("CircLigase II directly closes the phosphorylated single-stranded "
+                       "cDNA by joining its 3-prime and 5-prime ends.")))
+
+    rca_primer = graph.input(
+        "rca_primer", "phosphorothioate-protected RCA primer", MaterialKind.OLIGO,
+        state=Construct([seg("RCA primer", RCA_PRIMER, "r2")], name="RCA primer"))
+    phi29 = graph.input("phi29", "phi29 strand-displacing DNA polymerase",
+                        MaterialKind.CATALYST)
+    rolony_product = graph.product(
+        "rolony_product", "aminoallyl-bearing rolling-circle concatemer",
+        MaterialKind.MOLECULAR, state=rolony())
+    graph.react(
+        "rolling_circle", "Amplify the cDNA circle into a tandem-repeat rolony",
+        StepKind.EXTENSION,
+        ((circle, InputRole.TEMPLATE), (rca_primer, InputRole.STRUCTURAL),
+         (phi29, InputRole.CATALYST), (aminoallyl_dutp, InputRole.STRUCTURAL)),
+        (rolony_product,))
+
+    library = graph.product("sequencing_library", "cross-linked FISSEQ rolony",
+                            MaterialKind.LIBRARY, state=rolony())
+    graph.react("immobilize_rolony", "Cross-link the amplified rolony in place",
+                StepKind.CROSS_LINKING,
+                ((rolony_product, InputRole.TEMPLATE),
+                 (crosslinker, InputRole.CONDITION)), (library,))
+    graph.sequence(library, SequencingPlan(
+        acquired_roles=("Sequencing output",),
+        limitation=("FISSEQ uses five offset SOLiD sequencing-by-ligation primers on "
+                    "every repeat of an in-situ rolony, rather than one unique linear "
+                    "R1/I1/I2/R2 primer landing site.")))
+    graph.declare_reviewed_scope((
+        "cellular_rna", "rt_primer", "reverse_transcriptase", "aminoallyl_dutp",
+        "reverse_transcribe", "crosslinker", "immobilize_cdna", "ribonucleases",
+        "remove_rna", "circligase", "circularize", "rca_primer", "phi29",
+        "rolling_circle", "immobilize_rolony", "sequencing_library"), SOURCE)
+    return graph.require_publishable()

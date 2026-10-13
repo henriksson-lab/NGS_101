@@ -6,6 +6,9 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
 UMI_FEATURE = feature("umi", "umi", "random")
@@ -104,3 +107,85 @@ def primer_landings(lib: Construct|None=None):
 def read1_layout() -> list[tuple[str,str]]:
     return [(x.cycles, x.feature.label) for x in
             sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 20})]
+
+
+def protocol_graph() -> ProtocolGraph:
+    source="Defining source: https://doi.org/10.1038/nmeth.4179"
+    graph=ProtocolGraph("Seq-Well",authority=source)
+    cells=graph.input("cells","single-cell suspension",MaterialKind.BIOLOGICAL,primary=True)
+    beads=graph.input("barcoded_beads","barcoded capture beads",MaterialKind.ADAPTER,
+                      state=tuple(bead_primer()))
+    membrane=graph.input("membrane","semipermeable microwell membrane",MaterialKind.CONDITION)
+    captured=graph.product("captured_rna","microwell-confined bead-captured poly(A) RNA",
+                           MaterialKind.MOLECULAR,state=capture_scene())
+    empty_wells=graph.product("empty_wells","unproductive cell/bead loading outcomes",
+                              MaterialKind.WASTE)
+    graph.react("partition_capture","Load cells and beads into membrane-sealed microwells",
+                StepKind.PARTITION,
+                ((cells,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (membrane,InputRole.CONDITION)),(captured,empty_wells))
+    graph.discard(empty_wells,"wells without a productive cell-bead pairing do not yield library")
+    reverse_transcriptase=graph.input("reverse_transcriptase","reverse transcriptase",
+                                     MaterialKind.CATALYST)
+    first=graph.product("first_strand",first_strand().name,MaterialKind.MOLECULAR,
+                        state=first_strand())
+    graph.react("reverse_transcribe","Synthesize bead-barcoded first-strand cDNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (reverse_transcriptase,InputRole.CATALYST)),
+                (first,))
+    tso_input=graph.input("tso","template-switching oligo",MaterialKind.OLIGO,
+                          state=tuple(tso()))
+    switched=graph.product("template_switched",wta_product().name,MaterialKind.MOLECULAR,
+                           state=wta_product())
+    graph.react("template_switch","Install the distal SMART handle",StepKind.TEMPLATE_SWITCHING,
+                ((first,InputRole.TEMPLATE),(tso_input,InputRole.STRUCTURAL),
+                 (reverse_transcriptase,InputRole.CATALYST)),(switched,))
+    smart=graph.input("smart_primer","SMART PCR primer",MaterialKind.OLIGO,
+                      state=(seg("SMART handle",SMART_PCR,"tso"),))
+    preamp_pol=graph.input("preamp_polymerase","whole-transcriptome PCR polymerase",
+                           MaterialKind.CATALYST)
+    amplified=graph.product("amplified_cdna","amplified full-length barcoded cDNA",
+                            MaterialKind.MOLECULAR,state=wta_product())
+    graph.react("preamp","Amplify template-switched cDNA",StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(smart,InputRole.STRUCTURAL),
+                 (preamp_pol,InputRole.CATALYST)),(amplified,),
+                geometry=PCRGeometry.symmetric(
+                    wta_product(),PCRPrimer("SMART PCR primer",SMART_PCR),
+                    statement="Supplementary Table 1 prints the SMART PCR primer and both copied handle sites."))
+    transposome=graph.input("transposome","Nextera transposome",MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("selected_tagmented",selected_tagmented_strand().name,
+                         MaterialKind.MOLECULAR,state=selected_tagmented_strand())
+    tag_waste=graph.product("tagment_waste","tagmentation products without the bead end",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Tagment cDNA and retain the bead end nearest an s7 insertion",
+                StepKind.TAGMENTATION,
+                ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+    graph.discard(tag_waste,"fragments lacking the bead-derived handle are not PCR-selected")
+    p5=graph.input("p5_primer","P5-SMART selective PCR primer",MaterialKind.OLIGO,
+                   state=tuple(p5_hybrid()))
+    p7_sequence=il.P7+"N"*8+nx.S7
+    p7=graph.input("p7_primer","indexed N7 PCR primer",MaterialKind.OLIGO)
+    library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("library_pcr","Select the bead-end fragment and add P5/P7",
+                StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
+                 (p7,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.exact(
+                    selected_tagmented_strand(),PCRPrimer("P5-SMART",P5_HYBRID,anneal_nt=len(SMART_PCR)+2),
+                    PCRPrimer("indexed N7",p7_sequence,anneal_nt=len(nx.S7)),
+                    statement="Supplementary Table 1 prints the selective P5-SMART and indexed N7 primer families."))
+    lengths={"Read 1":20,"Index 1 (i7)":8,"Read 2":50}
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),read_lengths=lengths,
+        read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex","Read 2":"include"}))
+    graph.declare_reviewed_scope((
+        "cells","barcoded_beads","membrane","partition_capture","reverse_transcriptase",
+        "reverse_transcribe","tso","template_switch","smart_primer","preamp_polymerase",
+        "preamp","transposome","tn5","tagment","p5_primer","p7_primer",
+        "library_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

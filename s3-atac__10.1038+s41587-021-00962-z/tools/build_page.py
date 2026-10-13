@@ -12,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import s3atac as S
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
 
 OUT = HERE.parent / "s3-atac.html"
@@ -36,29 +36,7 @@ def single_strand(con, caption: str) -> str:
 
 
 def construction() -> str:
-    gap = S.gap_filled_strand()
-    switched = S.switched_strand()
-    lib = S.final_library()
-    duplex = Scene.duplex(list(lib), label="library")
-    return f'''<h2>Library construction</h2>
-<h3>(1) Tagment accessible chromatin with one indexed U-ME adaptor species</h3>
-{panel(S.transposome_scene().rows(), cls="small",
-       caption="Each first-round well uses one of 96 Tn5 barcodes. The same adaptor is loaded on both Tn5 monomers.")}
-{panel(S.tagmented_scene().rows(), cls="small",
-       caption="Both strands of every accessible fragment receive the indexed adaptor. Tn5 leaves a 9-nt gap beside each transferred end.")}
-
-<h3>(2) Gap-fill with uracil-intolerant NPM</h3>
-{single_strand(gap, "NPM copies the opposite mosaic end and then stops before dU, leaving the Tn5 barcode and partial Read-2 handle single-copy.")}
-
-<h3>(3) Switch the opposite end to s5</h3>
-{panel(S.switching_scene().rows(), cls="small",
-       caption="The LNA mosaic end anneals to the new ME copy. Its inverted-dT block prevents extension of the oligo itself.")}
-{single_strand(switched, "NPM instead extends the target over the oligo's s5 template. Ten switching cycles convert both fragment strands.")}
-
-<h3>(4) Add i5/P5 and i7/P7 by uracil-tolerant Q5U PCR</h3>
-{panel([*duplex.rows(), *annotation_rows(lib)], cls="small",
-       caption="Final s3-ATAC library, P5 to P7'. Q5U reads through dU; the strand shown carries A opposite that original uracil.")}
-'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
 
 
 def sequencing() -> str:
@@ -82,7 +60,7 @@ def sequencing() -> str:
 
 def render() -> str:
     return "\n".join([
-        head("s3-ATAC library chemistry"), '<div class="wrap">',
+        head("s3-ATAC library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>s3-ATAC &mdash; symmetrical-strand single-cell chromatin accessibility</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-021-00962-z">Mulqueen et al., <i>Nature Biotechnology</i> (2021)</a>.'),
         key_oligos(), construction(), sequencing(), '</div>'

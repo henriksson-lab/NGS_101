@@ -7,6 +7,7 @@ silently presenting proprietary role tokens as nucleotide sequence.
 from __future__ import annotations
 
 from chemdraw import Construct, Row, Scene, Segment
+from protocol_graph import SequencingPlan
 
 
 def role(name: str, text: str, tag: str | None = None, **kw) -> Segment:
@@ -42,3 +43,22 @@ def no_primer_ending(adapter: str) -> str:
     return (f"No synthesis primer binds. The motor carried by the {adapter} docks at the "
             "nanopore and meters the attached DNA strand through the pore, adapter-bearing "
             "end first.")
+
+
+def motor_sequencing_plan(library: Construct, *, limitation: str,
+                          read_uses=None) -> SequencingPlan:
+    """Build the primer-free sequencing endpoint shared by current ONT kits.
+
+    A Nanopore library is sequenceable because its leading adapter carries a motor,
+    not because a synthesis primer lands on the construct.  Requiring the first segment
+    to be the motor-bearing adapter prevents a generic DNA product from being declared
+    sequence-ready merely by supplying prose.
+    """
+    if not library.segments or "motor-loaded" not in library.segments[0].name:
+        raise ValueError("a Nanopore sequencing endpoint must begin with the motor adapter")
+    if not limitation.strip():
+        raise ValueError("a proprietary motor endpoint needs a source limitation")
+    return SequencingPlan(
+        library=library, primers=(), acquired_roles=("Nanopore strand",),
+        read_uses=read_uses or {"Nanopore strand": "include"},
+        limitation=limitation)

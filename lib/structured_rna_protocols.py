@@ -10,7 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from types import SimpleNamespace
 
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import Construct, Scene, Segment, Workflow, feature
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -183,6 +188,327 @@ def _final(key: str) -> Construct:
         name=DEFS[key].title)
 
 
+def _finish_rt_pcr(graph: ProtocolGraph, prefix: str, template, final: Construct,
+                   endpoint: str, reviewed: list[str], *, rt_primer_label: str):
+    rt_primer = graph.input(prefix + "_rt_primer", rt_primer_label, MaterialKind.OLIGO)
+    reverse_transcriptase = graph.input(prefix + "_reverse_transcriptase", "reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    cdna = graph.product(prefix + "_cdna", "structured-RNA-derived cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("structured-RNA-derived cDNA", (
+                             role("structured RNA cDNA"),)))
+    graph.react(prefix + "_rt", "Reverse-transcribe the adapted RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((template, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
+    reviewed.extend((prefix + "_rt_primer", prefix + "_reverse_transcriptase",
+                     prefix + "_rt"))
+    return _finish_pcr(graph, prefix, cdna, final, endpoint, reviewed)
+
+
+def _finish_pcr(graph: ProtocolGraph, prefix: str, template, final: Construct,
+                endpoint: str, reviewed: list[str], *, sequence: bool = True):
+    forward = graph.input(prefix + "_pcr_forward", "library PCR forward primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_pcr_reverse", "indexed library PCR reverse primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", "indexed structured-RNA library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Index and amplify the library", StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final,
+                    reason="The source defines the PCR oligo roles but not a distinct sequencing-primer landing geometry on this role-level construct."))
+    if sequence:
+        graph.sequence(library, SequencingPlan(limitation=endpoint))
+    reviewed.extend((
+        prefix + "_pcr_forward", prefix + "_pcr_reverse", prefix + "_pcr_polymerase",
+        prefix + "_pcr", prefix + "_library",
+    ))
+    return library
+
+
+def _yamat_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    trna = graph.input(
+        "aminoacylated_trna", "mature aminoacylated tRNA",
+        MaterialKind.BIOLOGICAL,
+        state=StructuredRNAInput("mature aminoacylated tRNA", "3-prime NCCA end").scene(),
+        primary=True)
+    alkaline = graph.input("alkaline_condition", "alkaline deacylation condition",
+                           MaterialKind.CONDITION)
+    deacylated = graph.product(
+        "deacylated_trna", "deacylated mature tRNA with free NCCA",
+        MaterialKind.MOLECULAR,
+        state=molecule("deacylated mature tRNA", (
+            role("paired acceptor stem"), role("free 3-prime NCCA"))))
+    graph.react("deacylate", "Deacylate mature tRNA at alkaline pH",
+                StepKind.CHEMICAL_CONVERSION,
+                ((trna, InputRole.TEMPLATE), (alkaline, InputRole.CONDITION)),
+                (deacylated,))
+    y_adapter = graph.input("y_adapter", "Y-3-prime-AD plus four Y-5-prime adapter variants",
+                            MaterialKind.ADAPTER, state=molecule("Y adapter set", (
+                                Y5_A, Y5_G, Y5_C, Y5_U, Y3)))
+    complex_ = graph.product(
+        "y_complex", "annealed Y-adapter–tRNA complex",
+        MaterialKind.MOLECULAR,
+        state=molecule("Y-adapter–tRNA complex", (Y5_A, role("mature tRNA"), Y3)))
+    graph.react("anneal", "Anneal the discriminator-matched Y adapter",
+                StepKind.HYBRIDIZATION,
+                ((deacylated, InputRole.TEMPLATE), (y_adapter, InputRole.STRUCTURAL)),
+                (complex_,))
+    rnl2 = graph.input("rnl2", "T4 RNA ligase 2", MaterialKind.CATALYST)
+    adapted = graph.product(
+        "adapted_trna", "covalently Y-adapted tRNA", MaterialKind.MOLECULAR,
+        state=molecule("covalently Y-adapted tRNA", (Y5_A, role("mature tRNA"), Y3),
+            junctions=(("Y-5-prime-AD-A", "mature tRNA", "Rnl2 nick ligation"),
+                       ("mature tRNA", "Y-3-prime-AD", "Rnl2 nick ligation"))))
+    graph.react("seal_nicks", "Seal both Y-adapter nicks", StepKind.NICK_SEALING,
+                ((complex_, InputRole.TEMPLATE), (y_adapter, InputRole.STRUCTURAL),
+                 (rnl2, InputRole.CATALYST)), (adapted,))
+    reviewed = [
+        "aminoacylated_trna", "alkaline_condition", "deacylate", "y_adapter",
+        "anneal", "rnl2", "seal_nicks",
+    ]
+    _finish_rt_pcr(graph, "library", adapted, final, d.endpoint, reviewed,
+                   rt_primer_label="Y-adapter reverse-transcription primer")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _dm_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    trna = graph.input(
+        "trna", "deacylated mature tRNA",
+        MaterialKind.BIOLOGICAL,
+        state=StructuredRNAInput(
+            "deacylated mature tRNA", "free 3-prime CCA",
+            "wild-type AlkB plus AlkB-D135S", False).scene(), primary=True)
+    alkb = graph.input("alkb", "wild-type AlkB plus AlkB-D135S",
+                       MaterialKind.CATALYST)
+    demethylated = graph.product(
+        "demethylated_trna", "demethylated structured tRNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("demethylated tRNA", (
+            role("structured tRNA with relieved RT blocks"), role("free 3-prime CCA"))))
+    graph.react("demethylate", "Demethylate m1A, m3C and m1G",
+                StepKind.CHEMICAL_CONVERSION,
+                ((trna, InputRole.TEMPLATE), (alkb, InputRole.CATALYST)),
+                (demethylated,))
+    starter = graph.input("starter_duplex", "blocked DM-TGIRT RNA/DNA starter duplex",
+                          MaterialKind.OLIGO, state=molecule("TGIRT starter duplex", (DM_TEMPLATE,)))
+    tgirt = graph.input("tgirt", "thermostable group-II-intron reverse transcriptase",
+                        MaterialKind.CATALYST)
+    cdna = graph.product(
+        "full_length_cdna", "full-length tRNA cDNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("full-length tRNA cDNA", (DM_TEMPLATE, role("tRNA-derived cDNA"))))
+    graph.react("template_switch", "Template-switch TGIRT onto the tRNA CCA end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((demethylated, InputRole.TEMPLATE), (starter, InputRole.STRUCTURAL),
+                 (tgirt, InputRole.CATALYST)), (cdna,))
+    circligase = graph.input("circligase", "CircLigase II", MaterialKind.CATALYST)
+    circle = graph.product(
+        "circular_cdna", "circular DM-TGIRT cDNA", MaterialKind.MOLECULAR,
+        state=molecule("circular DM-TGIRT cDNA", (role("CircLigase-II-closed cDNA"),)))
+    graph.react("circularize", "Circularize the single-stranded cDNA",
+                StepKind.CIRCULARIZATION,
+                ((cdna, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)),
+                (circle,), geometry=CircularizationGeometry.known(
+                    "single-strand intramolecular ligation",
+                    statement="The protocol circularizes single-stranded cDNA with CircLigase II."))
+    reviewed = [
+        "trna", "alkb", "demethylate", "starter_duplex", "tgirt",
+        "template_switch", "circligase", "circularize",
+    ]
+    _finish_pcr(graph, "library", circle, final, d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _mim_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    trna = graph.input(
+        "native_trna", "60–100-nt native mature tRNA",
+        MaterialKind.BIOLOGICAL,
+        state=StructuredRNAInput("60–100-nt native mature tRNA",
+                                 "native 3-prime CCA").scene(), primary=True)
+    adapter = graph.input("barcoded_adapter", "preadenylated barcoded 3-prime adapter",
+                          MaterialKind.ADAPTER, state=molecule("mim 3-prime adapter", (
+                              MIM_ADAPTER_I1,)))
+    ligase = graph.input("adapter_ligase", "truncated T4 RNA ligase 2 KQ",
+                         MaterialKind.CATALYST)
+    adapted = graph.product(
+        "adapted_trna", "barcoded 3-prime-adapter-ligated tRNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("adapter-ligated tRNA", (
+            role("native modified tRNA"), MIM_ADAPTER_I1),
+            junctions=(("native modified tRNA", "mim 3-prime adapter I1",
+                        "Rnl2tr KQ ligation"),)))
+    known_end = reported_adapter_end(
+        "mim preadenylated 3-prime adapter", kind="single-strand",
+        polarity="5-prime", terminal_sequence="G",
+        statement="The source publishes the preadenylated, 3-prime-blocked adapter sequence and its RNA-ligation role.")
+    graph.react("adapter_ligation", "Ligate a preadenylated barcoded 3-prime adapter",
+                StepKind.LIGATION,
+                ((trna, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (adapted,), geometry=known_end)
+    rt_oligo = graph.input("rt_oligo", "published mim primer-dependent RT oligo",
+                           MaterialKind.OLIGO, state=molecule("mim RT oligo", (MIM_RT,)))
+    tgirt = graph.input("tgirt", "TGIRT reverse transcriptase", MaterialKind.CATALYST)
+    cdna = graph.product(
+        "full_length_cdna", "full-length modification-signature cDNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("full-length misincorporation-bearing cDNA", (
+            MIM_RT, role("tRNA cDNA retaining modification signatures"))))
+    graph.react("reverse_transcription", "Reverse-transcribe for 16 hours at low salt",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((adapted, InputRole.TEMPLATE), (rt_oligo, InputRole.STRUCTURAL),
+                 (tgirt, InputRole.CATALYST)), (cdna,))
+    hydrolysis = graph.input("rna_hydrolysis", "RNA hydrolysis condition",
+                             MaterialKind.CONDITION)
+    clean_cdna = graph.product("clean_cdna", "RNA-free full-length tRNA cDNA",
+                               MaterialKind.MOLECULAR, state=cdna.state)
+    degraded_rna = graph.product("degraded_rna", "hydrolysed RNA fragments",
+                                 MaterialKind.WASTE)
+    graph.react("hydrolyse_rna", "Hydrolyse the RNA template",
+                StepKind.STRAND_SEPARATION,
+                ((cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CONDITION)),
+                (clean_cdna, degraded_rna))
+    graph.discard(degraded_rna, "the full-length cDNA is the retained library substrate")
+    size_rule = graph.input("cdna_size_selection", "full-length cDNA size-selection rule",
+                            MaterialKind.SELECTION)
+    sized = graph.product("sized_cdna", "size-selected full-length tRNA cDNA",
+                          MaterialKind.MOLECULAR, state=clean_cdna.state)
+    rejected = graph.product("short_cdna", "short or incomplete cDNA",
+                             MaterialKind.WASTE)
+    graph.react("select_cdna", "Size-select full-length cDNA", StepKind.SELECTION,
+                ((clean_cdna, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
+                (sized, rejected))
+    graph.discard(rejected, "does not span the intended mature-tRNA product")
+    circligase = graph.input("circligase", "CircLigase", MaterialKind.CATALYST)
+    circle = graph.product(
+        "circular_cdna", "circular full-length tRNA cDNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("circular mim-tRNAseq cDNA", (
+            role("circular full-length tRNA cDNA"),)))
+    graph.react("circularize", "Circularize full-length cDNA",
+                StepKind.CIRCULARIZATION,
+                ((sized, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)),
+                (circle,), geometry=CircularizationGeometry.known(
+                    "single-strand intramolecular ligation",
+                    statement="The protocol circularizes size-selected full-length cDNA with CircLigase."))
+    reviewed = [
+        "native_trna", "barcoded_adapter", "adapter_ligase", "adapter_ligation",
+        "rt_oligo", "tgirt", "reverse_transcription", "rna_hydrolysis",
+        "hydrolyse_rna", "cdna_size_selection", "select_cdna", "circligase",
+        "circularize",
+    ]
+    _finish_pcr(graph, "library", circle, final, d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _pandora_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    rna = graph.input(
+        "small_rna", "15–50-nt cellular small RNA with heterogeneous blocked termini",
+        MaterialKind.BIOLOGICAL,
+        state=StructuredRNAInput(
+            "15–50-nt cellular small RNA", "heterogeneous blocked termini",
+            "AlkB demethylation", False).scene(), primary=True)
+    pnk = graph.input("pnk", "T4 polynucleotide kinase", MaterialKind.CATALYST)
+    repaired = graph.product(
+        "repaired_rna", "small RNA with 5-prime phosphate and 3-prime hydroxyl",
+        MaterialKind.MOLECULAR,
+        state=molecule("end-repaired small RNA", (
+            role("5-prime phosphate"), role("small RNA"), role("3-prime hydroxyl"))))
+    graph.react("end_repair", "Repair blocked RNA termini",
+                StepKind.END_REPAIR,
+                ((rna, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (repaired,))
+    alkb = graph.input("alkb", "AlkB demethylase", MaterialKind.CATALYST)
+    demethylated = graph.product(
+        "demethylated_rna", "PNK- and AlkB-treated small RNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("PNK- and AlkB-treated small RNA", (
+            role("ligatable demethylated small RNA"),)))
+    graph.react("demethylate", "Demethylate internal RT-blocking bases",
+                StepKind.CHEMICAL_CONVERSION,
+                ((repaired, InputRole.TEMPLATE), (alkb, InputRole.CATALYST)),
+                (demethylated,))
+    adapter3 = graph.input("three_adapter", "NEBNext 3-prime small-RNA adapter",
+                           MaterialKind.ADAPTER, state=molecule("3-prime adapter", (
+                               PANDORA_RA3,)))
+    ligase3 = graph.input("three_ligase", "3-prime RNA adapter ligase",
+                          MaterialKind.CATALYST)
+    ligated3 = graph.product("three_ligated", "3-prime-adapted repaired small RNA",
+                             MaterialKind.MOLECULAR, state=demethylated.state)
+    graph.react("three_ligation", "Ligate the 3-prime small-RNA adapter",
+                StepKind.LIGATION,
+                ((demethylated, InputRole.TEMPLATE), (adapter3, InputRole.STRUCTURAL),
+                 (ligase3, InputRole.CATALYST)), (ligated3,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The source names the NEBNext kit and publishes the adapter sequence, but the page model does not reconstruct its complete modified ligation substrate."))
+    adapter5 = graph.input("five_adapter", "NEBNext 5-prime small-RNA adapter",
+                           MaterialKind.ADAPTER)
+    ligase5 = graph.input("five_ligase", "5-prime RNA adapter ligase",
+                          MaterialKind.CATALYST)
+    ligated5 = graph.product(
+        "adapted_rna", "two-adapter PANDORA small RNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("adapter-ligated small RNA", (
+            role("5-prime SR adapter"), role("repaired small RNA"), PANDORA_RA3),
+            junctions=(("5-prime SR adapter", "repaired small RNA", "RNA ligation"),
+                       ("repaired small RNA", "NEBNext 3-prime SR adapter", "RNA ligation"))))
+    graph.react("five_ligation", "Ligate the 5-prime small-RNA adapter",
+                StepKind.LIGATION,
+                ((ligated3, InputRole.TEMPLATE), (adapter5, InputRole.STRUCTURAL),
+                 (ligase5, InputRole.CATALYST)), (ligated5,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The defining article uses the NEBNext Small RNA kit; complete modified 5-prime adapter geometry is not reproduced."))
+    reviewed = [
+        "small_rna", "pnk", "end_repair", "alkb", "demethylate",
+        "three_adapter", "three_ligase", "three_ligation", "five_adapter",
+        "five_ligase", "five_ligation",
+    ]
+    rt_primer = graph.input("library_rt_primer", "NEBNext small-RNA reverse-transcription primer",
+                            MaterialKind.OLIGO)
+    reverse_transcriptase = graph.input("library_reverse_transcriptase", "reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    cdna = graph.product("library_cdna", "PANDORA small-RNA cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("PANDORA small-RNA cDNA", (
+                             role("repaired small-RNA cDNA"),)))
+    graph.react("library_rt", "Reverse-transcribe the adapted small RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((ligated5, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
+    reviewed.extend(("library_rt_primer", "library_reverse_transcriptase", "library_rt"))
+    library = _finish_pcr(
+        graph, "library", cdna, final, d.endpoint, reviewed, sequence=False)
+    page = graph.input("page_selection", "PAGE library-size selection rule",
+                       MaterialKind.SELECTION)
+    selected_library = graph.product("selected_library", "PAGE-purified PANDORA-seq library",
+                                     MaterialKind.LIBRARY, state=final)
+    rejected_library = graph.product("rejected_library", "off-size amplified products",
+                                     MaterialKind.WASTE)
+    graph.react("page_select", "PAGE-purify the amplified library", StepKind.SELECTION,
+                ((library, InputRole.TEMPLATE), (page, InputRole.SELECTION)),
+                (selected_library, rejected_library))
+    graph.discard(rejected_library, "falls outside the selected small-RNA library size")
+    graph.sequence(selected_library, SequencingPlan(limitation=d.endpoint))
+    reviewed.extend(("page_selection", "page_select", "selected_library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
 def get(key: str):
     d = DEFS[key]
     workflows = {"yamat-seq": _yamat, "dm-trna-seq": _dm,
@@ -210,11 +536,21 @@ def get(key: str):
             "NEBNext 3′ SR adapter — 5′-/rApp/AGATCGGAAGAGCACACGTCT/3AmMO/-3′",
         ),
     }
-    return SimpleNamespace(
+    final = _final(key)
+    spec = SimpleNamespace(
         TITLE=d.title, SOURCE=f'{d.citation}; <a href="https://doi.org/{d.doi}">doi:{d.doi}</a>.',
         SUMMARY=d.summary, NOTES=d.notes, CAVEAT=d.caveat,
-        oligos=lambda: oligo_map[key], workflow=workflows[key], FINAL_LIBRARY=_final(key),
+        oligos=lambda: oligo_map[key], workflow=workflows[key], FINAL_LIBRARY=final,
         FINAL_CAPTION="Role-level final library. Exact source-published oligos are listed above; undisclosed kit junctions remain role tokens.",
         SEQ_PRIMERS=(), READ_LENGTHS=None,
         SEQUENCING_INTRO="", SEQUENCING_ENDING=d.endpoint,
         SEQUENCING_UNAVAILABLE="The defining source does not publish a distinct sequencing-primer oligo or enough kit sequence to compute its exact landing site.")
+    if key == "yamat-seq":
+        spec.protocol_graph = lambda: _yamat_graph(d, final)
+    elif key == "dm-trna-seq":
+        spec.protocol_graph = lambda: _dm_graph(d, final)
+    elif key == "mim-trnaseq":
+        spec.protocol_graph = lambda: _mim_graph(d, final)
+    else:
+        spec.protocol_graph = lambda: _pandora_graph(d, final)
+    return spec

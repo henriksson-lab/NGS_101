@@ -9,6 +9,13 @@ import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
 from dumbbell import Dumbbell
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "NEBNext Ultra II DNA Library Prep — USER-cleavable adaptor"
+SOURCE = "Commercial authority: NEBNext Ultra II DNA Library Prep E7645/E7103 and E7600 adaptor documentation."
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -68,3 +75,56 @@ def sequencing_primers() -> tuple[sp.SeqPrimer, ...]:
 
 def end_prep_scene():
     return dA_tailed_scene(END_PREP)
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("fragmented_dna","fragmented double-stranded DNA",MaterialKind.MOLECULAR,
+                    state=INSERT,primary=True)
+    repair_mix=graph.input("repair_mix","NEBNext end-repair enzymes",MaterialKind.CATALYST)
+    repaired=graph.product("repaired_dna","blunt phosphorylated DNA",MaterialKind.MOLECULAR)
+    graph.react("end_repair","Repair and phosphorylate fragment ends",StepKind.END_REPAIR,
+                ((dna,InputRole.TEMPLATE),(repair_mix,InputRole.CATALYST)),(repaired,))
+    tailing=graph.input("tailing_polymerase","NEBNext dA-tailing polymerase",MaterialKind.CATALYST)
+    tailed=graph.product("tailed_dna","dA-tailed DNA",MaterialKind.MOLECULAR,
+                         state=tuple(end_prep_scene().rows()))
+    graph.react("da_tail","Add one 3′ dA to both insert ends",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(tailed,))
+    adaptor=graph.input("hairpin_adaptor","E7600 USER-cleavable hairpin adaptor",
+                        MaterialKind.ADAPTER,state=hairpin_oligo())
+    ligase=graph.input("dna_ligase","NEBNext DNA ligase",MaterialKind.CATALYST)
+    closed=graph.product("closed_dumbbell","hairpin-ligated closed intermediate",
+                         MaterialKind.MOLECULAR,state=PRE_USER)
+    graph.react("hairpin_ligation","Ligate one hairpin adaptor to each dA-tailed end",
+                StepKind.LIGATION,
+                ((tailed,InputRole.TEMPLATE),(adaptor,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(closed,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The dumbbell model guarantees two dA/dT junctions; the compact reaction geometry does not flatten both hairpins into one Scene."))
+    user=graph.input("user_enzyme","USER enzyme (UDG plus Endonuclease VIII)",
+                     MaterialKind.CATALYST)
+    opened=graph.product("opened_adaptor","USER-opened adaptor library molecules",
+                         MaterialKind.MOLECULAR,state=OPENED)
+    cleavage_waste=graph.product("user_waste","excised uracil-derived adaptor residues",
+                                 MaterialKind.WASTE)
+    graph.react("user_open","Remove dU and cleave both hairpin loops",StepKind.DIGESTION,
+                ((closed,InputRole.TEMPLATE),(user,InputRole.CATALYST)),
+                (opened,cleavage_waste))
+    graph.discard(cleavage_waste,"uracil-derived cleavage products do not enter the library")
+    i5=graph.input("i5_primer","NEBNext i501 PCR primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","NEBNext i701 PCR primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","NEBNext library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("index_pcr","Complete the opened adaptor and install dual indexes",
+                StepKind.PCR,
+                ((opened,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="The opened hairpin is represented topologically rather than as a complete PCR duplex."))
+    graph.sequence(library,SequencingPlan(library=final,primers=sequencing_primers()))
+    graph.declare_reviewed_scope(("fragmented_dna","repair_mix","end_repair",
+      "tailing_polymerase","da_tail","hairpin_adaptor","dna_ligase","hairpin_ligation",
+      "user_enzyme","user_open","i5_primer","i7_primer","pcr_polymerase",
+      "index_pcr","library"),SOURCE)
+    return graph.require_publishable()

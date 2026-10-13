@@ -4,6 +4,131 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from chemdraw import MolecularFeature, Row, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
+
+
+def overload_carriers(graph, template, *, prefix, state, bead_label,
+                      inferred=False, source=""):
+    """Put intact carriers and barcode beads into deliberately overloaded droplets.
+
+    The rejected droplet population is a mandatory waste terminal.  The returned bead
+    remains available to the assay-specific barcode-transfer reaction inside droplets;
+    partitioning alone does not pretend that its oligo has become covalent.
+    """
+    bead = graph.input(
+        prefix + "_barcode_bead", bead_label, MaterialKind.OLIGO,
+        inferred=inferred,
+        source=(source if inferred else None))
+    condition = graph.input(
+        prefix + "_condition", "overloaded droplet partitioning condition",
+        MaterialKind.CONDITION)
+    droplets = graph.product(
+        prefix + "_contents", "overloaded droplets containing intact carriers and barcode beads",
+        MaterialKind.MOLECULAR, state=state, inferred=inferred,
+        source=(source if inferred else None))
+    waste = graph.product(prefix + "_waste",
+                          "droplet material not retained with an intact carrier",
+                          MaterialKind.WASTE)
+    graph.react(
+        prefix + "_partition", "Overload intact carriers into barcode-bead droplets",
+        StepKind.PARTITION,
+        ((template, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
+         (condition, InputRole.CONDITION)), (droplets, waste),
+        changes_molecule=False)
+    graph.discard(waste, "droplet contents not recovered with an intact carrier")
+    reviewed = [bead.id, condition.id, prefix + "_partition"]
+    return droplets, bead, reviewed
+
+
+def recover_and_redistribute_carriers(graph, template, *, prefix,
+                                      recovered_state, aliquoted_state):
+    """Break droplets, retain intact carriers, then repartition them into wells.
+
+    Cleanup and repartition each expose their rejected material rather than allowing it
+    to disappear from the protocol graph.
+    """
+    recovery_condition = graph.input(
+        prefix + "_recovery_condition",
+        "emulsion-breaking and intact-carrier recovery condition",
+        MaterialKind.CONDITION)
+    recovered = graph.product(
+        prefix + "_recovered", "recovered intact droplet-barcoded carriers",
+        MaterialKind.MOLECULAR, state=recovered_state)
+    recovery_waste = graph.product(
+        prefix + "_recovery_waste",
+        "broken-emulsion material not retained with carriers", MaterialKind.WASTE)
+    graph.react(
+        prefix + "_recover", "Break droplets and recover intact carriers",
+        StepKind.CLEANUP,
+        ((template, InputRole.TEMPLATE),
+         (recovery_condition, InputRole.CONDITION)),
+        (recovered, recovery_waste), changes_molecule=False)
+    graph.discard(
+        recovery_waste,
+        "emulsion and bead material removed during intact-carrier recovery")
+
+    aliquot_condition = graph.input(
+        prefix + "_aliquot_condition", "aliquot redistribution condition",
+        MaterialKind.CONDITION)
+    aliquoted = graph.product(
+        prefix + "_aliquoted",
+        "droplet-barcoded carriers redistributed to indexed aliquots",
+        MaterialKind.MOLECULAR, state=aliquoted_state)
+    aliquot_waste = graph.product(
+        prefix + "_aliquot_waste",
+        "carrier material outside the retained aliquot representation",
+        MaterialKind.WASTE)
+    graph.react(
+        prefix + "_redistribute",
+        "Mix recovered carriers and redistribute them into indexed aliquots",
+        StepKind.PARTITION,
+        ((recovered, InputRole.TEMPLATE),
+         (aliquot_condition, InputRole.CONDITION)),
+        (aliquoted, aliquot_waste), changes_molecule=False)
+    graph.discard(
+        aliquot_waste,
+        "not represented among retained aliquot-indexed carrier molecules")
+    reviewed = [
+        recovery_condition.id, prefix + "_recover", aliquot_condition.id,
+        prefix + "_redistribute",
+    ]
+    return aliquoted, reviewed
+
+
+def finish_pcr_branch(graph, prefix, template, final, primers, reviewed, *, label,
+                      read_lengths=None, read_uses=None, inferred_primers=False,
+                      limitation="The source defines the finished library but not one universal PCR-primer pair.",
+                      geometry=None):
+    """PCR-complete and sequence one branch without duplicating endpoint logic.
+
+    The caller remains responsible for every upstream molecular operation.  This helper
+    centralizes the invariant common to multimodal protocols: each physical branch gets
+    its own primer inputs, typed PCR step, library terminal and primer-derived readout.
+    """
+    source = graph.authority + (" (endpoint primer sequence not disclosed)" if inferred_primers else "")
+    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
+                          MaterialKind.OLIGO, inferred=inferred_primers, source=source)
+    reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
+                          MaterialKind.OLIGO, inferred=inferred_primers, source=source)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final,
+                            inferred=inferred_primers, source=source)
+    graph.react(prefix + "_pcr", "Amplify and index the " + label + " branch",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=(geometry or PCRGeometry.unavailable(
+                    final, reason=limitation)))
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=tuple(primers),
+        acquired_roles=tuple(p.role for p in primers),
+        read_lengths=read_lengths or {}, read_uses=read_uses or {}))
+    reviewed.extend((forward.id, reverse.id, polymerase.id,
+                     prefix + "_pcr", library.id))
+    return library
 
 
 @dataclass(frozen=True)

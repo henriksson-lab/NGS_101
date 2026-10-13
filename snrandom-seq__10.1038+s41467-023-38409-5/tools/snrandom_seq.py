@@ -7,6 +7,9 @@ from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from rna_prep import rna_template, single_strand
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE="snRandom-seq — FFPE single-nucleus total RNA"
 NOTES="01_snrandom-seq.html"
@@ -71,3 +74,115 @@ def workflow():
     geometry=AdapterLigationGeometry.unavailable("The paper names a Vazyme universal Illumina library kit but does not print its adapter oligos or terminal ligation geometry; no generic T overhang is substituted.")
     w.ligate_adapter("INFERRED — vendor adapter ligation and PCR",geometry,Scene.duplex(list(FINAL_LIBRARY),label="sequencing library").rows(),name="final library",note="Only the published inline barcode/UMI architecture is source-exact; outer arms remain inferred.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    nucleus=graph.input("nucleus","fixed permeabilized nucleus",MaterialKind.BIOLOGICAL,
+                        primary=True)
+    block_primer=graph.input("block_primer","N7 genomic-DNA block primer",
+                             MaterialKind.OLIGO)
+    block_pol=graph.input("block_polymerase","block-primer extension polymerase",
+                          MaterialKind.CATALYST)
+    blocked=graph.product("blocked","nucleus with accessible genomic ssDNA blocked",
+                          MaterialKind.BIOLOGICAL)
+    graph.react("block_dna","Block accessible genomic single-stranded DNA",
+                StepKind.EXTENSION,
+                ((nucleus,InputRole.TEMPLATE),(block_primer,InputRole.STRUCTURAL),
+                 (block_pol,InputRole.CATALYST)),(blocked,))
+    rt_primers=graph.input("rt_primers","random and oligo-dT RT primer variants",
+                           MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    cdna=graph.product("cdna","in-nucleus random/oligo-dT cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Copy nuclear RNA across the annealing ramp",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((blocked,InputRole.TEMPLATE),(rt_primers,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
+    tailed=graph.product("tailed","poly-dA-tailed cDNA",MaterialKind.MOLECULAR)
+    graph.react("da_tail","Add the homopolymeric dA tail",StepKind.TAILING,
+                ((cdna,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
+    bead=graph.input("barcoded_bead","three-round cell-barcode/UMI hydrogel-bead primer",
+                     MaterialKind.OLIGO)
+    extension_pol=graph.input("extension_polymerase","droplet bead-extension polymerase",
+                              MaterialKind.CATALYST)
+    barcoded=graph.product("barcoded","cell-barcoded and UMI-tagged cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("bead_extend","Extend the bead primer across dA-tailed cDNA",
+                StepKind.EXTENSION,
+                ((tailed,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (extension_pol,InputRole.CATALYST)),(barcoded,))
+    pre_f=graph.input("preamp_forward","barcoded-cDNA PCR forward primer",
+                      MaterialKind.OLIGO)
+    pre_r=graph.input("preamp_reverse","barcoded-cDNA PCR reverse primer",
+                      MaterialKind.OLIGO)
+    pre_pol=graph.input("preamp_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
+    amplified=graph.product("amplified","purified barcoded cDNA amplicons",
+                            MaterialKind.MOLECULAR)
+    graph.react("preamp","PCR-select barcoded cDNA",StepKind.PCR,
+                ((barcoded,InputRole.TEMPLATE),(pre_f,InputRole.STRUCTURAL),
+                 (pre_r,InputRole.STRUCTURAL),(pre_pol,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The preamplification substrate is represented by role because complete strand geometry is not transcribed."))
+    fragment_mix=graph.input("fragment_mix","Vazyme fragmentation/end-prep mix",
+                             MaterialKind.CATALYST,inferred=True,
+                             source=SOURCE+" (commercial implementation not printed)")
+    fragmented=graph.product("fragmented","vendor-fragmented barcoded cDNA",
+                             MaterialKind.MOLECULAR,inferred=True,
+                             source=SOURCE+" (commercial implementation)")
+    graph.react("fragment","Fragment amplified cDNA",StepKind.FRAGMENTATION,
+                ((amplified,InputRole.TEMPLATE),(fragment_mix,InputRole.CATALYST)),
+                (fragmented,))
+    repaired=graph.product("repaired","end-repaired vendor cDNA fragments",
+                           MaterialKind.MOLECULAR,inferred=True,
+                           source=SOURCE+" (commercial implementation)")
+    graph.react("end_repair","Repair fragmented cDNA ends",StepKind.END_REPAIR,
+                ((fragmented,InputRole.TEMPLATE),(fragment_mix,InputRole.CATALYST)),
+                (repaired,))
+    tail_pol=graph.input("tail_polymerase","vendor dA-tailing polymerase",
+                         MaterialKind.CATALYST,inferred=True,
+                         source=SOURCE+" (commercial implementation)")
+    vendor_tailed=graph.product("vendor_tailed","vendor dA-tailed cDNA fragments",
+                                MaterialKind.MOLECULAR,inferred=True,
+                                source=SOURCE+" (commercial implementation)")
+    graph.react("vendor_da_tail","Add 3-prime dA to vendor-prepared fragments",
+                StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(tail_pol,InputRole.CATALYST)),
+                (vendor_tailed,))
+    adapter=graph.input("adapter","Vazyme universal Illumina adapter",
+                        MaterialKind.ADAPTER,inferred=True,
+                        source=SOURCE+" (adapter oligos undisclosed)")
+    ligase=graph.input("adapter_ligase","vendor adapter ligase",MaterialKind.CATALYST,
+                       inferred=True,source=SOURCE+" (commercial implementation)")
+    adapted=graph.product("adapted","vendor-adapted barcoded cDNA fragments",
+                          MaterialKind.MOLECULAR,inferred=True,
+                          source=SOURCE+" (commercial implementation)")
+    graph.react("ligate_adapter","Ligate the vendor sequencing adapter",
+                StepKind.LIGATION,
+                ((vendor_tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(adapted,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper names the Vazyme kit but does not print its adapter oligos or terminal geometry."))
+    index_f=graph.input("index_forward","vendor PCR forward primer",MaterialKind.OLIGO,
+                        inferred=True,source=SOURCE+" (kit oligo undisclosed)")
+    index_r=graph.input("index_reverse","vendor indexed PCR reverse primer",
+                        MaterialKind.OLIGO,inferred=True,
+                        source=SOURCE+" (kit oligo undisclosed)")
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (outer adapter arms inferred)")
+    graph.react("library_pcr","Complete and index the vendor library",StepKind.PCR,
+                ((adapted,InputRole.TEMPLATE),(index_f,InputRole.STRUCTURAL),
+                 (index_r,InputRole.STRUCTURAL),(pre_pol,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The complete vendor PCR oligos are undisclosed."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "nucleus","block_primer","block_polymerase","block_dna","rt_primers",
+        "reverse_transcriptase","reverse_transcribe","tdt","da_tail","barcoded_bead",
+        "extension_polymerase","bead_extend","preamp_forward","preamp_reverse",
+        "preamp_polymerase","preamp","fragment_mix","fragment","end_repair",
+        "tail_polymerase","vendor_da_tail","adapter","adapter_ligase",
+        "ligate_adapter","index_forward","index_reverse","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

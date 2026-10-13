@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from chemdraw import Construct,Scene,Segment,feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 CELL_LABEL=feature("cell_label","cell_barcode","whitelist",whitelist="bd-rhapsody-cell-label-set")
 UMI_FEATURE=feature("umi","umi","random")
@@ -75,3 +77,91 @@ def _validate():
         raise ValueError("Randomer no longer matches the BD alpha protocol")
     capture_scene().rows();random_priming_scene().rows()
 _validate()
+
+def protocol_graph():
+    source=("Chemistry authority: BD Whole Transcriptome Analysis Alpha Protocol "
+            "23-21179-00 (December 2018); platform paper: "
+            "https://doi.org/10.1038/s41592-018-0255-0")
+    graph=ProtocolGraph("BD Rhapsody WTA",authority=source)
+    cells=graph.input("cells","single-cell suspension",MaterialKind.BIOLOGICAL,primary=True)
+    beads=graph.input("capture_beads","proprietary cell-labelled capture beads",
+                      MaterialKind.ADAPTER,state=tuple(bead_capture_segments()),
+                      inferred=True,source=source+" (exact bead sequence proprietary)")
+    microwells=graph.input("microwells","BD microwell array",MaterialKind.CONDITION)
+    captured=graph.product("captured_rna","microwell-confined bead-captured poly(A) RNA",
+                           MaterialKind.MOLECULAR,state=capture_scene(),inferred=True,
+                           source=source+" (bead bases proprietary)")
+    empty=graph.product("empty_wells","unproductive cell/bead loading outcomes",
+                        MaterialKind.WASTE)
+    graph.react("partition_capture","Load cells and beads into microwells",StepKind.PARTITION,
+                ((cells,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (microwells,InputRole.CONDITION)),(captured,empty))
+    graph.discard(empty,"wells without a productive cell-bead pairing do not yield library")
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    first=graph.product("first_strand",bead_cdna().name,MaterialKind.MOLECULAR,
+                        state=bead_cdna(),inferred=True,
+                        source=source+" (bead-proximal bases proprietary)")
+    graph.react("reverse_transcribe","Synthesize bead-barcoded first-strand cDNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    exonuclease=graph.input("exonuclease","Exonuclease I",MaterialKind.CATALYST)
+    alkali=graph.input("rna_removal","RNA-removal condition",MaterialKind.CONDITION)
+    cleaned=graph.product("cleaned_first_strand","RNA-free bead-bound first-strand cDNA",
+                          MaterialKind.MOLECULAR,state=bead_cdna(),inferred=True,
+                          source=source+" (bead-proximal bases proprietary)")
+    cleanup_waste=graph.product("cleanup_waste","unused capture oligos and removed RNA",
+                                MaterialKind.WASTE)
+    graph.react("cleanup","Remove unused capture oligos and RNA",StepKind.CLEANUP,
+                ((first,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST),
+                 (alkali,InputRole.CONDITION)),(cleaned,cleanup_waste))
+    graph.discard(cleanup_waste,"unused oligos and RNA are excluded from RPE products")
+    randomer=graph.input("randomer","published BD Randomer",MaterialKind.OLIGO,
+                         state=tuple(randomer_segments()))
+    klenow=graph.input("klenow","Klenow exo-minus polymerase",MaterialKind.CATALYST)
+    extended=graph.product("rpe_product",rpe_product().name,MaterialKind.MOLECULAR,
+                           state=rpe_product(),inferred=True,
+                           source=source+" (universal bead-arm complement proprietary)")
+    graph.react("random_extension","Extend the random primer toward the bead",
+                StepKind.EXTENSION,
+                ((cleaned,InputRole.TEMPLATE),(randomer,InputRole.STRUCTURAL),
+                 (klenow,InputRole.CATALYST)),(extended,))
+    universal=graph.input("universal_oligo","proprietary Universal Oligo",MaterialKind.OLIGO,
+                          inferred=True,source=source+" (sequence proprietary)")
+    rpe_reverse=graph.input("rpe_reverse","RPE reverse primer",MaterialKind.OLIGO,
+                            inferred=True,source=source+" (sequence proprietary)")
+    rpe_pol=graph.input("rpe_polymerase","RPE PCR polymerase",MaterialKind.CATALYST)
+    amplified=graph.product("amplified_rpe","amplified cell-labelled RPE products",
+                            MaterialKind.MOLECULAR,state=rpe_product(),inferred=True,
+                            source=source+" (primer boundaries proprietary)")
+    graph.react("rpe_pcr","Amplify random-primer-extension products",StepKind.PCR,
+                ((extended,InputRole.TEMPLATE),(universal,InputRole.STRUCTURAL),
+                 (rpe_reverse,InputRole.STRUCTURAL),(rpe_pol,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    rpe_product(),reason="BD does not publish the Universal Oligo or both RPE primer-binding sequences."))
+    library_forward=graph.input("library_forward","proprietary library forward primer",
+                                MaterialKind.OLIGO,inferred=True,
+                                source=source+" (sequence proprietary)")
+    library_reverse=graph.input("library_reverse","proprietary indexed library reverse primer",
+                                MaterialKind.OLIGO,inferred=True,
+                                source=source+" (sequence proprietary)")
+    library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
+                          inferred=True,source=source+" (outer arms proprietary)")
+    graph.react("library_pcr","Add the indexed sequencing-library arms",StepKind.PCR,
+                ((amplified,InputRole.TEMPLATE),(library_forward,InputRole.STRUCTURAL),
+                 (library_reverse,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    final,reason="BD does not publish the proprietary library-primer sequences."))
+    graph.sequence(library,SequencingPlan(
+        acquired_roles=("Read 1","Index 1 (i7)","Read 2"),
+        read_lengths={"Read 1":101,"Read 2":101},
+        read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex","Read 2":"include"},
+        limitation="BD does not publish the proprietary sequencing-primer sites."))
+    graph.declare_reviewed_scope((
+        "cells","capture_beads","microwells","partition_capture","reverse_transcriptase",
+        "reverse_transcribe","exonuclease","rna_removal","cleanup","randomer","klenow",
+        "random_extension","universal_oligo","rpe_reverse","rpe_polymerase","rpe_pcr",
+        "library_forward","library_reverse","library_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

@@ -4,9 +4,14 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Row, circle_rows, feature
 from circular import circularize_ssdna
 from multimodal_spatial import surface_capture_rows
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE="Stereo-seq"
 NOTES="01_stereo-seq.html"
@@ -42,3 +47,94 @@ def sections():
          [Row(chunks=[("…[primer site]—CID—MID—cDNA—[adapter][primer site]—CID—MID—cDNA…", "r1", False)]),
           Row(chunks=[("   sequencing primer →                    sequencing primer →", "r2", False)])],
          "INFERRED — The undisclosed cPAS primer binds the repeated adapter role and extends toward the coordinate/UMI-bearing insert."),]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dnb=graph.input("decoded_dnb","decoded coordinate-identifier DNA nanoball array",
+                    MaterialKind.MOLECULAR,primary=True)
+    capture_extension=graph.input("capture_extension","UMI and oligo-dT capture extension",
+                                  MaterialKind.ADAPTER,inferred=True,
+                                  source=SOURCE+" (commercial bases undisclosed)")
+    ligase=graph.input("surface_ligase","surface capture-oligo ligase",
+                       MaterialKind.CATALYST)
+    capture_surface=graph.product("capture_surface","CID-UMI-oligo-dT capture array",
+                                  MaterialKind.MOLECULAR,inferred=True,
+                                  source=SOURCE+" (commercial bases undisclosed)")
+    graph.react("extend_surface","Ligate UMI/oligo-dT onto decoded chip oligos",
+                StepKind.LIGATION,
+                ((dnb,InputRole.TEMPLATE),(capture_extension,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(capture_surface,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper establishes surface ligation but complete commercial oligo ends are undisclosed."))
+    rna=graph.input("tissue_rna","polyadenylated tissue RNA",MaterialKind.MOLECULAR)
+    captured=graph.product("captured","surface-captured tissue mRNA",MaterialKind.MOLECULAR)
+    graph.react("capture_rna","Hybridize tissue mRNA to surface oligo-dT",
+                StepKind.HYBRIDIZATION,
+                ((capture_surface,InputRole.TEMPLATE),(rna,InputRole.STRUCTURAL)),
+                (captured,))
+    rt_primer=graph.input("rt_primer","surface oligo-dT RT primer",MaterialKind.OLIGO,
+                          inferred=True,source=SOURCE+" (commercial bases undisclosed)")
+    rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","CID-MID-bearing spatial cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Copy captured tissue RNA",StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    tso=graph.input("tso","template-switch oligo",MaterialKind.OLIGO,inferred=True,
+                    source=SOURCE+" (commercial bases undisclosed)")
+    switched=graph.product("switched","template-switched spatial cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("template_switch","Install the distal cDNA handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((cdna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(switched,))
+    fwd=graph.input("pcr_forward","spatial cDNA PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (commercial bases undisclosed)")
+    rev=graph.input("pcr_reverse","spatial cDNA PCR reverse primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (commercial bases undisclosed)")
+    polymerase=graph.input("pcr_polymerase","cDNA amplification polymerase",
+                           MaterialKind.CATALYST)
+    amplified=graph.product("amplified","amplified CID-MID-bearing cDNA",
+                            MaterialKind.MOLECULAR)
+    graph.react("amplify","Amplify released spatial cDNA",StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    LINEAR,reason="Commercial amplification-primer bases are not disclosed."))
+    platform_adapter=graph.input("platform_adapter","DNBSEQ platform-library adapter",
+                                 MaterialKind.ADAPTER,inferred=True,
+                                 source=SOURCE+" (commercial bases undisclosed)")
+    linear=graph.product("linear","linear Stereo-seq sequencing strand",
+                         MaterialKind.MOLECULAR,state=LINEAR,inferred=True,
+                         source=SOURCE+" (platform adapter bases inferred)")
+    graph.react("platform_convert","Fragment and install DNBSEQ platform adapters",
+                StepKind.ADAPTER_ATTACHMENT,
+                ((amplified,InputRole.TEMPLATE),(platform_adapter,InputRole.STRUCTURAL)),
+                (linear,))
+    circle_ligase=graph.input("circle_ligase","splint-assisted circle ligase",
+                              MaterialKind.CATALYST)
+    circle=graph.product("circle","circular Stereo-seq sequencing strand",
+                         MaterialKind.MOLECULAR,state=CIRCLE)
+    graph.react("circularize","Splint-ligate the sequencing strand into a circle",
+                StepKind.CIRCULARIZATION,
+                ((linear,InputRole.TEMPLATE),(circle_ligase,InputRole.CATALYST)),
+                (circle,),geometry=CircularizationGeometry.known(
+                    "splinted single-strand ligation",
+                    statement="The platform library strand is splint-ligated into a closed circle before DNB formation."))
+    phi29=graph.input("phi29","rolling-circle amplification polymerase",
+                      MaterialKind.CATALYST)
+    library=graph.product("library","Stereo-seq sequencing DNA nanoballs",
+                          MaterialKind.LIBRARY)
+    graph.react("form_dnbs","Amplify the circle into sequencing DNA nanoballs",
+                StepKind.EXTENSION,
+                ((circle,InputRole.TEMPLATE),(phi29,InputRole.CATALYST)),(library,))
+    graph.sequence(library,SequencingPlan(
+        limitation="DNBSEQ/cPAS uses a proprietary primer at repeated platform-adapter sites; complete primer and adapter bases are unavailable."))
+    graph.declare_reviewed_scope((
+        "decoded_dnb","capture_extension","surface_ligase","extend_surface",
+        "tissue_rna","capture_rna","rt_primer","reverse_transcriptase",
+        "reverse_transcribe","tso","template_switch","pcr_forward","pcr_reverse",
+        "pcr_polymerase","amplify","platform_adapter","platform_convert",
+        "circle_ligase","circularize","phi29","form_dnbs","library"),SOURCE)
+    return graph.require_publishable()

@@ -9,7 +9,8 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import insitu_hic as H
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
+from chemdraw import (Scene, annotation_rows, junction_row, panel,
+                      protocol_graph_panels, strand_row)
 from page import head, info
 
 OUT = HERE.parent / "in-situ-hi-c.html"
@@ -60,11 +61,13 @@ def sequencing() -> str:
 
 
 def render() -> str:
-    return "\n".join([head("in situ Hi-C library chemistry"), '<div class="wrap">',
+    graph = H.typed_graph()
+    return "\n".join([head("in situ Hi-C library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>in situ Hi-C &mdash; MboI proximity ligation in intact nuclei</h1>',
         '<p class="research-notes"><a href="01_in-situ-hi-c.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1016/j.cell.2014.11.021">Rao et al., <i>Cell</i> (2014)</a>.'),
         info('Crosslink chromatin, digest with MboI, fill the cohesive ends with biotin-dATP, and ligate while the nuclei remain intact.'),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         digest(), fill_and_ligate(), library(), sequencing(), '</div>'])
 
 

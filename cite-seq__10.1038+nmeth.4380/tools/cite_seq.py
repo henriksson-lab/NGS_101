@@ -5,7 +5,9 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg, truseq_library
 from chemdraw import Row, feature
-from multimodal_spatial import modality_split
+from multimodal_spatial import finish_pcr_branch, modality_split
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_model import molecule, role
 
 TITLE="CITE-seq"
 NOTES="01_cite-seq.html"
@@ -41,3 +43,32 @@ def sections():
          "Reverse transcriptase copies RNA and extends on the DNA ADT, transferring the same droplet barcode system to both modalities."),
         ("Separate by size and amplify independently",modality_split("large transcript-derived cDNA","short antibody-derived tags"),
          "SPRI size separation sends mRNA cDNA through the standard gene-expression branch and ADTs through tag-specific PCR."),]
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=g.input("cells","cells containing poly(A) RNA",MaterialKind.BIOLOGICAL,state=molecule("cells",(role("surface proteins"),role("poly(A) RNA"))),primary=True)
+    antibodies=g.input("antibodies","poly(A)-tailed DNA-barcoded antibodies",MaterialKind.SELECTION)
+    stained=g.product("stained","cells bearing antibody-derived DNA tags",MaterialKind.MOLECULAR,state=molecule("CITE-seq stained cells",(role("poly(A) RNA"),role("poly(A)-tailed antibody tag"))))
+    unbound=g.product("unbound","unbound antibody tags",MaterialKind.WASTE)
+    g.react("stain","Label surface proteins with poly(A)-tailed DNA tags",StepKind.BINDING,((cells,InputRole.TEMPLATE),(antibodies,InputRole.SELECTION)),(stained,unbound))
+    g.discard(unbound,"does not report a cell-associated surface protein")
+    droplets=g.input("droplets","10x 3-prime droplet partitioning condition",MaterialKind.CONDITION)
+    occupied=g.product("occupied","occupied GEM products",MaterialKind.MOLECULAR,state=stained.state)
+    failed=g.product("failed","empty or unresolved droplet products",MaterialKind.WASTE)
+    g.react("partition","Partition stained cells with barcoded beads",StepKind.PARTITION,((stained,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False)
+    g.discard(failed,"does not retain a resolvable cell barcode")
+    rna=g.product("rna_branch","poly(A)-RNA capture branch",MaterialKind.MOLECULAR,state=occupied.state)
+    adt=g.product("adt_branch","poly(A)-tailed antibody-tag branch",MaterialKind.MOLECULAR,state=occupied.state)
+    g.react("split","Separate transcript and antibody-tag products by size",StepKind.SPLIT,((occupied,InputRole.TEMPLATE),),(rna,adt),changes_molecule=False)
+    bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO)
+    rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
+    cdna=g.product("cdna","cell-barcoded, UMI-tagged transcript cDNA",MaterialKind.MOLECULAR,state=molecule("CITE-seq cDNA",(role("cell barcode"),role("UMI"),role("mRNA cDNA"))))
+    g.react("reverse_transcribe","Reverse-transcribe mRNA on the barcoded bead primer",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+    pol=g.input("adt_extension_polymerase","antibody-tag barcode-transfer polymerase",MaterialKind.CATALYST)
+    copied=g.product("copied_adt","cell-barcoded, UMI-tagged antibody tags",MaterialKind.MOLECULAR,state=molecule("CITE-seq ADT precursor",(role("cell barcode"),role("UMI"),role("antibody barcode"))))
+    g.react("copy_adt","Extend the same bead-primer system across antibody tags",StepKind.EXTENSION,((adt,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(copied,))
+    reviewed=["cells","antibodies","stain","droplets","partition","split","bead_primer","rt","reverse_transcribe","adt_extension_polymerase","copy_adt"]
+    finish_pcr_branch(g,"gex",cdna,GEX,GEX_P,reviewed,label="CITE-seq transcript",read_lengths=READ_LENGTHS["Final transcript library"])
+    finish_pcr_branch(g,"adt",copied,ADT,ADT_P,reviewed,label="CITE-seq antibody-derived tag",read_lengths=READ_LENGTHS["Final antibody-derived-tag library"],read_uses=READ_USES["Final antibody-derived-tag library"])
+    g.declare_reviewed_scope(reviewed,SOURCE)
+    return g.require_publishable()

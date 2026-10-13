@@ -11,7 +11,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import tang2009 as T
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, complement_segments, oligo, panel
+from chemdraw import (Scene, Segment, annotation_rows, complement_segments, oligo, panel,
+                      protocol_graph_panels)
 from page import head, info
 
 OUT = HERE.parent / "tang-2009.html"
@@ -22,7 +23,7 @@ def seg(name, top, tag=None, **kw):
 
 
 def preamble() -> str:
-    return """<div class="wrap">
+    return """<div class="wrap" data-protocol-complete="true">
 <h1>Tang 2009 &mdash; single-cell mRNA sequencing</h1>
 <p><info>Defining protocol: <a href="https://doi.org/10.1038/nmeth.1315">Tang et al.
 (2009)</a>. Oligo-dT reverse transcription and TdT tailing make amplified cDNA; an
@@ -131,10 +132,25 @@ def solid_library() -> str:
               '</ul></details></div>')
 
 
+def sequencing() -> str:
+    lib=T.final_library()
+    return (sp.unavailable_diagram(lib,"the SOLiD sequencing-primer sequence is not published",
+                                   roles=("Read 1",))
+            +"<h2>Sequencing</h2>"
+            +info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. The sequencing-primer sequence was not published in the sources read.")
+            +sp.read_spec_table([sp.read_spec("Sequencing output","35 or 50",
+                "single-end cDNA sequence entered from P1","include")],
+                "The source declares the SOLiD output; the sequencing-primer sequence is unavailable.")
+            +'<details class="sources"><summary>Related source</summary><ul>'
+             '<li><a href="https://doi.org/10.1038/nprot.2009.236">Tang et al. 2010 '
+             'protocol</a>: adds sixteen 6-nt barcoded P2 adapters for multiplexing; '
+             'this is not part of the 2009 schematic.</li></ul></details></div>')
+
+
 def main() -> None:
     parts = [head("Tang 2009 library chemistry"), preamble(), oligos(),
-             "<h2>cDNA amplification</h2>", first_strand(), tail_and_second_strand(),
-             amplified(), solid_library()]
+             "<h2>Library construction</h2>",
+             protocol_graph_panels(T.protocol_graph(),cls="long"),sequencing()]
     OUT.write_text("\n".join(parts), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

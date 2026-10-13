@@ -8,6 +8,9 @@ import seqprimers as sp
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "Single-stranded library preparation for ancient or damaged DNA"
 NOTES = "01_single-stranded-library.html"
@@ -56,3 +59,83 @@ def workflow():
     product=Scene.duplex([seg("CL53/CL73 adapter","X"*18,placeholder=True),seg("copied ancient DNA","X"*30,placeholder=True),seg("first-adapter end","X"*16,placeholder=True)],label="dual-adapter molecule"); product.junction("top","CL53/CL73 adapter","copied ancient DNA","blunt ligation")
     w.ligate_adapter("Blunt-ligate the second adapter",_cl53_cl73_geometry(),product.rows(),name="dual-adapter ancient-DNA duplex",note="Indexed PCR releases and completes the sequenceable molecule.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("damaged_dna","purified damaged or ancient DNA",
+                    MaterialKind.MOLECULAR,primary=True)
+    heat=graph.input("denaturation_heat","heat-denaturation condition",
+                     MaterialKind.CONDITION)
+    strand_a=graph.product("strand_a","individual denatured ancient-DNA strand A",
+                           MaterialKind.MOLECULAR)
+    strand_b=graph.product("strand_b","individual denatured ancient-DNA strand B",
+                           MaterialKind.MOLECULAR)
+    graph.react("denature","Heat-denature damaged DNA into individual strands",
+                StepKind.STRAND_SEPARATION,
+                ((dna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),
+                (strand_a,strand_b))
+    strands=graph.product("single_strands","pool of independently recoverable DNA strands",
+                          MaterialKind.MOLECULAR)
+    graph.react("collect_strands","Collect both denatured-strand populations",
+                StepKind.POOL,
+                ((strand_a,InputRole.TEMPLATE),(strand_b,InputRole.TEMPLATE)),
+                (strands,),changes_molecule=False)
+    cl78=graph.input("cl78","phosphorylated biotinylated CL78 adapter",
+                     MaterialKind.ADAPTER)
+    circligase=graph.input("circligase","CircLigase",MaterialKind.CATALYST)
+    adapted=graph.product("cl78_ligated","CL78-ligated ancient-DNA strands",
+                          MaterialKind.MOLECULAR)
+    graph.react("ligate_cl78","Ligate CL78 to individual strand 3-prime ends",
+                StepKind.LIGATION,
+                ((strands,InputRole.TEMPLATE),(cl78,InputRole.STRUCTURAL),
+                 (circligase,InputRole.CATALYST)),(adapted,),geometry=_cl78_geometry())
+    streptavidin=graph.input("streptavidin","streptavidin capture beads",
+                            MaterialKind.SELECTION)
+    captured=graph.product("captured","bead-captured CL78-bearing strands",
+                           MaterialKind.MOLECULAR)
+    uncaptured=graph.product("uncaptured","unligated or unbiotinylated DNA",MaterialKind.WASTE)
+    graph.react("capture","Capture biotinylated CL78-bearing strands",
+                StepKind.AFFINITY_CAPTURE,
+                ((adapted,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,uncaptured))
+    graph.discard(uncaptured,"does not carry the terminal biotinylated CL78 adapter")
+    cl9=graph.input("cl9","CL9 extension primer",MaterialKind.OLIGO)
+    copy_polymerase=graph.input("copy_polymerase","strand-copying DNA polymerase",
+                                MaterialKind.CATALYST)
+    duplex=graph.product("copied_duplex","copied ancient-DNA duplex",
+                         MaterialKind.MOLECULAR)
+    graph.react("copy_strand","Copy the captured ancient-DNA strand into a duplex",
+                StepKind.EXTENSION,
+                ((captured,InputRole.TEMPLATE),(cl9,InputRole.STRUCTURAL),
+                 (copy_polymerase,InputRole.CATALYST)),(duplex,))
+    second_adapter=graph.input("second_adapter","CL53/CL73 blunt duplex adapter",
+                               MaterialKind.ADAPTER)
+    ligase=graph.input("blunt_ligase","blunt-end DNA ligase",MaterialKind.CATALYST)
+    dual=graph.product("dual_adapter","dual-adapter ancient-DNA duplex",
+                       MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
+    graph.react("ligate_second","Blunt-ligate the second adapter",
+                StepKind.LIGATION,
+                ((duplex,InputRole.TEMPLATE),(second_adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(dual,),geometry=_cl53_cl73_geometry())
+    forward=graph.input("pcr_forward","library PCR forward primer",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","library PCR reverse/index primer",MaterialKind.OLIGO)
+    pcr_polymerase=graph.input("pcr_polymerase","library PCR polymerase",
+                               MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("index_pcr","Release, amplify and index the captured library",
+                StepKind.PCR,
+                ((dual,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The page models the exact sequencing endpoint, but does not assign one index-primer member as a universal PCR reagent."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "damaged_dna","denaturation_heat","denature","collect_strands","cl78",
+        "circligase","ligate_cl78","streptavidin","capture","cl9",
+        "copy_polymerase","copy_strand","second_adapter","blunt_ligase",
+        "ligate_second","pcr_forward","pcr_reverse","pcr_polymerase",
+        "index_pcr","library"),SOURCE)
+    return graph.require_publishable()

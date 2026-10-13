@@ -7,6 +7,9 @@ import rt
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 CELL_CASSETTE = feature("cell_barcode_cassette", "cell_barcode", "combinatorial",
                         note="four barcode blocks; internal boundaries unpublished")
@@ -102,3 +105,101 @@ def final_library(insert_nt: int = 28) -> Construct:
 
 def final_scene() -> Scene:
     return Scene.duplex(list(final_library()), label="library")
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41587-023-01685-z"
+    unresolved = source + "; barcode-block and splint sequences are not published"
+    graph = ProtocolGraph("PIP-seq", authority=source)
+    bead_seed = graph.input("bead_seed", "hydrogel bead primer seed",
+                            MaterialKind.MOLECULAR, primary=True)
+    barcode_cassettes = graph.input("barcode_cassettes",
+                                    "four split-pool barcode/linker cassette rounds",
+                                    MaterialKind.ADAPTER, inferred=True, source=unresolved)
+    ligase = graph.input("ligase", "bead barcode ligase", MaterialKind.CATALYST)
+    bead = graph.product("barcoded_bead", bead_oligo().name, MaterialKind.MOLECULAR,
+                         state=bead_oligo(), inferred=True, source=unresolved)
+    graph.react("bead_ligation", "Build split-pool-barcoded hydrogel beads",
+                StepKind.LIGATION,
+                ((bead_seed, InputRole.TEMPLATE), (barcode_cassettes, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (bead,), geometry=bead_ligation_geometry(),
+                source=unresolved)
+    cells = graph.input("cells", "single-cell suspension", MaterialKind.BIOLOGICAL,
+                        primary=True)
+    loaded = graph.product("loaded_droplets", "cell-and-bead particle-templated droplets",
+                           MaterialKind.BIOLOGICAL)
+    excluded = graph.product("partition_loss", "empty or multiply loaded droplets",
+                             MaterialKind.WASTE)
+    graph.react("partition", "Vortex cells and beads into particle-templated droplets",
+                StepKind.PARTITION,
+                ((cells, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL)),
+                (loaded, excluded), changes_molecule=False)
+    graph.discard(excluded, "droplets outside the usable cell-and-bead occupancy class are excluded")
+    lysis = graph.input("lysis_condition", "droplet lysis and emulsion-break condition",
+                        MaterialKind.CONDITION)
+    rna = graph.product("released_rna", "released cellular mRNA", MaterialKind.MOLECULAR)
+    primer = graph.product("released_bead_primer", "released bead capture primer",
+                           MaterialKind.OLIGO, state=bead_oligo(), inferred=True,
+                           source=unresolved)
+    graph.react("lysis", "Lyse cells and break the emulsion", StepKind.EXTRACTION,
+                ((loaded, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (rna, primer))
+    reverse_transcriptase = graph.input("reverse_transcriptase",
+                                       "template-switching reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    first_strand = graph.product("first_strand", "bead-primed cDNA", MaterialKind.MOLECULAR,
+                                 state=rt_scene(), inferred=True, source=unresolved)
+    graph.react("reverse_transcription", "Reverse-transcribe captured mRNA in bulk",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (first_strand,))
+    tso = graph.input("tso", "PIPS template-switching oligo", MaterialKind.OLIGO)
+    switched = graph.product("switched_cdna", "SMART-handle-flanked cDNA",
+                             MaterialKind.MOLECULAR, state=rt_scene(), inferred=True,
+                             source=unresolved)
+    graph.react("template_switch", "Template-switch at the cDNA 5′ end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first_strand, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (switched,))
+    wta_primer = graph.input("wta_primer", "single PIPS WTA primer", MaterialKind.OLIGO)
+    polymerase = graph.input("polymerase", "WTA and library PCR polymerase",
+                             MaterialKind.CATALYST)
+    wta = graph.product("wta_cdna", "whole-transcriptome-amplified cDNA",
+                        MaterialKind.MOLECULAR)
+    graph.react("wta_pcr", "Amplify handle-flanked cDNA with one WTA primer", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (wta_primer, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (wta,),
+                geometry=PCRGeometry.unavailable(
+                    final_library(), reason="The WTA substrate is symmetric before tagmentation.",
+                    symmetric_species=True))
+    tn5_adapter = graph.input("tn5_adapter", "s7 tagmentation adapter", MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_cdna", "s7-tagmented WTA fragments", MaterialKind.MOLECULAR)
+    tag_waste = graph.product("tagmentation_waste", "non-library tagmentation products",
+                              MaterialKind.WASTE)
+    graph.react("tagmentation", "Tagment the amplified cDNA", StepKind.TAGMENTATION,
+                ((wta, InputRole.TEMPLATE), (tn5_adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tag_waste))
+    graph.discard(tag_waste, "fragments without a usable bead-end/s7 pair do not amplify")
+    p5 = graph.input("p5_primer", "published bead-end-selective P5 primer", MaterialKind.OLIGO)
+    p7 = graph.input("p7_primer", "named N7xx indexed P7 primer", MaterialKind.OLIGO)
+    final = final_library()
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
+                            inferred=True, source=unresolved)
+    graph.react("library_pcr", "Select the bead end and PCR-complete the library", StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason="Unpublished barcode/linker bases prevent an exact full PCR landing model."),
+                source=unresolved)
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=SEQ_PRIMERS, acquired_roles=RUN_ROLES,
+        read_uses={"Read 1": "extract", "Index 1 (i7)": "demultiplex",
+                   "Read 2": "include"},
+        limitation="Exact cell-barcode cycle boundaries remain unavailable because the four barcode blocks and splints are unpublished."))
+    graph.declare_reviewed_scope((
+        "bead_seed", "barcode_cassettes", "ligase", "bead_ligation", "cells",
+        "partition", "lysis_condition", "lysis", "reverse_transcriptase",
+        "reverse_transcription", "tso", "template_switch", "wta_primer",
+        "polymerase", "wta_pcr", "tn5_adapter", "tn5", "tagmentation",
+        "p5_primer", "p7_primer", "library_pcr", "library"), source)
+    return graph.require_publishable()

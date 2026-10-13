@@ -56,6 +56,7 @@ ASSET_TYPES = {".py", ".R", ".sh", ".css", ".js", ".svg", ".json", ".tsv", ".csv
 THIRD_PARTY_TYPES = {".pdf", ".xls", ".xlsx", ".doc", ".docx", ".pptx", ".txt", ".jpg",
                      ".jpeg", ".png", ".gif", ".tif", ".tiff", ".dna", ".gb", ".gbk",
                      ".fa", ".fasta"}
+PROTOCOL_COMPLETE = 'data-protocol-complete="true"'
 
 
 def rel(p: Path) -> str:
@@ -312,6 +313,17 @@ def audit() -> list[str]:
     return problems
 
 
+def graph_complete_pages(results: dict[str, tuple[bool, str]]) -> set[str]:
+    """Protocol directories whose successful page passed the central graph contract."""
+    complete = set()
+    for directory, (ok, _) in results.items():
+        out = build_index.diagram_out(directory)
+        if ok and out is not None and out.exists() \
+                and PROTOCOL_COMPLETE in out.read_text(encoding="utf-8"):
+            complete.add(directory)
+    return complete
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--no-checks", action="store_true",
@@ -335,15 +347,25 @@ def main() -> int:
 
     print("4. checking links")
     bad = check_links() + audit()
-    for b in bad:
-        print(f"  BROKEN  {b}")
 
     built = len(results) - len(failed)
-    public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
+    public_rows = [r for r in build_index.cat.ours() if r["section"] == "published"]
+    public_dirs = {r["dir"] for r in public_rows}
     public_built = sum(d in public_dirs and ok for d, (ok, _) in results.items())
+    graph_complete = graph_complete_pages(results)
+    ngs_dirs = {r["dir"] for r in public_rows if r["status"] == "documented"}
+    ngs_built = {d for d in ngs_dirs if results.get(d, (False, ""))[0]}
+    missing_graph = sorted(ngs_built - graph_complete)
+    for d in missing_graph:
+        bad.append(f"{d}: documented sequencing page lacks a publishable ProtocolGraph")
+    for b in bad:
+        print(f"  BROKEN  {b}")
     print(f"\n{built} of {len(results)} diagram pages built; "
           f"{public_built} finished published schematics included"
           + (f"; left out (stand-in page instead): {', '.join(skipped)}" if skipped else ""))
+    print(f"{len(graph_complete & ngs_dirs)} of {len(ngs_built)} built documented NGS "
+          "schematics satisfy the typed protocol-graph completeness contract; "
+          f"{sum(r['status'] == 'assay' for r in public_rows)} non-sequencing assay pages are explicit")
     if bad:
         print(f"{len(bad)} problem(s) in _site/ -- not deployable", file=sys.stderr)
         return 1

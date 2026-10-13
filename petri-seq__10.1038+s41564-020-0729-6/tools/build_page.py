@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import petri_seq as P
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, workflow_panel
+from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, workflow_panel
 from page import head, info
 
 OUT = HERE.parent / "petri-seq.html"
@@ -41,10 +41,13 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("PETRI-seq library chemistry"), '<div class="wrap">',
+    graph = P.protocol_graph()
+    page = "\n".join([head("PETRI-seq library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
         '<h1>PETRI-seq &mdash; bacterial split-pool RNA indexing</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41564-020-0729-6">Blattman et al., <i>Nature Microbiology</i> (2020)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>', construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

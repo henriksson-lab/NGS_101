@@ -23,8 +23,8 @@ class PCRPrimer:
 
     def __post_init__(self) -> None:
         sequence = self.sequence.upper()
-        if not sequence or set(sequence) - set("ACGTN"):
-            raise ValueError(f"PCR primer {self.name!r} must be DNA/IUPAC-N sequence")
+        if not sequence or set(sequence) - set("ACGTRYSWKMBDHVN"):
+            raise ValueError(f"PCR primer {self.name!r} must be an IUPAC DNA sequence")
         if not 1 <= self.anneal_nt <= len(sequence):
             raise ValueError("PCR primer annealing length must fit within the primer")
 
@@ -35,6 +35,19 @@ def _landing(template: Construct, primer: PCRPrimer) -> seqprimers.Landing:
     if hit is None:
         raise ValueError(f"PCR primer {primer.name!r} has no site on {template.name!r}")
     return hit
+
+
+def _landing_on(template: Construct, primer: PCRPrimer,
+                strand: str) -> seqprimers.Landing:
+    """Locate one primer species on one requested strand of a symmetric template."""
+    query = seqprimers.SeqPrimer("PCR", primer.name, primer.sequence)
+    hits = [hit for hit in seqprimers.locate_all(
+        template, query, min_anneal=primer.anneal_nt) if hit.strand == strand]
+    if len(hits) != 1:
+        raise ValueError(
+            f"PCR primer {primer.name!r} has {len(hits)} {strand}-strand sites "
+            f"on {template.name!r}; expected exactly one")
+    return hits[0]
 
 
 def _primer_row(template: Construct, primer: PCRPrimer, hit: seqprimers.Landing,
@@ -71,6 +84,7 @@ class PCRGeometry:
     reverse_hit: seqprimers.Landing | None
     reverse_region: str = ""
     reverse_pool: str = ""
+    symmetric_species: bool = False
 
     def __post_init__(self) -> None:
         if self.availability not in ("exact", "regional", "unavailable"):
@@ -106,6 +120,19 @@ class PCRGeometry:
                    _landing(template, forward), _landing(template, reverse))
 
     @classmethod
+    def symmetric(cls, template: Construct, primer: PCRPrimer, *,
+                  statement: str) -> "PCRGeometry":
+        """Exact inward sites for one physical primer species used at both ends.
+
+        SMART/ISPCR and similar reactions use the same handle on both cDNA ends.  The
+        reagent must be represented once even though its sequence has one forward-facing
+        and one reverse-facing site on the template.
+        """
+        return cls(template, primer, primer, "exact", statement,
+                   _landing_on(template, primer, "bottom"),
+                   _landing_on(template, primer, "top"),symmetric_species=True)
+
+    @classmethod
     def regional(cls, template: Construct, forward: PCRPrimer, *, reverse_pool: str,
                  reverse_region: str, statement: str) -> "PCRGeometry":
         if not reverse_pool.strip():
@@ -114,9 +141,11 @@ class PCRGeometry:
                    _landing(template, forward), None, reverse_region, reverse_pool)
 
     @classmethod
-    def unavailable(cls, template: Construct, *, reason: str) -> "PCRGeometry":
+    def unavailable(cls, template: Construct, *, reason: str,
+                    symmetric_species: bool = False) -> "PCRGeometry":
         """Record a PCR whose source does not disclose usable primer/site information."""
-        return cls(template, None, None, "unavailable", reason, None, None)
+        return cls(template, None, None, "unavailable", reason, None, None,
+                   symmetric_species=symmetric_species)
 
     def rows(self) -> list[Row]:
         label = "PCR template  "

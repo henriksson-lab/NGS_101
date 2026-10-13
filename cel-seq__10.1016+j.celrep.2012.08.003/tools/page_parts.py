@@ -10,9 +10,12 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import celseq as C
 import seqprimers as sp
-from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
-                      strand_row)
+from chemdraw import Construct, Segment, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from rna_amplification import barcoded_ivt_front
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -25,13 +28,14 @@ PAPERS = {
 }
 
 
-def preamble(protocol: str) -> str:
+def preamble(protocol: str, *, complete: bool = False) -> str:
     doi, journal, year = PAPERS[protocol]
     supporting = ""
     if protocol == "CEL-Seq":
         supporting = (' Supporting primer source: <a href="https://doi.org/'
                       '10.1186/s13059-016-0938-8">CEL-Seq2 Table S2</a>.')
-    return f"""<div class="wrap">
+    complete_attr = ' data-protocol-complete="true"' if complete else ""
+    return f"""<div class="wrap"{complete_attr}>
 <h1>{protocol} &mdash; barcoded 3' RNA-seq by T7 linear amplification</h1>
 {info(f'Defining source: <a href="https://doi.org/{doi}">Hashimshony et al., '
       f'<i>{journal}</i> ({year})</a>.{supporting}')}
@@ -50,41 +54,14 @@ def oligos(protocol: str) -> str:
     return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"
 
 
-def common_front(protocol: str) -> str:
-    ds = C.double_stranded_cdna(protocol)
-    arna = C.arna(protocol)
-    return f"""<h2>Library construction</h2>
-<h3>(1) Reverse transcribe from the anchored, cell-barcoded oligo-dT primer</h3>
-{panel(C.rt_scene(protocol).rows(), cls="long",
-       caption="The primer installs the T7 promoter and cell identity before amplification.")}
-<h3>(2) Make the second strand</h3>
-{panel(Scene.duplex(list(ds)).rows(), cls="long",
-       caption="Second-strand synthesis makes the T7 promoter double-stranded; cells can now "
-               "be pooled without losing their identities.")}
-<h3>(3) Amplify linearly by T7 in-vitro transcription</h3>
-{panel([strand_row(arna), *annotation_rows(arna)], cls="long",
-       caption="Each cDNA template produces many antisense-RNA copies.")}"""
-
-
-def cel1_back() -> str:
-    ligated = C.cel1_ligated_arna()
+def cel1_readout() -> str:
     final = C.final_library("CEL-Seq")
     reads = [
         ("Read 1", "cell barcode, then poly(T); exact primer sequence unavailable"),
         ("Index", "library index; exact primer and index design unavailable"),
         ("Read 2", "transcript sequence from the 3' tag"),
     ]
-    return f"""<h3>(4) Fragment aRNA and ligate the RNA 3' adaptor</h3>
-{panel([*C.cel1_adapter_geometry().rows(), strand_row(ligated),
-        junction_row(ligated, "poly(U)/insert", "unpublished RNA 3' adaptor"),
-        *annotation_rows(ligated)], cls="long",
-       caption="INFERRED — the defining chemistry ligates a second adaptor to fragmented aRNA, "
-               "but its exact bases are unavailable in the accessible primary sources.")}
-<h3>(5) Reverse transcribe and library-PCR</h3>
-{panel([strand_row(final), *annotation_rows(final)], cls="long",
-       caption="INFERRED — supported inner order with unpublished library-PCR arms shown as "
-               "dotted placeholders.")}
-<h2>Read layout</h2>
+    return f"""<h2>Read layout</h2>
 {sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
 {table(("Read", "Reports"), reads)}
 {sp.read_spec_table([
@@ -94,7 +71,7 @@ def cel1_back() -> str:
 ], "Read roles are source-declared; exact primer sequences and cycle counts are unavailable.")}"""
 
 
-def cel2_back() -> str:
+def cel2_readout() -> str:
     final = C.final_library("CEL-Seq2")
     r1 = [seg("UMI", "N" * C.CEL2_UMI_NT, "umi", placeholder=True),
           seg("cell barcode", "N" * C.CEL2_BARCODE_NT, "cbc", placeholder=True),
@@ -105,15 +82,7 @@ def cel2_back() -> str:
         ("Index", "7 cycles: indexed library identity"),
         ("Read 2", "36 nt: transcript sequence from the random-primed end"),
     ]
-    return f"""<h3>(4) Fragment aRNA and reverse transcribe with randomhexRT</h3>
-{panel(C.cel2_random_rt_scene().rows(), cls="long",
-       caption="Only a 5'-most aRNA fragment carries the UMI and cell barcode. The tailed "
-               "random hexamer adds the opposite library handle without RNA ligation.")}
-<h3>(5) Library PCR</h3>
-{panel([strand_row(final), *annotation_rows(final)], cls="long",
-       caption="INFERRED — supported inner order with unpublished library-PCR arms shown as "
-               "dotted placeholders.")}
-<h2>Read layout</h2>
+    return f"""<h2>Read layout</h2>
 {sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
 {panel([strand_row(Construct(r1), prefix="Read 1  ", suffix=""),
         strand_row(Construct(r2), prefix="Read 2  ", suffix="")],
@@ -127,9 +96,125 @@ def cel2_back() -> str:
 ], "Read roles, cycle counts and contents are source-declared; exact primer sequences are unavailable.")}"""
 
 
-def render_page(protocol: str) -> str:
+def protocol_graph(protocol: str) -> ProtocolGraph:
     if protocol not in PAPERS:
         raise ValueError(f"unknown CEL-Seq protocol: {protocol!r}")
-    back = cel1_back() if protocol == "CEL-Seq" else cel2_back()
-    return "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
-                      oligos(protocol), common_front(protocol), back, "</div>"])
+    doi = PAPERS[protocol][0]
+    source = f"https://doi.org/{doi}"
+    graph = ProtocolGraph(protocol, authority=source)
+
+    primary = graph.input("mrna", "polyadenylated RNA from one well",
+                          MaterialKind.BIOLOGICAL, state=C.rt_scene(protocol),
+                          primary=True)
+    arna, reviewed = barcoded_ivt_front(
+        graph, primary, rt_primer_label=f"{protocol} RT primer",
+        rt_state=C.rt_scene(protocol), first_state=C.rt_scene(protocol),
+        duplex_state=C.double_stranded_cdna(protocol),
+        arna_state=C.arna(protocol))
+    reviewed.insert(0, "mrna")
+
+    shear = graph.input("fragmentation_condition", "RNA fragmentation condition",
+                        MaterialKind.CONDITION)
+    fragmented = graph.product("fragmented_arna", "fragmented amplified RNA",
+                               MaterialKind.MOLECULAR, state=C.arna(protocol))
+    graph.react("fragment_arna", "Fragment amplified RNA", StepKind.FRAGMENTATION,
+                ((arna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
+                (fragmented,))
+    reviewed.extend(("fragmentation_condition", "fragment_arna"))
+
+    final_state = C.final_library(protocol)
+    if protocol == "CEL-Seq":
+        adapter = graph.input(
+            "rna_adapter", "RNA 3′ adapter (sequence not disclosed)",
+            MaterialKind.ADAPTER, state=C.cel1_adapter_geometry(), inferred=True,
+            source=source + " (adapter bases and terminal geometry not disclosed)")
+        ligase = graph.input("rna_ligase", "RNA ligase", MaterialKind.CATALYST)
+        ligated = graph.product("ligated_arna", "3′-adapter-ligated aRNA",
+                                MaterialKind.MOLECULAR,
+                                state=C.cel1_ligated_arna(), inferred=True,
+                                source=source + " (adapter sequence not disclosed)")
+        graph.react("ligate_adapter", "Ligate the RNA 3′ adapter",
+                    StepKind.LIGATION,
+                    ((fragmented, InputRole.TEMPLATE),
+                     (adapter, InputRole.STRUCTURAL),
+                     (ligase, InputRole.CATALYST)), (ligated,),
+                    geometry=C.cel1_adapter_geometry())
+        library_rt_primer = graph.input(
+            "library_rt_primer", "library reverse-transcription primer",
+            MaterialKind.OLIGO, inferred=True,
+            source=source + " (exact library RT primer not disclosed)")
+        library_rt = graph.input("library_reverse_transcriptase",
+                                 "library reverse transcriptase",
+                                 MaterialKind.CATALYST)
+        pcr_template = graph.product(
+            "pcr_template", "library-PCR template", MaterialKind.MOLECULAR,
+            state=final_state, inferred=True,
+            source=source + " (outer library arms not disclosed)")
+        graph.react("library_reverse_transcription",
+                    "Reverse-transcribe the adapter-ligated aRNA",
+                    StepKind.REVERSE_TRANSCRIPTION,
+                    ((ligated, InputRole.TEMPLATE),
+                     (library_rt_primer, InputRole.STRUCTURAL),
+                     (library_rt, InputRole.CATALYST)), (pcr_template,))
+        reviewed.extend(("rna_adapter", "rna_ligase", "ligate_adapter",
+                         "library_rt_primer", "library_reverse_transcriptase",
+                         "library_reverse_transcription"))
+    else:
+        randomhex = graph.input("randomhex_rt", "randomhexRT primer",
+                                MaterialKind.OLIGO,
+                                state=C.cel2_random_rt_scene())
+        library_rt = graph.input("library_reverse_transcriptase",
+                                 "library reverse transcriptase",
+                                 MaterialKind.CATALYST)
+        pcr_template = graph.product(
+            "pcr_template", "random-primed library-PCR template",
+            MaterialKind.MOLECULAR, state=final_state, inferred=True,
+            source=source + " (outer library arms not disclosed)")
+        graph.react("library_reverse_transcription",
+                    "Reverse-transcribe fragmented aRNA with randomhexRT",
+                    StepKind.REVERSE_TRANSCRIPTION,
+                    ((fragmented, InputRole.TEMPLATE),
+                     (randomhex, InputRole.STRUCTURAL),
+                     (library_rt, InputRole.CATALYST)), (pcr_template,))
+        reviewed.extend(("randomhex_rt", "library_reverse_transcriptase",
+                         "library_reverse_transcription"))
+
+    forward = graph.input(
+        "pcr_forward", "library-PCR forward primer (sequence not disclosed)",
+        MaterialKind.OLIGO, inferred=True,
+        source=source + " (library-PCR primer sequences not disclosed)")
+    reverse = graph.input(
+        "pcr_reverse", "indexed library-PCR reverse primer (sequence not disclosed)",
+        MaterialKind.OLIGO, inferred=True,
+        source=source + " (library-PCR primer sequences not disclosed)")
+    polymerase = graph.input("pcr_polymerase", "PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(
+        "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
+        state=final_state, inferred=True,
+        source=source + " (outer library arms not disclosed)")
+    graph.react("library_pcr", "Amplify and index the sequencing library",
+                StepKind.PCR,
+                ((pcr_template, InputRole.TEMPLATE),
+                 (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final_state,
+                    reason="The defining sources do not disclose both library-PCR primers."))
+    graph.sequence(library, SequencingPlan(
+        limitation=("The published read roles are retained below, but the defining "
+                    "sources do not disclose exact sequencing-primer sites.")))
+    reviewed.extend(("pcr_forward", "pcr_reverse", "pcr_polymerase",
+                     "library_pcr", "library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def render_page(protocol: str) -> str:
+    graph = protocol_graph(protocol)
+    readout = cel1_readout() if protocol == "CEL-Seq" else cel2_readout()
+    workflow = "<h2>Library construction</h2>\n" + protocol_graph_panels(graph)
+    return "\n".join([head(f"{protocol} library chemistry"),
+                      preamble(protocol, complete=True), oligos(protocol),
+                      workflow, readout, "</div>"])

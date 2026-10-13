@@ -35,6 +35,12 @@ from chemdraw import Construct, Segment, feature, revcomp
 import crispr
 from crispr import SCAFFOLD_V1, SPACER_LEN, U6_3PRIME_WITH_G, clone_guide
 from plasmid import Plasmid, read_genbank
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "CRISPR-UMI (Schmierer)"
+SOURCE = 'Defining source: <a href="https://doi.org/10.15252/msb.20177834">Schmierer et al. (2017)</a>.'
 
 # ------------------------------------------------------------------- the vector
 # pLenti-Puro-AU-flip-3xBsmBI: lentiGuide-Puro (Addgene #52963) with two edits, quoted
@@ -322,3 +328,59 @@ SEQ_PRIMERS = [
 RUN_PRIMERS = (SEQ_PRIMERS[0], SEQ_PRIMERS[2], SEQ_PRIMERS[3])
 READ_LENGTHS = {"Read 1": READ1_CYCLES, "Index 1 (i7)": I7_CYCLES,
                 "Index 2 (i5)": I5_CYCLES}
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=graph.input("transduced_cells","cells carrying integrated guide–RSL cassettes",
+                      MaterialKind.BIOLOGICAL,primary=True)
+    screen=graph.input("screen_selection","CRISPR screen selection condition",
+                       MaterialKind.SELECTION)
+    survivors=graph.product("screened_cells","surviving guide–RSL-labelled cell lineages",
+                            MaterialKind.BIOLOGICAL)
+    depleted=graph.product("depleted_lineages","depleted guide–RSL cell lineages",
+                           MaterialKind.WASTE)
+    graph.react("screen","Apply the pooled CRISPR screen",StepKind.SELECTION,
+                ((cells,InputRole.TEMPLATE),(screen,InputRole.SELECTION)),
+                (survivors,depleted),changes_molecule=False)
+    graph.discard(depleted,"lineages depleted by the screen are absent from the recovered population")
+    extraction=graph.input("dna_extraction","genomic-DNA extraction condition",
+                           MaterialKind.CONDITION)
+    gdna=graph.product("genomic_dna","genomic DNA containing integrated guide–RSL cassettes",
+                       MaterialKind.MOLECULAR)
+    graph.react("extract","Extract genomic DNA from the screened population",StepKind.EXTRACTION,
+                ((survivors,InputRole.TEMPLATE),(extraction,InputRole.CONDITION)),(gdna,))
+    pcr1f=graph.input("pcr1_forward","PCR1-F outer vector primer",MaterialKind.OLIGO)
+    pcr1r=graph.input("pcr1_reverse","PCR1-R outer vector primer",MaterialKind.OLIGO)
+    pol=graph.input("polymerase","KAPA HiFi HotStart polymerase",MaterialKind.CATALYST)
+    pcr1=graph.product("pcr1_pool","pooled 40-reaction PCR1 product",MaterialKind.MOLECULAR)
+    graph.react("pcr1","Amplify integrations in 40 parallel genomic-DNA reactions",
+                StepKind.PCR,
+                ((gdna,InputRole.TEMPLATE),(pcr1f,InputRole.STRUCTURAL),
+                 (pcr1r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(pcr1,),
+                geometry=PCRGeometry.unavailable(
+                    final_library(),reason="The genomic vector flanks are not represented in the final-library construct."))
+    pcr2f=graph.input("pcr2_forward","PCR2-F nested primer",MaterialKind.OLIGO)
+    pcr2r=graph.input("pcr2_reverse","PCR2-R nested primer",MaterialKind.OLIGO)
+    pcr2=graph.product("pcr2_product","nested guide–RSL PCR2 product",MaterialKind.MOLECULAR)
+    graph.react("pcr2","Nested-amplify the guide–RSL locus",StepKind.PCR,
+                ((pcr1,InputRole.TEMPLATE),(pcr2f,InputRole.STRUCTURAL),
+                 (pcr2r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(pcr2,),
+                geometry=PCRGeometry.unavailable(
+                    final_library(),reason="The intermediate PCR2 product is not represented as a complete duplex."))
+    pcr3f=graph.input("pcr3_forward","indexed PCR3-F primer",MaterialKind.OLIGO)
+    pcr3r=graph.input("pcr3_reverse","P7-bearing PCR3-R primer",MaterialKind.OLIGO)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("pcr3","Install P5, sample i5 and P7 by PCR3",StepKind.PCR,
+                ((pcr2,InputRole.TEMPLATE),(pcr3f,InputRole.STRUCTURAL),
+                 (pcr3r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="PCR3 primer tails define the exact final construct, while the intermediate duplex is not separately reconstructed."))
+    graph.sequence(library,SequencingPlan(library=final,primers=RUN_PRIMERS,
+                                          read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope(("transduced_cells","screen_selection","screen",
+      "dna_extraction","extract","pcr1_forward","pcr1_reverse","polymerase","pcr1",
+      "pcr2_forward","pcr2_reverse","pcr2","pcr3_forward","pcr3_reverse","pcr3",
+      "library"),SOURCE)
+    return graph.require_publishable()

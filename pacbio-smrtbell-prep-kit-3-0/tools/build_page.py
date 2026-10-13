@@ -8,7 +8,7 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import smrtbell as S
 import seqprimers as sp
-from chemdraw import Row, annotation_rows, panel, strand_row
+from chemdraw import Row, annotation_rows, panel, protocol_graph_panels, strand_row
 from dumbbell import dumbbell_rows
 from page import head, info
 
@@ -17,15 +17,17 @@ OUT = HERE.parent / "smrtbell-prep-kit-3-0.html"
 
 def render() -> str:
     cycle = S.polymerase_cycle()
+    graph = S.protocol_graph()
     primer_rows = [
         Row(chunks=[("sequencing primer + polymerase  --->  [left hairpin primer site]", "r2", False)]),
         *dumbbell_rows(S.SMRTBELL),
         Row(chunks=[("                                      [right hairpin primer site]  <---  sequencing primer + polymerase", "r2", False)]),
     ]
-    return "\n".join([head("PacBio SMRTbell prep kit 3.0"), '<div class="wrap">',
+    return "\n".join([head("PacBio SMRTbell prep kit 3.0"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>PacBio SMRTbell prep kit 3.0 &mdash; closed dumbbell libraries</h1>',
         '<p class="research-notes"><a href="01_smrtbell-prep-kit-3-0.html">Research notes</a></p>',
         info('Commercial protocol: PacBio WGS/metagenome procedure <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-whole-genome-and-metagenome-libraries-using-SMRTbell-prep-kit-3.0.pdf">102-166-600 Rev09</a>.'),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Prepare the insert and close both ends</h2>',
         '<h3>(1) Shear, repair damage and ends, phosphorylate, and dA-tail</h3>',
         panel(S.end_prep_scene().rows(), cls="small", caption="The recommended WGS insert is 15–20 kb. Repair produces 5′ phosphates and one 3′ dA on both ends."),

@@ -4,8 +4,10 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import nextera_library, seg, truseq_library
-from chemdraw import MolecularState, Scene, Segment, Workflow, feature
-from multimodal_spatial import HybridizationLigationRound, modality_split
+from chemdraw import MolecularState, Row, Scene, Segment, Workflow, feature
+from multimodal_spatial import (HybridizationLigationRound, finish_pcr_branch,
+                                modality_split)
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE="SHARE-seq"
 NOTES="01_share-seq.html"
@@ -187,3 +189,54 @@ def workflow():
         name="Separated RNA and ATAC fractions",
         note="Internal biotin on the RT primer enables physical separation before modality-specific amplification. Template switching and RNA-library PCR follow on the captured branch.")
     return wf
+
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=g.input("cells","fixed permeabilized cells containing chromatin and poly(A) RNA",MaterialKind.BIOLOGICAL,state=_initial_rows(),primary=True)
+    transposome=g.input("transposome","ligatable-anchor-loaded Nextera transposome",MaterialKind.ADAPTER)
+    tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=g.product("tagged","cells retaining Tn5-tagged chromatin and RNA",MaterialKind.MOLECULAR,state=[*_molecule_scene("ATAC",0).rows(),Row(chunks=[("poly(A) RNA remains unindexed in the intact cell",None,False)])])
+    twaste=g.product("tn5_waste","non-library tagmentation products",MaterialKind.WASTE)
+    g.react("tagment","Tagment accessible chromatin with the ligatable Nextera end",StepKind.TAGMENTATION,((cells,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,twaste)); g.discard(twaste,"does not expose the selected ligation anchor on an amplifiable fragment")
+    rtprimer=g.input("rt_primer","phosphorylated biotin-UMI oligo(dT)/VN RT primer",MaterialKind.OLIGO)
+    rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
+    indexed=g.product("indexed","RNA and ATAC molecules exposing the shared ligation anchor",MaterialKind.MOLECULAR,state=_both_modalities(0))
+    g.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with the shared-anchor primer",StepKind.REVERSE_TRANSCRIPTION,((tagged,InputRole.TEMPLATE),(rtprimer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(indexed,))
+    current=indexed
+    reviewed=["cells","transposome","tn5","tagment","rt_primer","rt","reverse_transcribe"]
+    for number,round_ in enumerate(ROUNDS,1):
+        barcode=g.input(f"barcode_{number}",f"{round_.name} barcode oligo",MaterialKind.OLIGO)
+        linker=g.input(f"linker_{number}",f"{round_.name} splint linker",MaterialKind.OLIGO)
+        hybrid=g.product(f"hybrid_{number}",f"RNA and ATAC with {round_.name} annealed",MaterialKind.MOLECULAR,state=[*_hybridized_scene("RNA",number).rows(),*_hybridized_scene("ATAC",number).rows()])
+        g.react(f"hybridize_{number}",f"Hybridize {round_.name} barcode and splint",StepKind.HYBRIDIZATION,((current,InputRole.TEMPLATE),(barcode,InputRole.STRUCTURAL),(linker,InputRole.STRUCTURAL)),(hybrid,))
+        blocker=g.input(f"blocker_{number}",f"{round_.name} free-adapter blocking oligo",MaterialKind.OLIGO)
+        cleaned=g.product(f"cleaned_{number}",f"{round_.name} assemblies after free-adapter blocking",MaterialKind.MOLECULAR,state=hybrid.state)
+        blocked=g.product(f"blocked_{number}",f"blocked unbound {round_.name} assemblies",MaterialKind.WASTE)
+        g.react(f"block_{number}",f"Sequester unbound {round_.name} adapters",StepKind.CLEANUP,((hybrid,InputRole.TEMPLATE),(blocker,InputRole.STRUCTURAL)),(cleaned,blocked),changes_molecule=False)
+        g.discard(blocked,"is an unbound adapter assembly sequestered before repooling")
+        redistribution=g.input(f"redistribution_{number}",f"{round_.name} pool-and-resplit condition",MaterialKind.CONDITION)
+        redistributed=g.product(f"redistributed_{number}",f"molecules redistributed after {round_.name}",MaterialKind.MOLECULAR,state=cleaned.state)
+        excluded=g.product(f"excluded_{number}",f"unresolved {round_.name} redistribution material",MaterialKind.WASTE)
+        g.react(f"redistribute_{number}",f"Pool and resplit after {round_.name}",StepKind.PARTITION,((cleaned,InputRole.TEMPLATE),(redistribution,InputRole.CONDITION)),(redistributed,excluded),changes_molecule=False)
+        g.discard(excluded,"does not retain an interpretable ordered well path")
+        reviewed.extend((barcode.id,linker.id,f"hybridize_{number}",blocker.id,f"block_{number}",redistribution.id,f"redistribute_{number}"))
+        current=redistributed
+    ligase=g.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
+    sealed=g.product("sealed","RNA and ATAC molecules with three sealed barcode junctions",MaterialKind.MOLECULAR,state=_both_modalities(3))
+    g.react("seal","Seal all three preassembled barcode-chain nicks",StepKind.NICK_SEALING,((current,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(sealed,))
+    release=g.input("release_condition","lysis and crosslink-reversal condition",MaterialKind.CONDITION)
+    released=g.product("released","released covalently barcoded RNA and ATAC molecules",MaterialKind.MOLECULAR,state=sealed.state)
+    g.react("release","Lyse cells and reverse crosslinks",StepKind.EXTRACTION,((sealed,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,))
+    streptavidin=g.input("streptavidin","streptavidin selection matrix",MaterialKind.SELECTION)
+    rna=g.product("rna_branch","biotin-captured RNA-derived cDNA",MaterialKind.MOLECULAR,state=_molecule_scene("RNA",3))
+    atac=g.product("atac_branch","ATAC-derived genomic-DNA flow-through",MaterialKind.MOLECULAR,state=_molecule_scene("ATAC",3))
+    g.react("separate","Separate RNA-derived and ATAC-derived molecules",StepKind.AFFINITY_CAPTURE,((released,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),(rna,atac),changes_molecule=False)
+    tso=g.input("tso","SHARE-seq template-switching oligo",MaterialKind.OLIGO)
+    switched=g.product("switched","template-switched RNA-derived cDNA",MaterialKind.MOLECULAR,state=rna.state)
+    g.react("template_switch","Template-switch the captured RNA branch",StepKind.TEMPLATE_SWITCHING,((rna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
+    reviewed.extend(("ligase","seal","release_condition","release","streptavidin","separate","tso","template_switch"))
+    finish_pcr_branch(g,"rna",switched,RNA,RNA_P,reviewed,label="SHARE-seq RNA")
+    finish_pcr_branch(g,"atac",atac,ATAC,ATAC_P,reviewed,label="SHARE-seq ATAC")
+    g.declare_reviewed_scope(reviewed,SOURCE)
+    return g.require_publishable()

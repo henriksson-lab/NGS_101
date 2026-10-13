@@ -6,6 +6,8 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -185,3 +187,90 @@ def index1_layout() -> list[tuple[str, str]]:
         cycle = end + 1
     rows.append((f"{cycle}&ndash;52", "bead-backbone tail"))
     return rows
+
+
+def protocol_graph() -> ProtocolGraph:
+    source="Defining source: https://doi.org/10.7554/eLife.73971"
+    graph=ProtocolGraph("HyDrop-ATAC",authority=source)
+    precursor=graph.input("bead_precursor","acrydite hydrogel bead primer",
+                          MaterialKind.ADAPTER)
+    barcode_plates=graph.input("barcode_plates","three 96-way barcode extension plates",
+                               MaterialKind.OLIGO)
+    bead_pol=graph.input("bead_polymerase","bead-extension polymerase",MaterialKind.CATALYST)
+    bead=graph.product("barcoded_bead",bead_oligo().name,MaterialKind.ADAPTER,state=bead_oligo())
+    graph.react("bead_synthesis","Build the three-round split-pool-barcoded bead oligo",
+                StepKind.EXTENSION,
+                ((precursor,InputRole.TEMPLATE),(barcode_plates,InputRole.STRUCTURAL),
+                 (bead_pol,InputRole.CATALYST)),(bead,))
+    nuclei=graph.input("nuclei","permeabilized nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    transposome=graph.input("transposome","s5/s7 Tn5 transposome",MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_chromatin","s5/s7-tagmented accessible chromatin",
+                         MaterialKind.MOLECULAR,state=tagmented_scene())
+    tag_waste=graph.product("tagment_waste","non-amplifiable tagmentation products",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Tagment nuclei in bulk with s5 and s7 adaptors",
+                StepKind.TAGMENTATION,
+                ((nuclei,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+    graph.discard(tag_waste,"s5/s5 and s7/s7 products are not the modelled amplifiable fragment")
+    droplets=graph.input("droplet_device","HyDrop droplet generator",MaterialKind.CONDITION)
+    productive=graph.product("productive_droplets","droplets containing tagmented nucleus and bead",
+                              MaterialKind.MOLECULAR,state=tagmented_scene())
+    empty=graph.product("unproductive_droplets","droplets without a usable nucleus/bead pair",
+                        MaterialKind.WASTE)
+    graph.react("partition","Co-encapsulate tagmented nuclei with barcoded beads",
+                StepKind.PARTITION,
+                ((tagged,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (droplets,InputRole.CONDITION)),(productive,empty))
+    graph.discard(empty,"unproductive droplets do not contribute indexed library molecules")
+    dtt=graph.input("dtt","DTT hydrogel-solubilization condition",MaterialKind.CONDITION)
+    released=graph.product("released_primer","released bead primers with tagmented template",
+                           MaterialKind.MOLECULAR,state=bead_oligo())
+    matrix=graph.product("bead_matrix","insoluble hydrogel bead remnants",MaterialKind.WASTE)
+    graph.react("release_bead","Dissolve the hydrogel bead and release its primers",
+                StepKind.SOLUBILIZATION,
+                ((productive,InputRole.TEMPLATE),(dtt,InputRole.CONDITION)),(released,matrix))
+    graph.discard(matrix,"the hydrogel matrix is not part of the library")
+    gap_pol=graph.input("gap_fill_polymerase","gap-fill polymerase",MaterialKind.CATALYST)
+    dntps=graph.input("gap_fill_dntps","gap-fill dNTPs",MaterialKind.OLIGO)
+    filled=graph.product("gap_filled",gap_filled_template().name,MaterialKind.MOLECULAR,
+                         state=gap_filled_template())
+    graph.react("gap_fill","Fill the two 9-nt Tn5 gaps",StepKind.EXTENSION,
+                ((released,InputRole.TEMPLATE),(dntps,InputRole.STRUCTURAL),
+                 (gap_pol,InputRole.CATALYST)),(filled,))
+    product=graph.product("linear_product",bead_primed_product().name,MaterialKind.MOLECULAR,
+                          state=bead_primed_product())
+    graph.react("linear_extension","Prime s7-prime and linearly copy fragments for 13 cycles",
+                StepKind.EXTENSION,
+                ((filled,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (gap_pol,InputRole.CATALYST)),(product,))
+    hyi5=graph.input("hyi5","HYi5 bulk-PCR primer",MaterialKind.OLIGO,
+                     state=tuple(hyi5_primer()))
+    hyi7=graph.input("hyi7","HYi7 bulk-PCR primer",MaterialKind.OLIGO,
+                     state=tuple(hyi7_primer()))
+    pcr_pol=graph.input("pcr_polymerase","bulk-PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("library_pcr","Add flow-cell adapters and sample indexes with HYi5/HYi7",
+                StepKind.PCR,
+                ((product,InputRole.TEMPLATE),(hyi5,InputRole.STRUCTURAL),
+                 (hyi7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.exact(
+                    bead_primed_product(),
+                    PCRPrimer("HYi7","".join(s.top for s in hyi7_primer()),
+                              anneal_nt=len(BEAD_HYI7_SITE)),
+                    PCRPrimer("HYi5","".join(s.top for s in hyi5_primer()),
+                              anneal_nt=len(nx.S5)+7),
+                    statement="Supplementary file 4 prints HYi5/HYi7 and their bead-backbone and s5/ME-prefix landing regions."))
+    lengths={"Read 1":50,"Index 1 (i7)":52,"Index 2 (i5)":10,"Read 2":50}
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),read_lengths=lengths,
+        read_uses={"Read 1":"include","Index 1 (i7)":"extract",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"}))
+    graph.declare_reviewed_scope((
+        "bead_precursor","barcode_plates","bead_polymerase","bead_synthesis","nuclei",
+        "transposome","tn5","tagment","droplet_device","partition","dtt","release_bead",
+        "gap_fill_polymerase","gap_fill_dntps","gap_fill","linear_extension","hyi5",
+        "hyi7","pcr_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import ch_atac as C
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info
 
 OUT = HERE.parent / "ch-atac-seq.html"
@@ -19,6 +19,7 @@ OUT = HERE.parent / "ch-atac-seq.html"
 
 def render() -> str:
     lib = C.final_library()
+    graph = C.protocol_graph()
     duplex = Scene.duplex(list(lib), label="library")
     oligos = "\n".join([
         oligo("Indexed Tn5 transfer strand", C.indexed_tn5_transfer()),
@@ -27,13 +28,14 @@ def render() -> str:
         oligo("Barcoded HY oligo", C.barcoded_hy()),
     ])
     return "\n".join([
-        head("CH-ATAC-seq library chemistry"), '<div class="wrap">',
+        head("CH-ATAC-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>CH-ATAC-seq</h1>',
         info('Defining source: <a href="https://doi.org/10.1016/j.devcel.2024.01.015">Zhang et al., <i>Developmental Cell</i> (2024)</a>.'),
         '<h2>Three indexing rounds</h2>',
         info('Tn5 barcode (384 wells) &rarr; hybridization barcode (768 wells) &rarr; indexed PCR (96 wells). Pools are split again between rounds.'),
         '<h2>Key oligos</h2>', '<seq>', oligos, '</seq>',
-        '<h2>Library construction</h2>',
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>',
         '<h3>(1) Tagment with indexed-handle and Primer-C transposomes</h3>',
         info('Productive fragments receive the SMART handle and Tn5 barcode at one end, and s7 from Primer C at the other.'),
         '<h3>(2) Hybridize the second barcode</h3>',

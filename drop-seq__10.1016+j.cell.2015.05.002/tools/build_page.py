@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE)); sys.path.insert(0,str(HERE.parents[1]/"lib"))
 import drop_seq as D
 import seqprimers as sp
-from chemdraw import Scene,Segment,annotation_rows,oligo,panel,strand_row
+from chemdraw import Segment,oligo,protocol_graph_panels
 from page import caveat,head,info
 OUT=HERE.parent/"drop-seq.html"
 
@@ -25,19 +25,7 @@ def oligos()->str:
 
 
 def construction()->str:
-    first=D.first_strand(); selected=D.selected_tagmented_strand(); lib=D.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Co-encapsulate one cell and one bead in a nanoliter droplet</h3>
-{panel(D.capture_scene().rows(),cls="small",caption="INFERRED — reconstructed batch-B bead sequence. Poly(A) RNA hybridizes inside the droplet; RT occurs after pooled beads are recovered.")}
-{panel([strand_row(first),*annotation_rows(first)],cls="small",caption="INFERRED — one bead-bound first strand after RT adds the CCC switch site.")}
-
-<h3>(2) Template-switch, remove unused bead primers, and amplify cDNA</h3>
-{panel(D.template_switch_scene().rows(),cls="small",caption="INFERRED — reconstructed TSO sequence; its rGrGrG pairs with CCC and supplies the second SMART handle.")}
-
-<h3>(3) Tagment amplified cDNA; select the bead end with P5-SMART + N7xx PCR</h3>
-{panel([strand_row(selected),*annotation_rows(selected)],cls="small",caption="INFERRED — reconstructed bead-end fragment. Only this end has the batch-matched handle/constant sequence for the selective P5 primer.")}
-{panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="INFERRED — reconstructed batch-B final library, P5 to P7'. Samples are indexed on i7 only.")}
-'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(D.protocol_graph(),cls="long")
 
 
 def sequencing()->str:
@@ -50,7 +38,7 @@ def sequencing()->str:
 
 
 def main()->None:
-    page="\n".join([head("Drop-seq library chemistry"),'<div class="wrap">','<h1>Drop-seq &mdash; barcoded-bead RNA capture in nanoliter droplets</h1>',info('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.05.002">Macosko et al., <i>Cell</i> (2015)</a>.'),caveat('<b>Inferred oligo structure.</b> The defining paper’s oligo table was unavailable. Dotted regions reconstruct the published workflow using the secondary schematic and Seq-Well’s later primary-source table.'),oligos(),construction(),sequencing(),'</div>'])
+    page="\n".join([head("Drop-seq library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>Drop-seq &mdash; barcoded-bead RNA capture in nanoliter droplets</h1>',info('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.05.002">Macosko et al., <i>Cell</i> (2015)</a>.'),caveat('<b>Inferred oligo structure.</b> The defining paper’s oligo table was unavailable. Dotted regions reconstruct the published workflow using the secondary schematic and Seq-Well’s later primary-source table.'),oligos(),construction(),sequencing(),'</div>'])
     OUT.write_text(page,encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

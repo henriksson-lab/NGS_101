@@ -58,6 +58,13 @@ class ThreePrimeBridgeLinker:
                   pair=("bottom bridge core", top_core[0].name),
                   unpaired=("top 3-prime overhang", "bottom 3-prime overhang"),
                   label=self.name, mod5="p")
+        # The overhangs are not merely annotations: they are the two ligating adapter
+        # ends consumed by a bridge-ligation step.  Declaring them here lets every
+        # protocol using this reagent inherit checked 3′-cohesive geometry.
+        sc.overhang("bridge top", "top 3-prime overhang", polarity="3-prime",
+                    text=f"3′-{self.overhang} bridge-ligation end")
+        sc.overhang("bridge bottom", "bottom 3-prime overhang", polarity="3-prime",
+                    text=f"3′-{self.overhang} bridge-ligation end")
         if split is not None:
             sc.mark("bridge top", "modified bridge base", "internal biotin")
         return sc

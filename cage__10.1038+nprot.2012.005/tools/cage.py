@@ -8,6 +8,9 @@ from adapter_ligation import AdapterLigationGeometry
 from captrap import CapTrappedHybrid
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       feature, revcomp)
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "CAGE — cap analysis of gene expression"
 NOTES = "01_cage.html"
@@ -204,3 +207,102 @@ def workflow() -> Workflow:
                       name="96-bp CAGE tag library",
                       note="The upper strand's leading NN forms the source-written cohesive end; PCR forward/reverse primers complete the flow-cell-compatible product.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("capped_rna","capped RNA",MaterialKind.MOLECULAR,primary=True)
+    rt_primer=graph.input("rt_primer","RT-N15-EcoP primer",MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    hybrid=graph.product("hybrid","first-strand capped RNA/cDNA hybrids",
+                         MaterialKind.MOLECULAR,state=tuple(_rt_scene().rows()))
+    graph.react("reverse_transcribe","Reverse-transcribe toward the RNA cap",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(hybrid,))
+    cap_chemistry=graph.input("cap_chemistry","cap oxidation and biotinylation condition",
+                              MaterialKind.CONDITION)
+    biotinylated=graph.product("biotinylated","biotinylated capped RNA/cDNA hybrids",
+                               MaterialKind.MOLECULAR)
+    graph.react("biotinylate_cap","Oxidize and biotinylate the RNA cap",
+                StepKind.CHEMICAL_CONVERSION,
+                ((hybrid,InputRole.TEMPLATE),(cap_chemistry,InputRole.CONDITION)),
+                (biotinylated,))
+    streptavidin=graph.input("streptavidin","streptavidin cap-selection reagent",
+                            MaterialKind.SELECTION)
+    captured=graph.product("captured","cap-complete captured RNA/cDNA hybrids",
+                           MaterialKind.MOLECULAR,state=tuple(_captured_scene().rows()))
+    incomplete=graph.product("incomplete","non-cap-complete cDNA",MaterialKind.WASTE)
+    graph.react("cap_trap","Capture cDNA that protects a biotinylated RNA cap",
+                StepKind.AFFINITY_CAPTURE,
+                ((biotinylated,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,incomplete))
+    graph.discard(incomplete,"RNase treatment and streptavidin selection remove incomplete cDNA")
+    linker5=graph.input("five_prime_linker","barcoded 5-prime SOL splint/linker",
+                        MaterialKind.ADAPTER,state=tuple(_five_prime_geometry().rows()))
+    ligase5=graph.input("five_prime_ligase","single-stranded DNA ligase",
+                        MaterialKind.CATALYST)
+    linked=graph.product("linked","5-prime-linker-ligated cDNA",MaterialKind.MOLECULAR,
+                         state=tuple(_five_prime_product().rows()))
+    graph.react("ligate_five_prime","Ligate the barcoded SOL linker to captured cDNA",
+                StepKind.LIGATION,
+                ((captured,InputRole.TEMPLATE),(linker5,InputRole.STRUCTURAL),
+                 (ligase5,InputRole.CATALYST)),(linked,),geometry=_five_prime_geometry())
+    second_primer=graph.input("second_primer","biotinylated 2nd SOL primer",
+                              MaterialKind.OLIGO)
+    polymerase=graph.input("second_polymerase","second-strand DNA polymerase",
+                           MaterialKind.CATALYST)
+    duplex=graph.product("duplex","double-stranded CAGE construct",MaterialKind.MOLECULAR,
+                         state=tuple(_second_strand_scene().rows()))
+    graph.react("second_strand","Synthesize the second CAGE strand",StepKind.EXTENSION,
+                ((linked,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                 (polymerase,InputRole.CATALYST)),(duplex,))
+    phosphatase=graph.input("phosphatase","Antarctic phosphatase",MaterialKind.CATALYST)
+    dephosphorylated=graph.product("dephosphorylated","5-prime-linker-dephosphorylated duplex",
+                                   MaterialKind.MOLECULAR,state=duplex.state)
+    graph.react("dephosphorylate","Dephosphorylate the 5-prime linker",
+                StepKind.DEPHOSPHORYLATION,
+                ((duplex,InputRole.TEMPLATE),(phosphatase,InputRole.CATALYST)),
+                (dephosphorylated,))
+    ecop=graph.input("ecop15i","EcoP15I",MaterialKind.CATALYST)
+    tag=graph.product("cap_tag","27-nt EcoP15I cap tag",MaterialKind.MOLECULAR)
+    long_piece=graph.product("long_piece","non-tag EcoP15I cleavage product",
+                             MaterialKind.WASTE)
+    graph.react("digest","Cut 27 nt into cap-derived cDNA",StepKind.DIGESTION,
+                ((dephosphorylated,InputRole.TEMPLATE),(ecop,InputRole.CATALYST)),
+                (tag,long_piece))
+    graph.discard(long_piece,"the distal cleavage product is not the capped 5-prime tag")
+    linker3=graph.input("three_prime_linker","two-base-overhang 3-prime linker",
+                        MaterialKind.ADAPTER,state=tuple(_three_prime_geometry().rows()))
+    ligase3=graph.input("three_prime_ligase","cohesive-end linker ligase",
+                        MaterialKind.CATALYST)
+    ligated=graph.product("ligated","dual-linker CAGE tag",MaterialKind.MOLECULAR,
+                          state=FINAL_LIBRARY)
+    graph.react("ligate_three_prime","Ligate the exact 3-prime linker",
+                StepKind.LIGATION,
+                ((tag,InputRole.TEMPLATE),(linker3,InputRole.STRUCTURAL),
+                 (ligase3,InputRole.CATALYST)),(ligated,),geometry=_three_prime_geometry())
+    forward=graph.input("pcr_forward","published CAGE forward PCR primer",
+                        MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","published CAGE reverse PCR primer",
+                        MaterialKind.OLIGO)
+    pcr_polymerase=graph.input("pcr_polymerase","library PCR polymerase",
+                               MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Amplify the 96-bp CAGE tag library",StepKind.PCR,
+                ((ligated,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="Both PCR primers are published, but the compact graph does not reconstruct the pre-amplification duplex orientation."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "capped_rna","rt_primer","reverse_transcriptase","reverse_transcribe",
+        "cap_chemistry","biotinylate_cap","streptavidin","cap_trap",
+        "five_prime_linker","five_prime_ligase","ligate_five_prime",
+        "second_primer","second_polymerase","second_strand","phosphatase",
+        "dephosphorylate","ecop15i","digest","three_prime_linker",
+        "three_prime_ligase","ligate_three_prime","pcr_forward","pcr_reverse",
+        "pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

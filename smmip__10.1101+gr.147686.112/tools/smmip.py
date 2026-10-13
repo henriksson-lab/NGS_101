@@ -7,7 +7,12 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, feature
+from circular import CircularizationGeometry
 from targeted_ngs import smmip_rows
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 TITLE="Single-molecule molecular inversion probes (smMIPs)"
 NOTES="01_smmip.html"
@@ -64,3 +69,28 @@ def sections():
    Row(chunks=[("same tag across PCR descendants → single-molecule consensus", "cbc", False)]),
   ],"The molecular tag is already covalently attached before PCR, allowing family consensus and molecule counting."),
  ]
+
+
+def protocol_graph():
+ graph=ProtocolGraph(TITLE,authority=SOURCE)
+ dna=graph.input("genomic_dna","genomic DNA containing target intervals",MaterialKind.BIOLOGICAL,state=molecule("genomic DNA",(role("target gaps flanked by probe-arm sites"),)),primary=True)
+ probe=graph.input("probe","12-nt-tagged molecular inversion probe",MaterialKind.OLIGO)
+ hybrid=graph.product("hybrid","probe arms hybridized around one target gap",MaterialKind.MOLECULAR,state=dna.state)
+ graph.react("hybridize","Hybridize both smMIP targeting arms",StepKind.HYBRIDIZATION,((dna,InputRole.TEMPLATE),(probe,InputRole.STRUCTURAL)),(hybrid,))
+ polymerase=graph.input("gap_polymerase","gap-fill DNA polymerase",MaterialKind.CATALYST)
+ filled=graph.product("filled","gap-filled smMIP capture intermediate",MaterialKind.MOLECULAR,state=hybrid.state)
+ graph.react("gap_fill","Copy the genomic target gap",StepKind.EXTENSION,((hybrid,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
+ ligase=graph.input("circle_ligase","probe-closing DNA ligase",MaterialKind.CATALYST)
+ circle=graph.product("circle","closed smMIP capture circle",MaterialKind.MOLECULAR,state=filled.state)
+ graph.react("circularize","Seal the copied gap to close the probe",StepKind.CIRCULARIZATION,((filled,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(circle,),geometry=CircularizationGeometry.known("gap-sealing probe closure",statement="DNA ligase seals the copied target gap between the smMIP probe arms."))
+ exonuclease=graph.input("exonuclease","linear-DNA exonuclease",MaterialKind.CATALYST)
+ selected=graph.product("selected","exonuclease-resistant closed smMIP circles",MaterialKind.MOLECULAR,state=circle.state)
+ graph.react("digest_linear","Digest unreacted probe, genomic DNA and incomplete captures",StepKind.DIGESTION,((circle,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST)),(selected,))
+ forward=graph.input("universal_forward","invariant-backbone forward PCR primer",MaterialKind.OLIGO)
+ reverse=graph.input("indexed_reverse","indexed invariant-backbone reverse PCR primer",MaterialKind.OLIGO)
+ pcr_pol=graph.input("pcr_polymerase","universal-PCR polymerase",MaterialKind.CATALYST)
+ library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ graph.react("amplify","Universally amplify captured circles",StepKind.PCR,((selected,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The circular template and panel-specific arms are not represented as one exact linear PCR template."))
+ graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),acquired_roles=("Read 1","Index 1 (i7)","Read 2")))
+ graph.declare_reviewed_scope(["genomic_dna","probe","hybridize","gap_polymerase","gap_fill","circle_ligase","circularize","exonuclease","digest_linear","universal_forward","indexed_reverse","pcr_polymerase","amplify","library"],SOURCE)
+ return graph.require_publishable()

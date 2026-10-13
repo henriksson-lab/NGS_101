@@ -5,6 +5,58 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-12 — Protocol completeness is a typed material-provenance graph
+
+**Decision.** A complete protocol is represented as a directed acyclic hypergraph. Material
+nodes include the biological template, molecular intermediates, structural oligos and
+adapters, catalysts, selection reagents, sequencing libraries and material-bearing side
+products. Typed step nodes consume one or more materials and create one or more new
+materials. Construction is topological: a step may consume only existing nodes and may
+produce only new nodes, making cycles and duplicate producers unrepresentable.
+
+Every material branch ends explicitly in sequencing, discard, QC, stored intermediate or
+an explained unresolved disposition. At least one terminal is a sequencing library. Every
+sequencing library must have directed, molecule-contributing provenance from a declared
+primary template and an exact sequencing plan or an explicit source limitation. All steps
+and materials belong to one weakly connected protocol graph; connection through a reagent
+does not substitute for directed template provenance.
+
+The graph is typed rather than merely connected. PCR, ligation, digestion, tagmentation,
+reverse transcription, selection, splitting, pooling and other operations impose their own
+input and geometry contracts. Catalysts and conditions participate in a step without being
+treated as incorporated sequence. Relevant material-bearing side products are accounted
+for; the graph does not enumerate salts, hydrolysis products or every failed molecule.
+Population operations may group a documented class of non-library products in one waste
+node rather than pretending their proportions are known.
+
+Circle closure has structured geometry for the same reason adapter ligation does: a
+closed product cannot reveal whether the source used direct single- or double-strand
+intramolecular ligation, splint-assisted ssDNA closure, overlap assembly or gap sealing
+of a copied probe. Every circularization step records one of those mechanisms or an
+explicit source limitation; the word “circularize” is not itself evidence of an end
+configuration.
+
+Process validity is distinct from completeness relative to an authority. Each reviewed
+paper/manual operation or deliberate scope item is recorded as a source item and mapped to
+a graph material/step, or explicitly excluded with a reason. This cannot discover a source
+step a curator never recorded, but it makes the reviewed scope auditable and prevents a
+connected graph from being mistaken for a complete transcription by itself.
+
+`ProtocolGraph.require_publishable()` is the eventual source of documented/publication
+eligibility. Linear `Workflow` objects acquire a graph in lock-step as a migration aid, but
+generic construct-changing transitions are not publishable. Rendering is derived from the
+native graph once a protocol has migrated; parallel sequencing outputs receive separate
+provenance paths and side outputs remain visible at their producing step.
+
+**Why.** The earlier model strongly checked bases and individual reaction geometry, but a
+page could still omit a branch, disconnect an intermediate from its inputs, or declare
+itself documented manually. A typed graph combines local chemistry guarantees with global
+material accounting and makes completeness an executable property.
+
+**Review when.** Refine terminal categories or population semantics when a real protocol
+cannot be represented without false detail. Do not weaken directed provenance or source
+coverage merely to make an incomplete legacy page pass.
+
 ## 2026-10-10 — Catalogue entries require a protocol name
 
 **Decision.** A method enters the protocol catalogue only when its authors or vendor give

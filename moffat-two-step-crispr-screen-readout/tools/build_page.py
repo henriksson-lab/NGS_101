@@ -11,6 +11,7 @@ OUT = HERE.parent / "moffat-two-step-crispr-screen-readout.html"
 
 
 def render() -> str:
+    source = 'Source: Moffat Lab <a href="https://media.addgene.org/cms/filer_public/44/9f/449f22c6-f818-4af6-8af4-2bab1d20f00a/moffat_lab_crispr_screen_protocol_v2.pdf">Pooled CRISPR Screen Protocol v2</a> (2019), LCV2::TKOv3 branch.'
     intermediate, final = M.two_step_intermediate(), M.two_step_library()
     body = f'''<h2>PCR1 — enrich the integrated guide locus</h2>
 {P.construct_panel(intermediate, "PCR1 uses ordinary locus primers and produces the ~600-bp enrichment product. No flow-cell adapters are present.")}
@@ -18,7 +19,7 @@ def render() -> str:
 {P.construct_panel(final, "PCR2 uses the nested hU6 and scaffold sites and yields the ~200-bp sequencing library.")}
 {sp.section(final, M.two_step_sequencing_primers(), heading="Sequencing primers", intro="The protocol uses single-end sequencing with 21 dark cycles, then 26 imaged guide cycles, plus 8-cycle i7 and i5 reads.", required_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)"))}'''
     return P.page("Moffat two-step CRISPR screen readout", "01_moffat-two-step.html",
-        'Source: Moffat Lab <a href="https://media.addgene.org/cms/filer_public/44/9f/449f22c6-f818-4af6-8af4-2bab1d20f00a/moffat_lab_crispr_screen_protocol_v2.pdf">Pooled CRISPR Screen Protocol v2</a> (2019), LCV2::TKOv3 branch.', body)
+                  source, body, graph=M.two_step_graph(source))
 
 
 def main() -> None:

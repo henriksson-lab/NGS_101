@@ -5,7 +5,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Row, Scene, Segment, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from restriction import ECORI, MSPI
 
 TITLE = "ddRAD-seq — double-digest RAD sequencing"
@@ -27,6 +31,24 @@ P2_BOTTOM = MSPI.overhang + "AGATCGGAAGAGCGAGAACAA"
 # A source transcription is accepted only through the enzyme-derived end model.
 P1_END = ECORI.adapter_end(P1_BOTTOM[:len(ECORI.overhang)])
 P2_END = MSPI.adapter_end(P2_BOTTOM[:len(MSPI.overhang)])
+
+
+def adapter_geometry() -> AdapterLigationGeometry:
+    p1=Scene(); p1.strand("P1",[
+        Segment("P1 EcoRI overhang",P1_END.written_overhang),
+        Segment("P1 adapter body",P1_BOTTOM[len(P1_END.written_overhang):])],
+        label="P1 adapter")
+    p1.ligation_end("P1","P1 EcoRI overhang",kind="cohesive",polarity="5-prime",
+                    owner="adapter",text="EcoRI-compatible 5-prime overhang")
+    p2=Scene(); p2.strand("P2",[
+        Segment("P2 MspI overhang",P2_END.written_overhang),
+        Segment("P2 adapter body",P2_BOTTOM[len(P2_END.written_overhang):])],
+        label="P2 adapter")
+    p2.ligation_end("P2","P2 MspI overhang",kind="cohesive",polarity="5-prime",
+                    owner="adapter",text="MspI-compatible 5-prime overhang")
+    return AdapterLigationGeometry.known(
+        "cohesive",p1,p2,
+        statement="The published P1 and P2 adapter overhangs are validated against the EcoRI and MspI cut-derived cohesive ends.")
 
 
 def final_library() -> tuple[Construct, tuple]:
@@ -80,3 +102,56 @@ def sections():
             ("barcoded ligation products → pooled size window → 8–12 PCR cycles → indexed library", None, False)])],
          "Pooling occurs after inline barcoding; a narrow size window defines the reduced genomic representation."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("genomic_dna","genomic DNA",MaterialKind.MOLECULAR,primary=True)
+    ecori=graph.input("ecori","EcoRI-HF",MaterialKind.CATALYST)
+    mspi=graph.input("mspi","MspI",MaterialKind.CATALYST)
+    compatible=graph.product("compatible","EcoRI-MspI genomic fragments",
+                             MaterialKind.MOLECULAR)
+    other=graph.product("other_fragments","other double-digest fragment classes",
+                        MaterialKind.WASTE)
+    graph.react("double_digest","Digest genomic DNA with EcoRI-HF and MspI",
+                StepKind.DIGESTION,
+                ((dna,InputRole.TEMPLATE),(ecori,InputRole.CATALYST),
+                 (mspi,InputRole.CATALYST)),(compatible,other))
+    graph.discard(other,"fragments without the selected unlike enzyme ends are not retained")
+    adapters=graph.input("adapters","barcoded P1 and P2 cohesive-end adapters",
+                         MaterialKind.ADAPTER,state=tuple(adapter_geometry().rows()))
+    ligase=graph.input("ligase","adapter ligase",MaterialKind.CATALYST)
+    ligated=graph.product("ligated","P1/P2-ligated reduced-representation fragments",
+                          MaterialKind.MOLECULAR)
+    graph.react("ligate","Ligate end-selective P1 and P2 adapters",StepKind.LIGATION,
+                ((compatible,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(ligated,),geometry=adapter_geometry())
+    size_rule=graph.input("size_rule","narrow gel size-selection interval",
+                          MaterialKind.SELECTION)
+    selected=graph.product("selected","pooled size-selected P1/P2 fragments",
+                           MaterialKind.MOLECULAR)
+    offsize=graph.product("offsize","off-size ligation products",MaterialKind.WASTE)
+    graph.react("size_select","Pool and select the intended fragment-size window",
+                StepKind.SELECTION,
+                ((ligated,InputRole.TEMPLATE),(size_rule,InputRole.SELECTION)),
+                (selected,offsize))
+    graph.discard(offsize,"off-size fragments are excised away")
+    forward=graph.input("pcr_forward","P5-side library PCR primer",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","indexed P7-side library PCR primer",
+                        MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Complete the outer arms and add the i7 index",
+                StepKind.PCR,
+                ((selected,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The final primer sites are exact; the compact graph does not reconstruct every strand of the pre-PCR P1/P2 product."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "genomic_dna","ecori","mspi","double_digest","adapters","ligase",
+        "ligate","size_rule","size_select","pcr_forward","pcr_reverse",
+        "pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

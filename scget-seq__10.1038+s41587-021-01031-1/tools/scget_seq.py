@@ -9,6 +9,8 @@ import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo
 from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 from tagmentation import loaded_tn5_adapter
 
 TITLE = "scGET-seq — open and heterochromatic DNA in the same cell"
@@ -125,3 +127,60 @@ def workflow():
           Scene.duplex(list(FINAL_LIBRARY), label="scGET-seq sequencing library").rows(),
           name="scGET-seq sequencing library")
     return w
+
+
+def protocol_graph():
+    source = "Defining source: https://doi.org/10.1038/s41587-021-01031-1"
+    proprietary = source + " (10x gel-bead and SI-PCR oligos are not disclosed)"
+    graph = ProtocolGraph("scGET-seq", authority=source)
+    nuclei = graph.input("nuclei", "permeabilized nuclear chromatin",
+                         MaterialKind.BIOLOGICAL, primary=True)
+    adapters = graph.input("modality_adapters", "Tn5ME-A.1 and TnHME-A.4 loaded adapters",
+                           MaterialKind.ADAPTER)
+    transposases = graph.input("transposases", "Tn5 and HP1α–Tn5 transposases",
+                               MaterialKind.CATALYST)
+    tagged_products = graph.product("modality_tagged_fragments",
+                                    "accessible and H3K9me3 modality-coded fragments",
+                                    MaterialKind.MOLECULAR)
+    tagmentation_waste = graph.product("tagmentation_waste",
+                                       "non-library tagmentation products", MaterialKind.WASTE)
+    graph.react("dual_tagmentation",
+                "Tagment accessible DNA with Tn5 and H3K9me3-associated DNA with HP1α–Tn5",
+                StepKind.TAGMENTATION,
+                ((nuclei, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
+                 (transposases, InputRole.CATALYST)), (tagged_products, tagmentation_waste))
+    graph.discard(tagmentation_waste, "molecules without usable paired insertions do not amplify")
+    gel_bead = graph.input("gel_bead_oligo", "10x Chromium ATAC gel-bead oligo",
+                           MaterialKind.ADAPTER, inferred=True, source=proprietary)
+    cell_barcoded = graph.product("cell_barcoded_products",
+                                  "cell-barcoded linear scGET-seq products",
+                                  MaterialKind.MOLECULAR, state=PRE_PCR,
+                                  inferred=True, source=proprietary)
+    graph.react("droplet_barcoding",
+                "Linearly amplify and barcode both product classes in Chromium ATAC droplets",
+                StepKind.ADAPTER_ATTACHMENT,
+                ((tagged_products, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL)),
+                (cell_barcoded,), source=proprietary)
+    i5 = graph.input("si_p5_primer", "Chromium ATAC SI-PCR P5 primer", MaterialKind.OLIGO,
+                     inferred=True, source=proprietary)
+    i7 = graph.input("si_p7_primer", "Chromium ATAC indexed SI-PCR P7 primer",
+                     MaterialKind.OLIGO, inferred=True, source=proprietary)
+    polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY, inferred=True, source=proprietary)
+    graph.react("library_pcr", "PCR-complete the Chromium ATAC library", StepKind.PCR,
+                ((cell_barcoded, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL),
+                 (i7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    PRE_PCR, reason="The source follows the 10x scATAC kit but does not print complete SI-PCR primers."),
+                source=proprietary)
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS,
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        read_uses={"Read 1": "include", "Index 1 (i7)": "demultiplex",
+                   "Read 2": "include"}, limitation=SEQUENCING_UNAVAILABLE))
+    graph.declare_reviewed_scope((
+        "nuclei", "modality_adapters", "transposases", "dual_tagmentation",
+        "gel_bead_oligo", "droplet_barcoding", "si_p5_primer", "si_p7_primer",
+        "pcr_polymerase", "library_pcr", "library"), source)
+    return graph.require_publishable()

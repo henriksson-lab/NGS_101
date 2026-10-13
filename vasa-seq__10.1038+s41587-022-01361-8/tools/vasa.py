@@ -14,6 +14,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from illumina import P5, P7
 import nextera as nx
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 
 RA3 = "TGGAATTCTCGGGTGCCAAGG"
@@ -193,3 +196,125 @@ def read_layouts() -> tuple[tuple[str, str, str], ...]:
         ("VASA-drop", "Index 2 · 8 cycles", "i5"),
         ("VASA-drop", "Read 2 · 14 cycles", "barcode 2 (8) + UFI (6)"),
     )
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41587-022-01361-8"
+    unresolved = source + "; capture oligos and complete terminal PCR arms are not printed"
+    graph = ProtocolGraph("VASA-seq", authority=source)
+    rna = graph.input("total_rna", "cellular total RNA", MaterialKind.BIOLOGICAL,
+                      primary=True)
+    heat = graph.input("heat_condition", "heat-fragmentation condition",
+                       MaterialKind.CONDITION)
+    fragmented = graph.product("fragmented_rna", "heat-fragmented total RNA",
+                               MaterialKind.MOLECULAR)
+    graph.react("fragmentation", "Heat-fragment total RNA", StepKind.FRAGMENTATION,
+                ((rna, InputRole.TEMPLATE), (heat, InputRole.CONDITION)), (fragmented,))
+    repair = graph.input("repair_enzymes", "RNA end-repair enzymes", MaterialKind.CATALYST)
+    repaired = graph.product("repaired_rna", "end-repaired RNA fragments",
+                             MaterialKind.MOLECULAR)
+    graph.react("end_repair", "Repair fragmented RNA ends", StepKind.END_REPAIR,
+                ((fragmented, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    tailing = graph.input("poly_a_polymerase", "poly(A) polymerase", MaterialKind.CATALYST)
+    tailed = graph.product("polya_rna", repaired_fragment().name, MaterialKind.MOLECULAR,
+                           state=repaired_fragment())
+    graph.react("poly_a_tailing", "Add poly(A) to every repaired RNA fragment",
+                StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    plate_input = graph.product("plate_rna", "VASA-plate RNA aliquot", MaterialKind.MOLECULAR,
+                                state=repaired_fragment())
+    drop_input = graph.product("drop_rna", "VASA-drop RNA aliquot", MaterialKind.MOLECULAR,
+                               state=repaired_fragment())
+    graph.react("format_split", "Split into VASA-plate and VASA-drop formats", StepKind.SPLIT,
+                ((tailed, InputRole.TEMPLATE),), (plate_input, drop_input),
+                changes_molecule=False)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    ds_polymerase = graph.input("ds_polymerase", "second-strand DNA polymerase",
+                                MaterialKind.CATALYST)
+    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    rnase_h = graph.input("rnase_h", "thermostable RNase H rRNA-depletion reagent",
+                          MaterialKind.SELECTION)
+    ra3 = graph.input("ra3", "published 5′-rApp RA3 adapter", MaterialKind.ADAPTER)
+    ligase = graph.input("rna_ligase", "RNA adapter ligase", MaterialKind.CATALYST)
+    rtp = graph.input("rtp", "published RTP reverse-transcription primer", MaterialKind.OLIGO)
+    pcr_polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+                                 MaterialKind.CATALYST)
+    branch_data = (
+        ("plate", plate_input, plate_library(),
+         "VASA-plate capture oligo and PCR arms are cited but not printed.",
+         {"Read 1": 26, "Read 2": 135},
+         {"Read 1": "extract", "Read 2": "include"}),
+        ("drop", drop_input, drop_library(),
+         "The VASA-drop bead linker and complete sequencing-primer landing sites are not published.",
+         {"Read 1": 247, "Index 1 (i7)": 31, "Index 2 (i5)": 8, "Read 2": 14},
+         {"Read 1": "include", "Index 1 (i7)": "extract",
+          "Index 2 (i5)": "demultiplex", "Read 2": "extract"}),
+    )
+    reviewed = [
+        "total_rna", "heat_condition", "fragmentation", "repair_enzymes", "end_repair",
+        "poly_a_polymerase", "poly_a_tailing", "format_split", "reverse_transcriptase",
+        "ds_polymerase", "t7_polymerase", "rnase_h", "ra3", "rna_ligase", "rtp",
+        "pcr_polymerase"]
+    for fmt, branch_input, final, limitation, lengths, uses in branch_data:
+        capture = graph.input(f"{fmt}_capture_oligo", f"VASA-{fmt} capture oligo",
+                              MaterialKind.OLIGO, state=capture_primer(fmt), inferred=True,
+                              source=unresolved)
+        first = graph.product(f"{fmt}_first_strand", f"VASA-{fmt} barcoded first-strand cDNA",
+                              MaterialKind.MOLECULAR, inferred=True, source=unresolved)
+        graph.react(f"{fmt}_rt", f"Barcode and reverse-transcribe VASA-{fmt} RNA",
+                    StepKind.REVERSE_TRANSCRIPTION,
+                    ((branch_input, InputRole.TEMPLATE), (capture, InputRole.STRUCTURAL),
+                     (rt, InputRole.CATALYST)), (first,), source=unresolved)
+        ivt_template_state = ivt_template(fmt)
+        template = graph.product(f"{fmt}_ivt_template", ivt_template_state.name,
+                                 MaterialKind.MOLECULAR, state=ivt_template_state,
+                                 inferred=True, source=unresolved)
+        graph.react(f"{fmt}_second_strand", f"Make the VASA-{fmt} double-stranded IVT template",
+                    StepKind.EXTENSION,
+                    ((first, InputRole.TEMPLATE), (ds_polymerase, InputRole.CATALYST)),
+                    (template,), source=unresolved)
+        arna = graph.product(f"{fmt}_arna", f"VASA-{fmt} amplified RNA",
+                             MaterialKind.MOLECULAR)
+        graph.react(f"{fmt}_ivt", f"T7-amplify the VASA-{fmt} template",
+                    StepKind.TRANSCRIPTION,
+                    ((template, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (arna,))
+        depleted = graph.product(f"{fmt}_depleted", f"rRNA-depleted VASA-{fmt} aRNA",
+                                 MaterialKind.MOLECULAR)
+        rrna = graph.product(f"{fmt}_rrna_waste", f"removed VASA-{fmt} rRNA-derived aRNA",
+                             MaterialKind.WASTE)
+        graph.react(f"{fmt}_depletion", f"Deplete rRNA from VASA-{fmt} aRNA",
+                    StepKind.SELECTION,
+                    ((arna, InputRole.TEMPLATE), (rnase_h, InputRole.SELECTION)),
+                    (depleted, rrna))
+        graph.discard(rrna, "rRNA-derived amplified RNA is removed before library construction")
+        ligated = graph.product(f"{fmt}_ra3_ligated", f"RA3-ligated VASA-{fmt} aRNA",
+                                MaterialKind.MOLECULAR, state=ligated_arna())
+        graph.react(f"{fmt}_ra3_ligation", f"Ligate RA3 to VASA-{fmt} aRNA",
+                    StepKind.LIGATION,
+                    ((depleted, InputRole.TEMPLATE), (ra3, InputRole.STRUCTURAL),
+                     (ligase, InputRole.CATALYST)), (ligated,), geometry=ra3_ligation_geometry())
+        second = graph.product(f"{fmt}_second_cdna", f"RTP-primed VASA-{fmt} cDNA",
+                               MaterialKind.MOLECULAR)
+        graph.react(f"{fmt}_second_rt", f"Reverse-transcribe VASA-{fmt} aRNA from RTP",
+                    StepKind.REVERSE_TRANSCRIPTION,
+                    ((ligated, InputRole.TEMPLATE), (rtp, InputRole.STRUCTURAL),
+                     (rt, InputRole.CATALYST)), (second,))
+        primers = graph.input(f"{fmt}_pcr_primers", f"VASA-{fmt} terminal PCR-primer set",
+                              MaterialKind.OLIGO, inferred=True, source=unresolved)
+        library = graph.product(f"{fmt}_library", final.name, MaterialKind.LIBRARY,
+                                state=final, inferred=True, source=unresolved)
+        graph.react(f"{fmt}_pcr", f"PCR-complete the VASA-{fmt} library", StepKind.PCR,
+                    ((second, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
+                     (pcr_polymerase, InputRole.CATALYST)), (library,),
+                    geometry=PCRGeometry.unavailable(
+                        final, reason=limitation, symmetric_species=True), source=unresolved)
+        graph.sequence(library, SequencingPlan(
+            limitation=limitation, acquired_roles=tuple(lengths),
+            read_lengths=lengths, read_uses=uses))
+        reviewed.extend((
+            f"{fmt}_capture_oligo", f"{fmt}_rt", f"{fmt}_second_strand",
+            f"{fmt}_ivt", f"{fmt}_depletion", f"{fmt}_ra3_ligation",
+            f"{fmt}_second_rt", f"{fmt}_pcr_primers", f"{fmt}_pcr",
+            f"{fmt}_library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()

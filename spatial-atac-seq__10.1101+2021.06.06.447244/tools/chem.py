@@ -40,3 +40,10 @@ def workflow():
 
 def final_rows():
     return se.final_rows(FINAL_LIBRARY)
+
+
+def protocol_graph():
+    return se.protocol_graph(
+        "accessible genomic fragment", title="Spatial-ATAC-seq",
+        authority="Defining source: https://doi.org/10.1038/s41586-022-05094-1; exact oligos: https://doi.org/10.1038/s41596-024-01013-y",
+        antibody_targeted=False)

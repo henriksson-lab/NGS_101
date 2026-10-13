@@ -8,6 +8,11 @@ import nextera as nx
 from chemdraw import MolecularState, Scene, Segment, Workflow, annotation_rows, oligo
 from chromatin_epigenetics import tagmented_library
 from contact_capture import BivalentTransposaseLinker
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 BIO67F = "CTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
 BP67R = "CTGTCTCTTATACACATCTGACGCTGCCGACGAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
@@ -60,3 +65,85 @@ SEQUENCING_INTRO = "Paired reads enter the two genomic ends represented in the a
 def oligos():
     yield oligo("Bio67F", [Segment("bivalent top strand", BIO67F, "me")], mods="5′ phosphate; internal biotin-dT")
     yield oligo("67bpR", [Segment("bivalent bottom strand", BP67R, "me")], mods="5′ phosphate")
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    chromatin = graph.input(
+        "chromatin", "intact chromatin", MaterialKind.BIOLOGICAL,
+        state=molecule("intact chromatin", (role("spatially proximal accessible loci"),)),
+        primary=True)
+    linker = graph.input("bivalent_linker", "published biotinylated bivalent-ME linker",
+                         MaterialKind.ADAPTER, state=LINKER.bridged_product())
+    tn5 = graph.input("tetrameric_tn5", "tetrameric Tn5 transposase complex",
+                      MaterialKind.CATALYST)
+    bridged = graph.product("bridged_contacts", "bivalently tagmented chromatin contacts",
+                            MaterialKind.MOLECULAR, state=bridge_scene())
+    tn5_waste = graph.product("tn5_waste", "non-contact or non-amplifiable Tn5 products",
+                              MaterialKind.WASTE)
+    graph.react("bivalent_tagmentation", "Insert one bivalent linker across nearby loci",
+                StepKind.TAGMENTATION,
+                ((chromatin, InputRole.TEMPLATE), (linker, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (bridged, tn5_waste))
+    graph.discard(tn5_waste, "does not retain the bivalent trans contact configuration")
+    cutter = graph.input("four_base_cutter", "protocol four-base restriction endonuclease",
+                         MaterialKind.CATALYST)
+    digested = graph.product("digested_contacts", "restriction-trimmed bivalent contact products",
+                             MaterialKind.MOLECULAR, state=bridged.state)
+    graph.react("digest", "Digest genomic arms with a four-base cutter",
+                StepKind.DIGESTION,
+                ((bridged, InputRole.TEMPLATE), (cutter, InputRole.CATALYST)),
+                (digested,))
+    streptavidin = graph.input("streptavidin", "streptavidin capture beads",
+                               MaterialKind.SELECTION)
+    captured = graph.product("captured_contacts", "biotinylated bivalent contact products",
+                             MaterialKind.MOLECULAR, state=digested.state)
+    unbound = graph.product("unbound_fragments", "non-biotinylated restriction fragments",
+                            MaterialKind.WASTE)
+    graph.react("capture", "Capture the biotinylated bivalent products",
+                StepKind.AFFINITY_CAPTURE,
+                ((digested, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
+                (captured, unbound))
+    graph.discard(unbound, "does not retain the biotinylated bivalent linker")
+    t7_ligase = graph.input("t7_ligase", "T7 DNA ligase", MaterialKind.CATALYST)
+    circles = graph.product(
+        "contact_circles", "intramolecularly circularized TrAC contact molecules",
+        MaterialKind.MOLECULAR,
+        state=molecule("TrAC contact circle", (
+            role("locus A"), role("bivalent linker"), role("locus B"))))
+    graph.react("circularize", "Intramolecularly circularize captured products",
+                StepKind.CIRCULARIZATION,
+                ((captured, InputRole.TEMPLATE), (t7_ligase, InputRole.CATALYST)),
+                (circles,), geometry=CircularizationGeometry.known(
+                    "double-strand intramolecular ligation",
+                    statement="The defining protocol dilute-ligates captured contact molecules with T7 DNA ligase."))
+    phi29 = graph.input("phi29", "TempliPhi phi29 DNA polymerase",
+                        MaterialKind.CATALYST)
+    rca = graph.product("rca_product", "rolling-circle-amplified TrAC contact DNA",
+                        MaterialKind.MOLECULAR, state=circles.state)
+    graph.react("rca", "Rolling-circle amplify the contact circles", StepKind.EXTENSION,
+                ((circles, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)), (rca,))
+    n501 = graph.input("n501", "published N501 indexed PCR primer",
+                       MaterialKind.OLIGO)
+    n701 = graph.input("n701", "published N701 indexed PCR primer",
+                       MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "indexed-library PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", FINAL_LIBRARY.name,
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    graph.react("indexed_pcr", "Amplify the RCA product with N501 and N701",
+                StepKind.PCR,
+                ((rca, InputRole.TEMPLATE), (n501, InputRole.STRUCTURAL),
+                 (n701, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,
+                    reason="The paper establishes the indexed Nextera components, but the variable RCA traversal is not represented as one exact pre-PCR construct."))
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "chromatin", "bivalent_linker", "tetrameric_tn5", "bivalent_tagmentation",
+        "four_base_cutter", "digest", "streptavidin", "capture", "t7_ligase",
+        "circularize", "phi29", "rca", "n501", "n701", "pcr_polymerase",
+        "indexed_pcr", "sequencing_library"), SOURCE)
+    return graph.require_publishable()

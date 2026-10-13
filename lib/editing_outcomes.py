@@ -7,8 +7,13 @@ import illumina as il
 import nebnext as nb
 import nextera as nx
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from batch_ngs import truseq_library
 from chemdraw import Construct, Segment, feature
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, closed_circle, da_tailed, molecule, role
 
 
@@ -238,10 +243,315 @@ def discover_oligos():
     )
 
 
+def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " forward primer", MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " reverse primer", MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                            MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", label + " PCR", StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="Primer identities are represented in the final construct; the intermediate template is not an exact Construct."))
+    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers),
+                                           limitation=""))
+    reviewed.extend((forward.id, reverse.id, polymerase.id, prefix + "_pcr",
+                     prefix + "_library"))
+    return library
+
+
+def _uditas_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    dna = graph.input("dna", "edited genomic DNA", MaterialKind.BIOLOGICAL,
+                      state=molecule("edited genomic DNA", (role("edited target locus"),)),
+                      primary=True)
+    adapter = graph.input("tn5_adapter", "custom UMI/index-bearing Tn5 adapter",
+                          MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "asymmetrically tagmented genomic DNA",
+                           MaterialKind.MOLECULAR, state=dna.state)
+    waste = graph.product("tn5_waste", "Tn5 off-products and unusable fragments",
+                          MaterialKind.WASTE)
+    graph.react("tagment", "Tagment with the custom UMi/index-bearing adapter",
+                StepKind.TAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, waste))
+    graph.discard(waste, "does not form a locus-anchored sequencing molecule")
+    anchor = graph.input("anchor_primer", "locus-specific anchor primer", MaterialKind.OLIGO)
+    p5 = graph.input("p5_primer", "P5-side amplification primer", MaterialKind.OLIGO)
+    polymerase = graph.input("round1_polymerase", "round-1 PCR polymerase",
+                            MaterialKind.CATALYST)
+    selected = graph.product("selected", "target-anchored UDiTaS amplicon",
+                             MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("anchor_pcr", "Amplify from the random Tn5 end to the target anchor",
+                StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (anchor, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (selected,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="The target-specific intermediate is not represented as an exact Construct."))
+    reviewed = ["dna", "tn5_adapter", "tn5", "tagment", "anchor_primer",
+                "p5_primer", "round1_polymerase", "anchor_pcr"]
+    _finish_pcr(graph, "index", selected, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="UDiTaS indexing")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _pem_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    dna = graph.input("dna", "repaired genomic DNA from edited cells",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("repaired genomic DNA", (role("bait locus and repair junction"),)),
+                      primary=True)
+    shear = graph.input("shear_condition", "sonication condition", MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "300–700-bp repair products",
+                              MaterialKind.MOLECULAR, state=dna.state)
+    graph.react("sonicate", "Sonicate repaired genomic DNA", StepKind.FRAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    bait = graph.input("bait_primer", "5-prime-biotinylated bait primer", MaterialKind.OLIGO)
+    extension_enzyme = graph.input("extension_enzyme", "single-extension polymerase",
+                                   MaterialKind.CATALYST)
+    extended = graph.product("extended", "single-copy biotinylated extension strands",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    graph.react("extend", "Perform one extension from the biotinylated bait primer",
+                StepKind.EXTENSION,
+                ((fragments, InputRole.TEMPLATE), (bait, InputRole.STRUCTURAL),
+                 (extension_enzyme, InputRole.CATALYST)), (extended,))
+    beads = graph.input("streptavidin", "streptavidin beads", MaterialKind.SELECTION)
+    captured = graph.product("captured", "bead-bound bait extensions",
+                             MaterialKind.MOLECULAR, state=extended.state)
+    rejected = graph.product("uncaptured", "uncaptured extension material", MaterialKind.WASTE)
+    graph.react("capture", "Capture biotinylated extension strands", StepKind.AFFINITY_CAPTURE,
+                ((extended, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "lacks a captured biotinylated bait extension")
+    bridge = graph.input("bridge_adapter", "blocked random-molecular-barcode bridge adapter",
+                         MaterialKind.ADAPTER)
+    ligase = graph.input("bridge_ligase", "single-strand bridge ligase",
+                         MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "RMB-tagged captured strands",
+                           MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("ligate_bridge", "Ligate the bridge adapter to the free 3-prime end",
+                StepKind.LIGATION,
+                ((captured, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (tagged,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The source gives the bridge oligos and blocking groups, but this graph does not yet reconstruct the on-bead single-strand ligation substrate as a Scene."))
+    nested_f = graph.input("nested_forward", "nested bait-side PCR primer", MaterialKind.OLIGO)
+    nested_r = graph.input("nested_reverse", "bridge-side indexed PCR primer", MaterialKind.OLIGO)
+    nested_polymerase = graph.input("nested_polymerase", "nested-PCR polymerase",
+                                    MaterialKind.CATALYST)
+    nested = graph.product("nested", "nested target-enriched PEM-seq amplicons",
+                           MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("nested_pcr", "Nested-PCR the bait and bridge ends", StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (nested_f, InputRole.STRUCTURAL),
+                 (nested_r, InputRole.STRUCTURAL),
+                 (nested_polymerase, InputRole.CATALYST)), (nested,),
+                geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="Nested amplification precedes the exact final tagging-PCR construct."))
+    reviewed = ["dna", "shear_condition", "sonicate", "bait_primer", "extension_enzyme",
+                "extend", "streptavidin", "capture", "bridge_adapter", "bridge_ligase",
+                "ligate_bridge", "nested_forward", "nested_reverse", "nested_polymerase",
+                "nested_pcr"]
+    _finish_pcr(graph, "tagging", nested, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="PEM-seq tagging")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _change_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    dna = graph.input("dna", "purified high-molecular-weight genomic DNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("purified HMW genomic DNA", (role("genomic DNA"),)),
+                      primary=True)
+    adapter = graph.input("tn5_adapter", "custom dU-bearing Tn5 transposon",
+                          MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "custom-end tagmented genomic fragments",
+                           MaterialKind.MOLECULAR, state=dna.state)
+    tn5_waste = graph.product("tn5_waste", "Tn5 off-products and unusable fragments",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Tagment with the custom dU-bearing transposome",
+                StepKind.TAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not yield a recoverable custom-end genomic circle")
+    repair = graph.input("repair_mix", "gap-repair polymerase/ligase mix", MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "fully duplex custom-end fragments",
+                             MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("gap_repair", "Fill and seal the staggered transposition products",
+                StepKind.END_REPAIR,
+                ((tagged, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    user = graph.input("user_enzyme", "USER enzyme", MaterialKind.CATALYST)
+    opened = graph.product("opened", "USER-opened cohesive-end fragments",
+                           MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("open_du", "Open the internal dU sites", StepKind.DIGESTION,
+                ((repaired, InputRole.TEMPLATE), (user, InputRole.CATALYST)), (opened,))
+    pnk = graph.input("pnk", "T4 polynucleotide kinase", MaterialKind.CATALYST)
+    phosphorylated = graph.product("phosphorylated", "phosphorylated cohesive-end fragments",
+                                   MaterialKind.MOLECULAR, state=opened.state)
+    graph.react("phosphorylate", "Phosphorylate the opened ligation ends",
+                StepKind.PHOSPHORYLATION,
+                ((opened, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (phosphorylated,))
+    circle_ligase = graph.input("circle_ligase", "circle-closing DNA ligase",
+                               MaterialKind.CATALYST)
+    circles = graph.product("circles", "covalently closed genomic circles",
+                            MaterialKind.MOLECULAR, state=phosphorylated.state)
+    graph.react("circularize", "Circularize by dilute intramolecular ligation",
+                StepKind.CIRCULARIZATION,
+                ((phosphorylated, InputRole.TEMPLATE),
+                 (circle_ligase, InputRole.CATALYST)), (circles,),
+                geometry=CircularizationGeometry.known(
+                    "double-strand intramolecular ligation",
+                    statement="CIRCLE-seq dilute-ligates phosphorylated genomic fragments into covalently closed circles."))
+    exonuclease = graph.input("exonuclease", "linear-DNA exonuclease mixture",
+                              MaterialKind.CATALYST)
+    purified = graph.product("purified_circles", "exonuclease-purified genomic circles",
+                             MaterialKind.MOLECULAR, state=circles.state)
+    graph.react("remove_linear", "Digest molecules that retain free ends",
+                StepKind.DIGESTION,
+                ((circles, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
+                (purified,))
+    sgrna = graph.input("sgrna", "programmed sgRNA", MaterialKind.OLIGO)
+    cas9 = graph.input("cas9", "Cas9 nuclease", MaterialKind.CATALYST)
+    linear = graph.product("linear", "Cas9-linearized target-containing circles",
+                           MaterialKind.MOLECULAR, state=purified.state)
+    graph.react("cas9_cut", "Reopen target-containing circles with Cas9–sgRNA",
+                StepKind.GENOME_EDITING,
+                ((purified, InputRole.TEMPLATE), (sgrna, InputRole.STRUCTURAL),
+                 (cas9, InputRole.CATALYST)), (linear,))
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "dA-tailed Cas9-linearized products",
+                           MaterialKind.MOLECULAR, state=linear.state)
+    graph.react("tail", "Add one 3-prime dA to Cas9-cleaved ends", StepKind.TAILING,
+                ((linear, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    hairpin = graph.input("nebnext_adapter", "NEBNext hairpin adapter", MaterialKind.ADAPTER)
+    ligase = graph.input("adapter_ligase", "NEBNext adapter ligase", MaterialKind.CATALYST)
+    ligated = graph.product("ligated", "hairpin-adapter-ligated cleavage products",
+                            MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("ligate_adapter", "Ligate the NEBNext hairpin adapter", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (hairpin, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,),
+                geometry=reported_adapter_end(
+                    "NEBNext hairpin adapter", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="The NEBNext hairpin adapter presents the T end used with dA-tailed Cas9 products."))
+    opener = graph.input("hairpin_user", "USER enzyme for the hairpin adapter",
+                         MaterialKind.CATALYST)
+    addressable = graph.product("addressable", "USER-opened PCR-addressable molecules",
+                                MaterialKind.MOLECULAR, state=ligated.state)
+    graph.react("open_hairpin", "Open adapter hairpins with USER", StepKind.DIGESTION,
+                ((ligated, InputRole.TEMPLATE), (opener, InputRole.CATALYST)),
+                (addressable,))
+    reviewed = ["dna", "tn5_adapter", "tn5", "tagment", "repair_mix", "gap_repair",
+                "user_enzyme", "open_du", "pnk", "phosphorylate", "circle_ligase",
+                "circularize", "exonuclease", "remove_linear", "sgrna", "cas9",
+                "cas9_cut", "tailing_enzyme", "tail", "nebnext_adapter",
+                "adapter_ligase", "ligate_adapter", "hairpin_user", "open_hairpin"]
+    _finish_pcr(graph, "index", addressable, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="CHANGE-seq dual-index")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _discover_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    chromatin = graph.input("chromatin", "edited cells or tissue with nuclease-created breaks",
+                            MaterialKind.BIOLOGICAL,
+                            state=molecule("edited chromatin", (role("chromosomal nuclease cuts"),)),
+                            primary=True)
+    mre11 = graph.input("mre11_antibody", "MRE11-binding antibody probe",
+                        MaterialKind.SELECTION)
+    bound = graph.product("mre11_bound", "MRE11-bound break chromatin",
+                          MaterialKind.MOLECULAR, state=chromatin.state)
+    unbound = graph.product("mre11_unbound", "chromatin without captured MRE11-bound ends",
+                            MaterialKind.WASTE)
+    graph.react("bind_mre11", "Recognize MRE11 at newly made DNA breaks", StepKind.BINDING,
+                ((chromatin, InputRole.TEMPLATE), (mre11, InputRole.SELECTION)),
+                (bound, unbound), changes_molecule=False)
+    graph.discard(unbound, "does not carry the MRE11-bound break-end signal")
+    formaldehyde = graph.input("formaldehyde", "formaldehyde cross-linking condition",
+                               MaterialKind.CONDITION)
+    fixed = graph.product("fixed", "cross-linked MRE11–break chromatin",
+                          MaterialKind.MOLECULAR, state=bound.state)
+    graph.react("crosslink", "Cross-link MRE11–DNA complexes", StepKind.CROSS_LINKING,
+                ((bound, InputRole.TEMPLATE), (formaldehyde, InputRole.CONDITION)), (fixed,))
+    shear = graph.input("sonication", "chromatin sonication condition", MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "150–500-bp cross-linked chromatin fragments",
+                              MaterialKind.MOLECULAR, state=fixed.state)
+    graph.react("sonicate", "Sonicate fixed chromatin", StepKind.FRAGMENTATION,
+                ((fixed, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    beads = graph.input("protein_a_beads", "Protein A magnetic beads", MaterialKind.SELECTION)
+    captured = graph.product("captured", "MRE11-enriched chromatin fragments",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    rejected = graph.product("chip_flowthrough", "MRE11-depleted ChIP flow-through",
+                             MaterialKind.WASTE)
+    graph.react("chip", "Immunoprecipitate MRE11-bound chromatin", StepKind.AFFINITY_CAPTURE,
+                ((fragments, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "is not retained by MRE11 immunoprecipitation")
+    reversal = graph.input("crosslink_reversal", "cross-link reversal and protein-removal condition",
+                           MaterialKind.CONDITION)
+    dna = graph.product("chip_dna", "purified break-adjacent ChIP DNA",
+                        MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("purify_dna", "Reverse cross-links and remove protein",
+                StepKind.DEPROTEINIZATION,
+                ((captured, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)), (dna,))
+    repair = graph.input("repair_enzyme", "TruSeq ChIP end-repair enzyme mix",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "end-repaired ChIP fragments",
+                             MaterialKind.MOLECULAR, state=dna.state)
+    graph.react("repair", "End-repair ChIP DNA", StepKind.END_REPAIR,
+                ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "dA-tailed ChIP fragments",
+                           MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("tail", "Add one 3-prime dA", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    adapter = graph.input("truseq_adapter", "six-base indexed TruSeq ChIP adapter",
+                          MaterialKind.ADAPTER)
+    ligase = graph.input("adapter_ligase", "TruSeq adapter ligase", MaterialKind.CATALYST)
+    ligated = graph.product("ligated", "adapter-ligated ChIP fragments",
+                            MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("ligate", "Ligate the indexed TruSeq ChIP adapter", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,),
+                geometry=reported_adapter_end(
+                    "TruSeq ChIP adapter", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="The named TruSeq ChIP workflow ligates its indexed adapter to dA-tailed fragments."))
+    reviewed = ["chromatin", "mre11_antibody", "bind_mre11", "formaldehyde", "crosslink",
+                "sonication", "sonicate", "protein_a_beads", "chip", "crosslink_reversal",
+                "purify_dna", "repair_enzyme", "repair", "tailing_enzyme", "tail",
+                "truseq_adapter", "adapter_ligase", "ligate"]
+    _finish_pcr(graph, "library", ligated, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="DISCOVER-Seq library")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _attach_graph(key, spec):
+    builders = {"uditas": _uditas_graph, "pem-seq": _pem_graph,
+                "change-seq": _change_graph, "discover-seq": _discover_graph}
+    spec.protocol_graph = lambda: builders[key](spec)
+    return spec
+
+
+def _spec(key, **fields):
+    return _attach_graph(key, SimpleNamespace(**fields))
+
+
 def get(key="uditas"):
     if key == "discover-seq":
         lib, primers = discover_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="DISCOVER-Seq — MRE11 ChIP-seq at CRISPR cleavage sites",
             NOTES="01_discover_seq.html",
             SOURCE='<a href="https://doi.org/10.1126/science.aav9023">Wienert et al., Science (2019)</a>; stepwise implementation from the authors’ <a href="https://doi.org/10.1038/s41596-020-0309-5">Nature Protocols procedure</a> and the named TruSeq ChIP kit guide.',
@@ -255,7 +565,7 @@ def get(key="uditas"):
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
     if key == "change-seq":
         lib, primers = change_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="CHANGE-seq — circularization for high-throughput analysis of nuclease genome-wide effects",
             NOTES="01_change_seq.html",
             SOURCE='<a href="https://doi.org/10.1038/s41587-020-0555-7">Lazzarotto et al., Nature Biotechnology (2020)</a>; exact reaction order and custom transposon from the paper’s Supplementary Protocol.',
@@ -269,7 +579,7 @@ def get(key="uditas"):
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
     if key == "pem-seq":
         lib, primers = pem_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="PEM-seq — primer-extension-mediated sequencing", NOTES="01_pem_seq.html",
             SOURCE='<a href="https://doi.org/10.1038/s41421-019-0088-8">Yin et al., Cell Discovery (2019)</a>; exact universal oligos cross-checked against the authors’ detailed <a href="https://doi.org/10.1016/j.xpro.2021.101088">STAR Protocols procedure</a>.',
             SUMMARY="A single biotinylated extension from one side of a bait DSB captures individual repair products; an on-bead bridge adapter assigns a 14-random-base molecular barcode before nested and indexing PCR.", CAVEAT="",
@@ -282,7 +592,7 @@ def get(key="uditas"):
     if key != "uditas":
         raise KeyError(key)
     lib, primers = uditas_library()
-    return SimpleNamespace(
+    return _spec(key,
         TITLE="UDiTaS — Uni-Directional Targeted Sequencing", NOTES="01_uditas.html",
         SOURCE='<a href="https://doi.org/10.1186/s12864-018-4561-9">Giannoukos et al., BMC Genomics (2018)</a>.',
         SUMMARY="A single custom Tn5 adapter gives every genomic fragment a random endpoint, a 10-nt UMI and an i5 pooling index; locus-specific PCR then captures indels, deletions, inversions and translocation junctions from one anchor.", CAVEAT="",

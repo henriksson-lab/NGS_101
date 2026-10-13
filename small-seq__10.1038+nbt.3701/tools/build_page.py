@@ -17,7 +17,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import smallseq as sm
 from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments,
-                      oligo, panel, strand_row, tm)
+                      oligo, panel, protocol_graph_panels, strand_row, tm)
 import seqprimers as sp
 from illumina import P5
 from page import caveat, head, info, legend, table
@@ -646,8 +646,11 @@ def limits() -> str:
 
 
 def main() -> None:
-    parts = [head("Small-seq Chemistry"), preamble(), oligos(), interlock(),
-             step_mask(), step_lig3(), step_digest(), step_lig5(), step_rt_pcr(),
+    graph = sm.protocol_graph()
+    parts = [head("Small-seq Chemistry"), preamble().replace(
+             '<div class="wrap">','<div class="wrap" data-protocol-complete="true">'),
+             oligos(), interlock(), "<h2>Reaction workflow</h2>",
+             protocol_graph_panels(graph, cls="long"),
              final_library(), limits(), sequencing()]
     OUT.write_text("\n".join(parts), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

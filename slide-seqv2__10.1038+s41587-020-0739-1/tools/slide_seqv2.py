@@ -6,6 +6,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg, truseq_library
 from chemdraw import Row, feature
 from multimodal_spatial import surface_capture_rows
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE="Slide-seqV2"
 NOTES="01_slide-seqv2.html"
@@ -40,3 +43,80 @@ def sections():
           Row(chunks=[("→ second-strand synthesis → PCR → Nextera tagmentation", "me", False)])],
          "Slide-seqV2 adds bead-bound second-strand synthesis after RT, then amplifies and converts cDNA to an Illumina library."),
     ]
+
+
+def protocol_graph():
+    final,primers=LIB,PRIMERS
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("tissue_rna","polyadenylated tissue RNA",MaterialKind.MOLECULAR,
+                    primary=True)
+    bead=graph.input("bead_oligo","decoded bead barcode-UMI-oligo-dT capture oligo",
+                     MaterialKind.OLIGO)
+    captured=graph.product("captured","bead-captured tissue mRNA",MaterialKind.MOLECULAR)
+    graph.react("capture","Hybridize tissue mRNA to spatially decoded bead oligo-dT",
+                StepKind.HYBRIDIZATION,
+                ((rna,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL)),(captured,))
+    rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","bead-barcode- and UMI-bearing first-strand cDNA",
+                       MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Copy bead-captured tissue RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    tso=graph.input("tso","Slide-seqV2 template-switch oligo",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
+    switched=graph.product("switched","template-switched spatial cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("template_switch","Install the distal cDNA handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((cdna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(switched,))
+    second_primer=graph.input("second_primer","bead-bound second-strand primer",
+                              MaterialKind.OLIGO,inferred=True,
+                              source=SOURCE+" (compact page does not transcribe bases)")
+    second_pol=graph.input("second_polymerase","second-strand polymerase",
+                           MaterialKind.CATALYST)
+    duplex=graph.product("duplex","double-stranded spatial cDNA",MaterialKind.MOLECULAR)
+    graph.react("second_strand","Synthesize the bead-bound second strand",
+                StepKind.EXTENSION,
+                ((switched,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                 (second_pol,InputRole.CATALYST)),(duplex,))
+    fwd=graph.input("preamp_forward","spatial cDNA PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
+    rev=graph.input("preamp_reverse","spatial cDNA PCR reverse primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
+    preamp_pol=graph.input("preamp_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
+    amplified=graph.product("amplified","amplified spatial cDNA",MaterialKind.MOLECULAR)
+    graph.react("preamp","Amplify spatial cDNA",StepKind.PCR,
+                ((duplex,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    final,reason="The compact page preserves barcode roles but does not transcribe the preamplification primers."))
+    transposome=graph.input("transposome","Nextera loaded transposomes",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged","tagmented spatial cDNA",MaterialKind.MOLECULAR)
+    waste=graph.product("tagment_waste","non-amplifiable tagmentation products",
+                        MaterialKind.WASTE)
+    graph.react("tagment","Tagment amplified spatial cDNA",StepKind.TAGMENTATION,
+                ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,waste))
+    graph.discard(waste,"non-amplifiable Tn5 outcomes are not sequenced")
+    i5=graph.input("i5_primer","Nextera i5 indexing primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","Nextera i7 indexing primer",MaterialKind.OLIGO)
+    index_pol=graph.input("index_polymerase","index PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("index_pcr","Complete the Illumina library",StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    final,reason="The final sites are exact but index identities vary."))
+    graph.sequence(library,SequencingPlan(library=final,primers=tuple(primers)))
+    graph.declare_reviewed_scope((
+        "tissue_rna","bead_oligo","capture","reverse_transcriptase",
+        "reverse_transcribe","tso","template_switch","second_primer",
+        "second_polymerase","second_strand","preamp_forward","preamp_reverse",
+        "preamp_polymerase","preamp","transposome","tn5","tagment",
+        "i5_primer","i7_primer","index_polymerase","index_pcr","library"),SOURCE)
+    return graph.require_publishable()

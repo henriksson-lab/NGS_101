@@ -13,6 +13,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Scene, Segment, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def inferred(name: str, token: str, tag: str | None = None, **kw) -> Segment:
@@ -79,3 +81,100 @@ def read_boundaries() -> tuple[tuple[str, str], ...]:
         ("Read 1", "supplied custom Sequencing Primer SP; molecular start undisclosed"),
         ("Index 1", "the selected N7xx adapter index"),
     )
+
+
+def protocol_graph() -> ProtocolGraph:
+    source=("Illumina SureCell WTA 3' Library Prep Reference Guide, "
+            "document 1000000021452 v01 (June 2017)")
+    graph=ProtocolGraph("SureCell WTA 3' for ddSEQ",authority=source)
+    cells=graph.input("cells","single-cell suspension",MaterialKind.BIOLOGICAL,primary=True)
+    beads=graph.input("barcode_beads","3-prime Barcode Mix beads",MaterialKind.ADAPTER,
+                      state=bead_primer(),inferred=True,
+                      source=source+" (oligo sequences proprietary)")
+    droplets=graph.input("droplet_device","ddSEQ droplet generator",MaterialKind.CONDITION)
+    captured=graph.product("captured_rna","droplet-confined bead-captured poly(A) RNA",
+                           MaterialKind.MOLECULAR,inferred=True,
+                           source=source+" (barcode anatomy proprietary)")
+    empty=graph.product("empty_droplets","unproductive cell/bead loading outcomes",
+                        MaterialKind.WASTE)
+    graph.react("partition","Co-encapsulate cells, RT mix and barcode beads",
+                StepKind.PARTITION,
+                ((cells,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (droplets,InputRole.CONDITION)),(captured,empty))
+    graph.discard(empty,"droplets without a productive cell-bead pairing do not yield library")
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    first=graph.product("first_strand",first_strand().name,MaterialKind.MOLECULAR,
+                        state=first_strand(),inferred=True,
+                        source=source+" (barcode anatomy proprietary)")
+    graph.react("reverse_transcribe","Reverse-transcribe bead-captured RNA in droplets",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    purification=graph.input("purification_beads","cDNA purification beads",
+                             MaterialKind.SELECTION)
+    cleaned=graph.product("cleaned_first_strand","purified bead-barcoded first-strand cDNA",
+                          MaterialKind.MOLECULAR,state=first_strand(),inferred=True,
+                          source=source+" (barcode anatomy proprietary)")
+    free_reagent=graph.product("free_barcode_reagent","unbound barcode reagent",
+                               MaterialKind.WASTE)
+    graph.react("cleanup","Break droplets and remove unbound barcode reagent",
+                StepKind.CLEANUP,
+                ((first,InputRole.TEMPLATE),(purification,InputRole.SELECTION)),
+                (cleaned,free_reagent))
+    graph.discard(free_reagent,"free barcode reagent is removed before second-strand synthesis")
+    rna_removal=graph.input("rna_removal","RNA-removal condition",MaterialKind.CONDITION)
+    stripped=graph.product("stripped_first_strand","RNA-free first-strand cDNA",
+                           MaterialKind.MOLECULAR,state=first_strand(),inferred=True,
+                           source=source+" (barcode anatomy proprietary)")
+    rna_waste=graph.product("rna_waste","removed RNA template",MaterialKind.WASTE)
+    graph.react("remove_rna","Remove the RNA template",StepKind.STRAND_SEPARATION,
+                ((cleaned,InputRole.TEMPLATE),(rna_removal,InputRole.CONDITION)),
+                (stripped,rna_waste))
+    graph.discard(rna_waste,"RNA is removed before replacement-strand synthesis")
+    second_primer=graph.input("second_strand_primer","proprietary second-strand reagent",
+                              MaterialKind.OLIGO,inferred=True,
+                              source=source+" (sequence proprietary)")
+    second_pol=graph.input("second_strand_polymerase","second-strand polymerase",
+                           MaterialKind.CATALYST)
+    duplex=graph.product("double_stranded_cdna","replacement-strand SureCell cDNA",
+                         MaterialKind.MOLECULAR,state=first_strand(),inferred=True,
+                         source=source+" (second-strand sequence proprietary)")
+    graph.react("second_strand","Synthesize the replacement cDNA strand",StepKind.EXTENSION,
+                ((stripped,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                 (second_pol,InputRole.CATALYST)),(duplex,))
+    transposome=graph.input("transposome","Nextera SureCell transposome",MaterialKind.ADAPTER,
+                            inferred=True,source=source+" (adapter load proprietary)")
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_cdna","tagmented SureCell cDNA",MaterialKind.MOLECULAR,
+                         inferred=True,source=source+" (adapter sequence proprietary)")
+    waste=graph.product("tagment_waste","fragments lacking the bead-derived end",
+                        MaterialKind.WASTE)
+    graph.react("tagment","Tagment double-stranded cDNA",StepKind.TAGMENTATION,
+                ((duplex,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,waste))
+    graph.discard(waste,"fragments lacking the selected bead end are not amplified")
+    tpp1=graph.input("tpp1","proprietary TPP1 primer",MaterialKind.OLIGO,inferred=True,
+                     source=source+" (sequence proprietary)")
+    n7=graph.input("n7xx","indexed N7xx primer",MaterialKind.OLIGO,inferred=True,
+                   source=source+" (sequence proprietary)")
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=selected_fragment()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
+                          inferred=True,source=source+" (all adapter sequences proprietary)")
+    graph.react("library_pcr","Select bead-end fragments with TPP1 and N7xx",
+                StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(tpp1,InputRole.STRUCTURAL),
+                 (n7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    final,reason="The vendor names TPP1 and N7xx but does not publish their sequences or binding sites."))
+    graph.sequence(library,SequencingPlan(
+        acquired_roles=("Read 1","Index 1 (i7)","Read 2"),
+        read_uses={"Read 1":"extract_then_include","Index 1 (i7)":"demultiplex",
+                   "Read 2":"include"},
+        limitation="The vendor requires custom Sequencing Primer SP but publishes neither its sequence nor run lengths."))
+    graph.declare_reviewed_scope((
+        "cells","barcode_beads","droplet_device","partition","reverse_transcriptase",
+        "reverse_transcribe","purification_beads","cleanup","rna_removal","remove_rna",
+        "second_strand_primer","second_strand_polymerase","second_strand","transposome",
+        "tn5","tagment","tpp1","n7xx","pcr_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

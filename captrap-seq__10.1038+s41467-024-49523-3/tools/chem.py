@@ -2,6 +2,9 @@
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Row, Segment, Workflow
 from protocol_extensions import capped_full_length_cdna
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 TITLE="CapTrap-seq — cap- and poly(A)-selected full-length cDNA"
 NOTES="01_captrap-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-024-49523-3">Glinos et al., <i>Nature Communications</i> (2024)</a>.'
@@ -22,3 +25,69 @@ def workflow():
     g=AdapterLigationGeometry.unavailable("The defining CapTrap-seq paper names the Oxford Nanopore ligation kit but does not disclose the motor-adapter end sequence or overhang geometry.")
     w.ligate_adapter("Attach the ONT ligation adapter",g,s[3][1],note=s[3][2])
     return w
+
+def protocol_graph():
+    source="Defining source: https://doi.org/10.1038/s41467-024-49523-3"
+    ont_source=source+" (ONT motor-adapter bases are proprietary)"
+    graph=ProtocolGraph("CapTrap-seq",authority=source)
+    rna=graph.input("rna","capped polyadenylated RNA",MaterialKind.BIOLOGICAL,primary=True)
+    oligo_dt=graph.input("anchored_oligo_dt","anchored oligo(dT) primer",MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    hybrid=graph.product("rna_cdna_hybrid","full-length RNA–cDNA hybrids",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcription","Prime at poly(A) and synthesize first-strand cDNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna,InputRole.TEMPLATE),(oligo_dt,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(hybrid,))
+    cap_reagent=graph.input("cap_biotinylation","cap-biotinylation reagent",
+                            MaterialKind.CONDITION)
+    biotinylated=graph.product("biotinylated_hybrids","biotinylated capped RNA–cDNA hybrids",
+                               MaterialKind.MOLECULAR)
+    graph.react("cap_biotinylation_step","Biotinylate the native RNA cap",
+                StepKind.CHEMICAL_CONVERSION,
+                ((hybrid,InputRole.TEMPLATE),(cap_reagent,InputRole.CONDITION)),(biotinylated,))
+    beads=graph.input("streptavidin","streptavidin capture beads",MaterialKind.SELECTION)
+    captured=graph.product("captured_hybrids","cap-retained full-length hybrids",
+                            MaterialKind.MOLECULAR)
+    truncated=graph.product("truncated_cdna","uncapped or truncated cDNA",MaterialKind.WASTE)
+    graph.react("cap_capture","Capture cap-connected RNA–cDNA hybrids",
+                StepKind.AFFINITY_CAPTURE,
+                ((biotinylated,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+                (captured,truncated))
+    graph.discard(truncated,"cDNA that did not reach a native cap is removed")
+    linkers=graph.input("end_linkers","5′- and 3′-end-dependent CapTrap linkers",
+                        MaterialKind.ADAPTER)
+    ligase=graph.input("ligase","linker and platform-adapter ligase",MaterialKind.CATALYST)
+    linked=graph.product("doubly_linked_cdna","doubly linked full-length cDNA",
+                         MaterialKind.MOLECULAR,state=capped_full_length_cdna())
+    graph.react("linker_ligation","Release cDNA and ligate both end-dependent linkers",
+                StepKind.LIGATION,
+                ((captured,InputRole.TEMPLATE),(linkers,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(linked,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "Strand-resolved linker termini have not been verified from the supplementary source."))
+    primers=graph.input("la_pcr_primers","long-amplicon PCR-primer pair",MaterialKind.OLIGO)
+    polymerase=graph.input("la_polymerase","long-amplicon PCR polymerase",MaterialKind.CATALYST)
+    enriched=graph.product("enriched_cdna","LA-PCR-enriched doubly linked cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("la_pcr","Enrich molecules carrying both end linkers",StepKind.PCR,
+                ((linked,InputRole.TEMPLATE),(primers,InputRole.STRUCTURAL),
+                 (polymerase,InputRole.CATALYST)),(enriched,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The source establishes double-linker selection but the page does not model exact LA-PCR landing objects.",symmetric_species=True))
+    ont_adapter=graph.input("ont_adapter","motor-loaded ONT ligation adapter",
+                            MaterialKind.ADAPTER,inferred=True,source=ont_source)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,
+                          inferred=True,source=ont_source)
+    graph.react("ont_ligation","Attach the motor-loaded ONT adapter",StepKind.LIGATION,
+                ((enriched,InputRole.TEMPLATE),(ont_adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(library,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The named Oxford Nanopore kit does not disclose motor-adapter end sequence or geometry."),
+                source=ont_source)
+    graph.sequence(library,SequencingPlan(limitation=SEQUENCING_ENDING))
+    graph.declare_reviewed_scope((
+        "rna","anchored_oligo_dt","reverse_transcriptase","reverse_transcription",
+        "cap_biotinylation","cap_biotinylation_step","streptavidin","cap_capture",
+        "end_linkers","ligase","linker_ligation","la_pcr_primers","la_polymerase",
+        "la_pcr","ont_adapter","ont_ligation","library"),source)
+    return graph.require_publishable()

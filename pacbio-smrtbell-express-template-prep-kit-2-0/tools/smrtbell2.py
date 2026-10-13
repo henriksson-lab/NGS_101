@@ -5,8 +5,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Row, Segment, annotation_rows, revcomp, strand_row
-from dumbbell import Dumbbell, dumbbell_rows
+from adapter_ligation import reported_adapter_end
+from dumbbell import Dumbbell, dumbbell_rows, smrtbell_sequencing_plan
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE = "PacBio SMRTbell Express Template Prep Kit 2.0"
 NOTES = "01_smrtbell-express-2-0.html"
@@ -45,6 +47,10 @@ OVERHANG_REMOVAL = (37, 15)
 DAMAGE_REPAIR = (37, 30)
 END_PREP_PROGRAM = ((20, 10), (65, 30))
 LIGATION = (20, 60)
+HAIRPIN_END = reported_adapter_end(
+    "Overhang Adapter v3 hairpin", kind="cohesive", polarity="3-prime",
+    terminal_sequence="T",
+    statement="The PacBio procedure specifies T-overhang hairpins for dA-tailed inserts.")
 
 
 def final_rows():
@@ -68,3 +74,43 @@ def sections():
         ("Anneal sequencing primer and bind polymerase", primer_path,
          "The proprietary primer site is present in each hairpin; the path shown is computed from the closed template."),
     ]
+
+
+def protocol_graph():
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    dna = g.input("dna", "sheared long genomic DNA", MaterialKind.MOLECULAR,
+                  state=INSERT, primary=True)
+    repair = g.input("repair", "overhang-removal, damage-repair and end-prep enzymes",
+                     MaterialKind.CATALYST)
+    tailed = g.product("tailed", "repaired dA-tailed long DNA",
+                       MaterialKind.MOLECULAR, state=END_PREP)
+    g.react("end_prep", "Remove overhangs, repair damage and dA-tail",
+            StepKind.END_REPAIR,
+            ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (tailed,))
+    hairpins = g.input("hairpins", "T-overhang Overhang Adapter v3 hairpins",
+                       MaterialKind.ADAPTER, inferred=True,
+                       source=SOURCE + " (adapter bases proprietary)")
+    ligase = g.input("ligase", "SMRTbell ligase", MaterialKind.CATALYST)
+    closed = g.product("closed", "closed SMRTbell molecules", MaterialKind.MOLECULAR,
+                       state=FINAL_LIBRARY, inferred=True,
+                       source=SOURCE + " (hairpin bases proprietary)")
+    g.react("ligate", "Ligate a hairpin to each dA-tailed insert end",
+            StepKind.LIGATION,
+            ((tailed, InputRole.TEMPLATE), (hairpins, InputRole.STRUCTURAL),
+             (ligase, InputRole.CATALYST)), (closed,), geometry=HAIRPIN_END)
+    nuclease = g.input("nuclease", "free-end nuclease", MaterialKind.CATALYST)
+    library = g.product("library", "nuclease-resistant closed SMRTbell library",
+                        MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
+                        source=SOURCE + " (hairpin bases proprietary)")
+    linear = g.product("linear", "molecules retaining a free DNA end",
+                       MaterialKind.WASTE)
+    g.react("remove_linear", "Digest molecules that retain a free end",
+            StepKind.DIGESTION,
+            ((closed, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
+            (library, linear), changes_molecule=False)
+    g.discard(linear, "not a completely closed SMRTbell")
+    g.sequence(library, smrtbell_sequencing_plan(
+        SMRTBELL, FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
+    g.declare_reviewed_scope(("dna", "repair", "end_prep", "hairpins", "ligase",
+                              "ligate", "nuclease", "remove_linear", "library"), SOURCE)
+    return g.require_publishable()

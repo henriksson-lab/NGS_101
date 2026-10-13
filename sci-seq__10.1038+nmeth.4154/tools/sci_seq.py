@@ -9,6 +9,9 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, Scene, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "SCI-seq — single-cell combinatorial-indexed genome sequencing"
 NOTES = "01_sci-seq.html"
@@ -89,3 +92,60 @@ def sections():
             Row(chunks=[("72 °C gap extension -> real-time PCR with one 10-base i5 and one 10-base i7", "cbc", False)]),
         ], "One cell is identified by transposase i5 + transposase i7 + PCR i5 + PCR i7."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    nuclei=graph.input("nuclei","intact nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    depletion=graph.input("depletion_condition","LAND or crosslink/SDS nucleosome depletion",
+                           MaterialKind.CONDITION)
+    depleted=graph.product("depleted","nucleosome-depleted intact nuclei",
+                           MaterialKind.BIOLOGICAL)
+    graph.react("deplete_nucleosomes","Expose genomic DNA while retaining nuclei",
+                StepKind.GENERIC,
+                ((nuclei,InputRole.TEMPLATE),(depletion,InputRole.CONDITION)),
+                (depleted,),changes_molecule=False)
+    transposome=graph.input("indexed_transposome","well-indexed i5/i7 Tn5 transposomes",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged","indexed transposition products in intact nuclei",
+                         MaterialKind.MOLECULAR,state=tagged_scene())
+    tagment_waste=graph.product("tagment_waste","non-amplifiable transposition products",
+                                MaterialKind.WASTE)
+    graph.react("tagment","Install the first bipartite index pair by transposition",
+                StepKind.TAGMENTATION,
+                ((depleted,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tagment_waste))
+    graph.discard(tagment_waste,"non-amplifiable Tn5 outcomes do not enter the library")
+    sorting=graph.input("sorting_rule","FANS redistribution of 22 nuclei per PCR well",
+                        MaterialKind.SELECTION)
+    resorted=graph.product("resorted","pooled and resorted indexed nuclei",
+                           MaterialKind.MOLECULAR)
+    excluded=graph.product("excluded","nuclei excluded during sorting",MaterialKind.WASTE)
+    graph.react("resort","Pool and resort nuclei into PCR wells",StepKind.SAMPLING,
+                ((tagged,InputRole.TEMPLATE),(sorting,InputRole.SELECTION)),
+                (resorted,excluded),changes_molecule=False)
+    graph.discard(excluded,"nuclei outside the sorted PCR-well allocation are not processed")
+    fill=graph.input("gap_polymerase","Tn5 gap-extension polymerase",MaterialKind.CATALYST)
+    extended=graph.product("extended","gap-extended indexed fragments",MaterialKind.MOLECULAR)
+    graph.react("gap_extend","Extend the transposase-created gaps",StepKind.EXTENSION,
+                ((resorted,InputRole.TEMPLATE),(fill,InputRole.CATALYST)),(extended,))
+    i5=graph.input("pcr_i5","10-base PCR-well i5 primer",MaterialKind.OLIGO)
+    i7=graph.input("pcr_i7","10-base PCR-well i7 primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","real-time library PCR polymerase",
+                           MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Add the second bipartite PCR-well index pair",
+                StepKind.PCR,
+                ((extended,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The final four-index geometry is exact, while individual well index members vary."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "nuclei","depletion_condition","deplete_nucleosomes","indexed_transposome",
+        "tn5","tagment","sorting_rule","resort","gap_polymerase","gap_extend",
+        "pcr_i5","pcr_i7","pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

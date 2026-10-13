@@ -5,6 +5,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from base_conversion import slam_path
 from batch_ngs import seg, truseq_library
 from chemdraw import Row
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "SLAM-seq — thiol-linked metabolic RNA sequencing"
 NOTES = "01_slam-seq.html"
@@ -25,3 +28,64 @@ def sections():
         ("Alkylate the thiol", [Row(chunks=[(slam_path(labelled=True).text(), "w1", False)]), Row(chunks=[("10 mM IAA · 50% DMSO · 50 mM phosphate pH 8 · 50 °C · 15 min → DTT quench", None, False)])], "Iodoacetamide covalently carboxyamidomethylates s4U; ordinary U is unchanged."),
         ("Reverse-transcribe and build the 3′-end library", [Row(chunks=[("poly(A) RNA → oligo(dT)-anchored QuantSeq RT → second strand → indexed PCR", None, True)]), Row(chunks=[("labeled position: RNA s4U → cDNA G → sequenced C     ordinary RNA U → cDNA A → sequenced T", "w1", False)])], "INFERRED — the kit-specific adapter bases are unavailable. The defining paper establishes the 3′-end workflow and T-to-C readout."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=graph.input("cells","cells during the metabolic pulse",MaterialKind.BIOLOGICAL,
+                      primary=True)
+    s4u=graph.input("s4u","4-thiouridine metabolic label",MaterialKind.MOLECULAR)
+    rnap=graph.input("rna_polymerase","cellular RNA polymerases",MaterialKind.CATALYST)
+    labelled=graph.product("labelled_rna","newly synthesized s4U-labelled RNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("pulse_label","Transcribe RNA during the s4U pulse",StepKind.TRANSCRIPTION,
+                ((cells,InputRole.TEMPLATE),(s4u,InputRole.STRUCTURAL),
+                 (rnap,InputRole.CATALYST)),(labelled,))
+    iaa=graph.input("iaa","iodoacetamide alkylation condition",MaterialKind.CONDITION)
+    alkylated=graph.product("alkylated","IAA-alkylated s4U RNA",MaterialKind.MOLECULAR)
+    graph.react("alkylate","Alkylate s4U thiols with iodoacetamide",
+                StepKind.CHEMICAL_CONVERSION,
+                ((labelled,InputRole.TEMPLATE),(iaa,InputRole.CONDITION)),(alkylated,))
+    rt_primer=graph.input("oligo_dt","QuantSeq oligo-dT RT primer",MaterialKind.OLIGO,
+                          inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+    rt=graph.input("reverse_transcriptase","QuantSeq reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","3-prime-end first-strand cDNA",MaterialKind.MOLECULAR,
+                       inferred=True,source=SOURCE+" (commercial kit construct)")
+    graph.react("reverse_transcribe","Reverse-transcribe from the poly(A) boundary",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((alkylated,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    second_primer=graph.input("second_primer","QuantSeq second-strand primer/adapter",
+                              MaterialKind.OLIGO,inferred=True,
+                              source=SOURCE+" (kit oligo sequence undisclosed)")
+    second_polymerase=graph.input("second_polymerase","second-strand polymerase",
+                                  MaterialKind.CATALYST)
+    duplex=graph.product("duplex","QuantSeq double-stranded library precursor",
+                         MaterialKind.MOLECULAR,inferred=True,
+                         source=SOURCE+" (commercial kit construct)")
+    graph.react("second_strand","Synthesize the second strand and opposite adapter end",
+                StepKind.EXTENSION,
+                ((cdna,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                 (second_polymerase,InputRole.CATALYST)),(duplex,))
+    fwd=graph.input("pcr_forward","QuantSeq PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+    rev=graph.input("pcr_reverse","QuantSeq indexed PCR reverse primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (inferred Illumina-compatible kit endpoint)")
+    graph.react("library_pcr","Amplify and index the 3-prime-end library",StepKind.PCR,
+                ((duplex,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The QuantSeq kit primers are not printed in the defining paper."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "cells","s4u","rna_polymerase","pulse_label","iaa","alkylate",
+        "oligo_dt","reverse_transcriptase","reverse_transcribe","second_primer",
+        "second_polymerase","second_strand","pcr_forward","pcr_reverse",
+        "pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

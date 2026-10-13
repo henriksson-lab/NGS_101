@@ -47,3 +47,9 @@ def workflow():
 
 def final_rows():
     return spa.final_rows(FINAL_LIBRARY)
+
+
+def protocol_graph():
+    return spa.protocol_graph(
+        "accessible genomic DNA",
+        authority="Defining source: https://doi.org/10.1038/s41556-024-01449-0")

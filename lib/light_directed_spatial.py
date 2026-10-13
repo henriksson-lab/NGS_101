@@ -14,6 +14,9 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, feature, inline_sequence, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -148,9 +151,96 @@ def oligos():
     )
 
 
+def _graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    rna = graph.input("tissue_rna", "fixed permeabilized tissue RNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("fixed tissue RNA", (role("RNA templates in situ"),)),
+                      primary=True)
+    rt_primer = graph.input("rt_primer", "RT.5N.3G random RT primer", MaterialKind.OLIGO)
+    rt_enzyme = graph.input("reverse_transcriptase", "reverse transcriptase",
+                            MaterialKind.CATALYST)
+    cdna = graph.product("cdna", "RNA–cDNA hybrids carrying the docking site",
+                         MaterialKind.MOLECULAR, state=rna.state)
+    graph.react("reverse_transcribe", "Random-prime total RNA in situ",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt_enzyme, InputRole.CATALYST)), (cdna,))
+    tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "poly(dA)-tailed RNA–cDNA hybrids",
+                           MaterialKind.MOLECULAR, state=cdna.state)
+    graph.react("tail", "Add a 3-prime poly(dA) tail to cDNA", StepKind.TAILING,
+                ((cdna, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
+    barcode = graph.input("barcode", "cnvK ROI-barcode oligo", MaterialKind.OLIGO)
+    uv = graph.input("uv_mask", "ROI-specific illumination condition", MaterialKind.CONDITION)
+    linked = graph.product("linked", "photocross-linked barcode–cDNA complexes",
+                           MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("photocrosslink", "Hybridize barcode and illuminate the selected ROI",
+                StepKind.HYBRIDIZATION,
+                ((tailed, InputRole.TEMPLATE), (barcode, InputRole.STRUCTURAL),
+                 (uv, InputRole.CONDITION)), (linked,))
+    rnase = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
+    released = graph.product("released", "released cross-linked DNA complexes",
+                             MaterialKind.MOLECULAR, state=linked.state)
+    graph.react("remove_rna", "Digest RNA and release selected cDNA", StepKind.DIGESTION,
+                ((linked, InputRole.TEMPLATE), (rnase, InputRole.CATALYST)), (released,))
+    gatc = graph.input("gatc_20t", "GATC.20T cross-junction primer", MaterialKind.OLIGO)
+    bst = graph.input("bst", "Bst strand-displacing polymerase", MaterialKind.CATALYST)
+    stitched = graph.product("stitched", "single stitched barcode–cDNA readout strands",
+                             MaterialKind.MOLECULAR, state=released.state)
+    graph.react("stitch", "Extend GATC.20T across the cross-junction", StepKind.EXTENSION,
+                ((released, InputRole.TEMPLATE), (gatc, InputRole.STRUCTURAL),
+                 (bst, InputRole.CATALYST)), (stitched,))
+    gate = graph.input("gate_primer", "GATE PCR primer", MaterialKind.OLIGO)
+    gatc_pcr = graph.input("gatc_primer", "GATC PCR primer", MaterialKind.OLIGO)
+    pcr_enzyme = graph.input("pcr_polymerase", "Light-Seq PCR polymerase",
+                             MaterialKind.CATALYST)
+    amplicon = graph.product("amplicon", "GATE-to-GATC Light-Seq amplicons",
+                             MaterialKind.MOLECULAR, state=stitched.state)
+    graph.react("amplify", "Amplify with GATE and GATC primers", StepKind.PCR,
+                ((stitched, InputRole.TEMPLATE), (gate, InputRole.STRUCTURAL),
+                 (gatc_pcr, InputRole.STRUCTURAL), (pcr_enzyme, InputRole.CATALYST)),
+                (amplicon,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="Cross-junction amplification precedes the exact asymmetric Nextera product."))
+    tn5_adapter = graph.input("tn5_adapter", "Nextera XT transposome adapters",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Nextera XT Tn5", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "tagmented Light-Seq amplicons",
+                           MaterialKind.MOLECULAR, state=amplicon.state)
+    tn5_waste = graph.product("tn5_waste", "unusable tagmentation products",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Tagment the Light-Seq amplicon", StepKind.TAGMENTATION,
+                ((amplicon, InputRole.TEMPLATE), (tn5_adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "lacks the GATE-to-Nextera orientation selected by PCR")
+    s5 = graph.input("s5_gate", "S5XX.GATE custom primer", MaterialKind.OLIGO)
+    n7 = graph.input("n7_primer", "N7XX Nextera primer", MaterialKind.OLIGO)
+    index_polymerase = graph.input("index_polymerase", "indexing-PCR polymerase",
+                                   MaterialKind.CATALYST)
+    library = graph.product("library", "indexed asymmetric Light-Seq library",
+                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    graph.react("index_pcr", "Select GATE-to-Nextera fragments by indexed PCR",
+                StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (s5, InputRole.STRUCTURAL),
+                 (n7, InputRole.STRUCTURAL), (index_polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY,
+                    reason="The completed construct has checked sequencing sites; the pre-PCR tagmented population contains multiple orientations."))
+    graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY,
+                                           primers=tuple(spec.SEQ_PRIMERS)))
+    graph.declare_reviewed_scope([
+        "tissue_rna", "rt_primer", "reverse_transcriptase", "reverse_transcribe",
+        "tdt", "tail", "barcode", "uv_mask", "photocrosslink", "rnase_h",
+        "remove_rna", "gatc_20t", "bst", "stitch", "gate_primer", "gatc_primer",
+        "pcr_polymerase", "amplify", "tn5_adapter", "tn5", "tagment",
+        "s5_gate", "n7_primer", "index_polymerase", "index_pcr", "library"], source)
+    return graph.require_publishable()
+
+
 def get():
     final, primers = final_library()
-    return SimpleNamespace(
+    spec = SimpleNamespace(
         TITLE="Light-Seq — light-directed spatial transcriptome barcoding",
         NOTES="01_light_seq.html",
         SOURCE='<a href="https://doi.org/10.1038/s41592-022-01604-1">Kishi et al., <i>Nature Methods</i> (2022)</a>; detailed workflow and oligos in <a href="https://doi.org/10.17504/protocols.io.x54v9jno4g3e/v1">the authors\' protocol</a>.',
@@ -164,3 +254,5 @@ def get():
         SEQUENCING_INTRO="Libraries were sequenced on HiSeq, NovaSeq and MiSeq with the custom P5.GATE Read 1 primer and, where supported, GATE*.P5* i5 primer. Read 1 begins UMI–ROI barcode–cross-junction constants–transcript; Read 2 approaches the same insert from the random Nextera end.",
         SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="",
     )
+    spec.protocol_graph = lambda: _graph(spec)
+    return spec

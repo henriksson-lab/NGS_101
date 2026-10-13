@@ -4,7 +4,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from types import SimpleNamespace
 
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, Workflow, feature
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -311,9 +316,288 @@ def _alkaniline() -> Workflow:
     ))
 
 
+def _finish_pcr(graph, prefix, template, final, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " indexed reverse PCR primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The source establishes the readout roles but not one universal source-exact amplicon geometry."))
+    graph.sequence(library, SequencingPlan(limitation=endpoint))
+    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
+                     prefix + "_pcr", prefix + "_library"))
+    return library
+
+
+def _apply_linear_step(graph, current, identifier, label, kind, reviewed):
+    inputs = [(current, InputRole.TEMPLATE)]
+    geometry = None
+    if kind is StepKind.LIGATION:
+        reagent = graph.input(identifier + "_adapter", label + " adapter or ligating oligo",
+                              MaterialKind.ADAPTER)
+        enzyme = graph.input(identifier + "_ligase", label + " ligase",
+                             MaterialKind.CATALYST)
+        inputs.extend(((reagent, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
+        geometry = AdapterLigationGeometry.unavailable(
+            "The source defines the ligated molecular role; the role-level shared page does not assert one universal end geometry.")
+        reviewed.extend((identifier + "_adapter", identifier + "_ligase"))
+    elif kind is StepKind.REVERSE_TRANSCRIPTION:
+        primer = graph.input(identifier + "_primer", label + " RT primer", MaterialKind.OLIGO)
+        enzyme = graph.input(identifier + "_enzyme", label + " reverse transcriptase",
+                             MaterialKind.CATALYST)
+        inputs.extend(((primer, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
+        reviewed.extend((identifier + "_primer", identifier + "_enzyme"))
+    elif kind is StepKind.TEMPLATE_SWITCHING:
+        oligo = graph.input(identifier + "_oligo", label + " template oligo",
+                            MaterialKind.OLIGO)
+        enzyme = graph.input(identifier + "_enzyme", label + " template-switching polymerase",
+                             MaterialKind.CATALYST)
+        inputs.extend(((oligo, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
+        reviewed.extend((identifier + "_oligo", identifier + "_enzyme"))
+    elif kind in {StepKind.DIGESTION, StepKind.END_REPAIR, StepKind.PHOSPHORYLATION,
+                  StepKind.DEPHOSPHORYLATION, StepKind.CIRCULARIZATION, StepKind.TAILING}:
+        enzyme = graph.input(identifier + "_enzyme", label + " enzyme", MaterialKind.CATALYST)
+        inputs.append((enzyme, InputRole.CATALYST))
+        reviewed.append(identifier + "_enzyme")
+        if kind is StepKind.CIRCULARIZATION:
+            geometry = CircularizationGeometry.unavailable(
+                "The source establishes cDNA circularization; this shared role-level model does not assert one universal closing-end geometry.")
+    elif kind is StepKind.FRAGMENTATION:
+        condition = graph.input(identifier + "_condition", label + " fragmentation condition",
+                                MaterialKind.CONDITION)
+        inputs.append((condition, InputRole.CONDITION))
+        reviewed.append(identifier + "_condition")
+    elif kind in {StepKind.CHEMICAL_CONVERSION, StepKind.THERMAL_TREATMENT,
+                  StepKind.DEPROTEINIZATION}:
+        condition = graph.input(identifier + "_condition", label + " condition",
+                                MaterialKind.CONDITION)
+        inputs.append((condition, InputRole.CONDITION))
+        reviewed.append(identifier + "_condition")
+    else:
+        raise ValueError(f"unsupported linear RNA-end step {kind}")
+    product = graph.product(identifier + "_product", label + " product",
+                            MaterialKind.MOLECULAR,
+                            state=molecule(label + " product", (role("retained molecular product"),)))
+    graph.react(identifier, label, kind, inputs, (product,), geometry=geometry)
+    reviewed.append(identifier)
+    return product
+
+
+_LINEAR_RECIPES = {
+    "ottr-seq": (
+        ("cap_end", "Cap each input 3-prime end with one ddA and/or ddG", StepKind.TAILING),
+        ("first_jump", "Template-switch from the standardized primer duplex onto input RNA", StepKind.TEMPLATE_SWITCHING),
+        ("second_jump", "Relay onto the terminating adapter template", StepKind.TEMPLATE_SWITCHING),
+    ),
+    "pseudo-seq": (
+        ("cmc", "Derivatize pseudouridine with persistent CMC", StepKind.CHEMICAL_CONVERSION),
+        ("repair", "Repair RNA fragment ends", StepKind.END_REPAIR),
+        ("ligate", "Ligate the preadenylated 3-prime adapter", StepKind.LIGATION),
+        ("rt", "Reverse-transcribe to the pseudouridine-dependent stop", StepKind.REVERSE_TRANSCRIPTION),
+        ("circle", "Circularize the stop-defined cDNA", StepKind.CIRCULARIZATION),
+    ),
+    "dms-seq": (
+        ("probe", "Probe accessible A and C with DMS", StepKind.CHEMICAL_CONVERSION),
+        ("fragment", "Fragment DMS-modified RNA", StepKind.FRAGMENTATION),
+        ("repair", "Repair fragmentation-derived RNA ends", StepKind.PHOSPHORYLATION),
+        ("ligate", "Ligate the preadenylated cloning linker", StepKind.LIGATION),
+        ("rt", "Reverse-transcribe to DMS-dependent stops", StepKind.REVERSE_TRANSCRIPTION),
+        ("circle", "Circularize the stop-defined cDNA", StepKind.CIRCULARIZATION),
+    ),
+    "structure-seq2": (
+        ("probe", "Probe exposed A and C in vivo with DMS", StepKind.CHEMICAL_CONVERSION),
+        ("rt", "Random-prime reverse transcription to DMS stops", StepKind.REVERSE_TRANSCRIPTION),
+        ("ligate", "Ligate the degenerate hairpin donor", StepKind.LIGATION),
+    ),
+    "ribomethseq": (
+        ("hydrolyse", "Partially hydrolyse RNA under mild alkaline conditions", StepKind.CHEMICAL_CONVERSION),
+        ("dephosphorylate", "Remove incompatible cyclic-phosphate termini", StepKind.DEPHOSPHORYLATION),
+        ("phosphorylate", "Create ligatable 5-prime-phosphate termini", StepKind.PHOSPHORYLATION),
+        ("ligate_3", "Ligate the 3-prime small-RNA adapter", StepKind.LIGATION),
+        ("ligate_5", "Ligate the 5-prime small-RNA adapter", StepKind.LIGATION),
+        ("rt", "Reverse-transcribe hydrolysis fragments", StepKind.REVERSE_TRANSCRIPTION),
+    ),
+    "hrf-seq": (
+        ("cleave", "Expose RNA to hydroxyl radicals", StepKind.FRAGMENTATION),
+        ("rt", "Random-prime reverse transcription to radical-induced breaks", StepKind.REVERSE_TRANSCRIPTION),
+        ("ligate", "Ligate the molecular-barcode adapter to cDNA", StepKind.LIGATION),
+    ),
+    "shape-seq": (
+        ("modify", "Modify flexible riboses with a SHAPE reagent", StepKind.CHEMICAL_CONVERSION),
+        ("rt", "Primer-extend to SHAPE adducts", StepKind.REVERSE_TRANSCRIPTION),
+        ("ligate", "Ligate the second sequencing adapter to cDNA", StepKind.LIGATION),
+    ),
+    "glori": (
+        ("protect_g", "Protect guanosines with glyoxal", StepKind.CHEMICAL_CONVERSION),
+        ("deaminate", "Deaminate unmethylated adenosine with nitrite", StepKind.CHEMICAL_CONVERSION),
+        ("deprotect", "Heat-deprotect guanosines", StepKind.THERMAL_TREATMENT),
+        ("repair", "Repair converted RNA ends", StepKind.PHOSPHORYLATION),
+        ("ligate", "Ligate UMI-bearing modified-eCLIP adapters", StepKind.LIGATION),
+        ("rt", "Reverse-transcribe converted RNA", StepKind.REVERSE_TRANSCRIPTION),
+    ),
+    "alkaniline-seq": (
+        ("hydrolyse", "Partially hydrolyse RNA under alkaline heat", StepKind.CHEMICAL_CONVERSION),
+        ("dephosphorylate", "Remove pre-existing terminal phosphates", StepKind.DEPHOSPHORYLATION),
+        ("aniline", "Cleave abasic sites with aniline", StepKind.CHEMICAL_CONVERSION),
+        ("ligate", "Ligate small-RNA adapters to newly phosphorylated fragments", StepKind.LIGATION),
+        ("rt", "Reverse-transcribe cleavage-selected RNA", StepKind.REVERSE_TRANSCRIPTION),
+    ),
+}
+
+
+def _linear_graph(key, spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    start = graph.input("input", spec.TITLE + " source RNA", MaterialKind.BIOLOGICAL,
+                        state=molecule("source RNA", (role("input RNA"),)), primary=True)
+    reviewed = ["input"]
+    current = start
+    for identifier, label, kind in _LINEAR_RECIPES[key]:
+        current = _apply_linear_step(graph, current, identifier, label, kind, reviewed)
+    _finish_pcr(graph, "library", current, spec.FINAL_LIBRARY,
+                spec.SEQUENCING_ENDING or spec.FINAL_CAPTION, reviewed, label=spec.TITLE)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _pars_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    rna = graph.input("input", "refolded poly(A)-selected transcriptome",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("refolded transcriptome", (role("RNA secondary structures"),)),
+                      primary=True)
+    v1 = graph.product("v1_branch", "RNase-V1 double-strand branch",
+                       MaterialKind.MOLECULAR, state=rna.state)
+    s1 = graph.product("s1_branch", "RNase-S1 single-strand branch",
+                       MaterialKind.MOLECULAR, state=rna.state)
+    graph.react("split", "Split refolded RNA into matched V1 and S1 aliquots",
+                StepKind.SPLIT, ((rna, InputRole.TEMPLATE),), (v1, s1),
+                changes_molecule=False)
+    reviewed = ["input", "split"]
+    for prefix, template, label in (("v1", v1, "RNase V1"), ("s1", s1, "RNase S1")):
+        digested = _apply_linear_step(graph, template, prefix + "_digest",
+                                      "Digest with " + label, StepKind.DIGESTION, reviewed)
+        first = _apply_linear_step(graph, digested, prefix + "_ligate_5",
+                                   "Select nuclease-created 5-prime phosphates by adapter ligation",
+                                   StepKind.LIGATION, reviewed)
+        dephos = _apply_linear_step(graph, first, prefix + "_dephosphorylate",
+                                    "Dephosphorylate remaining RNA ends",
+                                    StepKind.DEPHOSPHORYLATION, reviewed)
+        second = _apply_linear_step(graph, dephos, prefix + "_ligate_3",
+                                    "Ligate the second adapter", StepKind.LIGATION, reviewed)
+        cdna = _apply_linear_step(graph, second, prefix + "_rt",
+                                  "Reverse-transcribe the " + label + " branch",
+                                  StepKind.REVERSE_TRANSCRIPTION, reviewed)
+        _finish_pcr(graph, prefix, cdna, spec.FINAL_LIBRARY,
+                    label + " branch: " + spec.FINAL_CAPTION, reviewed,
+                    label="PARS " + label)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _fragseq_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    rna = graph.input("input", "purified refolded nuclear RNA", MaterialKind.BIOLOGICAL,
+                      state=molecule("refolded nuclear RNA", (role("native folded RNA"),)),
+                      primary=True)
+    treated = graph.product("treated_branch", "nuclease-P1-treated aliquot",
+                            MaterialKind.MOLECULAR, state=rna.state)
+    control = graph.product("control_branch", "matched undigested control aliquot",
+                            MaterialKind.MOLECULAR, state=rna.state)
+    graph.react("split", "Split treated and undigested-control aliquots",
+                StepKind.SPLIT, ((rna, InputRole.TEMPLATE),), (treated, control),
+                changes_molecule=False)
+    reviewed = ["input", "split"]
+    treated = _apply_linear_step(graph, treated, "p1_digest",
+                                 "Partially digest accessible RNA with nuclease P1",
+                                 StepKind.DIGESTION, reviewed)
+    for prefix, template, label in (("treated", treated, "P1-treated"),
+                                    ("control", control, "undigested control")):
+        ligated = _apply_linear_step(graph, template, prefix + "_ligate",
+                                     "Ligate small-RNA sequencing adapters to the " + label + " branch",
+                                     StepKind.LIGATION, reviewed)
+        cdna = _apply_linear_step(graph, ligated, prefix + "_rt",
+                                  "Reverse-transcribe the " + label + " branch",
+                                  StepKind.REVERSE_TRANSCRIPTION, reviewed)
+        _finish_pcr(graph, prefix, cdna, spec.FINAL_LIBRARY,
+                    label + ": " + spec.FINAL_CAPTION, reviewed,
+                    label="FragSeq " + label)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _pip_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    rnps = graph.input("input", "crosslinked cellular ribonucleoproteins",
+                       MaterialKind.BIOLOGICAL,
+                       state=molecule("crosslinked RNPs", (role("RNA"), role("bound proteins"))),
+                       primary=True)
+    branches = []
+    for identifier, label in (
+            ("bound_ss", "protein-bound single-strand-RNase branch"),
+            ("bound_ds", "protein-bound double-strand-RNase branch"),
+            ("removed_ss", "protein-removed single-strand-RNase control"),
+            ("removed_ds", "protein-removed double-strand-RNase control")):
+        branches.append(graph.product(identifier, label, MaterialKind.MOLECULAR,
+                                      state=rnps.state))
+    graph.react("split", "Split into the four protein-state by nuclease branches",
+                StepKind.SPLIT, ((rnps, InputRole.TEMPLATE),), tuple(branches),
+                changes_molecule=False)
+    reviewed = ["input", "split"]
+    for branch in branches:
+        prefix = branch.id
+        current = branch
+        if prefix.startswith("removed"):
+            current = _apply_linear_step(graph, current, prefix + "_deproteinize",
+                                         "Remove protein before nuclease digestion",
+                                         StepKind.DEPROTEINIZATION, reviewed)
+        current = _apply_linear_step(graph, current, prefix + "_digest",
+                                     "Digest with the branch-specific RNA nuclease",
+                                     StepKind.DIGESTION, reviewed)
+        if prefix.startswith("bound"):
+            current = _apply_linear_step(graph, current, prefix + "_deproteinize",
+                                         "Reverse crosslinks after footprint digestion",
+                                         StepKind.DEPROTEINIZATION, reviewed)
+        current = _apply_linear_step(graph, current, prefix + "_rt",
+                                     "Reverse-transcribe protected RNA fragments",
+                                     StepKind.REVERSE_TRANSCRIPTION, reviewed)
+        _finish_pcr(graph, prefix, current, spec.FINAL_LIBRARY,
+                    branch.label + ": " + spec.FINAL_CAPTION, reviewed,
+                    label="PIP-seq " + branch.label)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _attach_graph(key, spec):
+    if key in _LINEAR_RECIPES:
+        spec.protocol_graph = lambda: _linear_graph(key, spec)
+    elif key == "pars":
+        spec.protocol_graph = lambda: _pars_graph(spec)
+    elif key == "fragseq":
+        spec.protocol_graph = lambda: _fragseq_graph(spec)
+    elif key == "protein-pip-seq":
+        spec.protocol_graph = lambda: _pip_graph(spec)
+    return spec
+
+
+def _spec(key, **fields):
+    return _attach_graph(key, SimpleNamespace(**fields))
+
+
 def get(key: str):
     if key == "ottr-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="OTTR-seq — Ordered Two-Template Relay", NOTES="01_ottr_seq.html",
             SOURCE='Upton et al., PNAS (2021); <a href="https://doi.org/10.1073/pnas.2107900118">doi:10.1073/pnas.2107900118</a>.',
             SUMMARY="BoMoC standardizes RNA 3′ ends with one ddR, then performs two ordered template jumps to copy the insert and the second adapter in one reverse-transcription reaction.", CAVEAT="",
@@ -321,7 +605,7 @@ def get(key: str):
             workflow=_ottr, FINAL_LIBRARY=Construct((role("P5"), role("i5", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "random")), role("R1 adapter"), role("input cDNA"), role("R2 adapter"), role("i7", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "random")), role("P7")), name="OTTR-seq library"),
             FINAL_CAPTION="Universal-adapter branch after indexed PCR; the paper also validates a full-length, PCR-free branch.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The paper sequenced OTTR libraries on an Illumina MiniSeq 75-cycle kit.", SEQUENCING_UNAVAILABLE="The paper specifies Illumina adapter families but does not publish a distinct custom sequencing primer.")
     if key == "pseudo-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="Pseudo-seq — transcriptome-wide pseudouridine mapping", NOTES="01_pseudo_seq.html",
             SOURCE='Carlile et al., Nature (2014); <a href="https://doi.org/10.1038/nature13802">doi:10.1038/nature13802</a>.',
             SUMMARY="Persistent Ψ–CMC adducts stop reverse transcriptase; enriched cDNA termini relative to a mock-treated control locate pseudouridines.", CAVEAT="",
@@ -329,7 +613,7 @@ def get(key: str):
             workflow=_pseudo, FINAL_LIBRARY=Construct((role("P5"), role("stop-defined RNA cDNA"), role("sample index", tag="cbc", length_bp=6, molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="Pseudo-seq library"),
             FINAL_CAPTION="PCR product from circularized, stop-defined cDNA.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining experiment sequenced the amplified library on an Illumina HiSeq 2000.", SEQUENCING_UNAVAILABLE="The paper publishes library oligos but does not identify a separate custom sequencing-primer oligo.")
     if key == "dms-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="DMS-seq — in-vivo RNA structure probing", NOTES="01_dms_seq.html",
             SOURCE='Rouskin et al., Nature (2014); <a href="https://doi.org/10.1038/nature12894">doi:10.1038/nature12894</a>.',
             SUMMARY="DMS marks solvent-accessible A and C in living cells; reverse-transcriptase termination sites report nucleotide accessibility after adapter ligation and cDNA circularization.", CAVEAT="",
@@ -337,7 +621,7 @@ def get(key: str):
             workflow=_dms_seq, FINAL_LIBRARY=Construct((role("P5"), role("DMS-stop cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="DMS-seq library"),
             FINAL_CAPTION="Role-level PCR product; the paper publishes linker-1 but not the adapter PCR or sequencing-primer oligos.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining experiment sequenced RT-termination libraries on an Illumina HiSeq 2000.", SEQUENCING_UNAVAILABLE="Exact PCR and sequencing-primer oligos are not reproduced in the defining paper.")
     if key == "structure-seq2":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="Structure-seq2 — low-bias in-vivo RNA structure probing", NOTES="01_structure_seq2.html",
             SOURCE='Ritchey et al., Nucleic Acids Research (2017); <a href="https://doi.org/10.1093/nar/gkx533">doi:10.1093/nar/gkx533</a>.',
             SUMMARY="Random-primed DMS-stop cDNA receives a degenerate hairpin adapter by T4 DNA ligase; PAGE or biotin–streptavidin purification removes the primer–adapter by-product.", CAVEAT="",
@@ -345,7 +629,7 @@ def get(key: str):
             workflow=_structure_seq2, FINAL_LIBRARY=Construct((role("P5"), SS2_CUSTOM, role("stop-defined cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="Structure-seq2 library"),
             FINAL_CAPTION="The custom primer abuts the unique insert, bypassing the 22-nt low-diversity prefix.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The custom primer 5′-TCTTCCGATCTTGAACAGCGACTAGGCTCTTCA-3′ reads directly into the stop-defined cDNA in a 150-cycle MiSeq run.", SEQUENCING_UNAVAILABLE="")
     if key == "ribomethseq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="RiboMethSeq — 2′-O-methylation by protected cleavage", NOTES="01_ribomethseq.html",
             SOURCE='Birkedal et al., Angewandte Chemie (2015), <a href="https://doi.org/10.1002/anie.201408362">doi:10.1002/anie.201408362</a>; Illumina implementation: Marchand et al., Nucleic Acids Research (2016), <a href="https://doi.org/10.1093/nar/gkw547">doi:10.1093/nar/gkw547</a>.',
             SUMMARY="Partial alkaline hydrolysis avoids phosphodiester bonds immediately 3′ of 2′-O-methylated riboses; depletion of mapped fragment ends identifies and quantifies Nm sites.", CAVEAT="",
@@ -353,7 +637,7 @@ def get(key: str):
             workflow=_ribomethseq, FINAL_LIBRARY=Construct((role("P5"), role("hydrolysis-end cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="RiboMethSeq library"),
             FINAL_CAPTION="Standard small-RNA library retaining the exact alkaline-cleavage endpoints.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The Illumina implementation used paired-end MiSeq or single-read 50-cycle HiSeq 1000 sequencing; standard kit primers enter from the ligated adapters.", SEQUENCING_UNAVAILABLE="The method paper names the commercial NEBNext Small RNA kit but does not reproduce a distinct sequencing-primer oligo.")
     if key == "pars":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="PARS — parallel analysis of RNA structure", NOTES="01_pars.html",
             SOURCE='Kertesz et al., Nature (2010), <a href="https://doi.org/10.1038/nature09322">doi:10.1038/nature09322</a>; detailed protocol: Wan et al., Nature Protocols (2013), <a href="https://doi.org/10.1038/nprot.2013.045">doi:10.1038/nprot.2013.045</a>.',
             SUMMARY="Matched RNase V1 and S1 digests expose double- and single-stranded positions; selective capture of nuclease-created 5′ phosphates turns branch-specific read starts into a per-base structure score.", CAVEAT="",
@@ -361,7 +645,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("SOLiD P1 adapter"), role("V1- or S1-cleavage-defined cDNA"), role("SOLiD P2 adapter")), name="PARS library"),
             FINAL_CAPTION="One library is made for each nuclease branch; the defining experiment used the SOLiD platform.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining libraries were sequenced on Applied Biosystems SOLiD; their ligation-sequencing primer oligos are not printed in the defining paper.", SEQUENCING_UNAVAILABLE="The public source describes the SOLiD adapter roles but does not reproduce exact adapter or sequencing-primer sequences.")
     if key == "fragseq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="FragSeq — nuclease accessibility profiling of RNA", NOTES="01_fragseq.html",
             SOURCE='Underwood et al., Nature Methods (2010), <a href="https://doi.org/10.1038/nmeth.1529">doi:10.1038/nmeth.1529</a>.',
             SUMMARY="Partial nuclease P1 digestion converts exposed single-stranded RNA into mapped fragment termini, directly profiling RNA accessibility across many transcripts.", CAVEAT="FragSeq probes purified, refolded RNA. It reports nuclease accessibility, not native intracellular accessibility or abundance alone.",
@@ -369,7 +653,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("SOLiD P1 adapter"), role("P1-cleavage-defined cDNA"), role("SOLiD P2 adapter")), name="FragSeq library"),
             FINAL_CAPTION="The informative coordinate is a nuclease-P1-defined RNA fragment end.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining experiment converted treated and control RNA fragments with the SOLiD small-RNA workflow and sequenced their ends.", SEQUENCING_UNAVAILABLE="Exact proprietary SOLiD adapter and sequencing-primer sequences are not represented.")
     if key == "hrf-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="HRF-Seq — hydroxyl-radical RNA accessibility", NOTES="01_hrf_seq.html",
             SOURCE='Kielpinski and Vinther, Nucleic Acids Research (2014), <a href="https://doi.org/10.1093/nar/gku167">doi:10.1093/nar/gku167</a>.',
             SUMMARY="Hydroxyl radicals cleave solvent-exposed ribose backbones; random-primed RT, a seven-base molecular barcode and paired-end sequencing recover both break and priming coordinates.", CAVEAT="The defining demonstration probes purified RNAs. Hydroxyl-radical accessibility reflects backbone solvent exposure and tertiary packing, not only base pairing.",
@@ -377,7 +661,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("P5"), role("random-primer coordinate"), role("accessibility-defined cDNA"), role("7-nt molecular barcode", tag="umi", length_bp=7, molecular_feature=feature("umi", "umi", "random")), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="HRF-Seq library"),
             FINAL_CAPTION="Paired-end library linking the random-primer coordinate to the hydroxyl-radical termination coordinate; the seven-base random tag deduplicates molecules.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="Illumina paired-end sequencing reports probing and priming positions; the paper's exact oligos remain source-specific.", SEQUENCING_UNAVAILABLE="The final role layout is published, but exact primer landing sequences are not yet transcribed into the shared model.")
     if key == "shape-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="SHAPE-Seq — multiplexed RNA flexibility probing", NOTES="01_shape_seq.html",
             SOURCE='Lucks et al., PNAS (2011), <a href="https://doi.org/10.1073/pnas.1106501108">doi:10.1073/pnas.1106501108</a>.',
             SUMMARY="SHAPE chemistry acylates flexible riboses, reverse transcriptase stops at the adducts, and paired-end sequencing links each stop to a pre-attached RNA identity barcode.", CAVEAT="The original SHAPE-Seq protocol assays designed RNA pools in vitro; later in-cell and transcriptome-wide SHAPE methods use different capture architectures.",
@@ -385,7 +669,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("P5"), role("SHAPE-stop-defined cDNA"), role("RNA identity barcode", tag="cbc", molecular_feature=feature("assay_barcode", "feature_barcode", "fixed")), role("P7")), name="SHAPE-Seq library"),
             FINAL_CAPTION="Paired-end reads connect a primer-extension stop to the barcode identifying the assayed RNA.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining method used multiplexed paired-end Illumina sequencing of primer-extension products.", SEQUENCING_UNAVAILABLE="The defining paper's adapter and primer table has not yet been represented as exact shared sequence segments.")
     if key == "protein-pip-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="PIP-seq — protein interaction profile sequencing", NOTES="01_protein_pip_seq.html",
             SOURCE='Silverman et al., Genome Biology (2014), <a href="https://doi.org/10.1186/gb-2014-15-1-r3">doi:10.1186/gb-2014-15-1-r3</a>.',
             SUMMARY="Four matched libraries combine single- and double-strand-specific RNases with protein-present and protein-removed branches, revealing both RNA accessibility and protein-protected sites.", CAVEAT="This is protein-interaction-profile PIP-seq, not the unrelated particle-templated single-cell RNA-seq protocol with the same acronym.",
@@ -393,7 +677,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("P5"), role("RNase-protected strand-specific cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="protein-interaction-profile PIP-seq library"),
             FINAL_CAPTION="One strand-specific sequencing library is made for each protein-state × nuclease-specificity branch.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="The defining study sequenced strand-specific libraries from all four branches; branch identity must be retained through sample indexing.", SEQUENCING_UNAVAILABLE="Exact commercial library-kit primer sequences are not represented in the defining schematic.")
     if key == "glori":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="GLORI — absolute m6A quantification by A-to-I conversion", NOTES="01_glori.html",
             SOURCE='Liu et al., Nature Biotechnology (2023), <a href="https://doi.org/10.1038/s41587-022-01487-9">doi:10.1038/s41587-022-01487-9</a>; detailed protocol: Shen et al., Nature Protocols (2024), <a href="https://doi.org/10.1038/s41596-023-00937-1">doi:10.1038/s41596-023-00937-1</a>.',
             SUMMARY="Glyoxal-assisted nitrite treatment converts unmethylated adenosine to inosine while m6A remains adenosine; A retention therefore reports absolute methylation stoichiometry.", CAVEAT="This page follows the defining modified-eCLIP library branch. The authors also validated NEBNext Small RNA and SMARTer stranded library kits after the same GLORI conversion.",
@@ -402,7 +686,7 @@ def get(key: str):
             FINAL_LIBRARY=Construct((role("P5"), role("10-nt UMI", tag="umi", length_bp=10, molecular_feature=feature("umi", "umi", "random")), role("A-to-I-converted cDNA"), role("sample index", tag="cbc", molecular_feature=feature("sample_index", "sample_index", "unknown")), role("P7")), name="GLORI modified-eCLIP library"),
             FINAL_CAPTION="Modified-eCLIP branch. The 10-nt UMI is inline; converted A is read as G while m6A is retained as A.", SEQ_PRIMERS=(), READ_LENGTHS=None, SEQUENCING_INTRO="", SEQUENCING_ENDING="Defining modified-eCLIP libraries were sequenced paired-end on an Illumina HiSeq X Ten; reads begin with the 10-nt UMI before converted insert sequence.", SEQUENCING_UNAVAILABLE="The protocol identifies standard Illumina entry sites but does not publish a distinct custom sequencing-primer oligo.")
     if key == "alkaniline-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="AlkAniline-Seq — positive selection of modification-derived RNA cleavage", NOTES="01_alkaniline_seq.html",
             SOURCE='Marchand et al., Angewandte Chemie (2018), <a href="https://doi.org/10.1002/anie.201810946">doi:10.1002/anie.201810946</a>.',
             SUMMARY="Alkali-labile m7G, m3C and related residues form abasic sites; after background dephosphorylation, aniline cleavage creates the only 5′ phosphates accepted by the first sequencing adapter.", CAVEAT="AlkAniline-Seq also responds to dihydrouridine and some other abasic-site-forming lesions. A signal identifies the chemistry, not uniquely one modification class.",

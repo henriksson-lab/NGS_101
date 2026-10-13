@@ -11,7 +11,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import indrop as I
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
-                      junction_row, oligo, panel, revcomp, strand_row)
+                      junction_row, oligo, panel, protocol_graph_panels, revcomp,
+                      strand_row)
 import illumina as il
 from page import head, info, table
 import seqprimers as sp
@@ -128,6 +129,14 @@ def sequencing(protocol: str) -> str:
 
 
 def render_page(protocol: str, out: Path) -> None:
+    graph = I.protocol_graph(protocol)
     version_steps = v1_steps() if protocol == I.V1 else v2_steps()
-    out.write_text("\n".join([head(f"{protocol} library chemistry"), preamble(protocol), bead_oligos(), library_oligos(protocol), bead_steps(protocol), version_steps, sequencing(protocol)]), encoding="utf-8")
+    html = "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
+                       bead_oligos(), library_oligos(protocol),
+                       '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+                       '<h2>Molecular details</h2>', bead_steps(protocol), version_steps,
+                       sequencing(protocol)])
+    html = html.replace('<div class="wrap">',
+                        '<div class="wrap" data-protocol-complete="true">', 1)
+    out.write_text(html, encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")

@@ -5,6 +5,9 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import digital_spatial_tags as dsp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 TITLE = "GeoMx DSP — photocleaved spatial tags with NGS readout"
@@ -41,3 +44,59 @@ def workflow():
 
 def final_rows():
     return dsp.final_rows(FINAL_LIBRARY)
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    tissue=graph.input("tissue","fixed tissue with target molecules",
+                       MaterialKind.BIOLOGICAL,primary=True)
+    probe=graph.input("probe","affinity probe carrying a photocleavable DSP tag",
+                      MaterialKind.MOLECULAR)
+    bound=graph.product("bound","probe-bound fixed tissue",MaterialKind.MOLECULAR,
+                        state=tuple(dsp.probe_rows()))
+    graph.react("bind_probe","Bind target-specific tagged probes in tissue",
+                StepKind.GENERIC,
+                ((tissue,InputRole.TEMPLATE),(probe,InputRole.STRUCTURAL)),
+                (bound,),changes_molecule=False)
+    uv=graph.input("patterned_uv","patterned UV cleavage condition",MaterialKind.CONDITION)
+    tags=graph.product("tags","photocleaved tags collected from one AOI",
+                       MaterialKind.MOLECULAR,state=dsp.photocleaved_tag())
+    residual=graph.product("residual_tissue","residual tissue-bound probe material",
+                           MaterialKind.WASTE)
+    graph.react("photocleave","Release synthetic tags from the selected AOI",
+                StepKind.CHEMICAL_CONVERSION,
+                ((bound,InputRole.TEMPLATE),(uv,InputRole.CONDITION)),(tags,residual))
+    graph.discard(residual,"tissue-bound probe remnants are not part of the collected library")
+    i5=graph.input("i5_primer","well-specific GeoMx i5 Seq Code primer",
+                   MaterialKind.OLIGO,inferred=True,
+                   source=SOURCE+" (Seq Code bases proprietary)")
+    i7=graph.input("i7_primer","well-specific GeoMx i7 Seq Code primer",
+                   MaterialKind.OLIGO,inferred=True,
+                   source=SOURCE+" (Seq Code bases proprietary)")
+    polymerase=graph.input("pcr_polymerase","GeoMx library PCR polymerase",
+                           MaterialKind.CATALYST)
+    amplified=graph.product("amplified",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY,inferred=True,
+                            source=SOURCE+" (canonical TruSeq arms inferred)")
+    graph.react("seqcode_pcr","Amplify with the AOI-specific unique-dual-index pair",
+                StepKind.PCR,
+                ((tags,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The vendor publishes region order and lengths but not proprietary Seq Code or SPR bases."))
+    beads=graph.input("ampure","AMPure XP cleanup beads",MaterialKind.SELECTION)
+    library=graph.product("library","purified pooled GeoMx DSP library",
+                          MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (canonical TruSeq arms inferred)")
+    cleanup_waste=graph.product("cleanup_waste","discarded cleanup fraction",
+                                MaterialKind.WASTE)
+    graph.react("cleanup","Perform two successive AMPure XP cleanups",StepKind.CLEANUP,
+                ((amplified,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+                (library,cleanup_waste),changes_molecule=False)
+    graph.discard(cleanup_waste,"the rejected bead-cleanup fraction is discarded")
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "tissue","probe","bind_probe","patterned_uv","photocleave","i5_primer",
+        "i7_primer","pcr_polymerase","seqcode_pcr","ampure","cleanup","library"),SOURCE)
+    return graph.require_publishable()

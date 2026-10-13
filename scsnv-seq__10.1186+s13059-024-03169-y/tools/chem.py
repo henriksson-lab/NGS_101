@@ -1,6 +1,8 @@
 """scSNV-seq transcript, barcode and genotype branches."""
 from chemdraw import Row
 from multibranch import illumina_branch
+from multimodal_spatial import finish_pcr_branch
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE = "scSNV-seq — genotype-linked single-cell transcriptomes"
 NOTES = "01_scsnv-seq.html"
@@ -26,3 +28,46 @@ def sections():
         ("Split cDNA into three RNA-derived libraries", [Row(chunks=[("transcriptome | nested guide/iBAR PCR | nested PuroR-barcode PCR", "r2", False)])], "All three products preserve the droplet cell barcode."),
         ("INFERRED — complete compatible sequencing shells", [Row(chunks=[("four source-established payloads → complete Illumina-compatible endpoints", "me", False)])], "The drawn outer adapter completion is inferred; genotype linkage and barcode payloads are source-established."),
     ]
+
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=g.input("cells","cells before guide-library integration",MaterialKind.BIOLOGICAL,primary=True)
+    cassette=g.input("guide_cassette","doubly barcoded guide cassette with 6-nt iBAR and 12-nt PuroR barcode",MaterialKind.MOLECULAR,state=sections()[0][1])
+    lentiviral=g.input("integration_machinery","lentiviral integration machinery",MaterialKind.CATALYST)
+    integrated=g.product("integrated","cells carrying a guide, iBAR and PuroR barcode pair",MaterialKind.MOLECULAR,state=sections()[0][1])
+    g.react("integrate","Integrate the doubly barcoded guide cassette",StepKind.INTEGRATION,((cassette,InputRole.TEMPLATE),(cells,InputRole.ANALYTE),(lentiviral,InputRole.CATALYST)),(integrated,))
+
+    guide=g.input("guide_rna","integrated guide RNA",MaterialKind.OLIGO)
+    editor=g.input("base_editor","base-editing enzyme",MaterialKind.CATALYST)
+    edited=g.product("edited","base-edited cells retaining the barcode pair",MaterialKind.MOLECULAR,state=sections()[1][1])
+    g.react("edit","Base-edit the guide-directed genomic locus",StepKind.GENOME_EDITING,((integrated,InputRole.TEMPLATE),(guide,InputRole.STRUCTURAL),(editor,InputRole.CATALYST)),(edited,))
+    expanded=g.product("expanded","expanded edited clone descendants",MaterialKind.MOLECULAR,state=sections()[1][1])
+    g.react("expand","Expand edited clone descendants",StepKind.GENERIC,((edited,InputRole.TEMPLATE),),(expanded,),changes_molecule=False)
+
+    droplet_condition=g.input("droplet_condition","10x 5-prime droplet partitioning condition",MaterialKind.CONDITION)
+    occupied=g.product("occupied","occupied 10x droplets containing edited cells",MaterialKind.MOLECULAR,state=sections()[2][1])
+    empty=g.product("droplet_waste","empty or unusable droplets",MaterialKind.WASTE)
+    g.react("partition","Partition edited cells for 10x 5-prime capture",StepKind.PARTITION,((expanded,InputRole.TEMPLATE),(droplet_condition,InputRole.CONDITION)),(occupied,empty),changes_molecule=False)
+    g.discard(empty,"does not contain a usable edited-cell template")
+
+    bead=g.input("bead_oligo","proprietary 10x 5-prime cell-barcode and UMI bead oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (commercial oligo sequence not printed as a complete endpoint)")
+    guide_rt=g.input("guide_rt_primer","guide-scaffold spike-in RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete endpoint oligo not printed)")
+    puro_rt=g.input("puro_rt_primer","PuroR-barcode spike-in RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete endpoint oligo not printed)")
+    rt=g.input("reverse_transcriptase","10x 5-prime reverse transcriptase",MaterialKind.CATALYST)
+    captured=g.product("captured","droplet cell retaining gDNA and three RNA-derived cDNA classes",MaterialKind.MOLECULAR,state=sections()[2][1],inferred=True,source=SOURCE+" (complete commercial endpoint oligos not printed)")
+    g.react("reverse_transcribe","Capture transcript, guide/iBAR and PuroR-barcode cDNA",StepKind.REVERSE_TRANSCRIPTION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(guide_rt,InputRole.STRUCTURAL),(puro_rt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(captured,))
+
+    transcript=g.product("transcript_template","10x transcriptome cDNA",MaterialKind.MOLECULAR,state=RNA,inferred=True,source=SOURCE+" (outer completion inferred)")
+    guide_template=g.product("guide_template","guide and 6-nt iBAR cDNA",MaterialKind.MOLECULAR,state=GUIDE,inferred=True,source=SOURCE+" (outer completion inferred)")
+    puro_template=g.product("puro_template","12-nt PuroR-barcode cDNA",MaterialKind.MOLECULAR,state=PURO,inferred=True,source=SOURCE+" (outer completion inferred)")
+    genotype=g.product("genotype_template","targeted edited-locus genomic DNA",MaterialKind.MOLECULAR,state=GENO,inferred=True,source=SOURCE+" (outer completion inferred)")
+    g.react("separate_readouts","Separate transcript, guide/iBAR, PuroR-barcode and genotype readouts",StepKind.SPLIT,((captured,InputRole.TEMPLATE),),(transcript,guide_template,puro_template,genotype),changes_molecule=False)
+
+    reviewed=["cells","guide_cassette","integration_machinery","integrate","guide_rna","base_editor","edit","expand","droplet_condition","partition","bead_oligo","guide_rt_primer","puro_rt_primer","reverse_transcriptase","reverse_transcribe","separate_readouts"]
+    finish_pcr_branch(g,"rna",transcript,RNA,TENX_PRIMERS,reviewed,label="scSNV-seq transcriptome",inferred_primers=True,limitation="The complete commercial 10x 5-prime endpoint primer pair is not printed as one construct.")
+    finish_pcr_branch(g,"guide",guide_template,GUIDE,GUIDE_PRIMERS,reviewed,label="scSNV-seq guide and iBAR",inferred_primers=True,limitation="The complete nested guide/iBAR enrichment and outer primer pair is not printed as one construct.")
+    finish_pcr_branch(g,"puro",puro_template,PURO,PURO_PRIMERS,reviewed,label="scSNV-seq PuroR barcode",inferred_primers=True,limitation="The complete nested PuroR-barcode enrichment and outer primer pair is not printed as one construct.")
+    finish_pcr_branch(g,"genotype",genotype,GENO,GENO_PRIMERS,reviewed,label="scSNV-seq targeted genotype",inferred_primers=True,limitation="The target-dependent genotype primer panel is not one universal published endpoint pair.")
+    g.declare_reviewed_scope(reviewed,SOURCE)
+    return g.require_publishable()

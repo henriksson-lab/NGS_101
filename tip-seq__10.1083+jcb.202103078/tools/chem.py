@@ -11,6 +11,8 @@ import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo
 from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from tagmentation import loaded_tn5_adapter
 
 TITLE = "TIP-seq — targeted insertion of promoters"
@@ -205,3 +207,116 @@ def workflow():
           Scene.duplex(list(FINAL_LIBRARY), label="indexed sciTIP library").rows(),
           name="sciTIP sequencing library")
     return w
+
+
+def protocol_graph():
+    source = ("Bartlett et al., Journal of Cell Biology (2021), Table S1; "
+              "doi:10.1083/jcb.202103078")
+    graph = ProtocolGraph("TIP-seq / sciTIP-seq", authority=source)
+    chromatin = graph.input(
+        "target_chromatin", "antibody-bound target chromatin",
+        MaterialKind.BIOLOGICAL,
+        state=MolecularState("Antibody-bound chromatin", tuple(
+            Scene.duplex([seg("antibody-targeted chromatin", "X" * 38,
+                              placeholder=True)], label="antibody-bound chromatin").rows())),
+        primary=True)
+    promoter_transposome = graph.input(
+        "promoter_transposome", "loaded ME-scT7-r5001/ME-rev pA–Tn5 transposome",
+        MaterialKind.ADAPTER, state=loaded_me_t7())
+    pa_tn5 = graph.input("pa_tn5", "antibody-tethered pA–Tn5 transposase",
+                         MaterialKind.CATALYST)
+    tagged = graph.product(
+        "promoter_tagged", "ME-scT7-tagged target-proximal genomic DNA",
+        MaterialKind.MOLECULAR,
+        state=Scene.duplex(list(TAGGED), label="promoter-tagged chromatin"))
+    first_losses = graph.product("first_tn5_losses", "non-library first-Tn5 products",
+                                 MaterialKind.WASTE)
+    graph.react("promoter_tagmentation", "Tagment target-proximal DNA with promoter-loaded pA–Tn5",
+                StepKind.TAGMENTATION,
+                ((chromatin, InputRole.TEMPLATE), (promoter_transposome, InputRole.STRUCTURAL),
+                 (pa_tn5, InputRole.CATALYST)), (tagged, first_losses))
+    graph.discard(first_losses, "does not retain the promoter-bearing target-proximal insertion")
+    fill = graph.input("gap_fill_polymerase", "Tn5-gap-fill DNA polymerase",
+                       MaterialKind.CATALYST)
+    filled = graph.product("filled_tagged_dna", "gap-filled promoter-tagged genomic DNA",
+                           MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("gap_fill", "Fill the staggered Tn5 gap", StepKind.EXTENSION,
+                ((tagged, InputRole.TEMPLATE), (fill, InputRole.CATALYST)), (filled,))
+    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    rna = graph.product("t7_rna", "linearly amplified target-proximal RNA",
+                        MaterialKind.MOLECULAR,
+                        state=MolecularState("T7 RNA copy", tuple(_rna_rows())))
+    graph.react("t7_transcription", "Transcribe outward from the inserted T7 promoter",
+                StepKind.TRANSCRIPTION,
+                ((filled, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
+    random_hexamer = graph.input("random_hexamer", "random-hexamer RT primer",
+                                 MaterialKind.OLIGO)
+    mmlv = graph.input("mmlv", "MMLV reverse transcriptase", MaterialKind.CATALYST)
+    first_cdna = graph.product("first_cdna", "random-hexamer first-strand cDNA",
+                               MaterialKind.MOLECULAR,
+                               state=MolecularState("RNA/cDNA", tuple(
+                                   Scene.duplex(RNA_PRODUCT, label="RNA/cDNA after RT").rows())))
+    graph.react("reverse_transcription", "Prime and reverse-transcribe T7 RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (random_hexamer, InputRole.STRUCTURAL),
+                 (mmlv, InputRole.CATALYST)), (first_cdna,))
+    hydrolysis = graph.input("rna_removal", "RNA-removal condition", MaterialKind.CONDITION)
+    clean_cdna = graph.product("clean_cdna", "RNA-free first-strand cDNA",
+                               MaterialKind.MOLECULAR, state=first_cdna.state)
+    degraded_rna = graph.product("degraded_rna", "removed RNA fragments", MaterialKind.WASTE)
+    graph.react("remove_rna", "Remove the RNA template", StepKind.STRAND_SEPARATION,
+                ((first_cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CONDITION)),
+                (clean_cdna, degraded_rna))
+    graph.discard(degraded_rna, "the cDNA strand is retained for second-strand synthesis")
+    second_primer = graph.input("second_strand_primer", "published sss_sci-nXTv2 primer",
+                                MaterialKind.OLIGO)
+    taq = graph.input("second_strand_polymerase", "Taq DNA polymerase",
+                      MaterialKind.CATALYST)
+    double = graph.product("double_stranded_cdna", "double-stranded target-proximal cDNA",
+                           MaterialKind.MOLECULAR,
+                           state=Scene.duplex(RNA_PRODUCT, label="double-stranded cDNA"))
+    graph.react("second_strand", "Synthesize the second cDNA strand",
+                StepKind.EXTENSION,
+                ((clean_cdna, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
+                 (taq, InputRole.CATALYST)), (double,))
+    meb = graph.input("meb_transposome", "loaded MeB-only Tn5 transposome",
+                      MaterialKind.ADAPTER, state=loaded_me_b())
+    tn5 = graph.input("second_tn5", "MeB-only Tn5 transposase", MaterialKind.CATALYST)
+    pre_pcr = graph.product("pre_pcr", "twice-tagmented sciTIP cDNA",
+                            MaterialKind.MOLECULAR, state=PRE_PCR)
+    second_losses = graph.product("second_tn5_losses", "non-amplifiable second-Tn5 products",
+                                  MaterialKind.WASTE)
+    graph.react("second_tagmentation", "Fragment cDNA and install the opposite MeB end",
+                StepKind.TAGMENTATION,
+                ((double, InputRole.TEMPLATE), (meb, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (pre_pcr, second_losses))
+    graph.discard(second_losses, "does not retain the amplifiable two-ended sciTIP configuration")
+    s502 = graph.input("s502", "published sciTIP S502 indexed primer", MaterialKind.OLIGO)
+    n701 = graph.input("n701", "published N701 indexed primer", MaterialKind.OLIGO)
+    pcr_polymerase = graph.input("pcr_polymerase", "indexed library PCR polymerase",
+                                 MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", "sciTIP sequencing library",
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    geometry = PCRGeometry.exact(
+        PRE_PCR, PCRPrimer("sciTIP S502", S502, anneal_nt=len(SSS_SCI)),
+        PCRPrimer("N701", N701, anneal_nt=len(nx.S7)),
+        statement="Table S1 prints both representative index primers and annealing regions.")
+    graph.react("indexed_pcr", "Amplify with S502 and N701 indexed primers",
+                StepKind.PCR,
+                ((pre_pcr, InputRole.TEMPLATE), (s502, InputRole.STRUCTURAL),
+                 (n701, InputRole.STRUCTURAL), (pcr_polymerase, InputRole.CATALYST)),
+                (library,), geometry=geometry)
+    graph.sequence(library, SequencingPlan(
+        FINAL_LIBRARY, tuple(SEQ_PRIMERS), tuple(p.role for p in SEQ_PRIMERS),
+        READ_LENGTHS,
+        {"Read 1": "include", "Index 1 (i7)": "demultiplex",
+         "Index 2 (i5)": "extract_and_demultiplex", "Read 2": "include"}))
+    graph.declare_reviewed_scope((
+        "target_chromatin", "promoter_transposome", "pa_tn5", "promoter_tagmentation",
+        "gap_fill_polymerase", "gap_fill", "t7_polymerase", "t7_transcription",
+        "random_hexamer", "mmlv", "reverse_transcription", "rna_removal", "remove_rna",
+        "second_strand_primer", "second_strand_polymerase", "second_strand",
+        "meb_transposome", "second_tn5", "second_tagmentation", "s502", "n701",
+        "pcr_polymerase", "indexed_pcr", "sequencing_library",
+    ), source)
+    return graph.require_publishable()

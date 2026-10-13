@@ -13,7 +13,8 @@ import illumina as il
 import nextera as nx
 import s3wgs as S
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+from chemdraw import (Construct, Scene, Segment, annotation_rows, oligo, panel,
+                      protocol_graph_panels, strand_row)
 from page import head, info
 
 OUT = HERE.parent / "s3-wgs.html"
@@ -101,13 +102,12 @@ then T + the 19-nt mosaic end, and reaches genomic DNA at cycle&nbsp;29.</info><
 
 def render() -> str:
     return "\n".join([
-        head("s3-WGS library chemistry"), '<div class="wrap">',
+        head("s3-WGS library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>s3-WGS &mdash; symmetrical-strand combinatorial-indexed whole-genome sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-021-00962-z">Mulqueen '
              'et al., <i>Nature Biotechnology</i> (2021)</a>.'),
         key_oligos(), '<h2>Library construction</h2>',
-        '<h3>(1) Tagment with one indexed U-ME transposome per first-round well</h3>',
-        transposome(), tagmentation(), gap_fill_and_switch(), final_library(),
+        protocol_graph_panels(S.protocol_graph(),cls="long"),
         sp.section(S.final_library(), S.SEQ_PRIMERS,
                    intro="The protocol uses stock Nextera Read 1 / Index 2 and stock TruSeq "
                          "Read 2 / Index 1 primers.",

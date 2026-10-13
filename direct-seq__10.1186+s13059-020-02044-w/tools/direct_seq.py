@@ -4,8 +4,12 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import (MolecularState, Scene, Segment, Workflow, duplex_rows,
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow, duplex_rows,
                       feature, revcomp)
+from multimodal_spatial import finish_pcr_branch
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
 from tenx_rna import SEQ_PRIMERS, captured_rna_library, transcript_library
 
 
@@ -39,6 +43,37 @@ P5_READ1 = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC"
 TRNA_READ2 = "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT" + TRNA_BIND
 P7_READ2_INDEX1 = "CAAGCAGAAGACGGCATACGAGATACTCGCTA" + "GTGACTGGAGTTCAGACGTGT"
 P7_READ2_INDEX2 = "CAAGCAGAAGACGGCATACGAGATGGAGCTAC" + "GTGACTGGAGTTCAGACGTGT"
+
+
+# PCR templates are represented independently of the final sequencing construct.  The
+# first template carries the 10x pre-amplification handle on which P5_Read1 lands.  Its
+# product carries the complete tRNA_Read2 sequence, which is the landing site for the
+# indexed reverse primer in the following PCR.  Keeping these reaction states distinct
+# avoids silently treating an intermediate 10x handle as part of the biological insert.
+PREAMPLIFIED_GUIDE = Construct([
+    Segment("P5_Read1 annealing region", P5_READ1[-20:]),
+    Segment("cell barcode", "B" * 16, "cbc", placeholder=True),
+    Segment("UMI", "U" * 12, "umi", placeholder=True),
+    Segment("captured guide cDNA", "X" * 80, placeholder=True),
+    Segment("tRNA primer-site cDNA", revcomp(TRNA_BIND)),
+], "pre-amplified Direct-seq guide cDNA")
+
+FIRST_GUIDE_AMPLICON = Construct([
+    Segment("P5_Read1 product end", P5_READ1),
+    Segment("cell barcode", "B" * 16, "cbc", placeholder=True),
+    Segment("UMI", "U" * 12, "umi", placeholder=True),
+    Segment("captured guide cDNA", "X" * 80, placeholder=True),
+    Segment("tRNA_Read2 product end", revcomp(TRNA_READ2)),
+], "first Direct-seq guide-PCR amplicon")
+
+FIRST_GUIDE_PCR = PCRGeometry.exact(
+    PREAMPLIFIED_GUIDE, PCRPrimer("P5_Read1", P5_READ1),
+    PCRPrimer("tRNA_Read2", TRNA_READ2),
+    statement="Supplementary Table S3d gives both first guide-enrichment primers.")
+INDEX_GUIDE_PCR = PCRGeometry.exact(
+    FIRST_GUIDE_AMPLICON, PCRPrimer("P5_Read1", P5_READ1),
+    PCRPrimer("P7_Read2_Index1", P7_READ2_INDEX1),
+    statement="Supplementary Table S3d gives the indexed terminal-PCR primers.")
 
 
 def _programmed_transcript_scene() -> Scene:
@@ -154,3 +189,91 @@ def workflow() -> Workflow:
              name="Final guide-index library",
              note="The third PCR adds P7 and one of the exact eight-base sample indexes. The mRNA half follows the normal 10x 3′ v3 library workflow.")
     return wf
+
+
+def protocol_graph():
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    cells = g.input(
+        "cells", "cells expressing programmed guide RNA and endogenous mRNA",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("Direct-seq cells", (role("programmed guide RNA"),
+                                             role("poly(A) mRNA"))),
+        primary=True)
+    gems = g.input("gems", "10x 3-prime v3 GEM partitioning condition",
+                   MaterialKind.CONDITION)
+    occupied = g.product("occupied", "occupied barcoded GEM reactions",
+                         MaterialKind.MOLECULAR, state=cells.state)
+    failed = g.product("failed", "empty or unresolved GEM products",
+                       MaterialKind.WASTE)
+    g.react("partition", "Partition cells with barcoded gel beads",
+            StepKind.PARTITION,
+            ((cells, InputRole.TEMPLATE), (gems, InputRole.CONDITION)),
+            (occupied, failed), changes_molecule=False)
+    g.discard(failed, "does not retain a resolvable cell barcode")
+
+    bead = g.input("bead_primer", "10x cell-barcode/UMI oligo(dT) bead primer",
+                   MaterialKind.OLIGO, inferred=True,
+                   source=SOURCE + " (commercial bead oligo bases are not disclosed here)")
+    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
+    shared = g.product("shared_cdna", "cell-barcoded mRNA and guide cDNA",
+                       MaterialKind.MOLECULAR,
+                       state=molecule("shared Direct-seq cDNA",
+                                      (role("cell barcode"), role("UMI"),
+                                       role("mRNA cDNA"), role("guide cDNA"))))
+    g.react("reverse_transcribe",
+            "Capture mRNA and the programmed 8A8G guide with the same bead primer",
+            StepKind.REVERSE_TRANSCRIPTION,
+            ((occupied, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
+             (rt, InputRole.CATALYST)), (shared,))
+
+    rna_branch = g.product("rna_branch", "gene-expression cDNA branch",
+                           MaterialKind.MOLECULAR, state=shared.state)
+    guide_branch = g.product("guide_branch", "guide-enrichment cDNA branch",
+                             MaterialKind.MOLECULAR, state=PREAMPLIFIED_GUIDE)
+    g.react("split", "Split pre-amplified cDNA for gene and guide libraries",
+            StepKind.SPLIT, ((shared, InputRole.TEMPLATE),),
+            (rna_branch, guide_branch), changes_molecule=False)
+
+    reviewed = ["cells", "gems", "partition", "bead_primer", "rt",
+                "reverse_transcribe", "split"]
+    finish_pcr_branch(
+        g, "rna", rna_branch, RNA_LIB, SEQ_PRIMERS, reviewed,
+        label="Direct-seq gene expression",
+        read_lengths=READ_LENGTHS["Gene-expression library"],
+        read_uses=READ_USES["Gene-expression library"], inferred_primers=True)
+
+    p5 = g.input("p5_read1", "P5_Read1 forward primer", MaterialKind.OLIGO,
+                 state=P5_READ1)
+    trna = g.input("trna_read2", "tRNA_Read2 reverse primer", MaterialKind.OLIGO,
+                   state=TRNA_READ2)
+    polymerase_1 = g.input("guide_polymerase_1", "guide-enrichment PCR polymerase",
+                           MaterialKind.CATALYST)
+    first = g.product("first_guide_amplicon", "first nested guide-PCR amplicon",
+                      MaterialKind.MOLECULAR, state=FIRST_GUIDE_AMPLICON)
+    g.react("guide_pcr_1", "Enrich guide cDNA with P5_Read1 and tRNA_Read2",
+            StepKind.PCR,
+            ((guide_branch, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+             (trna, InputRole.STRUCTURAL), (polymerase_1, InputRole.CATALYST)),
+            (first,), geometry=FIRST_GUIDE_PCR)
+
+    indexed = g.input("p7_indexed", "P7_Read2 indexed reverse primer",
+                      MaterialKind.OLIGO, state=P7_READ2_INDEX1)
+    polymerase_2 = g.input("guide_polymerase_2", "terminal guide-PCR polymerase",
+                           MaterialKind.CATALYST)
+    guide_library = g.product("guide_library", "indexed guide sequencing library",
+                              MaterialKind.LIBRARY, state=GUIDE_LIB)
+    g.react("guide_pcr_2", "Add the indexed P7 end to the enriched guide library",
+            StepKind.PCR,
+            ((first, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+             (indexed, InputRole.STRUCTURAL), (polymerase_2, InputRole.CATALYST)),
+            (guide_library,), geometry=INDEX_GUIDE_PCR)
+    g.sequence(guide_library, SequencingPlan(
+        library=GUIDE_LIB, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        read_lengths=READ_LENGTHS["Enriched guide library"],
+        read_uses=READ_USES["Enriched guide library"]))
+    reviewed.extend(("p5_read1", "trna_read2", "guide_polymerase_1",
+                     "guide_pcr_1", "p7_indexed", "guide_polymerase_2",
+                     "guide_pcr_2", "guide_library"))
+    g.declare_reviewed_scope(reviewed, SOURCE)
+    return g.require_publishable()

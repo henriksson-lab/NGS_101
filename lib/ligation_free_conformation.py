@@ -12,6 +12,9 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import truseq_library
 from chemdraw import Construct, Scene, Segment, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -161,10 +164,151 @@ def gam_workflow():
     ))
 
 
+def _finish_pcr(graph, template, spec, prefix, reviewed, label):
+    forward = graph.input(prefix + "_forward", label + " forward primer", MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " reverse primer", MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " polymerase",
+                            MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    graph.react(prefix + "_pcr", label, StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY,
+                    reason="The commercial intermediate is not disclosed as an exact Construct; the final primer landing sites are checked independently."))
+    graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY,
+                                           primers=tuple(spec.SEQ_PRIMERS)))
+    reviewed.extend((forward.id, reverse.id, polymerase.id, prefix + "_pcr",
+                     library.id))
+
+
+def _chia_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    chromatin = graph.input("chromatin", "formaldehyde-cross-linked nucleus",
+                            MaterialKind.BIOLOGICAL,
+                            state=molecule("cross-linked nucleus", (role("multiplex chromatin complexes"),)),
+                            primary=True)
+    nuclease = graph.input("restriction_enzyme", "in-situ chromatin fragmentation enzyme",
+                           MaterialKind.CATALYST)
+    digested = graph.product("digested", "restriction-fragmented cross-linked complexes",
+                             MaterialKind.MOLECULAR, state=grouped_fragments("digested complexes"))
+    graph.react("digest", "Digest chromatin in situ without proximity ligation",
+                StepKind.DIGESTION,
+                ((chromatin, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
+                (digested,))
+    sonication = graph.input("sonication", "complex-release sonication condition",
+                             MaterialKind.CONDITION)
+    released = graph.product("released", "released multi-fragment chromatin complexes",
+                             MaterialKind.MOLECULAR, state=grouped_fragments("released complexes"))
+    graph.react("release", "Release intact complexes by sonication",
+                StepKind.FRAGMENTATION,
+                ((digested, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)),
+                (released,))
+    gem = graph.input("gem_condition", "Chromium Genome v2 GEM partition condition",
+                      MaterialKind.CONDITION)
+    partitioned = graph.product("partitioned", "complex-bearing GEMs",
+                                MaterialKind.MOLECULAR, state=released.state)
+    empty = graph.product("empty_gems", "empty or collision-unresolved GEM material",
+                          MaterialKind.WASTE)
+    graph.react("partition", "Partition chromatin complexes into GEMs",
+                StepKind.PARTITION,
+                ((released, InputRole.TEMPLATE), (gem, InputRole.CONDITION)),
+                (partitioned, empty))
+    graph.discard(empty, "does not yield an interpretable single-complex partition")
+    bead_oligo = graph.input("bead_oligo", "GemCode barcode/random-primer bead oligo",
+                             MaterialKind.OLIGO, inferred=True,
+                             source=source + " (commercial oligo bases not disclosed)")
+    polymerase = graph.input("isothermal_polymerase", "isothermal extension polymerase",
+                             MaterialKind.CATALYST)
+    copied = graph.product("copied", "independent copies sharing one GEM barcode",
+                           MaterialKind.MOLECULAR,
+                           state=grouped_fragments("barcoded copies", copied=True))
+    graph.react("amplify", "Random-prime isothermal linear amplification",
+                StepKind.EXTENSION,
+                ((partitioned, InputRole.TEMPLATE), (bead_oligo, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (copied,))
+    reviewed = ["chromatin", "restriction_enzyme", "digest", "sonication", "release",
+                "gem_condition", "partition", "bead_oligo", "isothermal_polymerase",
+                "amplify"]
+    _finish_pcr(graph, copied, spec, "library", reviewed,
+                "Pool GEM products and complete the ChIA-Drop library")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _gam_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    nucleus = graph.input("nucleus", "fixed sucrose-embedded nucleus",
+                          MaterialKind.BIOLOGICAL,
+                          state=molecule("fixed nucleus", (role("three-dimensional chromosome arrangement"),)),
+                          primary=True)
+    sectioning = graph.input("cryosection", "approximately 220-nm cryosection condition",
+                             MaterialKind.CONDITION)
+    profile = graph.product("profile", "one thin nuclear profile",
+                            MaterialKind.MOLECULAR, state=nuclear_profile_scene("profile"))
+    excluded = graph.product("excluded_nucleus", "nuclear material outside the sampled plane",
+                             MaterialKind.WASTE)
+    graph.react("section", "Cut a thin random plane through the nucleus",
+                StepKind.SAMPLING,
+                ((nucleus, InputRole.TEMPLATE), (sectioning, InputRole.CONDITION)),
+                (profile, excluded))
+    graph.discard(excluded, "lies outside the sampled nuclear profile")
+    cap = graph.input("capture_cap", "adhesive laser-microdissection cap",
+                      MaterialKind.SELECTION)
+    isolated = graph.product("isolated", "one isolated nuclear profile",
+                             MaterialKind.MOLECULAR, state=profile.state)
+    rejected = graph.product("uncaptured", "uncaptured section material", MaterialKind.WASTE)
+    graph.react("microdissect", "Laser-microdissect one nuclear profile",
+                StepKind.SELECTION,
+                ((profile, InputRole.TEMPLATE), (cap, InputRole.SELECTION)),
+                (isolated, rejected))
+    graph.discard(rejected, "is not part of the individually indexed nuclear profile")
+    wga4 = graph.input("wga4_reagent", "Sigma WGA4 preparation reagent",
+                       MaterialKind.CONDITION, inferred=True,
+                       source=source + " (commercial composition not disclosed)")
+    prepared = graph.product("prepared", "WGA4-prepared nuclear-profile DNA",
+                             MaterialKind.MOLECULAR,
+                             state=nuclear_profile_scene("WGA4-prepared profile", amplified=True))
+    graph.react("prepare", "Lyse and prepare profile DNA with WGA4",
+                StepKind.EXTRACTION,
+                ((isolated, InputRole.TEMPLATE), (wga4, InputRole.CONDITION)), (prepared,))
+    wga_f = graph.input("wga_forward", "WGA4 amplification primer", MaterialKind.OLIGO,
+                        inferred=True, source=source + " (sequence proprietary)")
+    wga_r = graph.input("wga_reverse", "WGA4 opposing amplification primer",
+                        MaterialKind.OLIGO, inferred=True,
+                        source=source + " (sequence proprietary)")
+    wga_polymerase = graph.input("wga_polymerase", "WGA4 polymerase",
+                                 MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "whole-genome-amplified profile DNA",
+                              MaterialKind.MOLECULAR, state=prepared.state)
+    graph.react("wga", "Whole-genome amplify the nuclear-profile DNA", StepKind.PCR,
+                ((prepared, InputRole.TEMPLATE), (wga_f, InputRole.STRUCTURAL),
+                 (wga_r, InputRole.STRUCTURAL),
+                 (wga_polymerase, InputRole.CATALYST)), (amplified,),
+                geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="WGA4 adapter and primer sequences are proprietary."))
+    reviewed = ["nucleus", "cryosection", "section", "capture_cap", "microdissect",
+                "wga4_reagent", "prepare", "wga_forward", "wga_reverse",
+                "wga_polymerase", "wga"]
+    _finish_pcr(graph, amplified, spec, "library", reviewed,
+                "Build the indexed TruSeq GAM library")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _spec(key, **fields):
+    spec = SimpleNamespace(**fields)
+    spec.protocol_graph = lambda: (_gam_graph(spec) if key == "gam" else _chia_graph(spec))
+    return spec
+
+
 def get(key: str):
     if key == "gam":
         final, primers = gam_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="GAM — Genome Architecture Mapping by nuclear-profile co-segregation",
             NOTES="01_gam.html",
             SOURCE='<a href="https://doi.org/10.1038/nature21411">Beagrie et al., <i>Nature</i> (2017)</a>; original WGA4 and TruSeq implementation.',
@@ -184,7 +328,7 @@ def get(key: str):
     if key != "chia-drop":
         raise KeyError(key)
     final, primers = chia_drop_library()
-    return SimpleNamespace(
+    return _spec(key,
         TITLE="ChIA-Drop — ligation-free droplet mapping of multiplex chromatin complexes",
         NOTES="01_chia_drop.html",
         SOURCE='<a href="https://doi.org/10.1038/s41586-019-0949-1">Zheng et al., <i>Nature</i> (2019)</a>; Chromium Genome v2 library and deposited read metadata.',

@@ -4,6 +4,9 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature,revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
 
@@ -34,3 +37,52 @@ def final_library(insert_nt=34):
     return lib
 def primer_landings():
     lib=final_library(); return [(p,sp.locate(lib,p)) for p in SEQ_PRIMERS]
+
+def protocol_graph():
+    source="Defining source: https://doi.org/10.1038/s41467-018-07771-0"
+    graph=ProtocolGraph("Plate_scATAC-seq",authority=source)
+    nuclei=graph.input("nuclei","native nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    transposome=graph.input("transposome","Nextera-loaded Tn5 transposome",MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_nuclei","intact nuclei containing tagmented chromatin",
+                         MaterialKind.MOLECULAR,state=tagmented_scene())
+    waste=graph.product("tagmentation_waste","non-library tagmentation products",MaterialKind.WASTE)
+    graph.react("tagment","Tagment native nuclei in bulk",StepKind.TAGMENTATION,
+                ((nuclei,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,waste))
+    graph.discard(waste,"products without usable paired transposon ends are not amplified")
+    sorter=graph.input("single_nucleus_sort","one-nucleus-per-well sorting rule",MaterialKind.SELECTION)
+    wells=graph.product("single_nucleus_wells","single tagmented nuclei in indexed wells",MaterialKind.MOLECULAR)
+    excluded=graph.product("excluded_events","empty wells and multiplet sorting events",MaterialKind.WASTE)
+    graph.react("sort","Sort one tagmented nucleus into each pre-indexed well",StepKind.SELECTION,
+                ((tagged,InputRole.TEMPLATE),(sorter,InputRole.SELECTION)),(wells,excluded))
+    graph.discard(excluded,"empty and multiplet events are excluded from single-cell libraries")
+    release=graph.input("release_mix","SDS, proteinase K and Tween-20 release conditions",MaterialKind.CONDITION)
+    released=graph.product("released_fragments","Tn5-released tagmented fragments",MaterialKind.MOLECULAR)
+    debris=graph.product("protein_debris","digested Tn5 and nuclear debris",MaterialKind.WASTE)
+    graph.react("release","Release Tn5 and nuclear proteins in each well",StepKind.SOLUBILIZATION,
+                ((wells,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,debris))
+    graph.discard(debris,"protein and nuclear debris do not enter the library")
+    polymerase=graph.input("gap_fill_polymerase","gap-fill polymerase",MaterialKind.CATALYST)
+    filled=graph.product("gap_filled_fragments","gap-filled tagmented fragments",MaterialKind.MOLECULAR)
+    graph.react("gap_fill","Fill the transposition gaps at 72 degrees C",StepKind.EXTENSION,
+                ((released,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
+    s5=graph.input("s5_index_primer","well-specific S5xx primer",MaterialKind.OLIGO,state=tuple(s502()))
+    n7=graph.input("n7_index_primer","well-specific N7xx primer",MaterialKind.OLIGO,state=tuple(n701()))
+    library=graph.product("library",final_library().name,MaterialKind.LIBRARY,state=final_library())
+    graph.react("indexed_pcr","Amplify with the well-specific S5xx/N7xx primer pair",StepKind.PCR,
+                ((filled,InputRole.TEMPLATE),(s5,InputRole.STRUCTURAL),
+                 (n7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(final_library(),
+                    reason="The gap-filled pre-PCR construct is drawn as a molecular scene; exact final Nextera arms are verified separately."))
+    graph.sequence(library,SequencingPlan(
+        library=final_library(),primers=SEQ_PRIMERS,
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        read_lengths={"Index 1 (i7)":8,"Index 2 (i5)":8},
+        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"}))
+    graph.declare_reviewed_scope((
+        "nuclei","transposome","tn5","tagment","single_nucleus_sort","sort",
+        "release_mix","release","gap_fill_polymerase","gap_fill","s5_index_primer",
+        "n7_index_primer","indexed_pcr","library"),source)
+    return graph.require_publishable()

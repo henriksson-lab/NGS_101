@@ -5,10 +5,12 @@ Kit (ref. 1005709); Illumina publishes that obsolete single-index oligo set.
 """
 from __future__ import annotations
 
+import sys
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from nuclease_accessibility import protocol_graph as _protocol_graph
 
 INDEX_NT = 6
 
@@ -98,3 +100,10 @@ def final_library(insert_nt: int = 36) -> Construct:
 def primer_landings():
     lib = final_library()
     return [(primer, sp.locate(lib, primer)) for primer in SEQ_PRIMERS]
+
+
+def protocol_graph():
+    return _protocol_graph(
+        sys.modules[__name__], name="scDNase-seq",
+        source="Defining source: https://doi.org/10.1038/nature15740",
+        nuclease="DNase I", inferred_adapters=False, final_amplification=True)

@@ -2,12 +2,18 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import duplex_rows, panel, workflow_from_sections, workflow_panel
+from chemdraw import (duplex_rows, panel, protocol_graph_panels,
+                      workflow_from_sections, workflow_panel)
 from page import head, info
 
 
 def render(m) -> str:
-    parts = [head(m.TITLE), '<div class="wrap">', f'<h1>{m.TITLE}</h1>',
+    graph_factory = getattr(m, "protocol_graph", None)
+    graph = graph_factory() if callable(graph_factory) else None
+    if graph is not None:
+        graph.require_publishable()
+    graph_attr = ' data-protocol-complete="true"' if graph is not None else ""
+    parts = [head(m.TITLE), f'<div class="wrap"{graph_attr}>', f'<h1>{m.TITLE}</h1>',
              f'<p class="research-notes"><a href="{m.NOTES}">Research notes</a></p>',
              info(m.SOURCE), info(m.SUMMARY)]
     if getattr(m, "CAVEAT", ""):
@@ -16,12 +22,16 @@ def render(m) -> str:
         rows = list(m.oligos())
         if rows:
             parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
-    if callable(getattr(m, "workflow", None)):
+    if graph is not None:
+        workflow = None
+    elif callable(getattr(m, "workflow", None)):
         workflow = m.workflow()
     else:
         sections = list(m.sections())
         workflow = workflow_from_sections(sections) if sections else None
-    if workflow is not None:
+    if graph is not None:
+        parts.extend(['<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long")])
+    elif workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>',
                       workflow_panel(workflow, cls="long")])
     finals = tuple(getattr(m, "FINAL_LIBRARIES", ()))

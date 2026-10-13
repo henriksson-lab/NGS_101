@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg, truseq_library
 from chemdraw import Row
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from rna_special import mutational_read_rows
 
 TITLE = "SHAPE-MaP — RNA structure by mutational profiling"
@@ -22,3 +25,47 @@ def sections():
         ("Encode adducts as cDNA mutations", mutational_read_rows(), "MaP conditions encourage reverse transcriptase to traverse adducts while misincorporating, rather than stopping."),
         ("Amplify target and install sequencing arms", [Row(chunks=[("gene-specific PCR / library PCR → indexed double-stranded cDNA", None, False)]), Row(chunks=[("INFERRED — canonical flow-cell arms flank the assayed RNA-derived insert", None, True)])], "INFERRED — library-arm bases depend on the chosen amplicon implementation; the panel below states the modeled standard configuration."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("rna","folded RNA",MaterialKind.MOLECULAR,primary=True)
+    shape=graph.input("shape_reagent","electrophilic SHAPE modification condition",
+                      MaterialKind.CONDITION)
+    modified=graph.product("modified","2-prime-O-adduct-modified RNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("modify","Acylate flexible RNA 2-prime hydroxyls",
+                StepKind.CHEMICAL_CONVERSION,
+                ((rna,InputRole.TEMPLATE),(shape,InputRole.CONDITION)),(modified,))
+    rt_primer=graph.input("rt_primer","target-specific MaP RT primer",MaterialKind.OLIGO,
+                          inferred=True,source=SOURCE+" (target-specific identity varies)")
+    rt=graph.input("map_rt","mutational-profiling reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("map_cdna","mutation-encoded MaP cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Traverse SHAPE adducts under MaP conditions",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((modified,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    forward=graph.input("pcr_forward","target/library PCR forward primer",
+                        MaterialKind.OLIGO,inferred=True,
+                        source=SOURCE+" (implementation-specific primer)")
+    reverse=graph.input("pcr_reverse","indexed target/library PCR reverse primer",
+                        MaterialKind.OLIGO,inferred=True,
+                        source=SOURCE+" (implementation-specific primer)")
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (modelled standard amplicon endpoint)")
+    graph.react("library_pcr","Amplify the target and install sequencing arms",
+                StepKind.PCR,
+                ((cdna,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="SHAPE-MaP target primers and library-arm implementation vary by assayed RNA."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "rna","shape_reagent","modify","rt_primer","map_rt",
+        "reverse_transcribe","pcr_forward","pcr_reverse","pcr_polymerase",
+        "library_pcr","library"),SOURCE)
+    return graph.require_publishable()

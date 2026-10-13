@@ -543,7 +543,7 @@ RESOLVED = ("doi", "pmid", "pmcid", "title", "first_author", "journal", "year")
 # (published protocols, searchable; or wip, our own unpublished work) -- it is not
 # copied into the scraped table, but a bad value stops the build here rather than later.
 OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
-OURS_VOCAB = {"status": ("documented", "draft", "notes"),
+OURS_VOCAB = {"status": ("documented", "assay", "draft", "notes"),
               "section": ("published", "wip"),
               "modality": ("DNA", "RNA", "multi")}
 

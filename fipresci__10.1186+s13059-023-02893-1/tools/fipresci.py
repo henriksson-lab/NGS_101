@@ -5,6 +5,9 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
                          group="cell_barcode", part="indexed Tn5 round")
@@ -83,3 +86,104 @@ def final_library(insert_nt: int = 28) -> Construct:
 
 def final_scene() -> Scene:
     return Scene.duplex(list(final_library()), label="library")
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1186/s13059-023-02893-1"
+    graph = ProtocolGraph("FIPRESCI", authority=source)
+    cells = graph.input("cells", "fixed permeabilized cells containing RNA",
+                        MaterialKind.BIOLOGICAL, primary=True)
+    rt_primer = graph.input("rt_primer", "in-cell reverse-transcription primer",
+                            MaterialKind.OLIGO, inferred=True,
+                            source=source + " (primer sequence not represented on this page)")
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase",
+                     MaterialKind.CATALYST)
+    hybrids = graph.product("rna_cdna_hybrids", "RNA/cDNA hybrids with 3'-CCC cDNA tails",
+                            MaterialKind.MOLECULAR)
+    graph.react("reverse_transcription", "Reverse-transcribe RNA inside fixed cells",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((cells, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (hybrids,))
+    indexed_adapter = graph.input("indexed_transposome", "round-1 indexed Tn5 adapter",
+                                  MaterialKind.ADAPTER,
+                                  state=tuple(indexed_tn5_top()))
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagmented_cells", "cells containing indexed hybrid-tagmented cDNA",
+                           MaterialKind.MOLECULAR, state=hybrid_tagment_scene())
+    tagment_waste = graph.product("tagmentation_waste", "non-library tagmentation products",
+                                  MaterialKind.WASTE)
+    graph.react("hybrid_tagment", "Tagment RNA/cDNA hybrids in indexed wells",
+                StepKind.TAGMENTATION,
+                ((hybrids, InputRole.TEMPLATE), (indexed_adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tagment_waste))
+    graph.discard(tagment_waste,
+                  "fragments lacking a usable indexed Tn5 end are not enriched")
+    loading = graph.input("gem_loading", "overloaded 10x GEM partition condition",
+                          MaterialKind.CONDITION)
+    droplets = graph.product("productive_gems", "GEMs containing cells and gel-bead oligos",
+                             MaterialKind.MOLECULAR)
+    excluded = graph.product("excluded_gems", "empty or multiplet GEMs",
+                             MaterialKind.WASTE)
+    graph.react("partition", "Overload a 10x 5-prime channel with tagmented cells",
+                StepKind.PARTITION,
+                ((tagged, InputRole.TEMPLATE), (loading, InputRole.CONDITION)),
+                (droplets, excluded))
+    graph.discard(excluded, "empty and multiplet GEMs are excluded from accepted cells")
+    bead = graph.input("bead_tso", "10x 5-prime gel-bead template-switch oligo",
+                       MaterialKind.OLIGO, state=tuple(bead_tso()))
+    switched = graph.product("dual_index_cdna", "plate- and droplet-indexed 5-prime cDNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("template_switch", "Template-switch onto the released bead TSO",
+                StepKind.TEMPLATE_SWITCHING,
+                ((droplets, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (switched,))
+    forward = graph.input("enrichment_forward", "S5R-P5 enrichment primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input("enrichment_reverse", "Tn5-end enrichment primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    enriched = graph.product("enriched_products", "TSO-bearing enriched cDNA products",
+                             MaterialKind.MOLECULAR)
+    graph.react("enrichment_pcr", "Select molecules bearing the droplet TSO and indexed Tn5 end",
+                StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (enriched,), geometry=PCRGeometry.unavailable(
+                    final_library(), reason="The pre-enrichment hybrid fragment is variable; the final primer sites are verified separately."))
+    beads = graph.input("streptavidin_beads", "streptavidin capture beads",
+                        MaterialKind.SELECTION)
+    captured = graph.product("captured_products", "biotin-selected enrichment products",
+                             MaterialKind.MOLECULAR)
+    uncaptured = graph.product("uncaptured_products", "uncaptured amplification products",
+                               MaterialKind.WASTE)
+    graph.react("capture", "Capture the biotin-bearing enrichment products",
+                StepKind.AFFINITY_CAPTURE,
+                ((enriched, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, uncaptured))
+    graph.discard(uncaptured, "unbound products are removed during capture washes")
+    sample_primer = graph.input("sample_index_primer", "S-P7 sample-index primer",
+                                MaterialKind.OLIGO)
+    library = graph.product("library", final_library().name, MaterialKind.LIBRARY,
+                            state=final_library())
+    graph.react("library_pcr", "Complete the adapters and add the sample index",
+                StepKind.PCR,
+                ((captured, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (sample_primer, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final_library(), reason="The captured pre-library intermediate is not represented base-for-base; final sites are exact."))
+    graph.sequence(library, SequencingPlan(
+        library=final_library(), primers=SEQ_PRIMERS, acquired_roles=RUN_ROLES,
+        read_lengths={"Read 1": 150, "Index 1 (i7)": 6, "Read 2": 150},
+        read_uses={"Read 1": "extract_then_include",
+                   "Index 1 (i7)": "demultiplex",
+                   "Read 2": "extract_then_include"}))
+    graph.declare_reviewed_scope((
+        "cells", "rt_primer", "reverse_transcriptase", "reverse_transcription",
+        "indexed_transposome", "tn5", "hybrid_tagment", "gem_loading",
+        "partition", "bead_tso", "template_switch", "enrichment_forward",
+        "enrichment_reverse", "pcr_polymerase", "enrichment_pcr",
+        "streptavidin_beads", "capture", "sample_index_primer", "library_pcr",
+        "library"), source)
+    return graph.require_publishable()

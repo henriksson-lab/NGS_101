@@ -4,6 +4,9 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,feature,revcomp
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
+from tenx_graph import chromium_pcr, partition_material
 
 CS1="TTGCTAGGACCGGCCTTAAAGC"; CS1_RC=revcomp(CS1)
 PARTIAL_R1N=nx.READ1_PRIMER[-22:]
@@ -32,3 +35,51 @@ def read_layout():
     spans=sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28,"Read 2":25})
     rows=lambda role:[(f"{x.read}, {x.cycles}",x.feature.label) for x in spans if x.read==role]
     return [*rows("Read 1"),("Read 2, 1–10","diversity bases"),*rows("Read 2")]
+
+
+def protocol_graph():
+    authority=('Primary chemistry source: <a href="https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf">'
+               '10x Genomics User Guide CG000185 Rev B</a>.')
+    g=ProtocolGraph("10x Chromium 3-prime v3 Cell Surface Protein",authority=authority)
+    cells=g.input("cells","cells with surface epitopes",MaterialKind.BIOLOGICAL,
+                  state=molecule("cells",(role("surface epitopes"),)),primary=True)
+    antibodies=g.input("antibodies","antibody-conjugated Feature Barcode oligos",
+                       MaterialKind.SELECTION)
+    stained=g.product("stained","cells retaining epitope-bound Feature Barcode oligos",
+                      MaterialKind.MOLECULAR,state=molecule("stained cells",(role("surface epitopes"),role("antibody feature tags"))))
+    unbound=g.product("unbound","unbound antibody tags",MaterialKind.WASTE)
+    g.react("stain","Stain cells with antibody-conjugated Feature Barcode oligos",
+            StepKind.BINDING,((cells,InputRole.TEMPLATE),(antibodies,InputRole.SELECTION)),
+            (stained,unbound)); g.discard(unbound,"does not report a cell-bound epitope")
+    reviewed=["cells","antibodies","stain"]
+    occupied=partition_material(g,stained,reviewed,label="stained cells")
+    bead=g.input("bead_primer","Capture Sequence 1 cell-barcode/UMI bead primer",
+                 MaterialKind.OLIGO)
+    polymerase=g.input("extension_polymerase","Feature Barcode extension polymerase",
+                       MaterialKind.CATALYST)
+    copied=g.product("copied","cell-barcoded antibody feature cDNA",MaterialKind.MOLECULAR,
+                     state=feature_cdna())
+    g.react("copy","Copy antibody tags from the Capture Sequence 1 bead primer",
+            StepKind.EXTENSION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+            (polymerase,InputRole.CATALYST)),(copied,))
+    reviewed.extend(("bead_primer","extension_polymerase","copy"))
+    amplified=chromium_pcr(g,"feature_pcr",copied,feature_cdna(),reviewed,
+                           label="Co-amplify short feature cDNA",inferred_primers=True)
+    beads=g.input("size_selection","feature-cDNA size-selection beads",MaterialKind.SELECTION)
+    selected=g.product("selected","size-selected feature cDNA",MaterialKind.MOLECULAR,
+                       state=feature_cdna())
+    rejected=g.product("rejected","non-feature cDNA size fraction",MaterialKind.WASTE)
+    g.react("size_select","Separate short feature cDNA from gene-expression cDNA",
+            StepKind.SELECTION,((amplified,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+            (selected,rejected),changes_molecule=False)
+    g.discard(rejected,"belongs to a different library branch")
+    reviewed.extend(("size_selection","size_select"))
+    library=chromium_pcr(g,"index_pcr",selected,final_library(),reviewed,
+                         label="Add P5, P7 and sample index",library=True,
+                         inferred_primers=True)
+    g.sequence(library,SequencingPlan(library=final_library(),primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        read_lengths={"Read 1":28,"Index 1 (i7)":8,"Read 2":25}))
+    reviewed.append(library.id)
+    g.declare_reviewed_scope(reviewed,authority)
+    return g.require_publishable()

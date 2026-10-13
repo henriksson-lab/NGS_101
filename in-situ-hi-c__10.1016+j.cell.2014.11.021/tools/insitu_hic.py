@@ -6,7 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Scene, Segment, complement_segments
 from restriction import Digest, MBOI
-from single_cell_hic import unresolved_illumina_library
+from single_cell_hic import (ContactWorkflow, protocol_graph as contact_protocol_graph,
+                             unresolved_illumina_library)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -16,6 +17,13 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 DEMO = Digest(MBOI, "X" * 18, "X" * 18)
 FILLED = DEMO.fill_in(biotin_base="A")
 SHEAR_RANGE_BP = (300, 500)
+WORKFLOW = ContactWorkflow("in situ Hi-C", MBOI, "bulk nuclei", "biotin-fill",
+                           "PCR", capture=True)
+TITLE = "in situ Hi-C — MboI proximity ligation in intact nuclei"
+CITATION = 'Defining source: <a href="https://doi.org/10.1016/j.cell.2014.11.021">Rao et al., <i>Cell</i> (2014)</a>.'
+LIBRARY_CAVEAT = "Rao et al. name an indexed Illumina adapter but do not identify its kit generation or print its ligation geometry."
+SEQUENCING_UNAVAILABLE = "The source does not print or identify the sequencing-primer set."
+REQUIRED_ROLES = ("Read 1", "Read 2")
 
 
 def cleavage_scene() -> Scene:
@@ -95,6 +103,9 @@ def contact_junction() -> Construct:
     ], name="MboI proximity-ligation product")
 
 
+contact_product = contact_junction
+
+
 def sheared_insert() -> Construct:
     return Construct([
         seg("locus A read end", "X" * 28, placeholder=True),
@@ -107,3 +118,8 @@ def final_library() -> Construct:
     """Indexed Illumina library; the protocol does not disclose adapter bases."""
     return unresolved_illumina_library(sheared_insert(),
         "in situ Hi-C sequencing library", indexed=True)
+
+
+def typed_graph():
+    import sys
+    return contact_protocol_graph(sys.modules[__name__])

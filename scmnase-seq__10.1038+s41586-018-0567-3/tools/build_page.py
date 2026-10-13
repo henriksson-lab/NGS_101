@@ -11,7 +11,7 @@ sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 
 import scmnase_seq as S
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "scmnase-seq.html"
@@ -38,8 +38,9 @@ def sequencing(lib) -> str:
 
 def render() -> str:
     lib = S.final_library()
+    graph = S.protocol_graph()
     return "\n".join([
-        head("scMNase-seq library chemistry"), '<div class="wrap">',
+        head("scMNase-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scMNase-seq &mdash; MNase-protected DNA from one cell</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41586-018-0567-3">Lai et al., <i>Nature</i> (2018)</a>.'),
         '<div class="caveat"><b>Adapter sequence.</b> The defining paper names universal adapters and indexed primers but does not print their bases. Dotted regions and steps labelled <b>INFERRED</b> use the TruSeq reconstruction recorded by upstream scg_lib_structs.</div>',
@@ -49,7 +50,8 @@ def render() -> str:
         oligo("PCR Primer 1.0", S.p5_primer()),
         oligo("indexed multiplexing primer", S.indexed_p7_primer()),
         '</seq>',
-        '<h2>Library construction</h2>',
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>',
         '<h3>(1) Digest one lysed cell with micrococcal nuclease</h3>',
         panel(S.digested_fragment_scene().rows(), cls="small",
               caption="MNase removes exposed linker DNA and leaves protected genomic fragments."),

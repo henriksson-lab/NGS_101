@@ -5,7 +5,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from antibody_tags import feature_library
 from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Row, feature
-from multimodal_spatial import modality_split
+from multimodal_spatial import finish_pcr_branch, modality_split
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_model import molecule, role
 
 TITLE = "DOGMA-seq — RNA, ATAC and protein from one cell"
 NOTES = "01_dogma-seq.html"
@@ -30,3 +32,36 @@ def sections(): return [
  ("Partition cells with barcoded gel beads",[Row(chunks=[("one GEM barcode → RNA + ATAC + antibody tag","cbc",False)])],"The shared bead identity links the three measurements computationally."),
  ("Recover three modality-specific libraries",modality_split("RNA library","ATAC library","antibody-tag library"),"Separate enrichments preserve a common cell barcode while using modality-specific primers."),
 ]
+
+def protocol_graph():
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cells=g.input("cells","permeabilized cells containing RNA and accessible chromatin",MaterialKind.BIOLOGICAL,state=molecule("DOGMA-seq cells",(role("poly(A) RNA"),role("accessible chromatin"),role("protein epitopes"))),primary=True)
+ antibodies=g.input("antibodies","DNA-barcoded antibodies",MaterialKind.SELECTION)
+ stained=g.product("stained","cells retaining antibody-derived tags",MaterialKind.MOLECULAR,state=molecule("stained cells",(role("poly(A) RNA"),role("accessible chromatin"),role("antibody tags"))))
+ unbound=g.product("unbound","unbound antibody tags",MaterialKind.WASTE)
+ g.react("stain","Stain proteins with DNA-barcoded antibodies",StepKind.BINDING,((cells,InputRole.TEMPLATE),(antibodies,InputRole.SELECTION)),(stained,unbound)); g.discard(unbound,"does not report a cell-associated protein")
+ transposome=g.input("transposome","Multiome-compatible loaded transposome",MaterialKind.ADAPTER)
+ tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+ tagged=g.product("tagged","cells retaining tagmented chromatin, RNA and antibody tags",MaterialKind.MOLECULAR,state=stained.state)
+ twaste=g.product("tn5_waste","non-library tagmentation products",MaterialKind.WASTE)
+ g.react("tagment","Tagment accessible chromatin",StepKind.TAGMENTATION,((stained,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,twaste)); g.discard(twaste,"does not retain an amplifiable accessibility fragment")
+ droplets=g.input("droplets","10x Multiome GEM partitioning condition",MaterialKind.CONDITION)
+ occupied=g.product("occupied","cell-barcoded multimodal products",MaterialKind.MOLECULAR,state=tagged.state)
+ failed=g.product("failed","empty or unresolved GEM products",MaterialKind.WASTE)
+ g.react("partition","Partition cells with barcoded gel beads",StepKind.PARTITION,((tagged,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable cell barcode")
+ rna=g.product("rna_branch","RNA branch",MaterialKind.MOLECULAR,state=occupied.state); atac=g.product("atac_branch","ATAC branch",MaterialKind.MOLECULAR,state=occupied.state); adt=g.product("adt_branch","antibody-tag branch",MaterialKind.MOLECULAR,state=occupied.state)
+ g.react("split","Separate RNA, ATAC and antibody-tag products",StepKind.SPLIT,((occupied,InputRole.TEMPLATE),),(rna,atac,adt),changes_molecule=False)
+ bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial sequence not disclosed)")
+ rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
+ cdna=g.product("cdna","cell-barcoded, UMI-tagged cDNA",MaterialKind.MOLECULAR,state=molecule("DOGMA cDNA",(role("cell barcode"),role("RNA UMI"),role("cDNA"))))
+ g.react("reverse_transcribe","Capture and reverse-transcribe poly(A) RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+ tag_primer=g.input("tag_primer","antibody-tag capture primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial sequence not disclosed)")
+ tag_pol=g.input("tag_polymerase","antibody-tag barcode-transfer polymerase",MaterialKind.CATALYST)
+ copied=g.product("copied_tags","cell-barcoded antibody-derived tags",MaterialKind.MOLECULAR,state=molecule("DOGMA antibody-tag precursor",(role("cell barcode"),role("UMI"),role("antibody barcode"))))
+ g.react("copy_tags","Transfer cell identity to antibody-derived tags",StepKind.EXTENSION,((adt,InputRole.TEMPLATE),(tag_primer,InputRole.STRUCTURAL),(tag_pol,InputRole.CATALYST)),(copied,))
+ reviewed=["cells","antibodies","stain","transposome","tn5","tagment","droplets","partition","split","bead_primer","rt","reverse_transcribe","tag_primer","tag_polymerase","copy_tags"]
+ finish_pcr_branch(g,"rna",cdna,RNA,RNA_P,reviewed,label="DOGMA-seq RNA",read_lengths=READ_LENGTHS["RNA library"],inferred_primers=True)
+ finish_pcr_branch(g,"atac",atac,ATAC,ATAC_P,reviewed,label="DOGMA-seq ATAC",read_lengths=READ_LENGTHS["ATAC library"],inferred_primers=True)
+ finish_pcr_branch(g,"adt",copied,ADT,ADT_P,reviewed,label="DOGMA-seq antibody tag",read_lengths=READ_LENGTHS["Antibody-tag library"],inferred_primers=True)
+ g.declare_reviewed_scope(reviewed,SOURCE)
+ return g.require_publishable()

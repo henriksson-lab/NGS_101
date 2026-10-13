@@ -9,7 +9,8 @@ sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import micro_c as M
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Scene, annotation_rows, junction_row, panel, strand_row
+from chemdraw import (Scene, annotation_rows, junction_row, panel,
+                      protocol_graph_panels, strand_row)
 from page import head, info, table
 
 OUT = HERE.parent / "micro-c.html"
@@ -17,34 +18,17 @@ OUT = HERE.parent / "micro-c.html"
 
 def render():
     junction = M.contact_junction(); insert = M.selected_insert(); lib = M.final_library()
+    graph = M.protocol_graph()
     junction_rows = [*Scene.duplex(list(junction), label="contact product").rows(),
                      junction_row(junction, "repaired end A", "repaired end B",
                                   "proximity ligation"), *annotation_rows(junction)]
     return "\n".join([
-        head("Micro-C library chemistry"), '<div class="wrap">',
+        head("Micro-C library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>Micro-C &mdash; nucleosome-resolution proximity ligation</h1>',
         '<p class="research-notes"><a href="01_micro-c.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.05.048">Hsieh et al., <i>Cell</i> (2015)</a>.'),
-        '<h2>Fragment crosslinked chromatin to mononucleosomes</h2>',
-        panel(M.mnase_scene().rows(), cls="small",
-              caption="MNase digests accessible linker DNA. Unlike restriction Hi-C, there is no invariant recognition-site sequence at the fragment ends."),
-        '<h2>Repair and label the heterogeneous ends</h2>',
-        panel(M.resected_end_scene().rows(), cls="small",
-              caption="T4 DNA polymerase with ATP resects heterogeneous MNase products to 5′ single-stranded ends. One representative end is shown."),
-        panel(M.repaired_end_scene().rows(), cls="small",
-              caption="Adding biotin-dATP, biotin-dCTP, dGTP and dTTP fills the overhang to a labelled blunt end. Label positions are computed from the template."),
-        '<h2>Proximity-ligate and remove free labelled ends</h2>',
-        panel(junction_rows, cls="small",
-              caption="T4 ligase joins blunt nucleosomal ends held near one another. ** marks the ligation boundary; its sequence varies with the MNase cuts."),
-        table(("Molecule", "Exonuclease III result"),
-              (("unligated labelled end", "terminal biotin-containing DNA is removed"),
-               ("proximity-ligated product", "the now-internal labelled junction is retained")),
-              scroll=False),
-        '<h2>Recover contacts and build the Illumina library</h2>',
-        panel([strand_row(insert), *annotation_rows(insert)], cls="small",
-              caption="After crosslink reversal, the original protocol gel-selects 250–350-bp ligation products."),
-        panel(AdapterLigationGeometry.unavailable("The original Micro-C paper names Illumina adapter ligation but does not identify the adapter kit or report its ligation-ready end geometry.").rows(),
-              cls="small", caption="Source limitation before sequencing-adapter ligation."),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Final sequencing library</h2>',
         panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)],
               cls="small", caption="End repair, dA-tailing and Illumina-adapter ligation precede streptavidin capture and 12–15 PCR cycles. The paper does not identify the adapter or index architecture."),
         '<h2>Sequencing</h2><p>Paired reads begin in the two nucleosome-derived genomic ends.</p>',

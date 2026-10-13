@@ -5,10 +5,12 @@ Every adapter-derived segment is therefore constructed through :func:`inferred`.
 """
 from __future__ import annotations
 
+import sys
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from nuclease_accessibility import protocol_graph as _protocol_graph
 
 INDEX_NT = 6
 
@@ -90,3 +92,11 @@ def final_library(insert_nt: int = 44) -> Construct:
         if sp.locate(lib, primer) is None:
             raise ValueError(f"{primer.name} does not land on {lib.name}")
     return lib
+
+
+def protocol_graph():
+    return _protocol_graph(
+        sys.modules[__name__], name="scMNase-seq",
+        source="Defining source: https://doi.org/10.1038/s41586-018-0567-3",
+        nuclease="micrococcal nuclease", inferred_adapters=True,
+        final_amplification=False)

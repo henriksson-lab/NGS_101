@@ -10,6 +10,9 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 # Verbatim representative oligos from Ai et al., Supplementary Table 1.
 SOURCE_T5_1 = "TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG"
@@ -140,3 +143,58 @@ def _validate_model() -> None:
 
 
 _validate_model()
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41556-019-0383-5"
+    graph = ProtocolGraph("itChIP-seq", authority=source)
+    chromatin = graph.input("chromatin", "opened chromatin in first-round wells",
+                            MaterialKind.BIOLOGICAL, primary=True)
+    transposomes = graph.input("barcoded_transposomes", "paired T5/T7 barcoded Tn5 ends",
+                               MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_chromatin", "T5/T7-tagged chromatin",
+                           MaterialKind.MOLECULAR)
+    tagmentation_waste = graph.product("tagmentation_waste",
+                                       "non-library tagmentation products", MaterialKind.WASTE)
+    graph.react("tagmentation", "Tagment opened chromatin with one T5/T7 pair per well",
+                StepKind.TAGMENTATION,
+                ((chromatin, InputRole.TEMPLATE), (transposomes, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tagmentation_waste))
+    graph.discard(tagmentation_waste,
+                  "fragments without a usable heterotypic T5/T7 pair cannot accept both PCR primers")
+    antibody = graph.input("antibody", "ChIP antibody", MaterialKind.SELECTION)
+    selected = graph.product("selected_chromatin", "immunoprecipitated tagged chromatin",
+                             MaterialKind.MOLECULAR)
+    unselected = graph.product("unselected_chromatin", "unselected chromatin",
+                               MaterialKind.WASTE)
+    graph.react("chip", "Pool, release chromatin and immunoprecipitate the target",
+                StepKind.AFFINITY_CAPTURE,
+                ((tagged, InputRole.TEMPLATE), (antibody, InputRole.SELECTION)),
+                (selected, unselected))
+    graph.discard(unselected, "chromatin not retained by immunoprecipitation is washed away")
+    polymerase = graph.input("polymerase", "gap-fill and PCR polymerase",
+                             MaterialKind.CATALYST)
+    filled = graph.product("gap_filled", "gap-filled heterotypic T5/T7 fragments",
+                           MaterialKind.MOLECULAR, state=gap_filled_fragment())
+    graph.react("gap_fill", "Fill the transposase-generated gaps", StepKind.EXTENSION,
+                ((selected, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (filled,))
+    i5 = graph.input("i5_primer", "indexed i5 PCR primer", MaterialKind.OLIGO)
+    i7 = graph.input("i7_primer", "indexed i7 PCR primer", MaterialKind.OLIGO)
+    final = final_library()
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "Amplify with one i5 and one i7 primer", StepKind.PCR,
+                ((filled, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL),
+                 (i7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason="Supplementary Table 1 gives exact oligos; their four custom sequencing roles make a single canonical PCR landing view misleading."))
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS,
+        read_uses={"Read 1": "include", "Index 1 (i7)": "extract",
+                   "Index 2 (i5)": "extract", "Read 2": "include"}))
+    graph.declare_reviewed_scope((
+        "chromatin", "barcoded_transposomes", "tn5", "tagmentation", "antibody",
+        "chip", "polymerase", "gap_fill", "i5_primer", "i7_primer",
+        "library_pcr", "library"), source)
+    return graph.require_publishable()

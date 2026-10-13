@@ -4,6 +4,7 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,feature
+from tenx_graph import chromium_rna_graph
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
 CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-3prime-v3")
@@ -33,3 +34,11 @@ def final_library(insert_nt=36):
     if problems: raise ValueError("invalid v3 library: "+"; ".join(problems))
     return lib
 def read1_layout(): return [(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28})]
+
+def protocol_graph():
+    authority=('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
+               '10x Genomics User Guide CG000183 Rev A</a>.')
+    return chromium_rna_graph(title="10x Chromium Single Cell 3-prime Gene Expression v3",
+        authority=authority,final=final_library(),primers=SEQ_PRIMERS,
+        first_strand=first_strand(),amplified_cdna=amplified_cdna(),
+        read_lengths=READ_LENGTHS)

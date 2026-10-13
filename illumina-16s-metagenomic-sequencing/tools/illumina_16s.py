@@ -6,6 +6,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg
 from chemdraw import Construct, Scene, duplex_rows, revcomp
 from targeted_ngs import two_stage_amplicon
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 TITLE="Illumina 16S metagenomic sequencing"
 NOTES="01_illumina-16s.html"
@@ -45,3 +49,25 @@ def sections():
        duplex_rows(FINAL_LIBRARY,label="PCR2 product"),
        "Limited-cycle index PCR turns the cleaned PCR1 product into a sequencing-ready library."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("community_dna","community genomic DNA",MaterialKind.BIOLOGICAL,
+                    state=molecule("community DNA",(role("bacterial 16S loci"),)),primary=True)
+    fwd=graph.input("v3_forward","V3 locus primer with Nextera overhang",MaterialKind.OLIGO)
+    rev=graph.input("v4_reverse","V4 locus primer with Nextera overhang",MaterialKind.OLIGO)
+    pol1=graph.input("pcr1_polymerase","locus-PCR polymerase",MaterialKind.CATALYST)
+    product=graph.product("pcr1_product",PCR1_PRODUCT.name,MaterialKind.MOLECULAR,state=PCR1_PRODUCT)
+    geometry=PCRGeometry.exact(PCR1_PRODUCT,PCRPrimer("V3 forward",FWD),PCRPrimer("V4 reverse",REV),statement="The Illumina guide prints both complete V3–V4 primers including their Nextera overhangs.")
+    graph.react("pcr1","Select V3–V4 and install universal tails",StepKind.PCR,
+                ((dna,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),(rev,InputRole.STRUCTURAL),(pol1,InputRole.CATALYST)),(product,),geometry=geometry)
+    i5=graph.input("i5_primer","Nextera i5 index-PCR primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","Nextera i7 index-PCR primer",MaterialKind.OLIGO)
+    pol2=graph.input("pcr2_polymerase","index-PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    graph.react("pcr2","Add dual indexes and flow-cell arms",StepKind.PCR,
+                ((product,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),(i7,InputRole.STRUCTURAL),(pol2,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="Index identity varies by sample; final sequencing-primer sites are checked on the completed library."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope(["community_dna","v3_forward","v4_reverse","pcr1_polymerase","pcr1","i5_primer","i7_primer","pcr2_polymerase","pcr2","library"],SOURCE)
+    return graph.require_publishable()

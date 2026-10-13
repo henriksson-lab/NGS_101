@@ -9,6 +9,8 @@ from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
 from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "PRO-seq — precision nuclear run-on sequencing"
 NOTES = "01_pro-seq.html"
@@ -174,3 +176,82 @@ def workflow():
           name="single-index PRO-seq library",
           note="The RPI-n member supplies one six-base i7 index; the protocol has no i5 read.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    nascent=graph.input("nascent_rna","engaged polymerase with nascent RNA",
+                        MaterialKind.MOLECULAR,primary=True)
+    biotin_ntp=graph.input("biotin_ntp","biotin-labelled run-on NTPs",
+                           MaterialKind.MOLECULAR)
+    polymerase=graph.input("engaged_polymerase","engaged RNA polymerase",
+                           MaterialKind.CATALYST)
+    labelled=graph.product("labelled","biotin-labelled nascent RNA",
+                           MaterialKind.MOLECULAR,state=_runon_scene())
+    graph.react("run_on","Run on briefly with biotin-NTPs",StepKind.RUN_ON,
+                ((nascent,InputRole.TEMPLATE),(biotin_ntp,InputRole.STRUCTURAL),
+                 (polymerase,InputRole.CATALYST)),(labelled,))
+    vra3=graph.input("vra3","5-prime-phosphorylated 3-prime-blocked VRA3 adapter",
+                     MaterialKind.ADAPTER,state=tuple(_vra3_geometry().rows()))
+    ligase3=graph.input("ligase3","3-prime RNA-adapter ligase",MaterialKind.CATALYST)
+    ligated3=graph.product("ligated3","VRA3-ligated biotin RNA",MaterialKind.MOLECULAR,
+                           state=tuple(_three_prime_product_scene().rows()))
+    graph.react("ligate_vra3","Ligate VRA3 to the informative RNA 3-prime end",
+                StepKind.LIGATION,
+                ((labelled,InputRole.TEMPLATE),(vra3,InputRole.STRUCTURAL),
+                 (ligase3,InputRole.CATALYST)),(ligated3,),geometry=_vra3_geometry())
+    streptavidin=graph.input("streptavidin","streptavidin capture reagent",
+                            MaterialKind.SELECTION)
+    captured=graph.product("captured","captured biotin run-on RNA",MaterialKind.MOLECULAR)
+    uncaptured=graph.product("uncaptured","unlabelled RNA",MaterialKind.WASTE)
+    graph.react("capture","Capture biotin-labelled run-on products",
+                StepKind.AFFINITY_CAPTURE,
+                ((ligated3,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,uncaptured))
+    graph.discard(uncaptured,"unlabelled RNA is removed during streptavidin purification")
+    repair=graph.input("end_repair_enzymes","RNA decapping and 5-prime end-repair enzymes",
+                       MaterialKind.CATALYST)
+    repaired=graph.product("repaired","5-prime-monophosphorylated selected RNA",
+                           MaterialKind.MOLECULAR,
+                           state=tuple(_repaired_five_prime_scene().rows()))
+    graph.react("repair_five_prime","Decap and repair the selected RNA 5-prime end",
+                StepKind.END_REPAIR,
+                ((captured,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
+    vra5=graph.input("vra5","VRA5 RNA adapter",MaterialKind.ADAPTER,
+                     state=tuple(_vra5_geometry().rows()))
+    ligase5=graph.input("ligase5","5-prime RNA-adapter ligase",MaterialKind.CATALYST)
+    dual=graph.product("dual_adapter","dual-adapter PRO-seq RNA",MaterialKind.MOLECULAR,
+                       state=tuple(_dual_adapter_scene().rows()))
+    graph.react("ligate_vra5","Ligate VRA5 to the repaired RNA 5-prime end",
+                StepKind.LIGATION,
+                ((repaired,InputRole.TEMPLATE),(vra5,InputRole.STRUCTURAL),
+                 (ligase5,InputRole.CATALYST)),(dual,),geometry=_vra5_geometry())
+    rp1=graph.input("rp1","RP1 reverse-transcription/PCR primer",MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    cdna=graph.product("cdna","RP1-primed first-strand cDNA",MaterialKind.MOLECULAR,
+                       state=_pre_pcr_template())
+    graph.react("reverse_transcribe","Reverse-transcribe from RP1 annealed to VRA3",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((dual,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    rpi=graph.input("rpi","RPI-n indexed PCR primer",MaterialKind.OLIGO)
+    pcr_polymerase=graph.input("pcr_polymerase","library PCR polymerase",
+                               MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    geometry=PCRGeometry.exact(
+        _pre_pcr_template(),PCRPrimer("RP1",RP1),PCRPrimer("RPI-n",RPI),
+        statement="Mahat et al. Table 1 prints RP1 and the RPI-n family and their opposing sites.")
+    graph.react("library_pcr","Add the six-base i7 index and P7",StepKind.PCR,
+                ((cdna,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
+                 (rpi,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
+                (library,),geometry=geometry)
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "nascent_rna","biotin_ntp","engaged_polymerase","run_on","vra3",
+        "ligase3","ligate_vra3","streptavidin","capture","end_repair_enzymes",
+        "repair_five_prime","vra5","ligase5","ligate_vra5","rp1",
+        "reverse_transcriptase","reverse_transcribe","rpi","pcr_polymerase",
+        "library_pcr","library"),SOURCE)
+    return graph.require_publishable()

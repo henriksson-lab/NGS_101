@@ -9,6 +9,10 @@ from batch_ngs import seg, truseq_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Workflow, annotation_rows, oligo
 from rna_amplification import poly_a_capture, terminal_tail
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 GAT27 = "GTGAGTGATGGTTGAGGATGTGTGGAG"
 GAT27_DT = GAT27 + "N" * 5 + "T" * 20
@@ -112,3 +116,96 @@ def oligos():
     yield oligo("GAT27 PCR", [seg("GAT27", GAT27, "tso")])
     yield oligo("3NGAT24", [seg("N3", "N" * 3, placeholder=True),
                              seg("GAT24", "AGTGATGGTTGAGGATGTGTGGAG", "tso")])
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    rna = graph.input("rna", "single-cell total RNA", MaterialKind.BIOLOGICAL,
+                      state=molecule("total RNA", (role("polyadenylated and non-polyadenylated transcripts"),)),
+                      primary=True)
+    primers = graph.input("mixed_rt_primers", "GAT27 oligo-dT and random-primer mixture",
+                          MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "SuperScript III", MaterialKind.CATALYST)
+    first = graph.product("first_strand", "GAT27-bearing first-strand cDNA",
+                          MaterialKind.MOLECULAR, state=FIRST_STRAND)
+    graph.react("reverse_transcribe", "Repeatedly anneal and extend the mixed RT primers",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (first,))
+    cleanup = graph.input("cleanup_enzymes", "T4 DNA polymerase and RNase cleanup enzymes",
+                          MaterialKind.CATALYST)
+    cleaned = graph.product("cleaned", "primer- and RNA-depleted first-strand cDNA",
+                            MaterialKind.MOLECULAR, state=FIRST_STRAND)
+    graph.react("cleanup", "Remove unused primers and the RNA template", StepKind.DIGESTION,
+                ((first, InputRole.TEMPLATE), (cleanup, InputRole.CATALYST)), (cleaned,))
+    tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "poly(dC)-tailed first-strand cDNA",
+                           MaterialKind.MOLECULAR, state=TAILED)
+    graph.react("tail", "Add a terminal poly(dC) tract", StepKind.TAILING,
+                ((cleaned, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
+    second_primer = graph.input("second_strand_primer", "GAT21-6N3G primer",
+                                MaterialKind.OLIGO)
+    vent = graph.input("deep_vent", "Deep Vent exo-minus polymerase",
+                       MaterialKind.CATALYST)
+    duplex = graph.product("duplex", "MATQ second-strand amplification product",
+                           MaterialKind.MOLECULAR, state=second_strand_scene())
+    graph.react("second_strand", "Prime the dC tail and synthesize the second strand",
+                StepKind.EXTENSION,
+                ((tailed, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
+                 (vent, InputRole.CATALYST)), (duplex,))
+    handle_f = graph.input("gat27_primer", "GAT27 PCR primer", MaterialKind.OLIGO)
+    handle_r = graph.input("gat24_primer", "3NGAT24 conversion primer", MaterialKind.OLIGO)
+    wta_pol = graph.input("wta_polymerase", "whole-transcriptome PCR polymerase",
+                          MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "GAT-handle-amplified MATQ cDNA",
+                              MaterialKind.MOLECULAR, state=duplex.state)
+    graph.react("wta", "Amplify and convert the MATQ cDNA handles", StepKind.PCR,
+                ((duplex, InputRole.TEMPLATE), (handle_f, InputRole.STRUCTURAL),
+                 (handle_r, InputRole.STRUCTURAL), (wta_pol, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The WTA product precedes shearing and sequencing-adapter installation."))
+    shear = graph.input("shear_condition", "MATQ cDNA shearing condition",
+                        MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "sheared MATQ cDNA",
+                              MaterialKind.MOLECULAR, state=amplified.state)
+    graph.react("shear", "Shear the whole-transcriptome amplicons", StepKind.FRAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    adapter = graph.input("illumina_adapter", "unreported Illumina adapter",
+                          MaterialKind.ADAPTER, inferred=True,
+                          source=SOURCE + " (kit identity unavailable)")
+    ligase = graph.input("adapter_ligase", "Illumina adapter ligase", MaterialKind.CATALYST,
+                         inferred=True, source=SOURCE + " (kit identity unavailable)")
+    ligated = graph.product("ligated", "adapter-ligated sheared MATQ cDNA",
+                            MaterialKind.MOLECULAR, state=fragments.state, inferred=True,
+                            source=SOURCE + " (adapter identity unavailable)")
+    graph.react("ligate_adapter", "Ligate the unspecified Illumina library adapter",
+                StepKind.LIGATION,
+                ((fragments, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The supplement does not print or identify the final adapter reagent or ligation-ready end."))
+    pcr_f = graph.input("library_forward", "library PCR forward primer", MaterialKind.OLIGO,
+                        inferred=True, source=SOURCE + " (kit identity unavailable)")
+    pcr_r = graph.input("library_reverse", "library PCR reverse primer", MaterialKind.OLIGO,
+                        inferred=True, source=SOURCE + " (kit identity unavailable)")
+    library_pol = graph.input("library_polymerase", "library PCR polymerase",
+                              MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY, inferred=True,
+                            source=SOURCE + " (canonical compatible shell inferred)")
+    graph.react("library_pcr", "Amplify the paired-end sequencing library", StepKind.PCR,
+                ((ligated, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
+                 (pcr_r, InputRole.STRUCTURAL), (library_pol, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The source does not identify the library kit primers."))
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,
+                                           primers=tuple(SEQ_PRIMERS),
+                                           read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope([
+        "rna", "mixed_rt_primers", "reverse_transcriptase", "reverse_transcribe",
+        "cleanup_enzymes", "cleanup", "tdt", "tail", "second_strand_primer",
+        "deep_vent", "second_strand", "gat27_primer", "gat24_primer",
+        "wta_polymerase", "wta", "shear_condition", "shear", "illumina_adapter",
+        "adapter_ligase", "ligate_adapter", "library_forward", "library_reverse",
+        "library_polymerase", "library_pcr", "library"], SOURCE)
+    return graph.require_publishable()

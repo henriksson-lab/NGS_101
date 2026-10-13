@@ -6,6 +6,9 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
@@ -66,12 +69,28 @@ def ligation_scene() -> Scene:
     return sc
 
 
+def ligation_ready_scene() -> Scene:
+    sc=Scene();sc.strand("bead oligo",bead_oligo(),label="gel-bead oligo")
+    sc.strand("RT primer",rt_primer(),label="phosphorylated RT primer",mod5="p")
+    sc.strand("bridge",bridge_oligo(),label="3-prime-ddC bridge",mod3="ddC")
+    sc.ligation_end("bead oligo","s5",kind="splinted",polarity="3-prime",
+                    owner="adapter",text="bead s5 3′-OH at the nick")
+    sc.ligation_end("RT primer","TruSeq Read 1",kind="splinted",polarity="5-prime",
+                    owner="substrate",text="RT-primer 5′ phosphate at the nick")
+    return sc
+
+
 def ligated_first_strand(insert_nt: int = 28) -> Construct:
     return Construct([
         *bead_oligo(), *rt_primer(),
         seg("cDNA", "X" * insert_nt, placeholder=True),
         seg("untemplated C", "CCC"),
     ], name="scifi-RNA ligated first strand")
+
+
+def rt_first_strand(insert_nt: int = 28) -> Construct:
+    return Construct([*rt_primer(),seg("cDNA","X"*insert_nt,placeholder=True),
+                      seg("untemplated C","CCC")],name="round-1-barcoded first strand")
 
 
 def tso_scene(insert_nt: int = 28) -> Scene:
@@ -114,6 +133,14 @@ def final_library(insert_nt: int = 28) -> Construct:
     return lib
 
 
+def selected_tagmented_strand(insert_nt: int = 28) -> Construct:
+    return Construct([
+        *bead_oligo(),*rt_primer(),seg("cDNA","X"*insert_nt,placeholder=True),
+        seg("mosaic end reverse complement",nx.ME_RC,"me"),
+        seg("s7 reverse complement",nx.S7_RC,"s7")],
+        name="scifi-RNA bead-end/i7-Tn5 fragment")
+
+
 def final_scene() -> Scene:
     return Scene.duplex(list(final_library()), label="library")
 
@@ -123,3 +150,107 @@ def read1_layout() -> list[tuple[str, str]]:
     by_id={x.feature.id:(x.cycles,x.feature.label) for x in spans}
     return [by_id["umi"],("9","fixed N"),by_id["cell_barcode_round1"],
             ("21","fixed V")]
+
+
+def protocol_graph() -> ProtocolGraph:
+    source=("Defining source: https://doi.org/10.1101/2019.12.17.879304; "
+            "expanded protocol: https://doi.org/10.1038/s41592-021-01153-z")
+    graph=ProtocolGraph("scifi-RNA-seq",authority=source)
+    cells=graph.input("fixed_cells","fixed permeabilized cells",MaterialKind.BIOLOGICAL,
+                      primary=True)
+    primer=graph.input("rt_primer","round-1 barcoded RT primer",MaterialKind.OLIGO,
+                       state=tuple(rt_primer()))
+    reverse_transcriptase=graph.input("reverse_transcriptase","reverse transcriptase",
+                                     MaterialKind.CATALYST)
+    first=graph.product("first_strand",rt_first_strand().name,MaterialKind.MOLECULAR,
+                        state=rt_first_strand())
+    graph.react("reverse_transcribe","Install the plate barcode and UMI by reverse transcription",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((cells,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),
+                 (reverse_transcriptase,InputRole.CATALYST)),(first,))
+    peer=graph.input("peer_wells","first-strand cDNA from the other RT wells",
+                     MaterialKind.MOLECULAR)
+    pooled=graph.product("pooled_cdna","pooled round-1-barcoded cells and cDNA",
+                         MaterialKind.MOLECULAR,state=rt_first_strand())
+    graph.react("pool","Pool the 384 RT wells",StepKind.POOL,
+                ((first,InputRole.TEMPLATE),(peer,InputRole.TEMPLATE)),(pooled,),
+                changes_molecule=False)
+    droplets=graph.input("droplet_device","overloaded 10x scATAC droplet channel",
+                         MaterialKind.CONDITION)
+    partitioned=graph.product("productive_droplets","droplets containing round-1 cDNA and bead oligo",
+                              MaterialKind.MOLECULAR,state=rt_first_strand())
+    empty=graph.product("unproductive_droplets","droplets without usable cell/bead combinations",
+                        MaterialKind.WASTE)
+    graph.react("partition","Overload pooled cells into the bead-barcoding droplets",
+                StepKind.PARTITION,
+                ((pooled,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(partitioned,empty))
+    graph.discard(empty,"unproductive droplets do not contribute indexed library molecules")
+    bead=graph.input("bead_oligo","10x scATAC gel-bead oligo",MaterialKind.ADAPTER,
+                     state=tuple(bead_oligo()))
+    bridge=graph.input("bridge","3-prime-ddC bridge oligo",MaterialKind.OLIGO,
+                       state=tuple(bridge_oligo()))
+    ligase=graph.input("ampligase","thermostable DNA ligase",MaterialKind.CATALYST)
+    ligated=graph.product("ligated_first_strand",ligated_first_strand().name,
+                          MaterialKind.MOLECULAR,state=ligated_first_strand())
+    graph.react("barcode_ligation","Ligate the bead barcode to the RT-primer end",
+                StepKind.LIGATION,
+                ((partitioned,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (bridge,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),
+                geometry=AdapterLigationGeometry.known(
+                    "splinted",ligation_ready_scene(),ligation_scene(),
+                    statement="The expanded protocol prints the bridge, bead and phosphorylated RT-primer sequences that align the nick."))
+    tso=graph.input("tso","template-switching oligo",MaterialKind.OLIGO)
+    switched=graph.product("switched_cdna","template-switched two-level-barcoded cDNA",
+                           MaterialKind.MOLECULAR,state=ligated_first_strand())
+    graph.react("template_switch","Install the distal SMART amplification handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((ligated,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (reverse_transcriptase,InputRole.CATALYST)),(switched,))
+    preamp_forward=graph.input("preamp_forward","bead-end cDNA enrichment primer",
+                               MaterialKind.OLIGO)
+    preamp_reverse=graph.input("preamp_reverse","TSO-handle cDNA enrichment primer",
+                               MaterialKind.OLIGO)
+    preamp_pol=graph.input("preamp_polymerase","cDNA enrichment polymerase",
+                           MaterialKind.CATALYST)
+    amplified=graph.product("amplified_cdna","bulk-enriched full cDNA",MaterialKind.MOLECULAR,
+                            state=ligated_first_strand())
+    graph.react("preamp","Enrich full template-switched cDNA in bulk",StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(preamp_forward,InputRole.STRUCTURAL),
+                 (preamp_reverse,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    ligated_first_strand(),reason="The page model does not establish both bulk-enrichment primer landing scenes."))
+    transposome=graph.input("i7_transposome","i7-only Tn5 transposome",MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    selected=selected_tagmented_strand()
+    tagged=graph.product("selected_tagmented",selected.name,MaterialKind.MOLECULAR,state=selected)
+    tag_waste=graph.product("tagment_waste","Tn5/Tn5 and TSO/Tn5 products lacking both PCR sites",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Tagment enriched cDNA with i7-only Tn5",StepKind.TAGMENTATION,
+                ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+    graph.discard(tag_waste,"fragments lacking the bead end and one s7 end are not PCR-selected")
+    partial_p5=graph.input("partial_p5","partial-P5 selective primer",MaterialKind.OLIGO)
+    indexed_p7=graph.input("indexed_p7","indexed P7/s7 primer",MaterialKind.OLIGO)
+    library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("library_pcr","Select bead-end/s7 fragments and add indexed P7",StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(partial_p5,InputRole.STRUCTURAL),
+                 (indexed_p7,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.exact(
+                    selected,PCRPrimer("partial-P5",PARTIAL_P5),
+                    PCRPrimer("indexed P7",il.P7+revcomp(P7_INDEX_READ)+nx.S7,
+                              anneal_nt=len(nx.S7)),
+                    statement="The expanded protocol defines partial-P5 selection of the bead end and the indexed P7/s7 primer."))
+    lengths={"Read 1":21,"Index 1 (i7)":8,"Index 2 (i5)":16,"Read 2":78}
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),read_lengths=lengths,
+        read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"extract","Read 2":"include"}))
+    graph.declare_reviewed_scope((
+        "fixed_cells","rt_primer","reverse_transcriptase","reverse_transcribe","peer_wells",
+        "pool","droplet_device","partition","bead_oligo","bridge","ampligase",
+        "barcode_ligation","tso","template_switch","preamp_forward","preamp_reverse",
+        "preamp_polymerase","preamp","i7_transposome","tn5","tagment","partial_p5",
+        "indexed_p7","library_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE)); sys.path.insert(0,str(HERE.parents[1]/"lib"))
 import seq_well as S
 import seqprimers as sp
-from chemdraw import Scene,Segment,annotation_rows,oligo,panel,strand_row
+from chemdraw import Segment,oligo,protocol_graph_panels
 from page import head,info,table
 OUT=HERE.parent/"seq-well.html"
 
@@ -25,20 +25,7 @@ def oligos()->str:
 
 
 def construction()->str:
-    first=S.first_strand(); wta=S.wta_product(); tagged=S.selected_tagmented_strand(); lib=S.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Confine one cell and one bead in a membrane-sealed microwell</h3>
-{panel(S.capture_scene().rows(),cls="small",caption="After lysis, poly(A) RNA hybridizes to that well's bead. Reverse transcription is performed after beads are recovered and pooled.")}
-{panel([strand_row(first),*annotation_rows(first)],cls="small",caption="One bead-bound first strand after RT adds the untemplated CCC switch site.")}
-
-<h3>(2) Template-switch, remove unused bead primers, and amplify full-length cDNA</h3>
-{panel(S.template_switch_scene().rows(),cls="small",caption="The TSO's rGrGrG pairs with CCC and contributes a second SMART handle.")}
-{panel([*Scene.duplex(list(wta),label="WTA").rows(),*annotation_rows(wta)],cls="small",caption="Template-switched cDNA before SMART-handle PCR.")}
-
-<h3>(3) Tagment amplified cDNA; select the bead end with P5-SMART + N7xx PCR</h3>
-{panel([strand_row(tagged),*annotation_rows(tagged)],cls="small",caption="Only the bead end carries handle+AC for the selective P5 primer; the retained fragment ends at the nearest s7 insertion.")}
-{panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="Final Seq-Well library, P5 to P7'. Samples are indexed on i7 only.")}
-'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
 
 
 def sequencing()->str:
@@ -57,7 +44,7 @@ def sequencing()->str:
 
 
 def main()->None:
-    page="\n".join([head("Seq-Well library chemistry"),'<div class="wrap">','<h1>Seq-Well &mdash; barcoded-bead RNA capture in sealed microwells</h1>',info('Defining source: <a href="https://doi.org/10.1038/nmeth.4179">Gierahn et al., <i>Nature Methods</i> (2017)</a>.'),oligos(),construction(),sequencing(),'</div>'])
+    page="\n".join([head("Seq-Well library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>Seq-Well &mdash; barcoded-bead RNA capture in sealed microwells</h1>',info('Defining source: <a href="https://doi.org/10.1038/nmeth.4179">Gierahn et al., <i>Nature Methods</i> (2017)</a>.'),oligos(),construction(),sequencing(),'</div>'])
     OUT.write_text(page,encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

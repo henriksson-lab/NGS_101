@@ -10,11 +10,16 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import strt as S
-from chemdraw import (Scene, Segment, annotation_rows, complement_segments, oligo, panel,
-                      revcomp, strand_row)
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import (Construct, Scene, Segment, complement_segments, oligo, panel,
+                      protocol_graph_panels, revcomp)
+from endprep import dA_tailed_scene, repair_and_dA_tail
 import illumina as il
 import nextera as nx
 from page import head, info, table
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 import seqprimers as sp
 
 
@@ -29,7 +34,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def preamble(protocol: str) -> str:
+def preamble(protocol: str, *, complete: bool = False) -> str:
     doi, title = PAPERS[protocol]
     notes = {
         S.STRT: "01_strt-seq.html",
@@ -43,7 +48,8 @@ def preamble(protocol: str) -> str:
         caveat = '<div class="caveat"><b>Partial methods.</b> The accessible Supplementary Note defines the molecule and says it is sequenced without library PCR; the paywalled Online Methods contain the unavailable selection details.</div>'
     elif protocol == S.TWO_I:
         caveat = '<div class="caveat"><b>Inferred junction.</b> The published P2 PCR primer overlaps the first three bases of the subarray barcode. The dotted barcode/P7 end shows the full-barcode outcome; the paper does not state whether proofreading instead trims the primer or overwrites those bases.</div>'
-    return f'''<div class="wrap">
+    complete_attr = ' data-protocol-complete="true"' if complete else ""
+    return f'''<div class="wrap"{complete_attr}>
 <h1>{title} &mdash; 5'-end single-cell RNA sequencing</h1>
 <p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
@@ -135,40 +141,412 @@ def strt_p2_adapter_scene() -> Scene:
     return sc
 
 
-def final_panel(protocol: str) -> str:
-    lib = S.library(protocol)
-    caption = "Final Read-1-sense library molecule."
-    if protocol == S.TWO_I:
-        caption = "INFERRED — final Read-1-sense molecule under the full-subarray-barcode outcome; dotted regions mark the unresolved P2-primer junction."
-    return panel([strand_row(lib, "top"), strand_row(lib, "bottom"), *annotation_rows(lib)], caption=caption)
-
-
-def steps(protocol: str) -> str:
-    p, sw = rt_scenes(protocol)
-    common = f'''<h2>Library generation</h2>
-<h3>(1) Reverse transcription</h3>{panel(p.rows(), cls="small", caption="The biotinylated oligo-dT primes the poly(A) tail.")}
-<h3>(2) Template switching at the RNA 5' end</h3>{panel(sw.rows(), cls="small", caption="The TSO's terminal GGG pairs with the cDNA's untemplated CCC, placing the cell barcode or UMI immediately before the transcript 5' end.")}'''
+def _front(graph: ProtocolGraph, protocol: str):
+    prime, switched_state = rt_scenes(protocol)
+    mrna = graph.input("mrna", "polyadenylated RNA from one cell",
+                       MaterialKind.BIOLOGICAL, state=prime, primary=True)
     if protocol == S.STRT:
-        mid = '''<h3>(3) Pool wells and amplify from the shared SMART handles</h3>
-''' + panel(Scene.duplex([seg("SMART handle / TSO end", S.H, "tso"), seg("cell barcode", "B" * 6, "cbc", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("SMART handle / oligo-dT end", S.H, "tso")]).rows(), caption="Biotinylated single-primer PCR preserves the TSO barcode; all 96 wells can now be handled together.") + '''
-<h3>(4) Immobilise, fragment, repair, A-tail and ligate the P2 adapter</h3>
-''' + panel(strt_p2_adapter_scene().rows(), cls="small", caption="The published P2 strands form a fork ending in the single 3′-T that accepts the cDNA 3′-dA.") + panel(strt_p2_scene().rows(), caption="SalI releases oligo-dT-end fragments at the published handle/poly(T) site; bead-bound TSO-end fragments receive P2 and remain for library PCR. ** marks the adapter ligation.")
+        dt_state = Construct([seg("SMART handle", S.H), seg("SalI junction", S.STRT_DT_LINK),
+                              seg("T30", "T" * S.STRT_DT_LEN),
+                              seg("VN", "VN", placeholder=True)])
+        tso_state = Construct([seg("SMART handle", S.H),
+                               seg("spacer", S.STRT_TSO_LINK),
+                               seg("cell barcode", "B" * S.STRT_BC_LEN,
+                                   placeholder=True), seg("GGG", "GGG")])
     elif protocol == S.C1:
-        mid = '''<h3>(3) Amplify full-length cDNA from the shared C1 handles</h3>
-''' + panel(Scene.duplex([seg("C1 handle / TSO end", S.C1_HANDLE, "p5"), seg("UMI", "N" * 5, "umi", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("C1 handle / oligo-dT end", S.C1_HANDLE, "p5")]).rows(), caption="The all-RNA TSO is not a competing PCR primer; C1-P1-PCR-2 supplies biotin.") + '''
-<h3>(4) Tagment with one barcoded adapter per C1 chamber</h3>
-''' + panel(indexed_tn5_scene().rows(), cls="small", caption="The adapter contributes P7, the 8-nt cell barcode and the Read-2/ME end.") + '''
-<h3>(5) Select the TSO-end strand and sequence directly</h3>
-''' + panel([strand_row(S.c1_library(), "top"), *annotation_rows(S.c1_library())], caption="No library PCR: the selected single strand already carries the C1 Read-1 end and barcoded Tn5 end.")
+        dt_state = Construct([seg("C1 handle", S.C1_HANDLE),
+                              seg("PvuI junction", S.C1_DT_LINK),
+                              seg("T31", "T" * S.C1_DT_LEN)])
+        tso_state = Construct([seg("C1 handle", S.C1_HANDLE),
+                               seg("UMI", "N" * S.C1_UMI_LEN, placeholder=True),
+                               seg("GGG", "GGG")])
     else:
-        mid = '''<h3>(3) Add the 5-nt well index during cDNA PCR</h3>
-''' + panel(Scene.duplex([seg("P5", il.P5, "p5"), seg("well index", "W" * 5, "cbc", placeholder=True), seg("P1B", S.P1B, "r1"), seg("UMI", "N" * 6, "umi", placeholder=True), seg("5' cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True), seg("P1A end", S.C1_HANDLE, "p5")]).rows(), caption="The indexed primer acts at the TSO end; after its tail is copied, the shared P1A primer amplifies the cDNA.") + '''
-<h3>(4) Pool by subarray and tagment with an 8-nt subarray index</h3>
-''' + panel(indexed_tn5_scene().rows(), cls="small", caption="Each of 96 subarray pools receives a different indexed Tn5 adapter.") + '''
-<h3>(5) Streptavidin capture, single-strand elution and eight-cycle PCR</h3>
-''' + panel([strand_row(S.two_i_library(), "top"), *annotation_rows(S.two_i_library())], caption="INFERRED — selected TSO-end strand after the final P1/P2 PCR; dotted regions mark the unresolved P2/barcode junction.")
-    final_step = 5 if protocol == S.STRT else 6
-    return common + mid + f'<h3>({final_step}) Final library</h3>' + final_panel(protocol)
+        dt_state = Construct([seg("C1 handle", S.C1_HANDLE),
+                              seg("CG", S.C1_DT_LINK),
+                              seg("T31", "T" * S.C1_DT_LEN)])
+        tso_state = Construct([seg("P1B", S.P1B),
+                               seg("UMI", "N" * S.TWO_I_UMI_LEN, placeholder=True),
+                               seg("GGG", "GGG")])
+    dt = graph.input("oligo_dt", "biotinylated oligo-dT primer",
+                     MaterialKind.OLIGO, state=dt_state)
+    rt = graph.input("reverse_transcriptase", "template-switching reverse transcriptase",
+                     MaterialKind.CATALYST)
+    first = graph.product("first_strand", "first-strand cDNA",
+                          MaterialKind.MOLECULAR, state=prime)
+    graph.react("reverse_transcription", "Reverse-transcribe polyadenylated RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((mrna, InputRole.TEMPLATE), (dt, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (first,))
+    tso = graph.input("tso", "template-switching oligo", MaterialKind.OLIGO,
+                      state=tso_state)
+    switched = graph.product("template_switched_cdna", "template-switched cDNA",
+                             MaterialKind.MOLECULAR, state=switched_state)
+    graph.react("template_switch", "Copy the TSO at the transcript 5′ end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (switched,))
+    return switched, ["mrna", "oligo_dt", "reverse_transcriptase",
+                      "reverse_transcription", "tso", "template_switch"]
+
+
+def _pool(graph: ProtocolGraph, material, state, *, identifier: str, label: str):
+    peers = graph.input(identifier + "_peers", label, MaterialKind.MOLECULAR, state=state)
+    pooled = graph.product(identifier, label.replace("other ", "pooled "),
+                           MaterialKind.MOLECULAR, state=state)
+    graph.react(identifier + "_step", "Pool after molecular indexing", StepKind.POOL,
+                ((material, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
+                (pooled,), changes_molecule=False)
+    return pooled, [identifier + "_peers", identifier + "_step"]
+
+
+def _tagment(graph: ProtocolGraph, template, state, reviewed, *, inferred=False,
+             source=""):
+    transposome = graph.input(
+        "indexed_transposome", "indexed STRT Tn5 transposome", MaterialKind.ADAPTER,
+        state=indexed_tn5_scene(), inferred=inferred,
+        source=(source + " (transposase source/selection details unavailable)"
+                if inferred else None))
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST,
+                      inferred=inferred,
+                      source=(source + " (transposase source unavailable)"
+                              if inferred else None))
+    tagged = graph.product("tagmented_cdna", "indexed tagmented cDNA",
+                           MaterialKind.MOLECULAR, state=state, inferred=inferred,
+                           source=(source + " (selected tagmentation product reconstructed)"
+                                   if inferred else None))
+    waste = graph.product("tagment_waste", "other tagmentation products",
+                          MaterialKind.WASTE)
+    graph.react("tagment", "Tagment amplified cDNA with the indexed adapter",
+                StepKind.TAGMENTATION,
+                ((template, InputRole.TEMPLATE),
+                 (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, waste))
+    graph.discard(waste, "does not retain the selected transcript-5′ topology")
+    reviewed.extend(("indexed_transposome", "tn5", "tagment"))
+    return tagged
+
+
+def protocol_graph(protocol: str) -> ProtocolGraph:
+    if protocol not in PAPERS:
+        raise ValueError(f"unknown STRT protocol: {protocol!r}")
+    source = "https://doi.org/" + PAPERS[protocol][0]
+    graph = ProtocolGraph(protocol, authority=source)
+    switched, reviewed = _front(graph, protocol)
+
+    if protocol == S.STRT:
+        pooled, pool_reviewed = _pool(
+            graph, switched, switched.state, identifier="pooled_cdna",
+            label="other well-barcoded cDNA from the plate")
+        reviewed.extend(pool_reviewed)
+        beads = graph.input("cleanup_beads", "carboxylate cleanup beads",
+                            MaterialKind.SELECTION)
+        clean = graph.product("clean_cdna", "cleaned pooled cDNA",
+                              MaterialKind.MOLECULAR, state=switched.state)
+        clean_waste = graph.product("cleanup_waste", "unretained cleanup material",
+                                    MaterialKind.WASTE)
+        graph.react("pool_cleanup", "Clean the pooled cDNA", StepKind.CLEANUP,
+                    ((pooled, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                    (clean, clean_waste))
+        graph.discard(clean_waste, "not retained by the post-pooling bead cleanup")
+        primer = PCRPrimer("STRT-PCR", S.H)
+        preamp_primer = graph.input("preamp_primer", "biotinylated STRT-PCR primer",
+                                    MaterialKind.OLIGO,
+                                    state=Construct([seg("STRT-PCR", S.H)]))
+        polymerase = graph.input("preamp_polymerase", "Advantage2 polymerase",
+                                 MaterialKind.CATALYST)
+        preamp_state = S.strt_preamp_product()
+        amplified = graph.product("amplified_cdna", "biotinylated amplified cDNA",
+                                  MaterialKind.MOLECULAR, state=preamp_state)
+        graph.react("preamp", "Amplify pooled cDNA with the single STRT-PCR primer",
+                    StepKind.PCR,
+                    ((clean, InputRole.TEMPLATE),
+                     (preamp_primer, InputRole.STRUCTURAL),
+                     (polymerase, InputRole.CATALYST)), (amplified,),
+                    geometry=PCRGeometry.symmetric(
+                        preamp_state, primer,
+                        statement="STRT-PCR binds the shared SMART handle at both ends."))
+        capture = graph.input("streptavidin_beads", "streptavidin beads",
+                              MaterialKind.SELECTION)
+        bound = graph.product("bead_bound_cdna", "streptavidin-bound amplified cDNA",
+                              MaterialKind.MOLECULAR, state=preamp_state)
+        unbound = graph.product("capture_waste", "unbound amplification material",
+                                MaterialKind.WASTE)
+        graph.react("immobilize", "Immobilize biotinylated cDNA", StepKind.AFFINITY_CAPTURE,
+                    ((amplified, InputRole.TEMPLATE),
+                     (capture, InputRole.SELECTION)), (bound, unbound),
+                    changes_molecule=False)
+        graph.discard(unbound, "not retained by streptavidin capture")
+        dnase = graph.input("dnase_i", "DNase I", MaterialKind.CATALYST)
+        fragments = graph.product("fragments", "bead-bound cDNA fragments",
+                                  MaterialKind.MOLECULAR,
+                                  state=Construct([seg("5′ cDNA fragment", "X" * 36,
+                                                       placeholder=True)]))
+        graph.react("fragment", "Fragment bead-bound cDNA", StepKind.FRAGMENTATION,
+                    ((bound, InputRole.TEMPLATE), (dnase, InputRole.CATALYST)),
+                    (fragments,))
+        repair = graph.input("end_repair_enzymes", "end-repair enzyme mix",
+                             MaterialKind.CATALYST)
+        repaired = graph.product("repaired_fragments", "end-repaired cDNA fragments",
+                                 MaterialKind.MOLECULAR, state=fragments.state)
+        graph.react("end_repair", "End-repair cDNA fragments", StepKind.END_REPAIR,
+                    ((fragments, InputRole.TEMPLATE),
+                     (repair, InputRole.CATALYST)), (repaired,))
+        da_enzyme = graph.input("da_tailing_enzyme", "dA-tailing polymerase",
+                                MaterialKind.CATALYST)
+        da_product = repair_and_dA_tail(fragments.state)
+        tailed = graph.product("da_tailed_fragments", "3′-dA-tailed fragments",
+                               MaterialKind.MOLECULAR,
+                               state=dA_tailed_scene(da_product))
+        graph.react("da_tail", "Add 3′ dA overhangs", StepKind.TAILING,
+                    ((repaired, InputRole.TEMPLATE),
+                     (da_enzyme, InputRole.CATALYST)), (tailed,))
+        adapter = graph.input("p2_adapter", "P2 forked adapter", MaterialKind.ADAPTER,
+                              state=strt_p2_adapter_scene())
+        ligase = graph.input("dna_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+        ligated = graph.product("p2_ligated_fragments", "P2-ligated cDNA fragments",
+                                MaterialKind.MOLECULAR, state=strt_p2_scene())
+        geometry = AdapterLigationGeometry.known(
+            "cohesive", dA_tailed_scene(da_product), strt_p2_adapter_scene(),
+            statement="The printed P2 adapter exposes a 3′-T for the cDNA 3′-dA.")
+        graph.react("ligate_p2", "Ligate the P2 adapter", StepKind.LIGATION,
+                    ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                     (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
+        sali = graph.input("sali", "SalI-HF", MaterialKind.CATALYST)
+        selected = graph.product("tso_end_fragments", "bead-bound TSO-end fragments",
+                                 MaterialKind.MOLECULAR, state=strt_p2_scene())
+        released = graph.product("released_three_prime_fragments",
+                                 "released oligo-dT-end fragments", MaterialKind.WASTE)
+        graph.react("sali_select", "Release oligo-dT-end fragments with SalI-HF",
+                    StepKind.DIGESTION,
+                    ((ligated, InputRole.TEMPLATE),
+                     (sali, InputRole.CATALYST)), (selected, released))
+        graph.discard(released, "released from the beads at the oligo-dT SalI site")
+        final = S.strt_library()
+        f_primer = PCRPrimer("library PCR 1", S.STRT_LIB_PCR1)
+        r_primer = PCRPrimer("library PCR 2", S.STRT_LIB_PCR2)
+        forward = graph.input("library_pcr1", f_primer.name, MaterialKind.OLIGO,
+                              state=Construct([seg(f_primer.name, f_primer.sequence)]))
+        reverse = graph.input("library_pcr2", r_primer.name, MaterialKind.OLIGO,
+                              state=Construct([seg(r_primer.name, r_primer.sequence)]))
+        lib_polymerase = graph.input("library_polymerase", "Phusion polymerase",
+                                     MaterialKind.CATALYST)
+        unselected_library = graph.product("unselected_library", "amplified STRT library",
+                                           MaterialKind.MOLECULAR, state=final)
+        graph.react("library_pcr", "Amplify selected TSO-end fragments",
+                    StepKind.PCR,
+                    ((selected, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                     (reverse, InputRole.STRUCTURAL),
+                     (lib_polymerase, InputRole.CATALYST)), (unselected_library,),
+                    geometry=PCRGeometry.exact(
+                        final, f_primer, r_primer,
+                        statement="The defining paper prints both library-PCR primers."))
+        size_reagent = graph.input("size_selection", "200–400 bp size-selection matrix",
+                                   MaterialKind.SELECTION)
+        library = graph.product("library", "size-selected STRT-seq library",
+                                MaterialKind.LIBRARY, state=final)
+        size_waste = graph.product("size_waste", "out-of-range library molecules",
+                                   MaterialKind.WASTE)
+        graph.react("size_select", "Select 200–400 bp library molecules",
+                    StepKind.SELECTION,
+                    ((unselected_library, InputRole.TEMPLATE),
+                     (size_reagent, InputRole.SELECTION)), (library, size_waste))
+        graph.discard(size_waste, "outside the reported 200–400 bp library interval")
+        graph.sequence(library, SequencingPlan(
+            library=final, primers=(S.STRT_READ1,), acquired_roles=("Read 1",)))
+        reviewed.extend([
+            "cleanup_beads", "pool_cleanup", "preamp_primer", "preamp_polymerase",
+            "preamp", "streptavidin_beads", "immobilize", "dnase_i", "fragment",
+            "end_repair_enzymes", "end_repair", "da_tailing_enzyme", "da_tail",
+            "p2_adapter", "dna_ligase", "ligate_p2", "sali", "sali_select",
+            "library_pcr1", "library_pcr2", "library_polymerase", "library_pcr",
+            "size_selection", "size_select", "library",
+        ])
+    elif protocol == S.C1:
+        primer = PCRPrimer("C1-P1-PCR-2", S.C1_PCR)
+        preamp_oligo = graph.input("preamp_primer", "C1-P1-PCR-2",
+                                   MaterialKind.OLIGO,
+                                   state=Construct([seg(primer.name, primer.sequence)]))
+        polymerase = graph.input("preamp_polymerase", "cDNA-PCR polymerase",
+                                 MaterialKind.CATALYST)
+        preamp_state = S.c1_preamp_product()
+        amplified = graph.product("amplified_cdna", "amplified C1 cDNA",
+                                  MaterialKind.MOLECULAR, state=preamp_state)
+        graph.react("preamp", "Amplify full-length C1 cDNA", StepKind.PCR,
+                    ((switched, InputRole.TEMPLATE),
+                     (preamp_oligo, InputRole.STRUCTURAL),
+                     (polymerase, InputRole.CATALYST)), (amplified,),
+                    geometry=PCRGeometry.symmetric(
+                        preamp_state, primer,
+                        statement="C1-P1-PCR-2 binds the shared C1 handles."))
+        tagged = _tagment(graph, amplified, S.c1_library(), reviewed,
+                          inferred=True, source=source)
+        pooled, pool_reviewed = _pool(
+            graph, tagged, S.c1_library(), identifier="pooled_tagged_cdna",
+            label="other chamber-indexed tagmented cDNA")
+        reviewed.extend(pool_reviewed)
+        capture = graph.input("streptavidin_beads", "streptavidin beads",
+                              MaterialKind.SELECTION, inferred=True,
+                              source=source + " (selection details unavailable in accessible source)")
+        bound = graph.product("captured_cdna", "captured biotinylated cDNA",
+                              MaterialKind.MOLECULAR, state=S.c1_library(),
+                              inferred=True,
+                              source=source + " (selection reconstructed from upstream source)")
+        capture_waste = graph.product("capture_waste", "unbound cDNA",
+                                      MaterialKind.WASTE)
+        graph.react("capture", "Capture biotinylated cDNA", StepKind.AFFINITY_CAPTURE,
+                    ((pooled, InputRole.TEMPLATE),
+                     (capture, InputRole.SELECTION)), (bound, capture_waste))
+        graph.discard(capture_waste, "not retained by streptavidin capture")
+        pvui = graph.input("pvui", "PvuI", MaterialKind.CATALYST, inferred=True,
+                           source=source + " (selection details unavailable in accessible source)")
+        selected = graph.product("selected_five_prime_fragments",
+                                 "selected transcript-5′ fragments",
+                                 MaterialKind.MOLECULAR, state=S.c1_library(),
+                                 inferred=True,
+                                 source=source + " (selection reconstructed from upstream source)")
+        digest_waste = graph.product("released_three_prime_fragments",
+                                     "released transcript-3′ fragments",
+                                     MaterialKind.WASTE)
+        graph.react("pvui_select", "Release oligo-dT-end fragments with PvuI",
+                    StepKind.DIGESTION,
+                    ((bound, InputRole.TEMPLATE), (pvui, InputRole.CATALYST)),
+                    (selected, digest_waste))
+        graph.discard(digest_waste, "released from the captured material")
+        alkali = graph.input("alkali", "alkaline strand-elution condition",
+                             MaterialKind.CONDITION, inferred=True,
+                             source=source + " (elution details unavailable in accessible source)")
+        final = S.c1_library()
+        library = graph.product("library", "single-stranded STRT-C1 library",
+                                MaterialKind.LIBRARY, state=final, inferred=True,
+                                source=source + " (strand selection reconstructed)")
+        complement_waste = graph.product("complement_waste", "retained complementary strand",
+                                         MaterialKind.WASTE)
+        graph.react("strand_elution", "Elute the non-biotinylated library strand",
+                    StepKind.STRAND_SEPARATION,
+                    ((selected, InputRole.TEMPLATE),
+                     (alkali, InputRole.CONDITION)), (library, complement_waste))
+        graph.discard(complement_waste, "remains associated with the captured strand")
+        graph.sequence(library, SequencingPlan(
+            library=final, primers=S.C1_PRIMERS,
+            acquired_roles=tuple(p.role for p in S.C1_PRIMERS)))
+        reviewed.extend([
+            "preamp_primer", "preamp_polymerase", "preamp", "streptavidin_beads",
+            "capture", "pvui", "pvui_select", "alkali", "strand_elution", "library",
+        ])
+    else:
+        indexed = graph.input("indexed_p1b_primer", "DI-P1A-index-P1B primer",
+                              MaterialKind.OLIGO,
+                              state=Construct([seg("DI-P1A-index-P1B",
+                                                   S.TWO_I_WELL_PRIMER,
+                                                   placeholder=True)]))
+        polymerase = graph.input("indexed_pcr_polymerase", "KAPA HiFi polymerase",
+                                 MaterialKind.CATALYST)
+        indexed_state = S.two_i_preamp_product()
+        grafted = graph.product("well_indexed_cdna", "well-index-grafted cDNA",
+                                MaterialKind.MOLECULAR, state=indexed_state)
+        graph.react("graft_well_index", "Graft P5 and the well index at the TSO end",
+                    StepKind.EXTENSION,
+                    ((switched, InputRole.TEMPLATE),
+                     (indexed, InputRole.STRUCTURAL),
+                     (polymerase, InputRole.CATALYST)), (grafted,))
+        p1a_primer = PCRPrimer("DI-PCR-P1A", il.P5[:20])
+        p1a = graph.input("p1a_primer", "DI-PCR-P1A", MaterialKind.OLIGO,
+                          state=Construct([seg("DI-PCR-P1A", il.P5[:20])]))
+        amplified = graph.product("amplified_cdna", "well-indexed amplified cDNA",
+                                  MaterialKind.MOLECULAR, state=indexed_state)
+        graph.react("indexed_pcr", "Amplify the well-indexed cDNA with P1A",
+                    StepKind.PCR,
+                    ((grafted, InputRole.TEMPLATE), (p1a, InputRole.STRUCTURAL),
+                     (polymerase, InputRole.CATALYST)), (amplified,),
+                    geometry=PCRGeometry.symmetric(
+                        indexed_state, p1a_primer,
+                        statement="After index grafting, P1A has inward sites at both ends."))
+        pooled, pool_reviewed = _pool(
+            graph, amplified, indexed_state, identifier="subarray_pool",
+            label="other well-indexed cDNA from the subarray")
+        reviewed.extend(pool_reviewed)
+        tagged = _tagment(graph, pooled, S.two_i_library(), reviewed)
+        capture = graph.input("streptavidin_beads", "streptavidin beads",
+                              MaterialKind.SELECTION)
+        captured = graph.product("captured_cdna", "captured biotinylated tagmented cDNA",
+                                 MaterialKind.MOLECULAR, state=S.two_i_library())
+        capture_waste = graph.product("capture_waste", "unbound tagmented cDNA",
+                                      MaterialKind.WASTE)
+        graph.react("capture", "Capture biotinylated tagmented cDNA",
+                    StepKind.AFFINITY_CAPTURE,
+                    ((tagged, InputRole.TEMPLATE),
+                     (capture, InputRole.SELECTION)), (captured, capture_waste))
+        graph.discard(capture_waste, "not retained by streptavidin capture")
+        exosap = graph.input("exosap", "ExoSAP-IT", MaterialKind.CATALYST)
+        cleaned = graph.product("adapter_cleaned_cdna", "adapter-cleaned captured cDNA",
+                                MaterialKind.MOLECULAR, state=S.two_i_library())
+        cleanup_waste = graph.product("adapter_cleanup_waste",
+                                      "digested residual adapters", MaterialKind.WASTE)
+        graph.react("remove_adapters", "Remove leftover adapters with ExoSAP-IT",
+                    StepKind.CLEANUP,
+                    ((captured, InputRole.TEMPLATE),
+                     (exosap, InputRole.CATALYST)), (cleaned, cleanup_waste))
+        graph.discard(cleanup_waste, "residual adapters digested before elution")
+        heat = graph.input("heat_elution", "70 °C strand-elution condition",
+                           MaterialKind.CONDITION)
+        ss_template = graph.product("single_strand_template",
+                                    "eluted single-stranded library template",
+                                    MaterialKind.MOLECULAR, state=S.two_i_library(),
+                                    inferred=True,
+                                    source=source + " (P2/barcode junction unresolved)")
+        strand_waste = graph.product("captured_strand_waste", "bead-retained strand",
+                                     MaterialKind.WASTE)
+        graph.react("strand_elution", "Elute the single-stranded library template",
+                    StepKind.STRAND_SEPARATION,
+                    ((cleaned, InputRole.TEMPLATE),
+                     (heat, InputRole.CONDITION)), (ss_template, strand_waste))
+        graph.discard(strand_waste, "remains bead-associated after heat elution")
+        final = S.two_i_library()
+        p1_primer = PCRPrimer("P1 second-PCR", il.P5[:24])
+        p2_primer = PCRPrimer("P2 second-PCR", il.P7)
+        p1 = graph.input("p1_second_pcr", p1_primer.name, MaterialKind.OLIGO,
+                         state=Construct([seg(p1_primer.name, p1_primer.sequence)]))
+        p2 = graph.input("p2_second_pcr", p2_primer.name, MaterialKind.OLIGO,
+                         state=Construct([seg(p2_primer.name, p2_primer.sequence)]))
+        second_polymerase = graph.input("second_pcr_polymerase", "KAPA HiFi polymerase",
+                                       MaterialKind.CATALYST)
+        unselected_library = graph.product(
+            "unselected_library", "amplified STRT-seq-2i library",
+            MaterialKind.MOLECULAR, state=final, inferred=True,
+            source=source + " (P2/barcode junction unresolved)")
+        graph.react("second_pcr", "Amplify the selected strand with P1/P2",
+                    StepKind.PCR,
+                    ((ss_template, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
+                     (p2, InputRole.STRUCTURAL),
+                     (second_polymerase, InputRole.CATALYST)), (unselected_library,),
+                    geometry=PCRGeometry.exact(
+                        final, p1_primer, p2_primer,
+                        statement="Table 1 prints both second-PCR primers."))
+        beads = graph.input("size_selection_beads", "AMPure size-selection beads",
+                            MaterialKind.SELECTION)
+        library = graph.product("library", "size-selected STRT-seq-2i library",
+                                MaterialKind.LIBRARY, state=final, inferred=True,
+                                source=source + " (P2/barcode junction unresolved)")
+        size_waste = graph.product("size_waste", "rejected library sizes",
+                                   MaterialKind.WASTE)
+        graph.react("size_select", "Double-size-select the final library",
+                    StepKind.SELECTION,
+                    ((unselected_library, InputRole.TEMPLATE),
+                     (beads, InputRole.SELECTION)), (library, size_waste))
+        graph.discard(size_waste, "outside the retained AMPure size interval")
+        graph.sequence(library, SequencingPlan(
+            library=final, primers=S.TWO_I_INDEX_PRIMERS,
+            acquired_roles=tuple(p.role for p in S.TWO_I_INDEX_PRIMERS)))
+        reviewed.extend([
+            "indexed_p1b_primer", "indexed_pcr_polymerase", "graft_well_index",
+            "p1a_primer", "indexed_pcr", "streptavidin_beads", "capture", "exosap",
+            "remove_adapters", "heat_elution", "strand_elution", "p1_second_pcr",
+            "p2_second_pcr", "second_pcr_polymerase", "second_pcr",
+            "size_selection_beads", "size_select", "library",
+        ])
+
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
 
 
 def sequencing(protocol: str) -> str:
@@ -214,5 +592,9 @@ def sequencing(protocol: str) -> str:
 
 def render_page(protocol: str, out: Path) -> None:
     title = PAPERS[protocol][1]
-    out.write_text("\n".join([head(f"{title} library chemistry"), preamble(protocol), oligos(protocol), steps(protocol), sequencing(protocol)]), encoding="utf-8")
+    graph = protocol_graph(protocol)
+    workflow = "<h2>Library generation</h2>\n" + protocol_graph_panels(graph)
+    out.write_text("\n".join([head(f"{title} library chemistry"),
+                              preamble(protocol, complete=True), oligos(protocol),
+                              workflow, sequencing(protocol)]), encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")

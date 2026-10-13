@@ -11,7 +11,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import surecell as S
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, annotation_rows, complement_segments, panel, strand_row
+from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
+                      panel, protocol_graph_panels, strand_row)
 from page import head, info, table
 
 OUT = HERE.parent / "surecell-wta3.html"
@@ -22,7 +23,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def preamble() -> str:
-    return f'''<div class="wrap">
+    return f'''<div class="wrap" data-protocol-complete="true">
 <h1>SureCell WTA 3' for ddSEQ &mdash; commercial droplet 3' RNA sequencing</h1>
 {info('Protocol source: Illumina <i>SureCell WTA 3\' Library Prep Reference Guide</i>, document #1000000021452 v01 (June 2017).')}
 <div class="caveat"><b>Proprietary oligos.</b> The authoritative Illumina guide names the bead mix, TPP1, N7xx adapters and custom Sequencing Primer SP but prints no sequence or barcode anatomy. Every dotted bracketed region is therefore a non-sequence placeholder, not an upstream reconstruction; spacing is not to scale.</div>
@@ -68,20 +69,7 @@ def final_panel() -> str:
 
 
 def steps() -> str:
-    return f'''<h2>Library generation</h2>
-<h3>(1) Co-encapsulate cells, RT mix and barcode beads</h3>
-{bead_panel()}
-<h3>(2) Lyse and reverse-transcribe inside droplets</h3>
-{panel(rt_scene().rows(), caption="INFERRED — oligo-dT priming installs a 3' Barcode Mix-derived region on first-strand cDNA; the guide does not disclose its molecular layout.")}
-<h3>(3) Break droplets and remove unbound barcode reagent</h3>
-{info('Purification beads retain the pooled first-strand products while free barcode reagent is removed.')}
-<h3>(4) Remove the RNA template and synthesize the replacement strand</h3>
-{second_strand()}
-<h3>(5) Tagment double-stranded cDNA with the Nextera SureCell transposome</h3>
-{tagmented()}
-<h3>(6) Select bead-end fragments by PCR with TPP1 and one N7xx adapter</h3>
-{final_panel()}
-'''
+    return '<h2>Library generation</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
 
 
 def sequencing() -> str:

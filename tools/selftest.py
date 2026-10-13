@@ -24,6 +24,9 @@ from checks import Check, run_common  # noqa: E402
 from adapter_ligation import cohesive_duplex  # noqa: E402
 from chemdraw import Row, Segment, oligo, panel  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
+from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
+                            ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
+                            Step, StepKind, Terminal)  # noqa: E402
 
 def _raise_fact():
     """Expanding a fact that names a missing attribute must raise (regression guard)."""
@@ -49,6 +52,56 @@ sticky = cohesive_duplex("round", "TTCGGCTTGGTTGCGCTTGGTTGC",
 check("source-written sticky duplex derives both 5-prime ends",
       (sticky.top_overhang, sticky.paired_core, sticky.bottom_overhang),
       ("TTCG", "GCTTGGTTGCGCTTGGTTGC", "GTCA"))
+
+check.section("typed protocol graph")
+
+
+def _complete_graph():
+    graph = ProtocolGraph("example", authority="example authority")
+    graph.add_input(Material("sample", "sample DNA", MaterialKind.BIOLOGICAL,
+                             primary=True, source="example authority"))
+    graph.add_input(Material("adapter", "loaded adapter", MaterialKind.ADAPTER,
+                             source="example authority"))
+    graph.add_input(Material("tn5", "Tn5", MaterialKind.CATALYST,
+                             source="example authority"))
+    library = Material("library", "library", MaterialKind.LIBRARY,
+                       source="example authority")
+    waste = Material("waste", "non-library products", MaterialKind.WASTE,
+                     source="example authority")
+    graph.add_step(Step(
+        "tagment", "Tagment", StepKind.TAGMENTATION,
+        (Input("sample", InputRole.TEMPLATE), Input("adapter", InputRole.STRUCTURAL),
+         Input("tn5", InputRole.CATALYST)), ("library", "waste"),
+        source="example authority"), (library, waste))
+    graph.mark_terminal(Terminal("library", Disposition.SEQUENCING),
+                        SequencingPlan(limitation="example source withholds primer sites"))
+    graph.mark_terminal(Terminal("waste", Disposition.DISCARD, "not sequenceable"))
+    for item, target in (("sample_source", "sample"), ("adapter_source", "adapter"),
+                         ("tn5_source", "tn5"), ("tagmentation", "tagment"),
+                         ("sequencing_output", "library")):
+        graph.add_source_item(SourceItem(item, item.replace("_", " "),
+                                         "example authority"))
+        graph.cover_source_item(SourceCoverage(item, "modelled", target))
+    return graph
+
+
+check("a connected, source-covered graph with a sequencing terminal is publishable",
+      _complete_graph().publication_problems(), [])
+check.raises("tagmentation cannot hide its non-library output", lambda: ProtocolGraph(
+    "bad", authority="source")._validate_step_shape(Step(
+        "tagment", "Tagment", StepKind.TAGMENTATION,
+        (Input("sample", InputRole.TEMPLATE), Input("adapter", InputRole.STRUCTURAL),
+         Input("tn5", InputRole.CATALYST)), ("library",), source="source")))
+
+
+def _uncovered_source():
+    graph = _complete_graph()
+    graph.add_source_item(SourceItem("cleanup", "cleanup", "example authority"))
+    return graph.publication_problems()
+
+
+check("unaccounted authoritative operations prevent publication",
+      _uncovered_source(), ["authoritative source item 'cleanup' is not accounted for"])
 
 check.section("molecular diagram renderers")
 svg_panel = panel([Row(chunks=[("ACGT", "r1", False)])])

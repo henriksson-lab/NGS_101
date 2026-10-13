@@ -41,10 +41,15 @@ def mrna_rt_scene() -> Scene:
     return sc
 
 
+def first_strand() -> Construct:
+    return Construct([
+        *rt_primer(), seg("cDNA", "X" * 28, placeholder=True),
+    ], name="Quartz-Seq first-strand cDNA")
+
+
 def tailed_first_strand() -> Construct:
     return Construct([
-        *rt_primer(),
-        seg("cDNA", "X" * 28, placeholder=True),
+        *first_strand(),
         seg("TdT poly(A)", "A" * 24),
     ], name="poly(A)-tailed Quartz-Seq first strand")
 

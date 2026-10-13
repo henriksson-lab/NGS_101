@@ -41,3 +41,10 @@ def workflow():
 
 def final_rows():
     return se.final_rows(FINAL_LIBRARY)
+
+
+def protocol_graph():
+    return se.protocol_graph(
+        "histone-mark-associated genomic fragment", title="Spatial-CUT&Tag",
+        authority="Defining source: https://doi.org/10.1126/science.abg7216; exact oligos: https://doi.org/10.1038/s41596-024-01013-y",
+        antibody_targeted=True)

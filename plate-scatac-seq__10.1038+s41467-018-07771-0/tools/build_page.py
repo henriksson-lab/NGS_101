@@ -5,13 +5,15 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import plate_scatac as P
 import seqprimers as sp
-from chemdraw import Scene,annotation_rows,oligo,panel
+from chemdraw import Scene,annotation_rows,oligo,panel,protocol_graph_panels
 from page import head,info
 OUT=HERE.parent/"plate-scatac-seq.html"
 def main():
  lib=P.final_library()
- page="\n".join([head("Plate_scATAC-seq library chemistry"),'<div class="wrap">','<h1>Plate_scATAC-seq &mdash; bulk tagmentation, one nucleus per PCR well</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41467-018-07771-0">Chen et al., <i>Nature Communications</i> (2018)</a>.'),
+ graph=P.protocol_graph()
+ page="\n".join([head("Plate_scATAC-seq library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>Plate_scATAC-seq &mdash; bulk tagmentation, one nucleus per PCR well</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41467-018-07771-0">Chen et al., <i>Nature Communications</i> (2018)</a>.'),
  '<h2>Representative index primers</h2><seq>'+oligo("N701",P.n701())+oligo("S502",P.s502())+'</seq>',
+ '<h2>Reaction workflow</h2>'+protocol_graph_panels(graph,cls="long"),'<h2>Molecular details</h2>',
  '<h2>Library construction</h2><h3>(1) Tagment native nuclei in bulk</h3>'+panel(P.tagmented_scene().rows(),cls="small",caption="Tn5 remains bound, holding the tagged nuclear DNA together for single-nucleus sorting."),
  '<h3>(2) Sort one nucleus into each pre-indexed well; release Tn5 and fill the gaps</h3>'+info('SDS + proteinase K releases Tn5; Tween-20 quenches SDS before the 72 °C gap-fill step.'),
  '<h3>(3) Amplify with that well’s S5xx/N7xx pair</h3>'+panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="Final Plate_scATAC-seq library, P5 to P7'. Cell identity is the i5/i7 pair."),

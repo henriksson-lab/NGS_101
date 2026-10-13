@@ -6,6 +6,9 @@ from batch_ngs import joined_scene, seg, truseq_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState, Row, Scene, Segment, Workflow
 from end_capture import UserHairpin, captured_break_scene, user_opening_rows
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "END-seq — direct capture of DNA double-strand-break ends"
 NOTES = "01_end-seq.html"
@@ -45,3 +48,89 @@ def workflow():
     w.ligate_adapter(s[1][0],hairpin_ligation_geometry(A1),s[1][1],note=s[1][2])
     w.ligate_adapter(s[2][0],hairpin_ligation_geometry(A2),s[2][1],note=s[2][2])
     w.react(s[3][0],s[3][1],note=s[3][2]);return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("genomic_dna","agarose-embedded genomic DNA with native DSBs",
+                    MaterialKind.MOLECULAR,primary=True)
+    deproteinize=graph.input("deproteinization_condition","in-plug deproteinization condition",
+                             MaterialKind.CONDITION)
+    clean=graph.product("clean","deproteinized genomic DNA",MaterialKind.MOLECULAR)
+    graph.react("deproteinize","Deproteinize genomic DNA in agarose",
+                StepKind.DEPROTEINIZATION,
+                ((dna,InputRole.TEMPLATE),(deproteinize,InputRole.CONDITION)),(clean,))
+    repair=graph.input("repair_enzymes","DSB-end blunting enzymes",MaterialKind.CATALYST)
+    blunt=graph.product("blunted","blunted native DSB ends",MaterialKind.MOLECULAR)
+    graph.react("blunt","Blunt native DSB ends",StepKind.END_REPAIR,
+                ((clean,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(blunt,))
+    tailing=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
+    tailed1=graph.product("tailed1","dA-tailed captured DSB ends",MaterialKind.MOLECULAR)
+    graph.react("tail_break","Add 3-prime dA at processed break ends",StepKind.TAILING,
+                ((blunt,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(tailed1,))
+    a1=graph.input("a1","biotinylated P5 USER hairpin adaptor 1",MaterialKind.ADAPTER)
+    ligase1=graph.input("ligase1","P5 hairpin ligase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged","P5-hairpin-tagged DSB ends",MaterialKind.MOLECULAR,
+                         state=captured_break_scene())
+    graph.react("ligate_a1","Ligate biotinylated P5 hairpin adaptor 1",
+                StepKind.LIGATION,
+                ((tailed1,InputRole.TEMPLATE),(a1,InputRole.STRUCTURAL),
+                 (ligase1,InputRole.CATALYST)),(tagged,),geometry=hairpin_ligation_geometry(A1))
+    shear=graph.input("shear_condition","sonication condition",MaterialKind.CONDITION)
+    fragments=graph.product("fragments","sheared P5-hairpin-tagged fragments",
+                            MaterialKind.MOLECULAR)
+    graph.react("shear","Shear distal genomic DNA",StepKind.FRAGMENTATION,
+                ((tagged,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
+    streptavidin=graph.input("streptavidin","streptavidin enrichment beads",
+                            MaterialKind.SELECTION)
+    captured=graph.product("captured","captured P5-hairpin DSB fragments",
+                           MaterialKind.MOLECULAR)
+    untagged=graph.product("untagged","fragments lacking the biotinylated break end",
+                           MaterialKind.WASTE)
+    graph.react("capture","Enrich biotinylated break-end fragments",
+                StepKind.AFFINITY_CAPTURE,
+                ((fragments,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,untagged))
+    graph.discard(untagged,"fragments lacking adaptor 1 are washed away")
+    repaired2=graph.product("repaired2","distal-end-repaired captured fragments",
+                            MaterialKind.MOLECULAR)
+    graph.react("repair_distal","Repair the sonicated distal ends",StepKind.END_REPAIR,
+                ((captured,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired2,))
+    tailed2=graph.product("tailed2","distal-dA-tailed captured fragments",
+                          MaterialKind.MOLECULAR)
+    graph.react("tail_distal","Add 3-prime dA at distal fragment ends",StepKind.TAILING,
+                ((repaired2,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(tailed2,))
+    a2=graph.input("a2","P7 USER hairpin adaptor 2",MaterialKind.ADAPTER)
+    ligase2=graph.input("ligase2","P7 hairpin ligase",MaterialKind.CATALYST)
+    double_hairpin=graph.product("double_hairpin","two-hairpin captured fragment",
+                                 MaterialKind.MOLECULAR)
+    graph.react("ligate_a2","Ligate P7 hairpin adaptor 2",StepKind.LIGATION,
+                ((tailed2,InputRole.TEMPLATE),(a2,InputRole.STRUCTURAL),
+                 (ligase2,InputRole.CATALYST)),(double_hairpin,),geometry=hairpin_ligation_geometry(A2))
+    user=graph.input("user","USER enzyme",MaterialKind.CATALYST)
+    opened=graph.product("opened","USER-opened PCR-addressable library precursor",
+                         MaterialKind.MOLECULAR)
+    loops=graph.product("loops","excised hairpin loop fragments",MaterialKind.WASTE)
+    graph.react("open_hairpins","Open both uracil-containing hairpins",
+                StepKind.DIGESTION,
+                ((double_hairpin,InputRole.TEMPLATE),(user,InputRole.CATALYST)),
+                (opened,loops))
+    graph.discard(loops,"excised USER hairpin loops are not part of the library")
+    forward=graph.input("pcr_forward","TruSeq PCR forward primer",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","indexed TruSeq PCR reverse primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    graph.react("index_pcr","Index-amplify the opened END-seq library",StepKind.PCR,
+                ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The final TruSeq sites are exact; the opened two-hairpin precursor is not reconstructed as a complete duplex."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "genomic_dna","deproteinization_condition","deproteinize","repair_enzymes",
+        "blunt","tailing_polymerase","tail_break","a1","ligase1","ligate_a1",
+        "shear_condition","shear","streptavidin","capture","repair_distal",
+        "tail_distal","a2","ligase2","ligate_a2","user","open_hairpins",
+        "pcr_forward","pcr_reverse","pcr_polymerase","index_pcr","library"),SOURCE)
+    return graph.require_publishable()

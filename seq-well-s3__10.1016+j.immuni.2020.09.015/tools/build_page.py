@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import nextera as nx
 import seqprimers as sp
 import seqwell_s3 as S
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import oligo, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "seq-well-s3.html"
@@ -38,21 +38,7 @@ def oligos() -> str:
 
 
 def construction() -> str:
-    bead = S.bead_oligo()
-    lib = S.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Capture mRNA in nanowells and reverse-transcribe on recovered beads</h3>
-{panel(S.rt_scene().rows(), cls="small",
-       caption="The bead writes the 12-nt cell barcode and 8-nt UMI next to the transcript's poly(A) end; the TSO is present but need not succeed.")}
-<h3>(2) Strip RNA and make a handle-tagged second strand</h3>
-{panel(S.random_second_strand_scene().rows(), cls="small",
-       caption="After NaOH removes RNA, the S3 randomer lands on first-strand cDNA and Klenow exo-minus copies toward the bead.")}
-<h3>(3) Amplify with the single SMART primer</h3>
-{panel([strand_row(bead), *annotation_rows(bead)], cls="small",
-       caption="Both template switching and random second-strand synthesis lead to SMART-handle-flanked WTA products.")}
-<h3>(4) Tagment and select the bead-end/s7 fragment</h3>
-{panel([*S.final_scene().rows(), *annotation_rows(lib)], cls="small",
-       caption="The P5-SMART hybrid selects the bead end; N7xx selects an s7 Tn5 end. The S3 randomer changes capture yield, not the final read layout.")}'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
 
 
 def sequencing() -> str:
@@ -73,7 +59,7 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("Seq-Well S3 library chemistry"), '<div class="wrap">',
+    page = "\n".join([head("Seq-Well S3 library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>Seq-Well S3 &mdash; randomly primed second-strand capture</h1>',
         info('Defining source: <a href="https://doi.org/10.1016/j.immuni.2020.09.015">Hughes et al., <i>Immunity</i> (2020)</a>.'),
         oligos(), construction(), sequencing(), '</div>'])

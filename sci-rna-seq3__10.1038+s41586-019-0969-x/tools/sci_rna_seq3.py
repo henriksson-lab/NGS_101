@@ -5,6 +5,10 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 LIGATION_BARCODE = feature("cell_barcode_ligation", "cell_barcode", "combinatorial",
@@ -74,6 +78,10 @@ def ligation_scene() -> Scene:
     sc=Scene(); sc.strand("first strand",list(target),label="first strand",mod5="p")
     sc.anneal("hairpin",hp,to="first strand",pair=("6-nt overhang","ligation site"),
               label="hairpin adaptor",unpaired=("ligation barcode","dU","Read 1 handle","barcode reverse complement"))
+    sc.ligation_end("first strand","ligation site",kind="splinted",polarity="5-prime",
+                    owner="substrate",text="5′-phosphate at the ligation nick")
+    sc.ligation_end("hairpin","barcode reverse complement",kind="splinted",
+                    polarity="3-prime",owner="adapter",text="hairpin 3′-OH at the ligation nick")
     sc.mark("hairpin","6-nt overhang","splints the ligation nick"); return sc
 
 
@@ -131,3 +139,86 @@ def read1_layout() -> list[tuple[str,str]]:
     by_id={x.feature.id:(x.cycles,x.feature.label) for x in spans}
     return [by_id["cell_barcode_ligation"],("11–16","CAGAGC"),
             by_id["umi"],by_id["cell_barcode_rt"]]
+
+
+def protocol_graph() -> ProtocolGraph:
+    source="Defining source: https://doi.org/10.1038/s41586-019-0969-x"
+    graph=ProtocolGraph("sci-RNA-seq3",authority=source)
+    nuclei=graph.input("fixed_nuclei","fixed permeabilized nuclei",MaterialKind.BIOLOGICAL,
+                       primary=True)
+    rt_oligo=graph.input("rt_primer","5-prime-phosphorylated barcoded RT primer",
+                         MaterialKind.OLIGO,state=tuple(rt_primer()))
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    first=graph.product("first_strand",first_strand().name,MaterialKind.MOLECULAR,
+                        state=first_strand())
+    graph.react("reverse_transcribe","Install the RT barcode and UMI in situ",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((nuclei,InputRole.TEMPLATE),(rt_oligo,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    hairpin=graph.input("hairpin_adapter","barcoded dU hairpin adapter",
+                        MaterialKind.ADAPTER,state=tuple(hairpin_oligo()))
+    ligase=graph.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
+    ligated=graph.product("ligated_cdna",ligated_product().name,MaterialKind.MOLECULAR,
+                          state=ligated_product())
+    ligation_geometry=AdapterLigationGeometry.known(
+        "splinted",ligation_scene(),
+        statement="The defining supplement prints the complementary six-base splint, phosphorylated RT-primer end and hairpin adapter.")
+    graph.react("hairpin_ligation","Add the second well barcode through the hairpin splint",
+                StepKind.LIGATION,
+                ((first,InputRole.TEMPLATE),(hairpin,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(ligated,),geometry=ligation_geometry)
+    second_primer=graph.input("second_strand_primer","random second-strand primer",
+                              MaterialKind.OLIGO)
+    second_pol=graph.input("second_strand_polymerase","second-strand polymerase",
+                           MaterialKind.CATALYST)
+    duplex=graph.product("double_stranded_cdna","double-stranded hairpin-ligated cDNA",
+                         MaterialKind.MOLECULAR,state=ligated_product())
+    graph.react("second_strand","Synthesize the second cDNA strand",StepKind.EXTENSION,
+                ((ligated,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                 (second_pol,InputRole.CATALYST)),(duplex,))
+    transposome=graph.input("n7_transposome","N7-only transposome",MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_cdna","N7-tagmented hairpin cDNA",MaterialKind.MOLECULAR)
+    tag_waste=graph.product("tagment_waste","tagmentation products lacking the selected ends",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Tagment double-stranded cDNA with N7-only Tn5",
+                StepKind.TAGMENTATION,
+                ((duplex,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+    graph.discard(tag_waste,"fragments without the barcode-bearing hairpin end are not PCR-selected")
+    user=graph.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
+    opened=graph.product("opened_cdna",user_cleaved_tagmented().name,
+                         MaterialKind.MOLECULAR,state=user_cleaved_tagmented())
+    released=graph.product("released_hairpin_arm","released dU-containing hairpin arm",
+                           MaterialKind.WASTE)
+    graph.react("user_digest","Open the hairpin at dU with USER",StepKind.DIGESTION,
+                ((tagged,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))
+    graph.discard(released,"the cleaved outer hairpin arm is not part of the final library")
+    p5=graph.input("p5_primer","indexed P5 PCR primer",MaterialKind.OLIGO,
+                   state=tuple(p5_primer()))
+    p7=graph.input("p7_primer","indexed P7 PCR primer",MaterialKind.OLIGO,
+                   state=tuple(p7_primer()))
+    polymerase=graph.input("pcr_polymerase","PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    geometry=PCRGeometry.exact(
+        user_cleaved_tagmented(),
+        PCRPrimer("indexed P5 PCR primer",P5_1,anneal_nt=len(HANDLE)),
+        PCRPrimer("indexed P7 PCR primer",P7_1,anneal_nt=len(nx.S7)),
+        statement="The defining supplement prints both indexed PCR primers and their Read-1-handle and s7 annealing sites.")
+    graph.react("library_pcr","Add the PCR-well i5/i7 pair",StepKind.PCR,
+                ((opened,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
+                 (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=geometry)
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(READ_LENGTHS),
+        read_lengths=READ_LENGTHS,
+        read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"}))
+    graph.declare_reviewed_scope((
+        "fixed_nuclei","rt_primer","reverse_transcriptase","reverse_transcribe",
+        "hairpin_adapter","dna_ligase","hairpin_ligation","second_strand_primer",
+        "second_strand_polymerase","second_strand","n7_transposome","tn5","tagment",
+        "user_enzyme","user_digest","p5_primer","p7_primer","pcr_polymerase",
+        "library_pcr","library"),source)
+    return graph.require_publishable()

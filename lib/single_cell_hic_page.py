@@ -2,11 +2,14 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import Row, duplex_rows, junction_row, panel, workflow_from_sections, workflow_panel
+from chemdraw import (Row, duplex_rows, junction_row, panel, protocol_graph_panels,
+                      workflow_from_sections, workflow_panel)
 from page import head, info
+from single_cell_hic import protocol_graph
 
 
 def render(module) -> str:
+    graph = protocol_graph(module)
     w = module.WORKFLOW
     contact = module.contact_product()
     junctions = getattr(module, "JUNCTIONS",
@@ -39,11 +42,11 @@ def render(module) -> str:
                 read_lengths=getattr(module, "READ_LENGTHS", None),
                 acquired_roles=getattr(module, "REQUIRED_ROLES", None)))
     return "\n".join([
-        head(module.TITLE), '<div class="wrap">', f'<h1>{module.TITLE}</h1>',
+        head(module.TITLE), '<div class="wrap" data-protocol-complete="true">', f'<h1>{module.TITLE}</h1>',
         f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',
         info(module.CITATION), info(module.SUMMARY),
         info(module.LIBRARY_CAVEAT) if getattr(module, "LIBRARY_CAVEAT", "") else "",
-        '<h2>Protocol path</h2>', workflow_panel(path, cls="long"),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>The proximity-ligation product</h2>',
         panel(contact_rows, cls="small", caption=module.JUNCTION_CAPTION),
         '<h2>Final sequencing molecule</h2>',

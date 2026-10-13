@@ -7,6 +7,9 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "Earth Microbiome Project ITS amplicon sequencing"
 NOTES = "01_emp-its.html"
@@ -74,3 +77,28 @@ def sections():
             Row(chunks=[("Index 1: four locus-extension bases + ITS2/CG → Golay12", "cbc", False)]),
         ], "The longer locus-matching primers raise melting temperature in the low-complexity amplicon. The index primer approaches the barcode through the reverse-primer side."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("community_dna","fungal community DNA",MaterialKind.MOLECULAR,
+                    primary=True)
+    forward=graph.input("fusion_forward","P5-ITS1f fusion primer",MaterialKind.OLIGO)
+    reverse=graph.input("fusion_reverse","Golay12-P7-ITS2 fusion primer",
+                        MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","amplicon PCR polymerase",
+                           MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("fusion_pcr","Amplify fungal ITS1 and install the complete run structure",
+                StepKind.PCR,
+                ((dna,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The fusion-primer sequences are exact, but the variable fungal genomic template is not represented as one fixed Construct."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "community_dna","fusion_forward","fusion_reverse","pcr_polymerase",
+        "fusion_pcr","library"),SOURCE)
+    return graph.require_publishable()

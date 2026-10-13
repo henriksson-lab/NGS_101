@@ -5,14 +5,15 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v4 as V
 import seqprimers as sp
-from chemdraw import Scene,annotation_rows,oligo,panel
+from chemdraw import Scene,annotation_rows,oligo,panel,protocol_graph_panels
 from page import head,info
 OUT=HERE.parent/"10x-3prime-v4.html"
 def sequencing(lib):
     return sp.section(lib,V.SEQ_PRIMERS,heading="Sequencing",intro='Paired-end, dual-index sequencing: Read 1 28 cycles, i7 10 cycles, i5 10 cycles, Read 2 90 cycles. Read 1 contains the 16-base cell barcode and 12-base UMI.',read_lengths={"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90},show_read_content=True)
 def render():
-    lib=V.final_library(); cdna=V.amplified_cdna()
-    return "\n".join([head("10x GEM-X 3' Gene Expression v4 chemistry"),'<div class="wrap">','<h1>10x Chromium GEM-X Single Cell 3&#39; Gene Expression v4</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/chromium-gem-x-single-cell-3-v4-gene-expression-user-guide">10x Genomics User Guide CG000731</a>.'),
+    lib=V.final_library(); cdna=V.amplified_cdna(); graph=V.protocol_graph()
+    return "\n".join([head("10x GEM-X 3' Gene Expression v4 chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>10x Chromium GEM-X Single Cell 3&#39; Gene Expression v4</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/chromium-gem-x-single-cell-3-v4-gene-expression-user-guide">10x Genomics User Guide CG000731</a>.'),
+      '<h2>Reaction workflow</h2>'+protocol_graph_panels(graph,cls="long"),
       '<div class="caveat"><b>Intermediate oligos.</b> CG000731 prints the bead oligo and complete final library, but not the TSO or ligation-adapter oligos. Dotted intermediate regions and steps labelled <b>INFERRED</b> reconstruct those roles from the final product.</div>',
       '<h2>Key oligo</h2><seq>'+oligo("GEM-X gel-bead oligo",V.bead_oligo())+'</seq>',
       '<h2>Library construction</h2><h3>(1) Capture and barcode mRNA during GEM reverse transcription</h3>'+panel(V.capture_scene().rows(),cls="small",caption="Each molecule receives a 16-base cell barcode and 12-base UMI."),

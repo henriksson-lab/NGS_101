@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import chromium_v1 as C
 import seqprimers as sp
-from chemdraw import annotation_rows, panel, strand_row
+from chemdraw import annotation_rows, panel, protocol_graph_panels, strand_row
 from page import head, info
 
 OUT = HERE.parent / "10x-chromium-single-cell-3-ge-v1.html"
@@ -44,10 +44,12 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("10x Chromium Single Cell 3' GE v1 chemistry"), '<div class="wrap">',
+    graph = C.protocol_graph()
+    page = "\n".join([head("10x Chromium Single Cell 3' GE v1 chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>10x Chromium Single Cell 3-prime Gene Expression v1</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/ncomms14049">Zheng et al., <i>Nature Communications</i> (2017)</a>; protocol authority: 10x Genomics CG00026 Rev B.'),
         '<div class="caveat"><b>Sequence boundary.</b> The paper and v1 guide publish the library architecture and read layout, but no oligo sequences; reconstructed adapter bases are dotted.</div>',
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

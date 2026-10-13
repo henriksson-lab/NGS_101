@@ -13,7 +13,7 @@ import illumina as il
 import scrrbs as S
 import seqprimers as sp
 from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
-                      strand_row)
+                      protocol_graph_panels, strand_row)
 from page import head, info
 
 OUT = HERE.parent / "scrrbs.html"
@@ -101,8 +101,9 @@ def amplify_and_sequence() -> str:
 
 
 def render() -> str:
+    graph = S.protocol_graph()
     return "\n".join([
-        head("scRRBS library chemistry"), '<div class="wrap">',
+        head("scRRBS library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scRRBS &mdash; single-cell reduced-representation bisulfite sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1101/gr.161679.113">Guo et al., '
              '<i>Genome Research</i> (2013)</a>. Detailed protocol: '
@@ -111,7 +112,9 @@ def render() -> str:
         info('The paper specifies standard premethylated indexed Illumina adapters. '
              'The displayed six-base single-index sequences are the corresponding '
              'vendor-published TruSeq adapters; there is no i5 index.'),
-        oligos(), digest_and_repair(), ligate_and_convert(), amplify_and_sequence(),
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>', digest_and_repair(), ligate_and_convert(),
+        amplify_and_sequence(),
         '</div>',
     ])
 

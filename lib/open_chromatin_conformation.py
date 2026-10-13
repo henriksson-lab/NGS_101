@@ -12,6 +12,10 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, inline_sequence, revcomp
+from circular import CircularizationGeometry
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, closed_circle, molecule, role
 
 
@@ -114,9 +118,123 @@ def oligos():
     )
 
 
+def protocol_graph(final, primers) -> ProtocolGraph:
+    source = "Wei et al., Molecular Cell (2022); doi:10.1016/j.molcel.2022.01.023"
+    graph = ProtocolGraph("HiCAR", authority=source)
+    nuclei = graph.input(
+        "fixed_nuclei", "formaldehyde-crosslinked nuclei",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("formaldehyde-crosslinked nuclei", (
+            role("spatially proximal chromatin"), role("accessible regulatory DNA"))),
+        primary=True)
+    hicar_adapter = graph.input("hicar7_transposome", "engineered HiCAR7-loaded transposome",
+                                MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product(
+        "tagged_chromatin", "HiCAR7-tagged accessible chromatin",
+        MaterialKind.MOLECULAR,
+        state=molecule("tagged accessible chromatin", (
+            role("chromatin outside the accessible site"),
+            role("HiCAR7 transferred strand"), role("accessible genomic DNA")),
+            junctions=(("HiCAR7 transferred strand", "accessible genomic DNA",
+                        "Tn5 strand transfer"),)))
+    tn5_losses = graph.product("tn5_losses", "non-library Tn5 products",
+                               MaterialKind.WASTE)
+    graph.react("tagment", "Tagment accessible chromatin with engineered HiCAR7",
+                StepKind.TAGMENTATION,
+                ((nuclei, InputRole.TEMPLATE), (hicar_adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_losses))
+    graph.discard(tn5_losses, "does not retain the HiCAR7-tagged accessible-anchor configuration")
+
+    cviqi = graph.input("cviqi", "CviQI restriction endonuclease", MaterialKind.CATALYST)
+    digested = graph.product("cviqi_fragments", "CviQI-digested HiCAR chromatin",
+                             MaterialKind.MOLECULAR, state=tagged.state)
+    graph.react("cviqi_digest", "Digest nuclei with CviQI", StepKind.DIGESTION,
+                ((tagged, InputRole.TEMPLATE), (cviqi, InputRole.CATALYST)),
+                (digested,))
+    splint = graph.input("truseq_r1_splint", "published TruseqR1 ligation splint",
+                         MaterialKind.OLIGO)
+    ligase = graph.input("proximity_ligase", "in-situ proximity DNA ligase",
+                         MaterialKind.CATALYST)
+    contact = graph.product(
+        "contact", "open-to-all proximity-ligation product",
+        MaterialKind.MOLECULAR,
+        state=_contact_scene("open-to-all proximity-ligation product"))
+    graph.react("proximity_ligation", "Splint-ligate spatial partners in situ",
+                StepKind.PROXIMITY_LIGATION,
+                ((digested, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (contact,))
+    reversal = graph.input("crosslink_reversal", "cross-link reversal and DNA-purification condition",
+                           MaterialKind.CONDITION)
+    linear = graph.product("linear_contact", "purified linear HiCAR contact",
+                           MaterialKind.MOLECULAR, state=contact.state)
+    graph.react("reverse_crosslinks", "Reverse cross-links and purify contact DNA",
+                StepKind.DEPROTEINIZATION,
+                ((contact, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)),
+                (linear,))
+    fill_polymerase = graph.input("gap_fill_polymerase", "T4 DNA polymerase",
+                                  MaterialKind.CATALYST)
+    repaired = graph.product("repaired_contact", "Tn5-gap-filled HiCAR contact",
+                             MaterialKind.MOLECULAR, state=contact.state)
+    graph.react("gap_fill", "Fill the staggered Tn5 gaps", StepKind.EXTENSION,
+                ((linear, InputRole.TEMPLATE), (fill_polymerase, InputRole.CATALYST)),
+                (repaired,))
+    nlaiii = graph.input("nlaiii", "NlaIII restriction endonuclease", MaterialKind.CATALYST)
+    shortened = graph.product("nlaiii_fragments", "NlaIII-trimmed HiCAR contact fragments",
+                              MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("nlaiii_digest", "Digest repaired contacts with NlaIII",
+                StepKind.DIGESTION,
+                ((repaired, InputRole.TEMPLATE), (nlaiii, InputRole.CATALYST)),
+                (shortened,))
+    circle_ligase = graph.input("circle_ligase", "dilute-circularization T4 DNA ligase",
+                                MaterialKind.CATALYST)
+    circle_state = closed_circle("NlaIII-trimmed HiCAR circle", (
+        role("CviQI-cut interacting genomic DNA"), role("HiCAR7–splint junction"),
+        role("Tn5-tagged accessible genomic DNA")),
+        closure_label="dilute intramolecular T4 ligation")
+    circles = graph.product("circles", "NlaIII-trimmed HiCAR circles",
+                            MaterialKind.MOLECULAR, state=circle_state)
+    graph.react("circularize", "Circularize contact molecules at low concentration",
+                StepKind.CIRCULARIZATION,
+                ((shortened, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)),
+                (circles,), geometry=CircularizationGeometry.known(
+                    "double-strand intramolecular ligation",
+                    statement="The HiCAR workflow dilute-ligates NlaIII-trimmed contact molecules into inverse-PCR circles."))
+    i501 = graph.input("i501_primer", "published NEB i501 inverse-PCR primer",
+                       MaterialKind.OLIGO)
+    i7 = graph.input("i7_primer", "published Nextera i7-10-L inverse-PCR primer",
+                     MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "inverse-PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", "linear dual-index HiCAR amplicon",
+                            MaterialKind.LIBRARY, state=final)
+    geometry = PCRGeometry.exact(
+        final, PCRPrimer("NEB i501", I501_PCR),
+        PCRPrimer("Nextera i7-10-L", NEXTERA_I7_10_L),
+        statement="Wei et al. publish both outward inverse-PCR primer sequences.")
+    graph.react("inverse_pcr", "Inverse-PCR between splint and mosaic-end sides",
+                StepKind.PCR,
+                ((circles, InputRole.TEMPLATE), (i501, InputRole.STRUCTURAL),
+                 (i7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=geometry)
+    graph.sequence(library, SequencingPlan(
+        final, tuple(primers), tuple(p.role for p in primers),
+        {"Read 1": 150, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 150},
+        {"Read 1": "include", "Index 1 (i7)": "demultiplex",
+         "Index 2 (i5)": "demultiplex", "Read 2": "include"}))
+    graph.declare_reviewed_scope((
+        "fixed_nuclei", "hicar7_transposome", "tn5", "tagment", "cviqi",
+        "cviqi_digest", "truseq_r1_splint", "proximity_ligase", "proximity_ligation",
+        "crosslink_reversal", "reverse_crosslinks", "gap_fill_polymerase", "gap_fill",
+        "nlaiii", "nlaiii_digest", "circle_ligase", "circularize", "i501_primer",
+        "i7_primer", "pcr_polymerase", "inverse_pcr", "sequencing_library",
+    ), source)
+    return graph.require_publishable()
+
+
 def get():
     final, primers = hicar_library()
-    return SimpleNamespace(
+    spec = SimpleNamespace(
         TITLE="HiCAR — open-chromatin-anchored chromosome conformation",
         NOTES="01_hicar.html",
         SOURCE='<a href="https://doi.org/10.1016/j.molcel.2022.01.023">Wei et al., <i>Molecular Cell</i> (2022)</a>; defining CviQI/NlaIII implementation.',
@@ -133,3 +251,5 @@ def get():
         SEQUENCING_ENDING="",
         SEQUENCING_UNAVAILABLE="",
     )
+    spec.protocol_graph = lambda: protocol_graph(final, primers)
+    return spec

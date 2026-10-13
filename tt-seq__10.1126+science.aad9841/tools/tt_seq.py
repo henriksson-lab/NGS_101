@@ -8,6 +8,9 @@ import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "TT-seq — transient transcriptome sequencing"
 NOTES = "01_tt-seq.html"
@@ -58,3 +61,83 @@ def sections():
             Row(chunks=[("DNase treatment -> strand-specific NuGEN Ovation library preparation -> paired-end library", None, True)]),
         ], "The defining supplement delegates this construct-changing step to the commercial kit."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=graph.input("cells","cells during the five-minute pulse",MaterialKind.BIOLOGICAL,
+                      primary=True)
+    s4u=graph.input("s4u","4-thiouridine pulse label",MaterialKind.MOLECULAR)
+    rnap=graph.input("rna_polymerase","cellular RNA polymerases",MaterialKind.CATALYST)
+    labelled=graph.product("labelled_rna","4sU-labelled newly synthesized RNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("pulse_label","Transcribe RNA during the five-minute 4sU pulse",
+                StepKind.TRANSCRIPTION,
+                ((cells,InputRole.TEMPLATE),(s4u,InputRole.STRUCTURAL),
+                 (rnap,InputRole.CATALYST)),(labelled,))
+    sonication=graph.input("fragmentation_condition","BioRuptor fragmentation condition",
+                           MaterialKind.CONDITION)
+    fragmented=graph.product("fragmented","fragmented 4sU-labelled RNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("fragment","Fragment RNA before selection",StepKind.FRAGMENTATION,
+                ((labelled,InputRole.TEMPLATE),(sonication,InputRole.CONDITION)),
+                (fragmented,))
+    biotin=graph.input("biotin_reagent","thiol-reactive biotinylation condition",
+                       MaterialKind.CONDITION)
+    biotinylated=graph.product("biotinylated","biotinylated 4sU-containing RNA pieces",
+                               MaterialKind.MOLECULAR)
+    graph.react("biotinylate","Covalently biotinylate 4sU thiols",
+                StepKind.CHEMICAL_CONVERSION,
+                ((fragmented,InputRole.TEMPLATE),(biotin,InputRole.CONDITION)),
+                (biotinylated,))
+    streptavidin=graph.input("streptavidin","streptavidin selection reagent",
+                            MaterialKind.SELECTION)
+    captured=graph.product("captured","captured newly synthesized RNA fragments",
+                           MaterialKind.MOLECULAR)
+    unlabelled=graph.product("unlabelled","unlabelled RNA fragments",MaterialKind.WASTE)
+    graph.react("capture","Capture biotinylated RNA fragments",StepKind.AFFINITY_CAPTURE,
+                ((biotinylated,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (captured,unlabelled))
+    graph.discard(unlabelled,"unlabelled RNA is removed by streptavidin washing")
+    rt_primer=graph.input("rt_primer","NuGEN strand-specific RT primer",MaterialKind.OLIGO,
+                          inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+    rt=graph.input("reverse_transcriptase","NuGEN reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","strand-specific cDNA from captured RNA",
+                       MaterialKind.MOLECULAR,inferred=True,
+                       source=SOURCE+" (commercial kit construct)")
+    graph.react("reverse_transcribe","Convert captured RNA to strand-specific cDNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((captured,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    adapter=graph.input("adapter","NuGEN Illumina-compatible library adapter",
+                        MaterialKind.ADAPTER,inferred=True,
+                        source=SOURCE+" (commercial kit adapter undisclosed)")
+    adapted=graph.product("adapted","adapter-completed TT-seq cDNA",
+                          MaterialKind.MOLECULAR,inferred=True,
+                          source=SOURCE+" (commercial kit construct)")
+    graph.react("attach_adapter","Install the commercial sequencing adapters",
+                StepKind.ADAPTER_ATTACHMENT,
+                ((cdna,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL)),(adapted,))
+    fwd=graph.input("pcr_forward","NuGEN PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+    rev=graph.input("pcr_reverse","NuGEN indexed PCR reverse primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (inferred Illumina-compatible endpoint)")
+    graph.react("library_pcr","Amplify and index the captured cDNA library",StepKind.PCR,
+                ((adapted,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The defining supplement names the NuGEN kit without printing its PCR oligos."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "cells","s4u","rna_polymerase","pulse_label","fragmentation_condition",
+        "fragment","biotin_reagent","biotinylate","streptavidin","capture",
+        "rt_primer","reverse_transcriptase","reverse_transcribe","adapter",
+        "attach_adapter","pcr_forward","pcr_reverse","pcr_polymerase",
+        "library_pcr","library"),SOURCE)
+    return graph.require_publishable()

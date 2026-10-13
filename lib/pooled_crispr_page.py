@@ -4,7 +4,7 @@ from __future__ import annotations
 import html
 import pooled_crispr as M
 import seqprimers as sp
-from chemdraw import duplex_rows, oligo, panel
+from chemdraw import duplex_rows, oligo, panel, protocol_graph_panels
 from page import head, info
 
 
@@ -34,7 +34,13 @@ def one_pcr_readout(heading: str = "One-PCR screen readout") -> str:
 {sp.section(lib, M.one_pcr_sequencing_primers(), heading="Sequencing primers", intro="The published run uses 80 Read 1 cycles and an 8-cycle i7 read; both primer sites are located below.", required_roles=("Read 1", "Index 1 (i7)"))}'''
 
 
-def page(title: str, note: str, source: str, body: str) -> str:
-    return "\n".join([head(title), '<div class="wrap">', f"<h1>{title}</h1>",
+def page(title: str, note: str, source: str, body: str, *, graph=None) -> str:
+    if graph is not None:
+        graph.require_publishable()
+    wrap = ('<div class="wrap" data-protocol-complete="true">'
+            if graph is not None else '<div class="wrap">')
+    workflow = (["<h2>Reaction workflow</h2>", protocol_graph_panels(graph, cls="long")]
+                if graph is not None else [])
+    return "\n".join([head(title), wrap, f"<h1>{title}</h1>",
         f'<p class="research-notes"><a href="{note}">Research notes</a></p>', info(source),
-        body, "</div>"])
+        *workflow, body, "</div>"])

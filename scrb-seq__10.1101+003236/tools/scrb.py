@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, feature
+from chemdraw import Construct, Segment, feature, revcomp
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -54,6 +54,30 @@ def tso_segments(protocol: str) -> list[Segment]:
         return [seg("PCR handle", PCR_HANDLE, "r1"),
                 seg("rGrGrG", "rGrGrG", placeholder=True)]
     raise ValueError(protocol)
+
+
+def preamp_product() -> Construct:
+    """Full-length cDNA with inward-facing sites for the single SINGV6 primer."""
+    return Construct([
+        seg("oligo-dT-end PCR handle", FULL_HANDLE, "r1"),
+        seg("cell barcode", "B" * BARCODE_LEN, "cbc", placeholder=True),
+        seg("UMI", "N" * UMI_LEN, "umi", placeholder=True),
+        seg("poly(T)", "T" * DT_LEN), seg("VN", "VN", placeholder=True),
+        seg("cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
+        seg("TSO-end PCR handle reverse complement", revcomp(PCR_HANDLE), "r1"),
+    ], name="SCRB full-length preamplification product")
+
+
+def enrichment_template() -> Construct:
+    """The oligo-dT/s7 tagmentation product selected by terminal PCR."""
+    return Construct([
+        seg("TruSeq Read 1", FULL_HANDLE, "r1"),
+        seg("cell barcode", "B" * BARCODE_LEN, "cbc", placeholder=True),
+        seg("UMI", "N" * UMI_LEN, "umi", placeholder=True),
+        seg("poly(T)", "T" * DT_LEN), seg("VN", "VN", placeholder=True),
+        seg("cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
+        seg("ME'", nx.ME_RC, "me"), seg("s7'", nx.S7_RC, "s7"),
+    ], name="SCRB oligo-dT/s7 enrichment template")
 
 
 READ_PRIMERS = (

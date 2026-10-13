@@ -12,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import txci_atac as T
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "txci-atac-seq.html"
@@ -20,6 +20,7 @@ OUT = HERE.parent / "txci-atac-seq.html"
 
 def render() -> str:
     lib = T.final_library()
+    graph = T.protocol_graph()
     duplex = Scene.duplex(list(lib), label="library")
     landings = [(html.escape(p.role), html.escape(p.name),
                  html.escape(", ".join(hit.covers)),
@@ -34,7 +35,7 @@ def render() -> str:
         oligo("P7.S701", T.p7_primer()),
     ])
     return "\n".join([
-        head("txci-ATAC-seq library chemistry"), '<div class="wrap">',
+        head("txci-ATAC-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>txci-ATAC-seq</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/s13059-023-03150-1">Zhang et al., <i>Genome Biology</i> (2024)</a>; first described in the linked preprint.'),
         '<div class="caveat"><b>10x kit boundary.</b> The paper publishes the custom Tn5 and i7 oligos, but not the stock gel-bead oligo. Its dotted P5&ndash;GEM&ndash;s5 structure follows the secondary reconstruction pending the cited 10x/protocols.io source.</div>',
@@ -42,7 +43,8 @@ def render() -> str:
         panel(T.transposome_scene("A").rows(), cls="small", caption="Adaptor A supplies the s5 end recognized by the 10x bead oligo."),
         panel(T.transposome_scene("B").rows(), cls="small", caption="Adaptor B supplies one plate barcode and the partial TruSeq Read 2 site."),
         '<h2>Key oligos</h2>', '<seq>', oligos, '</seq>',
-        '<h2>Library construction</h2>',
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>',
         '<h3>(1) Pre-index nuclei in a 96-well Tn5 plate</h3>',
         info('Each well has one 8-nt Tn5 barcode. Nuclei are pooled after tagmentation and overloaded into the Chromium ATAC workflow.'),
         '<h3>(2) Add GEM barcode and suppress barcode swapping</h3>',

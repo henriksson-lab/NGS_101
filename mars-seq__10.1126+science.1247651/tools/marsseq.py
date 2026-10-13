@@ -93,6 +93,17 @@ def ds_cdna(protocol: str) -> Construct:
                      name=f"{protocol} double-stranded cDNA")
 
 
+def amplified_rna(protocol: str) -> Construct:
+    """T7-IVT product carrying the well barcode and UMI installed by RT1."""
+    primer = rt1_segments(protocol)
+    leader = next(i for i, segment in enumerate(primer)
+                  if segment.name == "transcribed leader")
+    return Construct([
+        *primer[leader:],
+        _seg("antisense RNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
+    ], name=f"{protocol} amplified antisense RNA")
+
+
 def mars2_ligation_adapter() -> Construct:
     return Construct([
         _seg("ordered pool barcode", POOL_ORDERED, "cbc"),

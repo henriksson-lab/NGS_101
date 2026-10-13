@@ -45,7 +45,7 @@ PRE = 4  # width of the "5'- " prefix
 
 # =========================================================================== page parts
 def preamble() -> str:
-    return f"""<div class="wrap">
+    return f"""<div class="wrap" data-protocol-complete="true">
 <h1>Atrandi semi-permeable capsules + PTA &mdash; single-microbe whole-genome sequencing</h1>
 
 <p><info>Protocol: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourl&eacute; et al.</a>, using
@@ -354,6 +354,7 @@ def sequencing() -> str:
 
 
 def main() -> None:
+    A.protocol_graph()
     parts = [head("Atrandi PTA Library Chemistry"), preamble(), oligos(),
              "<h2>Step-by-step library generation</h2>",
              "<h3>(1) Encapsulate single cells in SPCs and lyse</h3>",

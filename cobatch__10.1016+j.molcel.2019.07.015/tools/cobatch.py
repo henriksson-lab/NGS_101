@@ -9,6 +9,9 @@ from batch_ngs import seg
 from chemdraw import Construct,MolecularState,Row,Scene,Workflow,duplex_rows,feature,revcomp
 from chromatin_epigenetics import antibody_enzyme_rows
 from tagmentation import loaded_tn5_adapter
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 TITLE="CoBATCH — combinatorial barcoding by targeted tagmentation"
 NOTES="01_cobatch.html"
@@ -97,3 +100,55 @@ def workflow():
           name="CoBATCH sequencing library",
           note="The two transposome barcodes plus the two PCR-well indexes jointly identify one cell.")
  return wf
+
+def protocol_graph():
+ source="Defining source: https://doi.org/10.1016/j.molcel.2019.07.015"
+ graph=ProtocolGraph("CoBATCH",authority=source)
+ chromatin=graph.input("chromatin","antibody-bound chromatin",MaterialKind.BIOLOGICAL,
+                       primary=True,state=Scene.duplex([seg("native chromatin","X"*42,placeholder=True)]))
+ transposomes=graph.input("barcoded_transposomes","T5/T7 first-plate pA-Tn5 complexes",
+                          MaterialKind.ADAPTER)
+ tn5=graph.input("pa_tn5","protein-A–Tn5 transposase",MaterialKind.CATALYST)
+ tagged=graph.product("tagged_fragments","gapped first-plate-indexed chromatin fragments",
+                      MaterialKind.MOLECULAR,state=TRANSFERRED)
+ tagmentation_waste=graph.product("tagmentation_waste","non-library tagmentation products",
+                                  MaterialKind.WASTE)
+ graph.react("targeted_tagmentation","Tether pA-Tn5 and transfer the T5/T7 well adapters",
+             StepKind.TAGMENTATION,
+             ((chromatin,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),
+              (tn5,InputRole.CATALYST)),(tagged,tagmentation_waste))
+ graph.discard(tagmentation_waste,"molecules without a usable paired T5/T7 insertion do not amplify")
+ polymerase=graph.input("polymerase","gap-fill and PCR polymerase",MaterialKind.CATALYST)
+ filled=graph.product("gap_filled_fragments","gap-filled first-plate-indexed fragments",
+                      MaterialKind.MOLECULAR,state=TRANSFERRED)
+ graph.react("gap_fill","Fill the staggered transposase gaps",StepKind.EXTENSION,
+             ((tagged,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
+ allocation=graph.input("second_plate_allocation","second-plate redistribution rule",
+                        MaterialKind.SELECTION)
+ allocated=graph.product("allocated_fragments","fragments assigned to second-plate wells",
+                         MaterialKind.MOLECULAR,state=TRANSFERRED)
+ excluded=graph.product("allocation_loss","fragments excluded during redistribution",
+                        MaterialKind.WASTE)
+ graph.react("redistribute","Pool cells and redistribute them to second-plate wells",
+             StepKind.SAMPLING,
+             ((filled,InputRole.TEMPLATE),(allocation,InputRole.SELECTION)),(allocated,excluded),
+             changes_molecule=False)
+ graph.discard(excluded,"material not retained in an assayed second-plate well is not sequenced")
+ i5=graph.input("i5_primer","PCR-well i5 primer",MaterialKind.OLIGO)
+ i7=graph.input("i7_primer","PCR-well i7 primer",MaterialKind.OLIGO)
+ library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ graph.react("second_well_pcr","Amplify and add the second-well i5/i7 identities",StepKind.PCR,
+             ((allocated,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+              (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+             geometry=PCRGeometry.unavailable(
+                 FINAL_LIBRARY,reason="The source establishes the indexed PCR ends, but the page does not model exact primer annealing geometry."))
+ graph.sequence(library,SequencingPlan(
+     library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
+     acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS,
+     read_uses={"Read 1":"include","Read 2":"include"},
+     limitation=SEQUENCING_UNAVAILABLE))
+ graph.declare_reviewed_scope((
+     "chromatin","barcoded_transposomes","pa_tn5","targeted_tagmentation",
+     "polymerase","gap_fill","second_plate_allocation","redistribute",
+     "i5_primer","i7_primer","second_well_pcr","library"),source)
+ return graph.require_publishable()

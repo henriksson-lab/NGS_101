@@ -9,6 +9,8 @@ from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Workflow
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from pcr import PCRGeometry
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 TITLE = "PTA — primary template-directed whole-genome amplification"
@@ -72,3 +74,70 @@ def final_rows():
     sc = Scene.duplex(list(FINAL_LIBRARY), label="PTA library")
     sc.labels("top")
     return sc.rows()
+
+
+def protocol_graph():
+    source="Defining source: https://doi.org/10.1073/pnas.2024176118"
+    graph=ProtocolGraph("PTA",authority=source)
+    genome=graph.input("genome","denatured single-cell genomic DNA",
+                       MaterialKind.BIOLOGICAL,primary=True)
+    primer=graph.input("random_primer","exonuclease-resistant random primer",
+                       MaterialKind.OLIGO,inferred=True,
+                       source=source+" (bases, length and modifications not disclosed)")
+    phi29=graph.input("phi29","phi29 DNA polymerase",MaterialKind.CATALYST)
+    terminators=graph.input("terminators","alpha-thio-ddATP/ddCTP/ddGTP/ddTTP",
+                            MaterialKind.OLIGO)
+    amplified_state=pta.amplification_product()
+    amplified=graph.product("pta_product","terminated primary-template copies",
+                            MaterialKind.MOLECULAR,state=amplified_state)
+    graph.react("pta_amplification","Random-prime and displace primary-template copies",
+                StepKind.EXTENSION,
+                ((genome,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),
+                 (terminators,InputRole.STRUCTURAL),(phi29,InputRole.CATALYST)),
+                (amplified,))
+    repair=graph.input("end_repair_mix","KAPA HyperPlus end-repair/dA-tailing mix",
+                       MaterialKind.CATALYST)
+    prepared_model=repair_and_dA_tail(Construct([
+        seg("PTA-amplified genomic insert","X"*48,placeholder=True)],name="PTA product"))
+    prepared_scene=dA_tailed_scene(prepared_model,label="ligation-ready PTA product")
+    prepared=graph.product("prepared_product","end-repaired, dA-tailed PTA products",
+                           MaterialKind.MOLECULAR,state=prepared_scene)
+    graph.react("end_prepare","End-repair and dA-tail PTA products without fragmentation",
+                StepKind.END_REPAIR,
+                ((amplified,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(prepared,))
+    adapters=graph.input("udi_adapters","IDT UDI adapters",MaterialKind.ADAPTER,
+                         inferred=True,source=source+" (oligo sequences unavailable)")
+    ligase=graph.input("ligase","KAPA HyperPlus DNA ligase",MaterialKind.CATALYST)
+    ligated=graph.product("ligated_library","UDI-adapter-ligated PTA library",
+                          MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,
+                          source=source+" (adapter bases inferred from standard topology)")
+    adapter_geometry=AdapterLigationGeometry.unavailable(
+        "The paper identifies IDT UDI adapters but does not print their oligos or ligation-ready end geometry.")
+    graph.react("adapter_ligation","Ligate IDT UDI adapters",StepKind.LIGATION,
+                ((prepared,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(ligated,),geometry=adapter_geometry)
+    forward=graph.input("pcr_forward","UDI library PCR forward primer",MaterialKind.OLIGO,
+                        inferred=True,source=source+" (sequence unavailable)")
+    reverse=graph.input("pcr_reverse","UDI library PCR reverse primer",MaterialKind.OLIGO,
+                        inferred=True,source=source+" (sequence unavailable)")
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=source+" (canonical adapter bases inferred)")
+    graph.react("library_pcr","Amplify the UDI library for 15 cycles",StepKind.PCR,
+                ((ligated,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The defining paper does not print the IDT UDI PCR primers."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),
+        acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
+        read_lengths=READ_LENGTHS,
+        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
+        limitation="Exact UDI oligos and genomic read lengths are not reported."))
+    graph.declare_reviewed_scope((
+        "genome","random_primer","phi29","terminators","pta_amplification",
+        "end_repair_mix","end_prepare","udi_adapters","ligase","adapter_ligation",
+        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),source)
+    return graph.require_publishable()

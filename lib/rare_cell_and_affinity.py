@@ -13,8 +13,12 @@ from types import SimpleNamespace
 import illumina as il
 import rt
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import nextera_library, seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import role, role_library
 
 
@@ -214,10 +218,302 @@ def cap_workflow() -> Workflow:
     ))
 
 
+def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " PCR forward primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " PCR reverse primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The source establishes the endpoint but withholds or varies the complete amplification-primer pair."))
+    plan = (SequencingPlan(library=final, primers=tuple(primers)) if primers
+            else SequencingPlan(limitation=endpoint))
+    graph.sequence(library, plan)
+    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
+                     prefix + "_pcr", prefix + "_library"))
+    return library
+
+
+def _raisin_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    tissue = graph.input("tissue", "frozen tissue", MaterialKind.BIOLOGICAL,
+                         state=_scene("frozen tissue", role("frozen tissue")), primary=True)
+    cst = graph.input("cst_buffer", "CST RAISIN extraction buffer",
+                      MaterialKind.CONDITION)
+    particles = graph.product("raisin_particles", "intact nuclei retaining attached ribosomes",
+                              MaterialKind.MOLECULAR, state=raisin_particle())
+    graph.react("extract", "Extract RAISIN particles with CST buffer",
+                StepKind.EXTRACTION,
+                ((tissue, InputRole.TEMPLATE), (cst, InputRole.CONDITION)), (particles,))
+    sorter = graph.input("sort_rule", "single-RAISIN fluorescence-sorting rule",
+                         MaterialKind.SELECTION)
+    selected = graph.product("single_raisin", "one sorted RAISIN per well",
+                             MaterialKind.MOLECULAR, state=particles.state)
+    excluded = graph.product("excluded_particles", "unsorted or multiplet particles",
+                             MaterialKind.WASTE)
+    graph.react("sort", "Sort one RAISIN into each well", StepKind.SAMPLING,
+                ((particles, InputRole.TEMPLATE), (sorter, InputRole.SELECTION)),
+                (selected, excluded), changes_molecule=False)
+    graph.discard(excluded, "does not meet the one-particle-per-well selection")
+    rt_primer = graph.input("rt_primer", "oligo(dT) SMART reverse-transcription primer",
+                            MaterialKind.OLIGO, inferred=True,
+                            source=source + " Exact custom primer bases were available only on request.")
+    rtase = graph.input("reverse_transcriptase", "Maxima reverse transcriptase",
+                        MaterialKind.CATALYST)
+    first = graph.product("first_strand", "RAISIN transcript first-strand cDNA",
+                          MaterialKind.MOLECULAR, state=smart_cdna_scene(), inferred=True,
+                          source=source + " Locked TSO sequence is not printed.")
+    graph.react("reverse_transcribe", "Oligo-dT reverse-transcribe RAISIN RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((selected, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rtase, InputRole.CATALYST)), (first,))
+    tso = graph.input("locked_tso", "locked SMART template-switch oligo",
+                      MaterialKind.OLIGO, inferred=True,
+                      source=source + " Exact locked TSO sequence is not printed.")
+    switched = graph.product("switched", "template-switched full-length RAISIN cDNA",
+                             MaterialKind.MOLECULAR, state=smart_cdna_scene(), inferred=True,
+                             source=source + " Exact locked TSO sequence is not printed.")
+    graph.react("template_switch", "Template-switch at the transcript 5-prime end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (rtase, InputRole.CATALYST)), (switched,))
+    pre_f = graph.input("preamp_forward", "SMART cDNA preamplification forward primer",
+                        MaterialKind.OLIGO, inferred=True,
+                        source=source + " Custom primer bases were available only on request.")
+    pre_r = graph.input("preamp_reverse", "SMART cDNA preamplification reverse primer",
+                        MaterialKind.OLIGO, inferred=True,
+                        source=source + " Custom primer bases were available only on request.")
+    pre_poly = graph.input("preamp_polymerase", "KAPA HiFi polymerase",
+                           MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "21-cycle amplified full-length cDNA",
+                              MaterialKind.MOLECULAR, state=switched.state)
+    graph.react("preamp", "Amplify full-length cDNA for 21 cycles", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL),
+                 (pre_r, InputRole.STRUCTURAL), (pre_poly, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="Custom barcode-adapter primer sequences were available only on request."))
+    transposome = graph.input("transposome", "Nextera XT loaded transposome",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Nextera XT transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "tagmented amplified RAISIN cDNA",
+                           MaterialKind.MOLECULAR, state=amplified.state)
+    waste = graph.product("tn5_waste", "same-end or non-library tagmentation products",
+                          MaterialKind.WASTE)
+    graph.react("tagment", "Tagment amplified RAISIN cDNA", StepKind.TAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, waste))
+    graph.discard(waste, "does not form a heterologous amplifiable Nextera library")
+    reviewed = ["tissue", "cst_buffer", "extract", "sort_rule", "sort", "rt_primer",
+                "reverse_transcriptase", "reverse_transcribe", "locked_tso", "template_switch",
+                "preamp_forward", "preamp_reverse", "preamp_polymerase", "preamp",
+                "transposome", "tn5", "tagment"]
+    _finish_pcr(graph, "library", tagged, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="RAISIN RNA-seq")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _miracl_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    particles = graph.input("raisin_particles", "unsorted RAISIN nuclei",
+                            MaterialKind.BIOLOGICAL, state=raisin_particle(), primary=True)
+    droplets = graph.input("overload_condition", "deliberately overloaded GemCode-v2 partition condition",
+                           MaterialKind.CONDITION)
+    occupied = graph.product("occupied_gems", "overloaded GEMs containing one bead and multiple RAISIN nuclei",
+                             MaterialKind.MOLECULAR, state=MiraclLoading(2).partition())
+    unresolved = graph.product("unresolved_gems", "empty or uninterpretable GEMs",
+                               MaterialKind.WASTE)
+    graph.react("partition", "Overload RAISIN nuclei into GemCode-v2 partitions",
+                StepKind.PARTITION,
+                ((particles, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
+                (occupied, unresolved), changes_molecule=False)
+    graph.discard(unresolved, "does not yield a usable gel-bead barcode partition")
+    bead_primer = graph.input("bead_primer", "GemCode-v2 barcode/UMI oligo(dT) bead primer",
+                              MaterialKind.OLIGO)
+    rtase = graph.input("reverse_transcriptase", "droplet reverse transcriptase",
+                        MaterialKind.CATALYST)
+    cdna = graph.product("barcoded_cdna", "partition-barcoded RAISIN transcript cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=_scene("barcoded first strand", role("16-nt cell barcode",
+                             molecular_feature=CELL_BARCODE), role("10-nt UMI",
+                             molecular_feature=UMI), TRANSCRIPT))
+    graph.react("reverse_transcribe", "Lyse in GEMs and perform barcoded reverse transcription",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((occupied, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
+                 (rtase, InputRole.CATALYST)), (cdna,))
+    reviewed = ["raisin_particles", "overload_condition", "partition", "bead_primer",
+                "reverse_transcriptase", "reverse_transcribe"]
+    _finish_pcr(graph, "library", cdna, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="MIRACL-seq GemCode-v2")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _bag_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    nucleus = graph.input("nucleus", "single sorted nucleus containing genomic DNA and RNA",
+                          MaterialKind.BIOLOGICAL,
+                          state=_scene("single nucleus", role("genomic DNA"), role("RNA")),
+                          primary=True)
+    gel = graph.input("gel_condition", "hybrid-BAG polymerization and co-encapsulation condition",
+                      MaterialKind.CONDITION)
+    bag = graph.product("bag", "one nucleus co-encapsulated in a hybrid BAG",
+                        MaterialKind.MOLECULAR,
+                        state=_scene("hybrid BAG", role("polyacrylamide gel matrix"),
+                                     role("Acrydite random-TG primer"),
+                                     role("Acrydite poly(dT) primer"), role("single nucleus")))
+    excluded = graph.product("excluded", "uncaptured nuclei or empty gels", MaterialKind.WASTE)
+    graph.react("encapsulate", "Co-encapsulate and polymerize the hybrid BAG",
+                StepKind.PARTITION,
+                ((nucleus, InputRole.TEMPLATE), (gel, InputRole.CONDITION)),
+                (bag, excluded), changes_molecule=False)
+    graph.discard(excluded, "does not retain a one-nucleus hybrid gel particle")
+    rt_primer = graph.input("rna_capture_primer", "Acrydite poly(dT) RNA capture primer",
+                            MaterialKind.OLIGO)
+    rtase = graph.input("reverse_transcriptase", "reverse transcriptase",
+                        MaterialKind.CATALYST)
+    rna_copy = graph.product("rna_copy", "gel-bound transcript cDNA",
+                             MaterialKind.MOLECULAR, state=bag.state)
+    graph.react("reverse_transcribe", "Reverse-transcribe gel-captured RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((bag, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rtase, InputRole.CATALYST)), (rna_copy,))
+    dna_primer = graph.input("dna_capture_primer", "Acrydite random-TG DNA capture primer",
+                             MaterialKind.OLIGO)
+    klenow = graph.input("klenow", "Klenow DNA polymerase", MaterialKind.CATALYST)
+    copies = graph.product("copies", "gel-bound genomic and transcript-derived copies",
+                           MaterialKind.MOLECULAR, state=rna_copy.state)
+    graph.react("copy_dna", "Klenow-extend genomic DNA in the same BAG",
+                StepKind.EXTENSION,
+                ((rna_copy, InputRole.TEMPLATE), (dna_primer, InputRole.STRUCTURAL),
+                 (klenow, InputRole.CATALYST)), (copies,))
+    nla = graph.input("nlaiii", "NlaIII restriction endonuclease", MaterialKind.CATALYST)
+    cut = graph.product("cut", "NlaIII-cleaved gel-bound DNA and cDNA copies",
+                        MaterialKind.MOLECULAR, state=copies.state)
+    graph.react("digest", "Digest gel-bound copies with NlaIII", StepKind.DIGESTION,
+                ((copies, InputRole.TEMPLATE), (nla, InputRole.CATALYST)), (cut,))
+    current = cut
+    reviewed = ["nucleus", "gel_condition", "encapsulate", "rna_capture_primer",
+                "reverse_transcriptase", "reverse_transcribe", "dna_capture_primer",
+                "klenow", "copy_dna", "nlaiii", "digest"]
+    for round_number in (1, 2):
+        prefix = f"round{round_number}"
+        adapter = graph.input(prefix + "_adapter", f"BAG barcode/varietal-tag adapter round {round_number}",
+                              MaterialKind.ADAPTER)
+        ligase = graph.input(prefix + "_ligase", f"BAG tagging ligase round {round_number}",
+                             MaterialKind.CATALYST)
+        tagged = graph.product(prefix + "_product", f"BAG-tagged molecules after round {round_number}",
+                               MaterialKind.MOLECULAR, state=current.state)
+        graph.react(prefix + "_ligate", f"Add BAG barcode/tag round {round_number}",
+                    StepKind.LIGATION,
+                    ((current, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                     (ligase, InputRole.CATALYST)), (tagged,),
+                    geometry=AdapterLigationGeometry.unavailable(
+                        "The papers establish barcode lengths and order but do not expose one complete base-level tagging construct."))
+        reviewed.extend((prefix + "_adapter", prefix + "_ligase", prefix + "_ligate"))
+        current = tagged
+    round3_f = graph.input("round3_forward", "third-round split-PCR forward primer",
+                           MaterialKind.OLIGO)
+    round3_r = graph.input("round3_reverse", "third-round split-PCR reverse primer",
+                           MaterialKind.OLIGO)
+    polymerase = graph.input("round3_polymerase", "third-round PCR polymerase",
+                             MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "three-round BAG-tagged amplicons",
+                              MaterialKind.MOLECULAR, state=current.state)
+    graph.react("round3_pcr", "Add the third BAG barcode by split PCR", StepKind.PCR,
+                ((current, InputRole.TEMPLATE), (round3_f, InputRole.STRUCTURAL),
+                 (round3_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="The source defines barcode geometry but not one complete universal amplicon."))
+    transposome = graph.input("transposome", "library transposome", MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    library = graph.product("library", "hybrid BAG-seq library", MaterialKind.LIBRARY,
+                            state=spec.FINAL_LIBRARY)
+    waste = graph.product("tn5_waste", "same-end or non-library tagmentation products",
+                          MaterialKind.WASTE)
+    graph.react("tagment", "Pool and tagment the BAG-tagged amplicons",
+                StepKind.TAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (library, waste))
+    graph.discard(waste, "does not retain the tag-bearing end in a sequenceable library")
+    graph.sequence(library, SequencingPlan(limitation=spec.SEQUENCING_ENDING))
+    reviewed.extend(("round3_forward", "round3_reverse", "round3_polymerase", "round3_pcr",
+                     "transposome", "tn5", "tagment", "library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _cap_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    adapted = graph.input("adapted_dna", "adapter-ligated genomic DNA library",
+                          MaterialKind.LIBRARY,
+                          state=_scene("adapter-ligated genomic library",
+                                       role("Solexa left adapter"),
+                                       role("genomic insert with CpG sites"),
+                                       role("Solexa right adapter")), primary=True)
+    cxxc = graph.input("cxxc", "immobilized recombinant CXXC on nickel Sepharose",
+                       MaterialKind.SELECTION)
+    bound = graph.product("bound", "CXXC-bound unmethylated CpG-rich fragments",
+                          MaterialKind.MOLECULAR, state=adapted.state)
+    depleted = graph.product("depleted", "CXXC-unbound genomic library", MaterialKind.WASTE)
+    graph.react("bind", "Bind adapter-ligated input to immobilized CXXC",
+                StepKind.AFFINITY_CAPTURE,
+                ((adapted, InputRole.TEMPLATE), (cxxc, InputRole.SELECTION)),
+                (bound, depleted))
+    graph.discard(depleted, "lacks sufficient clustered unmethylated CpG affinity")
+    wash = graph.input("wash_condition", "species-adjusted high-salt wash condition",
+                       MaterialKind.CONDITION)
+    washed = graph.product("washed", "washed CXXC-bound CpG-rich fragments",
+                           MaterialKind.MOLECULAR, state=bound.state)
+    wash_waste = graph.product("wash_waste", "fragments removed by high-salt washing",
+                               MaterialKind.WASTE)
+    graph.react("wash", "Wash the CXXC-bound library", StepKind.CLEANUP,
+                ((bound, InputRole.TEMPLATE), (wash, InputRole.CONDITION)),
+                (washed, wash_waste))
+    graph.discard(wash_waste, "does not remain bound at the chosen species-specific stringency")
+    elution = graph.input("elution_condition", "1-M NaCl elution condition",
+                          MaterialKind.CONDITION)
+    library = graph.product("library", "CXXC-enriched CAP-seq library",
+                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    graph.react("elute", "Elute and pool CXXC-enriched fragments", StepKind.EXTRACTION,
+                ((washed, InputRole.TEMPLATE), (elution, InputRole.CONDITION)), (library,))
+    graph.sequence(library, SequencingPlan(limitation=spec.SEQUENCING_ENDING))
+    reviewed = ["adapted_dna", "cxxc", "bind", "wash_condition", "wash",
+                "elution_condition", "elute", "library"]
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _attach_graph(key, spec):
+    factories = {
+        "raisin-rna-seq": _raisin_graph,
+        "miracl-seq": _miracl_graph,
+        "hybrid-bag-seq": _bag_graph,
+        "cap-seq": _cap_graph,
+    }
+    spec.protocol_graph = lambda: factories[key](spec)
+    return spec
+
+
+def _spec(key, **fields):
+    return _attach_graph(key, SimpleNamespace(**fields))
+
+
 def get(key: str):
     if key == "raisin-rna-seq":
         final, primers = raisin_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="RAISIN RNA-seq — intact nuclei with ribosome-bound RNA",
             NOTES="01_raisin_rna_seq.html",
             SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.08.003">Drokhlyansky et al., Cell (2020)</a>.',
@@ -230,7 +526,7 @@ def get(key: str):
             workflow=raisin_workflow, oligos=lambda: ())
     if key == "miracl-seq":
         final, primers = gemcode_v2_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="MIRACL-seq — droplet overloading for rare-cell RNA-seq",
             NOTES="01_miracl_seq.html",
             SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.08.003">Drokhlyansky et al., Cell (2020)</a>.',
@@ -242,7 +538,7 @@ def get(key: str):
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="",
             workflow=miracl_workflow, oligos=lambda: ())
     if key == "hybrid-bag-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="Hybrid BAG-seq — joint single-nucleus DNA and RNA sequencing",
             NOTES="01_hybrid_bag_seq.html",
             SOURCE='Defining source: <a href="https://doi.org/10.1186/s13059-025-03790-5">Li et al., Genome Biology (2025)</a>; capture-primer sequences were checked against the original <a href="https://doi.org/10.1101/gr.253047.119">BAG-seq paper</a>.',
@@ -256,7 +552,7 @@ def get(key: str):
             oligos=lambda: (f"5′-{BAG_DNA_CAPTURE_WRITTEN}-3′ — Acrydite random-TG DNA capture primer",
                              f"5′-{BAG_RNA_CAPTURE_WRITTEN}-3′ — Acrydite poly(dT) RNA capture primer"))
     if key == "cap-seq":
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="CAP-seq — CXXC affinity purification sequencing",
             NOTES="01_cap_seq.html",
             SOURCE='Defining source: <a href="https://doi.org/10.1371/journal.pgen.1001134">Illingworth et al., PLOS Genetics (2010)</a>.',

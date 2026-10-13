@@ -25,10 +25,11 @@ def marked_fiber(enzyme: str, *, target: str = "accessible adenines") -> list[Ro
     return sc.rows()
 
 
-def conventional_smrtbell(insert_name: str = "m6dA-marked genomic insert") -> Dumbbell:
+def conventional_smrtbell(insert_name: str | Construct = "m6dA-marked genomic insert") -> Dumbbell:
     """A repaired/dA-tailed insert closed by two proprietary PacBio hairpins."""
-    insert = Construct([Segment(insert_name, "X" * 54, placeholder=True)], name=insert_name)
-    return Dumbbell(insert, "N" * 18, "N" * 18, name=insert_name + " SMRTbell",
+    insert = (insert_name if isinstance(insert_name, Construct) else
+              Construct([Segment(insert_name, "X" * 54, placeholder=True)], name=insert_name))
+    return Dumbbell(insert, "N" * 18, "N" * 18, name=insert.name + " SMRTbell",
                     insert_overhang="A", adapter_overhang="T")
 
 

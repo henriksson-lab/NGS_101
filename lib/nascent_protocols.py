@@ -10,7 +10,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from types import SimpleNamespace
 
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -211,6 +215,403 @@ CAGE_OLIGOS = (
 )
 
 
+def _ligate_rna_adapter(graph: ProtocolGraph, prefix: str, template, label: str,
+                        reviewed: list[str]):
+    adapter = graph.input(prefix + "_adapter", label + " RNA adapter", MaterialKind.ADAPTER)
+    ligase = graph.input(prefix + "_ligase", label + " RNA ligase", MaterialKind.CATALYST)
+    product = graph.product(prefix + "_product", label + " adapter-ligated RNA",
+                            MaterialKind.MOLECULAR,
+                            state=molecule(label + " adapter-ligated RNA", (
+                                role(label + " adapter"), role("selected RNA"))))
+    graph.react(prefix + "_ligation", "Ligate the " + label + " RNA adapter",
+                StepKind.LIGATION,
+                ((template, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (product,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The defining source establishes this RNA-adapter role but not one immutable ligating-end sequence for the page model."))
+    reviewed.extend((prefix + "_adapter", prefix + "_ligase", prefix + "_ligation"))
+    return product
+
+
+def _finish_cdna(graph: ProtocolGraph, prefix: str, template, final: Construct,
+                 endpoint: str, reviewed: list[str], *, rt_label: str = "adapter RT primer"):
+    rt_primer = graph.input(prefix + "_rt_primer", rt_label, MaterialKind.OLIGO)
+    reverse_transcriptase = graph.input(prefix + "_reverse_transcriptase", "reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    cdna = graph.product(prefix + "_cdna", "assay-derived first-strand cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("assay-derived cDNA", (role("selected RNA cDNA"),)))
+    graph.react(prefix + "_rt", "Reverse-transcribe the selected RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((template, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
+    forward = graph.input(prefix + "_pcr_forward", "library PCR forward primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_pcr_reverse", "indexed library PCR reverse primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", "indexed sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Index and amplify the cDNA library", StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final,
+                    reason="The source establishes read direction and library roles but not one immutable complete primer geometry."))
+    graph.sequence(library, SequencingPlan(limitation=endpoint))
+    reviewed.extend((
+        prefix + "_rt_primer", prefix + "_reverse_transcriptase", prefix + "_rt",
+        prefix + "_pcr_forward", prefix + "_pcr_reverse", prefix + "_pcr_polymerase",
+        prefix + "_pcr", prefix + "_library",
+    ))
+    return library
+
+
+def _mnet_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    chromatin = graph.input(
+        "native_chromatin", "native chromatin containing Pol II elongation complexes",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("native chromatin", (role("Pol II elongation complex"),
+                                             role("nascent RNA"))), primary=True)
+    mnase = graph.input("mnase", "micrococcal nuclease", MaterialKind.CATALYST)
+    solubilized = graph.product("solubilized_complexes", "MNase-solubilized Pol II complexes",
+                                MaterialKind.MOLECULAR, state=chromatin.state)
+    graph.react("mnase_digest", "Digest native chromatin with MNase",
+                StepKind.DIGESTION,
+                ((chromatin, InputRole.TEMPLATE), (mnase, InputRole.CATALYST)),
+                (solubilized,))
+    antibody = graph.input("ctd_antibody", "Pol II CTD-state-specific antibody",
+                           MaterialKind.SELECTION)
+    selected = graph.product(
+        "polii_rna", "Pol II-associated nascent RNA complexes",
+        MaterialKind.MOLECULAR,
+        state=NascentEndCapture(
+            "MNase-solubilized Pol II CTD immunoprecipitate", "3-prime").RNA())
+    unbound = graph.product("unbound_complexes", "unbound chromatin complexes",
+                            MaterialKind.WASTE)
+    graph.react("immunoprecipitate", "Immunoprecipitate the selected Pol II CTD state",
+                StepKind.AFFINITY_CAPTURE,
+                ((solubilized, InputRole.TEMPLATE), (antibody, InputRole.SELECTION)),
+                (selected, unbound))
+    graph.discard(unbound, "does not carry the selected Pol II CTD state")
+    extraction = graph.input("rna_extraction", "protein removal and RNA-extraction condition",
+                             MaterialKind.CONDITION)
+    rna = graph.product("selected_rna", "purified Pol II-associated nascent RNA",
+                        MaterialKind.MOLECULAR, state=selected.state)
+    graph.react("extract_rna", "Remove protein and recover nascent RNA",
+                StepKind.DEPROTEINIZATION,
+                ((selected, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)), (rna,))
+    kinase = graph.input("rna_kinase", "RNA 5-prime polynucleotide kinase",
+                         MaterialKind.CATALYST)
+    phosphorylated = graph.product("phosphorylated_rna", "5-prime-phosphorylated nascent RNA",
+                                   MaterialKind.MOLECULAR, state=rna.state)
+    graph.react("phosphorylate", "Phosphorylate RNA 5-prime ends",
+                StepKind.PHOSPHORYLATION,
+                ((rna, InputRole.TEMPLATE), (kinase, InputRole.CATALYST)),
+                (phosphorylated,))
+    size_rule = graph.input("size_selection", "nascent-RNA size-selection rule",
+                            MaterialKind.SELECTION)
+    sized = graph.product("sized_rna", "size-selected Pol II-associated RNA",
+                          MaterialKind.MOLECULAR, state=phosphorylated.state)
+    rejected = graph.product("rejected_rna", "RNA outside the selected size range",
+                             MaterialKind.WASTE)
+    graph.react("select_size", "Size-select Pol II-associated RNA", StepKind.SELECTION,
+                ((phosphorylated, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
+                (sized, rejected))
+    graph.discard(rejected, "falls outside the library's nascent-RNA size window")
+    reviewed = [
+        "native_chromatin", "mnase", "mnase_digest", "ctd_antibody",
+        "immunoprecipitate", "rna_extraction", "extract_rna", "rna_kinase",
+        "phosphorylate", "size_selection", "select_size",
+    ]
+    ligated3 = _ligate_rna_adapter(graph, "three_prime", sized, "3-prime", reviewed)
+    ligated5 = _ligate_rna_adapter(graph, "five_prime", ligated3, "5-prime", reviewed)
+    _finish_cdna(graph, "library", ligated5, final, d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _runon_cap_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    nuclei = graph.input(
+        "nuclei", "isolated nuclei containing engaged RNA polymerases",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("isolated nuclei", (role("engaged RNA polymerase"),
+                                            role("nascent RNA"))), primary=True)
+    label_name = "BrUTP" if key == "gro-cap" else "single biotin-NTP"
+    label = graph.input("labelled_ntp", label_name + " run-on nucleotide",
+                        MaterialKind.MOLECULAR)
+    polymerase = graph.input("engaged_polymerase", "engaged endogenous RNA polymerase",
+                             MaterialKind.CATALYST)
+    runon = graph.product(
+        "runon_rna", "affinity-labelled nuclear run-on RNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("labelled run-on RNA", (role("capped nascent 5-prime end"),
+                                                role("labelled run-on 3-prime end"))))
+    graph.react("run_on", "Extend engaged polymerases with " + label_name,
+                StepKind.RUN_ON,
+                ((nuclei, InputRole.TEMPLATE), (label, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (runon,))
+    capture_label = ("anti-BrdU affinity reagent" if key == "gro-cap"
+                     else "streptavidin affinity reagent")
+    capture = graph.input("runon_capture", capture_label, MaterialKind.SELECTION)
+    enriched = graph.product("enriched_runon", "affinity-enriched run-on RNA",
+                             MaterialKind.MOLECULAR, state=runon.state)
+    unlabelled = graph.product("unlabelled_rna", "RNA not extended in the run-on",
+                               MaterialKind.WASTE)
+    graph.react("enrich_runon", "Affinity-enrich labelled run-on RNA",
+                StepKind.AFFINITY_CAPTURE,
+                ((runon, InputRole.TEMPLATE), (capture, InputRole.SELECTION)),
+                (enriched, unlabelled))
+    graph.discard(unlabelled, "did not acquire the run-on affinity label")
+    phosphatase = graph.input("phosphatase", "uncapped-RNA 5-prime phosphatase",
+                              MaterialKind.CATALYST)
+    dephosphorylated = graph.product("dephosphorylated_rna", "run-on RNA after uncapped-end blocking",
+                                    MaterialKind.MOLECULAR, state=enriched.state)
+    graph.react("dephosphorylate", "Remove 5-prime phosphates from uncapped RNA",
+                StepKind.DEPHOSPHORYLATION,
+                ((enriched, InputRole.TEMPLATE), (phosphatase, InputRole.CATALYST)),
+                (dephosphorylated,))
+    tap = graph.input("tap", "tobacco acid pyrophosphatase", MaterialKind.CATALYST)
+    cap_selected = graph.product(
+        "cap_selected_rna", "decapped nascent RNA with ligatable 5-prime monophosphate",
+        MaterialKind.MOLECULAR,
+        state=molecule(
+            ("GRO-cap" if key == "gro-cap" else "PRO-cap") + " cap-selected RNA",
+            (role("ligatable decapped 5-prime monophosphate"),
+             role("nascent RNA body"), role("labelled run-on 3-prime end"))))
+    graph.react("decap", "Decap protected RNA ends with TAP",
+                StepKind.CHEMICAL_CONVERSION,
+                ((dephosphorylated, InputRole.TEMPLATE), (tap, InputRole.CATALYST)),
+                (cap_selected,))
+    reviewed = [
+        "nuclei", "labelled_ntp", "engaged_polymerase", "run_on", "runon_capture",
+        "enrich_runon", "phosphatase", "dephosphorylate", "tap", "decap",
+    ]
+    ligated5 = _ligate_rna_adapter(graph, "five_prime", cap_selected, "5-prime", reviewed)
+    ligated3 = _ligate_rna_adapter(graph, "three_prime", ligated5, "3-prime", reviewed)
+    _finish_cdna(graph, "library", ligated3, final, d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _start_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    nuclear_rna = graph.input(
+        "nuclear_rna", "nuclear RNA containing short capped Start-RNAs",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("nuclear RNA", (role("short capped Start-RNA"),
+                                       role("other nuclear RNA"))), primary=True)
+    size_rule = graph.input("size_selection", "25–65-nt RNA size-selection rule",
+                            MaterialKind.SELECTION)
+    short_rna = graph.product("short_rna", "25–65-nt short nuclear RNA",
+                              MaterialKind.MOLECULAR, state=nuclear_rna.state)
+    long_rna = graph.product("rejected_sizes", "nuclear RNA outside 25–65 nt",
+                             MaterialKind.WASTE)
+    graph.react("select_size", "Select 25–65-nt short nuclear RNAs",
+                StepKind.SELECTION,
+                ((nuclear_rna, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
+                (short_rna, long_rna))
+    graph.discard(long_rna, "falls outside the Start-RNA size interval")
+    cap_reagent = graph.input("cap_selection", "capped-RNA retention chemistry",
+                              MaterialKind.SELECTION)
+    capped = graph.product(
+        "capped_start_rna", "capped Start-RNA population", MaterialKind.MOLECULAR,
+        state=NascentEndCapture("short capped RNA from isolated nuclei", "both", True).RNA())
+    uncapped = graph.product("uncapped_short_rna", "uncapped short nuclear RNA",
+                             MaterialKind.WASTE)
+    graph.react("select_caps", "Retain capped Start-RNAs", StepKind.SELECTION,
+                ((short_rna, InputRole.TEMPLATE), (cap_reagent, InputRole.SELECTION)),
+                (capped, uncapped))
+    graph.discard(uncapped, "lacks the protected capped end required by Start-seq")
+    five_input = graph.product("five_end_input", "Start-RNA assigned to 5-prime library",
+                               MaterialKind.MOLECULAR, state=capped.state)
+    three_input = graph.product("three_end_input", "Start-RNA assigned to 3-prime library",
+                                MaterialKind.MOLECULAR, state=capped.state)
+    graph.react("split_end_libraries", "Split Start-RNA into 5-prime and 3-prime libraries",
+                StepKind.SPLIT, ((capped, InputRole.TEMPLATE),),
+                (five_input, three_input), changes_molecule=False)
+    reviewed = [
+        "nuclear_rna", "size_selection", "select_size", "cap_selection", "select_caps",
+        "split_end_libraries",
+    ]
+    five3 = _ligate_rna_adapter(graph, "five_library_three", five_input,
+                                "5-prime-library 3-prime", reviewed)
+    five5 = _ligate_rna_adapter(graph, "five_library_five", five3,
+                                "5-prime-library 5-prime", reviewed)
+    _finish_cdna(graph, "five_library", five5, final,
+                 "5-prime Start-seq library: " + d.endpoint, reviewed)
+    three3 = _ligate_rna_adapter(graph, "three_library_three", three_input,
+                                 "3-prime-library 3-prime", reviewed)
+    three5 = _ligate_rna_adapter(graph, "three_library_five", three3,
+                                 "3-prime-library 5-prime", reviewed)
+    _finish_cdna(graph, "three_library", three5, final,
+                 "3-prime Start-seq library: " + d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cells = graph.input(
+        "cells", "living cells during the 4sU pulse",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("living cells", (role("RNA synthesis during pulse"),)), primary=True)
+    four_su = graph.input("four_su", "4-thiouridine pulse-label nucleotide",
+                          MaterialKind.MOLECULAR)
+    polymerase = graph.input("cellular_rna_polymerase", "cellular RNA polymerases",
+                             MaterialKind.CATALYST)
+    cfg = {
+        "timelapse-seq": FourSUReadout(
+            "oxidation plus 2,2,2-trifluoroethylamine nucleophilic substitution",
+            "U-to-C mismatch", False),
+        "tuc-seq": FourSUReadout(
+            "osmium-tetroxide-mediated 4sU-to-cytidine conversion",
+            "U-to-C mismatch", False),
+        "snu-seq": FourSUReadout(
+            "thiol biotinylation, streptavidin purification and bacterial poly(A) polymerase",
+            "native RNA ends", True),
+        "sf4su-seq": FourSUReadout(
+            "thiol biotinylation, streptavidin purification and ≈100-nt denaturing-gel selection",
+            "native RNA ends", True),
+    }[key]
+    labelled = graph.product("labelled_rna", "4sU pulse-labelled RNA",
+                             MaterialKind.MOLECULAR, state=cfg.labelled())
+    graph.react("pulse_label", "Pulse-label newly synthesized RNA with 4sU",
+                StepKind.TRANSCRIPTION,
+                ((cells, InputRole.TEMPLATE), (four_su, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (labelled,))
+    reviewed = ["cells", "four_su", "cellular_rna_polymerase", "pulse_label"]
+
+    if key in {"timelapse-seq", "tuc-seq"}:
+        chemistry = graph.input("recoding_chemistry", cfg.chemistry,
+                                MaterialKind.CONDITION)
+        selected = graph.product("recoded_rna", "chemically recoded 4sU RNA",
+                                 MaterialKind.MOLECULAR, state=cfg.product())
+        graph.react("recode", "Chemically recode 4sU before reverse transcription",
+                    StepKind.CHEMICAL_CONVERSION,
+                    ((labelled, InputRole.TEMPLATE), (chemistry, InputRole.CONDITION)),
+                    (selected,))
+        reviewed.extend(("recoding_chemistry", "recode"))
+    else:
+        biotin = graph.input("thiol_biotin", "4sU thiol-biotinylation reagent",
+                             MaterialKind.MOLECULAR)
+        condition = graph.input("biotinylation_condition", "thiol-biotinylation condition",
+                                MaterialKind.CONDITION)
+        biotinylated = graph.product("biotinylated_rna", "biotinylated 4sU RNA",
+                                    MaterialKind.MOLECULAR, state=labelled.state)
+        graph.react("biotinylate", "Thiol-biotinylate incorporated 4sU",
+                    StepKind.CHEMICAL_CONVERSION,
+                    ((labelled, InputRole.TEMPLATE), (biotin, InputRole.STRUCTURAL),
+                     (condition, InputRole.CONDITION)), (biotinylated,))
+        streptavidin = graph.input("streptavidin", "streptavidin RNA-capture reagent",
+                                  MaterialKind.SELECTION)
+        enriched = graph.product("enriched_rna", "streptavidin-enriched 4sU RNA",
+                                 MaterialKind.MOLECULAR, state=cfg.product())
+        unlabelled = graph.product("unlabelled_rna", "unlabelled RNA background",
+                                   MaterialKind.WASTE)
+        graph.react("enrich", "Affinity-purify biotinylated 4sU RNA",
+                    StepKind.AFFINITY_CAPTURE,
+                    ((biotinylated, InputRole.TEMPLATE),
+                     (streptavidin, InputRole.SELECTION)), (enriched, unlabelled))
+        graph.discard(unlabelled, "does not carry the pulse-installed 4sU affinity label")
+        reviewed.extend((
+            "thiol_biotin", "biotinylation_condition", "biotinylate",
+            "streptavidin", "enrich",
+        ))
+        if key == "snu-seq":
+            pap = graph.input("poly_a_polymerase", "bacterial poly(A) polymerase",
+                              MaterialKind.CATALYST)
+            atp = graph.input("tailing_atp", "ATP for RNA polyadenylation",
+                              MaterialKind.MOLECULAR)
+            selected = graph.product("selected_rna", "polyadenylated intact 4sU RNA",
+                                     MaterialKind.MOLECULAR, state=enriched.state)
+            graph.react("polyadenylate", "Polyadenylate intact enriched RNA",
+                        StepKind.TAILING,
+                        ((enriched, InputRole.TEMPLATE), (atp, InputRole.STRUCTURAL),
+                         (pap, InputRole.CATALYST)), (selected,))
+            reviewed.extend(("poly_a_polymerase", "tailing_atp", "polyadenylate"))
+        else:
+            size_rule = graph.input("size_selection", "approximately 100-nt gel-selection rule",
+                                    MaterialKind.SELECTION)
+            selected = graph.product("selected_rna", "approximately 100-nt enriched 4sU RNA",
+                                     MaterialKind.MOLECULAR, state=enriched.state)
+            rejected = graph.product("rejected_sizes", "enriched RNA outside the selected size",
+                                     MaterialKind.WASTE)
+            graph.react("select_size", "Gel-select the approximately 100-nt RNA fraction",
+                        StepKind.SELECTION,
+                        ((enriched, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
+                        (selected, rejected))
+            graph.discard(rejected, "falls outside the size-resolved endpoint population")
+            reviewed.extend(("size_selection", "select_size"))
+
+    ligated = _ligate_rna_adapter(graph, "library_adapter", selected,
+                                  "directional library", reviewed)
+    _finish_cdna(graph, "library", ligated, final, d.endpoint, reviewed)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _cagescan_graph(d: Definition, final: Construct) -> ProtocolGraph:
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    rna = graph.input(
+        "total_rna", "total RNA containing capped transcripts",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("total RNA", (role("capped transcript"),)), primary=True)
+    n6 = graph.input("n6_rt_primer", "published CAGEscan N6 reverse-transcription primer",
+                     MaterialKind.OLIGO)
+    reverse_transcriptase = graph.input("reverse_transcriptase", "template-switching reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    first = graph.product(
+        "first_strand", "random-primed first-strand cDNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("first-strand cDNA", (role("RT handle"),
+                                              role("random-primed transcript cDNA"))))
+    graph.react("reverse_transcription", "Random-prime reverse transcription",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (n6, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (first,))
+    tso = graph.input("cap_tso", "cap-dependent CAGEscan template-switch oligo",
+                      MaterialKind.OLIGO)
+    switched = graph.product(
+        "cap_linked_cdna", "cap-linked CAGEscan cDNA",
+        MaterialKind.MOLECULAR,
+        state=molecule("cap-linked cDNA", (role("template-switch 5-prime tag"),
+                                            role("transcript cDNA"), role("random-primer end"))))
+    graph.react("template_switch", "Template-switch at the capped RNA 5-prime end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (switched,))
+    forward = graph.input("pcr_forward", "published CAGEscan forward PCR primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input("pcr_reverse", "published CAGEscan reverse PCR primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", "paired-end CAGEscan library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "PCR with paired-end Illumina primers", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final,
+                    reason="The historical PCR oligos are published, but this role-only construct does not assert modern instrument-primer landing geometry."))
+    graph.sequence(library, SequencingPlan(limitation=d.endpoint))
+    graph.declare_reviewed_scope((
+        "total_rna", "n6_rt_primer", "reverse_transcriptase", "reverse_transcription",
+        "cap_tso", "template_switch", "pcr_forward", "pcr_reverse", "pcr_polymerase",
+        "library_pcr", "sequencing_library",
+    ), source)
+    return graph.require_publishable()
+
+
 def get(key: str):
     d = DEFS[key]
     workflow_fn = (_cagescan if key == "cagescan" else
@@ -221,7 +622,7 @@ def get(key: str):
     unavailable = ("The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role."
                    if key != "cagescan" else
                    "The original CAGEscan supplement publishes the RT and PCR oligos, but the historical instrument-primer geometry is not asserted as a modern invariant.")
-    return SimpleNamespace(
+    spec = SimpleNamespace(
         TITLE=d.title, NOTES=d.notes,
         SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
         SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final, SEQ_PRIMERS=(),
@@ -229,3 +630,14 @@ def get(key: str):
         SEQUENCING_ENDING=d.endpoint, SEQUENCING_UNAVAILABLE=unavailable,
         workflow=workflow_fn, oligos=(lambda: CAGE_OLIGOS if key == "cagescan" else ()),
     )
+    if key == "mnet-seq":
+        spec.protocol_graph = lambda: _mnet_graph(d, final)
+    elif key == "start-seq":
+        spec.protocol_graph = lambda: _start_graph(d, final)
+    elif key in {"gro-cap", "pro-cap"}:
+        spec.protocol_graph = lambda: _runon_cap_graph(key, d, final)
+    elif key in {"timelapse-seq", "tuc-seq", "snu-seq", "sf4su-seq"}:
+        spec.protocol_graph = lambda: _four_su_graph(key, d, final)
+    else:
+        spec.protocol_graph = lambda: _cagescan_graph(d, final)
+    return spec

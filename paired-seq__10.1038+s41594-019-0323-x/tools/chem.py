@@ -12,7 +12,9 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       duplex_rows, feature, revcomp)
-from multimodal_spatial import HybridizationLigationRound
+from multimodal_spatial import HybridizationLigationRound, finish_pcr_branch
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE = "Paired-seq — combinatorial RNA and chromatin accessibility"
 NOTES = "01_paired-seq.html"
@@ -76,6 +78,8 @@ ANCHOR_G = "G" * 9
 ANCHOR_WRITTEN = ANCHOR_HANDLE + ANCHOR_G + "H"
 PA_F = R4_READ2_ARM
 PA_R = "AAGCAGTGGTATCAACGCAGAGT"
+N5XX = il.P5 + "N" * 8 + nx.S5
+P7XX = il.P7 + "N" * 6 + il.TRUSEQ_READ2
 
 
 def _r4_segments() -> list[Segment]:
@@ -370,3 +374,212 @@ def workflow() -> Workflow:
         name="Paired-seq sequencing libraries",
         note="The result combines a Nextera Read-1 end with a TruSeq Read-2 end. The defining run acquired 53 + 7 + 130 cycles (R1 + i7 + R2).")
     return wf
+
+
+def _preamp_template(kind: str) -> Construct:
+    """Exact anchor-extended substrate used by the shared PA-F/PA-R PCR."""
+    return Construct([*list(_indexed_construct(kind, 4)),
+                      _seg("TdT poly(C) tail", "C" * 9),
+                      _seg("anchor handle complement", revcomp(PA_R))],
+                     name=f"Paired-seq {kind} anchor-extended preamplification template")
+
+
+def protocol_graph():
+    """Directed provenance for the paired RNA/ATAC chemistry.
+
+    The graph keeps nuclei intact through four barcode coordinates, then makes the
+    restriction-selected RNA and ATAC branches explicit.  Every tagmentation exposes
+    its non-library products and both final libraries carry independently checked
+    sequencing plans.
+    """
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    nuclei = g.input(
+        "nuclei", "permeabilized nuclei containing chromatin and poly(A) RNA",
+        MaterialKind.BIOLOGICAL, state=_initial_rows(), primary=True)
+
+    transposome = g.input(
+        "bc1_transposome", "BC1-indexed chromatin transposome",
+        MaterialKind.ADAPTER)
+    tn5 = g.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = g.product(
+        "tagged", "nuclei retaining BC1-tagged chromatin and RNA",
+        MaterialKind.MOLECULAR,
+        state=[*_indexed_scene("ATAC", 1).rows(),
+               Row(chunks=[("poly(A) RNA remains available for reverse transcription",
+                            None, False)])])
+    tn5_waste = g.product(
+        "tn5_waste", "non-library chromatin tagmentation products",
+        MaterialKind.WASTE)
+    g.react(
+        "tagment_chromatin", "Transpose chromatin with BC1-indexed Tn5",
+        StepKind.TAGMENTATION,
+        ((nuclei, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+         (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    g.discard(tn5_waste, "does not retain an amplifiable BC1-tagged chromatin fragment")
+
+    rt_primer = g.input(
+        "rt_primer", "BC1-indexed oligo-dT/VN reverse-transcription primer",
+        MaterialKind.OLIGO)
+    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
+    copied = g.product(
+        "copied", "nuclei retaining matched BC1-tagged RNA and ATAC molecules",
+        MaterialKind.MOLECULAR, state=_both_modalities(1))
+    g.react(
+        "reverse_transcribe", "Reverse-transcribe RNA with the BC1-indexed primer",
+        StepKind.REVERSE_TRANSCRIPTION,
+        ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+         (rt, InputRole.CATALYST)), (copied,))
+
+    ligase = g.input("barcode_ligase", "barcode-chain DNA ligase",
+                     MaterialKind.CATALYST)
+    current = copied
+    reviewed = [
+        "nuclei", "bc1_transposome", "tn5", "tagment_chromatin",
+        "rt_primer", "rt", "reverse_transcribe", "barcode_ligase",
+    ]
+    for number, geometry in ((2, _geometry(2)), (3, _geometry(3)),
+                             (4, _round4_geometry())):
+        barcode = g.input(
+            f"barcode_{number}", f"round-{number} barcode and splint assembly",
+            MaterialKind.OLIGO, state=geometry.scenes[0])
+        joined = g.product(
+            f"round_{number}", f"RNA and ATAC molecules after barcode round {number}",
+            MaterialKind.MOLECULAR, state=_both_modalities(number))
+        g.react(
+            f"ligate_{number}", f"Splint-ligate barcode round {number}",
+            StepKind.LIGATION,
+            ((current, InputRole.TEMPLATE), (barcode, InputRole.STRUCTURAL),
+             (ligase, InputRole.CATALYST)), (joined,), geometry=geometry)
+        reviewed.extend((barcode.id, f"ligate_{number}"))
+        current = joined
+
+    lysis = g.input("lysis_condition", "nuclear lysis condition",
+                    MaterialKind.CONDITION)
+    released = g.product(
+        "released", "released four-round indexed RNA and ATAC molecules",
+        MaterialKind.MOLECULAR, state=current.state)
+    g.react("lyse", "Lyse nuclei and release indexed molecules",
+            StepKind.EXTRACTION,
+            ((current, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)),
+            (released,))
+
+    tdt = g.input("tdt", "terminal deoxynucleotidyl transferase",
+                  MaterialKind.CATALYST)
+    tailed = g.product(
+        "tailed", "poly(C)-tailed indexed RNA and ATAC molecules",
+        MaterialKind.MOLECULAR,
+        state=[*_tailed_scene("RNA").rows(), *_tailed_scene("ATAC").rows()])
+    g.react("tail", "Add a 3-prime poly(C) tail with TdT", StepKind.TAILING,
+            ((released, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)),
+            (tailed,))
+
+    anchor = g.input("anchor", "G-rich Anchor oligo", MaterialKind.OLIGO)
+    annealed = g.product(
+        "anchor_annealed", "Anchor oligo annealed to both poly(C) tails",
+        MaterialKind.MOLECULAR,
+        state=[*_anchor_scene("RNA").rows(), *_anchor_scene("ATAC").rows()])
+    g.react("anneal_anchor", "Anneal the G-rich Anchor oligo",
+            StepKind.HYBRIDIZATION,
+            ((tailed, InputRole.TEMPLATE), (anchor, InputRole.STRUCTURAL)),
+            (annealed,))
+    extension_polymerase = g.input(
+        "extension_polymerase", "anchor-extension polymerase",
+        MaterialKind.CATALYST)
+    extended = g.product(
+        "extended", "anchor-extended RNA and ATAC products",
+        MaterialKind.MOLECULAR, state=annealed.state)
+    g.react("extend_anchor", "Linearly extend from the anchored 3-prime end",
+            StepKind.EXTENSION,
+            ((annealed, InputRole.TEMPLATE),
+             (extension_polymerase, InputRole.CATALYST)), (extended,))
+
+    pa_f = g.input("pa_f", "PA-F preamplification primer", MaterialKind.OLIGO)
+    pa_r = g.input("pa_r", "PA-R preamplification primer", MaterialKind.OLIGO)
+    preamp_polymerase = g.input(
+        "preamp_polymerase", "PA-F/PA-R preamplification polymerase",
+        MaterialKind.CATALYST)
+    preamp = g.product(
+        "preamp", "preamplified Paired-seq RNA and ATAC products",
+        MaterialKind.MOLECULAR, state=_both_modalities(4))
+    preamp_geometry = PCRGeometry.exact(
+        _preamp_template("ATAC"), PCRPrimer("PA-F", PA_F),
+        PCRPrimer("PA-R", PA_R),
+        statement="The published PA-F and PA-R sites face inward on the anchor-extended product.")
+    g.react(
+        "preamp_pcr", "Preamplify with PA-F and PA-R", StepKind.PCR,
+        ((extended, InputRole.TEMPLATE), (pa_f, InputRole.STRUCTURAL),
+         (pa_r, InputRole.STRUCTURAL),
+         (preamp_polymerase, InputRole.CATALYST)), (preamp,),
+        geometry=preamp_geometry)
+
+    rna = g.product("rna_branch", "RNA finishing aliquot",
+                    MaterialKind.MOLECULAR, state=preamp.state)
+    atac = g.product("atac_branch", "ATAC finishing aliquot",
+                     MaterialKind.MOLECULAR, state=preamp.state)
+    g.react("split", "Split preamplified material into RNA and ATAC aliquots",
+            StepKind.SPLIT, ((preamp, InputRole.TEMPLATE),), (rna, atac),
+            changes_molecule=False)
+
+    rna_re = g.input("rna_restriction", "NotI", MaterialKind.CATALYST)
+    rna_cut = g.product("rna_cut", "NotI-selected RNA branch",
+                        MaterialKind.MOLECULAR, state=rna.state)
+    g.react("digest_rna", "Digest the RNA aliquot with NotI",
+            StepKind.DIGESTION,
+            ((rna, InputRole.TEMPLATE), (rna_re, InputRole.CATALYST)),
+            (rna_cut,))
+    atac_re = g.input("atac_restriction", "SbfI", MaterialKind.CATALYST)
+    atac_cut = g.product("atac_cut", "SbfI-selected ATAC branch",
+                         MaterialKind.MOLECULAR, state=atac.state)
+    g.react("digest_atac", "Digest the ATAC aliquot with SbfI",
+            StepKind.DIGESTION,
+            ((atac, InputRole.TEMPLATE), (atac_re, InputRole.CATALYST)),
+            (atac_cut,))
+
+    final_transposome = g.input(
+        "p5_transposome", "P5-loaded finishing transposome",
+        MaterialKind.ADAPTER)
+    final_tn5 = g.input("finishing_tn5", "finishing Tn5 transposase",
+                        MaterialKind.CATALYST)
+    branch_templates = []
+    for prefix, template, final in (("rna", rna_cut, RNA),
+                                    ("atac", atac_cut, ATAC)):
+        tagged_branch = g.product(
+            prefix + "_tagged", prefix.upper() + " branch after P5 tagmentation",
+            MaterialKind.MOLECULAR, state=final)
+        waste = g.product(prefix + "_tn5_waste",
+                          "non-library " + prefix.upper() + " tagmentation products",
+                          MaterialKind.WASTE)
+        g.react(
+            "tagment_" + prefix,
+            "Retagment the " + prefix.upper() + " branch with P5-loaded Tn5",
+            StepKind.TAGMENTATION,
+            ((template, InputRole.TEMPLATE),
+             (final_transposome, InputRole.STRUCTURAL),
+             (final_tn5, InputRole.CATALYST)), (tagged_branch, waste))
+        g.discard(waste, "does not retain the selected P5-ended insert")
+        reviewed.append("tagment_" + prefix)
+        branch_templates.append(tagged_branch)
+
+    reviewed.extend((
+        "lysis_condition", "lyse", "tdt", "tail", "anchor", "anneal_anchor",
+        "extension_polymerase", "extend_anchor", "pa_f", "pa_r",
+        "preamp_polymerase", "preamp_pcr", "split", "rna_restriction",
+        "digest_rna", "atac_restriction", "digest_atac", "p5_transposome",
+        "finishing_tn5"))
+    for prefix, template, final, primers, title in (
+            ("rna", branch_templates[0], RNA, PRIMERS, "Paired-seq RNA"),
+            ("atac", branch_templates[1], ATAC, PRIMERS, "Paired-seq ATAC")):
+        geometry = PCRGeometry.exact(
+            final, PCRPrimer("N5XX", N5XX, anneal_nt=len(nx.S5)),
+            PCRPrimer("P7XX", P7XX),
+            statement="The published N5XX and P7XX primer sites face inward on the completed branch.")
+        finish_pcr_branch(
+            g, prefix + "_final", template, final, primers, reviewed,
+            label=title, read_lengths=READ_LENGTHS[
+                "RNA library" if prefix == "rna" else "Chromatin-accessibility library"],
+            read_uses=READ_USES[
+                "RNA library" if prefix == "rna" else "Chromatin-accessibility library"],
+            geometry=geometry)
+
+    g.declare_reviewed_scope(reviewed, SOURCE)
+    return g.require_publishable()

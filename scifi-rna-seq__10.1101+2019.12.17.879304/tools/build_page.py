@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import nextera as nx
 import scifi_rna as S
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
 
 OUT = HERE.parent / "scifi-rna-seq.html"
@@ -34,23 +34,7 @@ def oligos() -> str:
 
 
 def construction() -> str:
-    first = S.ligated_first_strand()
-    lib = S.final_library()
-    return f'''<h2>Library construction</h2>
-<h3>(1) Reverse-transcribe in 384 wells</h3>
-{panel([strand_row(S.rt_primer()), *annotation_rows(S.rt_primer())], cls="small",
-       caption="The phosphorylated RT primer writes an 8-nt UMI and 13-nt round-1 barcode next to the poly(A) junction.")}
-<h3>(2) Ligate the overloaded droplet's bead barcode across a blocked bridge</h3>
-{panel(S.ligation_scene().rows(), cls="small",
-       caption="The bridge places bead s5 directly against the RT primer's Read-1 handle; Ampligase seals that nick.")}
-{panel([strand_row(first), *annotation_rows(first)], cls="small",
-       caption="One two-level-barcoded first strand after droplet thermoligation.")}
-<h3>(3) Template-switch and enrich full cDNA in bulk</h3>
-{panel(S.tso_scene().rows(), cls="small",
-       caption="The TSO is added after emulsion break; its SMART handle supplies the opposite cDNA-PCR end.")}
-<h3>(4) Tagment with i7-only Tn5 and select bead-end fragments</h3>
-{panel([*S.final_scene().rows(), *annotation_rows(lib)], cls="small",
-       caption="Partial-P5 selects the bead end and indexed P7 selects an s7-Tn5 end. Tn5/Tn5 and TSO/Tn5 fragments lack both PCR sites.")}'''
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
 
 
 def sequencing() -> str:
@@ -72,7 +56,7 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("scifi-RNA-seq library chemistry"), '<div class="wrap">',
+    page = "\n".join([head("scifi-RNA-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scifi-RNA-seq &mdash; combinatorial fluidic indexing</h1>',
         info('Defining source: <a href="https://doi.org/10.1101/2019.12.17.879304">Datlinger et al., bioRxiv (2019)</a>; expanded protocol: <a href="https://doi.org/10.1038/s41592-021-01153-z">Nature Methods (2021)</a>.'),
         oligos(), construction(), sequencing(), '</div>'])

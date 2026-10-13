@@ -11,6 +11,10 @@ from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       annotation_rows, feature, oligo)
 from rna_amplification import direct_ssrna_ivt, poly_a_capture
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 
 def seg(name, bases, tag=None, **kw):
@@ -163,3 +167,68 @@ def oligos():
                 mods="5′ phosphate; 3′ ddC")
     yield oligo("RandomRT primer6", [seg("Read 1 handle", RANDOM_RT_HANDLE, "r1"),
                                       seg("N6", "N" * 6, placeholder=True)])
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    rna = graph.input("rna", "polyadenylated cellular RNA", MaterialKind.BIOLOGICAL,
+                      state=molecule("mRNA", (role("transcript body"), role("poly(A) tail"))),
+                      primary=True)
+    hairpin = graph.input("hairpin", "barcode/UMI/T7-promoter hairpin module",
+                          MaterialKind.MOLECULAR)
+    rudt = graph.input("rudt", "5-prime-phosphorylated rU-dT module",
+                       MaterialKind.ADAPTER)
+    ligase = graph.input("primer_ligase", "E. coli DNA ligase", MaterialKind.CATALYST)
+    assembled = graph.product("capture_primer", "assembled hairpin/rU-dT capture primer",
+                              MaterialKind.MOLECULAR, state=capture_scene())
+    graph.react("assemble_primer", "Nick-ligate the LAST-seq capture primer",
+                StepKind.LIGATION,
+                ((hairpin, InputRole.TEMPLATE), (rudt, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (assembled,),
+                geometry=primer_ligation_geometry())
+    hybrid = graph.product("captured_rna", "capture primer annealed to mRNA poly(A)",
+                           MaterialKind.MOLECULAR, state=capture_scene())
+    graph.react("capture", "Anneal the assembled primer to mRNA poly(A)",
+                StepKind.HYBRIDIZATION,
+                ((rna, InputRole.TEMPLATE), (assembled, InputRole.STRUCTURAL)), (hybrid,))
+    rnase = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
+    klenow = graph.input("klenow", "Klenow exo-minus polymerase", MaterialKind.CATALYST)
+    promoter_rna = graph.product("promoter_rna", "ssRNA carrying a duplex T7 promoter",
+                                 MaterialKind.MOLECULAR, state=promoter_scene())
+    graph.react("install_promoter", "Nick the rA/dT tract and extend the duplex promoter",
+                StepKind.EXTENSION,
+                ((hybrid, InputRole.TEMPLATE), (rnase, InputRole.CATALYST),
+                 (klenow, InputRole.CATALYST)), (promoter_rna,))
+    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    arna = graph.product("arna", "linearly amplified antisense RNA copies",
+                         MaterialKind.MOLECULAR, state=arna_scene())
+    graph.react("transcribe", "Transcribe antisense RNA directly from the original ssRNA",
+                StepKind.TRANSCRIPTION,
+                ((promoter_rna, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (arna,))
+    random_primer = graph.input("random_rt_primer", "RandomRT primer6", MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "SuperScript IV", MaterialKind.CATALYST)
+    cdna = graph.product("cdna", "random-primed cDNA from pooled aRNA",
+                         MaterialKind.MOLECULAR, state=random_rt_scene())
+    graph.react("reverse_transcribe", "Random-prime and reverse-transcribe pooled aRNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((arna, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    forward = graph.input("pcr_forward", "P5-side library PCR primer", MaterialKind.OLIGO)
+    reverse = graph.input("pcr_reverse", "P7-side library PCR primer", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY)
+    graph.react("library_pcr", "Complete P5/P7 arms by PCR", StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The pooled random-RT precursor is heterogeneous; the completed construct has checked primer sites."))
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+        read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope([
+        "rna", "hairpin", "rudt", "primer_ligase", "assemble_primer", "capture",
+        "rnase_h", "klenow", "install_promoter", "t7_polymerase", "transcribe",
+        "random_rt_primer", "reverse_transcriptase", "reverse_transcribe",
+        "pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr", "library"], SOURCE)
+    return graph.require_publishable()

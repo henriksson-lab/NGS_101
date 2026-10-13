@@ -12,6 +12,12 @@ import seqprimers as sp
 from crispr import SCAFFOLD_V1
 from chemdraw import Construct, Segment, feature, revcomp
 from lentivirus import TransferGenome
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
+
+TITLE = "CROP-seq — pooled CRISPR screening with single-cell RNA readout"
+SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.4177">Datlinger et al., <i>Nature Methods</i> (2017)</a>.'
 
 GUIDE_FEATURE = feature("guide", "guide_barcode", "unknown")
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
@@ -109,3 +115,88 @@ def final_library() -> Construct:
 def read1_layout() -> list[tuple[str, str]]:
     return [(x.cycles, x.feature.label) for x in
             sp.feature_spans(final_library(), sequencing_primers(), {"Read 1": 20})]
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    provirus = graph.input("provirus", "cell carrying an integrated CROP-seq provirus",
+                           MaterialKind.BIOLOGICAL, state=transfer_genome().provirus(),
+                           primary=True)
+    pol3 = graph.input("pol3", "RNA polymerase III", MaterialKind.CATALYST)
+    guide = graph.product("functional_guide", "functional non-polyadenylated guide RNA",
+                          MaterialKind.MOLECULAR, state=pol3_guide_transcript())
+    graph.react("guide_transcription", "Transcribe the functional guide from hU6",
+                StepKind.TRANSCRIPTION,
+                ((provirus, InputRole.TEMPLATE), (pol3, InputRole.CATALYST)), (guide,))
+    graph.mark_terminal(Terminal(
+        guide.id, Disposition.STORED,
+        "the Pol III guide executes the perturbation but is not the sequenced reporter branch"))
+
+    pol2 = graph.input("pol2", "RNA polymerase II", MaterialKind.CATALYST)
+    reporter = graph.product("reporter_rna", "polyadenylated guide-identifying reporter RNA",
+                             MaterialKind.MOLECULAR, state=pol2_reporter_transcript())
+    graph.react("reporter_transcription", "Transcribe the polyadenylated reporter",
+                StepKind.TRANSCRIPTION,
+                ((provirus, InputRole.TEMPLATE), (pol2, InputRole.CATALYST)), (reporter,))
+    bead_oligo = graph.input("bead_oligo", "Drop-seq bead oligo-dT with cell barcode and UMI",
+                             MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "template-switching reverse transcriptase",
+                     MaterialKind.CATALYST)
+    cdna = graph.product("barcoded_cdna", "cell-barcoded reporter cDNA",
+                         MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe", "Capture and reverse-transcribe the reporter on a bead",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((reporter, InputRole.TEMPLATE), (bead_oligo, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    tso = graph.input("tso", "Drop-seq template-switch oligo", MaterialKind.OLIGO)
+    switched = graph.product("switched_cdna", "template-switched guide-reporter cDNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("template_switch", "Install the distal SMART handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((cdna, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (switched,))
+    smart_f = graph.input("smart_forward", "SMART cDNA PCR forward primer", MaterialKind.OLIGO)
+    smart_r = graph.input("smart_reverse", "SMART cDNA PCR reverse primer", MaterialKind.OLIGO)
+    preamp_pol = graph.input("preamp_polymerase", "cDNA amplification polymerase",
+                             MaterialKind.CATALYST)
+    amplified = graph.product("amplified_cdna", "amplified guide-reporter cDNA",
+                              MaterialKind.MOLECULAR)
+    graph.react("preamp", "Amplify Drop-seq cDNA", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (smart_f, InputRole.STRUCTURAL),
+                 (smart_r, InputRole.STRUCTURAL), (preamp_pol, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(
+                    final_library(), reason="The intermediate SMART amplicon is not reconstructed as a full duplex."))
+    transposome = graph.input("nextera_transposome", "Nextera XT transposome",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_cdna", "Nextera-tagged reporter cDNA",
+                           MaterialKind.MOLECULAR, state=guide_bearing_cdna_fragment())
+    tag_waste = graph.product("tagmentation_waste", "non-amplifiable Tn5 products",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Tagment the amplified cDNA", StepKind.TAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tag_waste))
+    graph.discard(tag_waste, "homotypic and otherwise non-amplifiable Tn5 products")
+    selective = graph.input("selective_p5", "P5-SMART selective enrichment primer",
+                            MaterialKind.OLIGO)
+    n70x = graph.input("n70x", "indexed N70x enrichment primer", MaterialKind.OLIGO)
+    library_pol = graph.input("library_polymerase", "library PCR polymerase",
+                              MaterialKind.CATALYST)
+    final = final_library()
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
+    graph.react("selective_pcr", "Select guide-bearing bead-end fragments",
+                StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (selective, InputRole.STRUCTURAL),
+                 (n70x, InputRole.STRUCTURAL), (library_pol, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The selective primer identities are known, but the tagmented precursor is heterogeneous."))
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=tuple(sequencing_primers()),
+        read_lengths={"Read 1": 20, "Index 1 (i7)": 8, "Read 2": 64}))
+    graph.declare_reviewed_scope((
+        "provirus", "pol3", "guide_transcription", "pol2", "reporter_transcription",
+        "bead_oligo", "reverse_transcriptase", "reverse_transcribe", "tso",
+        "template_switch", "smart_forward", "smart_reverse", "preamp_polymerase",
+        "preamp", "nextera_transposome", "tn5", "tagment", "selective_p5", "n70x",
+        "library_polymerase", "selective_pcr", "library"), SOURCE)
+    return graph.require_publishable()

@@ -11,7 +11,10 @@ import seqprimers as sp
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       annotation_rows, circle_rows, complement_segments,
                       feature, oligo, revcomp)
-from circular import circularize_ssdna, rolling_circle
+from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -297,3 +300,123 @@ def workflow() -> Workflow:
             Scene.duplex(list(FINAL_LIBRARY), label="indexed library").rows(),
             name="final indexed ProBac-seq library")
     return w
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41596-024-01002-1"
+    graph = ProtocolGraph("ProBac-seq", authority=source)
+    current = graph.input("ordered_protoprobes", "ordered phosphorylated protoprobe pool",
+                          MaterialKind.MOLECULAR, primary=True, state=ORDERED)
+    ligase = graph.input("t4_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    phi29 = graph.input("phi29", "phi29 DNA polymerase", MaterialKind.CATALYST)
+    hindiii = graph.input("hindiii", "HindIII", MaterialKind.CATALYST)
+    circles = (CIRCLE1, CIRCLE2, CIRCLE3)
+    rcas = (RCA1, RCA2, RCA3)
+    primers = (RCA1_PRIMER, RCA2_PRIMER, RCA3_PRIMER)
+    for number, (circle, rca, primer_seq) in enumerate(zip(circles, rcas, primers), 1):
+        primer = graph.input(f"rca_{number}_primer", f"RCA-{number} splint-primer",
+                             MaterialKind.OLIGO)
+        closed = graph.product(f"circle_{number}", f"round-{number} splint-closed probe circle",
+                               MaterialKind.MOLECULAR, state=circle_rows(circle.linear))
+        graph.react(f"circularize_{number}",
+                    f"Splint and circularize the round-{number} protoprobe",
+                    StepKind.CIRCULARIZATION,
+                    ((current, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+                     (ligase, InputRole.CATALYST)), (closed,),
+                    geometry=CircularizationGeometry.known(
+                        "splinted single-strand ligation",
+                        statement=f"The exact RCA-{number} primer spans the future end-to-end ligation bond."))
+        concatemer = graph.product(f"concatemer_{number}", f"RCA-{number} concatemer",
+                                   MaterialKind.MOLECULAR,
+                                   state=_rca_product(rca, number))
+        graph.react(f"rca_{number}", f"Phi29 rolling-circle amplify round {number}",
+                    StepKind.EXTENSION,
+                    ((closed, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+                     (phi29, InputRole.CATALYST)), (concatemer,))
+        released = graph.product(f"released_{number}",
+                                 f"HindIII-released round-{number} protoprobes",
+                                 MaterialKind.MOLECULAR,
+                                 state=(PROPER if number in (1, 3) else ORDERED))
+        graph.react(f"hindiii_{number}", f"HindIII-release one round-{number} repeat",
+                    StepKind.DIGESTION,
+                    ((concatemer, InputRole.TEMPLATE), (hindiii, InputRole.CATALYST)),
+                    (released,))
+        current = released
+    extension_template = graph.input("extension_template",
+                                     "3′-blocked UMI and poly(T) extension template",
+                                     MaterialKind.OLIGO, state=extension_scene())
+    annealed = graph.product("extension_duplex", "protoprobe–extension-template duplex",
+                             MaterialKind.MOLECULAR, state=extension_scene())
+    graph.react("extension_hybridization", "Anneal the blocked extension template",
+                StepKind.HYBRIDIZATION,
+                ((current, InputRole.TEMPLATE), (extension_template, InputRole.STRUCTURAL)),
+                (annealed,))
+    extension_polymerase = graph.input("extension_polymerase", "isothermal DNA polymerase",
+                                      MaterialKind.CATALYST)
+    finished = graph.product("finished_probes", FINAL_PROBE.name, MaterialKind.MOLECULAR,
+                             state=FINAL_PROBE)
+    graph.react("probe_extension", "Copy the probe UMI and poly(T)30 template",
+                StepKind.EXTENSION,
+                ((annealed, InputRole.TEMPLATE), (extension_polymerase, InputRole.CATALYST)),
+                (finished,))
+    bacteria = graph.input("bacteria", "fixed bacteria containing target transcripts",
+                           MaterialKind.BIOLOGICAL, primary=True)
+    bound = graph.product("bound_probes", "transcript-bound ProBac probes",
+                          MaterialKind.MOLECULAR, state=hybridization_scene())
+    graph.react("probe_hybridization", "Hybridize probes to fixed bacterial transcripts",
+                StepKind.HYBRIDIZATION,
+                ((bacteria, InputRole.TEMPLATE), (finished, InputRole.STRUCTURAL)), (bound,))
+    bead = graph.input("gel_bead", "10x 3′ v3 gel-bead oligo", MaterialKind.ADAPTER,
+                       state=gem_scene())
+    gem = graph.product("gem_reaction", "bacterium-and-bead GEM reaction",
+                        MaterialKind.MOLECULAR, state=gem_scene())
+    excluded = graph.product("partition_loss", "excluded GEM occupancy products",
+                             MaterialKind.WASTE)
+    graph.react("partition", "Encapsulate bacteria with 10x beads", StepKind.PARTITION,
+                ((bound, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL)), (gem, excluded),
+                changes_molecule=False)
+    graph.discard(excluded, "GEMs outside the usable bacterium-and-bead occupancy class are excluded")
+    gem_primers = graph.input("gem_primers", "10x forward and InDrop reverse primers",
+                              MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "GEM and library PCR polymerase",
+                             MaterialKind.CATALYST)
+    pcr1 = graph.product("pcr1_product", PCR1_PRODUCT.name, MaterialKind.MOLECULAR,
+                         state=PCR1_PRODUCT)
+    graph.react("gem_pcr", "Transfer the cell barcode by six-cycle GEM PCR", StepKind.PCR,
+                ((gem, InputRole.TEMPLATE), (gem_primers, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (pcr1,),
+                geometry=PCRGeometry.unavailable(
+                    PCR1_PRODUCT, reason="The GEM reaction uses a primer pair represented as one published reagent set.",
+                    symmetric_species=True))
+    pcr2_primers = graph.input("pcr2_primers", "PCR-2 primer pair", MaterialKind.OLIGO)
+    pooled = graph.product("pcr2_product", "pooled cell-barcoded probe library",
+                           MaterialKind.MOLECULAR, state=PCR1_PRODUCT)
+    graph.react("pcr2", "Recover and PCR-2-amplify cell-barcoded probes", StepKind.PCR,
+                ((pcr1, InputRole.TEMPLATE), (pcr2_primers, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (pooled,),
+                geometry=PCRGeometry.unavailable(
+                    PCR1_PRODUCT, reason="The source-listed partial Read 1 and InDrop primers are represented as one reagent set.",
+                    symmetric_species=True))
+    p5 = graph.input("pcr3_forward", "PCR-3 P5 forward primer", MaterialKind.OLIGO)
+    p7 = graph.input("pcr3_reverse", "PCR-3 indexed P7 reverse primer", MaterialKind.OLIGO)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY)
+    graph.react("pcr3", "Add P5, P7 and the sample index", StepKind.PCR,
+                ((pooled, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The exact final construct is modelled, while PCR landing objects are not duplicated."))
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=ACQUIRED_ROLES,
+        read_lengths=READ_LENGTHS, read_uses=READ_USES))
+    reviewed = ["ordered_protoprobes", "t4_ligase", "phi29", "hindiii"]
+    for number in range(1, 4):
+        reviewed.extend((f"rca_{number}_primer", f"circularize_{number}",
+                         f"rca_{number}", f"hindiii_{number}"))
+    reviewed.extend((
+        "extension_template", "extension_hybridization", "extension_polymerase",
+        "probe_extension", "bacteria", "probe_hybridization", "gel_bead", "partition",
+        "gem_primers", "pcr_polymerase", "gem_pcr", "pcr2_primers", "pcr2",
+        "pcr3_forward", "pcr3_reverse", "pcr3", "library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()

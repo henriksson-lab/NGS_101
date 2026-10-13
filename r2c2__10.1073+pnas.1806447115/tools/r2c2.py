@@ -7,6 +7,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       annotation_rows, circle_rows, feature)
 from adapter_ligation import AdapterLigationGeometry
+from circular import CircularizationGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "R2C2 — rolling circle to concatemeric consensus"
+SOURCE = ('Defining source: <a href="https://doi.org/10.1073/pnas.1806447115">'
+          'Volden et al., <i>PNAS</i> (2018)</a>.')
 
 
 def seg(name, top, tag=None, **kw):
@@ -130,3 +137,89 @@ def final_rows():
     sc.junction("top", "motor-loaded ONT leader", "copy 1: ISPCR end", "adapter ligation")
     sc.junction("top", "copy 3: splint junction", "distal ONT adapter", "adapter ligation")
     return [*sc.rows(), *annotation_rows(lib)]
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    cdna = graph.input("indexed_cdna", "Tn5Prime indexed full-length ds cDNA",
+                       MaterialKind.MOLECULAR, state=CDNA, primary=True)
+    splint = graph.input("dna_splint", "terminally complementary lambda-DNA splint",
+                         MaterialKind.ADAPTER, state=SPLINT)
+    assembly = graph.input("hifi_assembly", "NEBuilder HiFi assembly enzyme mix",
+                           MaterialKind.CATALYST)
+    circle = graph.product("circle", "Gibson-assembled full-length cDNA circle",
+                           MaterialKind.MOLECULAR, state=CIRCLE_TEMPLATE)
+    graph.react("assemble_circle", "Join both cDNA ends to the DNA splint",
+                StepKind.CIRCULARIZATION,
+                ((cdna, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL),
+                 (assembly, InputRole.CATALYST)), (circle,),
+                geometry=CircularizationGeometry.known(
+                    "overlap assembly",
+                    statement="The source uses NEBuilder HiFi and a roughly 200-bp DNA splint with terminal overlaps matching both cDNA ends."))
+    exonucleases = graph.input("exonucleases", "exonuclease I, III and lambda exonuclease",
+                               MaterialKind.CATALYST)
+    selected_circle = graph.product("selected_circle", "exonuclease-resistant R2C2 circle",
+                                    MaterialKind.MOLECULAR, state=CIRCLE_TEMPLATE)
+    linear_waste = graph.product("linear_waste", "digested non-circular DNA",
+                                 MaterialKind.WASTE)
+    graph.react("digest_linear", "Remove non-circular DNA", StepKind.DIGESTION,
+                ((circle, InputRole.TEMPLATE), (exonucleases, InputRole.CATALYST)),
+                (selected_circle, linear_waste))
+    graph.discard(linear_waste, "is not protected by covalent circle closure")
+    random_hexamers = graph.input("random_hexamers", "exonuclease-resistant random hexamers",
+                                  MaterialKind.OLIGO)
+    phi29 = graph.input("phi29", "phi29 strand-displacing polymerase",
+                        MaterialKind.CATALYST)
+    branched = graph.product("branched_rca", "branched R2C2 rolling-circle product",
+                             MaterialKind.MOLECULAR, state=tuple(branched_rca_rows()))
+    graph.react("rolling_circle", "Random-prime rolling-circle amplification",
+                StepKind.EXTENSION,
+                ((selected_circle, InputRole.TEMPLATE),
+                 (random_hexamers, InputRole.STRUCTURAL),
+                 (phi29, InputRole.CATALYST)), (branched,))
+    t7 = graph.input("t7_endonuclease", "T7 endonuclease I", MaterialKind.CATALYST)
+    debranched = graph.product("debranched", "debranched R2C2 concatemers",
+                               MaterialKind.MOLECULAR, state=rca_construct())
+    graph.react("debranch", "Debranch the rolling-circle product",
+                StepKind.DIGESTION,
+                ((branched, InputRole.TEMPLATE), (t7, InputRole.CATALYST)),
+                (debranched,))
+    size_matrix = graph.input("size_selection", ">2-kb SPRI size-selection condition",
+                              MaterialKind.SELECTION)
+    long_concatemers = graph.product("long_concatemers", ">2-kb debranched concatemers",
+                                     MaterialKind.MOLECULAR, state=rca_construct())
+    short_waste = graph.product("short_products", "short RCA and debranching products",
+                                MaterialKind.WASTE)
+    graph.react("select_long", "Select debranched products above 2 kb",
+                StepKind.SELECTION,
+                ((debranched, InputRole.TEMPLATE), (size_matrix, InputRole.SELECTION)),
+                (long_concatemers, short_waste))
+    graph.discard(short_waste, "falls below the retained concatemer size range")
+    ont_adapter = graph.input(
+        "ont_adapter", "historical ONT 1D motor and distal adapters",
+        MaterialKind.ADAPTER, inferred=True,
+        source=SOURCE + " (terminal bases proprietary)")
+    ligase = graph.input("adapter_ligase", "ONT library-adapter ligase",
+                         MaterialKind.CATALYST)
+    library_construct = final_library()
+    library = graph.product(
+        "sequencing_library", library_construct.name, MaterialKind.LIBRARY,
+        state=library_construct, inferred=True,
+        source=SOURCE + " (historical ONT adapter bases proprietary)")
+    graph.react("attach_ont_adapters", "Attach ONT 1D sequencing adapters",
+                StepKind.LIGATION,
+                ((long_concatemers, InputRole.TEMPLATE),
+                 (ont_adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (library,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper names ONT LSK108, but its motor and distal adapter terminal bases were proprietary."))
+    graph.sequence(library, SequencingPlan(
+        acquired_roles=("Sequencing output",),
+        limitation="Nanopore entry is motor-mediated and primer-free; historical LSK108 adapter bases are proprietary."))
+    graph.declare_reviewed_scope((
+        "indexed_cdna", "dna_splint", "hifi_assembly", "assemble_circle",
+        "exonucleases", "digest_linear", "random_hexamers", "phi29",
+        "rolling_circle", "t7_endonuclease", "debranch", "size_selection",
+        "select_long", "ont_adapter", "adapter_ligase", "attach_ont_adapters",
+        "sequencing_library"), SOURCE)
+    return graph.require_publishable()

@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import duplex_fragment, seg
 from chemdraw import Construct, MolecularState, Workflow, feature
 from adapter_ligation import AdapterLigationGeometry
-from molecular_consensus import CopiedDuplexUID
+from molecular_consensus import CopiedDuplexUID, saferseqs_graph
 
 TITLE = "SaferSeqS — copied duplex UID with strand-specific enrichment"
 NOTES = "01_saferseqs.html"
@@ -69,3 +69,6 @@ def workflow():
 
 def oligos():
     return ()
+
+
+protocol_graph = lambda: saferseqs_graph(SOURCE, FINAL_LIBRARY, SEQUENCING_UNAVAILABLE)

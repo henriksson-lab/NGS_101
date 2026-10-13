@@ -9,6 +9,9 @@ import seqprimers as sp
 from batch_ngs import seg
 from base_conversion import caps_plus_path
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 TITLE = "scCAPS+ — single-cell 5hmC sequencing"
 NOTES = "01_sccaps-plus.html"
@@ -77,3 +80,42 @@ def workflow():
     w.react("Reduce 5caC with pyridine–borane",reduced.rows(),name="DHU-containing DNA",note="Only the original 5hmC track reaches DHU.")
     w.react("PCR with Nextera XT index primers",final.rows(),name="Sequencing library",note="Uracil-tolerant PCR copies DHU as T; 5mC and unmodified C remain C.")
     return w
+
+
+def protocol_graph():
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    genomic=g.input("single_cell_dna","genomic DNA from one FACS-sorted cell",MaterialKind.MOLECULAR,state=_initial,primary=True)
+    transposome=g.input("indexed_transposome","well-specific i5/i7 loaded Tn5 adapters",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (96 oligos referenced in Additional file 5 Table S3)")
+    tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=g.product("tagged","well-indexed single-cell genomic fragments with nine-base gaps",MaterialKind.MOLECULAR,state=_tagged_scene("barcoded single-cell fragments before gap fill"),inferred=True,source=SOURCE+" (96 oligos referenced rather than copied)")
+    tagment_waste=g.product("tagment_waste","non-library tagmentation products",MaterialKind.WASTE)
+    g.react("tagment","Tagment with a well-specific indexed Tn5",StepKind.TAGMENTATION,((genomic,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,tagment_waste))
+    g.discard(tagment_waste,"does not retain a library-eligible heterologous indexed fragment")
+
+    gap_polymerase=g.input("gap_polymerase","nine-base gap-fill polymerase",MaterialKind.CATALYST)
+    gap_filled=g.product("gap_filled","barcoded gap-filled single-cell fragments",MaterialKind.MOLECULAR,state=_tagged_scene("barcoded, gap-filled single-cell fragment"),inferred=True,source=SOURCE+" (96 oligos referenced rather than copied)")
+    g.react("gap_fill","Fill the nine-base Tn5 gaps",StepKind.EXTENSION,((tagged,InputRole.TEMPLATE),(gap_polymerase,InputRole.CATALYST)),(gap_filled,))
+
+    peer_wells=g.input("peer_wells","corresponding indexed fragments from the other processed wells",MaterialKind.MOLECULAR,state=_tagged_scene("other well-indexed gap-filled fragments"),source=SOURCE)
+    pooled=g.product("pooled","pooled cell-barcoded DNA from 96 wells",MaterialKind.MOLECULAR,state=_tagged_scene("pooled DNA from 96 uniquely indexed wells plus controls"),inferred=True,source=SOURCE+" (96 oligos referenced rather than copied)")
+    g.react("pool_wells","Pool the 96 independently indexed wells",StepKind.POOL,((gap_filled,InputRole.TEMPLATE),(peer_wells,InputRole.TEMPLATE)),(pooled,),changes_molecule=False)
+
+    act=g.input("act_bf4","ACT+BF4-minus oxidation condition",MaterialKind.CONDITION)
+    formyl=g.product("formyl","pooled DNA after selective 5hmC-to-5fC oxidation",MaterialKind.MOLECULAR,state=_base_state("ACT+BF4− oxidation",1))
+    g.react("oxidize_formyl","Oxidize 5hmC to 5fC with ACT+BF4-minus",StepKind.CHEMICAL_CONVERSION,((pooled,InputRole.TEMPLATE),(act,InputRole.CONDITION)),(formyl,))
+    pinnick=g.input("pinnick","Pinnick oxidation condition with NaClO2",MaterialKind.CONDITION)
+    carboxyl=g.product("carboxyl","pooled DNA after 5fC-to-5caC oxidation",MaterialKind.MOLECULAR,state=_base_state("Pinnick oxidation with NaClO2",2))
+    g.react("oxidize_carboxyl","Pinnick-oxidize 5fC to 5caC",StepKind.CHEMICAL_CONVERSION,((formyl,InputRole.TEMPLATE),(pinnick,InputRole.CONDITION)),(carboxyl,))
+    reducing=g.input("pyridine_borane","pyridine-borane reduction condition",MaterialKind.CONDITION)
+    reduced=g.product("reduced","DNA in which original 5hmC has become DHU",MaterialKind.MOLECULAR,state=_base_state("pyridine–borane reduction",3))
+    g.react("reduce","Reduce 5caC to DHU with pyridine-borane",StepKind.CHEMICAL_CONVERSION,((carboxyl,InputRole.TEMPLATE),(reducing,InputRole.CONDITION)),(reduced,))
+
+    forward=g.input("pcr_forward","Nextera XT cell-index PCR forward-primer family",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (96 oligos referenced in Additional file 5 Table S3)")
+    reverse=g.input("pcr_reverse","Nextera XT cell-index PCR reverse-primer family",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (96 oligos referenced in Additional file 5 Table S3)")
+    polymerase=g.input("pcr_polymerase","uracil-tolerant PCR polymerase",MaterialKind.CATALYST)
+    library=g.product("library","scCAPS+ sequencing library",MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (96 oligos referenced rather than copied)")
+    g.react("pcr","PCR with Nextera XT cell-index primers",StepKind.PCR,((reduced,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The source references the 96 indexed transposome/PCR oligos rather than printing one universal primer pair on this page."))
+    g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=SEQ_PRIMERS,acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS))
+    reviewed=["single_cell_dna","indexed_transposome","tn5","tagment","gap_polymerase","gap_fill","peer_wells","pool_wells","act_bf4","oxidize_formyl","pinnick","oxidize_carboxyl","pyridine_borane","reduce","pcr_forward","pcr_reverse","pcr_polymerase","pcr","library"]
+    g.declare_reviewed_scope(reviewed,SOURCE)
+    return g.require_publishable()

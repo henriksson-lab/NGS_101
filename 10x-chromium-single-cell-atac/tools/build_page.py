@@ -12,7 +12,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import chromium_atac as C
 import nextera as nx
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info
 
 OUT = HERE.parent / "10x-chromium-single-cell-atac.html"
@@ -58,9 +58,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("10x Chromium Single Cell ATAC chemistry"), '<div class="wrap">',
+    graph = C.protocol_graph()
+    page = "\n".join([head("10x Chromium Single Cell ATAC chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>10x Chromium Single Cell ATAC v1</h1>',
         info('Authoritative source: 10x Genomics <a href="https://www.10xgenomics.com/support/single-cell-atac/documentation/steps/library-prep/chromium-single-cell-atac-reagent-kits-user-guide-v-1-chemistry">CG000168 Rev A user guide</a>.'),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         oligos(), construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

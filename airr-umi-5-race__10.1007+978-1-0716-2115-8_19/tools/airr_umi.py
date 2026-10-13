@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "Bulk UMI 5′-RACE AIRR-seq — B-cell receptor repertoires"
 NOTES = "01_airr-umi-5-race.html"
@@ -61,3 +64,66 @@ def workflow():
     w.react("Semi-nested PCR2 and dual indexing", final.rows(), name="Sequencing library",
             note="PCR2 uses chain-specific nested reverse primers and indexed universal forward primers to add P5, P7, i5 and i7.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("bcr_mrna","polyadenylated BCR mRNA",MaterialKind.MOLECULAR,
+                    primary=True)
+    oligo_dt=graph.input("oligo_dt","proprietary oligo-dT RT primer",MaterialKind.OLIGO,
+                         inferred=True,source=SOURCE+" (vendor sequence unavailable)")
+    rt=graph.input("reverse_transcriptase","SMARTScribe reverse transcriptase",
+                   MaterialKind.CATALYST)
+    first=graph.product("first_strand","oligo-dT-primed BCR cDNA",MaterialKind.MOLECULAR,
+                        inferred=True,source=SOURCE+" (vendor handle bases unavailable)")
+    graph.react("reverse_transcribe","Prime BCR reverse transcription from poly(A)",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna,InputRole.TEMPLATE),(oligo_dt,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(first,))
+    smart=graph.input("smart_umi","12-nt-UMI SMART template-switch oligo",
+                      MaterialKind.OLIGO,inferred=True,
+                      source=SOURCE+" (vendor sequence unavailable)")
+    switched=graph.product("switched","UMI-tagged template-switched BCR cDNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("template_switch","Install the UMI and universal 5-prime handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first,InputRole.TEMPLATE),(smart,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(switched,))
+    universal=graph.input("universal_primer","universal SMART PCR1 primer",
+                          MaterialKind.OLIGO,inferred=True,
+                          source=SOURCE+" (vendor sequence unavailable)")
+    constant=graph.input("constant_primer","chain-specific constant-region PCR1 primer pool",
+                         MaterialKind.OLIGO,inferred=True,
+                         source=SOURCE+" (vendor sequences unavailable)")
+    polymerase=graph.input("pcr_polymerase","BCR library PCR polymerase",
+                           MaterialKind.CATALYST)
+    pcr1=graph.product("pcr1_product","chain-specific complete-V(D)J PCR1 amplicons",
+                       MaterialKind.MOLECULAR)
+    graph.react("pcr1","Amplify from the universal handle to constant regions",
+                StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(universal,InputRole.STRUCTURAL),
+                 (constant,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (pcr1,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The authoritative protocol withholds the SMART and gene-specific primer sequences."))
+    nested_f=graph.input("nested_forward","indexed universal PCR2 forward primer",
+                         MaterialKind.OLIGO,inferred=True,
+                         source=SOURCE+" (vendor sequence unavailable)")
+    nested_r=graph.input("nested_reverse","semi-nested constant-region PCR2 reverse primer pool",
+                         MaterialKind.OLIGO,inferred=True,
+                         source=SOURCE+" (vendor sequences unavailable)")
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,
+                          source=SOURCE+" (proprietary adapter/primer bases)")
+    graph.react("pcr2","Semi-nest and add dual Illumina indexes",StepKind.PCR,
+                ((pcr1,InputRole.TEMPLATE),(nested_f,InputRole.STRUCTURAL),
+                 (nested_r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The vendor discloses molecular roles and lengths but not the complete PCR2 oligo bases."))
+    graph.sequence(library,SequencingPlan(
+        limitation=SEQUENCING_UNAVAILABLE))
+    graph.declare_reviewed_scope((
+        "bcr_mrna","oligo_dt","reverse_transcriptase","reverse_transcribe",
+        "smart_umi","template_switch","universal_primer","constant_primer",
+        "pcr_polymerase","pcr1","nested_forward","nested_reverse","pcr2",
+        "library"),SOURCE)
+    return graph.require_publishable()

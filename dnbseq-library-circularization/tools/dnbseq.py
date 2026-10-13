@@ -6,7 +6,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Row, circle_rows, feature
-from circular import circularize_ssdna, rolling_circle
+from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "DNBSEQ library circularization and DNA-nanoball preparation"
 NOTES = "01_dnbseq.html"
@@ -46,3 +48,63 @@ def sections():
           Row(chunks=[("   sequencing primer →              sequencing primer →", "r2", False)])],
          "The same undisclosed sequencing-primer site occurs once per RCA repeat. Probe-anchor synthesis interrogates the immobilized nanoball."),
     ]
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    ds_library = graph.input("indexed_library", "adapter-bearing indexed dsDNA library",
+                             MaterialKind.MOLECULAR, primary=True)
+    denaturant = graph.input("denaturant", "heat or alkaline denaturation condition",
+                             MaterialKind.CONDITION)
+    strand = graph.product("library_strand", LINEAR.name, MaterialKind.MOLECULAR,
+                           state=LINEAR, inferred=True,
+                           source=SOURCE + " (adapter bases proprietary)")
+    opposite = graph.product("opposite_strand", "non-retained complementary library strand",
+                             MaterialKind.WASTE)
+    graph.react("denature", "Denature the indexed double-stranded library",
+                StepKind.STRAND_SEPARATION,
+                ((ds_library, InputRole.TEMPLATE), (denaturant, InputRole.CONDITION)),
+                (strand, opposite))
+    graph.discard(opposite, "is not the strand selected for ss-circle preparation")
+    splint = graph.input("circle_splint", "proprietary dual-barcode circle splint",
+                         MaterialKind.OLIGO, inferred=True,
+                         source=SOURCE + " (bases proprietary)")
+    ligase = graph.input("circle_ligase", "DNB library circularization ligase",
+                         MaterialKind.CATALYST)
+    circle = graph.product("ss_circle", "splint-ligated ssDNA library circle",
+                           MaterialKind.MOLECULAR, state=CIRCLE, inferred=True,
+                           source=SOURCE + " (closure sequences proprietary)")
+    graph.react("circularize", "Splint-ligate the library strand into a closed circle",
+                StepKind.CIRCULARIZATION,
+                ((strand, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (circle,),
+                geometry=CircularizationGeometry.unavailable(
+                    "The manual specifies splint-assisted ssDNA closure but does not disclose the aligned adapter and splint bases."))
+    exonuclease = graph.input("exonuclease", "linear-DNA exonuclease",
+                              MaterialKind.CATALYST)
+    selected = graph.product("purified_circle", "exonuclease-purified ssDNA circle",
+                             MaterialKind.MOLECULAR, state=CIRCLE, inferred=True,
+                             source=SOURCE + " (circle bases proprietary)")
+    linear_waste = graph.product("linear_waste", "digested unclosed linear library molecules",
+                                 MaterialKind.WASTE)
+    graph.react("digest_linear", "Digest remaining linear library molecules",
+                StepKind.DIGESTION,
+                ((circle, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
+                (selected, linear_waste))
+    graph.discard(linear_waste, "is not a covalently closed library circle")
+    phi29 = graph.input("phi29", "rolling-circle replication polymerase",
+                        MaterialKind.CATALYST)
+    dnb = graph.product("dna_nanoball", "DNA nanoball sequencing library",
+                        MaterialKind.LIBRARY, state=RCA, inferred=True,
+                        source=SOURCE + " (repeat architecture known; adapter bases proprietary)")
+    graph.react("rolling_circle", "Copy and compact the circle into a DNA nanoball",
+                StepKind.EXTENSION,
+                ((selected, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)), (dnb,))
+    graph.sequence(dnb, SequencingPlan(
+        acquired_roles=("Sequencing output",),
+        limitation="The DNBSEQ manual establishes cPAS entry at the repeated adapter site but keeps the current sequencing-primer bases proprietary."))
+    graph.declare_reviewed_scope((
+        "indexed_library", "denaturant", "denature", "circle_splint",
+        "circle_ligase", "circularize", "exonuclease", "digest_linear", "phi29",
+        "rolling_circle", "dna_nanoball"), SOURCE)
+    return graph.require_publishable()

@@ -9,8 +9,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from adapter_ligation import CohesiveDuplex, cohesive_duplex
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       duplex_rows, feature, revcomp)
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 
 TITLE = "Drop-scChIP-seq — droplet single-cell ChIP-seq"
@@ -222,3 +226,93 @@ def workflow() -> Workflow:
              name="Final Illumina library",
              note="PCR completes the Read-1 site and adds P5, i7 and P7 while retaining the bead barcode beside the Read-2 site.")
     return wf
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/s41588-019-0424-9"
+    graph = ProtocolGraph("Drop-scChIP-seq", authority=source)
+    chromatin = graph.input("chromatin", "MNase-released nucleosomal chromatin",
+                            MaterialKind.BIOLOGICAL, primary=True)
+    bead_flank = graph.input("bead_flank", "SEQ1 bead flank", MaterialKind.ADAPTER,
+                             state=SEQ1.scene)
+    current = bead_flank
+    for number, round_ in enumerate(ROUNDS, 1):
+        adapter = graph.input(f"round_{number}_adapter", f"barcode round {number} duplex",
+                              MaterialKind.ADAPTER, state=round_.scene)
+        assembled = graph.product(f"barcode_round_{number}",
+                                  f"bead barcode after ligation round {number}",
+                                  MaterialKind.MOLECULAR,
+                                  state=_assembled_barcode_scene(number))
+        graph.react(f"barcode_ligation_{number}",
+                    f"Ligate barcode round {number}, pool and resplit", StepKind.LIGATION,
+                    ((current, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL)),
+                    (assembled,),
+                    geometry=AdapterLigationGeometry.known(
+                        "cohesive", round_.scene,
+                        statement="Supplementary Table 4 supplies the source-written cohesive duplex."))
+        current = assembled
+    terminal_flank = graph.input("terminal_flank", "SEQ2 terminal common flank",
+                                 MaterialKind.ADAPTER, state=SEQ2.scene)
+    completed = graph.product("completed_barcode", "completed three-round bead barcode",
+                              MaterialKind.MOLECULAR, state=_completed_barcode_scene())
+    graph.react("terminal_ligation", "Ligate the terminal SEQ2 common flank",
+                StepKind.LIGATION,
+                ((current, InputRole.TEMPLATE), (terminal_flank, InputRole.STRUCTURAL)),
+                (completed,), geometry=AdapterLigationGeometry.known(
+                    "cohesive", SEQ2.scene,
+                    statement="Supplementary Table 5 supplies the terminal cohesive duplex."))
+    droplet_condition = graph.input("droplet_condition", "bead–nucleosome droplet fusion",
+                                    MaterialKind.CONDITION)
+    barcoded = graph.product("barcoded_nucleosomes", "barcoded nucleosome templates",
+                             MaterialKind.MOLECULAR, state=_barcoded_nucleosome_scene())
+    graph.react("droplet_barcoding", "Photorelease bead barcodes and barcode nucleosomes",
+                StepKind.ADAPTER_ATTACHMENT,
+                ((chromatin, InputRole.TEMPLATE), (completed, InputRole.STRUCTURAL),
+                 (droplet_condition, InputRole.CONDITION)), (barcoded,))
+    antibody = graph.input("antibody", "histone-mark antibody", MaterialKind.SELECTION)
+    selected = graph.product("selected_templates", "immunoprecipitated barcoded nucleosomes",
+                             MaterialKind.MOLECULAR, state=_barcoded_nucleosome_scene())
+    rejected = graph.product("unselected_templates", "unselected chromatin", MaterialKind.WASTE)
+    graph.react("immunoprecipitation", "Immunoprecipitate the chosen histone mark",
+                StepKind.AFFINITY_CAPTURE,
+                ((barcoded, InputRole.TEMPLATE), (antibody, InputRole.SELECTION)),
+                (selected, rejected))
+    graph.discard(rejected, "chromatin not retained by the antibody is washed away")
+    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    rna = graph.product("ivt_rna", "linearly amplified barcode–DNA RNA",
+                        MaterialKind.MOLECULAR, state=_barcoded_nucleosome_scene())
+    graph.react("ivt", "Transcribe selected templates from the T7 promoter",
+                StepKind.TRANSCRIPTION,
+                ((selected, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
+    rt_primer = graph.input("random_rt_primer", "SEQ4 random RT primer", MaterialKind.OLIGO,
+                            state=_rt_scene())
+    reverse_transcriptase = graph.input("reverse_transcriptase", "reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    cdna = graph.product("cdna", "random-primed cDNA", MaterialKind.MOLECULAR,
+                         state=_rt_scene())
+    graph.react("reverse_transcription", "Random-prime reverse transcription with SEQ4",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
+    p5 = graph.input("p5_primer", "exact P5 PCR primer", MaterialKind.OLIGO)
+    p7 = graph.input("p7_primer", "indexed P7 PCR primer", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY)
+    graph.react("library_pcr", "PCR with the exact P5 and indexed P7 primers", StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The final construct is exact, while this page does not expose both PCR-primer landing objects."))
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=ACQUIRED_ROLES,
+        read_lengths=READ_LENGTHS, read_uses=READ_USES))
+    graph.declare_reviewed_scope((
+        "chromatin", "bead_flank", "round_1_adapter", "barcode_ligation_1",
+        "round_2_adapter", "barcode_ligation_2", "round_3_adapter",
+        "barcode_ligation_3", "terminal_flank", "terminal_ligation",
+        "droplet_condition", "droplet_barcoding", "antibody", "immunoprecipitation",
+        "t7_polymerase", "ivt", "random_rt_primer", "reverse_transcriptase",
+        "reverse_transcription", "p5_primer", "p7_primer", "pcr_polymerase",
+        "library_pcr", "library"), source)
+    return graph.require_publishable()

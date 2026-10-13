@@ -14,6 +14,10 @@ import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import (Construct, MolecularState, Scene, Workflow, feature,
                       revcomp)
+from adapter_ligation import reported_adapter_end
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 # As ordered, 5' -> 3'.  Asterisks in NEW_P5_SMART_WRITTEN are phosphorothioate
@@ -188,3 +192,96 @@ def oligos():
         f"<b>Ad2.1_TAAGGCGA</b> — 5′-{AD2_1}-3′",
         f"<b>Custom Read 1 primer</b> — 5′-{CUSTOM_READ_1}-3′",
     )
+
+
+def protocol_graph(insert_name: str, *, title: str, authority: str,
+                   antibody_targeted: bool) -> ProtocolGraph:
+    graph = ProtocolGraph(title, authority=authority)
+    tissue = graph.input("tissue", "fixed tissue chromatin", MaterialKind.BIOLOGICAL,
+                         primary=True)
+    substrate = tissue
+    scope = ["tissue"]
+    if antibody_targeted:
+        antibody = graph.input("antibody", "histone-mark primary/secondary antibodies",
+                               MaterialKind.MOLECULAR)
+        targeted = graph.product("targeted_chromatin", "antibody-marked tissue chromatin",
+                                 MaterialKind.BIOLOGICAL)
+        unbound = graph.product("unbound_antibody", "unbound antibody wash fraction",
+                                MaterialKind.WASTE)
+        graph.react("antibody_binding", "Bind antibodies at the selected histone mark",
+                    StepKind.BINDING,
+                    ((tissue, InputRole.TEMPLATE), (antibody, InputRole.ANALYTE)),
+                    (targeted, unbound))
+        graph.discard(unbound, "unbound antibody is removed before pA-Tn5 recruitment")
+        substrate = targeted
+        scope.extend(("antibody", "antibody_binding"))
+    transposome = graph.input("linker_transposome", "linker-1-loaded Tn5 transposome",
+                              MaterialKind.ADAPTER)
+    tn5_label = "pA-Tn5 transposase" if antibody_targeted else "Tn5 transposase"
+    tn5 = graph.input("tn5", tn5_label, MaterialKind.CATALYST)
+    tagged = graph.product("tagged_fragment", "linker-bearing tagmented fragment",
+                           MaterialKind.MOLECULAR, state=tagged_fragment(insert_name))
+    t_waste = graph.product("tagmentation_waste", "non-library tagmentation products",
+                            MaterialKind.WASTE)
+    graph.react("tagment", "Transfer linker 1 and the S7-side adapter into chromatin",
+                StepKind.TAGMENTATION,
+                ((substrate, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, t_waste))
+    graph.discard(t_waste, "fragments without a usable linker/S7 topology do not reach PCR")
+    barcode_a = graph.input("barcode_a", "first-channel barcode-A oligo",
+                            MaterialKind.ADAPTER)
+    ligase = graph.input("ligase", "in-tissue DNA ligase", MaterialKind.CATALYST)
+    a_product = graph.product("a_barcoded", "A-barcoded tagmented fragment",
+                              MaterialKind.MOLECULAR, state=a_barcoded_fragment(insert_name))
+    a_geometry = reported_adapter_end(
+        "barcode-A oligo", kind="splinted", polarity="5-prime",
+        terminal_sequence=LINKER_1_A_SIDE,
+        statement="The published barcode-A oligo is 5-prime phosphorylated and its mosaic-end segment reconstructs the exact linker-1 ligation boundary.")
+    graph.react("barcode_a_ligation", "Flow and ligate barcode A through the first channels",
+                StepKind.LIGATION,
+                ((tagged, InputRole.TEMPLATE), (barcode_a, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (a_product,), geometry=a_geometry)
+    barcode_b = graph.input("barcode_b", "perpendicular-channel barcode-B oligo",
+                            MaterialKind.ADAPTER)
+    ab_product = graph.product("ab_barcoded", "A/B-barcoded spatial fragment",
+                               MaterialKind.MOLECULAR, state=ab_barcoded_fragment(insert_name))
+    b_geometry = reported_adapter_end(
+        "barcode-B oligo", kind="splinted", polarity="5-prime",
+        terminal_sequence=LINKER_2_B_SIDE,
+        statement="The published barcode-B and barcode-A oligos reconstruct the exact linker-2 ligation boundary.")
+    graph.react("barcode_b_ligation", "Rotate the device and ligate barcode B",
+                StepKind.LIGATION,
+                ((a_product, InputRole.TEMPLATE), (barcode_b, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ab_product,), geometry=b_geometry)
+    proteinase = graph.input("proteinase_k", "reverse-crosslink proteinase",
+                             MaterialKind.CATALYST)
+    released = graph.product("released_fragments", "reverse-crosslinked spatial fragments",
+                             MaterialKind.MOLECULAR, state=ab_barcoded_fragment(insert_name))
+    graph.react("reverse_crosslinks", "Reverse crosslinks and release spatial fragments",
+                StepKind.DEPROTEINIZATION,
+                ((ab_product, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)),
+                (released,))
+    p5 = graph.input("p5_primer", "New-P5-SMART PCR primer", MaterialKind.OLIGO)
+    p7 = graph.input("indexed_p7_primer", "indexed Ad2 PCR primer", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    final, primers = library(insert_name)
+    out = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "Complete P5 and indexed P7 flow-cell arms",
+                StepKind.PCR,
+                ((released, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (out,), geometry=PCRGeometry.unavailable(
+                    final, reason="The A/B-barcoded intermediate is exact, while PCR adds the verified outer flow-cell arms."))
+    graph.sequence(out, SequencingPlan(
+        library=final, primers=primers,
+        acquired_roles=tuple(p.role for p in primers),
+        read_lengths={"Read 1": 150, "Index 1 (i7)": 8, "Read 2": 150},
+        read_uses={"Read 1": "extract_then_include",
+                   "Index 1 (i7)": "demultiplex", "Read 2": "include"}))
+    scope.extend(("linker_transposome", "tn5", "tagment", "barcode_a", "ligase",
+                  "barcode_a_ligation", "barcode_b", "barcode_b_ligation",
+                  "proteinase_k", "reverse_crosslinks", "p5_primer",
+                  "indexed_p7_primer", "pcr_polymerase", "library_pcr", "library"))
+    graph.declare_reviewed_scope(tuple(scope), authority)
+    return graph.require_publishable()

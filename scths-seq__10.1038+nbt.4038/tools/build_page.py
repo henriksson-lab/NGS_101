@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import nextera as nx
 import scths as S
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, oligo, panel, strand_row, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "scths-seq.html"
@@ -70,10 +70,12 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("scTHS-seq library chemistry"), '<div class="wrap">',
+    graph = S.protocol_graph()
+    page = "\n".join([head("scTHS-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scTHS-seq &mdash; T7-amplified single-cell accessibility</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/nbt.4038">Lake et al., <i>Nature Biotechnology</i> (2018)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

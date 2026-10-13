@@ -5,6 +5,8 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -81,5 +83,92 @@ def final_library(insert_nt: int = 28) -> Construct:
     return lib
 
 
+def droplet_indexed_fragment(insert_nt: int = 28) -> Construct:
+    return Construct([
+        *bead_oligo(),seg("spacer A",SPACER_A),
+        seg("Tn5 barcode A","A"*5,"cbc",placeholder=True,
+            feature=feature("cell_tn5_a","cell_barcode","combinatorial",group="cell_id",part="Tn5 A")),
+        seg("mosaic end",nx.ME,"me"),seg("accessible genomic DNA","X"*insert_nt,placeholder=True),
+        seg("opposite ME reverse complement",nx.ME_RC,"me"),
+        seg("Tn5 barcode B reverse complement","B"*5,"cbc",placeholder=True,
+            feature=feature("cell_tn5_b","cell_barcode","combinatorial",group="cell_id",part="Tn5 B")),
+        seg("spacer B reverse complement",revcomp(SPACER_B)),
+        seg("s7 reverse complement",nx.S7_RC,"s7")],
+        name="GEM-indexed scifi-ATAC fragment")
+
+
 def final_scene() -> Scene:
     return Scene.duplex(list(final_library()), label="library")
+
+
+def protocol_graph() -> ProtocolGraph:
+    source=("Defining source: https://doi.org/10.1101/2023.09.17.558155; "
+            "droplet chemistry: 10x scATAC v1.1 guide")
+    graph=ProtocolGraph("scifi-ATAC-seq",authority=source)
+    nuclei=graph.input("nuclei","permeabilized nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    adapter_a_input=graph.input("adapter_a","Tn5 A barcode adapter",MaterialKind.ADAPTER,
+                                state=tuple(adapter_a()))
+    adapter_b_input=graph.input("adapter_b","Tn5 B barcode adapter",MaterialKind.ADAPTER,
+                                state=tuple(adapter_b()))
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    indexed=graph.product("indexed_fragments",indexed_fragment().name,MaterialKind.MOLECULAR,
+                          state=indexed_fragment())
+    tag_waste=graph.product("tagment_waste","A/A, B/B and otherwise non-selected fragments",
+                            MaterialKind.WASTE)
+    graph.react("tagment","Tagment nuclei in plate wells with one A/B barcode pair",
+                StepKind.TAGMENTATION,
+                ((nuclei,InputRole.TEMPLATE),(adapter_a_input,InputRole.STRUCTURAL),
+                 (adapter_b_input,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),
+                (indexed,tag_waste))
+    graph.discard(tag_waste,"only fragments retaining the A and B selection boundaries yield the modelled library")
+    peers=graph.input("peer_wells","A/B-indexed nuclei from the other plate wells",
+                      MaterialKind.MOLECULAR)
+    pooled=graph.product("pooled_nuclei","pooled plate-indexed nuclei",MaterialKind.MOLECULAR,
+                         state=indexed_fragment())
+    graph.react("pool","Pool the 96 tagmentation wells",StepKind.POOL,
+                ((indexed,InputRole.TEMPLATE),(peers,InputRole.TEMPLATE)),(pooled,),
+                changes_molecule=False)
+    droplets=graph.input("droplet_device","overloaded 10x scATAC v1.1 channel",
+                         MaterialKind.CONDITION)
+    productive=graph.product("productive_droplets","droplets with plate-indexed nuclei and gel bead",
+                              MaterialKind.MOLECULAR,state=indexed_fragment())
+    empty=graph.product("unproductive_droplets","droplets without usable nucleus/bead combinations",
+                        MaterialKind.WASTE)
+    graph.react("partition","Overload pooled nuclei into the 10x scATAC channel",
+                StepKind.PARTITION,
+                ((pooled,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(productive,empty))
+    graph.discard(empty,"unproductive droplets do not contribute library molecules")
+    bead=graph.input("bead_oligo","10x scATAC v1.1 gel-bead oligo",MaterialKind.ADAPTER,
+                     state=tuple(bead_oligo()))
+    polymerase=graph.input("gap_fill_polymerase","gap-fill and linear-extension polymerase",
+                           MaterialKind.CATALYST)
+    extended_state=droplet_indexed_fragment()
+    extended=graph.product("droplet_indexed",extended_state.name,MaterialKind.MOLECULAR,
+                           state=extended_state)
+    graph.react("droplet_extension","Gap-fill and extend from bead s5 to add P5 and GEM barcode",
+                StepKind.EXTENSION,
+                ((productive,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
+                 (polymerase,InputRole.CATALYST)),(extended,))
+    forward=graph.input("pcr_forward","P5-side sample-index PCR primer",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","indexed P7-side sample-index PCR primer",
+                        MaterialKind.OLIGO)
+    pcr_pol=graph.input("pcr_polymerase","sample-index PCR polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("library_pcr","Select the B end and add the i7/P7 sample index",
+                StepKind.PCR,
+                ((extended,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    extended_state,reason="The page model establishes the P5 and s7 selection boundaries but does not transcribe both sample-index PCR oligos."))
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,
+        acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
+        read_uses={"Read 1":"extract_then_include","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"extract","Read 2":"extract_then_include"}))
+    graph.declare_reviewed_scope((
+        "nuclei","adapter_a","adapter_b","tn5","tagment","peer_wells","pool",
+        "droplet_device","partition","bead_oligo","gap_fill_polymerase",
+        "droplet_extension","pcr_forward","pcr_reverse","pcr_polymerase",
+        "library_pcr","library"),source)
+    return graph.require_publishable()

@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import malbac as M
 import seqprimers as sp
-from chemdraw import Scene, Segment, oligo, panel, strand_row
+from chemdraw import Scene, Segment, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info
 
 OUT = HERE.parent / "malbac.html"
@@ -55,7 +55,7 @@ def render() -> str:
     ])
     return "\n".join([
         head("MALBAC library chemistry"),
-        '<div class="wrap">',
+        '<div class="wrap" data-protocol-complete="true">',
         '<h1>MALBAC &mdash; quasi-linear single-cell whole-genome amplification</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.1229164">'
              'Zong et al., Science 2012</a>.'),
@@ -64,16 +64,7 @@ def render() -> str:
         'supplement. H therefore marks a length-preserving unpublished placeholder.</div>',
         '<h2>Primers</h2><seq>', oligos, '</seq>',
         '<h2>Step-by-step amplification</h2>',
-        f'<h3>(1) Lyse one cell and melt genomic DNA ({M.MELT_C}&nbsp;&deg;C)</h3>',
-        f'<h3>(2) Anneal random primers ({M.ANNEAL_C}&nbsp;&deg;C) and extend '
-        f'({M.EXTEND_C}&nbsp;&deg;C)</h3>', random_priming(),
-        '<h3>(3) Melt to release semi-amplicons</h3>',
-        f'<h3>(4) Repeat for {M.PREAMPLIFICATION_CYCLES} quasi-linear cycles; loop full '
-        f'amplicons at {M.LOOP_C}&nbsp;&deg;C after each cycle</h3>', products(),
-        '<h3>(5) PCR with the common 27-nt primer</h3>',
-        panel(Scene.duplex(M.full_amplicon().segments).rows(), cls="small",
-              caption="Amplified MALBAC product. The protocol itself adds no cell barcode, UMI "
-                      "or sequencing adapter."),
+        protocol_graph_panels(M.protocol_graph(),cls="long"),
         '<h2>Sequencing library</h2>',
         sp.unavailable_diagram(M.full_amplicon(),
             'a separate, unspecified library-preparation kit must first add platform adapters',

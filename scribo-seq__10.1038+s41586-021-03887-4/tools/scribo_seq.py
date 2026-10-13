@@ -8,6 +8,9 @@ import seqprimers as sp
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "scRibo-seq — single-cell ribosome profiling"
 NOTES = "01_scribo-seq.html"
@@ -85,3 +88,81 @@ def workflow():
     w.react("Pool and footprint-size select", selected.rows(), name="Footprint-selected pool",
             note="PAGE retains the 175–185-bp library band, corresponding to a 30–40-nt insert.")
     return w
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    mrna = graph.input("translated_mrna", "cycloheximide-stalled translating mRNA",
+                       MaterialKind.BIOLOGICAL, state=INITIAL_ROWS, primary=True)
+    mnase = graph.input("mnase", "micrococcal nuclease", MaterialKind.CATALYST)
+    rpf = graph.product("rpf", "ribosome-protected RNA fragment", MaterialKind.MOLECULAR)
+    exposed = graph.product("digested_rna", "MNase-digested exposed RNA", MaterialKind.WASTE)
+    graph.react("mnase_digest", "Digest exposed RNA around each ribosome",
+                StepKind.DIGESTION, ((mrna, InputRole.TEMPLATE), (mnase, InputRole.CATALYST)),
+                (rpf, exposed))
+    graph.discard(exposed, "unprotected RNA is digested and does not enter the library")
+    pnk = graph.input("pnk", "T4 polynucleotide kinase", MaterialKind.CATALYST)
+    repaired = graph.product("repaired_rpf", "5′-phosphate/3′-hydroxyl RPF",
+                             MaterialKind.MOLECULAR)
+    graph.react("end_repair", "Repair both footprint ends", StepKind.END_REPAIR,
+                ((rpf, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (repaired,))
+    adapter3 = graph.input("adapter_3p", "pre-adenylated 3′ RNA adapter",
+                           MaterialKind.ADAPTER, inferred=True,
+                           source=SOURCE + " (full ordering sequence not verified locally)")
+    rnl2 = graph.input("rnl2", "T4 RNA ligase 2 truncated KQ", MaterialKind.CATALYST)
+    lig3 = graph.product("ligated_3p", "3′-adapter-ligated footprint", MaterialKind.MOLECULAR)
+    graph.react("ligate_3p", "Ligate the pre-adenylated 3′ adapter", StepKind.LIGATION,
+                ((repaired, InputRole.TEMPLATE), (adapter3, InputRole.STRUCTURAL),
+                 (rnl2, InputRole.CATALYST)), (lig3,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The verified local source does not contain the full adapter terminal bases."))
+    adapter5 = graph.input("adapter_5p", "UMI-bearing 5′ RNA adapter", MaterialKind.ADAPTER,
+                           inferred=True,
+                           source=SOURCE + " (full ordering sequence not verified locally)")
+    rnl1 = graph.input("rnl1", "T4 RNA ligase 1", MaterialKind.CATALYST)
+    doubly = graph.product("doubly_ligated", "doubly adapter-ligated footprint",
+                           MaterialKind.MOLECULAR)
+    graph.react("ligate_5p", "Ligate the UMI-bearing 5′ adapter", StepKind.LIGATION,
+                ((lig3, InputRole.TEMPLATE), (adapter5, InputRole.STRUCTURAL),
+                 (rnl1, InputRole.CATALYST)), (doubly,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The verified local source does not contain the full adapter terminal bases."))
+    rt_primer = graph.input("rt_primer", "3′-adapter reverse-transcription primer",
+                            MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "Maxima H-minus reverse transcriptase",
+                     MaterialKind.CATALYST)
+    cdna = graph.product("cdna", "footprint cDNA", MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe", "Reverse-transcribe the adapter-ligated footprint",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((doubly, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    fwd = graph.input("well_forward_primer", "well-indexed forward PCR primer",
+                      MaterialKind.OLIGO)
+    rev = graph.input("rpi_reverse_primer", "plate-indexed RPI reverse primer",
+                      MaterialKind.OLIGO)
+    pol = graph.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    indexed = graph.product("indexed_library", "indexed scRibo-seq library",
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    graph.react("index_pcr", "PCR with well and plate indexing primers", StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL),
+                 (rev, InputRole.STRUCTURAL), (pol, InputRole.CATALYST)), (indexed,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The full ordering primers are not verified in the local source."))
+    page = graph.input("page_selection", "175–185-bp PAGE selection", MaterialKind.SELECTION)
+    selected = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                             state=FINAL_LIBRARY)
+    offsize = graph.product("offsize_library", "off-size library molecules", MaterialKind.WASTE)
+    graph.react("size_select", "Select the footprint-sized library band", StepKind.SELECTION,
+                ((indexed, InputRole.TEMPLATE), (page, InputRole.SELECTION)),
+                (selected, offsize))
+    graph.discard(offsize, "molecules outside the 175–185-bp PAGE band are excluded")
+    graph.sequence(selected, SequencingPlan(library=FINAL_LIBRARY,
+                                            primers=tuple(SEQ_PRIMERS),
+                                            read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "translated_mrna", "mnase", "mnase_digest", "pnk", "end_repair", "adapter_3p",
+        "rnl2", "ligate_3p", "adapter_5p", "rnl1", "ligate_5p", "rt_primer",
+        "reverse_transcriptase", "reverse_transcribe", "well_forward_primer",
+        "rpi_reverse_primer", "pcr_polymerase", "index_pcr", "page_selection",
+        "size_select", "library"), SOURCE)
+    return graph.require_publishable()

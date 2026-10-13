@@ -10,6 +10,9 @@ from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo, revcomp
 from pcr import PCRGeometry
 from tagmentation import loaded_tn5_adapter
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from protocol_model import molecule, role
 
 TITLE = "NTT-seq — nanobody-tethered transposition with single-cell indexing"
 NOTES = "01_ntt-seq.html"
@@ -127,3 +130,84 @@ def workflow():
           Scene.duplex(list(FINAL_LIBRARY), label="NTT-seq sequencing library").rows(),
           name="NTT-seq sequencing library")
     return w
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    nuclei = graph.input(
+        "nuclei", "permeabilized nuclei", MaterialKind.BIOLOGICAL,
+        state=molecule("permeabilized nuclei", (role("chromatin epitopes"),)),
+        primary=True)
+    antibody = graph.input("primary_antibodies", "species-resolved primary antibodies",
+                           MaterialKind.SELECTION)
+    loaded_adapters = graph.input(
+        "loaded_medsa_medsb", "MEDSA/MEDSB-loaded nanobody–Tn5 transposomes",
+        MaterialKind.ADAPTER,
+        state=(loaded(medsa_parts(), "MEDSA mosaic end", "MEDSA_1 nanobody–Tn5"),
+               loaded(medsb_parts(), "MEDSB mosaic end", "MEDSB nanobody–Tn5")))
+    nanobody_tn5 = graph.input("nanobody_tn5", "species-selective nanobody–Tn5 fusions",
+                               MaterialKind.CATALYST)
+    targeted = graph.product("targeted_nuclei", "antibody-bound nanobody–Tn5 nuclei",
+                             MaterialKind.MOLECULAR, state=nuclei.state)
+    wash = graph.product("unbound_targeting_reagents", "unbound antibodies and transposomes",
+                         MaterialKind.WASTE)
+    graph.react("target_chromatin", "Bind target-specific nanobody–Tn5 complexes",
+                StepKind.AFFINITY_CAPTURE,
+                ((nuclei, InputRole.TEMPLATE), (antibody, InputRole.SELECTION),
+                 (loaded_adapters, InputRole.STRUCTURAL),
+                 (nanobody_tn5, InputRole.CATALYST)), (targeted, wash))
+    graph.discard(wash, "is removed before target-proximal tagmentation")
+    tagged = graph.product("target_coded_fragments", TAGGED.name,
+                           MaterialKind.MOLECULAR, state=TAGGED)
+    tn5_waste = graph.product("tn5_waste", "non-amplifiable or mistargeted Tn5 products",
+                              MaterialKind.WASTE)
+    graph.react("tagment", "Transfer MEDSA and MEDSB at target-proximal DNA",
+                StepKind.TAGMENTATION,
+                ((targeted, InputRole.TEMPLATE), (loaded_adapters, InputRole.STRUCTURAL),
+                 (nanobody_tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not retain the productive MEDSA/MEDSB configuration")
+    gap_polymerase = graph.input("gap_fill_polymerase", "Tn5-gap-fill polymerase",
+                                 MaterialKind.CATALYST)
+    filled = graph.product("gap_filled_fragments", "gap-filled target-coded fragments",
+                           MaterialKind.MOLECULAR, state=TAGGED)
+    graph.react("gap_fill", "Fill the staggered Tn5 gaps", StepKind.EXTENSION,
+                ((tagged, InputRole.TEMPLATE), (gap_polymerase, InputRole.CATALYST)),
+                (filled,))
+    gel_bead = graph.input(
+        "gel_bead_oligo", "10x scATAC gel-bead amplification oligo",
+        MaterialKind.OLIGO, inferred=True,
+        source=SOURCE + " (complete proprietary oligo sequence unavailable)")
+    linear_polymerase = graph.input("linear_polymerase", "Chromium linear-amplification polymerase",
+                                    MaterialKind.CATALYST)
+    cell_barcoded = graph.product(
+        "cell_barcoded", PRE_PCR.name, MaterialKind.MOLECULAR, state=PRE_PCR,
+        inferred=True, source=SOURCE + " (published order; complete gel-bead sequence unavailable)")
+    graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
+                StepKind.EXTENSION,
+                ((filled, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
+                 (linear_polymerase, InputRole.CATALYST)), (cell_barcoded,))
+    forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
+                          MaterialKind.OLIGO, inferred=True,
+                          source=SOURCE + " (complete primer sequence unavailable)")
+    reverse = graph.input("si_pcr_reverse", "10x scATAC SI-PCR reverse primer",
+                          MaterialKind.OLIGO, inferred=True,
+                          source=SOURCE + " (complete primer sequence unavailable)")
+    polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", FINAL_LIBRARY.name,
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    graph.react("library_pcr", "PCR-complete the Chromium ATAC library", StepKind.PCR,
+                ((cell_barcoded, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    PRE_PCR,
+                    reason="The source follows the 10x scATAC kit but does not print the complete SI-PCR primer sequences."))
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "nuclei", "primary_antibodies", "loaded_medsa_medsb", "nanobody_tn5",
+        "target_chromatin", "tagment", "gap_fill_polymerase", "gap_fill",
+        "gel_bead_oligo", "linear_polymerase", "linear_amplification",
+        "si_pcr_forward", "si_pcr_reverse", "pcr_polymerase", "library_pcr",
+        "sequencing_library"), SOURCE)
+    return graph.require_publishable()

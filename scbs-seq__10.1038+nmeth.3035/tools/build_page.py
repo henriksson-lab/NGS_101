@@ -13,7 +13,7 @@ import illumina as il
 import scbs as S
 import seqprimers as sp
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
-                      oligo, panel, strand_row)
+                      oligo, panel, protocol_graph_panels, strand_row)
 from page import head
 
 OUT = HERE.parent / "scbs-seq.html"
@@ -114,9 +114,13 @@ clipped before non-directional bisulfite alignment; the index read identifies th
 
 
 def main() -> None:
+    graph = S.protocol_graph()
     html = "\n".join([head("scBS-seq library chemistry"), preamble(), oligos(),
-                      "<h2>Library construction</h2>", step_bisulfite(), step_oligo1(),
+                      "<h2>Reaction workflow</h2>", protocol_graph_panels(graph, cls="long"),
+                      "<h2>Molecular details</h2>", step_bisulfite(), step_oligo1(),
                       step_oligo2(), final_library(), sequencing()])
+    html = html.replace('<div class="wrap">',
+                        '<div class="wrap" data-protocol-complete="true">', 1)
     OUT.write_text(html, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

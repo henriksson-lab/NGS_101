@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import nextera as nx
 import pip_seq as P
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, oligo, panel, strand_row, protocol_graph_panels
 from page import head, info, table
 
 OUT = HERE.parent / "pip-seq.html"
@@ -72,11 +72,13 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("PIP-seq library chemistry"), '<div class="wrap">',
+    graph = P.protocol_graph()
+    page = "\n".join([head("PIP-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>PIP-seq &mdash; particle-templated single-cell RNA sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-023-01685-z">Clark et al., <i>Nature Biotechnology</i> (2023)</a>.'),
         '<div class="caveat"><b>Barcode boundary.</b> The defining paper does not print the split-pool barcode blocks or splints; those regions remain dotted instead of adopting upstream reconstructions.</div>',
-        oligos(), construction(), sequencing(), '</div>'])
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

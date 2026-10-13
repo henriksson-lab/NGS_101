@@ -4,7 +4,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import joined_scene,seg,truseq_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,circle_rows
-from circular import circularize_ssdna
+from circular import CircularizationGeometry,circularize_ssdna
+from pcr import PCRGeometry
+from protocol_graph import InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind
 
 TITLE="CRISPR CIRCLE-seq — in-vitro off-target cleavage"
 NOTES="01_crispr-circle-seq.html"
@@ -41,3 +43,49 @@ def workflow():
  for action,rows,note in s[2:6]:w.react(action,rows,note=note)
  final_geometry=AdapterLigationGeometry.unavailable("CIRCLE-seq describes USER hairpin adapter conversion after Cas9 cleavage, but the cut-facing adapter strands have not yet been verified from the supplementary source; their overhang bases are not asserted.")
  w.ligate_adapter(s[6][0],final_geometry,s[6][1],note=s[6][2]);return w
+
+def protocol_graph():
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ dna=g.input("genomic_dna","purified genomic DNA",MaterialKind.BIOLOGICAL,primary=True)
+ shear=g.input("shearing","mechanical shearing condition",MaterialKind.CONDITION)
+ fragments=g.product("fragments","random genomic DNA fragments",MaterialKind.MOLECULAR)
+ g.react("shear","Shear genomic DNA",StepKind.FRAGMENTATION,((dna,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
+ repair=g.input("repair_mix","end-repair enzymes",MaterialKind.CATALYST)
+ repaired=g.product("repaired","end-repaired genomic fragments",MaterialKind.MOLECULAR)
+ g.react("end_repair","Repair genomic fragment ends",StepKind.END_REPAIR,((fragments,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
+ tail=g.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
+ datp=g.input("datp","dATP tailing nucleotide",MaterialKind.MOLECULAR)
+ tailed=g.product("da_tailed","3′-dA-tailed genomic fragments",MaterialKind.MOLECULAR,state=sections()[0][1])
+ g.react("da_tail","Add 3′ dA ends",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),(tail,InputRole.CATALYST)),(tailed,))
+ stem=g.input("stem_loop","published oSQT1288 USER stem-loop",MaterialKind.ADAPTER)
+ ligase=g.input("stem_ligase","stem-loop DNA ligase",MaterialKind.CATALYST)
+ stemmed=g.product("stem_ligated","USER-stem-loop-ligated genomic fragments",MaterialKind.MOLECULAR,state=LINEAR)
+ g.react("ligate_stem","Ligate the USER stem-loop",StepKind.LIGATION,((tailed,InputRole.TEMPLATE),(stem,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(stemmed,),geometry=stem_loop_geometry())
+ user=g.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
+ opened=g.product("opened_stem","USER-opened circularization substrate",MaterialKind.MOLECULAR,state=LINEAR)
+ g.react("open_stem","Open the uracil-containing stem-loop",StepKind.DIGESTION,((stemmed,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,))
+ pnkligase=g.input("circle_ligase","T4 PNK and circle-closing DNA ligase",MaterialKind.CATALYST)
+ circle=g.product("circles","covalently closed genomic circles",MaterialKind.MOLECULAR,state=CIRCLE)
+ g.react("circularize","Circularize each prepared genomic fragment",StepKind.CIRCULARIZATION,((opened,InputRole.TEMPLATE),(pnkligase,InputRole.CATALYST)),(circle,),geometry=CircularizationGeometry.known("double-strand intramolecular ligation",statement="USER-opened, PNK-prepared palindromic ends are dilute-ligated into one-fragment circles."))
+ exonuclease=g.input("exonuclease","Plasmid-Safe linear-DNA exonuclease",MaterialKind.CATALYST)
+ selected=g.product("selected_circles","exonuclease-resistant genomic circles",MaterialKind.MOLECULAR,state=CIRCLE)
+ linear_waste=g.product("linear_waste","digested residual linear DNA",MaterialKind.WASTE)
+ g.react("digest_linear","Destroy every remaining linear molecule",StepKind.DIGESTION,((circle,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST)),(selected,linear_waste));g.discard(linear_waste,"is not covalently closed")
+ guide=g.input("guide_rna","target or off-target interrogating guide RNA",MaterialKind.OLIGO)
+ cas9=g.input("cas9","Cas9 nuclease",MaterialKind.CATALYST)
+ cut=g.product("cas9_linearized","Cas9-linearized circle with two fresh ends",MaterialKind.MOLECULAR)
+ g.react("cas9_cut","Cut circles with Cas9–guide complexes",StepKind.DIGESTION,((selected,InputRole.TEMPLATE),(guide,InputRole.STRUCTURAL),(cas9,InputRole.CATALYST)),(cut,))
+ tail2=g.input("post_cut_tailing","post-cleavage dA-tailing polymerase",MaterialKind.CATALYST)
+ datp2=g.input("post_cut_datp","post-cleavage dATP",MaterialKind.MOLECULAR)
+ cut_tailed=g.product("cut_da_tailed","dA-tailed Cas9-cleaved circles",MaterialKind.MOLECULAR,state=sections()[5][1])
+ g.react("tail_cut","Add 3′ dA to Cas9-created ends",StepKind.TAILING,((cut,InputRole.TEMPLATE),(datp2,InputRole.STRUCTURAL),(tail2,InputRole.CATALYST)),(cut_tailed,))
+ adapters=g.input("library_adapters","USER hairpin sequencing adapters",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (cut-facing strands not verified)")
+ lib_ligase=g.input("library_ligase","library-adapter DNA ligase",MaterialKind.CATALYST)
+ ligated=g.product("adapter_ligated","adapter-ligated cleavage products",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (adapter geometry unavailable)")
+ g.react("ligate_library","Ligate USER hairpin sequencing adapters",StepKind.LIGATION,((cut_tailed,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),(lib_ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("The cut-facing USER hairpin adapter strands have not been verified from the supplementary source."))
+ f=g.input("pcr_forward","library PCR forward primer",MaterialKind.OLIGO);r=g.input("pcr_reverse","library PCR reverse primer",MaterialKind.OLIGO);pol=g.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+ library=g.product("sequencing_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ g.react("library_pcr","Open and PCR-amplify the paired-end library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The verified model does not yet contain the cut-facing USER hairpin primer geometry."))
+ g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
+ reviewed=("genomic_dna","shearing","shear","repair_mix","end_repair","tailing_polymerase","datp","da_tail","stem_loop","stem_ligase","ligate_stem","user_enzyme","open_stem","circle_ligase","circularize","exonuclease","digest_linear","guide_rna","cas9","cas9_cut","post_cut_tailing","post_cut_datp","tail_cut","library_adapters","library_ligase","ligate_library","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","sequencing_library")
+ g.declare_reviewed_scope(reviewed,SOURCE);return g.require_publishable()

@@ -11,8 +11,12 @@ from types import SimpleNamespace
 
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, Segment, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, da_tailed, molecule, role
 
 
@@ -233,12 +237,411 @@ def _illumina_break_library(name: str, *, inferred: bool, tagged: bool) -> tuple
     return lib, primers
 
 
+def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " PCR forward primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " PCR reverse primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The final sequencing construct is source-backed, while a single universal PCR-binding geometry is not available for every kit revision."))
+    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
+    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
+                     prefix + "_pcr", prefix + "_library"))
+    return library
+
+
+def _bless_graph(key, spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    sample = graph.input("sample", "yeast cells" if key == "i-bless" else "intact fixed nuclei",
+                         MaterialKind.BIOLOGICAL,
+                         state=molecule("DSB-bearing sample", (role("genomic DNA with native DSBs"),)),
+                         primary=True)
+    current = sample
+    reviewed = ["sample"]
+    if key == "i-bless":
+        deproteinization = graph.input("deproteinization_condition",
+                                       "agarose immobilization, spheroplasting and deproteinization condition",
+                                       MaterialKind.CONDITION)
+        protected = graph.product("protected_dna", "agarose-protected deproteinated yeast DNA",
+                                  MaterialKind.MOLECULAR, state=sample.state)
+        graph.react("immobilize", "Immobilize and deproteinate cells in agarose beads",
+                    StepKind.DEPROTEINIZATION,
+                    ((sample, InputRole.TEMPLATE),
+                     (deproteinization, InputRole.CONDITION)), (protected,))
+        current = protected
+        reviewed.extend(("deproteinization_condition", "immobilize"))
+    repair = graph.input("proximal_repair", "native-break blunting and phosphorylation enzyme mix",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("repaired_breaks", "blunt 5-prime-phosphorylated native breaks",
+                             MaterialKind.MOLECULAR, state=current.state)
+    graph.react("repair_breaks", "Blunt and 5-prime-phosphorylate native breaks",
+                StepKind.END_REPAIR,
+                ((current, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    proximal = graph.input("proximal_adapter", "biotinylated proximal hairpin",
+                           MaterialKind.ADAPTER)
+    proximal_ligase = graph.input("proximal_ligase", "proximal-hairpin DNA ligase",
+                                  MaterialKind.CATALYST)
+    labelled = graph.product("proximal_labelled", "proximal-hairpin-labelled native breaks",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("proximal-labelled break", (
+                                 role("biotinylated proximal hairpin"),
+                                 role("break-adjacent genomic DNA")),
+                                 junctions=(("biotinylated proximal hairpin",
+                                             "break-adjacent genomic DNA",
+                                             "proximal ligation"),)))
+    graph.react("ligate_proximal", "Ligate the proximal hairpin in situ",
+                StepKind.LIGATION,
+                ((repaired, InputRole.TEMPLATE), (proximal, InputRole.STRUCTURAL),
+                 (proximal_ligase, InputRole.CATALYST)), (labelled,),
+                geometry=reported_adapter_end(
+                    "BLESS proximal hairpin", kind="blunt",
+                    statement="The repaired native DSB is blunt and 5′ phosphorylated before proximal-hairpin ligation."))
+    fragmentation = graph.input("fragmentation_condition", "genomic DNA fragmentation condition",
+                                MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "proximal-labelled break-to-random fragments",
+                              MaterialKind.MOLECULAR, state=labelled.state)
+    graph.react("fragment", "Fragment DNA after proximal break labelling",
+                StepKind.FRAGMENTATION,
+                ((labelled, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
+                (fragments,))
+    streptavidin = graph.input("streptavidin", "streptavidin capture beads",
+                               MaterialKind.SELECTION)
+    captured = graph.product("captured", "captured proximal-labelled break fragments",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    rejected = graph.product("uncaptured", "unlabelled genomic fragments", MaterialKind.WASTE)
+    graph.react("capture", "Capture proximal-labelled molecules on streptavidin",
+                StepKind.AFFINITY_CAPTURE,
+                ((fragments, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "does not retain the biotinylated native-break adapter")
+    distal_repair = graph.input("distal_repair", "distal-end blunting enzyme mix",
+                                MaterialKind.CATALYST)
+    distal_ready = graph.product("distal_ready", "blunt captured distal fragment ends",
+                                 MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("repair_distal", "Blunt the fragmentation-created distal end",
+                StepKind.END_REPAIR,
+                ((captured, InputRole.TEMPLATE), (distal_repair, InputRole.CATALYST)),
+                (distal_ready,))
+    distal = graph.input("distal_adapter", "distinct distal hairpin",
+                         MaterialKind.ADAPTER)
+    distal_ligase = graph.input("distal_ligase", "distal-hairpin DNA ligase",
+                                MaterialKind.CATALYST)
+    dual = graph.product("dual", "dual-hairpin break fragments", MaterialKind.MOLECULAR,
+                         state=molecule("dual-hairpin break fragment", (
+                             role("proximal hairpin"), role("break-to-random genomic DNA"),
+                             role("distal hairpin")),
+                             junctions=(("proximal hairpin", "break-to-random genomic DNA",
+                                         "native-break ligation"),
+                                        ("break-to-random genomic DNA", "distal hairpin",
+                                         "distal ligation"))))
+    graph.react("ligate_distal", "Ligate the distinct distal hairpin",
+                StepKind.LIGATION,
+                ((distal_ready, InputRole.TEMPLATE), (distal, InputRole.STRUCTURAL),
+                 (distal_ligase, InputRole.CATALYST)), (dual,),
+                geometry=reported_adapter_end(
+                    "BLESS distal hairpin", kind="blunt",
+                    statement="The fragmentation-created distal end is blunted before the distinct distal hairpin is ligated."))
+    iscei = graph.input("iscei", "I-SceI hairpin-release nuclease", MaterialKind.CATALYST)
+    released = graph.product("released", "linearized dual-tag break inserts",
+                             MaterialKind.MOLECULAR, state=dual.state)
+    graph.react("linearize", "Linearize the captured hairpin product with I-SceI",
+                StepKind.DIGESTION,
+                ((dual, InputRole.TEMPLATE), (iscei, InputRole.CATALYST)), (released,))
+    xhoi = graph.input("xhoi", "XhoI tag-trimming nuclease", MaterialKind.CATALYST)
+    trimmed = graph.product("trimmed", "break inserts retaining proximal/distal tags",
+                            MaterialKind.MOLECULAR, state=released.state)
+    graph.react("trim_tags", "Cut with XhoI while retaining end-identifying tags",
+                StepKind.DIGESTION,
+                ((released, InputRole.TEMPLATE), (xhoi, InputRole.CATALYST)), (trimmed,))
+    reviewed.extend(("proximal_repair", "repair_breaks", "proximal_adapter",
+                     "proximal_ligase", "ligate_proximal", "fragmentation_condition",
+                     "fragment", "streptavidin", "capture", "distal_repair",
+                     "repair_distal", "distal_adapter", "distal_ligase",
+                     "ligate_distal", "iscei", "linearize", "xhoi", "trim_tags"))
+    _finish_pcr(graph, "library", trimmed, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label=spec.TITLE)
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _dsbcapture_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    nuclei = graph.input("nuclei", "fixed nuclei containing native DNA breaks",
+                         MaterialKind.BIOLOGICAL,
+                         state=molecule("fixed nuclei", (role("genomic DNA with native DSBs"),)),
+                         primary=True)
+    repair = graph.input("repair_enzyme", "native-break blunting enzyme mix",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "blunt repaired native breaks",
+                             MaterialKind.MOLECULAR, state=nuclei.state)
+    graph.react("repair", "Blunt native break ends", StepKind.END_REPAIR,
+                ((nuclei, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "dA-tailed repaired native breaks",
+                           MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("tail", "Add one 3-prime dA to native break ends", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    p5 = graph.input("modified_p5", "biotinylated T-overhang modified P5 adapter",
+                     MaterialKind.ADAPTER)
+    p5_ligase = graph.input("p5_ligase", "modified-P5 adapter ligase", MaterialKind.CATALYST)
+    labelled = graph.product("labelled", "modified-P5-labelled native breaks",
+                             MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("ligate_p5", "Ligate modified P5 at the native break",
+                StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p5_ligase, InputRole.CATALYST)), (labelled,),
+                geometry=reported_adapter_end(
+                    "DSBCapture modified P5", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="The modified P5 adapter carries a single 3′ T complementary to the dA-tailed native break."))
+    exonuclease = graph.input("lambda_exonuclease", "lambda exonuclease",
+                              MaterialKind.CATALYST)
+    cleaned = graph.product("cleaned", "covalently P5-labelled break molecules",
+                            MaterialKind.MOLECULAR, state=labelled.state)
+    graph.react("remove_free_adapter", "Digest free modified-P5 adapter",
+                StepKind.DIGESTION,
+                ((labelled, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
+                (cleaned,))
+    shear = graph.input("sonication_condition", "DNA sonication condition",
+                        MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "P5-labelled break-to-sonication fragments",
+                              MaterialKind.MOLECULAR, state=cleaned.state)
+    graph.react("sonicate", "Sonicate extracted break-labelled DNA", StepKind.FRAGMENTATION,
+                ((cleaned, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    streptavidin = graph.input("streptavidin", "streptavidin capture beads",
+                               MaterialKind.SELECTION)
+    captured = graph.product("captured", "captured modified-P5 break fragments",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    rejected = graph.product("uncaptured", "unlabelled sonication fragments", MaterialKind.WASTE)
+    graph.react("capture", "Capture biotinylated break fragments",
+                StepKind.AFFINITY_CAPTURE,
+                ((fragments, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "does not retain the biotinylated native-break end")
+    distal_repair = graph.input("distal_repair", "distal-end repair enzyme mix",
+                                MaterialKind.CATALYST)
+    distal_blunt = graph.product("distal_blunt", "blunt sonication-created distal ends",
+                                 MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("repair_distal", "Blunt the sonication-created distal end",
+                StepKind.END_REPAIR,
+                ((captured, InputRole.TEMPLATE), (distal_repair, InputRole.CATALYST)),
+                (distal_blunt,))
+    distal_tailing = graph.input("distal_tailing", "distal single-dA tailing enzyme",
+                                 MaterialKind.CATALYST)
+    distal_tailed = graph.product("distal_tailed", "dA-tailed distal break fragments",
+                                  MaterialKind.MOLECULAR, state=distal_blunt.state)
+    graph.react("tail_distal", "Add one 3-prime dA to the distal end", StepKind.TAILING,
+                ((distal_blunt, InputRole.TEMPLATE),
+                 (distal_tailing, InputRole.CATALYST)), (distal_tailed,))
+    p7 = graph.input("modified_p7", "T-overhang modified P7 adapter", MaterialKind.ADAPTER)
+    p7_ligase = graph.input("p7_ligase", "modified-P7 adapter ligase", MaterialKind.CATALYST)
+    dual = graph.product("dual", "modified-P5/P7 break fragments", MaterialKind.MOLECULAR,
+                         state=distal_tailed.state)
+    graph.react("ligate_p7", "Ligate modified P7 only at the distal end",
+                StepKind.LIGATION,
+                ((distal_tailed, InputRole.TEMPLATE), (p7, InputRole.STRUCTURAL),
+                 (p7_ligase, InputRole.CATALYST)), (dual,),
+                geometry=reported_adapter_end(
+                    "DSBCapture modified P7", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="The modified P7 adapter carries the T overhang complementary to the dA-tailed sonication end."))
+    reviewed = ["nuclei", "repair_enzyme", "repair", "tailing_enzyme", "tail",
+                "modified_p5", "p5_ligase", "ligate_p5", "lambda_exonuclease",
+                "remove_free_adapter", "sonication_condition", "sonicate", "streptavidin",
+                "capture", "distal_repair", "repair_distal", "distal_tailing", "tail_distal",
+                "modified_p7", "p7_ligase", "ligate_p7"]
+    _finish_pcr(graph, "library", dual, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="DSBCapture")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _site_seq_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    dna = graph.input("dna", "purified high-molecular-weight genomic DNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("purified HMW genomic DNA", (role("intact genomic DNA"),)),
+                      primary=True)
+    sgrna = graph.input("sgrna", "programmable sgRNA", MaterialKind.OLIGO)
+    cas9 = graph.input("cas9", "Cas9 nuclease", MaterialKind.CATALYST)
+    cut = graph.product("cut", "Cas9-cleaved genomic DNA", MaterialKind.MOLECULAR,
+                        state=dna.state)
+    graph.react("cleave", "Cleave naked genomic DNA with Cas9–sgRNA",
+                StepKind.GENOME_EDITING,
+                ((dna, InputRole.TEMPLATE), (sgrna, InputRole.STRUCTURAL),
+                 (cas9, InputRole.CATALYST)), (cut,))
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "dA-tailed Cas9 cleavage ends",
+                           MaterialKind.MOLECULAR, state=cut.state)
+    graph.react("tail", "Add one 3-prime dA at Cas9 cleavage ends", StepKind.TAILING,
+                ((cut, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    adapter1 = graph.input("adapter1", "biotinylated T-overhang Adapter 1",
+                           MaterialKind.ADAPTER)
+    ligase1 = graph.input("ligase1", "Adapter-1 DNA ligase", MaterialKind.CATALYST)
+    labelled = graph.product("labelled", "Adapter-1-labelled Cas9 ends",
+                             MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("ligate_adapter1", "Ligate biotinylated Adapter 1 at cleavage ends",
+                StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapter1, InputRole.STRUCTURAL),
+                 (ligase1, InputRole.CATALYST)), (labelled,),
+                geometry=reported_adapter_end(
+                    "SITE-Seq Adapter 1", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="Adapter 1 labels the dA-tailed Cas9 end before fragmentation."))
+    fragmentase = graph.input("fragmentase", "dsDNA Fragmentase", MaterialKind.CATALYST)
+    fragments = graph.product("fragments", "Adapter-1-labelled 200–800-bp fragments",
+                              MaterialKind.MOLECULAR, state=labelled.state)
+    graph.react("fragment", "Fragment labelled genomic DNA", StepKind.FRAGMENTATION,
+                ((labelled, InputRole.TEMPLATE), (fragmentase, InputRole.CATALYST)),
+                (fragments,))
+    repair = graph.input("distal_repair", "distal-end repair enzyme mix", MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "end-repaired distal fragments", MaterialKind.MOLECULAR,
+                             state=fragments.state)
+    graph.react("repair_distal", "End-repair Fragmentase-created distal ends",
+                StepKind.END_REPAIR,
+                ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    adapter2 = graph.input("adapter2", "pooled N5/N6/N7 Adapter 2", MaterialKind.ADAPTER)
+    ligase2 = graph.input("ligase2", "Adapter-2 DNA ligase", MaterialKind.CATALYST)
+    dual = graph.product("dual", "dual-adapter SITE-Seq fragments", MaterialKind.MOLECULAR,
+                         state=repaired.state)
+    graph.react("ligate_adapter2", "Ligate the length-diverse distal Adapter 2",
+                StepKind.LIGATION,
+                ((repaired, InputRole.TEMPLATE), (adapter2, InputRole.STRUCTURAL),
+                 (ligase2, InputRole.CATALYST)), (dual,),
+                geometry=reported_adapter_end(
+                    "SITE-Seq Adapter 2", kind="blunt",
+                    statement="The Fragmentase-created distal end is repaired before the pooled N5/N6/N7 Adapter 2 is ligated."))
+    streptavidin = graph.input("streptavidin", "streptavidin capture beads",
+                               MaterialKind.SELECTION)
+    captured = graph.product("captured", "biotin-enriched SITE-Seq fragments",
+                             MaterialKind.MOLECULAR, state=dual.state)
+    rejected = graph.product("rejected", "Adapter-1-negative fragments", MaterialKind.WASTE)
+    graph.react("capture", "Capture Adapter-1-labelled fragments",
+                StepKind.AFFINITY_CAPTURE,
+                ((dual, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "does not retain the cleavage-end Adapter 1")
+    rec_f = graph.input("recovery_forward", "recovery PCR forward primer", MaterialKind.OLIGO)
+    rec_r = graph.input("recovery_reverse", "recovery PCR reverse primer", MaterialKind.OLIGO)
+    polymerase = graph.input("polymerase", "SITE-Seq PCR polymerase", MaterialKind.CATALYST)
+    recovered = graph.product("recovered", "recovery-amplified SITE-Seq fragments",
+                              MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("recovery_pcr", "Recovery-PCR captured fragments", StepKind.PCR,
+                ((captured, InputRole.TEMPLATE), (rec_f, InputRole.STRUCTURAL),
+                 (rec_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (recovered,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="Recovery PCR precedes the separately indexed final construct."))
+    reviewed = ["dna", "sgrna", "cas9", "cleave", "tailing_enzyme", "tail",
+                "adapter1", "ligase1", "ligate_adapter1", "fragmentase", "fragment",
+                "distal_repair", "repair_distal", "adapter2", "ligase2", "ligate_adapter2",
+                "streptavidin", "capture", "recovery_forward", "recovery_reverse",
+                "polymerase", "recovery_pcr"]
+    _finish_pcr(graph, "index", recovered, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
+                spec.SEQUENCING_INTRO, reviewed, label="SITE-Seq indexed")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _digenome_graph(spec):
+    source = spec.SOURCE
+    graph = ProtocolGraph(spec.TITLE, authority=source)
+    dna = graph.input("dna", "purified genomic DNA", MaterialKind.BIOLOGICAL,
+                      state=molecule("purified genomic DNA", (role("intact genomic DNA"),)),
+                      primary=True)
+    sgrna = graph.input("sgrna", "programmable sgRNA", MaterialKind.OLIGO)
+    cas9 = graph.input("cas9", "Cas9 nuclease", MaterialKind.CATALYST)
+    cut = graph.product("cut", "Cas9-digested whole genome", MaterialKind.MOLECULAR,
+                        state=dna.state)
+    graph.react("cleave", "Cleave naked genomic DNA with Cas9–sgRNA",
+                StepKind.GENOME_EDITING,
+                ((dna, InputRole.TEMPLATE), (sgrna, InputRole.STRUCTURAL),
+                 (cas9, InputRole.CATALYST)), (cut,))
+    cleanup = graph.input("cleanup_condition", "RNase and protein-removal condition",
+                          MaterialKind.CONDITION)
+    clean = graph.product("clean", "purified digenome retaining Cas9-created ends",
+                          MaterialKind.MOLECULAR, state=cut.state)
+    graph.react("cleanup", "Remove sgRNA and protein", StepKind.DEPROTEINIZATION,
+                ((cut, InputRole.TEMPLATE), (cleanup, InputRole.CONDITION)), (clean,))
+    shear = graph.input("shear_condition", "Covaris shearing condition",
+                        MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "mixed Cas9/shear and shear/shear WGS fragments",
+                              MaterialKind.MOLECULAR, state=clean.state)
+    graph.react("shear", "Covaris-shear the whole digenome", StepKind.FRAGMENTATION,
+                ((clean, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    repair = graph.input("repair_enzyme", "WGS end-repair enzyme mix", MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "blunt digenome WGS fragments", MaterialKind.MOLECULAR,
+                             state=fragments.state)
+    graph.react("repair", "End-repair all genomic fragments", StepKind.END_REPAIR,
+                ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    beads = graph.input("size_selection_beads", "WGS size-selection beads",
+                        MaterialKind.SELECTION)
+    selected = graph.product("selected", "size-selected WGS fragments",
+                             MaterialKind.MOLECULAR, state=repaired.state)
+    rejected = graph.product("rejected", "off-size genomic fragments", MaterialKind.WASTE)
+    graph.react("size_select", "Size-select repaired fragments", StepKind.SELECTION,
+                ((repaired, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (selected, rejected))
+    graph.discard(rejected, "falls outside the whole-genome library insert range")
+    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "dA-tailed digenome WGS fragments",
+                           MaterialKind.MOLECULAR, state=selected.state)
+    graph.react("tail", "Add one 3-prime dA to each end", StepKind.TAILING,
+                ((selected, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    adapters = graph.input("truseq_adapters", "TruSeq 3-prime-T adapters",
+                           MaterialKind.ADAPTER)
+    ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
+    library = graph.product("library", "PCR-free Digenome-seq WGS library",
+                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    graph.react("ligate", "Ligate TruSeq adapters without PCR", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (library,),
+                geometry=reported_adapter_end(
+                    "TruSeq WGS adapter", kind="cohesive", polarity="3-prime",
+                    terminal_sequence="T",
+                    statement="The PCR-free TruSeq adapter T overhang ligates to the dA-tailed WGS fragment."))
+    graph.sequence(library, SequencingPlan(
+        library=spec.FINAL_LIBRARY, primers=tuple(spec.SEQ_PRIMERS)))
+    reviewed = ["dna", "sgrna", "cas9", "cleave", "cleanup_condition", "cleanup",
+                "shear_condition", "shear", "repair_enzyme", "repair",
+                "size_selection_beads", "size_select", "tailing_enzyme", "tail",
+                "truseq_adapters", "ligase", "ligate", "library"]
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _attach_graph(key, spec):
+    if key in {"bless", "i-bless"}:
+        spec.protocol_graph = lambda: _bless_graph(key, spec)
+    elif key == "dsbcapture":
+        spec.protocol_graph = lambda: _dsbcapture_graph(spec)
+    elif key == "site-seq":
+        spec.protocol_graph = lambda: _site_seq_graph(spec)
+    elif key == "digenome-seq":
+        spec.protocol_graph = lambda: _digenome_graph(spec)
+    return spec
+
+
+def _spec(key, **fields):
+    return _attach_graph(key, SimpleNamespace(**fields))
+
+
 def get(key: str):
     if key not in DESIGNS and key != "digenome-seq":
         raise KeyError(key)
     if key == "digenome-seq":
         lib, primers = _digenome_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="Digenome-seq — digested-genome whole-genome sequencing",
             NOTES="01_digenome_seq.html",
             SOURCE='<a href="https://doi.org/10.1038/nmeth.3284">Kim et al., Nature Methods (2015)</a>; library architecture follows the specified Illumina TruSeq DNA PCR-free WGS chemistry.',
@@ -253,7 +656,7 @@ def get(key: str):
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
     if key == "site-seq":
         lib, primers = _site_seq_library()
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="SITE-Seq — in-vitro Cas9 cleavage-site sequencing", NOTES="01_site_seq.html",
             SOURCE='<a href="https://doi.org/10.1038/nmeth.4284">Cameron et al., Nature Methods (2017)</a>; exact chemistry from the published supplementary protocol and Supplementary Table 26.',
             SUMMARY="Cas9–sgRNA cleaves purified genomic DNA in vitro; a biotinylated adapter labels those ends before enzymatic fragmentation, allowing streptavidin enrichment and Read 1 entry directly beside each candidate cut site.", CAVEAT="",
@@ -277,7 +680,7 @@ def get(key: str):
 
     if key == "dsbcapture":
         lib, primers = _illumina_break_library("DSBCapture library", inferred=False, tagged=False)
-        return SimpleNamespace(
+        return _spec(key,
             TITLE="DSBCapture — direct in-situ sequencing of DNA breaks", NOTES="01_dsbcapture.html",
             SOURCE='Lensing et al., Nature Methods (2016); <a href="https://doi.org/10.1038/nmeth.3960">doi:10.1038/nmeth.3960</a>.',
             SUMMARY="A biotinylated modified P5 adapter is ligated to repaired breaks inside fixed nuclei; after sonication and capture, modified P7 is installed only at the random distal end, so Read 1 begins at the DSB.", CAVEAT="",
@@ -295,7 +698,7 @@ def get(key: str):
 
     lib, primers = _illumina_break_library(f"{DESIGNS[key].name} library", inferred=True, tagged=True)
     is_i = key == "i-bless"
-    return SimpleNamespace(
+    return _spec(key,
         TITLE=("i-BLESS — immobilized Breaks Labeling, Enrichment on Streptavidin and Sequencing" if is_i else
                "BLESS — Breaks Labeling, Enrichment on Streptavidin and Sequencing"),
         NOTES=("01_i_bless.html" if is_i else "01_bless.html"),

@@ -3,6 +3,9 @@ import nextera as nx
 from batch_ngs import seg, truseq_amplicon_library
 from chemdraw import MolecularState, Scene, Segment, Workflow
 from tagmentation import loaded_tn5_adapter
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 TITLE = "GenIE-ATAC — targeted allelic chromatin accessibility"
@@ -142,3 +145,73 @@ def workflow() -> Workflow:
             final.rows(), name="Indexed GenIE-ATAC library",
             note="The selected index-primer pair is not printed in the paper, so its standard sequencing shell is visibly inferred.")
     return w
+
+
+def protocol_graph() -> ProtocolGraph:
+    source="Defining source: https://doi.org/10.1093/nar/gkad332"
+    inferred_source=source+" (selected MiSeq index-primer pair is not printed)"
+    graph=ProtocolGraph("GenIE-ATAC",authority=source)
+    chromatin=graph.input("chromatin","genomic chromatin",MaterialKind.BIOLOGICAL,primary=True)
+    transposome=graph.input("meds_a_transposome","MEDS-A-only loaded Tn5 complex",
+                            MaterialKind.ADAPTER,state=transposome_scene())
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged_fragments","symmetric MEDS-A-tagged accessible fragments",
+                         MaterialKind.MOLECULAR,state=_transferred_scene(gap_filled=False))
+    waste=graph.product("tagmentation_waste","non-library tagmentation products",MaterialKind.WASTE)
+    graph.react("tagment","Tagment accessible chromatin with MEDS-A-only Tn5",
+                StepKind.TAGMENTATION,
+                ((chromatin,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,waste))
+    graph.discard(waste,"fragments without usable MEDS-A insertions do not reach targeted enrichment")
+    polymerase=graph.input("polymerase","gap-fill, extension and PCR polymerase",MaterialKind.CATALYST)
+    filled=graph.product("gap_filled","gap-filled MEDS-A-tagged fragments",MaterialKind.MOLECULAR,
+                         state=_transferred_scene(gap_filled=True))
+    graph.react("gap_fill","Fill the 9-base Tn5 gaps",StepKind.EXTENSION,
+                ((tagged,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
+    linear_primer=graph.input("biotin_linear_primer",f"biotinylated {TARGET} linear-extension primer",
+                              MaterialKind.OLIGO)
+    linear=graph.product("linear_products","biotinylated locus-to-MEDS-A extension products",
+                         MaterialKind.MOLECULAR,state=_linear_product_scene())
+    graph.react("linear_extension",f"Linearly extend from the biotinylated {TARGET} primer",
+                StepKind.EXTENSION,
+                ((filled,InputRole.TEMPLATE),(linear_primer,InputRole.STRUCTURAL),
+                 (polymerase,InputRole.CATALYST)),(linear,))
+    beads=graph.input("streptavidin_beads","streptavidin capture beads",MaterialKind.SELECTION)
+    captured=graph.product("captured_products","captured locus-to-MEDS-A products",MaterialKind.MOLECULAR)
+    uncaptured=graph.product("uncaptured_products","unrelated MEDS-A fragments",MaterialKind.WASTE)
+    graph.react("capture","Capture biotinylated targeted extension products",StepKind.AFFINITY_CAPTURE,
+                ((linear,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(captured,uncaptured))
+    graph.discard(uncaptured,"fragments lacking locus-primer-derived biotin wash away")
+    nested=graph.input("nested_locus_primer",f"nested {TARGET} locus primer",MaterialKind.OLIGO)
+    tn5a=graph.input("tn5a_primer","common Tn5A PCR primer",MaterialKind.OLIGO)
+    amplicon=graph.product("target_amplicon","semi-nested targeted accessibility amplicon",
+                           MaterialKind.MOLECULAR,state=_nested_scene())
+    graph.react("nested_pcr","Amplify with the nested locus and common Tn5A primers",
+                StepKind.PCR,
+                ((captured,InputRole.TEMPLATE),(nested,InputRole.STRUCTURAL),
+                 (tn5a,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(amplicon,),
+                geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
+                    reason="The page shows the exact nested boundaries as a molecular scene; the final outer shell is added later."))
+    i5=graph.input("miseq_i5","MiSeq i5 barcoding primer",MaterialKind.OLIGO,
+                   inferred=True,source=inferred_source)
+    i7=graph.input("miseq_i7","MiSeq i7 barcoding primer",MaterialKind.OLIGO,
+                   inferred=True,source=inferred_source)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,
+                          inferred=True,source=inferred_source)
+    graph.react("barcoding_pcr","Add MiSeq barcodes in a second PCR",StepKind.PCR,
+                ((amplicon,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
+                    reason="The paper cites a barcoding PCR but does not print the selected index-primer pair."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS,
+        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
+                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
+        limitation="The terminal MiSeq index shell is inferred because the selected primer pair is not printed."))
+    graph.declare_reviewed_scope((
+        "chromatin","meds_a_transposome","tn5","tagment","polymerase","gap_fill",
+        "biotin_linear_primer","linear_extension","streptavidin_beads","capture",
+        "nested_locus_primer","tn5a_primer","nested_pcr","miseq_i5","miseq_i7",
+        "barcoding_pcr","library"),source)
+    return graph.require_publishable()

@@ -3,6 +3,9 @@ from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 
 TITLE = "ChAR-seq — chromatin-associated RNA sequencing"
@@ -192,3 +195,133 @@ def workflow() -> Workflow:
             final.rows(), name="TruSeq-compatible ChAR-seq library",
             note="USER opening and NEBNext indexing create the reported TruSeq-compatible single-end library.")
     return w
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.7554/eLife.27024; exact bridge oligos from the authors' detailed protocol"
+    hairpin_source = source + "; terminal NEBNext hairpin bases are not disclosed"
+    graph = ProtocolGraph("ChAR-seq", authority=source)
+    contact = graph.input("contact", "fixed chromatin-associated RNA–DNA contact",
+                          MaterialKind.BIOLOGICAL, primary=True)
+    fragmentation = graph.input("rna_fragmentation", "RNA-fragmentation condition",
+                                MaterialKind.CONDITION)
+    fragmented = graph.product("fragmented_contact", "fragmented RNA beside chromatin DNA",
+                               MaterialKind.MOLECULAR)
+    graph.react("fragment_rna", "Fragment chromatin-associated RNA", StepKind.FRAGMENTATION,
+                ((contact, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
+                (fragmented,))
+    bridge = graph.input("bridge", "exact pre-annealed biotinylated ChAR-seq bridge",
+                         MaterialKind.ADAPTER, state=bridge_scene())
+    rna_ligase = graph.input("rna_ligase", "truncated T4 RNA ligase 2",
+                             MaterialKind.CATALYST)
+    rna_joined = graph.product("rna_joined", "RNA-ligated bridge",
+                               MaterialKind.MOLECULAR, state=_rna_joined_scene())
+    graph.react("rna_ligation", "Ligate RNA 3′ ends to the bridge", StepKind.LIGATION,
+                ((fragmented, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
+                 (rna_ligase, InputRole.CATALYST)), (rna_joined,),
+                geometry=_rna_ligation_geometry())
+    bst = graph.input("bst", "Bst 3.0 reverse transcriptase", MaterialKind.CATALYST)
+    stabilized = graph.product("stabilized_hybrid", "RNA/cDNA–bridge hybrid",
+                               MaterialKind.MOLECULAR, state=_rna_joined_scene())
+    graph.react("reverse_transcription", "Extend the bridge across RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna_joined, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
+                 (bst, InputRole.CATALYST)), (stabilized,))
+    dpnii = graph.input("dpnii", "DpnII", MaterialKind.CATALYST)
+    opened_bridge = graph.product("opened_bridge", "DpnII-opened RNA/cDNA bridge",
+                                  MaterialKind.MOLECULAR)
+    genomic_end = graph.product("genomic_end", "nearby DpnII-cut genomic DNA",
+                                MaterialKind.MOLECULAR)
+    graph.react("dpnii_digest", "Open the bridge and cut nearby genomic DNA with DpnII",
+                StepKind.DIGESTION,
+                ((stabilized, InputRole.TEMPLATE), (dpnii, InputRole.CATALYST)),
+                (opened_bridge, genomic_end))
+    dna_ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
+    chimera = graph.product("contact_chimera", "RNA–bridge–DNA contact chimera",
+                            MaterialKind.MOLECULAR, state=_contact_scene())
+    graph.react("contact_ligation", "Ligate the opened bridge to nearby genomic DNA",
+                StepKind.LIGATION,
+                ((opened_bridge, InputRole.TEMPLATE), (genomic_end, InputRole.STRUCTURAL),
+                 (dna_ligase, InputRole.CATALYST)), (chimera,), geometry=_dpnii_geometry())
+    dna_pol = graph.input("dna_polymerase", "DNA polymerase I", MaterialKind.CATALYST)
+    duplex = graph.product("contact_duplex", "double-stranded contact chimera",
+                           MaterialKind.MOLECULAR, state=_contact_scene())
+    graph.react("second_strand", "Make the second DNA strand", StepKind.EXTENSION,
+                ((chimera, InputRole.TEMPLATE), (dna_pol, InputRole.CATALYST)), (duplex,))
+    shear = graph.input("shearing_condition", "sonication condition", MaterialKind.CONDITION)
+    sheared = graph.product("sheared_contacts", "sheared bridge-bearing contacts",
+                            MaterialKind.MOLECULAR, state=_contact_scene())
+    graph.react("shear", "Shear the contact duplexes", StepKind.FRAGMENTATION,
+                ((duplex, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (sheared,))
+    streptavidin = graph.input("streptavidin", "streptavidin beads", MaterialKind.SELECTION)
+    captured = graph.product("captured_contacts", "purified biotin-bearing contacts",
+                             MaterialKind.MOLECULAR, state=_contact_scene())
+    uncaptured = graph.product("uncaptured_contacts", "non-bridge-bearing fragments",
+                               MaterialKind.WASTE)
+    graph.react("capture", "Enrich biotin-bearing contacts", StepKind.AFFINITY_CAPTURE,
+                ((sheared, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
+                (captured, uncaptured))
+    graph.discard(uncaptured, "fragments lacking the internal biotin bridge are washed away")
+    end_repair = graph.input("end_repair_enzymes", "NEBNext end-repair enzymes",
+                             MaterialKind.CATALYST)
+    repaired = graph.product("repaired_contacts", "end-repaired contact duplexes",
+                             MaterialKind.MOLECULAR)
+    graph.react("end_repair", "End-repair the captured contacts", StepKind.END_REPAIR,
+                ((captured, InputRole.TEMPLATE), (end_repair, InputRole.CATALYST)),
+                (repaired,))
+    tailing = graph.input("tailing_polymerase", "dA-tailing polymerase", MaterialKind.CATALYST)
+    insert = Construct([
+        Segment("RNA-derived cDNA", "R" * 28, placeholder=True),
+        Segment("bridge UMI", UMI_BASES, "umi", placeholder=True, feature=BRIDGE_UMI),
+        Segment("retained bridge", "CCGGCGTCCAAG", "me"),
+        Segment("nearby genomic DNA", "D" * 30, placeholder=True),
+    ], name="sheared bridge-bearing contact")
+    tailed_state = repair_and_dA_tail(insert)
+    tailed = graph.product("tailed_contacts", "dA-tailed contact duplexes",
+                           MaterialKind.MOLECULAR,
+                           state=dA_tailed_scene(tailed_state, label="dA-tailed contact duplex"))
+    graph.react("da_tail", "Add one 3′ dA to each end", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+    hairpin = graph.input("hairpin_adapter", "NEBNext hairpin adapter", MaterialKind.ADAPTER,
+                          inferred=True, source=hairpin_source)
+    hairpin_ligated = graph.product("hairpin_ligated", "hairpin-adapted contact library",
+                                    MaterialKind.MOLECULAR, inferred=True,
+                                    source=hairpin_source)
+    graph.react("hairpin_ligation", "Ligate NEBNext hairpin adapters", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (hairpin, InputRole.STRUCTURAL),
+                 (dna_ligase, InputRole.CATALYST)), (hairpin_ligated,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper names the NEBNext hairpin adapter but does not print its cut-facing strand or terminal bases."),
+                source=hairpin_source)
+    user = graph.input("user_enzyme", "USER enzyme", MaterialKind.CATALYST)
+    opened = graph.product("opened_library", "USER-opened adapter library",
+                           MaterialKind.MOLECULAR, inferred=True, source=hairpin_source)
+    graph.react("user_opening", "Open the hairpins with USER", StepKind.DIGESTION,
+                ((hairpin_ligated, InputRole.TEMPLATE), (user, InputRole.CATALYST)),
+                (opened,), source=hairpin_source)
+    p5 = graph.input("p5_primer", "NEBNext P5 index-PCR primer", MaterialKind.OLIGO,
+                     inferred=True, source=hairpin_source)
+    p7 = graph.input("p7_primer", "NEBNext P7 index-PCR primer", MaterialKind.OLIGO,
+                     inferred=True, source=hairpin_source)
+    pcr = graph.input("pcr_polymerase", "index-PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY, inferred=True, source=hairpin_source)
+    graph.react("index_pcr", "Index-amplify the TruSeq-compatible library", StepKind.PCR,
+                ((opened, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The commercial hairpin and indexing oligo bases are not disclosed."),
+                source=hairpin_source)
+    graph.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=("Read 1",),
+        read_lengths=READ_LENGTHS, read_uses={"Read 1": "include"},
+        limitation=SEQUENCING_UNAVAILABLE))
+    graph.declare_reviewed_scope((
+        "contact", "rna_fragmentation", "fragment_rna", "bridge", "rna_ligase",
+        "rna_ligation", "bst", "reverse_transcription", "dpnii", "dpnii_digest",
+        "dna_ligase", "contact_ligation", "dna_polymerase", "second_strand",
+        "shearing_condition", "shear", "streptavidin", "capture",
+        "end_repair_enzymes", "end_repair", "tailing_polymerase", "da_tail",
+        "hairpin_adapter", "hairpin_ligation", "user_enzyme", "user_opening",
+        "p5_primer", "p7_primer", "pcr_polymerase", "index_pcr", "library"), source)
+    return graph.require_publishable()

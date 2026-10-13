@@ -6,6 +6,9 @@ from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,annotat
 from adapter_ligation import AdapterLigationGeometry
 from damid import DamMarkedGATC,damid_adapter
 from single_cell_hic import unresolved_illumina_library
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 ADRT="CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA"
 ADRB="TCCTCGGCCGCG"
@@ -49,3 +52,71 @@ def oligos():
  yield oligo("AdRt",[Segment("adapter top",ADRT,"t7")])
  yield oligo("AdRb",[Segment("adapter bottom",ADRB,"t7")])
  yield oligo("AdR_PCR",[Segment("PCR primer",ADR_PCR,"r1")])
+
+def protocol_graph():
+ source="Defining source: https://doi.org/10.1016/j.molcel.2022.03.009"
+ unresolved=source+" (complete post-CEL-Seq2 strand architecture is not printed)"
+ graph=ProtocolGraph("EpiDamID",authority=source)
+ chromatin=graph.input("chromatin","living-cell chromatin",MaterialKind.BIOLOGICAL,
+                       primary=True,state=mark_scene())
+ dam=graph.input("targeted_dam","histone-targeted Dam methylase",MaterialKind.CATALYST)
+ marked=graph.product("marked_chromatin","m6A-marked chromatin record",MaterialKind.MOLECULAR,
+                      state=mark_scene())
+ graph.react("m6a_recording","Record nearby GATC sites through targeted Dam methylation",
+             StepKind.CHEMICAL_CONVERSION,
+             ((chromatin,InputRole.TEMPLATE),(dam,InputRole.CATALYST)),(marked,))
+ dpni=graph.input("dpni","DpnI",MaterialKind.CATALYST)
+ fragments=graph.product("dpni_fragments","DpnI-selected methylated GATC fragments",
+                         MaterialKind.MOLECULAR)
+ graph.react("dpni_digest","Digest methylated GATC with DpnI",StepKind.DIGESTION,
+             ((marked,InputRole.TEMPLATE),(dpni,InputRole.CATALYST)),(fragments,))
+ adapter=graph.input("damid2_adapter","T7-bearing DamID2 AdRt/AdRb adapter",
+                     MaterialKind.ADAPTER,state=adapter_scene())
+ ligase=graph.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
+ tagged=graph.product("adapter_ligated",TAGGED.name,MaterialKind.MOLECULAR,state=TAGGED)
+ graph.react("adapter_ligation","Ligate the T7-bearing DamID2 adapter",StepKind.LIGATION,
+             ((fragments,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+              (ligase,InputRole.CATALYST)),(tagged,),geometry=adapter_ligation_geometry())
+ t7=graph.input("t7_polymerase","T7 RNA polymerase",MaterialKind.CATALYST)
+ rna=graph.product("ivt_rna","linearly amplified DamID RNA copies",MaterialKind.MOLECULAR)
+ graph.react("ivt","Amplify adapter-ligated templates by T7 transcription",
+             StepKind.TRANSCRIPTION,
+             ((tagged,InputRole.TEMPLATE),(t7,InputRole.CATALYST)),(rna,))
+ fragmentation=graph.input("fragmentation_condition","CEL-Seq2 RNA fragmentation condition",
+                           MaterialKind.CONDITION)
+ fragmented=graph.product("fragmented_rna","fragmented DamID RNA",MaterialKind.MOLECULAR)
+ graph.react("fragmentation","Fragment the T7-amplified RNA",StepKind.FRAGMENTATION,
+             ((rna,InputRole.TEMPLATE),(fragmentation,InputRole.CONDITION)),(fragmented,))
+ rt_primer=graph.input("rt_primer","scDam&T/CEL-Seq2 reverse-transcription primer",
+                       MaterialKind.OLIGO,source=unresolved,inferred=True)
+ rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+ cdna=graph.product("cdna","reverse-transcribed DamID cDNA",MaterialKind.MOLECULAR,
+                    source=unresolved,inferred=True)
+ graph.react("reverse_transcription","Reverse-transcribe the fragmented DamID RNA",
+             StepKind.REVERSE_TRANSCRIPTION,
+             ((fragmented,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+              (rt,InputRole.CATALYST)),(cdna,),source=unresolved)
+ p5=graph.input("p5_primer","CEL-Seq2 library PCR primer",MaterialKind.OLIGO,
+                source=unresolved,inferred=True)
+ p7=graph.input("p7_primer","indexed CEL-Seq2 library PCR primer",MaterialKind.OLIGO,
+                source=unresolved,inferred=True)
+ polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+ library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,
+                       source=unresolved,inferred=True)
+ graph.react("library_pcr","PCR-complete the scDam&T/CEL-Seq2 library",StepKind.PCR,
+             ((cdna,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
+              (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+             geometry=PCRGeometry.unavailable(
+                 FINAL_LIBRARY,reason="The paper does not print one complete strand-resolved post-CEL-Seq2 construct."),
+             source=unresolved)
+ graph.sequence(library,SequencingPlan(
+     limitation=SEQUENCING_UNAVAILABLE,
+     acquired_roles=("Read 1",),read_lengths={"Read 1":75},
+     read_uses={"Read 1":"include"}))
+ graph.declare_reviewed_scope((
+     "chromatin","targeted_dam","m6a_recording","dpni","dpni_digest",
+     "damid2_adapter","ligase","adapter_ligation","t7_polymerase","ivt",
+     "fragmentation_condition","fragmentation","rt_primer","reverse_transcriptase",
+     "reverse_transcription","p5_primer","p7_primer","pcr_polymerase",
+     "library_pcr","library"),source)
+ return graph.require_publishable()

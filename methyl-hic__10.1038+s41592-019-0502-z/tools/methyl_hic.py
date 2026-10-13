@@ -23,6 +23,7 @@ JUNCTION_CAPTION = "DpnII GATC ends are filled with biotinylated nucleotide and 
 LIBRARY_CAPTION = "Bisulfite-converted contact insert between adapter regions whose exact oligonucleotide sequences are not printed in the defining paper."
 LIBRARY_CAVEAT = "INFERRED — the paper states adapter ligation but does not identify or print the exact adapter oligonucleotides; no TruSeq generation is assumed."
 SEQUENCING_UNAVAILABLE = "The paper specifies paired-end Illumina sequencing on HiSeq 2500/4000, but not a complete adapter or custom sequencing-primer sequence set, so base-level primer placement cannot be verified."
+ADAPTER_BEFORE_CONVERSION = True
 
 def contact_product(): return WORKFLOW.junction()
 def final_library(): return unresolved_illumina_library(contact_product(), "bisulfite-converted Methyl-HiC library", indexed=None)

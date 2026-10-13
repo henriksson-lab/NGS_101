@@ -12,6 +12,48 @@ from chemdraw import Construct, revcomp
 
 
 @dataclass(frozen=True)
+class CircularizationGeometry:
+    """Source-scoped topology of a circle-closing reaction.
+
+    A closed product alone cannot reveal whether its ends met directly, on a splint,
+    through overlap assembly, or after copying a padlock gap.  Keeping that distinction
+    in the reaction model prevents renderers and completeness checks from inferring a
+    ligation mechanism merely from the word ``circularize``.
+    """
+
+    availability: str
+    kind: str
+    statement: str
+
+    _KINDS = {
+        "single-strand intramolecular ligation",
+        "double-strand intramolecular ligation",
+        "splinted single-strand ligation",
+        "overlap assembly",
+        "gap-sealing probe closure",
+        "unavailable",
+    }
+
+    def __post_init__(self) -> None:
+        if self.availability not in {"known", "unavailable"}:
+            raise ValueError("circularization geometry must be known or unavailable")
+        if self.kind not in self._KINDS:
+            raise ValueError(f"unknown circularization geometry {self.kind!r}")
+        if not self.statement.strip():
+            raise ValueError("circularization geometry needs a source-scoped statement")
+        if (self.availability == "unavailable") != (self.kind == "unavailable"):
+            raise ValueError("only unavailable evidence may use unavailable geometry")
+
+    @classmethod
+    def known(cls, kind: str, *, statement: str) -> "CircularizationGeometry":
+        return cls("known", kind, statement)
+
+    @classmethod
+    def unavailable(cls, reason: str) -> "CircularizationGeometry":
+        return cls("unavailable", "unavailable", reason)
+
+
+@dataclass(frozen=True)
 class ClosedCircle:
     linear: Construct
     closure_left: str

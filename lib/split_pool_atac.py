@@ -17,6 +17,10 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature, revcomp
+from adapter_ligation import reported_adapter_end
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 # Representative oligos, written 5' -> 3'.  Round-1 oligos are phosphorylated;
@@ -220,3 +224,106 @@ def oligos():
         f"<b>i5 primer-1</b> — 5′-{I5_PRIMER_1}-3′",
         f"<b>i7 primer-1</b> — 5′-{I7_PRIMER_1}-3′",
     )
+
+
+def protocol_graph(insert_name: str, *, authority: str) -> ProtocolGraph:
+    graph=ProtocolGraph("SPATAC-seq",authority=authority)
+    nuclei=graph.input("nuclei","fixed permeabilized nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    r1a=graph.product("round1_well_a","representative round-1 well A nuclei",MaterialKind.BIOLOGICAL)
+    r1b=graph.product("round1_well_b","representative round-1 well B nuclei",MaterialKind.BIOLOGICAL)
+    graph.react("round1_split","Split nuclei across custom indexed-Tn5 wells",StepKind.SPLIT,
+                ((nuclei,InputRole.TEMPLATE),),(r1a,r1b))
+    transposomes=graph.input("round1_transposomes","two-ended round-1 barcode transposome set",
+                             MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged_a=graph.product("tagged_a","round-1-barcoded nuclei from well A",MaterialKind.MOLECULAR,
+                           state=tagmented_fragment(insert_name))
+    tagged_b=graph.product("tagged_b","round-1-barcoded nuclei from well B",MaterialKind.MOLECULAR,
+                           state=tagmented_fragment(insert_name))
+    waste_a=graph.product("tagment_waste_a","non-library products from well A",MaterialKind.WASTE)
+    waste_b=graph.product("tagment_waste_b","non-library products from well B",MaterialKind.WASTE)
+    graph.react("tagment_a","Transpose with representative indexed Tn5 well A",StepKind.TAGMENTATION,
+                ((r1a,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),
+                (tagged_a,waste_a))
+    graph.react("tagment_b","Transpose with representative indexed Tn5 well B",StepKind.TAGMENTATION,
+                ((r1b,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),
+                (tagged_b,waste_b))
+    graph.discard(waste_a,"unusable transposition products do not reach library PCR")
+    graph.discard(waste_b,"unusable transposition products do not reach library PCR")
+    pool1=graph.product("round1_pool","pooled round-1-barcoded nuclei",MaterialKind.MOLECULAR)
+    graph.react("round1_pooling","Pool round-1 tagmentation wells",StepKind.POOL,
+                ((tagged_a,InputRole.TEMPLATE),(tagged_b,InputRole.TEMPLATE)),(pool1,))
+    r2a=graph.product("round2_well_a","representative round-2 well A nuclei",MaterialKind.MOLECULAR)
+    r2b=graph.product("round2_well_b","representative round-2 well B nuclei",MaterialKind.MOLECULAR)
+    graph.react("round2_split","Redistribute nuclei across round-2 ligation wells",StepKind.SPLIT,
+                ((pool1,InputRole.TEMPLATE),),(r2a,r2b))
+    oligo2=graph.input("round2_oligo","round-2 barcode oligo and splint",MaterialKind.ADAPTER)
+    ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
+    geometry2=reported_adapter_end(
+        "round-2 barcode oligo",kind="splinted",polarity="5-prime",
+        terminal_sequence=ROUND2_BRIDGE,
+        statement="The published forward splint reverse-complements the round-2 bridge plus the round-1 leader across the ligation bond.")
+    out2a=graph.product("round2_product_a","round-2-ligated nuclei from well A",MaterialKind.MOLECULAR,
+                        state=round2_fragment(insert_name))
+    out2b=graph.product("round2_product_b","round-2-ligated nuclei from well B",MaterialKind.MOLECULAR,
+                        state=round2_fragment(insert_name))
+    for suffix,template,out in (("a",r2a,out2a),("b",r2b,out2b)):
+        graph.react("round2_ligation_"+suffix,"Splint-ligate round-2 barcode in well "+suffix.upper(),
+                    StepKind.LIGATION,
+                    ((template,InputRole.TEMPLATE),(oligo2,InputRole.STRUCTURAL),
+                     (ligase,InputRole.CATALYST)),(out,),geometry=geometry2)
+    pool2=graph.product("round2_pool","pooled two-round-barcoded nuclei",MaterialKind.MOLECULAR)
+    graph.react("round2_pooling","Pool round-2 ligation wells",StepKind.POOL,
+                ((out2a,InputRole.TEMPLATE),(out2b,InputRole.TEMPLATE)),(pool2,))
+    r3a=graph.product("round3_well_a","representative round-3 well A nuclei",MaterialKind.MOLECULAR)
+    r3b=graph.product("round3_well_b","representative round-3 well B nuclei",MaterialKind.MOLECULAR)
+    graph.react("round3_split","Redistribute nuclei across round-3 ligation wells",StepKind.SPLIT,
+                ((pool2,InputRole.TEMPLATE),),(r3a,r3b))
+    oligo3=graph.input("round3_oligo","round-3 barcode oligo and splint",MaterialKind.ADAPTER)
+    geometry3=reported_adapter_end(
+        "round-3 barcode oligo",kind="splinted",polarity="5-prime",terminal_sequence=ROUND3_1,
+        statement="The published reverse splint spans the round-1 reverse leader, round-3 barcode and mosaic-end sequence.")
+    out3a=graph.product("round3_product_a","three-round-barcoded nuclei from well A",MaterialKind.MOLECULAR,
+                        state=round3_fragment(insert_name))
+    out3b=graph.product("round3_product_b","three-round-barcoded nuclei from well B",MaterialKind.MOLECULAR,
+                        state=round3_fragment(insert_name))
+    for suffix,template,out in (("a",r3a,out3a),("b",r3b,out3b)):
+        graph.react("round3_ligation_"+suffix,"Splint-ligate round-3 barcode in well "+suffix.upper(),
+                    StepKind.LIGATION,
+                    ((template,InputRole.TEMPLATE),(oligo3,InputRole.STRUCTURAL),
+                     (ligase,InputRole.CATALYST)),(out,),geometry=geometry3)
+    pool3=graph.product("round3_pool","pooled three-round-barcoded nuclei",MaterialKind.MOLECULAR)
+    graph.react("round3_pooling","Pool round-3 ligation wells",StepKind.POOL,
+                ((out3a,InputRole.TEMPLATE),(out3b,InputRole.TEMPLATE)),(pool3,))
+    sub_a=graph.product("sublibrary_a","PCR sublibrary A input",MaterialKind.MOLECULAR)
+    sub_b=graph.product("sublibrary_b","PCR sublibrary B input",MaterialKind.MOLECULAR)
+    graph.react("sublibrary_split","Divide pooled nuclei into indexed PCR sublibraries",StepKind.SPLIT,
+                ((pool3,InputRole.TEMPLATE),),(sub_a,sub_b))
+    i5=graph.input("i5_primer","indexed i5 PCR primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","indexed i7 PCR primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    final,primers=library(insert_name)
+    libraries=[]
+    for suffix,template in (("a",sub_a),("b",sub_b)):
+        out=graph.product("library_"+suffix,final.name+" sublibrary "+suffix.upper(),
+                          MaterialKind.LIBRARY,state=final)
+        graph.react("library_pcr_"+suffix,"Lyse and PCR-complete sublibrary "+suffix.upper(),
+                    StepKind.PCR,
+                    ((template,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                     (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(out,),
+                    geometry=PCRGeometry.unavailable(final,
+                        reason="The exact three-round intermediate is known; PCR completes the verified outer arms."))
+        graph.sequence(out,SequencingPlan(
+            library=final,primers=primers,acquired_roles=tuple(p.role for p in primers),
+            read_lengths={"Read 1":115,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":100},
+            read_uses={"Read 1":"extract_then_include","Index 1 (i7)":"demultiplex",
+                       "Index 2 (i5)":"demultiplex","Read 2":"extract_then_include"}))
+        libraries.append(out)
+    graph.declare_reviewed_scope((
+        "nuclei","round1_split","round1_transposomes","tn5","tagment_a","tagment_b",
+        "round1_pooling","round2_split","round2_oligo","ligase","round2_ligation_a",
+        "round2_ligation_b","round2_pooling","round3_split","round3_oligo",
+        "round3_ligation_a","round3_ligation_b","round3_pooling","sublibrary_split",
+        "i5_primer","i7_primer","pcr_polymerase","library_pcr_a","library_pcr_b",
+        "library_a","library_b"),authority)
+    return graph.require_publishable()

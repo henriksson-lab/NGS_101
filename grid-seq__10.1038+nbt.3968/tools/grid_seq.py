@@ -9,6 +9,9 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from rna_dna_bridge import BivalentRNADNABridge
 
 TITLE = "GRID-seq — RNA–chromatin contacts"
@@ -102,3 +105,140 @@ def workflow():
     w.ligate_adapter("Ligate Y adapters and PCR",y_geometry,final.rows(),name="Sequencing library",
             note="Printed adapter and PCR-primer sequences produce the 194-bp library.")
     return w
+
+
+def protocol_graph():
+    graph = ProtocolGraph(TITLE, authority=SOURCE)
+    contact = graph.input("rna_chromatin_contact", "fixed RNA–chromatin contact",
+                          MaterialKind.BIOLOGICAL, state=INITIAL_ROWS, primary=True)
+    bridge = graph.input("bivalent_bridge", "pre-annealed biotinylated RNA–DNA bridge",
+                         MaterialKind.ADAPTER)
+    rna_ligase = graph.input("rna_ligase", "T4 RNA ligase 2 truncated",
+                             MaterialKind.CATALYST)
+    rna_joined = graph.product("rna_joined", "RNA-ligated bivalent bridge",
+                               MaterialKind.MOLECULAR)
+    reagent = BRIDGE.unligated_contact_scene(rna_length=28, dna_length=34)
+    reagent.ligation_end("bridge hybrid", "RNA-arm fixed bases", kind="single-strand",
+                         polarity="5-prime", owner="adapter", text="5′-App bridge end")
+    reagent.ligation_end("chromatin RNA", "chromatin-associated RNA", kind="single-strand",
+                         polarity="3-prime", owner="substrate", text="RNA 3′-OH")
+    rna_geometry = AdapterLigationGeometry.known(
+        "single-strand", reagent,
+        statement="The printed bridge has a pre-adenylated RNA-facing 5′ end.")
+    graph.react("rna_ligation", "Ligate chromatin RNA to the bivalent bridge",
+                StepKind.LIGATION,
+                ((contact, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
+                 (rna_ligase, InputRole.CATALYST)), (rna_joined,), geometry=rna_geometry)
+
+    rt_primer = graph.input("rt_primer", "bridge-bound reverse-transcription primer",
+                            MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "SuperScript III reverse transcriptase",
+                     MaterialKind.CATALYST)
+    copied = graph.product("rna_copied", "RNA-copied bridge contact",
+                           MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe", "Copy bridge-bound chromatin RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna_joined, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (copied,))
+
+    alui = graph.input("alui", "AluI restriction enzyme", MaterialKind.CATALYST)
+    cut_contact = graph.product("alui_cut_contact", "contact with a nearby blunt AluI end",
+                                MaterialKind.MOLECULAR)
+    digest_waste = graph.product("alui_waste", "distal AluI restriction fragments",
+                                 MaterialKind.WASTE)
+    graph.react("alui_digest", "Expose a nearby blunt genomic end with AluI",
+                StepKind.DIGESTION, ((copied, InputRole.TEMPLATE),
+                                     (alui, InputRole.CATALYST)),
+                (cut_contact, digest_waste))
+    graph.discard(digest_waste, "distal restriction fragments are not bridge-linked")
+
+    dna_ligase = graph.input("dna_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    chimera = graph.product("contact_chimera", "RNA–bridge–DNA contact chimera",
+                            MaterialKind.MOLECULAR,
+                            state=tuple(BRIDGE.contact_scene().rows()))
+    ready = BRIDGE.unligated_contact_scene(rna_length=28, dna_length=34)
+    ready.ligation_end("bridge DNA", "bridge DNA strand", kind="blunt",
+                       owner="adapter", text="5′-phosphorylated blunt bridge end")
+    ready.ligation_end("genomic DNA", "nearby genomic DNA", kind="blunt",
+                       owner="substrate", text="blunt AluI genomic end")
+    dna_geometry = AdapterLigationGeometry.known(
+        "blunt", ready,
+        statement="AluI leaves a blunt DNA end for ligation to the printed phosphorylated bridge strand.")
+    graph.react("dna_ligation", "Join the bridge to the nearby AluI-cut DNA end",
+                StepKind.LIGATION,
+                ((cut_contact, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
+                 (dna_ligase, InputRole.CATALYST)), (chimera,), geometry=dna_geometry)
+
+    beads = graph.input("streptavidin_beads", "streptavidin capture beads",
+                        MaterialKind.SELECTION)
+    captured = graph.product("captured_chimera", "captured biotinylated contact chimera",
+                             MaterialKind.MOLECULAR)
+    uncaptured = graph.product("uncaptured", "uncaptured contact material", MaterialKind.WASTE)
+    graph.react("capture", "Capture the biotinylated bridge on streptavidin",
+                StepKind.AFFINITY_CAPTURE,
+                ((chimera, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, uncaptured))
+    graph.discard(uncaptured, "material without a recoverable biotinylated bridge is washed away")
+
+    random_primer = graph.input("random_primer", "random hexamer second-strand primer",
+                                MaterialKind.OLIGO)
+    klenow = graph.input("klenow", "Klenow fragment", MaterialKind.CATALYST)
+    duplex = graph.product("contact_duplex", "second-strand-completed contact duplex",
+                           MaterialKind.MOLECULAR)
+    graph.react("second_strand", "Make the second DNA strand",
+                StepKind.EXTENSION,
+                ((captured, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
+                 (klenow, InputRole.CATALYST)), (duplex,))
+
+    mmei = graph.input("mmei", "MmeI restriction enzyme", MaterialKind.CATALYST)
+    tag_pair = graph.product("tag_pair", "MmeI-released RNA–linker–DNA tag pair",
+                             MaterialKind.MOLECULAR)
+    mmei_waste = graph.product("mmei_waste", "flanking contact DNA outside the MmeI tags",
+                               MaterialKind.WASTE)
+    graph.react("mmei_digest", "Release the paired contact tags with MmeI",
+                StepKind.DIGESTION,
+                ((duplex, InputRole.TEMPLATE), (mmei, InputRole.CATALYST)),
+                (tag_pair, mmei_waste))
+    graph.discard(mmei_waste, "flanking sequence outside the released tag pair is discarded")
+
+    y_adapter = graph.input("y_adapter", "two-base-overhang Y adapter", MaterialKind.ADAPTER)
+    y_ligated = graph.product("y_ligated", "Y-adapter-ligated GRID tag pair",
+                              MaterialKind.MOLECULAR)
+    y = Scene()
+    y.strand("Y bottom", [seg("Y bottom duplex arm", GRID_Y_BOTTOM[:-2], "r1"),
+                          seg("two-base Y overhang", GRID_Y_BOTTOM[-2:], placeholder=True)])
+    y.strand("Y phosphorylated strand", [seg("phosphorylated Y strand", GRID_P7_ARM, "r2")],
+             mod5="p")
+    y.overhang("Y bottom", "two-base Y overhang", polarity="3-prime", owner="adapter")
+    y.strand("MmeI tag", [seg("two-base MmeI end", "N" * 2, placeholder=True),
+                          seg("85-bp tag pair", "X" * 30, placeholder=True)])
+    y.overhang("MmeI tag", "two-base MmeI end", polarity="5-prime", owner="substrate")
+    y_geometry = AdapterLigationGeometry.known(
+        "cohesive", y,
+        statement="The printed Y-adapter NN overhang matches the two-base MmeI tag end.")
+    graph.react("y_ligation", "Ligate the MmeI tag pair to the Y adapter",
+                StepKind.LIGATION,
+                ((tag_pair, InputRole.TEMPLATE), (y_adapter, InputRole.STRUCTURAL),
+                 (dna_ligase, InputRole.CATALYST)), (y_ligated,), geometry=y_geometry)
+
+    pcr1 = graph.input("pcr_primer_1", "GRID PCR Primer #1 with five-base index",
+                       MaterialKind.OLIGO)
+    pcr2 = graph.input("pcr_primer_2", "GRID PCR Primer #2", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY)
+    graph.react("library_pcr", "PCR-complete the GRID-seq library", StepKind.PCR,
+                ((y_ligated, InputRole.TEMPLATE), (pcr1, InputRole.STRUCTURAL),
+                 (pcr2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY, reason="The paper does not state a complete two-primer binding geometry."))
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,
+                                           primers=tuple(SEQ_PRIMERS),
+                                           read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "rna_chromatin_contact", "bivalent_bridge", "rna_ligase", "rna_ligation",
+        "rt_primer", "reverse_transcriptase", "reverse_transcribe", "alui", "alui_digest",
+        "dna_ligase", "dna_ligation", "streptavidin_beads", "capture", "random_primer",
+        "klenow", "second_strand", "mmei", "mmei_digest", "y_adapter", "y_ligation",
+        "pcr_primer_1", "pcr_primer_2", "pcr_polymerase", "library_pcr", "library"), SOURCE)
+    return graph.require_publishable()

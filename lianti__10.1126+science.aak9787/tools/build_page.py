@@ -12,7 +12,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import illumina as il
 import lianti as L
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, oligo, panel, strand_row
+from chemdraw import (Scene, Segment, annotation_rows, oligo, panel,
+                      protocol_graph_panels, strand_row)
 from page import head, info
 
 OUT = HERE.parent / "lianti.html"
@@ -118,7 +119,7 @@ Read&nbsp;1 or Read&nbsp;2 therefore encounters either genomic sequence immediat
 
 def render() -> str:
     return "\n".join([
-        head("LIANTI library chemistry"), '<div class="wrap">',
+        head("LIANTI library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>LIANTI &mdash; linear whole-genome amplification by T7 transcription</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.aak9787">Chen et al., '
              '<i>Science</i> (2017)</a>.'),
@@ -126,8 +127,8 @@ def render() -> str:
         'hairpin-transposon, gap-fill, IVT, self-primed RT and UMI architecture, but does not '
         'print the oligos. Dotted LIANTI-specific bases and steps labelled <b>INFERRED</b> use '
         'the upstream scg_lib_structs reconstruction because the supplement is unavailable.</div>',
-        oligos(), '<h2>Library construction</h2>', tagment_and_fill(), ivt(),
-        self_primed_rt(), final_library(),
+        oligos(), '<h2>Library construction</h2>',
+        protocol_graph_panels(L.protocol_graph(),cls="long"),
         sp.section(L.final_library(), L.SEQ_PRIMERS,
                    intro="Standard TruSeq primers address the NEBNext-built library. The 6-nt "
                          "i7 placement follows the secondary upstream reconstruction.",

@@ -11,7 +11,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import dropchip as D
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, annotation_rows, oligo, panel, strand_row
+from chemdraw import (Construct, Scene, Segment, annotation_rows, oligo, panel,
+                      protocol_graph_panels, strand_row)
 from endprep import ligation_product_scene
 from page import head, info, table
 
@@ -104,8 +105,9 @@ def reads() -> str:
 
 
 def render() -> str:
+    graph = D.protocol_graph()
     return "\n".join([
-        head("Drop-ChIP library chemistry"), '<div class="wrap">',
+        head("Drop-ChIP library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>Drop-ChIP &mdash; barcoded nucleosomal DNA for single-cell ChIP-seq</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/nbt.3383">Rotem et al., '
              '<i>Nature Biotechnology</i> (2015)</a>.'),
@@ -113,7 +115,8 @@ def render() -> str:
         'barcode adaptor, SC-PCR primers, restriction steps and read coordinates, but not '
         'the Illumina adaptor or library-primer sequences. Those outer final-library regions '
         'are dotted placeholders rather than a guessed TruSeq construct.</div>',
-        oligos(), ligation(), paci_and_pcr(), bcivi_and_boundary(), reads(), '</div>',
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        reads(), '</div>',
     ])
 
 

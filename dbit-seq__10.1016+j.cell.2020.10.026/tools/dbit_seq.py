@@ -10,6 +10,9 @@ from batch_ngs import nextera_library, seg
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       complement_segments, feature, oligo, revcomp)
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 
 TITLE = "DBiT-seq — deterministic barcoding in tissue"
@@ -177,3 +180,87 @@ def oligos():
         oligo("Primer 1", [seg("B PCR handle", B_PCR_HANDLE)]),
         oligo("Primer 2", [seg("template-switch/PCR primer", PRIMER_2)]),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    tissue=graph.input("tissue_rna","polyadenylated RNA in fixed tissue",
+                       MaterialKind.BIOLOGICAL,primary=True)
+    a_oligo_input=graph.input("a_oligo","phosphorylated Barcode A oligo-dT",
+                              MaterialKind.OLIGO,state=tuple(rt_scene().rows()))
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    a_cdna=graph.product("a_cdna","A-coordinate first-strand cDNA",
+                         MaterialKind.MOLECULAR,state=tuple(rt_scene().rows()))
+    graph.react("reverse_transcribe","Flow Barcode A and reverse-transcribe tissue RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((tissue,InputRole.TEMPLATE),(a_oligo_input,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(a_cdna,))
+    b_oligo_input=graph.input("b_oligo","biotinylated Barcode B oligo",
+                              MaterialKind.ADAPTER)
+    splint=graph.input("ligation_splint","universal B-A ligation splint",
+                       MaterialKind.ADAPTER,state=tuple(ligation_ready_scene().rows()))
+    ligase=graph.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
+    sealed=graph.product("sealed","sealed B-A spatial barcode junction",
+                         MaterialKind.MOLECULAR,state=tuple(ligation_scene().rows()))
+    graph.react("ligate_ba","Seal the Barcode B-to-A nick",StepKind.LIGATION,
+                ((a_cdna,InputRole.TEMPLATE),(b_oligo_input,InputRole.STRUCTURAL),
+                 (splint,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),
+                (sealed,),geometry=ligation_geometry())
+    streptavidin=graph.input("streptavidin","streptavidin recovery beads",
+                            MaterialKind.SELECTION)
+    recovered=graph.product("recovered","recovered biotinylated spatial cDNA",
+                            MaterialKind.MOLECULAR)
+    unrecovered=graph.product("unrecovered","unbiotinylated tissue material",
+                              MaterialKind.WASTE)
+    graph.react("recover","Recover biotinylated spatial cDNA",StepKind.AFFINITY_CAPTURE,
+                ((sealed,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                (recovered,unrecovered))
+    graph.discard(unrecovered,"material without the biotinylated Barcode B oligo is washed away")
+    tso=graph.input("tso","Primer 2 template-switch oligo",MaterialKind.OLIGO)
+    switched=graph.product("switched","template-switched spatially barcoded cDNA",
+                           MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
+    graph.react("template_switch","Install the distal cDNA handle by template switching",
+                StepKind.TEMPLATE_SWITCHING,
+                ((recovered,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(switched,))
+    p1=graph.input("primer1","Primer 1 at the Barcode B handle",MaterialKind.OLIGO)
+    p2=graph.input("primer2","Primer 2 at the template-switch handle",MaterialKind.OLIGO)
+    preamp_pol=graph.input("preamp_polymerase","cDNA preamplification polymerase",
+                           MaterialKind.CATALYST)
+    amplified=graph.product("amplified","amplified spatially barcoded cDNA",
+                            MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
+    graph.react("preamp","Amplify the spatially barcoded cDNA",StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(p1,InputRole.STRUCTURAL),
+                 (p2,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The exact Primer 1/2 sequences are known, but the compact graph does not reconstruct both strands of the preamplification substrate."))
+    transposome=graph.input("transposome","Nextera XT loaded transposomes",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged","Nextera-tagged spatial cDNA",MaterialKind.MOLECULAR)
+    tagment_waste=graph.product("tagment_waste","non-amplifiable tagmentation products",
+                                MaterialKind.WASTE)
+    graph.react("tagment","Tagment amplified spatial cDNA",StepKind.TAGMENTATION,
+                ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,tagment_waste))
+    graph.discard(tagment_waste,"homotypic and otherwise non-amplifiable Tn5 products")
+    i5=graph.input("i5_primer","Nextera i5 indexing PCR primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","Nextera i7 indexing PCR primer",MaterialKind.OLIGO)
+    index_pol=graph.input("index_polymerase","index PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("index_pcr","Complete and index the Nextera library",StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="Index-member identities vary while the final canonical Nextera sites are exact."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS,
+        read_uses=READ_USES))
+    graph.declare_reviewed_scope((
+        "tissue_rna","a_oligo","reverse_transcriptase","reverse_transcribe",
+        "b_oligo","ligation_splint","ligase","ligate_ba","streptavidin",
+        "recover","tso","template_switch","primer1","primer2",
+        "preamp_polymerase","preamp","transposome","tn5","tagment",
+        "i5_primer","i7_primer","index_polymerase","index_pcr","library"),SOURCE)
+    return graph.require_publishable()

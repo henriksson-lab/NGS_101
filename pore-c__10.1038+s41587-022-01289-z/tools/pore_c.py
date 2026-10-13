@@ -7,6 +7,9 @@ from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       annotation_rows, complement_segments)
 from restriction import RestrictionEnzyme
 from endprep import LigationJunction, dA_tailed_scene, repair_and_dA_tail
+from adapter_ligation import reported_adapter_end
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 def seg(name,top,tag=None,**kw): return Segment(name,top,tag,**kw)
 
@@ -87,3 +90,59 @@ def workflow():
     wf.react('ONT ligation-adapter attachment',final_rows(),
              note='Motor-loaded long-read adapters are ligated to the repaired concatemer ends.')
     return wf
+
+def protocol_graph():
+    source="Defining source: https://doi.org/10.1038/s41587-022-01289-z"
+    graph=ProtocolGraph("Pore-C",authority=source)
+    chromatin=graph.input("chromatin","formaldehyde-crosslinked proximal chromatin",
+                          MaterialKind.BIOLOGICAL,state=tuple(chromatin_rows()),primary=True)
+    nla=graph.input("nlaiii","NlaIII restriction enzyme",MaterialKind.CATALYST)
+    fragments=graph.product("restriction_fragments","crosslinked NlaIII restriction fragments",
+                            MaterialKind.MOLECULAR,state=tuple(digested_rows()))
+    graph.react("digest","Digest crosslinked chromatin with NlaIII",StepKind.DIGESTION,
+                ((chromatin,InputRole.TEMPLATE),(nla,InputRole.CATALYST)),(fragments,))
+    ligase=graph.input("t4_ligase","T4 DNA ligase",MaterialKind.CATALYST)
+    concatemer=graph.product("crosslinked_concatemer","crosslinked multiway proximity concatemer",
+                             MaterialKind.MOLECULAR,state=CONCATEMER)
+    graph.react("proximity_ligation","Ligate proximal restriction fragments in intact nuclei",
+                StepKind.PROXIMITY_LIGATION,
+                ((fragments,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(concatemer,))
+    proteinase=graph.input("proteinase_k","proteinase K and reverse-crosslink conditions",
+                           MaterialKind.CATALYST)
+    released=graph.product("released_concatemer","purified intact multiway DNA concatemer",
+                           MaterialKind.MOLECULAR,state=CONCATEMER)
+    graph.react("deproteinize","Reverse crosslinks and remove proteins",StepKind.DEPROTEINIZATION,
+                ((concatemer,InputRole.TEMPLATE),(proteinase,InputRole.CATALYST)),(released,))
+    selector=graph.input("long_fragment_selection","long-fragment selection reagent",
+                         MaterialKind.SELECTION)
+    selected=graph.product("selected_concatemer","long selected multiway concatemer",
+                           MaterialKind.MOLECULAR,state=CONCATEMER)
+    rejected=graph.product("short_fragments","rejected short DNA fragments",MaterialKind.WASTE)
+    graph.react("size_selection","Retain long multi-contact concatemers",StepKind.SELECTION,
+                ((released,InputRole.TEMPLATE),(selector,InputRole.SELECTION)),(selected,rejected))
+    graph.discard(rejected,"short fragments are removed to preserve multi-contact molecules")
+    endprep=graph.input("end_repair_mix","end-repair and dA-tailing enzymes",MaterialKind.CATALYST)
+    tailed=graph.product("a_tailed_concatemer","end-repaired dA-tailed concatemer",
+                         MaterialKind.MOLECULAR,state=dA_tailed_scene(DA_CONCATEMER))
+    graph.react("end_prepare","End-repair and dA-tail the selected concatemer",StepKind.END_REPAIR,
+                ((selected,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(tailed,))
+    adapter=graph.input("ont_adapter","motor-loaded ONT ligation adapter",MaterialKind.ADAPTER,
+                        inferred=True,source=source+" (adapter body bases are proprietary)")
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,inferred=True,
+                          source=source+" (terminal ONT adapter roles are proprietary)")
+    geometry=reported_adapter_end(
+        "ONT ligation adapter",kind="cohesive",polarity="3-prime",terminal_sequence="T",
+        substrate_scenes=(dA_tailed_scene(DA_CONCATEMER),),
+        statement="The restriction-enzyme Pore-C workflow dA-tails the concatemer before ONT ligation-adapter attachment.")
+    graph.react("adapter_ligation","Attach motor-loaded ONT ligation adapters",
+                StepKind.LIGATION,
+                ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(library,),geometry=geometry)
+    graph.sequence(library,SequencingPlan(
+        limitation="Nanopore sequencing is primer-free and the motor-adapter bases are proprietary.",
+        acquired_roles=("Sequencing output",),read_uses={"Sequencing output":"include"}))
+    graph.declare_reviewed_scope((
+        "chromatin","nlaiii","digest","t4_ligase","proximity_ligation","proteinase_k",
+        "deproteinize","long_fragment_selection","size_selection","end_repair_mix",
+        "end_prepare","ont_adapter","adapter_ligation","library"),source)
+    return graph.require_publishable()

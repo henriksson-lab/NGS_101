@@ -5,8 +5,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from endprep import dA_tailed_scene, repair_and_dA_tail
-from nanopore_library import motor_library, no_primer_ending, role, single_strand_rows
+from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
+                              role, single_strand_rows)
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_model import molecule, role as molecular_role
 
 TITLE = "Oxford Nanopore Native Barcoding V14 — SQK-NBD114.24"
 NOTES = "01_native-barcoding-v14.html"
@@ -57,6 +61,12 @@ FINAL_CAPTION = ("One productive pore-entry orientation. ** labels the adapter-h
 END_PREP_PROGRAM = ((20, 5), (65, 5))
 BARCODE_LIGATION_MIN = 20
 NATIVE_ADAPTER_LIGATION_MIN = 20
+BARCODE_END = reported_adapter_end(
+    "Native Barcode adapter", kind="cohesive", polarity="3-prime",
+    terminal_sequence="T",
+    statement="The vendor workflow specifies a dT-tailed barcode adapter for dA-tailed DNA.")
+NATIVE_HOOK = AdapterLigationGeometry.unavailable(
+    "The vendor identifies the barcode-to-Native-Adapter attachment but does not disclose the cohesive-hook bases.")
 
 
 def oligos():
@@ -85,3 +95,58 @@ def sections():
         ("Ligate the pooled library to Native Adapter", final_rows(),
          "The barcode adapter's cohesive end hooks the motor-bearing Native Adapter; Quick T4 ligase acts for 20 min at room temperature."),
     ]
+
+
+def protocol_graph():
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    dna = g.input("dna", "genomic DNA samples", MaterialKind.MOLECULAR,
+                  state=molecule("genomic DNA", (molecular_role("genomic DNA"),)),
+                  primary=True)
+    repair = g.input("repair_mix", "FFPE repair and end-prep enzymes",
+                     MaterialKind.CATALYST)
+    tailed = g.product("tailed", "repaired dA-tailed genomic DNA",
+                       MaterialKind.MOLECULAR, state=END_PREP)
+    g.react("end_prep", "Repair DNA ends and add one 3-prime dA",
+            StepKind.END_REPAIR,
+            ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (tailed,))
+    barcode = g.input("barcode_adapter", "dT-tailed Native Barcode adapter",
+                      MaterialKind.ADAPTER, inferred=True,
+                      source=SOURCE + " (barcode known; adapter flanks proprietary)")
+    ligase_1 = g.input("barcode_ligase", "barcode ligase", MaterialKind.CATALYST)
+    barcoded = g.product("barcoded", "native-barcoded DNA samples",
+                         MaterialKind.MOLECULAR, inferred=True,
+                         source=SOURCE + " (adapter flanks proprietary)")
+    g.react("barcode", "Ligate one Native Barcode adapter per sample",
+            StepKind.LIGATION,
+            ((tailed, InputRole.TEMPLATE), (barcode, InputRole.STRUCTURAL),
+             (ligase_1, InputRole.CATALYST)), (barcoded,), geometry=BARCODE_END)
+    pool_condition = g.input("pool_condition", "equimolar pooling condition",
+                             MaterialKind.CONDITION)
+    pooled = g.product("pooled", "equimolar pool of native-barcoded samples",
+                       MaterialKind.MOLECULAR, state=barcoded.state)
+    excluded = g.product("excluded", "barcode-library material excluded from the pool",
+                         MaterialKind.WASTE)
+    g.react("pool", "Quantify and combine barcode libraries equimolarly",
+            StepKind.SAMPLING,
+            ((barcoded, InputRole.TEMPLATE), (pool_condition, InputRole.CONDITION)),
+            (pooled, excluded), changes_molecule=False)
+    g.discard(excluded, "not included in the equimolar sequencing pool")
+    native = g.input("native_adapter", "motor-loaded Native Adapter",
+                     MaterialKind.ADAPTER, inferred=True,
+                     source=SOURCE + " (adapter and cohesive-hook bases proprietary)")
+    ligase_2 = g.input("native_ligase", "Native Adapter ligase",
+                       MaterialKind.CATALYST)
+    library = g.product("library", "motor-adapted native-barcode library",
+                        MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
+                        source=SOURCE + " (adapter bases proprietary)")
+    g.react("native_adapter_ligation", "Attach Native Adapter to the pooled library",
+            StepKind.LIGATION,
+            ((pooled, InputRole.TEMPLATE), (native, InputRole.STRUCTURAL),
+             (ligase_2, InputRole.CATALYST)), (library,), geometry=NATIVE_HOOK)
+    g.sequence(library, motor_sequencing_plan(
+        FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
+    g.declare_reviewed_scope(("dna", "repair_mix", "end_prep", "barcode_adapter",
+                              "barcode_ligase", "barcode", "pool_condition", "pool",
+                              "native_adapter", "native_ligase",
+                              "native_adapter_ligation", "library"), SOURCE)
+    return g.require_publishable()

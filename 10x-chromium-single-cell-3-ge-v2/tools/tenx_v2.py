@@ -5,6 +5,7 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature
+from tenx_graph import chromium_rna_graph
 
 PARTIAL_R1 = il.TRUSEQ_READ1[11:]
 TSO_DNA = rt.SMART_HANDLE + "ACAT"
@@ -99,4 +100,14 @@ def final_library(insert_nt=36):
 def read1_layout():
     return [(x.cycles, x.feature.label) for x in
             sp.feature_spans(final_library(), SEQ_PRIMERS, {"Read 1": 26})]
+
+
+def protocol_graph():
+    authority = ('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
+                 '10x Genomics Technical Note CG000108 Rev A</a>.')
+    return chromium_rna_graph(
+        title="10x Chromium Single Cell 3-prime Gene Expression v2",
+        authority=authority, final=final_library(), primers=SEQ_PRIMERS,
+        first_strand=first_strand(), amplified_cdna=amplified_cdna(),
+        read_lengths={"Read 1": 26, "Index 1 (i7)": 8})
 

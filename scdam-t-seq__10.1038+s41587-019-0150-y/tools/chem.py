@@ -4,6 +4,8 @@ from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       feature, revcomp)
 from multibranch import illumina_branch
 from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 TITLE = "scDam&T-seq — protein–DNA contacts and transcriptome"
 NOTES = "01_scdam-t-seq.html"
@@ -238,3 +240,143 @@ def workflow():
           indexed_product_scene().rows(), name="indexed mixed scDam&T-seq library",
           note="Branch-specific cell barcode sets distinguish CEL-seq2 and DamID reads after sequencing.")
     return w
+
+
+def protocol_graph():
+    """The shared physical workflow, retaining both endpoint molecule classes.
+
+    RNA-derived and DamID-derived templates are not split into separate tubes.  Their
+    non-overlapping well-barcode sets make them distinguishable after the common IVT,
+    random-hexamer RT and terminal PCR.  The PCR therefore has two typed molecular
+    outputs from one reaction rather than an invented physical branch operation.
+    """
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    cell = g.input(
+        "cell", "Dam-marked cell containing poly(A) RNA and genomic DNA",
+        MaterialKind.BIOLOGICAL,
+        state=(Row(chunks=[(
+            "poly(A) RNA + genomic DNA containing protein-proximal G^mATC",
+            None, False)]),), primary=True)
+
+    cel_primer = g.input("cel_primer", "well-specific CEL-seq2 RT primer",
+                         MaterialKind.OLIGO, state=cel_rt_scene())
+    rt1 = g.input("cel_rt", "CEL-seq2 reverse transcriptase",
+                  MaterialKind.CATALYST)
+    rt_cell = g.product(
+        "rt_cell", "cell containing barcoded transcript cDNA and genomic DNA",
+        MaterialKind.MOLECULAR, state=cel_rt_scene())
+    g.react("cel_reverse_transcribe",
+            "Reverse-transcribe poly(A) RNA with the well-specific CEL-seq2 primer",
+            StepKind.REVERSE_TRANSCRIPTION,
+            ((cell, InputRole.TEMPLATE), (cel_primer, InputRole.STRUCTURAL),
+             (rt1, InputRole.CATALYST)), (rt_cell,))
+
+    second_strand = g.input("second_strand_polymerase",
+                            "transcript-cDNA second-strand polymerase",
+                            MaterialKind.CATALYST)
+    double_stranded = g.product(
+        "double_stranded", "double-stranded transcript cDNA plus genomic DNA",
+        MaterialKind.MOLECULAR, state=cel_rt_scene())
+    g.react("second_strand", "Make transcript cDNA double-stranded",
+            StepKind.EXTENSION,
+            ((rt_cell, InputRole.TEMPLATE),
+             (second_strand, InputRole.CATALYST)), (double_stranded,))
+
+    dpni = g.input("dpni", "DpnI restriction endonuclease",
+                   MaterialKind.CATALYST)
+    digested = g.product(
+        "digested", "transcript cDNA plus blunt DpnI genomic fragments",
+        MaterialKind.MOLECULAR, state=dpni_fragment_scene())
+    g.react("dpni_digest", "Cut methylated genomic GATC sites with DpnI",
+            StepKind.DIGESTION,
+            ((double_stranded, InputRole.TEMPLATE),
+             (dpni, InputRole.CATALYST)), (digested,))
+
+    dam_adapter = g.input("dam_adapter", "well-specific forked DamID adapter",
+                          MaterialKind.ADAPTER, state=damid_adapter_scene())
+    ligase = g.input("dam_ligase", "DamID adapter DNA ligase",
+                     MaterialKind.CATALYST)
+    dual_templates = g.product(
+        "dual_templates", "barcoded DamID DNA and CEL-seq2 cDNA templates",
+        MaterialKind.MOLECULAR, state=ligated_damid_scene())
+    g.react("ligate_damid", "Ligate the well-specific forked DamID adapter",
+            StepKind.LIGATION,
+            ((digested, InputRole.TEMPLATE),
+             (dam_adapter, InputRole.STRUCTURAL),
+             (ligase, InputRole.CATALYST)), (dual_templates,),
+            geometry=damid_geometry())
+
+    t7 = g.input("t7_polymerase", "T7 RNA polymerase",
+                 MaterialKind.CATALYST)
+    arna = g.product("arna", "mixed RNA- and DamID-derived amplified RNA",
+                     MaterialKind.MOLECULAR, state=arna_scene())
+    g.react("t7_ivt", "Linearly amplify both template classes by T7 IVT",
+            StepKind.TRANSCRIPTION,
+            ((dual_templates, InputRole.TEMPLATE),
+             (t7, InputRole.CATALYST)), (arna,))
+
+    fragment_condition = g.input(
+        "fragment_condition", "aRNA fragmentation condition",
+        MaterialKind.CONDITION)
+    fragmented = g.product("fragmented_arna", "fragmented mixed aRNA",
+                           MaterialKind.MOLECULAR,
+                           state=randomhex_scene())
+    g.react("fragment_arna", "Fragment the amplified RNA",
+            StepKind.FRAGMENTATION,
+            ((arna, InputRole.TEMPLATE),
+             (fragment_condition, InputRole.CONDITION)), (fragmented,))
+
+    randomhex = g.input("randomhex_rt", "randomhexRT primer",
+                        MaterialKind.OLIGO, state=randomhex_scene())
+    rt2 = g.input("randomhex_reverse_transcriptase",
+                  "randomhexRT reverse transcriptase",
+                  MaterialKind.CATALYST)
+    cdna = g.product("randomhex_cdna", "mixed randomhexRT cDNA",
+                     MaterialKind.MOLECULAR, state=pre_pcr_template())
+    g.react("randomhex_reverse_transcribe",
+            "Reverse-transcribe fragmented aRNA with randomhexRT",
+            StepKind.REVERSE_TRANSCRIPTION,
+            ((fragmented, InputRole.TEMPLATE),
+             (randomhex, InputRole.STRUCTURAL),
+             (rt2, InputRole.CATALYST)), (cdna,))
+
+    pcr1 = g.input("rna_pcr1", "RNA PCR primer 1", MaterialKind.OLIGO)
+    pcr_index = g.input("rna_pcr_index", "RNA PCR index primer",
+                        MaterialKind.OLIGO)
+    pcr_polymerase = g.input("pcr_polymerase", "terminal PCR polymerase",
+                             MaterialKind.CATALYST)
+    rna_library = g.product("rna_library", "RNA-derived molecules in the mixed library",
+                            MaterialKind.LIBRARY, state=RNA)
+    damid_library = g.product(
+        "damid_library", "DamID-derived molecules in the mixed library",
+        MaterialKind.LIBRARY, state=DNA)
+    pcr_geometry = PCRGeometry.exact(
+        pre_pcr_template(), PCRPrimer("RNA PCR primer 1", RNA_PCR1),
+        PCRPrimer("RNA PCR index primer", RNA_PCR_INDEX),
+        statement=("The detailed protocol prints both tailed PCR primers; their "
+                   "annealing suffixes face inward around either molecular class in "
+                   "the mixed randomhexRT cDNA."))
+    g.react("terminal_pcr", "Add P5, sample index and P7 by terminal PCR",
+            StepKind.PCR,
+            ((cdna, InputRole.TEMPLATE), (pcr1, InputRole.STRUCTURAL),
+             (pcr_index, InputRole.STRUCTURAL),
+             (pcr_polymerase, InputRole.CATALYST)),
+            (rna_library, damid_library), geometry=pcr_geometry)
+    g.sequence(rna_library, SequencingPlan(
+        library=RNA, primers=RP,
+        acquired_roles=tuple(p.role for p in RP)))
+    g.sequence(damid_library, SequencingPlan(
+        library=DNA, primers=DP,
+        acquired_roles=tuple(p.role for p in DP)))
+
+    reviewed = [
+        "cell", "cel_primer", "cel_rt", "cel_reverse_transcribe",
+        "second_strand_polymerase", "second_strand", "dpni", "dpni_digest",
+        "dam_adapter", "dam_ligase", "ligate_damid", "t7_polymerase", "t7_ivt",
+        "fragment_condition", "fragment_arna", "randomhex_rt",
+        "randomhex_reverse_transcriptase", "randomhex_reverse_transcribe",
+        "rna_pcr1", "rna_pcr_index", "pcr_polymerase", "terminal_pcr",
+        "rna_library", "damid_library",
+    ]
+    g.declare_reviewed_scope(reviewed, SOURCE)
+    return g.require_publishable()

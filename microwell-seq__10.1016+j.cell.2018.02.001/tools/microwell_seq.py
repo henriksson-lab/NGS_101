@@ -6,6 +6,9 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "fixed")
@@ -101,3 +104,85 @@ def read1_layout() -> list[tuple[str, str]]:
                 (f" ({x.feature.part})" if x.feature.part else "")) for x in spans}
     return [by_start[1], ("7–21", "linker 1"), by_start[22],
             ("28–42", "linker 2"), by_start[43], by_start[49]]
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1016/j.cell.2018.02.001"
+    inferred_source = source + "; Tn5 adapter inferred from printed PCR primers and later same-lab description"
+    graph = ProtocolGraph("Microwell-seq", authority=source)
+    bead_seed = graph.input("bead_seed", "seqA bead oligo seed", MaterialKind.MOLECULAR,
+                            primary=True)
+    barcode_oligos = graph.input("barcode_oligos", "three split-pool barcode-extension oligo sets",
+                                 MaterialKind.OLIGO)
+    extension_polymerase = graph.input("extension_polymerase", "bead-extension polymerase",
+                                      MaterialKind.CATALYST)
+    bead = graph.product("barcoded_bead", bead_oligo().name, MaterialKind.MOLECULAR,
+                         state=bead_oligo())
+    graph.react("bead_assembly", "Build the bead barcode by three split-pool extension rounds",
+                StepKind.EXTENSION,
+                ((bead_seed, InputRole.TEMPLATE), (barcode_oligos, InputRole.STRUCTURAL),
+                 (extension_polymerase, InputRole.CATALYST)), (bead,))
+    rna = graph.input("rna", "microwell cellular RNA", MaterialKind.BIOLOGICAL, primary=True)
+    reverse_transcriptase = graph.input("reverse_transcriptase",
+                                       "template-switching reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    first_strand = graph.product("first_strand", "bead-primed first-strand cDNA",
+                                 MaterialKind.MOLECULAR, state=rt_scene())
+    graph.react("reverse_transcription", "Capture microwell RNA and reverse-transcribe",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (first_strand,))
+    tso = graph.input("tso", "published template-switching oligo", MaterialKind.OLIGO)
+    switched = graph.product("switched_cdna", "SMART-handle-flanked cDNA",
+                             MaterialKind.MOLECULAR, state=rt_scene())
+    graph.react("template_switch", "Template-switch at the cDNA 5′ end",
+                StepKind.TEMPLATE_SWITCHING,
+                ((first_strand, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (switched,))
+    smart_primer = graph.input("smart_primer", "single TSO-PCR primer", MaterialKind.OLIGO)
+    polymerase = graph.input("pcr_polymerase", "WTA and library PCR polymerase",
+                             MaterialKind.CATALYST)
+    wta = graph.product("wta_cdna", "whole-transcriptome-amplified cDNA",
+                        MaterialKind.MOLECULAR)
+    graph.react("wta_pcr", "Amplify with the single SMART-handle primer", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (smart_primer, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (wta,),
+                geometry=PCRGeometry.unavailable(
+                    final_library(), reason="The WTA substrate is symmetric before the final tagmentation shell.",
+                    symmetric_species=True))
+    tn5_adapter = graph.input("tn5_adapter", "symmetric s7 Tn5 adapter", MaterialKind.ADAPTER,
+                              inferred=True, source=inferred_source)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_cdna", "s7-tagmented WTA fragments", MaterialKind.MOLECULAR,
+                           inferred=True, source=inferred_source)
+    tag_waste = graph.product("tagmentation_waste", "non-library tagmentation products",
+                              MaterialKind.WASTE)
+    graph.react("tagmentation", "Tagment WTA with the inferred symmetric s7 adapter",
+                StepKind.TAGMENTATION,
+                ((wta, InputRole.TEMPLATE), (tn5_adapter, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tag_waste), source=inferred_source)
+    graph.discard(tag_waste, "fragments without usable primer sites do not amplify")
+    p5 = graph.input("p5_primer", "published bead-end-selective P5 primer", MaterialKind.OLIGO)
+    p7 = graph.input("p7_primer", "published N701 indexed P7 primer", MaterialKind.OLIGO)
+    final = final_library()
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
+                            inferred=True, source=inferred_source)
+    graph.react("library_pcr", "Select the bead end and PCR-complete the library", StepKind.PCR,
+                ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason="The final construct is reconstructed from exact PCR primers around an unpublished Tn5 adapter."),
+                source=inferred_source)
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=SEQ_PRIMERS, acquired_roles=RUN_ROLES,
+        read_lengths={"Read 1": 54, "Index 1 (i7)": 8},
+        read_uses={"Read 1": "extract", "Index 1 (i7)": "demultiplex",
+                   "Read 2": "include"},
+        limitation="The s7/ME and P7-side construct regions are inferred from the source boundary."))
+    graph.declare_reviewed_scope((
+        "bead_seed", "barcode_oligos", "extension_polymerase", "bead_assembly",
+        "rna", "reverse_transcriptase", "reverse_transcription", "tso",
+        "template_switch", "smart_primer", "pcr_polymerase", "wta_pcr",
+        "tn5_adapter", "tn5", "tagmentation", "p5_primer", "p7_primer",
+        "library_pcr", "library"), source)
+    return graph.require_publishable()

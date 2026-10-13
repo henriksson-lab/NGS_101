@@ -9,6 +9,9 @@ import seqprimers as sp
 from batch_ngs import seg
 from base_conversion import taps_path
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "scTAPS — single-cell 5mC + 5hmC sequencing"
 NOTES = "01_sctaps.html"
@@ -76,3 +79,60 @@ def workflow():
     w.react("Reduce 5caC with pyridine–borane", reduced.rows(), name="DHU-containing DNA", note="5caC becomes dihydrouracil (DHU).")
     w.react("PCR with Nextera XT index primers", final.rows(), name="Sequencing library", note="Uracil-tolerant PCR copies DHU as T and preserves unmodified C.")
     return w
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("single_cell_dna","genomic DNA from one sorted cell",
+                    MaterialKind.BIOLOGICAL,state=INITIAL_ROWS,primary=True)
+    transposome=graph.input("indexed_transposome","well-specific i5/i7 Tn5 transposome",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged_dna","cell-indexed tagmented DNA",MaterialKind.MOLECULAR)
+    transposition_waste=graph.product("transposition_waste","non-library Tn5 products",
+                                      MaterialKind.WASTE)
+    graph.react("tagment","Tagment with a well-specific transposome",StepKind.TAGMENTATION,
+                ((dna,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,transposition_waste))
+    graph.discard(transposition_waste,"unusable and non-amplifiable strand-transfer products")
+    polymerase=graph.input("gap_fill_polymerase","gap-fill DNA polymerase",MaterialKind.CATALYST)
+    gap_filled=graph.product("gap_filled","gap-filled cell-indexed DNA",MaterialKind.MOLECULAR,
+                             state=tuple(_tagged_scene("barcoded, gap-filled fragment").rows()))
+    graph.react("gap_fill","Fill the nine-base transposition gaps",StepKind.EXTENSION,
+                ((tagged,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(gap_filled,))
+    controls=graph.input("conversion_controls","filler DNA and modification controls",
+                         MaterialKind.MOLECULAR)
+    pooled=graph.product("pooled_dna","pooled indexed wells plus conversion controls",
+                         MaterialKind.MOLECULAR)
+    graph.react("pool_wells","Pool the indexed wells with conversion controls",StepKind.POOL,
+                ((gap_filled,InputRole.TEMPLATE),(controls,InputRole.TEMPLATE)),(pooled,),
+                changes_molecule=False)
+    mtet1=graph.input("mtet1","mTET1 oxidation enzyme",MaterialKind.CATALYST)
+    oxidized=graph.product("oxidized_dna","5caC-containing indexed DNA",MaterialKind.MOLECULAR,
+                           state=tuple(_base_state("two mTET1 oxidation rounds",1).rows()))
+    graph.react("oxidize","Oxidize 5mC and 5hmC to 5caC",StepKind.CHEMICAL_CONVERSION,
+                ((pooled,InputRole.TEMPLATE),(mtet1,InputRole.CATALYST)),(oxidized,))
+    borane=graph.input("pyridine_borane","pyridine–borane reducing condition",
+                       MaterialKind.CONDITION)
+    reduced=graph.product("reduced_dna","DHU-containing indexed DNA",MaterialKind.MOLECULAR,
+                          state=tuple(_base_state("pyridine–borane reduction",2).rows()))
+    graph.react("reduce","Reduce 5caC to dihydrouracil",StepKind.CHEMICAL_CONVERSION,
+                ((oxidized,InputRole.TEMPLATE),(borane,InputRole.CONDITION)),(reduced,))
+    i5=graph.input("i5_primer","Nextera XT i5 PCR primer",MaterialKind.OLIGO)
+    i7=graph.input("i7_primer","Nextera XT i7 PCR primer",MaterialKind.OLIGO)
+    pcr_pol=graph.input("pcr_polymerase","uracil-tolerant PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    graph.react("library_pcr","Copy DHU as T and complete the indexed library",StepKind.PCR,
+                ((reduced,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The page references the 96-member index set rather than one exact primer pair."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS),
+                                          read_lengths=READ_LENGTHS))
+    graph.declare_reviewed_scope((
+        "single_cell_dna","indexed_transposome","tn5","tagment","gap_fill_polymerase",
+        "gap_fill","conversion_controls","pool_wells","mtet1","oxidize",
+        "pyridine_borane","reduce","i5_primer","i7_primer","pcr_polymerase",
+        "library_pcr","library"),SOURCE)
+    return graph.require_publishable()

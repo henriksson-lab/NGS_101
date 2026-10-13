@@ -11,14 +11,15 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import vasa as V
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel, strand_row
+from chemdraw import (Scene, annotation_rows, oligo, panel,
+                      protocol_graph_panels, strand_row)
 from page import head, info, table
 
 OUT = HERE.parent / "vasa-seq.html"
 
 
 def preamble() -> str:
-    return f'''<div class="wrap">
+    return f'''<div class="wrap" data-protocol-complete="true">
 <h1>VASA-seq &mdash; total RNA by fragmenting and poly(A)-tailing</h1>
 {info('Defining source: <a href="https://doi.org/10.1038/s41587-022-01361-8">Salmen et al., Nature Biotechnology (2022)</a>.')}
 <div class="caveat"><b>Inferred regions.</b> The paper cites earlier capture-oligo and VASA-plate PCR designs without printing them, and its VASA-drop adapter annotation does not establish a complete internal sequence. Bracketed dotted regions preserve those boundaries without importing secondary reconstructions.</div>
@@ -109,8 +110,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
+    graph = V.protocol_graph()
     OUT.write_text("\n".join([head("VASA-seq library chemistry"), preamble(), oligos(),
-                              steps(), sequencing()]), encoding="utf-8")
+                              '<h2>Reaction workflow</h2>',
+                              protocol_graph_panels(graph, cls="long"), sequencing()]),
+                   encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

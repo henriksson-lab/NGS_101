@@ -4,7 +4,11 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import duplex_family_rows, seg, truseq_library
+from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Row, Scene, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            SourceCoverage, SourceItem, StepKind)
 
 TITLE = "Duplex Sequencing — complementary-strand consensus"
 NOTES = "01_duplex-sequencing.html"
@@ -39,3 +43,75 @@ def sections():
          duplex_family_rows(),
          "Reads sharing αβ form one SSCS; reads sharing the reciprocal βα tags form its complementary SSCS. Only agreeing bases survive into the DCS."),
     ]
+
+
+def tag_adapter_geometry():
+    adapter=[seg("adapter arm","X"*12,placeholder=True),
+             seg("12-nt random tag","N"*12,"umi",placeholder=True,
+                 feature=feature("duplex_tag_adapter_geometry","umi","random")),
+             seg("adapter 3-prime dA","A")]
+    adapter_scene=Scene.duplex(adapter,label="Duplex Tag adapter")
+    adapter_scene.ligation_end("top","adapter 3-prime dA",kind="cohesive",
+                               polarity="3-prime",owner="adapter",text="adapter 3-prime dA")
+    substrate=Scene()
+    substrate.strand("T-tailed insert",[seg("genomic duplex end","X"*18,placeholder=True),
+                                         seg("insert 3-prime dT","T")],label="T-tailed DNA")
+    substrate.overhang("T-tailed insert","insert 3-prime dT",polarity="3-prime",
+                       owner="substrate",text="insert 3-prime dT")
+    return AdapterLigationGeometry.known(
+        "cohesive",adapter_scene,substrate,
+        statement="The original method ligates 3-prime-dA tag adapters to 3-prime-dT-tailed genomic fragments.")
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    dna=graph.input("dna","sheared genomic DNA duplexes",MaterialKind.MOLECULAR,
+                    primary=True)
+    tailing_enzyme=graph.input("tailing_enzyme","DNA 3-prime dT-tailing enzyme",
+                               MaterialKind.CATALYST)
+    t_tailed=graph.product("t_tailed","3-prime-dT-tailed genomic duplexes",
+                           MaterialKind.MOLECULAR)
+    graph.react("tail_insert","Add 3-prime dT to sheared genomic DNA",StepKind.TAILING,
+                ((dna,InputRole.TEMPLATE),(tailing_enzyme,InputRole.CATALYST)),
+                (t_tailed,))
+    tag_oligo=graph.input("tag_oligo","single-stranded N12 Duplex Tag adapter precursor",
+                          MaterialKind.ADAPTER)
+    adapter_polymerase=graph.input("adapter_polymerase","Duplex Tag adapter-copy polymerase",
+                                   MaterialKind.CATALYST)
+    tag_adapter=graph.product("tag_adapter","double-stranded N12 dA-tailed Duplex Tag adapter",
+                              MaterialKind.ADAPTER,state=tuple(tag_adapter_geometry().rows()))
+    graph.react("copy_adapter","Copy the random tag into a complementary duplex adapter",
+                StepKind.EXTENSION,
+                ((tag_oligo,InputRole.TEMPLATE),(adapter_polymerase,InputRole.CATALYST)),
+                (tag_adapter,))
+    ligase=graph.input("ligase","Duplex Tag adapter ligase",MaterialKind.CATALYST)
+    tagged=graph.product("tagged","duplex-tagged genomic molecules",
+                         MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
+    graph.react("ligate_tags","Ligate complementary tags to both genomic-fragment ends",
+                StepKind.LIGATION,
+                ((t_tailed,InputRole.TEMPLATE),(tag_adapter,InputRole.STRUCTURAL),
+                 (ligase,InputRole.CATALYST)),(tagged,),geometry=tag_adapter_geometry())
+    forward=graph.input("pcr_forward","Duplex Sequencing PCR forward primer",
+                        MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","Duplex Sequencing PCR reverse primer",
+                        MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Amplify duplex-tagged strand families",StepKind.PCR,
+                ((tagged,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The source establishes the PCR arms, while sample-index identity varies by library."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "dna","tailing_enzyme","tail_insert","tag_oligo","adapter_polymerase",
+        "copy_adapter","ligase","ligate_tags","pcr_forward","pcr_reverse",
+        "pcr_polymerase","library_pcr","library"),SOURCE)
+    graph.add_source_item(SourceItem(
+        "duplex_consensus","SSCS pairing and duplex-consensus computation",SOURCE))
+    graph.cover_source_item(SourceCoverage(
+        "duplex_consensus","excluded",
+        reason="Consensus calling occurs after sequencing and does not transform a library-preparation molecule."))
+    return graph.require_publishable()

@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import fipresci as F
 import seqprimers as sp
-from chemdraw import annotation_rows, oligo, panel, strand_row
+from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info
 
 OUT = HERE.parent / "fipresci.html"
@@ -61,10 +61,13 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("FIPRESCI library chemistry"), '<div class="wrap">',
+    graph = F.protocol_graph()
+    page = "\n".join([head("FIPRESCI library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
         '<h1>FIPRESCI &mdash; plate-indexed hybrid tagmentation plus 10x 5-prime barcoding</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/s13059-023-02893-1">Luo et al., <i>Genome Biology</i> (2023)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        '<h2>Molecular details</h2>', construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

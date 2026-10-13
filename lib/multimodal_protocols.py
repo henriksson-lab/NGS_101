@@ -10,6 +10,10 @@ from dataclasses import dataclass
 from types import SimpleNamespace
 
 from chemdraw import feature
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from protocol_model import chain, molecule, role, role_library
 
 
@@ -234,6 +238,574 @@ DEFS = {
 }
 
 
+def _finish_pcr(graph, prefix, template, final, endpoint, reviewed, *, label):
+    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
+                          MaterialKind.OLIGO)
+    reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(prefix + "_library", label + " sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+                StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The source defines a primer family or kit-level endpoint rather than one universal amplicon."))
+    graph.sequence(library, SequencingPlan(limitation=endpoint))
+    reviewed.extend((prefix + "_forward", prefix + "_reverse",
+                     prefix + "_polymerase", prefix + "_pcr",
+                     prefix + "_library"))
+    return library
+
+
+def _finish_rt_pcr(graph, prefix, template, final, endpoint, reviewed, *, label):
+    primer = graph.input(prefix + "_rt_primer", label + " reverse-transcription primer",
+                         MaterialKind.OLIGO)
+    enzyme = graph.input(prefix + "_rt_enzyme", label + " reverse transcriptase",
+                         MaterialKind.CATALYST)
+    cdna = graph.product(prefix + "_cdna", label + " cDNA", MaterialKind.MOLECULAR,
+                         state=molecule(label + " cDNA", (role("cDNA insert"),)))
+    graph.react(prefix + "_rt", "Reverse-transcribe the " + label + " branch",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((template, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+                 (enzyme, InputRole.CATALYST)), (cdna,))
+    reviewed.extend((prefix + "_rt_primer", prefix + "_rt_enzyme", prefix + "_rt"))
+    return _finish_pcr(graph, prefix, cdna, final, endpoint, reviewed, label=label)
+
+
+def _sccc_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cell = graph.input("cell", "cell carrying an integrated self-reporting transposon",
+                       MaterialKind.BIOLOGICAL, state=_sccc().initial, primary=True)
+    rna_polymerase = graph.input("rna_polymerase", "cellular RNA polymerase",
+                                 MaterialKind.CATALYST)
+    transcript = graph.product("srt_transcript", "self-reporting transcript containing the insertion flank",
+                               MaterialKind.MOLECULAR,
+                               state=molecule("SRT transcript", (role("reporter transcript"),
+                                   role("terminal repeat"), role("genomic insertion flank"), role("poly(A)"))))
+    graph.react("transcribe_srt", "Transcribe through the SRT into flanking genomic DNA",
+                StepKind.TRANSCRIPTION,
+                ((cell, InputRole.TEMPLATE), (rna_polymerase, InputRole.CATALYST)),
+                (transcript,))
+    bead_primer = graph.input("bead_primer", "droplet oligo(dT) cell-barcode/UMI primer",
+                              MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    cdna = graph.product("barcoded_cdna", "cell-barcoded SRT cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("barcoded SRT cDNA", (CELL, UMI,
+                             role("insertion-flank cDNA"), role("terminal-repeat cDNA"))))
+    graph.react("reverse_transcribe", "Reverse-transcribe and barcode the SRT transcript",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((transcript, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    expression = graph.product("expression_branch", "expression-library aliquot",
+                               MaterialKind.MOLECULAR, state=cdna.state)
+    junction = graph.product("junction_branch", "SRT-junction aliquot",
+                             MaterialKind.MOLECULAR, state=cdna.state)
+    graph.react("split_branches", "Split expression and SRT-junction branches",
+                StepKind.SPLIT, ((cdna, InputRole.TEMPLATE),), (expression, junction),
+                changes_molecule=False)
+    reviewed = ["cell", "rna_polymerase", "transcribe_srt", "bead_primer",
+                "reverse_transcriptase", "reverse_transcribe", "split_branches"]
+    expression_final = role_library("scCC expression-library roles",
+                                    (CELL, UMI, role("transcript cDNA")), index=SAMPLE)
+    _finish_pcr(graph, "expression", expression, expression_final,
+                "Expression branch: droplet transcriptome reads linked by cell barcode.",
+                reviewed, label="scCC expression")
+    circle_ligase = graph.input("circle_ligase", "SRT amplicon circularization ligase",
+                                MaterialKind.CATALYST)
+    circle = graph.product("circle", "circular SRT amplicon", MaterialKind.MOLECULAR,
+                           state=junction.state)
+    graph.react("circularize", "Circularize the SRT amplicon", StepKind.CIRCULARIZATION,
+                ((junction, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
+                geometry=CircularizationGeometry.known(
+                    "double-strand intramolecular ligation",
+                    statement="The SRT branch circularizes its amplicon before exonuclease selection."))
+    exonuclease = graph.input("exonuclease", "linear-DNA exonuclease",
+                              MaterialKind.CATALYST)
+    cleaned = graph.product("clean_circle", "exonuclease-resistant SRT circles",
+                            MaterialKind.MOLECULAR, state=circle.state)
+    linear_waste = graph.product("linear_waste", "digested linear DNA", MaterialKind.WASTE)
+    graph.react("remove_linear", "Remove residual linear DNA", StepKind.DIGESTION,
+                ((circle, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
+                (cleaned, linear_waste))
+    graph.discard(linear_waste, "does not contain retained circular SRT junction molecules")
+    shear = graph.input("shear_condition", "DNA shearing condition", MaterialKind.CONDITION)
+    fragments = graph.product("junction_fragments", "junction-proximal circle fragments",
+                              MaterialKind.MOLECULAR, state=cleaned.state)
+    graph.react("shear", "Shear the circularized product", StepKind.FRAGMENTATION,
+                ((cleaned, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    capture = graph.input("capture_probe", "junction capture reagent", MaterialKind.SELECTION)
+    captured = graph.product("captured_junction", "captured insertion-junction fragments",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    uncaptured = graph.product("uncaptured", "uncaptured circle fragments", MaterialKind.WASTE)
+    graph.react("capture_junction", "Capture the junction-bearing branch",
+                StepKind.AFFINITY_CAPTURE,
+                ((fragments, InputRole.TEMPLATE), (capture, InputRole.SELECTION)),
+                (captured, uncaptured))
+    graph.discard(uncaptured, "does not carry the selected SRT junction")
+    reviewed.extend(("circle_ligase", "circularize", "exonuclease", "remove_linear",
+                     "shear_condition", "shear", "capture_probe", "capture_junction"))
+    _finish_pcr(graph, "junction", captured, final, d.endpoint, reviewed,
+                label="scCC insertion junction")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _cotech_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cells = graph.input("cells", "antibody-bound permeabilized cells containing poly(A) RNA",
+                        MaterialKind.BIOLOGICAL, state=_cotech().initial, primary=True)
+    transposome = graph.input("barcoded_patn5", "first-well-barcoded pA–Tn5",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "protein-A–Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_cells", "cells with target-proximal barcoded chromatin",
+                           MaterialKind.MOLECULAR, state=cells.state)
+    tn5_waste = graph.product("tn5_waste", "non-library tagmentation products", MaterialKind.WASTE)
+    graph.react("tagment", "Tagment antibody-targeted chromatin",
+                StepKind.TAGMENTATION,
+                ((cells, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not retain a target-proximal barcoded fragment")
+    rt_primer = graph.input("rt_primer", "matching first-well-barcoded poly(dT) primer",
+                            MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    paired = graph.product("paired_branches", "cells containing first-well-barcoded chromatin and cDNA",
+                           MaterialKind.MOLECULAR,
+                           state=molecule("paired intracellular branches", (
+                               role("barcoded chromatin fragments"),
+                               role("RT well barcode"), role("transcript cDNA"))))
+    graph.react("reverse_transcribe", "Reverse-transcribe RNA with the matching well barcode",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (paired,))
+    second_well = graph.input("second_well", "second-round combinatorial-index partition",
+                              MaterialKind.CONDITION)
+    indexed = graph.product("indexed_products", "two-well-indexed chromatin and cDNA products",
+                            MaterialKind.MOLECULAR,
+                            state=molecule("two-index cell identity", (
+                                ident("first-round well barcode", "cotech_round1", "cell_barcode"),
+                                ident("second-round well barcode", "cotech_round2", "cell_barcode"),
+                                role("DNA and cDNA products"))))
+    collisions = graph.product("collisions", "ambiguous second-well collisions", MaterialKind.WASTE)
+    graph.react("redistribute", "Pool and redistribute products into second-index wells",
+                StepKind.PARTITION,
+                ((paired, InputRole.TEMPLATE), (second_well, InputRole.CONDITION)),
+                (indexed, collisions), changes_molecule=False)
+    graph.discard(collisions, "does not have an unambiguous ordered pair of cell indexes")
+    chromatin = graph.product("chromatin_branch", "CoTECH chromatin branch",
+                              MaterialKind.MOLECULAR, state=indexed.state)
+    rna = graph.product("rna_branch", "CoTECH transcriptome branch",
+                        MaterialKind.MOLECULAR, state=indexed.state)
+    graph.react("split_libraries", "Split chromatin and transcriptome libraries",
+                StepKind.SPLIT, ((indexed, InputRole.TEMPLATE),), (chromatin, rna),
+                changes_molecule=False)
+    reviewed = ["cells", "barcoded_patn5", "tn5", "tagment", "rt_primer",
+                "reverse_transcriptase", "reverse_transcribe", "second_well",
+                "redistribute", "split_libraries"]
+    chrom_final = role_library("CoTECH chromatin-library roles",
+                               (CELL, role("target-proximal chromatin insert")), index=SAMPLE)
+    rna_final = role_library("CoTECH transcriptome-library roles",
+                             (CELL, role("transcript cDNA")), index=SAMPLE)
+    _finish_pcr(graph, "chromatin", chromatin, chrom_final,
+                "Chromatin branch: " + d.endpoint, reviewed, label="CoTECH chromatin")
+    _finish_pcr(graph, "rna", rna, rna_final,
+                "RNA branch: " + d.endpoint, reviewed, label="CoTECH RNA")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _gotcha_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cells = graph.input("cells", "single-cell ATAC reaction containing a target genomic locus",
+                        MaterialKind.BIOLOGICAL, state=_gotcha().initial, primary=True)
+    bead_primer = graph.input("bead_primer", "droplet cell-barcode extension primer",
+                              MaterialKind.OLIGO)
+    locus_primer = graph.input("locus_primer", "locus-specific spike-in primer",
+                               MaterialKind.OLIGO)
+    polymerase = graph.input("extension_polymerase", "droplet extension polymerase",
+                             MaterialKind.CATALYST)
+    barcoded = graph.product("barcoded_products", "cell-barcoded ATAC and target-locus products",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("barcoded ATAC and target molecules", (
+                                 CELL, role("accessible-chromatin fragments"),
+                                 role("target-locus amplicon"))))
+    graph.react("barcode_extension", "Copy the droplet barcode onto ATAC and target molecules",
+                StepKind.EXTENSION,
+                ((cells, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
+                 (locus_primer, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (barcoded,))
+    atac = graph.product("atac_branch", "parent scATAC branch", MaterialKind.MOLECULAR,
+                         state=barcoded.state)
+    target = graph.product("target_branch", "target-enrichment aliquot", MaterialKind.MOLECULAR,
+                           state=barcoded.state)
+    graph.react("split_branches", "Split parent ATAC and target-genotype branches",
+                StepKind.SPLIT, ((barcoded, InputRole.TEMPLATE),), (atac, target),
+                changes_molecule=False)
+    reviewed = ["cells", "bead_primer", "locus_primer", "extension_polymerase",
+                "barcode_extension", "split_branches"]
+    atac_final = role_library("GoT-ChA parent ATAC roles",
+                              (CELL, role("accessible-chromatin insert")), index=SAMPLE)
+    _finish_pcr(graph, "atac", atac, atac_final,
+                "Parent scATAC branch linked by the same cell barcode.", reviewed,
+                label="GoT-ChA parent ATAC")
+    nested_forward = graph.input("nested_forward", "biotinylated hemi-nested target primer",
+                                 MaterialKind.OLIGO)
+    nested_reverse = graph.input("nested_reverse", "target PCR reverse primer",
+                                 MaterialKind.OLIGO)
+    nested_polymerase = graph.input("nested_polymerase", "target PCR polymerase",
+                                    MaterialKind.CATALYST)
+    enriched = graph.product("enriched_target", "biotinylated variant-spanning genotype amplicon",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("enriched genotype amplicon", (
+                                 CELL, role("variant-spanning genomic insert"),
+                                 role("biotinylated nested end"))))
+    graph.react("nested_pcr", "Perform biotinylated hemi-nested target PCR", StepKind.PCR,
+                ((target, InputRole.TEMPLATE), (nested_forward, InputRole.STRUCTURAL),
+                 (nested_reverse, InputRole.STRUCTURAL),
+                 (nested_polymerase, InputRole.CATALYST)), (enriched,),
+                geometry=PCRGeometry.unavailable(
+                    enriched.state, reason="The locus-specific panel determines the target-primer geometry."))
+    beads = graph.input("streptavidin", "streptavidin capture beads", MaterialKind.SELECTION)
+    captured = graph.product("captured_target", "streptavidin-captured genotype amplicon",
+                             MaterialKind.MOLECULAR, state=enriched.state)
+    uncaptured = graph.product("uncaptured_target", "uncaptured target-PCR material",
+                               MaterialKind.WASTE)
+    graph.react("capture", "Capture biotinylated target amplicons on streptavidin",
+                StepKind.AFFINITY_CAPTURE,
+                ((enriched, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, uncaptured))
+    graph.discard(uncaptured, "does not carry the selected biotinylated target amplicon")
+    reviewed.extend(("nested_forward", "nested_reverse", "nested_polymerase",
+                     "nested_pcr", "streptavidin", "capture"))
+    _finish_pcr(graph, "genotype", captured, final, d.endpoint, reviewed,
+                label="GoT-ChA genotype")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _scone_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cell = graph.input("cell", "lysed single cell or nucleus containing genomic DNA and total RNA",
+                       MaterialKind.BIOLOGICAL, state=_scone().initial, primary=True)
+    dna = graph.product("dna_branch", "genomic-DNA branch", MaterialKind.MOLECULAR,
+                        state=cell.state)
+    rna = graph.product("rna_branch", "total-RNA branch", MaterialKind.MOLECULAR,
+                        state=cell.state)
+    graph.react("separate_modalities", "Expose genomic DNA and total RNA as parallel substrates",
+                StepKind.SPLIT, ((cell, InputRole.TEMPLATE),), (dna, rna),
+                changes_molecule=False)
+    transposome = graph.input("dna_transposome", "DNA-branch-barcode/UMI-loaded transposome",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged_dna = graph.product("tagged_dna", "branch-barcoded molecularly tagged genomic DNA",
+                               MaterialKind.MOLECULAR,
+                               state=molecule("tagged DNA", (DNA_TYPE, DNA_UMI,
+                                   role("tagmented genomic fragment"))))
+    dna_waste = graph.product("dna_waste", "non-library tagmentation products",
+                              MaterialKind.WASTE)
+    graph.react("tagment_dna", "Tagment genomic DNA with the DNA-branch adapter",
+                StepKind.TAGMENTATION,
+                ((dna, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged_dna, dna_waste))
+    graph.discard(dna_waste, "does not retain a molecularly tagged genomic insert")
+    rt_primer = graph.input("rna_rt_primer", "RNA-branch-barcode/UMI internal RT primer",
+                            MaterialKind.OLIGO)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    cdna = graph.product("cdna", "internally primed branch-barcoded cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("first-strand cDNA", (RNA_TYPE, RNA_UMI,
+                             role("full-transcript cDNA"))))
+    graph.react("reverse_transcribe", "Internally prime total RNA",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    tailing_enzyme = graph.input("tailing_enzyme", "poly(C)-tailing enzyme",
+                                 MaterialKind.CATALYST)
+    tailed = graph.product("tailed_cdna", "poly(C)-tailed cDNA with the opposite amplification end",
+                           MaterialKind.MOLECULAR, state=cdna.state)
+    graph.react("tail_cdna", "Poly(C)-tail the cDNA", StepKind.TAILING,
+                ((cdna, InputRole.TEMPLATE), (tailing_enzyme, InputRole.CATALYST)), (tailed,))
+    pooled = graph.product("pooled_templates", "co-amplifiable tagged DNA and cDNA",
+                           MaterialKind.MOLECULAR,
+                           state=molecule("co-amplifiable DNA and cDNA", (
+                               role("common amplification end"), role("DNA or RNA insert"),
+                               role("branch barcode and UMI"))))
+    graph.react("pool_branches", "Pool DNA and RNA products for one-tube amplification",
+                StepKind.POOL,
+                ((tagged_dna, InputRole.TEMPLATE), (tailed, InputRole.TEMPLATE)), (pooled,))
+    reviewed = ["cell", "separate_modalities", "dna_transposome", "tn5",
+                "tagment_dna", "rna_rt_primer", "reverse_transcriptase",
+                "reverse_transcribe", "tailing_enzyme", "tail_cdna", "pool_branches"]
+    _finish_pcr(graph, "combined", pooled, final, d.endpoint, reviewed,
+                label="scONE-seq combined DNA/RNA")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _scito_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cells = graph.input("cell_pools", "cells divided into staining pools",
+                        MaterialKind.BIOLOGICAL,
+                        state=molecule("cell pools", (role("surface proteins"),)), primary=True)
+    antibodies = graph.input("antibodies", "universally oligo-conjugated antibodies",
+                             MaterialKind.MOLECULAR)
+    splints = graph.input("splints", "antibody- and pool-identifying splint oligos",
+                          MaterialKind.OLIGO)
+    tags = graph.product("antibody_tags", "SCITO antibody tags carrying target and pool identity",
+                         MaterialKind.SELECTION,
+                         state=molecule("SCITO antibody tag", (ANTIBODY, POOL,
+                             role("10x feature-capture sequence"))))
+    graph.react("hybridize_splints", "Hybridize pool-specific splints to universal antibody handles",
+                StepKind.HYBRIDIZATION,
+                ((antibodies, InputRole.TEMPLATE), (splints, InputRole.STRUCTURAL)), (tags,))
+    stained = graph.product("stained_cells", "SCITO-tagged cells", MaterialKind.MOLECULAR,
+                            state=molecule("tagged cell", (ANTIBODY, POOL,
+                                role("surface-protein counts"))))
+    unbound = graph.product("unbound_tags", "unbound antibody tags", MaterialKind.WASTE)
+    graph.react("stain", "Stain cells with target- and pool-barcoded antibodies",
+                StepKind.BINDING,
+                ((cells, InputRole.TEMPLATE), (tags, InputRole.SELECTION)),
+                (stained, unbound))
+    graph.discard(unbound, "does not report a cell-associated protein measurement")
+    droplets = graph.input("droplets", "10x feature-barcoding droplet condition",
+                           MaterialKind.CONDITION)
+    occupied = graph.product("occupied_droplets", "overloaded droplets containing pool-resolved cells",
+                             MaterialKind.MOLECULAR, state=stained.state)
+    empty = graph.product("empty_droplets", "empty or unresolved droplets", MaterialKind.WASTE)
+    graph.react("partition", "Combine stained pools and partition cells into droplets",
+                StepKind.PARTITION,
+                ((stained, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
+                (occupied, empty), changes_molecule=False)
+    graph.discard(empty, "does not contain a resolvable pool/cell combination")
+    bead_primer = graph.input("bead_primer", "10x cell-barcode/UMI feature-capture primer",
+                              MaterialKind.OLIGO)
+    polymerase = graph.input("extension_polymerase", "feature-tag extension polymerase",
+                             MaterialKind.CATALYST)
+    captured = graph.product("captured_tags", "droplet-barcoded SCITO feature tags",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("captured SCITO tags", (CELL, UMI,
+                                 ANTIBODY, POOL)))
+    graph.react("capture_tags", "Copy droplet barcode and UMI onto antibody tags",
+                StepKind.EXTENSION,
+                ((occupied, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (captured,))
+    reviewed = ["cell_pools", "antibodies", "splints", "hybridize_splints", "stain",
+                "droplets", "partition", "bead_primer", "extension_polymerase",
+                "capture_tags"]
+    _finish_pcr(graph, "feature", captured, final, d.endpoint, reviewed,
+                label="SCITO feature-tag")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _phospho_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cells = graph.input("cells", "fixed permeabilized hashed cells with accessible chromatin",
+                        MaterialKind.BIOLOGICAL, state=_phospho().initial, primary=True)
+    antibodies = graph.input("antibodies", "DNA-tagged intracellular antibodies and hash tags",
+                             MaterialKind.SELECTION)
+    stained = graph.product("stained_cells", "antibody-tagged hashed cells",
+                            MaterialKind.MOLECULAR,
+                            state=molecule("tagged cell", (ANTIBODY,
+                                ident("hash tag", "sample_hash", "sample_index"),
+                                role("accessible chromatin"))))
+    unbound = graph.product("unbound_antibodies", "unbound antibody tags", MaterialKind.WASTE)
+    graph.react("stain", "Stain intracellular phosphoprotein targets",
+                StepKind.BINDING,
+                ((cells, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION)),
+                (stained, unbound))
+    graph.discard(unbound, "does not report a cell-associated intracellular target")
+    transposome = graph.input("transposome", "10x scATAC loaded transposome",
+                              MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagmented = graph.product("tagmented_cells", "tagged cells with tagmented accessible chromatin",
+                              MaterialKind.MOLECULAR, state=stained.state)
+    tn5_waste = graph.product("tn5_waste", "non-library tagmentation products", MaterialKind.WASTE)
+    graph.react("tagment", "Tagment accessible chromatin", StepKind.TAGMENTATION,
+                ((stained, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagmented, tn5_waste))
+    graph.discard(tn5_waste, "does not retain an amplifiable accessibility fragment")
+    bridge = graph.input("bridge_oligos", "antibody-tag-to-10x-capture bridge oligos",
+                         MaterialKind.OLIGO)
+    bridged = graph.product("bridged_cells", "cells with capturable ATAC and antibody-tag branches",
+                            MaterialKind.MOLECULAR, state=_phospho().reactions[1].after)
+    graph.react("bridge_tags", "Hybridize antibody tags to 10x-compatible bridge oligos",
+                StepKind.HYBRIDIZATION,
+                ((tagmented, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL)), (bridged,))
+    droplets = graph.input("droplets", "10x ATAC GEM barcoding condition", MaterialKind.CONDITION)
+    barcoded = graph.product("barcoded_products", "cell-barcoded ATAC and antibody-tag products",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("barcoded Phospho-seq products", (
+                                 CELL, role("ATAC insert"), UMI, ANTIBODY,
+                                 role("phosphoprotein tag"))))
+    failed = graph.product("failed_partitions", "empty or ambiguous GEM products", MaterialKind.WASTE)
+    graph.react("partition", "Partition and barcode both molecular branches in GEMs",
+                StepKind.PARTITION,
+                ((bridged, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
+                (barcoded, failed), changes_molecule=False)
+    graph.discard(failed, "does not retain an interpretable cell barcode")
+    atac = graph.product("atac_branch", "ATAC bead-bound branch", MaterialKind.MOLECULAR,
+                         state=barcoded.state)
+    tags = graph.product("tag_branch", "antibody/hash-tag supernatant branch",
+                         MaterialKind.MOLECULAR, state=barcoded.state)
+    graph.react("split_branches", "Separate ATAC DNA from antibody/hash-tag supernatant",
+                StepKind.SPLIT, ((barcoded, InputRole.TEMPLATE),), (atac, tags),
+                changes_molecule=False)
+    reviewed = ["cells", "antibodies", "stain", "transposome", "tn5", "tagment",
+                "bridge_oligos", "bridge_tags", "droplets", "partition", "split_branches"]
+    atac_final = role_library("Phospho-seq ATAC-library roles",
+                              (CELL, role("accessible-chromatin insert")), index=SAMPLE)
+    tag_final = role_library("Phospho-seq tag-library roles",
+                             (CELL, UMI, ANTIBODY, role("hash or phosphoprotein tag")), index=SAMPLE)
+    _finish_pcr(graph, "atac", atac, atac_final, "ATAC branch: " + d.endpoint,
+                reviewed, label="Phospho-seq ATAC")
+    _finish_pcr(graph, "tags", tags, tag_final, "Antibody/hash branch: " + d.endpoint,
+                reviewed, label="Phospho-seq tag")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _cropseq_multi_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    cassette = graph.input("cassette", "CROPseq-multi lentiviral 3-prime-LTR cassette",
+                           MaterialKind.MOLECULAR, state=_cropseq_multi().initial, primary=True)
+    cells = graph.input("target_cells", "target cells", MaterialKind.BIOLOGICAL)
+    integrase = graph.input("integrase", "lentiviral integration machinery",
+                            MaterialKind.CATALYST)
+    integrated = graph.product("integrated_cassette", "integrated duplicated-LTR perturbation cassette",
+                               MaterialKind.MOLECULAR,
+                               state=molecule("integrated perturbation cassette", (
+                                   role("5-prime LTR copy"), role("selection-gene transcript"),
+                                   role("3-prime LTR copy"))))
+    graph.react("integrate", "Integrate and duplicate the engineered 3-prime LTR",
+                StepKind.INTEGRATION,
+                ((cassette, InputRole.TEMPLATE), (cells, InputRole.ANALYTE),
+                 (integrase, InputRole.CATALYST)), (integrated,))
+    rna_polymerase = graph.input("rna_polymerase", "Pol III transcription machinery",
+                                 MaterialKind.CATALYST)
+    guides = graph.product("guides", "tRNA-processed guides carrying linked iBARs",
+                           MaterialKind.MOLECULAR,
+                           state=molecule("processed perturbation guides", (
+                               role("sgRNA 1 with iBAR"), role("sgRNA 2 with iBAR"))))
+    graph.react("transcribe_guides", "Transcribe and tRNA-process the multiplexed guide array",
+                StepKind.TRANSCRIPTION,
+                ((integrated, InputRole.TEMPLATE), (rna_polymerase, InputRole.CATALYST)),
+                (guides,))
+    mrna = graph.product("mrna_branch", "poly(A)-mRNA perturbation-identity branch",
+                         MaterialKind.MOLECULAR, state=guides.state)
+    direct = graph.product("direct_branch", "direct-guide-capture branch",
+                           MaterialKind.MOLECULAR, state=guides.state)
+    t7 = graph.product("t7_branch", "CSMv2 T7-IVT branch", MaterialKind.MOLECULAR,
+                       state=guides.state)
+    graph.react("split_readouts", "Route perturbation identity to the three supported readouts",
+                StepKind.SPLIT, ((guides, InputRole.TEMPLATE),), (mrna, direct, t7),
+                changes_molecule=False)
+    reviewed = ["cassette", "target_cells", "integrase", "integrate", "rna_polymerase",
+                "transcribe_guides", "split_readouts"]
+    mrna_final = role_library("CROPseq-multi mRNA-readout roles",
+                              (CELL, UMI, GUIDE, role("linked guide spacer")), index=SAMPLE)
+    direct_final = role_library("CROPseq-multi direct-guide roles",
+                                (CELL, UMI, GUIDE, role("linked guide spacer")), index=SAMPLE)
+    _finish_rt_pcr(graph, "mrna", mrna, mrna_final, "mRNA branch: " + d.endpoint,
+                   reviewed, label="CROPseq-multi mRNA")
+    _finish_rt_pcr(graph, "direct", direct, direct_final,
+                   "direct-guide branch: " + d.endpoint, reviewed,
+                   label="CROPseq-multi direct guide")
+    t7_polymerase = graph.input("t7_rna_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    t7_rna = graph.product("t7_rna", "T7-amplified CSMv2 guide RNA", MaterialKind.MOLECULAR,
+                           state=t7.state)
+    graph.react("t7_transcription", "Amplify the CSMv2 guide-barcode product by T7 IVT",
+                StepKind.TRANSCRIPTION,
+                ((t7, InputRole.TEMPLATE), (t7_polymerase, InputRole.CATALYST)), (t7_rna,))
+    reviewed.extend(("t7_rna_polymerase", "t7_transcription"))
+    _finish_rt_pcr(graph, "t7", t7_rna, final, "T7-IVT branch: " + d.endpoint,
+                   reviewed, label="CROPseq-multi T7-IVT")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
+def _chair_graph(d, final):
+    source = f"{d.citation}; doi:{d.doi}"
+    graph = ProtocolGraph(d.title, authority=source)
+    nucleus = graph.input("nucleus", "crosslinked nucleus containing chromatin and poly(A) RNA",
+                          MaterialKind.BIOLOGICAL, state=_chair().initial, primary=True)
+    restriction = graph.input("restriction_enzyme", "in-situ restriction endonuclease",
+                              MaterialKind.CATALYST)
+    digested = graph.product("digested", "restricted crosslinked chromatin",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("restricted chromatin", (
+                                 role("restriction fragment A"),
+                                 role("crosslinked restriction fragment B"), role("poly(A) RNA"))))
+    graph.react("digest", "Digest chromatin in situ", StepKind.DIGESTION,
+                ((nucleus, InputRole.TEMPLATE), (restriction, InputRole.CATALYST)), (digested,))
+    ligase = graph.input("proximity_ligase", "proximity DNA ligase", MaterialKind.CATALYST)
+    contacts = graph.product("contacts", "chromatin-contact junctions retained with RNA",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("3D contact junction", (
+                                 role("restriction fragment A"), role("restriction fragment B"),
+                                 role("poly(A) RNA")),
+                                 junctions=(("restriction fragment A", "restriction fragment B",
+                                             "proximity ligation"),)))
+    graph.react("proximity_ligation", "Proximity-ligate crosslinked restriction ends",
+                StepKind.PROXIMITY_LIGATION,
+                ((digested, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (contacts,))
+    transposome = graph.input("transposome", "ATAC loaded transposome", MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "accessible-anchor and contact products retained with RNA",
+                           MaterialKind.MOLECULAR, state=_chair().reactions[2].after)
+    tn5_waste = graph.product("tn5_waste", "non-library tagmentation products", MaterialKind.WASTE)
+    graph.react("tagment", "Tagment accessible chromatin while retaining contact products",
+                StepKind.TAGMENTATION,
+                ((contacts, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+    graph.discard(tn5_waste, "does not retain an amplifiable accessible or contact fragment")
+    droplets = graph.input("droplets", "10x Multiome droplet-barcoding condition",
+                           MaterialKind.CONDITION)
+    barcoded = graph.product("barcoded", "cell-barcoded RNA, ATAC and contact products",
+                             MaterialKind.MOLECULAR,
+                             state=molecule("three matched readouts", (CELL, UMI,
+                                 role("ChAIR-RNA"), role("ChAIR-ATAC"), role("ChAIR-PET"))))
+    failed = graph.product("failed_partitions", "empty or ambiguous droplets", MaterialKind.WASTE)
+    graph.react("partition", "Barcode DNA and RNA together in Multiome droplets",
+                StepKind.PARTITION,
+                ((tagged, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
+                (barcoded, failed), changes_molecule=False)
+    graph.discard(failed, "does not retain an interpretable cell barcode")
+    rna = graph.product("rna_branch", "ChAIR-RNA branch", MaterialKind.MOLECULAR,
+                        state=barcoded.state)
+    atac = graph.product("atac_branch", "ChAIR-ATAC branch", MaterialKind.MOLECULAR,
+                         state=barcoded.state)
+    pet = graph.product("pet_branch", "ChAIR-PET contact branch", MaterialKind.MOLECULAR,
+                        state=barcoded.state)
+    graph.react("split_readouts", "Separate RNA, accessibility and contact readouts",
+                StepKind.SPLIT, ((barcoded, InputRole.TEMPLATE),), (rna, atac, pet),
+                changes_molecule=False)
+    reviewed = ["nucleus", "restriction_enzyme", "digest", "proximity_ligase",
+                "proximity_ligation", "transposome", "tn5", "tagment", "droplets",
+                "partition", "split_readouts"]
+    rna_final = role_library("ChAIR-RNA roles", (CELL, UMI, role("transcript cDNA")), index=SAMPLE)
+    atac_final = role_library("ChAIR-ATAC roles", (CELL, role("accessible-chromatin insert")), index=SAMPLE)
+    pet_final = role_library("ChAIR-PET roles", (CELL, role("contact-junction insert")), index=SAMPLE)
+    _finish_rt_pcr(graph, "rna", rna, rna_final, "ChAIR-RNA: " + d.endpoint,
+                   reviewed, label="ChAIR RNA")
+    _finish_pcr(graph, "atac", atac, atac_final, "ChAIR-ATAC: " + d.endpoint,
+                reviewed, label="ChAIR ATAC")
+    _finish_pcr(graph, "pet", pet, pet_final, "ChAIR-PET: " + d.endpoint,
+                reviewed, label="ChAIR contact")
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
 def get(key: str):
     d = DEFS[key]
     workflows = {"sccc": _sccc, "cotech": _cotech, "got-cha": _gotcha,
@@ -251,7 +823,7 @@ def get(key: str):
         "chair": (CELL, UMI, role("RNA, ATAC or contact insert")),
     }
     final = role_library(d.title + " final library roles", payloads[key], index=SAMPLE)
-    return SimpleNamespace(
+    spec = SimpleNamespace(
         TITLE=d.title, NOTES=d.notes,
         SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
         SUMMARY=d.summary, CAVEAT="", FINAL_LIBRARY=final, SEQ_PRIMERS=(),
@@ -260,3 +832,16 @@ def get(key: str):
         SEQUENCING_UNAVAILABLE="Target panels, pool barcodes and kit revisions vary; the defining source establishes the read roles, while this page does not invent a universal primer sequence.",
         workflow=workflows[key], oligos=lambda: (),
     )
+    factories = {
+        "sccc": _sccc_graph,
+        "cotech": _cotech_graph,
+        "got-cha": _gotcha_graph,
+        "scone-seq": _scone_graph,
+        "scito-seq": _scito_graph,
+        "phospho-seq": _phospho_graph,
+        "cropseq-multi": _cropseq_multi_graph,
+        "chair": _chair_graph,
+    }
+    if key in factories:
+        spec.protocol_graph = lambda: factories[key](d, final)
+    return spec

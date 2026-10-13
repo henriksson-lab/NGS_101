@@ -46,6 +46,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Segment, feature, revcomp
 from illumina import P5, P7, P7_RC
 import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+
+TITLE = "Small-seq — single-cell small-RNA sequencing"
+SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nbt.3701">Faridani et al. (2016)</a>; detailed protocol: <a href="https://doi.org/10.1038/s41596-018-0049-y">Hagemann-Jensen et al. (2018)</a>.'
 
 UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "whitelist",
@@ -267,3 +274,90 @@ SEQ_PRIMERS = [
     sp.mismatching(sp.TRUSEQ["R2"], "single-read protocol (Step 38, \"a single read of 51 "
                                     "bp\"); no TruSeq DNA read-2 site"),
 ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=graph.input("single_cell_rna","total RNA from one lysed cell",
+                    MaterialKind.BIOLOGICAL,primary=True)
+    mask=graph.input("rrna_mask","3′-biotinylated 5.8S rRNA masking oligo",
+                     MaterialKind.OLIGO)
+    masked=graph.product("masked_rna","RNA with the 5.8S 3′ end occluded",
+                         MaterialKind.MOLECULAR)
+    graph.react("mask_rrna","Hybridize the masking oligo to 5.8S rRNA",
+                StepKind.HYBRIDIZATION,
+                ((rna,InputRole.TEMPLATE),(mask,InputRole.STRUCTURAL)),(masked,))
+    ra3=graph.input("ra3","pre-adenylated, 3′-blocked RA3 adapter",MaterialKind.ADAPTER)
+    rnl2=graph.input("rnl2","T4 RNA ligase 2 truncated KQ",MaterialKind.CATALYST)
+    lig3=graph.product("ligated_3p","RA3-ligated small RNA",MaterialKind.MOLECULAR)
+    free_ra3=graph.product("free_ra3","unligated RA3 adapter",MaterialKind.MOLECULAR)
+    graph.react("ligate_3p","Ligate RA3 to accessible RNA 3′ ends",StepKind.LIGATION,
+                ((masked,InputRole.TEMPLATE),(ra3,InputRole.STRUCTURAL),
+                 (rnl2,InputRole.CATALYST)),(lig3,free_ra3),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "This is a pre-adenylated single-strand RNA ligation; no duplex overhang exists."))
+    rtp=graph.input("rtp","biotin-blocked RTP oligo",MaterialKind.OLIGO)
+    deadenylase=graph.input("deadenylase","5′ deadenylase",MaterialKind.CATALYST)
+    deadenylated=graph.product("deadenylated_ra3","deadenylated free RA3–RTP duplex",
+                               MaterialKind.MOLECULAR)
+    graph.react("deadenylate","Remove rApp from unligated RA3",StepKind.DEPHOSPHORYLATION,
+                ((free_ra3,InputRole.TEMPLATE),(deadenylase,InputRole.CATALYST)),(deadenylated,))
+    lambda_exo=graph.input("lambda_exonuclease","lambda exonuclease",MaterialKind.CATALYST)
+    adapter_waste=graph.product("adapter_waste","digested unligated RA3",MaterialKind.WASTE)
+    graph.react("digest_free_adapter","Digest free RA3 annealed to protected RTP",
+                StepKind.DIGESTION,
+                ((deadenylated,InputRole.TEMPLATE),(lambda_exo,InputRole.CATALYST)),
+                (adapter_waste,))
+    graph.discard(adapter_waste,"unligated 3′ adapter is enzymatically destroyed")
+    ra5=graph.input("ra5","UMI-bearing RA5 adapter",MaterialKind.ADAPTER)
+    rnl1=graph.input("rnl1","T4 RNA ligase 1",MaterialKind.CATALYST)
+    doubly=graph.product("doubly_ligated","RA5/RA3-ligated small RNA",MaterialKind.MOLECULAR,
+                         state=ligated_rna())
+    graph.react("ligate_5p","Ligate the UMI-bearing RA5 adapter",StepKind.LIGATION,
+                ((lig3,InputRole.TEMPLATE),(ra5,InputRole.STRUCTURAL),
+                 (rnl1,InputRole.CATALYST)),(doubly,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "This is a single-strand RNA ligation; no duplex overhang exists."))
+    rt=graph.input("reverse_transcriptase","SuperScript II reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","small-RNA first-strand cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Reverse-transcribe from RTP",StepKind.REVERSE_TRANSCRIPTION,
+                ((doubly,InputRole.TEMPLATE),(rtp,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(cdna,))
+    rp1=graph.input("rp1","RP1 forward PCR primer",MaterialKind.OLIGO)
+    pol=graph.input("polymerase","Phusion Hot Start II polymerase",MaterialKind.CATALYST)
+    pcr1=graph.product("pcr1_product","first-round small-RNA amplicon",MaterialKind.MOLECULAR)
+    graph.react("pcr1","Amplify with RP1 and leftover RTP",StepKind.PCR,
+                ((cdna,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
+                 (rtp,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(pcr1,),
+                geometry=PCRGeometry.unavailable(
+                    library(),reason="The first-round amplicon lacks the still-unpublished SRX arm."))
+    srx=graph.input("srx","SRX indexed reverse primer",MaterialKind.OLIGO,inferred=True,
+                    source=SOURCE+" (sequence in unavailable Supplementary Table 1)")
+    unselected=graph.product("unselected_library","indexed small-RNA library before size selection",
+                             MaterialKind.LIBRARY,state=library(),inferred=True,
+                             source=SOURCE+" (SRX linker sequence unavailable)")
+    graph.react("pcr2","Install the indexed P7 arm with RP1 and SRX",StepKind.PCR,
+                ((pcr1,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
+                 (srx,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(unselected,),
+                geometry=PCRGeometry.unavailable(
+                    library(),reason="The SRX primer sequence is not available in the verified source."))
+    size=graph.input("size_selection","130–160-bp Pippin or 120–200-bp gel selection",
+                     MaterialKind.SELECTION)
+    final=library()
+    selected=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
+                           source=SOURCE+" (SRX linker sequence unavailable)")
+    offsize=graph.product("offsize","off-size library and some adapter dimers",MaterialKind.WASTE)
+    graph.react("size_select","Select the small-RNA library size range",StepKind.SELECTION,
+                ((unselected,InputRole.TEMPLATE),(size,InputRole.SELECTION)),(selected,offsize))
+    graph.discard(offsize,"off-size molecules are excluded, although the overlapping adapter dimer is not fully removed")
+    graph.sequence(selected,SequencingPlan(
+        library=final,primers=(SEQ_PRIMERS[0],),acquired_roles=("Read 1",),
+        read_lengths={"Read 1":READ_LEN},
+        limitation="The i7 sequencing primer is not published in the locally verified source."))
+    graph.declare_reviewed_scope(("single_cell_rna","rrna_mask","mask_rrna","ra3","rnl2",
+      "ligate_3p","rtp","deadenylase","deadenylate","lambda_exonuclease",
+      "digest_free_adapter","ra5","rnl1","ligate_5p","reverse_transcriptase",
+      "reverse_transcribe","rp1","polymerase","pcr1","srx","pcr2","size_selection",
+      "size_select","library"),SOURCE)
+    return graph.require_publishable()

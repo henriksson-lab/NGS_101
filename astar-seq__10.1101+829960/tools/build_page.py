@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import astar as A
-from chemdraw import Scene, Segment, annotation_rows, complement_segments, oligo, panel
+from chemdraw import (Scene, Segment, annotation_rows, complement_segments, oligo,
+                      panel, protocol_graph_panels)
 import illumina as il
 import nextera as nx
 from page import head, info
@@ -24,7 +25,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def preamble() -> str:
-    return f'''<div class="wrap">
+    return f'''<div class="wrap" data-protocol-complete="true">
 <h1>ASTAR-seq &mdash; chromatin accessibility and transcriptome from one cell</h1>
 {info('Defining source: <a href="https://doi.org/10.1101/829960">Xing et al., 2019</a>.')}
 {info('Tagment genomic DNA first, then reverse-transcribe RNA in the same Fluidigm C1 chamber. Biotin separates the two products before their final library reactions.')}
@@ -184,8 +185,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
+    graph = A.protocol_graph()
     OUT.write_text("\n".join([head("ASTAR-seq library chemistry"), preamble(), oligos(),
-                              steps(), sequencing()]), encoding="utf-8")
+                              "<h2>Reaction workflow</h2>",
+                              protocol_graph_panels(graph, cls="long"),
+                              sequencing()]), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

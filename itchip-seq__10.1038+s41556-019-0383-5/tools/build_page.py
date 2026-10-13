@@ -10,7 +10,7 @@ sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 
 import itchip as I
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info
 
 OUT = HERE.parent / "itchip-seq.html"
@@ -50,9 +50,18 @@ def construction() -> str:
             show_read_content=True)}"""
 
 
+def sequencing() -> str:
+    final = I.final_library()
+    return sp.section(
+        final, I.SEQ_PRIMERS, heading="Final library and read layout",
+        intro="Paired-end 150-bp sequencing uses four custom primers. Read 1 and Read 2 enter genomic DNA; Index 1 crosses the T7 barcode and Index 2 crosses the T5 barcode. There is no UMI.",
+        read_lengths=I.READ_LENGTHS, show_read_content=True)
+
+
 def render() -> str:
+    graph = I.protocol_graph()
     return "\n".join([
-        head("itChIP-seq library chemistry"), '<div class="wrap">',
+        head("itChIP-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>itChIP-seq &mdash; barcoded tagmentation before pooled ChIP</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41556-019-0383-5">'
              'Ai et al., <i>Nature Cell Biology</i> (2019)</a>.'),
@@ -60,7 +69,8 @@ def render() -> str:
         'library documented by Supplementary Table 1 and Supplementary Fig. 4. The exact '
         'oligos are published; unavailable main-text Methods leave some reaction ordering '
         'and conditions outside this schematic.</div>',
-        key_oligos(), construction(), '</div>',
+        key_oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        sequencing(), '</div>',
     ])
 
 

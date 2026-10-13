@@ -238,6 +238,8 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
     notes = [read_note(p) for p in notes_of(d)]
     page = diagram_out(d)
     has_page = bool(page and page.exists() and d not in omit)
+    if has_page and r["status"] == "documented":
+        has_page = 'data-protocol-complete="true"' in page.read_text(encoding="utf-8")
     n, ok = checks(d) if run_checks else (0, False)
     category = crows[0]["category"] if crows else ""
     commercial = "commercial kit" in properties["availability"]

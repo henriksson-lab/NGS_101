@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import snatac as S
-from chemdraw import Scene, Segment, annotation_rows, complement_segments, oligo, panel
+from chemdraw import (Scene, Segment, annotation_rows, complement_segments, oligo,
+                      panel, protocol_graph_panels)
 import nextera as nx
 from page import head, info, table
 import seqprimers as sp
@@ -162,8 +163,13 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    OUT.write_text("\n".join([head("snATAC-seq library chemistry"), preamble(), oligos(),
-                              steps(), sequencing()]), encoding="utf-8")
+    graph = S.protocol_graph()
+    html = "\n".join([head("snATAC-seq library chemistry"), preamble(), oligos(),
+                       '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+                       '<h2>Molecular details</h2>', steps(), sequencing()])
+    html = html.replace('<div class="wrap">',
+                        '<div class="wrap" data-protocol-complete="true">', 1)
+    OUT.write_text(html, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

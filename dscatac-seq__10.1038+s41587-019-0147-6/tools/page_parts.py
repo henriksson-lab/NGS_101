@@ -6,11 +6,13 @@ HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1
 import dscatac as D
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,annotation_rows,oligo,panel,strand_row
+from chemdraw import (Construct,Scene,Segment,annotation_rows,oligo,panel,
+                      protocol_graph_panels,strand_row)
 from page import head,info,table
 
 def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 def render_page(protocol):
+    graph=D.protocol_graph(protocol)
     sci=protocol=="dsciATAC-seq"
     notes=("01_dscatac-seq.html" if not sci else
            "../dscatac-seq__10.1038+s41587-019-0147-6/01_dscatac-seq.html")
@@ -24,13 +26,14 @@ def render_page(protocol):
     r1 += [seg("ME",nx.ME,"me"),seg("genome","XXXXXXXX...",placeholder=True)]
     rows=[("Read 1 (118)","bead barcode"+(" + Tn5 barcode" if sci else "")+" + genomic DNA"),
           ("Index 1 (8)","sample index"),("Read 2 (40)","genomic DNA from the s7 end")]
-    return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap">',
+    return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap" data-protocol-complete="true">',
       f'<h1>{protocol} &mdash; droplet-barcoded single-cell ATAC-seq</h1>',
       f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',
       info('Defining source: <a href="https://doi.org/10.1038/s41587-019-0147-6">Lareau et al., <i>Nature Biotechnology</i> (2019)</a>.'),
       '<div class="caveat"><b>Bead sequence boundary.</b> The paper publishes the bead barcode/constant/s5 portion but leaves its linker cell empty. Dotted 5\' sequence is an unpublished placeholder, not the upstream Bio-Rad reconstruction.</div>',
       f'<h2>Key oligos</h2><seq>{tn5}{bead}</seq>',
-      '<h2>Library construction</h2>',
+      '<h2>Reaction workflow</h2>',protocol_graph_panels(graph,cls="long"),
+      '<h2>Molecular details</h2>',
       ('<h3>(1) Barcode Tn5 in wells, tagment, then pool intact cells</h3>' if sci else '<h3>(1) Tagment intact cells or nuclei in bulk</h3>'),
       panel([*Scene.duplex(list(frag)).rows(),*annotation_rows(frag)],cls="long",caption=("Gap-filled representative fragment; the s5 end carries the first, Tn5 barcode." if sci else "Gap-filled representative s5/s7 fragment.")),
       '<h3>(2) Co-encapsulate tagmented cells with super-loaded barcode beads</h3>',

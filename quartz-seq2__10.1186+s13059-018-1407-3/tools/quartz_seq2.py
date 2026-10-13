@@ -50,9 +50,15 @@ def mrna_rt_scene() -> Scene:
     return sc
 
 
-def tailed_first_strand() -> Construct:
+def first_strand() -> Construct:
     return Construct([
         *rt_primer(), seg("cDNA", "X" * 28, placeholder=True),
+    ], name="Quartz-Seq2 barcoded first-strand cDNA")
+
+
+def tailed_first_strand() -> Construct:
+    return Construct([
+        *first_strand(),
         seg("TdT poly(A)", "A" * 24),
     ], name="poly(A)-tailed Quartz-Seq2 first strand")
 
@@ -67,6 +73,20 @@ def tagging_scene() -> Scene:
     return sc
 
 
+def wta_amplicon() -> Construct:
+    """Long cDNA product with the single gM primer facing inward at both ends."""
+    return Construct([
+        seg("tagging-end M", M, "tso"),
+        seg("tagging poly(T)", "T" * 23),
+        seg("cDNA", "X" * 32, placeholder=True),
+        seg("RT-primer poly(T)", "T" * 24),
+        seg("UMI reverse complement", "N" * 8, "umi", placeholder=True),
+        seg("cell barcode reverse complement", "B" * 15, "cbc", placeholder=True),
+        seg("AC reverse complement", "GT"),
+        seg("RT-end M reverse complement", revcomp(M), "tso"),
+    ], name="Quartz-Seq2 suppression-amplified cDNA")
+
+
 def truncated_adapter_scene() -> Scene:
     """Source-listed truncated Y adapter; Scene enforces its 12-base stem."""
     long = [seg("P7", il.P7, "p7"), seg("i7", LT06_OLIGO_INDEX, "cbc"),
@@ -78,13 +98,28 @@ def truncated_adapter_scene() -> Scene:
     sc.strand("long", long, label="P7 strand")
     sc.anneal("short", short, to="long", pair=("stem", "stem complement"),
               label="short strand", unpaired=("unpaired Read 1 arm",))
-    sc.mark("long", "T", "3'-T ligation overhang")
+    sc.overhang("long", "T", polarity="3-prime", owner="adapter",
+                text="adapter 3′-T ligation overhang")
     return sc
 
 
 READ1_PRIMER = sp.custom("Read 1", "Read1DropQuartz", READ1_DROPQUARTZ,
                          "Sasagawa et al. 2018, Supplementary Table S4")
 SEQ_PRIMERS = (READ1_PRIMER, sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
+
+
+def selective_pcr_template(insert_nt: int = 36) -> Construct:
+    """3′ cDNA fragment after Y-adapter ligation, before P5-gMac PCR."""
+    return Construct([
+        seg("gM primer", GM_PRIMER, "tso"), seg("AC", "AC"),
+        seg("cell barcode", "B" * 15, "cbc", placeholder=True),
+        seg("UMI", "U" * 8, "umi", placeholder=True),
+        seg("poly(T)", "T" * 24),
+        seg("3-prime cDNA fragment", "X" * insert_nt, placeholder=True),
+        seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
+        seg("i7", revcomp(LT06_OLIGO_INDEX), "cbc"),
+        seg("P7 reverse complement", il.P7_RC, "p7"),
+    ], name="Quartz-Seq2 selective-PCR template")
 
 
 def final_library(insert_nt: int = 36) -> Construct:

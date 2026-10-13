@@ -11,7 +11,7 @@ AUDIT_TOOLS = HERE.parents[1] / "10x-chromium-single-cell-5-vdj" / "tools"
 sys.path[:0] = [str(HERE), str(AUDIT_TOOLS), str(HERE.parents[1] / "lib")]
 
 import seqprimers as sp
-from chemdraw import Scene, Segment, annotation_rows, oligo, panel
+from chemdraw import Scene, Segment, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info, table
 from vdj_common import VDJ_FORWARD
 from vdj_v2 import CHEM as C
@@ -42,11 +42,13 @@ def sequencing(lib) -> str:
 def render() -> str:
     amplicon = C.vdj_amplicon()
     lib = C.final_library()
+    graph = C.protocol_graph()
     return "\n".join([
-        head("10x Single Cell 5' V(D)J v2 chemistry"), '<div class="wrap">',
+        head("10x Single Cell 5' V(D)J v2 chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>10x Chromium Next GEM Single Cell 5&#39; V(D)J v2</h1>',
         info('Primary source: <a href="https://www.10xgenomics.com/support">10x Genomics '
              'User Guide CG000331 Rev F</a>.'),
+        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Key oligos</h2><seq>',
         oligo("gel-bead barcoded TSO", C.gel_bead_segments()[:-1], three="rGrGrG-3'"),
         oligo("poly(dT) RT primer", C.polydt_segments()),

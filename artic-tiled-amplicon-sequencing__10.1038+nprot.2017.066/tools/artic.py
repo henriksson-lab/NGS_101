@@ -9,6 +9,9 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, Row, Scene, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from tiled_amplicon import alternating_scheme, scheme_rows
 
 TITLE = "ARTIC / PrimalSeq — two-pool tiled viral amplicon sequencing"
@@ -84,3 +87,118 @@ def sections():
         ("INFERRED — MiSeq branch", miseq.rows()+illumina_ligation_scene().rows(),
          "KAPA Hyper performs end repair/dA-tailing and amplification; SureSelectXT2 indexing adapters replace the KAPA adapters."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    viral=graph.input("viral_template","viral DNA or reverse-transcribed cDNA",
+                      MaterialKind.MOLECULAR,primary=True)
+    pool1_template=graph.product("pool1_template","aliquot for odd amplicons",
+                                 MaterialKind.MOLECULAR)
+    pool2_template=graph.product("pool2_template","aliquot for even amplicons",
+                                 MaterialKind.MOLECULAR)
+    graph.react("split_pools","Split template between alternating primer pools",
+                StepKind.SPLIT,((viral,InputRole.TEMPLATE),),
+                (pool1_template,pool2_template),changes_molecule=False)
+    pool1_f=graph.input("pool1_forward","odd-pool forward-primer members",MaterialKind.OLIGO)
+    pool1_r=graph.input("pool1_reverse","odd-pool reverse-primer members",MaterialKind.OLIGO)
+    pool2_f=graph.input("pool2_forward","even-pool forward-primer members",MaterialKind.OLIGO)
+    pool2_r=graph.input("pool2_reverse","even-pool reverse-primer members",MaterialKind.OLIGO)
+    polymerase=graph.input("amplicon_polymerase","multiplex PCR polymerase",
+                           MaterialKind.CATALYST)
+    odd=graph.product("odd_amplicons","odd tiled viral amplicons",MaterialKind.MOLECULAR)
+    even=graph.product("even_amplicons","even tiled viral amplicons",MaterialKind.MOLECULAR)
+    tiled_template=Construct([seg("representative tiled viral target","X"*42,
+                                  placeholder=True)],name="variable tiled viral targets")
+    graph.react("amplify_odd","Amplify odd tiled amplicons",StepKind.PCR,
+                ((pool1_template,InputRole.TEMPLATE),(pool1_f,InputRole.STRUCTURAL),
+                 (pool1_r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (odd,),geometry=PCRGeometry.unavailable(
+                    tiled_template,reason="Each pool contains many source-defined inward primer pairs rather than one PCR geometry."))
+    graph.react("amplify_even","Amplify even tiled amplicons",StepKind.PCR,
+                ((pool2_template,InputRole.TEMPLATE),(pool2_f,InputRole.STRUCTURAL),
+                 (pool2_r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (even,),geometry=PCRGeometry.unavailable(
+                    tiled_template,reason="Each pool contains many source-defined inward primer pairs rather than one PCR geometry."))
+    pooled=graph.product("pooled_amplicons","cleaned pooled tiled amplicons",
+                         MaterialKind.MOLECULAR)
+    graph.react("pool_amplicons","Pool odd and even tiled amplicons",StepKind.POOL,
+                ((odd,InputRole.TEMPLATE),(even,InputRole.TEMPLATE)),(pooled,),
+                changes_molecule=False)
+    ont_input=graph.product("ont_input","amplicons assigned to the MinION branch",
+                            MaterialKind.MOLECULAR)
+    miseq_input=graph.product("miseq_input","amplicons assigned to the MiSeq branch",
+                              MaterialKind.MOLECULAR)
+    graph.react("split_platforms","Split pooled amplicons by sequencing platform",
+                StepKind.SPLIT,((pooled,InputRole.TEMPLATE),),(ont_input,miseq_input),
+                changes_molecule=False)
+    ont_endprep=graph.input("ont_endprep","MinION end-repair and dA-tailing enzyme mix",
+                            MaterialKind.CATALYST)
+    ont_tailed=graph.product("ont_tailed","end-repaired dA-tailed MinION amplicons",
+                             MaterialKind.MOLECULAR)
+    graph.react("prepare_ont_ends","End-repair and dA-tail the MinION branch",
+                StepKind.END_REPAIR,
+                ((ont_input,InputRole.TEMPLATE),(ont_endprep,InputRole.CATALYST)),
+                (ont_tailed,))
+    ont_adapter=graph.input("ont_adapter","native barcode and motor sequencing adapters",
+                            MaterialKind.ADAPTER,inferred=True,
+                            source=SOURCE+" (kit-facing bases undisclosed)")
+    ont_ligase=graph.input("ont_ligase","MinION adapter ligase",MaterialKind.CATALYST)
+    ont_library=graph.product("ont_library","motor-adapted MinION tiled-amplicon library",
+                              MaterialKind.LIBRARY)
+    graph.react("ligate_ont","Ligate native barcode and motor adapters",
+                StepKind.LIGATION,
+                ((ont_tailed,InputRole.TEMPLATE),(ont_adapter,InputRole.STRUCTURAL),
+                 (ont_ligase,InputRole.CATALYST)),(ont_library,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The named MinION kits do not disclose motor/barcode ligation-facing sequences."))
+    graph.sequence(ont_library,SequencingPlan(
+        limitation="MinION uses a motor-loaded adapter and no sequencing primer; the kit adapter sequence is proprietary."))
+    miseq_endprep=graph.input("miseq_endprep","KAPA end-repair and dA-tailing mix",
+                              MaterialKind.CATALYST)
+    miseq_tailed=graph.product("miseq_tailed","end-repaired dA-tailed MiSeq amplicons",
+                               MaterialKind.MOLECULAR)
+    graph.react("prepare_miseq_ends","End-repair and dA-tail the MiSeq branch",
+                StepKind.END_REPAIR,
+                ((miseq_input,InputRole.TEMPLATE),(miseq_endprep,InputRole.CATALYST)),
+                (miseq_tailed,))
+    miseq_adapter=graph.input("miseq_adapter","SureSelectXT2 indexing adapter",
+                              MaterialKind.ADAPTER,inferred=True,
+                              source=SOURCE+" (adapter bases not printed)")
+    miseq_ligase=graph.input("miseq_ligase","MiSeq-branch adapter ligase",
+                             MaterialKind.CATALYST)
+    miseq_adapted=graph.product("miseq_adapted","SureSelectXT2-adapted tiled amplicons",
+                                MaterialKind.MOLECULAR,inferred=True,
+                                source=SOURCE+" (adapter bases not printed)")
+    graph.react("ligate_miseq","Ligate SureSelectXT2 indexing adapters",
+                StepKind.LIGATION,
+                ((miseq_tailed,InputRole.TEMPLATE),(miseq_adapter,InputRole.STRUCTURAL),
+                 (miseq_ligase,InputRole.CATALYST)),(miseq_adapted,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper names SureSelectXT2 adapters without printing their ligation-facing geometry."))
+    fwd=graph.input("miseq_forward","MiSeq library PCR forward primer",MaterialKind.OLIGO,
+                    inferred=True,source=SOURCE+" (kit oligo not printed)")
+    rev=graph.input("miseq_reverse","MiSeq indexed library PCR reverse primer",
+                    MaterialKind.OLIGO,inferred=True,
+                    source=SOURCE+" (kit oligo not printed)")
+    pcr_polymerase=graph.input("miseq_polymerase","KAPA library PCR polymerase",
+                               MaterialKind.CATALYST)
+    miseq_library=graph.product("miseq_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                                state=FINAL_LIBRARY,inferred=True,
+                                source=SOURCE+" (inferred Illumina-compatible endpoint)")
+    graph.react("miseq_pcr","Amplify the indexed MiSeq branch",StepKind.PCR,
+                ((miseq_adapted,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
+                (miseq_library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The named kit primers are not printed in the defining protocol."))
+    graph.sequence(miseq_library,SequencingPlan(library=FINAL_LIBRARY,
+                                                primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "viral_template","split_pools","pool1_forward","pool1_reverse",
+        "pool2_forward","pool2_reverse",
+        "amplicon_polymerase","amplify_odd","amplify_even","pool_amplicons",
+        "split_platforms","ont_endprep","prepare_ont_ends","ont_adapter","ont_ligase",
+        "ligate_ont","ont_library","miseq_endprep","prepare_miseq_ends",
+        "miseq_adapter","miseq_ligase","ligate_miseq","miseq_forward",
+        "miseq_reverse","miseq_polymerase","miseq_pcr","miseq_library"),SOURCE)
+    return graph.require_publishable()

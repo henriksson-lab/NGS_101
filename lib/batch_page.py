@@ -2,11 +2,16 @@
 from __future__ import annotations
 
 import seqprimers as sp
-from chemdraw import duplex_rows, panel, workflow_from_sections, workflow_panel
+from chemdraw import (duplex_rows, panel, protocol_graph_panels,
+                      workflow_from_sections, workflow_panel)
 from page import head, info
 
 
 def render(m) -> str:
+    graph_factory = getattr(m, "protocol_graph", None)
+    graph = graph_factory() if callable(graph_factory) else None
+    if graph is not None:
+        graph.require_publishable()
     parts = [head(m.TITLE), '<div class="wrap">', f'<h1>{m.TITLE}</h1>',
              f'<p class="research-notes"><a href="{m.NOTES}">Research notes</a></p>',
              info(m.SOURCE), info(m.SUMMARY)]
@@ -16,7 +21,9 @@ def render(m) -> str:
         rows = list(m.oligos())
         if rows:
             parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
-    if callable(getattr(m, "workflow", None)):
+    if graph is not None:
+        workflow = None
+    elif callable(getattr(m, "workflow", None)):
         workflow = m.workflow()
     else:
         sections = list(m.sections())
@@ -24,7 +31,10 @@ def render(m) -> str:
             sections, initial_rows=getattr(m, "INITIAL_ROWS", None),
             initial_name=getattr(m, "INITIAL_NAME", "Starting material"))
             if sections else None)
-    if workflow is not None:
+    if graph is not None:
+        parts[1] = '<div class="wrap" data-protocol-complete="true">'
+        parts.extend(['<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long")])
+    elif workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>', workflow_panel(workflow, cls="long")])
     lib = getattr(m, "FINAL_LIBRARY", None)
     primers = getattr(m, "SEQ_PRIMERS", ())

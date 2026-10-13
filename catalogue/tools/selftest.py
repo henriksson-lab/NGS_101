@@ -199,12 +199,12 @@ check("every row has a directory, a protocol and a status",
       [r for r in cat.ours() if not (r["dir"] and r["protocol"] and r["status"])], [])
 check("every directory named in ours.tsv exists on disk",
       [r["dir"] for r in cat.ours() if not (ROOT / r["dir"]).is_dir()], [])
-check("status is one of documented / draft / notes",
-      sorted({r["status"] for r in cat.ours()} - {"documented", "draft", "notes"}), [])
+check("status is one of documented / assay / draft / notes",
+      sorted({r["status"] for r in cat.ours()} - {"documented", "assay", "draft", "notes"}), [])
 check("a 'notes' directory has at least one reference note",
       [r["dir"] for r in cat.ours() if r["status"] == "notes"
        and not list((ROOT / r["dir"]).glob("0*.md"))], [])
-check("every documented or draft directory has a build script and a selftest",
+check("every documented, assay or draft directory has a build script and a selftest",
       [r["dir"] for r in cat.ours() if r["status"] != "notes"
        and not ((ROOT / r["dir"] / "tools" / "build_page.py").exists()
                and (ROOT / r["dir"] / "tools" / "selftest.py").exists())], [])

@@ -10,9 +10,13 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import marsseq as M
 import seqprimers as sp
-from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
-                      strand_row)
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, Segment, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
+from rna_amplification import barcoded_ivt_front
 
 
 def seg(name, top, tag=None, **kw):
@@ -25,7 +29,127 @@ PAPERS = {
 }
 
 
+def protocol_graph(protocol: str) -> ProtocolGraph:
+    if protocol not in PAPERS:
+        raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
+    source = f"https://doi.org/{PAPERS[protocol][0]}"
+    graph = ProtocolGraph(protocol, authority=source)
+    primary = graph.input("mrna", "polyadenylated RNA from one well",
+                          MaterialKind.BIOLOGICAL, state=M.rt_scene(protocol),
+                          primary=True)
+    arna, reviewed = barcoded_ivt_front(
+        graph, primary, rt_primer_label=f"{protocol} RT1",
+        rt_state=M.rt_scene(protocol), first_state=M.rt_scene(protocol),
+        duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol))
+    reviewed.insert(0, "mrna")
+
+    fragmentation = graph.input("fragmentation_condition",
+                                "RNA fragmentation condition",
+                                MaterialKind.CONDITION)
+    fragmented = graph.product("fragmented_arna", "fragmented amplified RNA",
+                               MaterialKind.MOLECULAR,
+                               state=M.amplified_rna(protocol))
+    graph.react("fragment_arna", "Fragment amplified RNA",
+                StepKind.FRAGMENTATION,
+                ((arna, InputRole.TEMPLATE),
+                 (fragmentation, InputRole.CONDITION)), (fragmented,))
+
+    adapter_state = (M.mars2_ligation_adapter() if protocol == "MARS-seq2.0"
+                     else Construct([
+                         seg("ordered pool barcode", M.POOL_ORDERED, "cbc"),
+                         seg("random diversity", "N" * M.MARS1_POOL_RANDOM_NT,
+                             placeholder=True),
+                         seg("ligation/RT2 handle", M.LIG_CONSTANT, "r1"),
+                     ], name="MARS-seq ligation adapter"))
+    adapter = graph.input("pool_adapter", "pool-barcoded RNA ligation adapter",
+                          MaterialKind.ADAPTER, state=adapter_state)
+    ligase = graph.input("rna_ligase", "RNA ligase", MaterialKind.CATALYST)
+    ligated = graph.product("ligated_arna", "pool-adapter-ligated amplified RNA",
+                            MaterialKind.MOLECULAR,
+                            state=M.ligated_arna(protocol))
+    geometry = AdapterLigationGeometry.unavailable(
+        "The source prints the adapter sequence and terminal modifications, but the "
+        "compact model does not establish both ligation-facing RNA end geometries.")
+    graph.react("ligate_pool_adapter", "Ligate the pool-barcoded RNA adapter",
+                StepKind.LIGATION,
+                ((fragmented, InputRole.TEMPLATE),
+                 (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
+
+    if protocol == "MARS-seq":
+        rt2 = graph.input("rt2", "RT2 primer", MaterialKind.OLIGO,
+                          state=Construct([seg("RT2", M.MARS1_RT2_PRINTED)]))
+    else:
+        rt2 = graph.input(
+            "rt2", "RT2 primer (sequence not disclosed)", MaterialKind.OLIGO,
+            inferred=True, source=source + " (RT2 sequence not disclosed)")
+    reverse_transcriptase = graph.input("rt2_reverse_transcriptase",
+                                       "RT2 reverse transcriptase",
+                                       MaterialKind.CATALYST)
+    final = M.final_library(protocol)
+    inferred_boundary = protocol == "MARS-seq2.0"
+    pcr_template = graph.product(
+        "pcr_template", "second-strand library-PCR template",
+        MaterialKind.MOLECULAR, state=final, inferred=inferred_boundary,
+        source=(source + " (RT2 and PCR-primer sequences not disclosed)"
+                if inferred_boundary else source))
+    graph.react("second_reverse_transcription",
+                "Reverse-transcribe the adapter-ligated amplified RNA with RT2",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((ligated, InputRole.TEMPLATE), (rt2, InputRole.STRUCTURAL),
+                 (reverse_transcriptase, InputRole.CATALYST)), (pcr_template,))
+
+    if protocol == "MARS-seq":
+        f_primer = PCRPrimer("P5_Rd1 PCR", M.MARS1_P5_PCR)
+        r_primer = PCRPrimer("P7_Rd2 PCR", M.MARS1_P7_PCR)
+        forward = graph.input("pcr_forward", f_primer.name, MaterialKind.OLIGO,
+                              state=Construct([seg(f_primer.name, f_primer.sequence)]))
+        reverse = graph.input("pcr_reverse", r_primer.name, MaterialKind.OLIGO,
+                              state=Construct([seg(r_primer.name, r_primer.sequence)]))
+        pcr_geometry = PCRGeometry.exact(
+            final, f_primer, r_primer,
+            statement="Supplementary Tables S7–S8 print both library-PCR primers.")
+    else:
+        primer_source = source + " (library-PCR primer sequences not disclosed)"
+        forward = graph.input("pcr_forward", "library-PCR forward primer",
+                              MaterialKind.OLIGO, inferred=True, source=primer_source)
+        reverse = graph.input("pcr_reverse", "library-PCR reverse primer",
+                              MaterialKind.OLIGO, inferred=True, source=primer_source)
+        pcr_geometry = PCRGeometry.unavailable(
+            final, reason="The defining source does not disclose both PCR primer sequences.")
+    polymerase = graph.input("pcr_polymerase", "PCR polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product(
+        "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
+        state=final, inferred=inferred_boundary,
+        source=(source + " (outer PCR arms not disclosed)"
+                if inferred_boundary else source))
+    graph.react("library_pcr", "Amplify the final sequencing library",
+                StepKind.PCR,
+                ((pcr_template, InputRole.TEMPLATE),
+                 (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (library,),
+                geometry=pcr_geometry)
+    if protocol == "MARS-seq":
+        graph.sequence(library, SequencingPlan(
+            library=final, primers=M.SEQ_PRIMERS,
+            acquired_roles=("Read 1", "Read 2")))
+    else:
+        graph.sequence(library, SequencingPlan(
+            limitation=("The source declares Read 1 and Read 2 contents, but does not "
+                        "disclose exact sequencing-primer sites.")))
+    reviewed.extend((
+        "fragmentation_condition", "fragment_arna", "pool_adapter", "rna_ligase",
+        "ligate_pool_adapter", "rt2", "rt2_reverse_transcriptase",
+        "second_reverse_transcription", "pcr_forward", "pcr_reverse",
+        "pcr_polymerase", "library_pcr", "library"))
+    graph.declare_reviewed_scope(reviewed, source)
+    return graph.require_publishable()
+
+
 def render_page(protocol: str) -> str:
+    graph = protocol_graph(protocol)
     doi, journal, year = PAPERS[protocol]
     author = "Jaitin et al." if protocol == "MARS-seq" else "Keren-Shaul et al."
     exact = protocol == "MARS-seq2.0"
@@ -49,9 +173,6 @@ def render_page(protocol: str) -> str:
             oligo("P5_Rd1 PCR", [seg("P5 + Read 1", M.MARS1_P5_PCR, "r1")]),
             oligo("P7_Rd2 PCR", [seg("P7 + Read 2", M.MARS1_P7_PCR, "r2")]),
         ])
-    ds = M.ds_cdna(protocol)
-    lig = M.ligated_arna(protocol)
-    ligation_adaptor = "ordered pool barcode"
     final = M.final_library(protocol)
     if exact:
         r1 = Construct([seg("random diversity", "N" * 5, placeholder=True),
@@ -74,30 +195,14 @@ def render_page(protocol: str) -> str:
         read_rows = [("Read 1", "N3, 4-nt pool barcode, sense cDNA"),
                      ("Read 2", "6-nt well barcode, 4-nt UMI, poly(T)")]
     return "\n".join([
-        head(f"{protocol} library chemistry"), '<div class="wrap">',
+        head(f"{protocol} library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
         f'<h1>{protocol} &mdash; three-level barcoded RNA-seq with T7 amplification</h1>',
         info(f'Defining source: <a href="https://doi.org/{doi}">{author}, '
              f'<i>{journal}</i> ({year})</a>.'),
         f'<div class="caveat"><b>Sequence boundary.</b> {caveat}</div>',
         f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',
-        '<h2>Library construction</h2>',
-        '<h3>(1) Well-barcoded RT1 primes at the poly(A) tail</h3>',
-        panel(M.rt_scene(protocol).rows(), cls="long",
-              caption="RT1 installs the T7 promoter, cell identity and molecular tag."),
-        '<h3>(2) Second-strand synthesis makes the T7 promoter double-stranded</h3>',
-        panel(Scene.duplex(list(ds)).rows(), cls="long"),
-        '<h3>(3) T7 IVT linearly amplifies, then the aRNA is fragmented</h3>',
-        panel([strand_row(Construct([seg("barcoded 5' aRNA fragment",
-                                          "[T7 TAG / WELL BC / UMI]XXXXXXXX...",
-                                          placeholder=True)]))], cls="long"),
-        '<h3>(4) Ligate a pool-barcoded adapter to the fragmented aRNA</h3>',
-        panel([strand_row(lig), junction_row(lig, "antisense insert", ligation_adaptor),
-               *annotation_rows(lig)], cls="long",
-              caption="The 5'-phosphorylated, 3'-blocked adapter adds pool identity."),
-        '<h3>(5) RT2, then library PCR</h3>',
-        panel([strand_row(final), *annotation_rows(final)], cls="long",
-              caption=("INFERRED — supported inner order with unpublished PCR arms dotted."
-                       if exact else "Final MARS-seq library; no index read is used.")),
+        '<h2>Library construction</h2>', protocol_graph_panels(graph),
         (sp.unavailable_diagram(final, "the defining sources do not print the library-primer sequences")
          if exact else sp.diagram(final, M.SEQ_PRIMERS)),
         '<h2>Read layout</h2>',

@@ -13,6 +13,9 @@ from types import SimpleNamespace
 import illumina as il
 import nextera as nx
 from batch_ngs import nextera_library, seg
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import chain, molecule, role
 
 
@@ -116,10 +119,75 @@ def oligos():
     )
 
 
+def _graph(variant, page):
+    source = page.SOURCE
+    graph = ProtocolGraph(page.TITLE, authority=source)
+    cells = graph.input("cells", "fresh input cells", MaterialKind.BIOLOGICAL,
+                        state=molecule("fresh cells", (role("nuclear and mitochondrial DNA"),)),
+                        primary=True)
+    permeabilization = graph.input("permeabilization_mix", variant.first_step,
+                                   MaterialKind.CONDITION)
+    nuclei = graph.product("nuclei", variant.first_state, MaterialKind.MOLECULAR,
+                           state=molecule(variant.first_state, (role("accessible chromatin"),)))
+    graph.react("permeabilize", variant.first_step, StepKind.PERMEABILIZATION,
+                ((cells, InputRole.TEMPLATE),
+                 (permeabilization, InputRole.CONDITION)), (nuclei,))
+    tde1 = graph.input("tde1_adapter", "TDE1 S5/S7 mosaic-end adapter mixture",
+                       MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "TDE1 Tn5 transposase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged", "heterologously tagmented accessible-DNA fragments",
+                           MaterialKind.MOLECULAR, state=nuclei.state)
+    non_library = graph.product("non_library", "S5/S5, S7/S7 and other unusable products",
+                                MaterialKind.WASTE)
+    graph.react("tagment", variant.transposition_action, StepKind.TAGMENTATION,
+                ((nuclei, InputRole.TEMPLATE), (tde1, InputRole.STRUCTURAL),
+                 (tn5, InputRole.CATALYST)), (tagged, non_library))
+    graph.discard(non_library, "lacks the heterologous S5/S7 end pair required for amplification")
+    cleanup = graph.input("cleanup_beads", "post-transposition cleanup matrix",
+                          MaterialKind.SELECTION)
+    purified = graph.product("purified", "purified tagmented accessible-DNA fragments",
+                             MaterialKind.MOLECULAR, state=tagged.state)
+    cleanup_waste = graph.product("cleanup_waste", "removed transposition reagents and short products",
+                                  MaterialKind.WASTE)
+    graph.react("cleanup", "Stop transposition and purify tagged DNA", StepKind.CLEANUP,
+                ((tagged, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)),
+                (purified, cleanup_waste))
+    graph.discard(cleanup_waste, "is removed during the post-transposition cleanup")
+    ad1 = graph.input("ad1_primer", "Ad1_noMX amplification primer", MaterialKind.OLIGO)
+    ad2 = graph.input("ad2_primer", "indexed Ad2 amplification primer", MaterialKind.OLIGO)
+    polymerase = graph.input("polymerase", "ATAC gap-fill/PCR polymerase",
+                            MaterialKind.CATALYST)
+    preamp = graph.product("preamp", "five-cycle pre-amplified ATAC library",
+                           MaterialKind.MOLECULAR, state=page.FINAL_LIBRARY)
+    graph.react("pre_amplify", "Gap-fill and pre-amplify for five cycles", StepKind.PCR,
+                ((purified, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
+                 (ad2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (preamp,), geometry=PCRGeometry.unavailable(
+                    page.FINAL_LIBRARY,
+                    reason="The exact final primer sites are checked on the completed library; the staggered pre-gap-fill substrate is not represented as a Construct."))
+    qPCR = graph.input("qpcr_rule", "aliquot-qPCR cycle-selection rule",
+                       MaterialKind.CONDITION)
+    final = graph.product("library", "complexity-preserving ATAC sequencing library",
+                          MaterialKind.LIBRARY, state=page.FINAL_LIBRARY)
+    qc = graph.product("qpcr_aliquot", "consumed qPCR aliquot", MaterialKind.QC)
+    graph.react("choose_cycles", "Use aliquot qPCR to choose the additional cycles",
+                StepKind.SAMPLING,
+                ((preamp, InputRole.TEMPLATE), (qPCR, InputRole.CONDITION)),
+                (final, qc), changes_molecule=False)
+    graph.mark_terminal(Terminal(qc.id, Disposition.QC))
+    graph.sequence(final, SequencingPlan(library=page.FINAL_LIBRARY,
+                                         primers=tuple(page.SEQ_PRIMERS)))
+    graph.declare_reviewed_scope([
+        "cells", "permeabilization_mix", "permeabilize", "tde1_adapter", "tn5",
+        "tagment", "cleanup_beads", "cleanup", "ad1_primer", "ad2_primer",
+        "polymerase", "pre_amplify", "qpcr_rule", "choose_cycles", "library"], source)
+    return graph.require_publishable()
+
+
 def get(key: str):
     spec = VARIANTS[key]
     final, primers = library(spec.title.split(" — ", 1)[0])
-    return SimpleNamespace(
+    page = SimpleNamespace(
         TITLE=spec.title,
         NOTES="01_" + key.replace("-", "_") + ".html",
         SOURCE=spec.source,
@@ -135,3 +203,5 @@ def get(key: str):
         SEQUENCING_ENDING="",
         SEQUENCING_UNAVAILABLE="",
     )
+    page.protocol_graph = lambda: _graph(spec, page)
+    return page

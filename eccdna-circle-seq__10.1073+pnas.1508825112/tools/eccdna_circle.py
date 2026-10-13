@@ -5,6 +5,9 @@ from batch_ngs import joined_scene,seg,truseq_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct,MolecularState,Row,Segment,Workflow,circle_rows
 from circular import circularize_ssdna,rolling_circle
+from pcr import PCRGeometry
+from protocol_graph import InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind
+from protocol_model import molecule,role
 
 TITLE="eccDNA Circle-Seq — enrichment of native DNA circles"
 NOTES="01_eccdna-circle-seq.html"
@@ -29,3 +32,36 @@ def workflow():
  s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])));w.react(s[1][0],s[1][1],note=s[1][2]);w.react(s[2][0],s[2][1],note=s[2][2])
  g=AdapterLigationGeometry.unavailable("Møller et al. identify Apollo 324 library preparation but do not print its adapter oligos or ligation-facing overhang geometry.")
  w.ligate_adapter(s[3][0],g,s[3][1],note=s[3][2]);return w
+
+def protocol_graph():
+ graph=ProtocolGraph(TITLE,authority=SOURCE)
+ dna=graph.input("cellular_dna","cellular DNA containing native eccDNA circles and linear chromosomes",MaterialKind.BIOLOGICAL,state=molecule("cellular DNA",(role("native eccDNA circles"),role("linear chromosomes"))),primary=True)
+ purification=graph.input("circle_purification","circular-DNA purification condition",MaterialKind.CONDITION)
+ fraction=graph.product("circle_enriched_fraction","circle-enriched cellular DNA fraction",MaterialKind.MOLECULAR,state=dna.state)
+ graph.react("purify_circles","Purify the circular-DNA-enriched fraction",StepKind.EXTRACTION,((dna,InputRole.TEMPLATE),(purification,InputRole.CONDITION)),(fraction,))
+ noti=graph.input("noti","NotI restriction endonuclease",MaterialKind.CATALYST)
+ cut=graph.product("noti_treated","NotI-treated circle-enriched DNA",MaterialKind.MOLECULAR,state=fraction.state)
+ graph.react("cut_linear","Cut susceptible linear chromosomes with NotI",StepKind.DIGESTION,((fraction,InputRole.TEMPLATE),(noti,InputRole.CATALYST)),(cut,))
+ exonuclease=graph.input("plasmid_safe_dnase","Plasmid-Safe ATP-dependent DNase",MaterialKind.CATALYST)
+ circles=graph.product("native_circles","exonuclease-resistant native eccDNA circles",MaterialKind.MOLECULAR,state=CIRCLE)
+ linear_waste=graph.product("linear_dna_waste","degraded free-ended chromosomal DNA",MaterialKind.WASTE)
+ graph.react("digest_linear","Exhaustively digest free-ended DNA",StepKind.DIGESTION,((cut,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST)),(circles,linear_waste))
+ graph.discard(linear_waste,"has free ends and is depleted during native-circle enrichment")
+ phi29=graph.input("phi29","phi29 strand-displacing polymerase",MaterialKind.CATALYST)
+ amplified=graph.product("rca_product","rolling-circle-amplified eccDNA concatemers",MaterialKind.MOLECULAR,state=RCA)
+ graph.react("rolling_circle","Amplify surviving native circles with phi29",StepKind.EXTENSION,((circles,InputRole.TEMPLATE),(phi29,InputRole.CATALYST)),(amplified,))
+ sonication=graph.input("sonication","concatemer-sonication condition",MaterialKind.CONDITION)
+ fragments=graph.product("fragments","sonicated phi29 concatemer fragments",MaterialKind.MOLECULAR,state=amplified.state)
+ graph.react("fragment","Sonicate the rolling-circle products",StepKind.FRAGMENTATION,((amplified,InputRole.TEMPLATE),(sonication,InputRole.CONDITION)),(fragments,))
+ adapter=graph.input("apollo_adapter","Apollo 324 indexed Illumina adapter",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (adapter oligos not printed)")
+ ligase=graph.input("adapter_ligase","library-adapter DNA ligase",MaterialKind.CATALYST)
+ ligated=graph.product("adapter_ligated","adapter-ligated eccDNA fragments",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (adapter bases unavailable)")
+ graph.react("adapter_ligation","Attach Apollo 324 indexed adapters",StepKind.LIGATION,((fragments,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Møller et al. identify Apollo 324 library preparation but do not print its adapter oligos or ligation-facing geometry."))
+ forward=graph.input("pcr_forward","Apollo library PCR forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (primer sequence not printed)")
+ reverse=graph.input("pcr_reverse","Apollo library PCR reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (primer sequence not printed)")
+ polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+ library=graph.product("sequencing_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (compatible Illumina shell inferred)")
+ graph.react("library_pcr","Amplify the indexed eccDNA library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The Apollo 324 PCR primers are not printed in the defining source."))
+ graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),acquired_roles=("Read 1",)))
+ graph.declare_reviewed_scope(("cellular_dna","circle_purification","purify_circles","noti","cut_linear","plasmid_safe_dnase","digest_linear","phi29","rolling_circle","sonication","fragment","apollo_adapter","adapter_ligase","adapter_ligation","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","sequencing_library"),SOURCE)
+ return graph.require_publishable()

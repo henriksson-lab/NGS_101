@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import scdamid as D
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from adapter_ligation import AdapterLigationGeometry
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head, info
@@ -71,8 +71,9 @@ def sequencing() -> str:
 
 
 def render() -> str:
+    graph = D.protocol_graph()
     return "\n".join([
-        head("scDamID library chemistry"), '<div class="wrap">',
+        head("scDamID library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scDamID &mdash; single-cell nuclear-lamina contact mapping</h1>',
         info('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.08.040">'
              'Kind et al., <i>Cell</i> (2015)</a>.'),
@@ -80,7 +81,8 @@ def render() -> str:
         'selection, adaptor ligation, single-primer amplification and indexed Illumina '
         'sequencing, but its oligo tables are unavailable. All dotted bases and steps labelled '
         '<b>INFERRED</b> use the upstream scg_lib_structs reconstruction.</div>',
-        oligos(), construction(), sequencing(), '</div>',
+        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        sequencing(), '</div>',
     ])
 
 

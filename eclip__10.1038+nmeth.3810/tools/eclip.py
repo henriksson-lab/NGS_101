@@ -5,8 +5,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
+from adapter_ligation import reported_adapter_end
 from batch_ngs import seg
 from chemdraw import Construct, Scene, complement_segments, feature
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 from rna_special import adapter_ligation_scene
 
 TITLE = "eCLIP — enhanced crosslinking and immunoprecipitation"
@@ -110,3 +114,97 @@ def sections():
         ("Reverse transcription can stop at the crosslink", reverse_transcription_rows(), "Both truncated and read-through cDNAs are retained."),
         ("Ligate rand103Tr3 to cDNA", cdna_adapter_ligation_rows(), "The cDNA 3′ ligation adds a ten-base randomer and bypasses iCLIP circularization, making both cDNA classes amplifiable."),
     ]
+
+
+def protocol_graph():
+    graph=ProtocolGraph(TITLE,authority=SOURCE)
+    complexes=graph.input("rbp_rna","RBP-bound cellular RNA",MaterialKind.BIOLOGICAL,
+                          primary=True)
+    uv=graph.input("uv","UV cross-linking condition",MaterialKind.CONDITION)
+    crosslinked=graph.product("crosslinked","UV-crosslinked RBP-RNA complexes",
+                              MaterialKind.MOLECULAR,state=tuple(crosslinked_rna_rows()))
+    graph.react("crosslink","Covalently cross-link direct RBP-RNA contacts",
+                StepKind.CROSS_LINKING,
+                ((complexes,InputRole.TEMPLATE),(uv,InputRole.CONDITION)),(crosslinked,))
+    rnase=graph.input("rnase","limited RNase",MaterialKind.CATALYST)
+    trimmed=graph.product("trimmed","RNase-trimmed crosslinked RBP-RNA fragments",
+                          MaterialKind.MOLECULAR)
+    digestion_waste=graph.product("digestion_waste","released RNA fragments",
+                                   MaterialKind.WASTE)
+    graph.react("trim","Partially digest unprotected RNA",StepKind.DIGESTION,
+                ((crosslinked,InputRole.TEMPLATE),(rnase,InputRole.CATALYST)),
+                (trimmed,digestion_waste))
+    graph.discard(digestion_waste,"RNA outside the protected RBP footprint is digested")
+    antibody=graph.input("antibody_beads","RBP-specific antibody beads",
+                         MaterialKind.SELECTION)
+    enriched=graph.product("enriched","immunoprecipitated RBP-RNA fragments",
+                           MaterialKind.MOLECULAR)
+    unbound=graph.product("unbound","unbound RNA-protein material",MaterialKind.WASTE)
+    graph.react("immunoprecipitate","Immunoprecipitate the crosslinked RBP",
+                StepKind.AFFINITY_CAPTURE,
+                ((trimmed,InputRole.TEMPLATE),(antibody,InputRole.SELECTION)),
+                (enriched,unbound))
+    graph.discard(unbound,"material not retained by the RBP antibody is washed away")
+    rna_adapter=graph.input("rna_adapter","X1A barcoded randomer RNA adapter",
+                            MaterialKind.ADAPTER)
+    rna_ligase=graph.input("rna_ligase","RNA 3-prime adapter ligase",
+                           MaterialKind.CATALYST)
+    adapter_rna=graph.product("adapter_rna","3-prime-adapter-ligated RBP-bound RNA",
+                              MaterialKind.MOLECULAR)
+    rna_geometry=reported_adapter_end(
+        "X1A RNA adapter",kind="single-strand",polarity="5-prime",
+        terminal_sequence=RNA_X1A_BARCODE+"N"*5+RIL19,
+        statement="The ENCODE SOP prints the X1A barcode/randomer and RIL19 adapter sequence used at the RNA 3-prime boundary.")
+    graph.react("ligate_rna_adapter","Ligate the barcoded RNA adapter on beads",
+                StepKind.LIGATION,
+                ((enriched,InputRole.TEMPLATE),(rna_adapter,InputRole.STRUCTURAL),
+                 (rna_ligase,InputRole.CATALYST)),(adapter_rna,),geometry=rna_geometry)
+    rt_primer=graph.input("rt_primer","AR17 reverse-transcription primer",
+                          MaterialKind.OLIGO)
+    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    truncated=graph.product("truncated_cdna","crosslink-truncated cDNA",
+                            MaterialKind.MOLECULAR)
+    readthrough=graph.product("readthrough_cdna","crosslink-read-through cDNA",
+                              MaterialKind.MOLECULAR)
+    graph.react("reverse_transcribe","Reverse-transcribe through or up to the peptide remnant",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((adapter_rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                 (rt,InputRole.CATALYST)),(truncated,readthrough))
+    cdna_pool=graph.product("cdna_pool","pooled truncated and read-through cDNA",
+                            MaterialKind.MOLECULAR)
+    graph.react("pool_cdna","Retain both informative cDNA classes",StepKind.POOL,
+                ((truncated,InputRole.TEMPLATE),(readthrough,InputRole.TEMPLATE)),
+                (cdna_pool,),changes_molecule=False)
+    cdna_adapter=graph.input("cdna_adapter","5-prime-phosphorylated rand103Tr3 N10 adapter",
+                             MaterialKind.ADAPTER)
+    cdna_ligase=graph.input("cdna_ligase","single-stranded cDNA ligase",
+                            MaterialKind.CATALYST)
+    dual=graph.product("dual_adapter","dual-adapter eCLIP cDNA",MaterialKind.MOLECULAR,
+                       state=tuple(cdna_adapter_ligation_rows()))
+    cdna_geometry=reported_adapter_end(
+        "rand103Tr3",kind="single-strand",polarity="5-prime",
+        terminal_sequence="N"*10+RAND103TR3_FIXED,
+        statement="The SOP prints the rand103Tr3 N10 adapter and specifies its ligation to single-stranded cDNA.")
+    graph.react("ligate_cdna_adapter","Ligate rand103Tr3 to both cDNA classes",
+                StepKind.LIGATION,
+                ((cdna_pool,InputRole.TEMPLATE),(cdna_adapter,InputRole.STRUCTURAL),
+                 (cdna_ligase,InputRole.CATALYST)),(dual,),geometry=cdna_geometry)
+    d5=graph.input("d5_primer","D501 indexed PCR primer",MaterialKind.OLIGO)
+    d7=graph.input("d7_primer","D701 indexed PCR primer",MaterialKind.OLIGO)
+    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY)
+    graph.react("library_pcr","Amplify and add D5/D7 indexes",StepKind.PCR,
+                ((dual,InputRole.TEMPLATE),(d5,InputRole.STRUCTURAL),
+                 (d7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,),geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,reason="The exact final sites are modelled, but the compact module does not reconstruct the pre-PCR duplex orientation."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
+                                          primers=tuple(SEQ_PRIMERS)))
+    graph.declare_reviewed_scope((
+        "rbp_rna","uv","crosslink","rnase","trim","antibody_beads",
+        "immunoprecipitate","rna_adapter","rna_ligase","ligate_rna_adapter",
+        "rt_primer","reverse_transcriptase","reverse_transcribe","pool_cdna",
+        "cdna_adapter","cdna_ligase","ligate_cdna_adapter","d5_primer",
+        "d7_primer","pcr_polymerase","library_pcr","library"),SOURCE)
+    return graph.require_publishable()

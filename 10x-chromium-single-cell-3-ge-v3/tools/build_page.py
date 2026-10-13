@@ -5,7 +5,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v3 as V
 import seqprimers as sp
-from chemdraw import Scene,annotation_rows,oligo,panel
+from chemdraw import Scene,annotation_rows,oligo,panel,protocol_graph_panels
 from page import head,info
 OUT=HERE.parent/"10x-3prime-v3.html"
 def sequencing(lib):
@@ -14,8 +14,9 @@ def sequencing(lib):
         required_roles=tuple(p.role for p in V.SEQ_PRIMERS),
         read_lengths=V.READ_LENGTHS,show_read_content=True)
 def render():
-    lib=V.final_library(); cdna=V.amplified_cdna()
-    return "\n".join([head("10x Chromium 3' Gene Expression v3 chemistry"),'<div class="wrap">','<h1>10x Chromium Single Cell 3&#39; Gene Expression v3</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support">10x Genomics User Guide CG000183 Rev A</a>.'),
+    lib=V.final_library(); cdna=V.amplified_cdna(); graph=V.protocol_graph()
+    return "\n".join([head("10x Chromium 3' Gene Expression v3 chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>10x Chromium Single Cell 3&#39; Gene Expression v3</h1>',info('Primary chemistry source: <a href="https://www.10xgenomics.com/support">10x Genomics User Guide CG000183 Rev A</a>.'),
+      '<h2>Reaction workflow</h2>'+protocol_graph_panels(graph,cls="long"),
       '<div class="caveat"><b>Poly(dT) anchor.</b> The sequence appendix prints T30; the same guide’s overview labels the primer Poly(dT)VN. This schematic follows the printed oligo sequence.</div>',
       '<h2>Key oligos</h2><seq>'+oligo("gel-bead oligo",V.bead_oligo())+oligo("template-switch oligo",V.tso(),mods="3' rGrGrG")+'</seq>',
       '<h2>Library construction</h2><h3>(1) Capture and barcode mRNA during GEM reverse transcription</h3>'+panel(V.capture_scene().rows(),cls="small",caption="Each molecule receives a 16-base cell barcode and 12-base UMI."),

@@ -27,6 +27,9 @@ import re
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence
 
+from protocol_graph import (Input as GraphInput, InputRole, Material, MaterialKind,
+                            ProtocolGraph, Step, StepKind)
+
 # --------------------------------------------------------------------------- bases
 
 _COMPLEMENT = str.maketrans("ACGTUacgtuNn", "TGCAAtgcaaNn")
@@ -489,10 +492,42 @@ class Workflow:
     a renderer cannot accidentally connect a reaction to a stale or unrelated drawing.
     """
 
-    def __init__(self, initial: MolecularState):
+    def __init__(self, initial: MolecularState, *, track_graph: bool = True):
         self.initial = initial
         self.reactions: list[Reaction] = []
         self.current = initial
+        # Every legacy linear workflow now has a process graph as well.  It is not
+        # automatically publishable: generic transformations, authority, reagents and
+        # terminal disposition still have to be made explicit.  Keeping it in lock-step
+        # here lets pages migrate without maintaining a second reaction order.
+        self.graph = ProtocolGraph(initial.name or "reaction workflow") if track_graph else None
+        if self.graph is not None:
+            self.graph.add_input(Material("state_0", initial.name or "starting material",
+                                          MaterialKind.MOLECULAR, state=initial, primary=True))
+        self._graph_current = "state_0"
+
+    def _graph_transition(self, reaction: Reaction, kind: StepKind, *, geometry=None,
+                          structural: tuple[tuple[str, str], ...] = ()) -> None:
+        if self.graph is None:
+            return
+        number = len(self.reactions)
+        inputs = [GraphInput(self._graph_current, InputRole.TEMPLATE)]
+        for suffix, label in structural:
+            reagent_id = f"reagent_{number}_{suffix}"
+            material_kind = (MaterialKind.OLIGO if kind is StepKind.PCR
+                             else MaterialKind.ADAPTER)
+            self.graph.add_input(Material(reagent_id, label, material_kind,
+                                           source=getattr(geometry, "statement", "")))
+            inputs.append(GraphInput(reagent_id, InputRole.STRUCTURAL))
+        output_id = f"state_{number}"
+        output = Material(output_id, reaction.after.name or reaction.action,
+                          MaterialKind.MOLECULAR, state=reaction.after)
+        self.graph.add_step(
+            Step(f"step_{number}", reaction.action, kind, tuple(inputs), (output_id,),
+                 geometry=geometry, source=reaction.note),
+            (output,),
+        )
+        self._graph_current = output_id
 
     def react(self, action: str, rows: Iterable[Row], *, name: str = "", note: str = ""):
         words = action.lower().replace("′", "'").replace("’", "'")
@@ -505,6 +540,7 @@ class Workflow:
         reaction = Reaction(action, self.current, after, note)
         self.reactions.append(reaction)
         self.current = after
+        self._graph_transition(reaction, StepKind.GENERIC)
         return self
 
     def ligate_adapter(self, action: str, geometry, rows: Iterable[Row], *,
@@ -528,6 +564,8 @@ class Workflow:
         reaction = Reaction(action, self.current, after, note)
         self.reactions.append(reaction)
         self.current = after
+        self._graph_transition(reaction, StepKind.LIGATION, geometry=geometry,
+                               structural=(("adapter", "adapter or ligating reagent"),))
         return self
 
     def pcr(self, action: str, geometry, rows: Iterable[Row], *,
@@ -551,6 +589,17 @@ class Workflow:
         reaction = Reaction(action, self.current, after, note)
         self.reactions.append(reaction)
         self.current = after
+        if geometry.availability == "exact":
+            structural = (("forward", geometry.forward.name),
+                          ("reverse", geometry.reverse.name))
+        elif geometry.availability == "regional":
+            structural = (("forward", geometry.forward.name),
+                          ("reverse", geometry.reverse_pool))
+        else:
+            structural = (("forward", "forward PCR primer not reported"),
+                          ("reverse", "reverse PCR primer not reported"))
+        self._graph_transition(reaction, StepKind.PCR, geometry=geometry,
+                               structural=structural)
         return self
 
     @property
@@ -571,6 +620,118 @@ def workflow_from_sections(sections, *, initial_rows: Iterable[Row] | None = Non
     for action, rows, note in sections:
         workflow.react(action, rows, note=note)
     return workflow
+
+
+def _graph_material_state(material) -> MolecularState:
+    """Turn one ProtocolGraph material into the drawing state stored on that node."""
+    state = material.state
+    if isinstance(state, MolecularState):
+        return state
+    if isinstance(state, Construct):
+        unknown = tuple(s.name + "'" for s in state if s.is_role_token())
+        return MolecularState(material.label,
+                              tuple(Scene.duplex(list(state), label=material.label,
+                                                 unpaired=unknown).rows()))
+    if state is not None and callable(getattr(state, "rows", None)):
+        return MolecularState(material.label, tuple(state.rows()))
+    if isinstance(state, (tuple, list)) and all(isinstance(x, Row) for x in state):
+        return MolecularState(material.label, tuple(state))
+    return MolecularState(material.label,
+                          (Row(chunks=[(f"[{material.label}]", None, False)]),))
+
+
+def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str) -> Workflow:
+    """Derive one display spine ending at any material in a validated graph.
+
+    A workflow SVG remains linear, so the first template port is its display spine.
+    Additional template inputs are named explicitly and produced contributing inputs are
+    rendered as their own precursor workflows by :func:`protocol_graph_panels`.  The
+    graph—not this display choice—retains the complete multi-input provenance.
+    """
+    if terminal not in graph.materials:
+        raise ValueError(f"unknown protocol-graph material {terminal!r}")
+    path = []
+    current = terminal
+    while (step := graph.producer_of(current)) is not None:
+        templates = [p.material for p in step.inputs if p.role is InputRole.TEMPLATE]
+        if not templates:
+            raise ValueError(f"cannot draw step {step.id!r}: it has no template input")
+        path.append((step, current, templates[0]))
+        current = templates[0]
+    path.reverse()
+    workflow = Workflow(_graph_material_state(graph.materials[current]), track_graph=False)
+    for step, output, spine_template in path:
+        reagents = [graph.materials[p.material].label for p in step.inputs
+                    if p.role is not InputRole.TEMPLATE]
+        notes = [("Inputs: " + "; ".join(reagents))] if reagents else []
+        other_templates = [graph.materials[p.material].label for p in step.inputs
+                           if p.role is InputRole.TEMPLATE
+                           and p.material != spine_template]
+        if other_templates:
+            notes.append("Additional template inputs: " + "; ".join(other_templates))
+        other_outputs = []
+        for other in step.outputs:
+            if other == output:
+                continue
+            fate = graph.terminals.get(other)
+            suffix = f" → {fate.disposition.value}" if fate is not None else ""
+            other_outputs.append(graph.materials[other].label + suffix)
+        if other_outputs:
+            notes.append("Other outputs: " + "; ".join(other_outputs))
+        note = ". ".join(notes)
+        after = _graph_material_state(graph.materials[output])
+        reaction = Reaction(step.label, workflow.current, after, note)
+        workflow.reactions.append(reaction)
+        workflow.current = after
+    return workflow
+
+
+def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
+    """Render every sequencing lineage plus every produced contributing precursor.
+
+    Linear SVGs stay readable while the graph may branch and join.  A non-spine input
+    whose material was produced inside the protocol gets a separate precursor panel;
+    unproduced reagents and samples remain explicit in the consuming reaction's notes.
+    """
+    graph.require_publishable()
+    panels = []
+    for material_id in graph.sequencing:
+        material = graph.materials[material_id]
+        panels.append(f"<h3>{html.escape(material.label)}</h3>")
+        rendered_precursors = set()
+
+        def precursor_endpoints(endpoint):
+            found = []
+            current = endpoint
+            while (step := graph.producer_of(current)) is not None:
+                templates = [p.material for p in step.inputs
+                             if p.role is InputRole.TEMPLATE]
+                if not templates:
+                    break
+                spine = templates[0]
+                for port in step.inputs:
+                    if port.material == spine or port.role not in {
+                            InputRole.TEMPLATE, InputRole.STRUCTURAL,
+                            InputRole.ANALYTE, InputRole.SPIKE_IN}:
+                        continue
+                    if graph.producer_of(port.material) is not None:
+                        found.extend(precursor_endpoints(port.material))
+                        if port.material not in rendered_precursors:
+                            found.append(port.material)
+                            rendered_precursors.add(port.material)
+                current = spine
+            return found
+
+        for precursor in precursor_endpoints(material_id):
+            precursor_material = graph.materials[precursor]
+            panels.append(
+                f"<h4>{html.escape(precursor_material.label)} — precursor</h4>")
+            panels.append(workflow_panel(
+                workflow_from_protocol_graph(graph, precursor), cls=cls,
+                caption=f"{precursor_material.label} preparation"))
+        panels.append(workflow_panel(workflow_from_protocol_graph(graph, material_id), cls=cls,
+                                     caption=f"{material.label} provenance"))
+    return "\n".join(panels)
 
 
 def strand_row(con: Construct, strand: str = "top", indent: int = 0,

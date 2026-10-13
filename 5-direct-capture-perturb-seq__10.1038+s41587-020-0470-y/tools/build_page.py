@@ -10,7 +10,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import direct_capture as C
 import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel
+from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info
 
 OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
@@ -18,23 +18,17 @@ OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
 
 def render() -> str:
     cdna = C.amplified_guide_cdna()
+    graph = C.protocol_graph()
     return "\n".join([
-        head("5′ direct-capture Perturb-seq"), '<div class="wrap">',
+        head("5′ direct-capture Perturb-seq"), '<div class="wrap" data-protocol-complete="true">',
         "<h1>5′ direct-capture Perturb-seq</h1>",
         '<p class="research-notes"><a href="01_5p-direct-capture-perturb-seq.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-020-0470-y">Replogle et al., <i>Nature Biotechnology</i> (2020)</a>. This is the standard, unmodified sgRNA-CR1 branch of the 5′ protocol.'),
-        "<h2>Guide-specific reverse transcription</h2>",
+        "<h2>Key oligos</h2>",
         f'<seq>{oligo("oJR160", C.ojr160_segments())}</seq>',
-        panel(C.capture_scene().rows(), cls="small",
-              caption="oJR160 binds the constant region. Reverse transcription runs toward the protospacer."),
-        "<h2>Cell barcode transfer</h2>",
-        panel(C.switch_scene().rows(), cls="small",
-              caption="The guide first strand ends in non-templated CCC. Its template switch onto the bead-bound rGrGrG copies the cell barcode and UMI handle."),
-        panel([*Scene.duplex(list(cdna), label="amplified guide cDNA").rows(),
-               *annotation_rows(cdna)], cls="small",
-              caption="After 11-cycle 10x cDNA amplification. A 0.6× left-side SPRI keeps gene-expression cDNA on the beads and sends the shorter guide cDNA to the supernatant."),
-        "<h2>Guide-library PCR</h2>",
         f'<seq>{oligo("oJR163 (forward)", C.ojr163_segments())}\n\n{oligo("oJR165 (indexed reverse)", C.ojr165_segments())}</seq>',
+        "<h2>Reaction workflow</h2>", protocol_graph_panels(graph, cls="long"),
+        "<h2>Final guide library</h2>",
         panel(C.final_scene().rows(), cls="small",
               caption=f"Final guide library: {len(C.final_library())} bp for the printed AGGAGTCC example index (reported as approximately 250 bp)."),
         sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",

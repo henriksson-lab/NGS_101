@@ -10,6 +10,8 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -183,3 +185,63 @@ def read2_layout() -> list[tuple[str, str]]:
         cycle = end + 1
     rows.append((f"{cycle}&ndash;", "accessible genomic DNA"))
     return rows
+
+
+def protocol_graph() -> ProtocolGraph:
+    source="Defining source: https://doi.org/10.1038/s41587-021-00962-z"
+    graph=ProtocolGraph("s3-ATAC",authority=source)
+    nuclei=graph.input("nuclei","permeabilized nuclei",MaterialKind.BIOLOGICAL,primary=True)
+    transposome=graph.input("indexed_transposome","indexed U-ME transposome",
+                            MaterialKind.ADAPTER,state=transposome_scene())
+    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=graph.product("tagmented_fragments","symmetrically U-ME-tagmented accessible chromatin",
+                         MaterialKind.MOLECULAR,state=tagmented_scene())
+    waste=graph.product("tagment_waste","non-library tagmentation products",MaterialKind.WASTE)
+    graph.react("tagment","Tagment accessible chromatin with indexed U-ME transposomes",
+                StepKind.TAGMENTATION,
+                ((nuclei,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+                 (tn5,InputRole.CATALYST)),(tagged,waste))
+    graph.discard(waste,"products without usable indexed fragment ends are not library-amplified")
+    npm=graph.input("npm","uracil-intolerant Nextera polymerase mix",MaterialKind.CATALYST)
+    dntps=graph.input("gap_fill_dntps","gap-fill dNTPs",MaterialKind.OLIGO)
+    filled=graph.product("gap_filled",gap_filled_strand().name,MaterialKind.MOLECULAR,
+                         state=gap_filled_strand())
+    graph.react("gap_fill","Fill the Tn5 gap until polymerase stops at dU",StepKind.EXTENSION,
+                ((tagged,InputRole.TEMPLATE),(dntps,InputRole.STRUCTURAL),
+                 (npm,InputRole.CATALYST)),(filled,))
+    switch=graph.input("switching_oligo","A14-ME LNA adapter-switching oligo",
+                       MaterialKind.OLIGO,state=tuple(switching_oligo()))
+    switched=graph.product("switched",switched_strand().name,MaterialKind.MOLECULAR,
+                           state=switched_strand())
+    graph.react("adapter_switch","Template addition of s5 from the blocked LNA oligo",
+                StepKind.EXTENSION,
+                ((filled,InputRole.TEMPLATE),(switch,InputRole.STRUCTURAL),
+                 (npm,InputRole.CATALYST)),(switched,))
+    i5=graph.input("i5_primer","indexed i5 PCR primer",MaterialKind.OLIGO,
+                   state=tuple(i5_pcr_primer()))
+    i7=graph.input("i7_primer","indexed i7 PCR primer",MaterialKind.OLIGO,
+                   state=tuple(i7_pcr_primer()))
+    q5u=graph.input("q5u","uracil-tolerant Q5U polymerase",MaterialKind.CATALYST)
+    final=final_library()
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("library_pcr","Add i5/P5 and i7/P7 by uracil-tolerant PCR",
+                StepKind.PCR,
+                ((switched,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(q5u,InputRole.CATALYST)),(library,),
+                geometry=PCRGeometry.exact(
+                    switched_strand(),
+                    PCRPrimer("i7 PCR primer","".join(s.top for s in i7_pcr_primer()),
+                              anneal_nt=len(SBS12_PARTIAL)),
+                    PCRPrimer("i5 PCR primer","".join(s.top for s in i5_pcr_primer()),
+                              anneal_nt=len(nx.S5)),
+                    statement="Supplementary Tables 4-5 print the indexed primers and their partial-Read-2/s5 landing regions."))
+    lengths={"Read 1":85,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":85}
+    graph.sequence(library,SequencingPlan(
+        library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),read_lengths=lengths,
+        read_uses={"Read 1":"include","Index 1 (i7)":"extract",
+                   "Index 2 (i5)":"extract","Read 2":"extract_then_include"}))
+    graph.declare_reviewed_scope((
+        "nuclei","indexed_transposome","tn5","tagment","npm","gap_fill_dntps",
+        "gap_fill","switching_oligo","adapter_switch","i5_primer","i7_primer",
+        "q5u","library_pcr","library"),source)
+    return graph.require_publishable()

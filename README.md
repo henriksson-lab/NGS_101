@@ -82,6 +82,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── dumbbell.py          covalently closed hairpin-ended sequencing templates
 │   ├── restriction.py       typed restriction cuts, cohesive-end fill and junctions
 │   ├── telomere.py          chromosome 3′ overhangs, repeat phases and affinity capture
+│   ├── protocol_graph.py    typed material/reagent DAG + publication completeness contract
 │   ├── seqprimers.py        Read 1/2 + index primers, located on a library by computation
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding
@@ -267,11 +268,17 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
    Give every barcode, sample index and UMI a `MolecularFeature` via `feature(...)`; never
    infer its meaning from a colour, prose name or placeholder letter. Reuse the same feature
    identity when that molecular region is copied or reverse-complemented.
-4. Put chemistry invariants in the model and rendering functions used by the page. Add a
+4. Build a `ProtocolGraph`: declare the primary template and every used structural,
+   catalytic, selection and condition input; connect them through typed steps; terminate
+   every material branch as sequencing, discard, QC, stored or explicitly unresolved; and
+   map the reviewed source inventory to its graph targets. A sequencing terminal carries
+   the final construct and sequencing plan. `require_publishable()` is the completeness
+   gate; do not manually assert that an incomplete graph is documented.
+5. Put chemistry invariants in the model and rendering functions used by the page. Add a
    self-test only for source transcription or behavior that cannot be enforced by those
    functions; do not restate model constants as checks.
-5. Write `<name>/tools/build_page.py` to emit the page from the construct.
-6. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
+6. Write `<name>/tools/build_page.py` to emit the page from the construct.
+7. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
    `python3 tools/fetch_citations.py` so every defining DOI has a dated snapshot row.
 
 Each script starts with the same three-line bootstrap:
@@ -308,6 +315,17 @@ state, and `workflow_panel()` derives the labelled SVG arrows from that chain. P
 pages therefore never hand-align reaction arrows or separately repeat a step's input.
 Ordering-oligo lists stay as raw HTML text; `panel()` remains for non-reaction construct
 views such as final libraries and sequencing-primer binding.
+
+**Protocol completeness.** `protocol_graph.ProtocolGraph` is the authority above any one
+linear drawing. It is a typed acyclic hypergraph because a reaction can consume several
+inputs and produce several outputs. Topological construction prevents cycles and duplicate
+producers; publication validation requires directed primary-template provenance, typed
+reaction geometry, source-attributed inputs and steps, a closed source-coverage inventory,
+explicit terminal disposition for every branch, and at least one validated sequencing
+library. `protocol_graph_panels()` derives one visible provenance path per sequencing
+output and names side outputs at the step where they branch. A `Workflow` maintains a
+non-publishable graph during legacy migration, but generic construct-changing steps do not
+satisfy the finished-page contract.
 
 When sticky-end adapter ligation follows dA-tailing, use
 `endprep.react_dA_tail_then_ligate()` so the ligation-ready dA-tailed molecule is a visible

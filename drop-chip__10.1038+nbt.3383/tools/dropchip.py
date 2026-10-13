@@ -7,6 +7,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 # Representative row 1 from Supplementary Table 2.  Every other barcode adaptor has
 # the same core and replaces the eight-base barcode and its reversed copy.
@@ -44,6 +48,20 @@ def barcode_adaptor(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
 
 def adaptor_scene(barcode: str = REPRESENTATIVE_BARCODE) -> Scene:
     return Scene.duplex(list(barcode_adaptor(barcode)))
+
+
+def blunt_ligation_geometry() -> AdapterLigationGeometry:
+    sc = Scene()
+    sc.strand("insert", [_seg("repaired blunt nucleosomal end", "X" * 18,
+                               placeholder=True)], label="end-repaired nucleosomal DNA")
+    sc.ligation_end("insert", "repaired blunt nucleosomal end", kind="blunt",
+                    owner="substrate", text="blunt repaired DNA end")
+    sc.strand("adapter", list(barcode_adaptor()), label="published barcode adapter")
+    sc.ligation_end("adapter", "left blunt end", kind="blunt", owner="adapter",
+                    text="published TTAA blunt adapter end")
+    return AdapterLigationGeometry.known(
+        "blunt", sc,
+        statement="The defining source prints the double-stranded barcode adapter and specifies blunt ligation to end-repaired nucleosomal DNA.")
 
 
 def blunt_ligated_fragment(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
@@ -168,3 +186,89 @@ def _validate_source_transcription() -> None:
 
 
 _validate_source_transcription()
+
+
+def protocol_graph() -> ProtocolGraph:
+    source = "Defining source: https://doi.org/10.1038/nbt.3383"
+    inferred_source = source + "; downstream Illumina adapter and library primers are not published"
+    graph = ProtocolGraph("Drop-ChIP", authority=source)
+    dna = graph.input("nucleosomal_dna", "nucleosomal DNA fragments",
+                      MaterialKind.BIOLOGICAL, primary=True)
+    repair = graph.input("repair_enzymes", "DNA end-repair enzymes", MaterialKind.CATALYST)
+    repaired = graph.product("repaired_dna", "blunt end-repaired nucleosomal DNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("end_repair", "End-repair nucleosomal DNA", StepKind.END_REPAIR,
+                ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    adapter = graph.input("barcode_adapter", "published symmetric barcode adapter",
+                          MaterialKind.ADAPTER, state=adaptor_scene())
+    ligase = graph.input("ligase", "DNA ligase", MaterialKind.CATALYST)
+    ligated_construct = blunt_ligated_fragment()
+    ligated = graph.product("barcoded_fragments", ligated_construct.name,
+                            MaterialKind.MOLECULAR, state=ligated_construct)
+    graph.react("barcode_ligation", "Blunt-ligate barcode adapters to both fragment ends",
+                StepKind.LIGATION,
+                ((repaired, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (ligated,), geometry=blunt_ligation_geometry())
+    paci = graph.input("paci", "PacI restriction enzyme", MaterialKind.CATALYST)
+    trimmed_construct = paci_product()
+    trimmed = graph.product("paci_trimmed", trimmed_construct.name, MaterialKind.MOLECULAR,
+                            state=trimmed_construct)
+    graph.react("paci_digest", "Remove concatemers and outer adapter halves with PacI",
+                StepKind.DIGESTION,
+                ((ligated, InputRole.TEMPLATE), (paci, InputRole.CATALYST)), (trimmed,))
+    sc1 = graph.input("sc_pcr1", "published SC-PCR1 primer", MaterialKind.OLIGO)
+    sc2 = graph.input("sc_pcr2", "published SC-PCR2 primer", MaterialKind.OLIGO)
+    polymerase = graph.input("polymerase", "SC-PCR and library PCR polymerase",
+                             MaterialKind.CATALYST)
+    amplified = graph.product("sc_amplicon", "SC-PCR-amplified barcode-labelled fragment",
+                              MaterialKind.MOLECULAR, state=sc_pcr_scene())
+    graph.react("sc_pcr", "Amplify the PacI-trimmed barcode-labelled fragment", StepKind.PCR,
+                ((trimmed, InputRole.TEMPLATE), (sc1, InputRole.STRUCTURAL),
+                 (sc2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (amplified,),
+                geometry=PCRGeometry.exact(
+                    trimmed_construct, PCRPrimer("SC-PCR1", SC_PCR1, 17),
+                    PCRPrimer("SC-PCR2", SC_PCR2, 17),
+                    statement="The defining source prints both 17-nt SC-PCR primers and the adapter sequence from which their inward landing sites are derived."))
+    bcivi = graph.input("bcivi", "BciVI type-IIS restriction enzyme", MaterialKind.CATALYST)
+    bcivi_scene, bcivi_construct = bcivi_product()
+    da_insert = graph.product("da_insert", bcivi_construct.name, MaterialKind.MOLECULAR,
+                              state=bcivi_scene)
+    graph.react("bcivi_digest", "Remove SC-PCR ends and expose 3′-A overhangs with BciVI",
+                StepKind.DIGESTION,
+                ((amplified, InputRole.TEMPLATE), (bcivi, InputRole.CATALYST)), (da_insert,))
+    illumina_adapter = graph.input("illumina_adapter", "unpublished Illumina adapter",
+                                   MaterialKind.ADAPTER, inferred=True,
+                                   source=inferred_source)
+    precursor = graph.product("adapter_ligated", "Illumina-adapter-ligated Drop-ChIP insert",
+                              MaterialKind.MOLECULAR, inferred=True,
+                              source=inferred_source)
+    graph.react("illumina_ligation", "Ligate Illumina adapters to the 3′-A-ended insert",
+                StepKind.LIGATION,
+                ((da_insert, InputRole.TEMPLATE), (illumina_adapter, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (precursor,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The source establishes adapter ligation but does not publish the Illumina adapter bases or end geometry."),
+                source=inferred_source)
+    library_primers = graph.input("library_primers", "unpublished library PCR-primer pair",
+                                  MaterialKind.OLIGO, inferred=True, source=inferred_source)
+    final = inferred_final_library()
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
+                            inferred=True, source=inferred_source)
+    graph.react("library_pcr", "PCR-complete the Illumina library", StepKind.PCR,
+                ((precursor, InputRole.TEMPLATE), (library_primers, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason="The paper does not publish the library PCR primers.",
+                    symmetric_species=True), source=inferred_source)
+    graph.sequence(library, SequencingPlan(
+        limitation="The paper publishes barcode coordinates but not the Illumina adapter or sequencing-primer sequences.",
+        acquired_roles=("Read 1", "Read 2", "Index 1 (i7)"),
+        read_uses={"Read 1": "extract_then_include", "Read 2": "extract_then_include",
+                   "Index 1 (i7)": "demultiplex"}))
+    graph.declare_reviewed_scope((
+        "nucleosomal_dna", "repair_enzymes", "end_repair", "barcode_adapter",
+        "ligase", "barcode_ligation", "paci", "paci_digest", "sc_pcr1",
+        "sc_pcr2", "polymerase", "sc_pcr", "bcivi", "bcivi_digest",
+        "illumina_adapter", "illumina_ligation", "library_primers", "library_pcr",
+        "library"), source)
+    return graph.require_publishable()

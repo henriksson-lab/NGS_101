@@ -4,6 +4,7 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature
+from tenx_graph import chromium_rna_graph
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
 SWITCH_SPACER="TTTCTTATAT"
@@ -35,3 +36,11 @@ def final_library(insert_nt=38):
 def read1_layout():
     identifiers=[(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":26})]
     return [*identifiers,("27 onward","switch spacer, then transcript 5' end")]
+
+def protocol_graph():
+    authority=('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
+               '10x Genomics Technical Note CG000109 Rev D</a>.')
+    return chromium_rna_graph(title="10x Chromium Single Cell 5-prime Gene Expression v1",
+        authority=authority,final=final_library(),primers=SEQ_PRIMERS,
+        first_strand=first_strand(),amplified_cdna=amplified_cdna(),
+        read_lengths={"Read 1":26,"Index 1 (i7)":8},five_prime=True)

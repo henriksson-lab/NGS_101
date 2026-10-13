@@ -5,7 +5,11 @@ import illumina as il
 import seqprimers as sp
 from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       circle_rows, feature, oligo, revcomp)
+from circular import CircularizationGeometry
 from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
+                            ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
+                            Step, StepKind, Terminal)
 
 TITLE = "TRIP — Thousands of Reporters Integrated in Parallel"
 NOTES = "01_trip.html"
@@ -234,3 +238,151 @@ def workflow() -> Workflow:
           name="paired-end mapping library",
           note="The second printed primer pair completes the standard TruSeq Read 1 and Read 2 sites.")
     return w
+
+
+def protocol_graph() -> ProtocolGraph:
+    """The three TRIP readouts as one checked material-provenance graph."""
+    source = "Akhtar et al. 2014, doi:10.1038/nprot.2014.072"
+    g = ProtocolGraph(TITLE, authority=source)
+
+    def material(key, label, kind=MaterialKind.MOLECULAR, *, state=None,
+                 primary=False):
+        return Material(key, label, kind, state=state, primary=primary, source=source)
+
+    def reagent(key, label, kind):
+        return g.add_input(material(key, label, kind))
+
+    def step(key, label, kind, ports, products, *, geometry=None):
+        made = tuple(products)
+        return g.add_step(Step(key, label, kind, tuple(ports),
+                               tuple(x.id for x in made), geometry=geometry,
+                               source=source), made)
+
+    g.add_input(material("reporter_pool", "randomly barcoded piggyBac reporter pool",
+                         state=_reporter_scene(), primary=True))
+    reagent("piggybac_transposase", "piggyBac transposase", MaterialKind.CATALYST)
+    step("integrate", "Integrate the barcoded reporters", StepKind.INTEGRATION,
+         (Input("reporter_pool", InputRole.TEMPLATE),
+          Input("piggybac_transposase", InputRole.CATALYST)),
+         (material("integrated_cells", "cells carrying integrated reporters"),))
+
+    expression_rna = material("expression_rna", "poly(A) reporter RNA")
+    normalization_dna = material("normalization_dna", "genomic reporter DNA")
+    mapping_dna = material("mapping_dna", "reporter DNA with genomic insertion flank")
+    step("extract_readouts", "Extract the three matched molecular readouts",
+         StepKind.SPLIT, (Input("integrated_cells", InputRole.TEMPLATE),),
+         (expression_rna, normalization_dna, mapping_dna))
+
+    reagent("oligo_dt", "oligo(dT) reverse-transcription primer", MaterialKind.OLIGO)
+    reagent("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    expression_template = material(
+        "expression_cdna", "reporter-expression cDNA",
+        state=count_template("expression reporter template"))
+    step("reverse_transcribe", "Reverse-transcribe reporter RNA", StepKind.REVERSE_TRANSCRIPTION,
+         (Input("expression_rna", InputRole.TEMPLATE),
+          Input("oligo_dt", InputRole.STRUCTURAL),
+          Input("reverse_transcriptase", InputRole.CATALYST)),
+         (expression_template,))
+
+    for key, label in (
+            ("count_forward", "PB-cDNA-forward-1-BC"),
+            ("count_reverse", "PB-cDNA-reverse"),
+            ("mapping_reverse", "InvPCR-F-TruSeqPE2"),
+            ("p5_primer", "Solexa-Adapter-SE1"),
+            ("p7_read2_primer", "Solexa-R-Ad-TruSeqPE2")):
+        # The graph records reagent identity and provenance; the copyable oligo table
+        # remains the one presentation of the ordering sequence.
+        reagent(key, label, MaterialKind.OLIGO)
+
+    count_geometry = count_pcr_geometry("expression or normalization reporter template")
+    expression_library = material("expression_library", "expression barcode library",
+                                  MaterialKind.LIBRARY, state=EXPRESSION)
+    step("expression_pcr", "Amplify the expression barcode library", StepKind.PCR,
+         (Input("expression_cdna", InputRole.TEMPLATE),
+          Input("count_forward", InputRole.STRUCTURAL),
+          Input("count_reverse", InputRole.STRUCTURAL)),
+         (expression_library,), geometry=count_geometry)
+
+    normalization_library = material(
+        "normalization_library", "genomic normalization barcode library",
+        MaterialKind.LIBRARY, state=NORMALIZATION)
+    step("normalization_pcr", "Amplify the genomic normalization barcode library",
+         StepKind.PCR,
+         (Input("normalization_dna", InputRole.TEMPLATE),
+          Input("count_forward", InputRole.STRUCTURAL),
+          Input("count_reverse", InputRole.STRUCTURAL)),
+         (normalization_library,), geometry=count_geometry)
+
+    reagent("dpnii", "DpnII", MaterialKind.CATALYST)
+    digested = material("digested_mapping_dna", "DpnII mapping fragments")
+    step("digest_mapping_dna", "Digest mapping DNA with DpnII", StepKind.DIGESTION,
+         (Input("mapping_dna", InputRole.TEMPLATE),
+          Input("dpnii", InputRole.CATALYST)), (digested,))
+    reagent("t4_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    circle = material("mapping_circle", "self-ligated DpnII mapping circle",
+                      state=tuple(_mapping_circle_rows()))
+    step("circularize_mapping_dna", "Self-ligate mapping fragments at low concentration",
+         StepKind.CIRCULARIZATION,
+         (Input("digested_mapping_dna", InputRole.TEMPLATE),
+          Input("t4_ligase", InputRole.CATALYST)), (circle,),
+         geometry=CircularizationGeometry.known(
+             "double-strand intramolecular ligation",
+             statement="The mapping workflow dilute-self-ligates DpnII fragments before inverse PCR."))
+
+    mapping_pcr1 = material("mapping_pcr1", "inverse-PCR mapping product",
+                            state=mapping_pcr1_product())
+    step("mapping_inverse_pcr", "Inverse PCR across the reporter–genome junction",
+         StepKind.PCR,
+         (Input("mapping_circle", InputRole.TEMPLATE),
+          Input("count_forward", InputRole.STRUCTURAL),
+          Input("mapping_reverse", InputRole.STRUCTURAL)),
+         (mapping_pcr1,), geometry=mapping_pcr1_geometry())
+    mapping_library = material("mapping_library", "integration-site mapping library",
+                               MaterialKind.LIBRARY, state=MAPPING)
+    step("mapping_adapter_pcr", "Complete the P5 and P7 flow-cell arms", StepKind.PCR,
+         (Input("mapping_pcr1", InputRole.TEMPLATE),
+          Input("p5_primer", InputRole.STRUCTURAL),
+          Input("p7_read2_primer", InputRole.STRUCTURAL)),
+         (mapping_library,), geometry=mapping_pcr2_geometry())
+
+    for key, library, primers, roles in (
+            ("expression_library", EXPRESSION, COUNT_PRIMERS, ("Read 1",)),
+            ("normalization_library", NORMALIZATION, COUNT_PRIMERS, ("Read 1",)),
+            ("mapping_library", MAPPING, MAPPING_PRIMERS, ("Read 1", "Read 2"))):
+        g.mark_terminal(Terminal(key, Disposition.SEQUENCING), SequencingPlan(
+            library, tuple(primers), roles, READ_LENGTHS[
+                {"expression_library": "Expression library",
+                 "normalization_library": "Genomic normalization library",
+                 "mapping_library": "Integration-site mapping library"}[key]],
+            READ_USES[
+                {"expression_library": "Expression library",
+                 "normalization_library": "Genomic normalization library",
+                 "mapping_library": "Integration-site mapping library"}[key]]))
+
+    source_targets = {
+        "reporter_pool_input": "reporter_pool",
+        "piggybac_transposase_reagent": "piggybac_transposase",
+        "reporter_integration": "integrate",
+        "three_readouts": "extract_readouts",
+        "oligo_dt_reagent": "oligo_dt",
+        "reverse_transcriptase_reagent": "reverse_transcriptase",
+        "reporter_rt": "reverse_transcribe",
+        "count_forward_primer_reagent": "count_forward",
+        "count_reverse_primer_reagent": "count_reverse",
+        "barcode_counting": "expression_pcr",
+        "normalization_counting": "normalization_pcr",
+        "dpnii_reagent": "dpnii",
+        "mapping_digest": "digest_mapping_dna",
+        "t4_ligase_reagent": "t4_ligase",
+        "mapping_circle": "circularize_mapping_dna",
+        "mapping_reverse_primer_reagent": "mapping_reverse",
+        "mapping_inverse_pcr": "mapping_inverse_pcr",
+        "p5_primer_reagent": "p5_primer",
+        "p7_read2_primer_reagent": "p7_read2_primer",
+        "mapping_adapter_pcr": "mapping_adapter_pcr",
+        "expression_sequencing_output": "expression_library",
+        "normalization_sequencing_output": "normalization_library",
+        "mapping_sequencing_output": "mapping_library",
+    }
+    g.declare_reviewed_scope(source_targets, source)
+    return g.require_publishable()

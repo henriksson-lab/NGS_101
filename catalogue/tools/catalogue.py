@@ -26,7 +26,7 @@ SOURCE_PAGES = "https://teichlab.github.io/scg_lib_structs/"
 
 # ours.tsv's columns, and the closed vocabularies of three of them.
 OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
-STATUSES = ("documented", "draft", "notes")
+STATUSES = ("documented", "assay", "draft", "notes")
 # Which part of the website a directory is listed in: `published` protocols go into the
 # searchable list, `wip` (our own unpublished designs) into a separate section.
 SECTIONS = ("published", "wip")

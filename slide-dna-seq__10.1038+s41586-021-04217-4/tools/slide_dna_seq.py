@@ -6,6 +6,10 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Row,Segment,feature,oligo,revcomp
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
 
 READ1="GCTTTGCTAACGGTCGAGAGATGTGTATAAGAGACAG"
 READ2="CGGATGTTGCACCAGCAGATGTGTATAAGAGACAG"
@@ -38,3 +42,62 @@ def sections(): return [
  ("Remove histones and tagment DNA",[Row(chunks=[("custom Tn5 end ** genomic fragment ** custom Tn5 end", "me",False)])],"HCl exposes DNA and custom-loaded Tn5 fragments it in situ."),
  ("Photocleave and ligate bead barcodes",[Row(chunks=[("bead barcode A — linker — barcode B ** proximal genomic fragment", "cbc",False)])],"The covalent junction preserves local spatial identity after material leaves the slide."),
  ("PCR-complete the library",[Row(chunks=[("P5/i5 — bead barcode — genomic insert — i7/P7",None,False)])],"Custom paired-end primers read the genomic insert."),]
+
+def protocol_graph():
+ source="Defining source: https://doi.org/10.1038/s41586-021-04217-4"
+ graph=ProtocolGraph("slide-DNA-seq",authority=source)
+ tissue=graph.input("tissue","10-µm tissue section",MaterialKind.BIOLOGICAL,primary=True)
+ array=graph.input("bead_array","sequenced spatial barcode bead array",MaterialKind.SELECTION)
+ placed=graph.product("placed_tissue","tissue registered to the spatial bead array",
+                      MaterialKind.BIOLOGICAL)
+ outside=graph.product("outside_array","tissue material outside usable bead positions",
+                       MaterialKind.WASTE)
+ graph.react("array_registration","Place the tissue on the sequenced bead array",
+             StepKind.BINDING,
+             ((tissue,InputRole.TEMPLATE),(array,InputRole.SELECTION)),(placed,outside),
+             changes_molecule=False)
+ graph.discard(outside,"material outside registered bead positions has no spatial barcode")
+ acid=graph.input("histone_removal","HCl histone-removal condition",MaterialKind.CONDITION)
+ exposed=graph.product("exposed_dna","histone-depleted tissue DNA",MaterialKind.MOLECULAR)
+ graph.react("deproteinize","Remove histones to expose tissue DNA",StepKind.DEPROTEINIZATION,
+             ((placed,InputRole.TEMPLATE),(acid,InputRole.CONDITION)),(exposed,))
+ transposome=graph.input("custom_transposome","custom T5/T7 loaded Tn5 ends",
+                         MaterialKind.ADAPTER)
+ tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+ tagged=graph.product("tagged_dna","custom-end-tagmented spatial tissue DNA",
+                      MaterialKind.MOLECULAR)
+ tag_waste=graph.product("tagmentation_waste","non-library tagmentation products",
+                         MaterialKind.WASTE)
+ graph.react("tagmentation","Tagment histone-depleted DNA in situ",StepKind.TAGMENTATION,
+             ((exposed,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
+              (tn5,InputRole.CATALYST)),(tagged,tag_waste))
+ graph.discard(tag_waste,"molecules without usable paired custom insertions do not amplify")
+ bead_barcode=graph.input("bead_barcode","photocleaved two-block spatial bead barcode",
+                          MaterialKind.ADAPTER)
+ ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
+ spatial=graph.product("spatial_dna","spatial-barcode-ligated genomic fragments",
+                       MaterialKind.MOLECULAR)
+ graph.react("spatial_ligation","Photocleave and ligate bead barcodes to proximal DNA",
+             StepKind.LIGATION,
+             ((tagged,InputRole.TEMPLATE),(bead_barcode,InputRole.STRUCTURAL),
+              (ligase,InputRole.CATALYST)),(spatial,),
+             geometry=AdapterLigationGeometry.unavailable(
+                 "The source prints the bead oligo architecture and bridge handle but does not provide a strand-resolved ligating-end substrate in the page model."))
+ p5=graph.input("p5_primer","indexed P5 library PCR primer",MaterialKind.OLIGO)
+ p7=graph.input("p7_primer","indexed P7 library PCR primer",MaterialKind.OLIGO)
+ polymerase=graph.input("polymerase","library PCR polymerase",MaterialKind.CATALYST)
+ library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ graph.react("library_pcr","PCR-complete the spatial library",StepKind.PCR,
+             ((spatial,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
+              (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+             geometry=PCRGeometry.unavailable(
+                 FINAL_LIBRARY,reason="The paper prints PCR primers but not a complete strand-resolved index-read scheme."))
+ graph.sequence(library,SequencingPlan(
+     library=FINAL_LIBRARY,primers=SEQ_PRIMERS,acquired_roles=("Read 1","Read 2"),
+     read_uses={"Read 1":"include","Read 2":"include"},
+     limitation=SEQUENCING_UNAVAILABLE))
+ graph.declare_reviewed_scope((
+     "tissue","bead_array","array_registration","histone_removal","deproteinize",
+     "custom_transposome","tn5","tagmentation","bead_barcode","ligase",
+     "spatial_ligation","p5_primer","p7_primer","polymerase","library_pcr","library"),source)
+ return graph.require_publishable()
