@@ -2,6 +2,8 @@
 # source: a URL, or HANDLER:ARG for a fetcher in tools/fetchers/ (scg:<glob in Teichlab/scg_lib_structs>,
 # protocolsio:<doi>, doi:<doi>, pmc:<PMCID>, pmccloud:<PMCID>). See tools/fetchers/__init__.py.
 slug	source	what	why
+proximity-network-assay__10.1101+2025.06.19.660329	https://www.pixelgen.com/wp-content/uploads/2026/08/um002-user-manual-pixelgen-proxiome-kit-v2-cell-surface-v1.00.pdf	Pixelgen UM002 Proxiome Kit v2 Cell Surface user manual v1.00	primary commercial authority for reaction order, kit reagents, PCR stages and sequencing configuration
+proximity-network-assay__10.1101+2025.06.19.660329	https://www.biorxiv.org/content/10.1101/2025.06.19.660329v3.full.pdf	Karlsson et al. PNA preprint, version 3	latest defining paper revision; direct URL compensates for delayed bioRxiv API indexing
 10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf	10x user guide CG000204 Rev D, Next GEM 3' v3.1 (single index)	v3.1 conditions and oligos; not mirrored upstream
 10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevE.pdf	10x user guide CG000315 Rev E, Next GEM 3' v3.1 (dual index)	dual-index library layout; not mirrored upstream
 10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049	https://cdn.10xgenomics.com/raw/upload/v1655151897/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv	10x Dual Index Kit TT Set A index sequences	sample index sequences (i7/i5) for v3.1/v4 GEX

@@ -1,8 +1,9 @@
-"""Canonical paper display metadata for legacy catalogue identifiers needing repair.
+"""Canonical paper display metadata for catalogue identifiers needing repair.
 
-These three directories predate strict DOI resolution and encode a malformed or
-noncanonical identifier.  Keeping the correction here prevents the public index from
-linking to a dead DOI while a future URL migration can rename the directories safely.
+Most entries predate strict DOI resolution and encode a malformed or noncanonical
+identifier. A current preprint may also temporarily be absent from Crossref and NCBI.
+Keeping the correction here prevents the public index from losing an otherwise verified
+paper citation.
 """
 from __future__ import annotations
 
@@ -24,4 +25,7 @@ BY_DIRECTORY = {
         "Kwak", "2013", "Science", "https://doi.org/10.1126/science.1229386"),
     "cutac__10.1186+s13059-020-02266-4": PaperReference(
         "Henikoff", "2020", "eLife", "https://doi.org/10.7554/eLife.63274"),
+    "proximity-network-assay__10.1101+2025.06.19.660329": PaperReference(
+        "Karlsson", "2025", "bioRxiv",
+        "https://doi.org/10.1101/2025.06.19.660329"),
 }
