@@ -12,6 +12,9 @@
   spacer plus tails that recruit one target-specific insert and one universal backbone.
 - 🟢 The insert and backbone are 5′ phosphorylated. T4 DNA ligase seals them into a
   reporter circle only when the two RNA probes provide the proximity scaffold.
+- 🟢 Probe 2 contributes backbone-binding then insert-binding sequence; Probe 1
+  contributes insert-binding then backbone-binding sequence. This reversed order lets
+  the insert bridge the inside while the universal backbone closes around the outside.
 - 🟢 Phi29 amplifies that circle. A fluorescent or metal-tagged detection oligo binds
   the repeated insert sequence, making different insert identities separate RNA channels.
 - 🟢 Supplementary Table 3 publishes 27 reporter systems. The page shows system 1 as

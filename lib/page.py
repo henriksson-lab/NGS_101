@@ -106,6 +106,14 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-svg { display:block; max-width:none; flex:none; overflow:visible;
             font-family:var(--mono); fill:var(--ink); }
 .chem-svg text { user-select:text; -webkit-user-select:text; }
+.topology-svg { font-family:var(--sans); }
+.topology-svg .topology-heading { fill:var(--ink); font-size:16px; font-weight:600; }
+.topology-svg .topology-label { fill:var(--ink); font-size:13px; font-weight:600; }
+.topology-svg .topology-end { fill:var(--ink-muted); font:12px var(--mono); }
+.topology-svg .topology-comment { fill:var(--ink-muted); font-size:12px; font-style:italic; }
+.topology-svg .topology-junction { fill:var(--note-rule); stroke:var(--surface); stroke-width:2; }
+.topology-svg .topology-process { fill:none; stroke:var(--ink-muted); stroke-width:2; }
+.topology-svg .topology-process-fill { fill:var(--ink-muted); stroke:none; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
 .chem-inline-sequence { white-space:nowrap; }

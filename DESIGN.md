@@ -215,6 +215,15 @@ known length and a calculated Tm for sufficiently long unambiguous DNA. Symbolic
 ellipsis-length regions do not claim a length. Explanatory labels use the
 proportional interface font; bases remain monospaced and selectable.
 
+Linear placement is not used for an assembly whose meaning depends on a loop, fold or
+branched hybrid. Such assemblies use a topology constructor: callers declare the intended
+complementary spans and molecular connections, the constructor rejects incompatible
+bases or impossible end order, and the renderer lays out that validated graph. The layout
+is schematic rather than a thermodynamic structure prediction. This rule is independent
+of polymer type and therefore applies to DNA, RNA and mixed hybrids; a future external
+folding engine may supply coordinates, but not replace the declared-pairing constraints
+that establish what the protocol intends.
+
 Sticky-end adapter ligation is drawn as two states: the ligation-ready dA-tailed molecule,
 then the sealed product. In the product only, subtle semantic background spans distinguish
 the insert from ligated components. Background identity follows the reagent identity, so
