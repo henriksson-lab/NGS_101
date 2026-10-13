@@ -9,6 +9,7 @@ from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from topology import HairpinTopology
 
 UMI_FEATURE = feature("umi", "umi", "random")
 LIGATION_BARCODE = feature("cell_barcode_ligation", "cell_barcode", "combinatorial",
@@ -36,6 +37,11 @@ I5_1 = "CTCCATCGAG"
 I7_1 = "CCGAATCCGA"
 RT1 = "CAGAGC" + "N" * 8 + RT_BARCODE_1 + "T" * 30
 HAIRPIN1 = "GCTCTG" + HAIRPIN_BARCODE_1 + "U" + HANDLE + revcomp(HAIRPIN_BARCODE_1)
+HAIRPIN_TOPOLOGY = HairpinTopology(
+    "sci-RNA-seq3 barcoded dU hairpin", HAIRPIN1,
+    first_stem_start=len("GCTCTG"),
+    second_stem_start=len(HAIRPIN1) - len(HAIRPIN_BARCODE_1),
+    stem_length=len(HAIRPIN_BARCODE_1), colour="var(--c-cbc)")
 P5_1 = il.P5 + I5_1 + il.TRUSEQ_READ1
 P7_1 = il.P7 + I7_1 + nx.S7
 

@@ -15,6 +15,7 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
+from topology import HairpinTopology
 
 
 def seg(name, bases, tag=None, **kw):
@@ -29,8 +30,17 @@ DTRU_DNA = "TTTTTT"
 DTRU_RNA = "U" * 19
 DTRU_TAIL = DTRU_LINKER + DTRU_DNA + DTRU_RNA
 HAIRPIN_LINKER_ARM = "GGGTGAATGAAAGGTGG"
+HAIRPIN_CORE = "CTCTAATACGACTCACTATAGGGAGACGTGTGCTCTTCCGATCT"
+HAIRPIN_CLOSING_ARM = "TCGTATTAGAG"
 CELL_BARCODE_LEN = 6
 UMI_LEN = 8
+BC2 = "GTATCC"
+BC2_HAIRPIN = HAIRPIN_LINKER_ARM + HAIRPIN_CORE + "N" * UMI_LEN + BC2 + HAIRPIN_CLOSING_ARM
+BC2_HAIRPIN_TOPOLOGY = HairpinTopology(
+    "LAST-seq BC2 hairpin module", BC2_HAIRPIN,
+    first_stem_start=len(HAIRPIN_LINKER_ARM),
+    second_stem_start=len(BC2_HAIRPIN) - len(HAIRPIN_CLOSING_ARM),
+    stem_length=len(HAIRPIN_CLOSING_ARM), colour="var(--c-cbc)")
 
 CELL_FEATURE = feature("last_cell_barcode", "cell_barcode", "whitelist",
                        whitelist="Supplementary Table S3")

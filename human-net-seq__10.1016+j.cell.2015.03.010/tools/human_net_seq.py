@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import seqprimers as sp
 from adapter_ligation import reported_adapter_end
-from chemdraw import Construct, Row, Scene, Segment, circle_rows, feature, revcomp
+from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
 from circular import CircularizationGeometry, circularize_ssdna
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
@@ -68,7 +68,7 @@ def sections():
     sc.labels("top")
     return [
         ("Capture the nascent 3′ end", sc.rows(), "A 5′ pre-adenylated DNA linker with N6 and a blocked 3′ ddC is ligated to the RNA 3′-OH. ** marks the ligation."),
-        ("Reverse-transcribe and circularize", [Row(chunks=[("linker-primed cDNA → gel select 85–160 nt → CircLigase closes 5′-phosphate to 3′-OH", None, False)]), *circle_rows(CIRCLE.linear, "CircLigase closure")], "Circularization juxtaposes the primer-derived arms so one PCR can recover the RNA-derived insert."),
+        ("Reverse-transcribe and circularize", [Row(chunks=[("linker-primed cDNA → gel select 85–160 nt → CircLigase closes 5′-phosphate to 3′-OH", None, False)]), *CIRCLE.rows("CircLigase closure")], "Circularization juxtaposes the primer-derived arms so one PCR can recover the RNA-derived insert."),
         ("Deplete and amplify", [Row(chunks=[("biotinylated depletion oligos remove abundant mature-RNA cDNAs → 6–12 cycle indexed PCR", None, False)])], "The minimal productive PCR cycle count is used; the informative product is about 150 nt."),
     ]
 

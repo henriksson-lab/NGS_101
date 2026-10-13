@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, MolecularState, Scene, Workflow, circle_rows, feature
+from chemdraw import Construct, MolecularState, Scene, Workflow, feature
 from circular import circularize_ssdna
 from circular import CircularizationGeometry
 from adapter_ligation import AdapterLigationGeometry
@@ -86,7 +86,7 @@ def workflow():
     outcomes.mark("truncation", "truncated RNA-derived cDNA", "3′ end records RT arrest")
     linear_cdna = first_strand_cdna()
     closed = circularize_ssdna(linear_cdna, five_prime_phosphate=True)
-    circle = circle_rows(closed.linear, "CircLigase closure")
+    circle = closed.rows("CircLigase closure")
     reopened = Scene(); reopened.strand("cDNA", list(linear_cdna), label="restriction-linearized cDNA")
     reopened.mark("cDNA", "miCLIP Read 1 site", "PCR-accessible linear product")
     final = Scene.duplex(list(FINAL_LIBRARY), label="PCR-amplified miCLIP library")
@@ -149,8 +149,9 @@ def protocol_graph():
                 ((readthrough, InputRole.TEMPLATE), (stopped, InputRole.TEMPLATE)),
                 (pooled,), changes_molecule=False)
     circligase = graph.input("circligase", "CircLigase", MaterialKind.CATALYST)
+    closed = circularize_ssdna(first_strand_cdna(), five_prime_phosphate=True)
     circle = graph.product("circular_cdna", "covalently closed first-strand cDNA",
-                           MaterialKind.MOLECULAR)
+                           MaterialKind.MOLECULAR, state=closed)
     graph.react("circularize", "Circularize first-strand cDNA", StepKind.CIRCULARIZATION,
                 ((pooled, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)), (circle,),
                 geometry=CircularizationGeometry.known(

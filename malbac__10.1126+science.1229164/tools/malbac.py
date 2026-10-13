@@ -10,6 +10,7 @@ from __future__ import annotations
 from chemdraw import Construct, Segment, complement_segments
 from pcr import PCRGeometry
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from topology import HairpinTopology
 
 HANDLE_NT = 27
 RANDOM_NT = 8
@@ -52,6 +53,16 @@ def full_amplicon(insert_nt: int = 28) -> Construct:
             seg("genomic copy", "X" * insert_nt, placeholder=True)]
     return Construct([*left, *complement_segments([handle("right handle")])],
                      name="MALBAC full amplicon")
+
+
+def loop_topology(insert_nt: int = 28) -> HairpinTopology:
+    """The end-paired full amplicon, without inventing unpublished handle bases."""
+    loop_nt = RANDOM_NT + insert_nt
+    return HairpinTopology(
+        "looped MALBAC full amplicon",
+        "N" * (HANDLE_NT + loop_nt + HANDLE_NT),
+        first_stem_start=0, second_stem_start=HANDLE_NT + loop_nt,
+        stem_length=HANDLE_NT, colour="var(--c-tso)")
 
 
 def unresolved_sequencing_library() -> Construct:

@@ -5,10 +5,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, annotation_rows, circle_rows
+from chemdraw import Construct, Scene, Segment, annotation_rows
 from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from topology import CircularPrimerTopology
 
 
 TITLE = "FISSEQ — transcriptome sequencing inside fixed cells"
@@ -61,6 +62,12 @@ def linear_cdna() -> Construct:
 
 CIRCLE = circularize_ssdna(linear_cdna(), five_prime_phosphate=True)
 RCA = rolling_circle(CIRCLE, RCA_PRIMER, copies=3)
+RCA_TOPOLOGY = CircularPrimerTopology(
+    "FISSEQ covalently closed cDNA",
+    CIRCLE.sequence,
+    "phosphorothioate-protected RCA primer",
+    RCA_PRIMER,
+)
 
 
 def rca_priming_scene() -> Scene:
@@ -71,6 +78,12 @@ def rca_priming_scene() -> Scene:
               pair=("RCA primer", "adapter"), label="RCA primer")
     sc.arrow("RCA primer", "Phi29 copies repeatedly around the circle")
     return sc
+
+
+def rca_primed_rows():
+    """Show circle topology and an exact opened-out view of the primer site together."""
+    return [*CIRCLE.rows("CircLigase II closure"),
+            *rca_priming_scene().rows()]
 
 
 def rolony() -> Construct:
@@ -156,7 +169,7 @@ def protocol_graph() -> ProtocolGraph:
     circle = graph.product(
         "cdna_circle", "covalently closed single-stranded cDNA circle",
         MaterialKind.MOLECULAR,
-        state=tuple([*circle_rows(linear_cdna(), "CircLigase II"),
+        state=tuple([*CIRCLE.rows("CircLigase II"),
                      *annotation_rows(linear_cdna(), prefix_width=6)]))
     graph.react(
         "circularize", "Join the cDNA 3-prime hydroxyl to its 5-prime phosphate",
@@ -170,6 +183,14 @@ def protocol_graph() -> ProtocolGraph:
     rca_primer = graph.input(
         "rca_primer", "phosphorothioate-protected RCA primer", MaterialKind.OLIGO,
         state=Construct([seg("RCA primer", RCA_PRIMER, "r2")], name="RCA primer"))
+    primed_circle = graph.product(
+        "primed_cdna_circle", "RCA-primer-bound cDNA circle", MaterialKind.MOLECULAR,
+        state=tuple(rca_primed_rows()))
+    graph.react(
+        "bind_rca_primer", "Anneal the phosphorothioate-protected RCA primer",
+        StepKind.HYBRIDIZATION,
+        ((circle, InputRole.TEMPLATE), (rca_primer, InputRole.STRUCTURAL)),
+        (primed_circle,))
     phi29 = graph.input("phi29", "phi29 strand-displacing DNA polymerase",
                         MaterialKind.CATALYST)
     rolony_product = graph.product(
@@ -178,8 +199,8 @@ def protocol_graph() -> ProtocolGraph:
     graph.react(
         "rolling_circle", "Amplify the cDNA circle into a tandem-repeat rolony",
         StepKind.EXTENSION,
-        ((circle, InputRole.TEMPLATE), (rca_primer, InputRole.STRUCTURAL),
-         (phi29, InputRole.CATALYST), (aminoallyl_dutp, InputRole.STRUCTURAL)),
+        ((primed_circle, InputRole.TEMPLATE), (phi29, InputRole.CATALYST),
+         (aminoallyl_dutp, InputRole.STRUCTURAL)),
         (rolony_product,))
 
     library = graph.product("sequencing_library", "cross-linked FISSEQ rolony",
@@ -196,6 +217,6 @@ def protocol_graph() -> ProtocolGraph:
     graph.declare_reviewed_scope((
         "cellular_rna", "rt_primer", "reverse_transcriptase", "aminoallyl_dutp",
         "reverse_transcribe", "crosslinker", "immobilize_cdna", "ribonucleases",
-        "remove_rna", "circligase", "circularize", "rca_primer", "phi29",
+        "remove_rna", "circligase", "circularize", "rca_primer", "bind_rca_primer", "phi29",
         "rolling_circle", "immobilize_rolony", "sequencing_library"), SOURCE)
     return graph.require_publishable()

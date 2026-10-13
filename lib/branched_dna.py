@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import html
 
 from chemdraw import Row, Scene, Segment, revcomp
 
@@ -141,3 +142,47 @@ def tree_rows(model: BranchModel) -> list[Row]:
         Row(chunks=[("                          ||", None, False)]),
         Row(chunks=[("target RNA     5'-...adjacent target region...-3'", None, False)]),
     ]
+
+
+def tree_svg(model: BranchModel) -> str:
+    """Render the amplification hierarchy as a molecular graph, not ASCII punctuation."""
+    width, height = 860, 430
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" class="chem-svg topology-svg" '
+             f'width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+             'role="img" aria-label="branched-DNA signal-amplification topology">']
+    parts += [
+        '<line x1="90" y1="386" x2="770" y2="386" stroke="var(--ink)" stroke-width="4"/>',
+        '<text x="82" y="391" text-anchor="end" class="topology-end">5′</text>',
+        '<text x="778" y="391" class="topology-end">3′ target RNA</text>',
+        '<path d="M350,386 L350,350 L420,322" fill="none" stroke="var(--c-r1)" stroke-width="6"/>',
+        '<path d="M510,386 L510,350 L440,322" fill="none" stroke="var(--c-r2)" stroke-width="6"/>',
+        '<text x="430" y="410" text-anchor="middle" class="topology-comment">one adjacent target-probe pair</text>',
+        '<line x1="430" y1="322" x2="430" y2="235" stroke="var(--c-tso)" stroke-width="8"/>',
+        '<text x="445" y="277" class="topology-label">preamplifier trunk</text>',
+    ]
+    # Five representative amplifier branches show topology; the label states the exact
+    # model multiplicity instead of drawing dozens of indistinguishable arms.
+    amplifier_x = (190, 310, 430, 550, 670)
+    for x in amplifier_x:
+        parts.append(f'<path d="M430,235 Q430,205 {x},188 L{x},132" fill="none" '
+                     'stroke="var(--c-cbc)" stroke-width="6"/>')
+        for dx in (-28, -14, 0, 14, 28):
+            parts.append(f'<line x1="{x}" y1="145" x2="{x+dx}" y2="88" '
+                         'stroke="var(--c-umi)" stroke-width="3"/>')
+            parts.append(f'<circle cx="{x+dx}" cy="82" r="5" fill="var(--c-umi)"/>')
+    parts += [
+        f'<text x="430" y="215" text-anchor="middle" class="topology-label">'
+        f'{model.amplifiers_per_preamp} amplifier branches per preamplifier</text>',
+        f'<text x="430" y="54" text-anchor="middle" class="topology-label">'
+        f'{model.labels_per_amplifier} label probes per amplifier</text>',
+        f'<text x="430" y="26" text-anchor="middle" class="topology-heading">'
+        f'{model.labels_per_tree} potential labels per signal tree</text>',
+        '</svg>',
+    ]
+    return "".join(parts)
+
+
+def tree_panel(model: BranchModel, caption: str = "") -> str:
+    cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
+    return (f'<figure class="chem-panel topology-panel">{cap}'
+            f'<div class="diagram-scroll">{tree_svg(model)}</div></figure>')

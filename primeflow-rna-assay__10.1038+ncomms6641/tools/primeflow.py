@@ -20,7 +20,8 @@ SEQUENCE_BOUNDARY = ("Porichis et al. Supplementary Table 1 publishes the target
                      "intervals and sequences used to design its IL-2, IL-21, IFN-γ, IDO, "
                      "HMBS and miRNA probe sets. These determine the complementary "
                      "target-binding arms. The manufactured probes' universal tails, "
-                     "preamplifiers, amplifiers and label probes remain undisclosed.")
+                     "including their lengths and docking bases, and the preamplifiers, "
+                     "amplifiers and label probes remain undisclosed.")
 DETECTION = "fluorophore-conjugated label probes → fluorescence intensity per intact cell"
 DETECTION_CAPTION = "Types 1, 4, 6 and 10 use distinct amplification structures and fluorophores, enabling up to four RNA targets before standard flow-cytometric compensation and analysis."
 READOUT = "PrimeFlow produces per-cell fluorescence measured by a flow cytometer, not a sequencing library. There are therefore no sequencing adapters, indices, sequencing-primer sites or base-call reads."
@@ -37,12 +38,14 @@ def sequence_example() -> SequenceExample:
         "The first adjacent IL-2 pair is shown as a concrete example. The two target "
         "sequences are transcribed from Supplementary Table 1; the paired probe arms "
         "are their computed reverse complements. They are not complete orderable "
-        "PrimeFlow probes because the universal tails were not published.",
+        "PrimeFlow probes because neither the bases nor lengths of the universal tails "
+        "were published.",
         (("IL-2 target region, NM_021803 bases 2–24",
           (Segment("published target region", IL2_TARGET_2_24, "me"),)),
          ("IL-2 target region, NM_021803 bases 25–52",
           (Segment("published target region", IL2_TARGET_25_52, "me"),))),
         adjacent_target_example_scene(IL2_TARGET_2_24, IL2_TARGET_25_52),
         "The target regions are contiguous. Complementarity and probe orientation are "
-        "derived by the shared model; the tail placeholders mark the unpublished "
-        "commercial part of each probe.")
+        "derived by the shared model; the non-nucleotide tail placeholders mark the "
+        "unpublished commercial part without inventing a length. The downstream tree "
+        "is therefore a topological view, not a claimed oligo sequence.")

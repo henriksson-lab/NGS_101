@@ -275,6 +275,12 @@ def step_hybridise() -> str:
                "strand and the backbone arches over the gap between them, leaving the "
                "probe draped across the target like a padlock waiting to be closed. "
                "The middle of the gap is elided (...).")}
+<h4>Nucleotide-resolved fold</h4>
+{cm.CAPTURE_TOPOLOGY.folded_panel(
+    "The same open padlock with every modelled nucleotide shown. The genomic target is "
+    "kept straight; exact arm complementarity fixes both helices, while the unpaired "
+    "UMI/primer-site backbone is the flexible joint. The target gap remains open until "
+    "polymerase copies it.")}
 {info(f"""Two arms, not one primer. A PCR primer needs one match; a padlock needs
 <b>both</b> arms, in order, on the same strand, a fixed distance apart &mdash; which in
 the whole 13&nbsp;kb vector happens at exactly one place.""")}
@@ -321,6 +327,12 @@ def step_fill() -> str:
                "visible (gap middle and backbone sites abbreviated). The captured target "
                "is now flanked by probe sequence -- which is what 'molecular inversion' "
                "means." % len(cap.circle))}
+<h4>Nucleotide-resolved closed product</h4>
+{cm.CLOSED_CAPTURE_TOPOLOGY.folded_panel(
+    "The complete gap-filled product as one covalently closed strand. Every modelled "
+    "base is shown, and the marked return bond joins the final backbone base to the "
+    "first extension-arm base; the opened-out panel above remains the easier view of "
+    "segment order.")}
 {info(f"""The gap is <b>{cap.gap}&nbsp;nt</b>: the Pol III <b>+1 G</b>, the complete
 <cbc>20-nt spacer</cbc>, the <r2>76-nt scaffold</r2> and 15&nbsp;nt beyond it. A spacer
 that already begins with G gives 111 instead, because the +1 is then supplied by the spacer

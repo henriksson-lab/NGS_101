@@ -1,6 +1,6 @@
 """iMARGI in-situ RNA–DNA bridge ligation."""
 from multibranch import illumina_branch
-from protocol_extensions import proximity_product
+from interaction_capture import BivalentRNAChromatinBridge
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState,Row,Scene,Segment,Workflow
 from pcr import PCRGeometry
@@ -13,6 +13,7 @@ SUMMARY="A bivalent linker is ligated in situ first to fragmented chromatin-asso
 FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("iMARGI","RNA–linker–DNA contact chimera",umi=8)
 FINAL_CAPTION="Paired reads recover the RNA-derived and DNA-derived ends separated by the diagnostic bridge."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed iMARGI library."
+BRIDGE=BivalentRNAChromatinBridge("iMARGI bivalent linker")
 def rna_ligation_geometry():
     rna=Scene(); rna.strand("RNA arm",[Segment("preadenylated RNA-ligation end","[RNA-arm end]",placeholder=True),Segment("annealed bivalent-linker body","[bivalent linker]",placeholder=True)],label="iMARGI linker")
     rna.ligation_end("RNA arm","preadenylated RNA-ligation end",kind="single-strand",polarity="5-prime",owner="adapter",text="preadenylated 5′ RNA-ligation end")
@@ -20,9 +21,9 @@ def rna_ligation_geometry():
 def dna_ligation_geometry():
     return AdapterLigationGeometry.unavailable("The sources establish the second linker-to-restriction-fragment ligation but do not provide a source-supported adapter-overhang sequence or polarity.")
 def sections():
-    wf=Workflow(MolecularState("Crosslinked and fragmented chromatin",(Row(chunks=[("RNA … crosslinked proximity … restriction-cut genomic DNA",None,False)]),)))
-    wf.ligate_adapter("Ligate the RNA end of the bivalent linker in situ",rna_ligation_geometry(),[Row(chunks=[("chromatin RNA ** RNA arm—annealed bridge","me",False)])],note="The linker end joins fragmented RNA.")
-    wf.ligate_adapter("Ligate the bridge DNA end to nearby genomic DNA",dna_ligation_geometry(),proximity_product(left="chromatin RNA",right="nearby genomic DNA",bridge="iMARGI bivalent linker").rows(),note="The second ligation makes the diagnostic RNA–linker–DNA chimera in the nucleus.")
+    wf=Workflow(MolecularState("Crosslinked and fragmented chromatin",tuple(BRIDGE.unjoined().rows())))
+    wf.ligate_adapter("Ligate the RNA end of the bivalent linker in situ",rna_ligation_geometry(),BRIDGE.rna_joined().rows(),note="The linker end joins fragmented RNA; its DNA-reactive end remains free.")
+    wf.ligate_adapter("Ligate the bridge DNA end to nearby genomic DNA",dna_ligation_geometry(),BRIDGE.chimera().rows(),note="The second ligation makes the diagnostic RNA–linker–DNA chimera in the nucleus.")
     wf.react("Reverse-transcribe, purify and make the paired-end library",[Row(chunks=[("RNA-derived cDNA—linker—genomic DNA → paired-end adapters","r1",False)])],note="The linker orientation distinguishes RNA and DNA read ends.")
     return [(r.action,r.after.rows,r.note) for r in wf.reactions]
 
@@ -33,13 +34,13 @@ def protocol_graph():
                        MaterialKind.BIOLOGICAL,primary=True)
  nuclease=graph.input("restriction_enzyme","chromatin restriction enzyme",MaterialKind.CATALYST)
  fragmented=graph.product("fragmented_contacts","fragmented RNA and restriction-cut chromatin",
-                          MaterialKind.MOLECULAR)
+                          MaterialKind.MOLECULAR,state=BRIDGE.unjoined())
  graph.react("fragmentation","Fragment cross-linked chromatin",StepKind.DIGESTION,
              ((chromatin,InputRole.TEMPLATE),(nuclease,InputRole.CATALYST)),(fragmented,))
  linker=graph.input("bivalent_linker","annealed iMARGI bivalent linker",MaterialKind.ADAPTER)
  rna_ligase=graph.input("rna_ligase","RNA-end ligase",MaterialKind.CATALYST)
  rna_joined=graph.product("rna_joined","RNA-end-ligated bivalent linker contacts",
-                         MaterialKind.MOLECULAR)
+                         MaterialKind.MOLECULAR,state=BRIDGE.rna_joined())
  graph.react("rna_ligation","Ligate the RNA end of the bivalent linker in situ",
              StepKind.LIGATION,
              ((fragmented,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),
@@ -47,7 +48,7 @@ def protocol_graph():
  dna_ligase=graph.input("dna_ligase","DNA-end ligase",MaterialKind.CATALYST)
  chimera=graph.product("contact_chimera","RNA–linker–DNA contact chimera",
                        MaterialKind.MOLECULAR,
-                       state=proximity_product(left="chromatin RNA",right="nearby genomic DNA",bridge="iMARGI bivalent linker"))
+                       state=BRIDGE.chimera())
  graph.react("dna_ligation","Ligate the bridge DNA end to nearby genomic DNA",
              StepKind.LIGATION,
              ((rna_joined,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),

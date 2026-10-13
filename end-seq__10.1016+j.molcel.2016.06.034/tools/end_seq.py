@@ -9,6 +9,7 @@ from end_capture import UserHairpin, captured_break_scene, user_opening_rows
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from topology import HairpinTopology
 
 TITLE = "END-seq — direct capture of DNA double-strand-break ends"
 NOTES = "01_end-seq.html"
@@ -17,6 +18,14 @@ SUMMARY = "Native DNA ends are blunted and trapped in agarose with a biotinylate
 CAVEAT = "Blunting deliberately erases the original overhang chemistry. Read 1 starts at the first base retained at the processed break end."
 A1 = UserHairpin("ENDseq adaptor 1", "GATCGGAAGAGCGTCGTGTAGGGAAAGAGTGUUTUTUUACACTCTTTCCCTACACGACGCTCTTCCGATCT", (33,35))
 A2 = UserHairpin("ENDseq adaptor 2", "GATCGGAAGAGCACACGTCUUUUUUUUAGACGTGTGCTCTTCCGATCT")
+A1_STEM_NT, A1_LOOP_NT = 31, 8
+A2_STEM_NT, A2_LOOP_NT = 19, 9
+A1_TOPOLOGY = HairpinTopology(A1.name, A1.sequence, 0,
+                              A1_STEM_NT + A1_LOOP_NT, A1_STEM_NT,
+                              colour="var(--c-r1)")
+A2_TOPOLOGY = HairpinTopology(A2.name, A2.sequence, 0,
+                              A2_STEM_NT + A2_LOOP_NT, A2_STEM_NT,
+                              colour="var(--c-r2)")
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([seg("break-derived genomic insert", "X"*42, placeholder=True)], "END-seq library", inferred_adapters=False)
 FINAL_CAPTION = "USER-opened hairpin arms are completed by TruSeq index PCR; the captured DSB boundary is adjacent to the Read 1 arm."
 SEQUENCING_INTRO = "Single-end END-seq uses Read 1 to enter the captured genomic end; the complete construct also shows the standard TruSeq index and opposite-end primer sites created by PCR."

@@ -12,6 +12,7 @@ from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
 import seqprimers as sp
+from proximity_topology import ProximityNetworkTopology
 
 
 TITLE = "PNA — Pixelgen Proximity Network Assay"
@@ -66,6 +67,12 @@ AMPLICON_SEGMENTS = (
     Segment("type-2 UMI", "N" * 28, "umi", feature=UMI2),
 )
 INTERNAL_AMPLICON = Construct(AMPLICON_SEGMENTS, name="Proxiome v2 internal amplicon")
+TYPE1_LINKER_SITE = next(s.top for s in AMPLICON_SEGMENTS
+                         if s.name == "type-1 linker-binding site")
+TYPE2_LINKER_SITE = next(s.top for s in AMPLICON_SEGMENTS
+                         if s.name == "type-2 linker-binding site")
+TOPOLOGY_PANELS = ProximityNetworkTopology(
+    TYPE1_LINKER_SITE, TYPE2_LINKER_SITE, len(AMPLICON_SEGMENTS[3])).panels()
 
 # The paper datasets were made with the earlier UM001 / Proxiome v1 chemistry. Pixelator's
 # v1 definition and the released FASTQs agree on the longer fixed linker-binding regions.

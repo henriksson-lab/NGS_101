@@ -20,7 +20,13 @@ def oligos()->str:
 
 
 def construction()->str:
-    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+    return (S.HAIRPIN_TOPOLOGY.folded_panel(
+        "The published adaptor folded base by base. Its ten-base ligation barcode and "
+        "reverse complement form the stem; dU plus the Read 1 handle form the loop. "
+        "The six-base 5′ overhang remains outside the stem and splints ligation to the "
+        "RT-primer end.")
+        + '<h2>Library construction</h2>\n'
+        + protocol_graph_panels(S.protocol_graph(),cls="long"))
 
 
 def sequencing()->str:

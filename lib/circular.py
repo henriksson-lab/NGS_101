@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Construct, Row, circle_rows, revcomp
+from chemdraw import Construct, Row, Segment, circle_rows, revcomp, strand_row
 
 
 @dataclass(frozen=True)
@@ -100,6 +100,18 @@ class RCAProduct:
 
     def __len__(self) -> int:
         return len(self.sequence)
+
+    def construct(self, tag: str = "r3") -> Construct:
+        """Return the computed concatemer with one named segment per circle traversal."""
+        return Construct([
+            Segment(f"circle-complement repeat {number}", self.unit, tag,
+                    placeholder=any(base not in "ACGTUN" for base in self.unit))
+            for number in range(1, self.copies + 1)
+        ], f"{self.copies}-repeat rolling-circle product")
+
+    def rows(self, label: str = "single-stranded rolling-circle concatemer") -> list[Row]:
+        """Render the actual computed repeats rather than a prose RCA placeholder."""
+        return [strand_row(self.construct(), prefix=f"{label} 5′-", suffix="-3′")]
 
 
 def rolling_circle(circle: ClosedCircle, primer: str, copies: int = 3) -> RCAProduct:

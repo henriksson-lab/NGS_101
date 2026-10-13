@@ -13,6 +13,11 @@ def render():
       '<h1>STARmap</h1>', '<p class="research-notes"><a href="01_starmap.html">Research notes</a></p>',
       info('Defining source: <a href="https://doi.org/10.1126/science.aat5691">Wang et al., <i>Science</i> (2018)</a>. Symbolic bases mark panel-specific sequences not exposed by the available defining-paper tables.'),
       '<h2>Paired SNAIL recognition</h2>', panel(M.snail_scene().rows(), cls="long"),
+      '<h3>Nucleotide-resolved SNAIL fold</h3>', M.SNAIL_TOPOLOGY.folded_panel(
+        'The same complex with every modelled nucleotide shown. N denotes panel-specific '
+        'bases not exposed by the defining-paper table. The primer probe remains bound to '
+        'RNA and supplies the 12-nt splint/RCA primer; both 6-nt padlock ends dock on it, '
+        'and the marked bond is the sole T4-ligase closure.'),
       '<h2>Reaction workflow</h2>', protocol_graph_panels(M.protocol_graph(), cls="long"),
       '<h2>SEDAL interrogation</h2>', panel(M.sedal_scene().rows(), cls="long"),
       sp.read_spec_table([sp.read_spec("Sequencing output", None,

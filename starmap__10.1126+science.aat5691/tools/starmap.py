@@ -7,6 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, circle_rows
 from circular import CircularizationGeometry, circularize_ssdna
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from topology import PrimerTemplatedPadlockTopology
 
 TITLE = "STARmap — SNAIL amplification and SEDAL in-situ sequencing"
 SOURCE = "Wang et al., Science (2018), doi:10.1126/science.aat5691"
@@ -15,7 +16,12 @@ def seg(name, seq, tag=None, **kw): return Segment(name, seq, tag, **kw)
 
 TARGET_LEFT = "N" * 22
 TARGET_RIGHT = "N" * 22
-PAIRING_ARM = "N" * 6
+# The primer carries one 12-nt tail. The two 6-nt padlock ends hybridize to its two
+# halves, making that tail both the ligation splint and the retained Phi29 primer.
+# Exact panel-specific bases were not recovered from the defining-paper table.
+PRIMER_SPLINT = "N" * 12
+PADLOCK_ARM_5 = "N" * 6
+PADLOCK_ARM_3 = "N" * 6
 GENE_CODE = "B" * 5
 DOCK = "N" * 11
 
@@ -26,28 +32,45 @@ def snail_scene() -> Scene:
                       seg("right RNA target", TARGET_RIGHT, placeholder=True)],
               label="target RNA")
     sc.anneal("primer probe", [seg("primer target arm", TARGET_LEFT, placeholder=True),
-                               seg("primer 6-nt assembly arm", PAIRING_ARM, placeholder=True)],
+                               seg("primer 12-nt splint / RCA primer", PRIMER_SPLINT,
+                                   placeholder=True)],
               to="RNA", pair=("primer target arm", "left RNA target"),
-              unpaired=("primer 6-nt assembly arm",), label="SNAIL primer probe")
-    sc.anneal("padlock probe", [seg("padlock target arm", TARGET_RIGHT, placeholder=True),
+              unpaired=("primer 12-nt splint / RCA primer",), label="SNAIL primer probe")
+    sc.anneal("padlock probe", [seg("padlock 5-prime 6-nt assembly arm", PADLOCK_ARM_5,
+                                    placeholder=True),
+                                seg("padlock target arm", TARGET_RIGHT, placeholder=True),
                                 seg("SEDAL docking region", DOCK, placeholder=True),
                                 seg("5-base gene code", GENE_CODE, "cbc", placeholder=True),
-                                seg("padlock 6-nt assembly arm", PAIRING_ARM, placeholder=True)],
+                                seg("padlock 3-prime 6-nt assembly arm", PADLOCK_ARM_3,
+                                    placeholder=True)],
               to="RNA", pair=("padlock target arm", "right RNA target"),
-              unpaired=("SEDAL docking region", "5-base gene code",
-                        "padlock 6-nt assembly arm"), label="SNAIL padlock probe",
+              unpaired=("padlock 5-prime 6-nt assembly arm", "SEDAL docking region",
+                        "5-base gene code", "padlock 3-prime 6-nt assembly arm"),
+              label="SNAIL padlock probe",
               mod5="p")
-    sc.arrow("primer probe", "adjacent probes assemble; T4 ligase closes one DNA circle")
+    sc.arrow("primer probe", "padlock ends dock on the primer tail; T4 ligase closes one junction")
     return sc
 
 def circle_template() -> Construct:
-    return Construct([seg("primer-probe copy", "N" * 28, placeholder=True),
+    return Construct([seg("padlock 5-prime assembly arm", PADLOCK_ARM_5, placeholder=True),
+                      seg("padlock target arm", TARGET_RIGHT, placeholder=True),
                       seg("SEDAL docking region", DOCK, placeholder=True),
                       seg("5-base gene code", GENE_CODE, "cbc", placeholder=True),
-                      seg("padlock-probe copy", "N" * 28, placeholder=True)],
+                      seg("padlock 3-prime assembly arm", PADLOCK_ARM_3,
+                          placeholder=True)],
                      "closed SNAIL circle")
 
 CIRCLE = circularize_ssdna(circle_template(), five_prime_phosphate=True)
+SNAIL_TOPOLOGY = PrimerTemplatedPadlockTopology(
+    "STARmap SNAIL primer-templated padlock complex",
+    TARGET_LEFT,
+    TARGET_RIGHT,
+    "N" * 2,
+    PRIMER_SPLINT,
+    PADLOCK_ARM_5,
+    DOCK + "N" * len(GENE_CODE),
+    PADLOCK_ARM_3,
+)
 
 def rolony() -> Construct:
     return Construct([seg(f"SNAIL circle repeat {i}", CIRCLE.sequence, placeholder=True)

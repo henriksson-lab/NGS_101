@@ -1,7 +1,7 @@
 """Sparse diagram-first page renderer for branched-DNA RNA detection protocols."""
 from __future__ import annotations
 
-from branched_dna import target_scene, tree_rows
+from branched_dna import target_scene, tree_panel
 from chemdraw import Row, oligo, panel
 from page import head, info
 import seqprimers as sp
@@ -33,10 +33,12 @@ def render(module) -> str:
         ])
     chunks.extend([
               '<h2>(3) Assemble the branched-DNA signal tree</h2>',
-              panel(tree_rows(model), cls="small",
-                    caption=(f"One tree carries {model.labels_per_tree} label-probe sites; "
-                             f"the documented target-probe range gives {total} theoretical "
-                             "label sites per target RNA.")),
+              tree_panel(model,
+                         f"Five representative amplifier arms are drawn without crossings; "
+                         f"labels give the published multiplicities. One tree carries "
+                         f"{model.labels_per_tree} label-probe sites, and the documented "
+                         f"target-probe range gives {total} theoretical label sites per "
+                         "target RNA."),
               '<h2>(4) Detect the signal</h2>',
               panel([Row(chunks=[(module.DETECTION, "umi", True)])],
                     caption=module.DETECTION_CAPTION),

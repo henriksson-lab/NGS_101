@@ -15,7 +15,8 @@ from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
 from circular import CircularizationGeometry
 from duplex_error import codec_linked_duplex, nanoseq_restrictive_end_repair
-from interaction_capture import ProteinMediatedRNAContact, ReversibleDuplexCrosslink
+from interaction_capture import (FixedRNPContact, ProteinMediatedRNAContact,
+                                 ReversibleDuplexCrosslink)
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -277,13 +278,13 @@ def workflow_for(key: str) -> Workflow:
              "Cell and sample identities occupy distinct molecular fields."),
         ))
     if key == "ric-seq":
+        contact = FixedRNPContact("formaldehyde crosslinking")
         return workflow(molecule("fixed cells", ("spatially proximal RNAs",)), (
             ("Cross-link RNA–protein assemblies in situ and fragment RNA",
-             two_branch("fixed RNP neighbourhood", "RNA fragment A", "RNA fragment B"),
+             contact.complex(),
              "Formaldehyde preserves spatial contacts, including protein-mediated ones."),
             ("Label RNA ends and proximity-ligate them in situ",
-             molecule("RIC-seq chimera", ("RNA A fragment", "RNA B fragment"), joined=True,
-                      junctions=(("RNA A fragment", "RNA B fragment", "RNA proximity ligation"),)),
+             contact.chimera(),
              "The ligation junction records a spatial RNA–RNA contact."),
             ("Reverse crosslinks, enrich chimeras and make a paired-end library",
              molecule("RIC-seq library", ("left adapter", "RNA A cDNA", "RNA B cDNA", "right adapter"), joined=True,
@@ -395,6 +396,7 @@ def _psoralen_graph(key, d, final, primers):
         "splash": ("biotinylated psoralen", "streptavidin capture"),
         "ligr-seq": ("AMT psoralen", "RNase-R-resistant duplex selection"),
     }[key]
+    topology = ReversibleDuplexCrosslink(reagent, selection_label)
     rna = graph.input("rna", "cellular RNA containing paired regions",
                       MaterialKind.BIOLOGICAL,
                       state=molecule("cellular RNA", ("RNA molecules",)), primary=True)
@@ -402,7 +404,7 @@ def _psoralen_graph(key, d, final, primers):
                               MaterialKind.CONDITION)
     crosslinked = graph.product("crosslinked", reagent + "-crosslinked RNA duplexes",
                                 MaterialKind.MOLECULAR,
-                                state=molecule("crosslinked RNA duplex", ("RNA partner A", "RNA partner B")))
+                                state=topology.duplex())
     graph.react("crosslink", "Photocrosslink paired RNA with " + reagent,
                 StepKind.CROSS_LINKING,
                 ((rna, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
@@ -425,10 +427,7 @@ def _psoralen_graph(key, d, final, primers):
     graph.discard(rejected, "does not retain the selected crosslinked duplex population")
     ligase = graph.input("proximity_ligase", "RNA proximity ligase", MaterialKind.CATALYST)
     chimera = graph.product("chimera", "proximity-ligated RNA chimera",
-                            MaterialKind.MOLECULAR,
-                            state=molecule("RNA interaction chimera", ("RNA partner A", "RNA partner B"),
-                                           junctions=(("RNA partner A", "RNA partner B",
-                                                       "RNA proximity ligation"),)))
+                            MaterialKind.MOLECULAR, state=topology.chimera())
     graph.react("proximity_ligation", "Proximity-ligate the paired RNA fragments",
                 StepKind.PROXIMITY_LIGATION,
                 ((selected, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (chimera,))
@@ -1183,29 +1182,26 @@ def _cfmedip_graph(d, final, primers):
 def _ric_graph(d, final, primers):
     source = f"{d.source_label}; doi:{d.doi}"
     graph = ProtocolGraph(d.title, authority=source)
+    topology = FixedRNPContact("formaldehyde crosslinking")
     cells = graph.input("cells", "cells containing spatially proximal RNA–protein assemblies",
                         MaterialKind.BIOLOGICAL,
                         state=molecule("fixed-cell input", ("spatially proximal RNAs",)), primary=True)
     formaldehyde = graph.input("crosslinker", "formaldehyde crosslinking condition",
                                MaterialKind.CONDITION)
     fixed = graph.product("fixed", "crosslinked RNA–protein neighbourhoods",
-                          MaterialKind.MOLECULAR, state=cells.state)
+                          MaterialKind.MOLECULAR, state=topology.complex())
     graph.react("crosslink", "Crosslink RNA–protein assemblies in situ",
                 StepKind.CROSS_LINKING,
                 ((cells, InputRole.TEMPLATE), (formaldehyde, InputRole.CONDITION)), (fixed,))
     fragmentation = graph.input("fragmentation_condition", "RNA fragmentation condition",
                                 MaterialKind.CONDITION)
     fragments = graph.product("fragments", "fragmented fixed RNA neighbourhoods",
-                              MaterialKind.MOLECULAR,
-                              state=molecule("fixed RNP neighbourhood", ("RNA fragment A", "RNA fragment B")))
+                              MaterialKind.MOLECULAR, state=topology.complex())
     graph.react("fragment", "Fragment RNA in the fixed assemblies", StepKind.FRAGMENTATION,
                 ((fixed, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)), (fragments,))
     ligase = graph.input("proximity_ligase", "RNA proximity ligase", MaterialKind.CATALYST)
     chimera = graph.product("chimera", "in-situ proximity-ligated RNA chimera",
-                            MaterialKind.MOLECULAR,
-                            state=molecule("RIC-seq chimera", ("RNA A fragment", "RNA B fragment"),
-                                           junctions=(("RNA A fragment", "RNA B fragment",
-                                                       "RNA proximity ligation"),)))
+                            MaterialKind.MOLECULAR, state=topology.chimera())
     graph.react("ligate", "Proximity-ligate labelled RNA ends in situ",
                 StepKind.PROXIMITY_LIGATION,
                 ((fragments, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (chimera,))

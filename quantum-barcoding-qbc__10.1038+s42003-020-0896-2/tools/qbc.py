@@ -9,6 +9,7 @@ from adapter_ligation import reported_adapter_end
 from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from topology import InterruptedSplintTopology, SplintProductSegment
 
 TITLE="Quantum Barcoding (QBC) — targeted RNA and protein indexing"
 SOURCE="Roy et al., Communications Biology (2020), doi:10.1038/s42003-020-0896-2"
@@ -64,6 +65,37 @@ def splint_scene() -> Scene:
       seg("SC1 docking",SPLINT6[60:])],label="Splint6, written 5′→3′")
     sc.note("Splint6","one scaffold co-localizes the four successive barcode junctions")
     return sc
+
+
+SPLINT6_CHUNKS = (
+    ("anchor / SC1 chunk", SPLINT6[:24]),
+    ("SC1 / SCN chunk", SPLINT6[24:42]),
+    ("SCN / SC2 chunk", SPLINT6[42:60]),
+    ("SC2 / SC3 chunk", SPLINT6[60:]),
+)
+SPLINT6_TOPOLOGY = InterruptedSplintTopology(
+    "QBC four-round assembly on Splint6",
+    SPLINT6_CHUNKS,
+    (
+        SplintProductSegment("SC3 PCR handle, UMI and cell subcode",
+                             LEFT_PARTIAL_R1 + "N" * 10 + "N" * 7),
+        SplintProductSegment("SC3 right arm", SC3_RIGHT, docking=True),
+        SplintProductSegment("SC2 left arm", SC2_LEFT, docking=True,
+                             junction_before=True),
+        SplintProductSegment("SC2 cell subcode", "N" * 7),
+        SplintProductSegment("SC2 right arm", SC2_RIGHT, docking=True),
+        SplintProductSegment("SCN left arm", SCN_LEFT, docking=True,
+                             junction_before=True),
+        SplintProductSegment("SCN cell subcode", "N" * 7),
+        SplintProductSegment("SCN right arm", SCN_RIGHT, docking=True),
+        SplintProductSegment("SC1 left arm", SC1_LEFT, docking=True,
+                             junction_before=True),
+        SplintProductSegment("SC1 cell subcode", "N" * 7),
+        SplintProductSegment("SC1 right arm", SC1_RIGHT, docking=True),
+        SplintProductSegment("reporter anchor", ANCHOR, docking=True,
+                             junction_before=True),
+    ),
+)
 
 def ligation_geometry(round_no):
     return reported_adapter_end(f"QBC round-{round_no} barcode",kind="splinted",

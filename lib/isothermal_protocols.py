@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import illumina as il
 from batch_ngs import nextera_library, truseq_amplicon_library, truseq_library
 from chemdraw import Construct, Segment, feature, oligo, revcomp
-from isothermal import (lamp_product, mda_product, proximity_extension_pair,
+from isothermal import (lamp_product, lamp_topology, mda_product, proximity_extension_pair,
                         proximity_extension_product, spia_product)
 from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
                               role as nanopore_role)
@@ -14,6 +14,7 @@ from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
 import seqprimers as sp
+from proximity_topology import ProximityExtensionTopology
 
 
 LAMP_F3 = "A+AC+AC+AA+GC+TTTCGGCAG"
@@ -601,6 +602,7 @@ def get(key: str):
             CAVEAT=("Olink publishes the 148-bp element order and run layout but not the "
                     "probe, assay-barcode, hybridization-arm or index sequences. Those "
                     "regions are therefore structured roles, not invented bases."),
+            TOPOLOGY_PANELS=ProximityExtensionTopology().panels(),
             oligos=lambda: (), FINAL_LIBRARY=OLINK_LIBRARY,
             FINAL_CAPTION=("Published 148-bp architecture: P5, Read 1 site, paired forward "
                            "and reverse assay barcodes separated by the copied probe junction, "
@@ -632,6 +634,9 @@ def get(key: str):
                     "the commercial FIP-barcode or rapid-adapter bases. LAMP products are "
                     "heterogeneous branched concatemers, so the drawing preserves roles "
                     "and repeated content rather than inventing one linear sequence."),
+            TOPOLOGY_PANELS=lamp_topology(
+                "ORF1a, E, N or ACTB target-derived DNA",
+                "repeated FIP sample barcode").panels(),
             oligos=lambda: (), FINAL_LIBRARY=LAMPORE_LIBRARY,
             FINAL_CAPTION=("One productive pore-entry strand after rapid transposase "
                            "barcoding and motor-adapter attachment. Bracketed elements are "
@@ -778,6 +783,8 @@ def get(key: str):
                 "than one linear molecule. The page therefore shows the source-established "
                 "primer and PCR-selected regions without inventing a single universal "
                 "ordering for every LAMP intermediate."),
+        TOPOLOGY_PANELS=lamp_topology(
+            "SARS-CoV-2 N-gene DNA", "10-nt FIP sample barcode").panels(),
         oligos=_lamp_oligos, FINAL_LIBRARY=LAMP_LIBRARY,
         FINAL_CAPTION=("Dual-index Illumina amplicon selected from the heterogeneous LAMP "
                        "product. Exact PCR landing sites and a representative published "

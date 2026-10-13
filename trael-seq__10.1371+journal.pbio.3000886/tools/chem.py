@@ -7,6 +7,7 @@ from chemdraw import MolecularState, Row, Scene, Workflow
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from topology import HairpinTopology
 TITLE="TrAEL-seq — native DNA 3-prime-end sequencing"
 NOTES="01_trael-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1371/journal.pbio.3000886">Kara et al., <i>PLOS Biology</i> (2021)</a>.'
@@ -14,8 +15,12 @@ SUMMARY="A pre-adenylated, biotinylated hairpin adapter ligates selectively to n
 FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("TrAEL-seq","native-end-adjacent genomic DNA")
 FINAL_CAPTION="Read orientation starts at genomic sequence adjacent to the captured native 3-prime end."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed TrAEL-seq library."
+ADAPTER2 = "GATCGGAAGAGCACACGTCTGAACTCCAGTCUUUUGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
+ADAPTER2_TOPOLOGY = HairpinTopology(
+    "TrAEL adapter 2", ADAPTER2, first_stem_start=0,
+    second_stem_start=35, stem_length=31, colour="var(--c-r2)")
 def oligos():
-    return ["<b>TrAEL adapter 1</b> — 5′-[Phos]NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTU…[BtndT]…-3′","<b>Adapter 2</b> — 5′-[Phos]GATCGGAAGAGCACACGTCTGAACTCCAGTCUUUUGACTGGAGTTCAGACGTGTGCTCTTCCGATC*T-3′"]
+    return ["<b>TrAEL adapter 1</b> — 5′-[Phos]NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTU…[BtndT]…-3′",f"<b>Adapter 2</b> — 5′-[Phos]{ADAPTER2[:-1]}*{ADAPTER2[-1]}-3′"]
 def _adapter1_geometry():
     sc=Scene(); sc.strand("adapter 1",[seg("5′ pre-adenylated ligating end","N"*8,placeholder=True),seg("hairpin arm with internal biotin","X"*26,placeholder=True)],label="published TrAEL adapter 1")
     sc.ligation_end("adapter 1","5′ pre-adenylated ligating end",kind="single-strand",polarity="5-prime",owner="adapter",text="5′-App single-strand end")

@@ -43,17 +43,10 @@ def oligos() -> str:
 
 
 def hairpin() -> str:
-    stem_5 = [seg("5' ME reverse complement", L.TRANSPOSON[:19], "me", inferred=True)]
-    stem_3 = [seg("3' mosaic end", L.TRANSPOSON[-19:], "me", inferred=True)]
-    sc = Scene()
-    sc.strand("5' arm", stem_5, label="same oligo", mod5="p")
-    sc.anneal("3' arm", stem_3, to="5' arm",
-              pair=("3' mosaic end", "5' ME reverse complement"), label="same oligo")
-    sc.mark("5' arm", "5' ME reverse complement", "19-bp Tn5 mosaic-end stem")
-    return panel(sc.rows(), cls="small",
-                 caption="INFERRED — fold implied by the main paper and reconstructed with the "
-                         "secondary-source sequence. The 30-nt loop between these two arms "
-                         "contains the T7 promoter; both arms belong to one covalent strand.")
+    return L.TRANSPOSON_TOPOLOGY.folded_panel(
+        "INFERRED — fold implied by the main paper and reconstructed with the "
+        "secondary-source sequence. The paired 19-nt mosaic ends form one stem; the "
+        "30-nt spacer/T7-promoter interval is the loop of the same covalent strand.")
 
 
 def tagment_and_fill() -> str:
@@ -80,23 +73,13 @@ def ivt() -> str:
 
 
 def self_primed_rt() -> str:
-    body = [seg("RNA body", "GGGXXXXXXXX...XXXXXXXX", placeholder=True),
-            seg("self-primer site", L.TRANSPOSON[:19], "me", inferred=True)]
-    end = [seg("loop", "L" * 30, placeholder=True, inferred=True),
-           seg("3' self-primer", L.TRANSPOSON[-19:], "me", inferred=True)]
-    sc = Scene()
-    sc.strand("RNA body", body, label="RNA 5' body")
-    sc.anneal("same RNA 3' end", end, to="RNA body",
-              pair=("3' self-primer", "self-primer site"), label="RNA 3' end",
-              unpaired=("loop",))
-    sc.arrow("same RNA 3' end", "reverse transcriptase copies back across the genomic RNA")
-    sc.mark("same RNA 3' end", "3' self-primer", "intramolecular 19-bp stem")
     amp = L.umi_amplicon()
     return f"""<h3>(4) Self-prime reverse transcription from the RNA 3' end</h3>
-{panel(sc.rows(), cls="small",
-       caption="INFERRED — structural reconstruction of the self-priming described by the "
-               "paper. The transcript's terminal mosaic end folds onto its complementary "
-               "internal copy; the same RNA is shown on two aligned rows.")}
+{L.transcript_topology().folded_panel(
+    "INFERRED — nucleotide-resolved reconstruction of the self-priming described by "
+    "the paper. The RNA 3′ mosaic end folds onto its complementary internal copy; "
+    "N denotes the unpublished genomic sequence. The 5′ RNA body remains a straight "
+    "tail, and the unpaired promoter/spacer interval is the flexible turn.")}
 <h3>(5) Remove RNA and synthesize the second strand with the UMI primer</h3>
 {panel(Scene.duplex(list(amp)).rows(), cls="small",
        caption="INFERRED — LIANTI amplicon orientation reconstructed from the "

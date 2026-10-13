@@ -8,6 +8,9 @@
 - 🟢 The defining paper's supplementary methods describe each SNAIL pair as a
   19–25-nt primer probe and 19–25-nt padlock probe binding adjacent RNA regions,
   with 6-nt complementary probe ends and one ligation site.
+- 🟢 The primer probe carries the 12-nt template that receives both 6-nt padlock
+  ends. It therefore splints the padlock's single closure junction and remains as
+  the primer for rolling-circle amplification; it is not incorporated into the circle.
 - 🟢 The same methods specify four SNAIL pairs per gene, a 5-base gene code,
   T4 DNA ligase, phi29 rolling-circle amplification with aminoallyl-dUTP,
   polyacrylamide embedding, proteinase-K clearing, and six SEDAL cycles.

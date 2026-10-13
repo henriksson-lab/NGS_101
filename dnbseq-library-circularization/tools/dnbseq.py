@@ -39,9 +39,8 @@ def sections():
          circular.rows()+circle_rows(CIRCLE.linear, closure_label="splint ligation"),
          "A complementary splint aligns the two adapter ends for ligation. The closure joins the final adapter segment back to the first; exonuclease removes unclosed linear molecules."),
         ("Copy the circle into a compact DNA nanoball",
-         [Row(chunks=[("circle → φ29 rolling-circle replication", None, False)]),
-          Row(chunks=[("[adapter—insert—barcode]×[adapter—insert—barcode]×[adapter—insert—barcode]", "r1", False)]),
-          Row(chunks=[("                  ↓ self-compaction into one DNB", None, False)])],
+         RCA.rows("rolling-circle product before compaction")+
+         [Row(chunks=[("self-compaction → one DNA nanoball", None, False)])],
          "Rolling-circle replication produces a single concatemer containing tandem complementary copies of the original circle; it is compacted and loaded onto a patterned array."),
         ("Prime repeated adapter sites for cPAS sequencing",
          [Row(chunks=[("…[primer site]—insert—barcode—[primer site]—insert—barcode…", "r1", False)]),

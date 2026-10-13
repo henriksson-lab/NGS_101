@@ -84,7 +84,7 @@ def protocol_graph():
     circle_ligase=graph.input("circle_ligase","blunt-end circularization ligase",
                               MaterialKind.CATALYST)
     circles=graph.product("circles","circularized long mate-pair molecules",
-                          MaterialKind.MOLECULAR)
+                          MaterialKind.MOLECULAR,state=tuple(circularization_rows()))
     residual_linear=graph.product("residual_linear","uncircularized long molecules",
                                   MaterialKind.MOLECULAR)
     graph.react("circularize","Close the distant tagged ends by blunt ligation",

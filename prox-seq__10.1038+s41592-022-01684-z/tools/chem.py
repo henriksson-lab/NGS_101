@@ -1,8 +1,10 @@
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Scene, Segment, Workflow
 from rna_cell_assays import get
+from proximity_topology import ProximityLigationTopology
 
 SPEC = get("prox-seq")
+SPEC.TOPOLOGY_PANELS = ProximityLigationTopology().panels()
 _base_workflow = SPEC.workflow
 
 

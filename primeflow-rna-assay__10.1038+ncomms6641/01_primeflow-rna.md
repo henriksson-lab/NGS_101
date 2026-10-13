@@ -12,7 +12,8 @@ A commercial branched-DNA fluorescence in situ hybridization assay for measuring
 - 🟢 The manual specifies 20–40 adjacent target-probe pairs, then preamplifier, amplifier and fluorescent label-probe hybridizations. One complete tree has 400 label sites and the full target set gives 8,000–16,000-fold theoretical signal amplification.
 - 🟢 The current assay supports up to four targets using Types 1, 4, 6 and 10, followed by standard flow-cytometric analysis.
 - 🟡 Those published target regions determine the reverse-complementary target-binding arms. They are not complete orderable probe sequences: the universal tails attached to the arms are absent from the table.
-- 🔴 The universal probe tails and the preamplifier, amplifier and fluorescent label-probe sequences remain undisclosed.
+- 🔴 The universal probe tails (including their lengths and docking bases) and the
+  preamplifier, amplifier and fluorescent label-probe sequences remain undisclosed.
 
 ## 3. Molecular path
 

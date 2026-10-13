@@ -35,6 +35,11 @@ def render() -> str:
         '<h1>FISSEQ &mdash; transcriptome sequencing inside fixed cells</h1>',
         '<p class="research-notes"><a href="01_fisseq.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1126/science.1250212">Lee et al., <i>Science</i> (2014)</a>. Exact oligos and reaction order are from the authors\' open <a href="https://doi.org/10.1038/nprot.2014.191"><i>Nature Protocols</i> procedure</a>.'),
+        '<h2>Circular template and RCA primer</h2>',
+        F.RCA_TOPOLOGY.folded_panel(
+            "The complete cDNA is covalently closed. The protected RCA primer binds "
+            "the adapter antiparallel; Phi29 extends from its 3′ end, and the resulting "
+            "concatemer is shown as the next molecular state in the workflow."),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         sequencing(), '</div>'])
 

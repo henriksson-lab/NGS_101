@@ -5,10 +5,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import nextera as nx
-from chemdraw import MolecularState, Scene, Segment, Workflow, annotation_rows, oligo
+from chemdraw import (MolecularState, Scene, Segment, Workflow,
+                      annotation_rows, oligo)
 from chromatin_epigenetics import tagmented_library
 from contact_capture import BivalentTransposaseLinker
-from circular import CircularizationGeometry
+from circular import CircularizationGeometry, ClosedCircle
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -18,6 +19,23 @@ BIO67F = "CTGTCTCTTATACACATCTCCGAGCCCACGAGACTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
 BP67R = "CTGTCTCTTATACACATCTGACGCTGCCGACGAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
 SPACER = "CCGAGCCCACGAGACTCGTCGGCAGCGTC"
 LINKER = BivalentTransposaseLinker(nx.ME_RC, SPACER, "67-bp bivalent ME linker")
+CONTACT_LINEAR = LINKER.bridged_product()
+CONTACT_CIRCLE = ClosedCircle(CONTACT_LINEAR,
+                              CONTACT_LINEAR.segments[-1].name,
+                              CONTACT_LINEAR.segments[0].name)
+
+
+def rca_rows():
+    """Three model-derived traversals of the random-primed contact circle."""
+    repeats = []
+    for number in range(1, 4):
+        repeats.extend(Segment(f"copy {number}: {part.name}", part.top, part.tag,
+                               placeholder=part.placeholder, inferred=part.inferred,
+                               length_bp=part.length_bp)
+                       for part in CONTACT_LINEAR)
+    sc = Scene(); sc.strand("concatemer", repeats,
+                            label="TempliPhi rolling-circle concatemer")
+    return sc.rows()
 
 
 def bridge_scene():
@@ -108,9 +126,7 @@ def protocol_graph():
     t7_ligase = graph.input("t7_ligase", "T7 DNA ligase", MaterialKind.CATALYST)
     circles = graph.product(
         "contact_circles", "intramolecularly circularized TrAC contact molecules",
-        MaterialKind.MOLECULAR,
-        state=molecule("TrAC contact circle", (
-            role("locus A"), role("bivalent linker"), role("locus B"))))
+        MaterialKind.MOLECULAR, state=CONTACT_CIRCLE)
     graph.react("circularize", "Intramolecularly circularize captured products",
                 StepKind.CIRCULARIZATION,
                 ((captured, InputRole.TEMPLATE), (t7_ligase, InputRole.CATALYST)),
@@ -120,7 +136,7 @@ def protocol_graph():
     phi29 = graph.input("phi29", "TempliPhi phi29 DNA polymerase",
                         MaterialKind.CATALYST)
     rca = graph.product("rca_product", "rolling-circle-amplified TrAC contact DNA",
-                        MaterialKind.MOLECULAR, state=circles.state)
+                        MaterialKind.MOLECULAR, state=tuple(rca_rows()))
     graph.react("rca", "Rolling-circle amplify the contact circles", StepKind.EXTENSION,
                 ((circles, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)), (rca,))
     n501 = graph.input("n501", "published N501 indexed PCR primer",

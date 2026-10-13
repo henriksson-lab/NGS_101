@@ -19,6 +19,7 @@ from endprep import dA_tailed_scene, repair_and_dA_tail
 from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from topology import HairpinTopology
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -31,6 +32,11 @@ SPACER = "GAACAGAATT"
 T7_PROMOTER = "TAATACGACTCACTATA"
 T7_START = "GGG"
 TRANSPOSON = nx.ME_RC + SPACER + T7_PROMOTER + T7_START + nx.ME
+TRANSPOSON_TOPOLOGY = HairpinTopology(
+    "LIANTI hairpin transposon", TRANSPOSON,
+    first_stem_start=0, second_stem_start=len(TRANSPOSON) - len(nx.ME),
+    stem_length=len(nx.ME),
+)
 UMI_NT = 8
 
 # Library-prep assignment is also only available in the upstream page.  These bases are
@@ -99,6 +105,20 @@ def transcript(insert_nt: int = 28) -> Construct:
         seg("spacer reverse complement", revcomp(SPACER), inferred=True),
         seg("3' self-primer", nx.ME, "me", inferred=True),
     ], name="LIANTI RNA transcript")
+
+
+def transcript_topology(insert_nt: int = 28) -> HairpinTopology:
+    """Fold the terminal mosaic ends that self-prime reverse transcription."""
+    tx = transcript(insert_nt)
+    sequence = tx.top().replace("X", "N")
+    first = len(T7_START) + len(nx.ME) + insert_nt
+    return HairpinTopology(
+        "self-priming LIANTI RNA", sequence,
+        first_stem_start=first,
+        second_stem_start=len(sequence) - len(nx.ME),
+        stem_length=len(nx.ME),
+        colour="var(--c-r2)",
+    )
 
 
 def umi_amplicon(insert_nt: int = 28) -> Construct:

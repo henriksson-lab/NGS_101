@@ -34,18 +34,16 @@ def products() -> str:
     full = M.full_amplicon()
     duplex = Scene.duplex(full.segments)
     duplex.strands["top"].label = duplex.strands["bottom"].label = ""
-    folded = Scene()
-    folded.strand("amplicon", full.segments, label="full amplicon")
-    folded.mark("amplicon", "left handle", "complementary end 1")
-    folded.mark("amplicon", "right handle'", "complementary end 2")
     return (panel([strand_row(semi, "top")], cls="small",
                   caption="A first-generation semi-amplicon carries the common handle at one end.")
             + panel(duplex.rows(), cls="small",
                     caption="Copying a semi-amplicon produces a full amplicon with complementary "
                             "27-nt ends.")
-            + panel(folded.rows(), cls="small",
-                    caption="At 58 °C the complementary ends pair intramolecularly. The looped "
-                            "product is withdrawn from further random priming."))
+            + M.loop_topology().folded_panel(
+                    "At 58 °C the complementary 27-nt ends pair intramolecularly. N marks "
+                    "both the unpublished handle bases and the representative genomic tract; "
+                    "the fold, lengths and end pairing are defined. The looped product is "
+                    "withdrawn from further random priming."))
 
 
 def render() -> str:

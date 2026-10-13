@@ -13,6 +13,7 @@ from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from topology import HairpinTopology
 
 TITLE = "NEBNext Ultra II DNA Library Prep — USER-cleavable adaptor"
 SOURCE = "Commercial authority: NEBNext Ultra II DNA Library Prep E7645/E7103 and E7600 adaptor documentation."
@@ -25,6 +26,14 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 INSERT = Construct([seg("DNA insert", "X" * 42, placeholder=True)], name="fragmented DNA")
 END_PREP = repair_and_dA_tail(INSERT)
 HAIRPIN = il.NEBNEXT_HAIRPIN_MODEL
+HAIRPIN_TOPOLOGY = HairpinTopology(
+    "NEBNext E7600 USER adaptor",
+    HAIRPIN.sequence,
+    first_stem_start=0,
+    second_stem_start=(len(HAIRPIN.sequence)
+                       - HAIRPIN.overhang_3_len - HAIRPIN.stem_len),
+    stem_length=HAIRPIN.stem_len,
+)
 OPENED = il.NEBNEXT_USER_OPENED
 PRE_USER = Dumbbell(INSERT, HAIRPIN.sequence, HAIRPIN.sequence,
                      name="hairpin-ligated NEBNext intermediate")

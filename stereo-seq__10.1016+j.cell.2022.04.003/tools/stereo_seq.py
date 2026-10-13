@@ -5,8 +5,8 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Row, circle_rows, feature
-from circular import circularize_ssdna
+from chemdraw import Construct, Row, feature
+from circular import circularize_ssdna, rolling_circle
 from multimodal_spatial import surface_capture_rows
 from circular import CircularizationGeometry
 from pcr import PCRGeometry
@@ -26,6 +26,7 @@ SEQUENCING_ENDING="The completed library is circularized and amplified into sequ
 
 LINEAR=Construct([seg("DNBSEQ primer site","P"*18,"r1",placeholder=True,inferred=True),seg("coordinate identifier","C"*25,"cbc",placeholder=True,feature=SPATIAL),seg("molecular identifier","M"*10,"umi",placeholder=True,feature=UMI_FEATURE),seg("captured cDNA","X"*38,placeholder=True),seg("distal DNBSEQ adapter","Q"*18,placeholder=True,inferred=True)],name="Stereo-seq ssDNA library")
 CIRCLE=circularize_ssdna(LINEAR,five_prime_phosphate=True)
+RCA=rolling_circle(CIRCLE,"P"*18,copies=3)
 
 def sections():
     return [
@@ -41,7 +42,7 @@ def sections():
           Row(chunks=[("→ release cDNA → PCR → fragmentation / platform-library conversion", None, False)])],
          "The coordinate identifier (CID) and molecular identifier (MID) remain attached to the cDNA through bulk library preparation."),
         ("Circularize the sequencing strand and form library DNBs",
-         circle_rows(CIRCLE.linear,closure_label="splint ligation"),
+         CIRCLE.rows(closure_label="splint ligation"),
          "INFERRED — A platform library strand is splint-ligated into a circle; undisclosed platform-adapter bases are visibly inferred."),
         ("Bind the sequencing primer at every repeat",
          [Row(chunks=[("…[primer site]—CID—MID—cDNA—[adapter][primer site]—CID—MID—cDNA…", "r1", False)]),
@@ -125,7 +126,8 @@ def protocol_graph():
     phi29=graph.input("phi29","rolling-circle amplification polymerase",
                       MaterialKind.CATALYST)
     library=graph.product("library","Stereo-seq sequencing DNA nanoballs",
-                          MaterialKind.LIBRARY)
+                          MaterialKind.LIBRARY,state=RCA,inferred=True,
+                          source=SOURCE+" (platform adapter and priming-site bases inferred)")
     graph.react("form_dnbs","Amplify the circle into sequencing DNA nanoballs",
                 StepKind.EXTENSION,
                 ((circle,InputRole.TEMPLATE),(phi29,InputRole.CATALYST)),(library,))

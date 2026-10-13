@@ -36,6 +36,8 @@ def render(m) -> str:
         parts.extend(['<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long")])
     elif workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>', workflow_panel(workflow, cls="long")])
+    for title, markup in getattr(m, "TOPOLOGY_PANELS", ()):
+        parts.extend([f'<h2>{title}</h2>', markup])
     lib = getattr(m, "FINAL_LIBRARY", None)
     primers = getattr(m, "SEQ_PRIMERS", ())
     if lib is not None:

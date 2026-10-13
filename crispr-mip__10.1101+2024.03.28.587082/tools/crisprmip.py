@@ -25,6 +25,7 @@ from chemdraw import Construct, Segment, feature, revcomp
 from crispr import SCAFFOLD_V1, U6_PLUS1
 from padlock import Capture, Padlock, capture
 from plasmid import Plasmid
+from topology import ClosedCircleTopology, PadlockCaptureTopology
 
 # --------------------------------------------------------------- probe design
 # All sequences verbatim from Table S2 of the preprint (supplementary media-2.xlsx).
@@ -128,6 +129,23 @@ def modeled_capture(spacer: str = EXAMPLE_SPACER,
     if len(hits) != 1:
         raise ValueError(f"modeled guide cassette gives {len(hits)} CRISPR-MIP captures")
     return hits[0]
+
+
+# The target strand is the actual antiparallel genomic strand, written 5′→3′. The
+# topology constructor locates both sites from the arm sequences and rejects overlap,
+# incompatible pairing or a crossing layout.
+CAPTURE_TOPOLOGY = PadlockCaptureTopology(
+    "CRISPR-MIP probe hybridized around the guide-cassette gap",
+    revcomp(EXT_ARM + capture_fill() + LIG_ARM),
+    LIG_ARM,
+    backbone(),
+    EXT_ARM,
+)
+CLOSED_CAPTURE_TOPOLOGY = ClosedCircleTopology(
+    "gap-filled CRISPR-MIP capture circle",
+    modeled_capture().circle.seq,
+    "var(--c-cbc)",
+)
 
 
 # ------------------------------------------------------------------ protocol

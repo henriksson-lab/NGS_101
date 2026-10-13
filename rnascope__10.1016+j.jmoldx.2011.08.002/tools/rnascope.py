@@ -5,6 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from branched_dna import BranchModel, SequenceExample, paired_tail_docking_scene
 from chemdraw import Segment, revcomp
+from topology import AdjacentProbeDockingTopology
 
 TITLE = "RNAscope"
 NOTES = "01_rnascope.html"
@@ -39,6 +40,16 @@ AMPLIFIER_SITE = "AGGCATAGGACCCGTGTCT"
 # tails makes the cooperative pairing an invariant of the construct rather than a
 # duplicated transcription that can silently drift.
 PREAMPLIFIER_DOCKING = revcomp(Z_TAIL_1 + Z_TAIL_2)
+SEQUENCE_TOPOLOGY = AdjacentProbeDockingTopology(
+    "patent-disclosed GAPD double-Z junction",
+    revcomp(GAPD217_TARGET),
+    revcomp(GAPD218_TARGET),
+    SPACER,
+    SPACER,
+    Z_TAIL_1,
+    Z_TAIL_2,
+    PREAMPLIFIER_DOCKING,
+)
 
 
 def _probe(name: str, target: str, tail: str) -> tuple[Segment, ...]:

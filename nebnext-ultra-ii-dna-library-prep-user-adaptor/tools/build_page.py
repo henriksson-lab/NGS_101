@@ -31,6 +31,10 @@ def render() -> str:
         '<h2>USER-cleavable adaptor</h2>',
         '<seq>' + oligo("NEBNext Adaptor", list(hp), mods="/5Phos/", three="-3′; * = phosphorothioate bond before the terminal T") + '</seq>',
         panel([strand_row(hp), *annotation_rows(hp)], cls="long", caption="One 65-nt oligo: a verified 12-bp stem, 40-nt loop with dU, and phosphorothioate-protected 3′ dT overhang."),
+        N.HAIRPIN_TOPOLOGY.folded_panel(
+            "The same 65-nt adaptor folded base by base. The paired 12-nt arms form the "
+            "stem; the 40-nt dU-containing interval is the loop, and the terminal 3′ T "
+            "remains outside the stem as the ligating overhang."),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Dual-index library and sequencing</h2>',
         info('At least three PCR cycles are required. This concrete E7600 example adds i5 TATAGCCT and i7 CGAGTAAT; the final i7 index read is its reverse complement, ATTACTCG.'),

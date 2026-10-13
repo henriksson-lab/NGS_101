@@ -5,9 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
-                      annotation_rows, circle_rows, feature)
+                      annotation_rows, feature)
 from adapter_ligation import AdapterLigationGeometry
-from circular import CircularizationGeometry
+from circular import CircularizationGeometry, ClosedCircle
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
@@ -54,10 +54,11 @@ CIRCLE_TEMPLATE = Construct([
     *CDNA.segments,
     seg("splint junction", "[DNA splint]", "r2", placeholder=True, length_bp=200),
 ], name="R2C2 circular template strand")
+CIRCLE = ClosedCircle(CIRCLE_TEMPLATE, "splint junction", "ISPCR end")
 
 
 def circle_rows_model():
-    return circle_rows(CIRCLE_TEMPLATE, "Gibson-assembled covalent circle")
+    return CIRCLE.rows("Gibson-assembled covalent circle")
 
 
 def rca_construct(copies=3):
@@ -148,7 +149,7 @@ def protocol_graph():
     assembly = graph.input("hifi_assembly", "NEBuilder HiFi assembly enzyme mix",
                            MaterialKind.CATALYST)
     circle = graph.product("circle", "Gibson-assembled full-length cDNA circle",
-                           MaterialKind.MOLECULAR, state=CIRCLE_TEMPLATE)
+                           MaterialKind.MOLECULAR, state=CIRCLE)
     graph.react("assemble_circle", "Join both cDNA ends to the DNA splint",
                 StepKind.CIRCULARIZATION,
                 ((cdna, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL),
@@ -159,7 +160,7 @@ def protocol_graph():
     exonucleases = graph.input("exonucleases", "exonuclease I, III and lambda exonuclease",
                                MaterialKind.CATALYST)
     selected_circle = graph.product("selected_circle", "exonuclease-resistant R2C2 circle",
-                                    MaterialKind.MOLECULAR, state=CIRCLE_TEMPLATE)
+                                    MaterialKind.MOLECULAR, state=CIRCLE)
     linear_waste = graph.product("linear_waste", "digested non-circular DNA",
                                  MaterialKind.WASTE)
     graph.react("digest_linear", "Remove non-circular DNA", StepKind.DIGESTION,
