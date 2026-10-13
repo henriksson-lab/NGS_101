@@ -36,7 +36,9 @@ HAIRPIN_TOPOLOGY = HairpinTopology(
 )
 OPENED = il.NEBNEXT_USER_OPENED
 PRE_USER = Dumbbell(INSERT, HAIRPIN.sequence, HAIRPIN.sequence,
-                     name="hairpin-ligated NEBNext intermediate")
+                     name="hairpin-ligated NEBNext intermediate",
+                     left_stem_length=HAIRPIN.stem_len,
+                     right_stem_length=HAIRPIN.stem_len)
 OPENED_LIBRARY = OpenedDumbbell(PRE_USER, OPENED, OPENED,
                                 name="USER-opened adaptor library molecules")
 I5_NAME, I7_NAME = "i501", "i701"

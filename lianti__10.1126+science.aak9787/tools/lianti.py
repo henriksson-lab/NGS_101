@@ -170,7 +170,9 @@ def hairpin_ligated_amplicon(insert_nt: int = 28) -> Dumbbell:
     """The dA/dT-ligated closed intermediate before USER opens both adaptors."""
     return Dumbbell(umi_amplicon(insert_nt), NEBNEXT_HAIRPIN.sequence,
                     NEBNEXT_HAIRPIN.sequence,
-                    name="NEBNext-hairpin-ligated LIANTI amplicon")
+                    name="NEBNext-hairpin-ligated LIANTI amplicon",
+                    left_stem_length=NEBNEXT_HAIRPIN.stem_len,
+                    right_stem_length=NEBNEXT_HAIRPIN.stem_len)
 
 
 def user_opened_amplicon(insert_nt: int = 28) -> OpenedDumbbell:

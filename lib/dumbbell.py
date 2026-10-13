@@ -25,6 +25,8 @@ class Dumbbell:
     name: str = "dumbbell library"
     insert_overhang: str = "A"
     adapter_overhang: str = "T"
+    left_stem_length: int = 0
+    right_stem_length: int = 0
 
     def __post_init__(self) -> None:
         if not len(self.insert):
@@ -33,6 +35,14 @@ class Dumbbell:
             raise ValueError("both insert ends need a hairpin adapter")
         if not bases_pair(self.insert_overhang, self.adapter_overhang):
             raise ValueError("hairpin and insert overhangs are not complementary")
+        for side, adapter, stem in (("left", self.left_adapter, self.left_stem_length),
+                                    ("right", self.right_adapter, self.right_stem_length)):
+            if stem < 0 or 2 * stem + len(self.adapter_overhang) > len(adapter):
+                raise ValueError(f"{side} hairpin has invalid stem/overhang lengths")
+            if stem:
+                end = len(adapter) - len(self.adapter_overhang)
+                if adapter[:stem] != revcomp(adapter[end - stem:end]):
+                    raise ValueError(f"{side} hairpin stem does not self-pair")
 
     @property
     def circular_sequence(self) -> str:
@@ -56,24 +66,35 @@ class Dumbbell:
 
 def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     """Draw the closed topology while retaining the insert's segment colours."""
-    gutter = 18
-    suffix = " -3'" + " " * 18
+    left_extent = max(28, len(molecule.left_adapter) // 2
+                      + molecule.left_stem_length + 4)
+    right_extent = max(28, len(molecule.right_adapter) // 2
+                       + molecule.right_stem_length + 4)
+    gutter = left_extent
+    suffix = " -3'" + " " * right_extent
     top = strand_row(molecule.insert, "top", prefix=" " * gutter + "5'- ", suffix=suffix)
     bottom = strand_row(molecule.insert, "bottom", prefix=" " * gutter + "3'- ",
-                        suffix=" -5'" + " " * 18)
+                        suffix=" -5'" + " " * right_extent)
     start = top.visual.start
     end = top.visual.end
-    adapter_title = (f"hairpin adapter; {len(molecule.left_adapter)} nt; "
-                     f"{molecule.adapter_overhang} overhang pairs with insert "
-                     f"{molecule.insert_overhang}")
+    def adapter_title(side: str, sequence: str) -> str:
+        return (Segment(f"{side} hairpin adapter", sequence).hover_text()
+                + f"; {molecule.adapter_overhang} overhang pairs with insert "
+                + molecule.insert_overhang)
     top.visual = (
         top.visual,
-        HairpinCapVisual(start, "left", "left hairpin", adapter_title),
-        HairpinCapVisual(end, "right", "right hairpin", adapter_title),
+        HairpinCapVisual(start, "left", "left hairpin", molecule.left_adapter,
+                         molecule.left_stem_length, len(molecule.adapter_overhang),
+                         adapter_title("left", molecule.left_adapter)),
+        HairpinCapVisual(end, "right", "right hairpin", molecule.right_adapter,
+                         molecule.right_stem_length, len(molecule.adapter_overhang),
+                         adapter_title("right", molecule.right_adapter)),
     )
     # The bottom strand still receives its own directional box; the cap geometry on the
     # top row joins both strand ends one row apart and asserts the molecule has no free end.
-    return [top, bottom]
+    # Routed loops and their base labels extend above/below the two duplex rows. Blank
+    # rows reserve that vertical space in both standalone panels and reaction workflows.
+    return [Row(), Row(), top, bottom, Row(), Row()]
 
 
 @dataclass(frozen=True)
@@ -95,11 +116,13 @@ class OpenedDumbbell:
 
     @staticmethod
     def _title(name: str, sequence: str, end: str) -> str:
-        return f"{name}; {len(sequence)} nt; new {end} end"
+        return Segment(name, sequence).hover_text() + f"; new {end} end"
 
     def rows(self) -> list[Row]:
-        gutter = 28
-        tail = " " * 28
+        longest_left = max(len(self.left.left_arm), len(self.left.right_arm))
+        longest_right = max(len(self.right.left_arm), len(self.right.right_arm))
+        gutter = longest_left + 12
+        tail = " " * (longest_right + 12)
         top = strand_row(self.closed.insert, "top", prefix=" " * gutter + "5'- ",
                          suffix=" -3'" + tail)
         bottom = strand_row(self.closed.insert, "bottom", prefix=" " * gutter + "3'- ",
@@ -108,22 +131,28 @@ class OpenedDumbbell:
             top.visual,
             YAdapterVisual(
                 top.visual.start, "left", "Read 1 arm",
+                self.left.right_arm,
                 self._title("left Read 1 arm", self.left.right_arm,
                             self.left.right_new_end),
                 "Read 2 arm",
+                self.left.left_arm,
                 self._title("left Read 2 arm", self.left.left_arm,
                             self.left.left_new_end),
+                self.closed.left_stem_length,
             ),
             YAdapterVisual(
                 top.visual.end, "right", "Read 2 arm",
+                self.right.left_arm,
                 self._title("right Read 2 arm", self.right.left_arm,
                             self.right.left_new_end),
                 "Read 1 arm",
+                self.right.right_arm,
                 self._title("right Read 1 arm", self.right.right_arm,
                             self.right.right_new_end),
+                self.closed.right_stem_length,
             ),
         )
-        return [top, bottom]
+        return [Row(), Row(), top, bottom, Row(), Row()]
 
 
 def smrtbell_circuit(molecule: Dumbbell) -> Construct:

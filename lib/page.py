@@ -62,6 +62,10 @@ STYLE = """<meta charset="utf-8">
 
 body { background:var(--bg); color:var(--ink); font-family:var(--sans);
        margin:0; padding-block:32px 96px; padding-inline:16px; line-height:1.5; }
+.site-header { max-width:1180px; margin:0 auto 14px; font-size:.82rem; line-height:1; }
+.site-header a { color:var(--ink-muted); font-weight:600; letter-spacing:.035em;
+                 text-decoration:none; }
+.site-header a:hover { color:var(--link); }
 .wrap { max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:4px; }
 
 h1 { font-size:clamp(1.5rem,1.1rem + 1.6vw,2.1rem); font-weight:600; line-height:1.2;
@@ -139,11 +143,15 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-process-arrowhead { fill:var(--accent); }
 .chem-process-label { fill:var(--ink); font-family:var(--sans); font-weight:600; }
 .chem-comment { fill:var(--ink-muted); font-family:var(--sans); font-style:italic; }
-.chem-hairpin-cap { fill:none; stroke:var(--accent); stroke-width:2.4; }
+.chem-routed-strand { fill:var(--surface-2); stroke:var(--accent); stroke-width:1.4;
+                      stroke-linejoin:round; }
+.chem-hairpin-cap { fill:color-mix(in srgb,var(--c-r2) 18%,var(--surface)); }
 .chem-hairpin-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.88em; }
-.chem-y-adapter-arm { fill:none; stroke:var(--accent); stroke-width:2.4; }
+.chem-y-adapter-arm { fill:color-mix(in srgb,var(--c-r1) 18%,var(--surface)); }
 .chem-y-adapter-rung { stroke:var(--ink-muted); stroke-width:1; opacity:.65; }
 .chem-y-adapter-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.84em; }
+.chem-routed-base { fill:var(--ink); font:600 10px var(--mono); user-select:text;
+                    paint-order:stroke; stroke:var(--surface); stroke-width:2.2px; }
 .chem-workflow .chem-state-label { fill:var(--ink-muted); font-family:var(--sans);
                                    font-weight:600; }
 .chem-reaction-arrow { stroke:var(--accent); stroke-width:2; }
@@ -311,9 +319,16 @@ MD_STYLE = """<style>
 </style>"""
 
 
-def head(title: str) -> str:
-    """<title> plus fonts and the shared stylesheet."""
-    return f"<title>{html.escape(title)}</title>\n{ASSETS}"
+def site_header(home: str = "../index.html") -> str:
+    """Compact site identity and home link, shared by every published page."""
+    return (f'<header class="site-header"><a href="{html.escape(home, quote=True)}" '
+            'aria-label="NGS 101 home">NGS 101</a></header>')
+
+
+def head(title: str, *, home: str = "../index.html", include_header: bool = True) -> str:
+    """<title>, shared assets, and normally the site-wide home link."""
+    header = "\n" + site_header(home) if include_header else ""
+    return f"<title>{html.escape(title)}</title>\n{ASSETS}{header}"
 
 
 def legend(body_html: str) -> str:

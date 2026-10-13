@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
-from page import ASSETS, MD_STYLE  # noqa: E402
+from page import ASSETS, MD_STYLE, site_header  # noqa: E402
 
 # Directories that never contain notes to publish.
 SKIP_DIRS = {".git", "_data", "pdf", "__pycache__", ".venv", "venv", "_site",
@@ -96,6 +96,7 @@ def build_page(path: Path) -> str:
             f"by <code>build_docs.py</code>. Edit the Markdown, not this file, then run "
             f"<code>python3 build_docs.py</code>.</footer>")
     return (f"<title>{html.escape(title)}</title>\n{ASSETS}\n{MD_STYLE}\n"
+            f"{site_header(up + 'index.html')}\n"
             f'<div class="wrap">\n{crumb}\n{toc_html(heads)}\n'
             f'<article class="md">\n{body}\n</article>\n{foot}\n</div>\n')
 
@@ -125,6 +126,7 @@ def build_index(paths: list[Path]) -> str:
 
     total = sum(len(v) for v in groups.values())
     return ("<title>Notes index</title>\n" + ASSETS + "\n" + MD_STYLE + "\n"
+            + site_header("index.html") + "\n"
             '<div class="wrap">\n'
             '<nav class="crumb"><a href="index.html">chem</a> &nbsp;/&nbsp; notes</nav>\n'
             "<h1>Notes</h1>\n"

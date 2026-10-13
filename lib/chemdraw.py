@@ -462,6 +462,9 @@ class HairpinCapVisual:
     column: int
     side: str
     label: str
+    sequence: str
+    stem_length: int = 0
+    overhang_length: int = 0
     title: str = ""
 
     def __post_init__(self) -> None:
@@ -469,6 +472,10 @@ class HairpinCapVisual:
             raise ValueError("hairpin cap must be on the left or right molecular end")
         if not self.label.strip():
             raise ValueError("hairpin cap needs a visible label")
+        if not self.sequence or self.stem_length < 0 or self.overhang_length < 0:
+            raise ValueError("hairpin cap needs a sequence and non-negative geometry")
+        if 2 * self.stem_length + self.overhang_length > len(self.sequence):
+            raise ValueError("hairpin stem and overhang exceed its sequence")
 
 
 @dataclass(frozen=True)
@@ -482,15 +489,20 @@ class YAdapterVisual:
     column: int
     side: str
     upper_label: str
+    upper_sequence: str
     upper_title: str
     lower_label: str
+    lower_sequence: str
     lower_title: str
+    stem_length: int
 
     def __post_init__(self) -> None:
         if self.side not in ("left", "right"):
             raise ValueError("Y adapter must be on the left or right molecular end")
         if not self.upper_label.strip() or not self.lower_label.strip():
             raise ValueError("both Y-adapter arms need labels")
+        if not self.upper_sequence or not self.lower_sequence or self.stem_length < 1:
+            raise ValueError("Y-adapter arms need sequences and a paired stem")
 
 
 @dataclass(frozen=True)
@@ -930,6 +942,96 @@ def _svg_classes(tag: str | None, inferred: bool) -> str:
     return " ".join(classes)
 
 
+def routed_strand_polygon(points: Sequence[tuple[float, float]], *, width: float = 11.0,
+                          arrow_at: str | None = None) -> str:
+    """Return a constant-width polygon following an arbitrary strand centreline.
+
+    This is the common geometry behind curved hairpins and branched Y adapters.  The
+    caller declares only a route and molecular direction; it does not hand-build SVG
+    corners. ``arrow_at`` may be ``start``, ``end`` or ``None`` for a covalent segment
+    whose directional continuation is already visible in adjacent strand geometry.
+    """
+    route = [tuple(map(float, point)) for point in points]
+    if len(route) < 2 or arrow_at not in (None, "start", "end"):
+        raise ValueError("a routed strand needs two points and a valid arrow position")
+    if arrow_at == "start":
+        route.reverse()
+        arrow_at = "end"
+
+    tip = None
+    if arrow_at == "end":
+        tip = route[-1]
+        dx, dy = tip[0] - route[-2][0], tip[1] - route[-2][1]
+        length = math.hypot(dx, dy)
+        if length < width:
+            raise ValueError("last routed-strand segment is too short for an arrowhead")
+        arrow_length = width * .9
+        route[-1] = (tip[0] - dx / length * arrow_length,
+                     tip[1] - dy / length * arrow_length)
+
+    normals = []
+    for first, second in zip(route, route[1:]):
+        dx, dy = second[0] - first[0], second[1] - first[1]
+        length = math.hypot(dx, dy)
+        if length == 0:
+            raise ValueError("routed strand cannot contain a zero-length segment")
+        normals.append((-dy / length, dx / length))
+    half = width / 2.0
+    offsets = []
+    for index in range(len(route)):
+        if index == 0:
+            nx, ny = normals[0]
+        elif index == len(route) - 1:
+            nx, ny = normals[-1]
+        else:
+            nx, ny = normals[index - 1][0] + normals[index][0], \
+                     normals[index - 1][1] + normals[index][1]
+            size = math.hypot(nx, ny)
+            if size < 1e-9:
+                nx, ny = normals[index]
+            else:
+                nx, ny = nx / size, ny / size
+        offsets.append((nx * half, ny * half))
+    left = [(x + dx, y + dy) for (x, y), (dx, dy) in zip(route, offsets)]
+    right = [(x - dx, y - dy) for (x, y), (dx, dy) in zip(route, offsets)]
+    polygon = left + ([tip] if tip is not None else []) + list(reversed(right))
+    return " ".join(f"{x:.2f},{y:.2f}" for x, y in polygon)
+
+
+def sample_routed_points(vertices: Sequence[tuple[float, float]], count: int
+                         ) -> tuple[tuple[float, float], ...]:
+    """Place readable base centres at equal intervals along a routed strand."""
+    if count < 1 or len(vertices) < 2:
+        raise ValueError("routed bases need a non-empty sequence and at least two vertices")
+    lengths = [math.dist(a, b) for a, b in zip(vertices, vertices[1:])]
+    total = sum(lengths)
+    if total == 0:
+        raise ValueError("routed bases need a non-zero path")
+    points = []
+    for index in range(count):
+        wanted = total * (index + 1) / (count + 1)
+        walked = 0.0
+        for (first, second), length in zip(zip(vertices, vertices[1:]), lengths):
+            if wanted <= walked + length:
+                fraction = (wanted - walked) / length
+                points.append((first[0] + (second[0] - first[0]) * fraction,
+                               first[1] + (second[1] - first[1]) * fraction))
+                break
+            walked += length
+    return tuple(points)
+
+
+def _routed_base_text(sequence: str, points: Sequence[tuple[float, float]],
+                      css_class: str = "chem-routed-base") -> str:
+    if len(sequence) != len(points):
+        raise ValueError("one routed point is required for every displayed base")
+    return "".join(
+        f'<text class="{css_class}" x="{x:.2f}" y="{y + 3.8:.2f}" '
+        f'text-anchor="middle">{html.escape(base)}</text>'
+        for base, (x, y) in zip(sequence, points)
+    )
+
+
 def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[str]:
     """Render one row; molecular geometry comes from typed metadata, never ASCII art."""
     baseline = y + font
@@ -1000,17 +1102,44 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
         attach_x = x + cap.column * cell
         top_y = y + (font + 3) / 2
         bottom_y = top_y + font * 1.42
-        bulge = 18.0 if cap.side == "right" else -18.0
+        sign = 1.0 if cap.side == "right" else -1.0
+        stem_bases = cap.stem_length or max(3, min(12, len(cap.sequence) // 4))
+        loop_bases = len(cap.sequence) - 2 * stem_bases - cap.overhang_length
+        stem_extent = max(48.0, stem_bases * 11.5)
+        loop_vertical = max(42.0, bottom_y - top_y + 24.0)
+        loop_path = max(loop_bases * 11.5, loop_vertical + 32.0)
+        loop_run = (loop_path - loop_vertical) / 2.0
+        outer_x = attach_x + sign * stem_extent
+        far_x = outer_x + sign * loop_run
+        if cap.side == "right":
+            route = ((attach_x, top_y), (outer_x, top_y), (far_x, top_y),
+                     (far_x, top_y + loop_vertical),
+                     (outer_x, top_y + loop_vertical), (attach_x, bottom_y))
+        else:
+            # The closed strand reaches the left adapter on the bottom strand and exits
+            # it onto the top strand, so sequence order is bottom-to-top at this end.
+            route = ((attach_x, bottom_y), (outer_x, top_y + loop_vertical),
+                     (far_x, top_y + loop_vertical), (far_x, top_y),
+                     (outer_x, top_y), (attach_x, top_y))
+        base_points = sample_routed_points(route, len(cap.sequence))
         title = html.escape(cap.title or cap.label)
+        if cap.stem_length:
+            left_stem = base_points[:cap.stem_length]
+            end = len(base_points) - cap.overhang_length
+            right_stem = base_points[end - cap.stem_length:end]
+            for first, second in zip(left_stem, reversed(right_stem)):
+                out.append(f'<line class="chem-y-adapter-rung" x1="{first[0]:.2f}" '
+                           f'y1="{first[1]:.2f}" x2="{second[0]:.2f}" '
+                           f'y2="{second[1]:.2f}"/>')
         out.append(
-            f'<g><title>{title}</title><path class="chem-hairpin-cap" '
-            f'd="M {attach_x:.2f} {top_y:.2f} C {attach_x + bulge:.2f} {top_y:.2f}, '
-            f'{attach_x + bulge:.2f} {bottom_y:.2f}, {attach_x:.2f} {bottom_y:.2f}"/></g>'
+            f'<g><title>{title}</title><polygon class="chem-routed-strand chem-hairpin-cap" '
+            f'points="{routed_strand_polygon(route)}"/>'
+            f'{_routed_base_text(cap.sequence, base_points)}</g>'
         )
         anchor = "end" if cap.side == "left" else "start"
-        label_x = attach_x + (bulge - 5 if cap.side == "left" else bulge + 5)
+        label_x = far_x + sign * 7.0
         out.append(f'<text class="chem-hairpin-label" x="{label_x:.2f}" '
-                   f'y="{top_y - 5:.2f}" text-anchor="{anchor}">'
+                   f'y="{top_y + loop_vertical / 2 + 4:.2f}" text-anchor="{anchor}">'
                    f'{html.escape(cap.label)}</text>')
 
     for adapter in (v for v in visuals if isinstance(v, YAdapterVisual)):
@@ -1018,21 +1147,39 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
         upper_y = y + (font + 3) / 2
         lower_y = upper_y + font * 1.42
         sign = -1.0 if adapter.side == "left" else 1.0
-        stem_x = attach_x + sign * 18.0
-        arm_x = attach_x + sign * 54.0
-        upper_end_y, lower_end_y = upper_y - 14.0, lower_y + 14.0
-        for rung in (5.0, 10.0, 15.0):
-            rung_x = attach_x + sign * rung
+        stem_extent = adapter.stem_length * 11.5
+        stem_x = attach_x + sign * stem_extent
+        upper_unpaired = max(1, len(adapter.upper_sequence) - adapter.stem_length)
+        lower_unpaired = max(1, len(adapter.lower_sequence) - adapter.stem_length)
+        upper_arm_x = stem_x + sign * upper_unpaired * 11.5
+        lower_arm_x = stem_x + sign * lower_unpaired * 11.5
+        upper_end_y, lower_end_y = upper_y - 28.0, lower_y + 28.0
+        for rung in range(1, adapter.stem_length + 1):
+            rung_x = attach_x + sign * rung * 11.5
             out.append(f'<line class="chem-y-adapter-rung" x1="{rung_x:.2f}" '
                        f'y1="{upper_y:.2f}" x2="{rung_x:.2f}" y2="{lower_y:.2f}"/>')
+        upper_outward = ((attach_x, upper_y), (stem_x, upper_y),
+                         (upper_arm_x, upper_end_y))
+        lower_outward = ((attach_x, lower_y), (stem_x, lower_y),
+                         (lower_arm_x, lower_end_y))
+        # Molecular directions alternate around the formerly closed dumbbell: top runs
+        # left-to-right and bottom right-to-left.  Hence one branch points inward and the
+        # other outward at each end.
+        upper_route = tuple(reversed(upper_outward)) if adapter.side == "left" else upper_outward
+        lower_route = lower_outward if adapter.side == "left" else tuple(reversed(lower_outward))
+        upper_points = sample_routed_points(upper_route, len(adapter.upper_sequence))
+        lower_points = sample_routed_points(lower_route, len(adapter.lower_sequence))
         out.append(f'<g><title>{html.escape(adapter.upper_title)}</title>'
-                   f'<path class="chem-y-adapter-arm" d="M {attach_x:.2f} {upper_y:.2f} '
-                   f'L {stem_x:.2f} {upper_y:.2f} L {arm_x:.2f} {upper_end_y:.2f}"/></g>')
+                   f'<polygon class="chem-routed-strand chem-y-adapter-arm" '
+                   f'points="{routed_strand_polygon(upper_route, arrow_at="end")}"/>'
+                   f'{_routed_base_text(adapter.upper_sequence, upper_points)}</g>')
         out.append(f'<g><title>{html.escape(adapter.lower_title)}</title>'
-                   f'<path class="chem-y-adapter-arm" d="M {attach_x:.2f} {lower_y:.2f} '
-                   f'L {stem_x:.2f} {lower_y:.2f} L {arm_x:.2f} {lower_end_y:.2f}"/></g>')
+                   f'<polygon class="chem-routed-strand chem-y-adapter-arm" '
+                   f'points="{routed_strand_polygon(lower_route, arrow_at="end")}"/>'
+                   f'{_routed_base_text(adapter.lower_sequence, lower_points)}</g>')
         anchor = "end" if adapter.side == "left" else "start"
-        label_x = arm_x + sign * 4.0
+        label_x = (min(upper_arm_x, lower_arm_x) if adapter.side == "left"
+                   else max(upper_arm_x, lower_arm_x)) + sign * 4.0
         out.append(f'<text class="chem-y-adapter-label" x="{label_x:.2f}" '
                    f'y="{upper_end_y - 3:.2f}" text-anchor="{anchor}">'
                    f'{html.escape(adapter.upper_label)}</text>')

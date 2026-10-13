@@ -42,7 +42,7 @@ import properties as props  # noqa: E402
 import vendors  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
-from page import head, info  # noqa: E402
+from page import head, info, site_header  # noqa: E402
 
 OUT = ROOT / "index.html"
 
@@ -766,11 +766,12 @@ def build(omit: set[str] = frozenset(), run_checks: bool = True) -> tuple[str, i
     total = (sum(p["checks"] for p in every)
              + (sum(checks(d)[0] for d in EXTRA_SUITES) if run_checks else 0))
     body = f"""<div class="wrap">
-<h1>NGS 101</h1>
 {search_section(pub)}
 </div>"""
-    page = ("<!doctype html>\n<html lang=\"en\">\n<head>\n" + head("NGS 101")
-            + "\n" + EXTRA_CSS + "\n</head>\n<body class=\"index\">\n" + body
+    page = ("<!doctype html>\n<html lang=\"en\">\n<head>\n"
+            + head("NGS 101", include_header=False)
+            + "\n" + EXTRA_CSS + "\n</head>\n<body class=\"index\">\n"
+            + site_header("index.html") + "\n" + body
             + "\n</body>\n</html>\n")
     return page, total
 

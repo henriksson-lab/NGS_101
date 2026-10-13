@@ -15,7 +15,7 @@ from dataclasses import dataclass
 import html
 import math
 
-from chemdraw import Segment, revcomp
+from chemdraw import Segment, revcomp, routed_strand_polygon
 
 
 Point = tuple[float, float]
@@ -211,10 +211,11 @@ class FoldLayout:
                     raise ValueError(f"fold is not planar: {aname} crosses {bname}")
 
     @staticmethod
-    def _path(points: tuple[Point, ...], colour: str) -> str:
-        coords = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
-        return (f'<polyline points="{coords}" fill="none" stroke="{colour}" '
-                'stroke-width="2" stroke-linejoin="round"/>')
+    def _path(points: tuple[Point, ...], colour: str, *, closed: bool) -> str:
+        coords = routed_strand_polygon(points, width=10.0,
+                                       arrow_at=None if closed else "end")
+        return (f'<polygon points="{coords}" fill="var(--surface-2)" stroke="{colour}" '
+                'stroke-width="1.5" stroke-linejoin="round"/>')
 
     def svg(self, width: int, height: int, title: str) -> str:
         parts = [f'<svg xmlns="http://www.w3.org/2000/svg" class="chem-svg fold-svg" '
@@ -232,7 +233,8 @@ class FoldLayout:
         }
         for strand in self.strands.values():
             parts.append(f'<g class="fold-strand"><title>{html.escape(Segment(strand.name, strand.sequence).hover_text())}</title>')
-            parts.append(self._path(strand.points, strand.colour))
+            parts.append(self._path(strand.points, strand.colour,
+                                    closed=strand.name in closed_strands))
             for base, (x, y) in zip(strand.sequence, strand.points):
                 parts.append(f'<text x="{x:.1f}" y="{y + 4:.1f}" text-anchor="middle" '
                              f'fill="{strand.colour}" class="fold-base">{base}</text>')

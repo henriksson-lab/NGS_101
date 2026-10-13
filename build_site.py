@@ -44,7 +44,7 @@ sys.path.insert(0, str(ROOT))
 
 import build_docs  # noqa: E402
 import build_index  # noqa: E402
-from page import ASSETS, MD_STYLE  # noqa: E402
+from page import ASSETS, MD_STYLE, site_header  # noqa: E402
 from seqprimers import ensure_read_content  # noqa: E402
 
 # Never published from here, whatever links to it.
@@ -110,7 +110,8 @@ def published(p: Path) -> bool:
 def placeholder(d: str, out: Path, why: str) -> str:
     up = "../" * (len(out.relative_to(ROOT).parts) - 1)
     page = (f"<!doctype html>\n<title>{html.escape(out.name)} — not in this build</title>\n"
-            f"{ASSETS}\n{MD_STYLE}\n<div class=\"wrap\">\n"
+            f"{ASSETS}\n{MD_STYLE}\n{site_header(up + 'index.html')}\n"
+            f"<div class=\"wrap\">\n"
             f'<nav class="crumb"><a href="{up}index.html">chem</a> &nbsp;/&nbsp; '
             f"{html.escape(d)}</nav>\n<article class=\"md\">\n"
             f"<h1>{html.escape(out.name)} is not part of this build</h1>\n"
