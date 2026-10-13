@@ -15,7 +15,7 @@ Proximity sequencing (Prox-seq) measures extracellular proteins, pairwise protei
 ## Reporter architecture
 
 - 🟢 Every protein target has probe A and probe B, each an antibody conjugated to a single-stranded oligo.
-- 🟢 A universal connector allows any A probe to join any B probe. The complete PLA product is 119 bases, 20 of them hybridized to connector during ligation.
+- 🟢 A universal connector allows any A probe to join any B probe. The complete PLA product is 119 bases; a 20-base region spanning the joined probe ends is hybridized to the connector during ligation. The connector is a splint, not inserted sequence.
 - 🟢 The product contains protein barcode A, protein barcode B, a UMI, a PCR-primer site and a 3′ poly(A) tail. Both probe halves are required for an amplifiable product.
 - 🟢 The poly(A) tail makes the reporter compatible with the same oligo(dT) capture used for cellular mRNA.
 

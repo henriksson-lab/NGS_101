@@ -451,10 +451,12 @@ def proximity() -> Workflow:
                                                         token("poly(A)"))))),
          "Probe identity is encoded in one fixed barcode on each antibody conjugate."),
         ("Hybridize the universal connector and ligate only proximal probes",
-         single("119-base PLA reporter", (a, token("universal connector"), b, umi, token("poly(A)")),
-                junctions=(("antibody A barcode", "universal connector", "proximity ligation"),
-                           ("universal connector", "antibody B barcode", "proximity ligation"))),
-         "Only a ligated A–B product contains both primer sites and is amplifiable."),
+         single("119-base PLA reporter", (a, token("A connector half"),
+                                           token("B connector half"), b, umi, token("poly(A)")),
+                junctions=(("A connector half", "B connector half",
+                            "connector-splinted proximity ligation"),)),
+         "The universal connector splints the A/B nick but is not inserted. Only a "
+         "ligated A–B product contains both primer sites and is amplifiable."),
         ("Co-capture polyadenylated PLA reporters and cellular mRNA",
          branches("same cell barcode", (("PLA branch", (a, b, umi)),
                                          ("RNA branch", (token("transcript cDNA"),)))),
@@ -701,11 +703,11 @@ def prox_seq_graph(definition, final: Construct) -> ProtocolGraph:
     ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
     reporter_state = single("119-base PLA reporter", (
         unknown_region("antibody A barcode", tag="cbc"),
-        token("universal connector"),
+        token("A connector half"), token("B connector half"),
         unknown_region("antibody B barcode", tag="cbc"),
         unknown_region("PLA UMI", tag="umi"), token("poly(A)")),
-        junctions=(("antibody A barcode", "universal connector", "proximity ligation"),
-                   ("universal connector", "antibody B barcode", "proximity ligation")))
+        junctions=(("A connector half", "B connector half",
+                    "connector-splinted proximity ligation"),))
     ligated = graph.product("ligated_reporter_cell", "cell bearing ligated PLA reporters",
                             MaterialKind.MOLECULAR, state=reporter_state)
     graph.react("proximity_ligation", "Ligate only connector-bridged proximal probes",

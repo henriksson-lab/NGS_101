@@ -7,6 +7,7 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,feature,oligo
 from multimodal_spatial import finish_pcr_branch
+from interaction_capture import FixedMolecularComplex
 from protocol_graph import InputRole,MaterialKind,ProtocolGraph,StepKind
 RNA_LINKER="CGAGGAGCGCTTNNNNN"+"ATAGCATTGC"
 DNA_TOP="CTAGACACTGTGCGTATCTNBA"+"A"*30
@@ -22,6 +23,7 @@ SUMMARY="RNA and fragmented DNA receive distinct linkers, three rounds of cell b
 CAVEAT="The DNA linker's single-base sticky end is source-resolved. This page has not yet verified the RNA-linker junction, the strand-resolved three-round cell-barcode overhangs or the exact final PCR-primer pair from the supplementary protocol; those geometries remain explicitly unavailable."
 FINAL_LIBRARIES=(("Combined RNA/DNA library",FINAL,PRIMERS,"One molecule contains either an RNA or DNA insert; its linker distinguishes the analyte.","Read 1 gives the 16-bp GEM complex barcode and 12-bp UMI; i7 completes complex identity; Read 2 traverses three cell barcodes, linker and insert."),)
 READ_LENGTHS={"Combined RNA/DNA library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":150}}
+COMPLEX=FixedMolecularComplex(("RNA molecule","DNA fragment A","DNA fragment B"),"formaldehyde",label="multiway nucleic-acid complex")
 def oligos():
  yield oligo("RNA linker",[Segment("DNA portion + 5-nt UMI",RNA_LINKER[:17],"umi",placeholder=True),Segment("RNA portion",RNA_LINKER[17:])],mods="5′-OH; final 10 bases are RNA; 3′-OH")
  yield oligo("DNA linker top",[Segment("phosphorylated top",DNA_TOP,placeholder=True)],mods="5′ phosphate")
@@ -34,11 +36,11 @@ def dna_linker_geometry():
  return AdapterLigationGeometry.known("cohesive",sc,sub,statement="The published MUSIC Y linker has a single-base sticky end complementary to dA-tailed genomic DNA; its full top and bottom oligos remain copyable above.")
 
 def sections():
- wf=Workflow(MolecularState("Crosslinked RNA and fragmented DNA",(Row(chunks=[("RNA … crosslinked complex … dA-tailed DNA",None,False)]),)))
+ wf=Workflow(MolecularState("Crosslinked RNA and fragmented DNA",tuple(COMPLEX.complex().rows())))
  wf.ligate_adapter("Ligate the analyte-specific DNA linker",dna_linker_geometry(),[Row(chunks=[("DNA — dA:T ** Y linker","me",False)])],note="The linker sequence distinguishes DNA and carries a five-base UMI.")
  wf.react("Attach the chimeric RNA linker",[Row(chunks=[("RNA ** chimeric RNA linker",None,False)])],note="RNA ligation is a single-strand end reaction, not a duplex-overhang ligation.")
  wf.react("Ligate three cell barcodes",[Row(chunks=[("round 1 ** round 2 ** round 3 ** linker ** insert","cbc",False)])],note="Three 96-member sets create 96³ cell identities with ordered complementary overhangs.")
- wf.react("Preserve molecular complexes",[Row(chunks=[("crosslinked complex: RNA + DNA + DNA",None,False)])],note="Associated molecules remain together through nuclear fragmentation.")
+ wf.react("Preserve molecular complexes",COMPLEX.complex().rows(),note="Associated RNA and DNA remain separate molecules retained in one fixed complex through nuclear fragmentation.")
  wf.react("Add complex barcodes in 10x GEMs",[Row(chunks=[("16-nt GEM barcode + 12-nt UMI + 8-nt i7 → complex identity","cbc",False)])],note="Molecules sharing GEM and i7 identify the same molecular complex.")
  return [(r.action,r.after.rows,r.note) for r in wf.reactions]
 

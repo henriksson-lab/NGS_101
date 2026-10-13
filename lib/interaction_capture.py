@@ -113,6 +113,43 @@ class FixedRNPContact:
 
 
 @dataclass(frozen=True)
+class FixedMolecularComplex:
+    """Several molecules retained in one fixed spatial complex without covalent fusion.
+
+    Each member remains a separate strand.  A repeated typed contact marker records
+    shared complex membership without inventing base pairing or a ligation junction.
+    This is the appropriate intermediate for SPRITE-like co-barcoding assays, where
+    the common barcode reports co-membership rather than a chimeric molecule.
+    """
+
+    members: tuple[str, ...]
+    crosslinker: str
+    label: str = "fixed molecular complex"
+
+    def __post_init__(self) -> None:
+        if len(self.members) < 2:
+            raise ValueError("a molecular complex needs at least two members")
+        if len(set(self.members)) != len(self.members):
+            raise ValueError("molecular-complex member names must be unique")
+        if any(not member.strip() for member in self.members):
+            raise ValueError("molecular-complex members must be named")
+        if not self.crosslinker.strip() or not self.label.strip():
+            raise ValueError("a molecular complex needs a crosslinker and label")
+
+    def complex(self) -> Scene:
+        sc = Scene()
+        for number, member in enumerate(self.members, 1):
+            strand = f"member {number}"
+            contact = f"shared contact {number}"
+            sc.strand(strand, [_part(member, "X"),
+                               _part(contact, "P", 8)], label=member)
+            sc.mark(strand, contact,
+                    f"{self.crosslinker}: retained in one {self.label}")
+        sc.note(f"member {len(self.members)}",
+                "separate molecules; neither covalent joining nor base pairing is asserted")
+        return sc
+
+@dataclass(frozen=True)
 class BivalentRNAChromatinBridge:
     """Role-level two-ended linker connecting RNA to nearby genomic DNA.
 

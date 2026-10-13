@@ -130,24 +130,22 @@ class ProximityLigationTopology:
             _label(375, 77, "protein A"), _label(565, 77, "protein B"),
             _antibody(390, 112, "probe A antibody", "var(--c-r1)"),
             _antibody(550, 112, "probe B antibody", "var(--c-r2)"),
-            '<path d="M390,208 L390,268 L458,268" fill="none" '
+            '<path d="M390,208 L390,268 L470,268" fill="none" '
             'stroke="var(--c-r1)" stroke-width="6" stroke-linecap="round"/>',
-            '<path d="M550,208 L550,268 L482,268" fill="none" '
+            '<path d="M550,208 L550,268 L470,268" fill="none" '
             'stroke="var(--c-r2)" stroke-width="6" stroke-linecap="round"/>',
-            '<path d="M438,296 L502,296" fill="none" stroke="var(--c-tso)" '
+            '<path d="M430,296 L510,296" fill="none" stroke="var(--c-tso)" '
             'stroke-width="8" stroke-linecap="round"/>',
             '<g stroke="var(--note-rule)" stroke-width="1.5">',
             *[f'<line x1="{x}" y1="274" x2="{x}" y2="290"/>'
-              for x in range(444, 503, 8)],
+              for x in range(434, 511, 8)],
             '</g>',
-            '<circle cx="458" cy="268" r="6" class="topology-junction">'
-            '<title>connector-templated ligation junction</title></circle>',
-            '<circle cx="482" cy="268" r="6" class="topology-junction">'
+            '<circle cx="470" cy="268" r="6" class="topology-junction">'
             '<title>connector-templated ligation junction</title></circle>',
             _label(350, 250, self.left_barcode, anchor="end"),
             _label(590, 250, self.right_barcode, anchor="start"),
             _label(470, 323, self.connector),
-            _label(470, 355, "two ligation junctions retain A + connector + B in one reporter",
+            _label(470, 355, "the connector splints one A–B nick; it is not inserted into the reporter",
                    cls="topology-comment"),
             '</svg>',
         ]
@@ -156,9 +154,11 @@ class ProximityLigationTopology:
     def panels(self) -> tuple[tuple[str, str], ...]:
         return (("Connector-templated proximity ligation", _panel(
             self.svg(),
-            "A common connector hybridizes to the adjacent ends of two proximal "
-            "antibody probes and templates their ligation. The two probe barcodes and "
-            "connector become one reporter; undisclosed bases are not invented.")),)
+            "A common connector hybridizes across the adjacent ends of two proximal "
+            "antibody probes and splints their single ligation junction. The covalent "
+            "reporter comprises probe A joined directly to probe B; the connector is "
+            "shown as a hybridized structural reagent, not inserted sequence. "
+            "Undisclosed bases are not invented.")),)
 
 
 @dataclass(frozen=True)

@@ -7,6 +7,7 @@ from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
+from interaction_capture import FixedMolecularComplex
 
 TITLE="scSPRITE — cell and spatial-complex barcoding"
 NOTES="01_scsprite.html"
@@ -20,11 +21,12 @@ FINAL_CAPTION="Read 1 reports genomic DNA plus DPM; Read 2 traverses the other f
 SEQUENCING_INTRO="Read 1 is at least 120 bp and begins with genomic information plus DPM; Read 2 is at least 95 bp and reads Odd–Even–Odd–Even–Y-even."
 READ_LENGTHS={"Read 1":120,"Read 2":95}
 SHOW_READ_CONTENT=True
+COMPLEX=FixedMolecularComplex(("cell-barcoded DNA fragment A","cell-barcoded DNA fragment B","associated RNA/protein"),"formaldehyde",label="spatial complex")
 
 def sections(): return [
  ("Crosslink, permeabilize, repair and dA-tail nuclei",[Row(chunks=[("intact nucleus: repaired genomic fragments remain compartmentalized",None,False)])],"Keeping nuclei intact makes the first barcode rounds cell-specific."),
  ("Add three in-nucleus split-pool tags",ligation_round_rows(TAGS[:3]),"DPM, Odd and Even across three 96-well rounds form the cell barcode."),
- ("Select nuclei, lyse and immobilize spatial complexes",[Row(chunks=[("one cell barcode -> many bead-bound chromatin complexes", "cbc",False)])],"About 1,500 filtered nuclei were taken forward; sonication releases crosslinked complexes for bead coupling."),
+ ("Select nuclei, lyse and immobilize spatial complexes",COMPLEX.complex().rows(),"The members drawn separately share the first three-part cell barcode and remain together as one bead-bound complex. About 1,500 filtered nuclei were taken forward."),
  ("Extend each complex with three spatial tags",ligation_round_rows(TAGS[3:]),"Odd, Even and Y-even tags distinguish complexes while retaining the first three-part cell identity."),
  ("Reverse crosslinks and PCR-complete the library",[Row(chunks=[("P5 -- DPM -- genomic DNA -- Y-even -- Even -- Odd -- Even -- Odd -- P7",None,False)])],"Only reads with the complete six-tag order are usable for cell and cluster assignment."),
 ]
@@ -72,12 +74,12 @@ def protocol_graph():
              ((selected,InputRole.TEMPLATE),(lysis,InputRole.CONDITION)),(lysate,))
  sonication=graph.input("sonication","sonication condition",MaterialKind.CONDITION)
  complexes=graph.product("spatial_complexes","sonicated cross-linked chromatin complexes",
-                         MaterialKind.MOLECULAR)
+                         MaterialKind.MOLECULAR,state=COMPLEX.complex())
  graph.react("sonicate","Sonicate the cross-linked chromatin",StepKind.FRAGMENTATION,
              ((lysate,InputRole.TEMPLATE),(sonication,InputRole.CONDITION)),(complexes,))
  beads=graph.input("beads","spatial-complex immobilization beads",MaterialKind.SELECTION)
  immobilized=graph.product("immobilized_complexes","bead-bound spatial complexes",
-                           MaterialKind.MOLECULAR)
+                           MaterialKind.MOLECULAR,state=COMPLEX.complex())
  uncaptured=graph.product("uncaptured_complexes","uncaptured chromatin complexes",
                           MaterialKind.WASTE)
  graph.react("immobilize","Immobilize spatial complexes on beads",StepKind.AFFINITY_CAPTURE,

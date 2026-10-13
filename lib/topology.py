@@ -896,14 +896,19 @@ class PrimerTemplatedPadlockTopology:
 
     def folded_layout(self) -> FoldLayout:
         step = 12.0
-        target_sequence = self.primer_target + self.target_gap + self.padlock_target
+        # Use the mirror-equivalent planar orientation with the padlock-binding
+        # RNA site at the left.  Mirroring changes only page coordinates, while
+        # preserving strand order and every molecular adjacency.
+        target_sequence = self.padlock_target + self.target_gap + self.primer_target
         target_points = tuple((90 + step * i, 390.0) for i in range(len(target_sequence)))
         target = FoldStrand("target RNA", target_sequence, target_points, "var(--ink)",
                             "RNA", "target RNA")
 
-        primer_arm = tuple((target_points[len(self.primer_target) - 1 - i][0], 366.0)
+        primer_site = len(self.padlock_target) + len(self.target_gap)
+        primer_arm = tuple((target_points[primer_site + len(self.primer_target) - 1 - i][0],
+                            366.0)
                            for i in range(len(self.primer_target)))
-        platform_x = target_points[-1][0] + 10.0
+        platform_x = primer_arm[-1][0]
         splint_points = tuple((platform_x + step * i, 170.0)
                               for i in range(len(self.primer_splint)))
         primer = FoldStrand(
@@ -913,14 +918,14 @@ class PrimerTemplatedPadlockTopology:
         cut = len(self.padlock_five_arm)
         five_points = tuple((splint_points[cut - 1 - i][0], 146.0)
                             for i in range(len(self.padlock_five_arm)))
-        padlock_site = len(self.primer_target) + len(self.target_gap)
-        target_arm = tuple((target_points[padlock_site + len(self.padlock_target) - 1 - i][0],
+        padlock_site = 0
+        target_arm = tuple((target_points[len(self.padlock_target) - 1 - i][0],
                             366.0) for i in range(len(self.padlock_target)))
         three_points = tuple((splint_points[-1 - i][0], 146.0)
                              for i in range(len(self.padlock_three_arm)))
-        route = [target_arm[-1], (target_arm[-1][0], 300.0),
-                 (splint_points[-1][0] + 68.0, 280.0),
-                 (splint_points[-1][0] + 68.0, 196.0), three_points[0]]
+        route = [target_arm[-1], (40.0, 300.0), (40.0, 108.0),
+                 (splint_points[-1][0] + 68.0, 108.0),
+                 (splint_points[-1][0] + 68.0, 132.0), three_points[0]]
         payload_points = tuple(_sample_polyline(route, len(self.padlock_payload)))
         padlock = FoldStrand(
             "padlock probe",
@@ -934,7 +939,7 @@ class PrimerTemplatedPadlockTopology:
         padlock_three_start = (padlock_target_start + len(self.padlock_target)
                                + len(self.padlock_payload))
         pairings = [
-            FoldPairing(target.name, 0, primer.name, 0, len(self.primer_target),
+            FoldPairing(target.name, primer_site, primer.name, 0, len(self.primer_target),
                         "primer-probe target site"),
             FoldPairing(target.name, padlock_site, padlock.name, padlock_target_start,
                         len(self.padlock_target), "padlock target site"),

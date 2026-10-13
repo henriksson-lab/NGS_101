@@ -4,6 +4,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from chemdraw import Row
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
+from interaction_capture import FixedMolecularComplex
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from sprite import bulk_barcode, final_library, ligation_round_rows
@@ -21,12 +22,13 @@ SEQUENCING_INTRO="Paired-end sequencing reads genomic sequence from the DPM end 
 READ_LENGTHS={"Read 1":100,"Read 2":75}
 SHOW_READ_CONTENT=True
 
-INITIAL_ROWS=(Row(chunks=[("native chromatin complex: [DNA] ... [DNA] ... [RNA/protein]",None,False)]),)
+COMPLEX=FixedMolecularComplex(("DNA fragment A","DNA fragment B","RNA/protein-associated nucleic acid"),"DSG/formaldehyde",label="spatial complex")
+INITIAL_ROWS=tuple(COMPLEX.complex().rows())
 INITIAL_NAME="Native multi-molecule chromatin complex"
 
 def sections(): return [
- ("Crosslink, isolate and fragment chromatin",[Row(chunks=[("crosslinked complex: [DNA fragment] ... [DNA fragment] ... [RNA/protein]",None,False)])],"DSG and formaldehyde preserve multiway complexes; sonication and DNase make sequenceable DNA fragments."),
- ("Immobilize intact complexes and repair DNA ends",[Row(chunks=[("NHS bead -- covalently immobilized spatial complex -- blunt, 5-prime-phosphorylated, dA-tailed DNA",None,False)])],"Low complex loading and detergent washes reduce accidental co-barcoding; repair creates a common ligation substrate."),
+ ("Crosslink, isolate and fragment chromatin",COMPLEX.complex().rows(),"DSG and formaldehyde preserve separate molecules in one multiway complex; sonication and DNase make sequenceable fragments."),
+ ("Immobilize intact complexes and repair DNA ends",COMPLEX.complex().rows(),"The drawn members remain separate molecules in one bead-bound complex. Low complex loading and detergent washes reduce accidental co-barcoding; repair creates a common ligation substrate."),
  ("Perform five split-pool tag ligations",ligation_round_rows(TAGS),"The published order is DPM, Odd, Even, Odd, Terminal. DPM/Terminal have 9-nt identifiers; Odd/Even tags have 17-nt identifiers."),
  ("Reverse crosslinks and PCR-complete the library",[Row(chunks=[("P5 -- DPM -- genomic DNA -- Terminal -- Odd -- Even -- Odd -- P7",None,False)])],"Terminal and DPM arms provide the two library-PCR entry sites; molecules are grouped after sequencing by the full tag combination."),
 ]
@@ -37,19 +39,19 @@ def protocol_graph():
     chromatin=graph.input("chromatin_complex","native multi-molecule chromatin complex",
                           MaterialKind.BIOLOGICAL,state=INITIAL_ROWS,primary=True)
     crosslinker=graph.input("crosslinkers","DSG and formaldehyde",MaterialKind.CONDITION)
-    fixed=graph.product("fixed_complex","crosslinked spatial complex",MaterialKind.MOLECULAR)
+    fixed=graph.product("fixed_complex","crosslinked spatial complex",MaterialKind.MOLECULAR,state=COMPLEX.complex())
     graph.react("crosslink","Preserve multiway chromatin complexes",StepKind.CROSS_LINKING,
                 ((chromatin,InputRole.TEMPLATE),(crosslinker,InputRole.CONDITION)),(fixed,))
     fragmentation=graph.input("fragmentation_condition","sonication and DNase fragmentation",
                               MaterialKind.CONDITION)
     fragmented=graph.product("fragmented_complex","fragmented but intact spatial complex",
-                              MaterialKind.MOLECULAR)
+                              MaterialKind.MOLECULAR,state=COMPLEX.complex())
     graph.react("fragment","Fragment nucleic acids within each fixed complex",
                 StepKind.FRAGMENTATION,
                 ((fixed,InputRole.TEMPLATE),(fragmentation,InputRole.CONDITION)),(fragmented,))
     nhs=graph.input("nhs_beads","NHS-functionalized beads",MaterialKind.SELECTION)
     immobilized=graph.product("immobilized_complex","bead-immobilized spatial complex",
-                              MaterialKind.MOLECULAR)
+                              MaterialKind.MOLECULAR,state=COMPLEX.complex())
     unbound=graph.product("unbound_complex","unbound spatial complexes",MaterialKind.WASTE)
     graph.react("immobilize","Covalently immobilize intact complexes on NHS beads",
                 StepKind.AFFINITY_CAPTURE,
