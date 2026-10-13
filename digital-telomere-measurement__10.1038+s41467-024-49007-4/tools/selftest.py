@@ -4,4 +4,8 @@ import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import dtm as M
 from checks import Check,run_common
-c=Check(); c.section("DTM source boundary"); c("unverified capture core stays unknown",set(M.CAPTURE.core),{"N"}); c("all telomere phases represented",len(M.CAPTURE.arms),6); run_common(c); c.report()
+c=Check(); c.section("DTM source transcription")
+c("seqTether",M.SEQ_TETHER,"AACCTTGGAGATGCACGGAGCAAGCAAT")
+c("capture oligo",M.CAPTURE,"TGCTCCGTGCATCTCCAAGGTTCACAAAGACACCGACAACTTTCTTCCTAACC")
+c("published capture structure",(len(M.CAPTURE_TETHER_ARM),len(M.CAPTURE_BARCODE),len(M.CAPTURE_TELOMERE_ARM)),(22,25,6))
+run_common(c); c.report()

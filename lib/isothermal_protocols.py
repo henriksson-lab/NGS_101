@@ -160,14 +160,44 @@ OLINK_RBC = feature("olink_reverse_assay_barcode", "feature_barcode", "whitelist
                     whitelist="proprietary Olink Explore assay barcode pairs")
 OLINK_SAMPLE = feature("olink_sample_index", "sample_index", "whitelist",
                        whitelist="proprietary Olink Explore sample indexes")
+
+# Olink's WO2021191442A1 sequence listing publishes the adapter portions carried by
+# its PCR primers (SEQ ID 1 and 2), but not the complete primers.  Validate them
+# against the independently sourced Illumina constants rather than silently treating
+# a similarly named adapter as identical.
+OLINK_P5_ADAPTER = "AATGATACGGCGACCACCGA"
+OLINK_P7_ADAPTER = "CAAGCAGAAGACGGCATACGAGAT"
+if not il.TRUSEQ_P5_FULL.startswith(OLINK_P5_ADAPTER):
+    raise ValueError("Olink patent P5 sequence is inconsistent with canonical Illumina end")
+if OLINK_P7_ADAPTER != il.P7:
+    raise ValueError("Olink patent P7 sequence is inconsistent with canonical Illumina end")
+
+# Wik et al. report a 148-bp product and a 66-cycle Read 1 that starts immediately
+# after Rd1SP and covers every inline identifier.  The complete canonical Illumina
+# P5/Rd1SP end is 58 nt; together with the patent's 24-nt P7 end, this accounts for
+# the product exactly.  Keep this arithmetic beside construction so a future adapter
+# revision cannot silently turn the labelled 148-bp molecule into a different length.
+OLINK_PRODUCT_BP = 148
+OLINK_READ_CYCLES = 66
+OLINK_P5_TO_RD1_LINKER = il.TRUSEQ_P5_FULL[
+    len(OLINK_P5_ADAPTER):-len(il.TRUSEQ_READ1)]
+if not OLINK_P5_TO_RD1_LINKER:
+    raise ValueError("canonical Olink P5/Rd1SP end has no intervening sequence")
+OLINK_INLINE_BP = OLINK_PRODUCT_BP - len(il.TRUSEQ_P5_FULL) - len(OLINK_P7_ADAPTER)
+if OLINK_INLINE_BP != OLINK_READ_CYCLES:
+    raise ValueError("published Olink product length and Read 1 length are inconsistent")
+
 OLINK_LIBRARY = Construct([
-    Segment("P5", il.P5, "p5"),
+    Segment("P5 adapter (patent SEQ ID 1)", OLINK_P5_ADAPTER, "p5"),
+    Segment("canonical Illumina sequence between P5 and Rd1SP",
+            OLINK_P5_TO_RD1_LINKER, "p5"),
     Segment("Read 1 sequencing-primer site", il.TRUSEQ_READ1, "r1"),
     role("forward assay barcode", tag="cbc", molecular_feature=OLINK_FBC),
     role("probe-arm hybridization junction"),
     role("reverse assay barcode", tag="cbc", molecular_feature=OLINK_RBC),
     role("inline sample index", tag="cbc", molecular_feature=OLINK_SAMPLE),
-    Segment("P7 reverse complement", il.P7_RC, "p7"),
+    Segment("P7 reverse complement (patent SEQ ID 2)",
+            revcomp(OLINK_P7_ADAPTER), "p7"),
 ], name="148-bp Olink Explore PEA library")
 OLINK_SEQ_PRIMERS = (sp.TRUSEQ["R1"],)
 
@@ -600,19 +630,21 @@ def get(key: str):
                      "proximity and template polymerase extension. Two PCR stages retain "
                      "the paired assay barcodes and add an inline sample index for counting."),
             CAVEAT=("Olink publishes the 148-bp element order and run layout but not the "
-                    "probe, assay-barcode, hybridization-arm or index sequences. Those "
-                    "regions are therefore structured roles, not invented bases."),
+                    "probe, assay-barcode, hybridization-arm, sample-index or PCR-primer "
+                    "sequences. Only the standard Illumina end is rendered base by base; "
+                    "the proprietary regions remain structured roles."),
             TOPOLOGY_PANELS=ProximityExtensionTopology().panels(),
             oligos=lambda: (), FINAL_LIBRARY=OLINK_LIBRARY,
-            FINAL_CAPTION=("Published 148-bp architecture: P5, Read 1 site, paired forward "
-                           "and reverse assay barcodes separated by the copied probe junction, "
-                           "inline sample index and P7."),
+            FINAL_CAPTION=("Published 148-bp architecture: the canonical overlapping P5 / "
+                           "Read 1 site, a 66-nt proprietary inline region containing both "
+                           "assay barcodes, the copied probe junction and sample index, then "
+                           "P7."),
             SEQ_PRIMERS=OLINK_SEQ_PRIMERS, ACQUIRED_ROLES=("Read 1",),
-            READ_LENGTHS={"Read 1": 66},
+            READ_LENGTHS={"Read 1": OLINK_READ_CYCLES},
             READ_USES={"Read 1": "extract_and_demultiplex"},
             SHOW_READ_CONTENT=False,
             READ_SPECS=(sp.read_spec(
-                "Read 1", 66,
+                "Read 1", OLINK_READ_CYCLES,
                 "forward assay barcode + reverse assay barcode + inline sample index",
                 "extract_and_demultiplex"),),
             SEQUENCING_INTRO=("A standard Read 1 primer binds the published Rd1SP site. "

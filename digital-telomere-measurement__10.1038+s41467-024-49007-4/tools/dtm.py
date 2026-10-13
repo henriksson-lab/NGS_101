@@ -3,17 +3,61 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Construct,Row,Segment,feature,feature_rows,strand_row
-from telomere import PhasedTelomereAdapter,TelomereEnd
+from chemdraw import Row, Scene, Segment, oligo
+from telomere import TelomereEnd
 
-# The main article defines the duplex architecture but places ordered bases in its
-# supplementary oligo table. Unknown bases stay N rather than becoming guessed sequence.
-CAPTURE_BARCODE=Segment(
-    "24-nt ONT capture barcode", "N"*24, "cbc", placeholder=True,
-    feature=feature("capture_sample_index", "sample_index", "whitelist",
-                    whitelist="Oxford Nanopore native barcode set"))
-CAPTURE=PhasedTelomereAdapter(CAPTURE_BARCODE.top,
-                              core_segments=(CAPTURE_BARCODE,))
-CAPTURE_CORE=Construct([CAPTURE_BARCODE],name="DTM capture barcode")
+SEQ_TETHER="AACCTTGGAGATGCACGGAGCAAGCAAT"
+CAPTURE="TGCTCCGTGCATCTCCAAGGTTCACAAAGACACCGACAACTTTCTTCCTAACC"
+CAPTURE_TETHER_ARM=CAPTURE[:22]
+CAPTURE_BARCODE=CAPTURE[22:-6]
+CAPTURE_TELOMERE_ARM=CAPTURE[-6:]
 
-def panels(): return [("Duplex each barcoded telomere-capture oligo with its sequencing tether",[strand_row(CAPTURE_CORE),*feature_rows(CAPTURE_CORE,prefix_width=4),Row(chunks=[("3′-[sequencing tether]",None,False)])],"The 24-nt ONT barcode identifies the sample. The tether is pre-annealed before genomic DNA is added; undisclosed bases remain explicit N."),("Anneal the phased capture end and ligate it to native telomeres",CAPTURE.annealed_scene(TelomereEnd()),"A capture family recognizes every human telomere-repeat phase. ** marks the terminal ligation."),("Fill any gap with Sulfolobus DNA polymerase IV, then mechanically fragment",[Row(chunks=[("capture ** filled telomere -- subtelomere -- | random mechanical break",None,False)])],"Gap fill completes the tagged end before random fragmentation."),("Ligate the Oxford Nanopore sequencing adapter to the prepared library",[Row(chunks=[("[motor-loaded ONT adapter] ** [prepared telomere fragment]",None,False)])],"The completed capture construct is converted to a nanopore library; ** marks adapter ligation.")]
+def oligos():
+    return (
+        oligo("seqTether",(Segment("seqTether",SEQ_TETHER),)),
+        oligo("p-t3-nb01 capture oligo",(
+            Segment("seqTether-complementary arm",CAPTURE_TETHER_ARM),
+            Segment("capture barcode",CAPTURE_BARCODE,"cbc"),
+            Segment("telomere arm",CAPTURE_TELOMERE_ARM)),mods="/5Phos/"),
+    )
+
+def _duplex():
+    sc=Scene()
+    sc.strand("capture",[Segment("seqTether-complementary arm",CAPTURE_TETHER_ARM),
+                          Segment("capture barcode",CAPTURE_BARCODE,"cbc"),
+                          Segment("telomere arm",CAPTURE_TELOMERE_ARM)],
+              label="p-t3-nb01 capture",mod5="p")
+    sc.anneal("tether",[Segment("paired seqTether",SEQ_TETHER[:22]),
+                         Segment("seqTether 3-prime tail",SEQ_TETHER[22:])],
+              to="capture",pair=("paired seqTether","seqTether-complementary arm"),
+              unpaired=("seqTether 3-prime tail",),label="seqTether")
+    sc.mark("capture","capture barcode","published 25-nt capture barcode")
+    return sc
+
+def _telomere_capture():
+    end=TelomereEnd()
+    sc=end.scene()
+    sc.anneal("capture oligo",[Segment("capture/tether body",CAPTURE[:-6],"cbc"),
+                                Segment("CTAACC telomere arm",CAPTURE_TELOMERE_ARM)],
+              to="G-rich strand",pair=("CTAACC telomere arm","G-rich 3-prime overhang"),
+              shift=4,unpaired=("capture/tether body",),
+              label="capture duplex",mod5="p")
+    sc.ligation_end("capture oligo","capture/tether body",kind="cohesive",
+                    polarity="5-prime",owner="adapter",text="terminal capture ligation")
+    sc.footer("** ligase joins the capture 5′ phosphate at the native C-rich terminus",
+              "capture oligo","capture/tether body")
+    return sc
+
+def panels():
+    return [
+        ("Anneal each barcoded capture oligo to seqTether",_duplex(),
+         "The representative p-t3-nb01 sequence is printed in Supplementary Data 5: a 22-nt tether-complementary arm, 25-nt barcode and 6-nt telomere arm."),
+        ("Anneal and ligate the capture duplex at native telomeres",_telomere_capture(),
+         "CTAACC is shown in one representative register on the terminal G-rich overhang; the capture oligo is covalently sealed at the chromosome end."),
+        ("Fill the capture–telomere gap with Sulfolobus DNA polymerase IV",
+         [Row(chunks=[("capture/tether ** gap-filled native telomere -- subtelomere",None,False)])],
+         "Polymerase IV completes the tagged telomere substrate. The published core protocol does not mechanically fragment this product."),
+        ("Ligate the Oxford Nanopore sequencing adapter",
+         [Row(chunks=[("[motor-loaded ONT adapter] ** [gap-filled captured chromosome end]",None,False)])],
+         "The proprietary motor-adapter terminal bases are unavailable; the published capture and tether bases remain explicit."),
+    ]

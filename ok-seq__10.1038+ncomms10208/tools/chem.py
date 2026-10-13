@@ -1,27 +1,61 @@
 """Human OK-seq strand-preserving Okazaki-fragment library."""
-from multibranch import illumina_branch
+import illumina as il
+import seqprimers as sp
 from protocol_extensions import native_three_prime_end
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import MolecularState,Row,Scene,Segment,Workflow
-from pcr import PCRGeometry
+from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
+                      oligo, revcomp)
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 TITLE="OK-seq — Okazaki-fragment sequencing"
 NOTES="01_ok-seq.html"
 SOURCE='Defining human method: <a href="https://doi.org/10.1038/ncomms10208">Petryk et al., <i>Nature Communications</i> (2016)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-022-00793-5">Nat. Protocols (2023)</a>.'
 SUMMARY="EdU-labelled, short single-stranded Okazaki fragments are size-purified, click-biotinylated and ligated directionally to random-overhang adapters so read strand reports replication-fork direction."
-FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("OK-seq","Okazaki fragment")
+A1_WATSON="ACACTCTTTCCCTACACGACGCTCTTCC"
+A1_CRICK="NNNNNNGGAAGAGCGTCGTGTAGGGAAAGAGTG"
+A2_WATSON="AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+A2_CRICK="TGACTGGAGTTCAGACGTGTGCTCTTCCGATCTNNNNNN"
+PCR_FORWARD="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCC"
+PCR_REVERSE="CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
+CUSTOM_READ1=A1_WATSON
+PRE_PCR=Construct([Segment("A1 Watson",A1_WATSON,"r1"),
+                   Segment("Okazaki fragment","X"*36,placeholder=True),
+                   Segment("A2 Watson",A2_WATSON)],name="adapter-ligated OK-seq fragment")
+FINAL_LIBRARY=Construct([
+    Segment("P5",il.P5,"p5"),Segment("A1 remainder",A1_WATSON[4:],"r1"),
+    Segment("Okazaki fragment","X"*36,placeholder=True),
+    Segment("completed A2 / Index-1 site",revcomp(il.TRUSEQ_READ2),"r2"),
+    Segment("six-base i7 reverse complement","N"*6,"cbc",placeholder=True),
+    Segment("P7 reverse complement",il.P7_RC,"p7")],name="OK-seq library")
+SEQ_PRIMERS=(sp.custom("Read 1","OK-seq custom Read 1",CUSTOM_READ1,
+                       "Petryk et al. 2016 supplementary methods"),sp.TRUSEQ["I1"])
+_problems=sp.verify(FINAL_LIBRARY,SEQ_PRIMERS,required_roles=("Read 1","Index 1 (i7)"))
+if _problems: raise ValueError("invalid OK-seq endpoint: "+"; ".join(_problems))
+PCR_GEOMETRY=PCRGeometry.exact(PRE_PCR,
+    PCRPrimer("forward PCR primer",PCR_FORWARD,anneal_nt=len(A1_WATSON)),
+    PCRPrimer("indexed reverse PCR primer",PCR_REVERSE,anneal_nt=len(A2_WATSON)),
+    statement="The detailed protocol prints both complete PCR primers; their 3′ arms are the A1 Watson and reverse-complementary A2 Watson adapter strands.")
 FINAL_CAPTION="Adapter orientation preserves whether the captured Okazaki fragment came from the Watson or Crick strand."
-SEQUENCING_INTRO="Declared Illumina primers bind the completed OK-seq library."
+SEQUENCING_INTRO="The source specifies the A1 Watson oligo as a custom sequencing primer; the six-base sample index is read with the standard TruSeq Index 1 primer."
+ACQUIRED_ROLES=("Read 1","Index 1 (i7)")
+READ_LENGTHS={"Read 1":51,"Index 1 (i7)":6}
+READ_USES={"Read 1":"include","Index 1 (i7)":"demultiplex"}
 def oligos():
-    return ["<b>A1 Watson</b> — 5′-ACACTCTTTCCCTACACGACGCTCTTCC-3′","<b>A1 Crick</b> — 5′-NNNNNNGGAAGAGCGTCGTGTAGGGAAAGAGTG-3′","<b>A2 Watson</b> — 5′-[Phos]-AGATCGGAAGAGCACACGTCTGAACTCCAGTCA[ddC]-3′","<b>A2 Crick</b> — 5′-TGACTGGAGTTCAGACGTGTGCTCTTCCGATCTNNNNNN[ddC]-3′"]
+    return [oligo("A1 Watson",(Segment("A1 Watson",A1_WATSON),)),
+            oligo("A1 Crick",(Segment("random overhang","N"*6,placeholder=True),Segment("paired arm",A1_CRICK[6:])),),
+            oligo("A2 Watson",(Segment("A2 Watson",A2_WATSON),),mods="/5Phos/",three="/3ddC/-3′"),
+            oligo("A2 Crick",(Segment("paired arm",A2_CRICK[:-6]),Segment("random overhang","N"*6,placeholder=True)),three="/3ddC/-3′"),
+            oligo("forward PCR primer",(Segment("forward PCR primer",PCR_FORWARD),)),
+            oligo("indexed reverse PCR primer",(Segment("indexed reverse PCR primer",PCR_REVERSE),)),
+            oligo("custom Read 1 sequencing primer",(Segment("custom Read 1",CUSTOM_READ1),))]
 def adapter_geometry():
-    a1=Scene(); a1.strand("A1 Watson",[Segment("A1 Watson ligating strand","ACACTCTTTCCCTACACGACGCTCTTCC")],label="A1 adapter")
-    a1.anneal("A1 Crick",[Segment("A1 random annealing overhang","N"*6,placeholder=True),Segment("A1 paired arm","GGAAGAGCGTCGTGTAGGGAAAGAGTG")],to="A1 Watson",pair=("A1 paired arm","A1 Watson ligating strand"),shift=1,label="A1 adapter",unpaired=("A1 random annealing overhang",))
+    a1=Scene(); a1.strand("A1 Watson",[Segment("A1 Watson ligating strand",A1_WATSON)],label="A1 adapter")
+    a1.anneal("A1 Crick",[Segment("A1 random annealing overhang","N"*6,placeholder=True),Segment("A1 paired arm",A1_CRICK[6:])],to="A1 Watson",pair=("A1 paired arm","A1 Watson ligating strand"),shift=1,label="A1 adapter",unpaired=("A1 random annealing overhang",))
     a1.overhang("A1 Crick","A1 random annealing overhang",polarity="5-prime",owner="adapter",text="6-nt random annealing overhang")
     a1.ligation_end("A1 Watson","A1 Watson ligating strand",kind="splinted",polarity="3-prime",owner="adapter",text="3′-OH joins the fragment 5′ phosphate")
-    a2=Scene(); a2.strand("A2 Watson",[Segment("A2 Watson ligating strand","AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")],label="A2 adapter",mod5="p")
-    a2.anneal("A2 Crick",[Segment("A2 paired arm","TGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"),Segment("A2 random annealing overhang","N"*6,placeholder=True)],to="A2 Watson",pair=("A2 paired arm","A2 Watson ligating strand"),label="A2 adapter",mod3="ddC",unpaired=("A2 random annealing overhang",))
+    a2=Scene(); a2.strand("A2 Watson",[Segment("A2 Watson ligating strand",A2_WATSON)],label="A2 adapter",mod5="p",mod3="ddC")
+    a2.anneal("A2 Crick",[Segment("A2 paired arm",A2_CRICK[:-6]),Segment("A2 random annealing overhang","N"*6,placeholder=True)],to="A2 Watson",pair=("A2 paired arm","A2 Watson ligating strand"),label="A2 adapter",mod3="ddC",unpaired=("A2 random annealing overhang",))
     a2.overhang("A2 Crick","A2 random annealing overhang",polarity="3-prime",owner="adapter",text="6-nt random annealing overhang")
     a2.ligation_end("A2 Watson","A2 Watson ligating strand",kind="splinted",polarity="5-prime",owner="adapter",text="5′ phosphate joins the fragment 3′-OH")
     return AdapterLigationGeometry.known("splinted",a1,a2,statement="The detailed OK-seq protocol prints both duplex adapters. Their six random bases anneal to each ssDNA terminus, positioning the opposite adapter strand for directional nick sealing; the random strand is ddC-blocked where printed.")
@@ -90,11 +124,10 @@ def protocol_graph():
                 StepKind.PCR,
                 ((captured,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
-                geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="The captured pre-PCR molecule is not represented base-for-base."))
+                geometry=PCR_GEOMETRY)
     graph.sequence(library,SequencingPlan(
         library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
-        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+        acquired_roles=ACQUIRED_ROLES, read_lengths=READ_LENGTHS,
         read_uses={p.role:("demultiplex" if "Index" in p.role else "include") for p in SEQ_PRIMERS}))
     graph.declare_reviewed_scope((
         "cells","edu_pulse","pulse_label","denaturation","denature","size_gradient",

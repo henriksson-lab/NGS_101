@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import seqprimers as sp
+from batch_page import oligo_rows
 from chemdraw import (duplex_rows, panel, protocol_graph_panels,
                       workflow_from_sections, workflow_panel)
 from page import head, info
@@ -19,7 +20,7 @@ def render(m) -> str:
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
     if callable(getattr(m, "oligos", None)):
-        rows = list(m.oligos())
+        rows = oligo_rows(m.oligos())
         if rows:
             parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
     if graph is not None:

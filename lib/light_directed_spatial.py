@@ -13,7 +13,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, feature, inline_sequence, revcomp
+from chemdraw import Construct, Segment, feature, inline_sequence, oligo, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -138,9 +138,15 @@ def workflow():
 def oligos():
     return (
         f"RT.5N.3G — {inline_sequence(RT_5N_3G, 'RT.5N.3G')}",
-        f"GATE.D12.B1, as ordered — {BARCODE_1_AS_WRITTEN}",
-        f"GATE.D12.B2, as ordered — {BARCODE_2_AS_WRITTEN}",
-        f"GATE.D12.B3, as ordered — {BARCODE_3_AS_WRITTEN}",
+        oligo("GATE.D12.B1", (Segment("barcode strand", BARCODE_1, placeholder=True),
+              Segment("photocrosslinker", "[cnvK]", placeholder=True),
+              Segment("docking tail", "TCGTGTAAAT")), three="[Cy5-3]-3′"),
+        oligo("GATE.D12.B2", (Segment("barcode strand", BARCODE_2, placeholder=True),
+              Segment("photocrosslinker", "[cnvK]", placeholder=True),
+              Segment("docking tail", "TCGTGTAAAT")), three="[Cy3-3]-3′"),
+        oligo("GATE.D12.B3", (Segment("barcode strand", BARCODE_3, placeholder=True),
+              Segment("photocrosslinker", "[cnvK]", placeholder=True),
+              Segment("docking tail", "TCGTGTAAAT")), three="[Fl-3]-3′"),
         f"GATC.20T — {inline_sequence(GATC_20T, 'GATC.20T')}",
         f"GATE PCR primer — {inline_sequence(GATE, 'GATE PCR primer')}",
         f"GATC PCR primer — {inline_sequence(GATC, 'GATC PCR primer')}",

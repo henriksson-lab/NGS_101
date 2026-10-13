@@ -7,7 +7,7 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from captrap import CapTrappedHybrid
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
-                      feature, revcomp)
+                      feature, oligo, revcomp)
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -66,13 +66,20 @@ SEQUENCING_INTRO = ("This protocol explicitly uses its Table 1 custom CAGE seque
 
 def oligos():
     return (
-        f"<b>RT-N15-EcoP</b> — 5′-{RT_ECOP}-3′",
-        f"<b>5′ SOL N6, AGA representative</b> — 5′-{FIVE_UPPER_N6}/3Phos/-3′",
-        f"<b>5′ SOL GN5, AGA representative</b> — 5′-{FIVE_UPPER_GN5}/3Phos/-3′",
-        f"<b>5′ SOL lower, AGA</b> — 5′-/5Phos/{FIVE_LOWER}/3AmMO/-3′",
-        f"<b>biotinylated second-strand primer</b> — 5′-/5Bio/{SECOND_STRAND_PRIMER}-3′",
-        f"<b>3′ upper linker</b> — 5′-{THREE_UPPER}-3′",
-        f"<b>3′ lower linker</b> — 5′-{THREE_LOWER}-3′",
+        oligo("RT-N15-EcoP", (Segment("RT-N15-EcoP", RT_ECOP),)),
+        oligo("5′ SOL N6, AGA representative",
+              (Segment("SOL N6", FIVE_UPPER_N6),), three="/3Phos/-3′"),
+        oligo("5′ SOL GN5, AGA representative",
+              (Segment("SOL GN5", FIVE_UPPER_GN5),), three="/3Phos/-3′"),
+        oligo("5′ SOL lower, AGA", (Segment("SOL lower", FIVE_LOWER),),
+              mods="/5Phos/", three="/3AmMO/-3′"),
+        oligo("biotinylated second-strand primer",
+              (Segment("second-strand primer", SECOND_STRAND_PRIMER),), mods="/5Bio/"),
+        oligo("3′ upper linker", (Segment("upper linker", THREE_UPPER),)),
+        oligo("3′ lower linker", (Segment("lower linker", THREE_LOWER),)),
+        oligo("PCR forward primer", (Segment("PCR forward", FWD),)),
+        oligo("PCR reverse primer", (Segment("PCR reverse", REV),)),
+        oligo("custom sequencing primer", (Segment("sequencing primer", SEQUENCING),)),
     )
 
 

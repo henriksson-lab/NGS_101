@@ -34,6 +34,18 @@ CELL_B = ident("second-round cell barcode", "cell_round2", "cell_barcode")
 SPACE_HASH = ident("printed spatial hash", "sci_space.grid", "spatial_barcode")
 SECTION_HASH = ident("section hash", "sci_space.section", "sample_index")
 
+# Rodriques et al. 2019, supplementary methods/Table S1.  J denotes the
+# split-and-pool bead barcode and N the molecule-specific UMI in the source.
+SLIDE_BEAD_HANDLE = "CTACACGACGCTCTTCCGATCT"
+SLIDE_BARCODE_1 = "J" * 8
+SLIDE_BRIDGE = "TCTTCAGCGTTCCCGAGA"
+SLIDE_BARCODE_2 = "J" * 7
+SLIDE_UMI = "N" * 8
+SLIDE_POLYT = "T" * 30
+SLIDE_SMART_PCR = "AAGCAGTGGTATCAACGCAGAGT"
+SLIDE_TSO_WRITTEN = "AAGCTGGTATCAACGCAGAGTGAATrG+GrG"
+SLIDE_TRUSEQ5 = il.TRUSEQ_P5_FULL
+
 
 # Li et al., Nat Protoc 2025 Supplementary Table 1.  The first member of each
 # 100-oligo pool is retained as a representative; the molecular feature records
@@ -225,6 +237,55 @@ def _slide_seq():
              role("3-prime transcript insert"), SAMPLE)),
          "Sequencing joins each transcript molecule to the bead position decoded on the puck."),
     ))
+
+
+def slide_seq_library():
+    barcode = feature("slide_seq.bead", "spatial_barcode", "whitelist",
+                      group="slide_seq.bead", whitelist="decoded Slide-seq bead pool")
+    umi = feature("slide_seq.umi", "umi", "random")
+    lib = Construct([
+        seg("P5", il.P5, "p5"),
+        seg("TruSeq Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
+        seg("bead barcode block 1", "B" * 8, "cbc", placeholder=True,
+            feature=barcode),
+        seg("bead barcode bridge", SLIDE_BRIDGE),
+        seg("bead barcode block 2", "B" * 7, "cbc", placeholder=True,
+            feature=barcode),
+        seg("UMI", "U" * 8, "umi", placeholder=True, feature=umi),
+        seg("poly(dT)", SLIDE_POLYT),
+        role("3-prime transcript cDNA"),
+        seg("Nextera mosaic end reverse complement", nx.ME_RC, "me"),
+        seg("S7 reverse complement", nx.S7_RC, "s7"),
+        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+            feature=feature("slide_seq.i7", "sample_index", "whitelist",
+                            whitelist="Nextera N700 index set")),
+        seg("P7 reverse complement", il.P7_RC, "p7"),
+    ], name="representative Slide-seq v1 sequencing library")
+    # This intentionally is a mixed TruSeq/Nextera endpoint.  The completed molecule
+    # also contains an incidental opposite-strand Nextera-R1 match, so protocol context
+    # is required to select the source-declared barcode read.
+    primers = (sp.TRUSEQ["R1"], sp.NEXTERA["I1"], sp.NEXTERA["R2"])
+    problems = sp.verify(lib, primers,
+                         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
+    if problems:
+        raise ValueError("invalid Slide-seq endpoint: " + "; ".join(problems))
+    return lib, primers
+
+
+def _slide_oligos():
+    return (
+        oligo("Bead oligo sequence 2 (representative)", (
+            seg("bead linker", "T" * 6, placeholder=True),
+            seg("TruSeq handle", SLIDE_BEAD_HANDLE),
+            seg("barcode block 1", SLIDE_BARCODE_1, "cbc", placeholder=True),
+            seg("bridge", SLIDE_BRIDGE),
+            seg("barcode block 2", SLIDE_BARCODE_2, "cbc", placeholder=True),
+            seg("UMI", SLIDE_UMI, "umi", placeholder=True),
+            seg("poly(dT)", SLIDE_POLYT))),
+        oligo("SMART PCR primer", (seg("SMART PCR primer", SLIDE_SMART_PCR),)),
+        oligo("TruSeq PCR handle primer", (seg("TruSeq PCR handle", SLIDE_BEAD_HANDLE),)),
+        oligo("TruSeq5 tagmentation PCR primer", (seg("TruSeq5", SLIDE_TRUSEQ5),)),
+    )
 
 
 def _sciplex_atac():
@@ -478,7 +539,7 @@ def _hdst_graph(d, final, primers):
     return graph.require_publishable()
 
 
-def _slide_graph(d, final):
+def _slide_graph(d, final, primers):
     source = f"{d.citation}; doi:{d.doi}"
     graph = ProtocolGraph(d.title, authority=source)
     puck = graph.input("puck", "DNA-barcoded 10-micrometre bead puck",
@@ -522,7 +583,7 @@ def _slide_graph(d, final):
     graph.discard(waste, "does not retain an amplifiable spatial transcript insert")
     reviewed = ["puck", "decoder", "decode", "tissue_rna", "capture", "rt_primer",
                 "reverse_transcriptase", "reverse_transcribe", "transposome", "tn5", "tagment"]
-    _finish_pcr(graph, "library", tagged, final, (), d.endpoint, reviewed,
+    _finish_pcr(graph, "library", tagged, final, primers, d.endpoint, reviewed,
                 label="Slide-seq")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -794,6 +855,8 @@ def get(key: str):
         dna_kind = ("accessible DNA" if key == "spatial-atac-rna"
                     else "histone-mark DNA")
         _template, final, _geometry, primers = _spatial_dna_libraries(dna_kind)
+    elif key == "slide-seq":
+        final, primers = slide_seq_library()
     else:
         final = role_library(d.title + " final library roles", payloads[key], index=SAMPLE)
         primers = ()
@@ -804,11 +867,16 @@ def get(key: str):
         CAVEAT=("The printed hash, section hash and transcript are separate molecules that are associated through shared nucleus indices; the final construct shows the spatial-hash branch, not a fictitious covalent fusion to a transcript." if key == "sci-space" else
                 "<inf>Individual barcode pools and decoder sequences were proprietary. Their published lengths and Read 1 coordinates are preserved, while unavailable bridge bases and the compatible completed Illumina shell are marked inferred.</inf>" if key == "hdst" else ""),
         FINAL_LIBRARY=final, SEQ_PRIMERS=primers,
-        FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
+        FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
+        READ_LENGTHS=({"Read 1": 42, "Index 1 (i7)": 8, "Read 2": 50}
+                      if key == "slide-seq" else None),
+        READ_USES=({"Read 1": "extract", "Index 1 (i7)": "demultiplex", "Read 2": "include"}
+                   if key == "slide-seq" else None),
         SEQUENCING_ENDING=("" if primers else d.endpoint),
         SEQUENCING_UNAVAILABLE=("" if primers else "The defining source establishes the read roles; kit revisions and barcode panels prevent one universal sequencing-primer sequence from being asserted here."),
         workflow=workflows[key],
-        oligos=(_spatial_oligos if key in ("spatial-atac-rna", "spatial-cuttag-rna")
+        oligos=(_slide_oligos if key == "slide-seq" else
+                _spatial_oligos if key in ("spatial-atac-rna", "spatial-cuttag-rna")
                 else (lambda: (f"Bead primer precursor, as written — {HDST_PRECURSOR_WRITTEN}",)
                       if key == "hdst" else ())),
     )
@@ -817,7 +885,7 @@ def get(key: str):
         "sci-space": lambda: _sci_space_graph(d, final, primers),
         "spatial-atac-rna": lambda: _dbit_graph(d, final, primers, cuttag=False),
         "spatial-cuttag-rna": lambda: _dbit_graph(d, final, primers, cuttag=True),
-        "slide-seq": lambda: _slide_graph(d, final),
+        "slide-seq": lambda: _slide_graph(d, final, primers),
         "sciplex-atac": lambda: _sciplex_graph(d, final),
     }
     spec.protocol_graph = factories[key]

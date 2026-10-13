@@ -159,10 +159,11 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
                     ((current, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
         reviewed.extend(("tdt", "polya_tail")); current = tailed
 
-    tag = graph.input("terminal_tag", "phased telomere-capture or TeloTag oligo",
+    tag = graph.input("terminal_tag", ("published barcoded capture/seqTether duplex" if kind == "dtm"
+                                      else "phased telomere-capture or TeloTag oligo"),
                       MaterialKind.OLIGO,
-                      inferred=kind in {"dtm", "profiling"},
-                      source=authority + (" (some ordered bases unavailable)" if kind in {"dtm", "profiling"} else ""))
+                      inferred=kind == "profiling",
+                      source=authority + (" (some ordered bases unavailable)" if kind == "profiling" else ""))
     hybrid = graph.product("tag_hybrid", "capture oligo annealed at the native telomere end",
                            MaterialKind.MOLECULAR, state=current.state)
     graph.react("anneal_tag", "Anneal the terminal capture oligo",
@@ -217,17 +218,6 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
                     StepKind.TAILING,
                     ((cut, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)), (tailed,))
         reviewed.extend(("ecorv", "digest_ecorv", "klenow", "tail_distal")); current = tailed
-
-    if kind == "dtm":
-        shear = graph.input("fragmentation_condition", "mechanical fragmentation condition",
-                            MaterialKind.CONDITION)
-        fragmented = graph.product("fragmented", "mechanically fragmented tagged telomere DNA",
-                                   MaterialKind.MOLECULAR, state=current.state)
-        graph.react("fragment", "Mechanically fragment the tagged telomere DNA",
-                    StepKind.FRAGMENTATION,
-                    ((current, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
-                    (fragmented,))
-        reviewed.extend(("fragmentation_condition", "fragment")); current = fragmented
 
     if kind == "profiling":
         beads = graph.input("streptavidin", "streptavidin capture beads",

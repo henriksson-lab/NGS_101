@@ -5,14 +5,20 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,feature,oligo
+from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,feature,oligo,revcomp
 from multimodal_spatial import finish_pcr_branch
 from interaction_capture import FixedMolecularComplex
 from protocol_graph import InputRole,MaterialKind,ProtocolGraph,StepKind
 RNA_LINKER="CGAGGAGCGCTTNNNNN"+"ATAGCATTGC"
 DNA_TOP="CTAGACACTGTGCGTATCTNBA"+"A"*30
 DNA_BOTTOM="CGAGGAGNNNNNACAACGCACAGTGTCTAGT"
-FINAL=Construct([Segment("P5",il.P5,"p5"),Segment("Read 1 arm",il.TRUSEQ_READ1,"r1"),Segment("10x GEM complex barcode","G"*16,"cbc",placeholder=True,feature=feature("music_gem_complex","molecular_complex_barcode","whitelist",group="music_complex",part="GEM",whitelist="10x 3-prime whitelist")),Segment("10x UMI","U"*12,"umi",placeholder=True,feature=feature("music_complex_umi","umi","random")),Segment("cell barcode round 3","C"*14,"cbc",placeholder=True,feature=feature("music_cell_3","cell_barcode","combinatorial",group="music_cell",part="round 3",whitelist="96 barcodes")),Segment("cell barcode round 2","B"*14,"cbc",placeholder=True,feature=feature("music_cell_2","cell_barcode","combinatorial",group="music_cell",part="round 2",whitelist="96 barcodes")),Segment("cell barcode round 1","A"*14,"cbc",placeholder=True,feature=feature("music_cell_1","cell_barcode","combinatorial",group="music_cell",part="round 1",whitelist="96 barcodes")),Segment("RNA or DNA linker","L"*17,placeholder=True),Segment("RNA or DNA insert","X"*48,placeholder=True),Segment("dA junction","A"),Segment("Index 1 / Read 2 arm",il.INDEX1_PRIMER,"r2"),Segment("i7 complex barcode reverse complement","I"*8,"cbc",placeholder=True,feature=feature("music_i7_complex","molecular_complex_barcode","whitelist",group="music_complex",part="i7",whitelist="eight indexes per library")),Segment("P7 reverse complement",il.P7_RC,"p7")],name="MUSIC RNA-or-DNA library molecule")
+BC1_TOP="CTCCTCGGCAACCATTACCTT"; BC1_BOTTOM="GTGCTCAAAGGTAATGGTTGC"
+BC2_TOP="TGAGCACTCTAGGTGTCGCTG"; BC2_BOTTOM="GCTCGTACAGCGACACCTAGA"
+BC3_TOP="TACGAGCCCTTCACTGCAATAAGATCGGAAGA"
+BC3_BOTTOM="CAGACGTGTGCTCTTCCGATCTTATTGCAGTGAAGG"
+UNIVERSAL="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+INDEX_A1="CAAGCAGAAGACGGCATACGAGATGTCGGTAAGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
+FINAL=Construct([Segment("P5",il.P5,"p5"),Segment("Read 1 remainder",il.TRUSEQ_READ1[4:],"r1"),Segment("10x GEM complex barcode","G"*16,"cbc",placeholder=True,feature=feature("music_gem_complex","molecular_complex_barcode","whitelist",group="music_complex",part="GEM",whitelist="10x 3-prime whitelist")),Segment("10x UMI","U"*12,"umi",placeholder=True,feature=feature("music_complex_umi","umi","random")),Segment("poly(dT)VN","T"*30+"VN",placeholder=True),Segment("RNA or DNA insert","X"*48,placeholder=True),Segment("RNA or DNA linker","L"*17,placeholder=True),Segment("cell barcode round 1","A"*14,"cbc",placeholder=True,feature=feature("music_cell_1","cell_barcode","combinatorial",group="music_cell",part="round 1",whitelist="96 barcodes")),Segment("cell barcode round 2","B"*14,"cbc",placeholder=True,feature=feature("music_cell_2","cell_barcode","combinatorial",group="music_cell",part="round 2",whitelist="96 barcodes")),Segment("cell barcode round 3","C"*14,"cbc",placeholder=True,feature=feature("music_cell_3","cell_barcode","combinatorial",group="music_cell",part="round 3",whitelist="96 barcodes")),Segment("Read 2 arm reverse complement",revcomp(il.TRUSEQ_READ2),"r2"),Segment("i7 complex barcode reverse complement","I"*8,"cbc",placeholder=True,feature=feature("music_i7_complex","molecular_complex_barcode","whitelist",group="music_complex",part="i7",whitelist="eight indexes per library")),Segment("P7 reverse complement",il.P7_RC,"p7")],name="MUSIC RNA-or-DNA library molecule")
 PRIMERS=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["R2"])
 _e=sp.verify(FINAL,PRIMERS,required_roles=("Read 1","Index 1 (i7)","Read 2"))
 if _e:raise ValueError("MUSIC library: "+"; ".join(_e))
@@ -20,14 +26,22 @@ TITLE="MUSIC — multinucleic-acid interaction mapping in single cells"
 NOTES="01_music.html"
 SOURCE='<a href="https://doi.org/10.1038/s41586-024-07239-w">Zhao et al., <i>Nature</i> (2024)</a>.'
 SUMMARY="RNA and fragmented DNA receive distinct linkers, three rounds of cell barcodes and a two-part molecular-complex barcode. Reads sharing both identities reveal multiway DNA–DNA and RNA–DNA complexes."
-CAVEAT="The DNA linker's single-base sticky end is source-resolved. This page has not yet verified the RNA-linker junction, the strand-resolved three-round cell-barcode overhangs or the exact final PCR-primer pair from the supplementary protocol; those geometries remain explicitly unavailable."
+CAVEAT="The public oligo sheet resolves the linkers, representative barcode duplexes and final PCR primers. The page shows one representative barcode from each 96-member round; the full barcode sets remain in the source sheet."
 FINAL_LIBRARIES=(("Combined RNA/DNA library",FINAL,PRIMERS,"One molecule contains either an RNA or DNA insert; its linker distinguishes the analyte.","Read 1 gives the 16-bp GEM complex barcode and 12-bp UMI; i7 completes complex identity; Read 2 traverses three cell barcodes, linker and insert."),)
 READ_LENGTHS={"Combined RNA/DNA library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":150}}
 COMPLEX=FixedMolecularComplex(("RNA molecule","DNA fragment A","DNA fragment B"),"formaldehyde",label="multiway nucleic-acid complex")
 def oligos():
- yield oligo("RNA linker",[Segment("DNA portion + 5-nt UMI",RNA_LINKER[:17],"umi",placeholder=True),Segment("RNA portion",RNA_LINKER[17:])],mods="5′-OH; final 10 bases are RNA; 3′-OH")
- yield oligo("DNA linker top",[Segment("phosphorylated top",DNA_TOP,placeholder=True)],mods="5′ phosphate")
+ yield oligo("RNA linker",[Segment("DNA portion + 5-nt UMI",RNA_LINKER[:17],"umi",placeholder=True),Segment("RNA portion",RNA_LINKER[17:])],mods="/5OH/",three="/3OH/-3′ (final 10 bases RNA)")
+ yield oligo("DNA linker top",[Segment("phosphorylated top",DNA_TOP,placeholder=True)],mods="/5Phos/",three="/3OH/-3′")
  yield oligo("DNA linker bottom",[Segment("bottom with 5-nt UMI",DNA_BOTTOM,"umi",placeholder=True)])
+ yield oligo("barcode 1 top, member 1",[Segment("BC1 top",BC1_TOP)],mods="/5Phos/")
+ yield oligo("barcode 1 bottom, member 1",[Segment("BC1 bottom",BC1_BOTTOM)],mods="/5Phos/")
+ yield oligo("barcode 2 top, member 1",[Segment("BC2 top",BC2_TOP)],mods="/5Phos/")
+ yield oligo("barcode 2 bottom, member 1",[Segment("BC2 bottom",BC2_BOTTOM)],mods="/5Phos/")
+ yield oligo("barcode 3 top, member 1",[Segment("BC3 top",BC3_TOP)],mods="/5Phos/")
+ yield oligo("barcode 3 bottom, member 1",[Segment("BC3 bottom",BC3_BOTTOM)])
+ yield oligo("universal PCR adapter",[Segment("universal PCR adapter",UNIVERSAL)])
+ yield oligo("index PCR adapter A1",[Segment("index PCR adapter A1",INDEX_A1)])
 def dna_linker_geometry():
  sc=Scene(); sc.strand("linker",[Segment("Y-linker body","[published Y-linker duplex]",placeholder=True),Segment("single-base dT","T")],label="DNA linker")
  sc.ligation_end("linker","single-base dT",kind="cohesive",polarity="3-prime",owner="adapter",text="published 3′-dT sticky end")
@@ -77,6 +91,6 @@ def protocol_graph():
  g.react("attach_complex_barcode","Attach the 16-nt GEM barcode and 12-nt UMI",StepKind.ADAPTER_ATTACHMENT,((partitioned,InputRole.TEMPLATE),(gem_oligo,InputRole.STRUCTURAL)),(complex_indexed,))
 
  reviewed.extend(("gem_condition","partition","gem_oligo","attach_complex_barcode"))
- finish_pcr_branch(g,"combined",complex_indexed,FINAL,PRIMERS,reviewed,label="MUSIC combined RNA/DNA",read_lengths=READ_LENGTHS["Combined RNA/DNA library"],inferred_primers=True,limitation="The exact final PCR-primer pair has not yet been verified from the supplementary protocol.")
+ finish_pcr_branch(g,"combined",complex_indexed,FINAL,PRIMERS,reviewed,label="MUSIC combined RNA/DNA",read_lengths=READ_LENGTHS["Combined RNA/DNA library"],inferred_primers=False)
  g.declare_reviewed_scope(reviewed,SOURCE)
  return g.require_publishable()

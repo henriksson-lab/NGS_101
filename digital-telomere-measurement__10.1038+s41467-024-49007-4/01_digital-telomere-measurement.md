@@ -2,7 +2,7 @@
 
 ## 1. What it is
 
-DTM ligates barcoded capture/tether duplexes directly to native human telomeres, fills the terminal gap, fragments the tagged DNA and measures individual telomeres by Oxford Nanopore sequencing.
+DTM ligates barcoded capture/tether duplexes directly to native human telomeres, fills the terminal gap and measures individual telomeres by Oxford Nanopore sequencing.
 
 ## 2. Sources read
 
@@ -14,9 +14,11 @@ DTM ligates barcoded capture/tether duplexes directly to native human telomeres,
 1. 🟢 Equimolar barcoded capture oligo and sequencing tether are duplexed.
 2. 🟢 The fresh duplex capture oligos are ligated to high-molecular-weight DNA overnight.
 3. 🟢 Sulfolobus DNA polymerase IV fills potential gaps between capture oligo and the ds/ss telomere junction.
-4. 🟢 Tagged DNA is mechanically fragmented and converted to an Oxford Nanopore library.
+4. 🟢 An Oxford Nanopore sequencing adapter is ligated to the prepared DNA.
 
-The locally accessible article body establishes the architecture and reaction order but not the ordered oligo bases. Those bases remain explicit unknowns pending verification of the supplementary oligo table.
+🟢 Supplementary Data 3 gives `seqTether` as `AACCTTGGAGATGCACGGAGCAAGCAAT` and the representative 5′-phosphorylated p-t3-nb01 capture oligo as `TGCTCCGTGCATCTCCAAGGTTCACAAAGACACCGACAACTTTCTTCCTAACC`. The latter comprises a 22-nt tether-complementary arm, a 25-nt barcode and a terminal 6-nt `CTAACC` telomere arm. Eight canonical-telomere barcode variants and seven telomere-sequence-variant capture oligos are provided; the page uses p-t3-nb01 as the representative molecule.
+
+🟢 The core Methods used high-molecular-weight DNA directly. The paper discusses later/optional restriction-digest refinements, but the page no longer invents a mechanical-fragmentation step.
 
 ## 4. Final library and sequencing
 

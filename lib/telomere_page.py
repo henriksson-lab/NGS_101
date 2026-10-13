@@ -5,10 +5,11 @@ from chemdraw import (Row, panel, protocol_graph_panels, workflow_from_sections,
                       workflow_panel)
 from page import head, info
 import seqprimers as sp
+from batch_page import oligo_rows
 
 
 def render_page(*, title: str, notes: str, citation_html: str, panels: list[tuple[str, object, str]],
-                entry: str, caveat: str | None = None, graph=None) -> str:
+                entry: str, caveat: str | None = None, graph=None, oligos=()) -> str:
     if graph is not None:
         graph.require_publishable()
     wrap = ('<div class="wrap" data-protocol-complete="true">'
@@ -18,6 +19,9 @@ def render_page(*, title: str, notes: str, citation_html: str, panels: list[tupl
             info(citation_html)]
     if caveat:
         body.append(f'<div class="caveat">{caveat}</div>')
+    rows = oligo_rows(oligos)
+    if rows:
+        body.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
     body.append('<h2>Library construction</h2>')
     if graph is not None:
         body.append(protocol_graph_panels(graph, cls="long"))

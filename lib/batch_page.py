@@ -1,10 +1,32 @@
 """Diagram-first renderer shared by compact, source-backed protocol modules."""
 from __future__ import annotations
 
+import html
+import re
+
 import seqprimers as sp
 from chemdraw import (duplex_rows, panel, protocol_graph_panels,
                       workflow_from_sections, workflow_panel)
 from page import head, info
+
+
+def oligo_rows(rows):
+    """Normalize ordering rows and reject a strand written backwards.
+
+    Source diagrams sometimes draw a paired strand left-to-right as 3′→5′.  An ordering
+    list must instead preserve the oligo's written 5′→3′ sequence; accepting the former
+    here would make an attractive but dangerous copy target.
+    """
+    out = []
+    reverse_order = re.compile(
+        r"3[′']\s*[-–]\s*(?:/[A-Za-z0-9]+/|\[[^]]+\]|[ACGTUNRYSWKMBDHVX*+\s]){8,}"
+        r"\s*[-–]\s*5[′']", re.I)
+    for row in rows:
+        plain = html.unescape(re.sub(r"<[^>]+>", "", row))
+        if reverse_order.search(plain):
+            raise ValueError("ordering oligo is written 3-prime to 5-prime: " + plain)
+        out.append(row if row.lstrip().startswith("<p") else f"<p>{row}</p>")
+    return out
 
 
 def render(m) -> str:
@@ -18,7 +40,7 @@ def render(m) -> str:
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
     if callable(getattr(m, "oligos", None)):
-        rows = list(m.oligos())
+        rows = oligo_rows(m.oligos())
         if rows:
             parts.extend(['<h2>Key oligos</h2>', '<seq>', *rows, '</seq>'])
     if graph is not None:

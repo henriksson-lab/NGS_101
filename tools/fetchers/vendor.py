@@ -14,10 +14,13 @@ from . import register
 
 
 def url_filename(url: str) -> str:
-    path = urllib.parse.urlparse(url).path
+    parsed = urllib.parse.urlparse(url)
+    path = parsed.path
     name = urllib.parse.unquote(path.rstrip("/").rsplit("/", 1)[-1]) or "index.html"
     if "." not in name:
-        name += ".html"
+        requested = dict(urllib.parse.parse_qsl(parsed.query)).get("format", "").lower()
+        suffix = requested if requested in {"csv", "docx", "pdf", "tsv", "xlsx"} else "html"
+        name += "." + suffix
     return name
 
 

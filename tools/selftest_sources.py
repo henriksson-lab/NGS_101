@@ -204,6 +204,9 @@ check("vendor file name from a URL with %20 and a query",
       vendor.vendor_prefix("https://cdn.10xgenomics.com/x") +
       vendor.url_filename("https://cdn.10xgenomics.com/raw/upload/v1/in-line%20documents/Dual_Index_Kit_TT_Set_A.csv?x=1"),
       "10x_Dual_Index_Kit_TT_Set_A.csv")
+check("vendor file name respects an explicit export format",
+      vendor.url_filename("https://docs.google.com/spreadsheets/d/example/export?format=xlsx"),
+      "export.xlsx")
 import catalogue as cat  # noqa: E402
 _slugs = cat.source_slugs()
 _real = fetchers.extra_sources()

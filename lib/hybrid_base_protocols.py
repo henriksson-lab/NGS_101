@@ -9,7 +9,7 @@ import illumina as il
 from adapter_ligation import AdapterLigationGeometry
 from base_conversion import ace_path, oxbs_path, tab_path
 from batch_ngs import seg, truseq_library
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
+from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, oligo
 from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
                      repair_and_dA_tail)
 from pcr import PCRGeometry
@@ -19,6 +19,17 @@ from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
 
 TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
     "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
+
+ACE_QC_PRIMERS = (
+    ("lambda control forward", "AAAGGCCACTATCAGGCAGCTTTGT"),
+    ("lambda control reverse", "GAAGAAATGTTTCCTGTAATGGAAGATG"),
+    ("T4 control forward", "AGCTTATTTGAAATTAACTGGGTTG"),
+    ("T4 control reverse", "TCTTCTCCAGAATAAATGAATTTACCT"),
+)
+
+
+def _ace_oligos():
+    return tuple(oligo(name, (Segment(name, seq),)) for name, seq in ACE_QC_PRIMERS)
 
 
 def _part(name: str, symbol: str = "X", n: int = 24, **kw) -> Segment:
@@ -788,7 +799,7 @@ DEFS = {
         "10.1038/nbt.4204", "Schutsky et al., Nature Biotechnology (2018)",
         "β-GT protects 5hmC before APOBEC3A deaminates C and 5mC, giving a bisulfite-free readout in which only original 5hmC remains C.",
         ("ACE-treated insert",), "The defining experiment used single-end NextSeq sequencing of Accel Methyl-NGS libraries.", "01_ace_seq.html",
-        caveat="Accel Methyl-NGS adapter oligos are proprietary and are shown by role; no exact sequencing-primer sequence is asserted."),
+        caveat="The supplement publishes four spike-in QC primers, shown below. They amplify the lambda and T4 conversion controls and are not library adapters. Accel Methyl-NGS adapter and sequencing-primer oligos remain proprietary and are shown by role."),
 }
 
 
@@ -812,8 +823,9 @@ def get(key: str):
                                 if not primers else ""),
         workflow=lambda: (_conversion_workflow(key) if key in {"oxbs-seq", "tab-seq", "ace-seq"}
                           else _hybrid_workflow(key)),
-        oligos=(lambda: ('5′-/invddt/CAAGCAGAAGACGGCATACGAGNNNNNNNNN-3′ — tailed N9 random primer',)
-                if key == "r-chip" else ()),
+        oligos=(_ace_oligos if key == "ace-seq" else
+                (lambda: ('5′-/invddt/CAAGCAGAAGACGGCATACGAGNNNNNNNNN-3′ — tailed N9 random primer',)
+                 if key == "r-chip" else ())),
     )
     if key in {"oxbs-seq", "tab-seq", "ace-seq"}:
         spec.protocol_graph = lambda: _conversion_graph(key, d, final, primers)
