@@ -114,6 +114,12 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .topology-svg .topology-junction { fill:var(--note-rule); stroke:var(--surface); stroke-width:2; }
 .topology-svg .topology-process { fill:none; stroke:var(--ink-muted); stroke-width:2; }
 .topology-svg .topology-process-fill { fill:var(--ink-muted); stroke:none; }
+.fold-svg .fold-pair { stroke:var(--ink-muted); stroke-width:1; opacity:.55; }
+.fold-svg .fold-base { font:600 11px var(--mono); paint-order:stroke;
+                       stroke:var(--surface); stroke-width:3px; stroke-linejoin:round; }
+.fold-svg .fold-end { fill:var(--ink-muted); font:11px var(--mono); }
+.fold-svg .fold-label { fill:var(--ink); font:12px var(--sans); }
+.fold-svg .fold-ligation { stroke:var(--note-rule); stroke-width:3; }
 .chem-svg.long { font-size:11.8px; }
 .chem-svg.small { font-size:13.4px; }
 .chem-inline-sequence { white-space:nowrap; }

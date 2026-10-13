@@ -224,6 +224,13 @@ of polymer type and therefore applies to DNA, RNA and mixed hybrids; a future ex
 folding engine may supply coordinates, but not replace the declared-pairing constraints
 that establish what the protocol intends.
 
+The nucleotide-resolved fold is a planar graph: a candidate with crossing backbone,
+pairing or junction edges is invalid. Layout hints describe biology that pairing alone
+cannot choose (for example, keep a target RNA straight), while unpaired runs between
+bound spans are flexible joints by default. Among satisfying layouts, the renderer favours
+short routes, fewer bends and directions close to straight. Layout and tie-breaking are
+deterministic; any future stochastic optimiser must take a fixed, checked-in seed.
+
 Sticky-end adapter ligation is drawn as two states: the ligation-ready dA-tailed molecule,
 then the sealed product. In the product only, subtle semantic background spans distinguish
 the insert from ligated components. Background identity follows the reagent identity, so
