@@ -43,7 +43,7 @@ FACETS = OrderedDict([
         "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
         "amplicon", "pre-amplified cDNA", "synthetic DNA reporter", "microbial community DNA",
         "ribosome-protected RNA", "nascent RNA", "RNA-DNA hybrid",
-        "immune-receptor RNA"))),
+        "immune-receptor RNA", "protein analyte"))),
     ("fragmentation", ("Fragmentation or entry", (
         "mechanical", "enzymatic", "restriction digest", "Tn5 / tagmentation",
         "RNase / MNase", "Cas nuclease cleavage", "chemical fragmentation", "no fragmentation"))),
@@ -51,15 +51,19 @@ FACETS = OrderedDict([
         "ligation", "Tn5", "PCR-added", "reverse transcription", "template switching", "tailing + priming",
         "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
         "hybridization scaffold", "bead-mediated barcoding", "RNA-DNA bridge",
-        "random priming", "extension / fill-in", "overlap assembly"))),
+        "random priming", "extension / fill-in", "overlap assembly",
+        "proximity extension"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
         "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
-        "branched-DNA signal amplification"))),
+        "branched-DNA signal amplification", "loop-mediated isothermal amplification",
+        "multiple-displacement amplification", "single-primer isothermal amplification",
+        "displacement DOP-PCR"))),
     ("topology", ("Molecular topology", (
         "linear", "circular", "hairpin", "dumbbell / SMRTbell", "concatemer",
         "proximity-ligation junction", "RNA-DNA hybrid", "DNA nanoball",
-        "branched hybridization tree", "bead-bound complex"))),
+        "branched hybridization tree", "bead-bound complex", "stem-loop",
+        "branched concatemer"))),
     ("strand_handling", ("Strand handling", (
         "unstranded", "directional RNA", "strand displacement", "second-strand destruction",
         "single-stranded library", "duplex sequencing", "native RNA sequencing",

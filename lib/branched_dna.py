@@ -69,6 +69,30 @@ def paired_tail_docking_scene(left_tail: str, right_tail: str,
     return sc
 
 
+def adjacent_target_example_scene(left_target: str, right_target: str) -> Scene:
+    """Draw disclosed adjacent target regions with the implied probe-binding arms."""
+    sc = Scene()
+    sc.strand("target RNA", [
+        Segment("left disclosed target region", left_target, "me"),
+        Segment("right disclosed target region", right_target, "me"),
+    ], label="published target-RNA regions")
+    sc.anneal("left probe", [
+        Segment("left universal tail", "[undisclosed tail]", "cbc", placeholder=True),
+        Segment("left target-binding arm", revcomp(left_target), "r1"),
+    ], to="target RNA", pair=("left target-binding arm", "left disclosed target region"),
+              label="implied left probe arm", above=True,
+              unpaired=("left universal tail",))
+    sc.anneal("right probe", [
+        Segment("right target-binding arm", revcomp(right_target), "r2"),
+        Segment("right universal tail", "[undisclosed tail]", "cbc", placeholder=True),
+    ], to="target RNA", pair=("right target-binding arm", "right disclosed target region"),
+              label="implied right probe arm", above=True,
+              unpaired=("right universal tail",))
+    sc.footer("binding arms are derived complements; universal tails were not disclosed",
+              "target RNA")
+    return sc
+
+
 def target_scene() -> Scene:
     """One adjacent probe pair, placed by the shared strand-pairing machinery.
 

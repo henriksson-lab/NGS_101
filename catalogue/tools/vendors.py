@@ -10,6 +10,9 @@ from __future__ import annotations
 EXACT = {
     "surecell-3-wta-for-ddseq": "Illumina / Bio-Rad",
     "dnbseq-library-circularization": "MGI Tech",
+    "repli-g-single-cell": "QIAGEN",
+    "picoplex-dna-seq": "Takara Bio",
+    "sureplex": "Illumina",
 }
 
 PREFIXES = (

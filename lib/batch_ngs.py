@@ -8,7 +8,7 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature
+from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature, revcomp
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -17,13 +17,13 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
                     inferred_adapters: bool = False,
-                    i7_nt: int = 8) -> tuple[Construct, tuple]:
+                    i5_nt: int = 8, i7_nt: int = 8) -> tuple[Construct, tuple]:
     """Canonical TruSeq library with validated R1/I1/(I2)/R2 sites."""
-    if i7_nt < 1:
-        raise ValueError("a TruSeq indexed library needs a positive i7 length")
+    if i5_nt < 1 or i7_nt < 1:
+        raise ValueError("a TruSeq indexed library needs positive index lengths")
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
                         feature=feature("sample_index_i5", "sample_index", "unknown"),
                         inferred=inferred_adapters))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=inferred_adapters))
@@ -45,24 +45,27 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
 def truseq_amplicon_library(insert: list[Segment], name: str, *,
                              dual_index: bool = True,
                              inferred_adapters: bool = False,
-                             i7_nt: int = 8) -> tuple[Construct, tuple]:
+                             i5_nt: int = 8, i7_nt: int = 8) -> tuple[Construct, tuple]:
     """TruSeq-compatible PCR amplicon, without inventing a dA-ligation junction.
 
     Amplicon workflows install the terminal sequencing shell through tailed primers.
     Keeping this constructor distinct from :func:`truseq_library` prevents those
     protocols from inheriting the single dA base that belongs only to adapter ligation.
     """
-    if i7_nt < 1:
-        raise ValueError("a TruSeq indexed amplicon needs a positive i7 length")
+    if i5_nt < 1 or i7_nt < 1:
+        raise ValueError("a TruSeq indexed amplicon needs positive index lengths")
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
                         feature=feature("sample_index_i5", "sample_index", "unknown"),
                         inferred=inferred_adapters))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1",
                     inferred=inferred_adapters))
     lib = Construct([*left, *insert,
-        seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2",
+        # PCR installs the complete reverse complement of the Read 2 arm.  The ligation
+        # constructor omits its leading A because that base is supplied by the insert's
+        # dA junction; an amplicon has no such junction and must carry all 34 bases here.
+        seg("Index 1 / Read 2 arm", revcomp(il.TRUSEQ_READ2), "r2",
             inferred=inferred_adapters),
         seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
             feature=feature("sample_index_i7", "sample_index", "unknown"),

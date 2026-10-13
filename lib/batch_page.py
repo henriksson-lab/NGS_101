@@ -48,13 +48,25 @@ def render(m) -> str:
         parts.extend(['<h2>Final sequencing library</h2>',
                       panel(final_rows, cls="long",
                             caption=m.FINAL_CAPTION)])
+    for title, state, caption in getattr(m, "EXTRA_MOLECULAR_STATES", ()):
+        unknown = tuple(s.name + "'" for s in state if s.is_role_token())
+        parts.extend([f'<h2>{title}</h2>',
+                      panel(duplex_rows(state, label="library", unpaired=unknown),
+                            cls="long", caption=caption)])
     if primers:
         acquired_roles = getattr(m, "ACQUIRED_ROLES", tuple(p.role for p in primers))
+        show_read_content = getattr(m, "SHOW_READ_CONTENT", True)
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,
                                 required_roles=acquired_roles,
                                 read_lengths=getattr(m, "READ_LENGTHS", None),
                                 read_uses=getattr(m, "READ_USES", None),
-                                show_read_content=getattr(m, "SHOW_READ_CONTENT", True)))
+                                show_read_content=show_read_content))
+        if not show_read_content:
+            specs = getattr(m, "READ_SPECS", ())
+            if not specs:
+                raise ValueError(
+                    f"{m.TITLE}: suppressed geometry-derived reads need READ_SPECS")
+            parts.append(sp.read_spec_table(specs))
         unavailable = getattr(m, "SEQUENCING_UNAVAILABLE", "")
         if unavailable:
             parts.append(sp.unavailable_diagram(lib, unavailable))
