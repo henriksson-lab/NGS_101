@@ -20,6 +20,7 @@ from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 from topology import HairpinTopology
+from dumbbell import Dumbbell
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -165,6 +166,13 @@ def final_library(insert_nt: int = 28) -> Construct:
     return lib
 
 
+def hairpin_ligated_amplicon(insert_nt: int = 28) -> Dumbbell:
+    """The dA/dT-ligated closed intermediate before USER opens both adaptors."""
+    return Dumbbell(umi_amplicon(insert_nt), NEBNEXT_HAIRPIN.sequence,
+                    NEBNEXT_HAIRPIN.sequence,
+                    name="NEBNext-hairpin-ligated LIANTI amplicon")
+
+
 def protocol_graph() -> ProtocolGraph:
     source=("Defining source: https://doi.org/10.1126/science.aak9787; "
             "LIANTI-specific oligo bases reconstructed from scg_lib_structs because the supplement is unavailable")
@@ -238,8 +246,10 @@ def protocol_graph() -> ProtocolGraph:
                  (tailing,InputRole.CATALYST)),(prepared,))
     adapter=graph.input("nebnext_hairpin","NEBNext hairpin adapter",MaterialKind.ADAPTER)
     ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
-    ligated=graph.product("hairpin_ligated","NEBNext-hairpin-ligated LIANTI amplicon",
-                          MaterialKind.MOLECULAR,inferred=True,source=source)
+    ligated_model=hairpin_ligated_amplicon()
+    ligated=graph.product("hairpin_ligated",ligated_model.name,
+                          MaterialKind.MOLECULAR,state=ligated_model,
+                          inferred=True,source=source)
     geometry=reported_adapter_end(
         "NEBNext hairpin",kind="cohesive",polarity="3-prime",terminal_sequence="T",
         body_sequence=NEBNEXT_HAIRPIN.sequence[:-1],

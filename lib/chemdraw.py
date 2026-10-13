@@ -370,8 +370,8 @@ class Row:
     prefix: str = ""
     suffix: str = ""
     visual: ("StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | CommentVisual | "
-             "tuple[StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | "
-             "CommentVisual, ...] | None") = None
+             "HairpinCapVisual | tuple[StrandVisual | ComponentVisual | SpanVisual | "
+             "ArrowVisual | CommentVisual | HairpinCapVisual, ...] | None") = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -448,6 +448,26 @@ class CommentVisual:
     """Prose annotation anchored to a molecular column."""
     start: int
     text: str
+
+
+@dataclass(frozen=True)
+class HairpinCapVisual:
+    """Covalent hairpin joining this row to the antiparallel row immediately below.
+
+    ``column`` is the molecular end shared by the two rows.  Keeping the cap as typed
+    geometry prevents a closed dumbbell from degenerating into punctuation or a label.
+    """
+
+    column: int
+    side: str
+    label: str
+    title: str = ""
+
+    def __post_init__(self) -> None:
+        if self.side not in ("left", "right"):
+            raise ValueError("hairpin cap must be on the left or right molecular end")
+        if not self.label.strip():
+            raise ValueError("hairpin cap needs a visible label")
 
 
 @dataclass(frozen=True)
@@ -952,6 +972,23 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
                        f'{html.escape(arrow_visual.label)}</text>')
     if arrow_visuals and not any(isinstance(v, StrandVisual) for v in visuals):
         return out
+
+    for cap in (v for v in visuals if isinstance(v, HairpinCapVisual)):
+        attach_x = x + cap.column * cell
+        top_y = y + (font + 3) / 2
+        bottom_y = top_y + font * 1.42
+        bulge = 18.0 if cap.side == "right" else -18.0
+        title = html.escape(cap.title or cap.label)
+        out.append(
+            f'<g><title>{title}</title><path class="chem-hairpin-cap" '
+            f'd="M {attach_x:.2f} {top_y:.2f} C {attach_x + bulge:.2f} {top_y:.2f}, '
+            f'{attach_x + bulge:.2f} {bottom_y:.2f}, {attach_x:.2f} {bottom_y:.2f}"/></g>'
+        )
+        anchor = "end" if cap.side == "left" else "start"
+        label_x = attach_x + (bulge - 5 if cap.side == "left" else bulge + 5)
+        out.append(f'<text class="chem-hairpin-label" x="{label_x:.2f}" '
+                   f'y="{top_y - 5:.2f}" text-anchor="{anchor}">'
+                   f'{html.escape(cap.label)}</text>')
 
     if isinstance(visual, CommentVisual):
         out.append(f'<text class="chem-comment" x="{x + visual.start * cell:.2f}" '

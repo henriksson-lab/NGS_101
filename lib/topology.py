@@ -226,15 +226,21 @@ class FoldLayout:
                 x1, y1 = a.points[ai]; x2, y2 = b.points[bi]
                 parts.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
                              'class="fold-pair"><title>' + html.escape(pairing.name) + '</title></line>')
+        closed_strands = {
+            first for first, fi, second, si, _ in self.extra_bonds
+            if first == second and {fi, si} == {0, len(self.strands[first].sequence) - 1}
+        }
         for strand in self.strands.values():
             parts.append(f'<g class="fold-strand"><title>{html.escape(Segment(strand.name, strand.sequence).hover_text())}</title>')
             parts.append(self._path(strand.points, strand.colour))
             for base, (x, y) in zip(strand.sequence, strand.points):
                 parts.append(f'<text x="{x:.1f}" y="{y + 4:.1f}" text-anchor="middle" '
                              f'fill="{strand.colour}" class="fold-base">{base}</text>')
-            x5, y5 = strand.points[0]; x3, y3 = strand.points[-1]
-            parts.append(f'<text x="{x5:.1f}" y="{y5 - 11:.1f}" text-anchor="middle" class="fold-end">5′</text>')
-            parts.append(f'<text x="{x3:.1f}" y="{y3 - 11:.1f}" text-anchor="middle" class="fold-end">3′</text></g>')
+            if strand.name not in closed_strands:
+                x5, y5 = strand.points[0]; x3, y3 = strand.points[-1]
+                parts.append(f'<text x="{x5:.1f}" y="{y5 - 11:.1f}" text-anchor="middle" class="fold-end">5′</text>')
+                parts.append(f'<text x="{x3:.1f}" y="{y3 - 11:.1f}" text-anchor="middle" class="fold-end">3′</text>')
+            parts.append('</g>')
         for first, fi, second, si, name in self.extra_bonds:
             x1, y1 = self.strands[first].points[fi]; x2, y2 = self.strands[second].points[si]
             parts.append(f'<g><title>{html.escape(name)}</title><line x1="{x1:.1f}" y1="{y1:.1f}" '
@@ -679,17 +685,26 @@ class CircularPrimerTopology:
         start = next(index for index in range(len(self.circle_sequence))
                      if doubled.startswith(site, index))
         rotated = self.circle_sequence[start:] + self.circle_sequence[:start]
-        circle_points, width, height = _closed_rectangle_points(len(rotated))
+        perimeter_points, width, height = _closed_rectangle_points(len(rotated))
+        top_count = next((i for i, (_, y) in enumerate(perimeter_points)
+                          if abs(y - perimeter_points[0][1]) > 1e-6), len(perimeter_points))
+        spare = top_count - len(self.primer_sequence)
+        if spare < 2:
+            raise ValueError("circular primer site needs space on both sides of one edge")
+        margin = spare // 2
+        # Sequence position zero is the binding-site start, but it need not coincide with
+        # a geometric corner.  Rotating the closed perimeter places the whole duplex in
+        # the middle of a straight edge and keeps it clear of both vertical sides.
+        circle_points = perimeter_points[margin:] + perimeter_points[:margin]
         circle = FoldStrand(self.name, rotated, circle_points, self.circle_colour,
                             label="closed template")
-        centre_x = sum(x for x, _ in circle_points) / len(circle_points)
-        centre_y = sum(y for _, y in circle_points) / len(circle_points)
-        primer_points = []
-        for index in reversed(range(len(self.primer_sequence))):
-            x, y = circle_points[index]
-            dx, dy = centre_x - x, centre_y - y
-            length = math.hypot(dx, dy) or 1.0
-            primer_points.append((x + 24 * dx / length, y + 24 * dy / length))
+        site_points = circle_points[:len(self.primer_sequence)]
+        if any(abs(y - site_points[0][1]) > 1e-6 for _, y in site_points):
+            raise ValueError("circular primer site must occupy one straight perimeter edge")
+        # The rotated binding site is deliberately placed on the top edge.  A constant
+        # inward offset makes an ordinary antiparallel duplex: parallel backbones and
+        # vertical base-pair rungs, rather than a fan of misleading diagonal bonds.
+        primer_points = tuple((x, y + 24.0) for x, y in reversed(site_points))
         primer = FoldStrand(self.primer_name, self.primer_sequence, tuple(primer_points),
                             self.primer_colour, label=self.primer_name)
         pairing = FoldPairing(circle.name, 0, primer.name, 0, len(primer.sequence),

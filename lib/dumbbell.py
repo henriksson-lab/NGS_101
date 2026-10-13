@@ -4,7 +4,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from chemdraw import Construct, Row, Segment, revcomp, strand_row
+from chemdraw import (Construct, HairpinCapVisual, Row, Segment, StrandVisual,
+                      revcomp, strand_row)
 from chemdraw import bases_pair
 from protocol_graph import SequencingPlan
 
@@ -47,24 +48,31 @@ class Dumbbell:
             raise ValueError("polymerase must make at least one circuit")
         return self.pass_sequence * circuits
 
+    def rows(self) -> list[Row]:
+        """Render this validated closed molecule in protocol workflows."""
+        return dumbbell_rows(self)
+
 
 def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     """Draw the closed topology while retaining the insert's segment colours."""
-    left, right = "left hairpin", "right hairpin"
-    gutter = len(left) + 2
-    between = len(molecule.insert) + 14
-    # Keep the hairpin/junction punctuation outside the molecular span, but construct
-    # both insert strands through the shared typed-row helper.  This gives SVG renderers
-    # direction, segment hover text and computed Tm without duplicating that logic here.
-    top = strand_row(molecule.insert, "top",
-                     prefix=" " * gutter + "|** 5'- ", suffix=" -3' **|")
-    bottom = strand_row(molecule.insert, "bottom",
-                        prefix=" " * gutter + "|** 3'- ", suffix=" -5' **|")
-    cap = Row(chunks=[(left + "  ." + " " * between + ".  " + right,
-                       None, False)])
-    close = Row(chunks=[(" " * gutter + "'" + "-" * between + "'",
-                         None, False)])
-    return [cap, top, bottom, close]
+    gutter = 18
+    suffix = " -3'" + " " * 18
+    top = strand_row(molecule.insert, "top", prefix=" " * gutter + "5'- ", suffix=suffix)
+    bottom = strand_row(molecule.insert, "bottom", prefix=" " * gutter + "3'- ",
+                        suffix=" -5'" + " " * 18)
+    start = top.visual.start
+    end = top.visual.end
+    adapter_title = (f"hairpin adapter; {len(molecule.left_adapter)} nt; "
+                     f"{molecule.adapter_overhang} overhang pairs with insert "
+                     f"{molecule.insert_overhang}")
+    top.visual = (
+        top.visual,
+        HairpinCapVisual(start, "left", "left hairpin", adapter_title),
+        HairpinCapVisual(end, "right", "right hairpin", adapter_title),
+    )
+    # The bottom strand still receives its own directional box; the cap geometry on the
+    # top row joins both strand ends one row apart and asserts the molecule has no free end.
+    return [top, bottom]
 
 
 def smrtbell_circuit(molecule: Dumbbell) -> Construct:
