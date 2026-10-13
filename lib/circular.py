@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chemdraw import Construct, revcomp
+from chemdraw import Construct, Row, circle_rows, revcomp
 
 
 @dataclass(frozen=True)
@@ -65,6 +65,10 @@ class ClosedCircle:
 
     def __len__(self) -> int:
         return len(self.linear)
+
+    def rows(self, closure_label: str = "covalently closed") -> list[Row]:
+        """Render the return bond as part of the molecular state, not as prose."""
+        return circle_rows(self.linear, closure_label)
 
 
 def circularize_ssdna(linear: Construct, *, five_prime_phosphate: bool,

@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, circle_rows, revcomp
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, revcomp
 from circular import circularize_ssdna, rolling_circle
 from topology import ProximityCircleTopology, ProximityProbe
 
@@ -60,7 +60,7 @@ def rca_priming_scene() -> Scene:
     seg("insert remainder",INSERT[len(PROBE1_INSERT_SITE):],"cbc"),
   ],"PLAYR reporter circle opened for primer placement")
   sc=Scene()
-  sc.strand("circle",list(template),label="circular reporter template")
+  sc.strand("circle",list(template),label="primer-binding site expanded from the circle above")
   sc.anneal("probe1",list(RCA_PRIMER),to="circle",
             pair=("Probe 1 backbone-binding 3'-OH","Probe 1 backbone template site"),
             label="Probe 1 3' tail")
@@ -69,6 +69,12 @@ def rca_priming_scene() -> Scene:
           through="Probe 1 insert template site")
   sc.footer("The covalently closed template is opened at a non-priming position only for sequence display.","circle")
   return sc
+
+def rca_priming_rows() -> list[Row]:
+  """Keep the closed topology visible above the sequence-resolved binding detail."""
+  return [*CIRCLE.rows("closed reporter circle"),
+          Row(chunks=[("Primer-binding junction expanded below",None,False)]),
+          *rca_priming_scene().rows()]
 
 def rolony() -> Construct:
   parts=[]
@@ -107,8 +113,8 @@ def detection_scene() -> Scene:
 def workflow() -> Workflow:
   w=Workflow(MolecularState("adjacent PLAYR probes on target RNA",
     (Row(chunks=[("Topology above: Probe 2 and Probe 1 expose the complete split docking platform",None,False)]),)),track_graph=False)
-  w.react("Hybridize phosphorylated insert and universal backbone; T4 ligase closes the reporter circle",circle_rows(reporter_circle_template(),"two insert/backbone ligation junctions"),name="RNA-templated reporter circle",note="Both circle oligos and their probe-tail docking sequences are published.")
-  w.react("Position a probe-pair member's 3'-OH as the RCA primer",rca_priming_scene().rows(),name="Probe-primed reporter circle (Probe 1 shown)",note="No separate RCA primer is added. The paper states that a probe-pair member's 3'-OH initiates amplification; Probe 1 is the exact sequence-resolved representative drawn here.")
+  w.react("Hybridize phosphorylated insert and universal backbone; T4 ligase closes the reporter circle",CIRCLE.rows("closed reporter circle"),name="RNA-templated reporter circle",note="Both circle oligos and their probe-tail docking sequences are published.")
+  w.react("Position a probe-pair member's 3'-OH as the RCA primer",rca_priming_rows(),name="Probe-primed reporter circle (Probe 1 shown)",note="The return path above is the covalently closed circle; the lower expansion shows its exact primer-binding junction. No separate RCA primer is added.")
   w.react("Phi29 rolling-circle amplification",rolony_scene().rows(),name="single-stranded reporter RCA concatemer",note="Phi29 extends the bound probe around the circle into complementary tandem repeats in the fixed cell.")
   w.react("Hybridize the labelled detection oligo",detection_scene().rows(),name="cytometry-ready PLAYR signal",note="The detection oligo reports the insert identity; no nucleotide sequencing follows.")
   return w
