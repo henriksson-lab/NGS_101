@@ -61,11 +61,16 @@ STYLE = """<meta charset="utf-8">
 }
 
 body { background:var(--bg); color:var(--ink); font-family:var(--sans);
-       margin:0; padding-block:32px 96px; padding-inline:16px; line-height:1.5; }
-.site-header { max-width:1180px; margin:0 auto 14px; font-size:.82rem; line-height:1; }
-.site-header a { color:var(--ink-muted); font-weight:600; letter-spacing:.035em;
-                 text-decoration:none; }
-.site-header a:hover { color:var(--link); }
+       margin:0; padding-block:0 96px; padding-inline:16px; line-height:1.5; }
+.site-header { width:calc(100% + 32px); margin:0 -16px 28px; background:#000; color:#fff; }
+.site-header-inner { max-width:1180px; min-height:68px; margin:0 auto; padding:10px 16px;
+                     box-sizing:border-box; display:flex; align-items:center; gap:28px; }
+.site-header a { color:#fff; font-weight:600; text-decoration:none; }
+.site-brand { font-size:2.05rem; line-height:1; letter-spacing:.025em; white-space:nowrap; }
+.site-nav { display:flex; align-items:center; gap:8px; margin-left:auto; }
+.site-nav a { padding:.42em .72em; border:1px solid rgba(255,255,255,.45);
+              border-radius:4px; font-size:.95rem; line-height:1; }
+.site-nav a:hover { background:#fff; color:#000; }
 .wrap { max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:4px; }
 
 h1 { font-size:clamp(1.5rem,1.1rem + 1.6vw,2.1rem); font-weight:600; line-height:1.2;
@@ -320,9 +325,15 @@ MD_STYLE = """<style>
 
 
 def site_header(home: str = "../index.html") -> str:
-    """Compact site identity and home link, shared by every published page."""
-    return (f'<header class="site-header"><a href="{html.escape(home, quote=True)}" '
-            'aria-label="NGS 101 home">NGS 101</a></header>')
+    """Full-width site identity and navigation shared by every published page."""
+    prefix = home[:-len("index.html")] if home.endswith("index.html") else ""
+    home_href = html.escape(home, quote=True)
+    about_href = html.escape(prefix + "about.html", quote=True)
+    return (f'<header class="site-header"><div class="site-header-inner">'
+            f'<a class="site-brand" href="{home_href}" aria-label="NGS 101 home">'
+            'NGS 101</a><nav class="site-nav" aria-label="Site">'
+            f'<a href="{home_href}">Index</a><a href="{about_href}">About</a>'
+            '</nav></div></header>')
 
 
 def head(title: str, *, home: str = "../index.html", include_header: bool = True) -> str:

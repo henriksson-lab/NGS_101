@@ -190,6 +190,7 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files: dict[str, Path | str] = {}            # site path -> source file, or content
 
     files["index.html"] = ROOT / "index.html"
+    files["about.html"] = ROOT / "about.html"
 
     skipped = []
     public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
