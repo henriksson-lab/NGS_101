@@ -20,7 +20,7 @@ from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 from topology import HairpinTopology
-from dumbbell import Dumbbell
+from dumbbell import Dumbbell, OpenedDumbbell
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -173,6 +173,13 @@ def hairpin_ligated_amplicon(insert_nt: int = 28) -> Dumbbell:
                     name="NEBNext-hairpin-ligated LIANTI amplicon")
 
 
+def user_opened_amplicon(insert_nt: int = 28) -> OpenedDumbbell:
+    """The same intermediate after both dU-containing loops have been opened."""
+    return OpenedDumbbell(hairpin_ligated_amplicon(insert_nt), NEBNEXT_OPENED,
+                          NEBNEXT_OPENED,
+                          name="USER-opened adapter-ligated LIANTI molecules")
+
+
 def protocol_graph() -> ProtocolGraph:
     source=("Defining source: https://doi.org/10.1126/science.aak9787; "
             "LIANTI-specific oligo bases reconstructed from scg_lib_structs because the supplement is unavailable")
@@ -260,7 +267,8 @@ def protocol_graph() -> ProtocolGraph:
                  (ligase,InputRole.CATALYST)),(ligated,),geometry=geometry)
     user=graph.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
     opened=graph.product("opened_library","USER-opened adapter-ligated LIANTI molecules",
-                         MaterialKind.MOLECULAR,state=final_library(),inferred=True,source=source)
+                         MaterialKind.MOLECULAR,state=user_opened_amplicon(),
+                         inferred=True,source=source)
     released=graph.product("released_hairpin","released hairpin loop",MaterialKind.WASTE)
     graph.react("user_digest","Open the dU-containing hairpin",StepKind.DIGESTION,
                 ((ligated,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))

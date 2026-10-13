@@ -370,8 +370,9 @@ class Row:
     prefix: str = ""
     suffix: str = ""
     visual: ("StrandVisual | ComponentVisual | SpanVisual | ArrowVisual | CommentVisual | "
-             "HairpinCapVisual | tuple[StrandVisual | ComponentVisual | SpanVisual | "
-             "ArrowVisual | CommentVisual | HairpinCapVisual, ...] | None") = None
+             "HairpinCapVisual | YAdapterVisual | tuple[StrandVisual | ComponentVisual | "
+             "SpanVisual | ArrowVisual | CommentVisual | HairpinCapVisual | "
+             "YAdapterVisual, ...] | None") = None
     chunk_titles: list[str | None] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -468,6 +469,28 @@ class HairpinCapVisual:
             raise ValueError("hairpin cap must be on the left or right molecular end")
         if not self.label.strip():
             raise ValueError("hairpin cap needs a visible label")
+
+
+@dataclass(frozen=True)
+class YAdapterVisual:
+    """An opened hairpin/Y adapter attached to a linear duplex end.
+
+    The paired stem leaves the insert as two parallel paths before the single-stranded
+    arms diverge. Exact arm sequences remain available through their generated titles.
+    """
+
+    column: int
+    side: str
+    upper_label: str
+    upper_title: str
+    lower_label: str
+    lower_title: str
+
+    def __post_init__(self) -> None:
+        if self.side not in ("left", "right"):
+            raise ValueError("Y adapter must be on the left or right molecular end")
+        if not self.upper_label.strip() or not self.lower_label.strip():
+            raise ValueError("both Y-adapter arms need labels")
 
 
 @dataclass(frozen=True)
@@ -989,6 +1012,33 @@ def _svg_row(row: Row, *, x: float, y: float, font: float, cell: float) -> list[
         out.append(f'<text class="chem-hairpin-label" x="{label_x:.2f}" '
                    f'y="{top_y - 5:.2f}" text-anchor="{anchor}">'
                    f'{html.escape(cap.label)}</text>')
+
+    for adapter in (v for v in visuals if isinstance(v, YAdapterVisual)):
+        attach_x = x + adapter.column * cell
+        upper_y = y + (font + 3) / 2
+        lower_y = upper_y + font * 1.42
+        sign = -1.0 if adapter.side == "left" else 1.0
+        stem_x = attach_x + sign * 18.0
+        arm_x = attach_x + sign * 54.0
+        upper_end_y, lower_end_y = upper_y - 14.0, lower_y + 14.0
+        for rung in (5.0, 10.0, 15.0):
+            rung_x = attach_x + sign * rung
+            out.append(f'<line class="chem-y-adapter-rung" x1="{rung_x:.2f}" '
+                       f'y1="{upper_y:.2f}" x2="{rung_x:.2f}" y2="{lower_y:.2f}"/>')
+        out.append(f'<g><title>{html.escape(adapter.upper_title)}</title>'
+                   f'<path class="chem-y-adapter-arm" d="M {attach_x:.2f} {upper_y:.2f} '
+                   f'L {stem_x:.2f} {upper_y:.2f} L {arm_x:.2f} {upper_end_y:.2f}"/></g>')
+        out.append(f'<g><title>{html.escape(adapter.lower_title)}</title>'
+                   f'<path class="chem-y-adapter-arm" d="M {attach_x:.2f} {lower_y:.2f} '
+                   f'L {stem_x:.2f} {lower_y:.2f} L {arm_x:.2f} {lower_end_y:.2f}"/></g>')
+        anchor = "end" if adapter.side == "left" else "start"
+        label_x = arm_x + sign * 4.0
+        out.append(f'<text class="chem-y-adapter-label" x="{label_x:.2f}" '
+                   f'y="{upper_end_y - 3:.2f}" text-anchor="{anchor}">'
+                   f'{html.escape(adapter.upper_label)}</text>')
+        out.append(f'<text class="chem-y-adapter-label" x="{label_x:.2f}" '
+                   f'y="{lower_end_y + font:.2f}" text-anchor="{anchor}">'
+                   f'{html.escape(adapter.lower_label)}</text>')
 
     if isinstance(visual, CommentVisual):
         out.append(f'<text class="chem-comment" x="{x + visual.start * cell:.2f}" '

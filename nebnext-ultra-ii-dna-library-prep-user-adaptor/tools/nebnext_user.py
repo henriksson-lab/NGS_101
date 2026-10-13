@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
-from dumbbell import Dumbbell
+from dumbbell import Dumbbell, OpenedDumbbell
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
@@ -37,6 +37,8 @@ HAIRPIN_TOPOLOGY = HairpinTopology(
 OPENED = il.NEBNEXT_USER_OPENED
 PRE_USER = Dumbbell(INSERT, HAIRPIN.sequence, HAIRPIN.sequence,
                      name="hairpin-ligated NEBNext intermediate")
+OPENED_LIBRARY = OpenedDumbbell(PRE_USER, OPENED, OPENED,
+                                name="USER-opened adaptor library molecules")
 I5_NAME, I7_NAME = "i501", "i701"
 I5 = il.NEBNEXT_I5_SET1[I5_NAME]
 I7_IN_OLIGO = il.NEBNEXT_I7_SET1[I7_NAME]
@@ -113,7 +115,7 @@ def protocol_graph():
     user=graph.input("user_enzyme","USER enzyme (UDG plus Endonuclease VIII)",
                      MaterialKind.CATALYST)
     opened=graph.product("opened_adaptor","USER-opened adaptor library molecules",
-                         MaterialKind.MOLECULAR,state=OPENED)
+                         MaterialKind.MOLECULAR,state=OPENED_LIBRARY)
     cleavage_waste=graph.product("user_waste","excised uracil-derived adaptor residues",
                                  MaterialKind.WASTE)
     graph.react("user_open","Remove dU and cleave both hairpin loops",StepKind.DIGESTION,

@@ -141,6 +141,9 @@ align i { color:var(--ink-muted); display:block; font-style:italic; line-height:
 .chem-comment { fill:var(--ink-muted); font-family:var(--sans); font-style:italic; }
 .chem-hairpin-cap { fill:none; stroke:var(--accent); stroke-width:2.4; }
 .chem-hairpin-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.88em; }
+.chem-y-adapter-arm { fill:none; stroke:var(--accent); stroke-width:2.4; }
+.chem-y-adapter-rung { stroke:var(--ink-muted); stroke-width:1; opacity:.65; }
+.chem-y-adapter-label { fill:var(--ink-muted); font-family:var(--sans); font-size:.84em; }
 .chem-workflow .chem-state-label { fill:var(--ink-muted); font-family:var(--sans);
                                    font-weight:600; }
 .chem-reaction-arrow { stroke:var(--accent); stroke-width:2; }

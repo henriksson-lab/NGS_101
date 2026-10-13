@@ -5,8 +5,9 @@ from dataclasses import dataclass
 
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import (Construct, HairpinCapVisual, Row, Segment, StrandVisual,
-                      revcomp, strand_row)
+                      YAdapterVisual, revcomp, strand_row)
 from chemdraw import bases_pair
+from hairpin import OpenedHairpin
 from protocol_graph import SequencingPlan
 
 
@@ -73,6 +74,56 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     # The bottom strand still receives its own directional box; the cap geometry on the
     # top row joins both strand ends one row apart and asserts the molecule has no free end.
     return [top, bottom]
+
+
+@dataclass(frozen=True)
+class OpenedDumbbell:
+    """A two-hairpin library after both loops have been cut into Y adapters."""
+
+    closed: Dumbbell
+    left: OpenedHairpin
+    right: OpenedHairpin
+    name: str = "USER-opened Y-adapter library"
+
+    def __post_init__(self) -> None:
+        for side, adapter, opened in (
+                ("left", self.closed.left_adapter, self.left),
+                ("right", self.closed.right_adapter, self.right)):
+            rebuilt = opened.left_arm + opened.removed_base + opened.right_arm
+            if adapter != rebuilt:
+                raise ValueError(f"{side} opened arms do not reconstruct the closed hairpin")
+
+    @staticmethod
+    def _title(name: str, sequence: str, end: str) -> str:
+        return f"{name}; {len(sequence)} nt; new {end} end"
+
+    def rows(self) -> list[Row]:
+        gutter = 28
+        tail = " " * 28
+        top = strand_row(self.closed.insert, "top", prefix=" " * gutter + "5'- ",
+                         suffix=" -3'" + tail)
+        bottom = strand_row(self.closed.insert, "bottom", prefix=" " * gutter + "3'- ",
+                            suffix=" -5'" + tail)
+        top.visual = (
+            top.visual,
+            YAdapterVisual(
+                top.visual.start, "left", "Read 1 arm",
+                self._title("left Read 1 arm", self.left.right_arm,
+                            self.left.right_new_end),
+                "Read 2 arm",
+                self._title("left Read 2 arm", self.left.left_arm,
+                            self.left.left_new_end),
+            ),
+            YAdapterVisual(
+                top.visual.end, "right", "Read 2 arm",
+                self._title("right Read 2 arm", self.right.left_arm,
+                            self.right.left_new_end),
+                "Read 1 arm",
+                self._title("right Read 1 arm", self.right.right_arm,
+                            self.right.right_new_end),
+            ),
+        )
+        return [top, bottom]
 
 
 def smrtbell_circuit(molecule: Dumbbell) -> Construct:

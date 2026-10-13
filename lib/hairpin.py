@@ -65,4 +65,4 @@ class Hairpin:
     def user_open_at(self, index: int) -> OpenedHairpin:
         """Model USER (UDG + Endo VIII) removal of one dU from the loop."""
         left, right = self.open_at(index, expected="U")
-        return OpenedHairpin(left, right, "3'-phosphate", "5'-phosphate", "dU")
+        return OpenedHairpin(left, right, "3'-phosphate", "5'-phosphate", "U")
