@@ -11,6 +11,7 @@ RAMPAGE selects 5′-complete capped transcripts and uses paired-end sequencing 
 - 🟢 RAMPAGE combines template-switching, cap trapping and exonuclease depletion with paired-end Illumina sequencing.
 - 🟡 RAMPAGE is represented rather than a “CAGE family” page because it has a protocol-specific defining paper, a complete open molecular protocol, and a distinct paired-end construct.
 - 🟢 The open protocol gives the exact TSO, RT primer, final PCR primers and custom Read 1/Read 2 sequencing primers. The TSO carries a six-base inline sample barcode; its identity varies across the published barcode set.
+- 🟢 The detailed protocol says there are 40 six-base barcode variants with pairwise Hamming distance at least three, printed in Supplementary File 1. The accessible PMC author-manuscript XML gives the TSO scaffold but not those 40 assignments; the archived supplementary PDF is behind PMC's download gate in the source manifest.
 
 ## 3. Molecular path
 

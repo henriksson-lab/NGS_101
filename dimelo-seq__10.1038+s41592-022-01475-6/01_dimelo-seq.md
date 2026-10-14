@@ -25,3 +25,9 @@ and sequenced without PCR by a modification-sensitive long-read platform.
 the same molecule. The defining paper demonstrates Nanopore readout. 🔴 Kit-specific
 motor-adapter bases are proprietary/version-dependent, so the page states pore entry
 without inventing a primer or sequence.
+🟢 The defining paper names different nanopore library reagents by experiment: SQK-LSK109
+with EXP-NBD104/114 native barcodes for optimization and CENP-A experiments, and
+SQK-LSK110 without that barcode step for the stated CTCF/H3K9me3 experiments. It also
+reports a separate PacBio SMRTbell/Sequel IIe experiment with a vendor binding primer.
+Those kit adapters and the PacBio primer are distinct, version-specific roles; the
+nanopore schematic does not assert an exact sequence for either platform.

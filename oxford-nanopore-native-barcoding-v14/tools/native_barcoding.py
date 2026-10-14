@@ -7,8 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from endprep import dA_tailed_scene, repair_and_dA_tail
-from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
-                              role, single_strand_rows)
+from nanopore_library import (LA_TOP, NATIVE_ADAPTER_BOTTOM, motor_sequencing_plan,
+                              no_primer_ending, role, single_strand_rows)
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role as molecular_role
 
@@ -20,8 +20,9 @@ SOURCE = ('Commercial defining source: Oxford Nanopore '
 SUMMARY = ("PCR-free sample multiplexing: repair and dA-tail each DNA sample, ligate a "
            "dT-tailed native barcode, pool, then ligate the motor-bearing Native Adapter "
            "through the barcode adapter's cohesive end.")
-CAVEAT = ("Barcode-adapter flanks, the cohesive hook, Native Adapter bases and motor "
-          "attachment are proprietary. Bracketed regions encode disclosed roles only.")
+CAVEAT = ("ONT publishes both Native Adapter strands. Barcode-adapter flanks, the "
+          "cohesive hook, complete motor-bearing assembly and motor attachment remain "
+          "undisclosed.")
 
 NATIVE_BARCODES = {
     "NB01": "CACAAAGACACCGACAACTTTCTT", "NB02": "ACAGACGACTACAAACGGAATCGA",
@@ -50,12 +51,18 @@ BARCODE_PAYLOAD = [
     Segment("dT:dA ligation junction", "T", bottom="A"),
     Segment("genomic DNA", "X" * 42, placeholder=True),
 ]
-FINAL_LIBRARY = motor_library(BARCODE_PAYLOAD, adapter="Native Adapter",
-                              name="SQK-NBD114.24 pore-entry strand")
+FINAL_LIBRARY = Construct([
+    role("motor-loaded Native Adapter assembly", "[motor assembly]", "r2"),
+    Segment("Native Adapter published top strand", LA_TOP, "r2"),
+    *BARCODE_PAYLOAD,
+], name="SQK-NBD114.24 pore-entry strand")
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
+MOTOR_ADAPTER_NAME = "Native Adapter"
 SEQUENCING_ENDING = no_primer_ending("Native Adapter")
-SEQUENCING_UNAVAILABLE = ("Nanopore sequencing is motor-driven rather than primed; the "
-                          "current Native Adapter and motor-bearing strand are undisclosed.")
+SEQUENCING_UNAVAILABLE = ("Nanopore sequencing is motor-driven rather than primed; both "
+                          "NA strands are published, but the complete motor-bearing "
+                          "assembly and barcode-adapter cohesive hook are not.")
 FINAL_CAPTION = ("One productive pore-entry orientation. ** labels the adapter-hook "
                  "attachment and the barcode-adapter-to-dA-tailed-insert ligation.")
 END_PREP_PROGRAM = ((20, 5), (65, 5))
@@ -70,6 +77,8 @@ NATIVE_HOOK = AdapterLigationGeometry.unavailable(
 
 
 def oligos():
+    yield oligo("Native Adapter top", [Segment("Native Adapter top", LA_TOP, "r2")])
+    yield oligo("Native Adapter bottom", [Segment("Native Adapter bottom", NATIVE_ADAPTER_BOTTOM, "r2")])
     for name, forward in NATIVE_BARCODES.items():
         yield oligo(f"{name} forward", [Segment("native barcode", forward, "cbc",
                                                 feature=BARCODE_FEATURE)])
@@ -79,7 +88,7 @@ def oligos():
 
 def final_rows():
     return single_strand_rows(FINAL_LIBRARY, (
-        ("motor-loaded sequencing adapter", "Native Adapter cohesive hook", "attachment"),
+        ("Native Adapter published top strand", "Native Adapter cohesive hook", "attachment"),
         ("barcode inner flank", "dT:dA ligation junction", "ligation"),
     ))
 
@@ -133,12 +142,12 @@ def protocol_graph():
     g.discard(excluded, "not included in the equimolar sequencing pool")
     native = g.input("native_adapter", "motor-loaded Native Adapter",
                      MaterialKind.ADAPTER, inferred=True,
-                     source=SOURCE + " (adapter and cohesive-hook bases proprietary)")
+                     source=SOURCE + " (NA strands published; cohesive hook/motor assembly undisclosed)")
     ligase_2 = g.input("native_ligase", "Native Adapter ligase",
                        MaterialKind.CATALYST)
     library = g.product("library", "motor-adapted native-barcode library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (adapter bases proprietary)")
+                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
     g.react("native_adapter_ligation", "Attach Native Adapter to the pooled library",
             StepKind.LIGATION,
             ((pooled, InputRole.TEMPLATE), (native, InputRole.STRUCTURAL),

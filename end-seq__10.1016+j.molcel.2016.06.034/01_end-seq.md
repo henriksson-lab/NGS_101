@@ -20,6 +20,17 @@ biotin-dU residues in adaptor 1 and terminal phosphorothioate bonds. The Python 
 stores the base strings and biotin-dU coordinates; the page keeps the chemical
 modifications in the research boundary rather than pretending they are ordinary bases.
 
+The source-printed adaptor 1 is
+`5′-Phos-GATCGGAAGAGCGTCGTGTAGGGAAAGAGTGUU[Biotin-dT]U[Biotin-dT]UUACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`;
+adaptor 2 is
+`5′-Phos-GATCGGAAGAGCACACGTCUUUUUUUUAGACGTGTGCTCTTCCGATC*T-3′`.
+Here `U` is the USER-cleavable deoxyuridine and `*` marks the terminal
+phosphorothioate bond. Both have a 3′-T overhang for ligation to dA-tailed DNA.
+The source names TruSeq index adapters for amplification but does not identify
+the particular index oligo used in each library. The paper's control input
+libraries use universal adapters in a separate branch; these do not replace the
+END-seq hairpins.
+
 ## Interpretation boundary
 
 🟢 End repair means END-seq maps the processed boundary but does not retain the original

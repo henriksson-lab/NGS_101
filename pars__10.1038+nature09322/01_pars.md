@@ -3,7 +3,9 @@
 **Defining source:** Kertesz *et al.*, *Nature* (2010), doi:10.1038/nature09322.
 **Detailed protocol:** Wan *et al.*, *Nature Protocols* (2013),
 doi:10.1038/nprot.2013.045. The PMC author manuscript, supplementary workflow and
-protocol description were read.
+protocol description were read. The 2010 Supplementary Information was recovered from
+Springer Nature's static supplement and the [SOLiD Small RNA Expression Kit guide](https://documents.thermofisher.com/TFS-Assets/LSG/manuals/cms_054973.pdf)
+(Applied Biosystems PN 4399434b, 2009) was checked.
 
 ## Evidence used
 
@@ -13,7 +15,16 @@ protocol description were read.
 - 🟢 Random fragmentation precedes selective 5′-adapter ligation: random 5′-OH ends do
   not ligate, whereas nuclease-created 5′-P ends do. Phosphatase treatment and second
   adapter ligation are followed by RT-PCR and SOLiD sequencing.
-- 🟡 Exact proprietary SOLiD adapter and sequencing-primer oligos are not printed.
+- 🟢 Supplementary Methods lines 90–127 specify Adaptor Mix A of the SOLiD Small RNA
+  Expression Kit, phosphatase treatment, the second adapter ligation and kit PCR
+  primers. The Thermo Fisher guide, Appendix A p. 26, prints the common P1/5′ PCR
+  primer and all ten indexed 3′ PCR primer sequences. The public oligo list shows
+  index set 1 as a **kit example** because the paper does not identify which of the
+  ten sets was assigned to each library.
+- 🔴 The guide describes Mix A as a set of oligos with a degenerate end and a SOLiD
+  arm but does not print its full ordered sequences or terminal modifications.
+  Its protocol and the defining paper likewise do not print the instrument
+  ligation-sequencing primer. These remain the exact-structure boundary.
 
 ## Construct logic
 

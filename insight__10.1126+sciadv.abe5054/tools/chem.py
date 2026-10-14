@@ -29,6 +29,8 @@ SEQUENCING_INTRO="INSIGHT uses its T7-containing custom primer from the P5 side 
 def oligos(): return [
  "<b>Barcoded NASBA forward primer</b> — 5′-TGACTGGAGTTCAGACGTGTGCTCTTCCGATCTNNNNNCCAGCAACTGTTTGTGGACCTA-3′",
  "<b>Barcoded NASBA reverse primer</b> — 5′-AATTCTAATACGACTCACTATAGGGAGAAGGNNNNNACACCTGTGCCTGTTAAACCAT-3′",
+ "<b>Indexed P5 library primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACNNNNNNNNAGCCAGCTCTGGAGAATTCTAATACGACTCACTATAGGGAGAAGG-3′",
+ "<b>Indexed P7 library primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT-3′",
  "<b>Custom sequencing primer</b> — 5′-AGCCAGCTCTGGAGAATTCTAATACGACTCACTATAGGGAGAAGG-3′"]
 def sections(): return [
  ("Reverse transcribe the viral RNA",[Row(chunks=[("viral RNA ← barcoded forward primer","cbc",False)])],"The forward primer contributes one sample barcode and an Illumina handle."),

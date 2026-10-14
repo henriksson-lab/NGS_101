@@ -17,7 +17,7 @@ TITLE = "scCAPS+ — single-cell 5hmC sequencing"
 NOTES = "01_sccaps-plus.html"
 SOURCE = 'Defining preprint: <a href="https://doi.org/10.1101/2024.02.12.579864">Chen et al. (2024)</a>; authoritative version: <a href="https://doi.org/10.1186/s13059-025-03708-1">Genome Biology (2025)</a>.'
 SUMMARY = "Barcoded Tn5 fragments each single-cell genome before pooling. ACT+BF4− and Pinnick oxidation selectively take 5hmC through 5fC to 5caC; pyridine–borane then makes only 5hmC read as T."
-CAVEAT = "The 96 published transposome/index oligos are referenced rather than copied here; their two eight-cycle cell-index positions are represented explicitly."
+CAVEAT = "Additional file 5 prints the 96 transposome combinations and four custom sequencing primers. This diagram retains a generic Nextera completion shell; its primer sites are not a reconstruction of the custom run."
 CONVERTS = ("5hmC",)
 CAPS_PATHS = {base: caps_plus_path(base) for base in ("5hmC", "5mC", "C")}
 
@@ -37,7 +37,7 @@ if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS): raise ValueError("scCAPS+ 
 READ_LENGTHS={"Read 1":120,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":120}
 SHOW_READ_CONTENT=True
 FINAL_CAPTION="Custom i5/i7 transposomes encode the cell before pooling. Paired reads interrogate genomic DNA in which 5hmC—but not 5mC or C—is read as T."
-SEQUENCING_INTRO="Custom NovaSeq primers read the Nextera landing sites; the two eight-cycle index reads recover the combinatorial Tn5 cell barcode."
+SEQUENCING_INTRO="The published run uses four custom NovaSeq primers (Additional file 5, Table S4); the primer binding diagram below shows only a generic Nextera proxy. Two eight-cycle index reads recover the combinatorial Tn5 cell barcode."
 
 _initial=Scene.duplex([seg("single-cell genomic DNA","D"*52,placeholder=True)],label="genomic DNA from one FACS-sorted cell")
 INITIAL_ROWS=tuple(_initial.rows()); INITIAL_NAME="Single-cell genomic DNA"

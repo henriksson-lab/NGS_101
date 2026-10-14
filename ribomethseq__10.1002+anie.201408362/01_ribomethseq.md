@@ -14,6 +14,12 @@ Acids Research* (2016), doi:10.1093/nar/gkw547. The open full method text was re
   preparation, indexed amplification, paired-end MiSeq and SR50 HiSeq 1000 alternatives.
 - 🟡 Only the public NEBNext 3′ adapter is written base-by-base; other kit oligos remain roles.
 
+## Oligo source boundary
+
+🔴 The **defining** Birkedal method used an Ion Torrent library with a specially prepared 5′ adapter carrying a 2′,3′-cyclic phosphate and a mutant RNA ligase, according to Marchand *et al.*'s comparison (PMC5027498, “Comparison of fragmentation approaches”). The original Wiley Supporting Information is listed as `anie_201408362_sm_miscellaneous_information.pdf`, but the available source fetcher cannot retrieve it; its original adapter and primer sequences therefore remain unverified. Do not transfer the later NEBNext Illumina oligos back onto that defining Ion Torrent chemistry.
+
+🟢 Marchand *et al.*'s **later Illumina implementation** uses direct 3′ and 5′ ligation with the NEBNext Small RNA Library kit after end repair (PMC5027498, “Comparison of fragmentation approaches”). Its supplementary methods also print `5′-GTTGAATTTCTTCACTTTGACATTCAGAGCACTGGGCAGAAATCACATTG-3′` as a 25S-rRNA capture oligo for the validation assay. That capture oligo is not part of the sequenced library construct.
+
 ## Construct logic
 
 The informative absence is local: protected bonds produce fewer 5′ and 3′ fragment ends.

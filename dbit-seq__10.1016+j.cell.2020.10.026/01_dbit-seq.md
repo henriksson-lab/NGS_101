@@ -13,6 +13,8 @@ DBiT-seq installs two spatial barcode coordinates directly in a fixed tissue sec
 - 🟢 Barcode A-1 is `/5Phos/AGGCCAGAGCATTCGAACGTGATTTTTTTTTTTTTTTTVN`; Barcode B-1 is `/5Biosg/CAAGCGTTGGCTTCTCGCATCTNNNNNNNNNNAACGTGATATCCACGTGCTTGAG`.
 - 🟢 The universal ligation linker is `CGAATGCTCTGGCCTCTCAAGCACGTGGAT`. It is the reverse complement of the B 3′ linker (`ATCCACGTGCTTGAG`) followed by the A 5′ linker (`AGGCCAGAGCATTCG`). Thus it anneals the B 3′-OH beside the A 5′ phosphate and exposes one central nick for T4 DNA ligase.
 - 🟢 Recovered cDNA is template-switched, PCR-amplified, Nextera-XT-tagmented and sequenced 2×100.
+- 🟢 The same STAR Protocols Table S2 "PCR Oligos" sheet also prints the template-switch oligo `AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G` (terminal locked G), Primer 1 `CAAGCGTTGGCTTCTCGCATCT`, and Primer 2 `AAGCAGTGGTATCAACGCAGAGT`. Its optional antibody-tag branch lists Primer 3 `CCTTGGCACCCGAGAATT*C*C` (two phosphorothioate linkages). These modifications should not be lost when ordering the assay reagents.
+- 🟢 The table includes complete P5 and indexed P7 oligos for the author's detailed workflow; for example P5 `AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG` and P7-701 `CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGCAAGCGTTGGCTTCTCGCATCT`.
 - 🟡 Barcode A-1 and B-1 demonstrate the geometry. The other channel-specific whitelist members remain in Supplementary Table S2 rather than being recopied here.
 
 ## 3. Molecular path

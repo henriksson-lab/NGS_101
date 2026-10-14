@@ -61,6 +61,13 @@ OURS_PROTOCOL_ALIASES = {
     "Spatial C&T": "Spatial-CUT&Tag",
 }
 
+# Same spelling can name unrelated chemistries. Preserve the source-owned name
+# and add a display qualifier when needed to keep the catalogue's protocol key
+# unambiguous. The 2024 CAP-seq preprint is a long-read microbiome method;
+# Illingworth's 2010 CAP-seq is CXXC affinity purification.
+HOMONYM_LABELS = {("CAP-seq", "10.1101/2024.09.10.612220"):
+                  "CAP-seq (long-read microbiome)"}
+
 # A link on a method page is a paper if it points at one of these.
 PAPER_HOSTS = re.compile(
     r"(doi\.org|pubmed\.ncbi|ncbi\.nlm\.nih\.gov/pmc|biorxiv\.org|medrxiv\.org|"
@@ -368,10 +375,24 @@ def crossref(doi: str, cache: Path, offline: bool) -> dict:
 # legitimate DOI.  eLife 63632 is indexed in PubMed, but Crossref intermittently omits
 # it and NCBI's DOI search is case-sensitive for the publisher's mixed-case suffix.
 KNOWN_DOI_PMIDS = {
+    "10.1126/science.ady7227": "41411411",
     "10.7554/elife.63632": "33835024",
     "10.1038/nprot.2014.072": "24810036",
+    "10.1038/s41467-022-31397-y": "35821208",
 }
 KNOWN_DOI_METADATA = {
+    "10.1126/science.ady7227": {
+        "title": "High-throughput single-cell omics using semipermeable capsules",
+        "first_author": "Baronas",
+        "journal": "Science",
+        "year": "2026",
+    },
+    "10.1038/s41467-022-31397-y": {
+        "title": "Ultra-sensitive monitoring of leukemia patients using superRCA mutation detection assays",
+        "first_author": "Chen",
+        "journal": "Nature Communications",
+        "year": "2022",
+    },
     "10.7554/elife.63632": {
         "title": "Simultaneous trimodal single-cell measurement of transcripts, epitopes, and chromatin accessibility using TEA-seq",
         "first_author": "Swanson",
@@ -709,6 +730,8 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
             r.update({k: m.get(k, r[k]) for k in
                       ("title", "first_author", "journal", "year")})
     rows = old
+    for r in rows:
+        r["protocol"] = HOMONYM_LABELS.get((r["protocol"], r["doi"]), r["protocol"])
 
     # One directory per protocol, named for its defining paper -- so every row of a
     # protocol carries the same slug, and `is_defining` marks which paper named it.

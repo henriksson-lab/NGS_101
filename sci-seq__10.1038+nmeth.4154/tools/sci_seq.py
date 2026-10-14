@@ -23,7 +23,8 @@ SUMMARY = ("Nucleosome-depleted nuclei receive a first bipartite barcode during 
            "during PCR. The four index components identify one nucleus.")
 CAVEAT = "Representative index bases are placeholders; all constant connector and primer bases are source-transcribed."
 
-# Amini Supplementary Table 4; SCI-seq explicitly reuses these complexes and primers.
+# Vitak Supplementary Protocol Tables 1 and 3 print these complexes and primers;
+# the same chemistry was introduced by Amini et al.
 C15 = "GCGATCGAGGACGGC"
 D15 = "CACCGTCTCCGCCTC"
 CONNECTOR_A = "TCCACGC"
@@ -54,11 +55,11 @@ FINAL_LIBRARY = Construct([
 ], name="quad-index SCI-seq library")
 
 SEQ_PRIMERS = (
-    sp.custom("Read 1", "SCI-seq Read 1", R1_SEQ, "Amini et al. 2014 Supplementary Table 4"),
-    sp.custom("Index 1 (i7)", "SCI-seq Index 1", I1_SEQ, "Amini et al. 2014 Supplementary Table 4"),
+    sp.custom("Read 1", "SCI-seq Read 1", R1_SEQ, "Vitak et al. 2017 Supplementary Protocol Table 3"),
+    sp.custom("Index 1 (i7)", "SCI-seq Index 1", I1_SEQ, "Vitak et al. 2017 Supplementary Protocol Table 3"),
     sp.custom("Index 2 (i5)", "SCI-seq Index 2", I2_SEQ,
-              "reverse-complement counterpart of the source-defined C15/ME Read 1 site"),
-    sp.custom("Read 2", "SCI-seq Read 2", R2_SEQ, "Amini et al. 2014 Supplementary Table 4"),
+              "Vitak et al. 2017 Supplementary Protocol Table 3"),
+    sp.custom("Read 2", "SCI-seq Read 2", R2_SEQ, "Vitak et al. 2017 Supplementary Protocol Table 3"),
 )
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS):
     raise ValueError("SCI-seq final library: " + "; ".join(problems))

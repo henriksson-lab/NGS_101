@@ -28,6 +28,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx` (+ `.txt`, made by hand with `tools/doctext.py`) | Supplementary Tables 1–8 | **every oligo** (Tables 2–5) and the stepwise molecular layout (Table 1) |
 | `s41587-021-00962-z_41587_2021_962_MOESM1_ESM.pdf.txt` | Supplementary Information (figures) | only Supp. Fig. legends; no chemistry |
 | `upstream_s3-WGS.html.txt` | scg_lib_structs s3-WGS page | secondary account; it is two sentences and points to the s3-ATAC page |
+| `protocolsio_s3-wgs-q26g7bd63lwz.pdf.txt` | author's linked 2021 protocols.io s3-WGS protocol | transposome loading, nuclei sorting and switching/PCR recipe |
 | `../s3-atac__10.1038+s41587-021-00962-z/upstream_s3-ATAC.html.txt` | scg_lib_structs s3-ATAC page (sibling source dir) | the upstream drawing the s3-WGS page defers to; checked below |
 | `MOESM7–13` | source data for figures | not chemistry |
 
@@ -35,7 +36,6 @@ Could not be used:
 
 | What | Why |
 |---|---|
-| protocols.io s3-WGS (dx.doi.org/10.17504/protocols.io.beb3jaqn) | not fetched by `get_sources.py`; the stepwise bench protocol — volumes per well, buffer recipes beyond the methods 🔴 |
 | `MOESM2_ESM.pdf` | the reporting summary; its text twin is empty (print-to-PDF image) |
 | `supp_NIHMS1707134-supplement-*` | each is an HTML error page (~21 kB), not the file |
 
@@ -264,11 +264,11 @@ Tn5 barcode at the start of read 2 — agrees.
 
 ## 7. Open questions
 
-- 🔴 The protocols.io stepwise protocol (beb3jaqn) was not read: per-well volumes for
-  Triton X-100, number of nuclei sorted per PCR well for s3-WGS, and plate layouts beyond
-  Fig. 4b.
-- 🔴 How the 96 transposomes are loaded (annealing of `SBS12_18_UME_sci_N` with
-  `Nextera_Mosaic_End_REVCOMP`, Tn5 source) — deferred to ref. 11.
+- 🟢 The linked protocols.io protocol specifies 15 nuclei per PCR well and one indexed
+  oligo plus ME reverse-complement oligo at 2.5 µM each with 2.5 µM Tn5. After sorting,
+  it gives 1 µL 0.1% SDS, 4 µL NPM, 1.5 µL 1 µM switching oligo, 1 µL 1% Triton X-100,
+  and a 50 µL indexed PCR with S70X/N50X primers. The attached oligo workbook was not
+  separately fetched; the paper's supplementary table is the sequence authority.
 - 🟡 How completely adapter switching converts both strands is argued (multiple cycles,
   LNA) but the efficiency is not reported as a number in the methods.
 - 🟡 The ME/ME′ snap-back competition that the LNA is said to overcome is the paper's

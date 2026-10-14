@@ -22,7 +22,11 @@ I7_OLIGO_INDEX = "TAGGTCCGAT"   # representative MGI_P7_index_1
 
 
 def indexed_tn5_transfer() -> list[Segment]:
-    return [seg("SMART handle", rt.SMART_HANDLE, "tso"),
+    # Supplementary Table 1 writes every transfer oligo as A*AGCAG..., where
+    # the leading A* is a terminal phosphorothioate cap. Segment stores bases;
+    # the bond modification is recorded verbatim in the source note.
+    return [seg("5′ phosphorothioate-capped A", "A", "tso"),
+            seg("SMART handle", rt.SMART_HANDLE, "tso"),
             seg("Tn5 barcode", TN5_BARCODE, "cbc"),
             seg("mosaic end", nx.ME, "me")]
 
@@ -50,7 +54,7 @@ def final_library(insert_nt: int = 32) -> Construct:
         seg("mosaic end", nx.ME, "me"),
         seg("HY barcode, read orientation", revcomp(HY_BARCODE), "cbc",
             feature=feature("cell_hy", "cell_barcode", "combinatorial", group="cell_id", part="HY")),
-        seg("SMART handle", rt.SMART_HANDLE, "tso"),
+        seg("SMART handle at uncertain HY junction", rt.SMART_HANDLE, "tso", inferred=True),
         seg("Tn5 barcode", TN5_BARCODE, "cbc",
             feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("mosaic end after barcodes", nx.ME, "me"),

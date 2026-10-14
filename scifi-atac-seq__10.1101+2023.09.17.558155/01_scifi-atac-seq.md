@@ -29,12 +29,12 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `2023.09.17.558155_v3.full.pdf.txt` | preprint v3 | cross-check of Methods; Fig. 1 / S1 labels |
 | `2023.09.17.558155_media-1.pdf.txt` | preprint supplement | identical to MOESM1 apart from figure/table cross-reference wording 🟡 (diffed) |
 | `upstream_scifi-ATAC-seq.html.txt` | scg_lib_structs page | second account of oligos, library and reads; checked below |
+| `10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt` | 10x kit v1.1 guide, Appendix A1 | confirms bead oligo and sample-index primer structures; the guide names the stock SI-PCR primer |
 
-Not fetched / not available: the 10x Genomics user guide CG000209 (Chromium Next GEM
-Single Cell ATAC v1.1, Rev E), which the paper follows "exactly" for GEM generation,
-barcoding and sample-index PCR — the 10x bead oligo and the i7 sample-index primers are
-therefore known here only from upstream 🟡. Get it by hand from
-https://www.10xgenomics.com/support (document CG000209).
+The fetched CG000209 Rev G guide is later than the paper's cited Rev E. Appendix A1
+prints the bead oligo `P5-N16-TCGTCGGCAGCGTC`, SI-PCR Primer B
+`AATGATACGGCGACCACCGAGA`, and the sample-index primer structure
+`P7-N8-GTCTCGTGGGCTCGG`. 🟢 for Rev G; continuity with Rev E remains 🟡.
 
 ---
 
@@ -233,8 +233,9 @@ barcode.
   diluted Tn5). Followed the supplement here.
 - 🟡 **Annealing programme** differs (98 °C / −1 °C per 10 s to 25 °C vs 95 °C / −1 °C per
   min to 20 °C). Either works for a 19-bp duplex.
-- 🔴 Read 1 / Read 2 cycle numbers; the exact SI-PCR primer names and cycles (deferred to
-  the 10x guide, not fetched).
+- 🔴 Read 1 / Read 2 cycle numbers in the authors' actual run; CG000209 Rev G gives
+  the stock SI-PCR primer and a cycle table based on input, but cannot establish
+  which conditions the authors used under Rev E.
 - 🔴 Origin of the 19-nt spacers (presumably from the lab's earlier sci-ATAC-seq design,
   Tu et al. 2022, *Plant Commun.*; not checked).
 - 🟡 "Index hopping" in this paper refers to cross-contamination between nuclei sharing a

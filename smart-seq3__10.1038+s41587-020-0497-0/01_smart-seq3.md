@@ -1,4 +1,4 @@
-# SMART-seq3, SMART-seq3xpress and FLASH-seq — quick reference
+# SMART-seq3 and SMART-seq3xpress — quick reference
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not published.
 
@@ -9,9 +9,6 @@ doi:[10.1038/s41587-020-0497-0](https://doi.org/10.1038/s41587-020-0497-0)
 
 **SMART-seq3xpress** — Hagemann-Jensen M, Ziegenhain C, Sandberg R. *Nat Biotechnol*
 2022;**40**(10):1452–1457. doi:[10.1038/s41587-022-01311-4](https://doi.org/10.1038/s41587-022-01311-4)
-
-**FLASH-seq** — Hahaut V, Pavlinic D, Carbone W, *et al.* *Nat Biotechnol*
-2022;**40**(10):1447–1451. doi:[10.1038/s41587-022-01312-3](https://doi.org/10.1038/s41587-022-01312-3)
 
 Structure transcribed from
 <https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html>.
@@ -39,11 +36,9 @@ deliberately makes them **different**, which buys three things at once:
 So one protocol gives **full-length coverage *and* UMI counting at allele and isoform
 resolution** — which is the headline result.
 
-🟢 **SMART-seq3xpress** and **FLASH-seq** do not change the library architecture. They cut
-cost and time by removing intermediate purification steps and dropping to nanolitre reaction
-volumes. The library generation procedure is the same and the final libraries are *almost* the
-same: the only difference is a different TSO variant, which makes the 5' fragment slightly
-different.
+🟢 **SMART-seq3xpress** retains this asymmetric library architecture while changing the
+reaction volumes and using a `WW` TSO spacer. FLASH-seq is a separate SMART-handle
+chemistry, documented in its own note.
 
 ## 2. Oligos
 
@@ -52,7 +47,6 @@ Smartseq3_OligodT30VN  5'- /5Biosg/ ACGAGCATCAGCAGCATACGA TTTTT...TTTTT VN -3'  
 
 Smartseq3_N8_TSO       5'- /5Biosg/ AGAGACAGATTGCGCAATG [8-bp UMI]       rGrGrG -3'
 Smartseq3xpress_TSO    5'- /5Biosg/ AGAGACAGATTGCGCAATG [8-bp UMI] WW    rGrGrG -3'
-FLASH-seq_TSO          5'- /5Biosg/ AGAGACAGATTGCGCAATG [8-bp UMI] CTAAC rGrGrG -3'
 
 Fwd_PCR_primer         5'- TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAA*T*G -3'
 Rev_PCR_primer         5'- ACGAGCATCAGCAGCATAC*G*A -3'
@@ -65,8 +59,10 @@ Rev_PCR_primer         5'- ACGAGCATCAGCAGCATAC*G*A -3'
 (`s5 + ME + tag` = `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG` + `ATTGCGCAATG`) rebuilds a complete
 Nextera s5 arm as it amplifies — the TSO is already most of one.
 
-The three family members differ **only** in the spacer between UMI and G-tail: none,
-`WW`, or `CTAAC`.
+SMART-seq3 and SMART-seq3xpress differ in the spacer between UMI and G-tail: none or
+`WW`. FLASH-seq is a separate SMART-handle chemistry: its main branch has no UMI, while
+the optional FS-UMI branch has a different `CTAAC` TSO. Its oligos are recorded in the
+FLASH-seq note and must not be substituted for SMART-seq3 oligos.
 
 ## 3. Steps
 

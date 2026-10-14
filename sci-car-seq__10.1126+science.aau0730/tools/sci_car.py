@@ -12,7 +12,7 @@ TITLE="sci-CAR-seq — joint combinatorial RNA and ATAC profiling"
 NOTES="01_sci-car-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1126/science.aau0730">Cao et al., <i>Science</i> (2018)</a>.'
 SUMMARY="One intact nucleus receives a barcoded poly(dT) RT primer and a separately barcoded Tn5 adapter in the first plate; FACS redistribution supplies a second well index while RNA and ATAC aliquots become separate libraries."
-CAVEAT="RNA and ATAC first-round indexes are chemically distinct but map to the same first well; their second-round PCR indexes likewise map to the same FACS well. That correspondence—not a shared physical barcode molecule—links the two libraries."
+CAVEAT="RNA and ATAC first-round indexes are chemically distinct but map to the same first well; their second-round PCR indexes likewise map to the same FACS well. Barcode and UMI lengths are representative placeholders pending the inaccessible oligo supplement."
 RNA1=feature("rna_rt_well","cell_barcode","combinatorial",group="cell_id",part="RT well",whitelist="published sci-CAR RT primer plate")
 ATAC1=feature("atac_tn5_well","cell_barcode","combinatorial",group="cell_id",part="Tn5 well",whitelist="published sci-CAR Tn5 plate")
 RNA2=feature("rna_pcr_well","cell_barcode","combinatorial",group="cell_id",part="FACS/PCR well",whitelist="published sci-CAR PCR plate")

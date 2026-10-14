@@ -23,6 +23,7 @@ standard guide unchanged and spikes a guide-specific RT primer into the GEM reac
 - 🟢 **CG000184 Rev A**: v3 reaction order, oligos, intermediate products and single-index library.
 - 🟢 [CG000197 Rev A](https://cdn.10xgenomics.com/image/upload/v1660261286/support-documents/CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf): compatible CS1/CS2 guide designs.
 - 🟢 [CG000316 Rev E](https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/chromium-single-cell-3-reagent-kits-user-guide-v-3-1-chemistry-dual-index-with-feature-barcoding-technology-for-crispr-screening): current v3.1 dual-index successor. This page retains the v3 CG000184 construct rather than mixing versions.
+- 🟢 [10x Chromium i7 Multiplex index map](https://cdn.10xgenomics.com/raw/upload/v1655155614/support/in-line%20documents/chromium-shared-sample-indexes-plate.json): the v3 single-index kit has four 8-nt i7 oligos per well; for SI-GA-A1 these are `GGTTTACT`, `CTAAACGG`, `TCGGCGTC`, `AACCGTAA`. The [10x index-set page](https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/sample-index-sets-for-single-cell-3) identifies this kit for v3.
 
 ## 3. Capture sequences and guide design
 

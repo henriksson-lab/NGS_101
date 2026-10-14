@@ -13,9 +13,19 @@ In vivo click selective 2′-hydroxyl acylation and profiling experiment (icSHAP
 
 ## Key oligos
 
-- 🟢 Treated-sample 3′ adapter as printed: `/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/`. T4 RNL2 truncated K227Q ligates this blocked, preadenylated adapter to repaired RNA 3′ ends.
+- 🟢 Treated-sample 3′ adapter as printed: `/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/`. The protocol uses high-concentration T4 RNA ligase 1 to ligate this blocked, preadenylated adapter to repaired RNA 3′ ends.
+- 🟢 The parallel DMSO-background 3′ adapter has the same bases with a
+  different 3′ block: `/5rApp/AGATCGGAAGAGCGGTTCAG/3Biotin/`. The
+  protocol's reagent list prints both; the modification difference must not
+  be collapsed into a single generic adapter.
 - 🟢 RT-primer-1 as printed: `/5phos/DDDNNAACCNNNNAGATCGGAAGAGCGTCGTGGA/iSp18/GGATCC/iSp18/TACTGAACCGC`.
 - 🟢 The two random regions total 9 nt; `AACC` is the experimental barcode. The primer architecture supports later intramolecular cDNA circularization.
+- 🟢 The same reagent list prints the P5-Solexa PCR primer
+  `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`
+  and P3-Solexa PCR primer
+  `CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTG CTGAACCGCTC TTCCGATCT`
+  (source grouping spaces retained). These are full ordered PCR oligos, not
+  merely kit role names.
 
 ## Construct-changing steps
 
@@ -29,4 +39,7 @@ In vivo click selective 2′-hydroxyl acylation and profiling experiment (icSHAP
 
 - 🟢 Standard single-end Illumina conditions are used; 75 bases suffice, and the normal external 6/8-base index read is omitted because the experimental barcode is inline.
 - 🟢 The first 13 read bases are the 4-base experimental barcode plus 9 random bases. After trimming, the first mapped transcript base marks the RT stop; analysis shifts one nucleotide to identify the modified base.
-- 🟡 Exact Solexa primer binding geometry is left role-labelled on the public page because the accessible protocol prints the PCR primer names separately from a fully assembled top-strand library.
+- 🟡 Exact Solexa primer binding geometry is left role-labelled on the public
+  page because the final top-strand library has not yet been assembled from
+  the source-printed PCR oligos. The uncertainty is in the current model,
+  not in availability of the reagent-list bases.

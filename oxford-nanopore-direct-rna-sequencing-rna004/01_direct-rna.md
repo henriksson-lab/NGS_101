@@ -11,6 +11,7 @@ SQK-RNA004 prepares native polyadenylated RNA for nanopore sequencing without co
 - 🟢 The current workflow ligates a reverse-transcription adapter to poly(A) RNA, synthesizes a complementary stabilizing strand, and ligates a motor-loaded sequencing adapter.
 - 🟢 Oxford Nanopore states that only RNA, not the reverse-transcribed strand, is sequenced.
 - 🔴 Current adapter bases, motor identity and attachment sites are proprietary.
+- 🟢 The [current SQK-RNA004 vendor protocol](https://nanoporetech.com/document/direct-rna-sequencing-sqk-rna004) separately names the RT Adapter (RTA) and RNA Ligation Adapter (RLA); RLA is ligated after the RNA–cDNA hybrid forms. It supplies neither ordered adapter sequence nor ligating-end bases. RNA CS is a control molecule and does not enter the sample library.
 
 ## 3. Molecular path
 

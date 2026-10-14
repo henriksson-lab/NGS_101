@@ -7,6 +7,7 @@ DNBSEQ converts an adapter-bearing linear library into single-stranded circles a
 ## 2. Sources and evidence
 
 - 🟢 MGI, *MGIEasy Fast FS Library Prep Set User Manual 2.0*, including the circularization and DNB-preparation chapter.
+- 🟢 The vendor's [manual 3.0](https://mgi-tech.com/uploads/files/20250818/f9e41c9729cb0df7ff07f9ddade2324b.pdf), section 4.1, likewise identifies the separate Dual Barcode Circularization Kit and names Dual Barcode Splint Buffer plus DNA Rapid Ligase for ssDNA closure. It gives reagent amounts and conditions, but no splint bases or index oligo ordering sequences; these cannot be recovered from the workflow description alone.
 - 🟢 The documented route denatures the PCR product, uses a dual-barcode splint and DNA ligase for ss-circle formation, digests residual linear DNA, and performs DNB preparation.
 - 🟢 DNB generation uses rolling-circle replication; the product contains repeated copies of one circular template and loads onto the patterned DNBSEQ array.
 - 🔴 Current adapter, splint and sequencing-primer sequences are proprietary in the cited manuals.

@@ -33,7 +33,10 @@ class Dumbbell:
             raise ValueError("a dumbbell needs a duplex insert")
         if not self.left_adapter or not self.right_adapter:
             raise ValueError("both insert ends need a hairpin adapter")
-        if not bases_pair(self.insert_overhang, self.adapter_overhang):
+        if bool(self.insert_overhang) != bool(self.adapter_overhang):
+            raise ValueError("insert and hairpin must either both declare an overhang or neither")
+        if self.insert_overhang and not bases_pair(self.insert_overhang,
+                                                   self.adapter_overhang):
             raise ValueError("hairpin and insert overhangs are not complementary")
         for side, adapter, stem in (("left", self.left_adapter, self.left_stem_length),
                                     ("right", self.right_adapter, self.right_stem_length)):
@@ -78,9 +81,11 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     start = top.visual.start
     end = top.visual.end
     def adapter_title(side: str, sequence: str) -> str:
-        return (Segment(f"{side} hairpin adapter", sequence).hover_text()
-                + f"; {molecule.adapter_overhang} overhang pairs with insert "
-                + molecule.insert_overhang)
+        title = Segment(f"{side} hairpin adapter", sequence).hover_text()
+        if molecule.adapter_overhang:
+            return (title + f"; {molecule.adapter_overhang} overhang pairs with insert "
+                    + molecule.insert_overhang)
+        return title + "; direct repaired junction to insert"
     top.visual = (
         top.visual,
         HairpinCapVisual(start, "left", "left hairpin", molecule.left_adapter,

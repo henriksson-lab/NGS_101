@@ -25,16 +25,13 @@ committed):
 | `s41587-021-00962-z_PMC8678206.html.txt` | PMC author manuscript, full text | rationale, **Online Methods** (all conditions) |
 | `s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx.txt` | Supplementary Tables 1–8 (Springer copy) | **every oligo** (Tables 2–5), the stepwise molecular layout (Table 1), cellID definition (Table 6 info) |
 | `upstream_s3-ATAC.html.txt` | Teichmann-lab scg_lib_structs page | second, secondary account — checked against Tables 1–5 below |
+| `protocolsio_s3-atac-36wgq5bnygk5.pdf.txt` | author's linked 2021 protocols.io s3-ATAC bench protocol | transposome loading, sorting, adapter switching and PCR volumes |
 | `..._MOESM1_ESM.pdf.txt` | Supplementary Information (4 pages) | figures only (marker tracks, down-sampling); no chemistry |
 | `..._MOESM2_ESM.pdf` | 4-page "Print To PDF" document, no text layer | not read (presumably the Reporting Summary) 🟡 |
 | `..._MOESM3/5_ESM.zip`, `MOESM4,7–13_ESM.xlsx` | peak BED, s3-GCC compartment plots, DE tables, source data | not chemistry; not read |
 
-Could not be fetched:
-
-| What | URL | Why it matters |
-|---|---|---|
-| protocols.io s3-ATAC protocol | https://dx.doi.org/10.17504/protocols.io.bd6wi9fe | transposome assembly (annealing) conditions, nuclei per PCR well, exact volumes — 🔴 below |
-| NIHMS supplement copies | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8678206/ (supplementary files) | reCAPTCHA page saved instead of the file; the Springer MOESM copies replace them |
+The protocols.io PDF is available through the source fetcher; its referenced
+`s3_oligos.xlsx` is already represented by the paper's Supplementary Tables 1–8.
 
 ---
 
@@ -123,8 +120,9 @@ Conditions 🟢 from Online Methods ("s3-ATAC Library Generation") unless marked
 1. **Assemble 96 indexed transposomes** "using previously-described methods" (Amini et al.
    2014): each Tn5 adapter annealed to the 5'-phosphorylated ME bottom strand and loaded
    onto Tn5. Diluted to **2.5 µM** in 50 % glycerol, 100 mM NaCl, 50 mM Tris pH 7.5,
-   0.1 mM EDTA, 1 mM DTT; stored at −20 °C. Annealing and loading conditions 🔴 (not in
-   the paper; probably on protocols.io).
+   0.1 mM EDTA, 1 mM DTT; stored at −20 °C. The author's linked protocols.io protocol
+   specifies one indexed oligo plus ME reverse-complement oligo per well, each at 2.5 µM
+   with 2.5 µM Tn5. 🟢 (protocols.io PDF, steps for Tn5 loading)
 2. **Nuclei**: frozen mouse whole brain or human cortex, minced on dry ice, dounced in
    NIB-HEPES (10 mM HEPES-KOH pH 7.2, 10 mM NaCl, 3 mM MgCl₂, 0.1 % IGEPAL CA-630,
    0.1 % Tween, protease inhibitor), 35 µm filter, two washes, diluted to 1,400 nuclei/µL.
@@ -223,9 +221,10 @@ No disagreement found.
 
 ## 7. Open questions
 
-- 🔴 Transposome assembly (oligo annealing, Tn5 source and loading) — deferred to Amini
-  et al. 2014 and protocols.io, neither read.
-- 🔴 Nuclei sorted per PCR well (only in the Fig. 2a image) and the "Half_Vol" PCR recipe.
+- 🟢 The linked protocols.io protocol specifies 15 nuclei per PCR well, 1 µL 0.1% SDS,
+  4 µL NPM, 1.5 µL 1 µM switching oligo, 1 µL 1% Triton X-100, and 50 µL indexed
+  PCR with S70X and N50X primers. Its `s3_oligos.xlsx` attachment was not separately
+  fetched; the published supplementary oligo table is the checked sequence authority.
 - 🔴 Whether leftover switching oligo matters in the PCR. It carries s5 (the i5 primer's
   3' end) and could otherwise act as a short forward primer; the inverted dT blocks its
   extension. 🟡 (reasoning; the paper only says the oligo is 3'-blocked)

@@ -59,7 +59,7 @@ def protocol_graph():
     tag_pol=g.input("tag_extension_polymerase","tag barcode-transfer polymerase",MaterialKind.CATALYST)
     copied_tag=g.product("copied_tag","cell-barcoded antibody/hashtag products",MaterialKind.MOLECULAR,state=molecule("ECCITE tag precursor",(role("cell barcode"),role("UMI"),role("antibody or hashtag barcode"))))
     g.react("copy_tags","Copy antibody and hashtag oligos with the shared cell identity",StepKind.EXTENSION,((tag,InputRole.TEMPLATE),(tag_primer,InputRole.STRUCTURAL),(tag_pol,InputRole.CATALYST)),(copied_tag,))
-    guide_primer=g.input("guide_rt_primer","sgRNA-scaffold RT primer",MaterialKind.OLIGO)
+    guide_primer=g.input("guide_rt_primer","sgRNA-scaffold RT primer AGCAAGTGAGAAGCATCGTGTCAAAGCACCGACTCGGTGCCAC",MaterialKind.OLIGO,source=SOURCE+" author supplementary protocol p. 5")
     guide_cdna=g.product("guide_cdna","template-switched guide-derived cDNA",MaterialKind.MOLECULAR,state=molecule("ECCITE guide cDNA",(role("cell barcode"),role("UMI"),role("guide protospacer"))))
     g.react("guide_rt","Reverse-transcribe sgRNA from its scaffold primer",StepKind.REVERSE_TRANSCRIPTION,((guide,InputRole.TEMPLATE),(guide_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(guide_cdna,))
     reviewed=["cells","droplets","partition","split","bead_oligo","rt","transcript_rt","tag_primer","tag_extension_polymerase","copy_tags","guide_rt_primer","guide_rt"]

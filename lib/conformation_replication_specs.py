@@ -175,7 +175,7 @@ DEFS = {
         (role("viewpoint PCR / Illumina end"), SAMPLE_INDEX, role("viewpoint fragment"),
          role("captured reporter"), role("second viewpoint PCR / Illumina end")),
         "A viewpoint-specific reading primer enters the captured reporter beside the primary restriction junction; sample and flow-cell sequences are added by the two PCR stages.", False,
-        "Viewpoint primers are locus-specific. Their exact bases cannot be generalized, so the page shows their molecular roles rather than an invented universal oligo."),
+        "The genomic portions of viewpoint primers are locus-specific. Published universal tails and second-round primer sequences are listed below; the chosen genomic portions and index depend on the experiment."),
     "ng-capture-c": Definition(
         "NG Capture-C — next-generation Capture-C", "10.1038/nmeth.3664",
         "Davies et al., Nature Methods (2016)",
@@ -644,6 +644,13 @@ def _replication_graph(key: str, definition, final: Construct,
 
 def get(key: str):
     d = DEFS[key]
+    oligos = ()
+    if key == "4c-seq":
+        oligos = (
+            "<b>Reading inverse-PCR primer</b> — 5′-TACACGACGCTCTTCCGATCT-[0–5-nt spacer]-[viewpoint-specific sequence]-3′",
+            "<b>Non-reading inverse-PCR primer</b> — 5′-ACTGGAGTTCAGACGTGTGCTCTTCCGATCT-[viewpoint-specific sequence]-3′",
+            "<b>Second-round universal forward</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′",
+        )
     if d.standard_truseq:
         # These defining protocols predate routine unique-dual indexing and describe one
         # PCR sample index.  Do not silently modernize their read structure.
@@ -661,7 +668,7 @@ def get(key: str):
         SEQUENCING_ENDING=d.sequencing,
         SEQUENCING_UNAVAILABLE=("The defining protocol uses locus-specific or custom primer sequence that cannot be represented by one universal binding sequence."
                                 if not primers else ""),
-        workflow=lambda: workflow_for(key), oligos=lambda: (),
+        workflow=lambda: workflow_for(key), oligos=lambda: oligos,
     )
     if key in {"4c-seq", "ng-capture-c", "umi-4c", "tri-c"}:
         spec.protocol_graph = lambda: _conformation_graph(key, d, final, primers)

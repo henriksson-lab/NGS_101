@@ -6,7 +6,8 @@ Zheng et al., *Nature* (2019),
 ## Sources read
 
 - 🟢 Defining article and Figure 1 (PMCID: PMC7001875).
-- 🟢 Supplementary experimental methods linked from that author manuscript.
+- 🟢 [Nature Supplementary Methods](https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-019-0949-1/MediaObjects/41586_2019_949_MOESM1_ESM.pdf), "ChIA-Drop and RNAPII ChIA-Drop library construction and sequencing" (p. 6).
+- 🟢 Supplementary Table 2 prints many **observed** 16-nt GEMcodes alongside called complexes; these observations are not the complete manufactured gel-bead barcode whitelist.
 - 🟢 Primary read metadata in GEO series GSE109355, including GSM3347523 and
   GSM3347525.
 
@@ -30,7 +31,8 @@ the remote genomic fragments never become one covalent contact molecule.
    16-nt GEM barcode and a random 8-mer. Overnight 30°C isothermal linear amplification
    random-primes accessible stretches of several DNA fragments in the same complex.
 6. 🟢 Products from one GEM are separate molecules bearing the same barcode. After GEM
-   breakup they are pooled and completed as an Illumina library.
+   breakup they are pooled, end-repaired, A-tailed and adapter-ligated using the **Chromium
+   Multiplex Kit PN-120262**; Sample Index PCR and 600-bp size selection finish the library.
 
 ## Barcode and read meaning
 
@@ -47,8 +49,11 @@ the remote genomic fragments never become one covalent contact molecule.
 
 ## Sequence boundary
 
-🔴 The defining paper identifies the commercial oligo components by role but does not
-publish the complete Chromium Genome v2 oligo sequences or barcode whitelist. The public
-schematic therefore gives exact lengths and structured identifier meanings but marks the
-compatible standard Illumina adapter arms as inferred. No proprietary base sequence is
+🔴 The defining paper and Supplementary Methods identify both commercial kits and the
+oligo roles, but do not publish the complete Chromium Genome v2 gel-bead oligo or
+manufactured barcode whitelist, nor the PN-120262 ligation adapter and Sample Index PCR primer
+sequences. The public schematic therefore gives exact lengths and structured identifier
+meanings but marks the compatible Illumina adapter arms as inferred. Published FASTQ
+could help recover read-visible sequence boundaries or used sample indexes, but cannot
+establish the ordered oligo ends or modifications. No proprietary base sequence is
 invented.

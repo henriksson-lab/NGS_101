@@ -2,20 +2,23 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row,Segment,oligo
+from chemdraw import Row,Segment,feature,oligo
 from tenx_rna import SEQ_PRIMERS,poly_a_feature_library,transcript_library
 from multimodal_spatial import finish_pcr_branch
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role
-ZIP1="GTAGCAACCACAGATCGCACCCGAGAATTCCATGATGC"+"A"*30
+ZIP1="GTAGCAACCACAGATCGCACCCGAGAATTCCATGATGC"+"A"*28
 RNA_LIB=transcript_library("ZipSeq gene-expression library")
-ZIP_LIB=poly_a_feature_library("photoaddress zipcode",feature_len=7,feature_role="spatial_barcode",feature_id="zipseq_region",name="ZipSeq zipcode library")
+ZIP_LIB=poly_a_feature_library("photoaddress zipcode",feature_len=8,feature_role="spatial_barcode",feature_id="zipseq_region",name="ZipSeq zipcode library")
 FINAL_LIBRARIES=(("Gene-expression library",RNA_LIB,SEQ_PRIMERS,"Standard 10x transcript endpoint.","Read 1 recovers cell barcode and UMI; Read 2 enters cDNA."),("Zipcode library",ZIP_LIB,SEQ_PRIMERS,"Captured polyadenylated zipcode links an illuminated region to the same cell barcode.","Read 1 recovers cell barcode and UMI; Read 2 identifies the zipcode."))
 TITLE="ZipSeq — sequential photo-uncaging of spatial zipcodes"
 NOTES="01_zipseq.html"
 SOURCE='<a href="https://doi.org/10.1038/s41592-020-0880-2">Hu et al., <i>Nature Methods</i> (2020)</a>.'
 SUMMARY="A photocaged DNA anchor coats cells. Patterned illumination exposes an overhang, and a complementary polyadenylated zipcode is added after each illumination round. 10x RNA-seq reads the accumulated spatial tags with the transcriptome."
-def oligos(): yield oligo("zipcode 1",[Segment("uncaged-overhang complement + handle + zipcode","GTAGCAACCACAGATCGCACCCGAGAATTCCATGATGC","cbc"),Segment("poly(A)30","A"*30)])
+def oligos():
+ yield oligo("antibody anchor",[Segment("anchor sequence","ATCGTTTTTTTTTTTTGATGTTGACGG")],mods="Amine-C6 linker")
+ yield oligo("O1 blocking strand",[Segment("caged-overhang blocker","CGATCTGTGGTTGCTAC")])
+ yield oligo("zipcode 1",[Segment("O1′ complement + read handle","GTAGCAACCACAGATCGCACCCGAGAATTC"),Segment("8-base region zipcode","CATGATGC","cbc",feature=feature("zipseq_region","spatial_barcode","whitelist",whitelist="paper zipcode list")),Segment("poly(A)28","A"*28)])
 def sections(): return [
  ("Coat cells with photocaged anchors",[Row(chunks=[("cell membrane — anchor || caged strand [overhang hidden]",None,False)])],"The anchor may be antibody- or lipid-conjugated."),
  ("Illuminate a selected region",[Row(chunks=[("405-nm light → cage removed → overhang exposed", "w1",False)])],"Only cells in the projected region become competent for that round's zipcode."),

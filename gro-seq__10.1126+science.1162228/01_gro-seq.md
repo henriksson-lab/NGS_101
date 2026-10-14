@@ -21,6 +21,26 @@ Global run-on sequencing (GRO-seq) maps the positions and orientations of transc
 
 The BrU is therefore at the in-vitro-extended RNA 3′ end; it is a selection handle, not a cell barcode or UMI.
 
+## Later published GRO-seq library oligos
+
+🟢 The later author protocol PMCID `PMC5880289`, **Materials, Oligonucleotides**
+(JATS text lines 107–115), prints the following ordered oligos. The internal
+`/idSp/` is a stable abasic spacer; `V` and `N` are degenerate bases.
+
+| Role | 5′→3′ sequence as printed |
+|---|---|
+| NTI223 poly(dT) first-strand/adapter oligo | `/5Phos/GAT CGT CGG ACT GTA GAA CTC T/idSp/CA AGC AGA AGA CGG CAT ACG ATT TTT TTT TTT TTT TTT TTT VN` |
+| NTI200 PCR primer | `CAA GCA GAA GAC GGC ATA` |
+| NTI201 PCR primer | `AAT GAT ACG GCG ACC ACC GAC AGG TTC AGA GTT CTA CAG TCC GAC G` |
+| NTI202 sequencing primer | `CGACAGGTTCAGAGTTCTACAGTCCGACGATC` |
+
+🟡 This is a source-verified **later implementation**, not an identity claim
+for the original 2008 Science library. The short defining author manuscript
+does not print its library oligos, and its Science supplement was not available
+through the source fetcher. Its historical 33-base run therefore remains
+role-level on the public page. The later 2018 primer family is a concrete
+starting point only if that implementation receives its own schematic.
+
 ## Final library and read layout
 
 - 🟢 The defining experiment used 33-base single-end Illumina reads.

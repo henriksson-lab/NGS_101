@@ -74,6 +74,11 @@ P5 · Read 1 · CBC16 · UMI10 · switch spacer · GGG · protospacer20 · CR1 �
 
 ## 6. Boundary and open questions
 
+- 🔴 The defining paper's Methods identify the 10x Poly-dT RT Primer (PN-2000007) and
+  Non-Poly(dT) amplification primer (PN-220106), and the companion Supplementary Note 3
+  prints the oJR oligos. Those sources do not print the complete kit bead/TSO oligo or
+  Non-Poly(dT) primer sequence. The model therefore carries the CBC/UMI bead and the
+  preamplification primers as roles, with no claim about their full ordered bases.
 - The paper also tests a cs1-modified 5′ guide and two 3′ capture-sequence designs. They
   require different molecular models and are deliberately not implied by this page.
 - The method was independently paralleled by the 5′ guide-capture strategy in ECCITE-seq;

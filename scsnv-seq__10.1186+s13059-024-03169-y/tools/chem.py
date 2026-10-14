@@ -8,7 +8,22 @@ TITLE = "scSNV-seq — genotype-linked single-cell transcriptomes"
 NOTES = "01_scsnv-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1186/s13059-024-03169-y">Cooper et al., <i>Genome Biology</i> (2024)</a>.'
 SUMMARY = "A guide-associated 6-nt iBAR and an independent 12-nt PuroR barcode connect targeted DNA genotypes to 10x 5′ transcriptomes."
-CAVEAT = "The paper establishes the four readout branches, barcode lengths and 10x 5′ capture. The exact complete endpoint oligos are not printed as one final construct; their standard-compatible sequencing shells are therefore marked inferred."
+CAVEAT = ("Supplementary Table S2 prints the vector-construction primers, both custom "
+          "10x spike-in RT primers and the shared 10-base-indexed nested primer. Those "
+          "sequences are exact below. The paired commercial 10x 5′ endpoint and "
+          "Mission Bio Tapestri shell are not printed as complete oligos, so only their "
+          "outer sequencing shells remain inferred.")
+
+ULTRAMER_5UTR = "CTTGTCTCGCTCCGGGGAACGCTCGGAAACTCCCGGCCGCCGCCACCCGCGTCTGTTCTGTTACACAAGGGAAGAAAAGCCGCTGCCGCACTCCGAGTGT"
+UTR_BC_F1 = "CCGGGCCTTTCGACCTGCATCCATCTTGTCTCGCTCCGGGGAACG"
+UTR_BC_R1 = "CTCGGTCATGGTAAGCTTCAGCTGCNNNNNNNNNNNNACACTCGGAGTGCGGCAG"
+IBAR_PCR1_F = "TGTGGAAAGGACGAAACACC"
+IBAR_PCR1_R = "CAAGTTGATAACGGACTAGCCTTATTTAAACTTGCTATGCTGTTNNNNNNTCCAGCATAGCTCTTAAAC"
+IBAR_GIBSON_F = "GGCTTTATATATCTTGTGGAAAGGACGAAACACC"
+IBAR_GIBSON_R = "GAAAAGCGCCTCCCCTACCCGGTAGAATTGGATCCAAAAAAAGCACCGACTCGGTGCCACTTTTTCAAGTTGATAACGGACTAGCC"
+GUIDE_RT = "AAGCAGTGGTATCAACGCAGAGTACCAAGTTGATAACGGACTAGCC"
+PURO_RT = "AAGCAGTGGTATCAACGCAGAGTACGGCTTGTACTCGGTCATGGT"
+I5_LONG = "AATGATACGGCGACCACCGAGATCTACACNNNNNNNNNNACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 RNA, TENX_PRIMERS = illumina_branch("scSNV-seq transcriptome library", "10x 5-prime cDNA", cell=16, umi=10, inferred_adapters=True)
 GUIDE, GUIDE_PRIMERS = illumina_branch("scSNV-seq guide/iBAR library", "guide plus 6-nt iBAR", cell=16, umi=10, guide=26, inferred_adapters=True)
 PURO, PURO_PRIMERS = illumina_branch("scSNV-seq PuroR-barcode library", "12-nt PuroR barcode", cell=16, umi=10, target=12, inferred_adapters=True)
@@ -19,6 +34,21 @@ FINAL_LIBRARIES = (
     ("PuroR-barcode library", PURO, PURO_PRIMERS, "A separate nested enrichment reads the 12-nt transcribed PuroR barcode.", "The PuroR branch retains the same droplet cell identity."),
     ("Targeted genotype library", GENO, GENO_PRIMERS, "Targeted single-cell DNA amplicons call the edited allele.", "The DNA branch supplies the genotype joined computationally through the barcode pair."),
 )
+
+
+def oligos():
+    return (
+        f"<b>Ultramer_5UTR</b> — 5′-{ULTRAMER_5UTR}-3′",
+        f"<b>5UTR_BC_F1_Ext</b> — 5′-{UTR_BC_F1}-3′",
+        f"<b>5UTR_BC_R1_Ext</b> — 5′-{UTR_BC_R1}-3′",
+        f"<b>iBAR_PCR1_F</b> — 5′-{IBAR_PCR1_F}-3′",
+        f"<b>iBAR_PCR1_R</b> — 5′-{IBAR_PCR1_R}-3′",
+        f"<b>iBar_Gibson_Nested_F</b> — 5′-{IBAR_GIBSON_F}-3′",
+        f"<b>iBar_Gibson_Nested_R</b> — 5′-{IBAR_GIBSON_R}-3′",
+        f"<b>oJR160 guide RT spike-in</b> — 5′-{GUIDE_RT}-3′",
+        f"<b>RT_Puro_Singlecell spike-in</b> — 5′-{PURO_RT}-3′",
+        f"<b>Kosuke_Guide_i5longFwd / Puro_i5longFwd</b> — 5′-{I5_LONG}-3′",
+    )
 
 def sections():
     return [
@@ -52,8 +82,8 @@ def protocol_graph():
     g.discard(empty,"does not contain a usable edited-cell template")
 
     bead=g.input("bead_oligo","proprietary 10x 5-prime cell-barcode and UMI bead oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (commercial oligo sequence not printed as a complete endpoint)")
-    guide_rt=g.input("guide_rt_primer","guide-scaffold spike-in RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete endpoint oligo not printed)")
-    puro_rt=g.input("puro_rt_primer","PuroR-barcode spike-in RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete endpoint oligo not printed)")
+    guide_rt=g.input("guide_rt_primer","source-printed oJR160 guide-scaffold spike-in RT primer",MaterialKind.OLIGO)
+    puro_rt=g.input("puro_rt_primer","source-printed RT_Puro_Singlecell spike-in RT primer",MaterialKind.OLIGO)
     rt=g.input("reverse_transcriptase","10x 5-prime reverse transcriptase",MaterialKind.CATALYST)
     captured=g.product("captured","droplet cell retaining gDNA and three RNA-derived cDNA classes",MaterialKind.MOLECULAR,state=sections()[2][1],inferred=True,source=SOURCE+" (complete commercial endpoint oligos not printed)")
     g.react("reverse_transcribe","Capture transcript, guide/iBAR and PuroR-barcode cDNA",StepKind.REVERSE_TRANSCRIPTION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(guide_rt,InputRole.STRUCTURAL),(puro_rt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(captured,))

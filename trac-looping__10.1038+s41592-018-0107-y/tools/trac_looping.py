@@ -81,8 +81,12 @@ SEQUENCING_INTRO = "Paired reads enter the two genomic ends represented in the a
 
 
 def oligos():
+    yield oligo("ME3ddCTPtop", [Segment("modified ME top", "CTGTCTCTTATACACATCTCTGATGGCGCGAGGGA", "me")], mods="5′ phosphate; 3′ /3ddCTP/")
+    yield oligo("5NH2MEbottom", [Segment("modified ME bottom", "TCCCTCGCGCCATCAGAGATGTGTATAAGAGACAG", "me")], mods="5′ /5AmC6/")
     yield oligo("Bio67F", [Segment("bivalent top strand", BIO67F, "me")], mods="5′ phosphate; internal biotin-dT")
     yield oligo("67bpR", [Segment("bivalent bottom strand", BP67R, "me")], mods="5′ phosphate")
+    yield oligo("N501, example i5 PCR primer", [Segment("indexed P5 primer", "AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG", "p5")])
+    yield oligo("N701, example i7 PCR primer", [Segment("indexed P7 primer", "CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG", "p7")])
 
 
 def protocol_graph():

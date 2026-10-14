@@ -148,8 +148,9 @@ on the copy. Both original strands give the same structure. 🟡 (upstream, cons
 the adapter design)
 
 Side assay (not part of the library): single sperm lysed the same way, digested with MspI
-or the methylation-sensitive **HpaII**, then nested PCR (30 + 30 cycles) — primers in
-Supplemental Table 5, not obtained 🔴.
+or the methylation-sensitive **HpaII**, then nested PCR (30 + 30 cycles). The paper
+assigns its nested-PCR primers to Supplemental Table 5; these are validation primers,
+not scRRBS library-construction oligos. 🔴 (table not obtained)
 
 ## 4. Final library — 🟡 (assembled from the oligos; agrees with upstream's drawing)
 

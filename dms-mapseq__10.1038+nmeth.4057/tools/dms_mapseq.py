@@ -2,14 +2,17 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Construct, Row, Scene, Segment, circle_rows, revcomp
+from chemdraw import (Construct, Row, Scene, Segment, circle_rows, feature,
+                      oligo, revcomp)
 from circular import circularize_ssdna
 from circular import CircularizationGeometry
+import illumina as il
 from rna_special import adapter_ligation_scene, mutational_read_rows
 from adapter_ligation import reported_adapter_end
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+import seqprimers as sp
 
 TITLE = "DMS-MaPseq — mutations report RNA structure"
 NOTES = "01_dms-mapseq.html"
@@ -18,20 +21,68 @@ SUMMARY = "DMS modifies exposed A and C bases in living cells; TGIRT reads throu
 CAVEAT = "This page follows the paper's genome-wide branch. Its targeted RT-PCR and UMI-targeted branches are related protocols with different library conversion."
 LINKER = "CACTCGGGCACCAAGGA"
 RT_HANDLE = "GATCGTCGGACTGTAGAACTCTGAACCTGTCG"
-READ1 = "GCAGCGACAGGTTCAGAGTTCTACAGTCCGACGATC"
+RT_PRIMER = (RT_HANDLE + il.P7 + revcomp(LINKER))
+PCR_FORWARD = "CAAGCAGAAGACGGCATACGA"
+INDEX_PCR_PREFIX = il.P5 + il.INDEX1_PRIMER
+INDEX_PCR_ANNEAL = "CGACAGGTTCAGAGTTC"
+INDEX_PCR = INDEX_PCR_PREFIX + "N" * 6 + INDEX_PCR_ANNEAL
+READ1 = revcomp(RT_HANDLE)
 CDNA = Construct([Segment("RT-primer handle", RT_HANDLE, "r1"),
+                  Segment("P7 in RT primer", il.P7, "p7"),
+                  Segment("linker-2 complement", revcomp(LINKER), "r2"),
                   Segment("mutation-bearing cDNA", "X"*42, placeholder=True)],
                  name="DMS-MaPseq cDNA")
 CIRCLE = circularize_ssdna(CDNA, five_prime_phosphate=True)
-FINAL_LIBRARY = None
-SEQ_PRIMERS = ()
-SEQUENCING_ENDING = "Custom Read 1 primer oNTI202 anneals to the PCR-added handle and reads into the mutation-bearing cDNA; the paper used 50-nt single-end HiSeq 4000 reads."
+PCR_TEMPLATE = Construct([
+    Segment("P7 in RT primer", il.P7, "p7"),
+    Segment("linker-2 complement", revcomp(LINKER), "r2"),
+    Segment("mutation-bearing cDNA", "X"*42, placeholder=True),
+    Segment("RT-primer handle", RT_HANDLE, "r1"),
+], name="cDNA circle linearized between RT handle and P7")
+FINAL_LIBRARY = Construct([
+    Segment("P7", il.P7, "p7"),
+    Segment("linker-2 complement", revcomp(LINKER), "r2"),
+    Segment("mutation-bearing cDNA", "X"*42, placeholder=True),
+    Segment("oNTI202 binding site", RT_HANDLE, "r1"),
+    Segment("sample index", "N"*6, "i7", placeholder=True,
+            feature=feature("dms_mapseq_sample_index", "sample_index", "unknown",
+                            note="six-base TruSeq index selected in the PCR primer")),
+    Segment("Index 1 primer site", revcomp(il.INDEX1_PRIMER), "r2"),
+    Segment("P5 reverse complement", il.P5_RC, "p5"),
+], name="PCR-completed DMS-MaPseq library")
+SEQ_PRIMERS = (
+    sp.custom("Read 1", "oNTI202", READ1, "Zubradt et al. Supplementary Table 1"),
+    sp.TRUSEQ["I1"],
+)
+ACQUIRED_ROLES = ("Read 1", "Index 1 (i7)")
+READ_LENGTHS = {"Read 1": 50, "Index 1 (i7)": 6}
+READ_USES = {"Read 1": "include", "Index 1 (i7)": "demultiplex"}
+SEQUENCING_INTRO = "The source-exact custom oNTI202 primer reads into mutation-bearing cDNA; the standard Index 1 primer reads the six-base sample index introduced by the indexing PCR primer."
+FINAL_CAPTION = "Source-exact PCR endpoint, linearized from P7 to P5. The insert is schematic; every oligo-derived region is sequence exact."
+
+
+def oligos():
+    return (
+        oligo("Linker 2", (Segment("linker-2", LINKER),),
+              mods="/5rApp/", three="/3ddC/-3′"),
+        oligo("oCJ200-link2 RT primer",
+              (Segment("custom handle", RT_HANDLE),
+               Segment("internal spacer", "/iSp18/", placeholder=True),
+               Segment("P7", il.P7),
+               Segment("linker-2 annealing region", revcomp(LINKER))),
+              mods="/5Phos/", three="-3′"),
+        oligo("oNTI231 library PCR primer", (Segment("oNTI231", PCR_FORWARD),)),
+        oligo("indexing PCR primer",
+              (Segment("P5", il.P5), Segment("Index 1 primer site", il.INDEX1_PRIMER),
+               Segment("six-base TruSeq index", "N"*6, placeholder=True,
+                       feature=feature("dms_mapseq_sample_index", "sample_index", "unknown")),
+               Segment("circle annealing region", INDEX_PCR_ANNEAL))),
+        oligo("oNTI202 custom Read 1 primer", (Segment("oNTI202", READ1),)),
+    )
 
 def final_primer_scene():
-    template = [Segment("oNTI202 binding site", revcomp(READ1), "r1"),
-                Segment("mutation-bearing cDNA", "X"*42, placeholder=True)]
     primer = [Segment("oNTI202", READ1, "r1")]
-    sc=Scene(); sc.strand("library",template,label="PCR-completed library")
+    sc=Scene(); sc.strand("library",list(FINAL_LIBRARY),label="PCR-completed library")
     sc.anneal("Read 1 primer",primer,to="library",pair=("oNTI202","oNTI202 binding site"),label="oNTI202")
     sc.arrow("Read 1 primer","Read 1 enters cDNA")
     sc.labels("library")
@@ -125,10 +176,18 @@ def protocol_graph():
     graph.react("library_pcr","Add indexed Illumina arms",StepKind.PCR,
                 ((circle,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
-                    CDNA,reason="The complete indexed outer PCR oligos are not reconstructed in this compact module."))
+                (library,),geometry=PCRGeometry.exact(
+                    PCR_TEMPLATE,
+                    PCRPrimer("oNTI231", PCR_FORWARD),
+                    PCRPrimer("six-base TruSeq indexing primer", INDEX_PCR,
+                              anneal_nt=len(INDEX_PCR_ANNEAL)),
+                    statement=("Supplementary Table 1 prints both PCR primers; the "
+                               "circle is linearized between the RT handle and P7 so "
+                               "their inward-facing sites are checked directly.")))
     graph.sequence(library,SequencingPlan(
-        limitation="Custom primer oNTI202 binds the modelled PCR-added site and reads mutation-bearing cDNA; the complete indexed outer-arm construct is not available."))
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS,
+        acquired_roles=ACQUIRED_ROLES, read_lengths=READ_LENGTHS,
+        read_uses=READ_USES))
     graph.declare_reviewed_scope((
         "rna","dms","modify","zinc","fragment","size_rule","size_select",
         "phosphatase","dephosphorylate","linker","ligase","ligate_linker",

@@ -19,7 +19,7 @@ UMI=feature("umi","umi","random")
 ADT_FEATURE=feature("antibody_barcode","feature_barcode","unknown")
 
 GEX,GEX_P=truseq_library([seg("cell barcode","B"*16,"cbc",placeholder=True,feature=CELL),seg("UMI","U"*10,"umi",placeholder=True,feature=UMI),seg("poly(dT) junction","T"*10,placeholder=True),seg("mRNA cDNA","X"*34,placeholder=True)],"CITE-seq transcript library",dual_index=False)
-ADT,ADT_P=truseq_library([seg("cell barcode","B"*16,"cbc",placeholder=True,feature=CELL),seg("UMI","U"*10,"umi",placeholder=True,feature=UMI),seg("ADT PCR handle","H"*18,"r2",placeholder=True),seg("antibody barcode","A"*15,"cbc",placeholder=True,feature=ADT_FEATURE)],"CITE-seq ADT library",dual_index=False)
+ADT,ADT_P=truseq_library([seg("cell barcode","B"*16,"cbc",placeholder=True,feature=CELL),seg("UMI","U"*10,"umi",placeholder=True,feature=UMI),seg("ADT PCR handle","CCTTGGCACCCGAGAATTCC","r2"),seg("antibody barcode","A"*7,"cbc",placeholder=True,feature=ADT_FEATURE)],"CITE-seq ADT library",dual_index=False)
 FINAL_LIBRARIES=(
     ("Final transcript library",GEX,GEX_P,"The 10x cell barcode and UMI identify each transcript molecule.","The final transcript duplex shows the declared Illumina primer geometry."),
     ("Final antibody-derived-tag library",ADT,ADT_P,"The same cell barcode and UMI are followed by the antibody-specific tag.","The final ADT duplex shows the declared Illumina primer geometry."),)
@@ -31,6 +31,13 @@ READ_USES={
     "Final antibody-derived-tag library":{"Read 2":"extract"},
 }
 SHOW_READ_CONTENT=True
+
+def oligos():
+    return [
+        "<b>v2_BC1 antibody oligo</b> — 5′-/5AmMC12/CCTTGGCACCCGAGAATTCCAATCACGBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-3′",
+        "<b>10x v2 ADT P5 PCR primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGAT*C*T-3′",
+        "<b>ADT RPI1 index primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′",
+    ]
 
 def sections():
     return [

@@ -31,8 +31,10 @@ TSO_INDEX = feature("r2c2.tso-index", "sample_index", "combinatorial",
 PCR_INDEX = feature("r2c2.pcr-index", "sample_index", "combinatorial",
                     note="8-nt Nextera A index introduced during cDNA PCR")
 
-# The paper prints the roles and lengths, but the exact Table S3 oligos are supplementary.
-# Role tokens keep the model honest while retaining the published architecture.
+# Supplementary Table S3 prints the orderable RT, TSO, cDNA PCR and splint-PCR
+# oligos (transcribed in the research note). The complete lambda amplicon and
+# exact strand placement of the indexed cDNA ends have not been reconstructed;
+# retain role tokens for those assembled molecules.
 CDNA = Construct([
     seg("ISPCR end", "[ISPCR site]", "p5", placeholder=True),
     seg("7-nt TSO index", "NNNNNNN", "cbc", placeholder=True, feature=TSO_INDEX),

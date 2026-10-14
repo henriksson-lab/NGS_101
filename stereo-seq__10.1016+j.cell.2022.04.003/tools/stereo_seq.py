@@ -17,12 +17,32 @@ TITLE="Stereo-seq"
 NOTES="01_stereo-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2022.04.003">Chen et al., <i>Cell</i> (2022)</a>.'
 SUMMARY="Spatially indexed DNA nanoballs are arrayed and decoded before receiving a UMI and oligo-dT capture sequence. Tissue mRNA is reverse-transcribed on this surface; released cDNA retains the coordinate identifier and is converted to a DNBSEQ library."
-CAVEAT="The paper establishes coordinate-identifier and molecular-identifier roles, but complete STOmics chip and sequencing-primer bases are commercial. They are shown as inferred placeholders and no proprietary sequence is invented."
+CAVEAT=("The open author preprint prints the CID precursor, fixed ligation oligo, splint "
+        "and phosphorylated UMI/poly(dT) capture oligo; those sequences are transcribed "
+        "below. Complete downstream DNBSEQ library adapters and cPAS primer bases remain "
+        "commercial and are shown as inferred placeholders.")
 SPATIAL=feature("coordinate_identifier","spatial_barcode","unknown")
 UMI_FEATURE=feature("molecular_identifier","umi","random")
 SEQ_PRIMERS=()
 FINAL_LIBRARY=None
 SEQUENCING_ENDING="The completed library is circularized and amplified into sequencing DNA nanoballs. A DNBSEQ/cPAS primer anneals to the repeated platform-adapter site immediately before the coordinate-identifier/UMI-bearing insert. The current primer and adapter bases are proprietary, so the final panel shows the binding geometry and extension direction rather than a fabricated sequence."
+
+CID_PRECURSOR=("TGTGAGCCAAGGAGTTGNAACTGCTGACGTACTGAGAGGCATGGCGACCTTATCAG"+
+               "N"*25+"TTGTCTTCCTAAGACCG")
+FIXED_LIGATION_OLIGO="CTTGGCCTCCGACTTAAGTCGGATCGTAGCCATGTCGTTC"
+CID_SPLINT="TCGGAGGCCAAGCGGTCTTAGGAA"
+CAPTURE_OLIGO="TTGTCTTCCTAAGAC"+"N"*10+"T"*21+"V"
+
+if CID_SPLINT != "TCGGAGGCCAAG"+"CGGTCTTAGGAA":
+    raise ValueError("Stereo-seq splint transcription changed")
+
+def oligos():
+    return [
+        f"CID precursor (25-nt random CID; one additional source-written N): 5′-{CID_PRECURSOR}-3′",
+        f"fixed oligo (5′ phosphate): 5′-{FIXED_LIGATION_OLIGO}-3′",
+        f"CID/fixed-oligo splint: 5′-{CID_SPLINT}-3′",
+        f"UMI/poly(dT) capture oligo (5′ phosphate): 5′-{CAPTURE_OLIGO}-3′",
+    ]
 
 LINEAR=Construct([seg("DNBSEQ primer site","P"*18,"r1",placeholder=True,inferred=True),seg("coordinate identifier","C"*25,"cbc",placeholder=True,feature=SPATIAL),seg("molecular identifier","M"*10,"umi",placeholder=True,feature=UMI_FEATURE),seg("captured cDNA","X"*38,placeholder=True),seg("distal DNBSEQ adapter","Q"*18,placeholder=True,inferred=True)],name="Stereo-seq ssDNA library")
 CIRCLE=circularize_ssdna(LINEAR,five_prime_phosphate=True)
@@ -53,29 +73,37 @@ def sections():
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
     dnb=graph.input("decoded_dnb","decoded coordinate-identifier DNA nanoball array",
-                    MaterialKind.MOLECULAR,primary=True)
+                    MaterialKind.MOLECULAR,
+                    state=(seg("CID precursor",CID_PRECURSOR,"cbc",placeholder=True,
+                               feature=SPATIAL),
+                           seg("fixed ligation oligo",FIXED_LIGATION_OLIGO)),primary=True)
     capture_extension=graph.input("capture_extension","UMI and oligo-dT capture extension",
-                                  MaterialKind.ADAPTER,inferred=True,
-                                  source=SOURCE+" (commercial bases undisclosed)")
+                                  MaterialKind.ADAPTER,
+                                  state=(seg("capture handle",CAPTURE_OLIGO[:15]),
+                                         seg("molecular identifier","N"*10,"umi",placeholder=True,
+                                             feature=UMI_FEATURE),
+                                         seg("poly(dT)V","T"*21+"V",placeholder=True)))
     ligase=graph.input("surface_ligase","surface capture-oligo ligase",
                        MaterialKind.CATALYST)
     capture_surface=graph.product("capture_surface","CID-UMI-oligo-dT capture array",
-                                  MaterialKind.MOLECULAR,inferred=True,
-                                  source=SOURCE+" (commercial bases undisclosed)")
+                                  MaterialKind.MOLECULAR)
     graph.react("extend_surface","Ligate UMI/oligo-dT onto decoded chip oligos",
                 StepKind.LIGATION,
                 ((dnb,InputRole.TEMPLATE),(capture_extension,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(capture_surface,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The paper establishes surface ligation but complete commercial oligo ends are undisclosed."))
+                    "The source prints the capture oligo, but the decoded surface DNB's exposed ligation end is not represented as one complete linear strand."))
     rna=graph.input("tissue_rna","polyadenylated tissue RNA",MaterialKind.MOLECULAR)
     captured=graph.product("captured","surface-captured tissue mRNA",MaterialKind.MOLECULAR)
     graph.react("capture_rna","Hybridize tissue mRNA to surface oligo-dT",
                 StepKind.HYBRIDIZATION,
                 ((capture_surface,InputRole.TEMPLATE),(rna,InputRole.STRUCTURAL)),
                 (captured,))
-    rt_primer=graph.input("rt_primer","surface oligo-dT RT primer",MaterialKind.OLIGO,
-                          inferred=True,source=SOURCE+" (commercial bases undisclosed)")
+    rt_primer=graph.input("rt_primer","surface UMI/oligo-dT RT primer",MaterialKind.OLIGO,
+                          state=(seg("capture handle",CAPTURE_OLIGO[:15]),
+                                 seg("molecular identifier","N"*10,"umi",placeholder=True,
+                                     feature=UMI_FEATURE),
+                                 seg("poly(dT)V","T"*21+"V",placeholder=True)))
     rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
                    MaterialKind.CATALYST)
     cdna=graph.product("cdna","CID-MID-bearing spatial cDNA",MaterialKind.MOLECULAR)

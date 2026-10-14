@@ -1,18 +1,33 @@
 """scCAT-seq physical RNA/nucleus separation."""
+import nextera as nx
+import smartseq2 as ss2
 from chemdraw import Row
 from multibranch import illumina_branch
 from multimodal_spatial import finish_pcr_branch
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_extensions import analyte_split
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 TITLE="scCAT-seq — transcriptome and chromatin accessibility"
 NOTES="01_sccat-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-018-08205-7">Liu et al., <i>Nature Communications</i> (2019)</a>.'
 SUMMARY="Gentle lysis separates cytoplasmic RNA from the nucleus of one cell; Smart-seq2 and scATAC-seq then process the matched fractions."
-CAVEAT="The defining paper specifies Smart-seq2 and scATAC-seq branch chemistries, but this compact page has not transcribed their complete oligo and index-primer tables. Those PCR and loaded-adapter geometries therefore remain explicitly unavailable here."
+CAVEAT=("The defining paper publishes the complete SMART-seq2 RT, template-switch and "
+        "cDNA-preamp oligos and both ATAC preamplification primers. It names, but does "
+        "not sequence, the final universal and barcode primers used before BGISEQ-500 "
+        "conversion; those endpoint primer geometries therefore remain unavailable.")
 RNA,RP=illumina_branch("scCAT-seq RNA library","Smart-seq2 cDNA",architecture="nextera")
 ATAC,AP=illumina_branch("scCAT-seq ATAC library","accessible chromatin fragment",architecture="nextera")
 FINAL_LIBRARIES=(("Transcriptome library",RNA,RP,"Smart-seq2 cDNA after Nextera library construction.","Nextera-compatible primers read the RNA branch."),("Chromatin-accessibility library",ATAC,AP,"The matched nucleus yields a tagmented accessibility library.","Nextera-compatible primers read the ATAC branch."))
+ATAC_PREAMP_FORWARD=nx.READ1_PRIMER
+ATAC_PREAMP_REVERSE=nx.READ2_PRIMER
+
+def oligos(): return [
+    "<b>Modified oligo-dT primer</b> — 5′-"+ss2.OLIGO_DT+"-3′",
+    "<b>Template-switching oligo</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3′",
+    "<b>cDNA PCR primer</b> — 5′-"+ss2.ISPCR+"-3′",
+    "<b>transposase adapter 1 / ATAC preamp forward</b> — 5′-"+ATAC_PREAMP_FORWARD+"-3′",
+    "<b>transposase adapter 2 / ATAC preamp reverse</b> — 5′-"+ATAC_PREAMP_REVERSE+"-3′",
+]
 def sections(): return [
  ("Lyse one cell without disrupting its nucleus",[Row(chunks=[("cell → cytoplasmic RNA + intact nucleus","r1",False)])],"The nucleus is physically retained while cytoplasmic RNA enters the supernatant."),
  ("Separate the matched analytes",analyte_split("cytoplasmic RNA → Smart-seq2","nucleus → scATAC-seq"),"The two branches retain common cell provenance, not a covalent barcode."),
@@ -27,18 +42,18 @@ def protocol_graph():
     nucleus=g.product("nucleus","matched intact nucleus",MaterialKind.MOLECULAR,state=analyte_split("cytoplasmic RNA → Smart-seq2","nucleus → scATAC-seq")[1:])
     g.react("separate","Gently lyse the cell and separate cytoplasm from its nucleus",StepKind.SPLIT,((cell,InputRole.TEMPLATE),),(cytoplasm,nucleus),changes_molecule=False)
 
-    oligo_dt=g.input("oligo_dt","Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
+    oligo_dt=g.input("oligo_dt","published Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO)
     rt=g.input("reverse_transcriptase","template-switching reverse transcriptase",MaterialKind.CATALYST)
-    first_strand=g.product("first_strand","oligo(dT)-primed cytoplasmic first-strand cDNA",MaterialKind.MOLECULAR,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
+    first_strand=g.product("first_strand","oligo(dT)-primed cytoplasmic first-strand cDNA",MaterialKind.MOLECULAR)
     g.react("reverse_transcribe","Reverse-transcribe cytoplasmic poly(A) RNA",StepKind.REVERSE_TRANSCRIPTION,((cytoplasm,InputRole.TEMPLATE),(oligo_dt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first_strand,))
-    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
-    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
+    tso=g.input("tso","published Smart-seq2 template-switch oligo",MaterialKind.OLIGO)
+    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template())
     g.react("template_switch","Template-switch at the cDNA 5-prime end",StepKind.TEMPLATE_SWITCHING,((first_strand,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
-    preamp_f=g.input("preamp_forward","Smart-seq2 cDNA preamplification forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
-    preamp_r=g.input("preamp_reverse","Smart-seq2 cDNA preamplification reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
+    preamp_f=g.input("preamp_forward","published SMART/ISPCR primer, forward-facing copy",MaterialKind.OLIGO)
+    preamp_r=g.input("preamp_reverse","published SMART/ISPCR primer, reverse-facing copy",MaterialKind.OLIGO)
     preamp_pol=g.input("preamp_polymerase","Smart-seq2 cDNA PCR polymerase",MaterialKind.CATALYST)
-    amplified=g.product("amplified_cdna","amplified full-length transcript cDNA",MaterialKind.MOLECULAR,inferred=True,source=SOURCE+" (exact branch oligo not transcribed on this page)")
-    g.react("preamp","Preamplify the Smart-seq2 cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(preamp_f,InputRole.STRUCTURAL),(preamp_r,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(RNA,reason="The exact Smart-seq2 preamplification template and primer pair have not yet been transcribed on this page."))
+    amplified=g.product("amplified_cdna","amplified full-length transcript cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template())
+    g.react("preamp","Preamplify the Smart-seq2 cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(preamp_f,InputRole.STRUCTURAL),(preamp_r,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),(amplified,),geometry=ss2.ispcr_geometry(switched.state))
 
     rna_adapter=g.input("rna_transposome","Nextera transposome for amplified cDNA",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (loaded-adapter oligos not transcribed on this page)")
     rna_tn5=g.input("rna_tn5","RNA-branch Tn5 transposase",MaterialKind.CATALYST)
@@ -46,7 +61,7 @@ def protocol_graph():
     rna_waste=g.product("rna_tagment_waste","non-library cDNA tagmentation products",MaterialKind.WASTE)
     g.react("tagment_rna","Tagment amplified transcript cDNA",StepKind.TAGMENTATION,((amplified,InputRole.TEMPLATE),(rna_adapter,InputRole.STRUCTURAL),(rna_tn5,InputRole.CATALYST)),(rna_template,rna_waste));g.discard(rna_waste,"does not retain a library-eligible heterologous Nextera fragment")
 
-    atac_adapter=g.input("atac_transposome","scATAC-seq loaded Nextera transposome",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (loaded-adapter oligos not transcribed on this page)")
+    atac_adapter=g.input("atac_transposome","scATAC-seq transposome carrying the published adapters",MaterialKind.ADAPTER)
     atac_tn5=g.input("atac_tn5","chromatin Tn5 transposase",MaterialKind.CATALYST)
     atac_template=g.product("atac_template","tagmented accessible chromatin from the matched nucleus",MaterialKind.MOLECULAR,state=ATAC,inferred=True,source=SOURCE+" (loaded-adapter oligos not transcribed on this page)")
     atac_waste=g.product("atac_tagment_waste","non-library chromatin tagmentation products",MaterialKind.WASTE)

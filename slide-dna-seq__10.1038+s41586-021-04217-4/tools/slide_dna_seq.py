@@ -28,15 +28,21 @@ TITLE="slide-DNA-seq — spatial capture of tissue genomic DNA"
 NOTES="01_slide-dna-seq.html"
 SOURCE='<a href="https://doi.org/10.1038/s41586-021-04217-4">Zhao et al., <i>Nature</i> (2022)</a>.'
 SUMMARY="Histone-depleted tissue DNA is tagmented with custom ends directly on a spatially indexed bead array. Photocleaved bead barcodes ligate to nearby genomic fragments before PCR."
-CAVEAT="The two genomic read primers and bead-oligo architecture are source-printed. Sample-index read-primer placement is not asserted because the paper prints PCR primers rather than a complete strand-resolved index-read scheme."
+CAVEAT="The two genomic read primers, bead-oligo architecture and both custom index primers are source-printed. This representative final-strand model does not yet resolve where the two index primers bind."
 FINAL_CAPTION="Representative captured genomic fragment with the two-block bead barcode and custom paired-end sequencing sites."
 SEQUENCING_INTRO="The source-printed custom Read 1 and Read 2 primers enter genomic DNA from opposite custom Tn5 ends."
-SEQUENCING_UNAVAILABLE="i5/i7 sample indexes are added in PCR, but the source does not give a complete index-read primer map on the final strand; only the exact genomic read sites are placed."
+SEQUENCING_UNAVAILABLE="i5/i7 sample indexes are added in PCR and both custom index primers are printed in Supplementary Table 1; their binding positions have not been reconstructed on this representative final strand."
 def oligos():
  yield oligo("Tn5 adapter 1",[Segment("custom handle + ME",T5,"me")],mods="5′ phosphate")
  yield oligo("Tn5 adapter 2",[Segment("custom handle + ME",T7,"me")])
+ yield oligo("bridge oligo",[Segment("bead-to-Tn5 bridge","CGTTAGCAAAGCTCCGCCCATGTGTC")])
+ yield oligo("Tn5 mosaic bottom",[Segment("mosaic bottom before dideoxy block","CTGTCTCTTATACA")],mods="5′ phosphate",three="-ddC-3′")
+ yield oligo("slide-DNA PCR forward",[Segment("P5 and i5 flank","AATGATACGGCGACCACCGAGATCTACAC"),Segment("i5 index","[i5 barcode]",placeholder=True),Segment("TruSeq R1 site","ACACTCTTTCCCTACACGACGCTCTTCCGATC"),Segment("protected terminal T","*T",placeholder=True)])
+ yield oligo("PCR reverse",[Segment("P7 and i7 flank","CAAGCAGAAGACGGCATACGAGAT"),Segment("i7 index","[i7 barcode]",placeholder=True),Segment("custom genomic-side arm","GTTGGCACCAGGCTTACGGATGTTGCACCAGC")])
  yield oligo("sequencing primer Read 1",[Segment("primer",READ1,"r1")])
  yield oligo("sequencing primer Read 2",[Segment("primer",READ2,"r2")])
+ yield oligo("sequencing primer index 1",[Segment("primer","GCTGGTGCAACATCCGTAAGCCTGGTGCCAAC")])
+ yield oligo("sequencing primer index 2",[Segment("primer","CTCGACCGTTAGCAAAGCTCCGCCCATGTGTC")])
 def sections(): return [
  ("Place tissue on a sequenced bead array",[Row(chunks=[("10-µm tissue section over beads with known spatial barcodes",None,False)])],"Each bead's barcode has already been assigned a coordinate by sequencing-by-ligation."),
  ("Remove histones and tagment DNA",[Row(chunks=[("custom Tn5 end ** genomic fragment ** custom Tn5 end", "me",False)])],"HCl exposes DNA and custom-loaded Tn5 fragments it in situ."),

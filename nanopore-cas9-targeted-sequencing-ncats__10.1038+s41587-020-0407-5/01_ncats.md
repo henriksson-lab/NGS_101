@@ -4,12 +4,13 @@
 
 Gilpatrick T, Lee I, Graham JE, et al. *Targeted nanopore sequencing with Cas9-guided adapter ligation.* Nature Biotechnology 2020. [doi:10.1038/s41587-020-0407-5](https://doi.org/10.1038/s41587-020-0407-5), PMCID PMC7145730.
 
-Sources read: primary-paper Results, Figure 1 legend and Online Methods (“Cas9 enrichment and library preparation”).
+Sources read: primary-paper Results, Figure 1 legend and Online Methods (“Cas9 enrichment and library preparation”); PMC7145730 Supplementary Table S1 (`NIHMS1548342-supplement-Sup_Tab1.xlsx`) for the locus-specific guide RNA names, 20-base guide sequences and target positions; the linked author protocols.io Cas9-enrichment protocol. Table S1 is the authority for selecting the relevant guide pair and is separate from the undisclosed ONT adapter.
 
 ## Evidence record
 
 - 🟢 About 3 µg HMW genomic DNA is dephosphorylated with Quick CIP for 10 min at 37 °C, then heated for 2 min at 80 °C. Existing DNA ends therefore cannot efficiently accept sequencing adapters.
 - 🟢 Preassembled Cas9/gRNA RNP makes fresh targeted cuts. These newly produced ends retain the 5′ phosphate needed for ligation.
+- 🟢 Supplementary Table S1 prints each guide RNA's target-specific 20-base sequence and genomic target site. These guide oligos determine where the native DNA is cut; they are not incorporated into the sequenced library.
 - 🟢 The same tube receives dATP and Taq polymerase: 20 min at 37 °C for cleavage, then 5 min at 72 °C for A-tailing.
 - 🟢 LSK109 sequencing adapters and Quick Ligase are added for 10 min at room temperature. A 0.3× AMPure cleanup with long-fragment buffer follows.
 - 🟢 The native, PCR-free DNA supports simultaneous long-range sequence, structural-variant and CpG-methylation observation.

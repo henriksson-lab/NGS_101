@@ -6,7 +6,7 @@ Sholes TeloTag marks the physical end of each *S. cerevisiae* telomere with poly
 
 ## 2. Sources read
 
-- 🟢 Sholes et al. (2022), [doi:10.1101/gr.275868.121](https://doi.org/10.1101/gr.275868.121), full text and methods.
+- 🟢 Sholes et al. (2022), [doi:10.1101/gr.275868.121](https://doi.org/10.1101/gr.275868.121), full text and `_data/sources/doi_10.1101+gr.275868.121/gr.275868.121_supp_supp_gr.275868.121_Supplemental_Material.pdf.txt`, Supplemental Table S5, lines 679–707; the PDF page was checked visually.
 - 🟡 Makarova et al. (2025), [doi:10.3389/fmolb.2025.1725112](https://doi.org/10.3389/fmolb.2025.1725112), comparison with later long-read methods.
 
 ## 3. Construct and reaction order
@@ -16,7 +16,17 @@ Sholes TeloTag marks the physical end of each *S. cerevisiae* telomere with poly
 3. 🟢 Sulfolobus DNA polymerase IV fills the recessed strand without strand displacement; T4 ligase seals the nick.
 4. 🟢 Oxford Nanopore adapters are added with the manufacturer workflow.
 
-The exact five TeloTag sequences are in Supplemental Table S6, which the publisher endpoint did not provide automatically. The model therefore records their shared structure without invented bases.
+🟢 Supplemental Table S5 prints the five TeloTag primers (5′→3′, with no terminal modifications stated):
+
+| Member | Oligo as printed |
+|---|---|
+| 1 | `CAGTCTACACATATTCTCTGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT` |
+| 2 | `CAGTCTACACATATTCTCTGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCAC` |
+| 3 | `CAGTCTACACATATTCTCTGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTACA` |
+| 4 | `CAGTCTACACATATTCTCTGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCCA` |
+| 5 | `CAGTCTACACATATTCTCTGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTACC` |
+
+The shared 20-base core is followed by 35 T bases in member 1 and 36 T bases plus a 3-base terminal variant in members 2–5 🟡 (counted from the table). The Methods text points to Supplemental Table S6, but that table lists plasmids; the primer mix appears in S5. The variable length of the terminal-transferase poly(A) addition remains unknown. The model shows a representative 35-base pairing footprint, not a measured tail length 🟡. The EXP-NBD104 barcodes and SQK-LSK109 motor-adapter oligos remain kit-specific 🔴.
 
 ## 4. Final library and sequencing
 

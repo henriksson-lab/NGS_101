@@ -25,16 +25,18 @@ no proximity-ligation junction, spatial barcode or per-molecule distance value.
    around 500 bp, and reserve 10% as input.
 3. 🟢 Bind biotinylated DNA to Dynabeads M-270 streptavidin, wash stringently, digest the
    beads with proteinase K in the presence of free biotin and recover DNA.
-4. 🟢 Prepare both pulldown and input libraries with Kapa Hyper Prep: blunt end, 3′ dA
-   tail, ligate adapters carrying six-base indexes, and amplify 8–16 cycles with the kit’s
-   HiFi polymerase.
+4. 🟢 Prepare both pulldown and input libraries with KAPA HyperPrep reactions: blunt
+   end, 3′ dA tail, ligate adaptors carrying six-base indexes, and amplify 8–16 cycles
+   with KAPA HiFi polymerase.
 
 ## Library and run
 
-🟢 The paper names the commercial library kit and six-base indexed adapters but does not
-publish their oligo sequences. The public schematic therefore marks its compatible
-Illumina shell as inferred rather than presenting vendor-neutral adapter bases as a
-transcription.
+🟢 The paper names KAPA HyperPrep and six-base indexed adaptors but does not identify
+the adaptor supplier or print their oligo sequences. The contemporary
+[KAPA HyperPrep technical sheet](https://www.encodeproject.org/documents/1bca5eae-b9ce-4df0-b401-612924dc53a4/@@download/attachment/03_KAPA_Hyper_Prep_Kit_KR0961-TDSv2.15_final_24%20rxn_Reddy_GGR.pdf)
+explicitly states that adapters are not included in the kit. Therefore the paper's
+KAPA kit name cannot establish the indexed adaptor identity. The compatible
+Illumina shell on the schematic remains inferred.
 
 🟢 Libraries were pooled and run for 101 cycles on HiSeq 2000, 2500 or 4000 instruments,
 yielding 100-nt single-end reads. The reported TSA-seq score is the normalized pulldown

@@ -33,6 +33,76 @@ DNA_UMI = ident("DNA UMI", "dna_umi", "umi", length=8, tag="umi")
 RNA_UMI = ident("RNA UMI", "rna_umi", "umi", length=8, tag="umi")
 GUIDE = ident("12-nt internal guide barcode", "guide_ibar", "guide_barcode", length=12)
 
+SCONE_ONE_TN5 = "GTCTCGTGGGCTCGGTCATGNNNNNNNNAGATGTGTATAAGAGACAG"
+SCONE_P5_TN5 = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+SCONE_MOSAIC = "CTGTCTCTTATACACATCT"
+SCONE_RT_POLYT = "GTCTCGTGGGCTCGGAACTTNNNNNNNNTTTTTTTTTTTTTTTTTTTTVN"
+SCONE_RT_GGG = "GTCTCGTGGGCTCGGAACTTNNNNNNNNGGGHN"
+SCONE_RT_TTT = "GTCTCGTGGGCTCGGAACTTNNNNNNNNTTTVN"
+SCONE_3P_ADAPTER = SCONE_RT_GGG
+SCONE_AMP_PRIMER = "GATGTGTGGAGGTCTCGTGGGCTCGG"
+SCONE_ILLU_R1 = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+SCONE_ILLU_R2 = "CCGAGCCCACGAGACCTGTCTCTTATACACATCT"
+SCONE_ILLU_I7 = "AGATGTGTATAAGAGACAGGTCTCGTGGGCTCGG"
+
+PHOSPHO_BOA = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNNVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+PHOSPHO_BOB = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGTTGCTAGGACCGGCCTTAAAGC"
+PHOSPHO_P5 = "AATGATACGGCGACCACCGA"
+PHOSPHO_P7_TSA = "CAAGCAGAAGACGGCATACGAGATXXXXXXXXGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
+PHOSPHO_P7_TSB = "CAAGCAGAAGACGGCATACGAGATXXXXXXXXGTGACTGGAGTTCAGACGTGTGC"
+PHOSPHO_HTO_ADDITIVE = "CCTTGGCACCCGAGAATTCC"
+PHOSPHO_ADT_ADDITIVE = "GTGACTGGAGTTCAGACGTGTGCTC"
+PHOSPHO_MULTIOME_P5 = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC"
+
+
+def _scone_oligos():
+    """Exact oligos printed in scONE-seq Supplementary Table S2.
+
+    Index windows remain symbolic because the table defines primer families, while the
+    three custom Illumina sequencing primers are invariant concrete sequences.
+    """
+    return (
+        "<b>One-Tn5 adaptor</b> — 5′-[biotin]" + SCONE_ONE_TN5 + "-3′",
+        "<b>P5-Tn5 adaptor</b> — 5′-" + SCONE_P5_TN5 + "-3′",
+        "<b>Mosaic</b> — 5′-[phos]" + SCONE_MOSAIC + "-3′",
+        "<b>RT-polyT</b> — 5′-[biotin]" + SCONE_RT_POLYT + "-3′",
+        "<b>RT-GGG</b> — 5′-[biotin]" + SCONE_RT_GGG + "-3′",
+        "<b>RT-TTT</b> — 5′-[biotin]" + SCONE_RT_TTT + "-3′",
+        "<b>3′ adaptor</b> — 5′-" + SCONE_3P_ADAPTER + "-3′",
+        "<b>Amp-primer</b> — 5′-" + SCONE_AMP_PRIMER + "-3′",
+        "<b>P7 index-primer family</b> — 5′-CAAGCAGAAGACGGCATACGAGAT[i7]AGATGTGTATAAGAGACAGGTCTCGTGGGCTCGG-3′",
+        "<b>P5 index-primer family</b> — 5′-AATGATACGGCGACCACCGAGATCTACAC[i5]TCGTCGGCAGCGTC-3′",
+        "<b>ONE-Illu Read 1</b> — 5′-" + SCONE_ILLU_R1 + "-3′",
+        "<b>ONE-Illu Read 2</b> — 5′-" + SCONE_ILLU_R2 + "-3′",
+        "<b>ONE-Illu I7 Index Primer</b> — 5′-" + SCONE_ILLU_I7 + "-3′",
+    )
+
+
+def _phospho_oligos():
+    """Published Phospho-seq tag, bridge and amplification oligos.
+
+    The bridge sequences are inherited explicitly from ASAP-seq, the method cited for
+    this molecular conversion. Antibody-specific 15-base barcodes and sample-specific
+    i7 choices remain variable windows rather than invented representative bases.
+    """
+    return (
+        "<b>TotalSeq-A-style hashing tag</b> — "
+        "5′-/5AmMC12/CCTTGGCACCCGAGAATTCCA[15-nt antibody barcode]B"
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*A*A-3′",
+        "<b>TotalSeq-B-style antibody tag</b> — "
+        "5′-/5AmMC12/GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT[10-nt UMI]"
+        "[15-nt antibody barcode][9-nt UMI]GCTTTAAGGCCGGTCCTAGC*A*A-3′",
+        "<b>30-nt blocking oligo</b> — 5′-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN/3ddC/-3′",
+        "<b>Bridge oligo A (BOA)</b> — 5′-" + PHOSPHO_BOA + "/3InvdT/-3′",
+        "<b>Bridge oligo B (BOB)</b> — 5′-" + PHOSPHO_BOB + "/3InvdT/-3′",
+        "<b>P5 tag-library primer</b> — 5′-" + PHOSPHO_P5 + "-3′",
+        "<b>TotalSeq-A P7 index-primer family</b> — 5′-" + PHOSPHO_P7_TSA + "-3′",
+        "<b>TotalSeq-B P7 index-primer family</b> — 5′-" + PHOSPHO_P7_TSB + "-3′",
+        "<b>Multiome HTO additive</b> — 5′-" + PHOSPHO_HTO_ADDITIVE + "*C*C-3′",
+        "<b>Multiome ADT additive</b> — 5′-GTGACTGGAGTTCAGACGTGTGC*T*C-3′",
+        "<b>Multiome SI-PCR P5</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGC*T*C-3′",
+    )
+
 
 def _sccc():
     return chain(molecule("cell carrying self-reporting transposons", (
@@ -832,6 +902,42 @@ def get(key: str):
         SEQUENCING_UNAVAILABLE="Target panels, pool barcodes and kit revisions vary; the defining source establishes the read roles, while this page does not invent a universal primer sequence.",
         workflow=workflows[key], oligos=lambda: (),
     )
+    if key == "scone-seq":
+        spec.CAVEAT = ("Supplementary Table S2 publishes the custom molecular adapters, "
+                       "amplification oligos and custom Illumina Read 1, Read 2 and i7 "
+                       "sequencing primers. Its ONE-Illu i5 row instead directs users to "
+                       "the sequencing-equipment instructions; that one primer is not "
+                       "reconstructed here.")
+        spec.SEQUENCING_UNAVAILABLE = ("Custom Read 1, Read 2 and i7 primer sequences are "
+                                       "published and listed above. The source leaves the "
+                                       "ONE-Illu i5 primer to the instrument manufacturer, "
+                                       "so a complete four-primer landing model remains mixed.")
+        spec.oligos = _scone_oligos
+    elif key == "scito-seq":
+        spec.CAVEAT = ("The defining paper fixes the splint architecture and lengths, "
+                       "including a 20-nt antibody handle, TruSeq Read 2 region, 10-nt "
+                       "compound antibody/pool barcode and 22-nt 10x feature-capture "
+                       "region. It does not print the handle or barcode bases, and the "
+                       "completed library follows the commercial 10x 3′ v3 Feature "
+                       "Barcoding workflow.")
+        spec.SEQUENCING_UNAVAILABLE = ("The original article, author manuscript, "
+                                       "Supplementary Tables 1–4 and authors' public "
+                                       "analysis repository do not disclose a universal "
+                                       "SCITO handle/barcode set. Read geometry also "
+                                       "inherits the commercial 10x 3′ v3 endpoint.")
+    elif key == "phospho-seq":
+        spec.CAVEAT = ("The Phospho-seq paper prints the complete home-conjugated tag "
+                       "architectures, tag-library PCR primers and run lengths. It names "
+                       "BOA and BOB but inherits their exact sequences from the cited "
+                       "ASAP-seq bridge method; those published sequences are listed "
+                       "above. Antibody barcodes and i7 bases are intentionally variable.")
+        spec.SEQUENCING_UNAVAILABLE = ("The antibody-tag branch has published PCR "
+                                       "oligos and a 34-base Read 1, 8-base i7, 16-base "
+                                       "i5 and 34-base Read 2 run. Its cell-barcode end "
+                                       "is supplied by the versioned commercial 10x "
+                                       "scATAC gel-bead chemistry, so this shared page "
+                                       "does not fabricate that proprietary oligo.")
+        spec.oligos = _phospho_oligos
     factories = {
         "sccc": _sccc_graph,
         "cotech": _cotech_graph,

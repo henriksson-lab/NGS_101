@@ -39,6 +39,13 @@ check("Genome Research (10.1101/gr.) is a journal", gs.doi_kind("10.1101/gr.1108
 check("Genes & Dev (10.1101/gad.) is a journal", gs.doi_kind("10.1101/gad.350434.123"), "journal")
 check("CSH Protocols (10.1101/pdb.) is a journal", gs.doi_kind("10.1101/pdb.prot5384"), "journal")
 check("protocols.io", gs.doi_kind("10.17504/protocols.io.b4xwqxpe"), "protocolsio")
+check("protocols.io PDF attachment discovery",
+      protocolsio.attachment_urls(
+          b"/URI (https://content.protocols.io/files/a1.xlsx) /URI "
+          b"(https://content.protocols.io/files/a1.xlsx) "
+          b"https://content.protocols.io/files/figure-2.pdf"),
+      ["https://content.protocols.io/files/a1.xlsx",
+       "https://content.protocols.io/files/figure-2.pdf"])
 check("Research Square", gs.doi_kind("10.21203/rs.3.rs-3210240/v1"), "researchsquare")
 check("Nature journal", gs.doi_kind("10.1038/ncomms14049"), "journal")
 check("doi.org prefix stripped", gs.norm_doi("https://doi.org/10.1038/nmeth.1470"), "10.1038/nmeth.1470")
@@ -194,6 +201,14 @@ check("a row without a source is an error", "needs slug and source" in _err, Tru
 check("spec split: handler form", fetchers.split_spec("scg:data/BD/*"), ("scg", "data/BD/*"))
 check("spec split: a URL is not a handler name", fetchers.split_spec("https://x.org/a.pdf"),
       ("", "https://x.org/a.pdf"))
+_route_calls = []
+_route_job = fetchers.Job("x", [], None)
+_route_job.paper = lambda doi: _route_calls.append(("doi", doi))
+_route_job.pmc = lambda pmcid: _route_calls.append(("pmc", pmcid))
+fetchers.run_spec(_route_job, "pmc:PMC8238917")
+fetchers.run_spec(_route_job, "doi:10.1038/example")
+check("PMC and DOI extra-source routes stay distinct", _route_calls,
+      [("pmc", "PMC8238917"), ("doi", "10.1038/example")])
 check("URL routing: protocols.io URL -> protocolsio",
       fetchers.handler_for_url("https://www.protocols.io/view/hydrop-atac-v1-0-bxsbpnan").name, "protocolsio")
 check("URL routing: raw GitHub of scg_lib_structs -> scg",

@@ -26,6 +26,13 @@ FINAL_LIBRARIES = (
 )
 READ_LENGTHS={"RNA library":{"Read 1":28,"Read 2":90},"ATAC library":{"Read 1":50,"Read 2":50},"Antibody-tag library":{"Read 1":28,"Read 2":50}}
 
+def oligos():
+    return [
+        "<b>ADT additive for Multiome preamplification</b> — 5′-CCTTGGCACCCGAGAATT*C*C-3′ (*: phosphorothioate linkage)",
+        "<b>Antibody-tag SI-PCR forward</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC-3′",
+        "<b>Antibody-tag RPI-x P7 index family</b> — 5′-CAAGCAGAAGACGGCATACGAGATxxxxxxxxGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′ (x: sample index)",
+    ]
+
 def sections(): return [
  ("Stain cells with DNA-barcoded antibodies",[Row(chunks=[("antibody — feature barcode — UMI — capture handle","cbc",False)])],"Antibody tags encode the detected epitope."),
  ("Tagment accessible chromatin",[Row(chunks=[("Tn5 inserts adapters at accessible DNA","me",False)])],"Tagmentation occurs while RNA and antibody tags remain associated with the cell."),

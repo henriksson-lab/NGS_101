@@ -10,8 +10,9 @@ doi:[10.1038/nbt.2282](https://doi.org/10.1038/nbt.2282)
 "Smart-seq2 for sensitive full-length transcriptome profiling in single cells."
 *Nat Methods* 2013;**10**(11):1096–1098. doi:[10.1038/nmeth.2639](https://doi.org/10.1038/nmeth.2639)
 
-Structure transcribed from
-<https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html>.
+Sources reviewed: Ramsköld et al. 2012, PMC3467340 full text and Supplementary Figure 1;
+Picelli et al. 2013 supplementary files; and the
+[scg_lib_structs family drawing](https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html).
 
 ---
 
@@ -30,9 +31,16 @@ optimisation experiments**. Two changes matter:
 2. **Betaine plus higher MgCl₂.** Betaine is a methyl-group donor and destabilises secondary
    structure; combined with more Mg²⁺ it improves yield on structured templates.
 
-The oligo designs are otherwise the same, and **the final libraries are identical**.
+The indexed Nextera endpoint drawn here is the same architecture, but the original
+SMART-seq paper does not disclose the full SMARTer II A template-switch oligo sequence.
+Its exact equivalence to the later SMART-seq2 oligo therefore remains unverified. 🔴
 
 ## 2. Oligos
+
+🟢 Ramsköld et al. print the original CDS primer as
+`AAGCAGTGGTATCAACGCAGAGTACT(30)VN`. The following TSO and ISPCR reconstruction is
+the later SMART-seq2 design given by the upstream family schematic; its use in the
+original commercial SMARTer II A reaction is 🟡, not a verbatim source transcription.
 
 ```
 oligo-dTVN   5'- AAGCAGTGGTATCAACGCAGAGT AC TTTTT...TTTTT VN -3'   (30 T)
@@ -44,6 +52,10 @@ ISPCR        5'- AAGCAGTGGTATCAACGCAGAGT -3'
 SPLiT-seq and the Takara SMARTer kits. `+G` is the LNA; `rG` are ribonucleotides.
 
 Back end is stock Nextera XT — see [`../ref/concepts/tn5-tagmentation.md`](../ref/concepts/tn5-tagmentation.md).
+
+🔴 The original paper names a SMARTer II A oligo and a commercial cDNA amplification
+kit without printing those complete ordered oligos. It also reports both Nextera and
+Covaris/adapter-ligation library preparation; this page follows the Nextera branch.
 
 ## 3. The key architectural fact
 

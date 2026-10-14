@@ -13,7 +13,7 @@ TITLE = "ASAP-seq — ATAC and surface-protein profiling"
 NOTES = "01_asap-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41587-021-00927-2">Mimitou et al., <i>Nature Biotechnology</i> (2021)</a>.'
 SUMMARY = "Antibody-derived tags are extended with an ATAC-bead capture handle before a 10x single-cell ATAC workflow yields separate chromatin-accessibility and protein-tag libraries."
-CAVEAT = "TotalSeq tag and bridge sequences vary by reagent generation. Their published molecular roles are shown without asserting one product's proprietary bases."
+CAVEAT = "The paper prints exact TotalSeq-A/B bridge oligos, shown below. Variable antibody tags and commercial 10x bead sequences remain role tokens in the library diagram."
 CELL=feature("asap_cell","cell_barcode","whitelist",whitelist="10x Chromium ATAC bead barcode")
 ATAC, ATAC_P = nextera_library([seg("cell barcode association","C"*16,"cbc",placeholder=True,feature=CELL),seg("accessible genomic DNA", "X" * 42, placeholder=True)], "ASAP-seq ATAC library")
 ADT, ADT_P = feature_library("ASAP-seq antibody-tag library", barcode_id="asap_antibody",cell_id="asap_cell")
@@ -22,6 +22,14 @@ FINAL_LIBRARIES = (
     ("Antibody-tag library", ADT, ADT_P, "The extended TotalSeq tag is amplified as a separate Illumina library.", "Read cycles recover antibody barcode, UMI and sample indexes."),
 )
 READ_LENGTHS = {"ATAC library": {"Read 1": 50, "Read 2": 50}, "Antibody-tag library": {"Read 1": 28, "Read 2": 50}}
+
+def oligos():
+    return [
+        "<b>TotalSeq-A bridge BOA</b> — 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNNVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT/3InvdT/-3′",
+        "<b>TotalSeq-B bridge BOB</b> — 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGTTGCTAGGACCGGCCTTAAAGC/3InvdT/-3′",
+        "<b>TotalSeq-A P7 index primer family</b> — 5′-CAAGCAGAAGACGGCATACGAGATxxxxxxxxGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′ (x: sample index)",
+        "<b>TotalSeq-B P7 index primer family</b> — 5′-CAAGCAGAAGACGGCATACGAGATxxxxxxxxGTGACTGGAGTTCAGACGTGTGC-3′ (x: sample index)",
+    ]
 
 def sections():
     return [
@@ -39,7 +47,7 @@ def protocol_graph():
     unbound=g.product("unbound","unbound antibody tags",MaterialKind.WASTE)
     g.react("stain","Stain targets with DNA-barcoded antibodies",StepKind.BINDING,((cells,InputRole.TEMPLATE),(antibodies,InputRole.SELECTION)),(stained,unbound))
     g.discard(unbound,"does not report a cell-associated target")
-    bridge=g.input("bridge","blocked ATAC-bead capture bridge oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence varies by reagent generation)")
+    bridge=g.input("bridge","published BOA/BOB blocked ATAC-bead capture bridge oligo",MaterialKind.OLIGO,source=SOURCE+" (Methods: exact BOA/BOB sequences)")
     bridged=g.product("bridged","antibody tags hybridized to blocked bridges",MaterialKind.MOLECULAR,state=stained.state)
     g.react("hybridize_bridge","Hybridize blocked bridges to antibody tags",StepKind.HYBRIDIZATION,((stained,InputRole.TEMPLATE),(bridge,InputRole.STRUCTURAL)),(bridged,))
     polymerase=g.input("bridge_polymerase","bridge-extension polymerase",MaterialKind.CATALYST)

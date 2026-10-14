@@ -11,6 +11,13 @@ doi:10.1038/nmeth.3478. The PMC author manuscript and supplements were read.
   DNA-primer overhang, 60 °C TGIRT, CircLigase II, both PCR primers and HiSeq sequencing.
 - 🟡 The separate sequencing primer is not printed, so its exact annealing span is not
   asserted.
+- 🟢 The source prints the RNA starter as
+  `AGAUCGGAAGAGCACACGUCUAGUUCUACAGUCCGACGAUC/3SpC3/`, and prints both complete
+  post-circularization PCR primers. The 3′ spacer blocks starter extension.
+- 🟡 The complementary DNA starter primer is described as radiolabeled with a
+  single-T 3′ overhang, but its full ordered sequence and label position are not
+  printed. Complementarity permits a base-level reconstruction only if the exact
+  annealing register is established; no synthetic modification can be inferred from it.
 
 ## Boundary
 

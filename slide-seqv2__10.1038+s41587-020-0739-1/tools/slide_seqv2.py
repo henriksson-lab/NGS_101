@@ -15,6 +15,11 @@ NOTES="01_slide-seqv2.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41587-020-0739-1">Stickels et al., <i>Nature Biotechnology</i> (2021)</a>.'
 SUMMARY="A lawn of randomly positioned 10-µm beads captures tissue mRNA. Each bead carries a 15-base split-pool barcode that is decoded in situ, an 8-base UMI and oligo-dT; template switching plus second-strand synthesis increases recovery before Nextera library preparation."
 CAVEAT="The paper prints alternative bead versions. This schematic follows the published Chemgenes bead architecture and shows its split-pool barcode as a role-preserving placeholder rather than selecting one random barcode sequence."
+TSO="AAGCAGTGGTATCAACGCAGAGTGAATrG+GrG"
+SECOND_STRAND="AAGCAGTGGTATCAACGCAGAGTGANNNGGNNNB"
+TRUSEQ_PCR="CTACACGACGCTCTTCCGATCT"
+SMART_PCR="AAGCAGTGGTATCAACGCAGAGT"
+TRUSEQ_P5="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 SPATIAL=feature("spatial_barcode","spatial_barcode","combinatorial")
 UMI_FEATURE=feature("umi","umi","random")
 
@@ -28,6 +33,15 @@ LIB, PRIMERS=truseq_library([
 FINAL_LIBRARIES=(("Final Slide-seqV2 library",LIB,PRIMERS,
                   "The barcode-bearing read contains the bead barcode and UMI; the opposite read enters transcript-derived sequence.",
                   "The final duplex shows the Illumina primer sites used to read bead identity and transcript sequence."),)
+
+def oligos():
+    return [
+        "<b>Template-switch oligo</b> — 5′-"+TSO+"-3′",
+        "<b>Second-strand dN-SMRT oligo</b> — 5′-"+SECOND_STRAND+"-3′",
+        "<b>TruSeq PCR handle</b> — 5′-"+TRUSEQ_PCR+"-3′",
+        "<b>SMART PCR primer</b> — 5′-"+SMART_PCR+"-3′",
+        "<b>TruSeq P5 hybrid primer</b> — 5′-"+TRUSEQ_P5+"-3′",
+    ]
 
 def sections():
     return [
@@ -64,17 +78,16 @@ def protocol_graph():
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((captured,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
-    tso=graph.input("tso","Slide-seqV2 template-switch oligo",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
+    tso=graph.input("tso","Slide-seqV2 template-switch oligo "+TSO,MaterialKind.OLIGO,
+                    source=SOURCE+" Supplementary Table 6")
     switched=graph.product("switched","template-switched spatial cDNA",
                            MaterialKind.MOLECULAR)
     graph.react("template_switch","Install the distal cDNA handle",
                 StepKind.TEMPLATE_SWITCHING,
                 ((cdna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(switched,))
-    second_primer=graph.input("second_primer","bead-bound second-strand primer",
-                              MaterialKind.OLIGO,inferred=True,
-                              source=SOURCE+" (compact page does not transcribe bases)")
+    second_primer=graph.input("second_primer","dN-SMRT second-strand oligo "+SECOND_STRAND,
+                              MaterialKind.OLIGO,source=SOURCE+" Supplementary Table 6")
     second_pol=graph.input("second_polymerase","second-strand polymerase",
                            MaterialKind.CATALYST)
     duplex=graph.product("duplex","double-stranded spatial cDNA",MaterialKind.MOLECULAR)
@@ -82,17 +95,17 @@ def protocol_graph():
                 StepKind.EXTENSION,
                 ((switched,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
                  (second_pol,InputRole.CATALYST)),(duplex,))
-    fwd=graph.input("preamp_forward","spatial cDNA PCR forward primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
-    rev=graph.input("preamp_reverse","spatial cDNA PCR reverse primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (compact page does not transcribe bases)")
+    fwd=graph.input("preamp_forward","TruSeq PCR handle "+TRUSEQ_PCR,MaterialKind.OLIGO,
+                    source=SOURCE+" Supplementary Table 6")
+    rev=graph.input("preamp_reverse","SMART PCR primer "+SMART_PCR,MaterialKind.OLIGO,
+                    source=SOURCE+" Supplementary Table 6")
     preamp_pol=graph.input("preamp_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified","amplified spatial cDNA",MaterialKind.MOLECULAR)
     graph.react("preamp","Amplify spatial cDNA",StepKind.PCR,
                 ((duplex,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
                  (rev,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
                 (amplified,),geometry=PCRGeometry.unavailable(
-                    final,reason="The compact page preserves barcode roles but does not transcribe the preamplification primers."))
+                    final,reason="Both preamplification primers are published, but the variable tissue cDNA insert has no fixed sequence for an exact amplicon construct."))
     transposome=graph.input("transposome","Nextera loaded transposomes",
                             MaterialKind.ADAPTER)
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)

@@ -18,8 +18,9 @@ TITLE = "TAPS — bisulfite-free methylation sequencing"
 NOTES = "01_taps.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41587-019-0041-2">Liu et al., <i>Nature Biotechnology</i> (2019)</a>.'
 SUMMARY = "TET oxidation and pyridine–borane reduction make 5mC and 5hmC read as T, while unmodified C remains C."
-CAVEAT = ""
-INDEX6 = "GCCAAT"  # TruSeq Index 6, printed in the defining supplement
+CAVEAT = ("The six-base Index 6 sequence printed in the supplement belongs to a synthetic validation molecule. "
+          "The genomic TAPS library uses NEBNext indexed PCR primers without a specified index choice; its i7 region is role-labelled.")
+INDEX6 = "GCCAAT"  # Synthetic validation molecule only, not the genomic library index.
 TRUSEQ_ADAPTER = ThreePrimeOverhangAdapter(
     "TAPS TruSeq adapter ligating stem", "GCTCTTCCGATCT", "GATCGGAAGAGC")
 
@@ -31,8 +32,9 @@ def library():
         Segment("TAPS-treated genomic insert", "X" * 36, placeholder=True),
         Segment("dA junction / Read 2 site start", "A"),
         Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        Segment("i7 reverse complement", INDEX6, "cbc",
-                feature=feature("sample_i7", "sample_index", "whitelist", whitelist="TruSeq index set")),
+        Segment("sample i7 (chosen NEBNext index)", "[i7]", "cbc", placeholder=True,
+                feature=feature("sample_i7", "sample_index", "unknown",
+                                note="NEBNext Multiplex Oligos kit named, chosen index not reported")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="TAPS TruSeq library")
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
@@ -53,10 +55,10 @@ def workflow():
     w.react("End-repair and add 3′ dA", dA_tailed_scene(tailed).rows(), name="dA-tailed DNA",
             note="The single-base insert overhang is the substrate for the printed TruSeq adapter.")
     geometry = cohesive_ligation_geometry(tailed, TRUSEQ_ADAPTER,
-        statement="The TAPS supplement prints the complete TruSeq construct; its adapter stem leaves a 3′-T complementary to insert 3′-dA.")
+        statement="The TAPS supplement prints the genomic-library ligation oligo pair; its adapter stem leaves a 3′-T complementary to insert 3′-dA.")
     lig = ligation_product_scene(FINAL_LIBRARY, "TAPS-treated genomic insert", label="adapter-ligated molecule")
     w.ligate_adapter("Ligate TruSeq adapters", geometry, lig.rows(), name="adapter-ligated TAPS molecule",
-                     note="The supplement prints the complete single-index construct.")
+                     note="The supplement prints the genomic-library ligation oligo pair; indexed PCR uses a named NEBNext kit.")
     w.react("Oxidize and reduce modified cytosines", [
             Row(chunks=[(taps_path("5mC").text(), "w1", False)]),
             Row(chunks=[(taps_path("5hmC").text(), "w1", False)]),
@@ -90,7 +92,7 @@ def protocol_graph() -> ProtocolGraph:
 
     geometry = cohesive_ligation_geometry(
         tailed, TRUSEQ_ADAPTER,
-        statement="The TAPS supplement prints the complete TruSeq construct; its adapter stem leaves a 3-prime-T complementary to insert 3-prime-dA.")
+        statement="The TAPS supplement prints the genomic-library ligation oligo pair; its adapter stem leaves a 3-prime-T complementary to insert 3-prime-dA.")
     graph.add_input(Material("truseq_adapter", "3-prime-dT TruSeq adapter",
                              MaterialKind.ADAPTER, state=TRUSEQ_ADAPTER.scene(), source=source))
     graph.add_input(Material("dna_ligase", "DNA ligase", MaterialKind.CATALYST,

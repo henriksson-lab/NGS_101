@@ -13,3 +13,7 @@
 ## Evidence boundary
 
 🟡 The paper establishes adapter roles and read direction but does not make one complete adapter/index oligo set an invariant of mNET-seq. Those regions are therefore role-labelled rather than reconstructed from unrelated modern kit sequences.
+
+## Oligo source audit
+
+🟢 Checked the defining author manuscript (`j.cell.2015.03.027_PMC4410947.xml.txt`, especially lines 83–85 and 669–671) and its extended methods (`j.cell.2015.03.027_supp_mmc2.pdf.txt`, lines 2500–2510). The mNET-seq library uses the TruSeq Small RNA preparation after 5′ phosphorylation and gel selection; the authors sequence from the reverse primer to expose the RNA 3′ end. The extended methods name the kit but do not print its 5′/3′ RNA adapters, RT primer, PCR/index primers or reverse sequencing primer sequence. The scraper's other oligos are siRNA and locus-specific validation primers, not mNET-seq library reagents. Exact kit-era adapter/index sequences remain unresolved without the corresponding historical Illumina guide or a run-specific reagent record.

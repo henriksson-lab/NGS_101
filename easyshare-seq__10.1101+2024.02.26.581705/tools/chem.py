@@ -1,23 +1,31 @@
 """easySHARE-seq dual-modality, three-part combinatorial indexing."""
 import illumina as il
+import nextera as nx
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature
 from multimodal_spatial import finish_pcr_branch
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 TITLE="easySHARE-seq — joint RNA and chromatin accessibility"
 NOTES="01_easyshare-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1101/2024.02.26.581705">Ma et al., bioRxiv (2024)</a>; later published in <i>eLife</i>.'
 SUMMARY="Fixed nuclei receive RNA RT handles and ATAC Tn5 handles, then two 7-nt ligation barcodes plus a third PCR index identify the same nucleus in both libraries."
-CAVEAT=("The supplementary workbook defines the two ligation-barcode assemblies and "
-        "their cohesive ends. This page has not yet transcribed a universal exact pair "
-        "of branch-finishing PCR primers, so that landing geometry remains explicit as "
-        "unavailable rather than inferred from the completed shells.")
+CAVEAT=("The supplementary workbook gives the RT, template-switch, Tn5, ligation-barcode "
+        "and finishing-PCR oligos. The representative N501 finishing primer is shown; "
+        "the experiment substitutes another published N5XX member for each sub-library.")
 R1_001="GGTTAGCGTCTCGT"
 R1_001_SCAFFOLD="CCGAGCCCACGAGACGCTAACCTCT"
 R2_001="CAAGCAGAAGACGGCATACGAGATTCTGGCAAGA"
 R2_001_SCAFFOLD="TGCCAGAATCTCGTATGCCGTCTTCTGCTTG"
+TN5_A="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+TN5_REVERSE="CTGTCTCTTATACACATCT"
+TN5_B2S="GGGCTCGGAGATGTGTATAAGAGACAG"
+RT_PRIMER="GGGCTCGGAGATGTGTATAAGAGACAGNNNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTVN"
+TSO="UUUTCGTCGGCAGCGTCAGATGTGTATAAGAGACAGGG"
+I7_TRUSEQ_LONG=il.P7
+N501=nx.n5xx_primer("AGCGCTAG")
 
 def barcode_ligation_geometry():
     sc=Scene()
@@ -29,15 +37,23 @@ def barcode_ligation_geometry():
     sc.labels("round-1 scaffold")
     return AdapterLigationGeometry.known("cohesive",sc,statement="The easySHARE-seq supplementary oligo workbook prints each barcode with its scaffold and states that the scaffold leaves single-stranded ligation overhangs; Round1_001 exposes the terminal TCT shown here.")
 def _library(name,payload):
-    lib=Construct([seg("P5",il.P5,"p5"),seg("cell barcode 3","C"*8,"cbc",placeholder=True,feature=feature("cell_bc3","cell_barcode","whitelist",group="cell_barcode",part="round 3",whitelist="easySHARE-seq 96-index set")),seg("Read 1 arm",il.TRUSEQ_READ1,"r1"),seg(payload,"X"*42,placeholder=True),seg("dA junction","A"),seg("Index 1 / Read 2 arm",il.INDEX1_PRIMER,"r2"),seg("cell barcode 1","B"*7,"cbc",placeholder=True,feature=feature("cell_bc1","cell_barcode","whitelist",group="cell_barcode",part="round 1",whitelist="easySHARE-seq 192-barcode set")),seg("3-nt ligation overhang","L"*3,placeholder=True),seg("cell barcode 2","D"*7,"cbc",placeholder=True,feature=feature("cell_bc2","cell_barcode","whitelist",group="cell_barcode",part="round 2",whitelist="easySHARE-seq 192-barcode set")),seg("P7 reverse complement",il.P7_RC,"p7")],name=name)
-    primers=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["I2"],sp.TRUSEQ["R2"])
+    lib=Construct([seg("P5",il.P5,"p5"),seg("cell barcode 3 / N501 index","AGCGCTAG","cbc",feature=feature("cell_bc3","cell_barcode","whitelist",group="cell_barcode",part="round 3",whitelist="easySHARE-seq N5XX index set")),seg("Nextera Read 1 arm",nx.READ1_PRIMER,"r1"),seg(payload,"X"*42,placeholder=True),seg("Nextera Index 1 / Read 2 arm",nx.INDEX1_PRIMER,"r2"),seg("cell barcode 1","B"*7,"cbc",placeholder=True,feature=feature("cell_bc1","cell_barcode","whitelist",group="cell_barcode",part="round 1",whitelist="easySHARE-seq 192-barcode set")),seg("3-nt ligation overhang","L"*3,placeholder=True),seg("cell barcode 2","D"*7,"cbc",placeholder=True,feature=feature("cell_bc2","cell_barcode","whitelist",group="cell_barcode",part="round 2",whitelist="easySHARE-seq 192-barcode set")),seg("P7 reverse complement",il.P7_RC,"p7")],name=name)
+    primers=sp.standard_primers(lib)
     problems=sp.verify(lib,primers)
     if problems: raise ValueError(name+": "+"; ".join(problems))
     return lib,primers
 RNA,RP=_library("easySHARE-seq RNA library","cDNA insert")
 ATAC,AP=_library("easySHARE-seq ATAC library","accessible chromatin insert")
 FINAL_LIBRARIES=(("RNA library",RNA,RP,"Transcript-derived inserts carry the same three-part cellular identity.","Standard Illumina primers read insert and barcode/index reads."),("ATAC library",ATAC,AP,"Accessible-DNA inserts carry the same three-part cellular identity.","Standard Illumina primers read insert and barcode/index reads."))
-def oligos(): return ["<b>Tn5-B2S</b> — 5′-/5Phos/GGGCTCGGAGATGTGTATAAGAGACAG-3′"]
+def oligos(): return [
+    "<b>Tn5-A</b> — 5′-"+TN5_A+"-3′",
+    "<b>Tn5-reverse</b> — 5′-/5Phos/"+TN5_REVERSE+"-3′",
+    "<b>Tn5-B2S</b> — 5′-/5Phos/"+TN5_B2S+"-3′",
+    "<b>Reverse-transcription primer</b> — 5′-/5Phos/GGGCTCGGAGATGTGTATAAGAGACAGNNNNNNNNNNT/iBiodT/TTTTTTTTTTTTTTTTTTTTTTTTVN-3′",
+    "<b>Template-switch oligo</b> — 5′-rUrUrUTCGTCGGCAGCGTCAGATGTGTATAAGAGACArGrGrG-3′",
+    "<b>i7-Tru-Seq-long primer</b> — 5′-"+I7_TRUSEQ_LONG+"-3′",
+    "<b>Nextera N501 (representative N5XX)</b> — 5′-"+N501+"-3′",
+]
 def sections(): return [
  ("Mark RNA and accessible DNA in fixed nuclei",[Row(chunks=[("RNA → RT handle     chromatin ** Tn5 handles","me",False)])],"Both analytes remain associated with each nucleus."),
  ("Ligate round-1 and round-2 barcodes",barcode_ligation_geometry().rows()+[Row(chunks=[("BC1 ** TCT ** BC2","cbc",False)])],"The supplementary workbook prints the oligo/scaffold pairs. TCT is the three-base linker retained between the two seven-base barcode reads."),
@@ -129,11 +145,15 @@ def protocol_graph():
     ]
     finish_pcr_branch(
         g, "rna", rna, RNA, RP, reviewed, label="easySHARE-seq RNA",
-        inferred_primers=True,
-        limitation="The branch-finishing PCR-primer pair has not yet been transcribed from the supplementary workbook.")
+        geometry=PCRGeometry.exact(
+            RNA, PCRPrimer("Nextera N501", N501),
+            PCRPrimer("i7-Tru-Seq-long", I7_TRUSEQ_LONG),
+            statement="Supplementary file 1 gives both exact finishing primers; N501 is the representative member of the N5XX sub-library-index family."))
     finish_pcr_branch(
         g, "atac", atac, ATAC, AP, reviewed, label="easySHARE-seq ATAC",
-        inferred_primers=True,
-        limitation="The branch-finishing PCR-primer pair has not yet been transcribed from the supplementary workbook.")
+        geometry=PCRGeometry.exact(
+            ATAC, PCRPrimer("Nextera N501", N501),
+            PCRPrimer("i7-Tru-Seq-long", I7_TRUSEQ_LONG),
+            statement="Supplementary file 1 gives both exact finishing primers; N501 is the representative member of the N5XX sub-library-index family."))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

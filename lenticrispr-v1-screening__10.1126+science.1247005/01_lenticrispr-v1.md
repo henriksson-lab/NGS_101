@@ -11,3 +11,13 @@ Shalem et al. introduced the all-in-one lentiCRISPR v1 vector and used it for po
 ## Boundary
 
 The original Shalem nested readout, the later one-PCR readout, and lentiCRISPR v2 are separate protocols. The older combined investigation remains in `90_combined_screen_research.md` for provenance, not as the public schematic.
+
+## Oligo review boundary
+
+The deposited Addgene map fixes the v1 vector cassette, and Joung's later paper prints
+the one-PCR library primers shown on this page. 🔴 The accessible Shalem author
+manuscript does not include its gated supplement, so the original experiment's nested
+readout cannot be verified from that text. A Zhang-lab workbook
+historically cited as `GeCKO-plasmid-readout-primers-July2014.xlsx` is another lead,
+but it must be retrieved and matched to the v1 vector before its primer set is treated
+as evidence for the 2014 screen.

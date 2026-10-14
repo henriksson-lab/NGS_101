@@ -2,8 +2,8 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`).
+> writing this note. The `tools/scbs.py` model and protocol self-test check the
+> transcribed source sequences and final primer landing sites.
 
 **scBS-seq** — Smallwood SA, Lee HJ, Angermueller C, Krueger F, Saadeh H, Peat J,
 Andrews SR, Stegle O, Reik W, Kelsey G. "Single-cell genome-wide bisulfite sequencing
@@ -14,13 +14,14 @@ Data: GEO GSE56879.
 Built on: **PBAT** (post-bisulfite adaptor tagging), Miura F *et al.*, *Nucleic Acids
 Res.* 40:e136 (2012), doi:[10.1093/nar/gks454](https://doi.org/10.1093/nar/gks454) —
 the paper's ref. 7. Indexing primer: "iPCRTag", Quail MA *et al.*, *Nat. Methods* 9:10–11
-(2012) — ref. 20, not fetched.
+(2012) — ref. 20; its supplementary oligo table was fetched separately.
 
 Later uses of the same chemistry (separate catalogue entries, all citing this paper):
 scM&T-seq (`scm-t-seq__10.1038+nmeth.3728`), scNMT-seq
 (`scnmt-seq__10.1038+s41467-018-03149-4`), scNOMe-seq / scCOOL-seq
 (`scnome-seq-sccool-seq__10.7554+eLife.23203`). A step-by-step *Nature Protocols* version
-(Clark SJ *et al.* 2017, doi:10.1038/nprot.2016.187) exists but was not fetched. 🟡
+(Clark SJ *et al.* 2017, doi:10.1038/nprot.2016.187) has a supplementary iPCRTag
+primer table; its full article remains unavailable. 🟡
 
 Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, into
 `_data/sources/scbs-seq__10.1038+nmeth.3035/`, never committed):
@@ -32,6 +33,8 @@ Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, 
 | `nmeth.3035_41592_2014_BFnmeth3035_MOESM643_ESM.pdf.txt` | Supplementary Figures + Note (Springer) | QC context (poly-T artefact, Supp. Fig. 2) |
 | `nmeth.3035_supp_NIHMS59406-supplement-2.pdf.txt` | Supplementary Note 1 (statistics) | not chemistry |
 | `nmeth.3035_supp_NIHMS59406-supplement-1.doc` | Supplementary Figures (Word; no `.txt` twin, read via `catdoc`) | nothing new — figure legends only |
+| `../doi_10.1038+nmeth.1814/nmeth.1814_41592_2012_BFnmeth1814_MOESM37_ESM.pdf.txt` | Quail *et al.* 2012 Supplementary Table 1 | cited indexed iPCRTag family and sequencing primers |
+| `nprot.2016.187_41596_2017_BFnprot2016187_MOESM358_ESM.pdf.txt` | later Clark *et al.* protocol Supplementary Table 1 | 48 indexed iPCRTag variants, including terminal phosphorothioate |
 | `*_MOESM644_ESM.xlsx.txt`, `*_MOESM645_ESM.xlsx.txt` (= `Supp_Table_1/2`) | library statistics, region coverage | not chemistry |
 | `nmeth.3035_PMC4117646.xml`, `*.zip`, `*.gif/jpg` | duplicates / figure images | not used |
 
@@ -39,8 +42,7 @@ Not fetched / not available:
 
 | What | Why it matters |
 |---|---|
-| Quail *et al.* 2012 (iPCRTag primer), doi:10.1038/nmeth.1814 | fetched after the first review; Supplementary Table 1 supplies the PE adapter, index-read primer and 24 indexed PCR primers 🟢 |
-| Clark *et al.* 2017 *Nat. Protoc.* doi:10.1038/nprot.2016.187 | later, detailed protocol; may give oligo vendors/purifications |
+| Clark *et al.* 2017 *Nat. Protoc.* doi:10.1038/nprot.2016.187 | full protocol article unavailable; its supplementary indexed-primer table was read |
 | Miura *et al.* 2012 PBAT (doi:10.1093/nar/gks454) | the bisulfite clean-up "as described previously" |
 
 ---
@@ -96,6 +98,12 @@ Read 2 sequencing primer    CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT
 
 The upstream page itself notes that this iPCRtag design follows an **obsolete** Illumina
 adapter layout (the old PE / multiplexing read-2 arm, not the TruSeq one).
+Quail 2012 Supplementary Table 1 also prints `C*T` at the 3′ end of PE1.0 and each
+indexed iPCRTag primer; its table key defines `*` as a phosphorothioate linkage and
+says all oligos were PAGE purified. 🟢 The later Clark 2017 protocol retains `C*T`
+on its 48 iPCRTag primers. The Smallwood 2014 Online Methods writes PE1.0 without
+the `*`, so the source-specific difference must be kept visible rather than silently
+assigning Quail's modification to the defining paper. 🟡
 
 ### Upstream vs. paper
 

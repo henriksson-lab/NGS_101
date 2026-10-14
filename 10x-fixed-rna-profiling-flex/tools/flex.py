@@ -13,7 +13,13 @@ TITLE="10x Fixed RNA Profiling (Flex)"
 NOTES="01_flex.html"
 SOURCE='Commercial protocol: 10x Genomics <a href="https://www.10xgenomics.com/support/cn/flex-gene-expression/documentation/steps/library-prep/chromium-fixed-rna-profiling-reagent-kits-for-singleplexed-samples-with-feature-barcode-technology-for-protein-using-barcode-oligo-capture">Fixed RNA Profiling user guide CG000674 Rev C</a>.'
 SUMMARY="Pairs of gene-specific probes hybridize adjacently on formaldehyde-fixed RNA and are ligated. The ligated probe product—not the RNA itself—is then given a GEM cell barcode and UMI and converted into a sequencing library."
-CAVEAT="Probe-pair and gel-bead sequences are commercial. Their published adjacency, ligation and barcode roles are drawn with inferred placeholders."
+CAVEAT="CG000674 Rev C Appendix p. 85 prints the gel-bead oligo and complete gene-expression library layout. The compact schematic still normalizes the platform arms and does not transcribe the printed probe-side constants or Small RNA Read-2 arm. Probe-panel target sequences remain commercial; the drawn generic probe region is inferred."
+
+def oligos():
+    return [
+        "<b>Flex gel-bead primer</b> — 5′-CTACACGACGCTCTTCCGATCT-[16-base cell barcode]-[12-base UMI]-TTGCTAGGACCG-3′",
+        "<b>Published gene-expression reporter junction</b> — 5′-TTGCTAGGACCG-[BC8]-NN-TACGTGCTAACCGCGT-[ligated probe insert]-TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC-3′",
+    ]
 
 LIB, PRIMERS = truseq_library([
     seg("cell barcode", "B"*16, "cbc", placeholder=True, inferred=True,
@@ -23,7 +29,7 @@ LIB, PRIMERS = truseq_library([
     seg("ligated probe-pair identifier", "X"*30, placeholder=True, inferred=True)],
     "Flex gene-expression library", inferred_adapters=True)
 FINAL_LIBRARIES=(("Final probe-derived gene-expression library", LIB, PRIMERS,
-                  "INFERRED — Read 1 contains cell barcode and UMI; Read 2 reports the ligated probe-pair identifier, with undisclosed bases visibly inferred.",
+                  "INFERRED — This compact final duplex preserves read roles but normalizes platform arms; the source-exact Flex reporter constants are transcribed in Key oligos and research notes.",
                   "The declared Illumina primer sites are shown on the completed probe-derived library."),)
 
 def sections():
@@ -37,7 +43,7 @@ def sections():
         ("Partition, barcode and amplify",
          [Row(chunks=[("ligated reporter + GEM bead → [cell barcode][UMI][probe-pair identifier]", "cbc", False)]),
           Row(chunks=[("→ pre-amplification → sample-index PCR", None, False)])],
-         "INFERRED — The cell barcode and UMI are added after probe ligation; exact commercial transfer-oligo bases are placeholders."),
+         "INFERRED — The cell barcode and UMI are added after probe ligation; this compact workflow does not draw the published gel-bead sequence base by base."),
     ]
 
 def protocol_graph():
@@ -55,7 +61,7 @@ def protocol_graph():
     failed=g.product("failed","empty or unresolved GEM material",MaterialKind.WASTE)
     g.react("partition","Partition ligated reporters with barcoded gel beads",StepKind.PARTITION,((reporter,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False)
     g.discard(failed,"does not retain a resolvable cell-associated reporter")
-    bead=g.input("bead_oligo","cell-barcode/UMI gel-bead oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete gel-bead sequence not disclosed)")
+    bead=g.input("bead_oligo","cell-barcode/UMI gel-bead oligo CTACACGACGCTCTTCCGATCT-N16-N12-TTGCTAGGACCG",MaterialKind.OLIGO,source=SOURCE+" Appendix p. 85")
     pol=g.input("extension_polymerase","barcode-transfer polymerase",MaterialKind.CATALYST)
     barcoded=g.product("barcoded","cell-barcode/UMI-tagged probe reporters",MaterialKind.MOLECULAR,state=molecule("barcoded Flex reporter",(role("cell barcode"),role("UMI"),role("probe-pair identifier"))))
     g.react("barcode","Transfer cell barcode and UMI to the ligated reporter",StepKind.EXTENSION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(barcoded,))

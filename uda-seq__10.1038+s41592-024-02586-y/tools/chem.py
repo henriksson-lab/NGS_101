@@ -8,7 +8,17 @@ TITLE="UDA-seq — droplet-first combinatorial indexing"
 NOTES="01_uda-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41592-024-02586-y">Wang et al., <i>Nature Methods</i> (2025)</a>.'
 SUMMARY="Fixed cells or nuclei are intentionally overloaded into droplets for the first barcode, recovered intact, redistributed to PCR wells and given a second index; the barcode pair resolves cells for several droplet-compatible modalities."
-CAVEAT="UDA-seq is an indexing wrapper around several assay chemistries. The graph below represents the published RNA/ATAC Multiome use; exact proprietary bead oligos and assay-dependent terminal primer pairs are not disclosed in this compact module and remain explicitly inferred."
+CAVEAT="UDA-seq wraps several assay chemistries. Supplementary Table 7 prints UDA indexing primers and the RNA-route Tn5 cassette, listed below. The complete proprietary droplet bead oligo and branch-specific kit primer geometry remain unresolved in this compact graph."
+I5_FIRST="AATGATACGGCGACCACCGAGATCT-GGTTTACT-ACACTCTTTCCCTACACGACGCTCTTCCGATC-s-T"
+I7_FIRST="CAAGCAGAAGACGGCATACGAGAT-CGCCGTTT-GTCTCGTGGGCTCGG"
+TN5_TOP="[5Phos]CTGTCTCTTATACACATCT[3ddC]"
+TN5_BOTTOM="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
+def oligos():
+    return [f"<b>{name}</b> (Supplementary Table 7, 5′→3′): <code>{sequence}</code>"
+            for name, sequence in (("first i5-family primer", I5_FIRST),
+                                   ("first i7-family primer", I7_FIRST),
+                                   ("RNA-route Tn5-top_ME", TN5_TOP),
+                                   ("RNA-route Tn5-bottom_Read2N", TN5_BOTTOM))]
 CELL_PARTS=(("droplet barcode",16),("well barcode",8))
 RNA,RP=illumina_branch("UDA-seq RNA","RNA-derived cDNA",cell_parts=CELL_PARTS,umi=10)
 ATAC,AP=illumina_branch("UDA-seq ATAC","accessible genomic DNA",architecture="nextera",cell_parts=CELL_PARTS)

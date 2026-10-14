@@ -15,5 +15,6 @@ TAPS is a bisulfite-free methylation-sequencing method that converts 5mC and 5hm
 ## 4. Library and read layout
 
 🟢 Supplementary Methods section 3.3 prints a complete single-index TruSeq model library, including TruSeq Universal Adapter, Index 6 (`GCCAAT` as carried in the library), and the final product sequence. The uracil-containing linker used to make the synthetic model is removed with USER after ligation.
+🟢 The supplement's separate **genomic sequencing-library procedure** specifies the ligation pair `ACACTCTTTCCCTACACGACGCTCTTCCGATCT` and `/5Phos/GATCGGAAGAGCACACGTCT` without phosphorothioate bonds, followed by indexed PCR using NEBNext Multiplex Oligos for Illumina (Index Set 1, E7335S). It does not identify which index primer was used for a particular genomic sample. The schematic therefore keeps i7 as a source-limited role, rather than carrying over the synthetic model's fixed Index 6.
 
 🟢 The endpoint contains standard TruSeq Read 1, Index 1 and Read 2 primer sites. No i5 index is present in the printed construct.

@@ -30,7 +30,7 @@ FACETS = OrderedDict([
         "RNA-DNA contacts", "RNA modification mapping", "immune repertoire",
         "linked-read sequencing", "RNA-RNA interaction", "DNA damage mapping",
         "promoter / RNA 5-prime mapping", "RNA structure", "RNA accessibility",
-        "targeted DNA sequencing",
+        "targeted DNA sequencing", "DNA mutation detection",
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
         "replication timing", "multiomic"))),
     ("platform", ("Sequencing platform", (
@@ -222,6 +222,16 @@ PROFILES = {
         topology="branched hybridization tree", strand_handling="RNA hybridization",
         identifiers="no UMI", read_structure="flow cytometry", selection="none",
         availability="commercial kit|proprietary sequences|schematic complete"),
+    "rca_flow": _from(
+        _ILLUMINA, index_introduction="no index", index_architecture="no barcode",
+        assay="DNA mutation detection", platform="flow cytometry",
+        partitioning="bulk|plate / well", starting_material="genomic DNA",
+        fragmentation="no fragmentation", adapter_installation="padlock / circularization",
+        amplification="endpoint PCR|rolling-circle amplification",
+        topology="circular|concatemer|branched concatemer",
+        strand_handling="strand displacement", identifiers="no UMI",
+        read_structure="flow cytometry", selection="none",
+        availability="published academic protocol|schematic complete"),
 }
 
 

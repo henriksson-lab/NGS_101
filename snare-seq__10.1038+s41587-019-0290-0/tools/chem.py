@@ -139,7 +139,10 @@ def oligos():
             f"<b>Nextera-Ad2-bk</b> — 5′-/5Phos/{NEXTERA_AD2_BK}/3InvdT/-3′",
             f"<b>TSO</b> — 5′-{TSO}rGrGrG-3′",
             f"<b>TSO-PCR</b> — 5′-{TSO_PCR}-3′",
-            f"<b>Nextera-R2</b> — 5′-{NEXTERA_R2}-3′"]
+            f"<b>Nextera-R2</b> — 5′-{NEXTERA_R2}-3′",
+            "<b>P501-Tso, example i5 primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTAGATCGCGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C-3′",
+            "<b>Ad2.1_TAAGGCGA, example i7 primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGT-3′",
+            "<b>Read1CustomSeqB</b> — 5′-GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC-3′"]
 
 
 def workflow():

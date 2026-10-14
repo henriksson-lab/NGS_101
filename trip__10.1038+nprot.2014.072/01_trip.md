@@ -4,7 +4,7 @@
 
 Akhtar W, de Jong J, Pindyurin AV, Pagie L, Meuleman W, de Ridder J, Berns A,
 Wessels LFA, van Lohuizen M, van Steensel B. *Using TRIP for genome-wide position
-effect analysis in cultured cells.* Nature Protocols 9, 1760–1769 (2014).
+effect analysis in cultured cells.* Nature Protocols 9, 1255–1281 (2014).
 [doi:10.1038/nprot.2014.072](https://doi.org/10.1038/nprot.2014.072), PMID 24810036.
 
 ## Sources read

@@ -49,12 +49,20 @@ check("the forward PCR primer rebuilds s5 + ME + tag",
 check("the reverse PCR primer is the oligo-dT handle", ss.SS3_REV_PCR, ss.SS3_OLIGO_DT_HANDLE)
 check("oligo-dT and TSO handles DIFFER -- this is what makes PCR non-suppressive",
       ss.SS3_OLIGO_DT_HANDLE != ss.SS3_TSO_HANDLE)
-check("three family members, differing only by a TSO spacer", len(ss.SS3_TSO_SPACERS), 3)
+check("SMART-seq3 and 3xpress are the two asymmetric-handle variants", len(ss.SS3_TSO_SPACERS), 2)
 check("SMART-seq3 has no spacer", ss.SS3_TSO_SPACERS["SMART-seq3"], "")
 check("SMART-seq3xpress inserts WW", ss.SS3_TSO_SPACERS["SMART-seq3xpress"], "WW")
-check("FLASH-seq inserts CTAAC", ss.SS3_TSO_SPACERS["FLASH-seq"], "CTAAC")
 for v in ss.SS3_TSO_SPACERS:
     check(f"{v} TSO ends in the rGrGrG tail", ss.ss3_tso(v).endswith(rt.TSO_G_TAIL))
+
+check.section("FLASH-seq main branch, Hahaut et al. Supplementary Note 2")
+check("FLASH-seq oligo-dT has the SMART handle and AC linker", ss.FS_OLIGO_DT,
+      rt.SMART_HANDLE + "AC" + "T" * 30 + "VN")
+check("FLASH-seq TSO has no UMI and no SMART-seq3 tag", ss.FS_TSO,
+      rt.SMART_HANDLE + "AC" + rt.TSO_G_TAIL)
+check("FLASH-seq ISPCR is the common SMART handle", ss.FS_ISPCR, rt.SMART_HANDLE)
+check("the separate FS-UMI TSO-CTAAC is not the base FLASH-seq TSO", ss.FS_UMI_TSO_CTAAC,
+      rt.SMART_HANDLE + "N" * 8 + "CTAAC" + rt.TSO_G_TAIL)
 
 # --------------------------------- constructs vs the published final structures
 check.section("final library structures vs scg_lib_structs")
@@ -80,8 +88,7 @@ check("a SMART-seq3 INTERNAL fragment is indistinguishable from SMART-seq2",
       internal.top(), ss2.top())
 check("...which is exactly why the 11-bp tag is needed to call a read 5'-derived",
       ss.SS3_TSO_TAG not in internal.top())
-fs = ss.smartseq3_library("FLASH-seq")
-check("FLASH-seq adds 5 nt over SMART-seq3", len(fs) - len(ss3), 5)
+check("main FLASH-seq final library has no UMI", not any(s.tag == "umi" for s in ss2))
 
 check.section("shared back end: both chemistries end in Nextera")
 for name, con in (("SMART-seq2", ss2), ("SMART-seq3", ss3)):

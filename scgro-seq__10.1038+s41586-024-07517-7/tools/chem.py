@@ -9,9 +9,21 @@ TITLE="scGRO-seq — single-cell nascent RNA by click chemistry"
 NOTES="01_scgro-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41586-024-07517-7">Mahat et al., <i>Nature</i> (2024)</a>.'
 SUMMARY="Nuclear run-on incorporates a chain-terminating O-propargyl nucleotide; click ligation attaches the barcode/UMI/RT handle used to recover nascent RNA from single cells."
-FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("scGRO-seq","nascent-RNA cDNA",cell=8,umi=8)
-FINAL_CAPTION="Cell barcode and UMI precede cDNA copied from the run-on-labelled RNA 3-prime end."
+FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("scGRO-seq","nascent-RNA cDNA",cell=10,umi=5,
+                                          inferred_adapters=True)
+FINAL_CAPTION="INFERRED — the 10-nt cell barcode and 5-nt UMI represent the third 43-nt azide adaptor in Supplementary Table 7; the complete final adapter junction is not strand-resolved here."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed scGRO-seq library."
+CAVEAT=("Supplementary Table 7 gives three alternative 5′-azide adaptor designs with "
+        "different barcode/UMI dimensions (10/6, 12/4 and 10/5). The final-library "
+        "drawing uses the third design as a representative; its Illumina shell remains inferred.")
+READ_LENGTHS={"Read 1":64,"Read 2":43,"Index 1 (i7)":8,"Index 2 (i5)":8}
+
+def oligos():
+    return [
+        "<b>5′-AzScBc design 1, 43 nt</b> — 5′-[azideT]JJJJJJJJJJNNNNNNGATCGTCGGACTGTAGAACTCTGAAC-3′ (J = cell barcode; N = UMI)",
+        "<b>5′-AzScBc design 2, 86 nt hairpin</b> — 5′-[azideT]NNNNJJJJJJJJJJJJGATCGTCGGACTGTAGAACTCTGCGGCCGTGCTCGTTTTCGAGCACGGCCGCAGAGTTCTACAGTCCGA-3′",
+        "<b>5′-AzScBc design 3, 43 nt</b> — 5′-[azideT]ACAGGNNNNNJJJJJJJJJJAGATCGGAAGAGCGTCGTGTAG[SpC3]-3′",
+    ]
 def sections():
     return [("Run on engaged polymerases with 3-prime O-propargyl NTPs",[Row(chunks=[("nascent RNA → RNA—O-propargyl-NMP (chain terminated)", "w1", False)])],"The terminal alkyne marks the active RNA 3-prime end."),("Click the azide barcode oligo to the alkyne",clicked_nascent_rna().rows(),"Copper-catalysed azide–alkyne cycloaddition creates a triazole linkage that RT can traverse."),("Reverse-transcribe and add sequencing adapters",[Row(chunks=[("clicked RNA → barcoded cDNA → PCR/index adapters", "r1", False)])],"The clicked oligo supplies molecule and cell identity before amplification."),]
 
@@ -28,9 +40,9 @@ def protocol_graph():
                 ((complexes,InputRole.TEMPLATE),(nucleotide,InputRole.STRUCTURAL),
                  (polymerase,InputRole.CATALYST)),(labelled,))
     click_oligo=graph.input("click_oligo","azide barcode/UMI/RT oligo",MaterialKind.ADAPTER,
-                            state=clicked_nascent_rna())
+                            state=clicked_nascent_rna(barcode_length=10,umi_length=5))
     clicked=graph.product("clicked_rna","barcoded clicked nascent RNA",MaterialKind.MOLECULAR,
-                          state=clicked_nascent_rna())
+                          state=clicked_nascent_rna(barcode_length=10,umi_length=5))
     graph.react("click_attachment","Click the azide barcode oligo to the alkyne",
                 StepKind.ADAPTER_ATTACHMENT,
                 ((labelled,InputRole.TEMPLATE),(click_oligo,InputRole.STRUCTURAL)),(clicked,))

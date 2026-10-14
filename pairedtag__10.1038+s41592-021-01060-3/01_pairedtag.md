@@ -44,6 +44,8 @@ The PMC full text, Extended Data Fig. 1 and Supplementary Table 1 (primer and al
 - `P5c-NNDC-FokI`: `/5Phos/NNDCAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTG`
 - `PA-F`: `CAGACGTGTGCTCTTCCGATCT`
 - `PA-R`: `AAGCAGTGGTATCAACGCAGAGT`
+- `P5 Universal`: `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T`
+  (the final linkage is phosphorothioate; Supplementary Table 1).
 
 The plate contains all 12 × 96 × 96 barcode choices; the schematic uses role-labelled
 four-base BC1 and seven-base BC2/BC3 representatives rather than presenting one cell

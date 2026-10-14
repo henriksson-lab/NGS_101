@@ -10,4 +10,20 @@
 
 ## Evidence boundary
 
-🟢 The source defines the exact adapter and RT oligos in supplementary tables. The schematic records their invariant barcode lengths and molecular roles; individual indexing choices remain in the linked research source.
+🟢 Supplementary Table S2 prints the exact adapter and RT oligos. These include
+the biotinylated One-Tn5 adapter
+`GTCTCGTGGGCTCGGTCATGNNNNNNNNAGATGTGTATAAGAGACAG`, the P5-Tn5
+adapter `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG`, phosphorylated Mosaic
+oligo `CTGTCTCTTATACACATCT`, three biotinylated RNA-priming variants,
+the 3′ adapter, and `GATGTGTGGAGGTCTCGTGGGCTCGG` amplification primer.
+
+🟢 The same original table publishes custom Illumina sequencing primers:
+ONE-Illu Read 1 `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG`, ONE-Illu Read 2
+`CCGAGCCCACGAGACCTGTCTCTTATACACATCT`, and ONE-Illu i7
+`AGATGTGTATAAGAGACAGGTCTCGTGGGCTCGG`. It also prints the full P5 and
+P7 index-primer families with symbolic `[i5]` and `[i7]` windows.
+
+🟢 The ONE-Illu i5 index-primer row is marked with an asterisk directing users
+to the sequencing-equipment manufacturer's instructions and does not print a distinct
+sequence. That is the remaining source boundary; it does not justify hiding the other
+published primers.

@@ -12,6 +12,8 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
 
 CELL_LEN=15
 RANDOM_PRIMER="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"+"N"*9
+P5_TRANSPOSON_PRIMER="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+P7_TRANSPOSON_BS_PRIMER="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGTAAGTAGAAGATGGTATATGAGAT"
 FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([
  seg("bisulfite-converted genomic insert","X"*38,placeholder=True),
  seg("bead-ligation handle","X"*20,placeholder=True),
@@ -34,7 +36,10 @@ def bead_ligation_geometry():
  sc.strand("insert DNA",[seg("prepared insert end","X"*20,placeholder=True)],label="MNase fragment after end repair")
  sc.ligation_end("insert DNA","prepared insert end",kind="splinted",polarity="5-prime",owner="substrate",text="insert end presented to splint")
  return AdapterLigationGeometry.known("splinted",sc,statement="Drop-BS Supplementary Figure 1 prints the bead ligation sequence and the 3′-SpC3-blocked, 5′-phosphorylated complementary oligo that presents the ligation site.")
-def oligos(): yield oligo("random primer",[seg("S5+ME","TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG","me"),seg("N9","N"*9,placeholder=True)])
+def oligos():
+ yield oligo("S5–ME–N9 random primer",[seg("S5+ME",P5_TRANSPOSON_PRIMER,"me"),seg("N9","N"*9,placeholder=True)])
+ yield oligo("P5 transposon pre-PCR primer",[seg("P5 transposon primer",P5_TRANSPOSON_PRIMER,"me")])
+ yield oligo("P7 transposon BS pre-PCR primer",[seg("P7 transposon BS primer",P7_TRANSPOSON_BS_PRIMER,"me")])
 def sections(): return [
  ("Lyse and fragment one nucleus in a droplet",[Row(chunks=[("nucleus + MNase → genomic fragments",None,False)])],"MNase fragmentation is optimized independently of conversion."),
  ("Fuse with one barcode-bead droplet",bead_ligation_geometry().rows()+[Row(chunks=[("UV release: bead barcode ** genomic fragment", "cbc",False)])],"End repair and splint-supported ligation append the photocleaved 15-nt bead barcode."),

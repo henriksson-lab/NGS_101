@@ -217,7 +217,8 @@ def _site_seq_library() -> tuple[Construct, tuple]:
     return lib, primers
 
 
-def _illumina_break_library(name: str, *, inferred: bool, tagged: bool) -> tuple[Construct, tuple]:
+def _illumina_break_library(name: str, *, inferred: bool, tagged: bool,
+                            index_length: int = 6) -> tuple[Construct, tuple]:
     left = Segment("P5 + Read 1 arm", il.TRUSEQ_P5_FULL, "p5", inferred=inferred)
     payload = ([Segment("proximal read tag", BLESS_PROXIMAL_READ_TAG, "cbc",
                         feature=feature("proximal_break_end", "feature_barcode", "fixed")),
@@ -227,7 +228,7 @@ def _illumina_break_library(name: str, *, inferred: bool, tagged: bool) -> tuple
                if tagged else [role("DNA beginning at repaired DSB")])
     lib = Construct([left, *payload, Segment("dA junction", "A", inferred=inferred),
                      Segment("Index 1 + Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred),
-                     Segment("six-base i7 reverse complement", "I" * 6, "cbc", placeholder=True,
+                     Segment(f"{index_length}-base i7 reverse complement", "I" * index_length, "cbc", placeholder=True,
                              feature=feature("sample_index_i7", "sample_index", "unknown"), inferred=inferred),
                      Segment("P7 reverse complement", il.P7_RC, "p7", inferred=inferred)], name=name)
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
@@ -696,8 +697,9 @@ def get(key: str):
             SEQ_PRIMERS=primers, READ_LENGTHS={"Read 1": 75, "Index 1 (i7)": 6, "Read 2": 75},
             SEQUENCING_INTRO="The paper used 2×75-bp NextSeq runs (and 2×50-bp MiSeq for the EcoRV pilot); downstream break calling retains the proximal Read 1.", SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
 
-    lib, primers = _illumina_break_library(f"{DESIGNS[key].name} library", inferred=True, tagged=True)
     is_i = key == "i-bless"
+    lib, primers = _illumina_break_library(f"{DESIGNS[key].name} library", inferred=True,
+                                           tagged=True, index_length=8 if is_i else 6)
     return _spec(key,
         TITLE=("i-BLESS — immobilized Breaks Labeling, Enrichment on Streptavidin and Sequencing" if is_i else
                "BLESS — Breaks Labeling, Enrichment on Streptavidin and Sequencing"),
@@ -707,7 +709,7 @@ def get(key: str):
             'Crosetto et al., Nature Methods (2013); <a href="https://doi.org/10.1038/nmeth.2408">doi:10.1038/nmeth.2408</a>.'),
         SUMMARY=(("Agarose beads immobilize yeast cells through lysis and direct break labelling; the otherwise BLESS-like proximal/distal hairpins retain which sequenced end is the native DSB.") if is_i else
                  "A barcoded biotin hairpin labels repaired DSBs in fixed nuclei before fragmentation; streptavidin capture and a differently barcoded distal hairpin preserve the native-break end."),
-        CAVEAT=("The proximal/distal tags are exact. The final ThruPLEX adapter geometry is not public and is shown as an inferred Illumina-compatible shell." if is_i else
+        CAVEAT=("The proximal/distal tags are exact. A 2016 ThruPLEX guide establishes an eight-base index, but the study does not identify its index tube and the kit's stem-loop adapter oligos are undisclosed. The final adapter geometry is inferred." if is_i else
                 "The proximal/distal tags are exact. The paper names the final Illumina library-preparation reagents but does not print that kit's complete adapter geometry; those outer regions are marked inferred."),
         oligos=lambda: (
             f"proximal hairpin — 5′-/5Phos/{BLESS_PROXIMAL[:45]}/iBiodT/{BLESS_PROXIMAL[46:]}-3′",
@@ -716,7 +718,7 @@ def get(key: str):
             f"distal PCR primer — 5′-{BLESS_PCR_DISTAL}-3′"),
         workflow=lambda: _bless_workflow(key), FINAL_LIBRARY=lib,
         FINAL_CAPTION="One insert orientation is shown. Proximal and distal 11-nt tags identify which genomic end was the native break; inferred outer sequencing-kit regions are shaded.",
-        SEQ_PRIMERS=primers, READ_LENGTHS={"Read 1": 75, "Index 1 (i7)": 6, "Read 2": 75},
+        SEQ_PRIMERS=primers, READ_LENGTHS={"Read 1": 75, "Index 1 (i7)": 8 if is_i else 6, "Read 2": 75},
         SEQUENCING_INTRO=("The defining i-BLESS study used 2×75-bp HiSeq 2500/4000 sequencing." if is_i else
                           "BLESS used paired-end Illumina sequencing; either end can carry the proximal tag, which is selected computationally."),
         SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")

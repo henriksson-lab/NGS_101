@@ -12,6 +12,7 @@ daughter cell, retaining chromosome-wide Watson/Crick orientation information.
   (PMC3580294).
 - 🟢 Sanders et al. 2017 / later protocol descriptions for the explicit Hoechst/UV
   BrdU-strand destruction mechanism; used as clarification rather than as defining source.
+- 🟢 The defining paper's archived Supplementary Figures and Supplementary Data files were checked for an oligo table; they show library and chromosome results but do not supply the individual fault-tolerant hexamer barcode set.
 
 ## 3. Molecular order
 
@@ -29,3 +30,5 @@ called a fault-tolerant hexamer even though the displayed degenerate run has sev
 the seven-cycle index read therefore contains the six barcode bases plus the adjacent
 fixed P7′ base. 🟡 The standard PE adapter and Read 1/Read 2 primer bases are matched to
 Illumina's authoritative obsolete paired-end oligo table, rather than to modern TruSeq.
+🔴 The defining paper does not give the particular hexamer assigned to each of its 66
+libraries or the ligation substrate's end-preparation geometry.

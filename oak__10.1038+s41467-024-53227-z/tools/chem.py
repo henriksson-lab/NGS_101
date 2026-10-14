@@ -9,7 +9,17 @@ TITLE="OAK — overloading and unpacking droplet barcodes"
 NOTES="01_oak.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-024-53227-z">Darmanis et al., <i>Nature Communications</i> (2024)</a>.'
 SUMMARY="Fixed cells or nuclei are overloaded into Chromium droplets for in situ first-round barcoding, recovered intact and redistributed into aliquots for a second index; RNA, ATAC and antibody-tag branches can share the resulting cell identity."
-CAVEAT="The defining source establishes the two-stage droplet-plus-aliquot identity scheme. Exact proprietary Chromium bead oligos and the complete aliquot-index PCR-primer sequences are not disclosed on this page, so their reaction geometry remains explicitly unavailable."
+CAVEAT="The source prints example RNA aliquot and library PCR primers, listed below. The proprietary Chromium bead oligo, complete index families and Multiome kit oligos remain unavailable; the graph therefore leaves their reaction geometry unresolved."
+RNA_TSO_PCR="AAGCAGTGGTATCAACGCAGAGT"
+RNA_ALIQUOT_I5="AATGATACGGCGACCACCGAGATCTACACAACGTGATACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+RNA_PARTIAL_P5="AATGATACGGCGACCACCGAGA"
+RNA_LIBRARY_I7="CAAGCAGAAGACGGCATACGAGATCGCATGTTACGTGACTGGAGTTCAGACGTGT"
+def oligos():
+    return [f"<b>{name}</b> (published RNA route, 5′→3′): <code>{sequence}</code>"
+            for name, sequence in (("TSO recognition PCR primer", RNA_TSO_PCR),
+                                   ("example aliquot i5 primer", RNA_ALIQUOT_I5),
+                                   ("partial P5 library primer", RNA_PARTIAL_P5),
+                                   ("example library i7 primer", RNA_LIBRARY_I7))]
 CELL_PARTS=(("droplet barcode",16),("aliquot index",8))
 RNA,RP=illumina_branch("OAK RNA","3-prime cDNA",cell_parts=CELL_PARTS,umi=10)
 ATAC,AP=illumina_branch("OAK ATAC","accessible genomic DNA",architecture="nextera",cell_parts=CELL_PARTS)

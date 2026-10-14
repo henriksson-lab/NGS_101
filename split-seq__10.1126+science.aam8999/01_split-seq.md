@@ -28,7 +28,8 @@ never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_SPLiT-seq.html.txt` | scg_lib_structs page (SPLiT-seq + microSPLiT) | the only full account of the **published SPLiT-seq** oligos, steps, library, read layout |
+| `upstream_SPLiT-seq.html.txt` | scg_lib_structs page (SPLiT-seq + microSPLiT) | secondary account of steps, library and read layout, compared against the original oligo table |
+| `scg_aam8999_tables12.xlsx.txt` | original published SPLiT-seq Supplementary Table S12, mirrored by scg_lib_structs | primary oligo table: all three barcode plates, splints, blocking strands, TSO and PCR primers |
 | `science.aam8999_PMC7643870.html.txt` (+ `_efetch.xml.txt`) | SPLiT-seq main text (PMC) | concept, barcode arithmetic; **no methods** (they are in the gated supplement) |
 | `105163_v1.full.pdf.txt` | SPLiT-seq preprint v1 | the earlier, RT-then-three-ligations design (§7) |
 | `869248_v2.full.pdf.txt` | microSPLiT preprint v2 | concept, sequencing summary |
@@ -37,18 +38,28 @@ never committed):
 | `science.aba5257_PMC8269303_efetch.xml.txt` | published microSPLiT text (NCBI efetch; the PMC HTML was a captcha page) | "Materials and Methods Summary" — same RT/ligation/lysis conditions, **no library prep** |
 | `869248_media-3.csv` | cluster marker genes | not chemistry |
 
+The authors' later detailed microSPLiT protocol, doi:10.1038/s41596-024-01007-w,
+and its Supplementary Table 3 (`...MOESM2_ESM.xlsx.txt`) have since been read as a
+primary source for that later implementation. Part 2 and Figure 2 specify
+fragmentation, BC_0243/BC_0244 adapter ligation and terminal PCR, agreeing with
+the preprint path 🟢. Table 3 confirms the representative oligos transcribed
+below and gives all **24** indexed terminal PCR primers: BC_0076–BC_0083 and
+BC_0246–BC_0261 🟢. It does not establish that the unavailable 2021 published
+supplement was identical in every detail.
+
 Could not be fetched (PMC download gate / reCAPTCHA; get by hand):
 
 | What | URL |
 |---|---|
 | SPLiT-seq Supplementary Materials (all methods) | https://pmc.ncbi.nlm.nih.gov/articles/instance/7643870/bin/NIHMS1581077-supplement-Supp_Combined.pdf |
-| SPLiT-seq **Table S12 (all oligos)** | https://pmc.ncbi.nlm.nih.gov/articles/instance/7643870/bin/NIHMS1581077-supplement-Table_S12.xlsx |
 | SPLiT-seq Tables S4–S7, S9, Table 1 (saved files S4–S7 are captcha HTML, not xlsx) | https://pmc.ncbi.nlm.nih.gov/articles/instance/7643870/bin/NIHMS1581077-supplement-TableS4.xlsx (etc.) |
 | published microSPLiT supplement and **Table S3 (oligos)** | https://pmc.ncbi.nlm.nih.gov/articles/instance/8269303/bin/NIHMS1717416-supplement-Table_S3.xlsx and `.../nihms-1717416.pdf` supplement |
 
-So: **microSPLiT (preprint version) is documented from primary sources; published
-SPLiT-seq rests on the upstream page**, cross-checked wherever its oligos are shared with
-the microSPLiT table (most of them are).
+The published SPLiT-seq **oligo sequences are now directly checked against its original
+Table S12**, mirrored in the source cache. Its Supplementary Materials methods PDF
+remains unavailable, so exact reaction conditions and order still rely on the upstream
+page or on the distinct microSPLiT implementation. The published microSPLiT preprint
+and later protocol remain the primary sources for that variant.
 
 ---
 
@@ -106,9 +117,10 @@ BC_0076  PCR primer (TSBC07), sublibrary index #1 (used with BC_0027)
 The table's note: random-hexamer and dT(15)VN primers are combined per RT well, "well E1
 mixed with A1, etc." 🟢 — so 48 RT wells, each with one dT and one hexamer primer.
 
-### 2b. SPLiT-seq (published) — 🟡 (upstream), Table S12 not fetched
+### 2b. SPLiT-seq (published) — 🟢 Table S12 (mirror)
 
-As upstream writes them; it names Table S12 as its source. `[...]` placeholders are upstream's.
+Table S12 prints every plate member. `[...]` below abbreviates the variable barcode
+position; the A1 representative in each plate is `AACGTGAT`.
 
 ```
 Oligo-dTVN (Round1_01-48)   /5Phos/ AGGCCAGAGCATTCG[8-bp Round1 barcode]TTTTTTTTTTTTTTTVN
@@ -117,7 +129,7 @@ Round2 (Round2_01-96)       /5Phos/ CATCGGCGTACGACT[8-bp Round2 barcode]ATCCACGT
 Round3 (Round3_01-96)       /5Biosg/ CAGACGTGTGCTCTTCCGATCT[10-bp UMI][8-bp Round3 barcode]GTGGCCGATGTTTCG
 BC_0215  Round2 barcode linker      CGAATGCTCTGGCCTCTCAAGCACGTGGAT
 BC_0060  Round3 barcode linker      AGTCGTACGCCGATGCGAAACATCGGCCAC
-BC_0216  Round2 blocking strand     ATCCACGTGCTTGAGCGCGCTGCATACTTG
+BC_0216  Round2 blocking strand     ATCCACGTGCTTGAGAGGCCAGAGCATTCG
 BC_0066  Round3 blocking strand     GTGGCCGATGTTTCGCATCGGCGTACGACT
 BC_0127  TSO                        AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G
 BC_0062  cDNA amplification primer 1   CAGACGTGTGCTCTTCCGATCT
@@ -127,12 +139,11 @@ BC_0118  Library PCR primer 2
          AATGATACGGCGACCACCGAGATCTACACTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
 ```
 
-**Checked against the microSPLiT table** 🟡 (computed): the round-2 and round-3 barcode
-oligo frames, BC_0066, BC_0127 and the BC_0076–0083 frame are **identical** in both, and
-BC_0060 is exactly the reverse complement of the microSPLiT table's BC_0066. What only
-upstream attests: the round-1 handle `AGGCCAGAGCATTCG`, BC_0215, BC_0216, BC_0062,
-BC_0108, BC_0118. (BC_0062's sequence is, however, the 🟢 5' handle of every round-3
-oligo, and BC_0108 the first 23 nt of 🟢 BC_0127.)
+**Checked against Table S12:** the round-2 and round-3 barcode oligo frames, BC_0066,
+BC_0127 and BC_0076–0083 are **identical** in the two implementations. BC_0060 is the
+reverse complement of the microSPLiT table's BC_0066. SPLiT-seq alone uses the longer
+round-1 handle `AGGCCAGAGCATTCG`, BC_0215, BC_0216 and BC_0118. Table S12 also directly
+prints BC_0062 and BC_0108. 🟢
 
 ### 2c. How they interlock — 🟡 (computed with `lib/`)
 
@@ -157,10 +168,8 @@ oligo, and BC_0108 the first 23 nt of 🟢 BC_0127.)
 - BC_0066 = **exact reverse complement of BC_0060** (30 nt), so it covers the microSPLiT
   BC_0284 completely too.
 - microSPLiT BC_0340 = **exact reverse complement of BC_0335** (17 nt).
-- SPLiT-seq BC_0216 is **not** the reverse complement of BC_0215: its first 15 nt equal
-  the round-2 oligo's 3' handle `ATCCACGTGCTTGAG` (so it pairs with the linker's
-  round-2-oligo arm), and its last 15 nt `CGCGCTGCATACTTG` match nothing else in the
-  protocol on either strand (checked against the Illumina/Nextera sequences in `lib/` too). 🔴 why.
+- SPLiT-seq BC_0216 is **exactly** the reverse complement of BC_0215. The previous
+  mismatching transcription came from the upstream drawing, not Table S12. 🟡 (computed)
 
 **Handles that become primer sites.**
 
@@ -319,7 +328,8 @@ Disagreements and gaps:
   N6 (22 nt); upstream writes `ACTGTGG[8-bp]NNNNNN`. 🟢 table.
 - Upstream's step 9 names "BC_0018" for the P5 primer it lists as BC_0118 above — a typo
   in one of the two places. 🟡
-- SPLiT-seq RT/ligation/PCR conditions and Table S12 itself 🔴 (gated).
+- SPLiT-seq RT/ligation/PCR conditions remain 🔴 because the methods supplement is gated;
+  the original Table S12 oligos are available from the upstream mirror.
 
 ## 7. Versions
 
@@ -334,14 +344,14 @@ Disagreements and gaps:
 
 ## 8. Open questions
 
-- 🔴 SPLiT-seq Table S12 and methods: verify the round-1 handle, BC_0215, BC_0216, BC_0118,
-  BC_0062/0108 and all reaction conditions.
-- 🔴 Why BC_0216's 3' half (`CGCGCTGCATACTTG`) is unrelated to the round-1 handle while
-  every other blocker is the full linker complement — or whether upstream mis-copied it.
-- 🔴 Published microSPLiT library prep (Nextera, as upstream, or adaptor ligation, as the
-  preprint).
+- 🔴 SPLiT-seq methods supplement: verify exact RT, ligation, cleanup and PCR conditions.
+- 🟢 Table S12 resolves BC_0216: its 3' half is `AGGCCAGAGCATTCG`, complementary to
+  the corresponding BC_0215 arm; the earlier upstream-only transcription was wrong.
+- 🔴 Whether the unavailable 2021 published microSPLiT supplement used the same
+  adapter-ligation preparation as the preprint and the authors' 2024 detailed protocol.
 - 🔴 When the template-switch `CCC` is added (in-cell RT vs on-bead RT).
-- 🟡 "24 PCR reactions" in the arithmetic vs 8 index primers listed in the microSPLiT table.
+- 🟢 The later detailed protocol resolves the "24 PCR reactions" question with
+  BC_0076–BC_0083 and BC_0246–BC_0261; only the first eight appear in the earlier table.
 - 🟡 Identity of TSBC07–14 with TruSeq LT indices 7–14 — unchecked.
 
 ## 9. How this note was made (tool evaluation)

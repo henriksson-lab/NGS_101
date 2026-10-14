@@ -56,3 +56,9 @@ per offset so the five primer starts cover intervening positions.
 This is SOLiD-style imaging chemistry on a rolony, not an Illumina flow-cell library. The
 schematic therefore shows these five published sequencing primers at their actual repeated
 binding site rather than inventing Read 1, index, or Read 2 primers.
+
+🟢 The detailed protocol (PMC4327781, reagent list) also prints three fluorescent
+adapter-specific probes with this same 18-base sequence and 5′ `/56-FAM/`,
+`/5TYE563/` or `/5TEX615/` labels, plus four 18S and seven 28S rRNA detection
+primers with 5′ biotin. Those are ancillary imaging and control oligos; they do
+not become part of the sequenced cDNA circle or its RCA product.

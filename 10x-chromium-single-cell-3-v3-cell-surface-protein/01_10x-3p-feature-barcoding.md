@@ -36,6 +36,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `upstreamdata_CG000731_ChromiumGEM-X_SingleCell3_ReagentKits_v4_UserGuide_RevA.pdf` | 10x GEM-X 3' v4 GEX user guide | v4 bead has **only Capture Sequence 1**; dual-index layout |
 | `scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf(.txt)` | 10x 3' v3 Cell Surface Protein user guide | **all Cell Surface Protein oligos, products and read layout** |
 | `scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf(.txt)` | 10x 3' v3 CRISPR Screening user guide | **all CRISPR library oligos, products and read layout** |
+| [10x Chromium i7 Multiplex index map](https://cdn.10xgenomics.com/raw/upload/v1655155614/support/in-line%20documents/chromium-shared-sample-indexes-plate.json) | official vendor JSON, linked by the [3′ sample-index page](https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/sample-index-sets-for-single-cell-3) | v3 sample-index assignments, four 8-nt oligos per well |
 | `006726_v1.full.pdf`, `nmeth.3047_*MOESM647_ESM.pdf` | Sanjana 2014 (preprint, SI) | GeCKO sgRNA scaffold (DNA) |
 | `nmeth.4380_PMC5669064.html` | CITE-seq | poly(A) ADT design, Nextera-handle ADTs |
 | `s41588-021-00779-1_*`, `2020.09.01.267211_*` | Perturb-CITE-seq (paper, SI, Table 8) | a 10x 3' v3 *alternative*: poly(A) ADT + CROP-seq dial-out |
@@ -89,6 +90,10 @@ TSO (PN-3000228)   5'-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3'
 cDNA Primers (PN-2000089)  Fwd 5'-CTACACGACGCTCTTCCGATCT-3'   Rev 5'-AAGCAGTGGTATCAACGCAGAG-3'
 Chromium i7 Sample Index (PN-220103)  5'-CAAGCAGAAGACGGCATACGAGAT-NNNNNNNN GTGACTGGAGTTCAGACGTGT-3'
 ```
+
+🟢 PN-220103 is the **Chromium i7 Multiplex Kit**. Each v3 index-plate well contains
+four different 8-nt i7 oligos, not one fixed barcode: 10x lists SI-GA-A1 as
+`GGTTTACT`, `CTAAACGG`, `TCGGCGTC`, `AACCGTAA` in the linked index map.
 
 The guide's intro figure calls the bead dT "Poly(dT)VN", the appendix writes T30 without VN;
 the v4 guide (CG000731) writes `TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN`. 🟢 both; the v3
@@ -285,8 +290,9 @@ primers, so mixed GEX + feature pools need no custom primer. Index read with
   same pattern with a dual-index i5 primer; not in the sources. 🔴
 - **Typo upstream**: the bottom strand of the final CRISPR library (and the sequencing panels
   that reuse it) ends "`-3'`" where it must be "`-5'`".
-- **Not checkable here**: CS2 sequence, the antibody oligo layout, all PN-200009x primer
-  sequences — need the 10x FB user guide appendix. 🔴
+- **Confirmed by primary guides**: the CS2 sequence, antibody oligo layout and
+  PN-200009x Feature cDNA and SI primer sequences printed above are in CG000185
+  and CG000184, not merely in the upstream drawing. 🟢
 
 ## 8. Open questions
 

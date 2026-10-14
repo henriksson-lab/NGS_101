@@ -8,10 +8,12 @@ Enhanced CLIP maps direct RNA contacts of an immunoprecipitated RNA-binding prot
 
 - 🟢 Van Nostrand EL et al. *Robust transcriptome-wide discovery of RNA-binding protein binding sites with enhanced CLIP (eCLIP).* Nature Methods (2016). [doi:10.1038/nmeth.3810](https://doi.org/10.1038/nmeth.3810).
 - 🟢 ENCODE eCLIP SOP v1.P: https://www.encodeproject.org/documents/842f7424-5396-424a-a1a3-3f18707c3222/@@download/attachment/eCLIP_SOP_v1.P_110915.pdf
+- 🟢 The defining paper's own Supplementary Protocol 1 (PMC4887338, `NIHMS765516-supplement-2.pdf`, “Synthetic oligonucleotides”) independently prints X1A/X1B/X2A/X2B, RiL19, AR17, rand103Tr3, D501/D502 and D701/D702.
 - 🟢 The source workflow UV-crosslinks RBP to RNA, partially digests RNA, immunoprecipitates the RNP, ligates a 3′ RNA adapter, reverse-transcribes, and ligates a second adapter to the cDNA 3′ end.
 - 🟢 The cDNA-adapter ligation permits amplification of both RT-truncated and read-through molecules.
 - 🟢 SOP v1.P publishes the X1A RNA adapter with its seven-base inline barcode and five random bases, rand103Tr3 with ten random bases, AR17, and the complete D5/D7 PCR-primer series. The model uses the X1A, D501 (`TATAGCCT`) and D701 (`CGAGTAAT`) examples.
 - 🟢 The defining paper sequences 50-nt paired-end libraries. The PCR primers establish standard TruSeq Read 1, Index 1, Index 2 and Read 2 landing sites: this is dual-index, not single-end.
+- 🟢 The original Supplementary Protocol prints the RNA adapters with `/5Phos/`, individual ribonucleotide notation and `/3SpC3/`; rand103Tr3 has `/5Phos/` and `/3SpC3/`. Those end modifications are reagent properties even though the DNA-only final library cannot display them.
 
 ## 3. Molecular path
 

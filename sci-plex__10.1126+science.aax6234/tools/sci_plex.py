@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import seg,truseq_library
-from chemdraw import Row,feature
+from chemdraw import Row, Segment, feature, oligo
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
@@ -20,6 +20,13 @@ SUMMARY="Each treated sample is labeled with a well-specific polyadenylated ssDN
 FINAL_CAPTION="A sci-RNA-seq product representing either endogenous cDNA or a captured nuclear-hash oligo; both retain the same cell barcode combination and UMI."
 SEQUENCING_INTRO="The combinatorial index combination identifies a nucleus; hash-derived reads recover treatment/sample identity and transcript-derived reads measure expression."
 SHOW_READ_CONTENT=True
+def oligos():
+    """Author IDT plate-1 ordering form, well A1 (sciPlex_0)."""
+    yield oligo("sciPlex_0 nuclear hash", [
+        Segment("Nextera Read 2 handle","GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"),
+        Segment("10-base hash","TTCTCGCATG","cbc",feature=feature("sciplex_hash_0","sample_index","whitelist",whitelist="author IDT hash oligo plates")),
+        Segment("B as printed in IDT form","B",placeholder=True),
+        Segment("poly(A)32","A"*32)])
 def sections(): return [
  ("Treat samples in separate wells",[Row(chunks=[("sample 1 | sample 2 | … | sample 4992",None,False)])],"Perturbation identity initially exists as physical well identity."),
  ("Hash permeabilized nuclei",[Row(chunks=[("well-specific ssDNA hash barcode — poly(A) → nucleus", "cbc",False)])],"Unmodified polyadenylated DNA associates with exposed nuclei and is fixed in place."),

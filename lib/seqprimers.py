@@ -41,11 +41,13 @@ class SeqPrimer:
     source: str = ""
     note: str = ""
     expect_mismatch: str = ""    # non-empty: the primer is NOT expected to match exactly
+    min_anneal: int | None = None # override only for a source-established shorter 3′ site
 
 
-def custom(role: str, name: str, seq: str, source: str, note: str = "") -> SeqPrimer:
+def custom(role: str, name: str, seq: str, source: str, note: str = "",
+           *, min_anneal: int | None = None) -> SeqPrimer:
     """A protocol-specific primer. `seq` must still be a constant from the protocol module."""
-    return SeqPrimer(role, name, seq, source, note)
+    return SeqPrimer(role, name, seq, source, note, min_anneal=min_anneal)
 
 
 def mismatching(p: SeqPrimer, why: str) -> SeqPrimer:
@@ -182,6 +184,8 @@ def locate_all(lib: Construct, p: SeqPrimer, n: int = 12,
     """
     top = lib.top()
     hits = []
+    if p.min_anneal is not None:
+        min_anneal = p.min_anneal
     if min_anneal < 1:
         raise ValueError("minimum annealing length must be positive")
     # A primer shorter than the general threshold can still have one valid site: its
@@ -478,6 +482,37 @@ def read_spec_table(rows, note: str = "") -> str:
             f"<p><info>{html.escape(explanation)}</info></p>\n<div class=\"tw\"><table>\n"
             "<tr><th>Read</th><th>Cycles</th><th>Content</th>"
             "<th>Include in sequence analysis?</th></tr>\n" + body + "\n</table></div>\n")
+
+
+def nanopore_read_content_table(lib: Construct | None,
+                                adapter_name: str = "motor adapter") -> str:
+    """Describe primer-free nanopore output without inventing a primer site.
+
+    Nanopore libraries are metered through a pore by a motor-bearing adapter; treating
+    the absent synthesis primer as an unresolved oligo is a category error.  The exact
+    motor/adaptor bases may still be proprietary, but that uncertainty belongs to the
+    final construct rather than to read initiation.
+    """
+    labels = []
+    payloads = []
+    technical_tags = {"p5", "p7", "s5", "s7", "me", "r1", "r2", "r3", "tso",
+                      "cbc", "umi", "insert", "t7", "w1"}
+    for segment in lib or ():
+        label = segment.feature.label if segment.feature else ""
+        if label and label not in labels:
+            labels.append(label)
+        tags = set((segment.tag or "").split("+"))
+        if not segment.feature and not tags & technical_tags and segment.name:
+            if segment.name not in payloads and "adapter" not in segment.name.lower():
+                payloads.append(segment.name)
+    content = ", ".join([*labels, *payloads[:4]]) or "the library strand"
+    if len(payloads) > 4:
+        content += ", other library regions"
+    return read_spec_table(
+        [read_spec("Sequencing output", None,
+                   f"One strand enters from the {adapter_name} end and reports {content}",
+                   "include")],
+        "Nanopore sequencing is motor-driven and does not use a synthesis sequencing primer.")
 
 
 def ensure_read_content(page_html: str, reason: str) -> str:

@@ -13,7 +13,7 @@ from protocol_model import chain, da_tailed, molecule, role
 
 
 def tsa_library():
-    """Compatible Kapa Hyper Prep shell; undisclosed kit oligos stay inferred."""
+    """Compatible Illumina shell; the study does not identify its indexed adapters."""
     lib, all_primers = truseq_library([
         seg("TSA-biotin-labelled genomic fragment", "X" * 46, placeholder=True),
     ], "TSA-seq pulldown library", dual_index=False,
@@ -50,13 +50,13 @@ def tsa_workflow():
          "Stringent washes enrich fragments in proportion to their direct tyramide-biotin labelling; pulldown coverage is compared with the matched input."),
         ("Blunt-end and add one 3-prime dA to each end",
          da_tailed("dA-tailed TSA-seq pulldown DNA", "biotin-enriched genomic insert"),
-         "The dA-tailed pulldown fragment is the substrate for Kapa adapter ligation."),
-        ("Ligate indexed Kapa adapters and PCR for 8–16 cycles",
+         "The dA-tailed pulldown fragment is the substrate for indexed-adapter ligation."),
+        ("Ligate six-base-indexed adapters and PCR for 8–16 cycles",
          molecule("single-index TSA-seq library", (
              role("P5 and Read 1 arm", inferred=True),
              role("biotin-enriched genomic insert"),
              role("Read 2 arm, six-base sample index and P7", inferred=True))),
-         "The defining paper names Kapa Hyper Prep and six-base indexed adapters but does not publish the kit oligo sequences."),
+         "INFERRED — The defining paper names KAPA HyperPrep chemistry but gives no adapter supplier or oligo bases. The HyperPrep kit did not include adapters."),
     ))
 
 
@@ -174,21 +174,21 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
                     StepKind.TAILING,
                     ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)),
                     (tailed,))
-        adapters = graph.input(prefix + "_adapters", label + " indexed Kapa adapters",
+        adapters = graph.input(prefix + "_adapters", label + " six-base-indexed adapters of unidentified supplier",
                                MaterialKind.ADAPTER, inferred=True)
         ligase = graph.input(prefix + "_ligase", label + " adapter ligase",
                              MaterialKind.CATALYST)
         adapted = graph.product(prefix + "_adapted", label + " adapter-ligated DNA",
                                 MaterialKind.MOLECULAR, state=final, inferred=True)
-        graph.react(prefix + "_ligation", "Ligate indexed Kapa adapters",
+        graph.react(prefix + "_ligation", "Ligate six-base-indexed adapters",
                     StepKind.LIGATION,
                     ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                      (ligase, InputRole.CATALYST)), (adapted,),
                     geometry=AdapterLigationGeometry.unavailable(
-                        "Kapa Hyper Prep is named, but its six-base indexed adapter oligos are proprietary."))
+                        "KAPA HyperPrep supplied the ligation chemistry but not adapters; the paper does not identify the adapter supplier, sequences or ligation geometry."))
         forward = graph.input(prefix + "_pcr_forward", label + " library PCR forward primer",
                               MaterialKind.OLIGO, inferred=True)
-        reverse = graph.input(prefix + "_pcr_reverse", label + " indexed library PCR reverse primer",
+        reverse = graph.input(prefix + "_pcr_reverse", label + " library PCR reverse primer",
                               MaterialKind.OLIGO, inferred=True)
         polymerase = graph.input(prefix + "_pcr_polymerase", label + " library PCR polymerase",
                                  MaterialKind.CATALYST)
@@ -199,7 +199,7 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
                     ((adapted, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                      (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                     (library,), geometry=PCRGeometry.unavailable(
-                        final, reason="The compatible Illumina endpoint is known, but the proprietary Kapa PCR oligos are not published."))
+                        final, reason="The compatible Illumina endpoint is known, but the KAPA amplification-primer mix sequences are not printed in the paper or kit sheet."))
         graph.sequence(library, plan)
         reviewed.extend((
             prefix + "_repair_mix", prefix + "_repair", prefix + "_tailing_enzyme",
@@ -221,11 +221,11 @@ def get():
         NOTES="01_tsa_seq.html",
         SOURCE='<a href="https://doi.org/10.1083/jcb.201807108">Chen et al., <i>Journal of Cell Biology</i> (2018)</a>.',
         SUMMARY="Antibody-localized HRP generates a tyramide-biotin radical gradient in fixed nuclei. Nearby DNA is labelled more strongly than distant DNA, then sonicated, captured with streptavidin and sequenced against matched input.",
-        CAVEAT="TSA-seq does not encode distance in a molecule-level barcode or junction: distance is inferred from population enrichment. <inf>The final drawing uses compatible standard Illumina geometry for the Kapa Hyper Prep adapters because their exact six-base indexed oligos were not published.</inf>",
+        CAVEAT="TSA-seq does not encode distance in a molecule-level barcode or junction: distance is inferred from population enrichment. <inf>The final drawing uses compatible standard Illumina geometry for six-base-indexed adapters whose supplier and sequences the paper does not identify.</inf>",
         oligos=lambda: (),
         workflow=tsa_workflow,
         FINAL_LIBRARY=final,
-        FINAL_CAPTION="One enriched genomic fragment inside the compatible single-index Kapa/Illumina shell. Biotin enabled pulldown before library construction and is not a sequenced base. <inf>Adapter bases show compatible geometry rather than a source transcription of the proprietary kit oligos.</inf>",
+        FINAL_CAPTION="One enriched genomic fragment inside a compatible single-index Illumina shell. Biotin enabled pulldown before library construction and is not a sequenced base. <inf>Adapter bases show compatible geometry; the actual ordered adapter oligos remain unidentified.</inf>",
         SEQ_PRIMERS=primers,
         READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 6},
         SEQUENCING_INTRO="The defining libraries were sequenced for 101 instrument cycles and yielded 100-nt single-end genomic reads plus a six-base sample index. Read density in streptavidin pulldown versus input supplies the distance-dependent signal.",

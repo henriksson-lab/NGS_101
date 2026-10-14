@@ -18,7 +18,7 @@ Other records for the same method (from `catalogue/scg_lib_structs.tsv`):
   doi:[10.17504/protocols.io.b4xvqxn6](https://doi.org/10.17504/protocols.io.b4xvqxn6) —
   the bench protocol (not fetched, see below).
 - Bead manufacturing protocol, doi:10.17504/protocols.io.b4cyqsxw (cited in the
-  methods; not fetched).
+  methods; separate from the ATAC library procedure).
 - Cited by upstream for the "semi-suppressive PCR" idea: nanoCAGE / CAGEscan,
   doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470).
 - The sister protocol from the same paper and bead chemistry:
@@ -36,12 +36,13 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `eLife.73971_supp_elife-73971-supp5.xlsx.txt` | Supplementary file 5, cost sheet | enzyme list and amounts only |
 | `eLife.73971_supp_elife-73971-fig1-figsupp2..4-data1.docx.txt` | bead QC tables | not chemistry |
 | `upstream_HyDrop_ATAC.html.txt` | scg_lib_structs page (Teichmann lab) | second source, checked below |
+| `protocolsio_hydrop-atac-v1-0-bxsbpnan.pdf.txt` | authors' HyDrop-ATAC v1.0 bench protocol | bulk index PCR programme and 12-cycle count |
+| `scg_20210712_supp_methods_table_hydrop_oligonucleotide_list.xlsx.txt` | later oligo workbook mirrored by scg_lib_structs | 53 shared named sequences checked against the original supplement; only the two HyDrop-RNA custom-primer names are exchanged |
 
 Not obtained:
 
 | What | URL | Why it matters |
 |---|---|---|
-| protocols.io HyDrop-ATAC v1.0 | https://doi.org/10.17504/protocols.io.b4xvqxn6 (also https://www.protocols.io/view/hydrop-atac-v1-0-bxsbpnan) | **bulk PCR cycle number**, volumes; the upstream page also cites a newer oligo sheet `20210712_supp_methods_table_hydrop_oligonucleotide_list.xlsx` from there |
 | protocols.io bead protocol | https://doi.org/10.17504/protocols.io.b4cyqsxw | bead synthesis details |
 | `elife-73971-data1.zip`, `elife-73971-transrepform1.docx` | https://pmc.ncbi.nlm.nih.gov/articles/instance/8993220/bin/elife-73971-data1.zip | source data; not chemistry |
 
@@ -228,8 +229,10 @@ in its plate oligo**, and 50 nt cover all five segments.
 8. **Recover**: per 50 µL emulsion, 125 µL 20 % PFO/HFE + 55 µL GITC buffer + 5 µL 1 M DTT,
    ice 5 min; Dynabeads silane clean-up, 1× AMPure.
 9. **Bulk index PCR**: 1× KAPA HiFi, 1 µM HYi7 and 1 µM HYi5. HYi7 primes on the
-   complement of the bead backbone (its 3' 27 nt), HYi5 on s5' (its 3' 21 nt). **Cycle
-   number not given** in the paper 🔴 (protocols.io). Double-sided 0.4×–1.2× AMPure.
+   complement of the bead backbone (its 3' 27 nt), HYi5 on s5' (its 3' 21 nt).
+   The authors' protocols.io v1.0 specifies 95 °C 3 min, **12 cycles** of
+   98 °C 10 s / 63 °C 30 s / 72 °C 30 s, then 72 °C 1 min. 🟢
+   Double-sided 0.4×–1.2× AMPure.
 
 Fragment classes 🟡 (inferred; upstream calls the effect "semi-suppressive PCR"):
 - s5…s7 fragments → bead-primed at the s7 end, then amplified by HYi5 + HYi7: the
@@ -299,7 +302,10 @@ Differences:
 
 ## 7. Open questions
 
-- 🔴 Bulk PCR cycle number and annealing temperature (protocols.io only).
+- 🟡 The later 20210712 workbook exchanges the names of `HyDrop_CustSeq_R2` and
+  `HyDrop_CustSeq_Short` relative to eLife Supplementary file 4. Their sequences
+  are reverse complements, and these primers are for HyDrop-RNA, not the ATAC library;
+  the ATAC oligos agree across the two workbooks.
 - 🔴 Why Phusion **and** Deep Vent, and ET SSB, in the droplet mix.
 - 🔴 Purpose of the 8-nt `CTGTCCGC` spacer in HYi7, and why HYi7 carries an index that
   is not sequenced in the published scheme.

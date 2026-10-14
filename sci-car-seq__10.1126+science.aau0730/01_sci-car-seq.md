@@ -19,3 +19,16 @@ The first RT and Tn5 indexes have different oligo sequences but encode the same 
 coordinate. The RNA and ATAC PCR indexes likewise encode the same second/FACS well. The
 two-coordinate lookup links both library types to one cell; no individual barcode segment
 is physically shared between modalities.
+
+## Oligo source review
+
+🟢 The accessible article and Methods identify four structural oligo families:
+well-indexed poly(dT)/UMI RT primers, first-well barcoded ATAC transposomes,
+unindexed cDNA transposomes, and well-indexed PCR primers for each modality.
+The RNA and ATAC oligos in a well encode the same coordinate but have distinct
+sequences. 🔴 The article does not print their ordered bases or barcode lists;
+the PMC supplementary PDF and workbook are blocked by the download gate in the
+source manifest. The schematic's 10-base barcode and 8-base UMI tokens are
+representative placeholders, not verified oligo lengths or orderable sequences.
+The exact first-round and PCR index arms, transposome mosaic ends, and
+sequencing-primer sites remain open until those supplements are obtained.

@@ -17,6 +17,12 @@ transposition and combinatorial indexing*, *Nature Genetics* (2014), DOI `10.103
 especially corrected Supplementary Table 4. Vitak explicitly says that its transposome complexes,
 associated sequences and custom sequencing primers are those of Amini et al.
 
+🟢 Vitak et al. Supplementary Protocol, Tables 1–3, prints the complete
+transposome oligo set, indexed PCR primers and all four custom sequencing primers
+for this implementation. The archived files are
+`nmeth.4154_41592_2017_BFnmeth4154_MOESM252_ESM.pdf` and its companion
+index-layout archive.
+
 ## 3. Indexed transposomes
 
 The transferred P5-side oligo has this structure:
@@ -27,9 +33,9 @@ The transferred P7-side oligo has this structure:
 
 `S7 – CTGTCCCTGTCC – [8-base transposase i7] – CACCGTCTCCGCCTC – ME`
 
-🟢 The constant regions and representative index oligos are printed in Amini Supplementary
-Table 4. The universal non-transferred strand is
-`5Phos/CTGTCTCTTATACACATCT`. Eight P5-side and twelve P7-side oligos make 96 transposome
+🟢 The constant regions and complete index oligos are printed in Vitak Supplementary
+Protocol Table 1. The universal non-transferred strand is
+`/5Phos/CTGTCTCTTATACACATCT`. Eight P5-side and twelve P7-side oligos make 96 transposome
 combinations.
 
 ## 4. Workflow
@@ -52,9 +58,9 @@ transposase i5 and 10-base PCR i5. One 96-well PCR plate permits 9,216 combinati
 
 🟢 Index 1: `CTGTCTCTTATACACATCTGAGGCGGAGACGGTG`.
 
-🟡 Index 2 is the corresponding reverse-complement C15/ME site and is derived from the printed
-P5-side construct. Its placement is computed from that construct rather than transcribed as a
-fourth row absent from Amini's table.
+🟢 Index 2: `CTGTCTCTTATACACATCTGCCGTCCTCGATCGC`. Vitak Supplementary Protocol
+Table 3 prints this fourth custom primer; it also equals the reverse-complement
+C15/ME site derived from the P5-side construct.
 
 🟢 The custom NextSeq recipe is R1: 50 imaged cycles; I1: 8 imaged, 27 dark, 10 imaged; I2:
 8 imaged, 21 dark, 10 imaged; R2: 50 imaged. Thus each index read crosses a transposase barcode,

@@ -109,6 +109,7 @@ JOINT = {"10.1038/ncomms14049",          # 10x 3' GE V1 and V2-V4: one Zheng 201
          "10.1101/2024.02.12.579864",    # scTAPS and scCAPS+
          "10.1038/s41587-021-00927-2",   # ASAP-seq and DOGMA-seq
          "10.1093/nar/gkag652",          # SNU-Seq and sf4sU-Seq
+         "10.1126/science.1229386",    # Kwak 2013 introduces PRO-seq and PRO-cap
          "10.1038/s41586-023-05795-1",   # spatial-ATAC-RNA-seq and spatial-CUT&Tag-RNA-seq
          "10.1016/j.cell.2020.08.003"}   # RAISIN RNA-seq and MIRACL-seq
 _ours_doi = {r["protocol"]: r["doi"] for r in cat.ours()}

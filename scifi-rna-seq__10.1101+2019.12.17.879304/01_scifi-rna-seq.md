@@ -32,6 +32,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `2019.12.17.879304_media-1.xlsx` | preprint Supplementary Table 1 | **every oligo** (sheet "scifi-RNA-seq oligos"), the 384 RT primers (sheet "384 RT primers") |
 | `2019.12.17.879304_media-2.xlsx` | sequencing performance per sample | not chemistry |
 | `s41592-021-01153-z_..._MOESM2_ESM.xlsx` | journal Supplementary Table (oligos) | same as media-1 plus **P7-009 … P7-016** |
+| `s41592-021-01153-z_PMC7612019.xml.txt` | journal full text and Methods (Europe PMC XML) | confirms bridge ligation, custom i7-only Tn5 and NovaSeq standard-primer 21/8/16/78 layout; separates the arrayed CRISPR perturbation workflow from library construction |
 | `s41592-021-01153-z_..._MOESM5_ESM.pdf` | journal supplement: **scifi-RNA-seq step-by-step protocol v2021-01-25** | master-mix tables, scATAC v1.0 *and* v1.1 (Next GEM) variants, Nextera XT alternative, NovaSeq read structure, Tn5 assembly |
 | `s41592-021-01153-z_..._MOESM6_ESM.xlsx` | CRISPR-screen table | checked that its 13-nt well barcodes are the RT-primer barcodes |
 | `s41592-021-01153-z_..._MOESM3/4/7/8_ESM.xlsx` | sequencing metrics, datasets, nuclei/bead counts, droplet sizes | not chemistry |
@@ -42,7 +43,6 @@ Not obtained:
 
 | What | Why | URL |
 |---|---|---|
-| Journal full text (main text + Methods of the Nature Methods version) | PMC returned a reCAPTCHA page, which was saved as `s41592-021-01153-z_PMC7612019.html` | https://pmc.ncbi.nlm.nih.gov/articles/PMC7612019/ · https://www.nature.com/articles/s41592-021-01153-z |
 | `MOESM1_ESM.pdf` contents | image-only PDF (title "Bock RS.pdf", printed to PDF — evidently the Reporting Summary); `.txt` twin is empty | (on disk; OCR would be needed, likely not chemistry) |
 
 ---
@@ -344,29 +344,35 @@ the bridge minus its first 10 nt and ddC doubles as this primer.
 - **NovaSeq vs NextSeq read-out** — see §5.
 - **CRISPR screen** (journal): gRNAs are listed per round-1 well (four wells per gRNA ×
   stimulation); the source table maps wells to perturbations, i.e. the perturbation was
-  encoded by the round-1 barcode 🟡 (inferred from the table's columns). How the
-  perturbation was introduced and whether a gRNA-enrichment library exists is in the
-  journal Methods, which were not obtained 🔴.
+  encoded by the round-1 barcode 🟡 (inferred from the table's columns). The journal
+  Methods explain that the guide constructs were delivered by lentivirus to make
+  separately edited cell lines before scifi-RNA-seq; they do not describe a separate
+  gRNA-enrichment sequencing library 🟢. The Methods give an Sanger verification
+  primer, `TTGGGCACTGACAATTCCGT`, for checking guide constructs; this is not part
+  of the scifi-RNA-seq molecular library.
 
 ## 7. Open questions
 
 - 🔴 **P7-009 … P7-016 orientation**: the journal table writes the listed i7 bases
   forward inside the primer, unlike P7-001 … 008. Error in the table or the actual
-  synthesised oligos? Needs the journal Methods or the epigen/scifiRNAseq sample sheets.
+  synthesised oligos? The journal Methods do not settle this; check the authors'
+  sample sheets or Index 1 reads from the published GEO GSE168620 runs before assigning
+  an orientation. An observed index would support the read-facing sequence only;
+  it would not establish any unreported synthesis modification.
 - 🔴 Purpose of the **row-wise fixed1 base** and the **`GAAT`** spacer in the TSO.
 - 🔴 Thermoligation denaturation **95 °C** (protocol v2021-01-25) vs **98 °C** (preprint).
 - 🟡 That the mRNA is gone (or irrelevant) by the time of bulk template switching — the
   12 thermoligation cycles at ≥ 95 °C and the silane/SPRI cleanups suggest the cDNA is
   single-stranded; not stated.
-- 🔴 Journal-version Methods not read (PMC captcha): any changes to oligos or conditions
-  in the published version beyond the supplements are unchecked.
+- 🔴 The journal Methods do not explain the P7-009 … P7-016 table orientation
+  discrepancy or disclose the 10x gel-bead barcode list.
 
 ## 8. How this note was made (tool evaluation)
 
-`tools/get_sources.py` fetched the preprint, both preprint supplements, all eight
-journal supplements and the upstream page; the PMC full text came back as a reCAPTCHA
-page (saved under the article's name, not flagged as `(manual)`), and the journal
-Reporting Summary is an image-only PDF whose `.txt` twin is empty. `scrape_primers.py`
+`tools/get_sources.py` fetched the preprint, both preprint supplements, the journal
+supplements, Europe PMC journal XML and the upstream page; the PMC HTML route returned
+a reCAPTCHA page, and the journal Reporting Summary is an image-only PDF whose
+`.txt` twin is empty. `scrape_primers.py`
 put Supplementary Table 1 first and recognised `nextera.ME_RC`, `ADAPTOR_S7` and
 `rt.SMART_HANDLE`. Supp. Fig. 2 — the only source for the bead oligo, the bridge register
 and the NextSeq layout — is a raster image inside the preprint PDF; it was extracted

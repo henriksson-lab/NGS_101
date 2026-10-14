@@ -4,27 +4,42 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
-from chemdraw import Construct, Row, Segment, feature, feature_rows, strand_row
+from chemdraw import Construct, Row, feature, feature_rows, revcomp, strand_row
 from dumbbell import (smrtbell_circuit, smrtbell_hairpin_geometry,
                       smrtbell_sequencing_plan)
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from rna_special import isoseq_smrtbell, template_switch_scene
 
 TITLE = "PacBio Iso-Seq v2 — SMRTbell prep kit 3.0"
 NOTES = "01_isoseq.html"
-SOURCE = 'Commercial protocol: PacBio <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Iso-Seq-libraries-using-SMRTbell-prep-kit-3.0.pdf">Preparing Iso-Seq v2 libraries using SMRTbell prep kit 3.0, 102-396-000 Rev07</a>.'
+SOURCE = 'Commercial protocol: PacBio <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-%E2%80%93-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf">Preparing Kinnex-compatible cDNA using Iso-Seq express 2.0 kit, 102-396-000 Rev10</a>; <a href="https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-primers/IsoSeq_v2_primers_12.fasta">official primer FASTA</a>.'
 SUMMARY = "Template-switch reverse transcription captures full-length poly(A) transcripts, cDNA is amplified, repaired and A-tailed, then hairpin adapters close both ends into a SMRTbell for circular-consensus sequencing."
-CAVEAT = "Current cDNA-synthesis oligos and SMRTbell adapter bases are proprietary. Bracketed/unknown regions preserve molecular roles and topology without inventing sequences."
+CAVEAT = "The RT primer mix, TSO 2.0, SMRTbell adapter, and sequencing-primer bases remain proprietary. PacBio does publish the complete bc01–bc12 PCR primers and opposite cDNA amplification primer; those exact sequences and binding sites are shown."
+ISOSEQ_5P_PREFIX = "CTACACGACGCTCTTCCGATCT"
+ISOSEQ_5P_SUFFIX = "GCAATGAAGTCGCAGGGTTGGG"
+ISOSEQ_BARCODES = (
+    "ACTACAC", "ACTAGTA", "AGTGTAC", "ATCACTA", "CAGCTGT", "CAGTCAC",
+    "CATGTAT", "CGTATGT", "GACATGT", "GAGTCTA", "GTAGATA", "GTATGAC",
+)
+ISOSEQ_3P = "AAGCAGTGGTATCAACGCAGAGTAC"
+
+
+def barcoded_primer(number: int) -> str:
+    if not 1 <= number <= len(ISOSEQ_BARCODES):
+        raise ValueError("Iso-Seq barcode number must be 1..12")
+    return ISOSEQ_5P_PREFIX + ISOSEQ_BARCODES[number - 1] + ISOSEQ_5P_SUFFIX
+
+
 INSERT = Construct([
-    seg("Iso-Seq primer barcode", "[Iso-Seq barcode]", "cbc", placeholder=True,
-        inferred=True,
+    seg("bc01 5-prime common arm", ISOSEQ_5P_PREFIX, "r1"),
+    seg("bc01 sample barcode", ISOSEQ_BARCODES[0], "cbc",
         feature=feature("isoseq_sample_index", "sample_index", "whitelist",
                         whitelist="PacBio Iso-Seq primer barcodes bc01–12")),
-    seg("5-prime cDNA handle", "X"*14, "r1", placeholder=True, inferred=True),
+    seg("bc01 3-prime common arm", ISOSEQ_5P_SUFFIX, "r1"),
     seg("full-length transcript cDNA", "X"*44, placeholder=True),
     seg("poly(A/T) boundary", "X"*12, placeholder=True),
-    seg("3-prime cDNA handle", "X"*14, "r2", placeholder=True, inferred=True),
+    seg("cDNA amplification-primer reverse complement", revcomp(ISOSEQ_3P), "r2"),
 ], name="barcoded full-length Iso-Seq cDNA")
 SMRTBELL, SMRTBELL_ROWS = isoseq_smrtbell(INSERT)
 FINAL_LIBRARY = smrtbell_circuit(SMRTBELL)
@@ -36,6 +51,14 @@ FINAL_CAPTION = "The full-length cDNA is closed by two hairpins for repeated pol
 HAIRPIN_END = smrtbell_hairpin_geometry(
     SMRTBELL,
     statement="SMRTbell prep kit 3.0 ligates T-overhang hairpins to dA-tailed cDNA.")
+
+
+def oligos():
+    return [
+        *(f"<b>Iso-Seq primer bc{i:02d}</b> — 5′-{barcoded_primer(i)}-3′"
+          for i in range(1, len(ISOSEQ_BARCODES) + 1)),
+        f"<b>Iso-Seq cDNA amplification primer (IsoSeqX_3p)</b> — 5′-{ISOSEQ_3P}-3′",
+    ]
 
 
 def final_rows():
@@ -56,7 +79,7 @@ def sections():
 def protocol_graph():
     g = ProtocolGraph(TITLE, authority=SOURCE)
     rna = g.input("rna", "poly(A) RNA", MaterialKind.MOLECULAR, primary=True)
-    rt_primer = g.input("rt_primer", "barcoded Iso-Seq RT primer", MaterialKind.OLIGO,
+    rt_primer = g.input("rt_primer", "Iso-Seq RT primer mix", MaterialKind.OLIGO,
                         inferred=True, source=SOURCE + " (current primer bases proprietary)")
     rt = g.input("rt", "template-switching reverse transcriptase", MaterialKind.CATALYST)
     first = g.product("first", "first-strand full-length cDNA", MaterialKind.MOLECULAR)
@@ -72,20 +95,27 @@ def protocol_graph():
             StepKind.TEMPLATE_SWITCHING,
             ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
              (rt, InputRole.CATALYST)), (full,))
-    fwd = g.input("forward", "Iso-Seq PCR forward primer", MaterialKind.OLIGO,
-                  inferred=True, source=SOURCE + " (primer bases proprietary)")
-    rev = g.input("reverse", "barcoded Iso-Seq PCR reverse primer", MaterialKind.OLIGO,
-                  inferred=True, source=SOURCE + " (primer bases proprietary)")
+    fwd = g.input("forward", "published Iso-Seq bc01–bc12 primer family",
+                  MaterialKind.OLIGO,
+                  source=SOURCE + " (official IsoSeq_v2_primers_12.fasta)")
+    rev = g.input("reverse", "published Iso-Seq cDNA amplification primer",
+                  MaterialKind.OLIGO,
+                  source=SOURCE + " (official IsoSeq_v2_primers_12.fasta)")
     pol = g.input("polymerase", "cDNA PCR polymerase", MaterialKind.CATALYST)
     amplified = g.product("amplified", "barcoded full-length duplex cDNA",
                           MaterialKind.MOLECULAR,
-                          state=tuple([strand_row(INSERT), *feature_rows(INSERT)]), inferred=True,
-                          source=SOURCE + " (terminal handle bases proprietary)")
+                          state=tuple([strand_row(INSERT), *feature_rows(INSERT)]),
+                          source=SOURCE + " (exact terminal PCR-primer bases; transcript schematic)")
     g.react("pcr", "Amplify and barcode full-length cDNA", StepKind.PCR,
             ((full, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL),
              (rev, InputRole.STRUCTURAL), (pol, InputRole.CATALYST)), (amplified,),
-            geometry=PCRGeometry.unavailable(
-                INSERT, reason="The current Iso-Seq PCR-primer bases are proprietary."))
+            geometry=PCRGeometry.exact(
+                INSERT,
+                PCRPrimer("Iso-Seq bc01", barcoded_primer(1)),
+                PCRPrimer("Iso-Seq cDNA amplification primer", ISOSEQ_3P),
+                statement=("PacBio's official FASTA publishes both complete primer "
+                           "sequences; bc01 is the representative member of the "
+                           "twelve-primer barcode family.")))
     end_mix = g.input("end_mix", "damage-repair, end-repair and dA-tailing enzymes",
                       MaterialKind.CATALYST)
     tailed = g.product("tailed", "repaired dA-tailed full-length cDNA",

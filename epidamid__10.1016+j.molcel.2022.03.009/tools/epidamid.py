@@ -13,6 +13,9 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
 ADRT="CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA"
 ADRB="TCCTCGGCCGCG"
 ADR_PCR="GGTCGCGGCCGAGGATC"
+RANDOMHEX_RT="GCCTTGGCACCCGAGAATTCCANNNNNN"
+RNA_PCR_1="AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA"
+RNA_PCR_INDEX="CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
 MARK=DamMarkedGATC("a reader-domain-bound histone modification")
 ADAPTER=damid_adapter(ADRT,ADRB)
 
@@ -44,7 +47,7 @@ TITLE="EpiDamID — histone-targeted adenine recording with scDam&T-seq"
 NOTES="01_epidamid.html"
 SOURCE='<a href="https://doi.org/10.1016/j.molcel.2022.03.009">Rang and de Luca et al., <i>Molecular Cell</i> (2022)</a>.'
 SUMMARY="A histone-binding domain or mintbody recruits Dam in living cells, leaving m6A at nearby GATC sites. DpnI-selective adapter ligation and T7 amplification recover that chromatin record; scDam&T-seq can pair it with transcriptomes."
-CAVEAT="INFERRED — the source prints the DamID2 adapter and terminal PCR primers, but not one complete strand-resolved post-CEL-Seq2 library. The final outer arms are therefore unresolved rather than silently assigned to a TruSeq generation."
+CAVEAT="INFERRED — the source prints the DamID2 adapter, random-hexamer RT primer and terminal PCR primers, but not one complete strand-resolved post-CEL-Seq2 library. The final outer arms are therefore unresolved rather than silently assigned to a TruSeq generation."
 FINAL_CAPTION="EpiDamID insert after the scDam&T/CEL-Seq2 branch. Exact DamID adapter sequence is retained; unresolved outer sequencing regions are visibly inferred."
 SEQUENCING_ENDING="Libraries were sequenced on NextSeq 500 (75-base reads) or NextSeq 2000 (100-base reads)."
 SEQUENCING_UNAVAILABLE="A complete final sequencing-primer binding construct cannot be verified from the paper's split DamID2 and CEL-Seq2 descriptions; the source-transcribed primers remain available below."
@@ -52,6 +55,9 @@ def oligos():
  yield oligo("AdRt",[Segment("adapter top",ADRT,"t7")])
  yield oligo("AdRb",[Segment("adapter bottom",ADRB,"t7")])
  yield oligo("AdR_PCR",[Segment("PCR primer",ADR_PCR,"r1")])
+ yield oligo("RandomhexRT",[Segment("random-hexamer RT primer",RANDOMHEX_RT,"r1")])
+ yield oligo("RNA PCR primer 1",[Segment("RNA PCR 1",RNA_PCR_1,"r1")],mods="terminal G*A phosphorothioate")
+ yield oligo("RNA PCR index primer, example CGTGATGT",[Segment("indexed RNA PCR",RNA_PCR_INDEX,"r2")],mods="terminal C*A phosphorothioate")
 
 def protocol_graph():
  source="Defining source: https://doi.org/10.1016/j.molcel.2022.03.009"
@@ -87,8 +93,8 @@ def protocol_graph():
  fragmented=graph.product("fragmented_rna","fragmented DamID RNA",MaterialKind.MOLECULAR)
  graph.react("fragmentation","Fragment the T7-amplified RNA",StepKind.FRAGMENTATION,
              ((rna,InputRole.TEMPLATE),(fragmentation,InputRole.CONDITION)),(fragmented,))
- rt_primer=graph.input("rt_primer","scDam&T/CEL-Seq2 reverse-transcription primer",
-                       MaterialKind.OLIGO,source=unresolved,inferred=True)
+ rt_primer=graph.input("rt_primer","source-printed RandomhexRT reverse-transcription primer",
+                       MaterialKind.OLIGO,source=source)
  rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
  cdna=graph.product("cdna","reverse-transcribed DamID cDNA",MaterialKind.MOLECULAR,
                     source=unresolved,inferred=True)
@@ -96,10 +102,10 @@ def protocol_graph():
              StepKind.REVERSE_TRANSCRIPTION,
              ((fragmented,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
               (rt,InputRole.CATALYST)),(cdna,),source=unresolved)
- p5=graph.input("p5_primer","CEL-Seq2 library PCR primer",MaterialKind.OLIGO,
-                source=unresolved,inferred=True)
- p7=graph.input("p7_primer","indexed CEL-Seq2 library PCR primer",MaterialKind.OLIGO,
-                source=unresolved,inferred=True)
+ p5=graph.input("p5_primer","source-printed RNA PCR primer 1",MaterialKind.OLIGO,
+                source=source)
+ p7=graph.input("p7_primer","source-printed RNA PCR index primer",MaterialKind.OLIGO,
+                source=source)
  polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
  library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY,
                        source=unresolved,inferred=True)

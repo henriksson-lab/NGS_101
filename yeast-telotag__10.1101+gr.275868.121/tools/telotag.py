@@ -3,12 +3,21 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import (Construct,Row,Scene,Segment,complement_segments,feature,
+from chemdraw import (Construct,Row,Scene,Segment,complement_segments,feature,oligo,
                       feature_rows)
 from telomere import TelomereEnd
 
 END=TelomereEnd(repeat="TGGTGT",duplex_copies=3,overhang_copies=2)
-POLYA="A"*18; TELOTAG_CORE="N"*24
+# Supplemental Table S5 (the Methods text points to S6, which is the plasmid table).
+TELOTAG_CORE="CAGTCTACACATATTCTCTG"
+TELOTAG_PRIMERS=(
+    TELOTAG_CORE+"T"*35,
+    TELOTAG_CORE+"T"*36+"CAC",
+    TELOTAG_CORE+"T"*36+"ACA",
+    TELOTAG_CORE+"T"*36+"CCA",
+    TELOTAG_CORE+"T"*36+"ACC",
+)
+POLYA="A"*35  # representative minimum paired extent; TdT tail length varies
 SAMPLE_INDEX=feature("ont_native_sample_index", "sample_index", "whitelist",
                      whitelist="Oxford Nanopore EXP-NBD104 native barcode set")
 
@@ -16,7 +25,7 @@ def tail_scene():
     top=[Segment("subtelomere","X"*16,placeholder=True),Segment("telomere",END.duplex,"r1"),Segment("native overhang",END.overhang,"r2"),Segment("poly(A) tail",POLYA,"r3")]
     sc=Scene(); sc.strand("G-rich strand",top,label="chromosome")
     sc.anneal("C-rich strand",complement_segments(top[:2]),to="G-rich strand",pair=("telomere'","telomere"),label="chromosome")
-    tag=[Segment("TeloTag core",TELOTAG_CORE,"r3",placeholder=True),Segment("oligo(dT)","T"*18,"r2")]
+    tag=[Segment("TeloTag core",TELOTAG_CORE,"r3"),Segment("oligo(dT)","T"*35,"r2")]
     sc.anneal("TeloTag",tag,to="G-rich strand",pair=("oligo(dT)","poly(A) tail"),label="TeloTag",unpaired=("TeloTag core",))
     sc.footer("** T4 ligase seals the filled TeloTag–chromosome nick","TeloTag","TeloTag core")
     return sc
@@ -37,11 +46,15 @@ def nanopore_library_rows():
     prefix=len("nanopore library") + 1 + len("5'- ")
     return [*sc.rows(),*feature_rows(lib,prefix_width=prefix)]
 
+def oligos():
+    return tuple(oligo(f"TeloTag mix {i}", (Segment("TeloTag primer", sequence),))
+                 for i, sequence in enumerate(TELOTAG_PRIMERS, 1))
+
 def panels():
     return [
         ("Terminal transferase adds poly(A) at the native 3′ chromosome end",
          tail_scene(),
-         "The poly(A) tail preserves a recognizable terminal landmark; the paper uses five TeloTag primers."),
+         "The poly(A) tail preserves a terminal landmark; the 35-base paired footprint represents the first of five published TeloTag primers."),
         ("Sulfolobus DNA polymerase IV fills the end and T4 ligase seals the nick",
          [Row(chunks=[("[duplex chromosome][telomere][poly(A):oligo(dT)][TeloTag] **",None,False)])],
          "Fill-in makes a blunt tagged end; ** identifies the sealing ligation."),

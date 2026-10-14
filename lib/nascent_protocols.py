@@ -71,12 +71,13 @@ SAMPLE_INDEX = role("sample index", tag="cbc", length_bp=8,
                     molecular_feature=feature("sample_index", "sample_index", "unknown"))
 
 
-def role_library(name: str, payload: tuple[Segment, ...], *, indexed: bool = True) -> Construct:
-    parts = [role("Illumina-compatible left end")]
+def role_library(name: str, payload: tuple[Segment, ...], *, indexed: bool = True,
+                 platform: str = "Illumina-compatible") -> Construct:
+    parts = [role(f"{platform} left end")]
     if indexed:
         parts.append(SAMPLE_INDEX)
     parts.extend(payload)
-    parts.append(role("Illumina-compatible right end"))
+    parts.append(role(f"{platform} right end"))
     return Construct(parts, name=name)
 
 
@@ -161,7 +162,8 @@ def _four_su(key: str) -> Workflow:
         (extra, cfg.product(),
          "SNU-Seq and sf4sU-Seq deliberately create different endpoint information from the same labelled pool."),
         ("Build the directional sequencing library", molecule(result, (role("left sequencing end"),
-            SAMPLE_INDEX, role("4sU-enriched RNA-derived cDNA"), role("right sequencing end"))),
+            *(() if key == "snu-seq" else (SAMPLE_INDEX,)),
+            role("4sU-enriched RNA-derived cDNA"), role("right sequencing end"))),
          "The final read coordinate reflects the selected intact or size-fractionated RNA end."),
     ))
 
@@ -209,9 +211,14 @@ DEFS = {
 
 
 CAGE_OLIGOS = (
+    "5′-TAGTCGAACTGAAGGTCTCCAGCAXnrGrGrG-3′ — CAGEscan template-switch primer (Xn is a 3- or 6-base DNA barcode; terminal rGrGrG is RNA)",
     "5′-TAGTCGAACGAAGGTCTCCGAACCGCTCTTCCGATCTN6-3′ — CAGEscan RT primer",
+    "5′-TAGTCGAACTGAAGGTCTCCAGC-3′ — CAGEscan semi-suppressive PCR forward primer",
+    "5′-TGACGTCGTCTAGTCGAACTGAAGGTCTCCGAACC-3′ — CAGEscan semi-suppressive PCR reverse primer",
     "5′-AATGATACGGCGACCACCGAGATCTACACTAGTCGAACTGAAGG-3′ — CAGEscan forward PCR primer",
     "5′-CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′ — CAGEscan reverse PCR primer",
+    "5′-TAGTCGAACTGAAGGTCTCCAGCA-3′ — CAGEscan forward paired-end sequencing primer",
+    "5′-CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′ — CAGEscan reverse paired-end sequencing primer",
 )
 
 
@@ -618,7 +625,9 @@ def get(key: str):
                    (lambda: _four_su(key)) if key in {"timelapse-seq", "tuc-seq", "snu-seq", "sf4su-seq"}
                    else (lambda: _end_capture(key)))
     payload = (role("cap-linked transcript cDNA"), role("downstream transcript cDNA")) if key == "cagescan" else (role("assay-derived cDNA"),)
-    final = role_library(d.title + " final library", payload)
+    final = role_library(d.title + " final library", payload,
+                         indexed=key != "snu-seq",
+                         platform="platform-specific" if key == "snu-seq" else "Illumina-compatible")
     unavailable = ("The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role."
                    if key != "cagescan" else
                    "The original CAGEscan supplement publishes the RT and PCR oligos, but the historical instrument-primer geometry is not asserted as a modern invariant.")

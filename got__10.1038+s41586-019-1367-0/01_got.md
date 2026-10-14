@@ -17,6 +17,35 @@ Genotyping of Transcriptomes (GoT) adds targeted genotyping to a 10x single-cell
 - 🟢 For weakly detected 3′ targets, a gene-specific primer may be spiked into cDNA amplification. For 5′ libraries, a gene-specific RT primer and later additive primer improve recovery.
 - 🟢 A small aliquot of amplified cDNA enters GoT; the remainder continues to the standard expression library.
 
+## Oligo inventory
+
+The defining article's [Supplementary Table 5](https://www.nature.com/articles/s41586-019-1367-0) is explicitly titled “List of primers used in GoT and single cell colony assay.” The fetched author-manuscript copy (`PMC6782071`, `sup_tab_5.xlsx.txt`, lines 1–74) supplies the library oligos below. `U` and phosphorothioate `*` are kept exactly as printed. The main text additionally gives the following **circularization GoT** primer architecture:
+
+| Primer | Printed sequence, 5′→3′ |
+|---|---|
+| Forward #1 | `AGGUCAGTCU-[50bp-upstream-locus-specific]` |
+| Reverse #1 | `AGACUGACCUCTACACGACGCTCTTCCGATCT` |
+| Forward #2 | `AGGUCAGTCU[3’end-locus-specific]` |
+| Reverse #2 | `AGACUGACCU[10bp-downstream-locus-specific]` |
+
+🟢 These are the author manuscript's “Genotyping of Transcriptomes (GoT)” Methods and Extended Data Figure 1b–c, not sequences inferred from reads. The leading uracil-bearing tails form complementary cohesive ends after USER II digestion. They document the named circularization variant. The locus-specific portions vary with the interrogated mutation and must remain target-specific rather than a fictitious universal sequence.
+
+### Linear GoT primers in Supplementary Table 5
+
+| Oligo or role | Printed sequence, 5′→3′ |
+|---|---|
+| P5generic | `AATGATACGGCGACCACCGAGATCTACAC` |
+| RPI-X indexing primer | `CAAGCAGAAGACGGCATACGAGATXXXXXXXXGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA` |
+| Staggered target-primer handles | `CACCCGAGAATTCCA`, `CACCCGAGAATTCCAA`, `CACCCGAGAATTCCATT`, `CACCCGAGAATTCCACAT`, each followed by `[Gene Specific Primer]` |
+| SF3B1 targeted cDNA preamplification | `GGGCATTCCTTCTTTATTGC` |
+| CALR L367fs*46 target portion | `GCAGCAGAGAAACAAATGAAGGAC` |
+| CALR K385fs*47 target portion | `GAAGAAGACAAGAAACGCAAAGAGG` |
+| SF3B1 H662D target portion | `TGTGCAAAAGCAAGAAGTCCT` |
+| NFE2 E261fs*3 target portion | `TCAACTTGCCGGTAGATGAC` |
+| XBP1 splice-site target portion | `GGAATGAAGTGAGGCCAGTG` |
+
+🟢 Each named linear target primer is a staggered handle plus the printed target portion. `XXXXXXXX` is the variable sample index, not eight known bases. The table also prints the 5′-kit SpikeIn Guide RT handle `AGCAAGTGAGAAGCATCGTGTC-[Gene Specific Primer]` and additive primer `AGCAAGTGAGAAGCATCGTG*T*C`; the two terminal `*` marks are phosphorothioate linkages. It gives locus-specific circularization primers and alternative Gibson handles as separate rows. Thus the GoT-specific oligos are largely recovered, while the upstream 10x kit oligos and a concrete choice of index/target remain implementation-dependent.
+
 ## Construct-changing steps
 
 1. 🟢 Target PCR starts about 50 bases upstream of the variant and amplifies toward the 10x end, thereby preserving cell barcode and UMI.

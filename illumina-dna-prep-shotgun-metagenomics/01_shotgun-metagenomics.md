@@ -7,6 +7,9 @@ Illumina DNA Prep applies bead-linked transposomes to total DNA extracted from a
 ## 2. Authoritative sources
 
 🟢 Illumina, *DNA Prep Reference Guide*, document 1000000025416 v12, defines bead-linked tagmentation, post-tagmentation wash and index PCR.
+🟢 The guide's downloadable PDF was checked directly. Its consumables section directs readers to Illumina's separate *Adapter Sequences* reference for index-adapter bases; the guide itself names compatible index sets but does not print an ordered index-primer pair. The index values in a particular library depend on the set and well chosen.
+🟢 The official *Illumina Prep and Nextera Kits* adapter table prints the Read 1 transposase adapter as `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG`, the Read 2 adapter as `GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG`, and index-PCR primer arms as `CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG` and `AATGATACGGCGACCACCGAGATCTACAC[i5]TCGTCGGCAGCGTC`. The official *IDT for Illumina Unique Dual Indexes* table gives the well-specific i7/i5 bases for the Set A kit used in the application note. These public sequences resolve the adapter arms; a specific library still requires its chosen well.
+🟢 The Set A i7 and i5 index regions are each ten bases long. The schematic uses that source-known width while keeping the unspecified well's bases symbolic.
 
 🟢 Illumina, *Shotgun metagenomics with Illumina DNA Prep on the NovaSeq 6000 System*, M-NA-00010 v2.0, identifies DNA extraction followed by Illumina DNA Prep as the demonstrated shotgun workflow.
 

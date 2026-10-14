@@ -10,8 +10,23 @@ doi:10.1093/nar/gkx005. The PMC full text and supplement were read.
   single-read sequencing.
 - 🟢 Lines 80–88 establish deacylation, recognition of the mature-tRNA 5′-NCCA-3′
   overhang and sealing of both acceptor-stem nicks.
-- 🟡 The final flow-cell ends are shown by molecular role because the paper names the
-  Illumina kit but does not reproduce its index or sequencing-primer oligos.
+- 🟢 The paper names the TruSeq Small RNA kit but does not reproduce its RT/PCR
+  oligos. Illumina's [TruSeq Small RNA adapter-sequence sheet](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm)
+  gives RTP as 5′-GCCTTGGCACCCGAGAATTCCA-3′, RP1 as
+  5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′, and the
+  indexed PCR primer family as
+  5′-CAAGCAGAAGACGGCATACGAGAT[6-base index]GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′.
+  The same sheet lists each index sequence. The paper does not say which index was
+  chosen for each sample, so a specific six-base index remains unspecified.
+- 🟡 The current page shows the final flow-cell ends by role. Its exact sequencing
+  primer placement remains unmodeled; the Illumina sheet establishes RT and PCR
+  oligos but does not identify the HiSeq 2500 run primer by sequence.
+- 🟢 The additional nucleotide sequences in the paper's methods (lines 64–68 of the
+  PMC full-text extraction) are a synthetic tRNA substrate and RT/qPCR primers for
+  **ligation-efficiency experiments**. They are not the library amplification primers
+  used for the sequencing runs; that step explicitly uses primers supplied with the
+  TruSeq Small RNA kit (line 60). This distinction prevents the assay-control primers
+  from being substituted for the unresolved sequencing-primer landing site.
 
 ## Construct logic
 

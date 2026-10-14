@@ -150,7 +150,8 @@ def safe_seqs_graph(authority: str, final: Construct, primers) -> ProtocolGraph:
     return graph.require_publishable()
 
 
-def saferseqs_graph(authority: str, final: Construct, limitation: str) -> ProtocolGraph:
+def saferseqs_graph(authority: str, final: Construct, limitation: str, *,
+                    primers: tuple = (), read_uses: dict | None = None) -> ProtocolGraph:
     graph = ProtocolGraph("SaferSeqS — copied duplex UID with strand-specific enrichment",
                           authority=authority)
     dna = graph.input("genomic_dna", "end-repaired genomic duplex DNA",
@@ -167,8 +168,8 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                 ((dna, InputRole.TEMPLATE), (phosphatase, InputRole.CATALYST)),
                 (dephosphorylated,))
     uid_adapter = graph.input("uid_adapter", "random-UID-bearing 3-prime adapter",
-                              MaterialKind.ADAPTER, inferred=True,
-                              source=authority + " (Supplementary Table 7 gated)")
+                              MaterialKind.ADAPTER,
+                              source=authority + " Supplementary Table 7")
     ligase3 = graph.input("three_prime_ligase", "3-prime adapter ligase",
                           MaterialKind.CATALYST)
     uid_ligated = graph.product("uid_ligated", "3-prime UID-adapter-ligated duplex",
@@ -178,7 +179,8 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                 ((dephosphorylated, InputRole.TEMPLATE), (uid_adapter, InputRole.STRUCTURAL),
                  (ligase3, InputRole.CATALYST)), (uid_ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "Supplementary Table 7 containing the adapter-end bases is a gated manual download."))
+                    "The published oligo pair is transcribed on the protocol page; its "
+                    "two-ended placement on the genomic duplex is not yet encoded as an exact geometry."))
     extension = graph.input("extension_polymerase", "UID-copying DNA polymerase",
                             MaterialKind.CATALYST)
     copied = graph.product("uid_copied", "duplex with the UID copied into both strands",
@@ -188,8 +190,8 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                 ((uid_ligated, InputRole.TEMPLATE), (extension, InputRole.CATALYST)),
                 (copied,))
     five_adapter = graph.input("five_prime_adapter", "5-prime library adapter",
-                               MaterialKind.ADAPTER, inferred=True,
-                               source=authority + " (Supplementary Table 7 gated)")
+                               MaterialKind.ADAPTER,
+                               source=authority + " Supplementary Table 7")
     ligase5 = graph.input("five_prime_ligase", "5-prime adapter ligase",
                           MaterialKind.CATALYST)
     sealed = graph.product("sealed", "duplex-barcoded library precursor",
@@ -199,7 +201,8 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                 ((copied, InputRole.TEMPLATE), (five_adapter, InputRole.STRUCTURAL),
                  (ligase5, InputRole.CATALYST)), (sealed,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "Supplementary Table 7 containing the adapter-end bases is a gated manual download."))
+                    "The published 5-prime adapter is transcribed on the protocol page; its "
+                    "two-ended placement on the genomic duplex is not yet encoded as an exact geometry."))
     watson = graph.product("watson_template", "Watson-oriented target molecules",
                            MaterialKind.MOLECULAR, state=sealed.state)
     crick = graph.product("crick_template", "Crick-oriented target molecules",
@@ -215,9 +218,9 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                 "orient", "nested_polymerase"]
     for prefix, template in (("watson", watson), ("crick", crick)):
         forward = graph.input(prefix + "_forward", prefix.title() + " hemi-nested forward primer",
-                              MaterialKind.OLIGO, inferred=True, source=authority + " (table gated)")
+                              MaterialKind.OLIGO, source=authority + " Supplementary Tables 5 and 7")
         reverse = graph.input(prefix + "_reverse", prefix.title() + " hemi-nested reverse primer",
-                              MaterialKind.OLIGO, inferred=True, source=authority + " (table gated)")
+                              MaterialKind.OLIGO, source=authority + " Supplementary Tables 5 and 7")
         library = graph.product(prefix + "_library", prefix.title() + " SaferSeqS library",
                                 MaterialKind.LIBRARY, state=final)
         graph.react(prefix + "_pcr", "Hemi-nested PCR of the " + prefix + " strand",
@@ -226,8 +229,9 @@ def saferseqs_graph(authority: str, final: Construct, limitation: str) -> Protoc
                      (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                     (library,), geometry=PCRGeometry.unavailable(final, reason=limitation))
         graph.sequence(library, SequencingPlan(
+            library=final if primers else None, primers=primers,
             acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
-            limitation=limitation))
+            read_uses=read_uses or {}, limitation=limitation))
         reviewed.extend((forward.id, reverse.id, prefix + "_pcr", library.id))
     graph.declare_reviewed_scope(reviewed, authority)
     return graph.require_publishable()

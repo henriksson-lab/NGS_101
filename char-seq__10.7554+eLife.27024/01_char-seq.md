@@ -17,4 +17,4 @@
 
 🟢 DpnII digestion removes the blocked distal bridge piece and cuts nearby genomic DNA. T4 DNA ligase then joins compatible DpnII cohesive ends. RNase H and DNA polymerase I complete the cDNA-containing duplex, and sonication followed by streptavidin capture enriches only molecules retaining the bridge.
 
-🟢 The defining paper used NEBNext end repair/dA tailing, NEBNext hairpin adapters, USER opening and TruSeq-compatible indexing, then single-end 152-base sequencing. 🟡 The named commercial workflow determines the sequencing architecture, but the exact proprietary hairpin oligo bases are not printed in the sources read and remain visibly inferred on the schematic.
+🟢 The defining paper used NEBNext end repair/dA tailing, NEBNext hairpin adapters, USER opening and TruSeq-compatible indexing, then single-end 152-base sequencing. The paper itself names rather than prints the kit oligos; the authoritative NEB E7600/E7335 oligo manuals do publish the 65-nt USER hairpin and amplification-primer families. Those shared canonical sequences are now imported from `lib/illumina.py`, rather than leaving a false proprietary gap or copying them into this protocol.

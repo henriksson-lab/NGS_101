@@ -33,6 +33,10 @@ never committed):
 | `upstreamdata_CG000108_AssayConfiguration_SC3v2.pdf(.txt)` | 10x technical note, v2 | **every v2 oligo**, verbatim (fetched by hand from the upstream site's `data/10X-Genomics/`) |
 | `upstreamdata_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf(.txt)` | 10x v3 user guide | **v3 oligos** (appendix "Oligonucleotide Sequences"), thermal programs, cycle numbers, run parameters |
 | `upstreamdata_CG000731_ChromiumGEM-X_SingleCell3_ReagentKits_v4_UserGuide_RevA.pdf(.txt)` | 10x v4 (GEM-X) user guide | **v4 bead oligo and final library**, thermal programs, run parameters |
+| `10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf(.txt)` | 10x v3.1 single-index guide, appendix pp. 57–58 | v3.1 bead, TSO, cDNA primers, adapter, 8-nt i7 single-index primer and library |
+| `10x_CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevE.pdf(.txt)` | 10x v3.1 dual-index guide, appendix pp. 61–63 | v3.1 bead, TSO, cDNA primers, adapter, 10-nt i5/i7 TT primers and library |
+| [10x Dual Index Kit TT Set A index map](https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json) | official vendor JSON, linked by the [10x index-set page](https://www.10xgenomics.com/support/spatial-gene-expression-fresh-frozen/documentation/steps/library-construction/sample-index-sets-for-visium-spatial-gene-expression) | 96 named well-to-i7/i5 pairs and both i5 sequencing workflows; checked SI-TT-A1 below |
+| [10x Chromium i7 Multiplex index map](https://cdn.10xgenomics.com/raw/upload/v1655155614/support/in-line%20documents/chromium-shared-sample-indexes-plate.json) and [Single Index Kit T Set A map](https://cdn.10xgenomics.com/raw/upload/v1655155616/support/in-line%20documents/Single_Index_Kit_T_Set_A.json) | vendor JSON, linked by the [single-cell 3′ index-set page](https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/sample-index-sets-for-single-cell-3) | v2/v3 and v3.1 single-index well assignments; each well contains four distinct 8-nt i7 oligos |
 | `ncomms14049_PMC5241818.xml(.txt)` | the paper, JATS full text (Europe PMC) | v1 workflow and conditions (contrast only); `.txt` made by hand, see §9 |
 | `ncomms14049_supp_ncomms14049-s1.pdf(.txt)` (= `…MOESM828_ESM.pdf`) | Supplementary Information | figure legends only; no oligos, no methods |
 | `…-s2..s5.xlsx` (= `MOESM829..832`) | Supplementary Data 1–4 | per-barcode tables, gene lists; not chemistry |
@@ -43,8 +47,6 @@ Not fetched / not available:
 | What | Where | Why it matters |
 |---|---|---|
 | CG00052, v2 user guide (thermal programs, cycle numbers for v2) | 10x support site, `https://www.10xgenomics.com/support` (login/JS) | v2 conditions are only inferred from v3 here 🔴 |
-| CG000204 / CG000315, v3.1 single- and dual-index user guides | 10x support site | v3.1 is named by upstream but no v3.1 document was read 🔴 |
-| Dual Index Kit TT Set A primer sequences (v4, v3.1 dual) | 10x "Dual Index Kit TT Set A" sample-index sheet | v4 i5/i7 primers are given only as part of the final library 🔴 |
 
 ---
 
@@ -252,8 +254,8 @@ As segments 🟡 (computed against `lib/`):
 
 ```
 v2:      P5 · TRUSEQ_READ1[4:] · <cbc 16> · <umi 10> · T30VN · <cDNA> · A · INDEX1_PRIMER · <i7' 8> · P7_RC
-v3/v3.1: P5 · TRUSEQ_READ1[4:] · <cbc 16> · <umi 12> · T30(VN) · <cDNA> · A · INDEX1_PRIMER · <i7' 8> · P7_RC
-v4:      P5 · <i5 10> · TRUSEQ_READ1 · <cbc 16> · <umi 12> · T30VN · <cDNA> · A · INDEX1_PRIMER · <i7' 10> · P7_RC
+v3/v3.1 single index: P5 · TRUSEQ_READ1[4:] · <cbc 16> · <umi 12> · T30(VN) · <cDNA> · A · INDEX1_PRIMER · <i7' 8> · P7_RC
+v3.1 dual index/v4: P5 · <i5 10> · TRUSEQ_READ1 · <cbc 16> · <umi 12> · T30VN · <cDNA> · A · INDEX1_PRIMER · <i7' 10> · P7_RC
 ```
 
 - `P5 · TRUSEQ_READ1[4:]` (58 nt) is exactly `illumina.NEBNEXT_UNIVERSAL_PRIMER`; the
@@ -266,8 +268,18 @@ v4:      P5 · <i5 10> · TRUSEQ_READ1 · <cbc 16> · <umi 12> · T30VN · <cDNA
 - `<i7'>` is the top-strand copy of the N8/N10 in the P7 primer, i.e. the reverse
   complement of the primer's index as written. 🟡 (computed: the P7 primer's reverse
   complement is the 3' 53 nt of the v2 right-hand end).
-- v4: CG000731 shows the 10-nt i5 **between P5 and the full 33-nt TruSeq Read 1**
-  (`…GATCTACAC-N10-ACACTCTTTCCC…`), so the 4-nt P5/Read 1 overlap of v2/v3 is gone. 🟢
+- 🟢 For TT Set A well SI-TT-A1, the 10x index map gives i7
+  `GTAACATGCG`, i5 workflow A `AGTGTTACCT` and i5 workflow B
+  `AGGTAACACT` (its reverse complement). The map gives all 96 wells;
+  these are sequencing/sample-sheet index sequences, whereas CG000315 prints N10
+  placeholders in the synthesis-primer bodies.
+- 🟢 For v2/v3 single-index wells, the vendor specifies **four** 8-nt i7 oligos
+  per well, not one fixed index. Both named index maps list SI-GA-A1 as
+  `GGTTTACT`, `CTAAACGG`, `TCGGCGTC`, `AACCGTAA`. The `<i7' 8>` segment above
+  represents one member of that well's four-member mixture; the complete per-well
+  list is in the linked 10x files.
+- CG000315 and CG000731 show the 10-nt i5 **between P5 and the full 33-nt TruSeq Read 1**
+  (`…GATCTACAC-N10-ACACTCTTTCCC…`) for v3.1 dual index and v4, so the 4-nt P5/Read 1 overlap of the single-index versions is gone. 🟢
   (verbatim) / 🟡 (interpretation).
 
 v4 final product, verbatim 🟢 (CG000731 appendix):
@@ -305,9 +317,12 @@ Barcode whitelists (upstream, 🟡): v2 `737K-august-2016.txt`, v3/v3.1
 
 - 🔴 **v2 conditions**: GEM-RT temperature/time, cDNA cycles and fragmentation for v2
   (CG00052) were not read; §4 uses v3/v4 values.
-- 🔴 **v3.1** is named by upstream but no v3.1 guide (CG000204 single index, CG000315 dual
-  index) was read. A v3.1 dual-index library would presumably look like v4 (i5 + i7
-  10 nt). 🟡 (guess)
+- 🟢 **v3.1** CG000204 Rev D and CG000315 Rev E were subsequently checked. Both print
+  the 16-nt-barcode/12-nt-UMI `T30VN` bead primer, TSO
+  `AAGCAGTGGTATCAACGCAGAGTACATrGrGrG`, cDNA primers and adaptor. CG000204 has
+  one 8-nt i7 index; CG000315 prints P5–N10 i5 and P7–N10 i7 TT primers and the
+  corresponding dual-index final product. The v3.1 dual-index arrangement above is
+  therefore source-supported, rather than an inference from v4.
 - 🔴 **v4 TSO, cDNA primers and adaptor**: not printed in CG000731. Whether the v4 TSO is
   still the v3 sequence is not documented in what was read.
 - 🔴 **v3 bead `T30` vs `T30VN`**: CG000183 appendix omits VN, its own overview figure

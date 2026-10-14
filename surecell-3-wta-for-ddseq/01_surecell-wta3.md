@@ -29,14 +29,12 @@ Illumina support page and the `vals/umis` GitHub repository and added to `MANIFE
 | `surecell-wta3-library-prep-checklist-1000000021454-00.pdf.txt` | Illumina checklist | same steps, condensed (agrees with the guide) |
 | `surecell-wta-3-pbmc-demonstrated-protocol_1000000044179-00.pdf.txt` | PBMC demonstrated protocol | variant: PBMC input, half tagmentation mix |
 | `surecell-wta3-nuclei-demonstrated-protocol-1000000044178-00.pdf.txt` | nuclei demonstrated protocol | variant: nuclei instead of cells |
+| `scg_illumina-adapter-sequences-1000000002694-14.pdf.txt` | Illumina *Adapter Sequences* v14, Nextera DNA Indexes table | exact N7xx index bases in adapter and sample-sheet orientation; does not disclose SureCell bead oligos |
 | `umis_SureCell_transform.json` | `umis` read-1 parsing regex | independent check of the bead-oligo layout |
 | `umis_SureCell_barcodes.txt` | 96 six-mers | the bead barcode whitelist |
 | `umis_SureCell_K562_R1.fastq` | 10 real SureCell read 1s (K562) | read-1 length, the variable 5′ offset (§5) |
 
-Not obtained 🔴: Illumina's *Adapter Sequences* document (#1000000002694; the old PDF
-URLs 404, current version only as an HTML help site,
-<https://support-docs.illumina.com/SHARE/adapter-sequences.htm>) — would give the N7xx
-index sequences; the *Custom Primers Guides* for each instrument (read-primer
+Not obtained 🔴: the *Custom Primers Guides* for each instrument (read-primer
 concentrations); the Bio-Rad *ddSEQ Single-Cell Isolator Instruction Manual*
 (#10000069430); Illumina's ddSEQ technical / application notes. No vendor document
 seen gives any oligo sequence.
@@ -88,8 +86,10 @@ Transposon end (ME)         AGATGTGTATAAGAGACAG   (Nextera SureCell transposome;
 - Length of the `(dT)` stretch: not given 🔴.
 - **DNA Adapters** supplied: N701–N707, N718 (8-sample kit); N701–N707, N710–N712,
   N714–N716, N718–N724, N726–N729 (24-sample kit) 🟢 (Reference Guide, Kit Options).
-  The 8-nt index sequences are not in any source read 🔴 (they are the standard Nextera
-  i7 set by name; Illumina Adapter Sequences document).
+  Illumina *Adapter Sequences* v14 prints the N7xx bases in both orientations 🟢:
+  for example N701 is `TCGCCTTA` in the adapter and `TAAGGCGA` in the sample sheet.
+  The named N7xx set is the Nextera XT/Nextera DNA i7 index family; this does not
+  disclose the full SureCell index PCR primer or its chemical modifications. 🔴
 - The kit ships **one** custom primer, "Sequencing Primer (SP)", 50 µM, for **Read 1**
   only 🟢; Index 1 and Read 2 use the instrument's standard primers 🟡 (upstream, and
   implied: the guide says the custom primer is for Read 1).
@@ -215,8 +215,8 @@ towards the polyadenylation site.
   dT. 🟡 The umis example reads are all **68 nt** 🟡, agreeing.
 - **Index 1** (standard Nextera i7 primer): **8 cycles**, the N7xx sample index. Nine of
   the ten example read headers carry `TAAGGCGA` (one has `TAAGGAGA`, one mismatch,
-  presumably a read error) 🟡 (N701 by name; not checked against an
-  index table). No Index 2.
+  presumably a read error) 🟡; `TAAGGCGA` matches the vendor N701 sample-sheet
+  index exactly 🟢. No Index 2.
 - **Read 2** (standard Nextera Read 2 primer, s7 + ME): **75 cycles** (upstream) — the
   cDNA, sense, starting at the Tn5 cut.
 - Illumina gives **no read lengths** in any document read 🔴; it requires Illumina
@@ -261,7 +261,8 @@ spacer2–UMI entirely (a truncated bead oligo or synthesis error).
 - 🔴 The `(dT)` length, and the purpose of `ACG` / `GAC` flanking the UMI and of the
   12-nt `GCCTGTCCGCGG` in TPP1 and the Read-1 primer.
 - 🟡 That the library PCR relies on the un-gapped strand only (no gap fill) — inferred.
-- 🟡 N7xx index sequences assumed to be the standard Nextera i7 set — unchecked.
+- 🔴 Full SureCell N7xx index PCR primer structure and modifications remain undisclosed;
+  the index bases themselves are in Illumina *Adapter Sequences* v14.
 
 ## 8. How this note was made (tool evaluation)
 

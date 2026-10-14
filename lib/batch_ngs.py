@@ -17,14 +17,15 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
                     inferred_adapters: bool = False,
-                    i5_nt: int = 8, i7_nt: int = 8) -> tuple[Construct, tuple]:
+                    i5_nt: int = 8, i7_nt: int = 8,
+                    i5_feature=None, i5_name: str = "i5") -> tuple[Construct, tuple]:
     """Canonical TruSeq library with validated R1/I1/(I2)/R2 sites."""
     if i5_nt < 1 or i7_nt < 1:
         raise ValueError("a TruSeq indexed library needs positive index lengths")
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
-                        feature=feature("sample_index_i5", "sample_index", "unknown"),
+        left.append(seg(i5_name, "J" * i5_nt, "cbc", placeholder=True,
+                        feature=i5_feature or feature("sample_index_i5", "sample_index", "unknown"),
                         inferred=inferred_adapters))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=inferred_adapters))
     lib = Construct([*left, *insert, seg("dA junction", "A", inferred=inferred_adapters),
@@ -82,13 +83,15 @@ def truseq_amplicon_library(insert: list[Segment], name: str, *,
 
 def nextera_library(insert: list[Segment], name: str, *,
                     inferred_adapters: bool = False, dual_index: bool = True,
-                    i7_nt: int = 8) -> tuple[Construct, tuple]:
+                    i7_nt: int = 8, i5_nt: int = 8) -> tuple[Construct, tuple]:
     """Heterologous S5/S7 Tn5 product after indexed PCR, with validated run sites."""
     if i7_nt < 1:
         raise ValueError("a Nextera indexed library needs a positive i7 length")
+    if dual_index and i5_nt < 1:
+        raise ValueError("a Nextera dual-indexed library needs a positive i5 length")
     left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * 8, "cbc", placeholder=True,
+        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
                         feature=feature("sample_index_i5", "sample_index", "unknown"),
                         inferred=inferred_adapters))
     left.append(seg("S5", nx.S5, "s5", inferred=inferred_adapters))

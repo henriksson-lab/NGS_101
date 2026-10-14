@@ -13,7 +13,7 @@ from protocol_model import molecule, role
 
 TITLE="Illumina 16S metagenomic sequencing"
 NOTES="01_illumina-16s.html"
-SOURCE='Illumina <a href="https://assets.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/16s/16s-metagenomic-library-prep-guide-15044223-b.pdf">16S Metagenomic Sequencing Library Preparation, 15044223 B</a>.'
+SOURCE='Illumina <a href="https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/16s/16s-metagenomic-library-prep-guide-15044223-b.pdf">16S Metagenomic Sequencing Library Preparation, 15044223 B</a>.'
 SUMMARY="A V3–V4 locus PCR installs Nextera overhangs; a limited second PCR adds dual sample indexes and complete Illumina flow-cell arms."
 CAVEAT="The locus contains the guide's degenerate IUPAC positions; the schematic uses an explicit target placeholder rather than pretending one bacterial sequence represents the community."
 FWD="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCCTACGGGNGGCWGCAG"

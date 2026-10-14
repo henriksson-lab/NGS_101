@@ -27,3 +27,8 @@ paper. 🟢 The main paper prints BioPEA2N4 as
 `5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′`.
 The original readout is unindexed single-end sequencing of the generally G-poor strand
 complementary to bisulfite-converted DNA.
+🟢 The article also prints PE-forward `AATGATACGGCGACCACCGAGATCTACAC` and
+PE-reverse `CAAGCAGAAGACGGCATACGAGAT` for library quantification. These are
+measurement primers, not a required global PCR step in the amplification-free
+library path. The supplement additionally gives locus-specific qPCR controls,
+which do not become part of the sequencing construct.

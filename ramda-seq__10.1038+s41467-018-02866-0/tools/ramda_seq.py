@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/"lib")]
 from batch_ngs import nextera_library, seg
-from chemdraw import MolecularState, Scene, Workflow
+from chemdraw import MolecularState, Scene, Segment, Workflow, oligo, revcomp
 from rna_prep import rna_template, rna_dna_hybrid, single_strand
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
@@ -21,6 +21,13 @@ SEQUENCING_INTRO="The defining study used single-read 76-cycle NextSeq sequencin
 READ_LENGTHS={"Read 1":76}
 ACQUIRED_ROLES=("Read 1",)
 SHOW_READ_CONTENT=True
+FIRST_NSR_1 = "AAAGCA"  # Supplementary Data 3, 1st_MmNSR_1
+SECOND_NSR_1 = revcomp(FIRST_NSR_1)  # 2nd_MmNSR_1 in the same table
+
+def oligos():
+    yield oligo("1st_MmNSR_1", [Segment("first-strand NSR", FIRST_NSR_1)])
+    yield oligo("2nd_MmNSR_1", [Segment("second-strand NSR", SECOND_NSR_1)])
+    yield oligo("oligo(dT)18", [Segment("poly-T capture primer", "T" * 18)])
 
 def workflow():
     amplified=single_strand("displaced cDNA",[seg("gp32-protected displaced cDNA","X"*46,placeholder=True)],"displaced cDNA products")

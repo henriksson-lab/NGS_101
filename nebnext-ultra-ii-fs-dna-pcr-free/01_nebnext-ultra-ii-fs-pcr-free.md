@@ -10,6 +10,7 @@ A PCR-free Illumina DNA workflow combining enzymatic fragmentation/end preparati
 - 🟢 For high input, 10 minutes at 37°C targets 350-bp inserts and 8 minutes targets 450-bp inserts; both receive 30 minutes at 65°C.
 - 🟢 The current UDI-UMI adaptor contains 8-base i5 and i7 indices plus a 12-base UMI; NEB specifies a 20-cycle Index 1 read comprising i7 then UMI.
 - 🔴 NEB withdrew the adaptor sequence as inaccurate and now treats the correct sequence as proprietary. No historical sequence is used here.
+- 🟢 The separate [NEB UDI-UMI Adaptor Sets 1–4 manual](https://www.neb.com/en/-/media/nebus/files/manuals/manuale7395_e7874_e7876_e7878.pdf) gives the expected i5/i7 index reads by well. Those barcode values are available for a selected well, even though the full synthesis adapter remains proprietary. Its Rev 3.0 history explicitly says the old printed adapter sequence was inaccurate and withdrawn.
 
 ## 3. Molecular path
 

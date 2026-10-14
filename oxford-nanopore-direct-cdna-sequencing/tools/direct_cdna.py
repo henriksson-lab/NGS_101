@@ -21,6 +21,7 @@ FINAL_LIBRARY = motor_library([
     role("PCR-free duplex cDNA", "[full-length duplex cDNA]"),
 ], adapter="sequencing adapter", name="SQK-DCS109 pore-entry strand")
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
 SEQUENCING_ENDING = "There is no synthesis sequencing primer. A motor in the ligated sequencing adapter presents one strand of the PCR-free duplex cDNA to the pore. The adapter-ligated end enters first."
 SEQUENCING_UNAVAILABLE = ("Nanopore sequencing is motor-driven; SQK-DCS109 adapter bases "
                           "and the motor-bearing strand are proprietary.")

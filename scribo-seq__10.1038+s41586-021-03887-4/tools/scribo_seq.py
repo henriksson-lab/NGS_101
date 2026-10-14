@@ -16,7 +16,7 @@ TITLE = "scRibo-seq — single-cell ribosome profiling"
 NOTES = "01_scribo-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41586-021-03887-4">Van Insberghe et al. (2021)</a>.'
 SUMMARY = "MNase generates ribosome-protected fragments in individual wells. One-pot end repair, 3′ and 5′ RNA-adapter ligation, reverse transcription and indexed PCR preserve a 10-nt UMI and a 10-nt cell index."
-CAVEAT = "The supplement names the ordering oligos; the schematic uses the reported read structure and common small-RNA landing sites without presenting the unverified full ordering strings."
+CAVEAT = "Supplementary Table 1 prints the RNA adapters and indexed PCR oligos; the final duplex here uses the reported read structure and retains role-level landing sites pending full strand reconciliation. The exact order-form strings are in the research note."
 
 SMALL_RNA_R1 = "GTTCAGAGTTCTACAGTCCGACGATC"
 SMALL_RNA_I1 = "TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC"
@@ -58,11 +58,11 @@ def workflow():
     footprint = Scene(); footprint.strand("RPF", [seg("ribosome-protected RNA", "R" * 35, placeholder=True, length_bp=35)], label="MNase-resistant RPF")
     footprint.mark("RPF", "ribosome-protected RNA", "30–45 nt retained after MNase")
     ligated = Scene(); ligated.strand("RNA", [
+        seg("5-prime adapter fixed RNA", "CUACACGACGCUCUUCCGAUCU", "r1"),
         seg("ten-base UMI", "U" * 10, "umi", placeholder=True,
             feature=feature("umi", "umi", "random")),
-        seg("5-prime adapter fixed bases", "X" * 12, "r1", placeholder=True),
-        seg("RPF", "R" * 35, placeholder=True), seg("3-prime pre-adenylated adapter", "X" * 18, "r2", placeholder=True)], label="doubly ligated footprint RNA")
-    ligated.junction("RNA", "5-prime adapter fixed bases", "RPF", "RNA ligation")
+        seg("RPF", "R" * 35, placeholder=True), seg("3-prime pre-adenylated adapter", "TGGAATTCTCGGGTGCCAAGG", "r2")], label="doubly ligated footprint RNA")
+    ligated.junction("RNA", "ten-base UMI", "RPF", "RNA ligation")
     ligated.junction("RNA", "RPF", "3-prime pre-adenylated adapter", "RNA ligation")
     ligated.labels("RNA")
     repaired = Scene(); repaired.strand("RPF", [seg("end-repaired RPF", "R" * 35, placeholder=True)], label="5′-phosphate / 3′-hydroxyl RPF")
@@ -78,10 +78,20 @@ def workflow():
             note="The ribosome shields a 30–45-nt footprint in each single-cell well.")
     w.react("Repair footprint ends", repaired.rows(), name="Ligatable RPF",
             note="T4 PNK prepares both ends for the two RNA ligations.")
-    g3=AdapterLigationGeometry.unavailable("The scRibo-seq supplement establishes a pre-adenylated single-strand 3′-adapter ligation but the verified local source does not contain the full ordering oligo or terminal bases; no duplex overhang is implied.")
-    three=Scene(); three.strand("RNA",[seg("RPF","R"*35,placeholder=True),seg("3′ adapter","X"*18,placeholder=True)],label="3′-adapter-ligated RPF"); three.junction("RNA","RPF","3′ adapter","RNA ligation")
+    ready3=Scene()
+    ready3.strand("substrate",[seg("RPF","R"*35,placeholder=True)],label="5′-phosphorylated, 3′-OH footprint")
+    ready3.strand("adapter",[seg("3′ adapter","TGGAATTCTCGGGTGCCAAGG")],label="/5rApp/ adapter, /3ddC/ blocked")
+    ready3.ligation_end("substrate","RPF",kind="single-strand",polarity="3-prime",owner="substrate")
+    ready3.ligation_end("adapter","3′ adapter",kind="single-strand",polarity="5-prime",owner="adapter")
+    g3=AdapterLigationGeometry.known("single-strand",ready3,statement="Supplementary Table 1 prints the 5′ pre-adenylated, 3′ dideoxy-C adapter; its 5′ end ligates to the RPF 3′-OH.")
+    three=Scene(); three.strand("RNA",[seg("RPF","R"*35,placeholder=True),seg("3′ adapter","TGGAATTCTCGGGTGCCAAGG")],label="3′-adapter-ligated RPF"); three.junction("RNA","RPF","3′ adapter","RNA ligation")
     w.ligate_adapter("Ligate the pre-adenylated 3′ RNA adapter",g3,three.rows(),name="3′-adapter-ligated RPF",note="T4 Rnl2(tr) KQ performs the ATP-independent single-strand ligation.")
-    g5=AdapterLigationGeometry.unavailable("The scRibo-seq supplement establishes UMI-bearing single-strand 5′-adapter ligation but the verified local source does not contain the full ordering oligo or terminal bases; no duplex overhang is implied.")
+    ready5=Scene()
+    ready5.strand("substrate",[seg("RPF","R"*35,placeholder=True),seg("3′ adapter","TGGAATTCTCGGGTGCCAAGG")],label="3′-adapter-ligated footprint")
+    ready5.strand("adapter",[seg("5′ adapter fixed RNA","CUACACGACGCUCUUCCGAUCU"),seg("ten-base UMI","U"*10,placeholder=True)],label="5′ RNA adapter with 3′ UMI")
+    ready5.ligation_end("substrate","RPF",kind="single-strand",polarity="5-prime",owner="substrate")
+    ready5.ligation_end("adapter","ten-base UMI",kind="single-strand",polarity="3-prime",owner="adapter")
+    g5=AdapterLigationGeometry.known("single-strand",ready5,statement="Supplementary Table 1 prints the 5′ RNA adapter with ten random 3′ nucleotides; its 3′ end ligates to the phosphorylated RPF 5′ end.")
     w.ligate_adapter("Ligate the UMI-bearing 5′ RNA adapter",g5,ligated.rows(),name="Adapter-ligated RPF",note="T4 Rnl1 joins the second single-strand RNA adapter.")
     w.react("Reverse-transcribe and index each well", indexed.rows(), name="Indexed cDNA library",
             note="Maxima H-minus RT copies RNA; well forward and RPI reverse primers install cell and plate indices.")

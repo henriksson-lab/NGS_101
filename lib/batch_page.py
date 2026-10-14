@@ -105,6 +105,9 @@ def render(m) -> str:
         specs = getattr(m, "READ_SPECS", ())
         if specs:
             parts.append(sp.read_spec_table(specs))
+        elif getattr(m, "SEQUENCING_MECHANISM", "") == "nanopore_motor":
+            parts.append(sp.nanopore_read_content_table(
+                lib, getattr(m, "MOTOR_ADAPTER_NAME", "motor adapter")))
         else:
             parts.append(sp.unresolved_read_content_table(
                 lib, unavailable or "the exact sequencing-primer site is not represented",

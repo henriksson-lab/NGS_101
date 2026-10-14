@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import nextera as nx
 from batch_ngs import duplex_fragment, nextera_library, seg, targeting_rows
-from chemdraw import Construct, Row, Scene
+from chemdraw import Construct, Row, Scene, oligo
 from pcr import PCRGeometry
 from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
                             ProtocolGraph, SequencingPlan, Step, StepKind, Terminal)
@@ -27,6 +27,12 @@ PREAMP_TEMPLATE = Construct([
     seg("right mosaic end reverse complement", nx.ME_RC, "me"),
     seg("S7 reverse complement", nx.S7_RC, "s7"),
 ], name="gap-filled CUT&Tag template")
+
+def oligos():
+    return [oligo("Tn5MEDS-A (Picelli 2014)", [seg("S5", nx.S5), seg("mosaic end", nx.ME)]),
+            oligo("Tn5MEDS-B (Picelli 2014)", [seg("S7", nx.S7), seg("mosaic end", nx.ME)]),
+            oligo("Tn5MErev, 5′ phosphorylated (Picelli 2014)",
+                  [seg("reverse mosaic end", nx.ME_RC)], mods="/5Phos/")]
 
 def sections():
     frag = duplex_fragment("epitope-proximal DNA")

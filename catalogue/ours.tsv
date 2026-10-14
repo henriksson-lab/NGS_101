@@ -1,4 +1,5 @@
 dir	protocol	doi	status	section	modality	note
+superrca__10.1038+s41467-022-31397-y	superRCA	10.1038/s41467-022-31397-y	assay	published	DNA	Two-stage rolling-circle mutation detection with allele-specific padlock probes and flow-cytometry readout; no sequencing library.
 atrandi-wgs__10.1101+2025.06.20.660799	Atrandi WGS	10.1101/2025.06.20.660799	documented	published	DNA	Atrandi SPC + PTA single-microbe WGS, as run here (Bascet/Zorn preprint). Built on the Atrandi barcoding kit manuals, which have no DOI.
 smart-seq__10.1038+nbt.2282	SMART-seq	10.1038/nbt.2282	documented	published	RNA	Original SMART-seq protocol; defining source is Ramsköld et al. 2012.
 smart-seq2__10.1038+nmeth.2639	SMART-seq2	10.1038/nmeth.2639	documented	published	RNA	SMART-seq2 protocol; defining source is Picelli et al. 2013.
@@ -122,10 +123,10 @@ hichip__10.1038+nmeth.3999	HiChIP	10.1038/nmeth.3999	documented	published	DNA	Pr
 dimelo-seq__10.1038+s41592-022-01475-6	DiMeLo-seq	10.1038/s41592-022-01475-6	documented	published	DNA	Antibody-tethered Hia5 deposits m6A near a chromatin target for native, amplification-free long-read detection.
 chip-seq__10.1038+nmeth.1068	ChIP-seq	10.1038/nmeth.1068	documented	published	DNA	Conventional sonication, chromatin immunoprecipitation and ligation-based Illumina library construction.
 chipmentation__10.1038+nmeth.3542	ChIPmentation	10.1038/nmeth.3542	documented	published	DNA	Tn5 fragments and adapter-tags immunoprecipitated chromatin directly on beads.
-cutac__10.1186+s13059-020-02266-4	CUTAC	10.1186/s13059-020-02266-4	documented	published	DNA	Low-salt antibody-tethered pA/G-Tn5 preferentially tags accessible DNA beside transcription-associated nucleosomes.
+cutac__10.7554+eLife.63274	CUTAC	10.7554/eLife.63274	documented	published	DNA	Low-salt antibody-tethered pA/G-Tn5 preferentially tags accessible DNA beside transcription-associated nucleosomes.
 strand-seq__10.1038+nmeth.2206	Strand-seq	10.1038/nmeth.2206	documented	published	DNA	BrdU/Hoechst/UV selection retains parental template strands and preserves chromosome-wide read orientation in single cells.
 ribo-seq__10.1126+science.1168978	Ribo-seq	10.1126/science.1168978	documented	published	RNA	Original ribosome profiling: nuclease-protected footprints, 3-prime adapter ligation, RT, cDNA circularization and indexed sequencing.
-pro-seq__10.1101+gr.150027.112	PRO-seq	10.1101/gr.150027.112	documented	published	RNA	Biotin-NTP precision nuclear run-on followed by nascent-RNA adapter ligation, affinity purification and directional sequencing.
+pro-seq__10.1126+science.1229386	PRO-seq	10.1126/science.1229386	documented	published	RNA	Biotin-NTP precision nuclear run-on followed by nascent-RNA adapter ligation, affinity purification and directional sequencing.
 eclip__10.1038+nmeth.3810	eCLIP	10.1038/nmeth.3810	documented	published	RNA	RBP crosslink immunoprecipitation with RNA-adapter ligation before RT and cDNA-adapter ligation after RT.
 pacbio-isoseq-smrtbell-prep-kit-3-0	PacBio Iso-Seq v2 (SMRTbell prep kit 3.0)		documented	published	RNA	Commercial full-length cDNA workflow followed by repair, A-tailing and closed-SMRTbell circular-consensus sequencing.
 rampage__10.1101+gr.139618.112	RAMPAGE	10.1101/gr.139618.112	documented	published	RNA	Template switching plus cap trapping enriches 5-prime-complete cDNA for paired-end promoter and transcript-connectivity sequencing.
@@ -405,3 +406,4 @@ trip__10.1038+nprot.2014.072	TRIP	10.1038/nprot.2014.072	documented	published	mu
 starmap__10.1126+science.aat5691	STARmap	10.1126/science.aat5691	documented	published	RNA	Paired SNAIL probes create target-coded circles directly on RNA; RCA, hydrogel anchoring and SEDAL ligation sequencing resolve transcripts in intact three-dimensional tissue.
 quantum-barcoding-qbc__10.1038+s42003-020-0896-2	Quantum Barcoding (QBC)	10.1038/s42003-020-0896-2	documented	published	multi	Four rounds of splint-directed split-pool ligation append cell subcodes to targeted RNA cDNA or antibody reporters before indexed Illumina PCR.
 playr__10.1038+nmeth.3742	PLAYR	10.1038/nmeth.3742	assay	published	multi	Adjacent transcript probes template a target-specific insert and universal backbone circle whose RCA concatemer is quantified together with proteins by flow or mass cytometry.
+capseq__10.1126+science.ady7227	CapSeq	10.1126/science.ady7227	notes	published	RNA	Semipermeable-capsule single-cell RNA sequencing with RT and two ligation barcode rounds plus indexed PCR; not CAP-seq.

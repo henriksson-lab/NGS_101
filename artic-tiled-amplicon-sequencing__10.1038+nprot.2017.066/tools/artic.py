@@ -8,7 +8,7 @@ import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg
-from chemdraw import Construct, Row, Scene, feature
+from chemdraw import Construct, Row, Scene, Segment, feature, oligo
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -27,6 +27,10 @@ CAVEAT = ("The paper names SureSelectXT2/KAPA but does not print the indexing-ad
 
 # Compact representative tiling path. Coordinates are diagram units, not a particular virus scheme.
 SCHEME = alternating_scheme([(0, 12), (9, 21), (18, 30), (27, 39), (36, 48), (45, 57)])
+
+# ZikaAsian pool 1, first tiled amplicon; Quick et al. Supplementary Table 1.
+ZIKA_400_1_LEFT = "GACAGTTCGAGTTTGAAGCGAAAG"
+ZIKA_400_1_RIGHT = "AGTATGCACTCCCACGTCTAGT"
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5", inferred=True),
@@ -47,6 +51,13 @@ FINAL_CAPTION = ("INFERRED — MiSeq branch after KAPA end repair/dA-tailing and
                  "index-adapter ligation; one approximately 400-base tiled amplicon is shown.")
 SEQUENCING_INTRO = ("The protocol recommends paired 250-base MiSeq reads for 400-base amplicons. "
                     "These standard primer sites express the inferred Illumina-compatible geometry.")
+
+
+def oligos():
+    yield oligo("ZikaAsian ZIKA_400_1_LEFT (pool 1)",
+                [Segment("viral forward primer", ZIKA_400_1_LEFT)])
+    yield oligo("ZikaAsian ZIKA_400_1_RIGHT (pool 1)",
+                [Segment("viral reverse primer", ZIKA_400_1_RIGHT)])
 
 
 def illumina_ligation_scene() -> Scene:
@@ -100,8 +111,8 @@ def protocol_graph():
     graph.react("split_pools","Split template between alternating primer pools",
                 StepKind.SPLIT,((viral,InputRole.TEMPLATE),),
                 (pool1_template,pool2_template),changes_molecule=False)
-    pool1_f=graph.input("pool1_forward","odd-pool forward-primer members",MaterialKind.OLIGO)
-    pool1_r=graph.input("pool1_reverse","odd-pool reverse-primer members",MaterialKind.OLIGO)
+    pool1_f=graph.input("pool1_forward","odd-pool forward-primer members including source-printed ZIKA_400_1_LEFT",MaterialKind.OLIGO)
+    pool1_r=graph.input("pool1_reverse","odd-pool reverse-primer members including source-printed ZIKA_400_1_RIGHT",MaterialKind.OLIGO)
     pool2_f=graph.input("pool2_forward","even-pool forward-primer members",MaterialKind.OLIGO)
     pool2_r=graph.input("pool2_reverse","even-pool reverse-primer members",MaterialKind.OLIGO)
     polymerase=graph.input("amplicon_polymerase","multiplex PCR polymerase",

@@ -12,7 +12,7 @@ TITLE="SEC-seq — secretion-linked single-cell RNA sequencing"
 NOTES="01_sec-seq.html"
 SOURCE='<a href="https://doi.org/10.1038/s41467-023-39367-8">Cheng et al., <i>Nature Communications</i> (2023)</a>.'
 SUMMARY="A cell is held in an antibody-coated nanovial that captures its secreted protein. An oligo-barcoded detection antibody and the cell transcriptome are then read together with 10x Chromium."
-CAVEAT="The publication uses commercial TotalSeq oligos; their feature identity and capture architecture are public, but the product sequence is proprietary."
+CAVEAT="The publication uses commercial TotalSeq and 10x oligos; their feature identity and capture architecture are public, but the exact products used are not printed as complete sequences in this paper."
 RNA=transcript_library("SEC-seq gene-expression library")
 SEC=poly_a_feature_library("secretion-antibody barcode",feature_len=15,feature_id="sec_antibody",name="SEC-seq secretion-tag library")
 FINAL_LIBRARIES=(("Gene-expression library",RNA,SEQ_PRIMERS,"10x 3′ v3.1 transcript library from the nanovial-bound cell.","Read 1 records cell barcode and UMI; Read 2 reports cDNA."),("Secretion-tag library",SEC,SEQ_PRIMERS,"Feature-barcode library from the oligo-labeled antibody bound to captured secretion.","Read 1 records the same cell barcode and UMI; Read 2 identifies the secretion antibody."))
@@ -30,7 +30,7 @@ def protocol_graph():
  loaded=g.product("loaded","cell-loaded nanovials retaining secreted protein",MaterialKind.MOLECULAR,state=molecule("loaded nanovial",(role("cell"),role("captured secretion"),role("poly(A) RNA"))))
  uncaptured=g.product("uncaptured","uncaptured secretion and empty nanovials",MaterialKind.WASTE)
  g.react("capture","Capture cells and their secretion in antibody-coated nanovials",StepKind.BINDING,((cells,InputRole.TEMPLATE),(nanovials,InputRole.SELECTION)),(loaded,uncaptured)); g.discard(uncaptured,"does not associate secretion with a retained cell-loaded nanovial")
- detection=g.input("detection_antibody","oligo-barcoded secretion-detection antibody",MaterialKind.SELECTION,inferred=True,source=SOURCE+" (commercial TotalSeq sequence proprietary)")
+ detection=g.input("detection_antibody","oligo-barcoded secretion-detection antibody",MaterialKind.SELECTION,inferred=True,source=SOURCE+" (exact commercial TotalSeq sequence not printed in the paper)")
  labelled=g.product("labelled","nanovials bearing sequenceable secretion tags",MaterialKind.MOLECULAR,state=molecule("labelled nanovial",(role("cell"),role("poly(A) RNA"),role("secretion antibody tag"))))
  unbound=g.product("unbound","unbound detection-antibody tags",MaterialKind.WASTE)
  g.react("label","Label captured secretion with oligo-barcoded antibodies",StepKind.BINDING,((loaded,InputRole.TEMPLATE),(detection,InputRole.SELECTION)),(labelled,unbound)); g.discard(unbound,"does not report nanovial-captured secretion")
@@ -40,11 +40,11 @@ def protocol_graph():
  g.react("partition","Partition cell-loaded nanovials with barcoded beads",StepKind.PARTITION,((labelled,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable nanovial-associated cell barcode")
  rna=g.product("rna_branch","gene-expression branch",MaterialKind.MOLECULAR,state=occupied.state); sec=g.product("sec_branch","secretion-tag branch",MaterialKind.MOLECULAR,state=occupied.state)
  g.react("split","Separate transcript and secretion-tag products",StepKind.SPLIT,((occupied,InputRole.TEMPLATE),),(rna,sec),changes_molecule=False)
- bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (commercial sequence proprietary)")
+ bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial bead sequence not printed in the paper)")
  rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
  cdna=g.product("cdna","cell-barcoded transcript cDNA",MaterialKind.MOLECULAR,state=molecule("SEC-seq cDNA",(role("cell barcode"),role("UMI"),role("cDNA"))))
  g.react("reverse_transcribe","Capture and reverse-transcribe cellular mRNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
- tagprimer=g.input("tag_primer","secretion-tag capture primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (commercial sequence proprietary)")
+ tagprimer=g.input("tag_primer","secretion-tag capture primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial capture sequence not printed in the paper)")
  tagpol=g.input("tag_extension","secretion-tag barcode-transfer polymerase",MaterialKind.CATALYST)
  copied=g.product("copied","cell-barcoded secretion-antibody tags",MaterialKind.MOLECULAR,state=molecule("SEC-seq tag precursor",(role("cell barcode"),role("UMI"),role("secretion antibody barcode"))))
  g.react("copy_tags","Transfer cell identity to secretion-antibody tags",StepKind.EXTENSION,((sec,InputRole.TEMPLATE),(tagprimer,InputRole.STRUCTURAL),(tagpol,InputRole.CATALYST)),(copied,))

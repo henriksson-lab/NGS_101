@@ -8,7 +8,7 @@ from adapter_ligation import reported_adapter_end
 from chemdraw import Construct, Scene, Segment
 from endprep import (ThreePrimeOverhangAdapter, dA_tailed_scene, ligate_both_ends,
                      repair_and_dA_tail)
-from nanopore_library import motor_sequencing_plan
+from nanopore_library import LA_BOTTOM, LA_TOP, motor_sequencing_plan
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 
@@ -16,8 +16,6 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-LA_TOP = "CCTGTACTTCGTTCAGTTACGTATTGCT"
-LA_BOTTOM = "GCAATACGTAACTGAACGAAGTACAGG"
 LIGATION_ADAPTER = ThreePrimeOverhangAdapter(
     "SQK-LSK114 Ligation Adapter disclosed duplex", LA_TOP, LA_BOTTOM
 )

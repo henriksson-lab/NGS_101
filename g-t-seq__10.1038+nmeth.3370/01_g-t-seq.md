@@ -18,6 +18,13 @@ MDA and PicoPLEX are alternative genome-amplification choices tested by the pape
 transcriptome and genome products never become one chimeric construct. Their common cell
 identity is inherited from physical separation of a single-cell lysate.
 
-🟡 The paper's detailed oligo supplement is accessible but the public page keeps the
-downstream Smart-seq2 and Nextera arms at their reusable canonical geometry; it focuses on
-the G&T-specific molecular operation, biotin-oligo(dT) partitioning.
+🟡 The original paper's accessible Springer supplementary files contain figures and
+analysis data rather than an ordering table. The defining oligo is the
+5′-biotin-triethyleneglycol-linked capture/RT primer, reported in a later
+[direct G&T-seq implementation](https://pmc.ncbi.nlm.nih.gov/articles/PMC7581540/) as
+`5′-biotin-TEG-AAGCAGTGGTATCAACGCAGAGTAC-T30VN-3′`.
+That exact transcription is from a later implementation, so it should not be
+treated as a verified 2015 ordering record until the original Methods or the
+authors' 2016 detailed protocol is read in full. The downstream Smart-seq2
+TSO/WTA and MDA-or-PicoPLEX WGA branches also need branch-specific oligo
+verification; the current public page uses reusable canonical geometry.

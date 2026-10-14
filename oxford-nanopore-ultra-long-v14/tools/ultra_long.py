@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct
-from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
+from chemdraw import Construct, Segment
+from nanopore_library import (RAPID_ADAPTER, motor_sequencing_plan, no_primer_ending,
                               role, single_strand_rows)
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role as molecular_role
@@ -18,19 +18,26 @@ SOURCE = ('Commercial defining source: Oxford Nanopore '
 SUMMARY = ("Diluted transposase chemistry introduces very few tags into uHMW DNA, a "
            "motor-loaded Rapid Adapter attaches, and precipitation recovers sequenceable "
            "molecules while minimizing mechanical breakage.")
-CAVEAT = ("Fragmentation-tag and Rapid-Adapter bases, attachment chemistry and the exact "
-          "motor-bearing strand are proprietary. Bracketed regions state roles only.")
+CAVEAT = ("ONT publishes the Rapid Adapter strand. Fragmentation-tag bases, the complete "
+          "motor assembly, attachment chemistry and exact motor-bearing strand remain "
+          "undisclosed.")
 
 TAGGED = Construct([
     role("fragmentation tag", "[fragmentation tag]", "me"),
     role("ultra-long genomic DNA", "[ultra-long genomic DNA]"),
 ], name="sparsely tagged uHMW DNA")
-FINAL_LIBRARY = motor_library(list(TAGGED), adapter="Rapid Adapter",
-                              name="SQK-ULK114 pore-entry strand")
+FINAL_LIBRARY = Construct([
+    role("motor-loaded Rapid Adapter assembly", "[motor assembly]", "r2"),
+    Segment("Rapid Adapter published strand", RAPID_ADAPTER, "r2"),
+    *TAGGED.segments,
+], name="SQK-ULK114 pore-entry strand")
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
+MOTOR_ADAPTER_NAME = "Rapid Adapter"
 SEQUENCING_ENDING = no_primer_ending("Rapid Adapter")
 SEQUENCING_UNAVAILABLE = ("Nanopore sequencing uses motor-controlled translocation, not "
-                          "primer extension; current adapter bases are undisclosed.")
+                          "primer extension; the RA strand is published but the complete "
+                          "motor/attachment structure is not.")
 FINAL_CAPTION = ("One sequenceable tagged end. ** marks Rapid Adapter attachment; it is "
                  "not labelled ligation because the protocol supplies no ligase.")
 FRA_DILUTION_UL = (6, 244)
@@ -40,7 +47,7 @@ RAPID_ADAPTER_MIN = 30
 
 def final_rows():
     return single_strand_rows(FINAL_LIBRARY, (
-        ("motor-loaded sequencing adapter", "fragmentation tag", "attachment"),
+        ("Rapid Adapter published strand", "fragmentation tag", "attachment"),
     ))
 
 
@@ -81,10 +88,10 @@ def protocol_graph():
     g.discard(off_products, "does not preserve a sequenceable ultra-long tagged molecule")
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + " (adapter bases and attachment chemistry proprietary)")
+                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment undisclosed)")
     adapted = g.product("adapted", "motor-adapted ultra-long library",
                         MaterialKind.MOLECULAR, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (adapter bases proprietary)")
+                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
             ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)), (adapted,))
@@ -92,7 +99,7 @@ def protocol_graph():
                           MaterialKind.SELECTION)
     library = g.product("library", "recovered ultra-long Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (adapter bases proprietary)")
+                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
     rejected = g.product("rejected", "unrecovered or sheared molecules",
                          MaterialKind.WASTE)
     g.react("recover", "Precipitate and recover motor-adapted molecules",
@@ -106,3 +113,7 @@ def protocol_graph():
                               "rapid_adapter", "attach", "precipitant", "recover",
                               "library"), SOURCE)
     return g.require_publishable()
+
+
+def oligos():
+    return [f"Rapid Adapter strand: 5′-{RAPID_ADAPTER}-3′"]

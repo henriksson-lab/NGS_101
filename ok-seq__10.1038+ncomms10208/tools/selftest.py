@@ -8,4 +8,5 @@ from checks import Check
 c=Check()
 c("A1 Watson transcription",P.A1_WATSON,"ACACTCTTTCCCTACACGACGCTCTTCC")
 c("A2 Watson transcription",P.A2_WATSON,"AGATCGGAAGAGCACACGTCTGAACTCCAGTCA")
+c("original forward PCR starts at printed base",P.PCR_FORWARD[:8],"ATGATACG")
 c.report()

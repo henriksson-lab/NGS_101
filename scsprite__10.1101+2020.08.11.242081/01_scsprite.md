@@ -22,3 +22,14 @@ retained by the published analysis.
 This is not bulk SPRITE with a cell label added afterward. The first barcoding phase is
 performed while nuclei are intact, and the second phase occurs after selecting nuclei and
 isolating spatial complexes. It therefore has its own page and source identity.
+
+## Oligo source review
+
+🟢 The preprint's Methods and published article specify the six-tag order as
+DPM–Odd–Even–Odd–Even–Y-even. Barcode assignment uses a known tag-sequence
+table, but neither accessible main text prints the ordering oligos, terminal
+Y-even sequence, or library PCR primer pair. The first three tags identify a
+cell; all six identify a spatial complex. 🟡 Bulk SPRITE's 2018 tag table and
+the authors' 2022 detailed SPRITE workbook may explain the shared DPM/Odd/Even
+chemistry, but they do not establish the scSPRITE-specific Y-even adapter without
+an explicit match to this protocol. Exact end geometry remains open.

@@ -19,3 +19,26 @@ tag chain are assigned to one multiway SPRITE cluster.
 a structured combinatorial identifier and also validates a composite cluster identifier
 over the five segments. Genomic molecules in the cluster are never proximity-ligated to
 one another.
+
+## Oligo source review
+
+🟢 The linked author preprint (doi:10.1101/219683, tag-design section) specifies
+phosphorylated DPM, Odd and Even adaptors, a 3′ spacer on the DPM top strand
+that prevents ligation to genomic DNA, and a terminal adaptor whose top strand
+alone is 5′ phosphorylated. Its Table S5 contains the individual barcode
+oligos, but that attachment is not in the open preprint PDF or the fetched
+2018 author manuscript. The later author protocol (doi:10.1038/s41596-021-00633-y)
+publishes a 96-member plate for each of DPM, Odd, Even and Terminal strand
+types, plus 96 indexed amplification primers. Its first DPM top strand
+`/5Phos/AAACACCCAAGATCGGAAGAGCGTCGTGTA/3SpC3/` matches the exact bases
+and 3′-spacer role in the 2018 preprint example; the corresponding bottom strand
+is `/5Phos/TGACTTGTCATGTCTTCCGATCTTGGGTGTTTT` (written 5′→3′).
+The terminal top example `/5Phos/AGTTGTCACCATAATAAGATCGGAAGA` also matches.
+Only these cross-matched examples are established for the 2018 design; the full
+2022 plate must not silently replace the unavailable original Table S5.
+
+🟢 The preprint prints the SPRITE library amplification primers:
+Read 1 `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`
+and Read 2
+`CAAGCAGAAGACGGCATACGAGATGCCTAGCCGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`.
+These are library PCR primers, distinct from the shorter platform sequencing primers.

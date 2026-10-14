@@ -15,7 +15,14 @@ This page covers **CXXC Affinity Purification plus sequencing**, the named DNA m
 - 🟢 The sequencing adapters are ligated to input DNA **before** affinity purification. This matters: selection acts on an already sequenceable library rather than on naked DNA followed by a separate library build.
 - 🟢 Binding occurs in column buffer containing 0.1 M NaCl. Human libraries are washed at 600 mM NaCl; the optimized mouse workflow uses 560 mM because mouse CpG islands are, on average, less CpG-dense. Bound material is eluted at 1 M NaCl.
 - 🟢 The enriched libraries were sequenced single-end on the Solexa platform.
-- 🔴 The defining paper refers to earlier Solexa library methods but does not print the adapter or sequencing-primer bases, so the diagram labels these ends by role.
+- 🔴 The defining paper's “Library preparation and Illumina Solexa sequencing”
+  section delegates the library recipe to its reference 57, Skene *et al.*,
+  *Molecular Cell* (2010), PMCID `PMC4338610`. That open author manuscript
+  itself defers detailed Solexa protocols to Supplemental Data, which were
+  absent from the PMC Cloud archive checked here. Neither accessible article
+  prints CAP-seq's ordered adapters or sequencing primer, so the diagram
+  labels these ends by role. A contemporary generic Solexa adapter would be
+  an inference, not a transcription of this experiment.
 
 ## Final readout
 

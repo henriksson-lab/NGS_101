@@ -11,7 +11,7 @@ from base_conversion import ace_path, oxbs_path, tab_path
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, oligo
 from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
-                     repair_and_dA_tail)
+                     dA_tailed_scene, repair_and_dA_tail)
 from pcr import PCRGeometry
 from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
@@ -34,6 +34,29 @@ def _ace_oligos():
 
 def _part(name: str, symbol: str = "X", n: int = 24, **kw) -> Segment:
     return Segment(name, symbol * n, placeholder=True, **kw)
+
+
+def rchip_adapter_geometry() -> AdapterLigationGeometry:
+    """Authors' 2019 R-ChIP protocol, Table 1: one-ended adapter geometry."""
+    sc = Scene()
+    sc.strand("oligo A", [Segment("A paired core", "GATCGGAAGAGC")],
+              label="5′-phosphorylated adapter oligo A", mod5="p")
+    sc.anneal("oligo B", [Segment("B paired core", "GCTCTTCCGATC"),
+                            Segment("B 3-prime T overhang", "T")],
+              to="oligo A", pair=("B paired core", "A paired core"),
+              label="adapter oligo B")
+    sc.note("oligo A", "unpaired 3′ tail: GTCGTGTAGGGAAAGAGTGT")
+    sc.note("oligo B", "unpaired 5′ tail: AGACGTGT")
+    sc.ligation_end("oligo B", "B 3-prime T overhang", kind="cohesive",
+                    polarity="3-prime", owner="adapter", text="3′-T ligating end")
+    substrate = dA_tailed_scene(repair_and_dA_tail(Construct([
+        Segment("R-loop DNA-derived insert", "X" * 24, placeholder=True)])),
+        label="unobstructed dA-tailed DNA end")
+    return AdapterLigationGeometry.known(
+        "cohesive", substrate, sc,
+        statement="Table 1 of the authors’ 2019 protocol prints both adapter strands; "
+                  "their 12-base antiparallel overlap leaves a 3′-T end compatible "
+                  "with the dA-tailed captured DNA.")
 
 
 @dataclass(frozen=True)
@@ -437,8 +460,7 @@ def _hybrid_workflow(key: str) -> Workflow:
         ("Ligate one Illumina adapter and PCR-amplify",
          _rchip_library_scene(),
          "Only the unobstructed end accepts the adapter, so read orientation is retained.",
-         AdapterLigationGeometry.unavailable(
-             "The R-ChIP source prints the tailed N9 primer but identifies the opposite reagent only as an Illumina adapter.")),
+         rchip_adapter_geometry()),
     ))
 
 
@@ -691,8 +713,8 @@ def _hybrid_graph(key: str, definition, final: Construct) -> ProtocolGraph:
                     StepKind.TAILING,
                     ((primed, InputRole.TEMPLATE),
                      (tailing, InputRole.CATALYST)), (tailed,))
-        adapter = graph.input("illumina_adapter", "one Illumina adapter",
-                              MaterialKind.ADAPTER, inferred=True)
+        adapter = graph.input("illumina_adapter", "one source-written Illumina adapter",
+                              MaterialKind.ADAPTER)
         ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
         tagged = graph.product("one_end_ligated_dna", "one-end-adapter-ligated DNA",
                                MaterialKind.MOLECULAR, state=_rchip_library_scene(),
@@ -701,8 +723,7 @@ def _hybrid_graph(key: str, definition, final: Construct) -> ProtocolGraph:
                     StepKind.LIGATION,
                     ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                      (ligase, InputRole.CATALYST)), (tagged,),
-                    geometry=AdapterLigationGeometry.unavailable(
-                        "The source prints the tailed N9 primer but identifies the opposite reagent only as an Illumina adapter."))
+                    geometry=rchip_adapter_geometry())
         pcr_input = tagged
         reviewed.extend((
             "denaturing_condition", "denature", "tailed_n9_primer", "copy_polymerase",
@@ -711,9 +732,9 @@ def _hybrid_graph(key: str, definition, final: Construct) -> ProtocolGraph:
         ))
 
     forward = graph.input("library_forward_primer", "library PCR forward primer",
-                          MaterialKind.OLIGO, inferred=True)
+                          MaterialKind.OLIGO, inferred=key != "r-chip")
     reverse = graph.input("library_reverse_primer", "library PCR reverse primer",
-                          MaterialKind.OLIGO, inferred=True)
+                          MaterialKind.OLIGO, inferred=key != "r-chip")
     pcr_polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
                                  MaterialKind.CATALYST)
     library = graph.product("sequencing_library", definition.title + " sequencing library",
@@ -724,7 +745,9 @@ def _hybrid_graph(key: str, definition, final: Construct) -> ProtocolGraph:
                  (pcr_polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
                     pcr_input.state if isinstance(pcr_input.state, Construct) else final,
-                    reason="The authoritative source does not expose one exact selected library-primer pair."))
+                    reason=("The published R-ChIP PCR primers cannot be placed on the still inferred final amplification shell."
+                            if key == "r-chip" else
+                            "The authoritative source does not expose one exact selected library-primer pair.")))
     graph.sequence(library, SequencingPlan(
         limitation=definition.caveat or definition.sequencing))
     reviewed.extend(("library_forward_primer", "library_reverse_primer",
@@ -786,7 +809,7 @@ DEFS = {
         "10.1016/j.molcel.2017.10.008", "Chen et al., Molecular Cell (2017)",
         "V5-tagged RNASEH1 D210N binds R-loops in fixed cells; a tailed N9 primer and one-ended adapter ligation produce a strand-specific DNA-component library.",
         ("tailed N9 end", "R-loop DNA-derived insert"), "Single-end Illumina reads preserve the orientation of the DNA strand captured from each R-loop.", "01_r_chip.html",
-        caveat="The defining paper prints the tailed N9 primer, but identifies the opposite adapter only as an Illumina adapter; that adapter is shown by role."),
+        caveat="The authors’ detailed 2019 protocol prints both one-ended adapter strands and both PCR primers; the final amplified adapter shell remains partly inferred."),
     "oxbs-seq": Definition("oxBS-seq — oxidative bisulfite sequencing",
         "10.1126/science.1220671", "Booth et al., Science (2012)",
         "Potassium perruthenate converts 5hmC to 5fC before bisulfite, so 5hmC and unmodified C read as T while 5mC alone reads as C.",

@@ -13,6 +13,7 @@ Commercial defining source: Oxford Nanopore, “Ultra-Long DNA Sequencing Kit V1
 ## 2. Source read
 
 - 🟢 [Oxford Nanopore protocol ULK_9177_v114](https://nanoporetech.com/document/ultra-long-dna-sequencing-kit-sqk-ulk114), including extraction, tagmentation, Rapid Adapter attachment, precipitation cleanup and loading.
+- 🟢 Oxford Nanopore, *Chemistry Technical Document*, CHTD_500 v1 rev AV, section 15, publishes the Rapid Adapter strand.
 
 ## 3. Molecular workflow
 
@@ -25,9 +26,10 @@ Adapter are added and incubated 30 min at room temperature.
 overnight. Wide-bore tips and slow mixing preserve molecule length. This cleanup is part
 of why the ultra-long workflow differs from ordinary rapid preparation.
 
-🔴 Fragmentation tag, Rapid Adapter, attachment chemistry, motor-bearing strand and exact
-adapter bases are proprietary. The diagram therefore uses role tokens, not nucleotide
-sequences borrowed from other Nanopore kits.
+🟢 The published Rapid Adapter strand is `CCTGTACTTCGTTCAGTTACGTATTGCT`.
+
+🔴 The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
+exact motor-bearing strand remain undisclosed. Those regions remain role tokens.
 
 ## 4. Sequencing entry
 

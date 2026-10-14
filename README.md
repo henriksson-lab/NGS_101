@@ -133,6 +133,8 @@ python3 tools/doctext.py DIR                  # PDF/DOCX/XLSX/HTML -> FILE.txt (
 # the document for a person or an LLM to read, never a fact
 python3 tools/scrape_primers.py DIR             # or files; --tsv, --known-only, --max-hits
 python3 tools/scrape_primers.py DIR --find AGATGTGTATAAGAGACAG  # where does an oligo occur
+# rebuild/check the source-review ledger for pages that still report unresolved oligos
+python3 tools/audit_missing_oligos.py --write
 
 # the catalogue of what exists (network; cached, so re-running is cheap)
 python3 catalogue/tools/fetch_scg_lib_structs.py

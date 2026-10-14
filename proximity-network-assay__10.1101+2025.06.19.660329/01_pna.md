@@ -30,6 +30,8 @@
 
 🔴 A literal-sequence audit of the defining paper and commercial manual found no complete oligo molecules: both expose roles, ordering and read lengths, but not complete primer sequences.
 
+🟢 The v2 manual **does** print the seven supplied sample-index pairs in Table A6. In primer order 1–7, the i7 sequences are `TTCTCCAA`, `CACCTACT`, `ACAACCAC`, `GAGAACCT`, `ACTTACCG`, `CTAGCAGA`, `AGCCTGTC`; the forward-orientation i5 sequences paired with them are `TTGTGGAA`, `GGAGGTGT`, `AATTCGTG`, `GGTTGCTC`, `TAGGATGA`, `TAGACACG`, `ACACTGAT`. These are index windows, not complete indexing PCR primer molecules. Table A6 also prints their reverse complements for sample-sheet use.
+
 🟢 The software fills in much of the missing internal construct. Its Proxiome v2 definition is `UMI-1(28) — PID-1(10) — CAAGTGACGCTGGTCAAACACTCATGTC — UEI(15) — CGCTTAGATGTCGG — PID-2(10) — UMI-2(28)`, totaling 133 nt. The public v2 panel supplies the 10-nt PID whitelist; for example, HLA-ABC is `ACTTCCTAGG` at both ends.
 
 🟡 Combining that 133-nt definition with the documented 44/78 run gives a base-resolved read interpretation without guessing oligo synthesis sequences: R1 covers UMI-1 + PID-1 + 6 nt of LBS-1; R2 approaches from the other end and covers UMI-2 + PID-2 + all of LBS-2 + UEI + 11 nt of LBS-1.

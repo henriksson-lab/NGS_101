@@ -11,7 +11,8 @@
 - 🟢 In the plate implementation, one RAISIN is sorted into TCL with 1% β-mercaptoethanol. RNA is purified with RNAClean XP, reverse-transcribed from oligo-dT with Maxima reverse transcriptase and a locked TSO, and amplified for 21 cycles with KAPA HiFi.
 - 🟢 Amplified cDNA is converted with Nextera XT plus custom barcode adapters, pooled 384 wells at a time and sequenced on NextSeq 500.
 - 🟢 The paper also implements droplet RAISIN RNA-seq on GemCode v2. The separate MIRACL-seq page shows that endpoint because deliberate droplet overloading is MIRACL-seq's defining change.
-- 🔴 The locked TSO and custom barcode-adapter sequences were not printed (“available upon request”), so the schematic does not invent them.
+- 🟢 The paper's Key Resources Table prints the reverse-transcription primer as `5′-AAGCAGTGGTATCAACGCAGAGTACT(30)VN-3′`, the locked template-switching oligo as `5′-AAGCAGTGGTATCAACGCAGAGTACrGrG+G-3′`, and the PCR primer as `5′-AAGCAGTGGTATCAACGCAGAGT-3′` (PMC8358727 full-text XML, Oligonucleotides table). Preserve `rG` and `+G` as written: they denote the ribonucleotide and locked-nucleotide chemistry at the TSO 3′ end.
+- 🔴 The custom Nextera XT barcode-adapter sequences alone are stated to be “available upon request” in the plate-library methods and remain unpublished in the checked paper and preprint. The schematic must not infer their individual indexes.
 
 ## Final readout
 

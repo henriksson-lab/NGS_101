@@ -15,6 +15,8 @@ SUMMARY = "An antibody recruits Protein A–Hia5 to a chromatin target; SAM acti
 CAVEAT = "The scientific construct is the marked native DNA molecule. Oxford Nanopore library-adapter bases are kit-specific and are intentionally represented by role rather than invented sequence."
 FINAL_LIBRARY = None
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
+MOTOR_ADAPTER_NAME = "ligation-sequencing motor adapter"
 SEQUENCING_ENDING = "Extract high-molecular-weight native DNA, attach the chosen Oxford Nanopore ligation-sequencing motor adapter, and feed one strand through the pore. Modified-base calling reports exogenous m6A together with endogenous CpG methylation on the same molecule; no sequencing primer binds."
 
 def sections():

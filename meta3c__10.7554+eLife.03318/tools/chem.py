@@ -11,6 +11,14 @@ TITLE="meta3C — metagenomic chromosome-conformation capture"
 NOTES="01_meta3c.html"
 SOURCE='Defining source: <a href="https://doi.org/10.7554/eLife.03318">Marbouty et al., <i>eLife</i> (2014)</a>.'
 SUMMARY="Crosslinked cells from an intact microbial mixture are restriction-digested and diluted-ligated; ordinary shotgun library construction preserves both contact junctions and unligated genomic fragments without biotin enrichment."
+MM70="GTANNNNNNAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAG"
+MM71="ACACTCTTTCCCTACACGACGCTCTTCCGATCTNNNNNNTACT"
+MM76="CAGNNNNNNAGATCGGAAGAGCGGTTCAGCAGGAATGCCGAG"
+MM77="ACACTCTTTCCCTACACGACGCTCTTCCGATCTNNNNNNCTGT"
+def oligos():
+    return [f"<b>{name}</b> (Table 1, 5′→3′): <code>{sequence}</code>"
+            for name, sequence in (("MM70, yeast/river", MM70), ("MM71, yeast/river", MM71),
+                                   ("MM76, bacteria", MM76), ("MM77, bacteria", MM77))]
 FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("meta3C","microbial 3C fragment", inferred_adapters=True)
 FINAL_CAPTION="Paired-end reads include ordinary genomic fragments and restriction-junction contact products."
 SEQUENCING_INTRO="Declared Illumina primers bind the finished meta3C library."
@@ -68,9 +76,9 @@ def protocol_graph():
                 ((purified, InputRole.TEMPLATE), (covaris, InputRole.CONDITION)), (sheared,))
 
     adapter = graph.input(
-        "paired_end_adapter", "custom paired-end sequencing adapter",
-        MaterialKind.ADAPTER, inferred=True,
-        source=SOURCE + " (adapter sequences and end geometry not printed)")
+        "paired_end_adapter", "custom paired-end sequencing adapter (Table 1: MM70/MM71 or MM76/MM77)",
+        MaterialKind.ADAPTER,
+        source=SOURCE + " (both adapter oligos printed in Table 1; ligation-end geometry not specified)")
     adapter_ligase = graph.input("adapter_ligase", "library-adapter DNA ligase",
                                  MaterialKind.CATALYST)
     ligated = graph.product("adapter_ligated", "adapter-ligated meta3C fragments",

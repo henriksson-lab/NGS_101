@@ -1,9 +1,10 @@
 """ChAR-seq RNA–DNA bridge chemistry."""
+import illumina as il
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
@@ -17,8 +18,8 @@ SUMMARY = ("A pre-adenylated, biotinylated DNA bridge first captures an RNA 3′
            "DpnII then opens the bridge's DNA-facing end and cuts nearby genomic DNA, "
            "creating a directional RNA–DNA chimera with an inline three-base UMI.")
 CAVEAT = ("The bridge sequence, modifications and DpnII-compatible ligation are source-exact. "
-          "The terminal NEBNext hairpin oligo bases were not disclosed in the sources read; "
-          "the final TruSeq-compatible sequencing shell is consequently marked inferred.")
+          "The paper names the NEBNext USER hairpin workflow; its exact reusable adapter and "
+          "index-primer chemistry comes from the authoritative NEB oligo manuals.")
 
 BRIDGE_TOP = "AANNNAAACCGGCGTCCAAGGATCTTTAATTAAGTCGCAG"
 BRIDGE_BOTTOM = "GATCTGCGACTTAATTAAAGATCCTTGGACGCCGGTT"
@@ -41,7 +42,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([
     seg("bridge spacer", TOP_SPACER),
     seg("retained bridge through DpnII junction", "CCGGCGTCCAAG", "me"),
     seg("nearby genomic DNA", "D" * 42, placeholder=True),
-], "ChAR-seq RNA–DNA contact library", dual_index=False, inferred_adapters=True)
+], "ChAR-seq RNA–DNA contact library", dual_index=False)
 FINAL_CAPTION = ("A source-defined three-base UMI and bridge separate the RNA-derived cDNA "
                  "from nearby genomic DNA. The defining experiment used single-end 152-base "
                  "sequencing; the opposite TruSeq-compatible site is a library end, not a "
@@ -58,6 +59,7 @@ def oligos():
     return (
         f"<b>Bridge top</b> — 5′-/5rApp/{BRIDGE_TOP}/3SpC3/-3′",
         f"<b>Bridge bottom</b> — 5′-/5Phos/{BRIDGE_BOTTOM[:-2]}/iBiodT/T-3′",
+        f"<b>NEBNext USER hairpin adaptor</b> — 5′-/5Phos/{il.NEBNEXT_HAIRPIN[:-1]}*{il.NEBNEXT_HAIRPIN[-1]}-3′",
     )
 
 
@@ -187,10 +189,10 @@ def workflow() -> Workflow:
     final = Scene.duplex(list(FINAL_LIBRARY), label="single-end ChAR-seq library",
                          unpaired=tuple(s.name + "'" for s in FINAL_LIBRARY if s.inferred))
     hairpin_geometry = AdapterLigationGeometry.unavailable(
-        "The paper names the NEBNext hairpin adapter but does not print the exact adapter lot's cut-facing strand or terminal base sequence.")
+        "The exact NEBNext hairpin is represented by its shared dumbbell/topology model; this compact linear Scene does not flatten both ligated hairpins.")
     w.ligate_adapter("Ligate NEBNext hairpin adapters", hairpin_geometry,
                       final.rows(), name="NEBNext hairpin-adapted contact",
-                      note="The commercial adapter identity is known, but this source does not establish its exact oligo sequence.")
+                      note="The paper names the kit; the exact hairpin sequence is supplied by the authoritative NEB oligo manual and centralized in illumina.py.")
     w.react("Open the hairpins with USER and index-amplify",
             final.rows(), name="TruSeq-compatible ChAR-seq library",
             note="USER opening and NEBNext indexing create the reported TruSeq-compatible single-end library.")
@@ -199,7 +201,7 @@ def workflow() -> Workflow:
 
 def protocol_graph() -> ProtocolGraph:
     source = "Defining source: https://doi.org/10.7554/eLife.27024; exact bridge oligos from the authors' detailed protocol"
-    hairpin_source = source + "; terminal NEBNext hairpin bases are not disclosed"
+    hairpin_source = source + "; exact hairpin and index-primer sequences from NEB E7600/E7335 oligo manuals"
     graph = ProtocolGraph("ChAR-seq", authority=source)
     contact = graph.input("contact", "fixed chromatin-associated RNA–DNA contact",
                           MaterialKind.BIOLOGICAL, primary=True)
@@ -282,35 +284,37 @@ def protocol_graph() -> ProtocolGraph:
                            state=dA_tailed_scene(tailed_state, label="dA-tailed contact duplex"))
     graph.react("da_tail", "Add one 3′ dA to each end", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
-    hairpin = graph.input("hairpin_adapter", "NEBNext hairpin adapter", MaterialKind.ADAPTER,
-                          inferred=True, source=hairpin_source)
+    hairpin = graph.input("hairpin_adapter", "NEBNext USER hairpin adapter", MaterialKind.ADAPTER,
+                          state=il.NEBNEXT_HAIRPIN_MODEL, source=hairpin_source)
     hairpin_ligated = graph.product("hairpin_ligated", "hairpin-adapted contact library",
-                                    MaterialKind.MOLECULAR, inferred=True,
-                                    source=hairpin_source)
+                                    MaterialKind.MOLECULAR, source=hairpin_source)
     graph.react("hairpin_ligation", "Ligate NEBNext hairpin adapters", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (hairpin, InputRole.STRUCTURAL),
                  (dna_ligase, InputRole.CATALYST)), (hairpin_ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The paper names the NEBNext hairpin adapter but does not print its cut-facing strand or terminal bases."),
+                    "The exact two-ended hairpin product is topological and cannot be flattened into this compact single-junction Scene."),
                 source=hairpin_source)
     user = graph.input("user_enzyme", "USER enzyme", MaterialKind.CATALYST)
     opened = graph.product("opened_library", "USER-opened adapter library",
-                           MaterialKind.MOLECULAR, inferred=True, source=hairpin_source)
+                           MaterialKind.MOLECULAR, source=hairpin_source)
     graph.react("user_opening", "Open the hairpins with USER", StepKind.DIGESTION,
                 ((hairpin_ligated, InputRole.TEMPLATE), (user, InputRole.CATALYST)),
                 (opened,), source=hairpin_source)
-    p5 = graph.input("p5_primer", "NEBNext P5 index-PCR primer", MaterialKind.OLIGO,
-                     inferred=True, source=hairpin_source)
-    p7 = graph.input("p7_primer", "NEBNext P7 index-PCR primer", MaterialKind.OLIGO,
-                     inferred=True, source=hairpin_source)
+    p5 = graph.input("p5_primer", "NEBNext Universal PCR primer", MaterialKind.OLIGO,
+                     source=hairpin_source)
+    p7 = graph.input("p7_primer", "NEBNext indexed P7 PCR primer", MaterialKind.OLIGO,
+                     source=hairpin_source)
     pcr = graph.input("pcr_polymerase", "index-PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
-                            state=FINAL_LIBRARY, inferred=True, source=hairpin_source)
+                            state=FINAL_LIBRARY, source=hairpin_source)
     graph.react("index_pcr", "Index-amplify the TruSeq-compatible library", StepKind.PCR,
                 ((opened, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)), (library,),
-                geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="The commercial hairpin and indexing oligo bases are not disclosed."),
+                geometry=PCRGeometry.exact(
+                    FINAL_LIBRARY,
+                    PCRPrimer("NEBNext Universal", il.NEBNEXT_UNIVERSAL_PRIMER),
+                    PCRPrimer("NEBNext indexed P7", il.nebnext_i7_primer("N"*8)),
+                    statement="The named NEBNext E7335 primer set is sequence-defined in the authoritative vendor oligo manual."),
                 source=hairpin_source)
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=("Read 1",),

@@ -21,4 +21,4 @@ Crosetto et al., *Nature Methods* (2013), [doi:10.1038/nmeth.2408](https://doi.o
 
 Supplementary Table 5 gives L1, L3, P1 and P3. Supplementary Fig. 1 and the analysis section independently identify the retained 11-base proximal and distal tags. The internal proximal modification is written `[BtndT]` in the source and is rendered `/iBiodT/` on the page.
 
-The first published experiments also used distal linker L2. The later L3 carries a separate distal barcode and is the form represented on the schematic because it is the specificity-improved BLESS construct.
+The first published experiments also used distal linker L2. The later L3 carries a separate distal barcode and is the form represented on the schematic because it is the specificity-improved BLESS construct. Supplementary Table 5 also prints P4/P5 for a Roche 454 branch; those are not omitted Illumina PCR primers. For the illustrated Illumina branch, L1/L3 and P1/P3 are complete through the BLESS insert. The conventional downstream Illumina library-preparation adapter and index oligos remain unidentified by kit or sequence.

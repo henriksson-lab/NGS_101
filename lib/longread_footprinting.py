@@ -33,24 +33,34 @@ def conventional_smrtbell(insert_name: str | Construct = "m6dA-marked genomic in
                     insert_overhang="A", adapter_overhang="T")
 
 
-def hairpin_tagmented_smrtbell(insert_name: str = "m6dA-marked chromatin fragment") -> Dumbbell:
+def hairpin_tagmented_smrtbell(
+        insert_name: str = "m6dA-marked chromatin fragment", *,
+        adapter_sequence: str | None = None, stem_length: int = 0) -> Dumbbell:
     """The final closed product of hairpin-Tn5 transfer followed by gap repair.
 
     Both hairpins are mandatory in :class:`Dumbbell`; this prevents a caller from
     presenting a one-ended tagmentation product as a sequenceable PacBio molecule.
     """
     insert = Construct([Segment(insert_name, "X" * 54, placeholder=True)], name=insert_name)
-    return Dumbbell(insert, "N" * 18, "N" * 18, name="hairpin-tagmented SMRTbell",
-                    insert_overhang="A", adapter_overhang="T")
+    if adapter_sequence is None:
+        return Dumbbell(insert, "N" * 18, "N" * 18,
+                        name="hairpin-tagmented SMRTbell",
+                        insert_overhang="A", adapter_overhang="T")
+    return Dumbbell(insert, adapter_sequence, adapter_sequence,
+                    name="hairpin-tagmented SMRTbell", insert_overhang="",
+                    adapter_overhang="", left_stem_length=stem_length,
+                    right_stem_length=stem_length)
 
 
 def smrtbell_rows(molecule: Dumbbell) -> list[Row]:
     return dumbbell_rows(molecule)
 
 
-def pacbio_entry(molecule: Dumbbell) -> str:
+def pacbio_entry(molecule: Dumbbell, *, adapter_sequence_known: bool = False) -> str:
     """Source-safe description of primer/polymerase geometry for a closed template."""
-    return ("A PacBio sequencing primer anneals in either proprietary hairpin adapter. "
+    adapter = ("either published hairpin adapter" if adapter_sequence_known
+               else "either proprietary hairpin adapter")
+    return (f"A proprietary PacBio sequencing primer anneals in {adapter}. "
             "The bound polymerase traverses the marked insert, the opposite hairpin, "
             "the reverse-complement insert and the starting hairpin repeatedly to form "
             "a circular-consensus read.")

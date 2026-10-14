@@ -13,9 +13,9 @@ TITLE="Microbe-seq — droplet single-microbe genome sequencing"
 NOTES="01_microbe-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1126/science.abm1483">Zheng et al., <i>Science</i> (2022)</a>.'
 SUMMARY="Individual microbes are lysed and MDA-amplified in droplets, tagmented by reagent fusion, then fused with barcode-bead droplets for indexed PCR."
-CAVEAT="The paper establishes droplet operations and library order but not every commercial bead base; those regions are structural placeholders."
+CAVEAT="The linked preprint's Table S6 prints both split-and-pool barcode-oligo families. Barcode 1 varies from 8 to 11 nt and barcode 2 is 8 nt; the 16-nt role token in the library is one shortest-length representative. The starting hydrogel oligo and custom Read-1 primer remain unresolved."
 CELL=feature("microbeseq_droplet","cell_barcode","whitelist",whitelist="Microbe-seq barcode bead set")
-FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([seg("microbe barcode","B"*16,"cbc",placeholder=True,feature=CELL),seg("single-microbe genomic DNA","X"*46,placeholder=True)],"Microbe-seq WGS library")
+FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([seg("microbe barcode (8+8 representative)","B"*16,"cbc",placeholder=True,feature=CELL),seg("single-microbe genomic DNA","X"*46,placeholder=True)],"Microbe-seq WGS library")
 FINAL_CAPTION="A bead barcode identifies all tagmented MDA fragments derived from one microbial droplet."
 SEQUENCING_INTRO="Paired genomic reads are associated with the bead-derived microbe barcode and sample indexes."
 READ_LENGTHS={"Read 1":150,"Read 2":150}

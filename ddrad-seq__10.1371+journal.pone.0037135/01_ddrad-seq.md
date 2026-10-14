@@ -17,6 +17,7 @@ ddRAD-seq is a reduced-representation DNA protocol in which two restriction enzy
 🟢 Supplementary Protocol S1 and Table S1 give P1.1 as `ACACTCTTTCCCTACACGACGCTCTTCCGATCTGCATG`, P1.2 as `/5Phos/AATTCATGCAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT`, P2.1 as `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, and P2.2 as `/5Phos/CGAGATCGGAAGAGCGAGAACAA`. GCATG is one of the published five-base inline barcodes.
 
 🟢 The PCR2 example named ATCACG carries `CGTGAT` in the primer as the reverse complement; the Index 1 read reports ATCACG.
+🟢 The same supplementary spreadsheet prints PCR1 `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACG` and the complete PCR2_Idx_1_ATCACG oligo `CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTGC`. Its `PCR_primers` sheet lists all twelve PCR2 index alternatives; its `adapter_P1-EcoRI` sheet lists all 48 five-base inline barcode pairs. The representative schematic uses one published member of each family.
 
 ## 5. Construct interpretation
 

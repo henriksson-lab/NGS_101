@@ -21,10 +21,6 @@ class PaperReference:
 BY_DIRECTORY = {
     "chip-seq__10.1038+nmeth.1068": PaperReference(
         "Robertson", "2007", "Nature Methods", "https://doi.org/10.1038/nmeth1068"),
-    "pro-seq__10.1101+gr.150027.112": PaperReference(
-        "Kwak", "2013", "Science", "https://doi.org/10.1126/science.1229386"),
-    "cutac__10.1186+s13059-020-02266-4": PaperReference(
-        "Henikoff", "2020", "eLife", "https://doi.org/10.7554/eLife.63274"),
     "proximity-network-assay__10.1101+2025.06.19.660329": PaperReference(
         "Karlsson", "2025", "bioRxiv",
         "https://doi.org/10.1101/2025.06.19.660329"),

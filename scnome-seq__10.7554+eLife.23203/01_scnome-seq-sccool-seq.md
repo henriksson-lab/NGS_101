@@ -32,6 +32,7 @@ Sources read (in `_data/sources/scnome-seq-sccool-seq__10.7554+eLife.23203/`, ne
 | `cr201782.html.txt` | scCOOL-seq full text (nature.com HTML, fetched by hand) | **all scCOOL-seq methods and its two random primers** ("Single-cell COOL-seq library preparation and sequencing", line 934) |
 | `upstream_scNOMe_scCOOL.html.txt` | scg_lib_structs page | second account: principle only; defers to its scBS-seq page for the library |
 | `cr.2017.82_PMC5539349.html`, `.xml` | PMC copy of the scCOOL-seq paper (PMC5539349; arrived late from `get_sources.py`, no `.txt` twin) | not used — duplicate of `cr201782.html` |
+| `cr.2017.82_supp_cr201782x22.pdf.txt` | scCOOL-seq Supplementary Data S1, an author-written day-by-day protocol | six first-strand priming rounds, two 0.1 N NaOH washes after capture, and a 12-cycle indexed PCR; this exposes differences from the article's condensed Methods |
 | `eLife.23203_PMC5487215.xml`, `eLife.23203_PMC5487215_supplementary.zip` | JATS duplicate of the eLife text; PMC supplement bundle | not used (supplement read from the `.xlsx`) |
 
 Not fetched / not available:
@@ -39,7 +40,6 @@ Not fetched / not available:
 | What | Why it matters |
 |---|---|
 | Zymo **Pico Methyl-Seq Library Prep Kit** manual / adapter sequences | the scNOMe-seq random primers, PrepAmp and amplification primers are all **proprietary kit reagents** — no sequence in either paper 🔴 |
-| scCOOL-seq supplementary PDFs (`…MOESM357–361_ESM.pdf`, linked from https://www.nature.com/articles/cr201782) | figures and motif tables; the methods text gives no further oligos, so probably not chemistry 🟡 |
 | NEB "Illumina Reverse indexed primer" used by scCOOL-seq | the paper names only the vendor; the sequence is not given 🔴 |
 | Kelly *et al.* 2012 bulk NOMe-seq (doi:10.1101/gr.143008.112) | parent method; not needed for the library chemistry |
 
@@ -138,7 +138,7 @@ and that the final libraries of the two are the same.
 | scCOOL-seq library = scBS-seq | "single-cell PBAT strategy, as previously described" (cites Smallwood 2014), **but** the second-strand primer is `AGACGTGTGCTCTTCCGATCT`-N9, not scBS-seq oligo2 `TGCTGAACCGCTCTTCCGATCT`-N9, and the reverse PCR primer is an NEB indexed primer, not iPCRTag | "simply uses scBS-seq" | **partial disagreement**: same strategy, different read-2 handle and index primer 🟡 (computed from the two sequences) |
 | final libraries of scNOMe-seq and scCOOL-seq "the same" | scNOMe-seq index primers end in the TruSeq Read 2 arm; scCOOL-seq primer 2 is the 3′ 21 nt of that arm; both forward primers sit on the TruSeq Read 1 site | same | **agree** for the read-2 side as far as can be checked; but the scNOMe-seq insert-proximal ends come from kit primers 🔴 |
 | CNV / ploidy analysis in scCOOL-seq | λ-DNA spike-in, HMMcopy | "extra analysis" | agree; upstream does not mention the λ spike-in |
-| number of oligo-1 priming rounds in scCOOL-seq | not stated (one annealing/extension is described) | inherits scBS-seq's five | **unresolved** 🔴 |
+| number of oligo-1 priming rounds in scCOOL-seq | article abbreviates the step; author Supplementary Data S1 explicitly says six rounds | inherits scBS-seq's five | **six rounds in the detailed protocol** 🟢 |
 
 ### How the oligos interlock — 🟡 (computed with `lib/illumina`)
 
@@ -215,18 +215,22 @@ and that the final libraries of the two are the same.
 3. **Release DNA**: +0.5 µL 20 mg/mL Qiagen protease, 50 °C 3 h.
 4. **Bisulfite**: MethylCode Bisulfite Conversion Kit (Invitrogen), per manufacturer.
 5. **First strand**: anneal random primer 1 (5′-biotin, Read 1 handle, N9) and extend
-   with **Klenow exo-**. Number of rounds, primer concentration and temperature ramp
-   not stated 🔴 (scBS-seq used five rounds). Product:
+   with **Klenow exo-**. Supplementary Data S1 specifies **six total priming rounds**:
+   initial 10 µM primer, then repeated additions described as 25 pM primer, with a
+   4→37 °C ramp (1 °C per 15 s) and 30 min at 37 °C 🟢. Product:
    `5′-biotin · CTACACGACGCTCTTCCGATCT · N9 · copy of a converted strand -3′`. 🟡
 6. **Exonuclease I** digests leftover primer 1; AMPure XP.
-7. **Capture** on **M-280 streptavidin** Dynabeads; "the original bisulfite-converted DNA
-   templates were removed" (washes not specified 🔴; scBS-seq used 0.1 N NaOH).
+7. **Capture** on **M-280 streptavidin** Dynabeads; Supplementary Data S1 specifies two
+   2-minute washes with 0.1 N NaOH to remove the original bisulfite-converted templates 🟢.
 8. **Second strand**: random primer 2 (Read 2 handle `AGACGTGTGCTCTTCCGATCT`, N9) +
    Klenow exo- on the beads. Product: duplex with the Read 1 handle at one end and the
    Read 2 handle at the other. 🟡
-9. **PCR on the beads, 13 cycles**: Illumina Forward PE1.0 + NEB Illumina reverse indexed
-   primer, KAPA HiFi HotStart. Two AMPure XP clean-ups; Fragment Analyzer; qPCR
-   quantification; pool.
+9. **PCR on the beads**: the condensed article Methods say **13 cycles** with Illumina
+   Forward PE1.0 and an NEB indexed reverse primer. Supplementary Data S1 instead specifies
+   **12 cycles** and calls these the NEB Universal PCR Primer and pre-indexed PCR Index
+   Primer 🟢. The two source records disagree on cycle count and primer naming; neither
+   prints the selected indexed primer's bases 🔴. Two AMPure XP clean-ups, Fragment
+   Analyzer, qPCR quantification, then pooling.
 
 ## 4. Final library — 🟡 (assembled from the oligos above)
 
@@ -283,8 +287,9 @@ read-2 side, which here is the TruSeq arm (scBS-seq used a custom read-2 primer)
 
 - **Pico Methyl-Seq kit adapters** — what exactly flanks the insert in scNOMe-seq
   libraries (random-primer length, any tail between Read 1/Read 2 site and insert)? 🔴
-- scCOOL-seq: how many rounds of primer-1 extension, at what concentrations, and how the
-  template strand was removed after capture (NaOH as in scBS-seq?) — not stated 🔴.
+- scCOOL-seq: resolve the article's 13 PCR cycles versus the author supplement's 12 cycles,
+  and confirm whether "Illumina Forward PE1.0" and "NEB Universal PCR Primer" denote the
+  same ordered product 🟡.
 - The NEB "Illumina Reverse indexed primer" set used by scCOOL-seq and its index list 🔴.
 - scNOMe-seq index PCR cycle number 🔴.
 - The scNOMe-seq i7 set matches Illumina's TruSeq LT numbering by eye of the sequences

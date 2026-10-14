@@ -4,7 +4,7 @@ import sys
 ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/"lib")]
 
 from batch_ngs import nextera_library, seg
-from chemdraw import MolecularState, Scene, Workflow
+from chemdraw import MolecularState, Scene, Segment, Workflow, oligo
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -21,6 +21,14 @@ INITIAL_ROWS=rna_template("poly(A) RNA", 36)
 FINAL_LIBRARY, SEQ_PRIMERS=nextera_library([seg("transcript-derived insert","X"*38,placeholder=True)],"SHERRY library")
 FINAL_CAPTION="The amplifiable S5–insert–S7 product after gap extension and indexed PCR."
 SEQUENCING_INTRO="The paper used Illumina NextSeq 500 or HiSeq 4000; standard Nextera primer sites are installed by the published transposomes and indexed PCR primers."
+
+def oligos():
+    yield oligo("poly(T)30VN RT primer", [Segment("poly-T", "T" * 30),
+                                        Segment("anchored VN", "VN", placeholder=True)])
+    yield oligo("ME loading oligo", [Segment("mosaic-end complement", nx.ME_RC)])
+    yield oligo("Adaptor A", [Segment("S5–ME", nx.ADAPTOR_S5)])
+    yield oligo("Adaptor B", [Segment("S7–ME", nx.ADAPTOR_S7)])
+
 def _tagged():
     sc=Scene()
     sc.strand("tagged RNA",[seg("transferred S5–ME",nx.ADAPTOR_S5,"s5+me"),seg("RNA fragment","X"*30,placeholder=True)],label="tagged RNA product")

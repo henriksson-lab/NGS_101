@@ -20,6 +20,8 @@
 
 🟢 Plate libraries are sequenced 150 + 8 + 8 + 150 cycles (R1 + I1 + I2 + R2).
 
+🟢 Supplementary Table 4 also prints the full `N7001`–`N7384` i7 well-index family and the RNA/ATAC-specific plate i5 PCR primer families. The page now exposes one source-printed member of each family (`N7001`, `RNA_plate_S502`, `ATAC_plate_SS502`) as ordering examples; the other family members remain in the source workbook, not represented by a falsely universal selected index.
+
 ## Droplet branch
 
 🟢 The droplet workflow uses `biotin-CAGACGTGTGCTCTTCCGATCT` + 10-nt UMI + dT32VN and sends the tagged material through a 10x Single Cell ATAC gel-bead reaction. Its 16-nt cell barcode is carried next to the Nextera S5 handle. The RNA branch is completed from its printed RNA-specific P7/index primer family. The public page names this branch but uses the plate workflow for its exact reaction and final-library drawings so the two architectures are not collapsed into a fictitious common construct.

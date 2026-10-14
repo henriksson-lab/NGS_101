@@ -1,13 +1,31 @@
-"""Shared topology for motor-adapted Oxford Nanopore libraries.
+"""Shared topology and published oligos for Oxford Nanopore libraries.
 
-ONT does not disclose the current adapter bases.  These helpers therefore make the
-known molecular roles and junction types structural while preventing callers from
-silently presenting proprietary role tokens as nucleotide sequence.
+The current ONT Chemistry Technical Document publishes several adapter and cDNA-kit
+oligos, but not the complete motor-bearing assembly.  Keeping those two evidence states
+separate here prevents pages from either hiding published sequence or inventing the
+undisclosed motor/attachment structure.
 """
 from __future__ import annotations
 
 from chemdraw import Construct, Row, Scene, Segment
 from protocol_graph import SequencingPlan
+
+
+# Oxford Nanopore, Chemistry Technical Document CHTD_500 v1 rev AV (24 July
+# 2026), section 15.  All strings are written 5' to 3'.
+LA_TOP = "CCTGTACTTCGTTCAGTTACGTATTGCT"
+LA_BOTTOM = "GCAATACGTAACTGAACGAAGTACAGG"
+NATIVE_ADAPTER_BOTTOM = "ACGTAACTGAACGAAGTACAGG"
+RAPID_ADAPTER = LA_TOP
+RTP = "CTTGCCTGTCGCTCTATCTTCAGAGGAG"
+CRTA = "CTTGCGGGCGGCGGACTCTCCTCTGAAGATAGAGCGACAGGCAAG"
+SSPII_HANDLE = "TTTCTGTTGGTGCTGATATTGCT"
+SSPII_UMI = "TTVVVVTTVVVVTTVVVVTTVVVVTTT"
+SSPII_TERMINAL = "GGG"
+SSPII_AS_WRITTEN = SSPII_HANDLE + SSPII_UMI + "mGmGmG"
+CDNA_PRIMER_COMMON = "ATCGCCTACCGTGACAAGAAAGTTGTCGGTGT"
+CDNA_PRIMER_FORWARD = CDNA_PRIMER_COMMON + "CTTTGTGACTTGCCTGTCGCTCTATCTTC"
+CDNA_PRIMER_REVERSE = CDNA_PRIMER_COMMON + "TTTCTGTTGGTGCTGATATTGC"
 
 
 def role(name: str, text: str, tag: str | None = None, **kw) -> Segment:

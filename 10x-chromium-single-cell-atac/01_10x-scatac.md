@@ -2,8 +2,7 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`). A claim found **only**
+> writing this note. A claim found **only**
 > on the upstream scg_lib_structs page is 🟡 (secondary source), even when quoted
 > verbatim from it.
 
@@ -35,6 +34,8 @@ Sources read (in `$CHEM_DATA/sources/10x-chromium-single-cell-atac/`, never comm
 |---|---|---|
 | `upstream_10xChromium_scATAC.html.txt` | scg_lib_structs page (fetched by `get_sources.py`) | complete second account: oligos, steps, final library, read layout |
 | `CG000168_ChromiumSingleCellATAC_ReagentKits_UserGuide_RevA.pdf(.txt)` | 10x User Guide Rev A — fetched **by hand** from the copy upstream links (`teichlab.github.io/scg_lib_structs/data/10X-Genomics/`) | **every oligo** (Appendix "Oligonucleotide Sequences", txt lines 3343–3441), all reaction conditions, sequencing parameters |
+| `10x_Single_Index_Kit_N_Set_A.csv` | 10x Genomics Single Index Kit N Set A index list | all four 8-nt i7 index sequences for each of 96 wells |
+| `10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt` | 10x Next GEM ATAC v1.1 guide, Appendix A1 | confirms the five v1 library oligo structures recur in v1.1; gel-bead part number changes to PN-2000210 |
 | `ng.3119_PMC4409979.html.txt` | Amini 2014 full text (`get_sources.py`) | Tn5-stays-bound concept; CPT-seq release by SDS |
 | `ng.3119_41588_2014_BFng3119_MOESM1_ESM.pdf.txt`, `…MOESM2_ESM.xlsx.txt` | Amini 2014 supplement + oligo table | checked: CPT-seq's indexed transposons, not used by 10x |
 | `nmeth.1470_PMC2906222.html.txt` | nanoCAGE full text — fetched **by hand** from PMC (`get_sources.py` did not fetch this "cited" row) | definition of semi-suppressive PCR |
@@ -43,9 +44,9 @@ Not obtained:
 
 | What | Why it matters | Where |
 |---|---|---|
-| User guides for **v1.1** and **v2** | upstream says all three versions give the same library; only Rev A (v1) was read | 10x support site (manual) 🔴 |
+| User guide for **v2** | v1.1 Rev G has been checked against v1 Rev A; v2 remains outside this source review | 10x support site 🔴 |
 | Composition of ATAC Buffer, ATAC Enzyme, Barcoding Reagent / Enzyme, Reducing Agent B | whether the transposome is pre-loaded Tn5 with both adaptors; what releases Tn5 in the GEM | proprietary 🔴 |
-| The 4 sequences in each Chromium i7 Sample Index well | sample-sheet index sequences | 10x website index CSV (manual) 🔴 |
+| The 4 sequences in each Chromium i7 Sample Index well | recovered in the 10x Set A CSV; see below | — |
 | Amini 2014 PMC author supplement `NIHMS681868-supplement-Figures___Tables.doc` | not needed (Springer copy fetched) | <https://pmc.ncbi.nlm.nih.gov/articles/instance/4409979/bin/NIHMS681868-supplement-Figures___Tables.doc> |
 
 ---
@@ -89,7 +90,12 @@ i7 Sample Index Plate N, Set A PN-3000262       5'-CAAGCAGAAGACGGCATACGAGAT-NNNN
 
 The guide labels the bead oligo segments "P5 · 10x Barcode · Partial Read 1N", SI-PCR
 Primer B "Partial P5", and the i7 primer "P7 · Sample Index N · Partial Read 2N". 🟢 Each
-i7 well is "a unique mix of 4 oligos", base-balanced; the sequences are not in the guide. 🔴
+i7 well is "a unique mix of 4 oligos", base-balanced. The guide does not list the
+indices, but the 10x `Single_Index_Kit_N_Set_A.csv` does. 🟢 The fetched Set A file
+contains all 96 wells with four 8-nt indices per well; for example, SI-NA-A1 is
+`AAACGGCG`, `CCTACCAT`, `GGCGTTTC`, `TTGTAAGA`. The CSV gives index bases, not
+separate full-length PCR oligos or their chemical modifications; those are represented
+by the guide's `P7-NNNNNNNN-s7` structure. 🔴
 
 Upstream additionally lists the two index-read sequencing primers (not in CG000168) 🟡:
 
@@ -242,9 +248,9 @@ base after the ME — the 9-bp target-site duplication is read at both ends. �
 
 - 🔴 What releases Tn5 from the DNA in the GEM (heat alone, or a detergent in the
   Barcoding Reagent)? What polymerase is the Barcoding Enzyme?
-- 🔴 Whether v1.1 (Next GEM) and v2 changed any oligo, condition or barcode list (upstream
+- 🔴 Whether v2 changed any oligo, condition or barcode list (upstream
   says the library is the same).
-- 🔴 Exact sequences of the i7 Sample Index Set A wells (4 oligos each).
+- 🔴 Chemistry and attachment of the gel-bead oligos, and any changes in later kit versions.
 - 🟡 Barcode-to-whitelist orientation across instruments — software, not chemistry.
 
 ## 8. How this note was made (tool evaluation)

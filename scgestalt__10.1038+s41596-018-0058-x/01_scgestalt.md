@@ -23,8 +23,23 @@ Single-cell GESTALT (scGESTALT) writes cumulative CRISPR–Cas9 indels into an i
 
 - 🟢 The lineage library run is: Read 1, 250 cycles (edited barcode array); Index 1, 8 cycles (cell-barcode part 1); Index 2, 8 cycles (library index); Read 2, 14 cycles (8-base cell-barcode part 2 followed by 6-base UMI).
 - 🟢 The two cell-barcode parts form one combinatorial cell identifier. The UMI identifies lineage-transcript molecules; the library index is a sample/library index.
-- 🟡 Exact inDrops primer bases remain role-labelled because the accessible protocol text establishes run geometry more directly than a single assembled final-library strand.
+- 🟡 The upstream inDrops capture oligos and a fully assembled final-library strand remain role-labelled. The scGESTALT-specific amplification primers are transcribed below.
 
 ## Boundary
 
 The public page documents scGESTALT's expressed lineage-cassette branch. GESTALT genomic-DNA recovery and later optimized scGESTALT cassettes are related protocols, not silently merged chemistry.
+
+## Primer inventory from the primary protocol
+
+The primary [Raj and Gagnon protocol](https://pmc.ncbi.nlm.nih.gov/articles/PMC6279253/) prints a reagent table of primers for the lineage branch. These sequences are 🟢 as printed; spaces within the long GP12 entry are merely line grouping in the source, and `N` represents the nine random bases.
+
+| Oligo | Sequence, 5′→3′ | Role |
+|---|---|---|
+| inDrops_GP6 | `GAGGACTACACCATCGTGGAG` | First, long lineage PCR |
+| inDrops_PE1Sa | `CTCTTTCCCTACACGACGCTGGGTGTCGGGTGCAG` | First, long lineage PCR |
+| inDrops_GP12 | `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNNTCGAGCTCAAGCTTCGGAC` | Second, short lineage PCR; random bases add sequence diversity |
+| inDrops_PE1Sb | `CTCTTTCCCTACACGACGCT` | Second, short lineage PCR |
+| R1-PCRix, first indexed member | `AATGATACGGCGACCACCGAGATCTACACCTCTCTATTCGTCGGCAGCGTC` | Final library PCR; Supplementary Table 2 prints this complete indexed oligo |
+| R2-PCR | `CAAGCAGAAGACGGCATACGAGATGGGTGTCGGGTGCAG` | Final library PCR |
+
+The same table also prints editing-assessment primers scGESTALT F `TCGAGCTCAAGCTTCGG` and scGESTALT R `CTGCCATTTGTCTCGAGGTC`. Those amplify the genomic cassette for QC and do not define the sequenced lineage-library ends. Supplementary Table 2 gives additional indexed members; the first member above is a concrete example, not a universal fixed index. The inDrops V3 capture primer/barcode oligos belong to the upstream inDrops protocol and must be reconciled before calling the full library inventory complete.

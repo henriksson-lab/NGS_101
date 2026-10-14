@@ -59,6 +59,7 @@ FINAL_CAPTION = ("Original CELLO-seq identifier end, with the exact idx1 splint 
                  "22-nt NRY UMI, joined to full-length cDNA. Only the terminal ONT motor "
                  "adapter is inferred because its bases are proprietary.")
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
 SEQUENCING_ENDING = ("There is no synthesis sequencing primer. The ONT motor meters the "
                      "adapted strand through the pore; the exact cell barcode and patterned "
                      "UMI are recovered inline and UMI families form corrected consensuses.")

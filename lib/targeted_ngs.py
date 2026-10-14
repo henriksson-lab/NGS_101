@@ -31,7 +31,7 @@ def two_stage_amplicon(target_name: str, target_length: int = 34):
 def shotgun_library():
     return nextera_library([seg("metagenomic DNA fragment", "N" * 36,
                                 placeholder=True)],
-                           "Illumina DNA Prep shotgun library")
+                           "Illumina DNA Prep shotgun library", i5_nt=10, i7_nt=10)
 
 
 def sureselect_library():
@@ -59,7 +59,7 @@ def smmip_rows() -> list[Row]:
         Segment("ligation targeting arm", "X" * 18, placeholder=True),
         Segment("12-nt molecular tag", "U" * 12, "umi", placeholder=True,
                 feature=feature("molecular_tag", "umi", "random")),
-        Segment("invariant probe backbone", "N" * 24, placeholder=True),
+        Segment("invariant probe backbone", "N" * 28, placeholder=True),
         Segment("extension targeting arm", "Y" * 18, placeholder=True),
         Segment("copied target gap", "N" * 28, placeholder=True),
     ], name="closed smMIP capture product")

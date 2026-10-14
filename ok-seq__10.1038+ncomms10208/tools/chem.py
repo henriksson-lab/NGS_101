@@ -16,14 +16,14 @@ A1_WATSON="ACACTCTTTCCCTACACGACGCTCTTCC"
 A1_CRICK="NNNNNNGGAAGAGCGTCGTGTAGGGAAAGAGTG"
 A2_WATSON="AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
 A2_CRICK="TGACTGGAGTTCAGACGTGTGCTCTTCCGATCTNNNNNN"
-PCR_FORWARD="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCC"
+PCR_FORWARD="ATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCC"
 PCR_REVERSE="CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
 CUSTOM_READ1=A1_WATSON
 PRE_PCR=Construct([Segment("A1 Watson",A1_WATSON,"r1"),
                    Segment("Okazaki fragment","X"*36,placeholder=True),
                    Segment("A2 Watson",A2_WATSON)],name="adapter-ligated OK-seq fragment")
 FINAL_LIBRARY=Construct([
-    Segment("P5",il.P5,"p5"),Segment("A1 remainder",A1_WATSON[4:],"r1"),
+    Segment("truncated P5",il.P5[1:],"p5"),Segment("A1 remainder",A1_WATSON[4:],"r1"),
     Segment("Okazaki fragment","X"*36,placeholder=True),
     Segment("completed A2 / Index-1 site",revcomp(il.TRUSEQ_READ2),"r2"),
     Segment("six-base i7 reverse complement","N"*6,"cbc",placeholder=True),

@@ -14,6 +14,9 @@ genomes directly from clinical samples*, *Nature Protocols* (2017),
 DOI `10.1038/nprot.2017.066`.
 
 The complete protocol PDF listed in `ref/MANIFEST.md` was read, including Figure 3 and steps 6–12.
+The published Supplementary Information (`nprot.2017.066_41596_2017_BFnprot2017066_MOESM1_ESM.pdf`)
+was also checked: Tables 1 and 2 print the full ZikaAsian and ChikAsiaECSA
+400-nt primer schemes, respectively.
 
 ## 3. Tiled multiplex PCR
 
@@ -25,6 +28,13 @@ overlap product can outcompete the intended products.
 annealing/extension step. Each pool is bead-cleaned separately. For the paper's approximately
 400-base design, paired 250-base MiSeq reads can cover each product; MinION accepts much longer
 amplicons.
+
+🟢 The first ZikaAsian pool-1 pair is `ZIKA_400_1_LEFT`
+`GACAGTTCGAGTTTGAAGCGAAAG` and `ZIKA_400_1_RIGHT`
+`AGTATGCACTCCCACGTCTAGT` (Supplementary Table 1). These are target-specific
+PCR primers, not universal library adapters. The supplement supplies the remaining
+ZikaAsian and ChikAsiaECSA pairs with their pool assignments; the page shows one
+representative pair and keeps the scheme replaceable.
 
 ## 4. MinION branch
 

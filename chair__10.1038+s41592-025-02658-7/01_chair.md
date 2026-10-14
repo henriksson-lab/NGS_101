@@ -11,3 +11,11 @@
 ## Evidence boundary
 
 🟢 The published article supersedes the cited preprint as the defining paper. The page distinguishes true proximity-ligation junctions from Tn5 fragment ends rather than treating every paired DNA read as a contact.
+
+## Oligo source audit
+
+🟢 The published JATS full text (`s41592-025-02658-7_PMC12955729.xml.txt`, Methods “ChAIR”) gives the **bridge linker** used for proximity ligation verbatim: forward `5′-/5Phos/CGTGATATT/iBIOdT/CACGACTCT-3′` and reverse `5′-/5Phos/GAGTCGTGAAATATCACGT-3′`. Both 5′ phosphates and the internal biotinylated dT are part of the source oligo, not optional styling. Its annealed ends should be checked by computation before a base-resolved ligation state is drawn.
+
+🟢 The same Methods then specify the Chromium Next GEM Single Cell Multiome ATAC + Gene Expression reagent kit for tagmentation, droplet barcoding and library preparation. Those kit adapters and cell barcodes are a separate vendor-defined layer, while the bridge linker above is specific to ChAIR.
+
+🟡 The public role-level page omits a source-known custom oligo. The published PMC supplementary tables are access gated at the article-bin endpoint; the article text itself is enough to recover the bridge linker, while exact 10x kit-end treatment requires the cited kit revision.

@@ -18,8 +18,7 @@ protocol"); the primary source is the vendor user guide:
   Protein User Guide*, CG000734, Rev A. This guide prints the 12-nt-UMI gel-bead primer,
   complete V(D)J library, v2-labelled enrichment-kit identities, and run layout. 🟢
 - Upstream drawing: Teichlab scg_lib_structs, "10x Chromium 5' Immune Profiling Feature
-  Barcoding" (based on the v2 Feature Barcoding user guide, Rev A, which upstream names
-  but which was **not** fetched here).
+  Barcoding" (based on the v2 Feature Barcoding user guide, Rev A, now checked below).
 
 Sources read (fetched into `$CHEM_DATA/sources/10x-chromium-single-cell-5-vdj/`, never
 committed):
@@ -30,18 +29,14 @@ committed):
 | `CG000331_5v2_UserGuide_RevF.pdf(.txt)` | 10x user guide CG000331 Rev F (fetched by hand, see below) | **all oligos** (Appendix "Oligonucleotide Sequences"), every reaction step and condition, sequencing |
 | `CG000331_5v2_UserGuide_RevE.pdf(.txt)` | the same guide, Rev E | cross-check: the set of sequences ≥12 nt is identical to Rev F |
 | `scg_CG000734_ChromiumGEM-X_SingleCell5_ReagentKitsv3_CellSurfaceProtein_UserGuide_RevA.pdf(.txt)` | 10x GEM-X v3 user guide CG000734 Rev A | v3 gel-bead primer, complete V(D)J library, amplification-kit identities and sequencing |
+| `scg_CG000330_ChromiumNextGEMSingleCell5_v2_CellSurfaceProtein_RevA.pdf(.txt)` | 10x v2 with Cell Surface Protein guide CG000330 Rev A | Feature Barcode oligo, Feature cDNA Primers 4, TN index primers and final library (appendix pp. 78–82) |
+| [10x Dual Index Kit TT Set A index map](https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json) | official vendor JSON, linked by the [10x index-set page](https://www.10xgenomics.com/support/spatial-gene-expression-fresh-frozen/documentation/steps/library-construction/sample-index-sets-for-visium-spatial-gene-expression) | all 96 named TT well-to-i7/i5 pairs; SI-TT-A1 checked below |
+| [10x Dual Index Kit TN Set A index map](https://cdn.10xgenomics.com/raw/upload/v1655156218/support/in-line%20documents/Dual_Index_Kit_TN_Set_A.json) | official vendor JSON, linked by the [immune-profiling index-set page](https://www.10xgenomics.com/support/jp/universal-five-prime-gene-expression/documentation/steps/targeted-gene-expression/sample-index-sets-for-single-cell-immune-profiling) | all 96 named TN well-to-i7/i5 pairs for the Cell Surface Protein library |
 
 The two PDFs were not found by `get_sources.py` (no DOI); they were downloaded by hand
 from public mirrors at the NCI CRTP site
 (`crtp.ccr.cancer.gov/wp-content/uploads/fsgc-protocols/Chromium_Next_GEM_Single_Cell_5_v2_UserGuide_RevF.pdf`,
 `crtp.ccr.cancer.gov/wp-content/uploads/2023/10/CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf`).
-
-Not fetched (get by hand into the same directory):
-
-| Document | Why it matters | URL |
-|---|---|---|
-| CG000330, 5' v2 Dual Index **with Feature Barcode** (cell surface protein + immune receptor), the guide upstream drew from | Feature Barcode oligo, "Feature cDNA Primers 4", Dual Index Kit TN Set A, feature library steps — all 🟡 here | https://support.10xgenomics.com/permalink/user-guide-chromium-single-cell-5-reagent-kits-user-guide-v2-chemistry-dual-index-with-feature-barcoding-technology-for-cell-surface-protein-and-immune-receptor-mapping |
-| Dual Index Kit TT Set A index table | the 10-nt i5/i7 sequences and their written orientation | 10x support site, "Dual Index Kit TT Set A" sample-index CSV |
 
 ---
 
@@ -169,7 +164,9 @@ per T-cell mix (consistent with TRA + TRB constant regions), 7 per human B mix, 
 mouse B mix — are 🟡 suggestive of one primer per isotype / light-chain constant region,
 not verified by alignment.
 
-**Feature Barcode variant — upstream only** 🟡 (the FB user guide was not fetched):
+**Feature Barcode variant** 🟢 (CG000330 Rev A, appendix pp. 78–82; the antibody oligo
+is printed in reverse 3′→5′ orientation in the guide, so the 5′→3′ line below is the
+guide's reverse ordering, 🟡 derived):
 
 ```
 Barcoded oligo on antibody (TotalSeq-C-type)
@@ -178,10 +175,14 @@ Feature cDNA Primers 4  PN-2000277 (three primers)
   Forward            5'-CTACACGACGCTCTTCCGATCT-3'
   Reverse (cDNA)     5'-AAGCAGTGGTATCAACGCAGAG-3'
   Reverse (FB)       5'-CTCGTGGGCTCGGAGATGTG-3'
-Dual Index Kit TN Set A  PN-3000510
-  Forward  5'-AATGATACGGCGACCACCGAGATCTACAC[10-bp i5]ACACTCTTTCCCTACACGACGCTC-3'
+Dual Index Kit TN Set A  PN-1000250
+  Forward  5'-AATGATACGGCGACCACCGAGATCT[10-bp i5]ACACTCTTTCCCTACACGACGCTC-3'
   Reverse  5'-CAAGCAGAAGACGGCATACGAGAT[10-bp i7]GTCTCGTGGGCTCGG-3'
 ```
+
+CG000330's TN forward-primer drawing writes `…GATCT-N10-ACACT…`, but its
+final-product drawing writes `…GATCTACAC-N10-ACACT…`; this 4-base discrepancy
+is in the vendor guide and is left unresolved here. 🟢 for the two written forms.
 
 ### How the oligos interlock — 🟡 (computed)
 
@@ -282,10 +283,10 @@ the A-tail base (179 / 181 with it). 🟡 (computed: 29+10+33+16+10+13 on the P5
 **5' GEX** — identical layout; the insert is any fragmented cDNA rather than a TCR/BCR
 amplicon (guide steps 5.1–5.5, index PCR cycles by cDNA input). 🟢 structure.
 
-**Feature Barcode** (upstream only) 🟡:
+**Feature Barcode** 🟢 (CG000330 Rev A, "Sample Index PCR Product", p. 82):
 
 ```
-5'- P5 · i5(10) · TruSeq Read 1 · BC(16) · UMI(10) · TSO(13) · N9 · FB(15) · N10 · ME' · s7' · i7(10) · P7' -3'
+5'- P5 · i5(10) · TruSeq Read 1 · BC(16) · UMI(10) · TSO(13) · N9 · FB(15) · N10 · CTGTCTCTTATACACATCTCCGAGCCCACGAGAC · i7(10) · P7' -3'
 ```
 
 ## 5. Sequencing
@@ -310,9 +311,9 @@ full-length contigs are assembled computationally (Cell Ranger `vdj`). 🟡
 | Outer / inner reverse primers | "check the user guide" | 2/7/2/12 primers per mix, sequences listed | upstream incomplete; guide fills it |
 | Mix part numbers | 2000242/54/56/58, 2000246/55/57/59 | same | agree |
 | cDNA amplification primers | "Feature cDNA Primers 4", PN-2000277, three primers (adds FB reverse) | "cDNA Primers", PN-2000089, two primers | different kits (FB vs non-FB guide), not a conflict |
-| Dual Index Kit TT Set A part number | PN-3000431 | PN-1000215 (kit) | **disagree** on PN (probably plate vs kit number 🟡); primer sequences identical |
+| Dual Index Kit TT Set A part number | PN-3000431 | PN-1000215 | both valid: current 10x sequencing handbook lists plate-level / kit-level numbers for the same TT Set A 🟢 |
 | Adaptor part number | PN-220026 | PN-2000094 (DNA Ligase is 220110/220131) | **disagree** on PN; sequence identical |
-| Index kit for the protein library | TN Set A, PN-3000510 | not in this guide | upstream only 🟡 |
+| Index kit for the protein library | TN Set A, PN-3000510 | CG000330 Rev A: PN-1000250 | both valid: plate-level / kit-level numbers for the same TN Set A 🟢 |
 | UMI length | 10 nt v1/v2, 12 nt v3; Read 1 26 / 28 cycles | 10 nt / 26 cycles in CG000331; 12 nt / 28 cycles in CG000734 | agree |
 | Sequencing | R2 90, i7 10, i5 10 | same | agree |
 | Fragmentation | "fragment and A-tailing" | 32 °C 2 min (V(D)J) vs 5 min (GEX), then 65 °C 30 min | guide adds detail |
@@ -324,9 +325,17 @@ full-length contigs are assembled computationally (Cell Ranger `vdj`). 🟡
   TRAC/TRBC/IGH*/IGK/IGL references.
 - 🔴 5'-phosphorylation of the adaptor top strand (needed for ligation) — not shown in
   the guide's sequences.
-- 🔴 The 10-nt i5/i7 sequences of Dual Index Kit TT Set A, and whether they are written
-  as read or as reverse complement in the primers.
-- 🟡 Feature Barcode oligo, primers and TN index kit — upstream only; fetch CG000330.
+- 🟢 The official TT index map supplies all 96 10-nt i7/i5 well pairs; for example
+  SI-TT-A1 has i7 `GTAACATGCG`, i5 workflow A `AGTGTTACCT`, and workflow B
+  `AGGTAACACT` (the reverse complement). Which i5 orientation belongs in a
+  synthesized primer requires interpreting the guide's primer direction, not
+  merely copying the sequencing sample-sheet entry. 🟡
+- 🟢 The official TN index map also supplies all 96 feature-library i7/i5 well pairs.
+  For SI-TN-A1 it gives i7 `AGTATCTGCA` and i5 `TCGCTAGCGA` in either read
+  workflow (a reverse-complement palindrome); the guide prints N10 placeholders in
+  the primer bodies. The guide's forward-primer/product discrepancy above remains.
+- 🔴 Individual 15-nt antibody feature-barcode identities: CG000330 prints their length
+  and position, not a reagent barcode table.
 - 🟡 What the "13 nt TSO" of the guide is chemically: the appendix writes the 3' three
   bases as ribo-G (`rGrGrG`) and the rest as DNA; whether any LNA is used is not stated.
 

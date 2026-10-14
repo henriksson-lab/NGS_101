@@ -19,3 +19,5 @@ SLAM-seq labels newly synthesized RNA with 4-thiouridine and converts the label 
 🟢 Reverse transcription of alkylated s4U produces the diagnostic T-to-C readout. The defining mRNA experiment used the Lexogen QuantSeq 3′ mRNA library kit and Illumina single-read sequencing.
 
 🟡 The paper names the commercial kit but does not print its adapter oligos. The schematic therefore marks the Illumina-compatible single-index adapter skeleton as inferred rather than presenting kit bases as published facts.
+
+🟢 Supplementary Table 3 does print the oligos for the **separate synthetic let-7 primer-extension control**: RT primer `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, Solexa_PCR_fwd `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, and Solexa_IDX_rev `CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` (`N6` is the index in the table). The same table identifies adapter-flanked synthetic let-7 and its s4U-containing counterpart for that control. These oligos substantiate the control-library construction; they do **not** resolve the QuantSeq kit oligos used for the defining transcriptome experiment.

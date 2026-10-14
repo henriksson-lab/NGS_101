@@ -26,6 +26,14 @@ FINAL_LIBRARIES=(
 )
 READ_LENGTHS={"RNA library":{"Read 1":28,"Read 2":90},"ATAC library (Multiome branch)":{"Read 1":50,"Read 2":50},"Spatial-tag library":{"Read 1":28,"Read 2":50}}
 
+def oligos():
+ return [
+  "<b>Direct-synthesis TAGS puck oligo</b> — 5′-TTT-PC-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJNNNNNNNVVGCTTTAAGGCCGGTCCTAGCAA-3′ (PC: photocleavable linker; J: source-printed unspecified position)",
+  "<b>Multiome spatial-tag spike-in</b> — 5′-GTGACTGGAGTTCAGACGT-3′",
+  "<b>Multiome spatial-tag P7 primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATATTTACCGCAGTGACTGGAGTTCAGACGT*G*T-3′ (*: phosphorothioate linkage)",
+  "<b>Multiome spatial-tag P5 primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACGACAATAAAGACACTCTTTCCCTACACGACGC*T*C-3′ (*: phosphorothioate linkage)",
+ ]
+
 def sections(): return [
  ("Place tissue on a spatially sequenced bead array",[Row(chunks=[("bead — photocleavable linker — spatial barcode — 10x-capture sequence","cbc",False)])],"Each puck barcode already has a measured x/y coordinate."),
  ("Photocleave spatial oligos into the overlying tissue",[Row(chunks=[("UV cleavage → local spatial tags enter nearby nuclei","w1",False)])],"Short diffusion transfers several local bead identities into each intact nucleus."),

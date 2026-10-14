@@ -7,7 +7,7 @@ Krijger PHL, Geeven G, Bianchi V, Hilvering CRE, de Laat W. *4C-seq from beginni
 ## Sources read
 
 - 🟢 The defining open-access protocol, including its abstract, Fig. 1 workflow and library-generation sections.
-- 🟢 The authors' institutional full-text mirror linked in `ref/MANIFEST.md`.
+- 🟢 The authors' institutional full-text mirror linked in `ref/MANIFEST.md`, especially §3.4 and Table 1 for the published first-round tails and universal second-round primers.
 
 ## 1. What it is
 
@@ -27,8 +27,10 @@ Krijger PHL, Geeven G, Bianchi V, Hilvering CRE, de Laat W. *4C-seq from beginni
 
 🟢 The genomic read begins from a viewpoint-specific reading primer and proceeds across the primary restriction-ligation junction into the captured reporter. The opposite end is constrained by the secondary cutter.
 
-🟡 Primer bases are necessarily locus-specific. The public schematic therefore models primer roles and orientation, not one fictional universal viewpoint sequence.
+🟢 The **reading** inverse-PCR primer has the published 5′ tail `TACACGACGCTCTTCCGATCT`, then a 0–5-nt optional spacer and the viewpoint-specific sequence. The **non-reading** primer has the published 5′ tail `ACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, then its viewpoint-specific sequence. Table 1 gives the second-round universal forward primer, 5′-`AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`-3′, and an indexed reverse-primer panel.
+
+🟡 Only the genomic portions of the inverse-PCR primers vary with the chosen viewpoint; their two tails and the universal second-round forward sequence are fixed in this protocol. The particular second-round reverse primer depends on the selected six-base index from Table 1.
 
 ## 4. Open questions
 
-🔴 None affecting the generic topology. A concrete experiment must supply its primary/secondary enzyme pair, viewpoint sequence and indexed primer sequences.
+🔴 None affecting the generic topology. A concrete experiment must supply its primary/secondary enzyme pair, viewpoint-specific primer portions and selected index from Table 1.

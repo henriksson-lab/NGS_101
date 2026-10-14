@@ -8,6 +8,8 @@ from base_conversion import bisulfite_path
 from batch_ngs import nextera_library, seg
 from chemdraw import Row
 import illumina as il
+import rt
+import smartseq2 as s2
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
@@ -17,9 +19,18 @@ TITLE = "scNMT-seq — RNA, DNA methylation and accessibility"
 NOTES = "01_scnmt-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41467-018-03149-4">Clark et al., <i>Nature Communications</i> (2018)</a>.'
 SUMMARY = "M.CviPI marks accessible GpC sites, then bead capture separates RNA for Smart-seq2/Nextera XT from DNA for scBS-seq."
-CAVEAT = ("The scBS-seq oligo1, oligo2, PE1 and indexed iPCRTag geometry is source-exact. "
-          "The compact RNA branch has not transcribed its Smart-seq2 and Nextera XT "
-          "primer sequences, so those reaction geometries remain explicitly unavailable.")
+CAVEAT = ("The scBS-seq branch is source-exact. The defining paper explicitly uses "
+          "Smart-seq2 followed by Nextera XT for RNA; its cited Smart-seq2 protocol and "
+          "the canonical Nextera chemistry supply the exact reusable primer geometry.")
+
+
+def oligos():
+    return [
+        f"Smart-seq2 oligo-dT30VN: 5′-{s2.OLIGO_DT}-3′",
+        f"Smart-seq2 TSO: 5′-{s2.TSO}-3′",
+        f"Smart-seq2 ISPCR primer: 5′-{s2.ISPCR}-3′",
+        "Nextera XT indexing primers: P5–i5–s5 and P7–i7–s7; index bases vary by sample",
+    ]
 
 
 def rna_library():
@@ -32,6 +43,7 @@ def dna_library():
 
 
 RNA_LIBRARY, RNA_PRIMERS = rna_library()
+RNA_PREAMP = s2.preamp_template()
 DNA_LIBRARY, DNA_PRIMERS = dna_library()
 FINAL_LIBRARIES = (
     ("RNA branch", RNA_LIBRARY, RNA_PRIMERS,
@@ -72,18 +84,24 @@ def protocol_graph():
     dna=g.product("dna_fraction","GpC-marked genomic-DNA supernatant plus washes",MaterialKind.MOLECULAR,state=sections()[1][1][1:])
     g.react("separate","Separate poly(A) RNA from marked genomic DNA",StepKind.AFFINITY_CAPTURE,((marked,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(rna,dna),changes_molecule=False)
 
-    rt_primer=g.input("rt_primer","Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact RNA-branch oligo not transcribed here)")
-    rt=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
-    copied=g.product("copied","first-strand Smart-seq2 cDNA",MaterialKind.MOLECULAR,state=RNA_LIBRARY,inferred=True,source=SOURCE+" (exact RNA intermediate not transcribed here)")
-    g.react("reverse_transcribe","Reverse-transcribe bead-captured RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(copied,))
-    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact RNA-branch oligo not transcribed here)")
-    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=RNA_LIBRARY,inferred=True,source=SOURCE+" (exact RNA intermediate not transcribed here)")
-    g.react("template_switch","Template-switch the nascent cDNA",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
-    rna_f=g.input("rna_preamp_forward","Smart-seq2 cDNA PCR forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact primer not transcribed here)")
-    rna_r=g.input("rna_preamp_reverse","Smart-seq2 cDNA PCR reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (exact primer not transcribed here)")
+    rt_primer=g.input("rt_primer","Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO,
+                      state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),
+                             seg("oligo-dT linker",s2.DT_LINKER),
+                             seg("dT30VN","T"*30+"VN",placeholder=True)))
+    rt_enzyme=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
+    copied=g.product("copied","first-strand Smart-seq2 cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
+    g.react("reverse_transcribe","Reverse-transcribe bead-captured RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(copied,))
+    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,
+                state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),
+                       seg("TSO linker",s2.TSO_LINKER),
+                       seg("rGrG+G","GGG","tso")))
+    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
+    g.react("template_switch","Template-switch the nascent cDNA",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(switched,))
+    rna_f=g.input("rna_preamp_forward","Smart-seq2 ISPCR primer at the 5′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
+    rna_r=g.input("rna_preamp_reverse","same Smart-seq2 ISPCR species at the 3′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
     rna_pol=g.input("rna_preamp_polymerase","Smart-seq2 cDNA PCR polymerase",MaterialKind.CATALYST)
-    preamp=g.product("rna_preamp","amplified full-length cDNA",MaterialKind.MOLECULAR,state=RNA_LIBRARY,inferred=True,source=SOURCE+" (exact preamplification geometry not transcribed here)")
-    g.react("preamp_rna","Amplify full-length Smart-seq2 cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(rna_f,InputRole.STRUCTURAL),(rna_r,InputRole.STRUCTURAL),(rna_pol,InputRole.CATALYST)),(preamp,),geometry=PCRGeometry.unavailable(RNA_LIBRARY,reason="The exact Smart-seq2 preamplification primer pair has not been transcribed in this page."))
+    preamp=g.product("rna_preamp","amplified full-length cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
+    g.react("preamp_rna","Amplify full-length Smart-seq2 cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(rna_f,InputRole.STRUCTURAL),(rna_r,InputRole.STRUCTURAL),(rna_pol,InputRole.CATALYST)),(preamp,),geometry=s2.ispcr_geometry(RNA_PREAMP))
     transposome=g.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER)
     tn5=g.input("rna_tn5","Tn5 transposase",MaterialKind.CATALYST)
     rna_tagged=g.product("rna_tagged","Nextera-tagged Smart-seq2 cDNA",MaterialKind.MOLECULAR,state=RNA_LIBRARY)
@@ -102,7 +120,8 @@ def protocol_graph():
     g.react("prime_oligo2","Random-prime the complementary strand with oligo2",StepKind.EXTENSION,((first,InputRole.TEMPLATE),(oligo2,InputRole.STRUCTURAL),(strand_pol,InputRole.CATALYST)),(second,))
 
     reviewed=["cell","mcvi_pi","sam","mark_accessibility","oligodt_beads","separate","rt_primer","rt","reverse_transcribe","tso","template_switch","rna_preamp_forward","rna_preamp_reverse","rna_preamp_polymerase","preamp_rna","rna_transposome","rna_tn5","tagment_rna","bisulfite","bisulfite_convert","oligo1","strand_polymerase","prime_oligo1","oligo2","prime_oligo2"]
-    finish_pcr_branch(g,"rna",rna_tagged,RNA_LIBRARY,RNA_PRIMERS,reviewed,label="scNMT-seq RNA",inferred_primers=True,limitation="The exact Nextera XT terminal PCR-primer pair has not been transcribed in this page.")
+    rna_geometry=s2.nextera_index_geometry(RNA_LIBRARY)
+    finish_pcr_branch(g,"rna",rna_tagged,RNA_LIBRARY,RNA_PRIMERS,reviewed,label="scNMT-seq RNA",geometry=rna_geometry)
     ipcrtag=il.P7+"N"*scbs.IPCRTAG_INDEX_NT+scbs.IPCRTAG_3_ARM
     dna_geometry=PCRGeometry.exact(DNA_LIBRARY,PCRPrimer("PE1",scbs.PE1),PCRPrimer("indexed iPCRTag",ipcrtag,anneal_nt=len(scbs.IPCRTAG_3_ARM)),statement="Smallwood et al. print PE1 and cite the source-exact indexed iPCRTag family; their annealing regions face inward on the scBS-seq product.")
     finish_pcr_branch(g,"dna",second,DNA_LIBRARY,DNA_PRIMERS,reviewed,label="scNMT-seq DNA",geometry=dna_geometry)

@@ -11,3 +11,11 @@
 ## Evidence boundary
 
 🟢 Vector sequences and design resources are published with the paper. Guide spacers and iBARs are library members rather than fixed adapters, so the schematic records lengths, linkage and readout routes as structured features.
+
+## Oligo source audit
+
+🟢 The author preprint's workbook `2024.03.17.585235_media-1.xlsx`, sheet `oligos`, supplies exact oligos for in-situ guide detection, 5′ direct-capture RNA readout, library cloning and NGS, including synthesis modifications. For the in-situ branch it lists biotinylated RT primers (for example `oRW893`, `/5Biosg/GTTCAGTGGTAGAATTCTCGCCTG`), phosphorylated padlock probes (for example `oRW963`, `/5Phos/gcattggccgggaatcgCTCCTGTTCGACAGTCAGCGCCATCTCCGACTTATTgaacttgctaagcagtc`) and sequencing-by-synthesis primers. The selected tRNA/guide branch determines which of these oligos is used.
+
+🟢 The same sheet gives 5′ direct-capture primers `oRW1220` and `oRW1221` with terminal phosphorothioate bonds, and the custom Illumina sequencing primers `oRW1101`, `TCTTTCCCTACACGACGCTCTTCCGATCTGTTCGATTCCCGGCCAATGCA`, and `oRW1102`, `TTCAGACGTGTGCTCTTCCGATCTGCCTTATTTCAACTTGCTATGCTGTT`. It prints multiple indexed P5/P7 PCR primers separately. This establishes exact sequence for particular readout routes while the guide spacers and iBARs remain library members.
+
+🟡 The current schematic is role-level across several demonstrated detection modes. An exact final construct/read layout needs a selected mode, vector version, guide/barcode member and indexing primer. The source does not justify combining the in-situ padlock path with the 5′ capture or direct NGS path into one molecule.

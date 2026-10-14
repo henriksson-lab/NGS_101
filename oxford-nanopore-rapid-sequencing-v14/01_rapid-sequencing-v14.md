@@ -9,7 +9,7 @@ SQK-RAD114 is Oxford Nanopore's PCR-free rapid genomic-DNA workflow: a fragmenta
 - 🟢 Oxford Nanopore Technologies, *Rapid Sequencing Kit V14 — gDNA (SQK-RAD114)*,
   RSE_9177_v114 Rev Q, 12 December 2025.
 - 🟢 Oxford Nanopore Technologies, *Chemistry Technical Document*, rapid-based
-  sequencing section.
+  sequencing section and section 15 adapter sequences.
 
 ## 3. Molecular steps
 
@@ -24,8 +24,11 @@ SQK-RAD114 is Oxford Nanopore's PCR-free rapid genomic-DNA workflow: a fragmenta
 
 ## 4. Evidence boundary
 
-🔴 The kit component sequences, attachment chemistry and exact motor-bearing strand are
-proprietary. The schematic therefore shows role-labelled structures, not guessed bases.
+🟢 The Chemistry Technical Document publishes the Rapid Adapter strand as
+`CCTGTACTTCGTTCAGTTACGTATTGCT`.
+
+🔴 The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
+exact motor-bearing strand remain undisclosed. Those parts remain role-labelled.
 
 ## 5. Final library and read entry
 

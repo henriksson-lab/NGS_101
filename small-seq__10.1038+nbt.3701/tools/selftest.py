@@ -44,7 +44,7 @@ check("RP1 is 50 nt", len(sm.RP1), 50)
 check("the 5.8S masking oligo is 76 nt", len(sm.MASK_58S), 76)
 check("every published oligo is real DNA/RNA, no placeholders smuggled in",
       all(set(s) <= set("ACGT") for s in (sm.RA5_HANDLE, sm.RA3, sm.RTP, sm.RP1,
-                                          sm.MASK_58S)))
+                                          sm.SRX_SEQUENCE, sm.MASK_58S)))
 check("the UMI is 8 nt", sm.RA5_UMI_LEN, 8)
 check("UMI bases are H (rA/rU/rC), NOT N -- this is deliberate, to reduce mispriming",
       sm.RA5_UMI_BASE == "H" and "N" not in sm.ra5_oligo())
@@ -166,9 +166,8 @@ check("the library ends with revcomp(P7)", lib.top().endswith(P7_RC))
 check("bottom strand is the same length as the top", len(lib.bottom()), len(lib.top()))
 check("the UMI placeholder is never complemented as if it were bases",
       "h" * 8 in lib.bottom() and "T" * 8 not in lib.bottom())
-check("the published left arm is drawn as known, the SRX arm as inferred",
-      [s.inferred for s in lib],
-      [False, False, False, False, False, False, True, True, True])
+check("the published left and SRX arms are drawn as known",
+      [s.name for s in lib if s.inferred], [])
 check("there is no cell barcode -- one cell per well, identified by its i7 index",
       not any(s.name == "cell barcode" for s in lib))
 check("exactly one UMI segment", sum(s.tag == "umi" for s in lib), 1)
@@ -181,13 +180,16 @@ check("no oligo-dT, because small RNAs are not polyadenylated", "TTTTTTTT" not i
 check("no rGrGrG tail: the 5' handle is ligated, not template-switched",
       "GGG" not in sm.ra5_oligo())
 
-# ---------------------------------------------------- sizes, and the SRX open question
-check.section("library sizes, and bracketing the unpublished SRX arm")
-check("SRX's own sequence is deliberately absent", sm.SRX_SEQUENCE, None)
+# ---------------------------------------------------- sizes and the recovered SRX family
+check.section("library sizes and the published SRX arm")
 check("its index is 8 bp", sm.SRX_INDEX_NT, 8)
 check("192 of them, i.e. two 96-well plates", sm.SRX_N_INDICES, 2 * 96)
 check("the arm it adds is P7 + index + linker", sm.SRX_RIGHT_ARM_NT,
       len(P7) + sm.SRX_INDEX_NT + sm.SRX_LINKER_NT)
+check("SR001 is assembled from the four printed parts", sm.SRX_SEQUENCE,
+      P7 + sm.SRX_001_PRIMER_INDEX + sm.SRX_COMMON_LINK + sm.RTP)
+check("the supplement's barcode column is the sequenced reverse complement",
+      sm.SRX_001_INDEX_READ, revcomp(sm.SRX_001_PRIMER_INDEX))
 
 lo_mi = sm.SIZE_SELECT_TARGET_BP[0] - sm.LEFT_ARM_NT - sm.TYPICAL_MIRNA_NT
 hi_mi = sm.SIZE_SELECT_TARGET_BP[1] - sm.LEFT_ARM_NT - sm.TYPICAL_MIRNA_NT
@@ -201,19 +203,19 @@ check("the two windows overlap at all -- they did not have to",
 check("the modelled arm sits inside BOTH published windows",
       lo_mi <= sm.SRX_RIGHT_ARM_NT <= hi_mi and lo_rr <= sm.SRX_RIGHT_ARM_NT <= hi_rr)
 
-check("a 22-nt miRNA library is 152 bp", sm.library_bp(sm.TYPICAL_MIRNA_NT), 152)
+check("a 22-nt miRNA library is 153 bp", sm.library_bp(sm.TYPICAL_MIRNA_NT), 153)
 check("...which lands in the published 145-155 bp cut window",
       sm.SIZE_SELECT_TARGET_BP[0] <= sm.library_bp(22) <= sm.SIZE_SELECT_TARGET_BP[1])
 check("...and inside the Pippin 130-160 bp window too",
       sm.PIPPIN_WINDOW_BP[0] <= sm.library_bp(22) <= sm.PIPPIN_WINDOW_BP[1])
-check("a full-length 5.8S rRNA library would be 286 bp",
-      sm.library_bp(sm.RRNA_58S_NT), 286)
+check("a full-length 5.8S rRNA library would be 287 bp",
+      sm.library_bp(sm.RRNA_58S_NT), 287)
 check("...landing in the 270-290 bp peak seen when the mask is left out",
       sm.RRNA_PEAK_BP[0] <= sm.library_bp(sm.RRNA_58S_NT) <= sm.RRNA_PEAK_BP[1])
 check("the whole insert range 18-40 nt fits the 100-300 bp Bioanalyzer profile",
       all(sm.LIBRARY_PROFILE_BP[0] <= sm.library_bp(n) <= sm.LIBRARY_PROFILE_BP[1]
           for n in range(sm.SMALLRNA_MIN_NT, sm.SMALLRNA_MAX_NT + 1)))
-check("the adapter dimer is 130 bp", sm.ADAPTER_DIMER_BP, 130)
+check("the adapter dimer is 131 bp", sm.ADAPTER_DIMER_BP, 131)
 check("...which is INSIDE the Pippin window, so size selection cannot remove it",
       sm.PIPPIN_WINDOW_BP[0] <= sm.ADAPTER_DIMER_BP)
 check("...and inside the 120-200 bp gel cut as well",
@@ -263,7 +265,8 @@ check("...and its 5' end is P7, as the clustering requires",
 a, _ = bp.scene_pcr2()
 st, top = a.strands["SRX"], a.strands["top"]
 check("in PCR 2, SRX's 3' end lies over RA3 and its link/i7/P7 tail overhangs the template",
-      st.span("RA3'") == top.span("RA3") and st.span("SRX link'")[0] >= top.end())
+      st.span("RA3'") == top.span("RA3")
+      and st.span("SRX common link'")[0] >= top.end())
 c, _ = bp.scene_pcr1()
 check("in PCR 1, RP1 anneals to the cDNA (antiparallel), not alongside the RNA",
       c.strands["RP1"].partner == "cDNA" and c.strands["RP1"].rev != c.strands["cDNA"].rev)

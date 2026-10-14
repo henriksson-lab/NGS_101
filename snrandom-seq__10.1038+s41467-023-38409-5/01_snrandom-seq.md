@@ -5,7 +5,7 @@ Defining paper: Xu et al., *Nature Communications* 2023, [doi:10.1038/s41467-023
 ## Sources read
 
 - 🟢 PMC10182092 full-text XML, Methods from “In situ DNA blocking” through “Sequencing”, plus preprocessing.
-- 🟢 Supplementary Note 1 protocol and Supplementary Table 1 primer sequences in `41467_2023_38409_MOESM1_ESM.pdf`.
+- 🟢 Supplementary Note 1 protocol, Supplementary Table 1 primer sequences and Supplementary Table 2 three-round barcode lists in `41467_2023_38409_MOESM1_ESM.pdf`.
 
 ## Evidence trail
 
@@ -20,8 +20,9 @@ Defining paper: Xu et al., *Nature Communications* 2023, [doi:10.1038/s41467-023
 ## Oligos as printed
 
 - Block primer: `GAGAATGTGAGTGAAGATGTATGGTGANNNNNNN`
-- Random primer 1: `GGAGTTGGAGTGAGTGGATGAGTGATGGAAGGAATNNNNNNN` (four further handle variants are printed in the same table).
-- Oligo(dT) primer 1: `GGAGTTGGAGTGAGTGGATGAGTGATGGAAGGAATTTTTTTTTTTTTTTT` (four further handle variants are printed).
+- Random primers 1–5, respectively: `GGAGTTGGAGTGAGTGGATGAGTGATGGAAGGAATNNNNNNN`, `GGAGTTGGAGTGAGTGGATGAGTGATGGATGAATGNNNNNNN`, `GGAGTTGGAGTGAGTGGATGAGTGATGGATATGTGNNNNNNN`, `GGAGTTGGAGTGAGTGGATGAGTGATGGTGGTGTANNNNNNN`, `GGAGTTGGAGTGAGTGGATGAGTGATGGTAGGTTANNNNNNN`.
+- Oligo(dT) primers 1–5, respectively: `GGAGTTGGAGTGAGTGGATGAGTGATGGAAGGAATTTTTTTTTTTTTTTT`, `GGAGTTGGAGTGAGTGGATGAGTGATGGATGAATGTTTTTTTTTTTTTTT`, `GGAGTTGGAGTGAGTGGATGAGTGATGGATATGTGTTTTTTTTTTTTTTT`, `GGAGTTGGAGTGAGTGGATGAGTGATGGTGGTGTATTTTTTTTTTTTTTT`, `GGAGTTGGAGTGAGTGGATGAGTGATGGTAGGTTATTTTTTTTTTTTTTT`.
+- Bead anchor as printed: `/5Acryd/ATTATATATAT U GTG AGT GAT GGT TGA GGA TGT GTG GAGATA`; the separated `U` is the deoxyuridine used to release the synthesized bead primer. The three ten-base barcode pools are listed in Supplementary Table 2; their individual members are not interchangeable with one fixed barcode.
 - Hydrogel anchor: `/5Acryd/ATTATATATAT U GTG AGT GAT GGT TGA GGA TGT GTG GAGATA`
 - Barcoded bead primer: `[10 bases barcode1] TGGT [10 bases barcode2] GAGA [10 bases barcode3] NNNNNNNN TTTTTTTTTTTTTTTTTTTTT`
 - PCR primers: `GGAGTTGGAGTGAGTGGATGAGTGATG` and `GTGAGTGATGGTTGAGGATGTGTGGAGATA`.

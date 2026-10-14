@@ -13,6 +13,25 @@
 
 🟢 Nextera XT index primers amplify the converted pool. The paper uses 120-bp paired-end sequencing with custom NovaSeq primers; Additional file 5 Tables S3–S4 define the transposome and sequencing oligos.
 
+## Oligo source review
+
+🟢 The shared paper's Additional file 5, Table S3 prints eight `/5Phos/` i5
+and twelve `/5Phos/` i7 Tn5 transfer oligos and the shared reverse mosaic-end
+strand `/5Phos/CTGTCTCTTATACACATCT`. For example, i5-1 is
+`/5Phos/TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG`
+and i7-1 is
+`/5Phos/GTCTCGTGGGCTCGGCTGTCCCTGTCCGAGTAATCACCGTCTCCGCCTCAGATGTGTATAAGAGACAG`.
+The 8 × 12 pairings index 96 cells. These are transposome oligos, not PCR primers.
+
+🟢 Table S4 prints custom Read 1
+`GCGATCGAGGACGGCAGATGTGTATAAGAGACAG`, Read 2
+`CACCGTCTCCGCCTCAGATGTGTATAAGAGACAG`, Index 1
+`CTGTCTCTTATACACATCTGAGGCGGAGACGGTG`, and Index 2
+`CTGTCTCTTATACACATCTGCCGTCCTCGATCGC` sequencing primers.
+Table S1's three oligos are a 5hmC spike-in control, not genomic adapters.
+🟡 The current schematic's generic Nextera completion shell does not yet
+reconstruct these custom primer sites.
+
 ## Protocol boundary
 
 This is a separate schematic from scTAPS despite the joint paper. The cell-barcoding front end is shared, but scCAPS+ has two selective chemical oxidations and a 5hmC-only readout; scTAPS instead uses mTET1 and reports 5mC+5hmC.

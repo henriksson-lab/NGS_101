@@ -6,7 +6,17 @@ scRibo-seq couples ribosome-footprint generation to one-pot small-RNA library co
 
 ## Source read
 
-🟢 Van Insberghe et al., *Single-cell Ribo-seq reveals cell cycle-dependent translational pausing*, Nature (2021), [doi:10.1038/s41586-021-03887-4](https://doi.org/10.1038/s41586-021-03887-4), main text and Methods pp. 5–6. Supplementary Table 1 is the authoritative oligo-ordering table.
+🟢 Van Insberghe et al., *Single-cell Ribo-seq reveals cell cycle-dependent translational pausing*, Nature (2021), [doi:10.1038/s41586-021-03887-4](https://doi.org/10.1038/s41586-021-03887-4), main text and Methods pp. 5–6. Supplementary Table 1 in `41586_2021_3887_MOESM3_ESM.xlsx` was read directly for the oligo-ordering strings.
+
+## Oligos from Supplementary Table 1
+
+🟢 `OMV630_miRNA4_3App`: `/5rApp/TGGAATTCTCGGGTGCCAAGG/3ddC/`; the 5′ adenylation and 3′ dideoxy-C are part of the ordered adapter.
+
+🟢 `OMV572_miRNA4_RT`: `GCCTTGGCACCCGAGAATTCCA`.
+
+🟢 `OMV632_miRNA5_5A_10U`: `rCrUrArCrArCrGrArCrGrCrUrCrUrUrCrCrGrArUrCrUr(N1:25252525)r(N1)r(N1)r(N1)r(N1)r(N1)r(N1)r(N1)r(N1)r(N1)`. This retains the source's modified RNA and random-base notation; the ten random positions follow the fixed 5′ RNA sequence.
+
+🟢 The well-indexed forward primer family is printed as individual `miRv6-PCR_F-cbc` rows (for example A1: `AATGATACGGCGACCACCGAGATCTACACGATTCACGACACACTCTTTCCCTACACGACGCTCTTCCG`). The plate-indexed reverse family is printed as `RPI` rows (for example RPI24: `CAAGCAGAAGACGGCATACGAGATGCTACCGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA`). The XLSX is the authority for each chosen well/plate member; these are examples, not universal index choices.
 
 ## Construct-changing path
 
@@ -20,4 +30,4 @@ scRibo-seq couples ribosome-footprint generation to one-pot small-RNA library co
 
 🟢 NextSeq 500 sequencing uses Read 1 75 cycles, i7 six cycles (plate index), and i5 ten cycles (cell index). The first ten bases of Read 1 are the UMI; the footprint follows. The paper trims `TGGAATTCTCGGGT` from the Read 1 3′ end.
 
-🟡 The complete ordering strings are deliberately not reconstructed from oligo names. The schematic models only landing sequences and cycle geometry supported by the run and trimming description.
+🟡 The schematic's final duplex and sequencing-primer landing sites still require reconciliation with the complete ordering strings; the note above records the source oligos exactly, while the page retains its existing role-level final construct.

@@ -10,7 +10,7 @@ OUT=H.parent/"methyl-hic.html"
 if __name__ == "__main__":
     page = render(M)
     limitation = panel(AdapterLigationGeometry.unavailable(
-        "Li et al. state that sequencing adapters are ligated on beads before bisulfite conversion, but do not identify the adapter oligos or report their ligation-ready end geometry.").rows(),
+        "The supplementary protocol names indexed Illumina adapters and TruSeq PCR primers, but does not print the ligated adapter strands or their ligation-ready end geometry.").rows(),
         cls="small", caption="Source limitation before on-bead adapter ligation.")
     page = page.replace('<h2>Final sequencing molecule</h2>',
                         '<h2>Sequencing-adapter end</h2>' + limitation +

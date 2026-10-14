@@ -22,7 +22,7 @@ Iannuzo N, Farrera DO, Polverino F, Galligan JJ, Ledford JG, Adey AC, Cusanovich
   tagmentation products do not amplify; it is not a txci-ATAC paper.
 - Protocol: protocols.io "TEN (10X)-compatible combinatorial indexing ATAC-seq"
   (`https://www.protocols.io/view/ten-10-x-compatible-combinatorial-indexing-atac-se-c3urynv6.html`)
-  — **not fetched** (🔴 here).
+  — fetched as the authors' 15-page PDF; see source table.
 
 Sources read (in `$CHEM_DATA/sources/txci-atac-seq__10.1101+2023.05.11.540245/`, never committed):
 
@@ -35,8 +35,10 @@ Sources read (in `$CHEM_DATA/sources/txci-atac-seq__10.1101+2023.05.11.540245/`,
 | `13059_2023_3150_MOESM6_ESM.docx.txt` | Additional file 6: review history | skimmed; nothing new on chemistry |
 | `upstream_txci-ATAC-seq.html.txt` | scg_lib_structs page | second source, checked below |
 | `upstream_Tn5ME-B_barcode.xlsx.txt` | upstream's copy of the Tn5 barcode plate | compared with Table S5 |
+| `protocolsio_ten-10-x-compatible-combinatorial-indexing-atac-se-c3urynv6.pdf.txt` | authors' protocols.io procedure, dated 24 October 2023 | independently confirms short SBS sequence and concentration; gives GEM and index-PCR thermocycler programmes |
+| `../10x-chromium-single-cell-atac/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt` | later 10x v1.1 kit guide, Appendix A1 | SI-PCR Primer B is `AATGATACGGCGACCACCGAGA`; continuity with the authors' cited Rev D is not independently confirmed |
 
-Not fetched: the protocols.io page (above). Additional files 2–4 (differential peaks,
+Additional files 2–4 (differential peaks,
 motifs, KEGG) were not needed — no chemistry.
 
 ---
@@ -171,12 +173,14 @@ samples"; the brain version differs as noted).
    Mg-acetate, 10 % DMF) 🟢 — i.e. Tn5 storage buffer + TD-type buffer spelled out 🟡.
 6. **GEM generation and barcoding** per CG000209 Rev D steps 2–3, but **8 GEM incubation
    cycles** (step 2.5). In each droplet: 72 °C gap fill-in (kit), then bead oligo
-   (P5-GEM-s5) and short SBS amplify A/B fragments exponentially 🟡 (cycle profile from the
-   kit, 🔴 here).
+   (P5-GEM-s5) and short SBS amplify A/B fragments exponentially 🟡. The authors'
+   protocols.io PDF specifies 72 °C 5 min, 98 °C 30 s, then eight cycles of
+   98 °C 10 s / 59 °C 30 s / 72 °C 1 min. 🟢
 7. Optional **10 % / 90 % split** of the GEMs (100 µL → 10 + 90 µL) before cleanup; both
    processed in parallel.
 8. **Sample Index PCR** (step 4.1): the kit's Single Index N Set A replaced by 2.5 µL of
-   **25 µM P7.S70x** (one per 10x lane); **5 cycles** total.
+   **25 µM P7.S70x** (one per 10x lane); **5 cycles** total (98 °C 45 s,
+   five cycles of 98 °C 20 s / 67 °C 30 s / 72 °C 20 s, then 72 °C 1 min). 🟢
 9. **Double-sided size selection** (kit step 4.2); Qubit; 6 % PAGE.
 
 Variants and optimisation runs 🟢:
@@ -256,7 +260,7 @@ standard primer mix covers both Nextera Read 1 and TruSeq Read 2 is 🟡.
 | Tn5 barcode plate | Table S5 | identical, same well order (computed) |
 | Custom i7 TruSeq primer `P7 · [8-bp i7] · TruSeq R2` | Table S7 | agree; upstream does not say the i7 is written reverse-complemented in the oligo |
 | "SBS Short Primer" added for exponential in-droplet PCR | short SBS in final protocol; **Full SBS** in the blocking test | agree for the final protocol; upstream omits the Full SBS, blocking oligo and decoy DNA |
-| Gap fill 72 °C 5 min | "per 10x CG000209" only | 🟡 (kit) |
+| Gap fill 72 °C 5 min | explicitly in the authors' protocols.io GEM programme | agree 🟢 |
 | Final structure and read lengths 51/8/16/78 | 51/10/16/78 (8 i7 cycles suffice) | agree |
 | R2 = 8 bp Tn5 barcode + 19 ME + 51 gDNA | first 8 bp barcode, 27 trimmed | agree |
 | "custom sequencing primers are not needed" | stated rationale | agree |
@@ -265,11 +269,11 @@ standard primer mix covers both Nextera Read 1 and TruSeq Read 2 is 🟡.
 
 ## 8. Open questions
 
-- 🔴 The protocols.io protocol was not read; volumes there may differ from the paper.
 - 🔴 Why the Decoy DNA carries pairs of deoxyuridines.
 - 🔴 The blocking oligo's barcode `CTATGATG` — a deliberate non-barcode, or a leftover
   from another plate?
-- 🔴 The 10x kit's in-droplet cycling profile and the exact P5-side SI-PCR primer.
+- 🟡 Whether the P5-side SI-PCR Primer B in the authors' CG000209 Rev D
+  was identical to `AATGATACGGCGACCACCGAGA` in the later Rev G guide.
 - 🟡 Why exponential PCR helps: the paper argues it outcompetes swapping; the mechanism
   of swapping (free Tn5ME-B priming on other fragments in the droplet vs. something else)
   is only sketched in Fig. S1c.

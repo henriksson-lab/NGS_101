@@ -10,4 +10,15 @@
 
 ## Evidence boundary
 
-🟢 The source publishes multiple splint designs, including commercial-antibody and RNA-comodality variants. The page shows the common architecture rather than merging those interchangeable capture handles.
+🟢 The source publishes multiple splint *architectures*, including
+commercial-antibody and RNA-comodality variants. For the original design it specifies,
+in order, a 20-nt antibody-handle complement, 34-nt TruSeq Read 2 region, 10-nt
+compound antibody/pool barcode and 22-nt 10x feature-capture region.
+
+🟡 We rechecked the defining article and Methods, the open author manuscript,
+Supplementary Tables 1–4, the bioRxiv supplement and the authors' linked SCITO-seq
+analysis repository. They do not print a universal set of antibody-handle, antibody-
+barcode or pool-barcode bases. Those fields are deliberately antibody/pool specific;
+the final capture/indexing chemistry is inherited from the commercial 10x Chromium 3′
+v3 Feature Barcoding workflow. The page therefore keeps those regions typed by role
+instead of inventing a representative sequence.

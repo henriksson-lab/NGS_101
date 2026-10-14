@@ -26,3 +26,5 @@ the asymmetric S5/S7 chromatin product and retain the bead barcode. The RNA bran
 template switching and TSO-PCR sites at both ends. The products are then split: RNA is
 TSO-enriched and Nextera-XT-finished, whereas chromatin receives P5xx-TSO/Ad2.x indexes.
 Supplementary Table 4 is the authority for all modified and amplification oligos shown.
+
+🟢 The same table also prints six `P50x-Tso` i5 primers, six `Ad2.x` i7 primers and the `Read1CustomSeqB` sequencing primer. The page now includes the first member of each index family and the exact custom Read 1 primer; `P501-Tso` retains both terminal phosphorothioate marks (`T*A*C`). Which pair of index members was selected varies by library and is not claimed by the representative examples.

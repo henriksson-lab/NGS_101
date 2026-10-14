@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from antibody_tags import feature_library
 from chromatin_epigenetics import droplet_targeted_tagment_library
-from chemdraw import Row
+from chemdraw import Row, Segment, oligo
 from multimodal_spatial import finish_pcr_branch
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role
@@ -17,6 +17,13 @@ SUMMARY="A custom Tn5 transposome with poly(dT)- or R2N-bearing ends makes ATAC 
 CAVEAT="The displayed capture branch is structural: the paper's supplement defines several custom oligos, not a biological feature barcode."
 FINAL_LIBRARIES=(("ATAC library",ATAC,ATAC_P,"Single-ended ATAC insert carrying a 10x cell barcode and UMI.","Read 1 is the 28-cycle cell-barcode/UMI read; Read 2 is the ATAC insert."),("Antibody-tag library",ADT,ADT_P,"ADT barcode from the same GEM is selectively amplified.","Read 1 carries cell barcode and UMI; Read 2 identifies the antibody."))
 READ_LENGTHS={"ATAC library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":100},"Antibody-tag library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":100}}
+def oligos():
+    """Representative ordered oligos from Supplementary Table 5."""
+    yield oligo("poly(dT) Tn5 top", [Segment("poly(dT)30", "T"*30), Segment("degenerate VN", "VN", placeholder=True), Segment("mosaic end", "AGATGTGTATAAGAGACAG")])
+    yield oligo("Tn5 bottom", [Segment("mosaic end", "CTGTCTCTTATACACATCT")], mods="/5Phos/")
+    yield oligo("Tn5 S7 top", [Segment("Nextera S7 mosaic end", "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG")])
+    yield oligo("ADT pre-index PCR reverse primer", [Segment("ADT reverse primer", "CCTTGGCACCCGAGAATTCC")])
+    yield oligo("ADT i7 primer", [Segment("P7 and index flank", "CAAGCAGAAGACGGCATACGAGAT"), Segment("8-base i7 index", "NNNNNNNN", placeholder=True), Segment("ADT-binding arm", "GTGACTGGAGTTCCTTGGCACCCGAGAATTCC"), Segment("terminal phosphorothioate A", "*A", placeholder=True)])
 def sections():return [("Stain cells with TotalSeq-A antibodies",[Row(chunks=[("antibody — ADT barcode — poly(A)","cbc",False)])],"Antibody-derived tags remain associated with each cell."),("Tagment with custom Tn5",[Row(chunks=[("poly(dT) or R2N capture end ** accessible DNA","me",False)])],"The custom transposome makes genomic fragments compatible with the 10x 3′ bead capture reaction."),("Barcode in GEMs",[Row(chunks=[("10x cell barcode + UMI → ATAC fragments and ADTs","cbc",False)])],"Both analytes receive one cell identity."),("Split and amplify",[Row(chunks=[("barcoded product ├─ ATAC PCR\n                 └─ ADT PCR",None,False)])],"The two libraries are sequenced separately.")]
 
 def protocol_graph():

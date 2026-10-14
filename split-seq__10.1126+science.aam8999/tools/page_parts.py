@@ -18,17 +18,36 @@ def render_page(protocol):
     doi,author,year=PAPERS[protocol]; micro=protocol=="microSPLiT"
     notes=("01_split-seq.html" if not micro else
            "../split-seq__10.1126+science.aam8999/01_split-seq.html")
-    caveat=("The published oligo supplement was unavailable. Dotted protocol-specific "
-            "regions show architecture only; upstream sequences are not promoted to fact."
+    caveat=("Supplementary Table S12 supplies the barcoding oligos, splints, blocking "
+            "strands and PCR primers. The downstream library and primer-binding geometry "
+            "has not yet been reconstructed in this model from that table."
             if not micro else
-            "Barcoding oligos come from the authors' preprint table. The published downstream "
-            "library supplement was unavailable, so outer library arms stop at that boundary.")
-    oligos=[oligo("round-1 oligo-dT primer",S.round1(protocol))]
+            "The authors' Supplementary Table S3 supplies the barcoding oligos, adapter "
+            "duplex, cDNA-amplification primers and terminal indexed PCR pair. TSBC07 is "
+            "used as the representative sublibrary index below.")
+    oligos=[oligo("round-1 oligo-dT primer",S.round1(protocol),mods="/5Phos/")]
+    if not micro:
+        oligos += [oligo("round-2 barcode oligo",S.round2(),mods="/5Phos/"),
+                   oligo("round-3 barcode oligo",S.round3(),mods="/5Biosg/"),
+                   oligo("BC_0215 round-2 splint",[seg("",S.SPLIT_LINK2)]),
+                   oligo("BC_0216 round-2 blocker",[seg("",S.revcomp(S.SPLIT_LINK2))]),
+                   oligo("BC_0060 round-3 splint",[seg("",S.SPLIT_LINK3)]),
+                   oligo("BC_0066 round-3 blocker",[seg("",S.revcomp(S.SPLIT_LINK3))]),
+                   oligo("BC_0127 template-switch oligo",[seg("",S.TSO_BODY,"tso"),
+                                                              seg("","rGrG+G",placeholder=True)]),
+                   oligo("BC_0062 cDNA PCR",[seg("",S.MICRO_PREAMP_FWD)]),
+                   oligo("BC_0108 cDNA PCR",[seg("",S.MICRO_PREAMP_REV)]),
+                   oligo("BC_0118 library PCR",[seg("",S.SPLIT_LIBRARY_FWD)]),
+                   oligo("BC_0076 / TSBC07 library PCR",[seg("",S.SPLIT_LIBRARY_REV)])]
     if micro:
         oligos += [oligo("round-2 barcode oligo",S.round2(),mods="/5Phos/"),
                    oligo("round-3 barcode oligo",S.round3(),mods="/5Biosg/"),
                    oligo("template-switching oligo",[seg("",S.TSO_BODY,"tso"),
-                                                       seg("","rGrG+G",placeholder=True)])]
+                                                       seg("","rGrG+G",placeholder=True)]),
+                   oligo("BC_0062 cDNA PCR",[seg("",S.MICRO_PREAMP_FWD)]),
+                   oligo("BC_0108 cDNA PCR",[seg("",S.MICRO_PREAMP_REV)]),
+                   oligo("BC_0027 library PCR",[seg("",S.MICRO_LIBRARY_FWD)]),
+                   oligo("BC_0076 / TSBC07 library PCR",[seg("",S.MICRO_LIBRARY_REV)])]
     b1=S.barcoded_first_strand(protocol,1); b2=S.barcoded_first_strand(protocol,2)
     b3=S.barcoded_first_strand(protocol,3); final=S.final_boundary(protocol)
     r1=Construct([seg("transcript", "XXXXXXXX...",placeholder=True)])
@@ -47,7 +66,8 @@ def render_page(protocol):
       f'<div class="caveat"><b>Sequence boundary.</b> {caveat}</div>',
       f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',
       '<h2>Reaction workflow</h2>',protocol_graph_panels(graph,cls="long"),
-      sp.unavailable_diagram(final,"the downstream library-primer sequences are unavailable"),
+      (sp.diagram(final,S.MICRO_SEQ_PRIMERS) if micro else
+       sp.unavailable_diagram(final,"the downstream primer-binding geometry has not yet been reconstructed")),
       '<h2>Read layout</h2>',panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption=("Published microSPLiT run: Read 1 74 nt, Read 2 86 nt, index 6 nt." if micro else "Published SPLiT-seq architecture: transcript in Read 1; combinatorial identity in Read 2.")),
       table(("Read","Reports"),rows),
       sp.read_spec_table([
@@ -56,5 +76,6 @@ def render_page(protocol):
                        "UMI, barcode 3, barcode 2, barcode 1", "extract"),
           sp.read_spec("Index 1 (i7)", 6 if micro else None,
                        "sublibrary barcode (round 4)", "demultiplex"),
-      ], "Read roles and contents are source-declared because exact downstream primer sequences are unavailable."),
+      ], ("Read contents and primer landing sites are derived from Supplementary Table S3."
+          if micro else "Read roles and contents are source-declared; Table S12 prints the PCR oligos, but this model has not reconstructed the exact primer-binding geometry.")),
       '</div>'])

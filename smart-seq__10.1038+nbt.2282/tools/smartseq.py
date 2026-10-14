@@ -9,7 +9,7 @@ tagmentation) but differ completely at the front:
                            no 5' marker -- every fragment is anonymous within a transcript.
 
   SMART-seq3 / 3xpress     asymmetric handles: the TSO carries the Nextera s5+ME sequence
-  / FLASH-seq              plus an 11-bp tag and an 8-bp UMI, while the oligo-dT carries a
+                           plus an 11-bp tag and an 8-bp UMI, while the oligo-dT carries a
                            different handle. A read that contains the tag is known to come
                            from the transcript's 5' end, which is what lets SMART-seq3
                            combine full-length coverage with UMI counting.
@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import nextera as nx
 import rt
+import smartseq2 as s2
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature
 from illumina import P5, P7_RC
@@ -39,14 +40,22 @@ FEATURES = {"UMI": UMI_FEATURE, "i5": I5_FEATURE, "i7": I7_FEATURE}
 
 # =============================================================== SMART-seq / SMART-seq2
 # One handle, used for priming, for template switching and for amplification.
-DT_LEN, DT_ANCHOR = 30, "VN"
-SS2_DT_LINKER = "AC"                                        # between handle and (T)30
-SS2_TSO_LINKER = "ACAT"                                     # between handle and G tail
-SS2_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, rt.SMART_HANDLE + SS2_DT_LINKER)
-SS2_TSO = rt.SMART_HANDLE + SS2_TSO_LINKER + rt.TSO_G_TAIL_LNA      # ...ACATrGrG+G
-SS2_ISPCR = rt.SMART_HANDLE
+DT_LEN, DT_ANCHOR = s2.DT_LEN, s2.DT_ANCHOR
+SS2_DT_LINKER = s2.DT_LINKER                                # between handle and (T)30
+SS2_TSO_LINKER = s2.TSO_LINKER                              # between handle and G tail
+SS2_OLIGO_DT = s2.OLIGO_DT
+SS2_TSO = s2.TSO                                            # ...ACATrGrG+G
+SS2_ISPCR = s2.ISPCR
 
-# =========================================== SMART-seq3 / SMART-seq3xpress / FLASH-seq
+# =============================================================== FLASH-seq
+# Hahaut et al. Supplementary Note 2: the main FLASH-seq branch retains the common
+# SMART handle and has no UMI. The ordered oligos are 5'-biotinylated.
+FS_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, rt.SMART_HANDLE + SS2_DT_LINKER)
+FS_TSO = rt.SMART_HANDLE + SS2_DT_LINKER + rt.TSO_G_TAIL
+FS_ISPCR = rt.SMART_HANDLE
+FS_UMI_TSO_CTAAC = rt.SMART_HANDLE + "N" * 8 + "CTAAC" + rt.TSO_G_TAIL
+
+# =========================================== SMART-seq3 / SMART-seq3xpress
 SS3_OLIGO_DT_HANDLE = "ACGAGCATCAGCAGCATACGA"               # 5'-biotinylated
 SS3_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, SS3_OLIGO_DT_HANDLE)
 SS3_TSO_TAG = "ATTGCGCAATG"                                 # the 11-bp 5' marker
@@ -54,11 +63,10 @@ SS3_TSO_ME3 = nx.ME[-8:]                                    # AGAGACAG: the 3' e
 SS3_TSO_HANDLE = SS3_TSO_ME3 + SS3_TSO_TAG                  # 3' end of ME, then the tag
 SS3_UMI_LEN = 8
 
-# The three family members differ only in what sits between the UMI and the G tail.
+# The SMART-seq3 derivatives differ in what sits between the UMI and the G tail.
 SS3_TSO_SPACERS = {
     "SMART-seq3": "",
     "SMART-seq3xpress": "WW",
-    "FLASH-seq": "CTAAC",
 }
 SS3_FWD_PCR = nx.S5 + nx.ME + SS3_TSO_TAG                   # ...AGATGTGTATAAGAGACAGATTGCGCAATG
 SS3_REV_PCR = SS3_OLIGO_DT_HANDLE

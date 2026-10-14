@@ -79,5 +79,11 @@ library and is intentionally separate from the main schematic.
 
 ## 7. Boundary of this page
 
+🔴 The CROP-seq Supplementary Protocol lists the TSO, SMART PCR, selective enrichment,
+and custom Read 1 oligos, but refers to prepared Drop-seq beads rather than printing
+their full barcoded capture oligo. The molecular graph therefore records the bead oligo
+as a role. Recovering its exact ordered design requires auditing the cited Drop-seq
+bead source, including its barcode and UMI windows.
+
 This page documents original CROP-seq and its Drop-seq readout. Later dedicated guide-capture,
 10x Feature Barcode, and multi-perturbation chemistries are separate protocols.

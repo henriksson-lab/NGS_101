@@ -11,3 +11,7 @@
 ## Evidence boundary
 
 🟡 The source names the adapter kit but does not publish one immutable index set. The diagram retains the cap-selection chemistry and read direction while leaving kit-variable bases as roles.
+
+## Oligo source audit
+
+🟢 Checked the open author manuscript (`ng.3142_PMC4254663.pdf.txt`, lines 618–630) and publisher supplementary PDF (`ng.3142_41588_2014_BFng3142_MOESM77_ESM.pdf.txt`). The methods explicitly specify TruSeq Small RNA adapters and a cap-selected 5′ RNA end. The supplement supplies procedure detail but no printed adapter/index or sequencing-primer oligo table. The relevant 5′/3′ adapters, RT primer, PCR/index primers and read primer therefore remain kit-version dependent; no bases were promoted from a different TruSeq release.

@@ -9,4 +9,6 @@
 
 🟢 A barcoded oligo containing strategically placed deoxyuridines supports end extension over the RNA poly(A) tail. USER cleavage removes that oligo before reverse transcription. Template switching adds the opposite PCR handle, and full-length cDNA is converted to a PacBio SMRTbell. This preserves tail length and internal non-A residues in the same CCS read as the transcript isoform.
 
-🟢 The TSO, RT primer and PCR primer on the schematic are transcribed from Supplementary Table 1. The 2dU barcode family remains in the research record rather than presenting one barcode as universal.
+🟢 The TSO, RT primer, PCR primer, and all fifteen 2dU-BC extension oligos on the schematic are transcribed from Supplementary Table 1. BC3 is the member explicitly named for the bulk library in the defining paper's Methods; BC1–BC15 barcode individual oocytes.
+
+🟢 Amplification uses the single published PCR primer. Template switching and reverse transcription place its common handle at opposite ends of the cDNA, so the same physical primer species binds both inward-facing sites. The sample barcode is carried by the extension oligo; it is not a second PCR primer.

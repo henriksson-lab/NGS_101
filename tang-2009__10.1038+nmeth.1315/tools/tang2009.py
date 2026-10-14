@@ -11,21 +11,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from tang_cdna import (AUP1, AUP2, DT_LEN, UP1, UP1_HANDLE, UP2, UP2_HANDLE,
+                       amplified_cdna)
 
-
-UP1_HANDLE = "ATATGGATCCGGCGCGCCGTCGAC"
-UP2_HANDLE = "ATATCTCGAGGGCGCGCCGGATCC"
-DT_LEN = 24
-UP1 = UP1_HANDLE + "T" * DT_LEN
-UP2 = UP2_HANDLE + "T" * DT_LEN
-
-# Amplification uses the same bases with a 5'-amine block.
-AUP1 = UP1
-AUP2 = UP2
 
 # Unbarcoded SOLiD adapters from the 2009 supplementary oligo table.
 P1_TOP = "CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGAT"
@@ -41,17 +33,6 @@ LIBRARY_PCR_2 = "CTGCCCCGGGTTCCTCATTCT"
 BARCODE2010_INTERNAL = "CGCCTTGGCCGTACAGCAG"
 BARCODE2010_LEN = 6
 BARCODE2010_COUNT = 16
-
-
-def amplified_cdna() -> Construct:
-    """Representative ds cDNA after the second, 5'-amine-blocked PCR."""
-    return Construct([
-        Segment("UP2 handle", UP2_HANDLE, "r2"),
-        Segment("poly(T)", "T" * DT_LEN, "r2"),
-        Segment("cDNA", "XXXXXX...XXXXXX", placeholder=True),
-        Segment("poly(A)", "A" * DT_LEN, "r1"),
-        Segment("UP1 handle'", revcomp(UP1_HANDLE), "r1"),
-    ], name="Tang amplified cDNA")
 
 
 def final_library() -> Construct:

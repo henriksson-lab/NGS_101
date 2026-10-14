@@ -12,39 +12,42 @@ from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPla
 TITLE="NEBNext Single Cell / Low Input RNA"
 NOTES="01_nebnext-single-cell-low-input-rna.html"
 SOURCE='Commercial protocol: <a href="https://www.neb.com/products/e6420-nebnext-single-cell-low-input-rna-library-prep-kit-for-illumina">NEB E6420 product manual</a>.'
-SUMMARY="A proprietary RT primer and template-switching oligo generate full-length amplifiable cDNA; Ultra II FS then fragments and converts that cDNA into a dual-index Illumina library."
-RT=[Row(chunks=[("mRNA  5′-[transcript]-poly(A)-3′",None,False)]), Row(chunks=[("                         ||||||  proprietary RT primer →", "r1",True)])]
-TS=[Row(chunks=[("TSO (proprietary) → template switch at the mRNA 5′ end", "r2",True)]), Row(chunks=[("known handle — full-length first-strand cDNA — RT-primer handle",None,False)])]
-WTA=Construct([Segment("TSO-derived handle", "X"*12, "r2", placeholder=True, inferred=True), Segment("full-length cDNA", "X"*48, placeholder=True), Segment("RT-primer-derived handle", "X"*12, "r1", placeholder=True, inferred=True)], name="amplified cDNA")
+SUMMARY="A published oligo-dT RT primer and template-switching oligo generate full-length amplifiable cDNA; Ultra II FS then fragments and converts that cDNA into a dual-index Illumina library."
+RT_PRIMER="AAGCAGTGGTATCAACGCAGAGTAC" + "T"*30 + "V"
+TSO="GCTAATCATTGCAAGCAGTGGTATCAACGCAGAGTACATrGrGrG"
+CDNA_PCR_PRIMER="AAGCAGTGGTATCAACGCAGAGT"
+RT=[Row(chunks=[("mRNA  5′-[transcript]-poly(A)-3′",None,False)]), Row(chunks=[("RT primer  5′-"+RT_PRIMER+"-3′", "r1",True)])]
+TS=[Row(chunks=[("TSO  5′-"+TSO+"-3′ → template switch at the mRNA 5′ end", "r2",True)]), Row(chunks=[("TSO-derived handle — full-length first-strand cDNA — RT-primer handle",None,False)])]
+WTA=Construct([Segment("TSO-derived handle", "GCTAATCATTGC"+CDNA_PCR_PRIMER, "r2"), Segment("full-length cDNA", "X"*48, placeholder=True), Segment("RT-primer-derived handle", RT_PRIMER[:25], "r1")], name="amplified cDNA")
 FS_END_PREP=repair_and_dA_tail(Construct([Segment("FS-fragmented cDNA", "X"*42, placeholder=True)]))
 FS_ADAPTOR_END=reported_adapter_end(
     "NEBNext adaptor", kind="cohesive", polarity="3-prime", terminal_sequence="T",
     substrate_scenes=(dA_tailed_scene(FS_END_PREP),),
     statement="Ultra II FS produces 3′-dA cDNA ends for the complementary NEBNext adaptor 3′-dT; the kit-specific adaptor body is not disclosed here.")
-STEPS=(("Prime reverse transcription", RT, "The kit names but does not disclose its RT primer sequence; the poly(A)-directed structural role is shown without inventing bases."),
+STEPS=(("Prime reverse transcription", RT, "The E6420 manual prints the RT primer's 30-T tract and terminal V, as well as its PCR handle."),
        ("Template-switch at the transcript 5′ end", TS, "Template switching installs a second PCR handle, enabling full-length cDNA amplification."),
-       ("Amplify full-length cDNA", WTA, "The cDNA PCR primer recognizes kit-defined terminal handles; their sequences remain proprietary."),
+       ("Amplify full-length cDNA", WTA, "The manual prints the cDNA PCR primer; the transcript-specific insert remains variable."),
        ("Ultra II FS fragmentation and library conversion", Construct([Segment("FS-fragmented cDNA", "X"*42, placeholder=True)], name="FS cDNA fragment"), "Enzymatic fragmentation, end repair and dA-tailing precede NEBNext adaptor ligation and indexed PCR.", FS_ADAPTOR_END))
 SEQ_PRIMERS=STANDARD_PRIMERS; REQUIRED_ROLES=tuple(p.role for p in SEQ_PRIMERS)
 READOUT="Paired reads cover fragments distributed across the amplified full-length cDNA; the two index reads identify the library, not the cell."
-FINAL_CAPTION="Dual-index library after Ultra II FS conversion. Proprietary RT/TSO handles are generally internal to the pre-amplified cDNA and are not asserted at every final fragment end."
+FINAL_CAPTION="Dual-index library after Ultra II FS conversion. The published RT/TSO handles are generally internal to the pre-amplified cDNA and are not asserted at every final fragment end."
 def final_library(): return indexed_library(Construct([Segment("cDNA insert", "X"*42, placeholder=True)]), "NEBNext low-input RNA library")
 
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
     rna=g.input("rna","single-cell or low-input polyadenylated RNA",MaterialKind.BIOLOGICAL,state=RT,primary=True)
-    rtprimer=g.input("rt_primer","proprietary poly(A)-directed RT primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
+    rtprimer=g.input("rt_primer","published poly(A)-directed RT primer: "+RT_PRIMER,MaterialKind.OLIGO,source=SOURCE+" (Oligo Sequences table)")
     rt=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
-    first=g.product("first_strand","nascent first-strand cDNA",MaterialKind.MOLECULAR,state=RT,inferred=True,source=SOURCE+" (primer handle not disclosed)")
+    first=g.product("first_strand","nascent first-strand cDNA",MaterialKind.MOLECULAR,state=RT)
     g.react("reverse_transcribe","Prime and synthesize first-strand cDNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(rtprimer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,))
-    tso=g.input("tso","proprietary template-switching oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
-    switched=g.product("switched","two-handle full-length cDNA",MaterialKind.MOLECULAR,state=WTA,inferred=True,source=SOURCE+" (terminal handles not disclosed)")
+    tso=g.input("tso","published template-switching oligo: "+TSO,MaterialKind.OLIGO,source=SOURCE+" (Oligo Sequences table)")
+    switched=g.product("switched","two-handle full-length cDNA",MaterialKind.MOLECULAR,state=WTA)
     g.react("template_switch","Template-switch at the transcript 5-prime end",StepKind.TEMPLATE_SWITCHING,((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
-    wta_fwd=g.input("wta_forward","cDNA preamplification forward primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
-    wta_rev=g.input("wta_reverse","cDNA preamplification reverse primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (sequence not disclosed)")
+    wta_fwd=g.input("wta_forward","cDNA amplification primer at TSO end: "+CDNA_PCR_PRIMER,MaterialKind.OLIGO,source=SOURCE+" (one primer species, Oligo Sequences table)")
+    wta_rev=g.input("wta_reverse","same cDNA amplification primer at RT end: "+CDNA_PCR_PRIMER,MaterialKind.OLIGO,source=SOURCE+" (one primer species, Oligo Sequences table)")
     wta_pol=g.input("wta_polymerase","cDNA amplification polymerase",MaterialKind.CATALYST)
-    amplified=g.product("amplified","amplified full-length cDNA",MaterialKind.MOLECULAR,state=WTA,inferred=True,source=SOURCE+" (terminal handles not disclosed)")
-    g.react("wta","Amplify full-length cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(wta_fwd,InputRole.STRUCTURAL),(wta_rev,InputRole.STRUCTURAL),(wta_pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(WTA,reason="The proprietary RT, TSO and amplification-primer sequences are not disclosed."))
+    amplified=g.product("amplified","amplified full-length cDNA",MaterialKind.MOLECULAR,state=WTA)
+    g.react("wta","Amplify full-length cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(wta_fwd,InputRole.STRUCTURAL),(wta_rev,InputRole.STRUCTURAL),(wta_pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(WTA,reason="The transcript-dependent full-length cDNA insert has no single exact primer-binding coordinate."))
     fs=g.input("fs_mix","Ultra II FS fragmentation/end-prep mix",MaterialKind.CATALYST)
     fragmented=g.product("fragmented","FS-fragmented amplified cDNA",MaterialKind.MOLECULAR,state=FS_END_PREP.insert)
     g.react("fragment","Fragment amplified cDNA",StepKind.FRAGMENTATION,((amplified,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fragmented,))

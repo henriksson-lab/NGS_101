@@ -9,6 +9,7 @@ Tn5 tagmentation reaction performed on bead-bound immunoprecipitated chromatin.
 
 - 🟢 Schmidl et al. 2015, DOI
   [10.1038/nmeth.3542](https://doi.org/10.1038/nmeth.3542), defining paper and Methods.
+- 🟢 The Online Methods identify Tagment DNA Enzyme from the Nextera DNA Sample Prep Kit and state that library amplification used custom Nextera primers **as described for ATAC-seq** (Buenrostro et al. 2013, Supplementary Table 1). This is an explicit source link for Ad1_noMX and the Ad2.x index-primer family, rather than an unpublished ChIPmentation-specific oligo set. The ChIPmentation supplements contain library/sample summaries, not a separate ordering table.
 
 ## 3. Molecular order
 

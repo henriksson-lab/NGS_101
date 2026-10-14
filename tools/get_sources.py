@@ -386,6 +386,8 @@ def fetch_protocol(slug: str, rows: list[dict], cited: bool = False, papers: boo
     folder = Folder(data_dir() / slug)
     job = Job(slug, rows, folder)
     job.paper = lambda d: paper(job, d)
+    job.pmc = lambda p: pmc(folder, p.upper(), p.upper(),
+                            epmc_record(p).get("isOpenAccess") == "Y")
     upstream(folder, rows[0]["scg_page"])
     run_auto(job)
     if papers:

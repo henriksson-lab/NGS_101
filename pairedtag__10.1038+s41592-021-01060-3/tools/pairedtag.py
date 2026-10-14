@@ -401,7 +401,7 @@ def oligos():
         f"<b>PA-F / PA-R</b> — 5′-{PA_F}-3′ / 5′-{PA_R}-3′",
         f"<b>N5XX</b> — 5′-{il.P5}[8-nt i5]{nx.S5}-3′",
         f"<b>P7XX</b> — 5′-{il.P7}[6-nt i7]{il.TRUSEQ_READ2[:-1]}-3′",
-        f"<b>P5 Universal</b> — 5′-{P5_UNIVERSAL}-3′",
+        f"<b>P5 Universal</b> — 5′-{P5_UNIVERSAL[:-1]}*{P5_UNIVERSAL[-1]}-3′ (terminal phosphorothioate)",
     )
 
 

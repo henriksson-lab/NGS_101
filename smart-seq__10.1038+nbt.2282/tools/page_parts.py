@@ -47,10 +47,15 @@ PAPERS = {
 def preamble(protocol: str, *, complete: bool = False) -> str:
     doi, title = PAPERS[protocol]
     complete_attr = ' data-protocol-complete="true"' if complete else ""
+    caveat = ("<div class='caveat'><b>Inferred TSO region.</b> The original SMART-seq "
+              "paper names the SMARTer II A template-switch oligo but does not print its "
+              "bases; the TSO linker below follows the later SMART-seq2 design.</div>"
+              if protocol == "SMART-seq" else "")
     return f"""<div class="wrap"{complete_attr}>
 <h1>{title} &mdash; full-length single-cell mRNA</h1>
 
 {info(f'''Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.''')}
+{caveat}
 
 <details class="background">
 <summary>Background and interpretation</summary>
@@ -65,14 +70,20 @@ cell barcode in the molecule.</p>
 # ====================================================== SMART-seq / SMART-seq2
 def ss2_oligos(protocol: str) -> str:
     tail = rt.TSO_G_TAIL_LNA if protocol == "SMART-seq2" else rt.TSO_G_TAIL
+    flash = protocol == "FLASH-seq"
     rows = [
         oligo("oligo-dTVN", [seg("", H, "tso"), seg("", ss.SS2_DT_LINKER),
                              seg("", "T" * ss.DT_LEN, None, placeholder=True),
-                             seg("", ss.DT_ANCHOR, None, placeholder=True)]),
+                             seg("", ss.DT_ANCHOR, None, placeholder=True)],
+              mods="/5Biosg/" if flash else ""),
         oligo("Template Switching Oligo (TSO)",
-              [seg("", H, "tso"), seg("", ss.SS2_TSO_LINKER),
-               seg("", tail, None, placeholder=True)]),
-        oligo("ISPCR primer", [seg("", H, "tso")]),
+              [seg("", H, "tso", inferred=protocol == "SMART-seq"),
+               seg("", ss.SS2_DT_LINKER if flash else ss.SS2_TSO_LINKER,
+                   inferred=protocol == "SMART-seq"),
+               seg("", tail, None, placeholder=True, inferred=protocol == "SMART-seq")],
+              mods="/5Biosg/" if flash else ""),
+        oligo("ISPCR primer", [seg("", H, "tso", inferred=protocol == "SMART-seq")],
+              mods="/5Biosg/" if flash else ""),
         oligo("Nextera mosaic end (ME)", [seg("", nx.ME, "me")]),
         oligo("Nextera N/S5xx entry point (s5)", [seg("", nx.S5, "s5")]),
         oligo("Nextera N7xx entry point (s7)", [seg("", nx.S7, "s7")]),
@@ -160,8 +171,14 @@ SS2_HANDLE = seg("H", H, "tso")
 SS2_TSO = [SS2_HANDLE, seg("ACAT", ss.SS2_TSO_LINKER), seg("rGrG", "GGG", "tso")]   # rGrG+G, as GGG
 
 
-def ss2_rt() -> tuple[Scene, ...]:
-    return _rt_scenes(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)], SS2_TSO)
+def ss2_rt(protocol: str = "SMART-seq2") -> tuple[Scene, ...]:
+    tso = ([SS2_HANDLE, seg("AC", ss.SS2_DT_LINKER), seg("rGrG", "GGG", "tso")]
+           if protocol == "FLASH-seq" else SS2_TSO)
+    if protocol == "SMART-seq":
+        tso = [seg("H", H, "tso", inferred=True),
+               seg("ACAT", ss.SS2_TSO_LINKER, inferred=True),
+               seg("rGrG", "GGG", "tso", inferred=True)]
+    return _rt_scenes(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)], tso)
 
 
 def ss2_pcr() -> list[Row]:
@@ -171,10 +188,12 @@ def ss2_pcr() -> list[Row]:
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H3"))
 
 
-def ss2_preamp_template() -> Construct:
+def ss2_preamp_template(protocol: str = "SMART-seq2") -> Construct:
+    tso_linker = ss.SS2_DT_LINKER if protocol == "FLASH-seq" else ss.SS2_TSO_LINKER
     return Construct([
-        seg("H5", H, "tso"), seg("ACAT", ss.SS2_TSO_LINKER),
-        seg("GGG", "GGG", "tso"),
+        seg("H5", H, "tso", inferred=protocol == "SMART-seq"),
+        seg("TSO linker", tso_linker, inferred=protocol == "SMART-seq"),
+        seg("GGG", "GGG", "tso", inferred=protocol == "SMART-seq"),
         seg("body", "X" * BODY, placeholder=True),
         seg("B", "B", placeholder=True), seg("polyA", "A" * POLYA),
         seg("GT", revcomp(ss.SS2_DT_LINKER)),
@@ -282,8 +301,7 @@ def ss3_tso_segs(variant: str) -> list[Segment]:
 
 def ss3_oligos(variant: str) -> str:
     tso_names = {"SMART-seq3": "Smartseq3_N8_TSO",
-                 "SMART-seq3xpress": "Smartseq3xpress_TSO",
-                 "FLASH-seq": "FLASH-seq_TSO"}
+                 "SMART-seq3xpress": "Smartseq3xpress_TSO"}
     rows = [
         oligo("Smartseq3_OligodT30VN",
               [seg("", ss.SS3_OLIGO_DT_HANDLE, "r3"),
@@ -292,12 +310,17 @@ def ss3_oligos(variant: str) -> str:
               mods="/5Biosg/"),
         oligo(tso_names[variant], ss3_tso_segs(variant), mods="/5Biosg/"),
         oligo("Fwd_PCR_primer",
-              [seg("", nx.S5, "s5"), seg("", nx.ME, "me"), seg("", ss.SS3_TSO_TAG, "r1")]),
-        oligo("Rev_PCR_primer", [seg("", ss.SS3_OLIGO_DT_HANDLE, "r3")]),
+              [seg("", nx.S5, "s5"), seg("", nx.ME, "me"),
+               seg("", ss.SS3_TSO_TAG[:-3], "r1"),
+               seg("", "*".join(ss.SS3_TSO_TAG[-3:]), "r1", placeholder=True)]),
+        oligo("Rev_PCR_primer", [seg("", ss.SS3_OLIGO_DT_HANDLE[:-3], "r3"),
+                                  seg("", "*".join(ss.SS3_OLIGO_DT_HANDLE[-3:]),
+                                      "r3", placeholder=True)]),
     ]
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
             + info(f"""The forward and reverse PCR handles differ. The TSO contains the
-            terminal 8 nt of the Nextera ME, the 11-bp 5' tag and the 8-bp UMI."""))
+            terminal 8 nt of the Nextera ME, the 11-bp 5' tag and the 8-bp UMI.
+            <code>*</code> marks the two terminal phosphorothioate linkages on each PCR primer."""))
 
 
 SS3_DT_HANDLE = seg("dT handle", ss.SS3_OLIGO_DT_HANDLE, "r3")
@@ -399,7 +422,7 @@ def seq_primer_drawings() -> dict[str, tuple[list[Segment], str, tuple[str, str]
 
 
 def sequencing(protocol: str) -> str:
-    if protocol in ("SMART-seq", "SMART-seq2"):
+    if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         tables = sp.section(ss.smartseq2_library(), ss.SS2_SEQ_PRIMERS,
                             heading=f"Sequencing primers: {protocol}",
                             show_read_content=True)
@@ -426,7 +449,7 @@ def sources(protocol: str) -> str:
         "SMART-seq2": [("SMART-seq", PAPERS["SMART-seq"][0])],
         "SMART-seq3": [("SMART-seq2", PAPERS["SMART-seq2"][0])],
         "SMART-seq3xpress": [("SMART-seq3", PAPERS["SMART-seq3"][0])],
-        "FLASH-seq": [("SMART-seq3", PAPERS["SMART-seq3"][0])],
+        "FLASH-seq": [("SMART-seq2", PAPERS["SMART-seq2"][0])],
     }[protocol]
     links = ''.join(f'<li><a href="https://doi.org/{doi}">{name}</a></li>'
                     for name, doi in related)
@@ -444,12 +467,14 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     mrna = graph.input("mrna", "single-cell poly(A) RNA", MaterialKind.MOLECULAR,
                        state=initial, primary=True)
 
-    if protocol in ("SMART-seq", "SMART-seq2"):
-        priming, first_scene, switch_scene = ss2_rt()
-        rt_label = "anchored oligo-dTVN with SMART handle"
+    if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
+        priming, first_scene, switch_scene = ss2_rt(protocol)
+        rt_label = ("biotinylated anchored oligo-dTVN with SMART handle"
+                    if protocol == "FLASH-seq" else
+                    "anchored oligo-dTVN with SMART handle")
         tso_label = ("SMART-seq2 LNA template-switch oligo" if protocol == "SMART-seq2"
-                     else "SMART-seq template-switch oligo")
-        preamp_template = ss2_preamp_template()
+                     else protocol + " template-switch oligo")
+        preamp_template = ss2_preamp_template(protocol)
     else:
         priming, first_scene, switch_scene = ss3_rt(protocol)
         rt_label = "biotinylated anchored oligo(dT) primer"
@@ -472,20 +497,26 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     tso = graph.input("tso", tso_label, MaterialKind.OLIGO, state=switch_scene)
     switched = graph.product("switched", "template-switched full-length cDNA",
                              MaterialKind.MOLECULAR, state=preamp_template)
-    graph.react("template_switch", "Template-switch at the transcript 5-prime end",
+    graph.react("template_switch", ("INFERRED — Template-switch at the transcript 5-prime end"
+                                    if protocol == "SMART-seq" else
+                                    "Template-switch at the transcript 5-prime end"),
                 StepKind.TEMPLATE_SWITCHING,
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (switched,))
 
     preamp_polymerase = graph.input("preamp_polymerase", "full-length cDNA PCR polymerase",
                                     MaterialKind.CATALYST)
-    if protocol in ("SMART-seq", "SMART-seq2"):
+    if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         ispcr = graph.input("ispcr", "ISPCR primer used at both cDNA ends",
                             MaterialKind.OLIGO)
         preamp_geometry = PCRGeometry.symmetric(
             preamp_template, PCRPrimer("ISPCR", H),
-            statement=("The source-defined SMART handle occurs in opposite orientations "
-                       "at the two cDNA ends, so one ISPCR reagent supplies both inward sites."))
+            statement=(("INFERRED — The original SMARTer II A oligo and cDNA PCR primer "
+                        "are kit reagents without printed complete sequences; the later "
+                        "SMART-seq2 handle gives this representative symmetric geometry.")
+                       if protocol == "SMART-seq" else
+                       ("The source-defined SMART handle occurs in opposite orientations "
+                        "at the two cDNA ends, so one ISPCR reagent supplies both inward sites.")))
         preamp_inputs = ((switched, InputRole.TEMPLATE),
                          (ispcr, InputRole.STRUCTURAL),
                          (preamp_polymerase, InputRole.CATALYST))
@@ -508,7 +539,8 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
         primer_reviewed = ["preamp_forward", "preamp_reverse"]
     amplified = graph.product("amplified", "amplified full-length cDNA",
                               MaterialKind.MOLECULAR, state=preamp_template)
-    graph.react("preamp", "PCR-amplify full-length cDNA", StepKind.PCR,
+    graph.react("preamp", ("INFERRED — PCR-amplify full-length cDNA" if protocol == "SMART-seq"
+                            else "PCR-amplify full-length cDNA"), StepKind.PCR,
                 preamp_inputs, (amplified,), geometry=preamp_geometry)
 
     transposome = graph.input("transposome", "s5/s7-loaded Nextera transposome",
@@ -537,7 +569,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                 ((tagmented_product, InputRole.TEMPLATE),
                  (gap_polymerase, InputRole.CATALYST)), (filled,))
 
-    final = (ss.smartseq2_library() if protocol in ("SMART-seq", "SMART-seq2")
+    final = (ss.smartseq2_library() if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq")
              else ss.smartseq3_library(protocol))
     index_forward = graph.input("index_forward", "Nextera N5xx index primer",
                                 MaterialKind.OLIGO)
@@ -550,14 +582,14 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
         PCRPrimer("N7xx", nx.n7xx_primer("N" * 8)),
         statement=("The canonical N5xx and N7xx primers face inward from the s5 and s7 "
                    "entry points and install the indexed P5/P7 ends."))
-    primers = tuple(ss.SS2_SEQ_PRIMERS if protocol in ("SMART-seq", "SMART-seq2")
+    primers = tuple(ss.SS2_SEQ_PRIMERS if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq")
                     else ss.SS3_SEQ_PRIMERS)
     finals = []
     main_library = graph.product("library", protocol + " sequencing-library molecules",
                                  MaterialKind.LIBRARY, state=final)
     finals.append((main_library, final))
     outputs = [main_library]
-    if protocol not in ("SMART-seq", "SMART-seq2"):
+    if protocol not in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         internal = ss.smartseq3_library(protocol, five_prime=False)
         internal_library = graph.product(
             "internal_library", protocol + " internal-fragment library molecules",
@@ -582,7 +614,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
         "index_forward", "index_reverse", "index_polymerase", "index_pcr",
         "library",
     ]
-    if protocol not in ("SMART-seq", "SMART-seq2"):
+    if protocol not in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         reviewed.append("internal_library")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -592,7 +624,7 @@ def render_page(protocol: str) -> str:
     graph = protocol_graph(protocol)
     graph_workflow = ("<h2>Step-by-step library generation</h2>\n"
                       + protocol_graph_panels(graph, cls="long"))
-    if protocol in ("SMART-seq", "SMART-seq2"):
+    if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         body = [ss2_oligos(protocol), graph_workflow, ss2_final()]
     else:
         body = [ss3_oligos(protocol), graph_workflow, ss3_final(protocol)]

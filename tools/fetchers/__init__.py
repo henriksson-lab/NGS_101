@@ -104,6 +104,7 @@ class Job:
     rows: list[dict]
     folder: Folder
     paper: Callable[[str], None] = lambda doi: None
+    pmc: Callable[[str], None] = lambda pmcid: None
     seen: set = field(default_factory=set)       # DOIs / specs already handled this run
 
 
@@ -159,8 +160,11 @@ def run_spec(job: Job, source: str, what: str = "", why: str = "") -> None:
         return
     job.seen.add(key)
     desc = "; ".join(x for x in (what, why and f"why: {why}") if x)
-    if name in ("doi", "pmc"):
+    if name == "doi":
         job.paper(arg)
+        return
+    if name == "pmc":
+        job.pmc(arg)
         return
     if name:
         h = load().get(name)

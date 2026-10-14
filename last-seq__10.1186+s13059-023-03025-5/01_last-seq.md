@@ -10,7 +10,7 @@ synthesis.” *Genome Biology* 24, 184 (2023).
 Sources read from `$CHEM_DATA/sources/last-seq__10.1186+s13059-023-03025-5/`:
 
 - 🟢 PMC full text/JATS: reaction order, identifier lengths, sequencing.
-- 🟢 Supplementary Table S2: oligos verbatim, including modifications.
+- 🟢 Supplementary Tables S2 and S3: synthetic validation oligos in S2; 80 hairpin barcode entries, dTrU tail, RandomRT and P5/P7 library primers in S3, including modifications.
 - 🟢 Supplementary protocol and figures: construction of the hairpin/rU-dT primer.
 
 ## Molecular mechanism
@@ -32,9 +32,11 @@ Sequencing used NextSeq 550, Read 1 = 50 and Read 2 = 25.
 ## Oligos retained in the model
 
 🟢 `dTrU tail` is `/5Phos/CCACCTTTCATTCACCCTTTTTTTrU×19/3ddC/`.
-The 29 barcode-specific hairpin oligos printed in Supplementary Table S2 differ at their
+The 80 barcode-specific hairpin entries printed in Supplementary Table S3 differ at their
 6-nt cellular-barcode window; the model represents that window structurally rather than
-choosing one cell identity.
+choosing one cell identity. The table prints the same six-base window `CAGGAA` for
+both BC5 and BC7, giving 79 distinct sequences across its 80 named entries. This is
+a source-table collision, not a model-derived barcode whitelist correction.
 
 🟡 The public final construct is assembled from the printed RandomRT, P5/P7 and hairpin
 regions. It shows the barcode/UMI end as the Read-2-facing end and preserves the stated

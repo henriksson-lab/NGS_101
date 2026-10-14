@@ -21,6 +21,8 @@ FINAL_LIBRARY = motor_library([
     role("native RNA:cDNA hybrid", "[native RNA with stabilizing cDNA]"),
 ], adapter="sequencing adapter", name="SQK-RNA004 pore-entry complex")
 SEQ_PRIMERS = ()
+SEQUENCING_MECHANISM = "nanopore_motor"
+MOTOR_ADAPTER_NAME = "RNA sequencing adapter"
 SEQUENCING_ENDING = "No sequencing primer extends this library. The motor-loaded sequencing adapter captures the RNA–cDNA hybrid at the pore and controls passage of the native RNA strand, beginning at its poly(A)/3′ end and proceeding toward the RNA 5′ end. The cDNA stabilizes the RNA but is not the strand base-called in direct-RNA mode."
 SEQUENCING_UNAVAILABLE = ("Direct RNA sequencing is motor-driven; current RTA and "
                           "sequencing-adapter sequences are proprietary.")

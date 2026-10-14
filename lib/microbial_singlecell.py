@@ -40,11 +40,10 @@ def bacterial_rna_library(method: str, name: str):
                       group=method + "_cell", part="droplet")
     umi = feature(method + "_umi", "umi", "random")
     return truseq_library([
-        seg("droplet barcode", "D" * 16, "cbc", placeholder=True, feature=droplet),
-        seg("plate barcode", "B" * 8, "cbc", placeholder=True, feature=plate),
+        seg("plate barcode", "B" * 13, "cbc", placeholder=True, feature=plate),
         seg("UMI", "U" * 8, "umi", placeholder=True, feature=umi),
         seg("bacterial cDNA", "X" * 40, placeholder=True),
-    ], name)
+    ], name, i5_nt=16, i5_feature=droplet, i5_name="droplet barcode (i5)")
 
 
 def indexed_mda_rows() -> list[Row]:

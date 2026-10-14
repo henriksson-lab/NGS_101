@@ -14,6 +14,7 @@ Barcoding Kit 24 V14 (SQK-NBD114.24),” NBE_9169_v114.
 
 - 🟢 [Oxford Nanopore protocol NBE_9169_v114](https://nanoporetech.com/document/ligation-sequencing-gdna-native-barcoding-v14-sqk-nbd114-24), including the public NB01–NB24 barcode table.
 - 🟢 [Oxford Nanopore kit description](https://store.nanoporetech.com/native-barcoding-kit-24-v14.html), for the dT-tailed barcode adapter and cohesive-end hook architecture.
+- 🟢 Oxford Nanopore, *Chemistry Technical Document*, CHTD_500 v1 rev AV, section 15, for both Native Adapter strands.
 
 ## 3. Molecular steps
 
@@ -27,10 +28,12 @@ dA-tailed template and a cohesive end that hooks the sequencing adapter. The pub
 24-nt NB01 sequence is `CACAAAGACACCGACAACTTTCTT`; all 24 sequences are published in
 the protocol.
 
-🔴 Oxford Nanopore does not publish the barcode-adapter flanks, cohesive-end sequence,
-Native Adapter sequence, motor attachment chemistry, or the exact strand carried into
-the pore. The schematic uses bracketed role tokens for those parts and does not substitute
-sequences from older kits.
+🟢 The current Native Adapter top strand is `CCTGTACTTCGTTCAGTTACGTATTGCT`; its
+published bottom strand is `ACGTAACTGAACGAAGTACAGG`.
+
+🔴 Oxford Nanopore does not publish the barcode-adapter flanks, cohesive-end hook,
+complete motor assembly, motor attachment chemistry, or the exact strand carried into
+the pore. The schematic retains role tokens for those parts.
 
 ## 4. Read structure
 

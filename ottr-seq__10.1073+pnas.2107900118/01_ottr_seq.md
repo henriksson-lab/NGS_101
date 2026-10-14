@@ -11,6 +11,28 @@ text-extractable copy of the same oligo table.
 - 🟢 Supplementary Table S1 gives the primer-duplex and adapter-template sequences and blocks.
 - 🟡 The final construct shows the universal-adapter branch; indexes are variable features.
 
+## Oligos in the universal-adapter branch
+
+The sequences below are printed in the defining paper's Supplementary Table S1
+(also text-extractable in the linked preprint's Table S1). Modifications and RNA
+bases are retained as written; `N` positions are variable index bases.
+
+| Role | Ordered oligo, 5′→3′ | Evidence |
+|---|---|---|
+| +1T DNA primer | `/5Cy5/GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTT` | 🟢 Table S1, universal duplex v2 |
+| blocked duplex RNA | `rGrArUrCrGrGrArArGrArGrCrArCrArCrGrUrCrUrGrArArCrUrCrCrArGrU/3SpC3/` | 🟢 Table S1, RNA complement v1 |
+| terminating adapter template | `/5Cy5/ACACTCTTTCCCTACACGACGCTCTTCCrGrArUrCrUrC` | 🟢 Table S1 |
+| P7–i7 PCR primer | `CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTGACTGGAGTTCAGACGTG` | 🟢 Table S1 |
+| P5–i5 PCR primer | `AATGATACGGCGACCACCGAGATCTACACNNNNNNNNACACTCTTTCCCTACACGAC` | 🟢 Table S1 |
+
+🟡 The P5 and P7 PCR oligos are intentionally partial: their 3′ ends land in
+the adapter-derived cDNA and polymerase fills in the rest of the standard
+Illumina read-primer regions. The paper states that the resulting libraries
+were run on a MiniSeq 75-cycle kit. It does not name a separate *custom*
+sequencing primer. The current role-only final-library drawing therefore
+cannot establish an exact primer landing coordinate, even though the
+adapter and PCR oligos are available.
+
 ## Construct logic
 
 The nonextendable ddR both normalizes heterogeneous input ends and prevents RNA–RNA

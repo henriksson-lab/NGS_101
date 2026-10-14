@@ -21,6 +21,10 @@ from .base import UA, get_json, safe_name, say
 
 DOI_RE = re.compile(r"10\.17504/protocols\.io\.([a-z0-9]+)", re.I)
 VIEW_RE = re.compile(r"https?://(?:www\.)?protocols\.io/view/([a-z0-9-]+?)(?:/v\d+)?(?:\.pdf|\.html)?(?=[\s\"'<>)\],;]|$)", re.I)
+ATTACHMENT_RE = re.compile(
+    rb"https://content\.protocols\.io/files/[A-Za-z0-9._~-]+\.(?:pdf|xlsx|xlsm|docx|zip|csv|tsv|txt)",
+    re.I,
+)
 
 
 def find_refs(text: str) -> list[str]:
@@ -28,6 +32,18 @@ def find_refs(text: str) -> list[str]:
     out = [f"10.17504/protocols.io.{m.group(1).lower().rstrip('.')}" for m in DOI_RE.finditer(text)]
     out += [f"https://www.protocols.io/view/{m.group(1).lower()}" for m in VIEW_RE.finditer(text)]
     return list(dict.fromkeys(out))
+
+
+def attachment_urls(pdf: bytes) -> list[str]:
+    """Public source attachments linked by a protocols.io PDF export.
+
+    The anonymous PDF is sometimes the only public index of its supplementary oligo
+    workbook: the attachment URL lives in a PDF link annotation and is not repeated in
+    extracted text.  Preserve order and collapse the several identical annotations that
+    a single attachment commonly receives.
+    """
+    return list(dict.fromkeys(m.group(0).decode("ascii")
+                              for m in ATTACHMENT_RE.finditer(pdf)))
 
 
 def resolve(arg: str) -> str:
@@ -63,7 +79,13 @@ def fetch(job, arg: str, what: str = "") -> None:
     slug = view.rsplit("/", 1)[-1]
     say(f"  protocols.io {slug}")
     desc = what or f"protocols.io protocol {arg} (PDF export)"
-    f.save(f"protocolsio_{slug}.pdf", view + ".pdf", desc)
+    pdf = f.save(f"protocolsio_{slug}.pdf", view + ".pdf", desc)
+    if pdf:
+        for i, url in enumerate(attachment_urls(pdf.read_bytes()), 1):
+            ext = url.rsplit(".", 1)[-1].lower()
+            ident = url.rsplit("/", 1)[-1].rsplit(".", 1)[0]
+            f.save(f"protocolsio_{slug}_attachment_{i}_{ident}.{ext}", url,
+                   f"{desc}; public attachment linked from the PDF export")
     token = os.environ.get("PROTOCOLS_IO_TOKEN")
     if token:
         ident = short or slug

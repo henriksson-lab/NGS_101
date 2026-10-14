@@ -10,16 +10,31 @@ from types import SimpleNamespace
 from typing import Callable
 
 import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from batch_ngs import nextera_library, seg, truseq_library
+from bliss_chem import adapter_a1 as bliss_adapter_a1, oligos as bliss_oligos
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
+from chil_chem import (AD1_NOMX as CHIL_AD1_NOMX, AD2_INDEX as CHIL_AD2_INDEX,
+                       READ2_N11 as CHIL_READ2_N11, oligos as chil_oligos)
 from circular import CircularizationGeometry
-from duplex_error import codec_linked_duplex, nanoseq_restrictive_end_repair
+from duplex_error import (CODEC_ADAP5_1, CODEC_ADAP7_1, codec_linked_duplex,
+                          codec_final_library, codec_oligos,
+                          nanoseq_restrictive_end_repair)
 from interaction_capture import (FixedRNPContact, ProteinMediatedRNAContact,
                                  ReversibleDuplexCrosslink)
-from pcr import PCRGeometry
+from mario_chem import oligos as mario_oligos
+from nano3p_chem import (COMPA_DNA as NANO3P_COMPA, D_DNA as NANO3P_D_DNA,
+                        R_RNA as NANO3P_R_RNA, final_library as nano3p_final_library,
+                        oligos as nano3p_oligos)
+from pcr import PCRGeometry, PCRPrimer
+from paris_chem import oligos as paris_oligos
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+from rage_seq_chem import oligos as rage_seq_oligos
+from seqscope_chem import oligos as seqscope_oligos
+from splash_chem import oligos as splash_oligos
+from stlfr_chem import (barcode_transfer_geometry as stlfr_barcode_transfer_geometry,
+                        oligos as stlfr_oligos)
 
 
 def role(name: str, width: int = 18, tag: str | None = None, *, length_bp=None,
@@ -97,7 +112,7 @@ def workflow_for(key: str) -> Workflow:
              molecule("adapter-bound duplex", ("left CODEC adapter", "original duplex", "right CODEC adapter"), joined=True,
                       junctions=(("left CODEC adapter", "original duplex", "adapter ligation"),
                                  ("original duplex", "right CODEC adapter", "adapter ligation"))),
-             "INFERRED — the public article establishes the roles; exact oligo sequence is supplementary."),
+             "The four adapter oligos, modifications and matched index sets are printed in Supplementary Table 5."),
             ("Strand-displacing extension copies and physically links both complements",
              codec_linked_duplex(), "Both original strands become recoverable in one cluster molecule."),
             ("PCR and outward Illumina sequencing", codec_linked_duplex(),
@@ -155,9 +170,9 @@ def workflow_for(key: str) -> Workflow:
             ("Run 10x Multiome while retaining mitochondrial DNA",
              two_branch("matched cell barcode", "RNA + ATAC libraries", "mtDNA fragments"),
              "All branches retain a common droplet cell identity."),
-            ("Hybrid-capture mtDNA with tiled probes",
+            ("Hybrid-capture mtDNA in four staggered probe pools",
              molecule("captured mtDNA branch", ("cell barcode", "mtDNA fragment", "capture probe")),
-             "Fragment endpoints act as endogenous molecular identifiers."),
+             "Published Supplementary Data 1 lists the probe sequences; fragment endpoints act as endogenous molecular identifiers."),
             ("Sequence mtDNA, ATAC and RNA as three matched libraries",
              two_branch("same cell barcode", "mtDNA library", "ATAC + RNA libraries"),
              "The mtDNA branch receives deep error-corrected sequencing."),
@@ -326,19 +341,19 @@ class Definition:
 
 
 DEFS = {
-    "codec": Definition("CODEC — single-duplex error correction", "10.1038/s41588-023-01376-0", "Ding et al., Nature Genetics (2023)", "An adapter quadruplex and strand-displacing extension place readable copies of both strands of one original DNA duplex into a single Illumina cluster molecule.", "custom", ("Watson copy", "CODEC linkage", "Crick copy"), "Custom outward Illumina reads recover insert, UMI and index from the physically linked duplex.", "DNA", "Exact CODEC oligo sequences are supplementary; role-preserving regions are shown as inferred rather than as published bases."),
+    "codec": Definition("CODEC — single-duplex error correction", "10.1038/s41588-023-01376-0", "Bae et al., Nature Genetics (2023)", "An adapter quadruplex and strand-displacing extension place readable copies of both strands of one original DNA duplex into a single Illumina cluster molecule.", "custom", ("Watson copy", "CODEC linkage", "Crick copy"), "Standard TruSeq Read 1 and Read 2 primers bind within the two published bridge oligos and read outward through a 3-nt UMI, an 18-nt inline sample index and one original strand copy.", "DNA", "Supplementary Table 5 publishes all four adapter oligos in eight matched sample-index sets. Set 1 is shown as a representative; the linked post-extension product remains role-scaled where the source figure does not print one contiguous strand."),
     "nanoseq": Definition("NanoSeq — nanorate duplex sequencing", "10.1038/s41586-021-03477-4", "Abascal et al., Nature (2021)", "Restriction fragmentation and dideoxynucleotide-based restrictive end repair prevent lesion copying before duplex consensus sequencing.", "truseq", ("duplex tag A", "genomic insert", "duplex tag B"), "Paired-end Illumina reads are grouped into complementary strand families and then a duplex consensus.", "DNA"),
-    "stlfr": Definition("stLFR — single-tube long-fragment reads", "10.1101/gr.245126.118", "Wang et al., Genome Research (2019)", "Transposon-tagged subfragments from one long DNA molecule are captured on one bead and receive a shared linked-read barcode before DNBSEQ.", "dnb", ("linked-read barcode", "genomic subfragment"), "DNBSEQ reads include the bead barcode needed to group short reads back to a long source molecule.", "DNA"),
-    "nano3p-seq": Definition("Nano3P-seq — Nanopore 3′-end capture", "10.1038/s41592-022-01714-w", "Begik et al., Nature Methods (2023)", "Template-switching reverse transcription captures native RNA 3′ ends for PCR-free Nanopore cDNA sequencing without RNA-adapter ligation.", "nanopore", ("motor adapter", "full-length cDNA from native 3-prime end"), "Nanopore traverses the cDNA from the captured native RNA 3′ end, retaining tail length and composition information.", "RNA"),
-    "paris": Definition("PARIS — psoralen analysis of RNA interactions and structures", "10.1016/j.cell.2016.04.028", "Lu et al., Cell (2016)", "AMT photocrosslinking, two-dimensional gel enrichment and proximity ligation preserve the two partners of an RNA duplex in one chimera.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "Paired-end sequencing reads across or beside the chimeric RNA ligation junction.", "RNA"),
-    "splash": Definition("SPLASH — sequencing psoralen-crosslinked RNA hybrids", "10.1016/j.molcel.2016.04.028", "Aw et al., Molecular Cell (2016)", "Biotinylated psoralen photocrosslinks RNA duplexes for streptavidin selection, proximity ligation and sequencing.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "Paired-end reads identify both partners retained in each proximity-ligated RNA chimera.", "RNA"),
-    "ligr-seq": Definition("LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030", "Sharma et al., Molecular Cell (2016)", "AMT-crosslinked RNA duplexes survive RNase R enrichment and are proximity-ligated before cDNA library construction.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "Paired-end reads identify the two RNA regions joined at the proximity-ligation boundary.", "RNA"),
-    "mario": Definition("MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023", "Nguyen et al., Nature Communications (2016)", "UV-crosslinked RNPs receive a selectable biotinylated RNA linker that joins two RNAs co-bound by one protein.", "custom", ("RNA A cDNA", "linker", "RNA B cDNA"), "Paired-end reads retain the linker boundary used to split and map the two interacting RNAs.", "RNA"),
+    "stlfr": Definition("stLFR — single-tube long-fragment reads", "10.1101/gr.245126.118", "Wang et al., Genome Research (2019)", "Transposon-tagged subfragments from one long DNA molecule are captured on one bead and receive a shared linked-read barcode before DNBSEQ.", "dnb", ("linked-read barcode", "genomic subfragment"), "The cited detailed protocol publishes the BGI Read 1, barcode and Read 2 sequencing primers and states paired-end 100-base genomic reads; barcode demultiplexing consumes a 42-base barcode/common-adapter string. The exact DNB circle-closing adapter or splint geometry is not published.", "DNA", "The paper-cited Protocol Exchange workbook publishes the common bead, bridge, transposon, PCR, branch-ligation, BGI and Illumina oligos, plus all 1,536 members of each of the three 10-nt barcode sets. The page shows the barcode-family architecture; the external workbook remains the authoritative full whitelist."),
+    "nano3p-seq": Definition("Nano3P-seq — Nanopore 3′-end capture", "10.1038/s41592-022-01714-w", "Begik et al., Nature Methods (2023)", "Template-switching reverse transcription captures native RNA 3′ ends for PCR-free Nanopore cDNA sequencing without RNA-adapter ligation.", "nanopore", ("motor adapter", "full-length cDNA from native 3-prime end"), "Nanopore traverses the cDNA from the captured native RNA 3′ end, retaining tail length and composition information.", "RNA", "The defining paper prints all three custom Nano3P-seq oligos and their modifications. The SQK-DCS109 Adapter Mix motor-adapter sequence remains proprietary to Oxford Nanopore and is marked inferred."),
+    "paris": Definition("PARIS — psoralen analysis of RNA interactions and structures", "10.1016/j.cell.2016.04.028", "Lu et al., Cell (2016)", "AMT photocrosslinking, two-dimensional gel enrichment and proximity ligation preserve the two partners of an RNA duplex in one chimera.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "The detailed PARIS protocol publishes the complete custom P6 sequencing primer and all adapter, RT and PCR oligos. Its circular-cDNA junction still needs to be represented before primer placement can be computed rather than stated by role.", "RNA", "The exact oligos were not absent: Lu et al.'s detailed PARIS protocol prints them, including modifications and the 24-member RT-index list. The current diagram retains a role-level final construct until the circular-cDNA library geometry is reconstructed."),
+    "splash": Definition("SPLASH — sequencing psoralen-crosslinked RNA hybrids", "10.1016/j.molcel.2016.04.028", "Aw et al., Molecular Cell (2016)", "Biotinylated psoralen photocrosslinks RNA duplexes for streptavidin selection, proximity ligation and sequencing.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "The detailed protocol specifies paired-end 150-base sequencing. Its activated 3-prime adapter and 96-nt RT/circularization primer are published, but the final universal and indexed PCR primers are named without sequences, so exact read-primer placement remains unresolved.", "RNA", "The exact adapter and RT primer were not absent: the author protocol prints both, including the 5rApp, 3ddC and two internal iSp18 modifications. The final PCR-primer pair remains undisclosed in that protocol."),
+    "ligr-seq": Definition("LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030", "Sharma et al., Molecular Cell (2016)", "AMT-crosslinked RNA duplexes survive RNase R enrichment and are proximity-ligated before cDNA library construction.", "truseq", ("5-prime random barcode", "RNA A-derived cDNA", "RNA B-derived cDNA"), "The study analyzed single-end, strand-specific reads after trimming a 5-prime random barcode. The SMARTer kit supplies standard Illumina/TruSeq-compatible endpoints, so the standard sequencing-primer sites are derived centrally; the proprietary internal priming sequences remain unknown.", "RNA", "The defining paper and its complete supplement were checked. They identify the SMARTer Stranded RNA-Seq kit and reaction roles but do not print its N6, SMART, or PCR-primer sequences. The contemporary Clontech manual explicitly marks those component sequences proprietary, while identifying its Illumina-compatible endpoint and index families."),
+    "mario": Definition("MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023", "Nguyen et al., Nature Communications (2016)", "UV-crosslinked RNPs receive a selectable biotinylated RNA linker that joins two RNAs co-bound by one protein.", "truseq", ("UMI", "RNA A cDNA", "MARIO linker", "RNA B cDNA"), "Standard paired-end Illumina reads traverse the two RNA-derived arms and linker. The paper publishes the full PE1/PE2 primers, three inline sample-barcode/UMI RT primers, and every custom linker/adapter oligo.", "RNA", "The original Methods section has a complete source-exact oligo list. Three RT-primer variants differ in their four-base sample barcode and random-barcode length; all three are shown."),
     "maester": Definition("MAESTER — mitochondrial variant enrichment from scRNA-seq", "10.1038/s41587-022-01210-8", "Miller et al., Nature Biotechnology (2022)", "Multiplex PCR enriches mitochondrial transcripts from barcoded 3′ scRNA-seq cDNA while preserving cell barcodes and UMIs.", "truseq", ("cell barcode", "UMI", "mitochondrial target"), "Read 1 retains the parent scRNA-seq cell barcode and UMI; the opposite read reports the enriched mitochondrial target.", "RNA"),
     "redeem": Definition("ReDeeM — deep mitochondrial mutation profiling", "10.1038/s41586-024-07066-z", "Weng et al., Nature (2024)", "A whole-cell 10x Multiome modification retains mtDNA, then tiled hybrid capture produces a deeply sequenced mtDNA branch matched to RNA and ATAC.", "truseq", ("cell barcode", "mtDNA fragment"), "The mtDNA, ATAC and RNA libraries carry matched cell barcodes; mtDNA fragment endpoints support consensus error correction.", "multi"),
-    "rage-seq": Definition("RAGE-Seq — repertoire and gene expression by sequencing", "10.1038/s41467-019-11049-4", "Singh et al., Nature Communications (2019)", "Hybrid capture enriches full-length immune-receptor cDNAs from barcoded droplet libraries for long-read sequencing alongside short-read expression.", "nanopore", ("motor adapter", "cell barcode", "full-length receptor cDNA"), "The long read retains the cell barcode and full receptor isoform; the matched short-read library supplies gene expression.", "RNA"),
+    "rage-seq": Definition("RAGE-Seq — repertoire and gene expression by sequencing", "10.1038/s41467-019-11049-4", "Singh et al., Nature Communications (2019)", "Hybrid capture enriches full-length immune-receptor cDNAs from barcoded droplet libraries for long-read sequencing alongside short-read expression.", "nanopore", ("motor adapter", "cell barcode", "full-length receptor cDNA"), "The long read retains the cell barcode and full receptor isoform; the matched short-read library supplies gene expression. The paper prints the TSO and R1 primers used before and after both capture rounds; Oxford Nanopore kit adapters remain proprietary.", "RNA", "The original Methods and supplement were rechecked. Exact TSO and R1 amplification primers are published. The 644-exon Roche–NimbleGen capture panel is specified by target genes rather than probe sequences, and the SQK-LSK108/SQK-LSK308 adapter sequences are not disclosed."),
     "malbac-dt": Definition("MALBAC-DT — high-detectability single-cell transcriptomics", "10.1101/2019.12.31.892190", "Chen et al., bioRxiv (2020; later PNAS 2022)", "Barcoded oligo(dT) reverse transcription is followed by MALBAC quasi-linear random amplification, pooling, tagmentation and indexed sequencing.", "nextera", ("cell barcode", "UMI", "transcript cDNA"), "Read 1 reports the cell barcode and UMI; Read 2 reports transcript sequence after TruePrep tagmentation.", "RNA"),
-    "seq-scope": Definition("Seq-Scope — flow-cell spatial transcriptomics", "10.1016/j.cell.2021.05.010", "Cho et al., Cell (2021)", "An Illumina flow cell is first decoded as a dense HDMI barcode array and then reused to capture spatially resolved tissue transcripts.", "custom", ("spatial HDMI", "UMI", "transcript cDNA"), "The HDMI read maps a molecule to a decoded flow-cell coordinate; the transcript read identifies captured RNA.", "RNA"),
+    "seq-scope": Definition("Seq-Scope — flow-cell spatial transcriptomics", "10.1016/j.cell.2021.05.010", "Cho et al., Cell (2021)", "An Illumina flow cell is first decoded as a dense HDMI barcode array and then reused to capture spatially resolved tissue transcripts.", "truseq", ("spatial HDMI", "UMI", "transcript cDNA"), "The first run uses a published custom Read1-DraI primer to decode HDMI coordinates. The second paired-end run uses the completed TruSeq shell: one read reports HDMI/UMI and the other reports captured cDNA.", "RNA", "The open Methods print all primary and alternative seed oligos, both custom first-run primers, the random second-strand primer and both PCR rounds with phosphorothioates. These were previously missed."),
     "chil-seq": Definition("ChIL-seq — chromatin integration labeling", "10.1038/s41596-020-0375-8", "Handa et al., Nature Protocols (2020)", "An oligo-conjugated antibody targets chromatin; nearby Tn5 integration and T7 transcription linearly amplify target-proximal DNA before sequencing.", "custom", ("ChIL-probe end", "target-proximal DNA"), "Illumina sequencing starts from the ChIL-probe-derived end and reports nearby genomic sequence.", "DNA"),
     "bliss": Definition("BLISS — breaks labeling in situ and sequencing", "10.1038/ncomms15058", "Yan et al., Nature Communications (2017)", "Native DSBs are blunted and ligated in situ to a T7/RA5 adapter carrying a sample barcode and UMI, then linearly amplified by IVT.", "custom", ("UMI", "sample barcode", "break-adjacent DNA"), "The genomic read begins immediately beside the captured DSB; the inline UMI distinguishes molecular break events.", "DNA"),
     "scsplat": Definition("scSPLAT — scalable single-cell WGBS", "10.1101/2021.10.14.464375", "Raine et al., bioRxiv (2021; Scientific Reports 2022)", "Bisulfite-converted single-cell DNA receives a P5/cell-barcode random-primer copy before pooling and bulk splinted ligation of the opposite adapter.", "truseq", ("cell barcode", "bisulfite-converted insert"), "The first six bases of Read 1 are the inline cell barcode; paired genomic reads report the converted insert.", "DNA"),
@@ -499,9 +514,9 @@ def _codec_graph(d, final, primers):
                              state=duplex.state)
     graph.react("end_repair", "End-repair the original duplex", StepKind.END_REPAIR,
                 ((duplex, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
-    adapter = graph.input("codec_adapter", "preassembled CODEC adapter quadruplex",
-                          MaterialKind.ADAPTER, inferred=True,
-                          source=source + "; exact oligo sequence is supplementary")
+    adapter = graph.input("codec_adapter", "preassembled four-oligo CODEC adapter quadruplex",
+                          MaterialKind.ADAPTER,
+                          source=source + "; Supplementary Table 5")
     ligase = graph.input("ligase", "CODEC adapter ligase", MaterialKind.CATALYST)
     adapted = graph.product("adapted", "CODEC-adapter-bound duplex", MaterialKind.MOLECULAR,
                             state=molecule("adapter-bound duplex", (
@@ -512,8 +527,20 @@ def _codec_graph(d, final, primers):
                 StepKind.LIGATION,
                 ((repaired, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (adapted,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "Exact CODEC oligo and end geometry are supplementary; the public source establishes the quadruplex role."))
+                geometry=AdapterLigationGeometry.known(
+                    "cohesive",
+                    *reported_adapter_end(
+                        "LD4-adap5-1 arm", kind="cohesive", polarity="3-prime",
+                        terminal_sequence="T", body_sequence=CODEC_ADAP5_1[:-1],
+                        statement="Supplementary Table 5 prints the phosphorothioate-linked terminal T."
+                    ).scenes,
+                    *reported_adapter_end(
+                        "LD4-adap7-1 arm", kind="cohesive", polarity="3-prime",
+                        terminal_sequence="T", body_sequence=CODEC_ADAP7_1[:-1],
+                        statement="Supplementary Table 5 prints the phosphorothioate-linked terminal T."
+                    ).scenes,
+                    statement=("The paper dA-tails the insert and Supplementary Table 5 prints a "
+                               "terminal phosphorothioate-linked T on each ligating adapter arm.")))
     strand_polymerase = graph.input("strand_polymerase", "strand-displacing polymerase",
                                     MaterialKind.CATALYST)
     linked = graph.product("linked", "physically linked copies of both original complements",
@@ -615,8 +642,7 @@ def _stlfr_graph(d, final):
                 StepKind.LIGATION,
                 ((captured, InputRole.TEMPLATE), (barcode_adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (barcoded,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The public method defines barcode transfer but not one universal bead-ligation end sequence."))
+                geometry=stlfr_barcode_transfer_geometry())
     circle_ligase = graph.input("circle_ligase", "DNB library circularization ligase",
                                 MaterialKind.CATALYST)
     library = graph.product("library", "stLFR DNBSEQ library", MaterialKind.LIBRARY,
@@ -641,23 +667,25 @@ def _nano3p_graph(d, final):
                       MaterialKind.BIOLOGICAL,
                       state=molecule("native RNA", ("RNA body", "native 3-prime end")),
                       primary=True)
-    primer = graph.input("rt_primer", "native-3-prime-end RT primer", MaterialKind.OLIGO)
+    starter = graph.input("rt_starter", "preannealed blocked R_RNA / 5-prime-phosphorylated D_DNA starter duplex",
+                          MaterialKind.OLIGO,
+                          source=source + "; Methods print both oligos and modifications")
     rt = graph.input("reverse_transcriptase", "template-switching reverse transcriptase",
                      MaterialKind.CATALYST)
-    first = graph.product("first_strand", "cDNA initiated at the native RNA 3-prime end",
-                          MaterialKind.MOLECULAR,
-                          state=molecule("RNA–primer cDNA", ("native-end cDNA",)))
-    graph.react("reverse_transcribe", "Prime reverse transcription at the native RNA 3-prime end",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((rna, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (first,))
-    tso = graph.input("tso", "template-switch oligo", MaterialKind.OLIGO)
-    full = graph.product("full_cdna", "template-switched full cDNA", MaterialKind.MOLECULAR,
-                         state=molecule("full cDNA", ("template-switch handle", "RNA-derived cDNA")))
-    graph.react("template_switch", "Template-switch at the opposite cDNA end",
+    full = graph.product("full_cdna", "TGIRT template-switched cDNA copied from the native RNA 3-prime end",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("full cDNA", ("D_DNA handle", "RNA-derived cDNA")))
+    graph.react("template_switch_rt", "Template-switch TGIRT from the starter duplex onto the native RNA 3-prime end",
                 StepKind.TEMPLATE_SWITCHING,
-                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                ((rna, InputRole.TEMPLATE), (starter, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (full,))
+    compa = graph.input("compa", "published CompA_DNA ligation complement",
+                        MaterialKind.OLIGO, source=source + "; Methods")
+    ready = graph.product("ligation_ready", "CompA-annealed cDNA end",
+                          MaterialKind.MOLECULAR, state=full.state)
+    graph.react("anneal_compa", "Anneal CompA_DNA to make the adapter-ligation end",
+                StepKind.HYBRIDIZATION,
+                ((full, InputRole.TEMPLATE), (compa, InputRole.STRUCTURAL)), (ready,))
     motor = graph.input("motor_adapter", "Nanopore motor sequencing adapter",
                         MaterialKind.ADAPTER)
     ligase = graph.input("adapter_ligase", "Nanopore adapter ligase", MaterialKind.CATALYST)
@@ -665,13 +693,14 @@ def _nano3p_graph(d, final):
                             state=final)
     graph.react("ligate_motor", "Attach the Nanopore motor adapter without PCR",
                 StepKind.LIGATION,
-                ((full, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
+                ((ready, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (library,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The source defines the motor-adapter role; kit-revision-specific end chemistry is not asserted."))
     graph.sequence(library, SequencingPlan(limitation=d.sequencing))
-    reviewed = ["rna", "rt_primer", "reverse_transcriptase", "reverse_transcribe", "tso",
-                "template_switch", "motor_adapter", "adapter_ligase", "ligate_motor", "library"]
+    reviewed = ["rna", "rt_starter", "reverse_transcriptase", "template_switch_rt",
+                "compa", "anneal_compa", "motor_adapter", "adapter_ligase",
+                "ligate_motor", "library"]
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -804,8 +833,9 @@ def _bliss_graph(d, final, primers):
                             state=molecule("blunted break", ("genomic DNA", "blunt DSB end")))
     graph.react("blunt", "Blunt the native break ends in situ", StepKind.END_REPAIR,
                 ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (blunted,))
-    adapter = graph.input("break_adapter", "UMI/sample-barcode/RA5/T7 break adapter",
-                          MaterialKind.ADAPTER)
+    adapter = graph.input("break_adapter", "published UMI/sample-barcode/RA5/T7 break adapter",
+                          MaterialKind.ADAPTER, state=bliss_adapter_a1(),
+                          source=source + "; Supplementary Data 1 and Supplementary Fig. 1a")
     ligase = graph.input("ligase", "break-adapter DNA ligase", MaterialKind.CATALYST)
     tagged = graph.product("tagged", "adapter-tagged break ends", MaterialKind.MOLECULAR,
                            state=molecule("tagged break", (
@@ -814,8 +844,11 @@ def _bliss_graph(d, final, primers):
     graph.react("ligate", "Ligate the barcoded T7 adapter to break ends", StepKind.LIGATION,
                 ((blunted, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (tagged,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The public role-level construct establishes blunt break tagging; exact adapter end geometry is not asserted here."))
+                geometry=AdapterLigationGeometry.known(
+                    "blunt", bliss_adapter_a1(),
+                    statement=("Supplementary Fig. 1a marks ligation at the blunt, "
+                               "5-prime-phosphorylated sample-barcode end; Supplementary "
+                               "Data 1 prints both oligos.")))
     t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
     rna = graph.product("rna", "linearly amplified break-adjacent RNA", MaterialKind.MOLECULAR,
                         state=tagged.state)
@@ -981,13 +1014,13 @@ def _redeem_graph(d, final, primers):
     graph.react("split_branches", "Separate mtDNA, ATAC and RNA branches",
                 StepKind.SPLIT, ((barcoded, InputRole.TEMPLATE),), (mt, atac, rna),
                 changes_molecule=False)
-    probes = graph.input("capture_probes", "tiled biotinylated mtDNA capture probes",
+    probes = graph.input("capture_probes", "four staggered mtDNA capture-probe pools (sequences in Supplementary Data 1)",
                          MaterialKind.SELECTION)
     captured = graph.product("captured_mt", "hybrid-captured cell-barcoded mtDNA",
                              MaterialKind.MOLECULAR, state=mt.state)
     rejected = graph.product("rejected_mt", "non-mitochondrial capture material",
                              MaterialKind.WASTE)
-    graph.react("capture_mt", "Hybrid-capture mtDNA with tiled probes",
+    graph.react("capture_mt", "Hybrid-capture mtDNA in four staggered probe pools",
                 StepKind.AFFINITY_CAPTURE,
                 ((mt, InputRole.TEMPLATE), (probes, InputRole.SELECTION)),
                 (captured, rejected))
@@ -1089,8 +1122,9 @@ def _chil_graph(d, final, primers):
                 ((bound, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, waste))
     graph.discard(waste, "does not retain target-proximal tagged DNA")
-    extension_primer = graph.input("extension_primer", "ChIL-probe extension primer",
-                                   MaterialKind.OLIGO)
+    extension_primer = graph.input("extension_primer", "published ChIL-probe extension architecture",
+                                   MaterialKind.OLIGO,
+                                   source=source + "; Supplementary Table 4")
     polymerase = graph.input("extension_polymerase", "DNA polymerase", MaterialKind.CATALYST)
     extended = graph.product("extended", "ChIL probe joined to a nearby DNA copy",
                              MaterialKind.MOLECULAR, state=tagged.state)
@@ -1104,11 +1138,39 @@ def _chil_graph(d, final, primers):
     graph.react("transcribe", "Linearly amplify with T7 transcription",
                 StepKind.TRANSCRIPTION,
                 ((extended, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
+    rt_primer = graph.input("library_rt_primer", "Read2+N11 first-strand synthesis primer",
+                            MaterialKind.OLIGO,
+                            source=source + "; Supplementary Table 4")
+    rt = graph.input("library_rt_enzyme", "reverse transcriptase", MaterialKind.CATALYST)
+    cdna = graph.product("library_cdna", "ChIL target-proximal cDNA",
+                         MaterialKind.MOLECULAR,
+                         state=molecule("ChIL cDNA", ("target-proximal cDNA",)))
+    graph.react("library_rt", "Reverse-transcribe ChIL RNA with Read2+N11",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (cdna,))
+    forward = graph.input("library_forward", "Ad1_noMX PCR primer", MaterialKind.OLIGO,
+                          source=source + "; Supplementary Table 4")
+    reverse = graph.input("library_reverse", "Ad2_index PCR primer", MaterialKind.OLIGO,
+                          source=source + "; Supplementary Table 4")
+    pcr_polymerase = graph.input("library_polymerase", "library PCR polymerase",
+                                 MaterialKind.CATALYST)
+    library = graph.product("library_library", "ChIL target-proximal sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "Amplify and index the ChIL-seq library", StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL),
+                 (pcr_polymerase, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.exact(
+                    final, PCRPrimer("Ad1_noMX", CHIL_AD1_NOMX),
+                    PCRPrimer("Ad2_index", CHIL_AD2_INDEX),
+                    statement="Supplementary Table 4 prints both complete PCR primers."))
+    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
     reviewed = ["chromatin", "antibody", "bind", "transposome", "tn5", "tagment",
                 "extension_primer", "extension_polymerase", "extend", "t7_polymerase",
-                "transcribe"]
-    _finish_rt_pcr(graph, "library", rna, final, primers, d.sequencing, reviewed,
-                   label="ChIL target-proximal")
+                "transcribe", "library_rt_primer", "library_rt_enzyme", "library_rt",
+                "library_forward", "library_reverse", "library_polymerase",
+                "library_pcr", "library_library"]
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -1310,7 +1372,15 @@ def _payload(d: Definition) -> list[Segment]:
 def get(key: str):
     d = DEFS[key]
     primers = ()
-    if d.library == "truseq":
+    if key == "codec":
+        final = codec_final_library()
+        primers = sp.standard_primers(final, ("Read 1", "Read 2"))
+    elif key == "chil-seq":
+        final, primers = nextera_library(_payload(d), d.title + " final library",
+                                          dual_index=False)
+    elif key == "nano3p-seq":
+        final = nano3p_final_library()
+    elif d.library == "truseq":
         final, primers = truseq_library(_payload(d), d.title + " final library")
     elif d.library == "nextera":
         final, primers = nextera_library(_payload(d), d.title + " final library")
@@ -1334,6 +1404,43 @@ def get(key: str):
                                 if not primers else ""),
         workflow=lambda: workflow_for(key), oligos=lambda: (),
     )
+    if key == "codec":
+        spec.oligos = codec_oligos
+    elif key == "paris":
+        spec.oligos = paris_oligos
+        spec.SEQUENCING_UNAVAILABLE = (
+            "The custom sequencing-primer bases are published; exact placement remains "
+            "unresolved only because the circular-cDNA junction is not yet represented.")
+    elif key == "splash":
+        spec.oligos = splash_oligos
+        spec.SEQUENCING_UNAVAILABLE = (
+            "The activated adapter and 96-nt RT/circularization-primer bases are "
+            "published. The detailed protocol names Universal PCR Primer and "
+            "Index (X) Primer without printing their sequences, so the completed "
+            "amplicon and exact sequencing-primer sites cannot yet be derived.")
+    elif key == "mario":
+        spec.oligos = mario_oligos
+    elif key == "rage-seq":
+        spec.oligos = rage_seq_oligos
+        spec.SEQUENCING_MECHANISM = "nanopore_motor"
+        spec.MOTOR_ADAPTER_NAME = "SQK-LSK108 / SQK-LSK308 motor adapter"
+    elif key == "seq-scope":
+        spec.oligos = seqscope_oligos
+    elif key == "bliss":
+        spec.oligos = bliss_oligos
+    elif key == "chil-seq":
+        spec.oligos = chil_oligos
+    elif key == "nano3p-seq":
+        spec.oligos = nano3p_oligos
+        spec.SEQUENCING_MECHANISM = "nanopore_motor"
+        spec.MOTOR_ADAPTER_NAME = "SQK-DCS109 AMX motor adapter"
+    elif key == "stlfr":
+        spec.oligos = stlfr_oligos
+        # Primer bases are now source-exact and listed above.  Molecular placement in
+        # the DNB circle remains role-level until its circle-closing geometry is known.
+        spec.SEQUENCING_UNAVAILABLE = (
+            "The BGI sequencing-primer sequences are published; only the DNB "
+            "circle-closing adapter or splint geometry remains unavailable.")
     factories = {
         "paris": lambda: _psoralen_graph(key, d, final, primers),
         "splash": lambda: _psoralen_graph(key, d, final, primers),

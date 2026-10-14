@@ -18,4 +18,10 @@ scNMT-seq jointly measures chromatin accessibility, endogenous DNA methylation a
 
 🟢 The RNA branch is Smart-seq2 cDNA followed by one-fifth-volume Nextera XT. The DNA branch is bisulfite conversion followed by the published scBS-seq two-round random-priming chemistry and PE1.0/iPCRTag amplification.
 
+🟢 The defining paper names its RNA oligos as the Smart-seq2 oligo-dT, TSO and ISPCR
+primer and cites Picelli et al. (2013, 2014). Their exact sequences and the canonical
+Nextera s5/s7 indexing-primer geometry are therefore reused from those authoritative
+chemistries rather than left as protocol-local unknowns. The scNMT-seq paper does not
+claim a different sequence variant.
+
 🟢 Both branches were sequenced paired-end. The schematic keeps their distinct Nextera and historical scBS-seq primer layouts separate.

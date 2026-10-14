@@ -10,9 +10,19 @@ TITLE="iMARGI — in situ RNA–genome interaction mapping"
 NOTES="01_imargi.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1073/pnas.1819788116">Yan et al., <i>PNAS</i> (2019)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-019-0229-4">Nat. Protocols (2019)</a>.'
 SUMMARY="A bivalent linker is ligated in situ first to fragmented chromatin-associated RNA and then to nearby genomic DNA; reverse transcription and Illumina preparation preserve the RNA–linker–DNA order."
-FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("iMARGI","RNA–linker–DNA contact chimera",umi=8)
-FINAL_CAPTION="Paired reads recover the RNA-derived and DNA-derived ends separated by the diagnostic bridge."
+FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("iMARGI","RNA–linker–DNA contact chimera",inferred_adapters=True)
+FINAL_CAPTION="INFERRED — paired reads recover the RNA-derived and DNA-derived ends; the exact PCR landing geometry is not represented by this compact library view. The linker has two ligation-bias bases, not a UMI."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed iMARGI library."
+CAVEAT="The author protocol prints the modified bivalent linker, cut oligo and PCR primers. This compact final-library view does not draw the strand-resolved BamHI split and PCR landing junctions."
+READ_LENGTHS={"Read 1":100,"Read 2":100}
+def oligos():
+ return [
+  "<b>bivalent linker top</b> — 5′-/Phos/NNAGATCGGAAGAGCGTCGTGTAGGGAGGATCCGTTCAGACGTGTGCTCTTCC*GA/iBiodT/CT-3′ (C* is phosphorothioated)",
+  "<b>bivalent linker bottom</b> — 5′-/Phos/GATCGGAAGAGCACACGTCTGAACGGATCCTCCCTACACGACGCTCT-3′",
+  "<b>BamHI cut oligo</b> — 5′-TCGTGTAGGGAGGATCCGTTCAGACGTGTGCTCT/3InvdT/-3′",
+  "<b>NEBNext universal PCR</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′",
+  "<b>NEBNext index PCR</b> — 5′-CAAGCAGAAGACGGCATACGAGAT[6 bp barcode]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-S-T-3′",
+ ]
 BRIDGE=BivalentRNAChromatinBridge("iMARGI bivalent linker")
 def rna_ligation_geometry():
     rna=Scene(); rna.strand("RNA arm",[Segment("preadenylated RNA-ligation end","[RNA-arm end]",placeholder=True),Segment("annealed bivalent-linker body","[bivalent linker]",placeholder=True)],label="iMARGI linker")
@@ -53,12 +63,11 @@ def protocol_graph():
              StepKind.LIGATION,
              ((rna_joined,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),
               (dna_ligase,InputRole.CATALYST)),(chimera,),geometry=dna_ligation_geometry())
- rt_primer=graph.input("rt_primer","iMARGI reverse-transcription primer",MaterialKind.OLIGO)
  rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
  cdna=graph.product("cdna_chimera","cDNA–linker–genomic DNA chimera",MaterialKind.MOLECULAR)
  graph.react("reverse_transcription","Reverse-transcribe the RNA side of the chimera",
              StepKind.REVERSE_TRANSCRIPTION,
-             ((chimera,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+             ((chimera,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),
               (rt,InputRole.CATALYST)),(cdna,))
  p5=graph.input("p5_primer","P5 library PCR primer",MaterialKind.OLIGO)
  p7=graph.input("p7_primer","indexed P7 library PCR primer",MaterialKind.OLIGO)
@@ -75,6 +84,6 @@ def protocol_graph():
      read_uses={p.role:("demultiplex" if "Index" in p.role else "include") for p in SEQ_PRIMERS}))
  graph.declare_reviewed_scope((
      "chromatin","restriction_enzyme","fragmentation","bivalent_linker","rna_ligase",
-     "rna_ligation","dna_ligase","dna_ligation","rt_primer","reverse_transcriptase",
+     "rna_ligation","dna_ligase","dna_ligation","reverse_transcriptase",
      "reverse_transcription","p5_primer","p7_primer","polymerase","library_pcr","library"),source)
  return graph.require_publishable()

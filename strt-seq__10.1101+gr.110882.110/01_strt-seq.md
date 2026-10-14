@@ -21,12 +21,13 @@ doi:10.1038/nprot.2012.022 — the detailed STRT protocol that upstream's STRT d
 based on (not available to us); and nanoCAGE (Plessy *et al.* *Nat Methods* 2010,
 doi:10.1038/nmeth.1470) for "semi-suppressive PCR". Data: GEO GSE29087 (STRT).
 
-Sources read (in `$CHEM_DATA/sources/strt-seq-family__10.1101+gr.110882.110/`, never
-committed):
+Sources read (in the corresponding `$CHEM_DATA/sources/strt-seq__.../`,
+`strt-c1__.../` and `strt-seq-2i__.../` directories, never committed):
 
 | File | What | Used for |
 |---|---|---|
 | `gr.110882.110_PMC3129258.html(.txt)` | STRT, Genome Res 2011, full text from PMC (fetched by hand) | all STRT oligos and conditions |
+| `scg_STRT_GenomeRes_2011_SI.pdf(.txt)` | Mirror of STRT Supplemental Table 1 in the scg_lib_structs repository | all 96 STRT-V2-n TSO rows and their barcode column |
 | `nmeth.2772_..._MOESM266_ESM.pdf` | STRT/C1 Supplementary Figures + Note | list of changes vs STRT, sequencing |
 | `nmeth.2772_..._MOESM268_ESM.xlsx` | STRT/C1 oligo table | **every C1 oligo, 96 Tn5 barcodes** |
 | `nmeth.2772_..._MOESM267_ESM.xlsx` | gene CV table | not chemistry |
@@ -37,7 +38,6 @@ committed):
 
 Could not be fetched (🔴; list in `MANIFEST.tsv` as `(manual)`):
 
-- STRT Supplemental Table 1 — the 96 **STRT-V2-n barcodes** — https://genome.cshlp.org/content/21/7/1160/suppl/DC1 (cshlp answers 403/404 to scripts; PMC has no copy).
 - STRT/C1 **Online Methods** (reaction conditions, read-1 primer, PvuI step if any) — https://doi.org/10.1038/nmeth.2772 (paywalled, no PMC copy).
 - STRT Nature Protocols 2012 — https://doi.org/10.1038/nprot.2012.022 (paywalled).
 - The 32 well-index (`XXXXX`) and 96 subarray-index (`YYYYYYYY`) sequences of STRT-seq-2i — not in the paper, preprint or supplement.
@@ -76,9 +76,16 @@ library PCR 1  5′-AATGATACGGCGACCACCGAGATCTAAGCAGTGGTATCAACGCAGAGT-3′
 library PCR 2  5′-CAAGCAGAAGACGGCATACGAG-3′
 ```
 
-The 96 barcodes are in Supplemental Table 1, which we do not have. 🔴 The read-1
-sequencing primer is called only "a custom primer" (Fig. 1 legend); its sequence is not
-in the paper. 🔴
+🟢 Supplemental Table 1 is available as `scg_STRT_GenomeRes_2011_SI.pdf.txt` in the
+source archive. It prints all 96 six-base `STRT-V2-n` barcodes and complete TSO rows
+(its row names are spelled `STARTv2-n`);
+the first and last barcodes are `TTTAGG` and `CCTTTC`. The archived `scg_STRT_bc.fa`
+agrees with all 96 table rows (unique barcodes). The supplemental TSO rows spell the
+fixed `GCAGTGCT` region as `GCAGUGCU`, whereas the main paper's Methods prints DNA
+`GCAGTGCT` and identifies only the terminal `rGrGrG` as ribonucleotides. 🟡 This
+source discrepancy is unresolved, so the model follows the main Methods for those two
+positions. 🔴 The read-1 sequencing primer is called only "a custom primer" (Fig. 1
+legend); its exact sequence is not printed in the paper or this table.
 
 ### 2b. STRT/C1 (Nat Methods 2014) — 🟢 verbatim from the oligo table (`MOESM268`)
 
@@ -129,10 +136,9 @@ Upstream calls the oligo-dT "C1-P1-T31" — it is the same sequence as C1's (com
   oligo-dT, the TSO and *is* STRT-PCR — the Clontech SMART single-primer design.
 - STRT-V3-T30 = handle + `CGAC` + T30 + `VN` (59 nt). The handle's final `GT` + `CGAC`
   spell **`GTCGAC` = SalI**, so the SalI site sits at the junction handle/poly(T).
-- STRT-V2-n = handle + `GCAGTGCT` spacer + 6-nt barcode + `rGrGrG` = **40 nt**. It
-  contains no SalI site of its own; a barcode could create one only for 1 of the 4096
-  possible 6-mers (computed by enumeration) — whether any of the 96 does is unknowable
-  without Supplemental Table 1. 🔴
+- STRT-V2-n = handle + `GCAGTGCT` spacer + 6-nt barcode + `rGrGrG` = **40 nt** in
+  the main Methods spelling. None of the 96 published barcodes makes a `GTCGAC`
+  SalI site in this TSO (computed against Supplemental Table 1). 🟡
 - Library PCR 1 = `illumina.P5[:25]` (`AATGATACGGCGACCACCGAGATCT`) + the full SMART handle
   (48 nt): P5 grafted onto the TSO end.
 - Library PCR 2 = `illumina.P7[:22]`.
@@ -343,7 +349,7 @@ Disagreements:
 
 ## 7. Open questions
 
-- 🔴 STRT barcodes (Supplemental Table 1) and the STRT read-1 primer.
+- 🔴 STRT read-1 primer; the 96 barcodes were recovered from Supplemental Table 1.
 - 🔴 STRT/C1 Online Methods: RT/PCR/tagmentation conditions, read-1 and index primers,
   whether PvuI is used. If it is, 6.25 % of UMIs (those starting `CG`) are lost. 🟡
 - 🔴 2i well-index (32 × 5 nt) and subarray-index (96 × 8 nt) sequences; whether the

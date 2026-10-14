@@ -5,17 +5,19 @@ from chemdraw import Construct, MolecularState, Row, Scene, Workflow, feature, r
 from dumbbell import smrtbell_circuit, smrtbell_hairpin_geometry, smrtbell_sequencing_plan
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from longread_footprinting import conventional_smrtbell, pacbio_entry, smrtbell_rows
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 TITLE="ScISOr-seq2 — enriched single-cell isoforms by long reads"
 NOTES="01_scisor-seq2.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41593-024-01616-4">Joglekar et al., <i>Nature Neuroscience</i> (2024)</a>.'
 SUMMARY="10x 3-prime cDNA is strand-selectively re-amplified to retain cell barcodes, exon-capture probes enrich spliced molecules, and the same enriched cDNA can enter PacBio HiFi or ONT ligation sequencing."
-INSERT=Construct([seg("Partial Read 1 handle","CTACACGACGCTCTTCCGATCT","r1"),seg("cell barcode","B"*16,"cbc",placeholder=True,feature=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x Chromium 3-prime v3 whitelist")),seg("UMI","U"*12,"umi",placeholder=True,feature=feature("umi","umi","random")),seg("full-length spliced cDNA","X"*42,placeholder=True),seg("Partial TSO handle","AAGCAGTGGTATCAACGCAGAGTACAT","tso")],name="LAP-CAP enriched barcoded cDNA")
+PARTIAL_READ1 = "CTACACGACGCTCTTCCGATCT"
+PARTIAL_TSO = "AAGCAGTGGTATCAACGCAGAGTACAT"
+INSERT=Construct([seg("Partial Read 1 handle",PARTIAL_READ1,"r1"),seg("cell barcode","B"*16,"cbc",placeholder=True,feature=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x Chromium 3-prime v3 whitelist")),seg("UMI","U"*12,"umi",placeholder=True,feature=feature("umi","umi","random")),seg("full-length spliced cDNA","X"*42,placeholder=True),seg("Partial TSO handle reverse complement",revcomp(PARTIAL_TSO),"tso")],name="LAP-CAP enriched barcoded cDNA")
 SMRTBELL=conventional_smrtbell(INSERT)
 FINAL_LIBRARY=None; SEQ_PRIMERS=(); SEQUENCING_ENDING=pacbio_entry(SMRTBELL)+" The same enriched cDNA may instead receive an ONT motor adapter, in which case no synthesis sequencing primer is used."
 def oligos():
-    return ["<b>Partial Read 1</b> — 5′-CTACACGACGCTCTTCCGATCT-3′","<b>Partial TSO</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACAT-3′"]
+    return [f"<b>Partial Read 1</b> — 5′-{PARTIAL_READ1}-3′",f"<b>Partial TSO</b> — 5′-{PARTIAL_TSO}-3′"]
 def workflow():
     w=Workflow(MolecularState("10x 3′ cDNA",(Row(chunks=[("Read1 handle—cell barcode—UMI—transcript cDNA—TSO","cbc",False)]),)))
     w.react("Perform linear/asymmetric then exponential amplification",[Row(chunks=[("Partial Read1-only cycles → strand bias; + Partial TSO → full amplicon","r1",False)])],name="LAP amplicons",note="LAP removes non-barcoded products while retaining both terminal handles.")
@@ -49,8 +51,13 @@ def protocol_graph():
                 StepKind.PCR,
                 ((biased,InputRole.TEMPLATE),(partial_r1,InputRole.STRUCTURAL),
                  (partial_tso,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
-                (amplified,),geometry=PCRGeometry.unavailable(
-                    INSERT,reason="Both exact partial primers are published, but the role-level cDNA construct does not assert a universal transcript-end coordinate."))
+                (amplified,),geometry=PCRGeometry.exact(
+                    INSERT,
+                    PCRPrimer("Partial Read 1", PARTIAL_READ1),
+                    PCRPrimer("Partial TSO", PARTIAL_TSO),
+                    statement=("The defining Methods print both complete primers; their "
+                               "terminal 10x handles flank every LAP amplicon independently "
+                               "of the transcript's internal coordinates.")))
     probes=graph.input("exon_probes","biotinylated exon-capture probe pool",
                        MaterialKind.SELECTION)
     enriched=graph.product("enriched","CAP-enriched spliced barcoded cDNA",

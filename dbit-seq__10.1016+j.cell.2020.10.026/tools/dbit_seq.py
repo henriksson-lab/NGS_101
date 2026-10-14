@@ -42,6 +42,8 @@ B_LINKER = "ATCCACGTGCTTGAG"
 B1_BARCODE = "AACGTGAT"
 B_PCR_HANDLE = "CAAGCGTTGGCTTCTCGCATCT"
 PRIMER_2 = "AAGCAGTGGTATCAACGCAGAGT"
+TEMPLATE_SWITCH_PRIMER = "AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G"
+PRIMER_3_CITE_SEQ = "CCTTGGCACCCGAGAATT*C*C"
 LIGATION_SPLINT = "CGAATGCTCTGGCCTCTCAAGCACGTGGAT"
 
 if LIGATION_SPLINT != revcomp(B_LINKER + A_LINKER):
@@ -179,6 +181,8 @@ def oligos():
         oligo("universal ligation linker", [seg("splint", LIGATION_SPLINT)]),
         oligo("Primer 1", [seg("B PCR handle", B_PCR_HANDLE)]),
         oligo("Primer 2", [seg("template-switch/PCR primer", PRIMER_2)]),
+        f"<p>Template Switch Primer: 5′- {TEMPLATE_SWITCH_PRIMER} -3′</p>",
+        f"<p>Primer 3 (optional antibody-tag branch): 5′- {PRIMER_3_CITE_SEQ} -3′</p>",
     ]
 
 
@@ -216,7 +220,8 @@ def protocol_graph():
                 ((sealed,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
                 (recovered,unrecovered))
     graph.discard(unrecovered,"material without the biotinylated Barcode B oligo is washed away")
-    tso=graph.input("tso","Primer 2 template-switch oligo",MaterialKind.OLIGO)
+    tso=graph.input("tso","template-switch oligo: "+TEMPLATE_SWITCH_PRIMER,MaterialKind.OLIGO,
+                    source=SOURCE+" (STAR Protocols Supplementary Table S2)")
     switched=graph.product("switched","template-switched spatially barcoded cDNA",
                            MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
     graph.react("template_switch","Install the distal cDNA handle by template switching",

@@ -82,9 +82,13 @@ class PhasedTelomereAdapter:
 
     @property
     def arms(self) -> tuple[str, ...]:
-        return tuple((p + self.arm_repeat * self.arm_copies)[:
-                     len(self.arm_repeat) * self.arm_copies]
-                     for p in phases(self.arm_repeat))
+        # A phase is a window into one infinitely repeated motif.  Prefixing a
+        # phase to a fresh repeat would duplicate bases at the join (for example
+        # CCTAAC + CCCTAA -> CCTAACCCCTAA).  Slice one long repeat instead.
+        width = len(self.arm_repeat) * self.arm_copies
+        repeated = self.arm_repeat * (self.arm_copies + 1)
+        return tuple(repeated[offset:offset + width]
+                     for offset in range(len(self.arm_repeat)))
 
     def annealed_scene(self, end: TelomereEnd | None = None, phase: int = 0) -> Scene:
         end = end or TelomereEnd()
@@ -160,10 +164,10 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
         reviewed.extend(("tdt", "polya_tail")); current = tailed
 
     tag = graph.input("terminal_tag", ("published barcoded capture/seqTether duplex" if kind == "dtm"
+                                      else "published phased TeloTag duplex" if kind == "profiling"
                                       else "phased telomere-capture or TeloTag oligo"),
                       MaterialKind.OLIGO,
-                      inferred=kind == "profiling",
-                      source=authority + (" (some ordered bases unavailable)" if kind == "profiling" else ""))
+                      inferred=False)
     hybrid = graph.product("tag_hybrid", "capture oligo annealed at the native telomere end",
                            MaterialKind.MOLECULAR, state=current.state)
     graph.react("anneal_tag", "Anneal the terminal capture oligo",
@@ -253,7 +257,7 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
 
     motor = graph.input("motor_adapter", "motor-loaded Oxford Nanopore sequencing adapter",
                         MaterialKind.ADAPTER, inferred=True,
-                        source=authority + " (proprietary terminal bases unavailable)")
+                        source=authority + " (the complete kit- and revision-specific motor-bearing assembly is unavailable)")
     motor_ligase = graph.input("motor_ligase", "Oxford Nanopore adapter ligase",
                                MaterialKind.CATALYST)
     final_state = Construct([
@@ -267,7 +271,7 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
                 ((current, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
                  (motor_ligase, InputRole.CATALYST)), (library,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The cited workflow does not disclose the proprietary motor-adapter terminal bases."))
+                    "The cited workflow does not disclose the complete kit- and revision-specific motor-bearing adapter assembly."))
     graph.sequence(library, SequencingPlan(
         acquired_roles=("Sequencing output",),
         limitation="Oxford Nanopore motor entry is platform-driven; no sequencing primer binds the library."))

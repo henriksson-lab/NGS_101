@@ -5,6 +5,52 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-14 — Every protocol receives an oligo source review
+
+**Decision.** `catalogue/protocol_oligo_audit.tsv` tracks an explicit source-level
+review for every entry in `catalogue/ours.tsv`, including pages that make no visible
+missing-sequence claim and entries still at notes status. `tools/audit_protocol_oligos.py`
+syncs this census and records the sources read, oligo roles checked, open roles, and
+conclusion. A `reviewed` row means the named source scope was examined; it does not
+assert that every oligo is published or that the molecular model is complete.
+`limited` records an audit stopped by unavailable or ambiguous primary evidence.
+Unresolved oligos asserted on public pages continue to use the separate, digest-bound
+`oligo_source_audit.tsv` below.
+
+**Why.** A page without a visible caveat may still omit an oligo or rely on a shallow
+reading of the paper. The source-level census gives those omissions a durable work
+queue and preserves the precise boundary between published bases, inference, and
+unavailable material. Raw-read consensus can support an explicitly labelled inference
+only when the dataset accession, processing, and cross-checks are recorded; it cannot
+establish chemical modifications absent from a synthesis source.
+
+## 2026-10-13 — Missing oligo claims have a source-review ledger
+
+**Decision.** A schematic that says a primer, adapter, linker, barcode or sequencing
+entry sequence is unavailable creates an auditable source-review obligation. The
+checked-in `catalogue/oligo_source_audit.tsv` records one row per affected protocol,
+the exact limitation signals currently rendered, the defining and supplementary sources
+actually checked, and whether the sequence was recovered, confirmed absent, mixed across
+components, or found not to be an oligo gap. `tools/audit_missing_oligos.py` derives the
+candidate set from built public pages and fingerprints their current signals; completed
+reviews whose rendered evidence changes become stale instead of silently remaining valid.
+
+The ledger is a work queue and evidence boundary, not an authority for bases. Recovered
+sequences and modifications still enter protocol notes and molecular constructors only
+after verification in the original paper, supplement, detailed protocol or authoritative
+vendor document. A secondary schematic can identify what to search for but cannot turn an
+unverified sequence green. Sources that remain inaccessible or omit the oligo are named
+precisely; “not found” without a list of checked materials is not a completed review.
+
+**Why.** Prose search misses protocols produced by shared factories, while isolated page
+repairs give no guarantee that every asserted gap was revisited. Deriving candidates from
+the rendered output covers both direct and factory-generated pages. A dated, digest-bound
+review preserves the human source-reading step that construction functions cannot infer.
+
+**Review when.** Replace text-signal discovery with typed source-gap objects once all
+protocol factories can emit them directly. Keep the ledger and stale-review behavior: a
+typed model should make discovery more exact, not erase the record of what was checked.
+
 ## 2026-10-12 — Protocol completeness is a typed material-provenance graph
 
 **Decision.** A complete protocol is represented as a directed acyclic hypergraph. Material

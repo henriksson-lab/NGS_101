@@ -67,22 +67,28 @@ the line of sci-ATAC-seq3 🟡 (upstream):
 
 ## 2. Oligos
 
-### 2a. CH-ATAC-specific oligos — 🟡 (upstream page only; paper's Table 1 not read)
+### 2a. CH-ATAC-specific oligos — 🟢 (defining Supplementary Table 1)
 
-As upstream writes them (`[…]` are upstream's barcode placeholders):
+Verbatim from `scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt`, a mirror of the
+defining paper's original Supplementary Table 1. The representative sequences are
+the first row of each indexed family; `*` is a phosphorothioate bond, as the table
+states. The table gives all 384 Tn5, 768 HY and 96 MGI P7 index oligos.
 
 ```
-Tn5 ME bottom              /Phos/ CTGTCTCTTATACACATCT
-Tn5_barcode_primer_{1..384}  AAGCAGTGGTATCAACGCAGAGT [10-bp Tn5 barcode] AGATGTGTATAAGAGACAG
-Tn5_Primer_C_oligo         GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
-MGI_P5                     GAACGACATGGCTACGATCCGACTT
-MGI_P7                     TGTGAGCCAAGGAGTTGTTGTCTTC
-Read 1 sequencing primer   TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
-Index i7 sequencing primer CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
-Read 2 sequencing primer   GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
+Tn5 ME oligo              /5Phos/CTGTCTCTTATACACATCT
+Tn5_barcode_primer_1     A*AGCAGTGGTATCAACGCAGAGTTCCTACCAGTAGATGTGTATAAGAGACAG
+Tn5 primer C oligo       GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
+HY_head_oligo            TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
+Block_tail_primer_oligo  AAGCAGTGGTATCAACGCAGAGT
+PCR P5 primer            /5Phos/GAACGACATGGCTACGATCCGACTTTCGTCGGCAGCGTC
+Barcoded_HY_oligo_1      ACTCTGCGTTGATACCACTGCTTTTCTCGCATGCTGTCTCTTATACACATCTGACGCTGCCGACGA
+MGI_P7_index_1          TGTGAGCCAAGGAGTTGTTGTCTTCTAGGTCCGATGTCTCGTGGGCTCGG
 ```
 
-The 384 Tn5 barcode sequences are not on the upstream page and were not obtained. 🔴
+The Tn5 family has `A*` at its 5′ end; the upstream page omits that leading
+base and its bond modification. The phosphorothioate and P5 phosphate are
+source-known reagent modifications, although the exact fate of the 5′ Tn5 cap
+in the final copied molecule is not established by the unavailable methods text. 🟡
 
 ### 2b. Shared with CH-RNA-seq — 🟢 (CH-RNA-seq Supplementary Data 1)
 
@@ -101,15 +107,13 @@ MGI_P7_index_1           TGTGAGCCAAGGAGTTGTTGTCTTCTAGGTCCGATGTCTCGTGGGCTCGG
 ```
 
 **Agreement with upstream:** HY_head, Block_tail, PCR P5 and the layout of the HY and
-MGI P7 index oligos are identical to what upstream lists for CH-ATAC-seq (all 768 HY oligos
-and all 96 P7 oligos have exactly the constant parts upstream gives — 🟡 computed). So
-CH-ATAC-seq reuses the CH-RNA-seq second- and third-round oligo plates, or at least their
-design. Whether the barcode lists are the same is 🔴 (CH-ATAC Table 1 not read).
+MGI P7 index oligos match its CH-ATAC-seq summary. The defining CH-ATAC table
+also directly lists the same 768 HY and 96 P7 indexed sequences as the
+CH-RNA-seq table. 🟢
 
-**Disagreement with upstream:** the PCR P5 primer is **5'-phosphorylated** in CH-RNA-seq
-🟢; upstream's CH-ATAC page shows no modification. A 5' phosphate fits the MGI workflow,
-where the PCR product is circularized into single-stranded circles (§5). Whether the
-CH-ATAC P5 is also phosphorylated is 🔴.
+**Disagreement with upstream:** the CH-ATAC Supplementary Table 1 explicitly marks
+its PCR P5 primer **5′-phosphorylated** 🟢; upstream's CH-ATAC page shows no
+modification. The Tn5 barcode primer also has the `A*` cap omitted upstream.
 
 For comparison, the CH-RNA-seq first-round RT primer (not used in CH-ATAC) is 🟢
 `A*AGCAGTGGTATCAACGCAGAGTNNNNNNNN<10-nt RT bc>TTTTTTTTTTTTTTTTTTTTTTTTTVN` (`*` =

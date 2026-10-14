@@ -18,14 +18,21 @@ SUMMARY = ("Ligate a pre-adenylated, six-base-barcoded DNA linker to nascent RNA
 CAVEAT = ("The protocol names a commercial Illumina Index forward primer without printing its sequence; that outer PCR arm is shown as a role token. The custom read-primer site and molecule-facing geometry are exact.")
 
 LINKER = "N" * 6 + "CTGTAGGCACCATCAAT"
-RT_PRIMER = "ATCTCGTATGCCGTCTTCTGCTTG" + "CACTCA" + "TCCGACGATCATTGATGGTGCCTACAG"
+RT_PRIMER_5 = "ATCTCGTATGCCGTCTTCTGCTTG"
+RT_PRIMER_MID = "CACTCA"
+RT_PRIMER_3 = "TCCGACGATCATTGATGGTGCCTACAG"
+RT_PRIMER_WRITTEN = ("/5Phos/" + RT_PRIMER_5 + "/iSp18/" + RT_PRIMER_MID
+                     + "/iSp18/" + RT_PRIMER_3)
 REVERSE_PCR = "CAAGCAGAAGACGGCATACGA"
 SEQUENCING = "TCCGACGATCATTGATGGTGCCTACAG"
 MOLECULAR_BARCODE = feature("molecular_barcode", "umi", "random")
 
 def circular_cdna():
     linear = Construct([
-        Segment("RT-primer body", RT_PRIMER[:-len(SEQUENCING)]),
+        Segment("RT-primer 5-prime tract", RT_PRIMER_5),
+        Segment("RT-primer internal spacer 1", "[iSp18]", placeholder=True),
+        Segment("RT-primer middle tract", RT_PRIMER_MID),
+        Segment("RT-primer internal spacer 2", "[iSp18]", placeholder=True),
         Segment("custom sequencing-primer site", SEQUENCING, "r1"),
         Segment("six-base molecular barcode", "N" * 6, "umi", placeholder=True,
                 feature=MOLECULAR_BARCODE),

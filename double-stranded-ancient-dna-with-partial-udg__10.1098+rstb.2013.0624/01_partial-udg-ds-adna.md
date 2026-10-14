@@ -18,4 +18,11 @@ This double-stranded ancient-DNA workflow removes most internal deamination dama
 
 🟢 Two partially double-stranded adapters carry independent 7-nt molecular barcodes. Table 2 prints `ATCGATT` / `GACTTAT` as one representative P5/P7 pair; the barcodes are the first seven bases of Read 1 and Read 2 and are trimmed before alignment.
 
-🟢 PreHyb PCR leaves short adapter arms for capture; a later indexing PCR completes i5 and i7 arms for sequencing. The open article does not expose Supplementary Table S1 oligo sequences, so exact adapter bases remain inferred rather than copied from a secondary source.
+🟢 PreHyb PCR leaves short adapter arms for capture; a later indexing PCR completes i5 and i7 arms for sequencing.
+
+🔴 The authors place the exact adapter, PreHyb and index-primer oligos in Supplementary
+Table S1. The PMC article, PMC Cloud bundle and Europe PMC record do not contain that
+supplement, and the Royal Society supplementary-file endpoint currently returns an anti-bot
+page rather than the PDF. Later papers reproduce parts of this chemistry, but those secondary
+transcriptions are not promoted to exact constants here. The unresolved bases therefore mean
+"original source file presently unavailable", not "the paper omitted the sequences".

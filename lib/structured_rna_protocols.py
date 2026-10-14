@@ -57,6 +57,8 @@ MIM_REVERSE = exact("mim indexed reverse primer", "CAAGCAGAAGACGGCATACGAGATNNNNN
                     feature=feature("sample_index", "sample_index", "random"))
 
 PANDORA_RA3 = exact("NEBNext 3-prime SR adapter", "AGATCGGAAGAGCACACGTCT", "r2")
+PANDORA_RA5 = exact("NEBNext 5-prime SR adapter", "GTTCAGAGTTCTACAGTCCGACGATC", "r1")
+PANDORA_RT = exact("NEBNext SR RT primer", "AGACGTGTGCTCTTCCGATCT", "r2")
 
 
 def _yamat() -> Workflow:
@@ -133,11 +135,11 @@ def _pandora() -> Workflow:
          molecule("PNK- and AlkB-treated small RNA", (role("ligatable demethylated small RNA"),)),
          "The two treatments address independent terminal and internal barriers."),
         ("Ligate the 3′ and 5′ small-RNA adapters sequentially",
-         molecule("adapter-ligated small RNA", (role("5-prime SR adapter"),
+         molecule("adapter-ligated small RNA", (PANDORA_RA5,
                   role("repaired small RNA"), PANDORA_RA3),
-                  junctions=(("5-prime SR adapter", "repaired small RNA", "RNA ligation"),
+                  junctions=(("NEBNext 5-prime SR adapter", "repaired small RNA", "RNA ligation"),
                              ("repaired small RNA", "NEBNext 3-prime SR adapter", "RNA ligation"))),
-         "The article uses the NEBNext Small RNA Library Prep Set after repair."),
+         "The article names E7330S; the current NEB E7330 manual gives both adapter sequences."),
         ("Reverse-transcribe, PCR and PAGE-purify",
          molecule("PANDORA-seq library", (role("P5 small-RNA arm"),
                   role("small-RNA cDNA"), role("indexed P7 arm"))),
@@ -455,31 +457,32 @@ def _pandora_graph(d: Definition, final: Construct) -> ProtocolGraph:
                 ((demethylated, InputRole.TEMPLATE), (adapter3, InputRole.STRUCTURAL),
                  (ligase3, InputRole.CATALYST)), (ligated3,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The source names the NEBNext kit and publishes the adapter sequence, but the page model does not reconstruct its complete modified ligation substrate."))
+                    "The 2025 E7330 manual publishes the adapter sequence and terminal modifications; the model has not reconstructed the complete ligation substrate geometry."))
     adapter5 = graph.input("five_adapter", "NEBNext 5-prime small-RNA adapter",
-                           MaterialKind.ADAPTER)
+                           MaterialKind.ADAPTER, state=molecule("5-prime adapter", (
+                               PANDORA_RA5,)))
     ligase5 = graph.input("five_ligase", "5-prime RNA adapter ligase",
                           MaterialKind.CATALYST)
     ligated5 = graph.product(
         "adapted_rna", "two-adapter PANDORA small RNA",
         MaterialKind.MOLECULAR,
         state=molecule("adapter-ligated small RNA", (
-            role("5-prime SR adapter"), role("repaired small RNA"), PANDORA_RA3),
-            junctions=(("5-prime SR adapter", "repaired small RNA", "RNA ligation"),
+            PANDORA_RA5, role("repaired small RNA"), PANDORA_RA3),
+            junctions=(("NEBNext 5-prime SR adapter", "repaired small RNA", "RNA ligation"),
                        ("repaired small RNA", "NEBNext 3-prime SR adapter", "RNA ligation"))))
     graph.react("five_ligation", "Ligate the 5-prime small-RNA adapter",
                 StepKind.LIGATION,
                 ((ligated3, InputRole.TEMPLATE), (adapter5, InputRole.STRUCTURAL),
                  (ligase5, InputRole.CATALYST)), (ligated5,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The defining article uses the NEBNext Small RNA kit; complete modified 5-prime adapter geometry is not reproduced."))
+                    "The 2025 E7330 manual publishes the RNA adapter sequence; the model has not reconstructed the complete ligation geometry."))
     reviewed = [
         "small_rna", "pnk", "end_repair", "alkb", "demethylate",
         "three_adapter", "three_ligase", "three_ligation", "five_adapter",
         "five_ligase", "five_ligation",
     ]
     rt_primer = graph.input("library_rt_primer", "NEBNext small-RNA reverse-transcription primer",
-                            MaterialKind.OLIGO)
+                            MaterialKind.OLIGO, state=molecule("SR RT primer", (PANDORA_RT,)))
     reverse_transcriptase = graph.input("library_reverse_transcriptase", "reverse transcriptase",
                                        MaterialKind.CATALYST)
     cdna = graph.product("library_cdna", "PANDORA small-RNA cDNA",
@@ -533,7 +536,11 @@ def get(key: str):
             "indexed reverse — 5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGT*G-3′",
         ),
         "pandora-seq": (
-            "NEBNext 3′ SR adapter — 5′-/rApp/AGATCGGAAGAGCACACGTCT/3AmMO/-3′",
+            "NEBNext E7330 3′ SR adapter — 5′-rAppAGATCGGAAGAGCACACGTCT-NH2-3′",
+            "NEBNext E7330 5′ SR adapter — 5′-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrArCrGrArUrC-3′",
+            "NEBNext E7330 SR RT primer — 5′-AGACGTGTGCTCTTCCGATCT-3′",
+            "NEBNext E7330 SR PCR primer — 5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCG*A-3′",
+            "NEBNext E7330 index 1 PCR primer (kit example; experiment's index choice unstated) — 5′-CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATC*T-3′",
         ),
     }
     final = _final(key)
@@ -544,7 +551,12 @@ def get(key: str):
         FINAL_CAPTION="Role-level final library. Exact source-published oligos are listed above; undisclosed kit junctions remain role tokens.",
         SEQ_PRIMERS=(), READ_LENGTHS=None,
         SEQUENCING_INTRO="", SEQUENCING_ENDING=d.endpoint,
-        SEQUENCING_UNAVAILABLE="The defining source does not publish a distinct sequencing-primer oligo or enough kit sequence to compute its exact landing site.")
+        SEQUENCING_UNAVAILABLE=(
+            "NEB confirms standard Illumina sequencing primers for E7330 libraries; "
+            "this role-level final molecule has not yet reconstructed the exact binding site."
+            if key == "pandora-seq" else
+            "The defining source does not publish a distinct sequencing-primer oligo "
+            "or enough kit sequence to compute its exact landing site."))
     if key == "yamat-seq":
         spec.protocol_graph = lambda: _yamat_graph(d, final)
     elif key == "dm-trna-seq":

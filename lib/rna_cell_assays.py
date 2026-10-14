@@ -1308,8 +1308,16 @@ def get(key: str):
             "<b>RT-primer-1 architecture</b> — 5′-/5Phos/DDDNN AACC NNNN AGATCGGAAGAGCGTCGTGGA /iSp18/ GGATCC /iSp18/ TACTGAACCGC-3′",
         )
     elif key == "target-seq":
-        oligos = (f"<b>CS1-seq binding region</b> — 5′-{TARGET_R1}-3′",
-                   f"<b>CS2-seq binding region</b> — 5′-{TARGET_R2}-3′")
+        oligos = ("<b>CS1-seq custom Read 1 primer</b> — 5′-A+CA+CTG+ACGACATGGTTCTACA-3′",
+                   "<b>CS2-seq custom Read 2 primer</b> — 5′-T+AC+GGT+AGCAGAGACTTGGTCT-3′",
+                   "The published ordering notation uses + before an LNA base; the model uses the corresponding unmodified binding sequences.")
+    elif key == "find-seq":
+        oligos = (
+            "<b>Smart-seq2 bead capture</b> — 5′-acrydite-TTTTTTAAGCAGTGGTATCAACGCAGAGTAC(T)₃₀VN-3′",
+            "<b>Smart-seq2 template switch</b> — 5′-AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG-3′",
+            "<b>Smart-seq3 bead capture</b> — 5′-acrydite-TTTTTTACGAGCATCAGCAGCATACGA(T)₃₀V-3′",
+            "<b>Smart-seq3 template switch</b> — 5′-biotin-AGAGACAGATTGCGCAATGNNNNNNNNrGrGrG-3′; N₈ is the UMI",
+        )
     unavailable = "" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."
     spec = SimpleNamespace(
         TITLE=d.title, NOTES=d.notes,

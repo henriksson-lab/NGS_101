@@ -1,10 +1,11 @@
 """TrAEL-seq native 3-prime-end capture."""
+import illumina as il
 from multibranch import illumina_branch
 from protocol_extensions import native_three_prime_end
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import MolecularState, Row, Scene, Workflow
-from pcr import PCRGeometry
+from chemdraw import MolecularState, Row, Scene, Workflow, feature
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from topology import HairpinTopology
@@ -16,14 +17,24 @@ FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("TrAEL-seq","native-end-adjacent genom
 FINAL_CAPTION="Read orientation starts at genomic sequence adjacent to the captured native 3-prime end."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed TrAEL-seq library."
 ADAPTER2 = "GATCGGAAGAGCACACGTCTGAACTCCAGTCUUUUGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
+ADAPTER1 = ("NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTU"
+            "GCGCAGGCCATTGGCCTGCGCUACACTCTTTCCCTACACGACGCT")
+ADAPTER1_TOPOLOGY = HairpinTopology(
+    "TrAEL adapter 1", ADAPTER1, first_stem_start=18,
+    second_stem_start=64, stem_length=23, colour="var(--c-r1)")
 ADAPTER2_TOPOLOGY = HairpinTopology(
     "TrAEL adapter 2", ADAPTER2, first_stem_start=0,
     second_stem_start=35, stem_length=31, colour="var(--c-r2)")
 def oligos():
-    return ["<b>TrAEL adapter 1</b> — 5′-[Phos]NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTU…[BtndT]…-3′",f"<b>Adapter 2</b> — 5′-[Phos]{ADAPTER2[:-1]}*{ADAPTER2[-1]}-3′"]
+    return ["<b>TrAEL adapter 1</b> — 5′-[rApp]NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTUGCGCAGGCCATTGGCC[BtndT]GCGCUACACTCTTTCCCTACACGACGCT-3′",f"<b>Adapter 2</b> — 5′-[Phos]{ADAPTER2[:-1]}*{ADAPTER2[-1]}-3′"]
 def _adapter1_geometry():
-    sc=Scene(); sc.strand("adapter 1",[seg("5′ pre-adenylated ligating end","N"*8,placeholder=True),seg("hairpin arm with internal biotin","X"*26,placeholder=True)],label="published TrAEL adapter 1")
-    sc.ligation_end("adapter 1","5′ pre-adenylated ligating end",kind="single-strand",polarity="5-prime",owner="adapter",text="5′-App single-strand end")
+    sc=Scene(); sc.strand("adapter 1",[
+        seg("UMI","N"*8,"umi",placeholder=True,feature=feature("umi","umi","random")),
+        seg("5′ adapter prefix","AGATCGGAAG"),
+        seg("hairpin stem arm 1","AGCGTCGTGTAGGGAAAGAGTGT","r1"),
+        seg("uracil/biotin loop","UGCGCAGGCCATTGGCCTGCGCU","w1"),
+        seg("hairpin stem arm 2","ACACTCTTTCCCTACACGACGCT","r1")],label="published TrAEL adapter 1")
+    sc.ligation_end("adapter 1","UMI",kind="single-strand",polarity="5-prime",owner="adapter",text="5′-App single-strand end")
     return AdapterLigationGeometry.known("single-strand",sc,statement="The protocol prints adapter 1 as a 5′-adenylated hairpin and joins that activated 5′ end to a native DNA 3′-OH without ATP.")
 
 def _adapter2_geometry():
@@ -86,18 +97,21 @@ def protocol_graph():
     opened=graph.product("user_opened","USER-opened captured fragments",MaterialKind.MOLECULAR)
     graph.react("user_open","Open uracil-containing adapter sites",StepKind.DIGESTION,
                 ((captured,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,))
-    forward=graph.input("pcr_forward","TrAEL library PCR forward primer",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (primer bases not represented on this page)")
-    reverse=graph.input("pcr_reverse","indexed TrAEL library PCR reverse primer",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (primer bases not represented on this page)")
+    forward=graph.input("pcr_forward","NEBNext Universal PCR primer",MaterialKind.OLIGO,
+                        source=source+"; named NEB E7335 oligo set")
+    reverse=graph.input("pcr_reverse","NEBNext indexed PCR primer",MaterialKind.OLIGO,
+                        source=source+"; named NEB E7335 oligo set")
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
     graph.react("indexed_pcr","Amplify captured molecules and complete Illumina adapters",
                 StepKind.PCR,
                 ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
-                geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="The USER-opened pre-PCR intermediate is not represented base-for-base."))
+                geometry=PCRGeometry.exact(
+                    FINAL_LIBRARY,
+                    PCRPrimer("NEBNext Universal",il.NEBNEXT_UNIVERSAL_PRIMER),
+                    PCRPrimer("NEBNext indexed primer",il.nebnext_i7_primer("N"*8)),
+                    statement="The paper names the NEBNext Universal and Index primers from E7335; their canonical kit sequences are centralized in illumina.py."))
     graph.sequence(library,SequencingPlan(
         library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS),

@@ -160,6 +160,9 @@ def oligos():
         f"<b>TruseqR1_oligo_dT</b> — 5′-biotin-{TRUSEQ_R1_SHORT}[10-nt UMI]{'T' * DT_LENGTH}VN-3′",
         f"<b>TruseqR2_oligo_dT (droplet)</b> — 5′-biotin-{TRUSEQ_R2_SHORT}[10-nt UMI]{'T' * DT_LENGTH}VN-3′",
         f"<b>Truseq_S5_short / Nextra_S5_short</b> — 5′-{TRUSEQ_R1_SHORT}-3′ / 5′-{nx.S5}-3′",
+        "<b>N7001, example i7 well-index primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATAGTAAACCGTCTCGTGGGCTCGG-3′",
+        "<b>RNA_plate_S502, example i5 RNA primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACCTCTCTATACACTCTTTCCCTACACGACGCTCTTCCG-3′",
+        "<b>ATAC_plate_SS502, example i5 ATAC primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACCTCTCTATTCGTCGGCAGCGTC-3′",
     )
 
 

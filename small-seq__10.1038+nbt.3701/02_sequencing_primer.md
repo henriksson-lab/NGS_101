@@ -58,10 +58,10 @@ occurrences each. Nor is there any instruction to load a primer into a reagent c
 position, any note on which platforms do or do not need one, and any mention of the index
 read beyond "sample indexing".
 
-🔴 Supplementary Table 1 — the one place an oligo list could have settled it — is not in
-the extracted text. **It may well contain a sequencing primer.** The *Materials* list does
-not: 🟢 *"Primers and adapters (5.8S rRNA-masking oligonucleotide, RA3, RA5, RTP, SRX, and
-RP1 …)"* — five oligos plus the mask, and none of them is a sequencing primer.
+🟢 Supplementary Table 1 has now been read. It prints all 192 complete SRX index primers
+and their reported eight-base index reads; it does **not** list a distinct Read 1
+sequencing primer. The *Materials* list likewise names RA3, RA5, RTP, SRX, RP1 and the
+mask, but no sequencing-primer oligo.
 
 🟡 **Reading the omission.** Taken with 🟢 *"relies on standard reagents and instruments"*
 and 🟢 *"Carry out sequencing according to the manufacturer's protocol"*, the authors
@@ -100,20 +100,21 @@ RA5's 3' end, the missing bases being `CGATC`. 🟡 Priming read 1 with RP1 woul
 `CGATC` before the UMI, contradicting 🟢 "Sequencing starts from the UMI". So the primer
 used was *not* simply the PCR primer re-used — it reaches 5 bases further.
 
-**(d) Small-seq's RA5 is a stock adapter with the UMI appended at its 3' end.** 🟡 RA5's
-first 26 nt are the standard TruSeq Small RNA 5' adapter; the UMI and `CA` are *added
-after* it, between adapter and insert. The direct consequence:
+**(d) Small-seq's RA5 has the stock adapter body with the UMI appended at its 3' end.**
+🟢 The first 26 nt match Illumina's [TruSeq Small RNA adapter-sequences
+document](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm)
+base for base (U in the ordered RNA maps to T in the DNA construct). The UMI and `CA`
+are *added after* it, between adapter and insert. The direct consequence:
 
 > 🟡 **Any primer that reads a stock TruSeq Small RNA library also reads a Small-seq
 > library.** It anneals to the identical 26-nt region. The only difference is that it emits
 > **10 extra bases — 8 UMI + `CA` — before the insert**, which is precisely the 10 nt the
 > pipeline trims (🟢 `-u 2` in cutadapt, after UMI extraction with `NNNNNNNN`).
 
-**(e) The index read is as unresolved as SRX.** 🟡 Whatever primes the i7 index read must
-anneal between RA3 and the index — i.e. inside SRX's own linker, which is 🔴 unpublished.
-Since SRX is 🟢 *"modified from standard Illumina TruSeq small RNA index primers"* and the
-modification is described as being to the **barcode length only** (6 bp → 8 bp), 🟡 a stock
-TruSeq Small RNA index read should work. The paper does not say so.
+**(e) The index read is resolved.** 🟢 SR001 is
+`P7 + TTCGTGAT + GTGACTGGAGTTC + RTP`; its separately listed barcode is `ATCACGAA`,
+exactly `revcomp(TTCGTGAT)`. The 13-nt common segment pairs with the 3′ end of the standard
+TruSeq Index 1 primer, so the final construct now places the index read by computation.
 
 ## 4. Conclusion, stated precisely
 
@@ -124,7 +125,7 @@ TruSeq Small RNA index read should work. The paper does not say so.
 | Does it say the standard instrument primers suffice? | 🔴 **No.** The closest is 🟢 *"ready for sequencing on an Illumina sequencer such as a HiSeq or NextSeq platform"*, 🟢 *"relies on standard reagents and instruments"* and 🟢 *"Carry out sequencing according to the manufacturer's protocol."* |
 | Can a TruSeq **DNA** read-1 primer read it? | ✅ **No** — that site is absent from the construct. |
 | Can a TruSeq **Small RNA** read-1 primer read it? | 🟡 **Yes**, with 10 extra bases (UMI + CA) before the insert, which the pipeline trims. |
-| Which primer did the authors actually use? | 🔴 **Unknown.** Possibly in Supplementary Table 1, which is not in the extracted text. |
+| Which Read 1 primer did the authors actually use? | 🔴 **Unknown.** Supplementary Table 1 resolves SRX and the index read, but contains no separate Read 1 oligo. |
 
 🟡 So the honest statement for the TruSeq-Small-RNA-compatibility question is: *Small-seq
 does not change the read-1 landing site relative to a stock TruSeq Small RNA library; it
@@ -134,12 +135,11 @@ half of that claim and is silent on the primer half.
 
 ## 5. How to close this
 
-1. **Get Supplementary Table 1** (doi 10.1038/s41596-018-0049-y). It is the only place in
-   the paper that could name a primer, and it also holds the 🔴 SRX sequences.
-2. **Add a TruSeq Small RNA block to `lib/illumina.py`** from the Illumina adapter-sequences
-   document — RA5, RA3, RTP, RP1, RPI and the small-RNA sequencing primer — verbatim, as
-   that file requires. Then point (d) above stops being 🟡: `RA5[:26]` either equals the
-   vendor sequence or it does not, and the selftest can assert it.
-3. **Check the GitHub pipeline** (<https://github.com/eyay/smallseq>) for the adapter FASTA
-   it trims with (`adapters/cutadapt_3prime.fa`, referenced in 🟢 Step 41). That file pins
-   what the authors expected to read through into at the 3' end.
+1. 🟢 The stock RA5 body and RA3 are now anchored in `lib/illumina.py` from Illumina's
+   adapter-sequences document. That document does not print a separate instrument Read 1
+   sequencing-primer oligo, so it does not settle which primer the Small-seq authors used.
+2. 🟢 The authors' pipeline archived as Supplementary File 6 of the 2016 paper has now
+   been checked. `adapters/cutadapt_3prime.fa` contains `TGGAATTCTCGGGTGCCAAGG`, exactly
+   the printed RA3 body, and the README removes ten bases from the read start (UMI plus
+   `CA`). This confirms the expected read-through adapter and start trimming, but the
+   archive does not identify the sequencing-primer oligo.

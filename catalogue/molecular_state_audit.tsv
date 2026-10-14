@@ -19,7 +19,7 @@ icicle-seq__10.7554+eLife.63632	high	custom Tn5, GEM capture and branch PCR are 
 m3-seq__10.1038+s41564-023-01462-3	high	BC1 RT and downstream IVT/depletion/RT states omit published oligos	candidate
 nano-cut-tag__10.1038+s41587-022-01535-4	high	exact BcdA MeA/Tn5_Rev and MeB/Tn5_Rev loading, successive transferred intermediates, custom R1/I2 geometry and explicit proprietary 10x PCR boundary	fixed
 ntt-seq__10.1038+s41587-022-01588-5	high	exact MEDSA/MEDSB loaded duplexes, transferred intermediate, custom R1/i5 geometry and explicit proprietary Chromium boundary	fixed
-pro-seq__10.1101+gr.150027.112	high	exact 5′-phosphorylated/3′-blocked VRA3 ligation, repaired-end VRA5 ligation, RP1 RT and RPI-n indexed PCR geometry	fixed
+pro-seq__10.1126+science.1229386	high	exact 5′-phosphorylated/3′-blocked VRA3 ligation, repaired-end VRA5 ligation, RP1 RT and RPI-n indexed PCR geometry	fixed
 pixel-seq__10.1016+j.cell.2022.10.021	high	polony construction, restriction exposure and capture RT remain roles	candidate
 slide-seqv2__10.1038+s41587-020-0739-1	high	capture, RT, TSO and tagmentation are icons/prose despite printed oligos	candidate
 snare-seq__10.1038+s41587-019-0290-0	high	exact phosphorylated MErc+S5rc+A31 capture splint, dT30 bead annealing, gap fill/ligation and Nextera-R2/TSO-PCR selection	fixed

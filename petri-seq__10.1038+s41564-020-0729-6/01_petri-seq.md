@@ -2,8 +2,8 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes`). Claims that rest only on the upstream
+> writing this note; model construction and source transcriptions are checked in its
+> `tools/` suite. Claims that rest only on the upstream
 > scg_lib_structs page are 🟡 (secondary source).
 
 **PETRI-seq** (Prokaryotic Expression-profiling by Tagging RNA In situ and sequencing) —
@@ -22,6 +22,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41564-020-0729-6_PMC8330242.html.txt` | full text (PMC author manuscript) incl. Methods and Extended Data legends | **all methods**, reaction order, conditions, sequencing |
 | `s41564-020-0729-6_41564_2020_729_MOESM1_ESM.pdf(.txt)` | Supplementary Information: Supp. Figs 1–2, **Supp. Table 1** (costs), **Supp. Table 2** (single-tube oligos) | linkers, blockers, TSO, PCR/qPCR oligos |
 | `s41564-020-0729-6_41564_2020_729_MOESM3_ESM.xlsx(.txt)` | **Supp. Tables 3–5**: 96-well barcode oligos, experiment overview, statistics | **every barcode oligo** (3 × 96), which experiment used which variant |
+| `scg_PETRI-seq_Protocol.pdf.txt`, `scg_PETRI-seq_Oligonucleotide_Table.xlsx.txt` | Teichlab mirror of the authors' PETRI-seq protocol and oligo workbook, credited in the workbook to Sydney Blattman (25 March 2020) | cross-check of SB80–SB85 and an optional EZ-Tn5 loading recipe; original hosting/version was not verified |
 | `s41564-020-0729-6_41564_2020_729_MOESM2_ESM.pdf.txt` | Reporting summary | sequencer, software, GEO |
 | `upstream_PETRI-seq.html.txt` | scg_lib_structs page | second source, checked below |
 | `MOESM4_ESM.gz`, `MOESM5..16_ESM.xlsx` | count matrix (Supp. Table 6), source data | not chemistry, not read |
@@ -33,7 +34,7 @@ Not fetched / not usable:
 | `…NIHMS1587539-supplement-…_Supp_Fig1-2-Supp_Tab1-2.pdf`, `…_Supp_Tab3-5.xlsx`, `…_Supp_Tab6.gz` | saved, but each is the PMC JavaScript download-gate HTML page, not the file. Same content is in the Springer `MOESM1` / `MOESM3` / `MOESM4` files, so nothing is lost. |
 | `…_SourceDataED1..10.xlsx`, `…_SourceDataFig2/3.xlsx` (PMC) | `(manual)`, download gate; source data, not chemistry |
 | Publisher PDF of the main text | not needed (PMC full text read) |
-| Authors' protocol website (upstream's source) | not fetched; upstream quotes it 🔴 |
+| Authors' protocol website (upstream's source) | the protocol and workbook are available through the Teichlab mirror above; original hosting/version remains unverified |
 
 ---
 
@@ -121,6 +122,13 @@ The paper names the kits only: **Nextera Index Kit v2 Set A N70x** and **NEB E76
 NEB i50x      AATGATACGGCGACCACCGAGATCTACAC <i5:8> ACACTCTTTCCCTACACGACGCTCTTCCGATCT
 Nextera N7xx  CAAGCAGAAGACGGCATACGAGAT <i7:8> GTCTCGTGGGCTCGG
 ```
+
+The mirrored authors' protocol also gives an **optional EZ-Tn5 alternative** to the
+Nextera kit. It explicitly anneals `SB117` (`/5Phos/CTGTCTCTTATACACATCT`) with
+`SB118` (`GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG`) before loading EZ-Tn5.
+These two oligos are 🟢 verbatim from `scg_PETRI-seq_Protocol.pdf.txt`, p. 2;
+they belong to that optional route and are not evidence that the defining paper's
+Nextera XT libraries used a home-loaded transposase.
 
 ## 3. How the oligos interlock — 🟡 (computed)
 

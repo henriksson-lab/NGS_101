@@ -11,8 +11,12 @@ Original method: Faridani OR *et al.* "Single-cell sequencing of the small-RNA
 transcriptome." *Nat Biotechnol* 2016;**34**(12):1264–1266.
 Pipeline: <https://github.com/eyay/smallseq>.
 
-Source text used here: `pdf/hagemann.txt` (the PDF lives in `pdf/`, which is gitignored).
-**Supplementary Table 1 is not in that text**, which is why one oligo below is 🔴.
+Sources read: the detailed protocol text and its Supplementary Table 1
+(`41596_2018_49_MOESM1_ESM.pdf`, fetched by `tools/get_sources.py`; source files remain
+gitignored). The supplement prints all 192 full SRX index primers. Illumina's
+[TruSeq Small RNA adapter-sequences document](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm)
+confirms the stock RA5 body and RA3; the 2016 paper's archived analysis pipeline
+confirms RA3 trimming and removal of the UMI plus `CA` from read starts.
 
 ---
 
@@ -33,22 +37,23 @@ template switching, no oligo-dT, and no rGrGrG tail — all asserted ✅.
 
 ## 2. Oligos
 
-🟢 All five verbatim from *Reagent setup* (p. 2414), which states: *"All oligonucleotides
+🟢 The first five are verbatim from *Reagent setup* (p. 2414), which states: *"All oligonucleotides
 are listed in the 5′ to 3′ direction."* Line-wrap spaces in the extracted text are closed
-up; nothing else is changed.
+up; nothing else is changed. SR001 is the representative full index primer from
+Supplementary Table 1; the other 191 change the eight-base index window.
 
 ```
 RA5   5'- NH2-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrArCrGrArUrC rHrHrHrHrHrHrHrH rCrA -3'
 RA3   5'- rApp TGGAATTCTCGGGTGCCAAGG ddC -3'
 RTP   5'- biotin CCTTGGCACCCGAGAATTCC rA -3'
 RP1   5'- AATGATACGGCGACCACCGAGATCTACAC GTTCAGAGTTCTACAGTCCGA -3'
-SRX   🔴 not in the main text — "see Supplementary Table 1"
+SR001 5'- CAAGCAGAAGACGGCATACGAGAT TTCGTGAT GTGACTGGAGTTC CCTTGGCACCCGAGAATTCCA -3'
 
 mask  5'- ATCGGCAAGCGACGCTCAGACAGGCGTAGCCCCGGGAGGAACCCGGGGCCGCAAGTGCGTTCGAAGTGTCGATGAT biotin -3'
 ```
 
 Lengths ✅: RA5 26 nt of adapter + 8 UMI + 2 linker = **36 nt**; RA3 **21 nt**;
-RTP **21 nt**; RP1 **50 nt**; mask **76 nt**.
+RTP **21 nt**; RP1 **50 nt**; SR001 **66 nt**; mask **76 nt**.
 
 ### The four of them interlock exactly
 
@@ -173,7 +178,7 @@ failure mode addressed by lineage-UMI collision models.
 ## 6. Final library, and where the sizes come from
 
 ```
-5'- P5 · RA5 · [8-nt UMI] · CA · small RNA · RA3 · ?? · [8-bp i7] · revcomp(P7) -3'
+5'- P5 · RA5 · [8-nt UMI] · CA · small RNA · RA3 · revcomp(SRX common) · [8-bp i7] · revcomp(P7) -3'
 ```
 
 ✅ Published left arm, base for base, 86 bp:
@@ -182,33 +187,33 @@ failure mode addressed by lineage-UMI collision models.
 AATGATACGGCGACCACCGAGATCTACAC GTTCAGAGTTCTACAGTCCGACGATC HHHHHHHH CA … TGGAATTCTCGGGTGCCAAGG
 ```
 
-🔴 **The right arm is not published.** SRX's sequence is in Supplementary Table 1. What
-*is* published: 🟢 8-bp barcodes, 🟢 192 of them, 🟢 *"modified from standard Illumina
-TruSeq small RNA index primers"*. Its 3' end must anneal where RTP anneals — over RA3 —
-so what it *adds* beyond RA3 is P7 + index + some linker.
+🟢 **The right arm is published.** SR001 is
+`P7 + TTCGTGAT + GTGACTGGAGTTC + RTP`; the supplement separately reports the index-read
+barcode `ATCACGAA`, the reverse complement of the eight bases inside the ordered primer.
+Its RTP foot anneals over RA3, so the newly copied arm is P7 + index + the 13-nt common
+linker.
 
-🟡 That added length can be bracketed from two independent published sizes, which is done
-in `tools/smallseq.py` as a flippable constant (`SRX_LINKER_NT`):
+The exact sequence can be independently checked against two published size observations:
 
 | Observation | Published | Implied right arm |
 |---|---|---|
 | miRNA cut window, insert ≈ 22 nt | 🟢 145–155 bp | 37–47 nt |
 | 5.8S peak with the mask omitted, insert ≈ 156 nt | 🟢 270–290 bp | 28–48 nt |
 
-✅ The windows overlap (they did not have to): **37–47 nt**. A TruSeq-small-RNA-shaped arm
-— P7 (24) + index (8) + a 12-nt link — is **44 nt**, inside both. Taking that:
+✅ The windows overlap (they did not have to): **37–47 nt**. The printed arm is P7 (24) +
+index (8) + common linker (13) = **45 nt**, inside both:
 
 | Insert | Library | Published check |
 |---|---|---|
-| 0 (adapter dimer) | **130 bp** | — |
-| 18 nt (shortest analysed) | 148 bp | — |
-| 22 nt (typical miRNA) | **152 bp** | 🟢 cut target 145–155 bp ✅ |
-| 40 nt (longest "small RNA") | 170 bp | 🟢 profile 100–300 bp ✅ |
-| 156 nt (5.8S, mask omitted) | **286 bp** | 🟢 peak 270–290 bp ✅ |
+| 0 (adapter dimer) | **131 bp** | — |
+| 18 nt (shortest analysed) | 149 bp | — |
+| 22 nt (typical miRNA) | **153 bp** | 🟢 cut target 145–155 bp ✅ |
+| 40 nt (longest "small RNA") | 171 bp | 🟢 profile 100–300 bp ✅ |
+| 156 nt (5.8S, mask omitted) | **287 bp** | 🟢 peak 270–290 bp ✅ |
 
 🟡 **And this explains the paper's own complaint.** It lists as a limitation 🟢 *"the
 abundance of adapter dimers in the sequencing reads, despite the effects of the digestion
-step"*. The dimer is **130 bp** and the Pippin window 🟢 *starts* at 130 bp; the gel cut
+step"*. The dimer is **131 bp** and the Pippin window 🟢 *starts* at 130 bp; the gel cut
 🟢 120–200 bp contains it outright. The shortest real library is only **18 bp** away. On a
 3% agarose cassette that separation is not achievable, so size selection can *reduce*
 dimers but never remove them — which is exactly what the paper reports.
@@ -229,15 +234,13 @@ dimers but never remove them — which is exactly what the paper reports.
 
 ## 8. Unresolved
 
-1. 🔴 **SRX.** Sequence in Supplementary Table 1, absent from the extracted text. The
-   8-bp-index, 192-primer, "modified from TruSeq small RNA" description is all there is.
-2. 🔴 **The sequencing primer is never named.** See
+1. 🔴 **The Read 1 sequencing primer is never named.** See
    [`02_sequencing_primer.md`](02_sequencing_primer.md) — this is the one that matters.
-3. 🔴 **The mask's rRNA target is never printed.** Its reverse complement is recorded in
+2. 🔴 **The mask's rRNA target is never printed.** Its reverse complement is recorded in
    §3; verifying it needs a reference sequence, which is data.
-4. 🔴 **Why RTP's 3'-terminal base is a ribonucleotide (rA)** is stated but not explained.
+3. 🔴 **Why RTP's 3'-terminal base is a ribonucleotide (rA)** is stated but not explained.
    🟡 A 3'-rA is a plausible RNase-H2 / cleavable handle, but the paper does not say so and
    nothing downstream uses it.
-5. 🟡 **5.8S is taken as 156 nt** to do the size arithmetic. The paper does not give a
+4. 🟡 **5.8S is taken as 156 nt** to do the size arithmetic. The paper does not give a
    length. 150–160 all land inside the published 270–290 bp window, so nothing in §6
    depends on the exact figure.

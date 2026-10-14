@@ -30,7 +30,8 @@ Fetched by `tools/get_sources.py` into
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_CEL-seq_family.html(.txt)` | scg_lib_structs "CEL-seq / CEL-seq2" page | the only source for the Illumina TruSeq Small RNA oligos (RA5, RA3, RTP, RP1, RPI), the read primers, and how the original CEL-Seq library was built |
+| `upstream_CEL-seq_family.html(.txt)` | scg_lib_structs "CEL-seq / CEL-seq2" page | secondary reconstruction of the original CEL-Seq reaction and read-primer mapping |
+| [Illumina TruSeq Small RNA adapter sequences, document 1000000002694 v22](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm) | primary vendor reference, read online | RA5, RA3, RTP, RP1, RPI1–48 and sample-sheet index orientation; confirms the upstream sequences |
 | `s13059-016-0938-8_PMC4848782.html(.txt)` | CEL-Seq2 paper, full text (PMC) | what changed from CEL-Seq, barcode design, C1 implementation, sequencing |
 | `…_MOESM4_ESM.docx(.txt)` | Additional file 4: "CEL-Seq2 Protocol" (detailed bench protocol) | **all 96 CEL-Seq2 RT primers**, randomhexRT primer, every volume and temperature |
 | `…_MOESM5_ESM.pdf(.txt)` | Additional file 5, Table S2 | **CEL-Seq, CEL-Seq + UMI, CEL-Seq2 primer designs**, library RT primer |
@@ -126,11 +127,13 @@ CEL-Seq2, 🟢 (protocol line 33; Table S2 "Library RT primer"):
 randomhexRT primer   GCCTTGGCACCCGAGAATTCCANNNNNN
 ```
 
-The PCR primers are given only as "RNA PCR Primer (RP1, from Illumina kit)" and "uniquely
-indexed RNA PCR Primer (RPIX)", "sequences available from Illumina". 🟢 The sequences
-below come **only from the upstream page** and are therefore 🟡. They are the Illumina
-TruSeq Small RNA kit oligos. The upstream page writes `[6-bp RPI]` for the index; we write
-`<rpi>`.
+The CEL-Seq2 protocol gives only the kit names "RNA PCR Primer (RP1)" and "uniquely
+indexed RNA PCR Primer (RPIX)". The sequences below are 🟢 independently confirmed in
+[Illumina's TruSeq Small RNA adapter-sequence document, revision 22](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm)
+(RA5, RA3, RTP, RP1, RPI1–48 and their sample-sheet orientation). The upstream page
+agrees base for base. This current vendor document establishes the kit oligos, although
+the inaccessible 2012 CEL-Seq supplement is still needed to verify the original kit
+reaction and any historical reagent modifications. `<rpi>` denotes the 6-base index.
 
 ```
 RA5 (RNA 5' adapter)    GUUCAGAGUUCUACAGUCCGACGAUC                      CEL-Seq only, as a sequence reference
@@ -143,8 +146,8 @@ Index read primer       TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC
 Read 2 seq. primer      GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA
 ```
 
-The upstream page lists RPI1–RPI48 as the bases written in the primer, for example
-RPI1 `CGTGAT` and RPI2 `ACATCG` (see the upstream file, lines 58–106).
+Illumina lists RPI1–RPI48 as the bases written in the primer (RPI1 `CGTGAT`, RPI2
+`ACATCG`) and separately gives their sample-sheet reverse complements.
 
 The CEL-Seq2 paper does confirm 🟢 that the original CEL-Seq **ligated** the second adapter
 and that CEL-Seq2 "alleviates the need for Illumina's TruSeq Small-RNA kit". It says
@@ -330,9 +333,9 @@ small-RNA set, hence the paper's warning about kit compatibility. 🟡
   duplex end. 🟡
 - 🔴 What ExoSAP-IT removes after the IVT. The text says "primers": presumably leftover
   single-stranded RT primer, since exonuclease I acts on ssDNA. 🟡
-- 🟡 Every TruSeq Small RNA sequence (RA3, RTP, RP1, RPI, read primers) rests on the upstream
-  page only. It should be checked against Illumina's "Illumina Adapter Sequences" document
-  before going into a module.
+- 🔴 Illumina's current sequence document confirms the RA5, RA3, RTP, RP1 and RPI
+  sequences but does not independently establish that every one was used in the 2012
+  CEL-Seq reaction. The original supplement remains the source needed for that.
 - 🟡 Whether the C1 version really kept ArrayScript and MessageAmp, against the paper's
   statement that CEL-Seq2 is "kit-free". `MOESM6` lists MessageAmp reagents for the chip
   RT, second strand and IVT.

@@ -19,7 +19,7 @@ import smallseq as sm
 from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments,
                       oligo, panel, protocol_graph_panels, strand_row, tm)
 import seqprimers as sp
-from illumina import P5
+from illumina import P5, P7
 from page import caveat, head, info, legend, table
 
 OUT = HERE.parent / "smallseq.html"
@@ -80,11 +80,11 @@ sequenced, before any biology.
 end, so no adapter can be ligated there. Written up once in
 <code>ref/concepts/small-rna-ligation.md</code>.""")}
 
-{caveat("""<b>One oligo in this chemistry is not published.</b> The <cbc>SRX</cbc> index
-primers live in Supplementary Table 1, which is not in the extracted text, so everything
-right of <r2>RA3</r2> is drawn as a placeholder and marked inferred (dotted underline).
-Its <i>length</i> is bracketed to 37&ndash;47&nbsp;nt by two independent published sizes
-&mdash; see <i>Sizes</i> below. Nothing on this page invents a base of it.""")}
+{caveat("""<b>The distinct TruSeq Small RNA Read 1 sequencing primer remains unnamed.</b>
+The detailed-protocol supplement does publish all 192 full <cbc>SRX</cbc> index primers;
+this page now uses SR001 as a representative and computes the complete indexed arm from
+it. Read 1's exact landing region follows from the molecule, but the source does not print
+the separate sequencing-primer oligo.""")}
 """
 
 
@@ -103,21 +103,23 @@ def oligos() -> str:
         oligo("RP1 &mdash; forward primer of both PCRs",
               [seg("", P5, "p5"), seg("", sm.RP1[len(P5):], "r1")]),
         oligo("SRX &mdash; index primer, one per well",
-              [seg("", "[not published &mdash; Supplementary Table 1]", None,
-                   placeholder=True, inferred=True)]),
+              [seg("", P7, "p7"), seg("", sm.SRX_001_PRIMER_INDEX, "cbc"),
+               seg("", sm.SRX_COMMON_LINK, "r3"), seg("", sm.RTP, "r2")]),
         oligo("5.8S rRNA masking oligo (DNA)", [seg("", sm.MASK_58S, "w1")],
               three="-biotin"),
     ]
     return ("<h2>Oligos</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
             + info(f"""All six verbatim from <i>Reagent setup</i>, which states
             &ldquo;All oligonucleotides are listed in the 5&prime; to 3&prime;
-            direction&rdquo; &mdash; except <cbc>SRX</cbc>, which is not there at all.
+            direction&rdquo;. <cbc>SRX</cbc> is from the detailed protocol's Supplementary
+            Table 1; SR001 is shown and the complete 192-member family is published there.
             <code>r</code> marks a ribonucleotide; <code>rH</code> is rA, rU or rC;
             <code>rApp</code> is a chemically pre-adenylated 5' end.
             Lengths: <r1>RA5</r1> {len(sm.RA5_HANDLE)}&nbsp;+&nbsp;{sm.RA5_UMI_LEN}
             &nbsp;+&nbsp;{len(sm.RA5_LINKER)}&nbsp;=&nbsp;{len(sm.ra5_oligo())}&nbsp;nt,
             <r2>RA3</r2> {len(sm.RA3)}&nbsp;nt, RTP {len(sm.RTP)}&nbsp;nt,
-            RP1 {len(sm.RP1)}&nbsp;nt, mask {len(sm.MASK_58S)}&nbsp;nt."""))
+            RP1 {len(sm.RP1)}&nbsp;nt, SRX {len(sm.SRX_SEQUENCE)}&nbsp;nt, mask
+            {len(sm.MASK_58S)}&nbsp;nt."""))
 
 
 def scene_rtp_ra3() -> Scene:
@@ -403,10 +405,9 @@ def step_rt_pcr() -> str:
 
     a, b = scene_pcr2()
     p_pcr2 = panel([*a.rows(), Row(), *b.rows()], cls="long",
-        caption="(8) PCR 2: the same forward primer plus one SRX index primer per well. "
-                "13 cycles, annealing at 67 C. INFERRED -- SRX is not published: its 3' end "
-                "must anneal over RA3 where RTP does, and its 5' tail (link + i7 + P7) is "
-                "drawn as placeholder overhang.")
+        caption="(8) PCR 2: the same forward primer plus one of 192 published SRX index "
+                "primers per well. 13 cycles, annealing at 67 C. SR001 is shown: its "
+                "RTP-like 3' foot anneals over RA3 and its P7-index-common tail overhangs.")
     return ("<h3>(5) Reverse transcription</h3>\n" + p_rt
             + "<h3>(6&ndash;7) Two rounds of PCR</h3>\n" + p_pcr1 + p_pcr2
             + info("""&ldquo;In this reaction, only the forward primer is added to the PCR
@@ -456,17 +457,16 @@ def final_library() -> str:
             published left arm is {sm.LEFT_ARM_NT}&nbsp;bp and every base of it is
             printed in the paper:""")
             + pub
-            + "<h3>Sizes, and how far the unpublished arm can be pinned down</h3>\n"
-            + info(f"""<cbc>SRX</cbc>'s 3' end must anneal where RTP anneals &mdash; over
-            <r2>RA3</r2> &mdash; so what it <i>adds</i> is P7 + index + some linker. Two
-            independent published sizes bracket that length:""")
+            + "<h3>Sizes cross-check the published SRX arm</h3>\n"
+            + info(f"""<cbc>SRX</cbc>'s 3' end anneals where RTP anneals &mdash; over
+            <r2>RA3</r2> &mdash; so what it adds is P7 + index + its 13-nt common linker.
+            Two independent size observations provide a separate cross-check:""")
             + bracket
             + info(f"""The windows overlap, which they did not have to: <b>37&ndash;47
-            nt</b>. A TruSeq-small-RNA-shaped arm &mdash; P7&nbsp;(24) + index&nbsp;(8) +
-            a 12-nt link &mdash; is <b>{sm.SRX_RIGHT_ARM_NT}&nbsp;nt</b>, inside both.
-            Taking that figure, <code>SRX_LINKER_NT</code> in
-            <code>tools/smallseq.py</code>, every size below re-derives. Flip it and they
-            all move together.""")
+            nt</b>. The published arm &mdash; P7&nbsp;(24) + index&nbsp;(8) + common
+            link&nbsp;({sm.SRX_LINKER_NT}) &mdash; is
+            <b>{sm.SRX_RIGHT_ARM_NT}&nbsp;nt</b>, inside both. The sizes below now derive
+            from the printed SR001 sequence rather than a fitted placeholder.""")
             + sizes
             + caveat(f"""<b>This explains the paper's own complaint.</b> It lists as a
             limitation &ldquo;the abundance of adapter dimers in the sequencing reads,
@@ -549,8 +549,9 @@ def sequencing() -> str:
           "<umi>UMI</umi> + <tso>CA</tso> &mdash; before the insert, which is exactly what "
           "the pipeline trims."],
          ["Which primer did the authors actually use?",
-          "&#128308; <b>Unknown.</b> Possibly in Supplementary Table 1, which is not in "
-          "the extracted text."]])
+          "&#128308; <b>The distinct Read 1 oligo remains unknown.</b> Supplementary "
+          "Table 1 resolves the complete SRX family and index-read site, not the Read 1 "
+          "sequencing primer."]])
     return ("<h2>Sequencing &mdash; and which primer reads this library</h2>\n"
             + panel(rows, cls="long",
                     caption="Read 1. Its 3' end is fixed by the construct: sequencing "
@@ -574,10 +575,9 @@ def sequencing() -> str:
             to a stock TruSeq Small RNA library &mdash; it only pushes the insert
             {sm.TRIM_5P}&nbsp;nt further into the read. Whatever primer arrangement a
             facility uses for TruSeq Small RNA libraries applies unchanged. The paper
-            supports the construct half of that claim and is silent on the primer half.
-            To close it: get Supplementary Table 1, and add a verbatim TruSeq Small RNA
-            block to <code>lib/illumina.py</code> so the equality can be asserted rather
-            than inferred.""")
+            supports the construct half of that claim and is silent on the Read 1 primer
+            half. The newly recovered Supplementary Table 1 does establish every SRX
+            primer and the eight bases reported by the index read.""")
             + sp.section(lib, sm.SEQ_PRIMERS, intro=f"""Small-seq is a single-read,
             single-indexed library. The TruSeq <i>DNA</i> set is listed because it is what a
             stock run loads; each has no site, for the reason given. The read-1 entry is the

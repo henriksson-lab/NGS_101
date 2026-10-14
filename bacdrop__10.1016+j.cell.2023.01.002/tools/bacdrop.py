@@ -17,8 +17,15 @@ CAVEAT="The two-index cell identity is published, while commercial 10x bead sequ
 FINAL_LIBRARY,SEQ_PRIMERS=bacterial_rna_library("bacdrop","BacDrop RNA library")
 FINAL_CAPTION="The plate barcode, droplet barcode and UMI remain physically linked to each bacterial cDNA insert."
 SEQUENCING_INTRO="Read cycles recover the two-part cell identity and UMI before transcript sequence."
-READ_LENGTHS={"Read 1":28,"Read 2":90}
+READ_LENGTHS={"Read 1":60,"Read 2":39,"Index 1 (i7)":8,"Index 2 (i5)":16}
 SHOW_READ_CONTENT=True
+
+def oligos():
+ return [
+  "<b>SMRT_dT second-strand primer</b> — 5′-AAGCAGTGGTATCAACGCAGAGTTTTTTTTTTTTTTTVN-3′",
+  "<b>SMRT_PCR cDNA enrichment primer</b> — 5′-AAGCAGTGGTATCAACGCAGAGT-3′",
+  "<b>Partial P5 cDNA/library primer</b> — 5′-AATGATACGGCGACCACCGAGA-3′",
+ ]
 INITIAL_ROWS=(Row(chunks=[("fixed bacterial cells containing total RNA",None,False)]),)
 INITIAL_NAME="Fixed bacterial cells"
 

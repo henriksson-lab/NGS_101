@@ -18,7 +18,7 @@ TITLE = "miCLIP — single-nucleotide m6A/m6Am mapping"
 NOTES = "01_miclip.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.3453">Linder et al. (2015)</a>; detailed open protocol: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5562447/">Methods in Molecular Biology</a>.'
 SUMMARY = "UV crosslinking fixes an anti-m6A antibody at a modified adenosine. Reverse transcriptase records that protein–RNA adduct as a characteristic substitution or a cDNA truncation before circularization and PCR."
-CAVEAT = "The final construct shows the published inline random/barcode layout; antibody-dependent RT outcomes are biological alternatives, not deterministic base conversions."
+CAVEAT = "The final construct shows the published inline random/barcode layout, but its full adapter/primer assembly has not been reconciled against the exact oligos in the 2017 detailed protocol. Antibody-dependent RT outcomes are alternative molecular products."
 
 CLIP_R1 = "GTTCAGAGTTCTACAGTCCGACGATC"
 INLINE_LAYOUT = (3, 4, 2)  # random bases, sample barcode, random bases

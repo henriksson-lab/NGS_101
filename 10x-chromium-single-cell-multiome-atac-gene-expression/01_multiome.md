@@ -18,4 +18,9 @@ The commercial Multiome assay jointly measures open chromatin and polyadenylated
 
 ## 4. Evidence boundary
 
-🟢 Barcode and UMI roles and the two final read layouts are printed in CG000338. 🔴 Complete gel-bead and bridge-oligo bases are proprietary; the schematic uses inferred placeholders only for those undisclosed regions.
+🟢 CG000338 Rev G Appendix pp. 80–81 prints the complete constant structure of both gel
+bead oligos and both final libraries. The page now transcribes the GEX Read-1 arm,
+16-base barcode, 12-base UMI, T30VN, dual 10-base sample indices, and the ATAC P5/barcode/
+`CGCGTCTG`/s5/ME and s7/8-base-index/P7 shell exactly. Variable barcode, UMI and index
+windows are structured placeholders, not inferred sequence. 🔴 The internal ATAC bridge
+reagent and some reaction-mixture oligos remain proprietary.

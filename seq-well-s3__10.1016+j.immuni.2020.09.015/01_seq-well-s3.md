@@ -30,6 +30,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 |---|---|---|
 | `j.immuni.2020.09.015_PMC7562821.html.txt` | full text (PMC), incl. STAR Methods and Key Resources Table | **every oligo** (Key Resources "Oligonucleotides"), S3 conditions, WTA PCR, Nextera PCR, sequencing |
 | `j.immuni.2020.09.015_PMC7562821.xml` | JATS XML of the same | checking the oligo line breaks / stray characters (`<break/>`, `<sup>∗</sup>`) |
+| `j.immuni.2020.09.015_supp_mmc1.pdf.txt` | complete Document S1, including the Seq-Well S3 Master Protocol | RT, second-strand and PCR mixes, incubation, index-primer stocks and read lengths |
 | `upstream_SeqWell_S3.html.txt` | scg_lib_structs page | second, complete account; checked against the paper in §2 |
 | `mmc1_partial_FigS1A_legend.decoded.txt` | **hand-recovered** Figure S1A legend (see below) | step list of the S3 scheme; "random octamer" wording |
 | `j.immuni.2020.09.015_PMC7562821_supplementary.zip` | Europe PMC supplement bundle — **truncated** at exactly 50,000,000 bytes | salvaged mmc2, mmc4–7 (xlsx: gene tables, no chemistry) and the first ~38 MB of mmc1.pdf |
@@ -42,7 +43,6 @@ Not obtained:
 
 | File | URL | What is lost |
 |---|---|---|
-| **mmc1.pdf** — Document S1: Figures S1–S6 **and the Seq-Well S3 Master Protocol** (54 pages, ~75 MB) | https://pmc.ncbi.nlm.nih.gov/articles/instance/7562821/bin/mmc1.pdf (PMC download gate) | the Master Protocol: RT mix and times for S3, bead numbers, cycle numbers per sample type, read lengths. Only figure pages through ~S4 inflated from the truncated zip. 🔴 |
 | mmc8.pdf — Document S2 (article + supplement) | https://pmc.ncbi.nlm.nih.gov/articles/instance/7562821/bin/mmc8.pdf | same content as mmc1 + article |
 | mmc3.xlsx — Table S2, cell metadata | https://pmc.ncbi.nlm.nih.gov/articles/instance/7562821/bin/mmc3.xlsx | not chemistry |
 | Shalek-lab web protocol | www.shaleklab.com (named in the paper) | the "complete, updated protocol" |
@@ -176,9 +176,11 @@ from Seq-Well v1: see steps 1–7 of the
 paper: 10,000–15,000 cells per array, preloaded with MACOSKO-2011-10 beads, sealed with a
 hydroxylated polycarbonate membrane (10 nm pores), lysis, hybridisation, bead removal. 🟢
 
-1. **Reverse transcription** (Maxima H⁻, with the TSO). Conditions are only in the
-   unobtained Master Protocol 🔴; in Seq-Well v1 it was Maxima H⁻, 4 % Ficoll, 1 mM dNTPs,
-   2.5 µM TSO, 30 min RT then 52 °C 90 min 🟡 (assumed unchanged). First strand:
+1. **Reverse transcription** (Maxima H⁻, with the TSO). The Master Protocol gives a
+   200 µL mix with 40 µL 5× RT buffer, 80 µL 30% PEG8000, 20 µL 10 mM dNTPs,
+   5 µL 100 µM TSO, RNase inhibitor and Maxima H⁻; rotate 30 min at room temperature,
+   then 90 min at 52 °C 🟢. The final TSO is 2.5 µM and PEG8000 is 12% 🟡 (computed).
+   First strand:
    `bead–TTTTTTT·handle·AC·<cbc>·<umi>·T30·<cDNA, antisense>`, ending either in `CCC` + the
    copied TSO complement (template-switched) or at a random point (not). 🟡 (Fig. S1A legend
    🟢 describes both cases; it says the RT adds a 3' overhang of three C's)
@@ -206,7 +208,9 @@ hydroxylated polycarbonate membrane (10 nm pores), lysis, hybridisation, bead re
    55 °C 5 min; 5 µL Buffer NT, 5 min RT. 🟢 (Seq-Well v1 used 750 pg.)
 8. **Library PCR**: + 8 µL water, 15 µL NPM, 1 µL Custom P5 hybrid oligo, 1 µL N700 index
    oligo; 95 °C 30 s; 12 × (95 °C 10 s, 55 °C 30 s, 72 °C 30 s); 72 °C 5 min. 🟢 Primer
-   concentrations not stated 🔴. SPRI 0.6× and 0.8×, Qubit, Bioanalyzer/TapeStation. 🟢
+   primer stocks are both **10 µM** in the Master Protocol, giving 0.2 µM of each
+   in the 50 µL final reaction 🟡 (computed). SPRI 0.6× and 0.8×, Qubit,
+   Bioanalyzer/TapeStation. 🟢
 
 ### Optimisation controls (what the paper actually compared) 🟢
 
@@ -252,22 +256,22 @@ priming position is invisible in the data, except through the shorter cDNA.
 
 🟢 PBMC optimisation: NextSeq 500, 75-cycle kits (NextSeq 550 v2), 2.2 pM, **custom Read 1
 primer**; skin samples: NovaSeq. Read 1 carries the 12-bp cell barcode and 8-bp UMI;
-read 2 the cDNA; demultiplexing on the Nextera N700 index. Exact read lengths are not in the
-main text 🔴 (Master Protocol); Seq-Well v1 used 20 / 50 / 8. 🟡
+read 2 the cDNA; demultiplexing on the Nextera N700 index. The Master Protocol specifies
+Read 1 **20 bp**, Read 2 **50 bp** on MiSeq/NextSeq or **50–80 bp** on NovaSeq, and an
+8-bp Index 1; optional 8-bp Index 2 on NovaSeq 🟢. It cautions that Read 1 can require
+21 cycles for some bead lots. 🟢
 
 | Read | Primer | Reads | Length |
 |---|---|---|---|
-| Read 1 | Custom Read 1 primer (P5 hybrid minus P5) 🟢 | `<cbc 12><umi 8>` then T30 | ≥ 20 🟡 |
-| Index 1 (i7) | standard, = `nextera.INDEX1_PRIMER` 🟡 | N700 index | 8 🟡 |
-| Read 2 | standard, = `nextera.READ2_PRIMER` 🟡 | cDNA from the Tn5 end, sense of the mRNA | 🔴 |
+| Read 1 | Custom Read 1 primer (P5 hybrid minus P5) 🟢 | `<cbc 12><umi 8>` then T30 | 20; sometimes 21 🟢 |
+| Index 1 (i7) | standard, = `nextera.INDEX1_PRIMER` 🟡 | N700 index | 8 🟢 |
+| Read 2 | standard, = `nextera.READ2_PRIMER` 🟡 | cDNA from the Tn5 end, sense of the mRNA | 50–80 🟢 |
 
 Read 2 reads the transcript in the **sense** orientation, starting at a Tn5 cut inside the
 3' region. 🟡 (computed from the layout)
 
 ## 6. Open questions
 
-- 🔴 The Master Protocol (in mmc1.pdf) is lost to the truncated download: RT conditions for
-  S3, whether the TSO concentration changed, read lengths, cycle numbers per sample type.
 - 🔴 Why the randomer tail is `NNNGGNNNB`: the fixed internal `GG` and the non-A 3' base are
   not explained. Fig. S1A's legend calls it a "random octamer"; the tail has 7 degenerate
   positions + `GG` = 9 nt, so "octamer" matches neither count. 🟡 (counted)
@@ -276,15 +280,14 @@ Read 2 reads the transcript in the **sense** orientation, starting at a Tn5 cut 
   priming a useless handle-to-T30 product. Not stated by the authors.
 - 🔴 Whether "1 M TE" in the NaOH wash is a typo (1× TE).
 - 🟡 "KAPA 5X Mastermix" vs "KAPA 2x HiFi HotStart" — presumably the 2× ReadyMix.
-- 🔴 Primer concentrations in the library PCR (1 µL each, stock not stated).
+- 🟢 The Master Protocol supplies the library PCR primer stock concentrations: 10 µM each.
 
 ## 7. How this note was made (tool evaluation)
 
-`get_sources.py` got the PMC HTML/XML and the upstream page; all eight supplements were
-behind the PMC download gate, and the Europe PMC supplementary zip it saved was **cut at
-exactly 50,000,000 bytes** (no central directory, `unzip` refuses it). Stream-inflating the
-local headers by hand recovered mmc2 and mmc4–7 (gene tables) and ~38 of ~75 MB of mmc1.pdf
-(figures only); the Figure S1 legend there uses a re-encoded font and was decoded by a
+`get_sources.py` got the PMC HTML/XML and the upstream page. An initial Europe PMC
+supplementary zip was cut at exactly 50,000,000 bytes; the complete mmc1.pdf was
+subsequently recovered and its Master Protocol read. The Figure S1 legend uses a
+re-encoded font and was decoded by a
 substitution table into `mmc1_partial_FigS1A_legend.decoded.txt`. `scrape_primers.py`
 found every paper oligo but split the TSO (stray space) and the P5 hybrid (stray hyphen
 and stray space, `∗` phosphorothioates not parsed), and `--find` reports **0 locations for the randomer**,

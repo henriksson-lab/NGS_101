@@ -44,10 +44,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Segment, feature, revcomp
-from illumina import P5, P7, P7_RC
+from illumina import P5, P7, P7_RC, TRUSEQ_SMALL_RNA_RA5, TRUSEQ_SMALL_RNA_RA3
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
@@ -60,13 +60,14 @@ I7_FEATURE = feature("sample_index_i7", "sample_index", "whitelist",
 FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 
 # ======================================================================= oligos
-# TODO(lib): move RA5 / RA3 / RTP (TruSeq Small RNA adapters) to illumina.py.
+# The stock RA5 body and RA3 are imported from Illumina's adapter-sequences document;
+# Small-seq's RTP differs from the stock kit primer and remains local.
 # All [green] verbatim, Reagent setup. Modifications are carried separately as _MODS
 # strings so that the base sequence stays computable (tm(), revcomp(), len()).
 
 # --- 5' adapter: RNA, 5'-amino-blocked, free 3'-OH, UMI + CA at the 3' end -----------
 # RA5 (NH2-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrArCrGrArUrCrHrHrHrHrHrHrHrHrCrA)
-RA5_HANDLE = "GTTCAGAGTTCTACAGTCCGACGATC"      # 26 nt, written as DNA for arithmetic
+RA5_HANDLE = TRUSEQ_SMALL_RNA_RA5                  # 26 nt, written as DNA for arithmetic
 RA5_UMI_LEN = 8                                 # [green] "a stretch of eight 'H'"
 RA5_UMI_BASE = "H"                              # [green] rH = rA, rU or rC
 RA5_UMI_DIVERSITY = 3 ** RA5_UMI_LEN            # [green] "6,561 different UMIs"
@@ -75,7 +76,7 @@ RA5_MODS = "NH2 (aminolink C6) at the 5' end; 3'-OH; every base a ribonucleotide
 
 # --- 3' adapter: DNA, 5'-adenylated, 3'-blocked ---------------------------------------
 # RA3 (rAppTGGAATTCTCGGGTGCCAAGG-ddC)
-RA3 = "TGGAATTCTCGGGTGCCAAGG"                   # 21 nt
+RA3 = TRUSEQ_SMALL_RNA_RA3                         # 21 nt
 RA3_MODS = "5'-rApp (pre-adenylated); 3'-ddC"
 
 # --- RT primer, which is also the reverse primer of PCR 1 -----------------------------
@@ -107,37 +108,19 @@ MASK_58S_MODS = "3'-biotin, to block extension"
 MASK_58S_TARGET = revcomp(MASK_58S)
 RRNA_58S_NT = 156           # [yellow] textbook length of mature human 5.8S; NOT in the paper
 
-# --- index primers: SEQUENCE NOT PUBLISHED in the main text ---------------------------
-# [red] "SRX DNA index primers are modified from standard Illumina TruSeq small RNA index
-# primers to have barcodes of 8 bp for 192 samples. For sequence information, see
-# Supplementary Table 1." -- and Supplementary Table 1 is not in the extracted text.
-# Do not invent it. What IS published:
-SRX_SEQUENCE = None                             # [red] deliberately absent
+# --- index primers: detailed-protocol Supplementary Table 1 --------------------------
+# The supplement prints all 192 full primers. SR001 is the representative sequence used
+# in the molecular drawing; the other family members change only the eight-base window.
 SRX_INDEX_NT = 8                                # [green] "barcodes of 8 bp"
 SRX_N_INDICES = 192                             # [green] "for 192 samples" (two 96 plates)
 SRX_CONC_UM = 50                                # [green] dissolved to 50 uM, 1 ul per well
-
-# The right-hand arm it must add to the library, beyond RA3. Open question as a switch
-# (README, "Open questions are switches, not prose"): flip SRX_LINKER_NT and every size
-# on the page re-derives.
-#
-#   SRX 3' end must anneal where RTP anneals, i.e. over RA3 -- that length is already in
-#   the construct and adds nothing. What is *added* is P7 + index + whatever links them
-#   to the RTP-like 3' end:
+SRX_001_PRIMER_INDEX = "TTCGTGAT"               # sequence inside the ordered primer
+SRX_001_INDEX_READ = "ATCACGAA"                 # table's reported barcode, revcomp above
+SRX_COMMON_LINK = "GTGACTGGAGTTC"               # between the index and RTP foot
+SRX_SEQUENCE = P7 + SRX_001_PRIMER_INDEX + SRX_COMMON_LINK + RTP
 SRX_P7_NT = len(P7)                             # 24 [check] = len(illumina.P7)
-SRX_LINKER_NT = 12                              # [yellow] see derivation below
-SRX_RIGHT_ARM_NT = SRX_P7_NT + SRX_INDEX_NT + SRX_LINKER_NT      # 44
-
-# Derivation of SRX_LINKER_NT, from two independent published sizes:
-#   known left arm   = P5 + RA5 + UMI + CA + RA3 = 86 bp   [check]
-#   (a) miRNA window [green] "aiming to cut targets in the size range of 145-155 bp",
-#       a typical miRNA being 22 nt -> right arm = 145-86-22 .. 155-86-22 = 37..47
-#   (b) 5.8S peak    [green] "a peak appears at the 270- to 290-bp range ... if the
-#       rRNA-masking oligonucleotide is omitted"; 5.8S ~156 nt [yellow]
-#                           -> right arm = 270-86-156 .. 290-86-156 = 28..48
-#   intersection 37..47. A TruSeq-small-RNA-shaped arm (P7 + 8-bp index + 12-nt link)
-#   is 44, which sits inside both windows -- asserted in selftest as a bracketing, not
-#   as a sequence.
+SRX_LINKER_NT = len(SRX_COMMON_LINK)             # 13, now read rather than inferred
+SRX_RIGHT_ARM_NT = SRX_P7_NT + SRX_INDEX_NT + SRX_LINKER_NT      # 45
 
 # ================================================================= protocol constants
 LYSIS_TEMP_C, LYSIS_MIN = 72, 20                # [green] Step 9
@@ -214,9 +197,9 @@ def ligated_rna(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
 def library(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
     """The final, indexed library.
 
-    Left of RA3 every base is published. Right of RA3 nothing is: SRX lives in
-    Supplementary Table 1, so the linker and the index are drawn as placeholders and
-    marked inferred. P7 has to be there for the library to cluster at all.
+    SR001 is representative of the 192-member indexed-primer family. The top-strand
+    sequence contains the reverse complements of the SRX tail and primer index because
+    SRX extends leftwards from its RTP foot on RA3.
     """
     return Construct([
         _seg("P5", P5, "p5"),
@@ -225,13 +208,23 @@ def library(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
         _seg("CA", RA5_LINKER, "tso"),
         _seg("small RNA", insert_placeholder(insert_nt), None, placeholder=True),
         _seg("RA3", RA3, "r2"),
-        _seg("SRX link", "L" * SRX_LINKER_NT, "r3", placeholder=True, inferred=True,
-             note="length derived from the published library sizes; sequence not published"),
-        _seg("i7", "A" * SRX_INDEX_NT, "cbc", placeholder=True, inferred=True,
-             note="8 bp, 192 of them; sequences in Supplementary Table 1"),
-        _seg("P7", P7_RC, "p7", inferred=True,
-             note="required for clustering; SRX itself is not published"),
+        _seg("SRX common link", revcomp(SRX_COMMON_LINK), "r3"),
+        _seg("i7", SRX_001_INDEX_READ, "cbc",
+             note="SR001 representative; 192 full primers are published"),
+        _seg("P7", P7_RC, "p7"),
     ], name="Small-seq library")
+
+
+def pcr1_product(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
+    """Exact first-round amplicon before the indexed SRX tail is installed."""
+    return Construct([
+        _seg("P5", P5, "p5"),
+        _seg("RA5", RA5_HANDLE, "r1"),
+        _seg("UMI", RA5_UMI_BASE * RA5_UMI_LEN, "umi", placeholder=True),
+        _seg("CA", RA5_LINKER, "tso"),
+        _seg("small RNA", insert_placeholder(insert_nt), None, placeholder=True),
+        _seg("RA3", RA3, "r2"),
+    ], name="Small-seq PCR-1 amplicon")
 
 
 def library_bp(insert_nt: int) -> int:
@@ -266,9 +259,11 @@ SEQ_PRIMERS = [
               "instead of on the UMI -- contradicting the paper. Not what was used."),
     sp.mismatching(sp.TRUSEQ["R1"], "no TruSeq DNA adapter in this library; a run loaded "
                                     "only with it reads nothing"),
-    sp.mismatching(sp.TRUSEQ["I1"], "the i7 read must prime from RA3 into the SRX linker, "
-                                    "which is unpublished (Supplementary Table 1); there is "
-                                    "no TruSeq DNA Index 1 site"),
+    sp.custom("Index 1 (i7)", "TruSeq Index 1 (13-nt 3′ annealing site)",
+              sp.TRUSEQ["I1"].seq, sp.TRUSEQ["I1"].source,
+              "Small-seq's published SRX common tail pairs only with the primer's "
+              "13-nt 3′ end; the eight-base index read is printed in the supplement.",
+              min_anneal=13),
     sp.mismatching(sp.TRUSEQ["I2"], "single-indexed: RP1 puts P5 directly on RA5, so there "
                                     "is no i5 index and no TruSeq i5 primer site"),
     sp.mismatching(sp.TRUSEQ["R2"], "single-read protocol (Step 38, \"a single read of 51 "
@@ -326,35 +321,41 @@ def protocol_graph():
                  (rt,InputRole.CATALYST)),(cdna,))
     rp1=graph.input("rp1","RP1 forward PCR primer",MaterialKind.OLIGO)
     pol=graph.input("polymerase","Phusion Hot Start II polymerase",MaterialKind.CATALYST)
-    pcr1=graph.product("pcr1_product","first-round small-RNA amplicon",MaterialKind.MOLECULAR)
+    pcr1_state=pcr1_product()
+    pcr1=graph.product("pcr1_product","first-round small-RNA amplicon",MaterialKind.MOLECULAR,
+                       state=pcr1_state)
     graph.react("pcr1","Amplify with RP1 and leftover RTP",StepKind.PCR,
                 ((cdna,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
                  (rtp,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(pcr1,),
-                geometry=PCRGeometry.unavailable(
-                    library(),reason="The first-round amplicon lacks the still-unpublished SRX arm."))
-    srx=graph.input("srx","SRX indexed reverse primer",MaterialKind.OLIGO,inferred=True,
-                    source=SOURCE+" (sequence in unavailable Supplementary Table 1)")
+                geometry=PCRGeometry.exact(
+                    pcr1_state, PCRPrimer("RP1", RP1, anneal_nt=RP1_ANNEAL_NT),
+                    PCRPrimer("RTP", RTP),
+                    statement="The detailed protocol prints RP1 and RTP; their inward-facing sites are computed on the first-round amplicon."))
+    srx=graph.input("srx","SRX indexed reverse primer",MaterialKind.OLIGO,
+                    source=SOURCE+" (Supplementary Table 1, SR001 representative)")
     unselected=graph.product("unselected_library","indexed small-RNA library before size selection",
-                             MaterialKind.LIBRARY,state=library(),inferred=True,
-                             source=SOURCE+" (SRX linker sequence unavailable)")
+                             MaterialKind.LIBRARY,state=library(),source=SOURCE)
     graph.react("pcr2","Install the indexed P7 arm with RP1 and SRX",StepKind.PCR,
                 ((pcr1,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
                  (srx,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(unselected,),
-                geometry=PCRGeometry.unavailable(
-                    library(),reason="The SRX primer sequence is not available in the verified source."))
+                geometry=PCRGeometry.exact(
+                    pcr1_state, PCRPrimer("RP1", RP1, anneal_nt=RP1_ANNEAL_NT),
+                    PCRPrimer("SRX (SR001)", SRX_SEQUENCE, anneal_nt=len(RTP)),
+                    statement="Detailed-protocol Supplementary Table 1 prints every full SRX primer; SR001 is the representative geometry."))
     size=graph.input("size_selection","130–160-bp Pippin or 120–200-bp gel selection",
                      MaterialKind.SELECTION)
     final=library()
-    selected=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
-                           source=SOURCE+" (SRX linker sequence unavailable)")
+    selected=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
+                           source=SOURCE)
     offsize=graph.product("offsize","off-size library and some adapter dimers",MaterialKind.WASTE)
     graph.react("size_select","Select the small-RNA library size range",StepKind.SELECTION,
                 ((unselected,InputRole.TEMPLATE),(size,InputRole.SELECTION)),(selected,offsize))
     graph.discard(offsize,"off-size molecules are excluded, although the overlapping adapter dimer is not fully removed")
     graph.sequence(selected,SequencingPlan(
-        library=final,primers=(SEQ_PRIMERS[0],),acquired_roles=("Read 1",),
-        read_lengths={"Read 1":READ_LEN},
-        limitation="The i7 sequencing primer is not published in the locally verified source."))
+        library=final,primers=(SEQ_PRIMERS[0], SEQ_PRIMERS[3]),
+        acquired_roles=("Read 1", "Index 1 (i7)"),
+        read_lengths={"Read 1":READ_LEN, "Index 1 (i7)":SRX_INDEX_NT},
+        limitation="The detailed protocol establishes the SRX index read; it does not print the distinct TruSeq Small RNA Read 1 sequencing-primer oligo."))
     graph.declare_reviewed_scope(("single_cell_rna","rrna_mask","mask_rrna","ra3","rnl2",
       "ligate_3p","rtp","deadenylase","deadenylate","lambda_exonuclease",
       "digest_free_adapter","ra5","rnl1","ligate_5p","reverse_transcriptase",

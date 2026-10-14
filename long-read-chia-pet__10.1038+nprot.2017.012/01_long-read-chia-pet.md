@@ -21,6 +21,8 @@ The PMC full text, including the oligo list and stepwise procedure, was read.
 6. 🟢 Streptavidin captures tagmented fragments retaining the internal biotin linker;
    on-bead indexed PCR uses no more than 13 cycles.
 
+🟢 The amplification table names Nextera NPM, PPC and separate i7 and i5 index primers, but does not identify the index wells used for each library or print those ordered primer oligos. The canonical Nextera end structure in the schematic is supported by the named kit; a particular sample's index bases remain unspecified.
+
 ## 4. Final library and reads
 
 The final library has canonical Nextera sequencing ends around `genomic tag — bridge —

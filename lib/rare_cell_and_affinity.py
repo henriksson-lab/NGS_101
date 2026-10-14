@@ -41,6 +41,13 @@ GENOMIC = role("genomic insert")
 RAISIN_CST = (("CHAPS", "0.49% w/v"), ("NaCl", "146 mM"),
               ("CaCl2", "1 mM"), ("MgCl2", "21 mM"),
               ("Tris pH 8.0", "10 mM"))
+RAISIN_RT_PRIMER = "AAGCAGTGGTATCAACGCAGAGTACT(30)VN"
+RAISIN_RT_HANDLE = RAISIN_RT_PRIMER.removesuffix("T(30)VN")
+RAISIN_LOCKED_TSO = "AAGCAGTGGTATCAACGCAGAGTACrGrG+G"
+RAISIN_PCR_PRIMER = "AAGCAGTGGTATCAACGCAGAGT"
+RAISIN_OLIGO_SOURCE = (
+    "Drokhlyansky et al., Cell 2020, PMC8358727 Key Resources Table, Oligonucleotides"
+)
 CAP_HUMAN_WASH_MM = 600
 CAP_MOUSE_WASH_MM = 560
 
@@ -54,11 +61,16 @@ def raisin_particle() -> Scene:
     return sc
 
 
-def smart_cdna_scene() -> Scene:
+def smart_cdna_scene(*, switched: bool = True) -> Scene:
     sc = Scene()
-    sc.strand("cDNA", [role("oligo-dT primer / SMART handle"), TRANSCRIPT,
-                        role("copied locked TSO")], label="full-length cDNA")
-    sc.note("cDNA", "poly(dT) reverse transcription + template switching; 21-cycle PCR")
+    parts = [Segment("SMART RT handle", RAISIN_RT_HANDLE, "ad"),
+             Segment("oligo(dT)30", "T" * 30),
+             Segment("anchored VN", "VN", placeholder=True), TRANSCRIPT]
+    if switched:
+        parts.append(role("copied locked TSO"))
+    sc.strand("cDNA", parts, label="full-length cDNA" if switched else "first-strand cDNA")
+    sc.note("cDNA", "source-printed RT primer; template-switch product shown by role"
+            if switched else "source-printed oligo(dT) RT primer")
     return sc
 
 
@@ -264,33 +276,31 @@ def _raisin_graph(spec):
                 (selected, excluded), changes_molecule=False)
     graph.discard(excluded, "does not meet the one-particle-per-well selection")
     rt_primer = graph.input("rt_primer", "oligo(dT) SMART reverse-transcription primer",
-                            MaterialKind.OLIGO, inferred=True,
-                            source=source + " Exact custom primer bases were available only on request.")
+                            MaterialKind.OLIGO, state=RAISIN_RT_PRIMER,
+                            source=RAISIN_OLIGO_SOURCE)
     rtase = graph.input("reverse_transcriptase", "Maxima reverse transcriptase",
                         MaterialKind.CATALYST)
     first = graph.product("first_strand", "RAISIN transcript first-strand cDNA",
-                          MaterialKind.MOLECULAR, state=smart_cdna_scene(), inferred=True,
-                          source=source + " Locked TSO sequence is not printed.")
+                          MaterialKind.MOLECULAR, state=smart_cdna_scene(switched=False))
     graph.react("reverse_transcribe", "Oligo-dT reverse-transcribe RAISIN RNA",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((selected, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (rtase, InputRole.CATALYST)), (first,))
     tso = graph.input("locked_tso", "locked SMART template-switch oligo",
-                      MaterialKind.OLIGO, inferred=True,
-                      source=source + " Exact locked TSO sequence is not printed.")
+                      MaterialKind.OLIGO, state=RAISIN_LOCKED_TSO,
+                      source=RAISIN_OLIGO_SOURCE)
     switched = graph.product("switched", "template-switched full-length RAISIN cDNA",
-                             MaterialKind.MOLECULAR, state=smart_cdna_scene(), inferred=True,
-                             source=source + " Exact locked TSO sequence is not printed.")
+                             MaterialKind.MOLECULAR, state=smart_cdna_scene())
     graph.react("template_switch", "Template-switch at the transcript 5-prime end",
                 StepKind.TEMPLATE_SWITCHING,
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (rtase, InputRole.CATALYST)), (switched,))
     pre_f = graph.input("preamp_forward", "SMART cDNA preamplification forward primer",
-                        MaterialKind.OLIGO, inferred=True,
-                        source=source + " Custom primer bases were available only on request.")
+                        MaterialKind.OLIGO, state=RAISIN_PCR_PRIMER,
+                        source=RAISIN_OLIGO_SOURCE)
     pre_r = graph.input("preamp_reverse", "SMART cDNA preamplification reverse primer",
-                        MaterialKind.OLIGO, inferred=True,
-                        source=source + " Custom primer bases were available only on request.")
+                        MaterialKind.OLIGO, state=RAISIN_PCR_PRIMER,
+                        source=RAISIN_OLIGO_SOURCE)
     pre_poly = graph.input("preamp_polymerase", "KAPA HiFi polymerase",
                            MaterialKind.CATALYST)
     amplified = graph.product("amplified", "21-cycle amplified full-length cDNA",
@@ -299,7 +309,8 @@ def _raisin_graph(spec):
                 ((switched, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL),
                  (pre_r, InputRole.STRUCTURAL), (pre_poly, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(
-                    spec.FINAL_LIBRARY, reason="Custom barcode-adapter primer sequences were available only on request."))
+                    spec.FINAL_LIBRARY, reason="The paper prints one SMART cDNA amplification primer, but the exact template binding positions cannot be placed on the symbolic transcript-derived intermediate.",
+                    symmetric_species=True))
     transposome = graph.input("transposome", "Nextera XT loaded transposome",
                               MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Nextera XT transposase", MaterialKind.CATALYST)
@@ -518,12 +529,15 @@ def get(key: str):
             NOTES="01_raisin_rna_seq.html",
             SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.08.003">Drokhlyansky et al., Cell (2020)</a>.',
             SUMMARY="CST extraction preserves an intact nucleus together with attached ribosomes and their poly(A) RNA; the plate implementation uses SMART-seq2 followed by Nextera XT.",
-            CAVEAT="The paper does not print the locked TSO or custom barcode-adapter sequences; those workflow states are labelled by role rather than assigned bases.",
+            CAVEAT="The paper prints the RT, locked TSO and cDNA PCR oligos in its Key Resources Table. It withholds the custom Nextera XT barcode-adapter sequences, so their individual indexes remain symbolic.",
             FINAL_LIBRARY=final, SEQ_PRIMERS=primers, READ_LENGTHS=None,
             FINAL_CAPTION="A Nextera XT library made from plate-amplified RAISIN cDNA.",
             SEQUENCING_INTRO="Standard Nextera primers bind the completed library as computed below.",
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="",
-            workflow=raisin_workflow, oligos=lambda: ())
+            workflow=raisin_workflow, oligos=lambda: (
+                f"5′-{RAISIN_RT_PRIMER}-3′ — SMART oligo(dT) reverse-transcription primer",
+                f"5′-{RAISIN_LOCKED_TSO}-3′ — locked SMART template-switch oligo (rG, +G as printed)",
+                f"5′-{RAISIN_PCR_PRIMER}-3′ — SMART cDNA amplification primer"))
     if key == "miracl-seq":
         final, primers = gemcode_v2_library()
         return _spec(key,

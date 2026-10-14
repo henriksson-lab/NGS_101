@@ -4,8 +4,9 @@ Defining source: Wang et al., 2019, [doi:10.1016/j.molcel.2019.07.015](https://d
 
 ## Sources read
 
-- 🟢 Full preprint/article Methods: antibody targeting, PAT binding, barcoded tagmentation, pooling, redistribution and indexed PCR.
-- 🟢 Supplementary oligo workbook: Mosaic-A/B, phosphorylated common ME oligo, PAT-T5 and PAT-T7 barcode series, Nextera i5/i7 PCR primers.
+- 🟢 Author preprint 10.1101/590661 Methods: antibody targeting, PAT binding, barcoded tagmentation, pooling, redistribution and indexed PCR.
+- 🟢 Preprint Supplementary Table 2 workbook (`590661_media-3.xlsx`): Mosaic-A/B, phosphorylated common ME oligo, PAT-T5 and PAT-T7 barcode series, Nextera i5/i7 PCR primers.
+- 🔴 The defining *Molecular Cell* article and its final supplement were not retrieved by the source fetcher. Exact oligo transcription below is verified against the author preprint; final-version differences remain unassessed.
 
 ## Molecular path
 

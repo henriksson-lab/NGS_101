@@ -5,5 +5,13 @@ Defining paper: Zhao et al., *Nature* (2022), [doi:10.1038/s41586-021-04217-4](h
 - 🟢 PMC manuscript, Methods and Supplementary Table 1 oligos were read.
 - 🟢 A pre-sequenced 10-µm bead array supplies spatial coordinates. HCl removes histones; custom Tn5 adapters tag tissue DNA.
 - 🟢 Bead barcodes are photocleaved and ligated to proximal genomic fragments before PCR.
-- 🟢 The bead oligo contains two 7-nt variable blocks around a fixed linker. The paper prints custom Tn5 adapters and custom Read 1/Read 2 primers.
-- 🟡 The final page places the two printed genomic read sites exactly; it does not infer a full index-read primer configuration from PCR primers alone.
+- 🟢 The bead oligo contains a photocleavable linker (`PCT`) and two 7-nt
+  variable blocks around a fixed linker. Supplementary Table 1 also prints
+  the bridge oligo, 5′-phosphorylated/3′-dideoxy blocked mosaic bottom,
+  custom Tn5 adapters, indexed PCR primers, and custom Read 1, Read 2,
+  index 1 and index 2 sequencing primers. The page now lists these
+  additional exact oligos and the published modification notation.
+- 🟡 The final page places the two printed genomic read sites exactly. Both
+  index-primer sequences are now displayed, but their binding sites have not
+  been reconstructed on the representative final strand; this is a model
+  limitation rather than missing source bases.

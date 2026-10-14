@@ -33,7 +33,10 @@ READ_LENGTHS={"Read 1":18,"Index 1 (i7)":8,"Read 2":75}
 SHOW_READ_CONTENT=True
 def oligos(): return [
  "<b>Barcoded RT primer</b> — 5′-CTACACGACGCTCTTCCGATCT[8-bp well barcode]NNNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTVN-3′",
- "<b>Template-switching oligo</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3′"]
+ "<b>Template-switching oligo</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrGrG-3′",
+ "<b>cDNA PCR forward / reverse</b> — 5′-CTACACGACGCTCTTCCGATCT-3′ / 5′-AAGCAGTGGTATCAACGCAGAG-3′",
+ "<b>Library PCR universal</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC-3′",
+ "<b>Library PCR indexed</b> — 5′-CAAGCAGAAGACGGCATACGAGAT[8-bp plate barcode]GTCTCGTGGGCTCGG-3′"]
 def sections(): return [
  ("Reverse transcription installs well barcode and UMI",[Row(chunks=[("poly(A) RNA ← oligo(dT)—UMI—well barcode—Read 1 arm","umi",False)])],"Each well receives its own RT primer before cells are sorted."),
  ("Template switch at the cDNA 5′ end",[Row(chunks=[("first-strand cDNA ** TSO-derived PCR handle","r1",False)])],"The terminal riboguanosines support template switching."),
@@ -55,12 +58,13 @@ def protocol_graph():
  graph.react("template_switch","Install the 5-prime PCR handle by template switching",
              StepKind.TEMPLATE_SWITCHING,
              ((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
- ispcr=graph.input("cdna_pcr_primer","cDNA amplification primer species",MaterialKind.OLIGO,
-                   inferred=True,source=source+" (primer sequence not represented on this page)")
+ cdna_forward=graph.input("cdna_pcr_forward","Table 1 cDNA PCR forward primer",MaterialKind.OLIGO)
+ cdna_reverse=graph.input("cdna_pcr_reverse","Table 1 cDNA PCR reverse primer",MaterialKind.OLIGO)
  polymerase=graph.input("pcr_polymerase","cDNA/library PCR polymerase",MaterialKind.CATALYST)
  amplified=graph.product("amplified_cdna","well-tagged amplified full-length cDNA",MaterialKind.MOLECULAR)
  graph.react("cdna_pcr","Amplify the template-switched cDNA",StepKind.PCR,
-             ((switched,InputRole.TEMPLATE),(ispcr,InputRole.STRUCTURAL),
+             ((switched,InputRole.TEMPLATE),(cdna_forward,InputRole.STRUCTURAL),
+              (cdna_reverse,InputRole.STRUCTURAL),
               (polymerase,InputRole.CATALYST)),(amplified,),
              geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
                  reason="The cDNA-PCR intermediate is not represented base-for-base.",
@@ -93,7 +97,7 @@ def protocol_graph():
      read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex","Read 2":"include"}))
  graph.declare_reviewed_scope((
      "rna","barcoded_rt_primer","reverse_transcriptase","reverse_transcription","tso",
-     "template_switch","cdna_pcr_primer","pcr_polymerase","cdna_pcr",
+     "template_switch","cdna_pcr_forward","cdna_pcr_reverse","pcr_polymerase","cdna_pcr",
      "exonuclease_cleanup","cleanup","transposome","tn5","tagment",
      "library_forward","indexed_reverse","library_pcr","library"),source)
  return graph.require_publishable()

@@ -10,6 +10,8 @@ An enzymatic alternative to bisulfite sequencing that reports 5mC and 5hmC toget
 - 🟢 TET2 oxidizes 5mC through 5caC; T4-BGT converts 5hmC to glucosylated 5hmC.
 - 🟢 APOBEC deaminates unmodified C to U but does not convert the protected products.
 - 🟢 The manual prints both TruSeq-compatible adaptor trimming sequences and specifies Q5U amplification after conversion.
+- 🟢 The E8015 manual specifies separately supplied NEBNext LV Unique Dual Index Primer Sets (E3390/E3392/E3400/E3402/E3404/E3406/E3408). [Their own manual](https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408) publishes the expected i7 and i5 read sequences by well. Thus the sample-index bases can be assigned for a chosen plate/well; the E8015 assay itself has no single fixed index pair.
+- 🔴 The E8015 manual does not print the full conversion-resistant adaptor strands or the full PCR-primer oligos. Its trimming motifs and the separate index-read table do not determine their complete synthesis sequences or chemical modifications.
 
 ## 3. Molecular path
 

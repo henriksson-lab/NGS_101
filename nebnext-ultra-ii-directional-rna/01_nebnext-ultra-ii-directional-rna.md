@@ -6,9 +6,11 @@ A commercial strand-specific bulk RNA-seq workflow based on dUTP marking and sel
 
 ## 2. Sources and evidence
 
-- 🟢 NEB product E7760/E7765 manual and [official RNA workflow](https://www.neb.com/en-us/products/next-generation-sequencing-library-preparation/library-preparation-for-illumina/rna-library-prep-for-illumina).
+- 🟢 [NEB E7760/E7765 manual v7.0 (April 2025)](https://www.neb.com/en-us/-/media/nebus/files/manuals/manuale7760_e7765.pdf), read from `_data/sources/nebnext-ultra-ii-directional-rna/manuale7760_e7765.pdf.txt`, and the [official RNA workflow](https://www.neb.com/en-us/products/next-generation-sequencing-library-preparation/library-preparation-for-illumina/rna-library-prep-for-illumina).
 - 🟢 NEB states that dUTP is incorporated during second-strand synthesis and that USER excises this labelled strand.
 - 🟢 The workflow additionally supplies Strand Specificity Reagent.
+- 🟢 The E7760/E7765 kit does **not** include the adaptor or amplification primers: its manual requires a separate NEBNext Oligo Kit or customer-supplied adaptor and primers (manual page 2). A specific oligo kit must therefore be named before exact indexed primers can be assigned to this workflow.
+- 🟢 The manual prints Read 1 `AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` and Read 2 `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` as **adapter trimming sequences** (page 3). These are sequences encountered in reads, not an oligo ordering sheet; they do not specify the ligation-ready adapter's complete strands or modifications.
 - 🟡 Exact random-primer identities and kit-internal sequence boundaries are not disclosed; the page models their roles without assigning bases.
 
 ## 3. Molecular path

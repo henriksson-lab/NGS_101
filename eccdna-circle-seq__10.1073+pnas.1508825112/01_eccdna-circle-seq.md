@@ -15,6 +15,13 @@ indexed on an Apollo 324 system and sequenced single-end on HiSeq 2000.
 ## Boundary and uncertainty
 
 The circles are biological inputs, not library-prep intermediates. 🔴 The paper names the
-Apollo 324 adapter/index workflow but does not print its adapter sequences; the public
+Apollo 324 adapter/index workflow and specifies six-base index oligos, but does not
+print the index identities or adapter sequences; the public
 page marks conventional Illumina-arm geometry as inferred and does not fabricate bases.
 This is separate from CRISPR CIRCLE-seq.
+
+🟢 The Methods also print ACT1 PCR/qPCR and inverse-PCR pairs for several confirmed
+circles and spiked plasmids. Those oligos test exonuclease removal or validate
+individual circles; none enters the sequenced library. No Apollo ordering table or
+adapter lot is identified, so raw reads could at most support inferred adapter
+sequence and index content, not chemical modification or reagent identity.
