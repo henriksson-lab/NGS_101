@@ -11,7 +11,8 @@ from types import SimpleNamespace
 
 import nextera as nx
 import illumina as il
-from batch_ngs import nextera_library, seg, truseq_library
+from batch_ngs import (nextera_library, seg, truseq_full_length_adapter, truseq_library,
+                       truseq_pcr_free_library, truseq_pcr_free_rows)
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow
 from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
                      dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
@@ -22,6 +23,14 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPl
 
 TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
     "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
+
+# The PCR-free workflow ligates the whole indexed adaptor, so its reagent geometry has to
+# show both forked arms rather than only the stem and its 3′ dT.
+TRUSEQ_FULL_LENGTH = truseq_full_length_adapter()
+PCR_FREE_LIGATION_STATEMENT = (
+    "The reference guide's ligation control joins “3′-T overhang adapters to 3′-A "
+    "overhang inserts”, and Illumina Adapter Sequences prints both full-length arms, so "
+    "the ligated adaptor already carries P5, i5, i7 and P7.")
 
 
 def _duplex(name: str, *, bases: str = "N" * 36) -> Scene:
@@ -46,6 +55,11 @@ def _workflow(initial_name: str, initial: Scene,
 def _truseq_final(insert_name: str, title: str, *, dual_index: bool = True):
     return truseq_library([seg(insert_name, "N" * 42, placeholder=True)], title,
                           dual_index=dual_index)
+
+
+def _truseq_pcr_free_final(insert_name: str, title: str):
+    return truseq_pcr_free_library([seg(insert_name, "N" * 42, placeholder=True)], title,
+                                   adapter=TRUSEQ_FULL_LENGTH)
 
 
 def _nextera_final(insert_name: str, title: str):
@@ -83,14 +97,13 @@ def _pcr_free_workflow(final: Construct) -> Workflow:
          "The complementary adapter overhang is a single 3-prime T."),
     ))
     w.ligate_adapter(
-        "Ligate indexed TruSeq adapters",
-        cohesive_ligation_geometry(end_prep, TRUSEQ_Y_END,
-            statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed DNA."),
-        ligation_product_scene(final, "genomic DNA insert",
-                               label="PCR-free sequencing library",
-                               adapter_group="TruSeq adapter").rows(),
+        "Ligate full-length indexed TruSeq adapters",
+        TRUSEQ_FULL_LENGTH.geometry(end_prep, statement=PCR_FREE_LIGATION_STATEMENT),
+        truseq_pcr_free_rows(final, "genomic DNA insert",
+                             label="PCR-free sequencing library"),
         name="PCR-free sequencing library",
-        note="No enrichment PCR follows ligation; qPCR measures cluster-forming molecules.")
+        note="Sealing the adaptor finishes the library: no enrichment PCR follows, and qPCR "
+             "measures the cluster-forming molecules.")
     return w
 
 
@@ -198,7 +211,7 @@ DEFINITIONS = {
         "The kit offers single, combinatorial-dual and unique-dual index components. The schematic shows the dual-index form; index identities are placeholders, not invented sequences.",
         "A cluster-capable dual-index TruSeq molecule made entirely by adapter ligation; there is no library PCR.",
         "Standard TruSeq primers read both genomic-insert ends and the two sample indexes.",
-        "truseq", "genomic DNA insert", _pcr_free_workflow),
+        "truseq_pcr_free", "genomic DNA insert", _pcr_free_workflow),
     "truseq-stranded-mrna": Definition(
         "TruSeq Stranded mRNA", "01_truseq_stranded_mrna.html",
         'Illumina <a href="https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-stranded-mrna-workflow/truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf">TruSeq Stranded mRNA Reference Guide 1000000040498 v00</a>.',
@@ -292,15 +305,14 @@ def _pcr_free_graph(d, library, primers):
                            state=dA_tailed_scene(end_prep, "dA-tailed genomic insert"))
     graph.react("tail", "Add one 3-prime dA to each end", StepKind.TAILING,
                 ((selected, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
-    adapter = graph.input("adapter", "indexed TruSeq 3-prime-T Y adapters",
+    adapter = graph.input("adapter", "full-length indexed TruSeq 3-prime-T adapters",
                           MaterialKind.ADAPTER)
     ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
     final_product = graph.product("library", "PCR-free indexed TruSeq library",
                                   MaterialKind.LIBRARY, state=library)
-    geometry = cohesive_ligation_geometry(
-        end_prep, TRUSEQ_Y_END,
-        statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed DNA.")
-    graph.react("ligate", "Ligate indexed TruSeq adapters without enrichment PCR",
+    geometry = TRUSEQ_FULL_LENGTH.geometry(
+        end_prep, statement=PCR_FREE_LIGATION_STATEMENT)
+    graph.react("ligate", "Ligate full-length indexed TruSeq adapters without enrichment PCR",
                 StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (final_product,), geometry=geometry)
@@ -480,7 +492,11 @@ def _dna_prep_graph(d, library, primers):
 
 def get(key: str):
     d = DEFINITIONS[key]
-    if d.final_kind == "truseq":
+    if d.final_kind == "truseq_pcr_free":
+        library, primers = _truseq_pcr_free_final(d.insert_name, d.title + " library")
+        rows = lambda: truseq_pcr_free_rows(library, d.insert_name,
+                                            highlight_components=False)
+    elif d.final_kind == "truseq":
         library, primers = _truseq_final(d.insert_name, d.title + " library")
         rows = lambda: truseq_final_rows(library)
     else:

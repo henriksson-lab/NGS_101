@@ -1,13 +1,18 @@
 # SureCell WTA 3′ (Illumina / Bio-Rad ddSEQ): droplet 3′ RNA-seq with split-pool bead barcodes
 
 > **Evidence marking.** 🟢 verbatim from a primary source (here: Illumina's own kit
-> documents) · 🟡 derived, inferred, or taken from a secondary source · 🔴 not published.
-> **Illumina never published the oligo sequences.** Every sequence below comes from the
-> upstream scg_lib_structs page (a secondary source), cross-checked where possible
-> against the read structure that the `umis` package parses out of real SureCell
-> reads; all sequences are therefore 🟡, not 🟢. Relationships marked 🟡 *(computed)*
-> were worked out with `lib/` while writing this note; they are not yet asserted in a
-> self-test, because this protocol has no `tools/` module yet.
+> documents) · 🟡 derived or inferred · 🔴 not published. Relationships marked 🟡
+> *(computed)* were worked out with `lib/`; the model is `tools/surecell.py`.
+>
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length or reaction in this note or in the model is taken from it, and
+> agreement with it is not evidence. **Illumina never published the kit's oligo
+> sequences** 🔴, and `tools/surecell.py` consequently contains no proprietary base at
+> all: every kit-derived region is a bracketed, inferred placeholder. The one base-level
+> fact that does have a vendor source is the N7xx index set, printed in Illumina's own
+> *Adapter Sequences* document. Earlier revisions of this note printed the drawn page's
+> reconstruction of the bead oligo, TPP1, the Read-1 primer and the spacers; those
+> sequences are gone from it.
 
 **Illumina Bio-Rad SureCell WTA 3′ Library Prep Kit for the ddSEQ System** — a vendor
 kit (Illumina cat. 20014279 / 20014280), run on the Bio-Rad **ddSEQ Single-Cell
@@ -16,7 +21,7 @@ documentation: *SureCell WTA 3′ Library Prep Reference Guide*, Illumina docume
 #1000000021452 v01 (June 2017; v00 February 2017). Analysis was the BaseSpace
 "SureCell RNA Single-Cell" app. The kit is **discontinued**; Bio-Rad's successor is the
 *ddSEQ Single-Cell 3′ RNA-Seq Kit*, which is a different chemistry and is not covered
-here (upstream page, header note).
+here.
 
 Sources read (`_data/sources/surecell-3-wta-for-ddseq/`, never committed). Only the
 first was fetched by `tools/get_sources.py`; the others were fetched by hand from the
@@ -24,7 +29,9 @@ Illumina support page and the `vals/umis` GitHub repository and added to `MANIFE
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_SureCell.html.txt` | scg_lib_structs method page (Teichlab) | **every oligo sequence**, library and read layout (secondary) |
+| `upstream_SureCell.html.txt`, `scg_adapters_SureCell.fa` | scg_lib_structs method page, and that repository's own derived adapter FASTA (`chemistries/adapters/SureCell.fa` — not a mirrored vendor file) | **inspiration only, not sources** — nothing is cited from or verified against them |
+| `scg_10000167449.pdf.txt`, `scg_Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx.txt` | Bio-Rad ddSEQ 3′ scRNA kit guide and bead-structure table, mirrored in the scg repo | the **successor** kit: a different bead design (TruSeq Read-1 stem, UMI first, 7-nt barcodes, phase block). Useful context, never evidence about this kit |
+| `umis_SureCell_K562_R1.fastq` | 10 real SureCell Read 1s | **empirical** evidence for the read-1 anatomy and the two 15-nt spacers (§2) |
 | `surecell-wta3-library-prep-reference-guide-1000000021452-01.pdf.txt` | Illumina Reference Guide v01 | **all steps and conditions**, kit contents, index set, sequencing primer |
 | `surecell-wta3-library-prep-checklist-1000000021454-00.pdf.txt` | Illumina checklist | same steps, condensed (agrees with the guide) |
 | `surecell-wta-3-pbmc-demonstrated-protocol_1000000044179-00.pdf.txt` | PBMC demonstrated protocol | variant: PBMC input, half tagmentation mix |
@@ -63,68 +70,73 @@ Concept pages: [reverse transcription](../ref/concepts/reverse-transcription.md)
 deliberately **not** used (see [template switching](../ref/concepts/template-switching.md)
 for what it would have provided).
 
-## 2. Oligos
+## 2. Oligos — 🔴 Illumina published none
 
-🟡 All sequences verbatim from the upstream scg_lib_structs page (secondary source); the
-Illumina documents name the reagents (TPP1, DNA Adapters N7xx, Sequencing Primer SP) but
-never print a sequence. The upstream page gives no chemical modifications; whether the
-bead oligo is attached by its 5′ end through a linker, and whether it is released from
-the bead, is not stated 🔴 (upstream marks it `|--5'`, i.e. bead-attached at 5′).
+The Illumina documents name the reagents — **3′ Barcode Mix**, **TPP1** (Tagment PCR
+Primer), **DNA Adapters N7xx**, **Sequencing Primer SP** — and nothing else: a
+`grep -E '[ACGT]{14,}'` over the extracted text of the Reference Guide, the checklist and
+both demonstrated protocols returns **no hit at all**. The guide's only statement about
+the custom primer is
+
+> "A custom sequencing primer is provided for Read 1. Dilute the provided primer to the
+> concentration …" — Reference Guide 1000000021452 v01 🟢
+
+So: the bead-oligo 5′ handle, TPP1, the Read-1 primer SP, the transposome's adapter load,
+the poly(dT) length and every chemical modification are **unpublished** 🔴, and
+`tools/surecell.py` asserts none of them — each is a bracketed placeholder created by its
+`inferred()` helper, which refuses anything that is not a bracketed description.
+
+### The one vendor-published base-level fact 🟢
+
+**DNA Adapters** supplied: N701–N707, N718 (8-sample kit); N701–N707, N710–N712,
+N714–N716, N718–N724, N726–N729 (24-sample kit) 🟢 (Reference Guide, Kit Options).
+Illumina *Adapter Sequences* v14 prints those N7xx bases in both orientations 🟢 — e.g.
+N701 is `TCGCCTTA` in the adapter and `TAAGGCGA` in the sample sheet. That identifies the
+index window only; the full SureCell index-PCR oligo around it stays 🔴.
+
+### What the real reads establish — 🟡 empirical, not a vendor source
+
+`umis_SureCell_K562_R1.fastq` holds ten real SureCell Read 1s, and `vals/umis` ships a
+parsing regex for them. Both are third-party, not vendor documents, so nothing here is
+🟢; but the evidence is sequencing data rather than someone's drawing:
 
 ```
-Beads-read1-oligo-dTV       |--5'- AAGCAGTGGTATCAACGCAGAGTAC[6-bp barcode1]TAGCCATCGCATTGC[6-bp barcode2]TACCTCTGAGCTGAA[6-bp barcode3]ACG[8-bp UMI]GAC(dT)V -3'
-Spacer 1                    TAGCCATCGCATTGC
-Spacer 2                    TACCTCTGAGCTGAA
-Tagment PCR Adapter (TPP1)  AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
-DNA Adapters (N7xx)         CAAGCAGAAGACGGCATACGAGAT[8-bp sample index]GTCTCGTGGGCTCGG
-Read 1 sequencing primer    GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
-Index sequencing primer     CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
-Read 2 sequencing primer    GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
-Transposon end (ME)         AGATGTGTATAAGAGACAG   (Nextera SureCell transposome; s7-ME assumed)
+read 1:  [0-? offset][6 nt]TAGCCATCGCATTGC[6 nt]TACCTCTGAGCTGAA[6 nt]ACG[8 nt]GAC(T)n…
 ```
 
-- Length of the `(dT)` stretch: not given 🔴.
+- The two 15-nt constant spacers occur **18** and **14** times across the ten records
+  (sequence plus header copy), i.e. in every parseable read 🟡.
+- **Bead barcodes**: `umis_SureCell_barcodes.txt` lists 96 distinct 6-mers 🟡; in the nine
+  parseable reads every barcode1/2/3 matches exactly one of them (N as wildcard), so one
+  96-list serves all three positions 🟡 *(computed; 9 reads)*. Minimum pairwise Hamming
+  distance within the list is **3** 🟡 *(computed)*.
+- This fixes the *internal* anatomy of the bead oligo downstream of the handle, which is
+  why the model draws the barcode region as one placeholder of unstated anatomy rather
+  than claiming a resolved layout: the anatomy is supported, the bases of the flanking
+  kit oligos are not. Promoting it would mean treating a third-party parser as an
+  authority.
 - **DNA Adapters** supplied: N701–N707, N718 (8-sample kit); N701–N707, N710–N712,
   N714–N716, N718–N724, N726–N729 (24-sample kit) 🟢 (Reference Guide, Kit Options).
   Illumina *Adapter Sequences* v14 prints the N7xx bases in both orientations 🟢:
   for example N701 is `TCGCCTTA` in the adapter and `TAAGGCGA` in the sample sheet.
   The named N7xx set is the Nextera XT/Nextera DNA i7 index family; this does not
   disclose the full SureCell index PCR primer or its chemical modifications. 🔴
+
+### Primer roles the guide does fix 🟢
+
 - The kit ships **one** custom primer, "Sequencing Primer (SP)", 50 µM, for **Read 1**
-  only 🟢; Index 1 and Read 2 use the instrument's standard primers 🟡 (upstream, and
-  implied: the guide says the custom primer is for Read 1).
-- **Bead barcodes**: `umis_SureCell_barcodes.txt` lists 96 distinct 6-mers 🟡; in the
-  nine parseable example reads, every barcode1, barcode2 and barcode3 matches exactly
-  one of them (N as wildcard), so one 96-list serves all three positions 🟡 *(computed;
-  9 reads only)*. Minimum pairwise Hamming distance within the list is **3** — one
-  substitution can be corrected 🟡 *(computed)*.
-
-### How they interlock — 🟡 (computed against `lib/`)
-
-- **The bead handle `AAGCAGTGGTATCAACGCAGAGTAC` (25 nt) = `rt.SMART_HANDLE` + `AC`.** It
-  is the SMARTer/ISPCR handle, as on Drop-seq / SMART-seq oligo-dT, but here it is a
-  PCR and sequencing-primer site only — there is no TSO carrying the same handle.
-- **TPP1 (66 nt) = `illumina.P5` + `GCCTGTCCGCGG` + bead handle.** It anneals to the
-  complement of the bead handle and adds P5.
-- **Read 1 primer (37 nt) = TPP1 minus P5**, i.e. `GCCTGTCCGCGG` + bead handle. It ends
-  exactly at the last base of the handle, so **cycle 1 of Read 1 is the first base
-  after the handle** — barcode1 (or the variable offset, §5). The 12-nt `GCCTGTCCGCGG`
-  extension is unexplained 🔴; it lengthens the primer and probably raises its Tm. It
-  contains no `nextera.S5` — the library has **no s5 at all**.
-- **DNA Adapter N7xx = `illumina.P7` + i7 + `nextera.S7`** (the standard Nextera
-  i7 primer truncated after s7; 24 + 8 + 15 = 47 nt). It primes on the s7 that the
-  transposome left at the far end of each fragment.
-- **Read 2 primer = `nextera.READ2_PRIMER` = `nextera.ADAPTOR_S7`** (s7 + ME, 34 nt).
-- **Index primer = `nextera.INDEX1_PRIMER` = revcomp(`ADAPTOR_S7`)**: the standard Nextera
-  i7 index primer. The library carries **no i5** (P5 is fused directly to the custom
-  read-1 region), so it is a **single-indexed** library.
-- The bead oligo from the handle through `GAC` (without dT) is **87 nt**; from barcode1
-  to the end of `GAC` is **62 nt** (6 + 15 + 6 + 15 + 6 + 3 + 8 + 3).
+  only 🟢 — so Index 1 and Read 2 run on the instrument's standard primers 🟡 *(implied by
+  the guide naming a custom primer for Read 1 alone)*. SP's bases are 🔴.
+- The library is **single-indexed**: only an N7xx (i7) adapter is supplied, and no i5
+  index is named anywhere in the kit documentation 🟢/🟡.
+- The transposome is named "Nextera SureCell transposome" 🟢; which adapter it carries is
+  not stated 🔴, so the model draws a `[transposome-derived end]` placeholder rather than
+  asserting `nextera.ADAPTOR_S7`.
 
 ## 3. Step by step
 
 Volumes and conditions 🟢 from the Reference Guide (agreeing with the checklist); the
-molecular interpretation of each step 🟡 (upstream page and the oligo layout).
+molecular interpretation of each step 🟡 *(computed from the guide's reagent roles)*.
 
 1. **Cells**: single-cell suspension in 1× PBS + 0.1 % BSA at **2500 cells/µL**
    (2250–2750), >95 % viable; 11,250 cells per sample, 4 samples per cartridge.
@@ -149,17 +161,16 @@ molecular interpretation of each step 🟡 (upstream page and the oligo layout).
    point 🟡.
 7. **Second strand**: + 12 µL master mix (SSB 36 + SSE 18 µL per cartridge), **16 °C
    2 h**, lid off. The guide says it "removes the RNA template and synthesizes a
-   replacement strand" 🟢; upstream calls it RNase H + DNA Pol I (Gubler–Hoffman nick
-   translation) 🟡 — consistent, but the enzymes are not named by Illumina. Safe
-   stopping point.
+   replacement strand" 🟢 — which is the Gubler–Hoffman nick-translation operation, but
+   Illumina names neither enzyme 🔴. Safe stopping point.
 8. **cDNA clean-up**: 44 µL SPB (0.55× on 80 µL) 🟡 *(ratio computed)*, elute 11 µL,
    keep 10 µL. QC: Bioanalyzer HS, **>2 ng** cDNA needed (less over-tagments); typical
    cDNA 400–8000 bp.
 9. **Tagment**: 30 µL Tagmentation Mix (TCB 88 + TCE 44 µL per cartridge) on the 10 µL
    cDNA, **55 °C 5 min** → 4 °C (remove within 6 min); stop with 10 µL Tagment Stop
    Buffer, 5 min room temperature. Transposome is the **"Nextera SureCell
-   transposome"** 🟢; upstream infers it is loaded only with the **s7-ME** adaptor
-   ("highly likely a Tn5 homodimer") 🟡 — Illumina does not say. Each fragment that
+   transposome"** 🟢; which adapter it carries is not stated 🔴, although a single-adapter
+   (homodimer) load is what the single-indexed library implies 🟡. Each fragment that
    matters keeps the bead end on one side and gets ME + s7 on the other
    ([Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md)).
 10. **Library PCR**: + 30 µL Tagmentation PCR Mix (TPM), **10 µL TPP1**, **10 µL one
@@ -186,7 +197,7 @@ molecular interpretation of each step 🟡 (upstream page and the oligo layout).
   BSA 10 mg/mL; washed in PBS + 1 % DEPC and in storage buffer (same without IGEPAL);
   loaded at 2500 nuclei/µL. Chemistry otherwise unchanged.
 
-## 4. Final library — 🟡 (assembled from the oligos; agrees with the upstream drawing)
+## 4. Final library — 🟡 role-level layout, 🔴 most bases unpublished
 
 Top strand, 5′→3′ (the strand whose 5′ end is P5):
 
@@ -194,82 +205,88 @@ Top strand, 5′→3′ (the strand whose 5′ end is P5):
 5'- P5 (29) · GCCTGTCCGCGG (12) · bead handle (25) · [offset 0-3?] · bc1 (6) · spacer1 (15) · bc2 (6) · spacer2 (15) · bc3 (6) · ACG · UMI (8) · GAC · (dT)n V · cDNA (sense, 3' end of the transcript) · ME' (19) · s7' (15) · i7' (8) · P7' (24) -3'
 ```
 
-Computed checks 🟡: upstream's final-library 5′ part equals TPP1 followed by the bead
-oligo after its handle, and its 3′ tail equals `nextera.ME_RC` + `nextera.S7_RC` + i7 +
-`illumina.P7_RC`, i.e. the reverse complement of N7xx + ME; upstream's bottom-strand line
-is the exact complement of its top-strand line. Fixed length outside cDNA and dT:
-29 + 12 + 25 + 62 + 19 + 15 + 8 + 24 = **194 nt** (without the offset) 🟡 *(computed)*.
+Only the barcode/UMI interior of that line has evidence (the real reads, §2) and only
+the i7 window has a vendor sequence; the 5′ region contributed by TPP1 and the 3′
+transposome-derived region are 🔴, so `tools/surecell.py` draws them as
+`[TPP1-selected barcode end]`, `[transposome-derived end]` and
+`[N7xx adapter, including index]` and asserts no length. The lengths written above come
+from the earlier drawn-page reconstruction and are kept only as an order-of-magnitude
+sketch, not as a claim.
 
-Strand bookkeeping 🟡: the bead oligo *is* the first (antisense) cDNA strand, and the
-top strand above is that strand with P5 + the 12-nt extension added to its 5′ end by
-TPP1. So the cDNA written on the top strand is **antisense** to the mRNA (the upstream
-"cDNA" label notwithstanding). Read 1 is primed on the bottom strand and copies the top
+Strand bookkeeping 🟡 *(computed)*: the bead oligo *is* the first (antisense) cDNA
+strand, and the top strand above is that strand with whatever TPP1 adds to its 5′ end.
+So the cDNA written on the top strand is **antisense** to the mRNA, whatever a diagram
+labelled "cDNA" suggests. Read 1 is primed on the bottom strand and copies the top
 strand: barcodes, UMI, dT. Read 2 is primed on s7 + ME at the far end and copies the
 bottom strand: it is **sense** to the mRNA, starting at the random Tn5 cut and reading
 towards the polyadenylation site.
 
 ## 5. Read layout and sequencing
 
-- **Read 1** (custom SP primer, ends at the handle): **68 cycles** (upstream) — reads
-  barcode1, spacer1, barcode2, spacer2, barcode3, `ACG`, UMI, `GAC` and the start of the
-  dT. 🟡 The umis example reads are all **68 nt** 🟡, agreeing.
+- **Read 1** (custom SP primer): reads barcode1, spacer1, barcode2, spacer2, barcode3,
+  `ACG`, UMI, `GAC` and the start of the dT 🟡 *(from the real reads, §2)*. The ten umis
+  example reads are all **68 nt** 🟡 — the only evidence for the read length, since
+  Illumina publishes none 🔴.
 - **Index 1** (standard Nextera i7 primer): **8 cycles**, the N7xx sample index. Nine of
   the ten example read headers carry `TAAGGCGA` (one has `TAAGGAGA`, one mismatch,
   presumably a read error) 🟡; `TAAGGCGA` matches the vendor N701 sample-sheet
   index exactly 🟢. No Index 2.
-- **Read 2** (standard Nextera Read 2 primer, s7 + ME): **75 cycles** (upstream) — the
-  cDNA, sense, starting at the Tn5 cut.
+- **Read 2** (standard Nextera Read 2 primer): the cDNA, sense, starting at the Tn5 cut
+  🟡; its length is not published 🔴.
 - Illumina gives **no read lengths** in any document read 🔴; it requires Illumina
   Experiment Manager ≥ 1.13 / bcl2fastq ≥ 2.18 for "the appropriate UMI settings" and
   says SP is compatible "with this library and PhiX only" 🟢. Loading: NextSeq
   2.7–3 pM, HiSeq 2500 18–20 pM, HiSeq 3000/4000 350–400 pM, MiSeq 25–32 pM 🟢.
 
-**Disagreement with upstream — a variable offset before barcode1.** 🟡 *(computed from
+**A variable offset before barcode1.** 🟡 *(computed from
 `umis_SureCell_K562_R1.fastq`)* Locating spacer1 in the ten example reads puts barcode1
 at read position 1 in four reads, position 2 in two (preceding base `A`), and position 4
 in three (preceding `GCA`); one read has no spacer1. The `umis` regex starts with a
 greedy `(.*)` before barcode1 for the same reason. So Read 1 does **not** always start
-with barcode1, as the upstream drawing shows: the bead oligos carry a **0–3 nt (at
-least) phasing insert** between the handle and barcode1, presumably to diversify the
+with barcode1: the bead oligos carry a **0–3 nt (at least) phasing insert** before
+barcode1, presumably to diversify the
 first cycles of a low-complexity read. Its length set and sequences are not published
 🔴. With a 3-nt offset only 3 nt of dT remain within 68 cycles. Other observations 🟡:
 cycle 6 is `N` in every example read (a run-specific base-call dropout, not chemistry),
 one read has `TAACTCTGAGCTGAA` for spacer2 (one mismatch), and one read lacks
 spacer2–UMI entirely (a truncated bead oligo or synthesis error).
 
-## 6. Agreement between sources
+## 6. What each acceptable source supports
 
-| Point | Upstream page | Illumina documents | umis data |
-|---|---|---|---|
-| RT in droplets from bead oligo-dT | yes | yes 🟢 | — |
-| Second strand by RNase H / Pol I | yes | "removes RNA, synthesizes replacement strand", enzymes not named | — |
-| Nextera SureCell transposome | s7-ME only (inferred) | name only | — |
-| PCR with TPP1 + N7xx | yes | yes, 15 cycles 🟢 | — |
-| Custom Read 1 primer only | yes | yes 🟢 | — |
-| Bead layout bc1·sp1·bc2·sp2·bc3·ACG·UMI·GAC·dT | yes | — | yes (regex, reads) |
-| Read 1 starts at barcode1 | yes | — | **no**: 0–3 nt offset |
-| Read lengths 68 / 8 / 75 | yes | not given | R1 = 68 |
+| Point | Illumina kit documents | real reads / `umis` |
+|---|---|---|
+| RT in droplets from bead oligo-dT | yes 🟢 | — |
+| Second strand | "removes RNA, synthesizes replacement strand"; enzymes not named 🟢/🔴 | — |
+| Nextera SureCell transposome | name only 🟢; adapter load 🔴 | — |
+| PCR with TPP1 + N7xx, 15 cycles | yes 🟢 | — |
+| Custom Read 1 primer only | yes 🟢; its sequence 🔴 | — |
+| N7xx index bases | yes, *Adapter Sequences* v14 🟢 | N701 index seen in the read headers 🟡 |
+| Bead layout bc1·sp1·bc2·sp2·bc3·ACG·UMI·GAC·dT | — | yes (regex + reads) 🟡 |
+| Bead handle, TPP1, SP, spacer function, dT length, modifications | 🔴 | 🔴 |
+| Read 1 starts at barcode1 | — | **no**: a 0–3 nt offset precedes it 🟡 |
+| Read lengths | not given 🔴 | R1 = 68 nt in the ten example reads 🟡 |
 
 ## 7. Open questions
 
-- 🔴 Every oligo sequence rests on a secondary source; Illumina printed none.
+- 🔴 Every kit oligo sequence. Illumina printed none, and no acceptable source holds
+  them; the model asserts none.
 - 🔴 The phasing insert before barcode1: allowed lengths and bases.
 - 🔴 Whether the barcode oligos are released from the beads (the "unbound barcodes" in
   the first clean-up suggests so), how, and what the 37 °C 30 min step and the
   "Enhancer Enzyme" do.
 - 🔴 The transposome's adaptor load (s7 only, or s5 + s7 with the s5 ends simply lost).
-- 🔴 The `(dT)` length, and the purpose of `ACG` / `GAC` flanking the UMI and of the
-  12-nt `GCCTGTCCGCGG` in TPP1 and the Read-1 primer.
+- 🔴 The `(dT)` length, and the purpose of the `ACG` / `GAC` trinucleotides flanking the
+  UMI (these two are visible in the real reads 🟡; everything 5′ of barcode1, including
+  the bead handle and whatever TPP1 adds, is not).
 - 🟡 That the library PCR relies on the un-gapped strand only (no gap fill) — inferred.
 - 🔴 Full SureCell N7xx index PCR primer structure and modifications remain undisclosed;
   the index bases themselves are in Illumina *Adapter Sequences* v14.
 
 ## 8. How this note was made (tool evaluation)
 
-`tools/get_sources.py` found only the upstream page (the catalogue row has no DOI: a
-vendor kit). The four Illumina PDFs were found on the kit's support "documentation"
-page and the three `umis` files on GitHub, all fetched by hand into the source
-directory; `tools/doctext.py` made the text twins. `tools/scrape_primers.py` found
-every sequence on the upstream page (and recognised `rt.SMART_HANDLE`, `illumina.P5`,
-`nextera.ADAPTOR_S7`, `nextera.INDEX1_PRIMER`), and correctly found none in the Illumina
-PDFs. It does not scan `.json` / `.fastq` files, so the umis evidence was parsed by hand.
+`tools/get_sources.py` found the drawn page and the scg mirrors (the catalogue row has no
+DOI: a vendor kit). The four Illumina PDFs were found on the kit's support "documentation"
+page and the three `umis` files on GitHub, all fetched by hand into the source directory;
+`tools/doctext.py` made the text twins. `tools/scrape_primers.py` correctly found **no
+sequence in any Illumina PDF** — the whole point for this kit. It does not scan `.json` /
+`.fastq` files, so the umis and real-read evidence was parsed by hand.

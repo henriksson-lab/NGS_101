@@ -99,8 +99,15 @@ def source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
     if not folder.is_dir():
         return ()
     declared = declared_locators(folder.name)
+    # The scg_lib_structs drawn page is inspiration, never evidence. Its content arrives
+    # under two prefixes: upstream_* (the page) and scg_docs_* / scg_adapters_* (the same
+    # page's markdown and scg's own derived adapter FASTAs). A prefix is not provenance --
+    # genuine vendor PDFs also land as upstream_* when the page links them directly -- so
+    # the manifest's `what` column is the authority when it matters.
+    excluded = ("upstream_", "scg_docs_", "scg_adapters_")
     paths = sorted(p for p in folder.rglob("*.txt")
-                   if "_invalid" not in p.parts and not p.name.startswith("upstream_")
+                   if "_invalid" not in p.parts
+                   and not p.name.startswith(excluded)
                    and p.name != "MANIFEST.tsv")
     manifest = folder / "MANIFEST.tsv"
     manifest_urls = {}

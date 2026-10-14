@@ -129,7 +129,10 @@ FEATURE_ROLES = (
     "molecular_complex_barcode",
     "inline_barcode",
 )
-FEATURE_ENCODINGS = ("random", "whitelist", "fixed", "combinatorial", "unknown")
+# "random" is a free N-mer; "degenerate" is a constrained synthesis pattern such as
+# NNWNNWNN, where some positions are restricted to a subset of bases.
+FEATURE_ENCODINGS = ("random", "degenerate", "whitelist", "fixed", "combinatorial",
+                     "unknown")
 _FEATURE_ID = re.compile(r"^[a-z][a-z0-9_.-]*$")
 
 

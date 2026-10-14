@@ -30,11 +30,11 @@ Illumina Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709. Barski's exa
 adapter/index bases remain unavailable.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`$CHEM_DATA/sources/scdnase-seq-scmnase-seq__10.1038+nature15740/`, never committed):
+`$CHEM_DATA/sources/scdnase-seq__10.1038+nature15740/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_scDNase_scMNase.html.txt` | scg_lib_structs page (both methods) | **the only source of oligo sequences**, library diagram, read layout |
+| `upstream_scDNase_scMNase.html.txt` | scg_lib_structs page (both methods) | **inspiration only, not a source** — it supplied no base used here (see “Oligo provenance”); orientation in the chemistry while reading the papers |
 | `nature15740_PMC4697938.html.txt` | Pico-Seq paper, PMC author manuscript with Methods | DNase I digestion, carrier DNA, two-step PCR, size selection, sequencer |
 | `nature15740_41586_2015_BFnature15740_MOESM35_ESM.pdf.txt` | Pico-Seq Supplementary Information | only the technical-repeat design (one cell's worth split in two); no chemistry |
 | `nature15740_..._MOESM36..40_ESM.xls` | Pico-Seq Supplementary Tables | read via a LibreOffice CSV conversion in scratch: GO enrichment tables and a VCF — not chemistry |
@@ -88,10 +88,13 @@ data analysis)
 
 ## 2. Oligos
 
-For Pico-Seq, 🟢: Hu *et al.* identifies Multiplexing kit ref. 1005709 and Illumina
-publishes the obsolete kit sequences. For scMNase-seq, the same layout remains 🟡:
-it agrees with upstream scg_lib_structs, but the defining paper and cited Barski method
-do not establish the precise indexed oligo set. Notation: `/Phos/` = 5' phosphate,
+For Pico-Seq, 🟢: the paper does not describe library construction but cites Hu *et al.*
+(doi:10.1038/ni.2712), which identifies Multiplexing kit ref. 1005709, and Illumina
+publishes that obsolete kit's sequences. Every base below is therefore a vendor-document
+Illumina part, taken in `tools/scdnase_seq.py` from `lib/illumina.py` rather than retyped;
+the i7 window is a placeholder. For scMNase-seq, the same layout remains 🟡: neither the
+defining paper nor the cited Barski method establishes the precise indexed oligo set, and
+nothing else on disk does either. Notation: `/Phos/` = 5' phosphate,
 `*` = phosphorothioate bond, `[i7]` = sample index.
 
 ```
@@ -220,6 +223,10 @@ scMNase-seq it is only the upstream reconstruction. 🟡
   consistent with short DHS inserts read through into the adaptor.
 
 ## 6. Agreements and disagreements with upstream
+
+The scg_lib_structs page is inspiration, not a source: its claims are treated here as
+hypotheses checked against the papers, and an "agrees" verdict records that the papers
+say so, never that upstream corroborates anything.
 
 | Upstream claim | Papers | Verdict |
 |---|---|---|

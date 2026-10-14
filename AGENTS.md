@@ -52,7 +52,7 @@ note or a protocol module, and mark it 🟢 only once you have read it there.
 
 | Tool | Does | Typical call |
 |---|---|---|
-| `tools/get_sources.py` | Fetches everything legitimately reachable for a protocol in the catalogue (or a DOI): the upstream scg_lib_structs page, PMC full text, the **PMC Cloud** bucket (JATS XML, PDF and supplements — also of author manuscripts whose PMC download page is gated), bioRxiv PDF + supplements, Nature-family supplements from Springer; links preprints and published versions both ways; then runs every special-case **fetcher** (below). Into `$CHEM_DATA/sources/<slug>/` with a `MANIFEST.tsv`. Every download is validated by type (a PDF must be a PDF, an XLSX a whole zip, an article page not a challenge page); a failed or invalid one becomes a `(manual)` row with its URL and reason. Skips what is on disk and valid. | `python3 tools/get_sources.py "sci-CAR-seq"` · `--slugs a,b` · `--doi 10.1101/829960` · `--todo` · `--all-ours` · `--revalidate` · `--list` · `--fetchers` |
+| `tools/get_sources.py` | Fetches everything legitimately reachable for a protocol in the catalogue (or a DOI): the upstream scg_lib_structs page (inspiration only, never a source — see below), PMC full text, the **PMC Cloud** bucket (JATS XML, PDF and supplements — also of author manuscripts whose PMC download page is gated), bioRxiv PDF + supplements, Nature-family supplements from Springer; links preprints and published versions both ways; then runs every special-case **fetcher** (below). Into `$CHEM_DATA/sources/<slug>/` with a `MANIFEST.tsv`. Every download is validated by type (a PDF must be a PDF, an XLSX a whole zip, an article page not a challenge page); a failed or invalid one becomes a `(manual)` row with its URL and reason. Skips what is on disk and valid. | `python3 tools/get_sources.py "sci-CAR-seq"` · `--slugs a,b` · `--doi 10.1101/829960` · `--todo` · `--all-ours` · `--revalidate` · `--list` · `--fetchers` |
 | `tools/doctext.py` | PDF / DOCX / XLSX / HTML → a plain-text twin `FILE.txt` beside the original (XLSX as tab-separated rows under `## sheet <name>`). `get_sources.py` runs it on everything it fetches. **Read and cite the `.txt`**: line numbers from the other tools point into it. | `python3 tools/doctext.py DIR` · `FILE --stdout` |
 | `tools/scrape_primers.py` | Lists every oligo-like sequence: the bases (PDF line-wrap rejoined; shorthand like `T30VN` and placeholders like `[8-bp barcode]` kept inside the oligo), the oligo **as written with its modifications** (`/5Phos/`, `rApp`, `-ddC`, `rGrG+G`, `*`, RNA `rN` or U), the parsed modifications, a nearby name, the `lib/` sequences it contains on either strand, other lines with the same oligo, and context. Tuned for **recall**: expect false hits. A family of table rows differing only in an index/barcode window is collapsed into one hit; files are ordered by their most oligo-like hit; `--max-hits` cuts the lowest scorers. `--find` treats N, U and IUPAC letters as base classes and sees through modifications and placeholders. | `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` · `--tsv` · `--all` · `--known-only` · `--find SEQ` (either strand; `--strict` for letter-equal) |
 
@@ -75,8 +75,19 @@ finds oligos, not reaction order: the methods still have to be **read**.
 
 1. `python3 tools/get_sources.py "<protocol>"` — fetch; check the manifest for `(manual)`.
 2. `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` — find the oligo table(s).
-3. Read the methods in the `.txt` files; for a protocol upstream has drawn, the
-   `upstream_*.html.txt` page is a complete second source to check against.
+3. Read the methods in the `.txt` files. **`upstream_*.html.txt` is not a source.** The
+   scg_lib_structs drawn page is inspiration — useful for orienting yourself in a
+   chemistry, never evidence: do not cite it, do not take a sequence from it, and do not
+   treat agreement with it as verification. Every base and every reaction comes from the
+   paper, its supplements, or a vendor document. **A filename prefix is not provenance.**
+   Publisher supplements and vendor guides *mirrored* in that repository are ordinary
+   originals, but `scg_docs_*.md` is the drawn page's own markdown and `scg_adapters_*.fa`
+   is scg's self-authored FASTA — upstream content under an `scg_` name — while a genuine
+   vendor PDF can land as `upstream_*` when the page links it directly (the 10x CG00026
+   guide is on disk under both prefixes with one md5). The `what` column of `MANIFEST.tsv`
+   is the authority. `tools/source_oligo_check.py` excludes `upstream_*`, `scg_docs_*` and
+   `scg_adapters_*`; a vendor original that landed under `upstream_*` is therefore invisible
+   to that guard, and should be re-fetched through the `scg:` handler so it lands as `scg_*`.
 4. Write `<slug>/01_<name>.md` (`<slug>` is the `slug` column of
    `catalogue/scg_lib_structs.tsv`): citation, sources read, what is new, oligos
    **verbatim with modifications**, how they interlock (compute with `lib/`, do not

@@ -24,13 +24,32 @@ UDITAS_P7_N701 = "CAAGCAGAAGACGGCATACGAGATAGCGGAATGTGACTGGAGTTCAGACGTGT"
 
 # Yin et al. Supplementary Table S11; ordering modifications are retained by
 # ``pem_oligos`` while these constants carry the molecular bases.
+#
+# PEM_BA_UP follows Table S11 (``...CTA CAN NNT NNN ANN NTN NNN AGA TCG...``), i.e.
+# 14 random bases in four tracts separated by the fixed T/A/T bases, matching both
+# papers' prose ("a 14-bp RMB"; Liu et al. 2022 STAR Protocols, and the defining
+# paper's own RMB length comparison).  Do not "correct" it from the later protocol:
+# STAR Protocols Table 2 prints the same oligo with only ``NNNTNNNNTNNN`` (10 random
+# bases, no A separator), which contradicts Table S11 *and* that paper's own text.
+# Table S11 is the defining source and is internally consistent, so it wins.
 PEM_BA_UP = "CCACGCGTGCTCTACANNNNTNNNANNNTNNNNAGATCGGAAGAGCACACGTCTGAACTCCAGT"
 PEM_BA_LOWER = "TGTAGAGCACGCGTGGNNNNNN"
 PEM_P5_I5 = "AATGATACGGCGACCACCGAGATCTACACACACTCTTTCCCTACACGACGC"
 PEM_P7 = il.P7
 PEM_I7_B01 = "CAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTGC"
 PEM_BIO_RAG1AB = "GGACTGCTGGAGATTGCTCCAGAGAGGGTTTCCCCTCAAAGGAATCCTTC"
-PEM_I5_R1_RAG1AB = "ACTCTTTCCCTACACGACGCTCTTCCGATCTAGCGAGGATCTCACCCGGAACAGC"
+# The inline I5 barcode is four bases, not five.  Table S11 lists I5-R1..R4 for three
+# loci; only a 4-nt split leaves one shared nested primer per locus (RAG1A/B
+# AGGATCTCACCCGGAACAGC, MYC1 AGAGCCATTCTCTGGCTCAG, RAG1C TATCAATATCCCACTGATGTATC).
+# A 5-nt split would need the barcode's last base to be A at RAG1A/B and MYC1 but T
+# at RAG1C.  Liu et al. 2022 STAR Protocols Table 2 independently colours the same
+# four bases (AGCG/GCCT/AGGA/TCAG) as the index; that table is a vector object, so
+# read it by rendering page 11 of the article PDF (see ref/MANIFEST.md).
+PEM_I5_BARCODES = ("AGCG", "GCCT", "AGGA", "TCAG")  # I5-R1..R4 / I5-Nested-1..4
+PEM_NESTED_RAG1AB = "AGGATCTCACCCGGAACAGC"
+# The I5-Nested oligos begin two bases inside the canonical Read 1 arm.
+PEM_I5_TAIL = il.TRUSEQ_READ1[2:]
+PEM_I5_R1_RAG1AB = PEM_I5_TAIL + PEM_I5_BARCODES[0] + PEM_NESTED_RAG1AB
 
 # Lazzarotto et al. Supplementary Protocol, reagent setup.  U is the internal
 # deoxyuridine written as /ideoxyU/ in the ordering string returned below.
@@ -87,7 +106,7 @@ def pem_library() -> tuple[Construct, tuple]:
     lib = Construct([
         Segment("P5", il.P5, "p5"),
         Segment("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-        Segment("5-nt inline I5-R1 sample index", "AGCGA", "cbc",
+        Segment("4-nt inline I5-R1 sample index", PEM_I5_BARCODES[0], "cbc",
                 feature=feature("sample_index_i5", "sample_index", "whitelist",
                                 whitelist="PEM-seq I5-R1–R4")),
         role("bait-primer sequence and genomic DNA through the repair junction to the prey/shear end"),
@@ -129,7 +148,7 @@ def pem_workflow():
                   junctions=(("bait extension", "bridge fixed anchor", "single-strand ligation"),)),
          "The four random tracts jointly form the 14-base random molecular barcode; fixed T/A/T separators are not UMI bases."),
         ("Nested PCR adds the inline I5 barcode and I7 index arm",
-         molecule("target-enriched PEM-seq amplicon", (role("Read 1 tail + 5-nt inline sample index + nested bait primer"), role("repair-product insert"), role("RMB bridge"), role("six-base i7 arm"))),
+         molecule("target-enriched PEM-seq amplicon", (role("Read 1 tail + 4-nt inline sample index + nested bait primer"), role("repair-product insert"), role("RMB bridge"), role("six-base i7 arm"))),
          "The nested primer moves closer to the bait DSB; the opposite primer copies the bridge and introduces an i7 sample index."),
         ("Tagging PCR completes P5 and P7",
          molecule("dual-ended PEM-seq library", (role("P5 and Read 1 site"), role("inline sample index and bait-to-prey insert"), role("14-base RMB"), role("Read 2 and Index 1 site"), role("i7 sample index and P7"))),
@@ -587,7 +606,7 @@ def get(key="uditas"):
             FINAL_CAPTION="RAG1A/B with I5-R1 and I7-B01 is shown. Four random tracts separated by the fixed T/A/T bases form one 14-base RMB; Read 1 enters from the nested bait primer and Read 2 enters from the bridge side.",
             SEQ_PRIMERS=primers,
             READ_LENGTHS={"Read 1": 150, "Index 1 (i7)": 6, "Read 2": 150},
-            SEQUENCING_INTRO="The defining protocol uses 2×150-bp HiSeq sequencing. Read 1 first reports the five-base inline I5 sample barcode and bait sequence; Read 2 approaches the multipart 14-base RMB from the bridge side, while Index 1 reports the six-base i7 barcode.",
+            SEQUENCING_INTRO="The defining protocol uses 2×150-bp HiSeq sequencing. Read 1 first reports the four-base inline I5 sample barcode and bait sequence; Read 2 approaches the multipart 14-base RMB from the bridge side, while Index 1 reports the six-base i7 barcode.",
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
     if key != "uditas":
         raise KeyError(key)

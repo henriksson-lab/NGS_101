@@ -9,44 +9,36 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
-import illumina as il
 import lianti as L
 import seqprimers as sp
-from chemdraw import (Scene, Segment, annotation_rows, oligo, panel,
+from chemdraw import (Scene, annotation_rows, oligo, panel,
                       protocol_graph_panels, strand_row)
 from page import head, info
 
 OUT = HERE.parent / "lianti.html"
 
 
-def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    return Segment(name=name, top=top, tag=tag, **kw)
-
-
 def oligos() -> str:
-    hp = L.NEBNEXT_HAIRPIN
-    cut = il.NEBNEXT_HAIRPIN_DU_POS
-    stem_end = len(hp.sequence) - hp.stem_len - hp.overhang_3_len
     rows = [
-        oligo("LIANTI hairpin transposon", L.transposon_segments(), mods="/5Phos/"),
+        oligo("LIANTI hairpin transposon", L.transposon_segments()),
         oligo("Second-strand primer", L.second_strand_primer_segments()),
-        oligo("NEBNext hairpin adaptor",
-              [seg("5' stem", hp.left_stem, "r2"),
-               seg("Read 2 arm", hp.sequence[hp.stem_len:cut], "r2"),
-               seg("dU", hp.sequence[cut], placeholder=True),
-               seg("Read 1 arm", hp.sequence[cut + 1:stem_end], "r1"),
-               seg("3' stem", hp.right_stem, "r1"),
-               seg("3' T", hp.overhang_3, "r1")],
-              mods="/5Phos/"),
     ]
-    return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"
+    return ("<h2>Key oligos</h2>"
+            "<p><info>INFERRED throughout. The paper prints no oligo: the mosaic ends are "
+            "the canonical Tn5 ME, the promoter the canonical T7 class III promoter, the "
+            "spacer between them an unpublished placeholder of unknown length, and the UMI "
+            "width a drawing choice. No library-prep adapter is shown because the paper "
+            "names no kit.</info></p>"
+            f"<seq>{''.join(rows)}</seq>")
 
 
 def hairpin() -> str:
     return L.TRANSPOSON_TOPOLOGY.folded_panel(
-        "INFERRED — fold implied by the main paper and reconstructed with the "
-        "secondary-source sequence. The paired 19-nt mosaic ends form one stem; the "
-        "30-nt spacer/T7-promoter interval is the loop of the same covalent strand.")
+        "INFERRED — the paper establishes a 19-bp double-stranded transposase binding "
+        "site closed by a single-stranded T7-promoter loop (Fig. 1B), and the drawing "
+        "fills that with the canonical mosaic end and T7 promoter. The spacer inside the "
+        "loop is a placeholder: neither its bases nor its length is published, so the "
+        "loop's drawn extent is not a measurement.")
 
 
 def tagment_and_fill() -> str:
@@ -58,9 +50,9 @@ def tagment_and_fill() -> str:
 {hairpin()}
 <h3>(2) Tagment single-cell genomic DNA, then fill the 9-nt gaps</h3>
 {panel([*sc.rows(), *annotation_rows(lib)], cls="small",
-       caption="INFERRED — representative filled fragment assembled from the secondary-source "
-               "oligo. Gap fill makes a double-stranded T7 promoter at each end; the defining "
-               "paper establishes the two inward-facing promoters.")}"""
+       caption="INFERRED — representative filled fragment. Gap fill makes a double-stranded "
+               "T7 promoter at each end; the defining paper establishes the two inward-facing "
+               "promoters, and every base shown is inferred or a placeholder.")}"""
 
 
 def ivt() -> str:
@@ -82,18 +74,19 @@ def self_primed_rt() -> str:
     "tail, and the unpaired promoter/spacer interval is the flexible turn.")}
 <h3>(5) Remove RNA and synthesize the second strand with the UMI primer</h3>
 {panel(Scene.duplex(list(amp)).rows(), cls="small",
-       caption="INFERRED — LIANTI amplicon orientation reconstructed from the "
-               "secondary-source primer. The paper independently establishes that the "
-               "second-strand primer carries a unique molecular barcode.")}"""
+       caption="INFERRED — LIANTI amplicon orientation. The paper establishes that the "
+               "second-strand primer carries a unique molecular barcode; its width and "
+               "bases are not published.")}"""
 
 
 def final_library() -> str:
     lib = L.final_library()
     drawing = panel([*Scene.duplex(list(lib)).rows(), *annotation_rows(lib)], cls="small",
-                    caption="INFERRED — one of two ligation orientations. Dotted LIANTI "
-                            "regions and the 6-nt i7 assignment come from the upstream page; "
-                            "solid Illumina/NEBNext regions use canonical vendor sequences.")
-    return f"""<h3>(6) End repair, dA-tail, ligate the NEBNext hairpin adaptor, open it and PCR</h3>
+                    caption="INFERRED throughout — one of two ligation orientations, drawn "
+                            "with canonical single-index Illumina arms because the paper "
+                            "names no library-prep kit, adapter or primer. The i7 width is a "
+                            "placeholder.")
+    return f"""<h3>(6) End repair, dA-tail, ligate an indexed Illumina adapter and PCR</h3>
 {drawing}
 <p><info>The opposite ligation orientation places the UMI-bearing LIANTI end next to P7.
 Read&nbsp;1 or Read&nbsp;2 therefore encounters either genomic sequence immediately or
@@ -106,15 +99,19 @@ def render() -> str:
         '<h1>LIANTI &mdash; linear whole-genome amplification by T7 transcription</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.aak9787">Chen et al., '
              '<i>Science</i> (2017)</a>.'),
-        '<div class="caveat"><b>Sequence source.</b> The accessible paper establishes the '
-        'hairpin-transposon, gap-fill, IVT, self-primed RT and UMI architecture, but does not '
-        'print the oligos. Dotted LIANTI-specific bases and steps labelled <b>INFERRED</b> use '
-        'the upstream scg_lib_structs reconstruction because the supplement is unavailable.</div>',
+        '<div class="caveat"><b>Sequence boundary.</b> The accessible paper establishes the '
+        'hairpin-transposon, gap-fill, IVT, self-primed RT and UMI architecture but prints no '
+        'oligo, and its Supplementary Materials and Methods is behind the PMC download gate. '
+        'Every dotted base is therefore inferred: the canonical Tn5 mosaic end and T7 promoter '
+        'stand in for parts the paper names by role, the transposon spacer, UMI and index are '
+        'placeholders of unpublished length, and no library-prep kit, adapter geometry, primer '
+        'or read length is established.</div>',
         oligos(), '<h2>Library construction</h2>',
         protocol_graph_panels(L.protocol_graph(),cls="long"),
         sp.section(L.final_library(), L.SEQ_PRIMERS,
-                   intro="Standard TruSeq primers address the NEBNext-built library. The 6-nt "
-                         "i7 placement follows the secondary upstream reconstruction.",
+                   intro="INFERRED — the paper reports Illumina sequencing but neither a "
+                         "library-prep kit nor a read length, so standard single-index TruSeq "
+                         "primer sites are assumed and the 6-nt i7 width is a placeholder.",
                    required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
                    read_lengths={"Index 1 (i7)": L.I7_NT},
                    show_read_content=True),

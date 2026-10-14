@@ -26,7 +26,7 @@ def preamble() -> str:
     return f'''<div class="wrap" data-protocol-complete="true">
 <h1>SureCell WTA 3' for ddSEQ &mdash; commercial droplet 3' RNA sequencing</h1>
 {info('Protocol source: Illumina <i>SureCell WTA 3\' Library Prep Reference Guide</i>, document #1000000021452 v01 (June 2017).')}
-<div class="caveat"><b>Proprietary oligos.</b> The authoritative Illumina guide names the bead mix, TPP1, N7xx adapters and custom Sequencing Primer SP but prints no sequence or barcode anatomy. Every dotted bracketed region is therefore a non-sequence placeholder, not an upstream reconstruction; spacing is not to scale.</div>
+<div class="caveat"><b>Proprietary oligos.</b> The authoritative Illumina guide names the bead mix, TPP1, N7xx adapters and custom Sequencing Primer SP but prints no sequence or barcode anatomy. Every dotted bracketed region is therefore a non-sequence placeholder rather than a reconstructed sequence; spacing is not to scale.</div>
 '''
 
 

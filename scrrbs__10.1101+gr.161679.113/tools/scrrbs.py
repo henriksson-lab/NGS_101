@@ -2,7 +2,10 @@
 
 The wet-lab order is from Guo et al. (Genome Research 2013). The paper identifies
 standard premethylated indexed Illumina adapters; their single-index sequences are
-published in Illumina's authoritative adapter-sequence document.
+published in Illumina's authoritative adapter-sequence document, which `lib/illumina.py`
+carries, and `lib/rrbs.py` assembles every drawn base from those constants. Nothing here
+derives from the scg_lib_structs drawn page: the paper names neither library PCR primer,
+so both are sequence-less graph inputs and the PCR geometry stays unavailable.
 """
 from __future__ import annotations
 
@@ -61,8 +64,10 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.CHEMICAL_CONVERSION,
                 ((ligated, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
                 (converted,))
-    qp1 = graph.input("qp1", "QP1 / P5 PCR primer", MaterialKind.OLIGO)
-    qp2 = graph.input("qp2", "QP2 / P7 PCR primer", MaterialKind.OLIGO)
+    qp1 = graph.input("p5_arm_pcr_primer", "P5-arm library PCR primer, sequence unpublished",
+                      MaterialKind.OLIGO)
+    qp2 = graph.input("p7_arm_pcr_primer", "P7-arm library PCR primer, sequence unpublished",
+                      MaterialKind.OLIGO)
     polymerase = graph.input("pcr_polymerase", "uracil-tolerant PCR polymerase",
                              MaterialKind.CATALYST)
     final = final_library()
@@ -72,7 +77,7 @@ def protocol_graph() -> ProtocolGraph:
                 ((converted, InputRole.TEMPLATE), (qp1, InputRole.STRUCTURAL),
                  (qp2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The converted pre-PCR intermediate is not represented base-for-base; the final canonical arms are exact."))
+                    final, reason="The paper names no library PCR primer, and the converted pre-PCR intermediate is not represented base-for-base; only the canonical Illumina arms of the product are exact."))
     graph.sequence(library, SequencingPlan(
         library=final, primers=tuple(SEQ_PRIMERS),
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),
@@ -82,6 +87,6 @@ def protocol_graph() -> ProtocolGraph:
     graph.declare_reviewed_scope((
         "genome", "mspi", "mspi_digest", "klenow", "end_prepare",
         "methylated_adapters", "ligase", "adapter_ligation", "bisulfite",
-        "bisulfite_conversion", "qp1", "qp2", "pcr_polymerase", "library_pcr",
-        "library"), source)
+        "bisulfite_conversion", "p5_arm_pcr_primer", "p7_arm_pcr_primer",
+        "pcr_polymerase", "library_pcr", "library"), source)
     return graph.require_publishable()

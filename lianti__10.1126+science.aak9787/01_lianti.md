@@ -2,11 +2,17 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published / not available to us. Relationships marked 🟡 *(computed)* were worked out
-> with `lib/` while writing this note; they are not yet asserted in a self-test (no
-> `tools/` module for this protocol). **Every oligo sequence below is 🟡**: the paper's
-> main text contains no sequences, the Supplementary Materials (.docx) could not be
-> fetched, and the only sequence source we hold is the scg_lib_structs page (a secondary
-> source).
+> with `lib/`; the model is `tools/lianti.py`.
+>
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length, kit or reaction in this note or in the model is taken from it, and
+> agreement with it is not evidence. **No LIANTI oligo is published anywhere we can
+> read** 🔴: the paper's main text prints none, and the Supplementary Materials and
+> Methods (.docx) sits behind the PMC download gate. Earlier revisions of this note and
+> of the model carried the drawn page's reconstruction — a 10-nt spacer `GAACAGAATT`, an
+> 8-nt UMI, a 6-nt i7, and the NEBNext Ultra hairpin-adaptor/USER library prep. None of
+> that has a source, so none of it is asserted any more; the model now draws placeholders
+> and an unspecified indexed Illumina adapter instead.
 
 **LIANTI** — Chen C, Xing D, Tan L, Li H, Zhou G, Huang L, Xie XS. "Single-cell whole-genome
 analyses by Linear Amplification via Transposon Insertion (LIANTI)." *Science* 2017;
@@ -20,7 +26,8 @@ Sources read (fetched by `tools/get_sources.py`, into
 | File | What | Used for |
 |---|---|---|
 | `science.aak9787_PMC5538131.html(.txt)` | PMC author manuscript, full main text + figure legends | concept, transposon architecture (Fig. 1B/C legend), yields, coverage |
-| `upstream_LIANTI.html(.txt)` | scg_lib_structs method page (Teichmann lab) | **all oligo sequences**, step-by-step, NEB library prep, read layout |
+| `upstream_LIANTI.html(.txt)` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
+| `lib/nextera.py`, `lib/illumina.py` (in-repo, from Illumina's adapter document) | canonical Tn5 mosaic end; canonical single-index Illumina arms | the only real bases the model draws, each one created `inferred=True` |
 
 Not fetched (needs a manual download):
 
@@ -45,7 +52,7 @@ Builds on [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) and
 
 | | New thing here | Consequence |
 |---|---|---|
-| 1 | **One-oligo hairpin transposon**: a 19-bp double-stranded Tn5 binding site closed by a **single-stranded T7-promoter loop** 🟢 (Fig. 1B legend) | the Tn5 homodimer carries the same adaptor on both monomers, so **every** cut is amplifiable, not only s5/s7 hetero-ended fragments (upstream page) 🟡 |
+| 1 | **One-oligo hairpin transposon**: a 19-bp double-stranded Tn5 binding site closed by a **single-stranded T7-promoter loop** 🟢 (Fig. 1B legend) | the Tn5 homodimer carries the same adaptor on both monomers 🟡 *(computed from the one-oligo design)*, so **every** cut is amplifiable, not only the s5/s7 hetero-ended fragments of ordinary Nextera 🟡 |
 | 2 | **Linear amplification by IVT** of the tagmented genome 🟢 | CV of read depth lowest of the WGA methods compared at all bin sizes (Fig. 1E) 🟢 |
 | 3 | **RNA self-priming at its 3' end** for RT 🟢 (Fig. 1C legend) | no random or degenerate primer anywhere before library prep |
 | 4 | **UMI in the second-strand primer** 🟢 ("tagged with unique molecular barcodes", Fig. 1C legend) plus "same ends = same fragment" digital counting (Fig. 2A) 🟢 | micro-CNV detection at ~10 kb 🟢 |
@@ -53,64 +60,62 @@ Builds on [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) and
 No cell barcode: one cell per tube, identity carried by the library index. 🟡 The
 authors note that cell barcodes could be added to the transposon and primer. 🟢
 
-## 2. Oligos
+## 2. Oligos — 🔴 none is published
 
-🟡 As written on the scg_lib_structs page (secondary; not checkable against the
-supplement, which we do not have). Modifications as the page gives them: `/Phos/`,
-`/5Phos/` = 5' phosphate, `(dU)` = deoxyuridine, `*` = phosphorothioate.
+The paper describes the transposon in words and draws it as a cartoon; it prints no
+sequence, and its oligo table is in the supplement we cannot read. What it does fix:
 
-```
-LIANTI transposon DNA    5'- /Phos/CTGTCTCTTATACACATCTGAACAGAATTTAATACGACTCACTATAGGGAGATGTGTATAAGAGACAG -3'
-Second strand primer     5'- [8-bp UMI]GGGAGATGTGTATAAGAGACAG -3'
+> "LIANTI transposon consists of a 19-bp double-stranded transposase binding site and a
+> single-stranded T7 promoter loop. Equal molar of LIANTI transposon and Tn5 transposase
+> are mixed and dimerized to form LIANTI transposome." — Fig. 1B legend 🟢
+> ("… double-stranded LIANTI amplicons tagged with unique molecular barcodes … ready for
+> DNA library preparation and next generation sequencing" — Fig. 1C legend 🟢)
 
-NEBNext Hairpin Adaptor  5'- /5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC(dU)ACACTCTTTCCCTACACGACGCTCTTCCGATC*T -3'
-NEBNext Universal PCR Primer for Illumina
-                         5'- AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'
-NEBNext Index 1 Primer for Illumina
-                         5'- CAAGCAGAAGACGGCATACGAGAT[i7]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT -3'
+### What the model draws, and why each piece is allowed
 
-Illumina TruSeq Read 1 primer   5'- ACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'
-Illumina TruSeq Read 2 primer   5'- GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT -3'
-Sample index sequencing primer  5'- GATCGGAAGAGCACACGTCTGAACTCCAGTCAC -3'
-```
-
-The NEBNext oligos are commercial kit components (NEBNext Ultra DNA Library Prep, with
-Index Primers); that the paper used this kit is the upstream page's statement, "as
-suggested from the LIANTI paper". 🟡
-
-### How the transposon is built — 🟡 (computed)
-
-The 68-nt transposon is one oligo that folds on itself:
-
-| nt | Segment | Identity |
+| Segment | Drawn as | Basis |
 |---|---|---|
-| 1–19 | `CTGTCTCTTATACACATCT` | **reverse complement of the mosaic end** (`nextera.ME`) |
-| 20–29 | `GAACAGAATT` | 10-nt spacer, function not given 🔴 |
-| 30–46 | `TAATACGACTCACTATA` | **T7 promoter** (class III consensus, −17 to −1) |
-| 47–49 | `GGG` | T7 +1 to +3; first transcribed bases |
-| 50–68 | `AGATGTGTATAAGAGACAG` | **mosaic end (ME)**, 3' end = the transferred end |
+| mosaic end / its reverse complement | `nextera.ME`, `nextera.ME_RC` | the paper's "19-bp double-stranded transposase binding site" is the Tn5 mosaic end; the bases are canonical 🟡 (identification), 🟢 (bases, Illumina adapter document) |
+| T7 promoter | `TAATACGACTCACTATA` | canonical T7 class III promoter for the paper's "T7 promoter" 🟡 |
+| T7 start | `GGG` | the +1…+3 of that promoter; the paper's transcripts must begin with them 🟡 *(computed)* |
+| **spacer between ME-rc and the promoter** | `N` × 10 placeholder, `inferred=True` | 🔴 **neither bases nor length published.** The 10 drawn positions are a drawing extent, not a measurement — the loop must merely be long enough to be single-stranded |
+| UMI | `N` × 8 placeholder | role 🟢 ("unique molecular barcodes"), width 🔴 |
+| i7 index | `I` × 6 placeholder | that the library was indexed 🟡, width 🔴 |
+| library arms (P5, Read 1, index-read site, P7′) | `illumina.P5`, `TRUSEQ_READ1`, `INDEX1_PRIMER`, `P7_RC`, all `inferred=True` | 🔴 the paper names **no** library-prep kit, adapter or primer; a single-index TruSeq-style shell is the model's assumption and is drawn entirely dotted |
 
-- ME (50–68) pairs with ME-rc (1–19): a **19-bp double-stranded Tn5 binding site**, and
-  nts 20–49 form a **30-nt single-stranded loop** carrying the promoter. This matches the
-  paper's description exactly (19-bp ds binding site + ss T7 promoter loop, Fig. 1B). 🟡
-  computed, 🟢 description.
-- The promoter is written in the **sense** direction of the transposon's 5'→3', i.e. it
-  points **into** the genomic insert from the ME side. 🟡
-- There is no s5/s7 sequence at all: the Nextera s5/s7 arms are replaced by the loop.
-  🟡
-- The **second-strand primer = 8-nt UMI + `GGG` + ME** (22 nt after the UMI), i.e. the
-  5' end of every transcript, so it anneals to the 3' end of every first-strand cDNA. 🟡
-- The 5' phosphate on the transposon presumably lets the hairpin's 5' end be joined
-  after gap fill; the paper text we hold does not say. 🔴
+### How the transposon folds — 🟡 *(computed)*
 
-### The library-prep oligos — 🟡 (computed against `lib/illumina.py`)
+The transposon's total length is **not** derivable, because the spacer's is not; the
+order is:
 
-- The hairpin adaptor equals `illumina.NEBNEXT_HAIRPIN` (65 nt, U at position 32):
-  `NEBNEXT_ARM_READ2` + U + `TRUSEQ_READ1`.
-- Universal PCR primer = `illumina.P5` + `TRUSEQ_READ1` overlapping by 4 nt (`ACAC`),
-  58 nt (= `illumina.NEBNEXT_UNIVERSAL_PRIMER`).
-- Index 1 primer = `illumina.P7` + i7 (6 nt) + `illumina.TRUSEQ_READ2`; the i7 is
-  embedded as the reverse complement of what the index read reports (standard NEBNext). 🟡
+| Segment | Length | Identity |
+|---|---|---|
+| `CTGTCTCTTATACACATCT` | 19 | reverse complement of the mosaic end (`nextera.ME_RC`) 🟡 |
+| `NNNN…` | 🔴 unknown (drawn as 10) | the unpublished spacer 🔴 |
+| `TAATACGACTCACTATA` | 17 | T7 promoter (class III consensus, −17 to −1) 🟡 |
+| `GGG` | 3 | T7 +1 to +3; first transcribed bases 🟡 |
+| `AGATGTGTATAAGAGACAG` | 19 | mosaic end (ME), 3′ end = the transferred end 🟡 |
+
+- ME pairs with ME-rc: a **19-bp double-stranded Tn5 binding site**, with the spacer,
+  promoter and `GGG` forming the **single-stranded loop** — exactly the paper's
+  description 🟢, assembled from canonical parts 🟡. `tools/lianti.py` builds this with
+  `HairpinTopology`, so the stem is checked rather than drawn by hand.
+- The promoter points **into** the genomic insert from the ME side 🟡; there is no s5/s7
+  arm at all — the Nextera entry points are replaced by the loop 🟡.
+- The **second-strand primer = UMI + `GGG` + ME**, i.e. the 5′ end of every transcript, so
+  it anneals to the 3′ end of every first-strand cDNA 🟡 *(computed)*.
+- Whether the transposon's 5′ end is phosphorylated, and whether the hairpin is joined to
+  the genome after gap fill or displaced, is not stated 🔴.
+
+### Library prep — 🔴 unestablished
+
+The paper ends at "ready for DNA library preparation and next generation sequencing". No
+kit, adapter, primer, cycle count, read length or index set is named, and the supplement
+is unavailable. The model therefore uses an **unspecified indexed Illumina adapter** with
+`AdapterLigationGeometry.unavailable(...)`, a library PCR with `PCRGeometry.unavailable(...)`,
+and a library whose every adapter-derived base is inferred. Ligation-based prep (rather
+than tagmentation) is the model's one structural assumption, on the ground that tagmenting
+the amplicon would destroy the UMI end that the method exists to install 🟡.
 
 ## 3. Step by step
 
@@ -119,83 +124,94 @@ details are in the supplement we could not fetch. 🔴
 
 1. **Transposome assembly**: equimolar LIANTI transposon and Tn5 transposase, dimerised
    🟢 (Fig. 1B legend). Both monomers carry the identical hairpin adaptor (homodimer). 🟡
-2. **Single cell picking and lysis** (BJ fibroblasts; "sort or handpick" per the
-   upstream page 🟡). Optional **UDG** treatment of the lysate removes deaminated
+2. **Single cell picking and lysis** (BJ fibroblasts; how cells were collected is in the
+   unavailable supplement 🔴). Optional **UDG** treatment of the lysate removes deaminated
    cytosines (C→U), the source of the C→T false positives 🟢 (Fig. 3B, main text).
 3. **Tagmentation**: random fragmentation, average ~400 bp 🟢. Each fragment end carries
    the transposon's ME (3' end joined to the genomic 5' end), the hairpin and the usual
    9-nt gap on the opposite strand 🟡 ([Tn5](../ref/concepts/tn5-tagmentation.md)).
-4. **Gap extension** with a DNA polymerase (Q5 per upstream 🟡) converts the
+4. **Gap extension** with a DNA polymerase (not named in the main text 🔴) converts the
    single-stranded T7 loops into **double-stranded T7 promoters on both ends** 🟢 (Fig. 1C
    legend). Computed product (top strand, 🟡):
-   transposon (68) · insert · reverse complement of the transposon (68).
+   transposon · insert · reverse complement of the transposon.
 5. **In vitro transcription, overnight** 🟢. Both ends have a promoter pointing inward, so
    both strands of the fragment are transcribed. Computed transcript (5'→3', 🟡):
-   `GGG` · ME · <insert> · ME-rc · `CCC` · `TATAGTGAGTCGTATTA` (promoter rc) ·
-   `AATTCTGTTC` · ME — 22 nt before the insert, 68 nt after.
-   Upstream says the two convergent transcription events clash and one strand dominates
-   (upstream claim, not in the main text) 🟡.
+   `GGG` · ME · <insert> · ME-rc · `CCC` · promoter reverse complement · spacer reverse
+   complement (unpublished) · ME — 22 nt before the insert. What happens where the two
+   convergent transcription events meet is not addressed by the paper 🔴.
 6. **Self-primed reverse transcription** 🟢 ("capable of self-priming on the 3' end").
-   Computed mechanism 🟡: the transcript's 3'-terminal ME pairs with the ME-rc 30 nt
-   upstream (the same 19-bp stem as the transposon, now in RNA, with a 30-nt loop), and
-   the 3' OH primes RT back across the insert to the transcript's 5' end. First strand
+   Computed mechanism 🟡: the transcript's 3'-terminal ME pairs with its internal ME-rc
+   copy (the same 19-bp stem as the transposon, now in RNA, with the unpublished
+   spacer/promoter interval as the turn), and the 3' OH primes RT back across the insert
+   to the transcript's 5' end. First strand
    (after RNA removal): rc(insert) · `CTGTCTCTTATACACATCT` · `CCC`.
 7. **RNase digestion** removes the RNA 🟢 (enzyme not named in the main text 🔴).
-8. **Second-strand synthesis** with the UMI primer 🟢 (concept) / 🟡 (sequence) →
-   double-stranded LIANTI amplicon: `<UMI8> · GGG · ME · <insert>`, with the far end bare
+8. **Second-strand synthesis** with the UMI primer 🟢 (concept) / 🔴 (sequence) →
+   double-stranded LIANTI amplicon: `<UMI> · GGG · ME · <insert>`, with the far end bare
    genomic sequence (the other Tn5 insertion point). Yield ~20 ng per cell 🟢.
-9. **Library prep** (NEBNext Ultra, per upstream 🟡): end repair, dA-tailing, ligation of
-   the NEBNext hairpin adaptor, USER cleavage at the dU to open the hairpin, PCR with the
-   Universal primer and an Index 1 primer. Cycle numbers 🔴.
+9. **Library prep**: 🔴 the paper says only "ready for DNA library preparation and next
+   generation sequencing". No kit, adapter, primer or cycle count is named. The model
+   draws end repair → dA-tailing → ligation of an *unspecified indexed Illumina adapter*
+   (ligation geometry `unavailable`) → PCR (geometry `unavailable`).
 
-## 4. Final library — 🟡 (assembled from the oligos above)
+## 4. Final library — 🟡 assumed shell, 🔴 no published base
 
-Both orientations occur, because the A-tailed amplicon is ligated on both ends.
+Both orientations occur, because the dA-tailed amplicon is ligated on both ends. The
+shell below is the model's assumption (a single-index Illumina library), not a published
+layout; on the page every one of its bases is dotted.
 
-Orientation 1 (UMI on the P5 side), 152 nt + insert (computed):
+Orientation 1 (UMI on the P5 side):
 
 ```
-5'- P5 · TruSeq Read 1 (overlapping P5 by 4 nt) · <UMI 8> · GGG · ME · <genomic insert> · AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC · <i7 6, as rc> · P7' -3'
+5'- P5 · TruSeq Read 1 · <UMI> · GGG · ME · <genomic insert> · A · index-read site · <i7> · P7' -3'
 ```
 
 Orientation 2 (UMI on the P7 side):
 
 ```
-5'- P5 · TruSeq Read 1 · <genomic insert> · ME-rc · CCC · <UMI 8 rc> · AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC · <i7 6, as rc> · P7' -3'
+5'- P5 · TruSeq Read 1 · <genomic insert> · ME-rc · CCC · <UMI, rc> · A · index-read site · <i7> · P7' -3'
 ```
-
-The upstream page draws the same two orientations. 🟡 agreement.
 
 ## 5. Read layout / sequencing
 
-- Read 1 (TruSeq Read 1 primer): in orientation 1, **8 nt UMI + 22 nt `GGG`+ME, then
-  genome at cycle 31**; in orientation 2, genome from cycle 1. 🟡 computed.
-- Index 1 (sample index primer): 6-nt i7. 🟡
+All 🟡 — consequences of the assumed shell, not published facts. 🔴 No read length,
+index width or sequencer is given anywhere we hold.
+
+- Read 1 (TruSeq Read 1 primer): in orientation 1, UMI + `GGG` + 19-nt ME before the
+  genome; in orientation 2, genome from cycle 1. 🟡 *(computed)*
+- Index 1: the i7 index, drawn 6 nt wide as a placeholder 🔴.
 - Read 2 (TruSeq Read 2 primer): the mirror of Read 1. 🟡
 - Both read starts are Tn5 insertion points, which is what makes "same start and end =
   same original fragment" digital counting possible (Fig. 2A) 🟢 / 🟡.
 - Platform, read lengths: not in the main text 🔴. BJ cells sequenced to ~30× 🟢; 97 %
   genome coverage, 17 % ADO 🟢 (Table S1, as quoted in main text).
 
-## 6. Upstream page vs the paper — agreements and disagreements
+## 6. What the paper fixes and what it leaves open
 
-- **Agree**: transposon = 19-bp ds Tn5 site + ss T7 loop (computed from the upstream
-  sequence, matches Fig. 1B legend); gap extension → ds promoters on both ends; overnight
-  IVT; self-priming; RNase; second-strand synthesis with UMI-tagged primer.
-- **Disagreement (internal to upstream)** 🟡: upstream's IVT product (its step 4) begins
-  `GAGAUGUG…`, i.e. with only one G before ME, and its cDNA (step 6) correspondingly ends
-  in `…CTC`. With the class III promoter in the transposon, transcription starts at the
-  first G of `GGG`, so the RNA begins `GGGAGAUGUG…` — which is also what the upstream's own
-  second-strand primer (`…GGGAGATG…`) assumes. Treat the one-G drawing as a simplification.
-- **Not checkable**: every sequence, the Q5 polymerase, the NEB kit, the "one strand
-  dominates" claim — all only on the upstream page until the supplement is read.
+| Point | Science 2017 main text / figure legends | Status in the model |
+|---|---|---|
+| Transposon architecture | 19-bp ds transposase binding site + ss T7 promoter loop 🟢 | `HairpinTopology` stem of canonical ME; loop = placeholder spacer + canonical promoter 🟡 |
+| Transposome | equimolar transposon + Tn5, dimerised 🟢 | homodimer; both monomers carry the same adaptor 🟡 |
+| Gap extension | converts the ss loops into ds T7 promoters on both ends 🟢 | drawn, all bases inferred |
+| IVT | overnight, linear 🟢 | drawn; the "one strand dominates" idea has no source and is not asserted |
+| Self-primed RT, RNase, second strand with UMI 🟢 | drawn | widths placeholders |
+| Transposon spacer, UMI width, i7 width | not given 🔴 | placeholders |
+| Library prep, PCR primers, cycles, sequencer, read lengths | not given 🔴 | unavailable geometries, inferred shell |
+
+Conditions (buffers, times, temperatures, enzyme brands) are all in the unavailable
+supplement 🔴; nothing in the model depends on them.
 
 ## 7. Open questions
 
-- 🔴 The supplement's exact oligo sequences (including whether the UMI is 8 nt and how
-  it is written), modifications, and the transposon annealing protocol.
-- 🔴 Role of the 10-nt spacer `GAACAGAATT` and of the transposon's 5' phosphate (is the
-  hairpin ligated to the genome after gap fill, or displaced?).
+- 🔴 The supplement's exact oligo sequences (the spacer and its length, the UMI width,
+  modifications) and the transposon annealing protocol. The Science supplement
+  (`https://www.science.org/doi/10.1126/science.aak9787`) and the PMC author-manuscript
+  DOCX are both gated; the manifest carries both URLs for a manual download. A second
+  lead: the acknowledgments disclose a Harvard patent application covering LIANTI 🟢,
+  and a granted patent would print the transposon — the application number is not given
+  in the paper, so no source row can be added for it yet.
+- 🔴 Role of the spacer, and of a transposon 5′ phosphate (is the hairpin ligated to the
+  genome after gap fill, or displaced?).
 - 🔴 Which RT, which RNase, and whether IVT also yields RNA-templated RNA products (refs
   51–53 in the paper concern T7 RNA-dependent synthesis, suggesting the supplement
   discusses it).
@@ -203,13 +219,9 @@ The upstream page draws the same two orientations. 🟡 agreement.
 
 ## 8. How this note was made (tool evaluation)
 
-`tools/get_sources.py` fetched the PMC full text and the upstream page but not the
-supplement (.docx behind PMC's download gate; listed as `(manual)` in MANIFEST.tsv).
-`tools/scrape_primers.py` found every oligo on the upstream page and labelled ME, ME-rc
-and the Illumina/NEBNext parts correctly; it also picked up fragments of the upstream's
-ASCII duplex drawings (e.g. `CGACTCACTATAGGG`, `CGAGAAGGCTAG`) as if they were oligos,
-and named some by neighbouring words ("UMI", "dU", "i7"). It found nothing in the paper,
-which contains no sequences. `scrape_primers.py --find` does not match the hairpin
-adaptor across its inline `(dU)` (with either U or T at that position); it was checked by
-hand against the upstream text instead. Transposon architecture and every derived structure were
-computed with `lib/` (`nextera.ME`, `illumina.*`, `chemdraw.revcomp`).
+`tools/get_sources.py` fetched the PMC full text but not the supplement (.docx behind
+PMC's download gate; listed as `(manual)` in MANIFEST.tsv). `tools/scrape_primers.py`
+found **no oligo in any source that counts** — the paper contains none — which is the
+whole finding for this protocol. Transposon architecture and every derived structure were
+computed with `lib/` (`nextera.ME`, `illumina.*`, `chemdraw.revcomp`,
+`topology.HairpinTopology`).

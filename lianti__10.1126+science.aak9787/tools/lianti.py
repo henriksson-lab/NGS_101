@@ -1,9 +1,23 @@
 """Construct model for Chen et al. LIANTI (Science, 2017).
 
-The defining paper establishes the architecture and reaction order, but the accessible
-main text does not print oligo sequences.  LIANTI-specific bases below are transcribed
-from the upstream scg_lib_structs page and are therefore kept visibly secondary-source
-in the schematic.  Standard Tn5 and Illumina/NEBNext parts come from the shared library.
+The defining paper establishes the architecture and reaction order (Fig. 1B/C legends:
+a 19-bp double-stranded transposase binding site closed by a single-stranded T7-promoter
+loop; gap extension to double-stranded promoters; overnight IVT; self-primed RT; RNase
+digestion; UMI-bearing second strand), but prints no oligo.  Its Supplementary Materials
+and Methods, which would, is a DOCX behind the PMC download gate.
+
+Nothing here comes from the scg_lib_structs drawn page, which is inspiration only.  The
+consequences, all visible in the model:
+
+* the transposon's internal spacer between the mosaic end and the T7 promoter is an
+  unpublished placeholder -- neither its bases nor its length are established;
+* the mosaic ends are the canonical Tn5 ME (``nextera``) and the promoter the canonical
+  T7 class III promoter plus its GGG start, both inferred identifications of parts the
+  paper names only by role;
+* the UMI and index widths are drawing placeholders, not published lengths;
+* no library-prep kit is named by the paper, so the adapter is an unspecified indexed
+  Illumina adapter with unavailable ligation geometry, the library PCR geometry is
+  unavailable, and every adapter-derived base in the drawn library is inferred.
 """
 from __future__ import annotations
 
@@ -16,11 +30,10 @@ UMI_FEATURE = feature("umi", "umi", "random")
 I7_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
 FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 from endprep import dA_tailed_scene, repair_and_dA_tail
-from adapter_ligation import reported_adapter_end
+from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 from topology import HairpinTopology
-from dumbbell import Dumbbell, OpenedDumbbell
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -28,8 +41,14 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-# LIANTI-specific sequence: secondary source (upstream scg_lib_structs), not the paper.
-SPACER = "GAACAGAATT"
+# The paper gives the transposon's architecture, not its sequence.  The interval between
+# the mosaic end and the T7 promoter is unpublished in both bases and length: it is drawn
+# as a placeholder of SPACER_NT positions purely so the loop has a drawable extent.
+SPACER_NT = 10
+SPACER = "N" * SPACER_NT
+# Canonical T7 class III promoter and its first transcribed bases.  The paper names a
+# "T7 promoter"; that this is the sequence used is an inference, so every segment built
+# from it is created inferred.
 T7_PROMOTER = "TAATACGACTCACTATA"
 T7_START = "GGG"
 TRANSPOSON = nx.ME_RC + SPACER + T7_PROMOTER + T7_START + nx.ME
@@ -38,20 +57,22 @@ TRANSPOSON_TOPOLOGY = HairpinTopology(
     first_stem_start=0, second_stem_start=len(TRANSPOSON) - len(nx.ME),
     stem_length=len(nx.ME),
 )
+# Drawing widths for unpublished identifier lengths.  The paper establishes that the
+# second-strand primer carries a unique molecular barcode and that the library was
+# indexed; neither width is published.
 UMI_NT = 8
-
-# Library-prep assignment is also only available in the upstream page.  These bases are
-# canonical vendor sequences, imported rather than copied; the upstream specifies 6-nt i7.
 I7_NT = 6
-NEBNEXT_HAIRPIN = il.NEBNEXT_HAIRPIN_MODEL
-NEBNEXT_OPENED = il.NEBNEXT_USER_OPENED
 
 
 def transposon_segments(*, inferred: bool = True) -> list[Segment]:
-    """The single 68-nt hairpin-forming transposon, written 5' to 3'."""
+    """The single hairpin-forming transposon, written 5' to 3'.
+
+    Its total length is not published, because the spacer's is not.
+    """
     return [
         seg("ME reverse complement", nx.ME_RC, "me", inferred=inferred),
-        seg("spacer", SPACER, inferred=inferred),
+        seg("unpublished spacer", SPACER, placeholder=True, inferred=inferred,
+            note="bases and length not published"),
         seg("T7 promoter", T7_PROMOTER, "t7", inferred=inferred),
         seg("T7 start", T7_START, "t7", inferred=inferred),
         seg("mosaic end", nx.ME, "me", inferred=inferred),
@@ -84,10 +105,11 @@ def gap_filled_fragment(insert_nt: int = 28) -> Construct:
         seg("T7 promoter, opposite",
             right[len(nx.ME) + len(T7_START):len(nx.ME) + len(T7_START) + len(T7_PROMOTER)],
             "t7", inferred=True),
-        seg("spacer, opposite",
+        seg("unpublished spacer, opposite",
             right[len(nx.ME) + len(T7_START) + len(T7_PROMOTER):
                   len(nx.ME) + len(T7_START) + len(T7_PROMOTER) + len(SPACER)],
-            inferred=True),
+            placeholder=True, inferred=True,
+            note="bases and length not published"),
         seg("mosaic end, opposite", right[-len(nx.ME):], "me", inferred=True),
     ], name="gap-filled LIANTI fragment")
     return lib
@@ -103,7 +125,9 @@ def transcript(insert_nt: int = 28) -> Construct:
         seg("self-primer site", nx.ME_RC, "me", inferred=True),
         seg("CCC", revcomp(T7_START), "t7", inferred=True),
         seg("promoter reverse complement", revcomp(T7_PROMOTER), "t7", inferred=True),
-        seg("spacer reverse complement", revcomp(SPACER), inferred=True),
+        seg("unpublished spacer reverse complement", revcomp(SPACER),
+            placeholder=True, inferred=True,
+            note="bases and length not published"),
         seg("3' self-primer", nx.ME, "me", inferred=True),
     ], name="LIANTI RNA transcript")
 
@@ -143,22 +167,26 @@ SEQ_PRIMERS = [sp.TRUSEQ[k] for k in ("R1", "I1", "I2", "R2")]
 
 
 def final_library(insert_nt: int = 28) -> Construct:
-    """One of the two possible adapter-ligation orientations, P5 to P7'."""
+    """One of the two possible adapter-ligation orientations, P5 to P7'.
+
+    The paper names no library-prep kit, so no adapter base here is established: the
+    drawn arms are the canonical single-index Illumina/TruSeq parts, every one of them
+    created inferred, and the index width is a placeholder.
+    """
     insert = "X" * insert_nt if insert_nt <= 30 else "XXXXXXXXXXXX...XXXXXXXXXXXX"
     d_a = end_prepared_amplicon(insert_nt).three_prime_overhang
     lib = Construct([
         # P5 overlaps the first four bases of the Read 1 site (ACAC).
-        seg("P5", il.P5[:-4], "p5"),
-        seg("Read 1 site", NEBNEXT_OPENED.right_arm, "r1"),
+        seg("P5", il.P5[:-4], "p5", inferred=True),
+        seg("Read 1 site", il.TRUSEQ_READ1, "r1", inferred=True),
         seg("UMI", "N" * UMI_NT, "umi", placeholder=True, inferred=True),
         seg("T7 start", T7_START, "t7", inferred=True),
         seg("mosaic end", nx.ME, "me", inferred=True),
         seg("genomic insert", insert, placeholder=True),
         seg("dA", d_a, inferred=True),
-        seg("index-read site", NEBNEXT_OPENED.left_arm
-            + il.INDEX1_PRIMER[len(NEBNEXT_OPENED.left_arm):], "r2"),
+        seg("index-read site", il.INDEX1_PRIMER, "r2", inferred=True),
         seg("i7", "I" * I7_NT, "cbc", placeholder=True, inferred=True),
-        seg("P7'", il.P7_RC, "p7"),
+        seg("P7'", il.P7_RC, "p7", inferred=True),
     ], name="LIANTI sequencing library, UMI at P5 end")
     problems = sp.verify(lib, SEQ_PRIMERS)
     if problems:
@@ -166,25 +194,10 @@ def final_library(insert_nt: int = 28) -> Construct:
     return lib
 
 
-def hairpin_ligated_amplicon(insert_nt: int = 28) -> Dumbbell:
-    """The dA/dT-ligated closed intermediate before USER opens both adaptors."""
-    return Dumbbell(umi_amplicon(insert_nt), NEBNEXT_HAIRPIN.sequence,
-                    NEBNEXT_HAIRPIN.sequence,
-                    name="NEBNext-hairpin-ligated LIANTI amplicon",
-                    left_stem_length=NEBNEXT_HAIRPIN.stem_len,
-                    right_stem_length=NEBNEXT_HAIRPIN.stem_len)
-
-
-def user_opened_amplicon(insert_nt: int = 28) -> OpenedDumbbell:
-    """The same intermediate after both dU-containing loops have been opened."""
-    return OpenedDumbbell(hairpin_ligated_amplicon(insert_nt), NEBNEXT_OPENED,
-                          NEBNEXT_OPENED,
-                          name="USER-opened adapter-ligated LIANTI molecules")
-
-
 def protocol_graph() -> ProtocolGraph:
     source=("Defining source: https://doi.org/10.1126/science.aak9787; "
-            "LIANTI-specific oligo bases reconstructed from scg_lib_structs because the supplement is unavailable")
+            "the paper establishes the architecture but prints no oligo, and its "
+            "Supplementary Materials and Methods is behind the PMC download gate")
     graph=ProtocolGraph("LIANTI",authority=source)
     genome=graph.input("genome","single-cell genomic DNA",MaterialKind.BIOLOGICAL,
                        primary=True)
@@ -196,7 +209,7 @@ def protocol_graph() -> ProtocolGraph:
                          MaterialKind.MOLECULAR,inferred=True,source=source)
     tag_waste=graph.product("tagment_waste","non-library tagmentation products",
                             MaterialKind.WASTE)
-    graph.react("tagment","Insert inward-facing T7-promoter transposons",
+    graph.react("tagment","INFERRED — insert inward-facing T7-promoter transposons",
                 StepKind.TAGMENTATION,
                 ((genome,InputRole.TEMPLATE),(transposon,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,tag_waste))
@@ -205,14 +218,14 @@ def protocol_graph() -> ProtocolGraph:
     dntps=graph.input("gap_fill_dntps","gap-fill dNTPs",MaterialKind.OLIGO)
     filled=graph.product("gap_filled",gap_filled_fragment().name,MaterialKind.MOLECULAR,
                          state=gap_filled_fragment(),inferred=True,source=source)
-    graph.react("gap_fill","Fill the 9-nt Tn5 gaps and complete both T7 promoters",
+    graph.react("gap_fill","INFERRED — fill the 9-nt Tn5 gaps and complete both T7 promoters",
                 StepKind.EXTENSION,
                 ((tagged,InputRole.TEMPLATE),(dntps,InputRole.STRUCTURAL),
                  (fill_pol,InputRole.CATALYST)),(filled,))
     t7=graph.input("t7_polymerase","T7 RNA polymerase",MaterialKind.CATALYST)
     rna=graph.product("rna_transcript",transcript().name,MaterialKind.MOLECULAR,
                       state=transcript(),inferred=True,source=source)
-    graph.react("ivt","Linearly amplify each fragment by T7 transcription",
+    graph.react("ivt","INFERRED — linearly amplify each fragment by T7 transcription",
                 StepKind.TRANSCRIPTION,
                 ((filled,InputRole.TEMPLATE),(t7,InputRole.CATALYST)),(rna,))
     reverse_transcriptase=graph.input("reverse_transcriptase","reverse transcriptase",
@@ -237,70 +250,61 @@ def protocol_graph() -> ProtocolGraph:
                            MaterialKind.CATALYST)
     amplicon=graph.product("umi_amplicon",umi_amplicon().name,MaterialKind.MOLECULAR,
                            state=umi_amplicon(),inferred=True,source=source)
-    graph.react("second_strand","Synthesize the UMI-bearing second strand",StepKind.EXTENSION,
+    graph.react("second_strand","INFERRED — synthesize the UMI-bearing second strand",StepKind.EXTENSION,
                 ((cleaned,InputRole.TEMPLATE),(umi_primer,InputRole.STRUCTURAL),
                  (second_pol,InputRole.CATALYST)),(amplicon,))
     repair=graph.input("end_repair_mix","end-repair enzyme mix",MaterialKind.CATALYST)
     repaired=graph.product("repaired_amplicon","end-repaired LIANTI amplicon",
                            MaterialKind.MOLECULAR,state=umi_amplicon(),inferred=True,source=source)
-    graph.react("end_repair","End-repair LIANTI amplicons",StepKind.END_REPAIR,
+    graph.react("end_repair","INFERRED — end-repair LIANTI amplicons",StepKind.END_REPAIR,
                 ((amplicon,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
     tailing=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
     datp=graph.input("datp","dATP",MaterialKind.OLIGO)
     prepared_scene=end_prep_scene()
     prepared=graph.product("da_tailed","dA-tailed LIANTI amplicon",MaterialKind.MOLECULAR,
                            state=prepared_scene,inferred=True,source=source)
-    graph.react("da_tail","Add 3-prime dA overhangs",StepKind.TAILING,
+    graph.react("da_tail","INFERRED — add 3-prime dA overhangs",StepKind.TAILING,
                 ((repaired,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),
                  (tailing,InputRole.CATALYST)),(prepared,))
-    adapter=graph.input("nebnext_hairpin","NEBNext hairpin adapter",MaterialKind.ADAPTER)
+    adapter=graph.input("indexed_adapter","unspecified indexed Illumina adapter",
+                        MaterialKind.ADAPTER,inferred=True,
+                        source=source+" (no library-prep kit or adapter is named)")
     ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
-    ligated_model=hairpin_ligated_amplicon()
-    ligated=graph.product("hairpin_ligated",ligated_model.name,
-                          MaterialKind.MOLECULAR,state=ligated_model,
-                          inferred=True,source=source)
-    geometry=reported_adapter_end(
-        "NEBNext hairpin",kind="cohesive",polarity="3-prime",terminal_sequence="T",
-        body_sequence=NEBNEXT_HAIRPIN.sequence[:-1],
-        statement="The canonical NEBNext hairpin model has the disclosed terminal 3′ T used with dA-tailed inserts.")
-    graph.react("adapter_ligation","Ligate the NEBNext hairpin adapter in either orientation",
+    opened=graph.product("adapter_ligated","indexed-adapter-ligated LIANTI amplicon",
+                         MaterialKind.MOLECULAR,inferred=True,source=source)
+    graph.react("adapter_ligation","INFERRED — ligate an indexed Illumina adapter to the dA-tailed amplicon",
                 StepKind.LIGATION,
                 ((prepared,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(ligated,),geometry=geometry)
-    user=graph.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
-    opened=graph.product("opened_library","USER-opened adapter-ligated LIANTI molecules",
-                         MaterialKind.MOLECULAR,state=user_opened_amplicon(),
-                         inferred=True,source=source)
-    released=graph.product("released_hairpin","released hairpin loop",MaterialKind.WASTE)
-    graph.react("user_digest","Open the dU-containing hairpin",StepKind.DIGESTION,
-                ((ligated,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))
-    graph.discard(released,"the cleaved hairpin loop is not part of the final library")
-    forward=graph.input("pcr_forward","NEBNext library PCR forward primer",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (exact LIANTI primer assignment secondary)")
-    reverse=graph.input("pcr_reverse","indexed NEBNext library PCR reverse primer",
+                 (ligase,InputRole.CATALYST)),(opened,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The paper names no library-prep kit or adapter, so the adapter's end geometry, "
+                    "polarity and bases are not established by any accepted source."))
+    forward=graph.input("pcr_forward","library PCR primer completing the P5 arm",MaterialKind.OLIGO,
+                        inferred=True,source=source+" (no primer is named)")
+    reverse=graph.input("pcr_reverse","indexed library PCR primer completing the P7 arm",
                         MaterialKind.OLIGO,inferred=True,
-                        source=source+" (exact LIANTI primer assignment secondary)")
+                        source=source+" (no primer is named)")
     pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
                           inferred=True,source=source)
-    graph.react("library_pcr","Amplify the USER-opened indexed library",StepKind.PCR,
+    graph.react("library_pcr","INFERRED — amplify and complete the indexed library",StepKind.PCR,
                 ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(
-                    final,reason="The accessible source does not establish the exact LIANTI library-PCR oligo assignment."))
+                    final,reason="The accessible source names no library-prep kit and no PCR primer, so neither primer nor its binding site is established."))
     graph.sequence(library,SequencingPlan(
         library=final,primers=tuple(SEQ_PRIMERS),
         acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
         read_lengths={"Index 1 (i7)":I7_NT},
         read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
                    "Index 2 (i5)":"demultiplex","Read 2":"include"},
-        limitation="The 6-nt i7 placement and LIANTI-specific oligos are secondary-source reconstructions."))
+        limitation="No read length, index width or library-prep kit is published; the drawn i7 width and the TruSeq-style arms are modelling assumptions, and every adapter-derived base in the library is inferred."))
     graph.declare_reviewed_scope((
         "genome","hairpin_transposon","tn5","tagment","gap_fill_polymerase",
         "gap_fill_dntps","gap_fill","t7_polymerase","ivt","reverse_transcriptase",
         "self_primed_rt","rna_removal","remove_rna","umi_primer","second_strand_polymerase",
         "second_strand","end_repair_mix","end_repair","tailing_polymerase","datp",
-        "da_tail","nebnext_hairpin","ligase","adapter_ligation","user_enzyme",
-        "user_digest","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),source)
+        "da_tail","indexed_adapter","ligase","adapter_ligation",
+        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),source)
     return graph.require_publishable()

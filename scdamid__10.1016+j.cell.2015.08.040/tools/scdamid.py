@@ -1,4 +1,22 @@
-"""Molecular model for single-cell DamID (Kind et al., Cell 2015)."""
+"""Molecular model for single-cell DamID (Kind et al., Cell 2015).
+
+Provenance of the bases drawn here, none of which comes from the scg_lib_structs page
+(inspiration only):
+
+* The defining paper's own oligo figure (S1E) and indexing-primer table (S2) are PMC
+  supplements behind the download gate, so the paper itself gives no sequence.  What it
+  does state is that detecting Dam methylation "is similar to that of conventional DamID
+  (Vogel et al., 2007) and uses largely the same reagents", and that the pre-amplification
+  primer carries an "NNNN: random nucleotide tail added at the 5' end" producing a 51-nt
+  read (Fig. S1E legend, both in the accessible text).
+* The conventional-DamID oligos it reuses -- AdRt, AdRb and AdR_PCR -- are published, and
+  are held in this repository's fetched sources as an oligo table that prints them
+  verbatim and credits Vogel et al. 2007 (EpiDamID, Mol Cell 2022, supplement mmc4 and
+  the article XML).  They enter the model through ``predecessor()``, which forces inferred
+  styling: the reuse is stated, the identity of each oligo in *this* paper is not.
+* The outer Illumina arms are canonical ``illumina`` constants, also inferred, because
+  Table S2 is unavailable and the paper names no kit.
+"""
 from __future__ import annotations
 
 import illumina as il
@@ -9,14 +27,18 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
-# The accessible defining paper names these oligos but does not print their sequences.
-# Exact bases are from the upstream scg_lib_structs reconstruction and are therefore
-# created only through secondary(), which makes inferred styling unavoidable.
-ADRT = "CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA"
-ADRB = "TCCTCGGCCG"
-PREAMP_STUB = "GTGGTCGCGGCCGAGGA"
-RANDOM_NT = 4
-INDEX_NT = 6
+# Conventional-DamID oligos, as published and as reprinted with their Vogel et al. 2007
+# attribution in the EpiDamID oligo table.  The paper under study says it reuses these
+# reagents but prints nothing itself, so every segment built from them is inferred.
+ADRT = "CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA"   # "AdRt", 42 nt
+ADRB = "TCCTCGGCCGCG"                                  # "AdRb", 12 nt
+ADR_PCR = "GGTCGCGGCCGAGGATC"                          # "AdR_PCR", 17 nt
+# The PCR primer spans the adaptor/GATC junction: its last two bases are the restored
+# half-site a DpnI end supplies, so it extends only from a ligated fragment.
+JUNCTION = ADR_PCR[-2:]
+PREAMP_STUB = ADR_PCR[:-len(JUNCTION)]
+RANDOM_NT = 4          # "NNNN ... added at the 5' end of the primer" (Fig. S1E legend)
+INDEX_NT = 6           # drawing width; Table S2 is unavailable
 RUN_ROLES = ("Read 1", "Index 1 (i7)")
 
 
@@ -24,17 +46,21 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def secondary(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    """A source-bounded segment that can never render as established sequence."""
+def predecessor(name: str, top: str, tag: str | None = None, **kw) -> Segment:
+    """A segment whose bases come from the reused predecessor protocol, never this paper.
+
+    Always inferred: the defining paper states the reuse but its own oligo figure is
+    unavailable, so no base here may render as established for scDamID.
+    """
     return seg(name, top, tag, inferred=True, **kw)
 
 
 def damid_adaptor_scene() -> Scene:
     paired = ADRT[-len(ADRB):]
     sc = Scene()
-    sc.strand("AdRt", [secondary("5' tail", ADRT[:-len(ADRB)]),
-                       secondary("paired end", paired)], label="AdRt")
-    sc.anneal("AdRb", [secondary("paired end reverse complement", ADRB)],
+    sc.strand("AdRt", [predecessor("5' tail", ADRT[:-len(ADRB)]),
+                       predecessor("paired end", paired)], label="AdRt")
+    sc.anneal("AdRb", [predecessor("paired end reverse complement", ADRB)],
               to="AdRt", pair=("paired end reverse complement", "paired end"),
               label="AdRb")
     return sc
@@ -52,13 +78,13 @@ def dpni_fragment(insert_nt: int = 28) -> Construct:
 def preamp_product(insert_nt: int = 28) -> Construct:
     """One strand after the single DamID pre-amplification primer acts at both ends."""
     return Construct([
-        secondary("N4, left", "N" * RANDOM_NT, placeholder=True),
-        secondary("DamID stub, left", PREAMP_STUB),
-        secondary("restored GATC, left", "TC"),
+        predecessor("N4, left", "N" * RANDOM_NT, placeholder=True),
+        predecessor("DamID stub, left", PREAMP_STUB),
+        predecessor("restored GATC, left", JUNCTION),
         seg("Dam-marked genomic DNA", "X" * insert_nt, placeholder=True),
-        secondary("restored GATC, right", "GA"),
-        secondary("DamID stub, right", revcomp(PREAMP_STUB)),
-        secondary("N4, right", "N" * RANDOM_NT, placeholder=True),
+        predecessor("restored GATC, right", revcomp(JUNCTION)),
+        predecessor("DamID stub, right", revcomp(PREAMP_STUB)),
+        predecessor("N4, right", "N" * RANDOM_NT, placeholder=True),
     ], name="scDamID pre-amplification product")
 
 
@@ -66,15 +92,15 @@ SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"])
 
 
 def final_library(insert_nt: int = 28) -> Construct:
-    """Single-index Illumina library; every outer base is secondary-source here."""
+    """Single-index Illumina library; no outer base is established for this paper."""
     lib = Construct([
-        secondary("P5", il.P5, "p5"),
-        secondary("Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
+        predecessor("P5", il.P5, "p5"),
+        predecessor("Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
         *preamp_product(insert_nt),
-        secondary("Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-        secondary("i7", "I" * INDEX_NT, "cbc", placeholder=True,
-                  feature=feature("cell_i7", "cell_barcode", "unknown")),
-        secondary("P7 reverse complement", il.P7_RC, "p7"),
+        predecessor("Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
+        predecessor("i7", "I" * INDEX_NT, "cbc", placeholder=True,
+                    feature=feature("cell_i7", "cell_barcode", "unknown")),
+        predecessor("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scDamID sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS, required_roles=RUN_ROLES)
     if problems:
@@ -89,6 +115,10 @@ def preamp_duplex() -> Scene:
 def _validate() -> None:
     # This is construction logic: the published adaptor can only be exposed if its short
     # strand actually pairs, and the final run must retain both used primer sites.
+    if revcomp(ADRB) != ADRT[-len(ADRB):]:
+        raise ValueError("AdRb is no longer the reverse complement of the AdRt 3' end")
+    if ADR_PCR != ADRT[-(len(ADR_PCR) - len(JUNCTION)):] + JUNCTION:
+        raise ValueError("AdR_PCR no longer spans the AdRt 3' end and the restored GATC")
     damid_adaptor_scene().rows()
     Scene.duplex(dpni_fragment().segments).rows()
     preamp_duplex().rows()
@@ -100,7 +130,10 @@ _validate()
 
 def protocol_graph() -> ProtocolGraph:
     source = "Defining source: https://doi.org/10.1016/j.cell.2015.08.040"
-    secondary_source = source + "; exact oligo sequence reconstructed by upstream scg_lib_structs"
+    secondary_source = (source + "; Figure S1E and Table S2 are behind the PMC download "
+                        "gate, so the drawn bases are the conventional-DamID oligos the "
+                        "paper says it reuses (Vogel et al., Nat Protoc 2007) and canonical "
+                        "Illumina arms, all inferred for this paper")
     graph = ProtocolGraph("scDamID", authority=source)
     genome = graph.input("dam_marked_genome", "Dam-methylated single-cell genomic DNA",
                          MaterialKind.BIOLOGICAL, primary=True)
@@ -134,7 +167,7 @@ def protocol_graph() -> ProtocolGraph:
                  (polymerase, InputRole.CATALYST)), (preamp,),
                 geometry=PCRGeometry.unavailable(
                     preamp_product(), symmetric_species=True,
-                    reason="The exact symmetric primer is secondary-source reconstruction."))
+                    reason="The paper's own primer figure is unavailable; the symmetric primer drawn is the reused conventional-DamID AdR_PCR with the stated NNNN tail."))
     end_repair = graph.input("end_repair_enzymes", "end-repair enzymes",
                              MaterialKind.CATALYST)
     repaired = graph.product("repaired_product", "end-repaired DamID amplicon",
@@ -167,12 +200,12 @@ def protocol_graph() -> ProtocolGraph:
                 ((adapter_ligated, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
-                    final, reason="The completed library is secondary-source reconstruction."))
+                    final, reason="The paper names no library-prep kit or PCR primer, and Table S2 is unavailable."))
     graph.sequence(library, SequencingPlan(
         library=final, primers=SEQ_PRIMERS, acquired_roles=RUN_ROLES,
         read_lengths={"Read 1": 51, "Index 1 (i7)": INDEX_NT},
         read_uses={"Read 1": "include", "Index 1 (i7)": "demultiplex"},
-        limitation="Exact outer library sequence is secondary-source reconstruction because the accessible defining paper omits its oligo table."))
+        limitation="The 51-nt single-end read is stated by the Figure S1E legend; the index width and every adapter base are inferred, because Figure S1E itself and Table S2 are behind the PMC download gate."))
     graph.declare_reviewed_scope((
         "dam_marked_genome", "dpni", "dpni_digest", "damid_adaptor", "ligase",
         "adaptor_ligation", "preamp_primer", "polymerase", "preamp_pcr",

@@ -13,7 +13,7 @@ import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from batch_ngs import seg, truseq_library
-from chemdraw import Construct, Segment, feature
+from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -44,11 +44,25 @@ BLESS_PCR_DISTAL = "CTAGCGTAACTCTCGAGACGACG"
 BLESS_PROXIMAL_READ_TAG = "TCGAGGTAGTA"
 BLESS_DISTAL_READ_TAG = "TCGAGACGACG"
 
-# Lensing et al. Fig. 1 / Supplementary Fig. 1c.
-DSB_P5 = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
-DSB_P7 = "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC"
-DSB_PCR_F = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGA"
-DSB_PCR_R_AD06 = "CAAGCAGAAGACGGCATACGAGATATTGGCGTGACTGGAGTTCAGACGTGT"
+# Lensing et al. publish the DSBCapture oligo set in Fig. 1a and Supplementary Fig. 1c
+# *as raster figure artwork only*: no base of it occurs as text anywhere in the author
+# manuscript, Supplementary Figures or Supplementary Tables, so the transcription cannot
+# be re-checked against extracted source text (``tools/selftest_source_oligos.py`` records
+# that as a declared exception below).  Every drawn base is a canonical Illumina TruSeq
+# part, so the set is assembled here from ``illumina`` and from its own strands rather than
+# retyped — which also means a figure transcription and a reconstruction out of canonical
+# constants are indistinguishable.  See 01_dsbcapture.md "Oligo provenance".
+DSB_P5 = il.TRUSEQ_P5_FULL                 # modified P5 top strand as drawn, 58 nt
+DSB_P7 = il.INDEX1_PRIMER                  # modified P7 top strand as drawn, 33 nt
+# Both duplexes are drawn with one unpaired 3′ T on the strand that T/A-ligates to the
+# dA-tailed genomic end, so each bottom strand follows from its own top strand.
+DSB_P5_BOTTOM = revcomp(DSB_P5)[1:]        # the 3′ T of the P5 top strand stays unpaired
+DSB_P7_BOTTOM = revcomp(DSB_P7) + "T"      # the P7 duplex carries its T on the bottom strand
+DSB_PCR_F = DSB_P5[:44]                    # drawn as the first 44 bases of the P5 adapter
+DSB_AD006 = "GCCAAT"                       # TruSeq sample index AD006, read as the i7 index
+# PCR R is drawn as P7, the index reverse complement, then 21 bases complementary to the
+# modified P7 top strand; the paper prints three such example primers (AD006 is shown).
+DSB_PCR_R_AD06 = il.P7 + revcomp(DSB_AD006) + revcomp(DSB_P7)[:21]
 
 # Cameron et al. SITE-Seq supplementary protocol / Supplementary Table 26.
 # Modifications are kept in the ordering strings returned by ``get``; these constants
@@ -133,9 +147,9 @@ def _dsbcapture_workflow():
                   junctions=(("modified P5", "break-to-random genomic DNA", "native-break ligation"),
                              ("break-to-random genomic DNA", "modified P7", "distal T/A ligation"))),
          "The second adapter is added only to the random sonication end."),
-        ("PCR-add P5, i7 and P7; size-select the library",
-         molecule("DSBCapture sequencing library", (role("P5 and Read 1 site"), role("DNA beginning at the DSB"), role("Read 2 and Index 1 site"), role("six-base sample index"), role("P7"))),
-         "The published PCR primers complete a single-index Illumina library."),
+        ("INFERRED — PCR-add P5, i7 and P7; size-select the library",
+         molecule("DSBCapture sequencing library", (role("P5 and Read 1 site"), role("DNA beginning at the DSB"), role("Read 2 and Index 1 site"), role("six-base sample index", inferred=True), role("P7"))),
+         "The drawn PCR primers complete a single-index Illumina library; the index window's six-base width is measured from Supplementary Fig. 1c artwork and never stated in the text."),
     ))
 
 
@@ -182,8 +196,8 @@ def _digenome_workflow():
         ("End-repair, size-select and add one 3-prime dA to each end",
          da_tailed("dA-tailed Digenome-seq WGS fragment", "unenriched genomic fragment"),
          "Both the Cas9-derived and randomly sheared endpoint classes pass through this end-prepared state."),
-        ("Ligate TruSeq adapters without PCR",
-         molecule("PCR-free Digenome-seq library", (role("TruSeq P5 arm"), role("unenriched genomic fragment"), role("TruSeq indexed P7 arm"))),
+        ("INFERRED — ligate indexed TruSeq adapters to the dA-tailed fragments",
+         molecule("Digenome-seq library", (role("TruSeq P5 arm"), role("unenriched genomic fragment"), role("TruSeq indexed P7 arm"))),
          "PCR-free preparation preserves read-start counts; there is no cut-end affinity capture or locus-specific amplification."),
         ("Paired-end whole-genome sequencing and cleavage-score analysis",
          molecule("aligned digenome reads", (role("forward and reverse 5-prime read-start pileups"), role("genome-wide depth background"))),
@@ -195,7 +209,8 @@ def _digenome_library() -> tuple[Construct, tuple]:
     return truseq_library(
         [seg("unenriched genomic DNA; Cas9 or random-shear boundary at either end",
              "X" * 42, placeholder=True)],
-        "Digenome-seq TruSeq PCR-free WGS library", dual_index=False)
+        "Digenome-seq TruSeq WGS library", dual_index=False, i7_nt=6,
+        inferred_adapters=True)
 
 
 def _site_seq_library() -> tuple[Construct, tuple]:
@@ -220,7 +235,16 @@ def _site_seq_library() -> tuple[Construct, tuple]:
 
 
 def _illumina_break_library(name: str, *, inferred: bool, tagged: bool,
-                            index_length: int = 6) -> tuple[Construct, tuple]:
+                            index_length: int = 6,
+                            index_inferred: bool = False) -> tuple[Construct, tuple]:
+    """`index_inferred` marks only the sample-index window as an inference.
+
+    DSBCapture publishes its adapters and primers but never states an index length, an
+    index read or demultiplexing; the index window is read off figure artwork while the
+    adapter arms around it are drawn bases.  Keeping that as a constructor argument stops
+    a caller from presenting a figure-measured window as a source-stated one.
+    """
+    index_inferred = inferred or index_inferred
     left = Segment("P5 + Read 1 arm", il.TRUSEQ_P5_FULL, "p5", inferred=inferred)
     payload = ([Segment("proximal read tag", BLESS_PROXIMAL_READ_TAG, "cbc",
                         feature=feature("proximal_break_end", "feature_barcode", "fixed")),
@@ -231,7 +255,8 @@ def _illumina_break_library(name: str, *, inferred: bool, tagged: bool,
     lib = Construct([left, *payload, Segment("dA junction", "A", inferred=inferred),
                      Segment("Index 1 + Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred),
                      Segment(f"{index_length}-base i7 reverse complement", "I" * index_length, "cbc", placeholder=True,
-                             feature=feature("sample_index_i7", "sample_index", "unknown"), inferred=inferred),
+                             feature=feature("sample_index_i7", "sample_index", "unknown"),
+                             inferred=index_inferred),
                      Segment("P7 reverse complement", il.P7_RC, "p7", inferred=inferred)], name=name)
     primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
     problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
@@ -240,16 +265,18 @@ def _illumina_break_library(name: str, *, inferred: bool, tagged: bool,
     return lib, primers
 
 
-def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
+def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label,
+                forward_state=None, reverse_state=None, step_label=None):
     forward = graph.input(prefix + "_forward", label + " PCR forward primer",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=forward_state)
     reverse = graph.input(prefix + "_reverse", label + " PCR reverse primer",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=reverse_state)
     polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(prefix + "_library", label + " sequencing library",
                             MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+    graph.react(prefix + "_pcr",
+                step_label or ("Amplify and index the " + label + " library"),
                 StepKind.PCR,
                 ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
@@ -395,7 +422,7 @@ def _dsbcapture_graph(spec):
     graph.react("tail", "Add one 3-prime dA to native break ends", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
     p5 = graph.input("modified_p5", "biotinylated T-overhang modified P5 adapter",
-                     MaterialKind.ADAPTER)
+                     MaterialKind.ADAPTER, state=(DSB_P5, DSB_P5_BOTTOM))
     p5_ligase = graph.input("p5_ligase", "modified-P5 adapter ligase", MaterialKind.CATALYST)
     labelled = graph.product("labelled", "modified-P5-labelled native breaks",
                              MaterialKind.MOLECULAR, state=tailed.state)
@@ -446,7 +473,8 @@ def _dsbcapture_graph(spec):
     graph.react("tail_distal", "Add one 3-prime dA to the distal end", StepKind.TAILING,
                 ((distal_blunt, InputRole.TEMPLATE),
                  (distal_tailing, InputRole.CATALYST)), (distal_tailed,))
-    p7 = graph.input("modified_p7", "T-overhang modified P7 adapter", MaterialKind.ADAPTER)
+    p7 = graph.input("modified_p7", "T-overhang modified P7 adapter", MaterialKind.ADAPTER,
+                     state=(DSB_P7, DSB_P7_BOTTOM))
     p7_ligase = graph.input("p7_ligase", "modified-P7 adapter ligase", MaterialKind.CATALYST)
     dual = graph.product("dual", "modified-P5/P7 break fragments", MaterialKind.MOLECULAR,
                          state=distal_tailed.state)
@@ -464,9 +492,28 @@ def _dsbcapture_graph(spec):
                 "capture", "distal_repair", "repair_distal", "distal_tailing", "tail_distal",
                 "modified_p7", "p7_ligase", "ligate_p7"]
     _finish_pcr(graph, "library", dual, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
-                spec.SEQUENCING_INTRO, reviewed, label="DSBCapture")
+                spec.SEQUENCING_INTRO, reviewed, label="DSBCapture",
+                forward_state=DSB_PCR_F, reverse_state=DSB_PCR_R_AD06,
+                step_label="INFERRED — amplify with PCR F and an AD-indexed PCR R; the"
+                           " sample-index window is measured from Supplementary Fig. 1c"
+                           " artwork, not stated in the text")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
+
+
+# Every DSBCapture oligo is published only as raster figure artwork (Fig. 1a and
+# Supplementary Fig. 1c); the article XML, Supplementary Figures and Supplementary Tables
+# contain no base of it, so a verbatim text comparison is impossible rather than failing.
+_DSB_FIGURE_ONLY = ("Lensing et al. draw this oligo in Fig. 1a / Supplementary Fig. 1c as"
+                    " raster artwork; no base of the DSBCapture oligo set occurs as text in"
+                    " the author manuscript, Supplementary Figures or Supplementary Tables,"
+                    " so there is no extracted source text to compare against.")
+SOURCE_OLIGO_EXCEPTIONS = {
+    "modified_p5": _DSB_FIGURE_ONLY,
+    "modified_p7": _DSB_FIGURE_ONLY,
+    "library_forward": _DSB_FIGURE_ONLY,
+    "library_reverse": _DSB_FIGURE_ONLY + " AD006 is one of three drawn example primers.",
+}
 
 
 def _site_seq_graph(spec):
@@ -649,12 +696,12 @@ def get(key: str):
             NOTES="01_digenome_seq.html",
             SOURCE='<a href="https://doi.org/10.1038/nmeth.3284">Kim et al., Nature Methods (2015)</a>; library architecture follows the specified Illumina TruSeq DNA PCR-free WGS chemistry.',
             SUMMARY="Cas9–sgRNA cleaves purified genomic DNA in vitro, after which the entire unenriched genome receives an ordinary PCR-free whole-genome library preparation. Coincident forward- and reverse-strand read starts reveal cleavage sites.",
-            CAVEAT="Digenome-seq has no cut-site adapter, UMI or enrichment barcode. The library shell is the commercial TruSeq PCR-free chemistry used for WGS; the assay-specific information is the genomic fragment boundary itself.",
+            CAVEAT="Digenome-seq has no cut-site adapter, UMI or enrichment barcode; the assay-specific information is the genomic fragment boundary itself. INFERRED — no source available here gives one adapter base for this library: the defining paper's Methods is paywalled and absent, and its supplement contains no library chemistry. The TruSeq shell, the six-base single index and the index read are inherited from the authors' later Genome Research report and Illumina documentation, so the whole adapter shell is drawn as inferred.",
             oligos=lambda: (), workflow=_digenome_workflow,
             FINAL_LIBRARY=lib,
             FINAL_CAPTION="One ordinary TruSeq PCR-free WGS molecule. Its genomic insert may carry a Cas9-created boundary or only random shearing boundaries; the molecule itself has no label distinguishing them.",
             SEQ_PRIMERS=primers,
-            READ_LENGTHS={"Read 1": 150, "Index 1 (i7)": 8, "Read 2": 150},
+            READ_LENGTHS={"Read 1": 150, "Index 1 (i7)": 6, "Read 2": 150},
             SEQUENCING_INTRO="The defining study used Illumina HiSeq X Ten whole-genome sequencing. Digenome analysis depends on paired genomic alignments and the concentration of identical 5′ endpoints, not an inline molecular identifier.",
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
     if key == "site-seq":
@@ -682,22 +729,30 @@ def get(key: str):
             SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
 
     if key == "dsbcapture":
-        lib, primers = _illumina_break_library("DSBCapture library", inferred=False, tagged=False)
+        lib, primers = _illumina_break_library("DSBCapture library", inferred=False,
+                                               tagged=False, index_inferred=True)
         return _spec(key,
             TITLE="DSBCapture — direct in-situ sequencing of DNA breaks", NOTES="01_dsbcapture.html",
-            SOURCE='Lensing et al., Nature Methods (2016); <a href="https://doi.org/10.1038/nmeth.3960">doi:10.1038/nmeth.3960</a>.',
-            SUMMARY="A biotinylated modified P5 adapter is ligated to repaired breaks inside fixed nuclei; after sonication and capture, modified P7 is installed only at the random distal end, so Read 1 begins at the DSB.", CAVEAT="",
+            SOURCE='Lensing et al., Nature Methods (2016); <a href="https://doi.org/10.1038/nmeth.3960">doi:10.1038/nmeth.3960</a>. The oligo set below is published only as figure artwork (Fig. 1a, Supplementary Fig. 1c).',
+            SUMMARY="A biotinylated modified P5 adapter is ligated to repaired breaks inside fixed nuclei; after sonication and capture, modified P7 is installed only at the random distal end, so Read 1 begins at the DSB.",
+            CAVEAT="<b>Oligo provenance.</b> Lensing et al. print the modified P5, modified P7 and control modified P5 duplexes and the PCR primers only as raster artwork in Fig. 1a and Supplementary Fig. 1c: no base of them occurs as text in the author manuscript, Supplementary Figures or Supplementary Tables, so the bases shown here cannot be re-checked against extracted source text. Every drawn base is a canonical Illumina TruSeq part, so this page derives the set from the shared <code>illumina</code> constants and from each duplex's own top strand; a figure transcription and a reconstruction out of those constants are therefore indistinguishable. The sample-index window is measured from the same artwork — the paper never states an index length, an index read or demultiplexing — and is shaded as inferred.",
             oligos=lambda: (
-                "modified P5 top — 5′-/5Biosg/A*ATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′",
-                "modified P5 bottom — 5′-/5Phos/GATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT-3′",
-                "modified P7 top — 5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCAC-3′",
-                "modified P7 bottom — 5′-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC*T-3′",
+                f"modified P5 top — 5′-/5Biosg/{DSB_P5[0]}*{DSB_P5[1:-1]}*{DSB_P5[-1]}-3′",
+                f"modified P5 bottom — 5′-/5Phos/{DSB_P5_BOTTOM}-3′",
+                f"modified P7 top — 5′-/5Phos/{DSB_P7}-3′",
+                f"modified P7 bottom — 5′-{DSB_P7_BOTTOM[:-1]}*{DSB_P7_BOTTOM[-1]}-3′",
                 f"PCR F — 5′-{DSB_PCR_F}-3′",
-                f"PCR R (AD06 example) — 5′-{DSB_PCR_R_AD06}-3′"),
+                f"PCR R (AD006 example, one of three drawn) — 5′-{DSB_PCR_R_AD06}-3′",
+                "control modified P5 — Supplementary Fig. 1c also publishes a non-biotinylated"
+                " control modified P5 adapter, the negative control of Supplementary Fig. 1e"
+                " (lane C). Its bases are not transcribed here: the artwork is the only source,"
+                " and whether it differs from the modified P5 above by nothing but the omitted"
+                " 5′ biotin is not stated anywhere in the text."),
             workflow=_dsbcapture_workflow, FINAL_LIBRARY=lib,
-            FINAL_CAPTION="Published modified-P5/modified-P7 library; the proximal orientation is shown. Read 1 starts at the repaired native break.",
+            FINAL_CAPTION="Published modified-P5/modified-P7 library; the proximal orientation is shown. Read 1 starts at the repaired native break. The shaded sample-index window is the figure-measured inference described above.",
             SEQ_PRIMERS=primers, READ_LENGTHS={"Read 1": 75, "Index 1 (i7)": 6, "Read 2": 75},
-            SEQUENCING_INTRO="The paper used 2×75-bp NextSeq runs (and 2×50-bp MiSeq for the EcoRV pilot); downstream break calling retains the proximal Read 1.", SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
+            READ_USES={"Index 1 (i7)": "undetermined"},
+            SEQUENCING_INTRO="The paper used 2×75-bp NextSeq runs (and 2×50-bp MiSeq for the EcoRV pilot); downstream break calling retains the proximal Read 1. The indexed PCR R implies an index read, but the paper never describes one, so the Index 1 length is taken from the figure's index window and its handling is left undetermined.", SEQUENCING_ENDING="", SEQUENCING_UNAVAILABLE="")
 
     is_i = key == "i-bless"
     lib, primers = _illumina_break_library(f"{DESIGNS[key].name} library", inferred=True,
