@@ -9,6 +9,10 @@ doi:[10.1101/2024.03.28.587082](https://doi.org/10.1101/2024.03.28.587082)
 
 ---
 
+## Assay target
+
+The sequenced material is an integrated sgRNA cassette in host cells, read out as screen abundance. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (molecular inversion probe arms and amplification primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## 1. What it replaces, and why
 
 🟢 A pooled screen's readout is normally a PCR off genomic DNA, counted as reads. That

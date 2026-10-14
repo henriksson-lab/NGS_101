@@ -5,6 +5,26 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-14 — Local source text guards exact graph oligo inputs
+
+**Decision.** `tools/selftest_source_oligos.py` checks exact, non-inferred oligo and
+adapter input sequences already declared in a protocol's `ProtocolGraph` against
+locally extracted source text. It runs across the catalogue by default and skips a
+protocol when the defining source text is absent. A protocol module can declare
+`SOURCE_OLIGO_EXCEPTIONS = {"material_id": "reason"}` for a known case where
+verbatim comparison is inappropriate; stale and reasonless entries fail. The
+test is separate from the normal offline site build because downloaded source
+documents are never committed.
+
+**Why.** A model constant and a hard-coded test expectation can share the same
+transcription mistake. Matching the model against a separately extracted source
+document catches that error. The check requires every fixed base to agree, while
+allowing a model N position to match a concrete source base. It covers only whole
+input oligos with exact sequence states; unmodelled inputs, placeholders, source
+modifications, and reaction order still require source review. A hit in extracted
+text is a pointer to evidence, not proof that the intended source or oligo role
+was interpreted correctly.
+
 ## 2026-10-14 — Every protocol receives an oligo source review
 
 **Decision.** `catalogue/protocol_oligo_audit.tsv` tracks an explicit source-level

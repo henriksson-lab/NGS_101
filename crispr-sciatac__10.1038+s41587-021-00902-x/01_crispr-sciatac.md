@@ -1,5 +1,9 @@
 # CRISPR-sciATAC — research notes
 
+## Assay target
+
+The sequenced material is human chromatin accessibility together with each cell's integrated perturbation guide cassette. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (barcoded TnY transposome ends, barcode plates and guide reverse-transcription and amplification primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 Liscovitch-Brauer et al. 2021, DOI `10.1038/s41587-021-00902-x`, preprint/full methods and supplements mirrored by the source fetcher.

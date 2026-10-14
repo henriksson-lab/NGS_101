@@ -2,6 +2,10 @@
 
 Kim et al., *Nature Methods* (2015), [doi:10.1038/nmeth.3284](https://doi.org/10.1038/nmeth.3284).
 
+## Assay target
+
+The sequenced material is purified human genomic DNA cleaved in vitro by Cas9, sequenced as an ordinary whole genome. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (a stock TruSeq whole-genome library kit, with no cut-end-specific oligo). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 The defining article abstract and integrated supplementary text/figures, including the 5′-end plots and Supplementary Notes.

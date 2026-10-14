@@ -2,6 +2,10 @@
 
 Yin et al., *Cell Discovery* (2019), [doi:10.1038/s41421-019-0088-8](https://doi.org/10.1038/s41421-019-0088-8).
 
+## Assay target
+
+The sequenced material is human genomic DNA around a bait double-strand break, quantifying repair outcomes. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (a locus bait primer, a random-barcode bridge duplex and Illumina tagging primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 The defining open-access article and Supplementary Methods.

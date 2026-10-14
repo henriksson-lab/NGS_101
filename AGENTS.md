@@ -22,6 +22,7 @@ for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
 python3 small-seq__10.1038+nbt.3701/tools/selftest.py   # a single protocol's suite
 python3 tools/selftest.py          # Markdown renderer, computed facts, docs build
 python3 tools/selftest_sources.py  # source fetcher: DOI routing, download validation, fetchers (offline)
+python3 tools/selftest_source_oligos.py [protocol-dir ...]  # local source-text transcription guard
 python3 tools/lint_pairing.py [page.html ...]   # drawn duplex columns must base-pair
 
 # build

@@ -409,7 +409,7 @@ def _change_graph(spec):
                  (circle_ligase, InputRole.CATALYST)), (circles,),
                 geometry=CircularizationGeometry.known(
                     "double-strand intramolecular ligation",
-                    statement="CIRCLE-seq dilute-ligates phosphorylated genomic fragments into covalently closed circles."))
+                    statement="CHANGE-seq dilute-ligates the USER-opened ACGT cohesive ends of tagmented genomic fragments into covalently closed circles."))
     exonuclease = graph.input("exonuclease", "linear-DNA exonuclease mixture",
                               MaterialKind.CATALYST)
     purified = graph.product("purified_circles", "exonuclease-purified genomic circles",

@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
+import illumina as il
 from batch_ngs import joined_scene,seg,truseq_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct,MolecularState,Row,Scene,Segment,Workflow,circle_rows
@@ -27,6 +28,23 @@ def stem_loop_geometry():
  sc.overhang("oSQT1288","stem-loop 3′ dT",polarity="3-prime",owner="adapter",text="adapter 3′-T")
  return AdapterLigationGeometry.known("cohesive",sc,statement="The supplementary oSQT1288 sequence ends in 3′-T, complementary to the explicitly dA-tailed genomic substrate.")
 
+def library_hairpin_oligo():
+ """The published post-cleavage adaptor, derived from the canonical lib constant.
+
+ The supplementary protocol prints it as NEBNext Adaptor for Illumina #E7601A. Its
+ own transcription drops one C from the loop (see SOURCE_OLIGO_EXCEPTIONS)."""
+ h=il.NEBNEXT_HAIRPIN_MODEL;p=il.NEBNEXT_HAIRPIN_DU_POS;n=h.stem_len
+ end=len(h.sequence)-h.overhang_3_len
+ return Construct([seg("5-prime stem",h.sequence[:n],"r2"),seg("Read-2-side loop",h.sequence[n:p],"r2"),seg("dU",h.sequence[p:p+1],"w1"),seg("Read-1-side loop",h.sequence[p+1:end-n],"r1"),seg("3-prime stem",h.sequence[end-n:end],"r1"),seg("3-prime dT",h.overhang_3,None)],name="NEBNext Adaptor for Illumina (E7601A)")
+
+def library_adapter_geometry():
+ h=il.NEBNEXT_HAIRPIN_MODEL
+ sc=Scene();sc.strand("dA-tailed Cas9-cleaved end",[seg("Cas9-cleaved circle","X"*28,placeholder=True),seg("DNA 3′ dA","A")],label="dA-tailed Cas9-created end")
+ sc.overhang("dA-tailed Cas9-cleaved end","DNA 3′ dA",polarity="3-prime",owner="substrate",text="substrate 3′-A")
+ sc.strand("NEBNext adaptor",[seg("USER hairpin body",h.sequence[:len(h.sequence)-h.overhang_3_len],"r1"),seg("adaptor 3′ dT",h.overhang_3,"r1")],label="5′-phosphorylated NEBNext adaptor")
+ sc.overhang("NEBNext adaptor","adaptor 3′ dT",polarity="3-prime",owner="adapter",text="adapter 3′-T")
+ return AdapterLigationGeometry.known("cohesive",sc,statement="The supplementary protocol dA-tails the Cas9-created ends and names the NEBNext Adaptor for Illumina, whose published oligo ends in a 3′-T overhang.")
+
 def sections(): return [
  ("Shear genomic DNA, repair and add 3-prime dA ends",Scene.duplex([seg("3-prime dA","A"),seg("genomic fragment","X"*40,placeholder=True),seg("3-prime dA","A")],label="dA-tailed genomic fragment").rows(),"The cohesive ends are shown before stem-loop ligation."),
  ("Ligate the USER stem-loop",joined_scene([seg("genomic fragment","X"*40,placeholder=True),seg("oSQT1288 USER stem-loop",STEM_LOOP,"r1",placeholder=True)],(("genomic fragment","oSQT1288 USER stem-loop","adapter ligation"),),label="stem-loop-ligated genomic fragment",duplex=False).rows(),"The exact oSQT1288 oligo carries a 5-prime phosphate, one deoxyuridine and a terminal phosphorothioate bond."),
@@ -41,7 +59,7 @@ def workflow():
  s=sections();w=Workflow(MolecularState(s[0][0],tuple(s[0][1])))
  w.ligate_adapter(s[1][0],stem_loop_geometry(),s[1][1],note=s[1][2])
  for action,rows,note in s[2:6]:w.react(action,rows,note=note)
- final_geometry=AdapterLigationGeometry.unavailable("CIRCLE-seq describes USER hairpin adapter conversion after Cas9 cleavage, but the cut-facing adapter strands have not yet been verified from the supplementary source; their overhang bases are not asserted.")
+ final_geometry=library_adapter_geometry()
  w.ligate_adapter(s[6][0],final_geometry,s[6][1],note=s[6][2]);return w
 
 def protocol_graph():
@@ -79,13 +97,21 @@ def protocol_graph():
  datp2=g.input("post_cut_datp","post-cleavage dATP",MaterialKind.MOLECULAR)
  cut_tailed=g.product("cut_da_tailed","dA-tailed Cas9-cleaved circles",MaterialKind.MOLECULAR,state=sections()[5][1])
  g.react("tail_cut","Add 3′ dA to Cas9-created ends",StepKind.TAILING,((cut,InputRole.TEMPLATE),(datp2,InputRole.STRUCTURAL),(tail2,InputRole.CATALYST)),(cut_tailed,))
- adapters=g.input("library_adapters","USER hairpin sequencing adapters",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (cut-facing strands not verified)")
+ adapters=g.input("library_adapters","NEBNext Adaptor for Illumina (E7601A)",MaterialKind.ADAPTER,state=library_hairpin_oligo())
  lib_ligase=g.input("library_ligase","library-adapter DNA ligase",MaterialKind.CATALYST)
- ligated=g.product("adapter_ligated","adapter-ligated cleavage products",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (adapter geometry unavailable)")
- g.react("ligate_library","Ligate USER hairpin sequencing adapters",StepKind.LIGATION,((cut_tailed,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),(lib_ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("The cut-facing USER hairpin adapter strands have not been verified from the supplementary source."))
+ ligated=g.product("adapter_ligated","adapter-ligated cleavage products",MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
+ g.react("ligate_library","Ligate USER hairpin sequencing adapters",StepKind.LIGATION,((cut_tailed,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),(lib_ligase,InputRole.CATALYST)),(ligated,),geometry=library_adapter_geometry())
  f=g.input("pcr_forward","library PCR forward primer",MaterialKind.OLIGO);r=g.input("pcr_reverse","library PCR reverse primer",MaterialKind.OLIGO);pol=g.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
  library=g.product("sequencing_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
- g.react("library_pcr","Open and PCR-amplify the paired-end library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The verified model does not yet contain the cut-facing USER hairpin primer geometry."))
+ g.react("library_pcr","Open and PCR-amplify the paired-end library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The supplementary protocol names the NEBNext Multiplex Oligos dual-index kit by catalogue number and does not print its i5/i7 primer bases."))
  g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
  reviewed=("genomic_dna","shearing","shear","repair_mix","end_repair","tailing_polymerase","datp","da_tail","stem_loop","stem_ligase","ligate_stem","user_enzyme","open_stem","circle_ligase","circularize","exonuclease","digest_linear","guide_rna","cas9","cas9_cut","post_cut_tailing","post_cut_datp","tail_cut","library_adapters","library_ligase","ligate_library","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","sequencing_library")
  g.declare_reviewed_scope(reviewed,SOURCE);return g.require_publishable()
+
+# Source erratum, not a silence: the supplementary protocol does print this adaptor, as
+# "NEBNext Adaptor for Illumina (#E7601A)", but its transcription is 64 nt where the real
+# oligo is 65 -- "ACACTCTTTCC[C]TACACGACG" loses one C at position 43. lib/illumina.py
+# keeps the correct NEB E7780-manual form, so a verbatim match against this paper fails
+# for the right sequence. The dropped base is in the loop, not the 12-nt stem, so Scene
+# pairing cannot catch it either.
+SOURCE_OLIGO_EXCEPTIONS={"library_adapters":"Source erratum: the defining supplementary protocol prints NEBNext #E7601A one base short (64 nt, missing the third C of ACACTCTTTCCC at position 43); the correct 65-nt form is transcribed in lib/illumina.py from the NEB E7780 manual."}

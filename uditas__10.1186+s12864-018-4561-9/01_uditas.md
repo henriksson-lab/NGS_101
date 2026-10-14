@@ -2,6 +2,10 @@
 
 Giannoukos et al., *BMC Genomics* (2018), [doi:10.1186/s12864-018-4561-9](https://doi.org/10.1186/s12864-018-4561-9), PMCID: PMC5861650.
 
+## Assay target
+
+The sequenced material is targeted human genomic loci, quantifying editing outcomes including structural rearrangements. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (UMI-bearing asymmetric tagmentation ends and target-anchored PCR primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 Full open-access article and Methods.

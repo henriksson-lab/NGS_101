@@ -3,6 +3,10 @@
 Lazzarotto et al., *Nature Biotechnology* (2020),
 [doi:10.1038/s41587-020-0555-7](https://doi.org/10.1038/s41587-020-0555-7).
 
+## Assay target
+
+The sequenced material is circularized human genomic DNA linearized in vitro at Cas9 cleavage sites. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (uracil-bearing custom Tn5 ends and library primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 The defining article and its detailed Supplementary Protocol, including the reagent

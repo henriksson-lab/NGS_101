@@ -3,6 +3,10 @@
 Wienert et al., *Science* (2019),
 [doi:10.1126/science.aav9023](https://doi.org/10.1126/science.aav9023).
 
+## Assay target
+
+The sequenced material is human chromatin fragments enriched by MRE11 occupancy at nuclease-induced double-strand breaks. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (a stock ChIP-seq library kit). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 The defining Science author manuscript and associated description of MRE11-bound

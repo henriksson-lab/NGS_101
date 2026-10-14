@@ -135,6 +135,8 @@ python3 tools/scrape_primers.py DIR             # or files; --tsv, --known-only,
 python3 tools/scrape_primers.py DIR --find AGATGTGTATAAGAGACAG  # where does an oligo occur
 # rebuild/check the source-review ledger for pages that still report unresolved oligos
 python3 tools/audit_missing_oligos.py --write
+python3 tools/selftest_source_oligos.py        # local text twins: exact graph oligo inputs
+python3 tools/selftest_source_oligos.py <dir>  # one protocol; absent defining text SKIPs
 
 # the catalogue of what exists (network; cached, so re-running is cheap)
 python3 catalogue/tools/fetch_scg_lib_structs.py

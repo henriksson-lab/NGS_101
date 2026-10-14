@@ -27,6 +27,8 @@ import doctext  # noqa: E402
 import fetchers  # noqa: E402
 import get_sources as gs  # noqa: E402
 from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
+from source_oligo_check import _exact_hit, check_graph, unrepresented_inputs  # noqa: E402
+from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
 
 check = Check()
 
@@ -310,5 +312,29 @@ _lines = [ln for ln in doctext.jats_text(JATS).splitlines() if ln.strip()]
 check("titles and paragraphs on their own lines; inline markup does not split a sequence",
       _lines, ["A method", "Li Yun", "Methods", "RT primer AAGCAGTGGTATCAACGCAGAGT & 37 °C.", "P5\tAATGATACGG"])
 check(".xml is converted", ".xml" in doctext.CONVERT, True)
+
+check.section("source oligo transcription")
+check("source match accepts a printed exact oligo",
+      _exact_hit("primer 5′-ACGTACGTACGTACGT-3′", "ACGTACGTACGTACGT"), True)
+check("source match rejects a one-base copy error",
+      _exact_hit("primer 5′-ACGTACGTACGTACGA-3′", "ACGTACGTACGTACGT"), False)
+with tempfile.TemporaryDirectory() as tmp:
+    folder = Path(tmp)
+    (folder / "paper.pdf.txt").write_text("primer 5′-ACGTACGTACGTACGT-3′")
+    graph = ProtocolGraph("example")
+    graph.input("primer", "PCR primer", MaterialKind.OLIGO,
+                state="ACGTACGTACGTACGT")
+    check("declared graph oligo is checked against local text",
+          check_graph(graph, folder), ([], [], 1))
+    (folder / "paper.pdf.txt").write_text("primer 5′-ACGTACGTACGTACGA-3′")
+    failures, skips, count = check_graph(graph, folder)
+    check("copy error fails the source check", (len(failures), skips, count), (1, [], 1))
+    check("reasoned material exception opts out", check_graph(graph, folder, {"primer": "source image"}),
+          ([], [], 0))
+    check("stale exception fails", len(check_graph(graph, folder, {"other": "old"})[0]), 2)
+    check("missing text skips", check_graph(graph, folder / "absent"),
+          ([], [f"example: no extracted source text in {folder / 'absent'}"], 0))
+    graph.input("unnamed_sequence", "an unsequenced oligo", MaterialKind.OLIGO)
+    check("unrepresented graph input is reported", unrepresented_inputs(graph), 1)
 
 check.report()

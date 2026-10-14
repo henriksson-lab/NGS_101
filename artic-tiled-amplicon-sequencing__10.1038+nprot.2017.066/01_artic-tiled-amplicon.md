@@ -1,5 +1,9 @@
 # ARTIC / PrimalSeq tiled-amplicon sequencing
 
+## Assay target
+
+Unlike the other break-mapping and screen-readout protocols documented here, this one does sequence a viral genome: tiled amplicons across a clinical Zika or chikungunya sample. It is a diagnostic and genomic-surveillance method, and its primer schemes are published in full by the authors and maintained openly by the ARTIC Network for that purpose. What this page documents is the library chemistry downstream of the two primer pools; the per-amplicon primer coordinates are a replaceable published scheme file, not anything derived here.
+
 ## 1. Protocol boundary
 
 This is the two-pool viral tiling protocol defined by Quick et al. in 2017, before later
@@ -24,8 +28,10 @@ was also checked: Tables 1 and 2 print the full ZikaAsian and ChikAsiaECSA
 pool 1 and pool 2, so neighboring overlapping primers never share a reaction; otherwise a short
 overlap product can outcompete the intended products.
 
-🟢 Each primer is used at 0.015 µM. PCR uses 98 °C denaturation and a five-minute 65 °C combined
-annealing/extension step. Each pool is bead-cleaned separately. For the paper's approximately
+🟢 Each primer is used at 0.015 µM, the value in the reaction table; the step-6 prose in the same
+paper says 0.02 µM per primer, and the paper does not reconcile the two. PCR uses 98 °C
+denaturation and a five-minute 65 °C combined annealing/extension step (the primer-design section
+describes the two-step protocol as 95 °C, again differing from the cycling table). Each pool is bead-cleaned separately. For the paper's approximately
 400-base design, paired 250-base MiSeq reads can cover each product; MinION accepts much longer
 amplicons.
 

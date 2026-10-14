@@ -9,6 +9,10 @@ doi:[10.15252/msb.20177834](https://doi.org/10.15252/msb.20177834) · PMC5658704
 
 ---
 
+## Assay target
+
+The sequenced material is an integrated guide cassette carrying a random sequence label, read out as screen abundance. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (library construction oligos and nested genomic recovery primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## 1. ⚠ Two different things are called "CRISPR-UMI"
 
 | | **Schmierer (this page)** | **CRISPR-MIP** ([`../crispr-mip__10.1101+2024.03.28.587082/`](../crispr-mip__10.1101+2024.03.28.587082/01_crispr-mip.md)) |
@@ -73,7 +77,7 @@ pairing in the lower stem — the same motivation as the F+E scaffold, by a smal
 ## 4. The library insert 🟢
 
 ```
-ggctttatatatcttgtggaaaggacgaaacaccg [20-nt spacer] gtttaagagctagaaatagcaagtttaaa…ttttttt
+ggctttatatatcttgtggaaaggacgaaacaccg [20-nt spacer] gtttaagagctagaaatagcaagtttaaa…tttttt
 GATCGGAAGAGCACACGTCTGAACTCCAGTCAC nnnnnn aagcttggcgtaactagatcttgagacaaa
 ```
 
@@ -81,7 +85,7 @@ GATCGGAAGAGCACACGTCTGAACTCCAGTCAC nnnnnn aagcttggcgtaactagatcttgagacaaa
 |---|---|
 | `ggctttatat…acgaaacaccg` | U6 3' end through the Pol III **+1 G** — the Gibson overlap |
 | `[20-nt spacer]` | the guide, from the array |
-| `gtttaagagct…ttttttt` | **AU-flip scaffold** + terminator |
+| `gtttaagagct…tttttt` | **AU-flip scaffold** + terminator |
 | `GATCGGAAGAGCACACGTCTGAACTCCAGTCAC` | 🟢 the **Illumina Read-2 / Index-1 adapter, built into the construct** |
 | `nnnnnn` | the **6-bp RSL** |
 | `aagcttggcg…gagacaaa` | lentiGuide-Puro sequence past the HindIII site |

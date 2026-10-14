@@ -2,6 +2,10 @@
 
 Cameron et al., *Nature Methods* (2017), [doi:10.1038/nmeth.4284](https://doi.org/10.1038/nmeth.4284).
 
+## Assay target
+
+The sequenced material is purified human genomic DNA captured at in-vitro Cas9 cleavage sites. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (a biotinylated end-capture adapter and library primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 The published SITE-Seq Supplementary Protocol (March 2017), including its oligonucleotide table and reaction instructions.

@@ -1,5 +1,9 @@
 # GUIDE-seq — research notes
 
+## Assay target
+
+The sequenced material is human genomic DNA flanking nuclease-induced double-strand breaks in living cells. This protocol does not target, amplify or reconstruct a pathogen genome: every oligo it uses is a host-genome or library oligo (a non-coding 34-bp tag duplex, a single-tail adapter and nested Illumina primers). The note is here so that the protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen work.
+
 ## Sources read
 
 - 🟢 Tsai et al. 2015, DOI [10.1038/nbt.3117](https://doi.org/10.1038/nbt.3117), PMC4320685, main text, Online Methods and supplement.
