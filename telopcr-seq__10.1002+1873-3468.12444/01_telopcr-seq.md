@@ -6,7 +6,8 @@ TeloPCR-seq attaches an anchor to native *S. pombe* chromosome termini, amplifie
 
 ## 2. Sources read
 
-- 🟢 Bennett et al. (2016), [doi:10.1002/1873-3468.12444](https://doi.org/10.1002/1873-3468.12444), PMC5561429 full text, `_data/sources/doi_10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt` line 48, Materials and Methods. The article itself prints the anchor, its terminal modifications, and both subtelomeric primers.
+- 🟢 Bennett et al. (2016), [doi:10.1002/1873-3468.12444](https://doi.org/10.1002/1873-3468.12444), PMC5561429 full text, `_data/sources/telopcr-seq__10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt` line 48, Materials and Methods. The article itself prints the anchor, its terminal modifications, both subtelomeric primers and the anchor PCR primer.
+- 🟢 The same four oligos in the authors' bioRxiv preprint, [doi:10.1101/047837](https://doi.org/10.1101/047837), `_data/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf.txt` lines 205 and 213–214 — an independently extracted second copy of the Methods paragraph.
 - 🟡 Makarova et al. (2025), [doi:10.3389/fmolb.2025.1725112](https://doi.org/10.3389/fmolb.2025.1725112), method overview.
 
 ## 3. Construct and reaction order
@@ -24,7 +25,7 @@ The defining article gives these ordered oligos 🟢 (5′→3′):
 | Subtelomeric primer 2 | `5′-GGGAATTTAGGAAGTGCGGTAAGTTG-3′` |
 | Anchor PCR primer | `5′-CGACGCGGCCGCTTATTAACCCT-3′` |
 
-The anchor PCR primer is the reverse complement of the unmodified anchor bases 🟡 (computed). `[Phos]` is the ligating 5′ phosphate; `[AmC3]` blocks the anchor 3′ end. The model shows primer 1 as one representative subtelomeric boundary. The PacBio hairpin oligos and sequencing-primer site remain undisclosed 🔴; a modern SMRTbell kit sequence cannot establish which historical kit revision was used.
+The Methods call the anchor PCR primer "the reverse complement of the anchor sequence" and print it; the model therefore derives it as `revcomp(ANCHOR)` rather than retyping it, and the printed string is what that computation yields 🟢. `[Phos]` is the ligating 5′ phosphate; `[AmC3]` blocks the anchor 3′ end. The model shows primer 1 as one representative subtelomeric boundary. The PacBio hairpin oligos and sequencing-primer site remain undisclosed 🔴; a modern SMRTbell kit sequence cannot establish which historical kit revision was used.
 
 ## 4. Final library and sequencing
 

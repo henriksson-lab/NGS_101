@@ -23,7 +23,9 @@ ATAC_PREAMP_REVERSE=nx.READ2_PRIMER
 
 def oligos(): return [
     "<b>Modified oligo-dT primer</b> — 5′-"+ss2.OLIGO_DT+"-3′",
-    "<b>Template-switching oligo</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3′",
+    # The defining paper's Methods print this oligo in full, ACAT linker included, so the
+    # shared SMART-seq2 model supplies the bases rather than a second transcription.
+    "<b>Template-switching oligo</b> — 5′-"+ss2.TSO+"-3′",
     "<b>cDNA PCR primer</b> — 5′-"+ss2.ISPCR+"-3′",
     "<b>transposase adapter 1 / ATAC preamp forward</b> — 5′-"+ATAC_PREAMP_FORWARD+"-3′",
     "<b>transposase adapter 2 / ATAC preamp reverse</b> — 5′-"+ATAC_PREAMP_REVERSE+"-3′",

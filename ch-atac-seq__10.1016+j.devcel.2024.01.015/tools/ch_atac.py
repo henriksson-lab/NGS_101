@@ -5,7 +5,7 @@ import nextera as nx
 import rt
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
@@ -22,11 +22,16 @@ I7_OLIGO_INDEX = "TAGGTCCGAT"   # representative MGI_P7_index_1
 
 
 def indexed_tn5_transfer() -> list[Segment]:
-    # Supplementary Table 1 writes every transfer oligo as A*AGCAG..., where
-    # the leading A* is a terminal phosphorothioate cap. Segment stores bases;
-    # the bond modification is recorded verbatim in the source note.
-    return [seg("5′ phosphorothioate-capped A", "A", "tso"),
-            seg("SMART handle", rt.SMART_HANDLE, "tso"),
+    """Tn5_barcode_primer_1 as Supplementary Table 1 prints it: 52 bases.
+
+    The table writes it `A*AGCAGTGGTATCAACGCAGAGT...` with the Modification column
+    reading `*:Phosphorthioate`. The `*` marks the phosphorothioate **bond** between
+    the first and second base, in the same notation the table uses elsewhere; the
+    base string therefore begins `AAGCAGTGG...` and is exactly `rt.SMART_HANDLE`.
+    (Confirmed inside the same table: `Barcoded_HY_oligo_*` opens with
+    `ACTCTGCGTTGATACCACTGCTT`, the 23-nt reverse complement of that handle.)
+    """
+    return [seg("SMART handle", rt.SMART_HANDLE, "tso"),
             seg("Tn5 barcode", TN5_BARCODE, "cbc"),
             seg("mosaic end", nx.ME, "me")]
 
@@ -48,13 +53,31 @@ def barcoded_hy() -> list[Segment]:
 SEQ_PRIMERS = (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["R2"])
 
 
+def hy_tn5_junction() -> str:
+    """The HY/Tn5 junction, computed as the unique overlap of the two printed oligos.
+
+    `revcomp(Barcoded_HY_oligo)` reads `s5 · ME · HY-barcode' · SMART handle` and the
+    indexed Tn5 transfer strand reads `SMART handle · Tn5 barcode · ME`. Their maximal
+    overlap is the shared handle, so the order of the P5-side segments in the filled-in
+    library follows from the oligo table alone and is not an inference. Raises if the
+    overlap ever stops being unique or stops being the handle.
+    """
+    hy_top = revcomp("".join(s.top for s in barcoded_hy()))
+    transfer = "".join(s.top for s in indexed_tn5_transfer())
+    overlaps = [n for n in range(1, min(len(hy_top), len(transfer)) + 1)
+                if hy_top[-n:] == transfer[:n]]
+    if overlaps != [len(rt.SMART_HANDLE)]:
+        raise ValueError("CH-ATAC HY/Tn5 oligos no longer share exactly one overlap")
+    return rt.SMART_HANDLE
+
+
 def final_library(insert_nt: int = 32) -> Construct:
     lib = Construct([
         seg("MGI P5", MGI_P5, "p5"), seg("s5", nx.S5, "s5"),
         seg("mosaic end", nx.ME, "me"),
         seg("HY barcode, read orientation", revcomp(HY_BARCODE), "cbc",
             feature=feature("cell_hy", "cell_barcode", "combinatorial", group="cell_id", part="HY")),
-        seg("SMART handle at uncertain HY junction", rt.SMART_HANDLE, "tso", inferred=True),
+        seg("SMART handle shared by the HY and Tn5 oligos", hy_tn5_junction(), "tso"),
         seg("Tn5 barcode", TN5_BARCODE, "cbc",
             feature=feature("cell_tn5", "cell_barcode", "combinatorial", group="cell_id", part="Tn5")),
         seg("mosaic end after barcodes", nx.ME, "me"),
@@ -142,8 +165,13 @@ def protocol_graph() -> ProtocolGraph:
     pcr_b=graph.product("pcr_well_b","representative final-index PCR well B input",MaterialKind.MOLECULAR)
     graph.react("pcr_split","Divide dual-indexed material across final indexed-PCR wells",
                 StepKind.SPLIT,((pool2,InputRole.TEMPLATE),),(pcr_a,pcr_b))
-    p5=graph.input("mgi_p5_primer","MGI P5-side PCR primer",MaterialKind.OLIGO)
-    p7=graph.input("indexed_mgi_p7_primer","indexed MGI P7-side PCR primer",MaterialKind.OLIGO)
+    # Supplementary Table 1, "PCR P5 primer" (5'-phosphorylated) and MGI_P7_index_1.
+    p5=graph.input("mgi_p5_primer","MGI P5-side PCR primer",MaterialKind.OLIGO,
+                   state=(seg("MGI P5",MGI_P5,"p5"),seg("s5",nx.S5,"s5")))
+    p7=graph.input("indexed_mgi_p7_primer","indexed MGI P7-side PCR primer",
+                   MaterialKind.OLIGO,
+                   state=(seg("MGI P7",MGI_P7,"p7"),seg("i7",I7_OLIGO_INDEX,"cbc"),
+                          seg("s7",nx.S7,"s7")))
     final=final_library()
     for suffix,template in (("a",pcr_a),("b",pcr_b)):
         library=graph.product("library_"+suffix,final.name+" sublibrary "+suffix.upper(),
@@ -152,14 +180,25 @@ def protocol_graph() -> ProtocolGraph:
                     StepKind.PCR,
                     ((template,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                      (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
-                    geometry=PCRGeometry.unavailable(final,
-                        reason="The exact HY/Tn5 inner construct is known; PCR completes the published MGI outer arms."))
+                    geometry=PCRGeometry.exact(final,
+                        PCRPrimer("MGI P5 primer",MGI_P5+nx.S5,anneal_nt=len(nx.S5)),
+                        PCRPrimer("indexed MGI P7 primer",MGI_P7+I7_OLIGO_INDEX+nx.S7,
+                                  anneal_nt=len(nx.S7)),
+                        statement="Supplementary Table 1 prints the PCR P5 primer and the 96 MGI_P7 indexed primers; each lands on its Nextera arm with its 3' s5 or s7 segment."))
         graph.sequence(library,SequencingPlan(
             library=final,primers=SEQ_PRIMERS,
             acquired_roles=("Read 1","Index 1 (i7)","Read 2"),
             read_lengths={"Read 1":100,"Index 1 (i7)":10,"Read 2":100},
             read_uses={"Read 1":"extract_then_include","Index 1 (i7)":"demultiplex",
-                       "Read 2":"include"}))
+                       "Read 2":"include"},
+            limitation=("The three sequencing primers are the standard Nextera ones and "
+                        "are located by computation on the modelled library, and the "
+                        "10-cycle index read follows from the 10-nt i7. The paired "
+                        "100-cycle counts are not published for CH-ATAC-seq: the "
+                        "paywalled STAR Methods are the only place they would appear. "
+                        "The sibling CH-RNA-seq paper publishes 51 cycles of read 1 with "
+                        "a dark reaction from 11 to 33 and 100 cycles of read 2, and "
+                        "read 1 here must exceed 62 cycles to reach genomic DNA.")))
     graph.declare_reviewed_scope((
         "nuclei","tn5_split","indexed_transposomes","tn5","tagment_a","tagment_b",
         "tn5_pooling","hy_split","hy_duplex","hybridize_a","hybridize_b","polymerase",

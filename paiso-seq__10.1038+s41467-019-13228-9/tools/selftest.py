@@ -7,6 +7,13 @@ import chem as P
 from checks import Check
 c=Check()
 c("TSO-derived handle",P.INSERT.segments[0].top,"AAGCAGTGGTATCAACGCAGAGT")
+# Supplementary Table 1, "Oligos for PAIso-seq library construction", rows TSO / RT primer
+# / PCR primer.  The bases come from lib/smartseq2; these checks pin them to the table, so
+# the ACAT TSO linker drawn on this page stays the one PAIso-seq itself published.
+c("published TSO ordering string",P.TSO_ORDERING,
+  "AAGCAGTGGTATCAACGCAGAGTACATrGrG+G")
+c("published RT primer",P.RT_PRIMER,"AAGCAGTGGTATCAACGCAGAGTAC")
+c("published PCR primer",P.PCR_PRIMER,"AAGCAGTGGTATCAACGCAGAGT")
 c("the published extension family has fifteen members",len(P.BARCODES),15)
 c("bulk BC3 ordering string",P.extension_oligo(3),
   "AAGCAGTGGTATCAACGCAGAGTACTACTAGAGTAGCACTCdUTTTTTTTTdUTTTTTTTT")

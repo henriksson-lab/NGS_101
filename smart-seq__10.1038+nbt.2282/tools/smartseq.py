@@ -14,9 +14,25 @@ tagmentation) but differ completely at the front:
                            from the transcript's 5' end, which is what lets SMART-seq3
                            combine full-length coverage with UMI counting.
 
-Source: https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html
-        Ramskold 2012 (Nat Biotechnol 30:777), Picelli 2013 (Nat Methods 10:1096),
-        Hagemann-Jensen 2020 (Nat Biotechnol 38:708), Hahaut 2022 (Nat Biotechnol 40:1447).
+Sources
+-------
+Every base below is either a canonical constant from lib/ or a transcription of one of
+these primary documents; no sequence here comes from a secondary redrawing of the family.
+
+Ramskold 2012 (Nat Biotechnol 30:777), PMC3467340 Methods
+    the CDS oligo-dT primer, 5'-AAGCAGTGGTATCAACGCAGAGTACT(30)VN-3'. The SMARTer II A
+    oligo and the kit IS PCR primer are named but never printed.
+Picelli 2013 (Nat Methods 10:1096), Supplementary Tables 2 and 4
+    the thirteen template-switch oligos tested, and which of them Smart-seq2 uses.
+Hagemann-Jensen 2020 (Nat Biotechnol 38:708), Supplementary Table 1 + protocols.io
+    smart-seq3-protocol-36wgq5rjxgk5
+    the complete Smart-seq3 oligo set, and (condition 1) the Nature Protocols Smart-seq2
+    oligo-dT, TSO and forward PCR primer.
+Hagemann-Jensen 2022 (Nat Biotechnol 40:1452), PMC9546772 Methods + protocols.io
+    smart-seq3xpress-bwh4pb8w
+    the Smart-seq3xpress WW-spacer TSO and the ordered oligo table.
+Hahaut 2022 (Nat Biotechnol 40:1447), Supplementary Note 2
+    FS dT30VN, FS TSO, ISPCR and the FS-UMI TSO series.
 """
 
 from __future__ import annotations
@@ -41,21 +57,30 @@ FEATURES = {"UMI": UMI_FEATURE, "i5": I5_FEATURE, "i7": I7_FEATURE}
 # =============================================================== SMART-seq / SMART-seq2
 # One handle, used for priming, for template switching and for amplification.
 DT_LEN, DT_ANCHOR = s2.DT_LEN, s2.DT_ANCHOR
-SS2_DT_LINKER = s2.DT_LINKER                                # between handle and (T)30
-SS2_TSO_LINKER = s2.TSO_LINKER                              # between handle and G tail
-SS2_OLIGO_DT = s2.OLIGO_DT
+SS2_DT_LINKER = s2.DT_LINKER            # AC. Ramskold 2012 CDS primer; Hahaut Suppl Note 2
+SS2_TSO_LINKER = s2.TSO_LINKER          # ACAT: the Nature Protocols TSO, printed verbatim in
+                                        # Hagemann-Jensen 2020 Suppl Table 1 condition 1. The
+                                        # defining Picelli 2013 Suppl Table 2 prints the
+                                        # selected rGrG+G oligo with AC instead, so the page
+                                        # draws the extra AT inferred (see page_parts).
+SS2_OLIGO_DT = s2.OLIGO_DT              # handle + AC + (T)30VN; Ramskold 2012, verbatim
 SS2_TSO = s2.TSO                                            # ...ACATrGrG+G
-SS2_ISPCR = s2.ISPCR
+SS2_ISPCR = s2.ISPCR                    # the bare handle; Hahaut Suppl Note 2 "ISPCR" row
 
 # =============================================================== FLASH-seq
 # Hahaut et al. Supplementary Note 2: the main FLASH-seq branch retains the common
-# SMART handle and has no UMI. The ordered oligos are 5'-biotinylated.
+# SMART handle and has no UMI. The ordered oligos are 5'-biotinylated. Every string
+# below is a verbatim transcription of that table.
 FS_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, rt.SMART_HANDLE + SS2_DT_LINKER)
 FS_TSO = rt.SMART_HANDLE + SS2_DT_LINKER + rt.TSO_G_TAIL
 FS_ISPCR = rt.SMART_HANDLE
+# The optional FS-UMI branch, not the main chemistry this page draws: Supplementary
+# Note 2 lists nine spacer variants and the paper selects CTAAC.
 FS_UMI_TSO_CTAAC = rt.SMART_HANDLE + "N" * 8 + "CTAAC" + rt.TSO_G_TAIL
 
 # =========================================== SMART-seq3 / SMART-seq3xpress
+# Hagemann-Jensen 2020 Supplementary Table 1 and the author protocol both print
+# /5Biosg/ACGAGCATCAGCAGCATACGA(T)30VN and /5Biosg/AGAGACAGATTGCGCAATG(N)8rGrGrG.
 SS3_OLIGO_DT_HANDLE = "ACGAGCATCAGCAGCATACGA"               # 5'-biotinylated
 SS3_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, SS3_OLIGO_DT_HANDLE)
 SS3_TSO_TAG = "ATTGCGCAATG"                                 # the 11-bp 5' marker
@@ -64,6 +89,8 @@ SS3_TSO_HANDLE = SS3_TSO_ME3 + SS3_TSO_TAG                  # 3' end of ME, then
 SS3_UMI_LEN = 8
 
 # The SMART-seq3 derivatives differ in what sits between the UMI and the G tail.
+# Hagemann-Jensen 2022 Methods (PMC9546772) contrasts the "Original Smartseq3 TSO"
+# (...NNNNNNNNrGrGrG) with the xpress "Improved TSO" (...NNNNNNNNWWrGrGrG).
 SS3_TSO_SPACERS = {
     "SMART-seq3": "",
     "SMART-seq3xpress": "WW",

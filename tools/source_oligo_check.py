@@ -128,6 +128,23 @@ def source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
     return tuple(result)
 
 
+def excluded_text_count(folder: Path, doi: str = "") -> int:
+    """How many extracted text files the locator filter dropped, for diagnostics.
+
+    A predecessor or vendor document that is physically present but undeclared is
+    discarded by the filter, which makes "the oligo is in a file we refused to read"
+    indistinguishable from "no source prints this oligo". Reporting the count turns the
+    second reading into a checkable first one.
+    """
+    if not folder.is_dir():
+        return 0
+    present = [p for p in folder.rglob("*.txt")
+               if "_invalid" not in p.parts
+               and not p.name.startswith(("upstream_", "scg_docs_", "scg_adapters_"))
+               and p.name != "MANIFEST.tsv"]
+    return max(0, len(present) - len(source_texts(folder, doi)))
+
+
 def _exact_hit(text: str, seq: str, scan=None) -> bool:
     """Require every fixed query base to agree; N in the model is variable."""
     for _, _, _, written in scrape_primers.find(text, seq, sc=scan, detail=True):
@@ -164,5 +181,12 @@ def check_graph(graph: ProtocolGraph, folder: Path,
         checked += 1
         if not any(_exact_hit(text, candidate.sequence, scan)
                    for _, text, scan in scans):
-            failures.append(f"{graph.name}: {candidate.material} {candidate.sequence} absent from local source text")
+            note = ""
+            dropped = excluded_text_count(folder, doi)
+            if dropped:
+                note = (f" ({dropped} text file(s) in the bundle excluded by the locator"
+                        " filter; declare the source in catalogue/extra_sources.tsv if it"
+                        " carries this oligo)")
+            failures.append(f"{graph.name}: {candidate.material} {candidate.sequence} "
+                            f"absent from local source text{note}")
     return failures, [], checked

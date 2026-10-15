@@ -245,6 +245,11 @@ Tn5 barcode at the start of read 2 — agrees.
 
 ## 6. Checking upstream (scg_lib_structs) against the paper
 
+The drawn page is inspiration, not a source: its claims are treated here as
+hypotheses checked against the paper and its Supplementary Tables, and a “matches”
+verdict records that the tables say so — never that upstream corroborates them. No
+base below is taken from the drawing.
+
 - s3-WGS page: says the chemistry is s3-ATAC on crosslinked, nucleosome-depleted nuclei,
   with U-containing Tn5 adaptors, U-intolerant gap fill and U-tolerant PCR. **Agrees**
   with the Online Methods. It gives no conditions specific to WGS (fixation, SDS, PCR

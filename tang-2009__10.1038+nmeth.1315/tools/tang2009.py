@@ -19,7 +19,11 @@ from tang_cdna import (AUP1, AUP2, DT_LEN, UP1, UP1_HANDLE, UP2, UP2_HANDLE,
                        amplified_cdna)
 
 
-# Unbarcoded SOLiD adapters from the 2009 supplementary oligo table.
+# Unbarcoded SOLiD adapters, verbatim from the 2009 Nature Methods Supplementary Table
+# (Supplementary Data, `41592_2009_BFnmeth1315_MOESM306_ESM.xls`), which prints
+# "P1 Adaptor (Upper/Lower strand)", "P2 Adaptor (Upper/Lower strand)" and
+# "Library PCR Primer 1/2" in spaced triplets; the lower strands are written 3'->5'
+# there and are stored here 5'->3'.
 P1_TOP = "CCACTACGCCTCCGCTTTCCTCTCTATGGGCAGTCGGTGAT"
 P1_BOTTOM = "ATCACCGACTGCCCATAGAGAGGAAAGCGGAGGCGTAGTGGTT"
 P2_TOP = "AGAGAATGAGGAACCCGGGGCAGTT"
@@ -29,7 +33,10 @@ LIBRARY_PCR_2 = "CTGCCCCGGGTTCCTCATTCT"
 
 # The later 2010 protocol adds a 19-nt internal adapter and one of sixteen 6-nt
 # barcodes to P2.  These constants identify the extension without presenting it
-# as part of the defining 2009 construct.
+# as part of the defining 2009 construct.  Source: Tang et al. 2010, Nat Protoc
+# 5:516-535 (PMC3847604), which prints all sixteen "CGCCTTGGCCGTACAGCAG<6-nt
+# barcode>AGAGAATGAGGAACCCGGGGCAGTT" P2 adapters and the two 16Barcode library
+# PCR primers.
 BARCODE2010_INTERNAL = "CGCCTTGGCCGTACAGCAG"
 BARCODE2010_LEN = 6
 BARCODE2010_COUNT = 16
@@ -110,8 +117,10 @@ def protocol_graph() -> ProtocolGraph:
                  (up2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.unavailable(
                     amplified_cdna(),reason="The source prints UP1/UP2, but the representative insert does not assert transcript-specific primer landing coordinates."))
-    aup1=graph.input("aup1","5-prime-amine-blocked AUP1",MaterialKind.OLIGO)
-    aup2=graph.input("aup2","5-prime-amine-blocked AUP2",MaterialKind.OLIGO)
+    aup1=graph.input("aup1","5-prime-amine-blocked AUP1",MaterialKind.OLIGO,
+                     state=(Segment("AUP1",AUP1),))
+    aup2=graph.input("aup2","5-prime-amine-blocked AUP2",MaterialKind.OLIGO,
+                     state=(Segment("AUP2",AUP2),))
     blocked=graph.product("amine_blocked_cdna","5-prime-amine-blocked amplified cDNA",
                           MaterialKind.MOLECULAR,state=amplified_cdna())
     graph.react("blocked_pcr","Re-amplify with amine-blocked AUP1/AUP2",StepKind.PCR,
@@ -137,8 +146,10 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.LIGATION,
                 ((repaired,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(ligated,),geometry=solid_adapter_geometry())
-    lib1=graph.input("library_primer_1","SOLiD library PCR primer 1",MaterialKind.OLIGO)
-    lib2=graph.input("library_primer_2","SOLiD library PCR primer 2",MaterialKind.OLIGO)
+    lib1=graph.input("library_primer_1","SOLiD library PCR primer 1",MaterialKind.OLIGO,
+                     state=(Segment("Library PCR Primer 1",LIBRARY_PCR_1),))
+    lib2=graph.input("library_primer_2","SOLiD library PCR primer 2",MaterialKind.OLIGO,
+                     state=(Segment("Library PCR Primer 2",LIBRARY_PCR_2),))
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
     graph.react("library_pcr","Amplify the adapter-ligated SOLiD library",StepKind.PCR,

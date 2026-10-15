@@ -2,13 +2,23 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published (or not in any source that could be fetched). Relationships marked 🟡
-> *(computed)* were worked out with `lib/` while writing this note; they are not yet
-> asserted in a self-test, because this protocol has no `tools/` module yet.
+> *(computed)* were worked out with `lib/`; the model is `tools/malbac.py`.
 >
-> **Source caveat.** The primer sequences and all reaction conditions beyond the main
-> text live in the Supplementary Online Material (SOM), which could not be fetched (see
-> below). Every oligo sequence in this note therefore comes from the upstream
-> scg_lib_structs page and is 🟡 (secondary source), not 🟢.
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, temperature, enzyme or library structure in this note or in the model is taken
+> from it, and agreement with it is not evidence. An earlier revision of this note carried
+> that page's reconstruction — a 27-nt handle `GTGAGTGATGGTTGAGGTAGTGTGGAG`, an extension
+> temperature of 68 °C, "Bst or Phi29" as the polymerase, and two worked example
+> Nextera/TruSeq libraries — and built a base-composition argument on the handle. **None of
+> that has a source we hold**, so none of it is reproduced or relied on any more.
+>
+> **What is left, and it is enough for the schematic.** The accessible PMC author
+> manuscript states the architecture and the whole temperature programme in words, and
+> `tools/malbac.py` draws exactly that and nothing more: the handle is a 27-character
+> `inferred=True` placeholder (`H` × 27), the random foot an 8-character `N` placeholder,
+> the insert an `X` placeholder, and the downstream platform arms the literal
+> `[PLATFORM ARM]` token. **The model contains no MALBAC base at all** — there is nothing
+> for a secondary source to have contaminated.
 
 **MALBAC** (Multiple Annealing and Looping Based Amplification Cycles) — Zong C, Lu S,
 Chapman AR, Xie XS. "Genome-Wide Detection of Single Nucleotide and Copy Number
@@ -21,25 +31,28 @@ Related entries in `catalogue/scg_lib_structs.tsv` that cite the same paper or b
 - **DR-seq** (`dr-seq__10.1038+nbt.3129`) — genome + transcriptome from one cell, uses a
   MALBAC-style preamplification; separate note.
 - **MALBAC-DT** (`malbac-dt__10.1101+2019.12.31.892190`, bioRxiv 2020) — a transcriptome
-  adaptation, on upstream's TODO list; not covered here.
+  adaptation; separate note.
 
 Sources read (fetched by `tools/get_sources.py malbac__10.1126+science.1229164`, into
 `_data/sources/malbac__10.1126+science.1229164/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `science.1229164_PMC3600412.html(.txt)` | PMC author manuscript, full main text + figure legends | principle, temperatures, primer architecture (lengths), results |
-| `upstream_MALBAC.html(.txt)` | scg_lib_structs MALBAC page | primer sequences, step diagrams, example downstream libraries |
+| `science.1229164_PMC3600412.html(.txt)`, `…xml(.txt)` | PMC author manuscript, full main text + figure legends | **everything asserted here**: principle, all four temperatures, cycle count, primer architecture (lengths only), results |
+| `upstream_MALBAC.html(.txt)` | scg_lib_structs MALBAC page | **inspiration only, not a source** — nothing in this note or the model is cited from, or verified against, it |
 
 Could not be fetched 🔴:
 
 | File | URL | Why |
 |---|---|---|
-| SOM, `NIHMS445444-supplement-supplementary_data.docx` (1.3 MB) | https://pmc.ncbi.nlm.nih.gov/articles/instance/3600412/bin/NIHMS445444-supplement-supplementary_data.docx | PMC served a reCAPTCHA page (saved under the `.docx` name, 21 kB HTML); Europe PMC says the article is not open access |
-| Science SOM PDF | https://www.science.org/doi/suppl/10.1126/science.1229164/suppl_file/zong.sm.pdf (guessed path) | publisher bot wall (HTML returned) |
+| SOM, `NIHMS445444-supplement-supplementary_data.docx` (1.3 MB) | https://pmc.ncbi.nlm.nih.gov/articles/instance/3600412/bin/NIHMS445444-supplement-supplementary_data.docx | PMC served a reCAPTCHA page; it is quarantined in `_invalid/` and the manifest carries it as `(manual)`. PMC3600412 is a gated NIH author manuscript (licence `TDM`, open access `False`). |
+| Science SOM PDF | https://www.science.org/doi/suppl/10.1126/science.1229164 | publisher bot wall (HTML returned) |
 
-The SOM holds the Materials and Methods: lysis buffer, polymerase(s), reagent
-concentrations, exact cycling program, PCR cycle number, library kit and sequencer.
+The SOM holds the Materials and Methods: **the 27-nt handle sequence**, lysis buffer,
+polymerase(s), reagent concentrations, exact cycling program, PCR cycle number, library kit
+and sequencer. It is now requested through the PMC Cloud bucket in
+`catalogue/extra_sources.tsv` (`pmccloud:PMC3600412`), the route that already served this
+article's JATS XML when the gated article page would not.
 
 ---
 
@@ -69,43 +82,52 @@ padlock) is used *by MALBAC itself*; the downstream library in §5 is a plain Ne
 TruSeq prep — see [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) for the
 Nextera one.
 
-## 2. Oligos
+## 2. Oligos — 🔴 no MALBAC sequence is published in anything we hold
 
-🟡 (secondary: upstream scg_lib_structs page; the paper's SOM could not be read). As
-written there, no modifications given:
+Only two oligos exist, and the main text describes both in words without printing either
+🟢 (`science.1229164_PMC3600412.xml.txt`):
 
-```
-MALBAC random primers  5'- GTGAGTGATGGTTGAGGTAGTGTGGAGNNNNNNNN -3'
-MALBAC PCR primer      5'- GTGAGTGATGGTTGAGGTAGTGTGGAG -3'
-```
+> "…initiated with a pool of random primers, each having a common 27-nucleotide sequence
+> and 8 variable nucleotides that can evenly hybridize to the templates at 0 °C."
+>
+> "After the five cycles of linear preamplification, only the full amplicons can be
+> exponentially amplified in the following PCR using the common 27-nucleotide sequence as
+> the primer."
 
-What the paper itself says about them 🟢 (main text): the random primers are a pool,
-"each having a common 27-nucleotide sequence and 8 variable nucleotides"; the PCR uses
-"oligos with the common 27-nucleotide sequence" as primers. No sequence is printed in
-the main text.
+So the architecture is 🟢 and the bases are 🔴. What the model draws:
 
-### How they interlock — 🟡 (computed)
+| Oligo | `tools/malbac.py` | Established | Not established |
+|---|---|---|---|
+| random primer | `random_primer()` = `handle()` + `random_foot()` = `H` × 27 (`placeholder`, `inferred=True`, note "27-nt handle length is published; exact bases are unavailable") + `N` × 8 | the 27 + 8 architecture and the 35-nt total 🟢 | every base of the handle 🔴 |
+| PCR primer | `pcr_primer()` = the same 27-character handle placeholder | that it *is* the common 27-mer 🟢 | its bases 🔴 |
 
-- **Lengths agree with the paper**: the common part is 27 nt and the random primer is
-  27 + N8 = 35 nt — matching "27-nucleotide sequence and 8 variable nucleotides". The
-  PCR primer is exactly the 27-nt common part.
+`handle()` is written so that it **cannot** be constructed as established: `inferred=True`
+is set inside the helper, not by its callers, so the uncertainty is a property of the
+constructor rather than of each use site.
+
+### What can still be said without the bases — 🟡 *(computed)*
+
 - N8 → 4⁸ = 65,536 possible 3' ends.
-- **Base composition of the 27-nt tag: G 14, T 8, A 5, C 0** — it contains **no C**
-  (GC 52 %). A C-free sequence cannot pair with itself in G·C pairs, and no 6-mer of the
-  tag has its reverse complement elsewhere in the tag (checked), so the tag forms no
-  internal hairpin and primer copies cannot cross-pair through the tag. Whether this
-  was the design intent is not stated in the main text. 🔴
-- Reverse complement of the tag: `CTCCACACTACCTCAACCATCACTCAC`. A full amplicon is
-  `tag · N8-primed copy · … · revcomp(tag)`, i.e. its 3' end is complementary to its
-  5' end — which is what lets it loop, and what makes the single PCR primer amplify it
-  from both ends.
-- **No overlap with any Illumina / Nextera sequence in `lib/`** (`illumina.P5/P7`,
-  TruSeq read primers, `nextera.ME/S5/S7` checked: no shared run ≥ 10 nt on either
-  strand). The tag is a pure amplification handle; sequencing adapters are added later.
+- A full amplicon is `handle · N8-primed copy · … · revcomp(handle)`, so its 3' end is
+  complementary to its 5' end whatever the bases are. That is what lets it loop at 58 °C
+  and what lets one primer species amplify it from both ends — and it is the whole
+  mechanism of the method. `malbac.loop_topology()` encodes it as a `HairpinTopology`
+  with two 27-nt stems and a computed loop length, so the stem geometry is checked by
+  construction instead of being drawn by hand.
+- Because the handle has no bases, `malbac.protocol_graph()` gives the PCR
+  `PCRGeometry.unavailable(..., reason="The paper gives the common-primer length but not
+  its bases, so exact landing geometry cannot be asserted.", symmetric_species=True)`.
+  The single-species claim is still recorded; the landing coordinates are not invented.
+- The earlier revision's base-composition argument (a C-free, hairpin-free tag) rested
+  entirely on the drawn page's handle and is withdrawn 🔴; whether the real handle has
+  that property is unknown.
 
 ## 3. Step by step
 
-Conditions 🟢 where they are in the main text; the upstream page adds the rest 🟡.
+Conditions 🟢 where they are in the main text; everything else is 🔴 and left unstated.
+The four temperatures and the cycle count below are the model's constants
+(`MELT_C`, `ANNEAL_C`, `EXTEND_C`, `LOOP_C`, `PREAMPLIFICATION_CYCLES`) and each is
+verbatim in the sentence quoted beside it.
 
 1. **Pick and lyse** one cell. 🟢 Lysis composition, volume and whether DNA is
    fragmented by protease/heat 🔴 (SOM). The paper notes the templates are DNA fragments
@@ -113,12 +135,13 @@ Conditions 🟢 where they are in the main text; the upstream page adds the rest
 2. **Melt** the genomic DNA at **94 °C**. 🟢
 3. **Anneal** the random primers at **0 °C** ("evenly hybridize to the templates at
    0 °C"). 🟢
-4. **Extend** with a **strand-displacing polymerase** at an elevated temperature —
-   **65 °C** in the paper 🟢; the upstream page says **68 °C** and names "Bst or Phi29"
-   🟡. Products are **semi-amplicons** of 0.5–1.5 kb: `5'-tag · N8 · genomic copy -3'`. 🟢
-   (lengths); 🟡 (structure). Note: phi29 is a mesophilic enzyme and would not work at
-   65–68 °C, so "Phi29" on the upstream page is doubtful; the enzyme actually used is
-   in the SOM. 🔴
+4. **Extend** at **65 °C** 🟢 ("At an elevated temperature of 65 °C, DNA polymerases with
+   strand displacement activity are used to generate semiamplicons with variable lengths
+   (0.5–1.5 kb)"). Products are **semi-amplicons** of 0.5–1.5 kb 🟢 (lengths):
+   `5'-handle · N8 · genomic copy -3'` 🟡 *(structure, computed from the primer
+   architecture)*. **Which** strand-displacing polymerase is 🔴 — the main text says only
+   "DNA polymerases with strand displacement activity", and the model's
+   `strand_displacing_polymerase` input is a bare `MaterialKind.CATALYST` with no identity.
 5. **Melt** at 94 °C to release the semi-amplicons. 🟢
 6. **Cycles 2–5**: anneal 0 °C → extend → melt 94 °C → **loop at 58 °C**. 🟢 Genomic DNA
    keeps producing new semi-amplicons; primers landing on a semi-amplicon copy it
@@ -129,82 +152,83 @@ Conditions 🟢 where they are in the main text; the upstream page adds the rest
 7. **PCR** with the 27-nt common primer to reach micrograms. 🟢 Only full amplicons have
    the primer site at both ends, so only they amplify exponentially 🟢 (Fig. 1 legend).
    Cycle number, polymerase 🔴.
-8. **Library prep** of the amplified DNA with a standard kit. The paper's kit is not
-   named in the main text 🔴; the upstream page shows Nextera or TruSeq as examples 🟡.
+8. **Library prep** of the amplified DNA with a standard kit. **The kit is not named**
+   anywhere we hold 🔴 — see §5.
 
-### Upstream page vs paper — agreements and disagreements
-
-| Point | Paper (main text) | Upstream page | Verdict |
-|---|---|---|---|
-| Primer = 27-nt common + 8 random | 🟢 stated | sequence given, 27 + 8 | agree (lengths computed 🟡) |
-| Melt / anneal / loop temps | 94 / 0 / 58 °C | 94 / 0 / 58 °C | agree |
-| Extension temperature | 65 °C | 68 °C | **disagree**; SOM would decide |
-| Polymerase | "with strand displacement activity" | "Bst or Phi29" | upstream more specific; phi29 implausible at these temps 🟡 |
-| Number of linear cycles | five | 5 | agree |
-| PCR primer = common 27-mer | 🟢 | given | agree |
-| Final product strands | — | step 8 bottom strand written `3'- revcomp(tag) … tag -5'` | **notation slip** 🟡 *(computed)*: that line is not base-complementary to the top strand; the correct bottom strand read 3'→5' begins `CACTCACTACC…` (complement of the tag). The meaning (tag at both 5' ends) is right. |
-
-## 4. Amplified product — 🟡 (assembled)
+## 4. Amplified product — 🟡 *(assembled from the published architecture)*
 
 Double-stranded, each strand:
 
 ```
-5'- tag(27: GTGAGTGATGGTTGAGGTAGTGTGGAG) · <genomic insert, starting with the N8-primed bases> · revcomp(tag)(27) -3'
+5'- handle(27, bases 🔴) · <genomic insert, starting with the N8-primed bases> · revcomp(handle)(27) -3'
 ```
+
+`malbac.full_amplicon()` builds exactly this, with the right-hand copy derived by
+`complement_segments([handle(...)])` rather than typed, so the two ends stay
+complementary by construction however the handle is later resolved.
 
 The insert's first 8 nt on each side were contributed by the random N8 and may carry
 priming mismatches. 🟡 (inferred; a general property of random priming, not discussed in
 the main text)
 
-## 5. Final library — 🟡 (example structures from the upstream page, checked with `lib/`)
+## 5. Final library — 🔴 unestablished
 
-The amplified DNA is fragmented and adapted by the downstream kit. The 27-nt tags
-survive only at the ends of each amplicon, so most reads are pure genomic sequence;
-reads from fragments that kept an amplicon end begin or end in the tag. 🟡
+MALBAC is a whole-genome amplification method, not a library chemistry: the paper ends at
+micrograms of amplified DNA and sequences it, **without naming the library kit, the
+adapters or the platform** anywhere in the accessible text. The model says exactly that and
+no more:
 
-**Nextera** (upstream example; computed equal to `illumina.P5 · i5 · nextera.S5 ·
-nextera.ME` and `nextera.ME_RC · nextera.S7_RC · i7 · illumina.P7_RC`):
+- `library_kit` is an `ADAPTER` input with `inferred=True` and the source note
+  "(kit identity and adapter chemistry not reported)".
+- `unresolved_sequencing_library()` draws the two ends as the literal token
+  `[PLATFORM ARM]`, `placeholder=True, inferred=True`, with the note
+  "downstream library-preparation kit not reported".
+- The step itself is named `"INFERRED — convert amplified DNA with the unreported
+  sequencing-library kit"`, so the page caption carries the required `INFERRED — …`
+  prefix, and the `SequencingPlan` carries `limitation="The defining paper leaves the
+  downstream sequencing-library kit and primer sites unspecified."` with no declared
+  primer.
 
-```
-5'- P5 · i5(8) · s5 · ME · <MALBAC DNA fragment> · ME' · s7' · i7'(8) · P7' -3'
-```
+What *can* be said 🟡 *(computed)*: the 27-nt handles survive only at the two ends of each
+amplicon, so after fragmentation most reads are pure genomic sequence and only reads
+spanning an amplicon end contain handle bases.
 
-**TruSeq** (upstream example, single-indexed; top-strand 5' part computed equal to
-`illumina.NEBNEXT_UNIVERSAL_PRIMER`, 3' part to `revcomp(illumina.TRUSEQ_READ2) · i7 ·
-illumina.P7_RC`):
-
-```
-5'- P5 · TruSeq Read 1 · <MALBAC DNA fragment> · TruSeq Read 2' · i7'(8) · P7' -3'
-```
-
-Which kit the paper actually used: 🔴 (SOM).
+An earlier revision of this note printed worked Nextera and TruSeq libraries here as
+"example structures". They were the drawn page's choice of kit, not the paper's, and are
+withdrawn.
 
 ## 6. Sequencing
 
 🔴 Platform and read length are in the SOM. From the main text 🟢: single cells
 sequenced to ~25× mean depth gave ~85 % and up to 93 % genome coverage at ≥1×; CNV
 calling used only 0.8× per cell (bin size in the SOM 🔴); allele dropout ~1 % vs ~65 % for MDA.
-Standard read primers for whichever kit is used (upstream: "standard sequencing
-workflow") 🟡.
+**No sequencing primer is declared** in the model, and the page renders no primer-binding
+view: with the kit unknown there is no site to locate 🔴.
 
 ## 7. Open questions
 
+- 🔴 **The 27-nt handle sequence itself.** It is in the SOM and nowhere else we can read.
+  This is the single gap that keeps the whole schematic at placeholder resolution, and it
+  is the reason `catalogue/extra_sources.tsv` now requests `pmccloud:PMC3600412`.
 - 🔴 Exact polymerase(s) for the linear phase and for PCR, buffer, and the time at each
-  temperature — all in the SOM. Upstream's "Bst or Phi29" is unverified.
-- 🔴 Extension temperature: 65 °C (paper) vs 68 °C (upstream).
+  temperature — all in the SOM. The main text gives only "DNA polymerases with strand
+  displacement activity".
 - 🔴 Lysis chemistry and PCR cycle number.
-- 🔴 Library kit and sequencing platform / read length used in the paper.
-- 🔴 Whether the C-free tag was designed deliberately against self-pairing (computed
-  property only).
-- 🟡 Whether the published primer sequence on the upstream page is exactly that in the
-  SOM — cannot be checked without the SOM. (A commercial MALBAC kit exists from Yikon Genomics 🟡, outside knowledge;
-  Yikon is S. Lu's current address in the PMC record 🟢.)
+- 🔴 Library kit and sequencing platform / read length used in the paper (§5).
+- 🟡 A commercial MALBAC kit exists from Yikon Genomics (outside knowledge; Yikon is
+  S. Lu's current address in the PMC record 🟢). A vendor manual, if one is published,
+  would be a legitimate original for the handle — but we have not located one, and no URL
+  is guessed here.
 
 ## 8. How this note was made (tool evaluation)
 
-`tools/get_sources.py` fetched the PMC full text and the upstream page; the supplement
-link returned a reCAPTCHA page that was saved under the `.docx` name, so `doctext`
-skipped it ("File is not a zip file") and the tool did not flag it as `(manual)`.
-`tools/scrape_primers.py` found only the upstream page's sequences (the main text has
-none). Primer lengths, composition and the library segment identities were computed
-with `lib/chemdraw.revcomp`, `lib/illumina` and `lib/nextera`.
+`tools/get_sources.py` fetched the PMC full text and XML plus the drawn page; the
+supplement link returned a reCAPTCHA page that was saved under the `.docx` name. Download
+validation has since caught it: the file now sits in `_invalid/` and the manifest carries
+it as `(manual)` with its URL and reason, which is how it should behave.
+
+`tools/scrape_primers.py` finds **no oligo at all** in the main text, correctly — the paper
+prints none. There is therefore nothing for
+`tools/selftest_source_oligos.py` to compare either: every oligo input in the graph is
+`inferred=True`, so the guard reports `0 checked` rather than a false pass. That is the
+honest state of this protocol, and it will change the moment the SOM arrives.

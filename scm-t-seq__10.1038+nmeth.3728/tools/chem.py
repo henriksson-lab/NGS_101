@@ -20,18 +20,41 @@ SOURCE='Defining source: <a href="https://doi.org/10.1038/nmeth.3728">Angermuell
 SUMMARY="Biotinylated oligo(dT) beads remove a cell's mRNA for Smart-seq2 while the genomic-DNA supernatant enters scBS-seq."
 CAVEAT=("The defining method establishes bead-based physical separation and explicitly "
         "inherits Smart-seq2/Nextera XT and scBS-seq. Their authoritative oligos are "
-        "reused here, so both branch-specific PCR geometries are exact.")
+        "reused here, so both branch-specific PCR geometries are exact. One inherited "
+        "sequence is not exact, though: Angermueller et al. do not print a "
+        "template-switch oligo at all &mdash; the RNA half is delegated to the "
+        "G&amp;T-seq protocol &mdash; and "
+        "Smart-seq2 has two published TSO linkers. Picelli et al. 2013 Supplementary "
+        "Table 2 gives the chosen <code>rGrG+G</code> oligo as the 23-nt handle + "
+        "<code>AC</code> + <code>rGrG+G</code>, while the <i>Nature Protocols</i> form "
+        "carries <code>ACAT</code>. The longer form is modelled, and the whole TSO "
+        "linker is therefore drawn dotted as an inherited inference.")
+
+
+def _tso_linker_inferred(con: Construct) -> Construct:
+    """Redraw the inherited Smart-seq2 TSO linker as an inference, not a published base.
+
+    scM&T-seq prints no TSO, so the choice between the two published Smart-seq2 linkers
+    (``AC`` and ``ACAT``) is ours.  Marking the segment here, rather than in every caller,
+    keeps the uncertainty a property of the state the page renders.
+    """
+    con.get("TSO linker")      # a lib rename must fail loudly, not silently un-mark it
+    return Construct([replace(s,inferred=True) if s.name=="TSO linker" else s
+                      for s in con],name=con.name)
+
+
 RNA,RP=nextera_library([seg("Smart-seq2 cDNA insert","X"*36,placeholder=True)],"scM&T-seq RNA")
 DNA=Construct([replace(s,name=s.name.replace("N9","N6"),top="N"*6)
                if s.name in ("oligo1 N9","oligo2 N9") else s
                for s in scbs.final_library()],name="scM&T-seq DNA methylome")
 DP=tuple(scbs.SEQ_PRIMERS)
-RNA_PREAMP=s2.preamp_template()
+RNA_PREAMP=_tso_linker_inferred(s2.preamp_template())
 FINAL_LIBRARIES=(("RNA library",RNA,RP,"Smart-seq2 cDNA after Nextera XT.","Nextera primers declared for the RNA branch."),("DNA methylome library",DNA,DP,"Bisulfite-converted genomic fragments after scBS-seq.","Illumina primers declared for the DNA branch."))
 
 def oligos():
     return [f"Smart-seq2 oligo-dT30VN: 5′-{s2.OLIGO_DT}-3′",
-            f"Smart-seq2 TSO: 5′-{s2.TSO}-3′",
+            f"Smart-seq2 TSO (linker inherited, not printed by this paper): "
+            f"5′-{rt.SMART_HANDLE}<inf>{s2.TSO_LINKER}</inf>{rt.TSO_G_TAIL_LNA}-3′",
             f"Smart-seq2 ISPCR primer: 5′-{s2.ISPCR}-3′",
             f"scBS-seq PE1: 5′-{scbs.PE1}-3′",
             f"scM&T oligo1 N6: 5′-{scbs.OLIGO1_HANDLE}{'N'*6}-3′",
@@ -53,9 +76,9 @@ def protocol_graph():
     rt_enzyme=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
     copied=g.product("copied","first-strand Smart-seq2 cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
     g.react("reverse_transcribe","Reverse-transcribe bead-captured RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(copied,))
-    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("TSO linker",s2.TSO_LINKER),seg("rGrG+G","GGG","tso")))
+    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("TSO linker",s2.TSO_LINKER,inferred=True),seg("rGrG+G","GGG","tso")))
     switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
-    g.react("template_switch","Template-switch the nascent cDNA",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(switched,))
+    g.react("template_switch","INFERRED — Template-switch the nascent cDNA (the TSO linker is inherited from Smart-seq2; this paper prints no TSO)",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(switched,))
     ispcr_f=g.input("ispcr_forward","Smart-seq2 ISPCR primer at the 5′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
     ispcr_r=g.input("ispcr_reverse","same Smart-seq2 ISPCR species at the 3′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
     prepol=g.input("preamp_polymerase","Smart-seq2 cDNA PCR polymerase",MaterialKind.CATALYST)

@@ -25,9 +25,44 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
 PRE = 4
 H = rt.SMART_HANDLE
 
+# --------------------------------------------------------------- TSO linker provenance
+# The SMART handle is followed by a short linker before the G tail, and that linker has
+# two published forms:
+#
+#   AC    Picelli et al. 2013 (the defining SMART-seq2 paper) Supplementary Table 2 prints
+#         the selected TSO -- Supplementary Table 4 names `rGrG+G` as the Smart-seq2 TSO --
+#         as AAGCAGTGGTATCAACGCAGAGT + AC + rGrG+G. Ramskold et al. 2012 print the CDS
+#         oligo-dT with the same AC linker, and Hahaut et al. 2022 Supplementary Note 2
+#         prints the FLASH-seq oligo-dT and TSO with it too.
+#   ACAT  the Nature Protocols version of Smart-seq2, transcribed verbatim in
+#         Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1 ("Smartseq2 /
+#         Smart-seq2 as of Nature Protocol"): ...ACATrGrG+G. lib/smartseq2.TSO_LINKER
+#         holds this longer form, which several later SMART-seq2 derivatives inherit.
+#
+# The page models the longer form but marks the two bases it adds beyond the defining
+# paper inferred, so no drawn base is asserted past its source.
+if not ss.SS2_TSO_LINKER.startswith(ss.SS2_DT_LINKER):
+    raise ValueError("the SMART-seq2 TSO linker must extend the published AC linker")
+SS2_TSO_LINK_PUB = ss.SS2_DT_LINKER                               # AC: defining paper
+SS2_TSO_LINK_NP = ss.SS2_TSO_LINKER[len(ss.SS2_DT_LINKER):]       # AT: Nature Protocols only
+
 
 def seg(name, top, tag=None, **kw):
     return Segment(name=name, top=top, tag=tag, **kw)
+
+
+def ss2_tso_linker(protocol: str) -> list[Segment]:
+    """TSO linker segments, 5'->3', for one SMART-handle member.
+
+    FLASH-seq's supplement prints AC outright. SMART-seq2 gets AC plus an inferred AT.
+    SMART-seq's own TSO is an undisclosed commercial oligo, so its whole linker is
+    inferred.
+    """
+    if protocol == "FLASH-seq":
+        return [seg("AC", ss.SS2_DT_LINKER)]
+    if protocol == "SMART-seq":
+        return [seg("ACAT", ss.SS2_TSO_LINKER, inferred=True)]
+    return [seg("AC", SS2_TSO_LINK_PUB), seg("AT", SS2_TSO_LINK_NP, inferred=True)]
 
 
 def chunks(*cs):
@@ -44,13 +79,30 @@ PAPERS = {
 }
 
 
+CAVEATS = {
+    "SMART-seq": ("<div class='caveat'><b>Inferred TSO and ISPCR region.</b> Ramsk&ouml;ld "
+                  "et al. print the CDS oligo-dT primer in full but only <i>name</i> the "
+                  "Clontech SMARTer II A template-switch oligo and the kit's IS PCR primer; "
+                  "neither commercial oligo is published in any source read here. The TSO "
+                  "and ISPCR bases below are the later SMART-seq2 / Nature Protocols design "
+                  "(as transcribed in Hagemann-Jensen et al. 2020, Supplementary Table 1) "
+                  "and are drawn dotted throughout.</div>"),
+    "SMART-seq2": ("<div class='caveat'><b>Two published TSO linkers.</b> Picelli et al. "
+                   "2013 Supplementary Table 4 names <code>rGrG+G</code> as the Smart-seq2 "
+                   "template-switch oligo, and Supplementary Table 2 prints that oligo as "
+                   "the 23-nt handle + <code>AC</code> + <code>rGrG+G</code>. The Nature "
+                   "Protocols version of the protocol instead carries <code>ACAT</code> "
+                   "before the G tail &mdash; the form transcribed in Hagemann-Jensen et al. "
+                   "2020 Supplementary Table 1 (&ldquo;Smart-seq2 as of Nature Protocol&rdquo;) "
+                   "and the one modelled here. The two bases the longer form adds beyond the "
+                   "defining paper are drawn dotted as inferred.</div>"),
+}
+
+
 def preamble(protocol: str, *, complete: bool = False) -> str:
     doi, title = PAPERS[protocol]
     complete_attr = ' data-protocol-complete="true"' if complete else ""
-    caveat = ("<div class='caveat'><b>Inferred TSO region.</b> The original SMART-seq "
-              "paper names the SMARTer II A template-switch oligo but does not print its "
-              "bases; the TSO linker below follows the later SMART-seq2 design.</div>"
-              if protocol == "SMART-seq" else "")
+    caveat = CAVEATS.get(protocol, "")
     return f"""<div class="wrap"{complete_attr}>
 <h1>{title} &mdash; full-length single-cell mRNA</h1>
 
@@ -78,8 +130,8 @@ def ss2_oligos(protocol: str) -> str:
               mods="/5Biosg/" if flash else ""),
         oligo("Template Switching Oligo (TSO)",
               [seg("", H, "tso", inferred=protocol == "SMART-seq"),
-               seg("", ss.SS2_DT_LINKER if flash else ss.SS2_TSO_LINKER,
-                   inferred=protocol == "SMART-seq"),
+               *[seg("", s.top, s.tag, inferred=s.inferred)
+                 for s in ss2_tso_linker(protocol)],
                seg("", tail, None, placeholder=True, inferred=protocol == "SMART-seq")],
               mods="/5Biosg/" if flash else ""),
         oligo("ISPCR primer", [seg("", H, "tso", inferred=protocol == "SMART-seq")],
@@ -168,32 +220,38 @@ def _ds_cdna(top: list[Segment], cdna: list[Segment], tso_handle: list[Segment],
 
 
 SS2_HANDLE = seg("H", H, "tso")
-SS2_TSO = [SS2_HANDLE, seg("ACAT", ss.SS2_TSO_LINKER), seg("rGrG", "GGG", "tso")]   # rGrG+G, as GGG
+
+
+def ss2_tso(protocol: str = "SMART-seq2") -> list[Segment]:
+    """The drawn TSO for one SMART-handle member, 5'->3'. The G tail is spelt GGG."""
+    inf = protocol == "SMART-seq"
+    return [seg("H", H, "tso", inferred=inf), *ss2_tso_linker(protocol),
+            seg("rGrG", "GGG", "tso", inferred=inf)]
+
+
+SS2_TSO = ss2_tso()                                                    # rGrG+G, as GGG
 
 
 def ss2_rt(protocol: str = "SMART-seq2") -> tuple[Scene, ...]:
-    tso = ([SS2_HANDLE, seg("AC", ss.SS2_DT_LINKER), seg("rGrG", "GGG", "tso")]
-           if protocol == "FLASH-seq" else SS2_TSO)
-    if protocol == "SMART-seq":
-        tso = [seg("H", H, "tso", inferred=True),
-               seg("ACAT", ss.SS2_TSO_LINKER, inferred=True),
-               seg("rGrG", "GGG", "tso", inferred=True)]
-    return _rt_scenes(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)], tso)
+    return _rt_scenes(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)], ss2_tso(protocol))
 
 
-def ss2_pcr() -> list[Row]:
-    top = list(ss2_preamp_template())
-    return _ds_cdna(top, _cdna(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)]), SS2_TSO[:2],
+def ss2_pcr(protocol: str = "SMART-seq2") -> list[Row]:
+    top = list(ss2_preamp_template(protocol))
+    return _ds_cdna(top, _cdna(SS2_HANDLE, [seg("AC", ss.SS2_DT_LINKER)]),
+                    ss2_tso(protocol)[:-1],
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H'"),
                     [seg("ISPCR", H, "tso")], ("ISPCR", "H3"))
 
 
 def ss2_preamp_template(protocol: str = "SMART-seq2") -> Construct:
-    tso_linker = ss.SS2_DT_LINKER if protocol == "FLASH-seq" else ss.SS2_TSO_LINKER
+    inf = protocol == "SMART-seq"
     return Construct([
-        seg("H5", H, "tso", inferred=protocol == "SMART-seq"),
-        seg("TSO linker", tso_linker, inferred=protocol == "SMART-seq"),
-        seg("GGG", "GGG", "tso", inferred=protocol == "SMART-seq"),
+        seg("H5", H, "tso", inferred=inf),
+        *[seg("TSO linker" + ("" if i == 0 else f" {s.name}"), s.top, s.tag,
+              inferred=s.inferred or inf)
+          for i, s in enumerate(ss2_tso_linker(protocol))],
+        seg("GGG", "GGG", "tso", inferred=inf),
         seg("body", "X" * BODY, placeholder=True),
         seg("B", "B", placeholder=True), seg("polyA", "A" * POLYA),
         seg("GT", revcomp(ss.SS2_DT_LINKER)),
@@ -202,7 +260,7 @@ def ss2_preamp_template(protocol: str = "SMART-seq2") -> Construct:
 
 
 def ss2_steps(protocol: str = "SMART-seq2") -> str:
-    s1, s2, s3 = ss2_rt()
+    s1, s2, s3 = ss2_rt(protocol)
     tagged, filled = tagmentation_states()
     initial = Scene()
     initial.strand("mRNA", _mrna())
@@ -214,7 +272,7 @@ def ss2_steps(protocol: str = "SMART-seq2") -> str:
     workflow.react("template switching", s3.rows(),
                    note=f"The TSO's {'rGrG+G' if protocol == 'SMART-seq2' else 'rGrGrG'} "
                         "pairs with CCC and contributes the second handle.")
-    workflow.react("ISPCR", ss2_pcr(),
+    workflow.react("ISPCR", ss2_pcr(protocol),
                    note="The identical terminal handles amplify full-length cDNA.")
     workflow.react("Nextera tagmentation", tagged,
                    note="Tn5 inserts s5/s7 entry points and leaves 9-nt gaps.")
@@ -320,7 +378,10 @@ def ss3_oligos(variant: str) -> str:
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
             + info(f"""The forward and reverse PCR handles differ. The TSO contains the
             terminal 8 nt of the Nextera ME, the 11-bp 5' tag and the 8-bp UMI.
-            <code>*</code> marks the two terminal phosphorothioate linkages on each PCR primer."""))
+            <code>*</code> marks the two terminal phosphorothioate linkages on each PCR
+            primer. The authors' protocol orders <i>custom</i> Nextera index primers and
+            recommends a 10-bp barcode, noting that 8&nbsp;bp &mdash; Illumina's length,
+            drawn below &mdash; works as well; no index member is asserted here."""))
 
 
 SS3_DT_HANDLE = seg("dT handle", ss.SS3_OLIGO_DT_HANDLE, "r3")
@@ -443,6 +504,54 @@ def sequencing(protocol: str) -> str:
             + "</div>")
 
 
+# Documents actually read for the oligo bases on each page. Every entry is a primary
+# publication, author protocol or vendor-grade specification; secondary redrawings of
+# these chemistries are not sources and are deliberately absent.
+READ_FOR_OLIGOS = {
+    "SMART-seq": [
+        "Ramsk&ouml;ld et al. 2012 full text (PMC3467340): the CDS oligo-dT primer, verbatim",
+        "Picelli et al. 2013 Supplementary Table 2: the SMART-handle TSO series, including "
+        "the all-DNA <code>dGCGGG</code> mimic of the SMARTer II A oligo",
+        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for ME, s5, s7 and "
+        "the N5xx/N7xx index primers",
+    ],
+    "SMART-seq2": [
+        "Picelli et al. 2013 Supplementary Tables 2 and 4: every TSO tested, and which one "
+        "<i>Smart-seq2</i> uses (<code>rGrG+G</code>)",
+        "Picelli et al. 2013 Supplementary Tables 1 and 3: the oligo-dT named as the "
+        "commercial <i>SMARTer dT30VN</i>, and the ISPCR primer named but not printed",
+        "Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1: the Nature "
+        "Protocols Smart-seq2 oligo-dT, TSO and forward PCR primer, printed in full",
+        "Hahaut et al. 2022 Supplementary Note 2: the same handle oligo-dT and the "
+        "biotinylated ISPCR primer, attributed to Picelli et al. 2013",
+        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for the Nextera back end",
+    ],
+    "SMART-seq3": [
+        "Hagemann-Jensen et al. 2020 Supplementary Table 1: oligo-dT, TSO, forward and "
+        "reverse PCR primers, printed in full",
+        "Hagemann-Jensen et al. 2020 author protocol (protocols.io "
+        "<code>smart-seq3-protocol-36wgq5rjxgk5</code>): the ordered oligo table with "
+        "5' biotin and terminal phosphorothioates",
+        "The preprint Methods (bioRxiv 817924v1) restate the same four oligos",
+        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for the Nextera back end",
+    ],
+    "SMART-seq3xpress": [
+        "Hagemann-Jensen et al. 2022 Methods (PMC9546772): the improved TSO "
+        "<code>5'-Biotin-AGAGACAGATTGCGCAATGNNNNNNNNWWrGrGrG-3'</code> and both PCR primers",
+        "Hagemann-Jensen et al. 2022 author protocol (protocols.io "
+        "<code>smart-seq3xpress-bwh4pb8w</code>): the ordered oligo table, including the "
+        "oligo-dT and the terminal phosphorothioates",
+        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for the Nextera back end",
+    ],
+    "FLASH-seq": [
+        "Hahaut et al. 2022 Supplementary Note 2, &ldquo;List of all the oligonucleotides "
+        "used in this study&rdquo;: FS dT30VN, FS TSO, ISPCR and the FS-UMI TSO series",
+        "Hahaut et al. 2022 Methods (PMC9546769): the same oligos inside the reaction recipes",
+        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for the Nextera back end",
+    ],
+}
+
+
 def sources(protocol: str) -> str:
     related = {
         "SMART-seq": [],
@@ -451,12 +560,15 @@ def sources(protocol: str) -> str:
         "SMART-seq3xpress": [("SMART-seq3", PAPERS["SMART-seq3"][0])],
         "FLASH-seq": [("SMART-seq2", PAPERS["SMART-seq2"][0])],
     }[protocol]
+    read = ''.join(f"<li>{item}</li>" for item in READ_FOR_OLIGOS[protocol])
     links = ''.join(f'<li><a href="https://doi.org/{doi}">{name}</a></li>'
                     for name, doi in related)
-    links += ('<li><a href="https://teichlab.github.io/scg_lib_structs/methods_html/'
-              'SMART-seq_family.html">scg_lib_structs schematic</a></li>')
-    return ('<details class="sources"><summary>Related sources</summary><ul>'
-            + links + '</ul></details>')
+    out = ('<details class="sources"><summary>Sources read for these bases</summary><ul>'
+           + read + '</ul></details>')
+    if links:
+        out += ('<details class="sources"><summary>Related protocols</summary><ul>'
+                + links + '</ul></details>')
+    return out
 
 
 def protocol_graph(protocol: str) -> ProtocolGraph:
@@ -497,9 +609,15 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     tso = graph.input("tso", tso_label, MaterialKind.OLIGO, state=switch_scene)
     switched = graph.product("switched", "template-switched full-length cDNA",
                              MaterialKind.MOLECULAR, state=preamp_template)
-    graph.react("template_switch", ("INFERRED — Template-switch at the transcript 5-prime end"
-                                    if protocol == "SMART-seq" else
-                                    "Template-switch at the transcript 5-prime end"),
+    switch_label = "Template-switch at the transcript 5-prime end"
+    if protocol == "SMART-seq":
+        switch_label = ("INFERRED — Template-switch at the transcript 5-prime end; the "
+                        "commercial SMARTer II A oligo's bases are not published")
+    elif protocol == "SMART-seq2":
+        switch_label = ("INFERRED — Template-switch at the transcript 5-prime end; the TSO "
+                        "linker's final AT is the Nature Protocols form, not the defining "
+                        "paper's")
+    graph.react("template_switch", switch_label,
                 StepKind.TEMPLATE_SWITCHING,
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (switched,))
@@ -511,9 +629,11 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                             MaterialKind.OLIGO)
         preamp_geometry = PCRGeometry.symmetric(
             preamp_template, PCRPrimer("ISPCR", H),
-            statement=(("INFERRED — The original SMARTer II A oligo and cDNA PCR primer "
-                        "are kit reagents without printed complete sequences; the later "
-                        "SMART-seq2 handle gives this representative symmetric geometry.")
+            statement=(("INFERRED — The original SMARTer II A oligo and the kit's IS PCR "
+                        "primer are commercial reagents whose complete sequences no source "
+                        "read here prints; the later SMART-seq2 handle, printed in Picelli "
+                        "et al. 2013 Supplementary Table 2 and in Hahaut et al. 2022 "
+                        "Supplementary Note 2, gives this representative symmetric geometry.")
                        if protocol == "SMART-seq" else
                        ("The source-defined SMART handle occurs in opposite orientations "
                         "at the two cDNA ends, so one ISPCR reagent supplies both inward sites.")))

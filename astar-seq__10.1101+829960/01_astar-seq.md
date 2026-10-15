@@ -1,14 +1,29 @@
 # ASTAR-seq — chromatin accessibility and transcriptome from the same single cell
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`).
+> published. Relationships marked 🟡 *(computed)* were worked out with `lib/`; the model
+> is `tools/astar.py` and its self-test (`tools/selftest.py`) pins the transcribed oligos.
+>
+> **Provenance.** Every oligo below is the authors' own, printed identically in the
+> preprint's Supplementary Table 5 and in the journal version's Supplemental Table 5.
+> `tools/selftest_source_oligos.py` re-finds the three C1 oligos in the locally extracted
+> text of those tables, so the model's copies are machine-checked against the documents
+> rather than against this note. Every other concrete base in the model is a canonical
+> `lib/illumina.py` or `lib/nextera.py` constant; the i5/i7 windows are placeholders.
+> **The scg_lib_structs drawn page is not a source here** — it is inspiration only, no
+> copy of it was fetched for this protocol (the sources directory contains no
+> `upstream_*` file), nothing is taken from it, and agreement with it would not be
+> evidence.
 
 **ASTAR-seq** — Xing QR, Farran CE, Yi Y, Warrier T, Gautam P, Collins J, Xu J, Li H,
 Zhang L-F, Loh Y-H. "Parallel bimodal single-cell sequencing of transcriptome and
 chromatin accessibility." *bioRxiv* 2019. doi:[10.1101/829960](https://doi.org/10.1101/829960)
 (v1, 4 Nov 2019; CC-BY-NC 4.0). Data: GEO GSE113418.
+
+Published as: Xing QR *et al.* "Diversification of reprogramming trajectories revealed by
+parallel single-cell transcriptome and chromatin accessibility sequencing." *Genome
+Research* 30:1027–1039 (2020).
+doi:[10.1101/gr.257840.119](https://doi.org/10.1101/gr.257840.119) · PMC7397874.
 
 Sources read (fetched by `tools/get_sources.py astar-seq`, into
 `$CHEM_DATA/sources/astar-seq__10.1101+829960/`, never committed):
@@ -19,6 +34,9 @@ Sources read (fetched by `tools/get_sources.py astar-seq`, into
 | `829960_media-6.pdf` | Supplementary Information | **all methods** (the main text has none) |
 | `829960_media-5.xlsx` | Supplementary Table 5 | **every oligo** |
 | `829960_media-1..4.xlsx` | QC tables, motif enrichment | not chemistry |
+| `gr.257840.119_PMC7397874.xml` | the journal version's full text (PMC Cloud JATS) | sequencing parameters, published wording |
+| `gr.257840.119_supp_..._Supplemental_Table_5.xlsx` | the journal version's **Supplemental Table 5** | independent second printing of **every oligo** — checked row by row against the preprint table |
+| `gr.257840.119_supp_..._Supplemental_Material_.docx`, `..._Protocol_Worksheet_ASTAR*.pdf` | supplemental text and the C1 script worksheets | no oligo sequences |
 
 ---
 
@@ -43,16 +61,17 @@ leaving cDNA fragments with ATAC adapters that could not be separated from the A
 
 ## 2. Oligos
 
-🟢 Verbatim from Supplementary Table 5 (`media-5.xlsx`, sheet "Primers"). IDT notation as
-given: `/5BiosG/` = 5' biotin, `rN` = ribonucleotide.
+🟢 Verbatim from Supplementary Table 5 (`media-5.xlsx`, sheet "Primers"), and identical in
+the journal version's Supplemental Table 5. IDT notation as given: `/5BiosG/` = 5' biotin,
+`rN` = ribonucleotide. Names are the table's own.
 
 ```
 C1-P2-T31      /5BiosG/ GGCGACAACACCGATTGATCACG TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 C1-P2-RNA-TSO  rGrGrCrGrArCrArArCrArCrCrGrArUrUrGrArUrCrArGrGrG
 C1-P2-PCR-2    /5BiosG/ GGCGACAACACCGATTGATCA
 
-ATAC adaptor 1 (qPCR)  TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
-ATAC adaptor 2 (qPCR)  GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
+ATAC adaptor 1 (forward)  TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
+ATAC adaptor 2 (reverse)  GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
 
 v2_Ad1.N_<i5>  AATGATACGGCGACCACCGAGATCTACAC <i5> TCGTCGGCAGCGTCAGATGTGTAT     N = 1..16, 61 nt
 v2_Ad2.N_<i7>  CAAGCAGAAGACGGCATACGAGAT <revcomp i7> GTCTCGTGGGCTCGGAGATGTG     N = 1..12, 54 nt
@@ -85,8 +104,9 @@ biotinylated at its 5' end**, which is what the streptavidin step sorts on.
   The i7 is written as the **reverse complement** of its name — `v2_Ad2.1_TAAGGCGA`
   contains `TCGCCTTA` — for all 12. 16 × 12 = 192 index pairs: the 192 libraries per
   lane in §5. 🟡
-- "ATAC adaptor 1 / 2" are exactly **`nextera.ADAPTOR_S5` / `ADAPTOR_S7`** — used here
-  only as qPCR primers, to test whether cDNA had been tagmented (Supplementary Fig. 1c–d).
+- "ATAC adaptor 1 (forward) / 2 (reverse)" are exactly **`nextera.ADAPTOR_S5` /
+  `ADAPTOR_S7`** — used here only as qPCR primers, to test whether cDNA had been tagmented
+  (Supplementary Fig. 1c–d, which refers to "the ATAC adaptors (Supplementary Table 5)" 🟢).
 
 The `Ad1.x` / `Ad2.x` naming and layout are those of the Buenrostro ATAC-seq indexing
 primers; whether the 8-nt indices are identical to that set was not checked. 🟡

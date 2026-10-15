@@ -1,6 +1,10 @@
-# SMART-seq3 and SMART-seq3xpress — quick reference
+# SMART-seq3 — quick reference
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not published.
+>
+> SMART-seq3xpress shares this architecture; its own oligo source review is
+> `01_smart-seq3xpress.md`, in the `smart-seq3xpress__10.1038+s41587-022-01311-4`
+> directory.
 
 **SMART-seq3** — Hagemann-Jensen M, Ziegenhain C, Chen P, Ramsköld D, Hendriks G-J,
 Larsson AJM, Faridani OR, Sandberg R. "Single-cell RNA counting at allele and isoform
@@ -10,8 +14,26 @@ doi:[10.1038/s41587-020-0497-0](https://doi.org/10.1038/s41587-020-0497-0)
 **SMART-seq3xpress** — Hagemann-Jensen M, Ziegenhain C, Sandberg R. *Nat Biotechnol*
 2022;**40**(10):1452–1457. doi:[10.1038/s41587-022-01311-4](https://doi.org/10.1038/s41587-022-01311-4)
 
-Structure transcribed from
-<https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html>.
+Sources read (all primary):
+
+- 🟢 Hagemann-Jensen et al. 2020 **Supplementary Table 1** ("Overview of Conditions"),
+  Springer file `41587_2020_497_MOESM3_ESM.xlsx` — prints, per condition, the oligo-dT,
+  the TSO with its UMI structure, and the forward and reverse PCR oligos. The Smart-seq3
+  rows give `/5BiosG/ACGAGCATCAGCAGCATACGA(T)30VN`,
+  `/5Biosg/AGAGACAGATTGCGCAATGNNNNNNNNrGrGrG`,
+  `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAATG` and `ACGAGCATCAGCAGCATACGA`.
+- 🟢 The authors' **protocols.io** protocol `smart-seq3-protocol-36wgq5rjxgk5` — the ordered
+  oligo table, which adds the supplier, the 5' biotin and the two terminal
+  phosphorothioate linkages on each PCR primer.
+- 🟢 The **preprint** Methods (bioRxiv 817924v1) restate the same four oligos inline, and
+  give the `find_pattern: ATTGCGCAATG` used to call UMI-containing reads.
+- 🟢 Hagemann-Jensen et al. 2022 Methods (PMC9546772) for the `WW`-spacer xpress TSO; see
+  that protocol's own note.
+- 🟡 Illumina's adapter-sequence documentation, via `lib/nextera.py` and `lib/illumina.py`,
+  for ME, s5, s7, P5, P7 and the index primers.
+
+Every modelled base on the SMART-seq3 page is a transcription of one of the above. No
+secondary redrawing of this family is used as evidence anywhere in this protocol.
 
 ---
 
@@ -52,7 +74,11 @@ Fwd_PCR_primer         5'- TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAA*T*G -3'
 Rev_PCR_primer         5'- ACGAGCATCAGCAGCATAC*G*A -3'
 ```
 
-`*` is a phosphorothioate linkage (3'-exonuclease protection). `/5Biosg/` is 5' biotin.
+🟢 `*` is a phosphorothioate linkage (3'-exonuclease protection) and `/5Biosg/` is a
+5' biotin; both are printed as such in the author protocol. The index primers are
+🔴 **not** asserted here: the author protocol orders *custom* Nextera index primers and
+recommends a 10-bp barcode, noting 8 bp (Illumina's length, which the page draws as an
+index window) works as well, and no index member is chosen.
 
 🟡 Note the TSO handle: `AGAGACAG` is the **3' end of the Nextera mosaic end**, and
 `ATTGCGCAATG` is the 11-bp tag. So the forward PCR primer
@@ -79,7 +105,8 @@ FLASH-seq note and must not be substituted for SMART-seq3 oligos.
 
 ## 4. Two kinds of fragment
 
-This is the point of the design, and it is why the source page draws the final structure twice.
+This is the point of the design, and it is why the schematic draws the final structure
+twice.
 
 **5' fragments** retained the TSO, so they carry the 11-bp tag and the UMI:
 

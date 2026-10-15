@@ -181,7 +181,13 @@ def render_page(protocol: str) -> str:
         r2 = Construct([seg("well barcode", "N" * 7, "cbc", placeholder=True),
                         seg("UMI", "N" * 8, "umi", placeholder=True),
                         seg("poly(T), ignored", "TTTTT")])
-        read_caption = "Published MARS-seq2.0 read design: 5I.4P.M and 7W.8R.5I."
+        # The Supplementary Information's read-design fields print the worked example
+        # R1_design = 3I.4P.50M with R2_design = 7W.8R.5I.  Read 1's 3I matches the
+        # MARS-seq1 N3 adapter, so 5I is what the 2.0 N5 adapter implies -- derived here,
+        # never published, and labelled as such.
+        read_caption = ("Published MARS-seq2.0 read design: 3I.4P.50M and 7W.8R.5I. "
+                        "DERIVED — with this version's N5 ligation adapter Read 1 is "
+                        "5I.4P instead; the 5I is derived from the adapter, not published.")
         read_rows = [("Read 1", "N5, 4-nt pool barcode, sense cDNA"),
                      ("Read 2", "7-nt well barcode, 8-nt UMI, poly(T)")]
     else:

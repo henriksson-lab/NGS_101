@@ -1,13 +1,32 @@
 # CH-ATAC-seq — combinatorial-hybridization single-cell ATAC-seq
 
-> **Evidence marking.** 🟢 verbatim from a source read for this note · 🟡 derived,
-> inferred, or taken only from the secondary upstream page · 🔴 not published / not
-> available to us. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test (no `tools/` module yet).
+> **Evidence marking.** 🟢 verbatim from a source read for this note · 🟡 derived or
+> inferred · 🔴 not published / not available to us. Relationships marked 🟡 *(computed)*
+> were worked out with `lib/`; the model is `tools/ch_atac.py`.
 >
-> **Source boundary:** the subscription article text remains unavailable, but its original
-> Supplementary Table 1 is present as an XLSX mirror. It directly confirms every
-> CH-ATAC oligo used in the schematic. Detailed reaction conditions remain 🔴.
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length, step or read layout in this note or in the model is taken from it, and
+> agreement with it is not evidence. An earlier revision of this note was built around
+> agreement with that page (§2 "Agreement/Disagreement with upstream", a §4 that said the
+> final library "equals upstream's drawn final library exactly", a §3 whose step order was
+> "from upstream", and a §5 built on "its read layout"). All of that is withdrawn.
+>
+> **Source boundary.** The defining paper's own **Supplementary Table 1** is on disk and is
+> the authority for every CH-ATAC base drawn: generic Illumina/Nextera bases come from
+> `lib/nextera.py` and the genomic insert is a placeholder. The subscription STAR Methods
+> are **not** available, so no reaction condition, enzyme choice, well count per round or
+> sequencing cycle number is asserted as CH-ATAC's own 🔴; where the open-access sibling
+> **CH-RNA-seq** publishes the same shared chemistry, it is cited as that, and the transfer
+> to CH-ATAC is marked 🟡.
+>
+> **On the `scg_` filename.** `scg_CH-ATAC-seq_SupplementaryTable1.xlsx` is a *mirror of the
+> publisher's supplement*, not scg-authored content: its first row reads "related to figure
+> 1, oligo primers used in this research", it has Cell Press's `related to figure`
+> convention and an IDT-style `Modification` column, and its four sheets ("common primers",
+> "384 1st Tn5 Barcode primers", "768 2nd hybridization primers", "96 MGI P7 indexed
+> primers") are the ordered oligo inventory. A filename prefix is a download route, not
+> provenance; this is an ordinary original and is cited as the paper's Supplementary Table 1
+> throughout.
 
 **CH-ATAC-seq** — Zhang G, Fu Y, Yang L, Ye F, Zhang P, Zhang S, Ma L, Li J, Wu H, Han X,
 Wang J, Guo G. "Construction of single-cell cross-species chromatin accessibility
@@ -24,16 +43,17 @@ Other papers:
   doi:[10.1038/s41467-022-31879-z](https://doi.org/10.1038/s41467-022-31879-z), PMC9307617
   (CC-BY 4.0). Not listed in the catalogue for this protocol; found by searching for the
   method name. Used here as the primary source for the shared oligos.
-- Cited by upstream for the "semi-suppressive PCR" argument: nanoCAGE / CAGEscan,
-  Plessy et al., *Nat Methods* 2010, doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470).
-  Concept only; not fetched.
+- `catalogue/scg_lib_structs.tsv` carries a `cited` row for nanoCAGE / CAGEscan, Plessy
+  et al., *Nat Methods* 2010, doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470),
+  scraped from the drawn page's own citation list. Background reading on suppression PCR;
+  not fetched, and nothing here rests on it 🟡.
 
 Sources read (in `_data/sources/ch-atac-seq__10.1016+j.devcel.2024.01.015/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt` | defining paper's original Supplementary Table 1, mirrored by scg_lib_structs | 🟢 common primers, 384 Tn5 barcode primers, 768 HY primers and 96 MGI P7 index primers |
-| `upstream_CH-ATAC-seq.html.txt` | scg_lib_structs page for CH-ATAC-seq (secondary; says its oligos come from the paper's Supplementary Table 1) | **all CH-ATAC-specific oligos**, step order, final library, read layout |
+| `scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt` | **the defining paper's own Supplementary Table 1** — a publisher original that happens to have been downloaded through the scg_lib_structs `data/` mirror (see the note above) | 🟢 **every base in the model**: common primers, 384 Tn5 barcode primers, 768 HY primers and 96 MGI P7 index primers |
+| `upstream_CH-ATAC-seq.html.txt` | scg_lib_structs page for CH-ATAC-seq | **inspiration only, not a source** — nothing in this note or the model is cited from, or verified against, it |
 | `related_CH-RNA-seq_PMC9307617.html.txt` | CH-RNA-seq full text (Europe PMC JATS XML, fetched by hand) | hybridization / blocking conditions, MGI sequencing with dark cycles |
 | `related_CH-RNA-seq_MOESM4_ESM.xlsx.txt` | CH-RNA-seq Supplementary Data 1 = "Table S1. List of all oligonucleotide sequences used in CH-RNA-seq" (fetched by hand) | 🟢 HY head, 768 barcoded HY oligos, block tail, PCR P5 (with modification), 96 MGI P7 index primers |
 
@@ -42,13 +62,19 @@ Could not be fetched:
 | What | URL | Why it matters |
 |---|---|---|
 | CH-ATAC-seq paper (STAR Methods) | https://doi.org/10.1016/j.devcel.2024.01.015 | every reaction condition; Tn5 loading; whether a ligase is used; cycle numbers; sequencing recipe |
+| Research Square preprint / Protocol Exchange record | https://doi.org/10.21203/rs.3.rs-960203/v1 | `MANIFEST.tsv` already carries this as a `(manual)` row (Research Square sits behind Cloudflare). It is the most likely open route to the same STAR Methods, and would settle most of §6 — worth a hand download. |
 
 ---
 
 ## 1. What it is
 
-A **three-level combinatorial-indexing scATAC-seq** for the BGI/MGI (DNBSEQ) platform, in
-the line of sci-ATAC-seq3 🟡 (upstream):
+A **three-level combinatorial-indexing scATAC-seq** for the BGI/MGI (DNBSEQ) platform. The
+three rounds, and their order, come from Supplementary Table 1's own sheet names and
+Description column 🟢 — "384 **1st** Tn5 Barcode primers", "768 **2nd** hybridization
+primers", "96 MGI P7 indexed primers", with "Anneal with 2nd hybridization primers" against
+`HY_head_oligo`, "Block free annealing hybridization primers" against
+`Block_tail_primer_oligo`, "Anneal with Tn5 ME oligo as Transposase P5/P7 Adaptor" against
+the two Tn5 arms, and "Library preparation PCR P5 primer" against the P5 oligo:
 
 1. **Barcoded Tn5** (one barcode per well, 384) tags nuclei in bulk-per-well.
 2. Pool → split; a **barcoded hybridization (HY) oligo** (768) is annealed onto a handle
@@ -85,10 +111,17 @@ Barcoded_HY_oligo_1      ACTCTGCGTTGATACCACTGCTTTTCTCGCATGCTGTCTCTTATACACATCTGAC
 MGI_P7_index_1          TGTGAGCCAAGGAGTTGTTGTCTTCTAGGTCCGATGTCTCGTGGGCTCGG
 ```
 
-The Tn5 family has `A*` at its 5′ end; the upstream page omits that leading
-base and its bond modification. The phosphorothioate and P5 phosphate are
-source-known reagent modifications, although the exact fate of the 5′ Tn5 cap
-in the final copied molecule is not established by the unavailable methods text. 🟡
+**Reading `A*AGCAGTGG…`.** The table's Modification column for that sheet reads
+`*:Phosphorthioate`, so the `*` marks a phosphorothioate **bond** between the first and
+second base — the same convention the table uses for the HY and P5 entries. The oligo is
+therefore **52 bases** beginning `AAGCAGTGG…`, which is exactly `rt.SMART_HANDLE` (23 nt)
+🟢. Two checks inside the same table confirm it: `Block_tail_primer_oligo` is printed as the
+bare 23-nt handle `AAGCAGTGGTATCAACGCAGAGT` 🟢, and every `Barcoded_HY_oligo` opens with
+its 23-nt reverse complement `ACTCTGCGTTGATACCACTGCTT` 🟢. There is **no extra 5′ A**: an
+earlier revision of this note and of `tools/ch_atac.py` read `A*` as a capping base, drew a
+53-nt oligo, and consequently marked the HY junction inferred. That is corrected — see the
+junction paragraph in §4. 5′ phosphates and phosphorothioate bonds are recorded here but
+are not drawn as bases.
 
 ### 2b. Shared with CH-RNA-seq — 🟢 (CH-RNA-seq Supplementary Data 1)
 
@@ -106,14 +139,14 @@ MGI_P7_index_1           TGTGAGCCAAGGAGTTGTTGTCTTCTAGGTCCGATGTCTCGTGGGCTCGG
   … _1.._96              TGTGAGCCAAGGAGTTGTTGTCTTC <10-nt i7> GTCTCGTGGGCTCGG              50 nt
 ```
 
-**Agreement with upstream:** HY_head, Block_tail, PCR P5 and the layout of the HY and
-MGI P7 index oligos match its CH-ATAC-seq summary. The defining CH-ATAC table
-also directly lists the same 768 HY and 96 P7 indexed sequences as the
-CH-RNA-seq table. 🟢
-
-**Disagreement with upstream:** the CH-ATAC Supplementary Table 1 explicitly marks
-its PCR P5 primer **5′-phosphorylated** 🟢; upstream's CH-ATAC page shows no
-modification. The Tn5 barcode primer also has the `A*` cap omitted upstream.
+**Two independent first-party tables agree.** CH-ATAC Supplementary Table 1 and CH-RNA-seq
+Supplementary Data 1 list the *same* `HY_head_oligo`, `Block_tail_primer_oligo`,
+`PCR P5 primer`, the same 768 `Barcoded_HY_oligo` sequences and the same 96
+`MGI_P7_index` primers, base for base, including the 5′-phosphorylation on the PCR P5
+primer 🟢. That is a genuine two-source confirmation of the shared half of the chemistry —
+two supplements from the same lab, published in two journals, not a drawn page and a
+supplement. What is CH-ATAC-only is the 384 `Tn5_barcode_primer` family and the two Tn5
+arms; those rest on CH-ATAC Supplementary Table 1 alone 🟢.
 
 For comparison, the CH-RNA-seq first-round RT primer (not used in CH-ATAC) is 🟢
 `A*AGCAGTGGTATCAACGCAGAGTNNNNNNNN<10-nt RT bc>TTTTTTTTTTTTTTTTTTTTTTTTTVN` (`*` =
@@ -130,7 +163,8 @@ phosphorothioate): the **same 23-nt handle** in front of the barcode. CH-ATAC-se
 - **Tn5_Primer_C_oligo** = `nextera.ADAPTOR_S7` (s7 + ME, 34 nt) — the ordinary Nextera
   "B" adapter.
 - **HY_head_oligo** = `nextera.ADAPTOR_S5` (s5 + ME, 33 nt) — also identical to
-  `nextera.READ1_PRIMER`, and to upstream's "Read 1 sequencing primer".
+  `nextera.READ1_PRIMER`, which is why the standard Nextera Read 1 primer lands on this
+  library at all 🟡 *(computed; `seqprimers.verify` enforces it)*.
 - **Barcoded_HY_oligo** (66 nt) = revcomp(`rt.SMART_HANDLE`) (23) + 10-nt barcode +
   revcomp(HY_head) (33; = `nextera.INDEX2_PRIMER`).
   - After pre-annealing, HY_head pairs with the 3' 33 nt of the HY oligo along its whole
@@ -153,13 +187,16 @@ phosphorothioate): the **same 23-nt handle** in front of the barcode. CH-ATAC-se
 
 ## 3. Step by step
 
-Order and products from upstream 🟡; CH-ATAC conditions 🔴 (paper not read). Where the
-shared hybridization step has published conditions in CH-RNA-seq, they are given and marked
-as such.
+**Step order** from Supplementary Table 1's sheet names and Description column (§1) 🟢;
+**products** computed from the oligos with `lib/` 🟡; **CH-ATAC conditions** 🔴 (STAR
+Methods paywalled). Where the shared hybridization step has published conditions in
+CH-RNA-seq, they are quoted and marked as CH-RNA-seq's.
 
 1. **Assemble indexed Tn5.** Anneal ME bottom with Tn5_barcode_primer_N, and ME bottom
    with Primer C; load Tn5 with both. Each well's Tn5 carries one barcoded "A" adapter and
-   the shared s7 "B" adapter. 🟡 (upstream). Loading ratio, enzyme source 🔴.
+   the shared s7 "B" adapter. 🟢 (Supplementary Table 1 labels the two arms "Transposase
+   P5 Adaptor" and "Transposase P7 Adaptor", both annealed to the same `Tn5 ME oligo`).
+   Loading ratio, enzyme source 🔴.
 2. **Tagment nuclei** in 384 wells, one Tn5 barcode per well. Three products, each with
    the 9-nt gap ([Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md)) 🟡:
    - barcode adapter at both ends → later gets HY/s5 at both ends, suppressed in PCR;
@@ -174,11 +211,11 @@ as such.
    10 % PEG8000, RNase inhibitor); 37 °C 90 min.
 5. **Block**: Block_tail_primer_oligo (CH-RNA-seq: 0.5 µL of 100 µM, 37 °C 30 min 🟢), then
    pool.
-6. **Join / fill.** Upstream says "ligate the HY barcode" and then "gap fill-in" 🟡. After
+6. **Join / fill.** 🔴 CH-ATAC does not say which enzymes do this. After
    hybridization the top strand has a **10-nt gap** (opposite the HY barcode) between the
    3' end of HY_head and the 5' end of the Tn5 barcode oligo; the bottom strand has a
    second **10-nt gap** opposite the Tn5 barcode (between the 3' end of ME bottom and the
-   5' end of the HY oligo, as upstream's step 3.2 drawing also shows), besides the 9-nt Tn5
+   5' end of the HY oligo), besides the 9-nt Tn5
    gap on the insert side. 🟡 (computed from the oligo layout). CH-RNA-seq explicitly says its hybridization round works **without T4 ligase**
    🟢, and follows it with T4 PNK (37 °C 30 min, NEB) and a second-strand synthesis
    enzyme mix (16 °C 3 h; vendor not named in the text) 🟢. If that mix is the usual
@@ -192,7 +229,7 @@ as such.
 8. **MGI conversion** (CH-RNA-seq 🟢): circularize to ssDNA, make DNA nanoballs, sequence
    on DNBSEQ-T7. Presumably the same for CH-ATAC 🟡.
 
-## 4. Final library — 🟡 (computed; equals upstream's drawn final library exactly)
+## 4. Final library — 🟡 (computed from Supplementary Table 1 with `lib/`)
 
 Top strand, 5'→3':
 
@@ -201,11 +238,20 @@ Top strand, 5'→3':
     · <genomic insert> · ME'(19) · s7'(15) · <i7'>(10) · MGI_P7'(25) -3'
 ```
 
-`'` = reverse complement of the sequence as written in the oligo. Assembling this from
-`lib/` constants and the upstream oligos reproduces upstream's final-library top strand
-character for character, and upstream's bottom strand is its exact complement 🟡
-(computed). Fixed adapter length outside the insert: 25+14+19+10+23+10+19 = 120 nt on the
-P5 side, 19+15+10+25 = 69 nt on the P7 side.
+`'` = reverse complement of the sequence as written in the oligo. Fixed adapter length
+outside the insert: 25+14+19+10+23+10+19 = 120 nt on the P5 side, 19+15+10+25 = 69 nt on
+the P7 side 🟡 *(computed)*.
+
+**The HY/Tn5 junction is determined, not inferred.** `revcomp(Barcoded_HY_oligo)` reads
+`s5 · ME · HY-barcode' · SMART handle` and the indexed Tn5 transfer strand reads
+`SMART handle · Tn5 barcode · ME`. `ch_atac.hy_tn5_junction()` searches every possible
+overlap between the two and finds **exactly one**, 23 nt long and equal to the SMART
+handle; it raises if that ever stops being true. So the order
+`… ME · HY-bc' · handle · Tn5-bc · ME …` follows from the two printed oligos alone, with
+no appeal to the unavailable methods text and none to a drawing 🟡 *(computed, enforced by
+construction)*. The earlier "inferred junction" marking on this segment, and the page
+caveat that went with it, existed only because the model had mis-read `A*AGCAGTGG…` as
+carrying an extra 5′ A (§2a) and so saw a 24-nt rather than a 23-nt boundary.
 
 Barcode orientation 🟡 (computed):
 
@@ -219,30 +265,54 @@ Barcode orientation 🟡 (computed):
 
 ## 5. Sequencing
 
-Upstream says it was guessing at MGI sequencing; its read layout 🟡:
+**The CH-ATAC cycle counts are not published** 🔴 — the STAR Methods are the only place
+they would appear. What *is* established: all three primers are the standard Nextera ones,
+located on the modelled library by `seqprimers.verify` (the build fails if any fails to
+land) 🟡 *(computed)*; the index read is 10 cycles because the i7 is 10 nt 🟡 *(computed)*;
+and Read 1 must exceed 62 cycles to reach genomic DNA 🟡 *(computed)*. The paired-100
+figures below are the model's assumption, declared as such in the graph's
+`SequencingPlan(limitation=…)` and in the page's sequencing preamble, and supported only by
+the sibling CH-RNA-seq paper's published recipe (below).
 
-| Read | Primer | Length | Contents |
+| Read | Primer | Length (assumed) | Contents |
 |---|---|---|---|
 | Read 1 | `nextera.READ1_PRIMER` (s5+ME) | 100 cycles, **dark 11–33 and 44–62** | 1–10 HY bc', 11–33 SMART handle (dark), 34–43 Tn5 bc, 44–62 ME (dark), 63–100 genomic |
 | Index (i7) | `nextera.INDEX1_PRIMER` | 10 | i7' |
 | Read 2 | `nextera.READ2_PRIMER` (s7+ME) | 100 | genomic |
 
-The dark-cycle windows match the computed segment lengths exactly (10 + 23 = 33; 33 + 10 =
-43; 43 + 19 = 62) 🟡 (computed). CH-RNA-seq used the same idea 🟢: DNBSEQ-T7, custom
-"TM (Tn5 modified)" sequencing primers, read 1 = 51 cycles with dark 11–33, read 2 = 100
-cycles. The CH-ATAC cycle numbers themselves are not confirmed 🔴.
+The dark-cycle windows are **computed** from the segment lengths, not transcribed:
+10 + 23 = 33; 33 + 10 = 43; 43 + 19 = 62 🟡. The first window is independently published
+for the sibling protocol — CH-RNA-seq states verbatim 🟢
+(`related_CH-RNA-seq_PMC9307617.html.txt:53`):
+
+> "Amplified DNA nanoballs (DNBs) were sequenced with custom TM (Tn5 modified) sequencing
+> primers on MGI DNBSEQ-T7 with a dark reaction model (CH-RNA-seq: 51 cycles of read1 with
+> a dark reaction from 11 to 33, 100 cycles of read2)."
+
+CH-RNA-seq's `11 to 33` is the same 10-nt HY barcode followed by the same 23-nt shared
+handle, so that window transfers to CH-ATAC by construction 🟡. The **second** window
+(44–62, over the Tn5 barcode and the mosaic end) is CH-ATAC-only and is computed, not
+published 🔴 — CH-RNA-seq has no Tn5 barcode at that position. The CH-ATAC cycle numbers
+are not published 🔴.
 
 ## 6. Open questions
 
 - 🔴 Every CH-ATAC reaction condition (Tn5 loading, tagmentation, nuclei numbers per well,
   hybridization, PCR cycles, size selection) — STAR Methods not read.
-- 🔴 Is the HY barcode joined by ligation (upstream's word) or only by fill-in / extension
-  (CH-RNA-seq states its hybridization round needs no T4 ligase)? Is the Tn5 barcode oligo 5'-phosphorylated?
+- 🔴 Whether the HY barcode is joined by ligation or only by fill-in / extension. The
+  model says nothing either way: `hy_fill_{a,b}` is a plain `StepKind.EXTENSION` with an
+  unnamed polymerase and no ligase input. CH-RNA-seq states its hybridization round needs
+  no T4 ligase 🟢, which is suggestive but is a different protocol 🟡. Supplementary Table 1
+  marks the `Tn5 ME oligo` and the `PCR P5 primer` 5′-phosphorylated but gives no
+  modification for the Tn5 barcode primer 🟢, so if a ligation happened there it would need
+  a phosphate the table does not list 🟡.
 - 🟢 The defining table supplies all 384 Tn5 barcodes, all 768 HY oligos and all 96 MGI
   P7 primers. Its PCR P5 entry explicitly carries a 5′ phosphate.
-- 🟡 Product with the barcoded adapter at both ends: upstream calls it non-amplifiable by
-  semi-suppressive PCR. With HY at both ends it carries s5 at both ends and only P5 primes
-  it; whether it is truly negligible in the data is not stated.
+- 🟡 Product with the barcoded adapter at both ends: it carries s5 at both ends, so only
+  the P5 primer can prime it and the resulting inverted repeat is suppressed in PCR
+  *(computed from the two arms)*; the paper does not quantify how negligible it is 🔴, and
+  the model therefore routes it to `graph.discard(tagment_waste_*)` with that reason rather
+  than claiming a mechanism.
 - 🟡 CH-RNA-seq RT primer 146 is one base longer than the other 383 (69 vs 68 nt without
   `*`) — irrelevant to CH-ATAC, noted only because the table was checked.
 
@@ -253,3 +323,11 @@ source catalogue retrieved the defining Supplementary Table 1 mirror and convert
 `tools/doctext.py`. The related open-access CH-RNA-seq material independently agrees with
 the shared hybridization system. `tools/scrape_primers.py` recognises `rt.SMART_HANDLE`,
 `nextera.ME` and `ADAPTOR_S5/S7`; MGI_P5 / MGI_P7 remain protocol-local constants.
+
+What the tooling did **not** catch was the `A*` mis-read (§2a): the indexed Tn5 transposome
+is an `ADAPTER` input built from two annealed strands, so
+`tools/selftest_source_oligos.py` has no single whole-strand sequence to compare and
+reported `inputs without exact states` rather than a failure. The error surfaced only on
+re-reading the table's Modification column and counting the oligo against
+`Block_tail_primer_oligo`. The two MGI PCR primers now carry exact graph states, so the
+guard does check those two against the table text.

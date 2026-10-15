@@ -141,3 +141,18 @@ def protocol_graph():
       "user_enzyme","user_open","i5_primer","i7_primer","pcr_polymerase",
       "index_pcr","library"),SOURCE)
     return graph.require_publishable()
+
+
+# Withdrawn by the vendor, not silent and not an erratum: NEB prints the hairpin adaptor
+# in no manual it currently ships. Of the three fetched here, the library-prep manual
+# (E7103/E7645) and both oligo-kit manuals (E7600 Dual Index Primers Set 1, E7780 Set 2)
+# describe the hairpin -- "Incorporating a novel hairpin loop structure ... The loop
+# contains a U, which is removed by treatment with USER Enzyme" -- and print only the
+# index primers and the Read 1/Read 2 trimming sequences. lib/illumina.py transcribes the
+# 65-mer from an older E7780 p.2 revision that is no longer served at that URL, so no
+# document on disk can witness it.
+SOURCE_OLIGO_EXCEPTIONS = {
+    "hairpin_adaptor": "Vendor-withdrawn: NEB describes the hairpin in all three fetched "
+                       "manuals but prints its bases in none of them; lib/illumina.py "
+                       "transcribes it from a superseded E7780 p.2 revision.",
+}

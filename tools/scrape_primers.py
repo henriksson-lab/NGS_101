@@ -403,13 +403,17 @@ IDT_INTERNAL = re.compile(rf"(?<=[{BASE}{LOW}\]])/(i?[A-Za-z][\w-]*)/(?=[{BASE}{
 # A 5' modification written directly in front of the bases, and a 3' one directly after.
 _MODNAME = (r"/[5-9i]?[\w-]+/|rApp|App|NH2|Amino(?:\s?C\d+|-?linker)?|Am(?:MC6|C6)|"
             r"[Bb]iotin(?:-?TEG|ylated)?|Bio(?:sg|TEG)?|Btn|[Pp]hosphat(?:e|ed)|[Pp]hosphorylated|Phos|Pho|P|FAM|HEX|ROX|TAMRA|Cy[35](?:\.5)?|"
-            r"DBCO|Acrydite|Acryd|Azide|PC[ -]?[Ss]pacer|Spacer\s?C\d+|SpC3|C3|C6|ddC|ddN|"
+            r"DBCO|Acrydite|Acryd|Azide|PC[ -]?[Ss]pacer|Spacer\s?C\d+|SpC\d+|C3|C6|ddC|ddN|"
             r"dd[ACGT]|InvdT|idT|BHQ-?[12]|SH|Thiol|OH|(?:i[CG]){2,}")
 _MOD = rf"[\[(](?:[53]['′’]?[ -]?)?(?:{_MODNAME})[\])]|{_MODNAME}|(?:[rm+][ACGUTN][*∗]?)+|[*∗]"
 # a modification starts a token: "TSO-P AAGC..." is a name, not a 5' phosphate
 MOD5 = re.compile(rf"(?:5['′’][ \t]*-?[ \t]*)?(?:(?<![A-Za-z0-9])(?<![A-Za-z0-9]-)(?:{_MOD})"
                   rf"[ \t]*-?[ \t]*)+$")
 MOD3 = re.compile(rf"^(?:[ \t]*-?[ \t]*(?:{_MOD})(?![A-Za-z0-9]))+")
+# "...GGTCGC-(SpC18)-CACTCA...": an internal modification written with hyphens and
+# brackets rather than slashes. Gated on the known modification vocabulary and on hyphens
+# both sides, so ordinary parenthetical prose between two base runs cannot join them.
+_BRACKET_INTERNAL = re.compile(rf"-[\[(](?:[53]['\u2032\u2019]?[ -]?)?(?:{_MODNAME})[\])]-")
 _ANY_MARK = re.compile(r"[rm+*∗(/]|-s-")
 _R_MARK = re.compile(rf"(?<![A-Za-z])r[{BASE}]|(?<=[{BASE}])r[{BASE}]")
 _M_MARK = re.compile(rf"(?<![A-Za-z])m[{BASE}]|(?<=[{BASE}])m[{BASE}]")
@@ -421,7 +425,7 @@ _CANON = [(r"bio|biotin|btn|biosg|bioteg|biotinteg|biotin-?teg|biotinylated", "b
           (r"phos|pho|p|phosphate|phosphated|phosphorylated", "phosphate"), (r"r?app", "adenylated"),
           (r"nh2|amino.*|ammc6|amc6|aminolinker", "amine"),
           (r"acryd|acrydite", "acrydite"), (r"dd[acgtn]", "dideoxy"),
-          (r"sp\d+|spc3|c3|c6|pc[ -]?spacer|spacer\s?c\d+", "spacer"),
+          (r"sp\d+|spc\d+|c3|c6|pc[ -]?spacer|spacer\s?c\d+", "spacer"),
           (r"invdt|idt", "inverted dT"), (r"sh|thiol|thiomc6-d|dithiol", "thiol"),
           (r"(?:i[cg]){2,}", "iso-dC/iso-dG")]
 
@@ -603,6 +607,10 @@ def scan_copy(orig: str) -> Scan:
         name = m.group(1).lower()
         add(m.start(), m.end(), "U" if re.search(r"deoxyu|^i?du$", name) else
             "N" if re.search(r"deoxyi|^i?di$|inosine", name) else "")
+    for m in _BRACKET_INTERNAL.finditer(orig):
+        if prev(m.start()) in BASE + LOW + "]" and prev(m.start()) \
+                and orig[m.end():m.end() + 1] in tuple(BASE + LOW + "["):
+            add(m.start(), m.end(), "")
     for m in _PARENS_BASE.finditer(orig):
         add(m.start(), m.end(), "U" if m.group(1) == "U" else "N")
     for m in _BR.finditer(orig):

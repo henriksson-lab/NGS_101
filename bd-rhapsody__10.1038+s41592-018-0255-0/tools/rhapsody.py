@@ -1,4 +1,25 @@
-"""Construct model for the documented BD Rhapsody WTA alpha workflow."""
+"""Construct model for the documented BD Rhapsody WTA alpha workflow.
+
+Provenance.  The platform paper (Yoon et al., Nat Methods 2019) is a kit user and prints
+no Rhapsody oligo.  The one real sequence drawn here, `RANDOMER_HANDLE`, is printed by BD
+itself in the Whole Transcriptome Analysis Alpha Protocol 23-21179-00 (12/2018), a vendor
+document mirrored in the scg_lib_structs repository under `data/BD/` (the manifest records
+the mirrored copy and the hand-fetched one as md5-identical, so it is an ordinary vendor
+original whichever name it sits under).
+
+Everything else about the bead is unpublished.  The BD instrument user guide (Doc ID
+214062 Rev. 2.0) gives only the cartoon order `Univ | CL | UMI | poly(T)` with the legend
+"Univ: universal oligo; CL: cell label; UMI: Unique Molecular Identifier" -- an order, not
+bases and not lengths.  BD publishes no bead sequence, no cell-label or UMI length, no
+Universal Oligo and no library-primer sequence, so those are symbolic placeholders created
+`inferred=True`; the drawing therefore claims no width for them.
+
+The scg_lib_structs drawn page is **not** a source here: it is inspiration only, nothing
+is taken from it, and agreement with it is not verification.  Its own author describes its
+bead and primer sequences as an educational guess reconstructed from read data, which is
+not a vendor or author statement; an earlier revision of the research note reproduced
+them, and they are no longer asserted anywhere.
+"""
 from __future__ import annotations
 import sys
 from pathlib import Path
@@ -20,10 +41,15 @@ def _s(n,t,g=None,**kw):
     kw.setdefault("feature",FEATURES.get(n)); return Segment(n,t,g,**kw)
 
 def bead_capture_segments():
-    """Vendor-published architecture, with proprietary bases represented symbolically."""
-    return [_s("bead universal region","XXXXXXXXXXXX",inferred=True,placeholder=True),
-            _s("cell label","NNNNNNNNN","cbc",inferred=True,placeholder=True),
-            _s("UMI","NNNNNNNN","umi",inferred=True,placeholder=True),
+    """BD's published cartoon order only; every proprietary region is symbolic.
+
+    BD gives neither bases nor lengths for the universal region, cell label or UMI, so
+    each is a symbolic placeholder: the drawing must not imply a cycle count BD has not
+    published.
+    """
+    return [_s("bead universal region","[UNIVERSAL OLIGO]",inferred=True,placeholder=True),
+            _s("cell label","[CELL LABEL]","cbc",inferred=True,placeholder=True),
+            _s("UMI","[UMI]","umi",inferred=True,placeholder=True),
             _s("poly(T)","T"*DRAWN_POLYT,inferred=True)]
 
 def randomer_segments():
@@ -57,9 +83,9 @@ def rpe_product():
     return Construct([*randomer_segments()[:-1],
                       _s("random-primed cDNA","XXXXXXXX...XXXXXXXX",placeholder=True),
                       _s("poly(A) copy","AAA",placeholder=True),
-                      _s("UMI'","N"*8,"umi",inferred=True,placeholder=True),
-                      _s("cell label'","N"*9,"cbc",inferred=True,placeholder=True),
-                      _s("bead universal complement","XXXXXXXXXXXX",inferred=True,
+                      _s("UMI'","[UMI]","umi",inferred=True,placeholder=True),
+                      _s("cell label'","[CELL LABEL]","cbc",inferred=True,placeholder=True),
+                      _s("bead universal complement","[UNIVERSAL OLIGO]",inferred=True,
                          placeholder=True)],name="released RPE product")
 
 def final_library():
@@ -93,7 +119,7 @@ def protocol_graph():
                            source=source+" (bead bases proprietary)")
     empty=graph.product("empty_wells","unproductive cell/bead loading outcomes",
                         MaterialKind.WASTE)
-    graph.react("partition_capture","Load cells and beads into microwells",StepKind.PARTITION,
+    graph.react("partition_capture","INFERRED — Load cells and beads into microwells (BD publishes the bead's region order, not its bases or lengths)",StepKind.PARTITION,
                 ((cells,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
                  (microwells,InputRole.CONDITION)),(captured,empty))
     graph.discard(empty,"wells without a productive cell-bead pairing do not yield library")
@@ -101,7 +127,7 @@ def protocol_graph():
     first=graph.product("first_strand",bead_cdna().name,MaterialKind.MOLECULAR,
                         state=bead_cdna(),inferred=True,
                         source=source+" (bead-proximal bases proprietary)")
-    graph.react("reverse_transcribe","Synthesize bead-barcoded first-strand cDNA",
+    graph.react("reverse_transcribe","INFERRED — Synthesize bead-barcoded first-strand cDNA",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((captured,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(first,))
@@ -112,7 +138,7 @@ def protocol_graph():
                           source=source+" (bead-proximal bases proprietary)")
     cleanup_waste=graph.product("cleanup_waste","unused capture oligos and removed RNA",
                                 MaterialKind.WASTE)
-    graph.react("cleanup","Remove unused capture oligos and RNA",StepKind.CLEANUP,
+    graph.react("cleanup","INFERRED — Remove unused capture oligos and RNA",StepKind.CLEANUP,
                 ((first,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST),
                  (alkali,InputRole.CONDITION)),(cleaned,cleanup_waste))
     graph.discard(cleanup_waste,"unused oligos and RNA are excluded from RPE products")
@@ -122,7 +148,7 @@ def protocol_graph():
     extended=graph.product("rpe_product",rpe_product().name,MaterialKind.MOLECULAR,
                            state=rpe_product(),inferred=True,
                            source=source+" (universal bead-arm complement proprietary)")
-    graph.react("random_extension","Extend the random primer toward the bead",
+    graph.react("random_extension","INFERRED — Extend the random primer toward the bead (the Randomer is published; the bead region it copies is not)",
                 StepKind.EXTENSION,
                 ((cleaned,InputRole.TEMPLATE),(randomer,InputRole.STRUCTURAL),
                  (klenow,InputRole.CATALYST)),(extended,))
@@ -134,7 +160,7 @@ def protocol_graph():
     amplified=graph.product("amplified_rpe","amplified cell-labelled RPE products",
                             MaterialKind.MOLECULAR,state=rpe_product(),inferred=True,
                             source=source+" (primer boundaries proprietary)")
-    graph.react("rpe_pcr","Amplify random-primer-extension products",StepKind.PCR,
+    graph.react("rpe_pcr","INFERRED — Amplify random-primer-extension products",StepKind.PCR,
                 ((extended,InputRole.TEMPLATE),(universal,InputRole.STRUCTURAL),
                  (rpe_reverse,InputRole.STRUCTURAL),(rpe_pol,InputRole.CATALYST)),
                 (amplified,),geometry=PCRGeometry.unavailable(
@@ -149,7 +175,7 @@ def protocol_graph():
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
                           inferred=True,source=source+" (outer arms proprietary)")
-    graph.react("library_pcr","Add the indexed sequencing-library arms",StepKind.PCR,
+    graph.react("library_pcr","INFERRED — Add the indexed sequencing-library arms",StepKind.PCR,
                 ((amplified,InputRole.TEMPLATE),(library_forward,InputRole.STRUCTURAL),
                  (library_reverse,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.unavailable(

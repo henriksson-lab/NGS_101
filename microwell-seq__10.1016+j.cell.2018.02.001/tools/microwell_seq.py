@@ -157,7 +157,7 @@ def protocol_graph() -> ProtocolGraph:
                            inferred=True, source=inferred_source)
     tag_waste = graph.product("tagmentation_waste", "non-library tagmentation products",
                               MaterialKind.WASTE)
-    graph.react("tagmentation", "Tagment WTA with the inferred symmetric s7 adapter",
+    graph.react("tagmentation", "INFERRED — Tagment WTA with the symmetric s7 adapter (Table S2 prints no Tn5 adaptor)",
                 StepKind.TAGMENTATION,
                 ((wta, InputRole.TEMPLATE), (tn5_adapter, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tag_waste), source=inferred_source)
@@ -167,7 +167,7 @@ def protocol_graph() -> ProtocolGraph:
     final = final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
                             inferred=True, source=inferred_source)
-    graph.react("library_pcr", "Select the bead end and PCR-complete the library", StepKind.PCR,
+    graph.react("library_pcr", "INFERRED — Select the bead end and PCR-complete the library (the s7/ME and P7-side regions follow the printed primers)", StepKind.PCR,
                 ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(

@@ -15,6 +15,9 @@ import tang_cdna as tang
 TITLE="scTrio-seq — genome copy number, methylome and transcriptome"
 NOTES="01_sctrio-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/cr.2016.23">Hou et al., <i>Cell Research</i> (2016)</a>.'
+# cr.2016.23 cites Tang et al. for the cDNA amplification but never reprints its oligos:
+# UP1/UP2 and the 5'-amine NH2-UP1/NH2-UP2 are published only in the 2009 supplementary table.
+TANG_OLIGO_SOURCE='Inherited oligo source: <a href="https://doi.org/10.1038/nmeth.1315">Tang et al., <i>Nature Methods</i> (2009)</a>, supplementary oligo table.'
 SUMMARY="A single cell is mechanically separated into cytoplasm for RNA-seq and nucleus for scRRBS; the DNA library jointly reports copy number and CpG methylation."
 CAVEAT="The paper exposes the inherited Tang UP1/UP2 cDNA-amplification oligos and the inherited scRRBS chemistry. The later NEBNext Ultra RNA-library kit is named, but its adapter and indexing-primer bases are not printed in the paper; those terminal arms are therefore marked inferred."
 RNA,RP=illumina_branch("scTrio-seq RNA","cytoplasmic cDNA",inferred_adapters=True)
@@ -52,7 +55,7 @@ def protocol_graph():
     nucleus=g.product("nucleus","nuclear genomic-DNA fraction",MaterialKind.MOLECULAR,state=analyte_split("cytoplasm: poly(A) RNA","nucleus: genomic DNA")[1:])
     g.react("separate","Mechanically separate cytoplasm from nucleus",StepKind.SPLIT,((cell,InputRole.TEMPLATE),),(cytoplasm,nucleus),changes_molecule=False)
 
-    rt_primer=g.input("rt_primer","UP1 oligo-dT reverse-transcription primer",MaterialKind.OLIGO,state=(Segment("UP1",tang.UP1),))
+    rt_primer=g.input("rt_primer","UP1 oligo-dT reverse-transcription primer",MaterialKind.OLIGO,state=(Segment("UP1",tang.UP1),),source=TANG_OLIGO_SOURCE)
     rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
     first=g.product("first_strand","UP1-primed cytoplasmic cDNA",MaterialKind.MOLECULAR,state=tang.first_strand())
     g.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with UP1",StepKind.REVERSE_TRANSCRIPTION,((cytoplasm,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,))
@@ -65,15 +68,15 @@ def protocol_graph():
     datp=g.input("datp","dATP tailing substrate",MaterialKind.OLIGO)
     tailed_cdna=g.product("tailed_cdna","TdT poly(A)-tailed first-strand cDNA",MaterialKind.MOLECULAR)
     g.react("tail_cdna","Add a second poly(A) tail with TdT",StepKind.TAILING,((cleaned,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),(tdt,InputRole.CATALYST)),(tailed_cdna,))
-    up2=g.input("up2","UP2 oligo-dT second-strand primer",MaterialKind.OLIGO,state=(Segment("UP2",tang.UP2),))
+    up2=g.input("up2","UP2 oligo-dT second-strand primer",MaterialKind.OLIGO,state=(Segment("UP2",tang.UP2),),source=TANG_OLIGO_SOURCE)
     second_pol=g.input("second_strand_polymerase","second-strand polymerase",MaterialKind.CATALYST)
     duplex=g.product("double_stranded_cdna",tang.amplified_cdna().name,MaterialKind.MOLECULAR,state=tang.amplified_cdna())
     g.react("second_strand","Synthesize the second strand from UP2",StepKind.EXTENSION,((tailed_cdna,InputRole.TEMPLATE),(up2,InputRole.STRUCTURAL),(second_pol,InputRole.CATALYST)),(duplex,))
     pcr_pol=g.input("cdna_pcr_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
     amplified=g.product("amplified_cdna","UP1/UP2-amplified cDNA",MaterialKind.MOLECULAR,state=tang.amplified_cdna())
     g.react("cdna_pcr","Amplify cDNA with UP1 and UP2",StepKind.PCR,((duplex,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(up2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.exact(tang.amplified_cdna(),PCRPrimer("UP2",tang.UP2),PCRPrimer("UP1",tang.UP1),statement="The inherited Tang supplementary oligo table prints UP1 and UP2, and both sites are located on the amplified cDNA model."))
-    aup1=g.input("aup1","5-prime-amine-blocked AUP1",MaterialKind.OLIGO,state=(Segment("AUP1",tang.AUP1),))
-    aup2=g.input("aup2","5-prime-amine-blocked AUP2",MaterialKind.OLIGO,state=(Segment("AUP2",tang.AUP2),))
+    aup1=g.input("aup1","5-prime-amine-blocked AUP1 (NH2-UP1)",MaterialKind.OLIGO,state=(Segment("AUP1",tang.AUP1),),source=TANG_OLIGO_SOURCE)
+    aup2=g.input("aup2","5-prime-amine-blocked AUP2 (NH2-UP2)",MaterialKind.OLIGO,state=(Segment("AUP2",tang.AUP2),),source=TANG_OLIGO_SOURCE)
     blocked=g.product("amine_blocked_cdna","5-prime-amine-blocked amplified cDNA",MaterialKind.MOLECULAR,state=tang.amplified_cdna())
     g.react("blocked_pcr","Re-amplify with 5-prime-amine-blocked AUP1/AUP2",StepKind.PCR,((amplified,InputRole.TEMPLATE),(aup1,InputRole.STRUCTURAL),(aup2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(blocked,),geometry=PCRGeometry.exact(tang.amplified_cdna(),PCRPrimer("AUP2",tang.AUP2),PCRPrimer("AUP1",tang.AUP1),statement="AUP1/AUP2 have the published UP1/UP2 bases and a source-reported 5-prime amine block."))
     shear=g.input("rna_shearing","Covaris shearing condition",MaterialKind.CONDITION)

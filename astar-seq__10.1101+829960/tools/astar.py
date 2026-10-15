@@ -1,8 +1,19 @@
 """Sequence model for ASTAR-seq.
 
-The C1 oligos and custom ATAC indexing-primer structures are from Supplementary
-Table 5 of Xing et al. (bioRxiv 829960).  The RNA library uses the same Nextera
-back end as the ATAC library after the separated cDNA is tagmented.
+Provenance of every base drawn here:
+
+* the three C1 oligos (`C1_HANDLE`, `C1_DT_SPACER`, `C1_DT`, `C1_TSO`, `C1_PCR`)
+  are transcribed from the authors' own oligo table, printed identically in the
+  defining preprint (bioRxiv 829960, Supplementary Table 5, `media-5.xlsx`) and in
+  the journal version (Genome Research 30:1027, Supplemental Table 5);
+* every other concrete base is a canonical constant imported from `illumina` or
+  `nextera` (P5, P7, s5/s7, mosaic end), never retyped here;
+* the i5 and i7 windows are placeholders.
+
+Nothing in this module comes from the scg_lib_structs drawn page: that page is
+inspiration only, no copy of it was fetched for this protocol, and agreement with
+it is not evidence.  The RNA library uses the same Nextera back end as the ATAC
+library after the separated cDNA is tagmented.
 """
 from __future__ import annotations
 
@@ -42,6 +53,22 @@ INDEX_LEN = 8
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
+
+
+def c1_dt_oligo() -> list[Segment]:
+    """C1-P2-T31, exactly as Supplementary Table 5 prints it (5' /5BiosG/)."""
+    return [_seg("C1 handle", C1_HANDLE, "tso"), _seg("CG", C1_DT_SPACER),
+            _seg("poly(T)", "T" * C1_DT_LEN)]
+
+
+def c1_tso_oligo() -> list[Segment]:
+    """C1-P2-RNA-TSO, as printed; every base is ordered as a ribonucleotide."""
+    return [_seg("C1 handle", C1_HANDLE, "tso"), _seg("GGG", "GGG", "tso")]
+
+
+def c1_pcr_oligo() -> list[Segment]:
+    """C1-P2-PCR-2, as printed (5' /5BiosG/): the bare handle."""
+    return [_seg("C1 handle", C1_PCR, "tso")]
 
 
 def c1_cdna() -> Construct:
@@ -110,7 +137,8 @@ def protocol_graph():
                 ((cell,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged_dna,cellular_rna,tag_waste))
     graph.discard(tag_waste,"non-amplifiable strand-transfer products")
-    dt=graph.input("biotin_dt","biotinylated C1 oligo-dT primer",MaterialKind.OLIGO)
+    dt=graph.input("biotin_dt","biotinylated C1 oligo-dT primer",MaterialKind.OLIGO,
+                   state=tuple(c1_dt_oligo()))
     rt=graph.input("reverse_transcriptase","SuperScript IV reverse transcriptase",
                    MaterialKind.CATALYST)
     first=graph.product("first_strand","biotinylated first-strand cDNA",MaterialKind.MOLECULAR)
@@ -118,13 +146,15 @@ def protocol_graph():
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((cellular_rna,InputRole.TEMPLATE),(dt,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(first,))
-    tso=graph.input("tso","all-RNA C1 template-switch oligo",MaterialKind.OLIGO)
+    tso=graph.input("tso","all-RNA C1 template-switch oligo",MaterialKind.OLIGO,
+                    state=tuple(c1_tso_oligo()))
     switched=graph.product("switched_cdna","template-switched full-length cDNA",
                            MaterialKind.MOLECULAR)
     graph.react("template_switch","Install the second C1 handle",StepKind.TEMPLATE_SWITCHING,
                 ((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(switched,))
-    c1_primer=graph.input("c1_primer","biotinylated C1 PCR primer",MaterialKind.OLIGO)
+    c1_primer=graph.input("c1_primer","biotinylated C1 PCR primer",MaterialKind.OLIGO,
+                          state=tuple(c1_pcr_oligo()))
     pre_pol=graph.input("preamp_polymerase","on-chip cDNA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna","biotinylated full-length cDNA",
                             MaterialKind.MOLECULAR,state=c1_cdna())

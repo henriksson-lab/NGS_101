@@ -2,14 +2,23 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published, or published but not obtained. Relationships marked 🟡 *(computed)* were
-> worked out with `lib/` while writing this note; they are not yet asserted in a
-> self-test, because this protocol has no `tools/` module yet (status `notes`).
+> worked out with `lib/`; the model is `tools/microwell_seq.py`.
 >
-> **Source caveat.** The paper itself (Cell, Elsevier) could not be fetched, so its STAR
-> Methods were **not read**. The two oligo tables (Tables S1 and S2) were read from the
-> copies upstream scg_lib_structs mirrors under their Elsevier file names; their sequences
-> are marked 🟢 as the paper's own supplement. Everything about reaction order and
-> conditions comes from the upstream page (🟡, secondary) or is missing (🔴).
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length or reaction in this note or in the model is taken from it, and
+> agreement with it is not verification.
+>
+> **What is, and is not, published.** Every concrete base the model draws comes from the
+> authors' **own Supplementary Tables S1 and S2** 🟢 — Elsevier's supplementary files
+> `1-s2.0-S0092867418301168-mmc1.xlsx` and `mmc2.xlsx` for this article (PII
+> S0092867418301168), mirrored in the scg_lib_structs repository under
+> `data/Microwell-seq/`. A filename prefix is not provenance: those two files are the
+> publisher's own supplement wherever they are read from, and `mmc2` is titled
+> "Supplementary table 2  Oligonucleotide sequences used in library construction". The
+> rest of the model is canonical `lib/illumina.py` / `lib/nextera.py` constants and
+> placeholders. The paper's **STAR Methods could not be fetched** (Cloudflare/Elsevier),
+> so reaction order below is derived from the oligo architecture 🟡 or missing 🔴, and the
+> Tn5 adaptor is an explicit inference drawn dotted on the page.
 
 **Microwell-seq** — Han X, Wang R, Zhou Y, Fei L, Sun H, Lai S, … Orkin SH, Yuan G-C,
 Chen M, Guo G. "Mapping the Mouse Cell Atlas by Microwell-Seq." *Cell* 2018;172:1091–1107.
@@ -21,7 +30,7 @@ Data: GEO GSE108097 (as cited by the same lab's adrenal paper, below 🟡).
 Other papers listed for this method in `catalogue/scg_lib_structs.tsv`:
 
 - nanoCAGE / CAGEscan — Plessy C et al., *Nat Methods* 2010;7:528–534,
-  doi:10.1038/nmeth.1470 (PMC2906222). Cited upstream for **semi-suppressive PCR**.
+  doi:10.1038/nmeth.1470 (PMC2906222). Read 🟢 for what **semi-suppressive PCR** means (its Fig. 1b); it is the origin of the single-primer design, not a source for any Microwell-seq base.
 
 Same-lab papers found while looking for open Methods (not in the catalogue):
 
@@ -38,10 +47,10 @@ committed):
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_1-s2.0-S0092867418301168-mmc2.xlsx` | **Table S2**, "Oligonucleotide sequences used in library construction" (via upstream mirror) | **every library oligo** |
-| `upstream_1-s2.0-S0092867418301168-mmc1.xlsx` | **Table S1**, the 3 × 96 split-pool oligos A-1…C-96 (via upstream mirror) | bead synthesis, barcode orientation |
-| `upstream_Microwell_A1-A96.txt`, `_B1-B96.txt`, `_C1-C96.txt` | upstream's plain-text copies of Table S1 | checked identical to Table S1 🟡 *(computed)* |
-| `upstream_Microwell-seq.html` | scg_lib_structs page | reaction order, library, read layout (🟡) |
+| `1-s2.0-S0092867418301168-mmc2.xlsx` | the article's **Supplementary Table S2**, "Oligonucleotide sequences used in library construction" (Elsevier ESM; on disk from the scg_lib_structs mirror of `data/Microwell-seq/`) | **every library oligo** 🟢 |
+| `1-s2.0-S0092867418301168-mmc1.xlsx` | the article's **Supplementary Table S1**, the 3 × 96 split-pool oligos A-1…C-96 (same provenance) | bead synthesis, barcode orientation 🟢 |
+| `Microwell_A1-A96.txt`, `_B1-B96.txt`, `_C1-C96.txt` | plain-text splits of Table S1 kept in the same mirror | row-for-row identical to Table S1 🟡 *(computed)*; Table S1 itself is the authority |
+| `upstream_Microwell-seq.html` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
 | `same-lab_PMC7396412.xml` | adrenal paper, Europe PMC full text | transposase identity, "agarose" device |
 | `same-lab_PMC6028447.xml`, `same-lab_PMC8575926.xml` | Cell Discov letter; Microwell-seq 2.0 | nothing chemical for 1.0 |
 | `nmeth.1470_PMC2906222.xml` | nanoCAGE paper | what "semi-suppressive PCR" means |
@@ -52,7 +61,7 @@ Not obtained 🔴 (Cloudflare / Elsevier block from this host; fetch by hand):
 |---|---|
 | https://www.cell.com/cell/fulltext/S0092-8674(18)30116-8 | STAR Methods: array fabrication, bead synthesis, lysis, RT, exonuclease, PCR cycles, tagmentation, sequencing read lengths |
 | http://www.cell.com/article/S0092867418301168/pdf | same, as PDF |
-| https://www.sciencedirect.com/science/article/pii/S0092867418301168 | supplements mmc1–mmc7 from the publisher (the two oligo tables were taken from the upstream mirror instead) |
+| https://www.sciencedirect.com/science/article/pii/S0092867418301168 | supplements mmc3–mmc7 direct from the publisher (mmc1 and mmc2, the two oligo tables, are on disk via the scg_lib_structs mirror of `data/Microwell-seq/`; `catalogue/extra_sources.tsv` now declares that mirror so `get_sources.py` fetches them as `scg_*` rather than by hand) |
 
 ---
 
@@ -60,9 +69,11 @@ Not obtained 🔴 (Cloudflare / Elsevier block from this host; fetch by hand):
 
 A **bead-in-microwell** 3' scRNA-seq method: cells settle by gravity into an **agarose**
 microwell array (agarose: 🟢 adrenal paper, discussion), one barcoded **magnetic** bead
-per well is added (🟡 upstream), cells are lysed, poly(A) mRNA hybridises to the bead's
+per well is added (🔴 bead type and loading not read; the beads are magnetic per the
+adrenal paper's retrieval step 🟢), cells are lysed, poly(A) mRNA hybridises to the bead's
 oligo-dT, and the beads are pooled for RT, template switching and whole-transcriptome
-amplification. Upstream calls it "a well-based inDrop" (🟡).
+amplification 🟡 *(derived from the oligo architecture: one bead-borne oligo-dT with a
+SMART handle, one TSO, one TSO-PCR primer)*.
 
 | | New thing here | Where else it turns up |
 |---|---|---|
@@ -129,12 +140,11 @@ The table also lists N801–N810; they are **byte-identical** to N701–N707, N7
 N712 respectively (N708 and N709 have no N8 twin), so the table holds 36 rows but only
 **26 distinct indices**. 🟡 *(computed)*
 
-Sequencing primers given only by upstream (not in Table S2) 🟡:
-
-```
-Illumina Nextera Index 1 sequencing primer  CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
-Illumina Nextera Read 2 sequencing primer   GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
-```
+Table S2 lists **no** Index 1 or Read 2 sequencing primer 🔴. Because the only Tn5-side
+oligo it prints is the stock N7xx layout and no custom read primer appears, the model uses
+the canonical Illumina/Nextera primers `nextera.INDEX1_PRIMER` and `nextera.READ2_PRIMER`
+from `lib/nextera.py` 🟡 *(derived; the bases come from Illumina's adapter document, not
+from any Microwell-seq statement)*.
 
 ### 2b. Bead-synthesis oligos — 🟢 Table S1 (96 of each; first member shown)
 
@@ -151,14 +161,14 @@ General form (🟡, from the 288 rows): `A = <bead-head> · bc1 · L1`,
 ### 2c. How they interlock — 🟡 *(computed)*
 
 **Bead head.** `TTTAGGGATAACAGGGTAAT` (20 nt) then `rt.SMART_HANDLE` (23 nt) then `AC`
-(seqB) or `ACGT` (seqA). The 20-nt head contains the 18-bp **I-SceI** homing-endonuclease
+(seqB) or `ACGT` (seqA) 🟢. The 20-nt head contains the 18-bp **I-SceI** homing-endonuclease
 site `TAGGGATAACAGGGTAAT` (offset 2) — a rare-cutter that would release the oligo from the
-bead; whether it was ever used is not said 🔴. `SMART_HANDLE + AC` is the Drop-seq bead
-head; seqA adds `GT`. The two bead batches differ only by that `GT` (upstream says "two
-bases" 🟡, confirmed).
+bead; whether it was ever used is not said 🔴. `SMART_HANDLE + AC` is also the Drop-seq/Seq-Well bead
+head; seqA adds `GT`. The two bead designs Table S2 prints differ only by that `GT` 🟡
+*(computed from the two rows)*.
 
 **Which bead batch.** Every A-oligo in Table S1 contains `…GAGTACGT` before its barcode, so
-the A-oligos build **seqA** beads, as upstream concluded. 🟡 *(computed)*
+the A-oligos build **seqA** beads. 🟡 *(computed)*
 
 **Split-pool by primer extension.**
 
@@ -174,7 +184,7 @@ the A-oligos build **seqA** beads, as upstream concluded. 🟡 *(computed)*
   distance 3**, all 96 distinct.
 - Bead oligo, seqA: 47 + 6 + 15 + 6 + 15 + 6 + 6 + 30 = **131 nt** (seqB 129) after the
   "Linker".
-- The three upstream barcode text files are identical to the Table S1 rows.
+- The mirror's three plain-text barcode files are row-for-row identical to Table S1.
 
 **cDNA handles.** `TSO-PCR` **is** `rt.SMART_HANDLE`. `TSO LNA` = `SMART_HANDLE · GAAT ·
 rG rG G*` (30 nt) — the Smart-seq2 TSO layout with `GAAT` where Smart-seq2 has `ACAT`
@@ -202,47 +212,53 @@ TSO-PCR, amplifies the whole cDNA (single-primer, "semi-suppressive" PCR; see §
 **i7 primers.** All 36 are `illumina.P7 · 8 nt · nextera.S7` (47 nt): the standard
 Nextera N7xx layout, ending at s7 without any ME bases. The 8-nt index of N701 is written
 `TAAGGCGA`, i.e. **as named**; the Index 1 read (primer = `nextera.INDEX1_PRIMER`,
-upstream's primer is identical 🟡 *(computed)*) reads its reverse complement,
+`lib/nextera.py`) reads its reverse complement,
 `TCGCCTTA`. Compare ASTAR-seq's Buenrostro `Ad2.1_TAAGGCGA`, which contains `TCGCCTTA` —
 the opposite orientation for the same name. Whether Table S2 lists the index names'
 sequence rather than the bases actually synthesised is open 🔴.
 
-**Read 2 primer** given upstream = `nextera.READ2_PRIMER` (= `ADAPTOR_S7`). 🟡 *(computed)*
+**Read 2 primer**: `nextera.READ2_PRIMER` (= `ADAPTOR_S7`), derived as in §2c 🟡; Table S2
+prints no read primer for this end 🔴.
 
-### 2d. Upstream vs Table S2 — agreements and disagreements
+### 2d. What Table S2 does not contain — 🔴
 
-| Item | Table S2 / S1 (🟢) | Upstream page (🟡) | Verdict |
-|---|---|---|---|
-| bead seqA/seqB fixed parts, T30 | as above | same bases, `[barcode1..3][6-bp UMI](T)30` | **agree** (T run counted: 30) |
-| bead attachment | `5'-Bead-Linker-` | drawn as a bar on the 5' end; "magnetic beads" | agree; linker chemistry not given 🔴 |
-| TSO 3' end | `/rG/rG/iXNA_G` | `rGrG+G` | same intent; upstream normalised XNA to LNA notation |
-| P5 | ends `…GAGT-s-A-s-C` | same bases, **no phosphorothioates** | upstream drops the modification |
-| i7 primers | 36 rows, 26 distinct indices, index written as named | generic "Nextera (XT) N7xx `[8-bp i7 index]`" | upstream does not list them |
-| Index 1 / Read 2 primers | not listed | standard Nextera primers | upstream only |
-| Tn5 adapter | not listed | "not explicitly mentioned … highly likely … s7-ME" homodimer | see §3 step 7 |
-| A/B/C oligos | Table S1 | text files, identical | **agree** |
+| Item | Status |
+|---|---|
+| bead attachment ("5'-Bead-Linker-") | bead material and linker chemistry not given 🔴 |
+| Tn5 adaptor | not listed 🔴; inferred in §3 step 8 from the printed N7xx primer and a later same-lab statement 🟡 |
+| Index 1 and Read 2 sequencing primers | not listed 🔴; the stock Nextera primers are derived (§2c) 🟡 |
+| i7 index orientation (synthesised bases vs index name) | not stated 🔴 |
+| every reaction condition | in the unfetched STAR Methods 🔴 |
+
+An earlier revision of this note carried an item-by-item comparison against the
+scg_lib_structs drawn page and treated the agreements as confirmation. Agreement with that
+page is not evidence, so the comparison is gone; what remains is what Tables S1–S2 print
+and what is derived from them.
 
 ## 3. Step by step
 
-Order 🟡 from the upstream page; quantities, temperatures and cycle numbers 🔴 (STAR
-Methods not obtained).
+Order 🟡 *(derived from the oligo architecture of Tables S1–S2: which oligo can only act
+after which, see §2c)*; quantities, temperatures and cycle numbers 🔴 (STAR Methods not
+obtained).
 
 Bead synthesis (before the experiment):
 
 1. **Round 1**: A-1…A-96 attached to magnetic beads, one oligo per well of a 96-well plate
-   (upstream: "Bind"; attachment chemistry 🔴). Bead strand:
+   (attachment chemistry 🔴). Bead strand:
    `bead · head · SMART_HANDLE · ACGT · bc1 · L1`.
 2. **Pool, split into B-1…B-96**, primer extension: B anneals by `L1'`; the bead strand is
    extended to `… · L1 · bc2 · L2`.
 3. **Pool, split into C-1…C-96**, extension: C anneals by `L2'`; bead strand becomes
    `… · L2 · bc3 · UMI · T30`.
-4. **Strip the complementary strand** by heat (95 °C per upstream, which asks why not NaOH
-   🟡). Beads now carry single-stranded seqA oligos.
+4. **Strip the complementary strand**, so the beads carry single-stranded seqA oligos.
+   🟡 *(required by the next step — oligo-dT capture needs a free single strand — but no
+   source we hold gives the method or conditions 🔴.)*
 
 Library:
 
 5. **Load cells** into the agarose microwell array, then beads; **lyse**; mRNA poly(A)
-   anneals to the bead T30. Beads are collected (magnet) and pooled. 🟡 (upstream)
+   anneals to the bead T30. Beads are collected (magnet) and pooled. 🟡 *(the magnetic
+   retrieval is 🟢 in the same lab's adrenal paper; the 2018 conditions are 🔴)*
 6. **RT with template switching** on the pooled beads (MMLV-type RT + TSO LNA): first
    strand `bead · … · UMI · T30 · cDNA · CCC`, then the TSO's `GGG` pairs with the
    untemplated `CCC` and the RT copies the TSO, adding `GAAT · SMART_HANDLE'` to the
@@ -250,18 +266,18 @@ Library:
 7. **Whole-transcriptome PCR with TSO-PCR alone.** Both ends carry the SMART handle, so one
    primer amplifies full-length cDNA; the bead-side 20-nt head (with the I-SceI site) is
    copied at most once (first second-strand synthesis runs to the oligo's 5' end), but the
-   primer anneals at the handle, so exponentially amplified products start at the handle. Upstream labels this, after
-   nanoCAGE, **semi-suppressive PCR**: when both ends carry the same sequence, short
+   primer anneals at the handle, so exponentially amplified products start at the handle. A
+   single primer on two identical ends is nanoCAGE's **semi-suppressive PCR**: when both ends carry the same sequence, short
    products fold into intramolecular panhandles and are amplified poorly, while long cDNA
    amplifies (nanoCAGE Fig. 1b, read 🟢 for the principle). Purify.
 8. **Tagment** the purified cDNA. The same lab later names the enzyme: a "customized
    transposase" from the **Vazyme TruePrep DNA Library Prep Kit V2 (TD513)**, "which
    carries two identical insertion sequences" (🟢 adrenal paper, 2020 — for 2018 🟡).
    With identical adapters, and with the only Tn5-side primer being an N7xx (s7) primer,
-   the insertion sequence must be **s7-ME** (`nextera.ADAPTOR_S7`), as upstream inferred.
+   the insertion sequence must be **s7-ME** (`nextera.ADAPTOR_S7`).
    🟡 (inferred; adapter not published 🔴)
-9. **Library PCR with P5 + one N7xx.** Three fragment classes (🟡, upstream's analysis,
-   re-derived):
+9. **Library PCR with P5 + one N7xx.** Three fragment classes 🟡 *(computed from the two
+   printed primers and the inferred symmetric adaptor)*:
    - **bead end** (`SMART_HANDLE · AC · barcodes · UMI · T30 · insert · ME' · s7'`):
      P5 primes the handle end, N7xx the s7 end → **the library**;
    - **internal** (`s7 · ME · insert · ME' · s7'`): same adapter both ends, panhandle
@@ -271,15 +287,15 @@ Library:
      poorly.
 10. Size-select / sequence (🔴 conditions).
 
-## 4. Final library — 🟡 *(assembled from the oligos; equals upstream's drawn library)*
+## 4. Final library — 🟡 *(assembled from the Table S1/S2 oligos)*
 
 ```
 5'- P5 · GCCTGTCCGCGG · SMART_HANDLE · ACGT · bc1(6) · L1(15) · bc2(6) · L2(15) · bc3(6) · UMI(6) · T30 · <cDNA, 3' end of transcript> · ME' · s7' · i7'(8) · P7' -3'
 ```
 
-- 5' adapter up to the poly(T): 122 nt; 3' adapter (`ME' · s7' · i7' · P7'`) 66 nt.
-  Both strings were assembled from `lib/` constants and compared character for character
-  with upstream's final library: **identical**.
+- 5' adapter up to the poly(T): 122 nt; 3' adapter (`ME' · s7' · i7' · P7'`) 66 nt, both
+  assembled from the Table S2 primers and `lib/` constants 🟡 *(computed)*. The `ME' · s7'`
+  part depends on the inferred symmetric adaptor (§3 step 8) and is drawn dotted.
 - seqB beads: drop the `GT`; everything else the same.
 - **No i5 index**: the P5 side carries the 12-nt spacer and handle, not an index.
   Libraries are single-indexed by i7.
@@ -289,8 +305,8 @@ Library:
 | Read | Primer | Reads | Length needed |
 |---|---|---|---|
 | Read 1 | custom `Read1 SeqA-GT` (or `SeqB-TAC`) 🟢 | bc1 · L1 · bc2 · L2 · bc3 · UMI, then poly(T) | ≥ 54 nt to reach the end of the UMI 🟡 *(computed)* |
-| Index 1 | `nextera.INDEX1_PRIMER` (upstream) 🟡 | i7, 8 nt (the reverse complement of the index as Table S2 writes it) | 8 |
-| Read 2 | `nextera.READ2_PRIMER` (upstream) 🟡 | cDNA, from the Tn5 cut towards the poly(A) | — |
+| Index 1 | `nextera.INDEX1_PRIMER` 🟡 *(derived, §2c)* | i7, 8 nt (the reverse complement of the index as Table S2 writes it) | 8 |
+| Read 2 | `nextera.READ2_PRIMER` 🟡 *(derived, §2c)* | cDNA, from the Tn5 cut towards the poly(A) | — |
 
 Cell barcode = bc1 + bc2 + bc3 (18 nt over 54 cycles, interrupted by two 15-nt linkers);
 UMI = 6 nt. The adrenal paper confirms that barcode and UMI come from read 1 and that only
@@ -309,17 +325,21 @@ libraries in the adrenal paper (🟡); read lengths used in the 2018 paper 🔴.
 - 🟡 The P5 3'-mismatch / phosphorothioate discrimination of the TSO end is inferred from
   sequence alone.
 - 🟡 Tn5 adapter = s7-ME homodimer: supported by the later same-lab statement of "two
-  identical insertion sequences" and by the primers, not stated for 2018.
+  identical insertion sequences" and by the printed primers, not stated for 2018. This is
+  the one inferred region on the public page, and it carries all three required signals
+  (page caveat, `INFERRED — …` step caption, dotted bases).
 - 🟡 `L1 = CGACTCACTACAGGG` differs from the T7 promoter tail `CGACTCACTATAGGG` by one
   base — probably a coincidence of design; not used as a promoter here.
 
 ## 7. How this note was made (tool evaluation)
 
-`tools/get_sources.py` saved only the upstream page; it found no open copy of the paper
-(Cell/ScienceDirect return a Cloudflare challenge). The two supplementary tables were
-fetched by hand from upstream's `data/Microwell-seq/` mirror (linked from the upstream
-page but not followed by the tool), and three same-lab papers plus the nanoCAGE paper from
-Europe PMC. `tools/doctext.py` copied the Europe PMC XML through as raw XML (tags kept);
+`tools/get_sources.py` found no open copy of the paper (Cell/ScienceDirect return a
+Cloudflare challenge). The two supplementary tables were first fetched by hand from the
+scg_lib_structs repository's `data/Microwell-seq/` mirror of Elsevier's `mmc1`/`mmc2`;
+`catalogue/extra_sources.tsv` now declares that mirror with the `scg:` handler, so the
+tool fetches them itself and they land as `scg_*` where
+`tools/selftest_source_oligos.py` can see them. Three same-lab papers plus the nanoCAGE
+paper came from Europe PMC. `tools/doctext.py` copied the Europe PMC XML through as raw XML (tags kept);
 the `.xml.txt` twins were re-made by stripping tags. `tools/scrape_primers.py` found all
 Table S2 and Table S1 rows, but joined the one-sequence-per-line barcode text files into a
 single 5472-nt "sequence".

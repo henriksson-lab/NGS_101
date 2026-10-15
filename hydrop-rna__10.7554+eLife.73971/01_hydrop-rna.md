@@ -1,10 +1,20 @@
 # HyDrop-RNA — Drop-seq chemistry on dissolvable, split-pool barcoded hydrogel beads
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`). Claims taken only from
-> the upstream scg_lib_structs page are 🟡 (secondary source).
+> published. Relationships marked 🟡 *(computed)* were worked out with `lib/`; the model
+> is `tools/hydrop_rna.py`.
+>
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length, kit or reaction in this note or in the model is taken from it, and
+> agreement with it is not evidence. Every HyDrop-specific base below comes from the
+> authors' own eLife supplementary files — Supplementary file 4 ("Reagents and
+> oligonucleotide list", the ordered oligos) and Supplementary file 3 ("Molecular
+> sequence description of HyDrop-RNA") — and every generic Illumina base from
+> `lib/illumina.py`, i.e. from *Illumina Adapter Sequences* #1000000002694. A filename
+> prefix is not provenance: the `scg_elife-73971-supp{1,2,3}-v4.docx` and
+> `upstream_data/elife-73971-supp{1,3}-v4.docx` files on disk are the publisher's own
+> supplements, byte-identical (md5) to the copies fetched from `cdn.elifesciences.org`,
+> and are cited here as such.
 
 **HyDrop** — De Rop FV, Ismail JN, Bravo González-Blas C, Hulselmans GJ, Flerin CC,
 Janssens J, Theunis K, Christiaens VM, Wouters J, Marcassa G, de Wit J, Poovathingal S,
@@ -17,8 +27,11 @@ Other papers / documents for this method (from `catalogue/scg_lib_structs.tsv`):
 - Protocol: "HyDrop-RNA v1.0", protocols.io, doi:[10.17504/protocols.io.b4xwqxpe](https://doi.org/10.17504/protocols.io.b4xwqxpe) — not fetched (see below).
 - Sister assay from the same paper: **HyDrop-ATAC** (`hydrop-atac__10.7554+eLife.73971`;
   protocols.io b4xvqxn6). Same beads up to the last barcoding round, same `HYi7` primers.
-- Cited by upstream for the single-primer cDNA PCR: Plessy et al., nanoCAGE/CAGEscan,
-  *Nat Methods* 2010, doi:10.1038/nmeth.1470 ("semi-suppressive PCR").
+- `catalogue/scg_lib_structs.tsv` carries a `cited` row for Plessy et al.,
+  nanoCAGE/CAGEscan, *Nat Methods* 2010, doi:10.1038/nmeth.1470 ("semi-suppressive PCR").
+  That association was scraped from the drawn page's own citation list, and the eLife
+  paper does not cite Plessy anywhere 🟡 — it is background reading for suppression PCR,
+  not a HyDrop source, and nothing in this note rests on it.
 
 Sources read (in `$CHEM_DATA/sources/hydrop-rna__10.7554+eLife.73971/`, never committed):
 
@@ -31,17 +44,17 @@ Sources read (in `$CHEM_DATA/sources/hydrop-rna__10.7554+eLife.73971/`, never co
 | `elife_cdn/elife-73971-supp2-v3.docx.txt` | Supplementary file 2 (HyDrop-ATAC sequences) | only to confirm the shared `HYi7` design |
 | `elife_cdn/elife-73971-supp5-v3.xlsx.txt` | Supplementary file 5, cost sheets | enzyme list (Maxima H–, NEB Ultra II FS, KAPA) |
 | `elife_cdn/elife-73971-fig1-figsupp{2,3,4}-data1-v3.docx.txt` | bead QC source data | not chemistry |
-| `upstream_HyDrop_RNA.html.txt` | scg_lib_structs page | second, independent drawing — checked below |
-| `upstream_data/20210712_supp_methods_table_hydrop_oligonucleotide_list.xlsx.txt` | the protocols.io oligo list, as mirrored by upstream | identical oligo content to Supplementary file 4 🟡 (diffed) |
-| `upstream_data/elife-73971-supp{1,3}-v4.docx.txt` | upstream's copies of Supp. files 1 and 3 (v4) | text identical to the v3 copies 🟡 (diffed) |
+| `eLife.73971_elife-73971-supp4-v5.xlsx.txt` | Supplementary file 4 of the **version of record** (v5), direct from `cdn.elifesciences.org` | the ordered-oligo table this note and the model are built on; supersedes the v3 copy (see §6) |
+| `scg_elife-73971-supp3-v4.docx.txt`, `upstream_data/elife-73971-supp{1,3}-v4.docx.txt` | the publisher's Supplementary files 1 and 3 (v4), mirrored in the scg_lib_structs `data/` tree — **genuine eLife originals**, md5-identical to the eLife CDN copies | cited as the authors' own documents; the `scg_`/`upstream_data` prefix is a download route, not provenance |
+| `scg_20210712_supp_methods_table_hydrop_oligonucleotide_list.xlsx.txt` | the **authors'** protocols.io oligonucleotide list (dated 2021-07-12), mirrored in the same tree | oligo content identical to Supplementary file 4 v3 🟡 (diffed); carries the same v3 name swap |
+| `protocolsio_hydrop-rna-v1-0-dm6gpwqjjlzp.pdf.txt` (v5, Dec 2023), `protocolsio_hydrop-bead-generation-amp-pcr-barcoding-v1-0-n92ld9np9g5b.pdf.txt` | the authors' protocols.io protocols (PDF export), now fetched | bench conditions only — DTT/GTP/PEG, Exo I, 13-cycle PCRs, 20 °C ligation; they print **no oligo sequence** 🟢 (checked) |
+| `upstream_HyDrop_RNA.html.txt` | scg_lib_structs page | **inspiration only, not a source** — nothing in this note or the model is cited from, or verified against, it |
 
 Not fetched:
 
 | What | URL | Why it would matter |
 |---|---|---|
-| protocols.io HyDrop-RNA v1.0 (b4xwqxpe) | https://www.protocols.io/view/hydrop-rna-v1-0-b4xwqxpe | bench version; may have newer conditions than the paper. API needs a token. 🔴 |
-| protocols.io bead protocol (b4cyqsxw) | https://doi.org/10.17504/protocols.io.b4cyqsxw | full bead-synthesis conditions 🔴 |
-| LNA-TSO and dN-SMRT primer sequences (optimisation trials) | — | named in the methods, absent from Supplementary file 4 🔴 |
+| LNA-TSO and dN-SMRT primer sequences (optimisation trials) | — | named in the methods, absent from Supplementary file 4 and from both protocols.io protocols 🔴 — they are published nowhere we can reach, and the model does not draw them |
 
 (The PMC supplement links were behind the download gate, and Europe PMC's
 supplementary zip was cut off at 50 MB; the same files came from
@@ -90,12 +103,13 @@ HYi7_N_<i7>            CAAGCAGAAGACGGCATACGAGAT <i7> CTGTCCGCGGAAGCAGTGGTATCAACG
 HYi5_TruSeq_N_<i5>     AATGATACGGCGACCACCGAGATCTACAC <i5> ACACTCTTTCCCTACACGACGCT
                        N = 1..5, e.g. HYi5_TruSeq_1_TCGTGGAGCG = AATGATACGGCGACCACCGAGATCTACACTCGTGGAGCGACACTCTTTCCCTACACGACGCT
 
-HyDrop_CustSeq_Short   CTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC     HPLC   (table says: "custom i7 read primer")
-HyDrop_CustSeq_R2      GTACTCTGCGTTGATACCACTGCTTCCGCGGACAG     HPLC   (table says: "custom read 2 read primer")
+HyDrop_CustSeq_R2      CTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC     HPLC   "custom read 2 read primer for hydrop-rna"
+HyDrop_CustSeq_Short   GTACTCTGCGTTGATACCACTGCTTCCGCGGACAG     HPLC   "custom i7 read primer for hydrop-rna"
 ```
 
-**The two custom read-primer names are swapped in Supplementary file 4** — see the box
-below. Bead QC probes (not used in the library) 🟢:
+(These are the names and sequences of the **version of record**, `supp4-v5`. The earlier
+`supp4-v3` copy, and the authors' protocols.io oligo list, have the two sequences under
+each other's names — see the box below.) Bead QC probes (not used in the library) 🟢:
 
 ```
 Anti-Acrydite_FAM   /56-FAM/TTTTTGTACTCTGCGTTGATACCAC
@@ -106,8 +120,11 @@ Anti-BC3_FAM        /56-FAM/TTTTTCTCCTATCATAGGG
 ```
 
 Kit oligos used but not listed in the paper: the **NEBNext Adapter for Illumina** (hairpin,
-dU in the loop) — 🟡 `illumina.NEBNEXT_HAIRPIN`; upstream draws exactly this hairpin
-(compared base for base). The sequencing run's **TruSeq Read 1** and **Index 2** primers
+dU in the loop). The paper names the kit ("NEBNext Ultra II FS", "NEBNext Adapter for
+Illumina") 🟢, and the bases come from NEB's own adapter specification by way of
+`illumina.NEBNEXT_HAIRPIN` 🟢 (bases) / 🟡 (that this is the adapter version the authors
+received) — paper → named vendor kit → vendor document, with nothing taken from the drawn
+page. The sequencing run's **TruSeq Read 1** and **Index 2** primers
 are drawn in Supplementary file 3: `ACACTCTTTCCCTACACGACGCTCTTCCGATCT` and
 `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` 🟢.
 
@@ -146,8 +163,8 @@ BC1(10) · CAGCTACTGC · BC2(10) · CGAGTACCCT · BC3(10) · UMI(8) · T30` = **
   So in the library PCR only fragments carrying the bead end (barcode, UMI) amplify; 5'-end
   fragments that kept the TSO handle do not. The `*A*C` presumably stops KAPA HiFi's
   3'→5' proofreading from trimming the mismatch away and rescuing those fragments. 🟡
-  (mismatch computed; upstream draws the same conclusion; the role of the phosphorothioates
-  is inferred, not stated)
+  (the mismatch is computed from the two ordered oligos; the role of the phosphorothioates
+  is inferred, not stated anywhere)
 - The 3' 35 nt of `HYi7` (`CTGTCCGCGG` + handle + `AC`) equal the **Drop-seq custom Read 1
   primer** minus its first two bases `GC` (compared with the Drop-seq note). HyDrop moved
   that spacer from the P5 side (Drop-seq's P5-SMART hybrid primer) to the P7 side and put an
@@ -156,24 +173,36 @@ BC1(10) · CAGCTACTGC · BC2(10) · CGAGTACCCT · BC3(10) · UMI(8) · T30` = **
 - `HYi7` is shared with HyDrop-ATAC (same bead handle) 🟢 (table description; Supp. file 2).
 
 **HYi5_TruSeq.** = **`illumina.P5`** + 10-nt i5 + `illumina.TRUSEQ_READ1[:23]`
-(`ACACTCTTTCCCTACACGACGCT`), 62 nt. Its 3' end pairs inside the read-1 arm of the NEB
+(`ACACTCTTTCCCTACACGACGCT`), 62 nt — the Read 1 arm stops **10 nt short** of
+`CTTCCGATCT`, which the NEB hairpin has already installed in the fragment. The model
+(`hydrop_rna.HYI5_READ1_ARM`) now draws that truncation; an earlier revision gave the
+primer the full 33-nt arm, which `tools/selftest_source_oligos.py` flagged as absent from
+the source text. Its 3' end pairs inside the read-1 arm of the NEB
 adapter. The i5 is written **as named** for all five, and the five i5 indices are the first
 five **`HYi5` (ATAC) indices** — the ATAC primers have the Nextera s5 tail
 (`TCGTCGGCAGCGTCAGATGTG` = `nextera.ADAPTOR_S5[:21]`) instead.
 
-**The custom read primers.** `HyDrop_CustSeq_Short` as tabulated = the 3' 35 nt of `HYi7`;
-`HyDrop_CustSeq_R2` = its reverse complement. 🟡
+**The custom read primers.** `HyDrop_CustSeq_R2` = the 3' 35 nt of `HYi7`;
+`HyDrop_CustSeq_Short` = its reverse complement. 🟡
 
-> **Disagreement — read-primer names (Supplementary file 4 vs Supplementary file 3 and
-> upstream).** In the final library the barcode/UMI region follows `CTGTCCGCGG·handle·AC`
-> on the P7-side strand. A primer with **that** sequence (`CTGTCCGCGG…GCAGAGTAC`) extends
-> into BC1 → it is the **Read 2** (barcode) primer; its reverse complement
-> (`GTACTCTGCG…CGCGGACAG`) extends the other way into the i7 → it is the **Index 1**
-> primer. Supplementary file 3 draws exactly this: `CTGTCC…AGTAC` labelled
-> **HyDrop_CustSeq_R2**, `GTACTC…GACAG` labelled **HyDrop_CustSeq_Short**. The upstream page
-> agrees with Supplementary file 3. **Supplementary file 4 (and the identical protocols.io
-> list) has the two sequences under each other's names.** Trust the function, not the
-> table's names. 🟡 (computed; both drawings 🟢)
+> **Resolved disagreement — read-primer names across supplement versions.** In the final
+> library the barcode/UMI region follows `CTGTCCGCGG·handle·AC` on the P7-side strand. A
+> primer with **that** sequence (`CTGTCCGCGG…GCAGAGTAC`) extends into BC1 → it is the
+> **Read 2** (barcode) primer; its reverse complement (`GTACTCTGCG…CGCGGACAG`) extends the
+> other way into the i7 → it is the **Index 1** primer. Two independent grounds settle
+> this, neither of them the drawn page:
+>
+> 1. **The version of record.** `supp4-v5` names them this way 🟢
+>    (`HyDrop_CustSeq_R2` = `CTGTCC…AGTAC`, "custom read 2 read primer";
+>    `HyDrop_CustSeq_Short` = `GTACTC…GACAG`, "custom i7 read primer"), and
+>    Supplementary file 3's drawing labels the same two arrows the same way 🟢. The
+>    *earlier* `supp4-v3` copy and the authors' protocols.io oligo list carry the two
+>    sequences under each other's names — a defect corrected between eLife versions, not
+>    a live conflict.
+> 2. **Computation.** `tools/hydrop_rna.py` declares both primers by reference and
+>    `seqprimers.verify` locates them on the modelled library; `final_library()` raises if
+>    either fails to land. The assignment is therefore enforced by the model rather than
+>    asserted in prose. 🟡 *(computed)*
 
 ### Bead QC probes — 🟡 (computed)
 
@@ -233,7 +262,8 @@ Volumes and conditions 🟢 from "HyDrop-RNA single-cell library preparation" un
     on the bead-end fragments (step 8 reasoning); `HYi5_TruSeq` on the NEB read-1 arm.
     Internal fragments (no handle) and TSO-end fragments are not exponentially amplified;
     the NEB read-2 arm on the barcode side is **not** in the final molecule — `HYi7`
-    primes inside the handle, upstream of it. 🟡 (computed; upstream says the same)
+    primes inside the handle, 5' of it. 🟡 *(computed from the two ordered primers and the
+    adapter)*
 
 Optimisation trials (methods, 🟢): no-Exo I, an **LNA TSO**, GTP/PEG, and two
 second-strand-synthesis alternatives (RNase H, then a random-primed "dN-SMRT" primer with
@@ -242,8 +272,8 @@ and is the protocol above. Sequences of the LNA TSO and dN-SMRT primer: 🔴.
 
 ## 4. Final library — 🟡 (assembled from the oligos above)
 
-5'→3', top strand written from P5 (upstream's orientation; Supplementary file 3 writes the
-same molecule from P7):
+5'→3', top strand written from P5, the orientation these notes use throughout;
+Supplementary file 3 writes the same molecule from P7:
 
 ```
 5'- P5 · i5 · TruSeq Read 1 · <cDNA, sense> · A30 · UMI(8) · BC3(10) · AGGGTACTCG · BC2(10) · GCAGTAGCTG · BC1(10) · GTACTCTGCG TTGATACCACTGCTT CCGCGGACAG · i7' · P7' -3'
@@ -252,9 +282,10 @@ same molecule from P7):
 Segments: `illumina.P5` (29) · i5 (10) · `illumina.TRUSEQ_READ1` (33) · insert ·
 A30 · N8 · BC3 · L2' · BC2 · L1' · BC1 · revcomp(`CTGTCCGCGG` + handle + `AC`) (35) · i7'
 (10) · `illumina.P7_RC` (24). With `HYi5_TruSeq_1` and `HYi7_1`, i5 = `TCGTGGAGCG` and
-i7' = `GAACTGAGCG`. The 3' part computed from the oligos —
-`GTACTCTGCGTTGATACCACTGCTTCCGCGGACAG <i7'> ATCTCGTATGCCGTCTTCTGCTTG` — matches the
-upstream final structure exactly.
+i7' = `GAACTGAGCG`. The 3' part is computed from the two ordered library-PCR primers —
+`GTACTCTGCGTTGATACCACTGCTTCCGCGGACAG <i7'> ATCTCGTATGCCGTCTTCTGCTTG` — and is the
+reverse complement of `HYi7` read back across the amplicon, so the model derives it rather
+than transcribing it. 🟡 *(computed)*
 
 The cDNA insert is the 3' end of the transcript (the bead end is the only one carried
 through), read in **sense** from Read 1 towards the poly(A).
@@ -276,18 +307,24 @@ Index 2 (`illumina.INDEX2_PRIMER_RC` = revcomp of TruSeq Read 1) on the NextSeq 
 reverse-complement workflow reads revcomp of the i5 as named (`HYi5_TruSeq_1` →
 `CGCTCCACGA`).
 
-## 6. Checked against upstream (scg_lib_structs)
+## 6. Where the authors' own files disagree, and how each case is settled
 
-| Point | Upstream | Paper | Verdict |
+The eLife package contains both **ordered oligos** (Supplementary file 4, an IDT order
+sheet) and **schematic drawings** (Supplementary files 1–3), and the two do not always
+match. The rule used here is: an ordered oligo is the molecule that existed; a drawing is
+an illustration. Where that is not enough, the model's own computation decides. Nothing in
+this table is settled by the drawn page.
+
+| Point | Disagreement inside the authors' files | Settled by | Status |
 |---|---|---|---|
-| Bead oligo, TSO, TSO-P, plate oligo structure, linkers | as §2 | Supp. 1, 3, 4 | **agree** 🟢 |
-| UMI / poly(T) | 8-nt UMI, T30 | **Supp. 4 (ordered plate-3 oligos): N8 + A30** · Supp. 1 drawing: N9 + T25 ("136 bp") · Supp. 3 drawing: N10 + T25 | upstream follows the ordered oligos; Supp. 1 and 3 drawings are inconsistent with them and with each other. The 58-cycle Read 2 fits N8. 🟡 |
-| `HYi7` 3' end | `…CAGAGTAC`, no modification | `…CAGAGT*A*C` | upstream omits the phosphorothioates |
-| Read-primer names | Short = `GTACTC…`, R2 = `CTGTCC…` | Supp. 3 same as upstream; **Supp. 4 swapped** | upstream right, table wrong (§2 box) |
-| NEB adapter | hairpin with U | "NEBNext Adapter for Illumina" | upstream = `illumina.NEBNEXT_HAIRPIN` 🟡 |
-| TSO-end fragments not amplified | "HYi7 ends with AC" | not stated | agree with computation 🟡 |
-| Supp. 1 example barcodes | — | `TTCCTGTGAG`, `TCGGACTTAT`, `GGCTGAATTA` | **not** in the plate lists — illustrative only 🟡 |
-| cDNA PCR primer | drawn on both ends | "TSO-P", single primer | agree |
+| UMI / poly(T) width | Supp. 4 ordered plate-3-RNAseq oligos: `A30 + N8 + BC3 + AGGGTACTCG` 🟢 · Supp. 1 drawing: N9 + T25 ("136 bp") · Supp. 3 drawing: N10 + T25 | the ordered oligos, independently confirmed by the **58-cycle Read 2** (10+10+10+10+10+8 = 58) 🟡 *(computed)* | model draws N8 + T30 🟡 |
+| Custom read-primer names | `supp4-v5`: R2 = `CTGTCC…`, Short = `GTACTC…` 🟢 · `supp4-v3` and the protocols.io list: swapped | the version of record, plus `seqprimers.verify` on the modelled library (§2 box) | resolved 🟡 |
+| `HYi5_TruSeq` Read 1 arm | Supp. 4 prints a 23-nt arm; the full TruSeq arm is 33 nt | the ordered oligo — the remaining 10 nt come from the NEB hairpin, not from the primer | model corrected to 23 nt 🟢 |
+| `HYi7` 3' end | Supp. 4: `…CAGAGT*A*C` 🟢 | modifications are recorded in §2 but not drawn as bases | 🟡 (phosphorothioates not modelled) |
+| NEB adapter bases | paper names the kit only | NEB's own adapter specification via `illumina.NEBNEXT_HAIRPIN` | 🟡 (which adapter version) |
+| TSO-end fragments not amplified | not stated anywhere | the 2-nt 3' mismatch between `HYi7`'s `…GCAGAGTAC` and the TSO end's `…GCAGAGTGA` 🟡 *(computed)* | inference, flagged as such |
+| Supp. 1 example barcodes | `TTCCTGTGAG`, `TCGGACTTAT`, `GGCTGAATTA` are **not** in the plate-1/2/3 lists | the plate lists are the ordered material; the drawing's barcodes are illustrative | 🟡 |
+| cDNA PCR | Supp. 3 draws one primer at both ends; Supp. 4 names one oligo, `TSO-P` | agree; the model uses `PCRGeometry.symmetric` so the single-species claim is checked | 🟢/🟡 |
 
 ## 7. Open questions
 
@@ -307,9 +344,11 @@ slug did not match); `get_sources.py HyDrop-RNA` worked. It saved the PMC text a
 but: the Europe PMC supplementary zip was **truncated at exactly 50,000,000 bytes** (no
 central directory; a few entries were recoverable from local headers); the
 "transrepform1.docx" it saved was a **reCAPTCHA HTML page** with a .docx name; all other
-supplements were `(manual)` behind the PMC gate. All supplements came instead from
-`cdn.elifesciences.org/articles/73971/elife-73971-<name>-v3.<ext>` (fetched by hand), and
-the protocols.io oligo list from upstream's mirror. `scrape_primers.py` found every oligo
+supplements were `(manual)` behind the PMC gate. The v3 supplements came instead from
+`cdn.elifesciences.org/articles/73971/elife-73971-<name>-v3.<ext>` (fetched by hand) and
+the authors' protocols.io oligo list from the scg_lib_structs `data/` mirror; a later
+fetch added the **v5** (version-of-record) supplements from the same eLife CDN, and §6
+uses those. `scrape_primers.py` found every oligo
 table (Supp. 4 first), but read `TSO-P` as a 5'-phosphorylated `TSO` (the `-P` of the name
 taken as `5' P`), and joined a duplex's two strands into one hit in Supp. 1. Its `--find`
 reported **0 locations** for sequences containing `N` and missed the Supp. 4 rows written

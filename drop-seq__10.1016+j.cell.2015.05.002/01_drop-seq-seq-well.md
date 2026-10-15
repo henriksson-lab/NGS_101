@@ -2,9 +2,18 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published, or published but not obtained. Relationships marked 🟡 *(computed)* were
-> worked out with `lib/` while writing this note. Claims taken only from the
-> upstream scg_lib_structs page are 🟡 (secondary source) unless a primary source we hold
-> says the same.
+> worked out with `lib/`; the model is `tools/drop_seq.py`.
+>
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length or reaction in this note or in the model is taken from it, and
+> agreement with it is not verification. Nothing it alone asserts is treated as published.
+>
+> **Where the bases come from.** The Drop-seq paper prints no oligo — its Experimental
+> Procedures defer every sequence to Table S6, which is behind the PMC download gate 🔴.
+> The oligo set below is published by the **Seq-Well paper's own Supplementary Table 1**
+> 🟢 for the *same* bead (ChemGenes MACOSKO-2011-10, described there as "as described in
+> Macosko et al. Cell 2015"). Carrying it back to Drop-seq is therefore an **inference**
+> 🟡, and every segment it supplies is created `inferred=True` and drawn dotted.
 
 **Drop-seq** — Macosko EZ, Basu A, Satija R, Nemesh J, Shekhar K, Goldman M, Tirosh I,
 Bialas AR, Kamitaki N, Martersteck EM, Trombetta JJ, Weitz DA, Sanes JR, Shalek AK,
@@ -18,9 +27,9 @@ Fortune S, Love JC, Shalek AK. "Seq-Well: portable, low-cost RNA sequencing of s
 cells at high throughput." *Nat Methods* 14:395–398 (2017).
 doi:[10.1038/nmeth.4179](https://doi.org/10.1038/nmeth.4179) · PMID 28192419 · PMC5376227.
 
-Also cited by the upstream page: nanoCAGE / CAGEscan (Plessy et al., *Nat Methods* 2010,
-doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470)) for the
-"semi-suppressive PCR" idea. Not fetched.
+Also listed for this method in `catalogue/scg_lib_structs.tsv`: nanoCAGE / CAGEscan
+(Plessy et al., *Nat Methods* 2010, doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470)).
+Not fetched for this protocol; nothing here depends on it.
 
 Sources read (fetched by `tools/get_sources.py`, into
 `$CHEM_DATA/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/`, never committed):
@@ -30,7 +39,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `j.cell.2015.05.002_PMC4481139.html.txt` | Drop-seq full text (PMC author manuscript) | concept, bead synthesis, Experimental Procedures (short form), read layout in Fig. 2C legend |
 | `nmeth.4179_..._MOESM237_ESM.pdf.txt` | Seq-Well Supplementary Figures + **Supplementary Table 1** | **every oligo** (Seq-Well) |
 | `nmeth.4179_..._MOESM238_ESM.pdf.txt` | **Seq-Well Master Protocol v1.0** (Shalek & Love labs, 13 Feb 2017) | **all Seq-Well conditions**: arrays, sealing, lysis, RT, ExoI, WTA, Nextera, sequencing, buffers |
-| `upstream_Drop-seq.html.txt` | scg_lib_structs "Drop-seq / Seq-Well" page | second account of oligos, library, read layout — checked below |
+| `upstream_Drop-seq.html.txt` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
 | `nmeth.4179_..._MOESM234/235/236/240/242–246_ESM.xlsx.txt` | Seq-Well source data (barcode counts, tSNE, gene lists, GSEA) | not chemistry |
 
 Could not be fetched (🔴 for everything only they contain):
@@ -97,53 +106,40 @@ Protocol's shopping list: **Nextera N70X Oligo** (Illumina, i.e. the Nextera XT 
 primers). 🟢 Their sequence is not given; the standard form is `nextera.n7xx_primer()` =
 `CAAGCAGAAGACGGCATACGAGAT <i7> GTCTCGTGGGCTCGG`. 🟡
 
-### Drop-seq — 🟡 only from the upstream page (the paper's Table S6 was not obtained)
+### Drop-seq's own oligo table — 🔴 not obtained
 
-The upstream page says Drop-seq used **two bead batches differing by two bases**, and
-draws batch "A" (it says Seq-Well used batch "B"):
+The paper's Table S6 ("custom primers that enabled the specific amplification of only the
+3' ends" 🟢, main text) sits in the Supplemental Information behind the PMC download gate.
+No Drop-seq oligo sequence, and no Drop-seq-specific modification, has been read from a
+primary source. In particular:
 
-```
-Beads-oligo-dT-seqA         |--5'- TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGT[12-bp cell barcode][8-bp UMI]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'
-Beads-oligo-dT-seqB         |--5'- TTTTTTTAAGCAGTGGTATCAACGCAGAGTAC[12-bp cell barcode][8-bp UMI]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'
-TSO                         AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG
-ISPCR                       AAGCAGTGGTATCAACGCAGAGT
-Library PCR primer 1        AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
-Library PCR primer 2        CAAGCAGAAGACGGCATACGAGAT[8-bp i7 index]GTCTCGTGGGCTCGG
-Read 1 sequencing primer A  GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT
-Read 1 sequencing primer B  GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
-Read 2 sequencing primer    GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG
-i7 index sequencing primer  CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
-```
+- 🔴 whether Drop-seq's bead constant region is `AC` (as Seq-Well's is) or something else;
+- 🔴 whether Drop-seq's P5-SMART hybrid carries the same two 3' phosphorothioates;
+- 🔴 the exact Drop-seq Read 1, index and Read 2 primers.
 
-### Upstream vs. Seq-Well Supplementary Table 1 — agreements and disagreements
-
-| Oligo | Agreement | Note |
-|---|---|---|
-| Bead, batch B | **agrees** base for base (7 T linker, handle, `AC`, 12 + 8, T30) 🟢 | so the upstream claim "Seq-Well used seqB" is confirmed for the constant part |
-| TSO | **agrees**, including `rGrGrG` 🟢 | — |
-| ISPCR = "SMART PCR Primer" | **agrees** 🟢 | different names for one oligo; the Master Protocol shopping list calls it "IS PCR Primer" |
-| Library PCR primer 1 = "New P5-SMART PCR Hybrid Oligo" | sequence **agrees**; upstream **omits the two phosphorothioates** (`*A*C`) | the protection matters: the 3'-terminal `AC` is what makes the primer end-specific (§3), and 3'→5' exonuclease of a proofreading polymerase would otherwise trim it 🟡 (inferred) |
-| Read 1 primer B | **agrees** 🟢 | — |
-| Bead batch A, Read 1 primer A | not in any primary source we hold | 🟡 upstream only; 🔴 in the Drop-seq paper's unfetched Table S6 |
-| Upstream's own drawings | the drawn bead strands in its steps (1)–(6) start with **8 T** (`TTTTTTTTAAGCAG…`), its oligo list and Seq-Well have **7 T** | internal inconsistency of the upstream page; harmless (the linker T's are never sequenced) 🟡 (computed: counted) |
+An earlier revision of this note reproduced a second bead batch ("seqA", handle + `ACGT`)
+and a matching Read 1 primer, plus pre-amp and library primers, from the scg_lib_structs
+page. None of that has a primary source, so none of it is asserted any more, and
+`tools/drop_seq.py` no longer models a second bead batch. 🔴
 
 ### How the oligos interlock — 🟡 (computed)
 
 One 23-nt handle, **`rt.SMART_HANDLE` = `AAGCAGTGGTATCAACGCAGAGT`**, is in every
 non-Illumina oligo:
 
-- **Bead** = `TTTTTTT` (linker) + **handle** + `AC` + J12 + N8 + T30. Batch A has `ACGT`
-  instead of `AC` (bead A = bead B constant part + `GT`, exactly).
+- **Bead** = `TTTTTTT` (linker) + **handle** + `AC` + J12 + N8 + T30 🟢 (Seq-Well
+  Supplementary Table 1).
 - **TSO** = **handle** + `GAAT` + `rGrGrG` (27 DNA + 3 RNA = 30 nt).
 - **SMART PCR primer / ISPCR** *is* the handle (23 nt).
 - **P5-SMART hybrid** = **`illumina.P5`** (29) + `GCCTGTCCGCGG` (12) + **handle** (23) +
   `AC` = 66 nt.
-- **Custom Read 1 primer B** = the P5 hybrid minus P5, exactly (37 nt). Primer A = primer
-  B + `GT` (39 nt). So the read 1 primer always ends on the last constant base of its bead
-  batch, and read 1 starts on the first cell-barcode base.
-- Read 2 and i7-index primers on the upstream page are exactly
-  **`nextera.READ2_PRIMER`** and **`nextera.INDEX1_PRIMER`**; library primer 2 is exactly
-  `nextera.n7xx_primer(<i7>)`.
+- **Custom Read 1 primer** = the P5 hybrid minus P5, exactly (37 nt). It ends on the last
+  constant bead base, so read 1 starts on the first cell-barcode base. 🟡 *(computed)*
+- Read 2 and the i7 index read use the stock Nextera primers `nextera.READ2_PRIMER` and
+  `nextera.INDEX1_PRIMER`, because the only Nextera-side oligo the Master Protocol names
+  is the "Nextera N70X Oligo" and no custom Read 2 or index primer is listed 🟡
+  *(derived; the lib constants come from Illumina's adapter document, not from any
+  protocol-specific claim)*.
 
 The consequences:
 
@@ -155,13 +151,14 @@ The consequences:
    **bead end**. On the TSO end they are mismatched (`AC` against a template that calls for
    `GA`) and the primer does not extend. 🟡 (computed; the paper's wording is only "custom
    primers that enabled the specific amplification of only the 3' ends" 🟢)
-3. In the Nextera PCR the other primer is a plain **N7xx** (s7). No s5 primer is added, so
-   of the bead-end fragments only those whose Tn5 end is s7 amplify exponentially — the
-   3'-most fragment of each cDNA. 🟡 (as upstream argues in its steps 5–6). Internal
-   Tn5–Tn5 fragments with s7 at both ends could in principle be primed by N7xx alone;
-   neither source discusses them (presumably suppressed by the inverted-repeat panhandle,
-   unverified 🟡). `nextera.amplifiable` models only the standard N5xx + N7xx case and does
-   not apply directly.
+3. In the Nextera PCR the other primer is a plain **N7xx** (s7) 🟢 (Master Protocol
+   shopping list). No s5 primer is added, so of the bead-end fragments only those whose
+   Tn5 end is s7 amplify exponentially — the 3'-most fragment of each cDNA. 🟡 *(computed
+   from the two named primers)*. Internal Tn5–Tn5 fragments with s7 at both ends could in
+   principle be primed by N7xx alone; no source we hold discusses them (presumably
+   suppressed by the inverted-repeat panhandle, unverified 🟡).
+   `nextera.amplifiable` models only the standard N5xx + N7xx case and does not apply
+   directly.
 4. The 12-nt `GCCTGTCCGCGG` spacer is 83 % GC and raises the custom Read 1 primer to a
    computed Tm of ~71 °C, against ~59 °C for the bare handle (`chemdraw.tm`, 0.5 µM primer,
    50 mM Na⁺). 🟡 (computed). Why the spacer was added is not stated 🔴.
@@ -222,7 +219,7 @@ Extended Experimental Procedures 🔴. Seq-Well uses the same bead and oligos (�
 molecular steps 8–12 above are the same chemistry; the published Drop-seq conditions may
 differ in detail. 🟡
 
-## 4. Final library — 🟡 (assembled from the oligos above; agrees with upstream step 7)
+## 4. Final library — 🟡 (assembled from the Seq-Well oligos above)
 
 Top strand, 5'→3' (read 1 reads this strand's sequence; read 2 reads its reverse complement — see §5):
 
@@ -230,14 +227,14 @@ Top strand, 5'→3' (read 1 reads this strand's sequence; read 2 reads its rever
 5'- P5 · GCCTGTCCGCGG · SMART handle · AC · <cbc 12> · <umi 8> · T30 · <cDNA insert> · ME' · s7' · <i7'> · P7' -3'
 ```
 
-Segment by segment (batch B / Seq-Well):
+Segment by segment:
 
 | Segment | Sequence | nt |
 |---|---|---|
 | `illumina.P5` | `AATGATACGGCGACCACCGAGATCTACAC` | 29 |
 | spacer | `GCCTGTCCGCGG` | 12 |
 | `rt.SMART_HANDLE` | `AAGCAGTGGTATCAACGCAGAGT` | 23 |
-| bead constant end | `AC` (batch A: `ACGT`) | 2 (4) |
+| bead constant end | `AC` | 2 |
 | cell barcode | `J` × 12 | 12 |
 | UMI | `N` × 8 | 8 |
 | oligo-dT | T × 30 (reads as poly(T)) | 30 |
@@ -247,9 +244,10 @@ Segment by segment (batch B / Seq-Well):
 | i7 (as reverse complement of the N7xx index) | `<i7'>` | 8 |
 | `illumina.P7_RC` | `ATCTCGTATGCCGTCTTCTGCTTG` | 24 |
 
-Checked: the upstream page's final top strand begins with exactly `illumina.P5` + Read 1
-primer A, and ends with exactly `nextera.ME_RC` + `nextera.S7_RC` + 8 N + `illumina.P7_RC`.
-🟡 (computed)
+The 5' end is exactly `illumina.P5` + the Custom Read 1 primer, and the 3' end exactly
+`nextera.ME_RC` + `nextera.S7_RC` + 8 index bases + `illumina.P7_RC`. 🟡 *(computed from
+the Seq-Well oligo table and the `lib/` constants; the whole construct is an inference for
+Drop-seq, which publishes no library structure.)*
 
 The library has **no i5 index**: the P5 end is the custom hybrid primer, identical for all
 samples. Samples are multiplexed on i7 only.
@@ -263,26 +261,27 @@ second, paired read gives cDNA, typically 50 bp.
 
 | Read | Primer | Reads | Length |
 |---|---|---|---|
-| Read 1 | custom: spacer + handle + `AC` (B) or `ACGT` (A) | 12 cell barcode + 8 UMI 🟡 (computed from the primer ending on the last constant base) | 20 🟢 |
-| Index 1 (i7) | `nextera.INDEX1_PRIMER` (upstream) — standard on NextSeq/MiSeq 🟡 | i7 | 8 🟢 |
-| Read 2 | `nextera.READ2_PRIMER` (upstream) — standard Nextera read 2 🟡 | cDNA, sense strand of the mRNA, starting at the Tn5 cut | 50 🟢 |
+| Read 1 | custom: spacer + handle + `AC` 🟢 (Seq-Well Table 1), 🟡 for Drop-seq | 12 cell barcode + 8 UMI 🟡 (computed from the primer ending on the last constant base) | 20 🟢 |
+| Index 1 (i7) | `nextera.INDEX1_PRIMER` 🟡 *(derived: no custom index primer is named, so the stock Nextera one is implied)* | i7 | 8 🟢 |
+| Read 2 | `nextera.READ2_PRIMER` 🟡 *(derived, as above)* | cDNA, sense strand of the mRNA, starting at the Tn5 cut | 50 🟢 |
 
-A read 1 longer than 20 would run into T30. Because read 1 primer B on batch A beads would
-start two bases early (`GT` + 18 barcode/UMI bases), the batch and the read 1 primer have
-to match. 🟡 (computed)
+A read 1 longer than 20 would run into T30. 🟡 (computed)
 
 ## 6. Open questions
 
 - 🔴 The Drop-seq oligo table (Table S6) and all Drop-seq conditions: whether Drop-seq's
-  "P5-TSO hybrid" carries the same phosphorothioates as Seq-Well's; the exact batch A / B
-  sequences; RT, PCR and Nextera parameters. Fetch
-  `NIHMS687993-supplement-supp_data_1.pdf` by hand.
+  bead, TSO and P5 hybrid are base-for-base the ones Seq-Well prints, whether its hybrid
+  carries the same two phosphorothioates, and its RT, PCR and Nextera parameters. Fetch
+  `NIHMS687993-supplement-supp_data_1.pdf` by hand. Until then the whole construct is an
+  inference from the Seq-Well table.
 - 🔴 The purpose of the 7-T linker and of the `GCCTGTCCGCGG` spacer; the purpose of `GAAT`
   between the handle and `rGrGrG` in the TSO (computed effect: it makes the TSO end
   differ from the bead end right after the handle, §2).
-- 🔴 Why Drop-seq had two bead batches with and without `GT`.
-- 🟡 Read 2 and index primers: upstream says standard Nextera; the Master Protocol names
-  only the custom Read 1 primer — consistent, not stated.
+- 🔴 Whether Drop-seq used more than one bead design. The paper describes one bead; no
+  primary source we hold mentions a second batch, so none is modelled.
+- 🟡 Read 2 and index primers: the Master Protocol names only the custom Read 1 primer and
+  the "Nextera N70X Oligo", so the stock Nextera Read 2 and index primers are derived, not
+  stated.
 - 🔴 Seq-Well Online Methods (main paper) were not obtained; array geometry (number and
   size of wells) and the array functionalisation chemistry beyond Appendix A were not
   checked.

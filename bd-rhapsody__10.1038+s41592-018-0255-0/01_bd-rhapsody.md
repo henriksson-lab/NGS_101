@@ -1,10 +1,25 @@
 # BD Rhapsody WTA — microwell bead capture, random-primer second strand
 
-> **Evidence marking.** 🟢 verbatim from a primary source (the paper, or a BD protocol
-> document) · 🟡 derived, inferred, or taken only from the secondary scg_lib_structs page ·
-> 🔴 not published / not available. Relationships marked 🟡 *(computed)* were worked out
-> with `lib/` while writing this note; they are not yet asserted in a self-test, because
-> this protocol has no `tools/` module yet (status `notes`).
+> **Evidence marking.** 🟢 verbatim from a primary source (the paper, or a BD vendor
+> document) · 🟡 derived or inferred · 🔴 not published / not available. Relationships
+> marked 🟡 *(computed)* were worked out with `lib/`; the model is `tools/rhapsody.py`.
+>
+> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
+> sequence, length or reaction in this note or in the model is taken from it, and
+> agreement with it is not verification. Its own author describes its Rhapsody bead and
+> primer sequences as an educational guess reconstructed from read data — not a vendor or
+> author statement, and therefore not evidence at all. An earlier revision of this note
+> reproduced that reconstruction (a `CCCCCCTCTCTCT` bead head, 9-nt cell-label blocks,
+> named 12/13-nt linkers, an 8-nt UMI, `(T)18`, two 16-nt "pre-amp" primers and full
+> TruSeq library primers). None of it has a source, so none of it is asserted any more.
+>
+> **What is published.** The BD vendor documents mirrored in the scg_lib_structs
+> repository under `data/BD/` are ordinary vendor originals — a filename prefix is not
+> provenance, and the manifest records the mirrored and hand-fetched copies as
+> md5-identical. From them, 🟢: the **Randomer** sequence, the whole RPE/RPE-PCR/index-PCR
+> workflow with its conditions, and the capture-oligo **cartoon order** `Univ | CL | UMI |
+> poly(T)`. Not from them, 🔴: every bead base, the cell-label and UMI **lengths**, the
+> Universal Oligo, the BD AbSeq Primer and both library primers.
 
 **BD Rhapsody** (formerly BD Resolve) is a commercial BD Biosciences platform. The
 catalogue keys it to its first use in a Nature Methods paper:
@@ -24,15 +39,17 @@ earlier organoid data on the same platform). The catalogue lists no other papers
 this method.
 
 **The paper contains no oligo sequences for the platform** — it is a user of a commercial
-kit. The chemistry below comes from the BD protocol documents that scg_lib_structs
-hosts, and from the scg_lib_structs page itself (whose author says the bead and primer
-sequences are an "educational guess" from sequencing data).
+kit. The chemistry below comes from the two BD vendor documents mirrored in the
+scg_lib_structs repository's `data/BD/` directory. Where those documents stop, this note
+stops: it does not substitute a reconstruction for a vendor statement.
 
 ### Sources read
 
 All in `_data/sources/bd-rhapsody__10.1038+s41592-018-0255-0/` (never committed).
-`upstream_data_*` were fetched by hand (curl) from the links on the upstream page, not by
-`get_sources.py`.
+The BD files are on disk under `upstream_data_*` names because they were first fetched by
+hand (curl); `catalogue/extra_sources.tsv` declares them as `scg:data/BD/*`, and the
+manifest's `(duplicate) scg_…` rows record the mirrored copies as md5-identical. Their
+`what` column, not their filename, is the authority: they are BD's own documents.
 
 | File | What | Used for |
 |---|---|---|
@@ -40,10 +57,10 @@ All in `_data/sources/bd-rhapsody__10.1038+s41592-018-0255-0/` (never committed)
 | `s41592-018-0255-0_41592_2018_255_MOESM1_ESM.pdf.txt` | Supplementary Information (Springer) | qPCR primers only — not Rhapsody chemistry |
 | `s41592-018-0255-0_41592_2018_255_MOESM2_ESM.pdf.txt` | Reporting Summary | software only |
 | `s41592-018-0255-0_41592_2018_255_MOESM3_ESM.xlsx.txt` | Supplementary Table 3 (sample sheet) | nothing chemical |
-| `upstream_BD_Rhapsody.html.txt` | scg_lib_structs "BD Rhapsody WTA" page | every bead/primer sequence, final library, read layout (secondary) |
+| `upstream_BD_Rhapsody.html.txt` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
 | `upstream_data_GMX_BD-Rhapsody-WTA-alpha-Protocol_UG_EN.pdf.txt` | BD "Whole transcriptome analysis alpha protocol", 23-21179-00, 12/2018 | **Randomer sequence**, RPE, RPE PCR, index PCR, cleanups |
 | `upstream_data_GMX_BD-Rhapsody-Single-Cell-Analysis-System-Instrument_UG_EN.pdf.txt` | BD Rhapsody instrument user guide, Doc ID 214062 Rev. 2.0, 02/2019 | lysis, bead retrieval, RT mix, Exonuclease I; bead-oligo cartoon |
-| `upstream_data_BD_CLS1.txt`, `_CLS2.txt`, `_CLS3.txt` | cell-label lists hosted by scg_lib_structs | counting / overlap of the three CLS sets |
+| `scg_BD_CLS1.txt`, `_CLS2.txt`, `_CLS3.txt` (on disk as `upstream_data_BD_CLS*.txt`) | three 97-member 9-mer lists kept in the scg_lib_structs `data/BD/` mirror | **provenance not established** 🔴: unlike the two PDFs these are bare sequence lists with no vendor document around them, so this note does not treat them as a BD publication and no length or base from them enters the model |
 
 Not obtained (PMC download gate; the Springer copies above cover the same supplements
 except possibly the figure DOCX):
@@ -54,7 +71,7 @@ except possibly the figure DOCX):
 | Supplementary Tables 1, 2, 4 (PDF) | https://pmc.ncbi.nlm.nih.gov/articles/instance/6677388/bin/NIHMS1511424-supplement-Supplementary_Tables_1__2__4.pdf |
 | Supplementary Table 3 / Reporting Summary (PMC copies) | same `/bin/` directory |
 | Fan et al. 2015 (Science; Cloudflare/paywall) | https://doi.org/10.1126/science.1258367 |
-| BD's own bead-oligo / Universal Oligo / AbSeq primer sequences | 🔴 not published by BD |
+| BD's own bead-oligo bases and lengths, Universal Oligo, AbSeq Primer, Library Forward/Reverse primers and sequencing-primer sites | 🔴 not published by BD in any document we hold |
 
 ---
 
@@ -68,10 +85,14 @@ happens on the pooled beads in one tube** 🟢. The cDNA stays covalently on the
 beads can be archived and subsampled 🟢 (paper: ~67 % of beads used, rest archived; BD
 alpha protocol: leftover beads stored at 4 °C up to 3 months).
 
-The cell barcode is **split-pool combinatorial**: three 9-nt cell-label blocks (CLS1–3)
-separated by fixed linkers, then an 8-nt UMI and oligo-dT 🟡 (upstream). Each of the
-three lists hosted upstream has **97** distinct 9-mers, no sequence shared between lists,
-so 97³ = **912,673** labels 🟡 (computed from the CLS files; matches the upstream figure).
+The bead oligo carries, in order, a universal region, a cell label, a UMI and an oligo-dT
+tail 🟢 (instrument guide cartoon: "Univ: universal oligo; CL: cell label; UMI: Unique
+Molecular Identifier"). **Nothing more about it is published** 🔴: not its bases, not the
+cell-label or UMI lengths, not whether the cell label is one block or several, and not the
+poly(T) length. The paper says only that each molecule is tagged "with a molecular index
+and cell label indicating its cell" 🟢. The model therefore draws `[UNIVERSAL OLIGO]`,
+`[CELL LABEL]` and `[UMI]` as symbolic placeholders, so the drawing claims no width BD has
+not published.
 
 | | Feature | Compare |
 |---|---|---|
@@ -91,21 +112,18 @@ difference from bead protocols that make full-length cDNA first.
   "second strand cDNA synthesis, adaptor ligation, and universal amplification" with
   **22 PCR cycles**, followed by **random priming PCR** to enrich the 3' ends 🟢
   (paraphrased). That is a ligation-based WTA; no adaptor sequences are given 🔴.
-- **The BD WTA alpha protocol** (12/2018) and the **upstream page** describe a different
-  route: random-primer extension on the beads (RPE), RPE PCR (13 cycles), index PCR
-  (8–9 cycles) 🟢 (BD protocol). No ligation, no 22-cycle step.
+- **The BD WTA alpha protocol** (12/2018) describes a different route: random-primer
+  extension on the beads (RPE), RPE PCR (13 cycles), index PCR (8–9 cycles) 🟢. No
+  ligation, no 22-cycle step.
 
-So upstream's drawn chemistry is BD's commercial WTA workflow, **not** necessarily what
-Yoon et al. ran. The final library layout (bead side on Read 1, cDNA on Read 2) would
-be the same in both, because the bead oligo is the same; the Read 2 adaptor of the
-ligation route is unknown 🔴. The note below follows the documented RPE route.
+So BD's documented commercial WTA workflow is **not** necessarily what Yoon et al. ran.
+This note and the page follow the documented RPE route, and say so; the adaptor and
+primer sequences of the ligation route are unpublished 🔴.
 
 ## 2. Oligos
 
-Sequences as written in the source. Upstream writes no modifications for any of them;
-none are given anywhere else either.
-
-**From the BD WTA alpha protocol** (third-party reagent the user orders) 🟢:
+**From the BD WTA alpha protocol** — the one Rhapsody oligo any source we hold prints, a
+third-party reagent the user orders separately 🟢 (no modification is given for it):
 
 ```
 Randomer   5' TCA GAC GTG TGC TCT TCC GAT CTNNNNNNNNN 3'
@@ -114,58 +132,31 @@ Randomer   5' TCA GAC GTG TGC TCT TCC GAT CTNNNNNNNNN 3'
 (written with codon spaces in the source; 100 µM in 10 mM Tris, 0.1 mM EDTA pH 8.0; N
 hand-mixed 25 % each 🟢)
 
-**From the upstream page only** 🟡 (secondary; BD does not publish these — upstream
-calls the bead sequences an educated guess from sequencing data):
+**Everything else — 🔴 not published.** BD's documents name the PCR reagents without
+giving a sequence: **"Universal Oligo"** and **"BD AbSeq Primer"** (RPE PCR), and
+**"Library Forward Primer"** and **"Library Reverse Primer (1–4)"** (index PCR) 🟢. The
+capture bead is supplied pre-made and its sequence is proprietary 🔴. No sequencing-primer
+site is given 🔴, and BD names four indexed library reverse primers without printing an
+index 🔴.
 
-```
-V1 bead oligo        |--5'-CCCCCCTCTCTCTCTACACGACGCTCTTCCGATCT[CLS1]ACTGGCCTGCGA[CLS2]GGTAGCGGTGACA[CLS3][8-bp UMI](T)18 -3'
-Enhanced bead (2022) |--5'-CCCCCCTCTCTCTCTACACGACGCTCTTCCGATCT[VB][CLS1]GTGA[CLS2]GACA[CLS3][8-bp UMI](T)18 -3'
+So the only Rhapsody oligo this note can state is the Randomer. The model reflects exactly
+that: `randomer` is the one graph input with a real sequence; `capture_beads`,
+`universal_oligo`, `rpe_reverse`, `library_forward` and `library_reverse` are
+`inferred=True` inputs, the RPE PCR and library PCR both carry
+`PCRGeometry.unavailable(...)`, the final library is drawn as
+`[P5 / READ 1 ARM] … [i7 / P7 ARM]`, and the sequencing section renders
+`seqprimers.unavailable_diagram(...)` rather than a primer-binding diagram.
 
-Pre-amp forward      5'- GACGCTCTTCCGATCT -3'
-Pre-amp reverse      5'- TCAGACGTGTGCTCTT -3'
-Library Forward      5'- AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'
-Library Reverse      5'- CAAGCAGAAGACGGCATACGAGAT[8-bp sample index]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT -3'
+## 3. How the one published oligo fits — 🟡 *(computed with `lib/illumina`)*
 
-TruSeq Read 1        5'- ACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'
-TruSeq Read 2        5'- GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT -3'
-Index read primer    5'- GATCGGAAGAGCACACGTCTGAACTCCAGTCAC -3'
-```
-
-`|--` = bead surface. `[VB]` = "variable bases", none / A / GT / TCA, Enhanced beads only.
-CLS1/2/3: 9 nt each, 97 per position (`upstream_data_BD_CLS*.txt`).
-
-The BD documents name the PCR reagents only: **"Universal Oligo"** and **"BD AbSeq
-Primer"** (RPE PCR), **"Library Forward Primer"** and **"Library Reverse Primer (1–4)"**
-(index PCR) 🟢. Their sequences are not given 🔴. The instrument guide's cartoon of the
-capture oligo reads `bead – Univ – CL – UMI – poly(T)` ("Univ: universal oligo; CL: cell
-label") 🟢 — the same order as upstream's bead oligo.
-
-## 3. How they interlock — 🟡 (computed with `lib/illumina`)
-
-- **Bead oligo 5' part** (35 nt) = 13-nt `CCCCCCTCTCTCT` + the last **22 nt of
-  `illumina.TRUSEQ_READ1`** (`CTACACGACGCTCTTCCGATCT`). The 13-nt C/CT head has no
-  role in the final library (it is outside every primer) 🟡; its purpose is not stated 🔴.
-- **Randomer** = the last **23 nt of `illumina.TRUSEQ_READ2`** + N₉ (32 nt). So every
-  random-primed second strand starts with a partial Read 2 handle.
-- **Pre-amp forward** (16 nt) = the last 16 nt of `TRUSEQ_READ1`, and the 3' end of the
-  bead-oligo head. **Pre-amp reverse** (16 nt) = the first 16 nt of the randomer (a
-  sub-sequence of `TRUSEQ_READ2`). A 16-nt pair on the two handles — the expected shape
-  of BD's "Universal Oligo", which upstream *assumes* is this pair 🟡; BD's kit lists one
-  "Universal Oligo" plus an AbSeq primer, sequences undisclosed 🔴.
-- **Library Forward** (58 nt) = `illumina.P5` + `TRUSEQ_READ1` overlapping by 4 nt
-  (`ACAC`) — identical to `illumina.NEBNEXT_UNIVERSAL_PRIMER` / `TRUSEQ_P5_FULL`. It
-  restores the full Read 1 site that the 16-nt pre-amp primer had trimmed.
-- **Library Reverse** (66 nt) = `illumina.P7` + 8-nt i7 + full `TRUSEQ_READ2` (34 nt).
-  Its 3' 23 nt are the randomer's fixed part, so it primes on the RPE PCR product.
-  Orientation of the 8-nt index as written relative to the i7 read: not checkable — no
-  index sequences are given 🔴 (BD's "Library Reverse Primer 1–4" = four indices).
-- **Index read primer** = reverse complement of `TRUSEQ_READ2` minus its 5'-most base,
-  i.e. `illumina.INDEX1_PRIMER` — the standard TruSeq i7 read.
-- **Linkers**: V1 linker 1 `ACTGGCCTGCGA` is 12 nt, linker 2 `GGTAGCGGTGACA` 13 nt.
-  The Enhanced-bead linkers `GTGA` and `GACA` are both **sub-sequences of V1 linker 2**
-  (positions 8–11 and the last 4 nt); `GTGA` does not occur in linker 1.
-- **Read 1 length needed**: V1 CLS1 + L1 + CLS2 + L2 + CLS3 + UMI = 9+12+9+13+9+8 =
-  **60 nt** — upstream's "at least 60 cycles". Enhanced: 43 nt plus 0–3 nt VB = 43–46.
+- **Randomer** = the 3'-terminal **23 nt of `illumina.TRUSEQ_READ2`** (`TCAGACGTGTGCTCTTCCGATCT`)
+  + N₉ (32 nt). So every random-primed second strand begins with a partial TruSeq Read 2
+  handle, and the library's Read 2 side is a TruSeq-style end. 🟡 *(computed)*
+- That is the **only** sequence relationship this protocol's sources support. The bead's
+  own handle, the Universal Oligo, the library primers and the index are unpublished 🔴,
+  so no P5/Read 1 arm, linker arrangement, read length requirement or final-library
+  length can be derived here. An earlier revision of this note derived all of those from
+  the drawn page's reconstruction; those derivations are withdrawn.
 
 ## 4. Step by step
 
@@ -203,9 +194,9 @@ BD WTA alpha protocol; conditions 🟢 unless marked. Strand bookkeeping 🟡.
 10. **RPE PCR**: 50 µL PCR MasterMix + 10 µL Universal Oligo + 10 µL BD AbSeq Primer +
     30 µL RPE product, split in two; 95 °C 3 min; **13 ×** (95 °C 30 s, 60 °C 1 min,
     72 °C 1 min); 72 °C 2 min. 1× SPRI. Expected broad 200–2,000 bp; quantify the
-    150–600 bp region. Upstream's drawn product: `GACGCTCTTCCGATCT · CLS1 · L1 · CLS2 ·
-    L2 · CLS3 · UMI · (dT) · insert · AGATCGGAAGAGCACACGTCTGA` (top strand) 🟡 — the bead
-    head's first 19 nt are lost because the forward primer is only 16 nt.
+    150–600 bp region. What the two unpublished primers add to each end, and therefore
+    where the amplicon boundaries fall, is 🔴; the model expresses this as
+    `PCRGeometry.unavailable(...)` rather than drawing a boundary.
 11. **WTA Index PCR**: dilute to 2 nM (150–600 bp peak); 10 µL + Library Forward +
     one Library Reverse (1–4) in PCR MasterMix (50 µL); 95 °C 3 min; **9 cycles (1–2 nM)
     or 8 cycles (>2 nM)** of 95 °C 30 s / 60 °C 30 s / 72 °C 30 s; 72 °C 1 min.
@@ -213,67 +204,74 @@ BD WTA alpha protocol; conditions 🟢 unless marked. Strand bookkeeping 🟡.
     supernatant), + 10 µL beads to the supernatant (0.7× cumulative), keep beads, elute
     30 µL 🟢 volumes / 🟡 ratios. Final libraries **~300–700 bp**, >1 ng/µL 🟢.
 
-## 5. Final library — 🟡 (upstream, checked by computation)
+## 5. Final library — 🔴 not derivable
 
-V1 beads, top strand 5'→3' (segment list):
+The library's **Read 2 side** is a TruSeq-style end built by the Randomer 🟡 *(computed,
+§3)*, and the insert runs from wherever the randomer landed to the poly(A) junction 🟡
+*(strand bookkeeping; because the top strand is cDNA, Read 2 reads the mRNA sense
+strand)*.
+
+Everything else is unpublished 🔴: the P5/Read 1 arm, the bead-derived barcode block
+(bases, lengths and the number of cell-label segments), the index, and therefore the total
+adapter length. The model draws this honestly —
 
 ```
-5'- P5 (29) · TruSeq Read 1 (33, sharing ACAC with P5 → 58 nt together)
-    · CLS1 (9) · linker 1 ACTGGCCTGCGA (12) · CLS2 (9) · linker 2 GGTAGCGGTGACA (13)
-    · CLS3 (9) · UMI (8) · (dT)18 · <cDNA insert, antisense to mRNA>
-    · revcomp(TruSeq Read 2) (34) · i7 (8) · P7' (24) -3'
+5'- [P5 / READ 1 ARM] · [CELL LABEL] · [UMI] · poly(T)/cDNA · TCAGACGTGTGCTCTTCCGATCT · [i7 / P7 ARM] -3'
 ```
 
-Enhanced beads: the same, with `[VB] (0–3) · CLS1 · GTGA · CLS2 · GACA · CLS3 · UMI`.
-
-Checks 🟡 (computed): upstream's written V1 library equals `illumina.TRUSEQ_P5_FULL` +
-the barcode block above, and its 3' tail equals `revcomp(TRUSEQ_READ2)` + N₈ +
-`illumina.P7_RC`. Fixed parts excluding the insert: **202 nt** (V1), which with the
-upstream 300–700 bp final size leaves ~100–500 bp of cDNA.
-
-The **Read 2 end of the insert is wherever the randomer landed**; the Read 1 end is the
-poly(A) junction. Because the top strand is cDNA (antisense), **Read 2 reads the mRNA
-sense strand** 🟡 (strand bookkeeping).
+— with every bracketed region `inferred=True`. An earlier revision of this note printed a
+complete 202-nt adapter assembly for "V1" and "Enhanced" beads, derived from the drawn
+page's reconstruction, together with a computed insert-size range. Those numbers had no
+source and are withdrawn.
 
 ## 6. Sequencing
 
 - 🟢 Paper: HiSeq 2500, **101 × 2**; ~38,000 reads/cell; molecular index coverage 3.2–3.5.
 - 🟢 BD alpha protocol: NextSeq / MiniSeq High or Mid output, load 1–1.2 pM with **20 %
   PhiX**; 10,000 / 50,000 / 100,000 reads per cell for shallow / moderate / deep.
-- 🟡 Upstream layout: **Read 1** from the TruSeq Read 1 primer, ≥60 cycles: CLS1 · L1 ·
-  CLS2 · L2 · CLS3 · UMI (then poly(T)). **i7** 8 cycles from the TruSeq index primer
-  (`illumina.INDEX1_PRIMER`). **Read 2** from the TruSeq Read 2 primer: cDNA. No i5 read
-  (Library Forward has no index). Standard Illumina primers, no custom ones.
-- With 101-nt Read 1 (paper), cycles 61–101 read into the `(T)18` and then poly(A)-
-  adjacent cDNA 🟡.
+- 🟢 Paper: "Cell labels and molecular indices were identified" from the reads, i.e.
+  Read 1 carries the cell label and UMI and Read 2 the cDNA. Which primer site each read
+  starts from is 🔴 — BD publishes no sequencing-primer sequence, so the page renders
+  `seqprimers.unavailable_diagram(...)` and declares the run layout rather than computing
+  it.
+- 🔴 How many cycles the cell label and UMI occupy, and therefore where Read 1 runs into
+  poly(T). An earlier revision of this note stated "≥60 cycles" and a cycle-by-cycle
+  breakdown taken from the drawn page; that is withdrawn.
 
 ## 7. Open questions
 
 - 🔴 **What the paper actually ran**: its Methods describe ligation-based WTA
   (second strand, adaptor ligation, 22-cycle universal PCR, then random-priming PCR),
-  which matches neither BD's 12/2018 RPE alpha protocol nor the upstream drawing.
-  The adaptor and primer sequences of that route are unpublished.
-- 🔴 The bead-oligo sequence itself (head, linkers, `(T)18` length, any anchor) is BD
-  proprietary; upstream's version is inferred from reads. The 13-nt `CCCCCCTCTCTCT` head
-  and the purpose of the "BD AbSeq Primer" in a WTA-only RPE PCR are unexplained.
-- 🔴 "Universal Oligo" sequence: upstream assumes the 16-nt pre-amp pair; BD gives only
-  the name (one tube, so either a single oligo or a premixed pair).
+  which does not match BD's 12/2018 RPE alpha protocol. The adaptor and primer sequences
+  of that route are unpublished.
+- 🔴 The bead-oligo sequence itself — universal region, cell-label structure and length,
+  UMI length, poly(T) length, any anchor — is BD proprietary. Nothing we hold narrows it,
+  and read-derived reconstructions are not evidence (see the preamble). The purpose of the
+  "BD AbSeq Primer" in a WTA-only RPE PCR is also unexplained.
+- 🔴 "Universal Oligo" sequence: BD gives only the name (one tube, so either a single
+  oligo or a premixed pair).
 - 🟡 Strand displacement: Klenow exo⁻ has limited strand-displacement activity, so when
   several randomers prime the same cDNA, only bead-proximal products may reach the
   Read 1 handle — this would bias inserts toward the 3' end, consistent with the
   "3' WTA" description, but nobody states it.
-- 🟡 Whether the 97-per-position CLS lists hosted upstream are complete and identical
-  between V1 and Enhanced beads (upstream says the barcodes are the same).
+- 🔴 Provenance of the three 97-member CLS lists kept in the scg_lib_structs `data/BD/`
+  mirror. They are bare sequence files with no vendor document around them, so this note
+  does not treat them as a BD publication; if BD or a BD pipeline document publishes the
+  cell-label whitelist, that document is what should be fetched and cited.
 
 ## 8. How this note was made (tool evaluation)
 
 `tools/get_sources.py` fetched the PMC text, JATS XML and the three Springer
 supplements; the four PMC `/bin/` supplements stopped at the download gate (manual), and
 the Europe PMC supplementary zip held only a placeholder GIF entry. None of these
-contain Rhapsody chemistry. The useful primary documents (BD alpha WTA protocol,
-instrument user guide, CLS lists) are linked from the upstream page but are **not
-followed by `get_sources.py`**; they were fetched by hand with curl into the sources
-directory and converted with `tools/doctext.py`. `tools/scrape_primers.py` found every
-upstream sequence, but in listing mode it **missed the Randomer in the BD alpha
-protocol** because it is written in codon-spaced triplets (`TCA GAC GTG …`); `--find`
-does locate it there.
+contain Rhapsody chemistry. The BD vendor documents (alpha WTA protocol,
+instrument user guide, CLS lists) were first fetched by hand with curl into the sources
+directory and converted with `tools/doctext.py`; `catalogue/extra_sources.tsv` now
+declares them as `scg:data/BD/*`, and because the hand-fetched copies are already on disk
+`get_sources.py` records the mirrored ones as md5-identical duplicates rather than
+re-saving them. `tools/scrape_primers.py` in listing mode **missed the Randomer in the BD
+alpha protocol** because it is written in codon-spaced triplets (`TCA GAC GTG …`);
+`--find` does locate it there. The guard
+`tools/selftest_source_oligos.py` cannot yet check the Randomer against that PDF: the
+file sits under an `upstream_data_*` name, which the guard excludes by prefix, and the
+Randomer's N₉ tail means it has no exact whole-strand state either.

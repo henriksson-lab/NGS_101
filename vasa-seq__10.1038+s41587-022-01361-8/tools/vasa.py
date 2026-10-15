@@ -1,8 +1,14 @@
 """Molecular model for VASA-seq as defined by Salmen et al. (2022).
 
-The defining paper prints the shared RA3/RTP pair and VASA-drop index-primer
-structures.  Capture oligos and the VASA-plate PCR arms are cited to earlier
-protocols but are not printed, so those regions remain inferred placeholders.
+Supplementary Table 12 (`MOESM13`) prints the shared RA3/RTP pair and all 46+46
+VASA-drop index primers; Supplementary Table 14 (`MOESM15`) names, for every oligo
+it does *not* print, the publication it came from: the VASA-plate CEL-seq2 capture
+primers to Muraro et al. 2016 (doi:10.1016/j.cels.2016.09.002, barcodes in
+GSE176588), the VASA-plate RA3/RTP to Hashimshony et al. 2012
+(doi:10.1016/j.celrep.2012.08.003), and the inDrop v3 bead barcoding to Briggs et
+al. 2018 (doi:10.1126/science.aar5780).  None of those documents is on disk, so
+every region they would supply is an inferred placeholder here.  The scg_lib_structs
+drawn page prints reconstructions of all of them; it is not used.
 """
 from __future__ import annotations
 
@@ -12,15 +18,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Scene, Segment, feature, revcomp
-from illumina import P5, P7
+from illumina import P5, P7, TRUSEQ_SMALL_RNA_RA3
 import nextera as nx
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
 
-RA3 = "TGGAATTCTCGGGTGCCAAGG"
+# Supplementary Table 12 (MOESM13) prints "/5rApp/TGGAATTCTCGGGTGCCAAGG/3SpC3/" and
+# "GCCTTGGCACCCGAGAATTCCA"; those bases are the canonical TruSeq Small RNA RA3 and its
+# matching RT primer, so RA3 is imported rather than retyped.
+RA3 = TRUSEQ_SMALL_RNA_RA3
 RTP = "GCCTTGGCACCCGAGAATTCCA"
+# The 15-nt tail shared by every VD_ILMN8_i7 primer, verbatim from Supplementary Table 12.
 DROP_COMMON = "GGGTGTCGGGTGCAG"
 INDEX_LEN = 8
 UFI_LEN = 6
@@ -234,9 +244,11 @@ def protocol_graph() -> ProtocolGraph:
     t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
     rnase_h = graph.input("rnase_h", "thermostable RNase H rRNA-depletion reagent",
                           MaterialKind.SELECTION)
-    ra3 = graph.input("ra3", "published 5′-rApp RA3 adapter", MaterialKind.ADAPTER)
+    ra3 = graph.input("ra3", "published 5′-rApp RA3 adapter", MaterialKind.ADAPTER,
+                      state=(seg("RA3", RA3, "r2"),))
     ligase = graph.input("rna_ligase", "RNA adapter ligase", MaterialKind.CATALYST)
-    rtp = graph.input("rtp", "published RTP reverse-transcription primer", MaterialKind.OLIGO)
+    rtp = graph.input("rtp", "published RTP reverse-transcription primer",
+                      MaterialKind.OLIGO, state=tuple(rtp_segments()))
     pcr_polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
                                  MaterialKind.CATALYST)
     branch_data = (

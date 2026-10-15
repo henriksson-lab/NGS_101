@@ -1,5 +1,7 @@
 """scMT-seq joint Smart-seq2 transcriptome and scRRBS methylome workflow."""
-from chemdraw import Row
+from dataclasses import replace
+
+from chemdraw import Construct, Row
 from batch_ngs import nextera_library, seg
 from adapter_ligation import reported_adapter_end
 from multimodal_spatial import finish_pcr_branch
@@ -19,11 +21,32 @@ SUMMARY = ("Cytoplasmic RNA and nuclear genomic DNA from one cell are physically
            "separated for Smart-seq2 transcriptomics and scRRBS methylome sequencing.")
 CAVEAT = ("The defining paper explicitly inherits Smart-seq2/Nextera and scRRBS. "
           "Their source-verified oligos and adapter structures are reused here, so "
-          "the earlier generic random-priming methylome representation is removed.")
+          "the earlier generic random-priming methylome representation is removed. "
+          "One inherited sequence is not source-verified, though: Hu et al. name the "
+          "Smart-seq2 protocol but print no template-switch oligo, and Smart-seq2 "
+          "has two published TSO linkers &mdash; <code>AC</code> for the chosen "
+          "<code>rGrG+G</code> oligo in Picelli et al. 2013 Supplementary Table 2, "
+          "<code>ACAT</code> in the <i>Nature Protocols</i> form. The longer form is "
+          "modelled, so the whole TSO linker is drawn dotted as an inherited "
+          "inference.")
+
+
+def _tso_linker_inferred(con: Construct) -> Construct:
+    """Redraw the inherited Smart-seq2 TSO linker as an inference, not a published base.
+
+    scMT-seq prints no TSO, so the choice between the two published Smart-seq2 linkers
+    (``AC`` and ``ACAT``) is ours.  Marking the segment here, rather than in every
+    caller, keeps the uncertainty a property of the state the page renders.
+    """
+    con.get("TSO linker")   # a lib rename must fail loudly, not silently un-mark it
+    return Construct([replace(s, inferred=True) if s.name == "TSO linker" else s
+                      for s in con], name=con.name)
+
+
 RNA, RP = nextera_library([seg("Smart-seq2 cDNA insert", "X" * 36,
                                placeholder=True)], "scMT-seq RNA library")
 DNA, DP = rrbs.final_library(), tuple(rrbs.SEQ_PRIMERS)
-RNA_PREAMP = s2.preamp_template()
+RNA_PREAMP = _tso_linker_inferred(s2.preamp_template())
 FINAL_LIBRARIES = (
     ("Transcriptome library", RNA, RP,
      "Smart-seq2 cDNA after Nextera tagmentation and indexing.",
@@ -37,7 +60,8 @@ FINAL_LIBRARIES = (
 def oligos():
     return [
         f"Smart-seq2 oligo-dT30VN: 5′-{s2.OLIGO_DT}-3′",
-        f"Smart-seq2 TSO: 5′-{s2.TSO}-3′",
+        f"Smart-seq2 TSO (linker inherited, not printed by this paper): "
+        f"5′-{rt.SMART_HANDLE}<inf>{s2.TSO_LINKER}</inf>{rt.TSO_G_TAIL_LNA}-3′",
         f"Smart-seq2 ISPCR primer: 5′-{s2.ISPCR}-3′",
         "scRRBS premethylated indexed TruSeq adapter: see reaction geometry",
     ]
@@ -83,10 +107,13 @@ def protocol_graph():
     tso = g.input(
         "tso", "Smart-seq2 template-switch oligo", MaterialKind.OLIGO,
         state=(seg("SMART handle", rt.SMART_HANDLE, "tso"),
-               seg("TSO linker", s2.TSO_LINKER), seg("rGrG+G", "GGG", "tso")))
+               seg("TSO linker", s2.TSO_LINKER, inferred=True),
+               seg("rGrG+G", "GGG", "tso")))
     switched = g.product("switched", "template-switched full-length cDNA",
                          MaterialKind.MOLECULAR, state=RNA_PREAMP)
-    g.react("template_switch", "Template-switch the nascent cDNA",
+    g.react("template_switch",
+            "INFERRED — Template-switch the nascent cDNA (the TSO linker is "
+            "inherited from Smart-seq2; this paper prints no TSO)",
             StepKind.TEMPLATE_SWITCHING,
             ((copied, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
              (rt_enzyme, InputRole.CATALYST)), (switched,))

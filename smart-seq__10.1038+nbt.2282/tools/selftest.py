@@ -64,14 +64,58 @@ check("FLASH-seq ISPCR is the common SMART handle", ss.FS_ISPCR, rt.SMART_HANDLE
 check("the separate FS-UMI TSO-CTAAC is not the base FLASH-seq TSO", ss.FS_UMI_TSO_CTAAC,
       rt.SMART_HANDLE + "N" * 8 + "CTAAC" + rt.TSO_G_TAIL)
 
-# --------------------------------- constructs vs the published final structures
-check.section("final library structures vs scg_lib_structs")
-PUBLISHED_SS2 = ("AATGATACGGCGACCACCGAGATCTACACNNNNNNNNTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
-                 "XXXXXXXX...XXXXXXXX"
-                 "CTGTCTCTTATACACATCTCCGAGCCCACGAGACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG")
+# ----------------------------------------------------- verbatim source transcriptions
+# Each expectation is the oligo exactly as its primary source prints it, with 5'
+# modifications and phosphorothioate marks removed and ribo/LNA prefixes reduced to
+# bases. These are transcription checks: they catch a typo in the model, and they are
+# the reason no sequence on these pages needs a secondary drawing to corroborate it.
+check.section("oligos against the primary sources, verbatim")
+# Ramskold 2012, PMC3467340 Methods: "the CDS primer (5'-AAGCAGTGGTATCAACGCAGAGTACT(30)VN-3')"
+check("SMART-seq CDS primer / SMART-seq2 oligo-dT, Ramskold 2012 Methods",
+      ss.SS2_OLIGO_DT, "AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "VN")
+# Picelli 2013 Supplementary Table 2, row "rGrG+G" (named as the Smart-seq2 TSO by
+# Supplementary Table 4): AAGCAGTGGTATCAACGCAGAGTACrGrG+G
+check("the defining SMART-seq2 paper's own rGrG+G TSO carries the shorter AC linker",
+      rt.SMART_HANDLE + ss.SS2_DT_LINKER + "GGG",
+      "AAGCAGTGGTATCAACGCAGAGTAC" + "GGG")
+# Hagemann-Jensen 2020 Supplementary Table 1 condition 1 ("Smart-seq2 as of Nature
+# Protocol"): AAGCAGTGGTATCAACGCAGAGTACATrGrG+G
+check("the modelled SMART-seq2 TSO is the Nature Protocols ACAT form",
+      ss.SS2_TSO, "AAGCAGTGGTATCAACGCAGAGTACAT" + "rGrG+G")
+# Hahaut 2022 Supplementary Note 2, FLASH-seq / Smart-seq2 rows
+check("FLASH-seq FS dT30VN, Hahaut 2022 Supplementary Note 2",
+      ss.FS_OLIGO_DT, "AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "VN")
+check("FLASH-seq FS TSO, Hahaut 2022 Supplementary Note 2",
+      ss.FS_TSO, "AAGCAGTGGTATCAACGCAGAGTAC" + "rGrGrG")
+check("the ISPCR primer, Hahaut 2022 Supplementary Note 2",
+      ss.FS_ISPCR, "AAGCAGTGGTATCAACGCAGAGT")
+check("FS-UMI TSO-CTAAC, Hahaut 2022 Supplementary Note 2",
+      ss.FS_UMI_TSO_CTAAC, "AAGCAGTGGTATCAACGCAGAGT" + "NNNNNNNN" + "CTAAC" + "rGrGrG")
+# Hagemann-Jensen 2020 Supplementary Table 1 and protocols.io smart-seq3-protocol-36wgq5rjxgk5
+check("Smartseq3_OligodT30VN, Hagemann-Jensen 2020 Supplementary Table 1",
+      ss.SS3_OLIGO_DT, "ACGAGCATCAGCAGCATACGA" + "T" * 30 + "VN")
+check("Smartseq3_N8_TSO, Hagemann-Jensen 2020 Supplementary Table 1",
+      ss.ss3_tso("SMART-seq3"), "AGAGACAGATTGCGCAATG" + "NNNNNNNN" + "rGrGrG")
+# Hagemann-Jensen 2022 Methods (PMC9546772): "Improved TSO (5'-Biotin-AGAGACAGATTGCGCAATG
+# NNNNNNNNWWrGrGrG-3')"
+check("Smartseq3xpress improved TSO, Hagemann-Jensen 2022 Methods",
+      ss.ss3_tso("SMART-seq3xpress"),
+      "AGAGACAGATTGCGCAATG" + "NNNNNNNN" + "WW" + "rGrGrG")
+check("Smartseq3 Fwd_PCR_primer, Hagemann-Jensen 2020 Supplementary Table 1",
+      ss.SS3_FWD_PCR, "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAATG")
+check("Smartseq3 Rev_PCR_primer, Hagemann-Jensen 2020 Supplementary Table 1",
+      ss.SS3_REV_PCR, "ACGAGCATCAGCAGCATACGA")
+
+# --------------------------------- constructs vs the canonical Illumina back end
+# The expectation is assembled from lib/illumina.py and lib/nextera.py rather than quoted:
+# nothing here restates a sequence, and no secondary drawing of this family is consulted.
+check.section("final library structures vs the canonical Nextera back end")
+EXPECTED_SS2 = (P5 + "N" * 8 + nx.S5 + nx.ME
+                + "XXXXXXXX...XXXXXXXX"
+                + nx.ME_RC + nx.S7_RC + "N" * 8 + revcomp(P7))
 ss2 = ss.smartseq2_library()
-check("SMART-seq2 top strand matches the published structure exactly",
-      ss2.top(), PUBLISHED_SS2)
+check("SMART-seq2 top strand is P5-i5-s5-ME / insert / ME'-s7'-i7-P7'",
+      ss2.top(), EXPECTED_SS2)
 check("SMART-seq2 bottom strand is the complement throughout",
       len(ss2.top()), len(ss2.bottom()))
 check("SMART-seq2 carries NO UMI", not any(s.tag == "umi" for s in ss2))
@@ -151,6 +195,33 @@ for a, b, _, _ in nx.TAGMENTATION_OUTCOMES:
 for k, (segs, _, _) in bp.seq_primer_drawings().items():
     check(f"drawn {k} sequencing primer spells sp.NEXTERA[{k!r}]",
           "".join(x.top for x in segs), sp.NEXTERA[k].seq)
+check.section("what the drawings claim is known")
+for p in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
+    drawn = bp.ss2_tso(p)
+    check(f"{p} drawn TSO spells its handle + linker + G tail",
+          "".join(s.top for s in drawn),
+          rt.SMART_HANDLE + ("AC" if p == "FLASH-seq" else ss.SS2_TSO_LINKER) + "GGG")
+check("SMART-seq's whole TSO is drawn inferred: the SMARTer II A bases are unpublished",
+      [s.inferred for s in bp.ss2_tso("SMART-seq")], [True, True, True])
+check("SMART-seq2 asserts only the defining paper's AC; the Nature Protocols AT is inferred",
+      [(s.top, s.inferred) for s in bp.ss2_tso_linker("SMART-seq2")],
+      [("AC", False), ("AT", True)])
+check("FLASH-seq's printed AC linker claims nothing inferred",
+      [(s.top, s.inferred) for s in bp.ss2_tso_linker("FLASH-seq")], [("AC", False)])
+for p in ("SMART-seq3", "SMART-seq3xpress"):
+    check(f"{p} draws no inferred TSO base -- every one is printed by its source",
+          any(s.inferred for s in bp.ss3_tso_segs(p)), False)
+check("the SMART-seq2 template-switch step is captioned INFERRED",
+      bp.protocol_graph("SMART-seq2").steps["template_switch"].label.startswith("INFERRED"))
+check("the SMART-seq3 template-switch step is not",
+      bp.protocol_graph("SMART-seq3").steps["template_switch"].label.startswith("INFERRED"),
+      False)
+for p in ("SMART-seq", "SMART-seq2"):
+    check(f"{p} carries a preamble caveat for its inferred region", p in bp.CAVEATS)
+check("no page lists a secondary redrawing among the sources read for its bases",
+      [p for p, items in bp.READ_FOR_OLIGOS.items()
+       if any("scg_lib_structs" in i or "teichlab" in i for i in items)], [])
+
 for v in ss.SS3_TSO_SPACERS:
     check(f"{v} TSO drawing spells ss3_tso() (UMI as N)",
           "".join(x.top for x in bp.ss3_tso_segs(v)).replace(f"[{ss.SS3_UMI_LEN}-bp UMI]",

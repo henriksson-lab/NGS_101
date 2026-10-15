@@ -34,6 +34,8 @@ HYI7_SPACER = "CTGTCCGCGG"
 HYI7_SITE = HYI7_SPACER + rt.SMART_HANDLE + "AC"
 CUSTOM_INDEX1 = revcomp(HYI7_SITE)
 CUSTOM_READ2 = HYI7_SITE
+# HYi5_TruSeq carries only the 5' 23 nt of the TruSeq Read 1 arm (Supplementary file 4).
+HYI5_READ1_ARM = il.TRUSEQ_READ1[:23]
 
 
 def barcode(name: str) -> Segment:
@@ -69,8 +71,15 @@ def hyi7_primer() -> list[Segment]:
 
 
 def hyi5_primer() -> list[Segment]:
+    """HYi5_TruSeq as ordered: the Read 1 arm stops 10 nt short of `CTTCCGATCT`.
+
+    Supplementary file 4 (sheet "Protocol_primers", rows HYi5_TruSeq_1..5) prints
+    `P5 + i5 + ACACTCTTTCCCTACACGACGCT`, i.e. the first 23 nt of the TruSeq Read 1
+    arm. The full arm is already present in the library, installed by the NEBNext
+    hairpin adapter; the primer only needs the 3' part of it to anneal.
+    """
     return [seg("P5", il.P5, "p5"), seg("i5", I5_OLIGO_INDEX, "cbc"),
-            seg("TruSeq Read 1", il.TRUSEQ_READ1, "r1")]
+            seg("TruSeq Read 1, 5' 23 nt as ordered", HYI5_READ1_ARM, "r1")]
 
 
 def rt_scene(insert_nt: int = 28) -> Scene:

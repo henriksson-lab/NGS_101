@@ -57,9 +57,15 @@ def render() -> str:
         '<h1>MALBAC &mdash; quasi-linear single-cell whole-genome amplification</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.1229164">'
              'Zong et al., Science 2012</a>.'),
-        '<div class="caveat"><b>Sequence availability.</b> The paper states a 27-nt common '
-        'handle and an 8-nt random foot; its exact handle sequence is only in the unavailable '
-        'supplement. H therefore marks a length-preserving unpublished placeholder.</div>',
+        '<div class="caveat"><b>Sequence boundary.</b> The accessible paper establishes the '
+        'whole architecture &mdash; a common 27-nt handle on an 8-nt random foot, the four '
+        'temperatures, five preamplification cycles, and amplicons that loop because their '
+        'ends are complementary &mdash; but <b>prints no oligo</b>, and its Supplementary '
+        'Online Material is behind the PMC download gate. Every dotted base below is '
+        'therefore unpublished: <code>H</code> is a length-preserving placeholder for the '
+        '27-nt handle, <code>N</code> the random foot, <code>X</code> the genomic insert, '
+        'and no library-prep kit, adapter, sequencing primer or read length is established.'
+        '</div>',
         '<h2>Primers</h2><seq>', oligos, '</seq>',
         '<h2>Step-by-step amplification</h2>',
         protocol_graph_panels(M.protocol_graph(),cls="long"),

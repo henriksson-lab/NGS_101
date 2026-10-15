@@ -1,4 +1,8 @@
-# SMART-seq and SMART-seq2 — quick reference
+# SMART-seq — quick reference
+
+> SMART-seq2's own oligo source review lives in `01_smart-seq2.md`, in the
+> `smart-seq2__10.1038+nmeth.2639` directory. This note covers SMART-seq and the
+> SMART-seq2 comparison it needs.
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not published.
 
@@ -10,9 +14,25 @@ doi:[10.1038/nbt.2282](https://doi.org/10.1038/nbt.2282)
 "Smart-seq2 for sensitive full-length transcriptome profiling in single cells."
 *Nat Methods* 2013;**10**(11):1096–1098. doi:[10.1038/nmeth.2639](https://doi.org/10.1038/nmeth.2639)
 
-Sources reviewed: Ramsköld et al. 2012, PMC3467340 full text and Supplementary Figure 1;
-Picelli et al. 2013 supplementary files; and the
-[scg_lib_structs family drawing](https://teichlab.github.io/scg_lib_structs/methods_html/SMART-seq_family.html).
+Sources read (all primary; no secondary redrawing of this family is used as evidence):
+
+- 🟢 Ramsköld et al. 2012, PMC3467340 full text and the NIHMS379463 supplement — prints the
+  CDS oligo-dT primer verbatim, and *names* the SMARTer II A oligo and the kit's IS PCR
+  primer without printing either.
+- 🟢 Picelli et al. 2013 Springer supplementary files — Supplementary Table 2 ("List of all
+  template switching oligonucleotides tested"), Supplementary Table 4 (which TSO
+  *Smart-seq2* uses), and Supplementary Tables 1 and 3 (the oligo-dT and ISPCR primer by
+  commercial name only).
+- 🟢 Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1 ("Smartseq2 /
+  Smart-seq2 as of Nature Protocol") — the Nature Protocols Smart-seq2 oligo-dT, TSO and
+  forward PCR primer, printed in full.
+- 🟢 Hahaut et al. 2022 Supplementary Note 2 — a second verbatim print of the same handle
+  oligo-dT and of the ISPCR primer, attributed to Picelli et al. 2013.
+- 🟡 Illumina's adapter-sequence documentation, via `lib/nextera.py` and `lib/illumina.py`,
+  for ME, s5, s7, P5, P7 and the N5xx/N7xx index primers.
+
+🔴 Not available: the Clontech/Takara SMARTer kit documentation. The SMARTer II A TSO and
+the kit's IS PCR primer are commercial oligos that no source read here prints.
 
 ---
 
@@ -37,16 +57,28 @@ Its exact equivalence to the later SMART-seq2 oligo therefore remains unverified
 
 ## 2. Oligos
 
-🟢 Ramsköld et al. print the original CDS primer as
-`AAGCAGTGGTATCAACGCAGAGTACT(30)VN`. The following TSO and ISPCR reconstruction is
-the later SMART-seq2 design given by the upstream family schematic; its use in the
-original commercial SMARTer II A reaction is 🟡, not a verbatim source transcription.
+🟢 Ramsköld et al. print the original CDS primer verbatim as
+`AAGCAGTGGTATCAACGCAGAGTACT(30)VN` — this is the SMART-seq oligo-dT, and the same
+sequence reappears, printed in full, in Hagemann-Jensen et al. 2020 Supplementary
+Table 1 and in Hahaut et al. 2022 Supplementary Note 2.
+
+🟡 The TSO and ISPCR lines below are the later SMART-seq2 / Nature Protocols design, as
+printed in Hagemann-Jensen et al. 2020 Supplementary Table 1 (TSO) and Hahaut et al. 2022
+Supplementary Note 2 (ISPCR). Their equivalence to the commercial SMARTer II A reaction
+that SMART-seq actually ran is **not** established by any source; the SMART-seq page
+draws all three regions dotted-inferred, with the preamble caveat and an
+`INFERRED — …` template-switch caption.
 
 ```
-oligo-dTVN   5'- AAGCAGTGGTATCAACGCAGAGT AC TTTTT...TTTTT VN -3'   (30 T)
-TSO          5'- AAGCAGTGGTATCAACGCAGAGT ACAT rGrG+G -3'
-ISPCR        5'- AAGCAGTGGTATCAACGCAGAGT -3'
+oligo-dTVN   5'- AAGCAGTGGTATCAACGCAGAGT AC TTTTT...TTTTT VN -3'   (30 T)   🟢
+TSO          5'- AAGCAGTGGTATCAACGCAGAGT ACAT rGrG+G -3'                   🟡
+ISPCR        5'- AAGCAGTGGTATCAACGCAGAGT -3'                               🟡
 ```
+
+🟡 The closest thing to the kit TSO in any source read here is Picelli et al. 2013
+Supplementary Table 2's all-DNA `dGCGGG` oligo,
+`AAGCAGTGGTATCAACGCAGAGTACGCGGG`, which that table lists *alongside* "SMARTer Oligo IIA"
+as a separate reagent — so it is a designed mimic, not a transcription of the kit oligo.
 
 `AAGCAGTGGTATCAACGCAGAGT` is the **SMART / ISPCR handle** (23 nt) — shared with Drop-seq,
 SPLiT-seq and the Takara SMARTer kits. `+G` is the LNA; `rG` are ribonucleotides.
@@ -89,8 +121,11 @@ makes amplification simple is exactly what SMART-seq3 has to break to get UMIs.
 5'- P5 [8-bp i5] s5 ME --- cDNA --- revcomp(ME) revcomp(s7) [8-bp i7] revcomp(P7) -3'
 ```
 
-🟢 Verbatim, and reproduced character-for-character by `tools/smartseq.py`
-(asserted in `tools/selftest.py`):
+🟡 Derived, not quoted: `tools/smartseq.py` assembles this from the canonical P5/P7
+(`lib/illumina.py`) and ME/s5/s7 (`lib/nextera.py`) constants, and `tools/selftest.py`
+asserts the assembly rather than restating a published string. The handle region
+contributed by the TSO does not survive tagmentation, so no inferred base reaches the
+final library:
 
 ```
 AATGATACGGCGACCACCGAGATCTACACNNNNNNNNTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG

@@ -7,14 +7,22 @@ from longread_footprinting import conventional_smrtbell, pacbio_entry, smrtbell_
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_extensions import capped_full_length_cdna
+import rt
+import smartseq2 as s2
 TITLE="PAIso-seq — poly(A)-inclusive full-length isoform sequencing"
 NOTES="01_paiso-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-019-13228-9">Liu et al., <i>Nature Communications</i> (2019)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-022-00704-8">Nat. Protocols (2022)</a>.'
 SUMMARY="A dU-interrupted oligo templates end extension across the complete RNA poly(A) tail, USER releases the copied product, template switching captures the 5-prime end, and PacBio CCS reads the entire isoform plus native tail."
-PCR_HANDLE = "AAGCAGTGGTATCAACGCAGAGT"
-GUIDE_LINKER = "AC"
-TSO_LINKER = "ACAT"
-TSO_ORDERING = PCR_HANDLE + TSO_LINKER + "rGrG+G"
+# PAIso-seq reuses the SMART-seq2 handle system, so the shared model supplies the bases
+# instead of a second transcription of them.  Supplementary Table 1 of the defining paper
+# ("Oligos for PAIso-seq library construction") prints TSO, RT primer and PCR primer in
+# full, and its TSO carries the four-base ACAT linker of lib/smartseq2.TSO_LINKER — the
+# Nature Protocols form of SMART-seq2 — so no base here is inherited by assumption.  The
+# self-test pins the three ordering strings against that table.
+PCR_HANDLE = rt.SMART_HANDLE
+GUIDE_LINKER = s2.DT_LINKER
+TSO_LINKER = s2.TSO_LINKER
+TSO_ORDERING = s2.TSO
 RT_PRIMER = PCR_HANDLE + GUIDE_LINKER
 PCR_PRIMER = PCR_HANDLE
 BARCODES = (

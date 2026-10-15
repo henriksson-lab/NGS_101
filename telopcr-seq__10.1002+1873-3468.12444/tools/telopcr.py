@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from adapter_ligation import reported_adapter_end
-from chemdraw import Construct, Row, Segment, oligo
+from chemdraw import Construct, Row, Segment, oligo, revcomp
 from dumbbell import (Dumbbell, dumbbell_rows, smrtbell_circuit,
                       smrtbell_hairpin_geometry, smrtbell_sequencing_plan)
 from endprep import dA_tailed_scene, repair_and_dA_tail
@@ -15,7 +15,9 @@ from telomere import TelomereEnd
 END = TelomereEnd(repeat="GGTTACA", duplex_copies=3, overhang_copies=2)
 # Bennett et al., Materials and Methods, "Telomere PCR ... and high-throughput sequencing".
 ANCHOR = "AGGGTTAATAAGCGGCCGCGTCG"  # 5′ phosphate; 3′ AmC3 blocker
-ANCHOR_PCR_PRIMER = "CGACGCGGCCGCTTATTAACCCT"
+# The Methods name this primer as "the reverse complement of the anchor sequence"
+# and print the same bases, so derive it instead of retyping it.
+ANCHOR_PCR_PRIMER = revcomp(ANCHOR)
 SUBTELOMERIC_PRIMER_1 = "CGAGGCTGCGGGTTACAAGGTTACG"
 SUBTELOMERIC_PRIMER_2 = "GGGAATTTAGGAAGTGCGGTAAGTTG"
 AMPLICON = Construct([Segment("subtelomere primer 1 flank", SUBTELOMERIC_PRIMER_1),
