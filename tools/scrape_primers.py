@@ -53,7 +53,10 @@ Large tables: 4+ consecutive rows that are one oligo with a varying barcode or i
 (same length and differing at a minority of positions, or the same name stem -- P7-1,
 P7-2, ... -- and a shared 12-nt stretch) are collapsed into one hit, "family: 96
 variants, lines a-b, variable at nt i-j" -- `--all` lists every row. Files are ordered by
-their most oligo-like hit and each hit has a `score`; `--max-hits` (default 200 per file,
+their `MANIFEST.tsv` provenance first, then their most oligo-like hit. The manifest's
+`what` field labels upstream schematic content regardless of filename; a genuine
+supplement mirrored under an `upstream_` name remains visible. Each hit has a `score`;
+`--max-hits` (default 200 per file,
 counted after collapsing) keeps the highest scorers and says how many it cut. A 30 MB
 table text takes a few seconds, a 100 MB guide library about a minute.
 
@@ -71,6 +74,7 @@ not listed. Per file, exact locations come first; --max-hits caps the lines show
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import html
 import importlib
@@ -80,6 +84,7 @@ import subprocess
 import sys
 from bisect import bisect_left, bisect_right
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -117,6 +122,42 @@ def complement(seq: str) -> str:
 def revcomp(seq: str) -> str:
     """Reverse complement; IUPAC letters complement to their IUPAC partner."""
     return complement(seq)[::-1]
+
+
+# ------------------------------------------------------------- source provenance
+
+@dataclass(frozen=True)
+class Provenance:
+    kind: str
+    what: str
+    rank: int
+
+
+@lru_cache(maxsize=256)
+def _manifest_what(manifest: Path) -> dict[str, str]:
+    if not manifest.is_file():
+        return {}
+    with manifest.open(encoding="utf-8", newline="") as handle:
+        return {row["file"]: row["what"] for row in csv.DictReader(handle, delimiter="\t")}
+
+
+def provenance(path: Path) -> Provenance:
+    """Classify the document from its manifest, never its filename prefix alone."""
+    manifest = next((parent / "MANIFEST.tsv" for parent in (path.parent, *path.parents)
+                     if (parent / "MANIFEST.tsv").is_file()), None)
+    entries = _manifest_what(manifest) if manifest is not None else {}
+    original = path.name[:-4] if path.name.endswith(".txt") else path.name
+    what = entries.get(original, entries.get(path.name, ""))
+    low = what.lower()
+    if ("scg_lib_structs method page" in low
+            or "scg_lib_structs repo file docs/" in low
+            or "scg_lib_structs repo file chemistries/adapters/" in low):
+        return Provenance("upstream schematic", what, 2)
+    if "scg_lib_structs repo file" in low:
+        return Provenance("source mirror — verify original", what, 1)
+    if what and not low.startswith("(on disk, not fetched"):
+        return Provenance("source document", what, 0)
+    return Provenance("unclassified — verify original", what or "No manifest entry", 1)
 
 
 # --------------------------------------------------------------------- the hits
@@ -277,9 +318,11 @@ def files(args: list[str]) -> list[Path]:
         p = Path(a)
         if p.is_dir():
             found = sorted(f for f in p.rglob("*") if f.is_file() and
+                           f.name != "MANIFEST.tsv" and
                            f.suffix.lower() in TEXT_EXT | HTML_EXT | OFFICE_EXT | {".pdf"})
             have = {f.name for f in found}
-            out += [f for f in found if f.name + ".txt" not in have]
+            out += sorted((f for f in found if f.name + ".txt" not in have),
+                          key=lambda f: (provenance(f).rank, str(f)))
         elif p.exists():
             out.append(p)
         else:
@@ -1102,10 +1145,11 @@ def main(argv: list[str]) -> int:
             print(f"--find: {e}", file=sys.stderr)
             return 2
         if a.tsv:
-            print("query\tfile\tline\tstrand\tmatch\twritten")
+            print("query\tfile\tline\tstrand\tmatch\twritten\tsource_kind\tmanifest_what")
         totals = {f: [0, 0] for f, _ in queries}
         for path, text in _read_all(a.paths):
             sc = scan_copy(text)
+            source = provenance(path)
             for f, _ in queries:
                 locs = find(text, f, a.strict, sc, detail=True)
                 for i, (ln, strand, kind, written) in enumerate(locs):
@@ -1121,18 +1165,20 @@ def main(argv: list[str]) -> int:
                         break
                     w = written if len(written) <= 120 else written[:117] + "..."
                     if a.tsv:
-                        print("\t".join([f, str(path), str(ln), strand, kind, written]))
+                        print("\t".join([f, str(path), str(ln), strand, kind, written,
+                                         source.kind, source.what]))
                     else:
                         tag = f"  [{f}]" if len(queries) > 1 else ""
-                        print(f"{path}:{ln}  {strand:<4} {kind:<5}  {w}{tag}")
+                        print(f"{path}:{ln}  {strand:<4} {kind:<5}  {w}{tag} "
+                              f"[{source.kind}; {source.what}]")
         for f, (n, ex) in totals.items():
             print(f"{n} location(s) of {f}: {ex} exact, {n - ex} only through IUPAC letters",
                   file=sys.stderr)
         return 0
 
     known = known_sequences()
-    # Read everything first, so the files can be ordered by their most oligo-like hit:
-    # the primer table of a supplement comes before its motif-enrichment table.
+    # Read everything first: original documents precede upstream reconstructions,
+    # then primer tables precede lower-scoring material within each provenance class.
     per_file = []
     for path, text in _read_all(a.paths):
         hits = [h for h in scan(path, text, known, a.min_len, a.context)
@@ -1145,13 +1191,14 @@ def main(argv: list[str]) -> int:
             dropped = len(hits) - limit
             hits = [h for h in hits if id(h) in keep]
         if hits:
-            per_file.append((max(h.score for h in hits), path, hits, dropped))
-    per_file.sort(key=lambda t: -t[0])
+            per_file.append((provenance(path), max(h.score for h in hits), path, hits, dropped))
+    per_file.sort(key=lambda t: (t[0].rank, -t[1], str(t[2])))
 
     if a.tsv:
         print("file\tline\tlength\tscore\tlabel\tsequence\twritten\tmodifications\tknown\t"
-              "keyword\talso_at\tsentence\tfamily_size\tfamily_lines\tvariable_nt")
-    for _, path, hits, dropped in per_file:
+              "keyword\talso_at\tsentence\tfamily_size\tfamily_lines\tvariable_nt\t"
+              "source_kind\tmanifest_what")
+    for source, _, path, hits, dropped in per_file:
         for h in hits:
             fam = (f"{len(h.family)}", f"{h.family[0].line}-{h.family[-1].line}",
                    ", ".join(f"{a}-{b}" for a, b in h.windows)) if h.family else ("", "", "")
@@ -1159,10 +1206,12 @@ def main(argv: list[str]) -> int:
                 print("\t".join([str(h.path), str(h.line), h.length_text.split()[0],
                                  str(h.score), h.label, h.seq, h.written, "; ".join(h.mods),
                                  "; ".join(h.known), "yes" if h.keyword else "",
-                                 ",".join(map(str, h.also)), h.sentence, *fam]))
+                                 ",".join(map(str, h.also)), h.sentence, *fam,
+                                 source.kind, source.what]))
                 continue
             lab = f"{h.label}: " if h.label else ""
             out = [f"{h.path}:{h.line}  {lab}{h.seq} ({h.length_text}, score {h.score})"]
+            out.append(f"    source: {source.kind}; manifest: {source.what}")
             if h.written != h.seq:
                 out.append(f"    as written: {h.written}")
             if h.mods:
@@ -1181,7 +1230,7 @@ def main(argv: list[str]) -> int:
         if dropped and not a.tsv:
             print(f"{path}: ... {dropped} lower-scoring sequences not shown -- often a motif "
                   f"table or a sequence library; --max-hits 0 or --all shows them\n")
-    print(f"{sum(len(t[2]) for t in per_file)} sequence(s) in {len(per_file)} file(s)",
+    print(f"{sum(len(t[3]) for t in per_file)} sequence(s) in {len(per_file)} file(s)",
           file=sys.stderr)
     return 0
 

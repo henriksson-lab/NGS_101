@@ -36,7 +36,12 @@ representative final i7 primer.
 The authors' demultiplexing scripts further identify the 13-base BC1, 8-base UMI and
 16-base BC2 windows.
 
-🔴 The actual sequence assigned to any particular commercial 10x gel-bead barcode is not
-printed in the paper, supplement, or linked analysis repository. The page therefore shows
-its published length and molecular position as a role token, while retaining the exact
-public adapter arms and bridge geometry.
+🟢 The commercial 10x ATAC barcode candidates are distributed in the vendor's
+[Cell Ranger ATAC software](https://github.com/10XGenomics/cellranger-atac)
+(`lib/python/barcodes/737K-cratac-v1.txt`), and the [10x CG000209 v1.1 guide](https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf),
+Rev G, shows the 16-base barcode between the P5 and Read 1N arms (guide pp. 63–64,
+Appendix A). 🔴 Which candidate a particular M3-seq cell received is determined from
+that experiment's reads; the paper's oligo table does not assign a fixed BC2 to a cell.
+The page therefore shows BC2 as a variable role token while retaining the source-known
+adapter arms and bridge geometry. The author analysis repository still needs its own
+source review.

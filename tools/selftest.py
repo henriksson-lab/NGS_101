@@ -744,6 +744,42 @@ check("no MANIFEST hard-codes an absolute path from this machine",
 check.section("oligo scraping from source documents (tools/scrape_primers.py)")
 import scrape_primers as spx  # noqa: E402
 
+# A filename prefix does not establish provenance: source bundles sometimes contain
+# an original publisher supplement under upstream_* as well as an upstream drawing.
+from contextlib import redirect_stdout
+from io import StringIO
+from tempfile import TemporaryDirectory
+
+with TemporaryDirectory() as temp:
+    _bundle = Path(temp)
+    _bundle.joinpath("MANIFEST.tsv").write_text(
+        "file\turl\tbytes\tmd5\twhat\n"
+        "upstream_schematic.html\thttps://example.org/drawn\t\t\tscg_lib_structs method page\n"
+        "upstream_author_supplement.xlsx\t\t\t\t(on disk, not fetched by get_sources: added by hand?)\n"
+        "upstream_vendor_original.pdf\thttps://example.org/vendor\t\t\tvendor original oligo table\n"
+        "vendor_original.pdf\thttps://example.org/guide\t\t\tvendor original oligo table\n")
+    for _name, _seq in (
+        ("upstream_schematic.html.txt", "AATGATACGGCGACCACCGAGATCTACAC"),
+        ("upstream_author_supplement.xlsx.txt", "CAAGCAGAAGACGGCATACGAGATGTGACT"),
+        ("upstream_vendor_original.pdf.txt", "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC"),
+        ("vendor_original.pdf.txt", "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"),
+    ):
+        _bundle.joinpath(_name).write_text("Primer\t" + _seq + "\n")
+    _output = StringIO()
+    with redirect_stdout(_output):
+        spx.main([str(_bundle), "--tsv"])
+    _lines = [line.split("\t") for line in _output.getvalue().splitlines()]
+    check("scraper labels each hit from manifest and ranks the drawing last",
+          {Path(row[0]).name: row[-2] for row in _lines[1:]},
+          {"vendor_original.pdf.txt": "source document",
+           "upstream_vendor_original.pdf.txt": "source document",
+           "upstream_author_supplement.xlsx.txt": "unclassified — verify original",
+           "upstream_schematic.html.txt": "upstream schematic"})
+    check("original supplement under upstream_ retains its manifest description",
+          next(row[-1] for row in _lines[1:]
+               if Path(row[0]).name == "upstream_author_supplement.xlsx.txt"),
+          "(on disk, not fetched by get_sources: added by hand?)")
+
 _doc = ("Adapters. RA3 (rAppTGGAATTCTCGGGTGCCAAGG-ddC) is pre-adenylated.\n"
         "RA5 (NH2-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrA) is RNA.\n"
         "RP1 (AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTAC\nAGTCCGA) is the forward primer.\n"

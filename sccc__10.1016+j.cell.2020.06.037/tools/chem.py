@@ -119,21 +119,33 @@ def _sccc():
 
 d = DEFINITION
 FINAL_LIBRARY = role_library(d.title + " final library roles", (CELL, UMI, role("transposon–genome junction")), index=SAMPLE)
+AUTHOR_PROTOCOL = "https://dx.doi.org/10.17504/protocols.io.xwifpce"
+OLIGOS = (
+    "<b>Biotinylated junction primer</b> — 5′-/5Phos/ACACTCTTTCCC/iBiodT/ACACGACGCTCTTCCGA*T*C*T-3′",
+    "<b>Biotinylated piggyBac primer</b> — 5′-/5Phos/GCGTCAATTTTACGCAGAC/iBiodT/ATCTTTC*T*A*G-3′",
+    "<b>scCC P5 adapter</b> — 5′-AATGATACGGCGACCACCGAGATCTTCACTCATTCCACACGACTCCTTGCCAGTCTC*T-3′",
+    "<b>scCC P7 adapter</b> — 5′-/5Phos/GAGACTGGCAAGTACACGTCGCACTCACCATGA[index]ATCTCGTATGCCGTCTTCTGCTTG-3′",
+    "<b>scCC P5 PCR primer</b> — 5′-AATGATACGGCGACCACCGAGATC-3′",
+    "<b>scCC P7 PCR primer</b> — 5′-CAAGCAGAAGACGGCATACGAGAT-3′",
+    "<b>scCC custom Read 2 primer</b> — 5′-CGTGTAGGGAAAGAGTGTGCGTCAATTTTACGCAGACTATCTTTCTAG-3′",
+    "<b>scCC custom Index 1 primer</b> — 5′-GAGACTGGCAAGTACACGTCGCACTCACCATGA-3′",
+)
 SPEC = SimpleNamespace(
     TITLE=d.title,
     NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
+    SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>; '
+            f'author <a href="{AUTHOR_PROTOCOL}">single-cell calling-cards library protocol</a>.'),
     SUMMARY=d.summary,
-    CAVEAT="",
+    CAVEAT="The author library protocol publishes the junction primers and custom adapter oligos below. Their exact landing sites are not yet assembled in this role-level library model.",
     FINAL_LIBRARY=FINAL_LIBRARY,
     SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint,
     SEQUENCING_INTRO=d.endpoint,
     READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE="Target panels, pool barcodes and kit revisions vary; the defining source establishes the read roles, while this page does not invent a universal primer sequence.",
+    SEQUENCING_UNAVAILABLE="The author library protocol prints custom PCR and sequencing oligos, but their binding sites are not yet assembled in this role-level library model; index members vary by library.",
     workflow=_sccc,
-    oligos=lambda: (),
+    oligos=lambda: OLIGOS,
 )
 SPEC.protocol_graph = protocol_graph
 globals().update(vars(SPEC))

@@ -27,6 +27,8 @@ The biotin-NTP mark is not part of the sequenced cDNA: it selects the RNA whose 
 - 🟢 The cited PRO-seq method prints 3′ RNA adapter VRA3 `5′-pGAUCGUCGGACUGUAGAACUCUGAAC-/Inverted dT/-3′`, 5′ RNA adapter VRA5 `5′-CCUUGGCACCCGAGAAUUCCA-3′` (unphosphorylated 5′ end), RT/PCR primer RP1 `5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′`, and indexed PCR primer RPI-n `5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′` (Table 1; `NNNNNN` is the sample barcode).
 - 🟡 ChRO-seq explicitly follows that prior workflow for 3′ and 5′ adapter ligation, reverse transcription and amplification, so these are strong candidate oligos for implementations that did not substitute adapters. The defining paper does not name VRA3/VRA5/RP1/RPI-n or document which samples carry six-base UMIs; their assignment to every published ChRO-seq library remains an inference. The schematic retains role-level arms until that version boundary is resolved.
 
+The public page lists those four oligos as the **cited predecessor's** sequences. It does not label them as confirmed ChRO reagent orders or assign their bases to the ChRO-specific final construct.
+
 ## Boundary and uncertainty
 
 leChRO-seq is a named low-input extension described in the same paper. This page shows ChRO-seq and does not silently merge the extra linear-amplification branch into it.

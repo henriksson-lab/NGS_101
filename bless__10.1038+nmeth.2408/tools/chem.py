@@ -55,7 +55,7 @@ def workflow():
          "I-SceI releases the captured molecule from its hairpins; XhoI leaves the short end-identifying tags."),
         ("INFERRED — install the sequencing-kit ends",
          molecule("Illumina-compatible break library", (role("Illumina left end", inferred=True), role("proximal or distal tag"), role("genomic insert"), role("Illumina right end", inferred=True))),
-         "The paper names the final library kit but does not print its complete adapter construct."),
+         "The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing) but does not print its complete adapter construct."),
     ))
 
 
@@ -63,7 +63,7 @@ TITLE = 'BLESS — Breaks Labeling, Enrichment on Streptavidin and Sequencing'
 NOTES = '01_bless.html'
 SOURCE = 'Crosetto et al., Nature Methods (2013); <a href="https://doi.org/10.1038/nmeth.2408">doi:10.1038/nmeth.2408</a>.'
 SUMMARY = 'A barcoded biotin hairpin labels repaired DSBs in fixed nuclei before fragmentation; streptavidin capture and a differently barcoded distal hairpin preserve the native-break end.'
-CAVEAT = "The proximal/distal tags are exact. The paper names the final Illumina library-preparation reagents but does not print that kit's complete adapter geometry; those outer regions are marked inferred."
+CAVEAT = "The proximal/distal tags are exact. The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing) but does not print its complete adapter geometry or selected index member; those outer regions are marked inferred."
 FINAL_CAPTION = 'One insert orientation is shown. Proximal and distal 11-nt tags identify which genomic end was the native break; inferred outer sequencing-kit regions are shaded.'
 READ_LENGTHS = {'Read 1': 75, 'Index 1 (i7)': 6, 'Read 2': 75}
 SEQUENCING_INTRO = 'BLESS used paired-end Illumina sequencing; either end can carry the proximal tag, which is selected computationally.'

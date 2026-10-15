@@ -11,6 +11,7 @@ TRANSCRIPT = role("transcript-derived insert")
 GENOMIC = role("genomic insert")
 BAG_DNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/TGTGTTGGGTGTGTTTGGKKKKKKKGKKKKKKKKNN"
 BAG_RNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/AAGCAGTGGTATCAACGCAGAGTNNWNNNSTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+CUSTOM_READ1_PRIMER = "CGCTGTCCAAGGCTCTTGACACGAAGGATAG"
 BAG_BARCODE = feature("bag_barcode", "cell_barcode", "combinatorial",
                       group="bag_barcode")
 BAG_VARIETAL = feature("varietal_tag", "umi", "combinatorial",
@@ -68,10 +69,13 @@ SPEC = SimpleNamespace(
     FINAL_CAPTION="Role-level paired-end library; Read 1 begins with the split-pool tags and Read 2 begins at a random tagmentation end.",
     SEQUENCING_INTRO="",
     SEQUENCING_ENDING="NovaSeq 6000 paired-end 150-bp reads were used. Read 1 begins with an 80-base tag/adapter block containing the 17-nt BAG barcode and 12-nt varietal tag.",
-    SEQUENCING_UNAVAILABLE="The custom final-library sequencing-primer sites are not printed in the authoritative sources.",
+    SEQUENCING_UNAVAILABLE=("The author protocol prints the custom Read 1 primer (Read1-Adapter3), "
+                            "but this role-level final construct has not yet placed its binding site. "
+                            "The complete final adapter geometry remains unresolved."),
     workflow=bag_workflow,
     oligos=lambda: (f"5′-{BAG_DNA_CAPTURE_WRITTEN}-3′ — Acrydite random-TG DNA capture primer",
-                             f"5′-{BAG_RNA_CAPTURE_WRITTEN}-3′ — Acrydite poly(dT) RNA capture primer"),
+                             f"5′-{BAG_RNA_CAPTURE_WRITTEN}-3′ — Acrydite poly(dT) RNA capture primer",
+                             f"5′-{CUSTOM_READ1_PRIMER}-3′ — custom Read 1 primer (Read1-Adapter3; author protocol)"),
 )
 
 def _bag_graph(spec):

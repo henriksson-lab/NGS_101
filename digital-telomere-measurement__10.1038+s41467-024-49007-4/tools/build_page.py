@@ -24,6 +24,6 @@ def protocol_graph() -> ProtocolGraph:
 def render():
     source=SOURCE
     title=TITLE
-    return render_page(title=title,notes="01_digital-telomere-measurement.html",citation_html=source,panels=M.panels(),entry="motor-loaded ONT adapter ---> one intact captured strand through nanopore; no sequencing primer",caveat="The capture oligo and seqTether are source-exact. The defining study names historical AMII and NA adapters but does not print their complete motor-bearing assemblies; a later current-kit sequence is not substituted for them.",graph=protocol_graph(),oligos=M.oligos())
+    return render_page(title=title,notes="01_digital-telomere-measurement.html",citation_html=source,panels=M.panels(),entry="motor-loaded ONT adapter ---> one intact captured strand through nanopore; no sequencing primer",caveat="The capture oligo and seqTether are source-exact. The defining study names historical AMII and NA adapters but does not print their complete motor-bearing assemblies; a later current-kit sequence is not substituted for them. Its linked author bench protocol (TelometerLibraryPrep.docx) remains unread because the download failed.",graph=protocol_graph(),oligos=M.oligos())
 def main(): OUT.write_text(render(),encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 if __name__=="__main__": main()

@@ -17,10 +17,10 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nbt.3129">'
 SUMMARY = ("A cell-barcoded oligo(dT) first makes cDNA in the same lysate as genomic DNA. "
            "Ad-2 random primers then quasilinearly copy both analytes before the pool is "
            "split into genome and transcriptome finishing reactions.")
-CAVEAT = ("The paper prints Ad-1x, Ad-2 and the branch-selection primers, but refers the "
-          "RNA branch to the original CEL-Seq small-RNA finishing workflow without printing "
-          "those outer library oligos. The final shells therefore show inferred standard "
-          "Illumina adapters; the co-amplification intermediates are source-exact.")
+CAVEAT = ("The checked DR-seq paper prints P1, P2 and P3, but not the complete Ad-1x "
+          "or Ad-2 oligos. Its cited CEL-Seq source has not been reviewed, so their full "
+          "working sequences are inferred. RNA library finishing follows CEL-Seq and DNA "
+          "library finishing names NEBNext Ultra; their outer oligos also remain inferred.")
 
 AD1_SPACER = "CGATTGAGGCCGG"
 T7_PROMOTER = "TAATACGACTCACTATAGGG"
@@ -35,17 +35,19 @@ P3 = "GTGAGCTGGAGTTGAGGTAGTGTGGAG"
 
 
 def ad1_segments():
-    return [seg("Ad-1x spacer", AD1_SPACER), seg("T7 promoter", T7_PROMOTER, "t7"),
-            seg("RA5", RA5, "r1"),
+    return [seg("Ad-1x spacer", AD1_SPACER, inferred=True),
+            seg("T7 promoter", T7_PROMOTER, "t7", inferred=True),
+            seg("RA5", RA5, "r1", inferred=True),
             seg("cell barcode", "B" * CELL_BARCODE_NT, "cbc", placeholder=True,
-                feature=feature("cell_barcode", "cell_barcode", "fixed")),
-            seg("oligo(dT)24", "T" * POLYT_NT),
-            seg("V anchor", "V", placeholder=True)]
+                feature=feature("cell_barcode", "cell_barcode", "fixed"), inferred=True),
+            seg("oligo(dT)24", "T" * POLYT_NT, inferred=True),
+            seg("V anchor", "V", placeholder=True, inferred=True)]
 
 
 def ad2_segments():
-    return [seg("Ad-2 common handle", AD2_HANDLE, "tso"),
-            seg("Ad-2 random N8", "N" * AD2_RANDOM_NT, placeholder=True)]
+    return [seg("Ad-2 common handle", AD2_HANDLE, "tso", inferred=True),
+            seg("Ad-2 random N8", "N" * AD2_RANDOM_NT, placeholder=True,
+                inferred=True)]
 
 
 def rt_scene() -> Scene:
@@ -131,8 +133,8 @@ FINAL_LIBRARIES = (
 
 def oligos():
     return (
-        f"<b>Ad-1x</b> — 5′-{AD1_SPACER}{T7_PROMOTER}{RA5}[8-nt cell barcode]{'T' * POLYT_NT}V-3′",
-        f"<b>Ad-2</b> — 5′-{AD2_HANDLE}[8 random nt]-3′",
+        f"<b>INFERRED — Ad-1x working model</b> — 5′-<inf>{AD1_SPACER}{T7_PROMOTER}{RA5}[8-nt cell barcode]{'T' * POLYT_NT}V</inf>-3′",
+        f"<b>INFERRED — Ad-2 working model</b> — 5′-<inf>{AD2_HANDLE}[8 random nt]</inf>-3′",
         f"<b>P1</b> — 5′-{P1}-3′",
         f"<b>P2</b> — 5′-{P2}-3′",
         f"<b>5′-biotin P3</b> — 5′-biotin-{P3}-3′",
@@ -144,10 +146,10 @@ def workflow() -> Workflow:
                          label="single-cell genomic DNA")
     wf = Workflow(MolecularState("One lysed cell: genomic DNA plus poly(A) RNA",
                                  tuple(start.rows())))
-    wf.react("Reverse-transcribe RNA with cell-barcoded Ad-1x",
+    wf.react("INFERRED — Reverse-transcribe RNA with the working Ad-1x oligo",
              rt_scene().rows(), name="Ad-1x-tagged cDNA beside genomic DNA",
              note="The 5′ tail installs the T7 promoter, RA5 and cell barcode; genomic DNA remains in the tube.")
-    wf.react("Random-prime genomic DNA and cDNA with Ad-2",
+    wf.react("INFERRED — Random-prime genomic DNA and cDNA with working Ad-2 oligo",
              [*ad2_priming_scene("genomic DNA").rows(),
               *ad2_priming_scene("Ad-1x-tagged cDNA").rows()],
              name="First Ad-2 semi-amplicons")

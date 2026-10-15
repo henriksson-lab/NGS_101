@@ -74,6 +74,21 @@ Cloudflare or a paywall — get those by hand (the manifest has the URL) and dro
 the same directory; `--revalidate` then checks them like any download. The scraper
 finds oligos, not reaction order: the methods still have to be **read**.
 
+**Missing-information audit gate.** Do not call a protocol's missing sequence,
+reagent, reaction detail, or read layout confirmed absent merely because a source
+bundle or scraper returned no hit. Keep a checklist of the defining article,
+supplements, detailed protocols, cited predecessor methods, vendor documents, and
+other chemistry-relevant material linked by those sources. Record each source's
+locator, availability, exact sections inspected, and whether linked information was
+followed or why it was inaccessible or irrelevant. Two independent readers must
+check the original sources and linked material, including any source judged
+irrelevant, before a missing-information claim is accepted; an unavailable
+relevant source leaves the claim blocked, not confirmed.
+Record the two passes and their source checklist in `catalogue/source_reviews/`.
+The existing oligo audit ledgers are historical work queues, not evidence of this
+two-pass gate by themselves. Show the source checklist and linked-information
+disposition on a public page when that page asserts confirmed missing information.
+
 ## Writing up a protocol (notes first)
 
 1. `python3 tools/get_sources.py "<protocol>"` — fetch; check the manifest for `(manual)`.

@@ -8,6 +8,7 @@ Run:  python3 tools/selftest_sources.py
 from __future__ import annotations
 
 import contextlib
+import copy
 import gzip
 import io
 import sys
@@ -24,6 +25,7 @@ sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 from checks import Check  # noqa: E402
 
 import doctext  # noqa: E402
+import audit_protocol_sources as source_reviews  # noqa: E402
 import fetchers  # noqa: E402
 import get_sources as gs  # noqa: E402
 from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
@@ -344,5 +346,67 @@ with tempfile.TemporaryDirectory() as tmp:
     check("unrepresented graph input is reported", unrepresented_inputs(graph), 1)
     check("coverage details name the missing input",
           unrepresented_input_ids(graph), ("unnamed_sequence",))
+
+check.section("independent source-review acceptance gate")
+_review_pass = {"reviewer": "reader-one", "date": "2026-10-15",
+                "locations": "Methods paragraph 2", "finding": "Primer list checked"}
+_second_pass = {**_review_pass, "reviewer": "reader-two",
+                "locations": "Methods paragraph 2 and supplement table"}
+_review = {
+    "dir": "example", "status": "reviewed",
+    "source_checklist": [{"id": "paper", "role": "defining", "locator": "DOI example",
+                          "availability": "read", "relevance": "relevant",
+                          "pass_1": _review_pass, "pass_2": _second_pass}],
+    "linked_information": {"result": "none_found", "pass_1": _review_pass,
+                           "pass_2": _second_pass},
+    "missing_claims": [], "conclusion": "No missing source detail claimed",
+}
+_known = {"example": {"dir": "example"}}
+check("two independent source and link checks pass",
+      source_reviews.validate("example", _review, _known), [])
+_one_pass = copy.deepcopy(_review)
+del _one_pass["source_checklist"][0]["pass_2"]
+check("one source check cannot complete review",
+      bool(source_reviews.validate("example", _one_pass, _known)), True)
+_same_reviewer = copy.deepcopy(_review)
+_same_reviewer["linked_information"]["pass_2"]["reviewer"] = "reader-one"
+check("same reader cannot supply both link checks",
+      bool(source_reviews.validate("example", _same_reviewer, _known)), True)
+_unavailable = copy.deepcopy(_review)
+_unavailable["source_checklist"][0].update(availability="unavailable", reason="paywall")
+check("unavailable relevant source blocks completed review",
+      bool(source_reviews.validate("example", _unavailable, _known)), True)
+_excluded_once = copy.deepcopy(_review)
+_excluded_once["source_checklist"].append({
+    "id": "supplement", "role": "supplement", "locator": "figure-only supplement",
+    "availability": "read", "relevance": "not_relevant", "reason": "no methods",
+    "pass_1": _review_pass})
+check("excluded source also needs two independent checks",
+      bool(source_reviews.validate("example", _excluded_once, _known)), True)
+_unlisted = copy.deepcopy(_review)
+_unlisted["linked_information"]["result"] = "enumerated"
+check("linked material must appear in source checklist",
+      bool(source_reviews.validate("example", _unlisted, _known)), True)
+_blocked_claim = copy.deepcopy(_review)
+_blocked_claim["missing_claims"] = [{"claim": "index primer", "disposition": "blocked",
+                                     "evidence": "linked table inaccessible"}]
+check("blocked claim prevents completed review",
+      bool(source_reviews.validate("example", _blocked_claim, _known)), True)
+_confirmed_claim = copy.deepcopy(_review)
+_confirmed_claim["missing_claims"] = [{"claim": "index primer",
+                                       "disposition": "confirmed_missing",
+                                       "evidence": "two source checks"}]
+check("confirmed absence requires accepted_missing status",
+      bool(source_reviews.validate("example", _confirmed_claim, _known)), True)
+_known_protocols = source_reviews.catalogue()
+_review_errors = []
+for _path in source_reviews.REVIEWS.glob("*.json"):
+    try:
+        _record = source_reviews.json.loads(_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as _exc:
+        _review_errors.append(f"{_path.name}: {_exc}")
+        continue
+    _review_errors.extend(source_reviews.validate(_path.stem, _record, _known_protocols))
+check("checked-in source reviews satisfy the acceptance gate", _review_errors, [])
 
 check.report()

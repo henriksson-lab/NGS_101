@@ -10,7 +10,8 @@ import nextera as nx
 import seqprimers as sp
 from multimodal_spatial import finish_pcr_branch, modality_split
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SourceClaim,
+                            SourceDiscrepancy, StepKind)
 from protocol_model import molecule, role
 
 TITLE = "10x Chromium Single Cell Multiome ATAC + Gene Expression"
@@ -128,5 +129,17 @@ def protocol_graph():
         statement="CG000338 prints the P5-side ATAC primer and the P7-index/s7 endpoint; their 3′ regions face inward on the completed ATAC molecule.")
     finish_pcr_branch(g,"gex",cdna,GEX,GEX_PRIMERS,reviewed,label="gene-expression",geometry=gex_geometry)
     finish_pcr_branch(g,"atac",barcoded_atac,ATAC,ATAC_PRIMERS,reviewed,label="ATAC",geometry=atac_geometry)
+    g.annotate(SourceDiscrepancy(
+        "gex_library", "CG000338 Rev B omits four P5 bases in its gene-expression layout",
+        (SourceClaim("CG000338 Rev B, Appendix p. 80, Gene Expression Library",
+                     "The 5′ P5 arm is printed as AATGATACGGCGACCACCGAGATCT before the N10 i5 index."),
+         SourceClaim("CG000338 Rev B, Appendix p. 80, ATAC gel bead and library; "
+                     "Rev F/G, Appendix pp. 80–81, Gene Expression Library",
+                     "The P5 arm is printed as AATGATACGGCGACCACCGAGATCTACAC before the index or barcode.")),
+        "The gene-expression construct uses the full P5 arm ending ACAC, as printed in Rev F/G.",
+        "Rev B's own ATAC layout and later guide revisions agree on the full P5 arm; "
+        "the canonical Illumina P5 sequence agrees as well.",
+        "Whether Rev B's shortened gene-expression line was a diagram error or represented "
+        "a reagent variant is not stated by 10x."))
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

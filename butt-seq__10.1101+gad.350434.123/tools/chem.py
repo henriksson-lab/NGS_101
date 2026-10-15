@@ -76,7 +76,13 @@ SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
 SEQUENCING_INTRO = DEFINITION.endpoint
 READ_LENGTHS = None
-SEQUENCING_ENDING = DEFINITION.endpoint
+SEQUENCING_ENDING = (
+    "The author analysis pipeline expects three FASTQ files: R1 is Read 1, "
+    "R2 carries the eight-cycle UMI, and R3 is the biological Read 2. Its README "
+    "instructs changing the second RunInfo.xml read from indexed to non-indexed "
+    "before demultiplexing. <a href=\"https://github.com/albertdyu/BuTTSeq\">"
+    "Author analysis pipeline</a>. Exact sequencing-primer landing sites remain "
+    "unplaced in this role-level construct.")
 SEQUENCING_UNAVAILABLE = ("The source publishes the starter and PCR oligos, but this "
                           "role-level final state does not yet establish the complete "
                           "post-PCR sequence or exact sequencing-primer landing sites.")

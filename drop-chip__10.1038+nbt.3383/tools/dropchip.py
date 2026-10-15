@@ -190,7 +190,7 @@ _validate_source_transcription()
 
 def protocol_graph() -> ProtocolGraph:
     source = "Defining source: https://doi.org/10.1038/nbt.3383"
-    inferred_source = source + "; downstream Illumina adapter and library primers are not published"
+    inferred_source = source + "; downstream Illumina adapter and library primers unresolved from checked article and supplements"
     graph = ProtocolGraph("Drop-ChIP", authority=source)
     dna = graph.input("nucleosomal_dna", "nucleosomal DNA fragments",
                       MaterialKind.BIOLOGICAL, primary=True)
@@ -247,9 +247,9 @@ def protocol_graph() -> ProtocolGraph:
                 ((da_insert, InputRole.TEMPLATE), (illumina_adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (precursor,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The source establishes adapter ligation but does not publish the Illumina adapter bases or end geometry."),
+                    "The source establishes adapter ligation; selected Illumina adapter bases and end geometry remain unresolved from the checked article and supplements."),
                 source=inferred_source)
-    library_primers = graph.input("library_primers", "unpublished library PCR-primer pair",
+    library_primers = graph.input("library_primers", "unresolved library PCR-primer pair",
                                   MaterialKind.OLIGO, inferred=True, source=inferred_source)
     final = inferred_final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
@@ -258,7 +258,7 @@ def protocol_graph() -> ProtocolGraph:
                 ((precursor, InputRole.TEMPLATE), (library_primers, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
-                    final, reason="The paper does not publish the library PCR primers.",
+                    final, reason="The selected library PCR-primer bases remain unresolved from the checked article and supplements.",
                     symmetric_species=True), source=inferred_source)
     graph.sequence(library, SequencingPlan(
         limitation="The paper publishes barcode coordinates but not the Illumina adapter or sequencing-primer sequences.",

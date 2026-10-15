@@ -14,7 +14,7 @@ TITLE="G&T-seq — separate genome and transcriptome from one cell"
 NOTES="01_g-t-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/nmeth.3370">Macaulay et al., <i>Nature Methods</i> (2015)</a>.'
 SUMMARY="A biotinylated oligo(dT) captures a cell's poly(A) RNA on streptavidin beads, physically separating it from genomic DNA; the two fractions then undergo Smart-seq2-like WTA and MDA/PicoPLEX WGA, respectively."
-CAVEAT="G&T-seq is the separation protocol plus two downstream amplification branches. The page does not imply that one molecular construct contains both RNA and DNA."
+CAVEAT="G&T-seq separates one cell into genome and transcriptome branches; these are separate libraries. The 2015 article's full Methods and the authors' 2016 detailed protocol have not yet been checked, so the exact original capture/RT oligo and downstream kit-specific oligos remain unverified in this model."
 RNA,RNA_P=nextera_library([seg("full-length cDNA","X"*44,placeholder=True)],"G&T-seq transcriptome library")
 DNA,DNA_P=nextera_library([seg("WGA genomic fragment","X"*44,placeholder=True)],"G&T-seq genome library")
 FINAL_LIBRARIES=(("Transcriptome library",RNA,RNA_P,"Bead-captured mRNA undergoes Smart-seq2 reverse transcription/WTA followed by Nextera library construction.","Standard Nextera primers read the amplified cDNA insert from both ends."),("Genome library",DNA,DNA_P,"The mRNA-depleted supernatant undergoes MDA or PicoPLEX WGA followed by Nextera library construction.","Standard Nextera primers read the WGA-derived genomic insert from both ends."))

@@ -39,8 +39,8 @@ def render_page(protocol, *, graph_factory=None):
       '<h3>(2) Co-encapsulate tagmented cells with super-loaded barcode beads</h3>',
       panel(D.bead_priming_scene().rows(),cls="long",caption="The released bead oligo primes through its published 3' s5 sequence."),
       '<h3>(3) Droplet PCR copies the bead barcode onto s5/s7 fragments</h3>',
-      panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — complete supported inner structure; dotted bead/P5/Read-1 arm stops at the paper's sequence boundary."),
-      '<h2>Read layout</h2>',sp.unavailable_diagram(final,"the custom Read-1 and library-primer sequences are unpublished"),panel([strand_row(Construct(r1),prefix="Read 1  ",suffix="")],cls="long",caption="Custom Read 1 begins at BC1; the paper does not publish that primer's sequence."),
+      panel([strand_row(final),*annotation_rows(final)],cls="long",caption="INFERRED — complete supported inner structure; dotted bead/P5/Read-1 arm stops where the checked article, Supplementary Table 6 and Bio-Rad guide stop specifying bases."),
+      '<h2>Read layout</h2>',sp.unavailable_diagram(final,"the custom Read-1 and library-primer bases are unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide"),panel([strand_row(Construct(r1),prefix="Read 1  ",suffix="")],cls="long",caption="Custom Read 1 begins at BC1; its bases remain unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide."),
       table(("Read","Reports"),rows),
       sp.read_spec_table([
           sp.read_spec("Read 1",118,

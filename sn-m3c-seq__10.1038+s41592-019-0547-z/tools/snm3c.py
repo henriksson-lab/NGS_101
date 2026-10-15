@@ -3,12 +3,13 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Construct, Segment, feature
+from chemdraw import Construct, Segment
 from restriction import DPNII
-from single_cell_hic import ContactWorkflow, unresolved_illumina_library
+from single_cell_hic import ContactWorkflow
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
+import snmc2_core
 WORKFLOW = ContactWorkflow("sn-m3C-seq", DPNII, "after ligation", "none", "bisulfite-PCR")
 TITLE = "sn-m3C-seq — contacts and DNA methylation from one nucleus"
 NOTES = "01_sn-m3c-seq.html"
@@ -17,26 +18,29 @@ SUMMARY = "Single-nucleus chromosome-conformation capture is followed by bisulfi
 STEPS = (("Digest and ligate nuclei", "Generate proximity-ligation products in fixed nuclei without a biotin pull-down."),
          ("Isolate one nucleus", "Sort nuclei so the contact and methylation observations retain a common cellular identity."),
          ("Bisulfite conversion", "Convert unmethylated cytosine to uracil while methylated cytosine remains protected."),
-         ("Indexed random priming and PCR", "Copy converted fragments with an indexed P5-bearing random primer, add the opposite adapter and amplify."))
+         ("Indexed random priming and PCR", "Copy converted fragments with an inline-indexed, partial Read 1 random primer inherited from snmC-seq2, add the opposite adapter and amplify."))
 READOUT = "Paired bisulfite reads jointly encode the two contact fragments and cytosine-conversion state."
 JUNCTION_CAPTION = "The unconverted contact architecture is shown here; after ligation, bisulfite treatment changes sequence content but not the contact boundary. ** marks ligation."
-LIBRARY_CAPTION = "Bisulfite-compatible snmC-seq2 product. The 25-base random-primer-derived prefix and 3-base Adaptase tail are experimentally trimmed; the sn-m3C paper does not print the complete adapter oligos."
-LIBRARY_CAVEAT = "INFERRED — the trim-defined protocol-specific regions are established, but the complete outer adapter bases are not reported in the defining sn-m3C source."
+LIBRARY_CAPTION = "INFERRED — a representative snmC-seq2-family endpoint uses the source-printed P5L_AD002_H inline barcode and dual-index primer pair 1. The actual barcode and index members chosen for each sn-m3C library are not reported. The Adaptase-added bases remain unavailable."
+LIBRARY_CAVEAT = "The sn-m3C Methods explicitly inherit the snmC-seq2 library procedure. Luo et al. Supplementary Methods print its random primers, and Supplementary Table 2 prints the indexed PCR primers. This panel uses one published representative from each family; Lee et al. do not identify which members were used for each sn-m3C library, and the Adaptase-added bases are proprietary."
 SEQUENCING_UNAVAILABLE = "The source specifies paired-end reads and trimming 25 bases from the start and 3 bases from the end of each read, but does not print a complete sequencing-primer set on which base-level placement can be verified."
 def contact_product(): return WORKFLOW.junction()
 RANDOM_PRIMER_TRIM_NT = 25
 ADAPTASE_TAIL_TRIM_NT = 3
 def final_library():
-    converted = Construct([
-        Segment("indexed random-primer-derived sequence", "N"*RANDOM_PRIMER_TRIM_NT,
-                "cbc", placeholder=True,
-                feature=feature("cell_index", "cell_barcode", "unknown",
-                                note="exact barcode sub-boundary is unresolved")),
-        *list(contact_product()),
-        Segment("Adaptase low-complexity tail", "N"*ADAPTASE_TAIL_TRIM_NT,
-                "me", placeholder=True),
-    ], name="converted and tagged contact")
-    return unresolved_illumina_library(converted, "sn-m3C-seq bisulfite library", indexed=True)
+    inherited, _ = snmc2_core.library(
+        "bisulfite-converted contact fragments", insert_nt=40,
+        library_name="representative sn-m3C-seq bisulfite library",
+        feature_id="snm3c_cell_inline",
+    )
+    # The inherited source leaves Adaptase's span unspecified. Give its
+    # diagram a schematic width so the duplex renderer can pair placeholders.
+    return Construct([
+        Segment(segment.name, "X" * 8, segment.tag, placeholder=True,
+                inferred=True, note="schematic width; actual Adaptase-added length unknown")
+        if segment.name == "Adaptase-added bases" else segment
+        for segment in inherited
+    ], name=inherited.name)
 
 
 def protocol_graph() -> ProtocolGraph:
@@ -72,7 +76,7 @@ def protocol_graph() -> ProtocolGraph:
     g.react("convert", "Bisulfite-convert contact DNA", StepKind.CHEMICAL_CONVERSION,
             ((nucleus, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
             (converted,))
-    primer = g.input("random_primer", "indexed P5-bearing random primer",
+    primer = g.input("random_primer", "inline-indexed partial Read 1 random primer",
                      MaterialKind.OLIGO, inferred=True, source=LIBRARY_CAVEAT)
     polymerase = g.input("extension_polymerase", "random-priming polymerase",
                          MaterialKind.CATALYST)

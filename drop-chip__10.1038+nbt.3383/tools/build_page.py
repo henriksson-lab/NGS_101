@@ -72,8 +72,8 @@ def bcivi_and_boundary() -> str:
 {panel([*ligated.rows(), *annotation_rows(final)], cls="long",
        caption="INFERRED — the matching background at both ends denotes two copies of the "
                "same Illumina adapter ligated to the displayed 3'-A-ended product. The paper "
-               "does not publish its bases or library-primer sequences, so the dotted outer "
-               "arms stop at that authoritative boundary.")}"""
+               "and its supplements leave the selected Illumina adapter and library-primer bases unresolved, so the dotted outer "
+               "arms show that source limit.")}"""
 
 
 def reads() -> str:
@@ -81,7 +81,7 @@ def reads() -> str:
     rows = [
         ("Read 1", "8-nt cell barcode at bases 1–8, then TTAA and genomic DNA"),
         ("Read 2", "11-nt constant, 8-nt cell barcode at bases 12–19, then TTAA and genomic DNA"),
-        ("Index", "sample index distinguishes the pooled library; sequence not published"),
+        ("Index", "sample index distinguishes the pooled library; selected sequence unresolved from checked article and supplements"),
     ]
     r1 = Construct([seg("cell barcode", "N" * 8, "cbc", placeholder=True),
                     seg("PacI half", "TTAA"),
@@ -91,7 +91,7 @@ def reads() -> str:
                     seg("PacI half", "TTAA"),
                     seg("genomic DNA", "XXXXXXXX...", placeholder=True)], name="Read 2")
     return f"""<h2>Read layout</h2>
-{sp.unavailable_diagram(final, "the paper does not publish the Illumina library-primer sequences")}
+{sp.unavailable_diagram(final, "the selected Illumina library-primer bases remain unresolved from the checked article and supplements")}
 {panel([strand_row(r1, prefix="Read 1  ", suffix=""),
         strand_row(r2, prefix="Read 2  ", suffix="")],
        cls="small", caption="Published barcode coordinates. The sequencing run uses 11 "

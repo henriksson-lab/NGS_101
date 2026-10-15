@@ -25,3 +25,5 @@ DTM ligates barcoded capture/tether duplexes directly to native human telomeres,
 A motor-loaded nanopore adapter feeds an intact tagged strand through the pore; no sequencing primer binds.
 
 🔴 The defining Methods identify the historical adapters as AMII for R9.4.1 and NA for R10.4, but neither the paper nor its supplementary files print their complete motor-bearing assemblies. ONT's current chemistry document now prints current LA/NA oligonucleotide strands; it does not establish that those current sequences are the same reagents used with LSK-110 in this study. The page therefore does not backfill a later adapter sequence into the historical library.
+
+🔴 The Methods also link the authors' [Telometer repository](https://github.com/santiago-es/Telometer). Its README points to `TelometerLibraryPrep.docx` for a current bench protocol. That linked DOCX could not be downloaded during the source review, so its contents and relationship to the 2024 library remain unchecked.

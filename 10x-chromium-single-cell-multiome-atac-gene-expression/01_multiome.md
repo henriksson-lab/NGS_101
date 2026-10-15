@@ -24,3 +24,13 @@ bead oligos and both final libraries. The page now transcribes the GEX Read-1 ar
 `CGCGTCTG`/s5/ME and s7/8-base-index/P7 shell exactly. Variable barcode, UMI and index
 windows are structured placeholders, not inferred sequence. 🔴 The internal ATAC bridge
 reagent and some reaction-mixture oligos remain proprietary.
+
+### Guide-revision discrepancy
+
+🟢 CG000338 Rev B Appendix p. 80 prints the gene-expression final library's 5′ P5 arm
+as `AATGATACGGCGACCACCGAGATCT` before the `N10` i5 index. The ATAC gel-bead and
+library lines on that same page include the following `ACAC`; Rev F and Rev G Appendix
+pp. 80–81 also print the full `AATGATACGGCGACCACCGAGATCTACAC` in the
+gene-expression library. 🟡 The model uses the full Rev G P5 arm, supported by the
+other lines and canonical Illumina P5. 🔴 10x does not state whether Rev B's shorter
+gene-expression line was a diagram error or represented a reagent variant.

@@ -25,11 +25,13 @@ STEPS = (
 )
 READOUT = "Paired-end reads span the two DpnII-derived contact arms while C-to-T conversion reports cytosine methylation."
 JUNCTION_CAPTION = "DpnII GATC ends are filled with biotinylated nucleotide and proximity-ligated; ** marks the contact junction."
-LIBRARY_CAPTION = "Bisulfite-converted contact insert in the TruSeq-compatible shell named by the supplementary protocol. The particular indexed adapter member is not reported."
+LIBRARY_CAPTION = "Bisulfite-converted contact insert in an inferred TruSeq-compatible shell. The particular indexed adapter member is unresolved from the checked sources."
 LIBRARY_CAVEAT = ("INFERRED ADAPTER BASES — the supplement names TruSeq PCR primers and "
                    "an indexed Illumina adapter, but does not print the ligated adapter "
                    "oligos or selected index. Canonical TruSeq-compatible arms therefore "
-                   "show primer placement without claiming a source transcription.")
+                   "show primer placement without claiming a source transcription. The "
+                   "article's explicit TruSeq adapter is for a separate WGBS control. "
+                   "The bulk source and linked-material review remains in progress.")
 LIBRARY_ADAPTER_GEOMETRY = AdapterLigationGeometry.unavailable(
     "The supplementary protocol names indexed Illumina adapters and TruSeq PCR "
     "primers, but does not print the ligated adapter strands or their ligation-ready "
@@ -141,7 +143,7 @@ def protocol_graph() -> ProtocolGraph:
                     final, reason="The source does not print the PCR primers or indexed adapter strands."))
     graph.sequence(library, SequencingPlan(
         library=final, primers=SEQ_PRIMERS, acquired_roles=REQUIRED_ROLES,
-        limitation="The indexed adapter member and ligated end geometry are not published."))
+        limitation="The indexed adapter member and ligated end geometry are unresolved from the checked Li and Rao sources; independent source review continues."))
     graph.declare_reviewed_scope((
         "sample", "restriction_enzyme", "digest", "biotin_nucleotide", "fill_enzyme",
         "mark_ends", "contact_ligase", "proximity_ligation", "fragmentation_condition",

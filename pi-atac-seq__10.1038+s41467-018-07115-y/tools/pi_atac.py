@@ -1,4 +1,4 @@
-"""Molecular model for Pi-ATAC-seq; unpublished barcoding-primer regions infer by default."""
+"""Molecular model for Pi-ATAC-seq; unmapped primer-pair choices infer by default."""
 from __future__ import annotations
 import illumina as il
 import nextera as nx
@@ -32,7 +32,7 @@ def primer_landings():
 
 def protocol_graph():
  source="Defining source: https://doi.org/10.1038/s41467-018-07115-y"
- inferred_source=source+" (barcoding-primer sequences are unpublished; Nextera topology inferred)"
+ inferred_source=source+" (Pi-ATAC well-to-primer assignment unavailable; linked Buenrostro Ad1/Ad2 family does not identify the chosen pairs)"
  graph=ProtocolGraph("Pi-ATAC-seq",authority=source)
  cells=graph.input("cells","fixed cells",MaterialKind.BIOLOGICAL,primary=True)
  antibodies=graph.input("antibodies","fluorescent protein-detection antibodies",MaterialKind.MOLECULAR)
@@ -76,13 +76,13 @@ def protocol_graph():
              ((filled,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
               (i7,InputRole.STRUCTURAL),(gap_pol,InputRole.CATALYST)),(library,),
              geometry=PCRGeometry.unavailable(final,
-                 reason="The paper reports the 96 x 90 primer combinations but not their sequences."))
+                 reason="The paper reports 96 x 90 primer combinations but not their well-to-primer assignments; the cited predecessor prints related Ad1/Ad2 primer families."))
  graph.sequence(library,SequencingPlan(
      library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
      read_lengths={"Read 1":75,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":75},
      read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
                 "Index 2 (i5)":"demultiplex","Read 2":"include"},
-     limitation="Exact Pi-ATAC barcoding-primer sequences are unpublished."))
+     limitation="Pi-ATAC well-to-primer assignments are not specified; the cited predecessor prints related Ad1/Ad2 primer families."))
  graph.declare_reviewed_scope((
      "cells","antibodies","antibody_stain","transposome","tn5","tagment",
      "index_sort","sort","proteinase_k","reverse_crosslinks","gap_fill_polymerase",

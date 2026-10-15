@@ -129,15 +129,15 @@ def copy_bead_barcode(graph: ProtocolGraph, droplets, *, protocol: str, source: 
     polymerase = graph.input("pcr_polymerase", "droplet PCR polymerase", MaterialKind.CATALYST)
     final = final_library(protocol)
     library = graph.product("library", final.name, MaterialKind.LIBRARY, inferred=True,
-                            source=source + " (bead/P5 arm unpublished)")
+                            source=source + " (bead/P5 arm unresolved from checked sources)")
     graph.react("droplet_pcr", "Copy the bead barcode and complete the library in droplets",
                 StepKind.PCR,
                 ((droplets, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The custom Read-1 and library-primer sequences are unpublished."))
+                    final, reason="The custom Read-1 and library-primer bases are unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide."))
     graph.sequence(library, SequencingPlan(
-        limitation="The defining paper reports read roles and cycles but does not publish the custom Read-1 and complete bead/P5 primer sequences.",
+        limitation="The article reports read roles and cycles; the custom Read-1 and complete bead/P5 primer bases remain unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide.",
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),
         read_lengths={"Read 1": 118, "Index 1 (i7)": 8, "Read 2": 40},
         read_uses={"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",

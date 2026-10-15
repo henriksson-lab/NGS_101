@@ -44,6 +44,8 @@ reads = None
 OLIGOS = (
             "<b>3′ adapter</b> — 5′-/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/-3′",
             "<b>RT-primer-1 architecture</b> — 5′-/5Phos/DDDNN AACC NNNN AGATCGGAAGAGCGTCGTGGA /iSp18/ GGATCC /iSp18/ TACTGAACCGC-3′",
+            "<b>P5-Solexa PCR primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′",
+            "<b>P3-Solexa PCR primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′",
         )
 workflow_fn = icshape_workflow
 SPEC = SimpleNamespace(
@@ -52,7 +54,7 @@ SPEC = SimpleNamespace(
     SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
     SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
     READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."),
+    SEQUENCING_UNAVAILABLE=("" if primers else "The defining protocol prints both Solexa library-PCR primers, but the physical run-primer binding geometry has not been reconstructed from the final circularized and amplified library; read entry and cycle roles are stated explicitly."),
     workflow=workflow_fn, oligos=lambda: OLIGOS,
 )
 

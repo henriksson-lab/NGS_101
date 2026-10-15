@@ -28,8 +28,9 @@ SUMMARY = ("Each antibody is coupled to pA–Tn5 loaded with a distinct eight-ba
            "antibody-targeted transposomes made it.")
 CAVEAT = ("The exact construct below is the paper’s bulk Multi-CUT&Tag branch. The "
           "single-cell branch passes the same target-coded fragments into the 10x Chromium "
-          "Single Cell ATAC workflow; its proprietary gel-bead oligo sequence is not printed "
-          "in the paper and is therefore not invented here.")
+          "Single Cell ATAC workflow. The 10x CG000209 guide prints its invariant gel-bead "
+          "arms, and vendor software distributes its barcode whitelist; the exact barcode "
+          "acquired by a particular cell varies by experiment.")
 
 # Table S1. The four entries in each family differ only in the antibody barcode.
 READ1 = "TCGTCGGCAGCGTCTCCACGC"
@@ -172,7 +173,7 @@ def workflow() -> Workflow:
     wf.react("For the single-cell branch, instead enter the 10x scATAC GEM workflow",
              [Row(chunks=[("same target-coded fragment → 10x gel-bead cell barcode → sample-index PCR", None, False)])],
              name="Single-cell branch (vendor oligo sequence unavailable)",
-             note="The paper uses 16 Index 2 cycles for the single-cell run; the proprietary gel-bead construct is not printed.")
+             note="The paper uses 16 Index 2 cycles for the single-cell run; the 10x guide prints the gel-bead architecture, while the cell barcode varies by experiment.")
     return wf
 
 
@@ -251,7 +252,7 @@ def protocol_graph():
     gel_bead = graph.input(
         "gel_bead_oligo", "10x scATAC gel-bead cell-barcode oligo",
         MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (complete proprietary oligo sequence unavailable)")
+        source="10x CG000209 v1.1 guide and Cell Ranger ATAC barcode whitelist; experiment-specific barcode assignment")
     sc_polymerase = graph.input("single_cell_polymerase", "Chromium amplification polymerase",
                                 MaterialKind.CATALYST)
     cell_barcoded = graph.product(
@@ -259,23 +260,23 @@ def protocol_graph():
         MaterialKind.MOLECULAR,
         state=molecule("single-cell Multi-CUT&Tag product", (
             role("10x cell barcode"), role("A/B antibody-coded chromatin fragment"))),
-        inferred=True, source=SOURCE + " (complete gel-bead sequence unavailable)")
+        inferred=True, source="10x CG000209 v1.1 guide; experiment-specific barcode assignment")
     graph.react("cell_barcode", "Linearly amplify and cell-barcode in Chromium GEMs",
                 StepKind.EXTENSION,
                 ((single_cell, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
                  (sc_polymerase, InputRole.CATALYST)), (cell_barcoded,))
     sc_forward = graph.input("sc_forward", "10x scATAC SI-PCR forward primer",
                              MaterialKind.OLIGO, inferred=True,
-                             source=SOURCE + " (complete proprietary sequence unavailable)")
+                             source="10x CG000209 v1.1 guide, Appendix A; SI-PCR Primer B forward arm")
     sc_reverse = graph.input("sc_reverse", "10x scATAC SI-PCR reverse primer",
                              MaterialKind.OLIGO, inferred=True,
-                             source=SOURCE + " (complete proprietary sequence unavailable)")
+                             source="10x CG000209 v1.1 guide, Appendix A; variable-index SI-PCR reverse arm")
     sc_pcr_polymerase = graph.input("sc_pcr_polymerase", "single-cell library PCR polymerase",
                                     MaterialKind.CATALYST)
     sc_library = graph.product(
         "single_cell_library", "single-cell Multi-CUT&Tag sequencing library",
         MaterialKind.LIBRARY, inferred=True,
-        source=SOURCE + " (library order established; complete vendor arms unavailable)")
+        source="10x CG000209 v1.1 guide, Appendix A; index and cell barcode vary by experiment")
     graph.react("single_cell_pcr", "PCR-complete the single-cell Multi-CUT&Tag library",
                 StepKind.PCR,
                 ((cell_barcoded, InputRole.TEMPLATE), (sc_forward, InputRole.STRUCTURAL),
@@ -283,10 +284,10 @@ def protocol_graph():
                  (sc_pcr_polymerase, InputRole.CATALYST)), (sc_library,),
                 geometry=PCRGeometry.unavailable(
                     TRANSFERRED,
-                    reason="The paper uses the 10x scATAC workflow but does not print the proprietary gel-bead or SI-PCR oligos."))
+                    reason="The paper uses the 10x scATAC workflow. Its CG000209 guide prints the invariant gel-bead and SI-PCR arms; this graph has not yet assembled the kit's variable barcode and index choices."))
     graph.sequence(sc_library, SequencingPlan(
         acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
-        limitation="The source establishes the single-cell run roles but not the complete proprietary 10x primer-binding construct."))
+        limitation="The paper establishes the run roles and the 10x CG000209 guide prints the kit architecture; this model has not yet assembled its variable barcode and index choices."))
     graph.declare_reviewed_scope((
         "nuclei", "coded_antibodies", "loaded_ab_adapters", "pa_tn5",
         "target_chromatin", "magnesium", "tagment", "gap_fill_polymerase",

@@ -33,21 +33,33 @@ def run_on_workflow() -> Workflow:
 DEFINITION = Definition("ChRO-seq — chromatin run-on sequencing", "10.1038/s41588-018-0244-3",
         "Chu et al., <i>Nature Genetics</i> (2018)", "01_chro-seq.html",
         "Run-on transcription in isolated chromatin incorporates biotinylated nucleotides, allowing active polymerases to be mapped even in solid or degraded tissue.",
-        "The final strand-specific Illumina read begins beside the run-on-labelled RNA 3′ end; exact sequencing oligos are implementation-specific in the defining paper.")
+        "The final strand-specific Illumina read begins beside the run-on-labelled RNA 3′ end. The cited PRO-seq protocol prints VRA3/VRA5 adapters and RP1/RPI-n primers; the ChRO paper does not identify which exact variants were used in each library, so its final arms remain role-level.")
 
 d = DEFINITION
 final = custom_library(d.title + ' library', (token('nascent-RNA-derived cDNA', length=44),))
 primers = ()
 reads = None
-OLIGOS = ()
+OLIGOS = (
+    "Cited PRO-seq predecessor, 3′ RNA adapter VRA3: 5′-pGAUCGUCGGACUGUAGAACUCUGAAC-/Inverted dT/-3′",
+    "Cited PRO-seq predecessor, 5′ RNA adapter VRA5: 5′-CCUUGGCACCCGAGAAUUCCA-3′",
+    "Cited PRO-seq predecessor, RT/PCR primer RP1: 5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′",
+    "Cited PRO-seq predecessor, indexed PCR primer RPI-n: 5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′",
+)
 workflow_fn = run_on_workflow
 SPEC = SimpleNamespace(
     TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
+    SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>. '
+            'Cited library method: <a href="https://doi.org/10.1038/nprot.2016.086">'
+            'Mahat et al., Nature Protocols (2016), Table 1</a>.'),
+    SUMMARY=d.summary,
+    CAVEAT=("Mahat et al., Nature Protocols 2016, Table 1 prints the predecessor PRO-seq "
+            "VRA3/VRA5 adapters and RP1/RPI-n primers. Chu et al. cite that library "
+            "method but do not identify every ChRO-specific reagent variant; the "
+            "final ChRO adapter arms and sequencing-primer sites remain unresolved."),
+    FINAL_LIBRARY=final,
     SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
     READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."),
+    SEQUENCING_UNAVAILABLE=("" if primers else "Mahat et al. 2016 Table 1 prints the inherited PRO-seq adapter and PCR primer family. The ChRO paper does not resolve the exact variants or sequencing-primer sites for each library."),
     workflow=workflow_fn, oligos=lambda: OLIGOS,
 )
 
@@ -113,6 +125,8 @@ def run_on_graph(*, chromatin: bool, definition, final: Construct) -> ProtocolGr
                 ((selected, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
+                    "The cited PRO-seq method prints RNA adapters, but ChRO-specific adapter choice and end geometry are not fixed by this paper."
+                    if chromatin else
                     "The defining historical implementation does not expose one universal modern RNA-adapter end."))
     rt_primer = graph.input("rt_primer", "adapter-complementary RT primer",
                             MaterialKind.OLIGO, inferred=True)
@@ -140,7 +154,9 @@ def run_on_graph(*, chromatin: bool, definition, final: Construct) -> ProtocolGr
                  (reverse, InputRole.STRUCTURAL),
                  (pcr_enzyme, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
-                    final, reason="The defining source does not expose one universal modern primer pair."))
+                    final, reason=("The cited PRO-seq method prints RP1/RPI-n; ChRO-specific primer variants are not fixed by this paper."
+                                   if chromatin else
+                                   "The defining source does not expose one universal modern primer pair.")))
     graph.sequence(library, SequencingPlan(limitation=definition.endpoint))
     graph.declare_reviewed_scope((
         "run_on_substrate", "engaged_polymerase", "labelled_ntp", "run_on",

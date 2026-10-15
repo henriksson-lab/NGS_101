@@ -12,7 +12,7 @@ check = Check()
 check("MARS-seq2.0 source-owned graph is publishable", graph.publishable, True)
 check("MARS-seq2.0 graph names its own defining source",
       graph.authority, "https://doi.org/10.1038/s41596-019-0164-4")
-check("Undisclosed sequencing primer sites stay unresolved",
+check("Instrument sequencing-primer oligos remain source-limited",
       bool(graph.sequencing["library"].limitation), True)
 check.report()
 

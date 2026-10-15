@@ -1,6 +1,6 @@
 # CROPseq-multi
 
-**Defining paper:** Walton et al. (2024), doi:10.1101/2024.03.17.585235. The open author manuscript and supplements were read from PMCID PMC10979941.
+**Defining paper:** Walton et al., [bioRxiv doi:10.1101/2024.03.17.585235](https://doi.org/10.1101/2024.03.17.585235). The July 2025 v2 preprint and its supplementary oligo workbook were read for this source review.
 
 ## Molecular boundary
 
@@ -19,3 +19,5 @@
 🟢 The same sheet gives 5′ direct-capture primers `oRW1220` and `oRW1221` with terminal phosphorothioate bonds, and the custom Illumina sequencing primers `oRW1101`, `TCTTTCCCTACACGACGCTCTTCCGATCTGTTCGATTCCCGGCCAATGCA`, and `oRW1102`, `TTCAGACGTGTGCTCTTCCGATCTGCCTTATTTCAACTTGCTATGCTGTT`. It prints multiple indexed P5/P7 PCR primers separately. This establishes exact sequence for particular readout routes while the guide spacers and iBARs remain library members.
 
 🟡 The current schematic is role-level across several demonstrated detection modes. An exact final construct/read layout needs a selected mode, vector version, guide/barcode member and indexing primer. The source does not justify combining the in-situ padlock path with the 5′ capture or direct NGS path into one molecule.
+
+🔴 For the 5′ direct-capture mode, the preprint Methods ("Direct-capture single-cell RNA sequencing with 10X Genomics 5’ capture") explicitly follow 10x guide CG000735 with custom primers and amplification conditions. That vendor guide is absent from the local source bundle and remains unreviewed, so the 10x-derived parts of this branch cannot yet be certified from the preprint alone.

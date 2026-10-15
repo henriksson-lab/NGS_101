@@ -12,14 +12,23 @@ from protocol_model import molecule, role
 
 TITLE = "CUTAC — tethered tagmentation of nearby accessible DNA"
 NOTES = "01_cutac.html"
-SOURCE = 'Defining source: <a href="https://doi.org/10.7554/eLife.63274">Henikoff et al., <i>eLife</i> (2020)</a>.'
+SOURCE = ('Defining source: <a href="https://doi.org/10.7554/eLife.63274">Henikoff et al., <i>eLife</i> (2020)</a>; '
+          '<a href="https://doi.org/10.17504/protocols.io.8yrhxv6">author-linked pA–Tn5 loading protocol</a>.')
 SUMMARY = "An antibody tethers pA/G–Tn5 to a transcription-associated chromatin mark; low-salt activation shifts tagmentation into the adjacent nucleosome-depleted accessible region."
-CAVEAT = "The link from the antibody-bound nucleosome to the neighboring accessible site is spatial, not covalent. The final Nextera-compatible arms are a conventional interpretation: the paper names commercial pAG–Tn5 and indexed P5/P7 primers but does not print their ordered oligos or index identities."
+CAVEAT = "The link from the antibody-bound nucleosome to the neighboring accessible site is spatial, not covalent. An author-linked in-house pA–Tn5 protocol prints its MErev/A/B oligos below. The CUTAC paper also uses commercial pAG–Tn5; it does not establish that reagent's loaded oligos or the selected index identities. The final Nextera-compatible arms remain a conventional interpretation."
 FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
     [seg("adjacent accessible DNA", "X" * 36, placeholder=True)],
     "adjacent accessible DNA library", inferred_adapters=True)
-FINAL_CAPTION = "INFERRED — conventional Nextera-compatible paired-end arms around the low-salt CUTAC fragment; the paper does not print the commercial transposome and index oligos."
+FINAL_CAPTION = "INFERRED — conventional Nextera-compatible paired-end arms around the low-salt CUTAC fragment; the author-linked in-house pA–Tn5 oligos are published, but the commercial pAG–Tn5 contents and chosen indexes are not established."
 SEQUENCING_INTRO = "Paired reads enter the short accessible-DNA fragment from the two targeted Tn5 insertion sites."
+
+def oligos():
+    return [
+        "Author-linked in-house pA–Tn5 loading oligos (not verified for commercial pAG–Tn5):",
+        "Tn5MErev: 5′-/5Phos/CTGTCTCTTATACACATCT-3′",
+        "Tn5ME-A: 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG-3′",
+        "Tn5ME-B: 5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-3′",
+    ]
 
 def inferred_tagmentation_scene():
     sc = Scene.duplex(list(FINAL_LIBRARY), label="PCR-completed tagmented molecule")

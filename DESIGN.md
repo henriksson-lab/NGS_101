@@ -5,6 +5,27 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-15 — Double-check sources before accepting missing information
+
+**Decision.** Audit every protocol, including pages with no visible uncertainty.
+For each, keep a source checklist that covers the defining article, supplements,
+detailed protocols, relevant vendor documents and predecessor methods, plus
+chemistry-relevant material linked from them. A missing-information conclusion is
+accepted only after two independent reviews of the original sources and linked
+material. Each review records the source locations examined and its findings. The
+checklist explicitly says whether every linked item was opened, unavailable, or
+irrelevant, with a reason. An inaccessible relevant source or an unexamined link
+leaves the conclusion blocked. A scraper hit or an old ledger row does not count
+as either source check. Pages that assert confirmed absence display the checked
+source scope and linked-information disposition.
+
+**Why.** Butt-seq's printed blocked RNA starter was missed despite being in both
+the article Methods and supplement. Initial cross-protocol review also found
+that some old conclusions cited documents absent from the local source bundle
+and that an author-linked protocol supplied sequences previously called
+undisclosed. A second independent reading and an explicit link check make the
+evidence boundary reviewable.
+
 ## 2026-10-15 — Permit one-module protocol pages
 
 **Decision.** A protocol module may declare a literal `PAGE_FILE` and expose

@@ -16,7 +16,7 @@ TITLE="M3-seq — multiplexed microbial single-cell RNA-seq"
 NOTES="01_m3-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41564-023-01462-3">McNulty et al., <i>Nature Microbiology</i> (2023)</a>.'
 SUMMARY="Random in-situ RT supplies a plate barcode and UMI; 10x ATAC droplets ligate a second barcode, followed by Tn5/T7 amplification and post hoc RNase-H rRNA depletion."
-CAVEAT="The published RT, bridge, amplification, Tn5 and indexing oligos are shown exactly. The 16-base commercial 10x droplet barcode remains a role token because its particular bead sequence is not disclosed."
+CAVEAT="The published RT, bridge, amplification, Tn5 and indexing oligos are shown exactly. The 10x ATAC vendor distributes the 16-base barcode whitelist; BC2 remains a role token because the barcode acquired by a particular cell varies by experiment."
 
 UMI_FEATURE=feature("m3seq_umi","umi","random")
 BC1_FEATURE=feature("m3seq_bc1","cell_barcode","combinatorial",group="m3seq_cell",part="RT plate")
@@ -164,7 +164,7 @@ def protocol_graph():
          changes_molecule=False)
  g.discard(empty,"empty and unusable droplets do not yield retained molecules")
  bc2=g.input("bc2_adapter","commercial 10x ATAC BC2 adapter",MaterialKind.ADAPTER,
-             inferred=True,source=SOURCE+" (commercial oligo sequence proprietary)")
+             inferred=True,source="10x CG000209 v1.1 guide and Cell Ranger ATAC barcode whitelist; experiment-specific barcode assignment")
  ligase=g.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
  dual=g.product("dual_barcoded_cdna","BC1/BC2-tagged bacterial cDNA",MaterialKind.MOLECULAR,
                 state=ligated_first_strand())

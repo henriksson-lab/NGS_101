@@ -11,6 +11,7 @@ accessible DNA adjacent to transcription-associated nucleosomes.
   [10.7554/eLife.63274](https://doi.org/10.7554/eLife.63274), full article
   and Methods (PMC7721439 / PMID 33191916).
 - 🟢 The Methods name commercial Epicypher pAG–Tn5 and indexed P5/P7 PCR primers, with gap filling and 12 PCR cycles after tagmentation. They do not print the loaded commercial transposome's adapter oligos or the selected index sequences.
+- 🟢 The author's linked [pA–Tn5 purification and ME-loading protocol](https://doi.org/10.17504/protocols.io.8yrhxv6), PDF p. 18, prints the in-house loading oligos: Tn5MErev `5′-/5Phos/CTGTCTCTTATACACATCT-3′`, Tn5ME-A `5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG-3′`, and Tn5ME-B `5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-3′`. This does not identify the commercial reagent's loaded oligos.
 
 ## 3. Molecular order
 

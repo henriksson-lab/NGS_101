@@ -25,6 +25,9 @@ POOL_READ = revcomp(POOL_ORDERED)      # AGTC, Supplementary Table 2 "Seq barcod
 POOL_RANDOM_NT = 5
 MARS1_POOL_RANDOM_NT = 3
 LIG_CONSTANT = "AGATCGGAAGAGCGTCGTGTAG"
+MARS2_RT2 = revcomp(LIG_CONSTANT)
+MARS2_P5_PCR = il.TRUSEQ_P5_FULL
+MARS2_P7_PCR = il.P7 + il.TRUSEQ_READ2
 
 # Jaitin et al. 2014, Supplementary Tables S7--S8.  The author supplement is
 # mirrored as jaitin-sm.pdf by scg_lib_structs; it is the paper's own PDF rather
@@ -150,25 +153,28 @@ def final_library(protocol: str) -> Construct:
         ]
     else:
         raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
-    if protocol == "MARS-seq":
-        con = Construct([
-            _seg("P5", il.P5, "p5"),
-            _seg("TruSeq Read 1, non-overlap", il.TRUSEQ_READ1[4:], "r1"),
-            *middle,
-            _seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
-            _seg("P7 reverse complement", il.P7_RC, "p7"),
-        ], name="MARS-seq final library")
-        problems = sp.verify(con, SEQ_PRIMERS,
-                             required_roles=("Read 1", "Read 2"))
-        if problems:
-            raise ValueError("invalid MARS-seq final library: " + "; ".join(problems))
-        return con
+    con = Construct([
+        _seg("P5", il.P5, "p5"),
+        _seg("TruSeq Read 1, non-overlap", il.TRUSEQ_READ1[4:], "r1"),
+        *middle,
+        _seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
+        _seg("P7 reverse complement", il.P7_RC, "p7"),
+    ], name=f"{protocol} final library")
+    problems = sp.verify(con, SEQ_PRIMERS,
+                         required_roles=("Read 1", "Read 2"))
+    if problems:
+        raise ValueError(f"invalid {protocol} final library: " + "; ".join(problems))
+    return con
+
+
+def mars2_pcr_template() -> Construct:
+    """Second-RT product before the P5/P7 enrichment-primer tails are added."""
+    final = final_library("MARS-seq2.0")
     return Construct([
-        _seg("unpublished P5-side PCR arm", "[P5-SIDE ARM]", inferred=True,
-             placeholder=True), *middle,
-        _seg("unpublished P7-side PCR arm", "[P7-SIDE ARM]", inferred=True,
-             placeholder=True),
-    ], name=f"{protocol} final library, authoritative boundary")
+        _seg("RT2-derived Read 1 handle", MARS2_RT2, "r1"),
+        *list(final)[2:-2],
+        _seg("RT1-derived Read 2 handle", revcomp(MARS2_RT_HANDLE), "r2"),
+    ], name="MARS-seq2.0 pre-PCR cDNA")
 
 
 def _validate() -> None:

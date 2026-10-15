@@ -3,14 +3,14 @@
 ## Sources read
 
 - 🟢 Dey et al. 2015, DOI `10.1038/nbt.3129`, PMC full text, Online Methods and supplement.
-- 🟢 Teichlab DR-seq reconstruction, used as a secondary check for the complete Ad-1x sequence and construct order.
+- 🔴 The original CEL-Seq article and its supplement are not in the checked DR-seq source bundle. Teichlab's DR-seq reconstruction is useful for orientation, but it is not source evidence for Ad-1x bases or construct order.
 - 🟢 Zong et al. MALBAC paper, DOI `10.1126/science.1229164`, for the looping/quasilinear mechanism.
 
 ## Shared amplification before the split
 
-🟢 Ad-1x is `CGATTGAGGCCGG` + T7 promoter `TAATACGACTCACTATAGGG` + RA5 `GTTCAGAGTTCTACAGTCCGACGATC` + an 8-nt cell barcode + dT24V. It reverse-transcribes poly(A) RNA while genomic DNA remains in the same lysate.
+🟡 The working Ad-1x model is `CGATTGAGGCCGG` + T7 promoter `TAATACGACTCACTATAGGG` + RA5 `GTTCAGAGTTCTACAGTCCGACGATC` + an 8-nt cell barcode + dT24V. The DR-seq paper names Ad-1x and describes its cell-specific barcode and reverse transcription role, but it does not print this complete oligo. Its bases and length require verification in the cited original CEL-Seq material; the upstream reconstruction does not establish them.
 
-🟢 Ad-2 is `GTGAGTGATGGTTGAGGTAGTGTGGAG` + N8. Seven quasilinear cycles randomly prime both genomic DNA and cDNA. Most short genome-derived products have Ad-2 at both ends; productive transcript-derived products have Ad-2 at one end and retain Ad-1x at the other. Full Ad-2/Ad-2 products can self-anneal through complementary ends, suppressing their continued amplification.
+🟡 The DR-seq paper prints `GTGAGTGATGGTTGAGGTAGTGTGGAG` as P2, which primes Ad-2-derived products. The working Ad-2 model adds N8, inferred from the cited MALBAC-style random priming rather than a complete Ad-2 oligo printed in DR-seq. Seven quasilinear cycles randomly prime both genomic DNA and cDNA. Most short genome-derived products have Ad-2 at both ends; productive transcript-derived products have Ad-2 at one end and retain Ad-1x at the other.
 
 🟢 The random priming coordinate—not a conventional UMI—is used as a length-based molecular identifier for RNA deduplication. The old page incorrectly presented the 8-nt Ad-1x cell barcode as an 8-nt UMI.
 
@@ -20,4 +20,4 @@
 
 🟢 The DNA aliquot is exponentially amplified with P2 (`GTGAGTGATGGTTGAGGTAGTGTGGAG`), re-amplified with 5′-biotin P3 (`GTGAGCTGGAGTTGAGGTAGTGTGGAG`), sonicated, and depleted of the biotin-bearing Ad-2 ends on streptavidin beads before NEBNext Ultra library preparation.
 
-🟡 The paper refers the RNA branch to the previously published CEL-Seq small-RNA finishing workflow, and does not print those outer library oligos in its accessible primary-source package. Likewise, the particular NEBNext library oligos are named by kit rather than printed. The public page therefore marks the final Illumina shells inferred while keeping all source-printed inner intermediates exact.
+🟡 The paper refers RNA library finishing to CEL-Seq and names NEBNext Ultra for DNA preparation. The cited CEL-Seq original, its supplement, and a version-matched NEBNext guide remain unreviewed. The full Ad-1x and Ad-2 oligos and final Illumina shells therefore remain provisional; only P1, P2 and P3 are exact source-printed primers in the checked DR-seq article.

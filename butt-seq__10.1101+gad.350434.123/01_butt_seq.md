@@ -41,6 +41,13 @@ duplexes, with a representative A-ended DNA from each four-member pool.
 The post-PCR library remains role-level: its exact sequencing-primer sites
 have not yet been established by the model.
 
+🟢 The [author's analysis pipeline](https://github.com/albertdyu/BuTTSeq)
+README labels its three expected FASTQs R1 = Read 1, R2 = UMI read, and
+R3 = Read 2. It instructs changing the second `RunInfo.xml` read from an
+8-cycle indexed read to a non-indexed read before demultiplexing. This is
+source-backed read handling, not a proof of the exact molecular primer
+landing sites.
+
 ## Published second-starter disagreement
 
 🟢 The article Materials and Methods, extracted XML line 181, prints a

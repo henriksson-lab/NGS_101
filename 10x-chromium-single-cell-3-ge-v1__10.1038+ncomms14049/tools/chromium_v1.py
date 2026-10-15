@@ -24,7 +24,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def inferred(name: str, sequence: str, tag: str | None = None, **kw) -> Segment:
-    """The v1 guide publishes architecture but not oligo sequences."""
+    """Mark reconstructed adapter constants as inferred from the v1 architecture."""
     return seg(name, sequence, tag, inferred=True, **kw)
 
 

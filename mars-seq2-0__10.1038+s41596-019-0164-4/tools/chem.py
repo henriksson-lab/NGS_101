@@ -6,7 +6,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE.parents[1] / "mars-seq__10.1126+science.1247651" / "tools"), str(HERE.parents[1] / "lib")]
 import marsseq as M
 from adapter_ligation import AdapterLigationGeometry
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind)
 from rna_amplification import barcoded_ivt_front
 
@@ -14,6 +14,7 @@ from rna_amplification import barcoded_ivt_front
 def protocol_graph() -> ProtocolGraph:
     protocol = "MARS-seq2.0"
     source = "https://doi.org/10.1038/s41596-019-0164-4"
+    full_protocol = "https://doi.org/10.17504/protocols.io.7hkhj4w"
     graph = ProtocolGraph(protocol, authority=source)
     primary = graph.input("mrna", "polyadenylated RNA from one well",
                           MaterialKind.BIOLOGICAL, state=M.rt_scene(protocol),
@@ -52,35 +53,39 @@ def protocol_graph() -> ProtocolGraph:
                  (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
 
     rt2 = graph.input(
-        "rt2", "RT2 primer (sequence not disclosed)", MaterialKind.OLIGO,
-        inferred=True, source=source + " (RT2 sequence not disclosed)")
+        "rt2", "RT2 primer", MaterialKind.OLIGO,
+        state=M.MARS2_RT2, source=full_protocol + " (reagent setup, p. 29)")
     reverse_transcriptase = graph.input("rt2_reverse_transcriptase",
                                        "RT2 reverse transcriptase",
                                        MaterialKind.CATALYST)
     final = M.final_library(protocol)
+    pre_pcr = M.mars2_pcr_template()
     pcr_template = graph.product(
         "pcr_template", "second-strand library-PCR template",
-        MaterialKind.MOLECULAR, state=final, inferred=True,
-        source=source + " (RT2 and PCR-primer sequences not disclosed)")
+        MaterialKind.MOLECULAR, state=pre_pcr,
+        source=full_protocol + " (reagent setup, p. 29)")
     graph.react("second_reverse_transcription",
                 "Reverse-transcribe the adapter-ligated amplified RNA with RT2",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((ligated, InputRole.TEMPLATE), (rt2, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (pcr_template,))
 
-    primer_source = source + " (library-PCR primer sequences not disclosed)"
+    primer_source = full_protocol + " (enrichment primers, p. 29)"
     forward = graph.input("pcr_forward", "library-PCR forward primer",
-                          MaterialKind.OLIGO, inferred=True, source=primer_source)
+                          MaterialKind.OLIGO, state=M.MARS2_P5_PCR,
+                          source=primer_source)
     reverse = graph.input("pcr_reverse", "library-PCR reverse primer",
-                          MaterialKind.OLIGO, inferred=True, source=primer_source)
-    pcr_geometry = PCRGeometry.unavailable(
-        final, reason="The defining source does not disclose both PCR primer sequences.")
+                          MaterialKind.OLIGO, state=M.MARS2_P7_PCR,
+                          source=primer_source)
+    pcr_geometry = PCRGeometry.exact(
+        pre_pcr, PCRPrimer("P5-Read1", M.MARS2_P5_PCR),
+        PCRPrimer("P7-Read2", M.MARS2_P7_PCR),
+        statement="Author protocols.io reagent setup, p. 29: RT2 and enrichment primers.")
     polymerase = graph.input("pcr_polymerase", "PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(
         "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
-        state=final, inferred=True,
-        source=source + " (outer PCR arms not disclosed)")
+        state=final, source=full_protocol + " (enrichment primers, p. 29)")
     graph.react("library_pcr", "Amplify the final sequencing library",
                 StepKind.PCR,
                 ((pcr_template, InputRole.TEMPLATE),
@@ -89,8 +94,8 @@ def protocol_graph() -> ProtocolGraph:
                  (polymerase, InputRole.CATALYST)), (library,),
                 geometry=pcr_geometry)
     graph.sequence(library, SequencingPlan(
-        limitation=("The source declares Read 1 and Read 2 contents, but does not "
-                    "disclose exact sequencing-primer sites.")))
+        limitation=("The source declares read contents and the enrichment-primer "
+                    "flanks; separate instrument sequencing-primer oligos are not named.")))
     reviewed.extend((
         "fragmentation_condition", "fragment_arna", "pool_adapter", "rna_ligase",
         "ligate_pool_adapter", "rt2", "rt2_reverse_transcriptase",

@@ -16,3 +16,12 @@ checked. It specifies Nextera kit FC-121-1030 and adds `Ad1` and `Ad2` as distin
 index-plate table. This confirms the primer roles without resolving their bases or
 modifications. It cites Buenrostro *et al.* 2015 for Nextera adapters; those
 cannot establish which indexed `Ad1`/`Ad2` oligos occupied each Pi-ATAC well.
+
+The linked source was followed in this audit: Buenrostro *et al.*, *Nature* 523,
+486–490 (2015), doi:[10.1038/nature14590](https://doi.org/10.1038/nature14590),
+Supplementary Table 1 (`nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt`).
+It prints unindexed `v2_Ad1_NoMX` and `v2_Ad2_NoMX` at lines 3–4, 92 indexed
+`v2_Ad1` entries at lines 6–97 and 96 indexed `v2_Ad2` entries at lines 99–194.
+The oligo scraper found these original table rows; the Pi-ATAC protocols.io PDF itself
+has no sequence hits. 🟡 These predecessor primers support the inferred Nextera arms,
+but no checked Pi-ATAC source maps its reported 96 × 90 combinations to those entries.
