@@ -73,8 +73,8 @@ def cel1_readout() -> str:
 ], "Read roles are source-declared; exact primer sequences and cycle counts are unavailable.")}"""
 
 
-def protocol_graph(protocol: str, *, design: C.PrimerDesign | None = None,
-                   doi: str | None = None) -> ProtocolGraph:
+def graph_for(protocol: str, *, design: C.PrimerDesign | None = None,
+              doi: str | None = None) -> ProtocolGraph:
     if protocol not in PAPERS and doi is None:
         raise ValueError(f"unknown CEL-Seq protocol: {protocol!r}")
     doi = doi or PAPERS[protocol][0]
@@ -189,10 +189,15 @@ def protocol_graph(protocol: str, *, design: C.PrimerDesign | None = None,
     return graph.require_publishable()
 
 
+def protocol_graph() -> ProtocolGraph:
+    """The defining CEL-Seq chemistry for source and molecular audits."""
+    return graph_for("CEL-Seq")
+
+
 def render_page(protocol: str, *, design: C.PrimerDesign | None = None,
                 source: tuple[str, str, str] | None = None,
                 graph_factory=None, readout=None) -> str:
-    graph = graph_factory() if graph_factory else protocol_graph(protocol)
+    graph = graph_factory() if graph_factory else graph_for(protocol, design=design)
     readout_html = readout() if readout else cel1_readout()
     workflow = "<h2>Library construction</h2>\n" + protocol_graph_panels(graph)
     return "\n".join([head(f"{protocol} library chemistry"),

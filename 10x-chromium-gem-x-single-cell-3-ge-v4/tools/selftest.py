@@ -4,7 +4,9 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v4 as V
+from checks import Check
+check=Check()
 got="".join(s.top for s in V.bead_oligo()).replace("B","N").replace("U","N")
 want="CTACACGACGCTCTTCCGATCT"+"N"*16+"N"*12+"T"*30+"VN"
-if got != want: raise SystemExit("FAIL: CG000731 gel-bead oligo transcription")
-raise SystemExit(0)
+check("CG000731 gel-bead oligo transcription", got, want)
+check.report()

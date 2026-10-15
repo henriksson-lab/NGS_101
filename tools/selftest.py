@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import re
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -22,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 
 from checks import Check, run_common  # noqa: E402
 from adapter_ligation import cohesive_duplex  # noqa: E402
-from chemdraw import Row, Segment, oligo, panel, protocol_graph_panels  # noqa: E402
+from chemdraw import Construct, Row, Segment, oligo, panel, protocol_graph_panels  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 from protocol_graph import (AnnotationSlot, DetailView, Disposition, Highlight,
                             Input, InputRole, Material, MaterialKind, MolecularRelation,
@@ -133,6 +134,21 @@ check("declared oligo and workflow sections render from one graph",
       ("Source oligos" in view_page and "AC" in view_page,
        "Tagment" in view_page and "Reaction workflow" in view_page),
       (True, True))
+branch_graph = _complete_graph()
+branch_text = protocol_graph_panels(branch_graph)
+check("an unmodelled discarded output is still listed with its limitation",
+      ('data-graph-target="waste" data-graph-disposition="discard"' in branch_text,
+       'Molecular structure is not represented in this graph.' in branch_text),
+      (True, True))
+branch_graph.materials["waste"] = replace(
+    branch_graph.materials["waste"],
+    state=Construct([Segment("off-product", "ACGT")]))
+branch_drawing = protocol_graph_panels(branch_graph)
+branch_section = branch_drawing.split(
+    'data-graph-target="waste" data-graph-disposition="discard"', 1)[1].split(
+        '</section>', 1)[0]
+check("a modelled discarded output is drawn directly from its graph state",
+      ('<svg' in branch_section, 'ACGT' in branch_section), (True, True))
 check.raises("an empty declared oligo section is rejected",
              lambda: OligoSection("Empty", ()).render())
 check.raises("exact-primer view rejects a graph without exact sequencing geometry",
@@ -200,7 +216,6 @@ check("page shows and escapes every warning",
 check.section("independent molecular claims")
 from chemdraw import Construct, Scene  # noqa: E402
 from circular import CircularizationGeometry, circularize_ssdna, rolling_circle  # noqa: E402
-from dataclasses import replace  # noqa: E402
 
 linear = Construct([Segment("body", "ACGTTGCA")], "test strand")
 circle = circularize_ssdna(linear, five_prime_phosphate=True)

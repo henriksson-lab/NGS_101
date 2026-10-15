@@ -4,7 +4,13 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import tenx_v3 as V
+from checks import Check
+from protocol_graph import SourceDiscrepancy
+check=Check()
 got="".join(s.top for s in V.bead_oligo()).replace("B","N").replace("U","N")
 want="CTACACGACGCTCTTCCGATCT"+"N"*16+"N"*12+"T"*30
-if got != want: raise SystemExit("FAIL: CG000183 gel-bead oligo transcription")
-raise SystemExit(0)
+check("CG000183 appendix gel-bead oligo transcription", got, want)
+check("vendor overview/appendix conflict is attached to the bead primer",
+      any(isinstance(note, SourceDiscrepancy) and note.target == "rt_primer"
+          for note in V.protocol_graph().annotations), True)
+check.report()

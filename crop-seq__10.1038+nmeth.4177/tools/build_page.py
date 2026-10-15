@@ -6,10 +6,10 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import crop_seq as C
-import seqprimers as sp
 from chemdraw import (Construct, Scene, annotation_rows, oligo, panel,
-                      protocol_graph_panels, strand_row)
+                      strand_row)
 from page import head, info, table
+from protocol_views import assemble_page, WorkflowSection, PrimerBindingSection
 OUT = HERE.parent / "crop-seq.html"
 
 
@@ -51,21 +51,19 @@ def dropseq_library() -> str:
 '''
 
 
-def sequencing() -> str:
-    return sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",
-        intro="The Supplementary Protocol specifies 20 cycles of custom Read 1, 8 cycles of Index 1, and 64 cycles of Read 2. Read 2 also supplies transcriptome sequence.",
-        required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
-        read_lengths={"Read 1": 20, "Index 1 (i7)": 8, "Read 2": 64})
-
-
 def render() -> str:
     graph = C.protocol_graph()
-    return "\n".join([head("CROP-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
+    return assemble_page(graph, [head("CROP-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>CROP-seq &mdash; pooled CRISPR screening with single-cell RNA readout</h1>',
         '<p class="research-notes"><a href="01_crop-seq.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1038/nmeth.4177">Datlinger et al., <i>Nature Methods</i> (2017)</a>. The original implementation uses Drop-seq.'),
-        vector_trick(), transcripts(), '<h2>Library-generation workflow</h2>',
-        protocol_graph_panels(graph, cls="long"), sequencing(), '</div>'])
+        vector_trick(), transcripts(),
+        WorkflowSection("Library-generation workflow"),
+        PrimerBindingSection("library", "Sequencing", "Sequencing",
+                             intro_html=("The Supplementary Protocol specifies 20 cycles of "
+                                         "custom Read 1, 8 cycles of Index 1, and 64 cycles "
+                                         "of Read 2. Read 2 also supplies transcriptome sequence."),
+                             show_read_content=False), '</div>'])
 
 
 def main() -> None:

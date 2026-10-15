@@ -35,7 +35,7 @@ SOURCE_OLIGO_EXCEPTIONS = {
 
 
 def graph_for(protocol: str) -> ProtocolGraph:
-    if protocol not in PAPERS:
+    if protocol != "MARS-seq":
         raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
     source = f"https://doi.org/{PAPERS[protocol][0]}"
     graph = ProtocolGraph(protocol, authority=source)
@@ -44,7 +44,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
                           primary=True)
     arna, reviewed = barcoded_ivt_front(
         graph, primary, rt_primer_label=f"{protocol} RT1",
-        rt_state=(M.MARS1_RT1 if protocol == "MARS-seq" else M.rt_scene(protocol)),
+        rt_state=M.MARS1_RT1,
         first_state=M.rt_scene(protocol),
         duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol))
     reviewed.insert(0, "mrna")
@@ -60,8 +60,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
                 ((arna, InputRole.TEMPLATE),
                  (fragmentation, InputRole.CONDITION)), (fragmented,))
 
-    adapter_state = (M.mars2_ligation_adapter() if protocol == "MARS-seq2.0"
-                     else M.POOL_ORDERED + "N" * M.MARS1_POOL_RANDOM_NT + M.LIG_CONSTANT)
+    adapter_state = M.POOL_ORDERED + "N" * M.MARS1_POOL_RANDOM_NT + M.LIG_CONSTANT
     adapter = graph.input("pool_adapter", "pool-barcoded RNA ligation adapter",
                           MaterialKind.ADAPTER, state=adapter_state)
     ligase = graph.input("rna_ligase", "RNA ligase", MaterialKind.CATALYST)
@@ -77,54 +76,35 @@ def graph_for(protocol: str) -> ProtocolGraph:
                  (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
 
-    if protocol == "MARS-seq":
-        rt2 = graph.input("rt2", "RT2 primer", MaterialKind.OLIGO,
-                          state=Construct([seg("RT2", M.MARS1_RT2_PRINTED)]))
-    else:
-        rt2 = graph.input(
-            "rt2", "RT2 primer (sequence not disclosed)", MaterialKind.OLIGO,
-            inferred=True, source=source + " (RT2 sequence not disclosed)")
+    rt2 = graph.input("rt2", "RT2 primer", MaterialKind.OLIGO,
+                      state=Construct([seg("RT2", M.MARS1_RT2_PRINTED)]))
     reverse_transcriptase = graph.input("rt2_reverse_transcriptase",
                                        "RT2 reverse transcriptase",
                                        MaterialKind.CATALYST)
     final = M.final_library(protocol)
-    inferred_boundary = protocol == "MARS-seq2.0"
     pcr_template = graph.product(
         "pcr_template", "second-strand library-PCR template",
-        MaterialKind.MOLECULAR, state=final, inferred=inferred_boundary,
-        source=(source + " (RT2 and PCR-primer sequences not disclosed)"
-                if inferred_boundary else source))
+        MaterialKind.MOLECULAR, state=final, source=source)
     graph.react("second_reverse_transcription",
                 "Reverse-transcribe the adapter-ligated amplified RNA with RT2",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((ligated, InputRole.TEMPLATE), (rt2, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (pcr_template,))
 
-    if protocol == "MARS-seq":
-        f_primer = PCRPrimer("P5_Rd1 PCR", M.MARS1_P5_PCR)
-        r_primer = PCRPrimer("P7_Rd2 PCR", M.MARS1_P7_PCR)
-        forward = graph.input("pcr_forward", f_primer.name, MaterialKind.OLIGO,
-                              state=Construct([seg(f_primer.name, f_primer.sequence)]))
-        reverse = graph.input("pcr_reverse", r_primer.name, MaterialKind.OLIGO,
-                              state=Construct([seg(r_primer.name, r_primer.sequence)]))
-        pcr_geometry = PCRGeometry.exact(
-            final, f_primer, r_primer,
-            statement="Supplementary Tables S7–S8 print both library-PCR primers.")
-    else:
-        primer_source = source + " (library-PCR primer sequences not disclosed)"
-        forward = graph.input("pcr_forward", "library-PCR forward primer",
-                              MaterialKind.OLIGO, inferred=True, source=primer_source)
-        reverse = graph.input("pcr_reverse", "library-PCR reverse primer",
-                              MaterialKind.OLIGO, inferred=True, source=primer_source)
-        pcr_geometry = PCRGeometry.unavailable(
-            final, reason="The defining source does not disclose both PCR primer sequences.")
+    f_primer = PCRPrimer("P5_Rd1 PCR", M.MARS1_P5_PCR)
+    r_primer = PCRPrimer("P7_Rd2 PCR", M.MARS1_P7_PCR)
+    forward = graph.input("pcr_forward", f_primer.name, MaterialKind.OLIGO,
+                          state=Construct([seg(f_primer.name, f_primer.sequence)]))
+    reverse = graph.input("pcr_reverse", r_primer.name, MaterialKind.OLIGO,
+                          state=Construct([seg(r_primer.name, r_primer.sequence)]))
+    pcr_geometry = PCRGeometry.exact(
+        final, f_primer, r_primer,
+        statement="Supplementary Tables S7–S8 print both library-PCR primers.")
     polymerase = graph.input("pcr_polymerase", "PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(
         "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
-        state=final, inferred=inferred_boundary,
-        source=(source + " (outer PCR arms not disclosed)"
-                if inferred_boundary else source))
+        state=final, source=source)
     graph.react("library_pcr", "Amplify the final sequencing library",
                 StepKind.PCR,
                 ((pcr_template, InputRole.TEMPLATE),
@@ -132,14 +112,9 @@ def graph_for(protocol: str) -> ProtocolGraph:
                  (reverse, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (library,),
                 geometry=pcr_geometry)
-    if protocol == "MARS-seq":
-        graph.sequence(library, SequencingPlan(
-            library=final, primers=M.SEQ_PRIMERS,
-            acquired_roles=("Read 1", "Read 2")))
-    else:
-        graph.sequence(library, SequencingPlan(
-            limitation=("The source declares Read 1 and Read 2 contents, but does not "
-                        "disclose exact sequencing-primer sites.")))
+    graph.sequence(library, SequencingPlan(
+        library=final, primers=M.SEQ_PRIMERS,
+        acquired_roles=("Read 1", "Read 2")))
     reviewed.extend((
         "fragmentation_condition", "fragment_arna", "pool_adapter", "rna_ligase",
         "ligate_pool_adapter", "rt2", "rt2_reverse_transcriptase",

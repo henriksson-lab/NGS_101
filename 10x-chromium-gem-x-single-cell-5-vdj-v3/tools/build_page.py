@@ -15,14 +15,16 @@ from chemdraw import (MolecularState, Segment, Workflow, duplex_rows, oligo, pan
                       protocol_graph_panels, workflow_panel)
 from page import head, info, table
 from vdj_common import VDJ_FORWARD
-from vdj_v3 import CHEM as C
+from vdj_v3 import CHEM as C, protocol_graph
 
 OUT = HERE.parent / "10x-5prime-vdj-v3.html"
 
 
-def sequencing(lib) -> str:
+def sequencing(graph) -> str:
+    plan = graph.sequencing["index_pcr_product"]
+    lib = plan.library
     rows = []
-    for primer in C.seq_primers:
+    for primer in plan.primers:
         hit = sp.locate(lib, primer)
         if hit is None:
             raise ValueError(f"{primer.name} has no site")
@@ -32,18 +34,18 @@ def sequencing(lib) -> str:
     return ('<h2>Final library and read layout</h2>' +
             info('Paired-end, dual-index sequencing: Read 1 28 cycles, i7 10, i5 10, '
                  'Read 2 90. Read 1 reports the 16-base cell barcode and 12-base UMI.') +
-            sp.diagram(lib, C.seq_primers) +
+            sp.diagram(lib, plan.primers) +
             table(("Read", "Primer", "Primer site", "First bases"), rows) +
             table(("Read 1 cycles", "Content"),
                   [("1–16", "cell barcode"), ("17–28", "UMI")], scroll=False) +
-            sp.read_content_table(lib, C.seq_primers,
-                {"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90}))
+            sp.read_content_table(lib, plan.primers, plan.read_lengths,
+                                  acquired_roles=plan.acquired_roles))
 
 
 def render() -> str:
     amplicon = C.vdj_amplicon()
     lib = C.final_library()
-    graph = C.protocol_graph()
+    graph = protocol_graph()
     cdna = Workflow(MolecularState("Amplification-ready full-length cDNA",
                                   tuple(duplex_rows(C.cdna_template()))))
     cdna.pcr("Amplify full-length cDNA", C.cdna_pcr(),
@@ -91,7 +93,7 @@ def render() -> str:
         info('Only fragments retaining the Read 1/barcode end acquire P5; Read 2 starts at '
              'variable fragmentation points across V(D)J.'),
         '<p class="quiet"><a href="01_10x-5p-vdj-v3.html">Research notes</a></p>',
-        sequencing(lib), '</div>',
+        sequencing(graph), '</div>',
     ])
 
 

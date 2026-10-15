@@ -22,8 +22,8 @@ import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 TITLE = "Atrandi semi-permeable capsules + PTA — single-microbe WGS"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourlé et al.</a>; Atrandi Single-Microbe DNA Barcoding Kit.'
@@ -284,6 +284,28 @@ def protocol_graph():
                     final,reason="One PCR landing arm is necessarily inferred from the undisclosed cassette."))
     graph.sequence(library,SequencingPlan(library=final,primers=tuple(SEQ_PRIMERS),
         acquired_roles=ACQUIRED_ROLES,read_lengths={"Index 1 (i7)":6}))
+    graph.annotate(SourceDiscrepancy(
+        target="library", title="Barcode A extraction offset in the published kit PDF",
+        claims=(
+            SourceClaim("Atrandi Single-Microbe DNA Barcoding Kit library-prep PDF, barcode extraction pseudocode",
+                        "Barcode A is read[36:42], a six-base slice."),
+            SourceClaim("The same PDF, barcode description and position table",
+                        "Every barcode round has eight bases; barcode A occupies positions 37–44.")),
+        model_choice="The read-layout model uses the eight-base slice read[36:44].",
+        evidence="The stated eight-base barcode length and positions 37–44 agree with that slice.",
+        uncertainty="The published pseudocode has not been corrected by its issuer.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="barcoded_a", title="Round-A barcode whitelist disagreement",
+        claims=(
+            SourceClaim("Atrandi kit PDF, Tables 2–3",
+                        "The round-A table contains 24 eight-base sequences, including AGACTCAC, but not GTCCGATT."),
+            SourceClaim("Authors' Bascet demultiplexer, crates/bascet-cli/src/barcode/atrandi_barcodes.tsv",
+                        "The round-A whitelist contains GTCCGATT, but not AGACTCAC; only 12 of 24 sequences overlap the PDF table, and well mappings also differ.")),
+        model_choice="The schematic uses an eight-base placeholder and does not select either whitelist.",
+        evidence="Direct set comparison of both original tables; rounds B, C and D have matching sequence sets.",
+        uncertainty="A kit revision, plate lot or source error may explain the round-A difference; the used plate is unknown.",
+        slot=AnnotationSlot.INTRO))
     scope=["microbial_cells","lysis_condition","lyse","pta_primer","phi29","pta_amplify",
            "endprep_enzymes","end_repair","tailing_polymerase","da_tail","dna_ligase"]
     for letter in "abcd": scope.extend(("barcode_"+letter,"ligate_"+letter))

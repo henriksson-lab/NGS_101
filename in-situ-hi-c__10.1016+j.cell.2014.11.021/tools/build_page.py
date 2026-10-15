@@ -61,7 +61,7 @@ def sequencing() -> str:
 
 
 def render() -> str:
-    graph = H.typed_graph()
+    graph = H.protocol_graph()
     return "\n".join([head("in situ Hi-C library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>in situ Hi-C &mdash; MboI proximity ligation in intact nuclei</h1>',
         '<p class="research-notes"><a href="01_in-situ-hi-c.html">Research notes</a></p>',

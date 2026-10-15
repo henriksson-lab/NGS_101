@@ -4,7 +4,11 @@ from __future__ import annotations
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
-from tenx_graph import chromium_rna_graph
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+from protocol_families.tenx_graph import ChromiumRNAOps
+from protocol_graph import ProtocolGraph
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
                        whitelist="10x-chromium-3prime-v1")
@@ -83,10 +87,21 @@ def protocol_graph():
     authority = ('Defining source: <a href="https://doi.org/10.1038/ncomms14049">'
                  'Zheng et al., <i>Nature Communications</i> (2017)</a>; protocol '
                  'authority: 10x Genomics CG00026 Rev B.')
-    return chromium_rna_graph(
-        title="10x Chromium Single Cell 3-prime Gene Expression v1",
-        authority=authority, final=final_library(), primers=SEQ_PRIMERS,
-        first_strand=first_strand(), amplified_cdna=amplified_cdna(),
-        read_lengths={"Read 1": 98, "Index 1 (i7)": 14,
-                      "Index 2 (i5)": 8, "Read 2": 10},
-        inferred_intermediates=True)
+    graph = ProtocolGraph("10x Chromium Single Cell 3-prime Gene Expression v1", authority=authority)
+    ops = ChromiumRNAOps(graph, inferred_intermediates=True)
+    first_state = first_strand()
+    final = final_library()
+    cells = ops.cells()
+    occupied = ops.partition(cells)
+    first, rt_enzyme = ops.reverse_transcribe(
+        occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer")
+    switched = ops.template_switch(
+        first, rt_enzyme, first_state, tso_label="template-switch oligo")
+    recovered = ops.recover(switched, first_state)
+    amplified = ops.preamplify(recovered, first_state, amplified_cdna())
+    fragments = ops.fragment(amplified)
+    tailed = ops.end_prepare(fragments)
+    adapted = ops.ligate_read2(tailed)
+    library = ops.index_pcr(adapted, final)
+    ops.sequence(library, final, SEQ_PRIMERS, {"Read 1": 98, "Index 1 (i7)": 14, "Index 2 (i5)": 8, "Read 2": 10})
+    return graph

@@ -22,13 +22,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, feature, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from illumina import P5, P7
 import nextera as nx
 import seqprimers as sp
 from pcr import PCRGeometry, PCRPrimer
+from end_combinations import EndCombinationGeometry, EndProductGroup, LoadedEnd, LoadedEndPool
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+                            MolecularRelation, StepKind)
 
 TITLE = "ASTAR-seq — chromatin accessibility and transcriptome from one cell"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1101/829960">Xing et al. (2019)</a>.'
@@ -116,6 +117,43 @@ def rna_library() -> Construct:
     return nextera_library("cDNA")
 
 
+def tagmented_pair(left: str, right: str, insert: str) -> Construct:
+    """Top-strand end identities; use only as the gap-filled PCR template."""
+    ends = {"s5": (nx.S5, nx.S5_RC), "s7": (nx.S7, nx.S7_RC)}
+    if left not in ends or right not in ends:
+        raise ValueError("Tn5 end must be s5 or s7")
+    return Construct([
+        _seg(f"{left} entry", ends[left][0], left),
+        _seg("left ME", nx.ME, "me"),
+        _seg(insert, "XXXXXXXX...XXXXXXXX", placeholder=True),
+        _seg("right ME reverse complement", nx.ME_RC, "me"),
+        _seg(f"{right} entry reverse complement", ends[right][1], right),
+    ], name=f"{insert} {left}/{right} Tn5 end class")
+
+
+def tagmented_end_state(left: str, right: str, insert: str) -> Scene:
+    """Show Tn5 end classes without drawing an unfilled 9-bp gap as a duplex."""
+    sc = Scene()
+    sc.strand("end identity", list(tagmented_pair(left, right, insert)),
+              label="Tn5 ends; 9-bp gaps not drawn")
+    sc.labels("end identity")
+    return sc
+
+
+T5_T7_ENDS = LoadedEndPool(
+    (LoadedEnd("s5", nx.ADAPTOR_S5), LoadedEnd("s7", nx.ADAPTOR_S7)), nx.ME)
+
+
+def end_combination_geometry(retained: str, s5_waste: str, s7_waste: str,
+                             pcr_step: str) -> EndCombinationGeometry:
+    return EndCombinationGeometry(
+        (PCRPrimer("N5xx", nx.n5xx_primer("N" * INDEX_LEN), anneal_nt=len(nx.S5)),
+         PCRPrimer("N7xx", nx.n7xx_primer("N" * INDEX_LEN), anneal_nt=len(nx.S7))),
+        (EndProductGroup(retained, (("s5", "s7"),)),
+         EndProductGroup(s5_waste, (("s5", "s5"),)),
+         EndProductGroup(s7_waste, (("s7", "s7"),))), pcr_step)
+
+
 SEQ_PRIMERS = tuple(sp.NEXTERA[k] for k in ("R1", "I1", "I2", "R2"))
 
 
@@ -124,19 +162,29 @@ def protocol_graph():
     cell=graph.input("single_cell","one cell in a Fluidigm C1 chamber",
                      MaterialKind.BIOLOGICAL,primary=True)
     transposome=graph.input("atac_transposome","s5/s7-loaded ATAC transposomes",
-                            MaterialKind.ADAPTER)
+                            MaterialKind.ADAPTER,chemical_state=T5_T7_ENDS)
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged_dna=graph.product("tagged_dna","tagmented accessible genomic DNA",
-                             MaterialKind.MOLECULAR)
+                             MaterialKind.MOLECULAR,
+                             state=tagmented_end_state("s5","s7","accessible genomic DNA"))
     cellular_rna=graph.product("cellular_rna","RNA retained in the same chamber",
                                MaterialKind.MOLECULAR)
-    tag_waste=graph.product("atac_waste","non-library tagmentation products",
-                            MaterialKind.WASTE)
+    atac_s5_waste=graph.product("atac_s5_waste","s5/s5 ATAC tagmentation product",
+                                MaterialKind.WASTE,
+                                state=tagmented_end_state("s5","s5","accessible genomic DNA"))
+    atac_s7_waste=graph.product("atac_s7_waste","s7/s7 ATAC tagmentation product",
+                                MaterialKind.WASTE,
+                                state=tagmented_end_state("s7","s7","accessible genomic DNA"))
     graph.react("atac_tagment","Tagment accessible chromatin in the intact single-cell reaction",
                 StepKind.TAGMENTATION,
                 ((cell,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(tagged_dna,cellular_rna,tag_waste))
-    graph.discard(tag_waste,"non-amplifiable strand-transfer products")
+                 (tn5,InputRole.CATALYST)),
+                (tagged_dna,cellular_rna,atac_s5_waste,atac_s7_waste),
+                geometry=end_combination_geometry("tagged_dna","atac_s5_waste",
+                                                  "atac_s7_waste","atac_index_pcr"),
+                relations=(MolecularRelation.END_COMBINATIONS,))
+    graph.discard(atac_s5_waste,"lacks the distinct s7 PCR entry site")
+    graph.discard(atac_s7_waste,"lacks the distinct s5 PCR entry site")
     dt=graph.input("biotin_dt","biotinylated C1 oligo-dT primer",MaterialKind.OLIGO,
                    state=tuple(c1_dt_oligo()))
     rt=graph.input("reverse_transcriptase","SuperScript IV reverse transcriptase",
@@ -180,7 +228,8 @@ def protocol_graph():
                 ((mixed,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
                 (bead_cdna,atac_fraction))
     gap_pol=graph.input("gap_fill_polymerase","ATAC gap-fill polymerase",MaterialKind.CATALYST)
-    filled=graph.product("filled_atac","gap-filled ATAC DNA",MaterialKind.MOLECULAR)
+    filled=graph.product("filled_atac","gap-filled ATAC DNA",MaterialKind.MOLECULAR,
+                         state=tagmented_pair("s5","s7","accessible genomic DNA"))
     graph.react("atac_gap_fill","Fill the nine-base transposition gaps",StepKind.EXTENSION,
                 ((atac_fraction,InputRole.TEMPLATE),(gap_pol,InputRole.CATALYST)),(filled,))
     atac_i5=graph.input("atac_i5","per-cell v2_Ad1.N i5 primer",MaterialKind.OLIGO)
@@ -191,8 +240,11 @@ def protocol_graph():
     graph.react("atac_index_pcr","Index the ATAC fraction",StepKind.PCR,
                 ((filled,InputRole.TEMPLATE),(atac_i5,InputRole.STRUCTURAL),
                  (atac_i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),(atac_lib,),
-                geometry=PCRGeometry.unavailable(
-                    atac_final,reason="The heterogeneous gap-filled ATAC precursor is not reconstructed base-for-base."))
+                geometry=PCRGeometry.exact(
+                    tagmented_pair("s5","s7","accessible genomic DNA"),
+                    *end_combination_geometry("tagged_dna","atac_s5_waste",
+                                               "atac_s7_waste","atac_index_pcr").primers,
+                    statement="Canonical Nextera s5 and s7 entry sites establish the primer footprints; genomic insert bases vary."))
     graph.sequence(atac_lib,SequencingPlan(library=atac_final,primers=SEQ_PRIMERS,
         read_lengths={"Read 1":50,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":50}))
     heat=graph.input("heat_release","heat strand-release condition",MaterialKind.CONDITION)
@@ -204,14 +256,22 @@ def protocol_graph():
                 StepKind.STRAND_SEPARATION,
                 ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,bound))
     graph.discard(bound,"biotinylated complementary strands remain bead-bound")
-    rna_transposome=graph.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER)
-    rna_tagged=graph.product("rna_tagged","tagmented full-length cDNA",MaterialKind.MOLECULAR)
-    rna_waste=graph.product("rna_tagment_waste","non-amplifiable cDNA tagmentation products",
-                            MaterialKind.WASTE)
+    rna_transposome=graph.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER,
+                                 chemical_state=T5_T7_ENDS)
+    rna_tagged=graph.product("rna_tagged","tagmented full-length cDNA",MaterialKind.MOLECULAR,
+                             state=tagmented_end_state("s5","s7","cDNA"))
+    rna_s5_waste=graph.product("rna_s5_waste","s5/s5 cDNA tagmentation product",
+                               MaterialKind.WASTE,state=tagmented_end_state("s5","s5","cDNA"))
+    rna_s7_waste=graph.product("rna_s7_waste","s7/s7 cDNA tagmentation product",
+                               MaterialKind.WASTE,state=tagmented_end_state("s7","s7","cDNA"))
     graph.react("rna_tagment","Tagment the separated cDNA",StepKind.TAGMENTATION,
                 ((released,InputRole.TEMPLATE),(rna_transposome,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(rna_tagged,rna_waste))
-    graph.discard(rna_waste,"homotypic and otherwise non-amplifiable Tn5 products")
+                 (tn5,InputRole.CATALYST)),(rna_tagged,rna_s5_waste,rna_s7_waste),
+                geometry=end_combination_geometry("rna_tagged","rna_s5_waste",
+                                                  "rna_s7_waste","rna_index_pcr"),
+                relations=(MolecularRelation.END_COMBINATIONS,))
+    graph.discard(rna_s5_waste,"lacks the distinct s7 PCR entry site")
+    graph.discard(rna_s7_waste,"lacks the distinct s5 PCR entry site")
     rna_i5=graph.input("rna_i5","RNA-library Nextera i5 primer",MaterialKind.OLIGO)
     rna_i7=graph.input("rna_i7","RNA-library Nextera i7 primer",MaterialKind.OLIGO)
     rna_final=rna_library()
@@ -219,8 +279,11 @@ def protocol_graph():
     graph.react("rna_index_pcr","Complete and index the RNA library",StepKind.PCR,
                 ((rna_tagged,InputRole.TEMPLATE),(rna_i5,InputRole.STRUCTURAL),
                  (rna_i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),(rna_lib,),
-                geometry=PCRGeometry.unavailable(
-                    rna_final,reason="The heterogeneous Tn5 precursor is not reconstructed base-for-base."))
+                geometry=PCRGeometry.exact(
+                    tagmented_pair("s5","s7","cDNA"),
+                    *end_combination_geometry("rna_tagged","rna_s5_waste",
+                                               "rna_s7_waste","rna_index_pcr").primers,
+                    statement="Canonical Nextera s5 and s7 entry sites establish the primer footprints; cDNA insert bases vary."))
     graph.sequence(rna_lib,SequencingPlan(library=rna_final,primers=SEQ_PRIMERS,
         read_lengths={"Read 1":101,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":101}))
     graph.declare_reviewed_scope(("single_cell","atac_transposome","tn5","atac_tagment",

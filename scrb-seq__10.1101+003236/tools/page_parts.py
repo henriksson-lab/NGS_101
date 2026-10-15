@@ -101,8 +101,8 @@ def sequencing(protocol: str) -> str:
                        read_lengths=lengths) + '</div>')
 
 
-def render_page(protocol: str, out: Path) -> None:
-    graph = protocol_graph(protocol)
+def render_page(protocol: str, out: Path, *, graph=None) -> None:
+    graph = graph if graph is not None else protocol_graph(protocol)
     workflow = "<h2>Library generation</h2>\n" + protocol_graph_panels(graph)
     out.write_text("\n".join([head(f"{protocol} library chemistry"),
                               preamble(protocol, complete=True), oligos(protocol),

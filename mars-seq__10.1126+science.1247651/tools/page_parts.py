@@ -21,8 +21,8 @@ def seg(name, top, tag=None, **kw):
 from mars_graph import PAPERS, graph_for as protocol_graph
 
 
-def render_page(protocol: str) -> str:
-    graph = protocol_graph(protocol)
+def render_page(protocol: str, *, graph=None) -> str:
+    graph = graph if graph is not None else protocol_graph(protocol)
     doi, journal, year = PAPERS[protocol]
     author = "Jaitin et al." if protocol == "MARS-seq" else "Keren-Shaul et al."
     exact = protocol == "MARS-seq2.0"

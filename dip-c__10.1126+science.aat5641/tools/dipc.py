@@ -6,6 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from restriction import MBOI
 from chemdraw import Construct, Segment
 from single_cell_hic import ContactWorkflow, unresolved_illumina_library
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
 WORKFLOW = ContactWorkflow("Dip-C", MBOI, "after ligation", "none", "META")
 TITLE = "Dip-C — contact ligation followed by META amplification"
 NOTES = "01_dip-c.html"
@@ -29,3 +31,55 @@ def final_library():
         Segment("opposite META transposon prefix", "T"*META_READ_PREFIX_NT, "me", placeholder=True),
     ], name="META-tagged contact")
     return unresolved_illumina_library(tagged, "Dip-C META-derived library", indexed=None)
+
+
+def protocol_graph() -> ProtocolGraph:
+    """Dip-C ligates before nucleus isolation, then uses META without biotin capture."""
+    g = ProtocolGraph(TITLE, authority=CITATION)
+    sample = g.input("sample", "fixed chromatin nuclei", MaterialKind.BIOLOGICAL,
+                     state=molecule("fixed chromatin", (role("chromosomal DNA"),)),
+                     primary=True)
+    mboi = g.input("mboi", "MboI restriction enzyme", MaterialKind.CATALYST)
+    cut = g.product("cut", "MboI-cut chromatin", MaterialKind.MOLECULAR,
+                    state=sample.state, chemical_state=WORKFLOW.digest())
+    g.react("digest", "Digest chromatin with MboI", StepKind.DIGESTION,
+            ((sample, InputRole.TEMPLATE), (mboi, InputRole.CATALYST)), (cut,))
+    ligase = g.input("contact_ligase", "contact-ligation DNA ligase",
+                     MaterialKind.CATALYST)
+    contacts = g.product("contacts", "proximity-ligated contacts",
+                         MaterialKind.MOLECULAR, state=contact_product())
+    g.react("contact_ligation", "Ligate compatible ends without biotin fill-in",
+            StepKind.PROXIMITY_LIGATION,
+            ((cut, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (contacts,))
+    isolation = g.input("isolation", "single-nucleus sorting", MaterialKind.CONDITION)
+    nucleus = g.product("nucleus", "one ligated nucleus", MaterialKind.MOLECULAR,
+                        state=contacts.state)
+    excluded = g.product("excluded", "other ligated nuclei", MaterialKind.WASTE)
+    g.react("isolate", "Isolate a nucleus after contact ligation", StepKind.SAMPLING,
+            ((contacts, InputRole.TEMPLATE), (isolation, InputRole.CONDITION)),
+            (nucleus, excluded), changes_molecule=False)
+    g.discard(excluded, "outside the retained single-nucleus reaction")
+    transposon = g.input("meta_transposon", "META transposon adapter",
+                         MaterialKind.ADAPTER, inferred=True,
+                         source=LIBRARY_CAVEAT)
+    transposase = g.input("meta_transposase", "META transposase",
+                          MaterialKind.CATALYST)
+    tagged = g.product("tagged", "META-tagged contact molecules",
+                       MaterialKind.MOLECULAR, state=nucleus.state)
+    offproducts = g.product("meta_offproducts", "nonamplifiable META products",
+                            MaterialKind.WASTE)
+    g.react("meta_tag", "Tag and amplify contact DNA by META",
+            StepKind.TAGMENTATION,
+            ((nucleus, InputRole.TEMPLATE), (transposon, InputRole.STRUCTURAL),
+             (transposase, InputRole.CATALYST)), (tagged, offproducts))
+    g.discard(offproducts, "does not enter the contact sequencing library")
+    final = final_library()
+    library = g.product("library", final.name, MaterialKind.LIBRARY,
+                        state=final, inferred=True, source=LIBRARY_CAVEAT)
+    g.react("meta_library", "Obtain the paired-end META sequencing library",
+            StepKind.MAGIC, ((tagged, InputRole.TEMPLATE),), (library,),
+            reason="The defining source and accessible detailed protocol do not print the complete transposon oligos or outer adapter chemistry; this transition cannot be reconstructed base by base.")
+    g.sequence(library, SequencingPlan(acquired_roles=("Read 1", "Read 2"),
+                                       limitation=SEQUENCING_UNAVAILABLE))
+    g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), CITATION)
+    return g.require_publishable()

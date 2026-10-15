@@ -7,7 +7,10 @@ import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
-from tenx_graph import chromium_pcr, partition_material
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+from protocol_families.tenx_graph import chromium_pcr, partition_material
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
                        whitelist="10x-chromium-atac-v1")

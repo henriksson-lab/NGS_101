@@ -38,7 +38,7 @@ def rt_scenes(protocol: str) -> tuple[Scene, Scene]:
 
 
 def graph_for(protocol: str) -> ProtocolGraph:
-    if protocol not in PAPERS:
+    if protocol != S.SCRB:
         raise ValueError(f"unknown SCRB protocol: {protocol!r}")
     source = "https://doi.org/" + PAPERS[protocol][0]
     graph = ProtocolGraph(protocol, authority=source)
@@ -151,9 +151,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
                 geometry=PCRGeometry.exact(
                     final, p5_primer, n7_primer,
                     statement="P5NEXTPT5 and N7xx select the oligo-dT/s7 product."))
-    lengths = ({"Read 1": 17, "Index 1 (i7)": 8, "Read 2": 34}
-               if protocol == S.SCRB else
-               {"Read 1": 16, "Index 1 (i7)": 8, "Read 2": 50})
+    lengths = {"Read 1": 17, "Index 1 (i7)": 8, "Read 2": 34}
     graph.sequence(library, SequencingPlan(
         library=final, primers=S.READ_PRIMERS,
         acquired_roles=tuple(p.role for p in S.READ_PRIMERS),

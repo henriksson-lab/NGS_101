@@ -6,8 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (InputRole, MaterialKind, MolecularRelation,
+                            ProtocolGraph, SequencingPlan, StepKind)
 import illumina as il
 import seqprimers as sp
 
@@ -169,7 +169,7 @@ def _validate():
 _validate()
 
 
-def protocol_graph(protocol: str):
+def graph_for(protocol: str):
     if protocol not in ("SPLiT-seq","microSPLiT"):
         raise ValueError(protocol)
     doi=("10.1126/science.aam8999" if protocol=="SPLiT-seq"
@@ -218,11 +218,13 @@ def protocol_graph(protocol: str):
         current=product
     beads=graph.input("streptavidin","streptavidin capture beads",MaterialKind.SELECTION)
     captured=graph.product("captured_cdna","captured round-3-biotinylated cDNA",
-                           MaterialKind.MOLECULAR)
+                           MaterialKind.MOLECULAR,
+                           state=barcoded_first_strand(protocol,3))
     uncaptured=graph.product("uncaptured","uncaptured cellular material",MaterialKind.WASTE)
     graph.react("capture","Capture biotinylated barcoded cDNA",StepKind.AFFINITY_CAPTURE,
                 ((current,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
-                (captured,uncaptured))
+                (captured,uncaptured),changes_molecule=False,
+                relations=(MolecularRelation.STRAND_ORDER,))
     graph.discard(uncaptured,"material not linked to the biotinylated round-3 oligo is washed away")
     tso=graph.input("tso","template-switch oligo",MaterialKind.OLIGO,
                     state=Construct([_s("BC_0127",TSO_BODY+"GGG")]),
@@ -334,3 +336,8 @@ def protocol_graph(protocol: str):
       *downstream_scope,"pcr_forward","pcr_reverse","pcr_polymerase","library_pcr",
       "library"),source)
     return graph.require_publishable()
+
+
+def protocol_graph() -> ProtocolGraph:
+    """The defining SPLiT-seq chemistry for source and molecular audits."""
+    return graph_for("SPLiT-seq")

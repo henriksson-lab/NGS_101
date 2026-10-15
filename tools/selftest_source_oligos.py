@@ -24,7 +24,7 @@ from source_oligo_check import check_graph, unrepresented_input_ids  # noqa: E40
 def graph_module_paths(directory: Path) -> list[Path]:
     result = []
     for path in sorted((directory / "tools").glob("*.py")):
-        if path.name in {"build_page.py", "selftest.py"}:
+        if path.name == "selftest.py":
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         if any(isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))

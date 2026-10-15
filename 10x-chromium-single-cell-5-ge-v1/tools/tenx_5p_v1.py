@@ -4,7 +4,11 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature
-from tenx_graph import chromium_rna_graph
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+from protocol_families.tenx_graph import ChromiumRNAOps
+from protocol_graph import ProtocolGraph
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
 SWITCH_SPACER="TTTCTTATAT"
@@ -40,7 +44,21 @@ def read1_layout():
 def protocol_graph():
     authority=('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
                '10x Genomics Technical Note CG000109 Rev D</a>.')
-    return chromium_rna_graph(title="10x Chromium Single Cell 5-prime Gene Expression v1",
-        authority=authority,final=final_library(),primers=SEQ_PRIMERS,
-        first_strand=first_strand(),amplified_cdna=amplified_cdna(),
-        read_lengths={"Read 1":26,"Index 1 (i7)":8},five_prime=True)
+    graph = ProtocolGraph("10x Chromium Single Cell 5-prime Gene Expression v1", authority=authority)
+    ops = ChromiumRNAOps(graph, inferred_intermediates=False)
+    first_state = first_strand()
+    final = final_library()
+    cells = ops.cells()
+    occupied = ops.partition(cells)
+    first, rt_enzyme = ops.reverse_transcribe(
+        occupied, first_state, primer_label="poly(dT) RT primer")
+    switched = ops.template_switch(
+        first, rt_enzyme, first_state, tso_label="cell-barcode/UMI gel-bead template-switch oligo")
+    recovered = ops.recover(switched, first_state)
+    amplified = ops.preamplify(recovered, first_state, amplified_cdna())
+    fragments = ops.fragment(amplified)
+    tailed = ops.end_prepare(fragments)
+    adapted = ops.ligate_read2(tailed)
+    library = ops.index_pcr(adapted, final)
+    ops.sequence(library, final, SEQ_PRIMERS, {"Read 1":26,"Index 1 (i7)":8})
+    return graph

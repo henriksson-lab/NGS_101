@@ -62,22 +62,24 @@ def protocol_graph() -> ProtocolGraph:
     tagmented = graph.product(
         "tagmented_fragments", "heterologous T5/T7 tagmentation products",
         MaterialKind.MOLECULAR, state=two_tagmented())
-    tagment_waste = graph.product("tagment_waste", "same-end tagmentation products",
-                                  MaterialKind.WASTE)
+    t5_t5 = graph.product("t5_t5", "T5/T5 tagmentation product",
+                          MaterialKind.WASTE, state=S.tagmented_pair("T5", "T5"))
+    t7_t7 = graph.product("t7_t7", "T7/T7 tagmentation product",
+                          MaterialKind.WASTE, state=S.tagmented_pair("T7", "T7"))
     graph.react("tagment", "Tagment nuclei in the first indexing plate",
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE),
                  (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagmented, tagment_waste),
+                 (tn5, InputRole.CATALYST)), (tagmented, t5_t5, t7_t7),
                 geometry=EndCombinationGeometry(
                     (p5_primer, p7_primer),
                     (EndProductGroup("tagmented_fragments", (("T5", "T7"),)),
-                     EndProductGroup("tagment_waste",
-                                     (("T5", "T5"), ("T7", "T7")))),
+                     EndProductGroup("t5_t5", (("T5", "T5"),)),
+                     EndProductGroup("t7_t7", (("T7", "T7"),))),
                     "index_pcr"),
                 relations=(MolecularRelation.END_COMBINATIONS,))
-    graph.discard(tagment_waste,
-                  "same-end T5/T5 and T7/T7 products lack one terminal PCR site")
+    graph.discard(t5_t5, "lacks the T7 PCR entry site")
+    graph.discard(t7_t7, "lacks the T5 PCR entry site")
     pooled, pool_reviewed = pool_indexed_nuclei(
         graph, tagmented, prefix="round1", state=two_tagmented(),
         label="first-round indexed tagmented nuclei from other wells")
@@ -125,7 +127,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.annotate(Highlight(
         "tagment", "Which Tn5 products enter the library",
         "The T5/T7 end pair supplies both second-round PCR primer sites. "
-        "T5/T5 and T7/T7 products are accounted for as discarded products; "
+        "T5/T5 and T7/T7 products are separate discarded graph outputs drawn below; "
         "the declared end-combination check tests those primer-site assignments."))
     graph.annotate(DetailView(
         "tagmented_fragments", "Retained first-round fragment",
@@ -177,4 +179,12 @@ def selftest() -> None:
           [(s.name, s.inferred) for s in FINAL_LIBRARY
            if s.name in ("PCR i5", "PCR i7'")],
           [("PCR i5", False), ("PCR i7'", False)])
+    page = render_page()
+    check("both discarded Tn5 branches have molecular panels on the public page",
+          [f'<section data-graph-target="{target}" data-graph-disposition="discard">'
+           in page and
+           '<svg' in page.split(f'<section data-graph-target="{target}"', 1)[1].split(
+               '</section>', 1)[0]
+           for target in ("t5_t5", "t7_t7")],
+          [True, True])
     check.report()

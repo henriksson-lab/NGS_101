@@ -10,6 +10,7 @@ Run:  python3 smart-seq__10.1038+nbt.2282/tools/selftest.py
 from __future__ import annotations
 
 import sys
+import runpy
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -213,9 +214,10 @@ for p in ("SMART-seq3", "SMART-seq3xpress"):
     check(f"{p} draws no inferred TSO base -- every one is printed by its source",
           any(s.inferred for s in bp.ss3_tso_segs(p)), False)
 check("the SMART-seq2 template-switch step is captioned INFERRED",
-      bp.protocol_graph("SMART-seq2").steps["template_switch"].label.startswith("INFERRED"))
+      s2.protocol_graph().steps["template_switch"].label.startswith("INFERRED"))
+ss3_page = runpy.run_path(str(HERE.parents[1] / "smart-seq3__10.1038+s41587-020-0497-0" / "tools" / "build_page.py"))
 check("the SMART-seq3 template-switch step is not",
-      bp.protocol_graph("SMART-seq3").steps["template_switch"].label.startswith("INFERRED"),
+      ss3_page["protocol_graph"]().steps["template_switch"].label.startswith("INFERRED"),
       False)
 check("SMART-seq carries a preamble caveat for its inferred region",
       "SMART-seq" in bp.CAVEATS)

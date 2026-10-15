@@ -8,7 +8,10 @@ from chemdraw import Construct,Scene,Segment,feature,revcomp
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
-from tenx_graph import chromium_pcr, partition_material
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+from protocol_families.tenx_graph import chromium_pcr, partition_material
 
 CS1 = "TTGCTAGGACCGGCCTTAAAGC"
 CS2 = "CCTTAGCCGCTAATAGGTGAGC"

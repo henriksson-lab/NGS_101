@@ -10,7 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import chromium_v1 as C
-import seqprimers as sp
+from protocol_views import PrimerBindingSection
 from chemdraw import annotation_rows, panel, protocol_graph_panels, strand_row
 from page import head, info
 
@@ -35,14 +35,6 @@ def construction() -> str:
        caption="INFERRED — dotted standard-adapter bases reconstruct the primary-source library architecture; no v1 oligo sequence is presented as published.")}'''
 
 
-def sequencing() -> str:
-    lib = C.final_library()
-    return sp.section(lib, C.SEQ_PRIMERS, heading="Sequencing",
-        intro='Read 1: 98 cycles of cDNA; Index 1: 14-nt cell barcode; Index 2: 8-nt sample index; Read 2: 10-nt UMI. The v1 guide requires standard Illumina primers.',
-        read_lengths={"Read 1":98,"Index 1 (i7)":14,"Index 2 (i5)":8,"Read 2":10},
-        show_read_content=True)
-
-
 def main() -> None:
     graph = C.protocol_graph()
     page = "\n".join([head("10x Chromium Single Cell 3' GE v1 chemistry"), '<div class="wrap" data-protocol-complete="true">',
@@ -50,7 +42,10 @@ def main() -> None:
         info('Defining source: <a href="https://doi.org/10.1038/ncomms14049">Zheng et al., <i>Nature Communications</i> (2017)</a>; protocol authority: 10x Genomics CG00026 Rev B.'),
         '<div class="caveat"><b>Sequence boundary.</b> The paper and v1 guide publish the library architecture and read layout, but no oligo sequences; reconstructed adapter bases are dotted.</div>',
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
-        construction(), sequencing(), '</div>'])
+        construction(), PrimerBindingSection(
+            "library", "Library sequencing", "Sequencing",
+            'Read 1: 98 cycles of cDNA; Index 1: 14-nt cell barcode; Index 2: 8-nt sample index; Read 2: 10-nt UMI. The v1 guide requires standard Illumina primers.').render(graph),
+        '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

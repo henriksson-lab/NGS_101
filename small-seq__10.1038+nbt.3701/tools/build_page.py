@@ -17,10 +17,11 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import smallseq as sm
 from chemdraw import (Row, Scene, Segment, annotation_rows, complement_segments,
-                      oligo, panel, protocol_graph_panels, strand_row, tm)
+                      oligo, panel, strand_row, tm)
 import seqprimers as sp
 from illumina import P5, P7
 from page import caveat, head, info, legend, table
+from protocol_views import assemble_page, WorkflowSection
 
 OUT = HERE.parent / "smallseq.html"
 PRE = 4          # width of the "5'- " strand prefix used by the Construct ladders
@@ -649,10 +650,9 @@ def main() -> None:
     graph = sm.protocol_graph()
     parts = [head("Small-seq Chemistry"), preamble().replace(
              '<div class="wrap">','<div class="wrap" data-protocol-complete="true">'),
-             oligos(), interlock(), "<h2>Reaction workflow</h2>",
-             protocol_graph_panels(graph, cls="long"),
+             oligos(), interlock(), WorkflowSection("Reaction workflow"),
              final_library(), limits(), sequencing()]
-    OUT.write_text("\n".join(parts), encoding="utf-8")
+    OUT.write_text(assemble_page(graph, parts), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

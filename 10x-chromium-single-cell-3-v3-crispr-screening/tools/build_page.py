@@ -8,13 +8,15 @@ import seqprimers as sp
 from chemdraw import Scene,annotation_rows,oligo,panel,protocol_graph_panels
 from page import head,info,table
 OUT=HERE.parent/"10x-3prime-v3-crispr-screening.html"
-def sequencing(lib):
+def sequencing(graph):
+    plan = graph.sequencing["index_pcr_product"]
+    lib = plan.library
     rows=[]
-    for p in C.SEQ_PRIMERS:
+    for p in plan.primers:
         h=sp.locate(lib,p)
         if h is None: raise ValueError(f"{p.name} has no site")
         rows.append((html.escape(p.role),html.escape(p.name),html.escape(", ".join(h.covers)),f"<code>{html.escape(h.reads)}</code>&hellip;"))
-    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses 30 TSO-derived bases, then reads the protospacer; i7 identifies the sample.')+sp.diagram(lib,C.SEQ_PRIMERS)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)+sp.read_content_table(lib,C.SEQ_PRIMERS,{"Read 1":28,"Index 1 (i7)":8,"Read 2":50},acquired_roles=tuple(p.role for p in C.SEQ_PRIMERS))
+    return '<h2>Sequencing</h2>'+info('Nextera Read 1 reports the 16-base cell barcode and 12-base UMI. TruSeq Read 2 crosses 30 TSO-derived bases, then reads the protospacer; i7 identifies the sample.')+sp.diagram(lib,plan.primers)+table(("Read","Primer","Primer site","First bases"),rows)+table(("Cycles","Content"),C.read_layout(),scroll=False)+sp.read_content_table(lib,plan.primers,plan.read_lengths,acquired_roles=plan.acquired_roles)
 def render():
     product=C.feature_cdna(); lib=C.final_library(); graph=C.protocol_graph()
     fwd,rev=C.feature_cdna_primers(); si_fwd,si_rev=C.feature_si_primers()
@@ -25,6 +27,6 @@ def render():
       '<h3>(2) Copy the sgRNA and template-switch</h3>'+panel(C.switch_scene().rows(),cls="small",caption="Reverse transcription copies the sgRNA feature, adds CCC and switches onto the TSO.")+panel([*Scene.duplex(list(product),label="feature cDNA").rows(),*annotation_rows(product)],cls="small",caption="Feature cDNA Primers 1 amplify between Partial Read 1N and the partial TSO."),
       '<h3>(3) Enrich the Feature Barcode cDNA</h3><seq>'+oligo("Feature cDNA forward",fwd)+oligo("Feature cDNA reverse",rev)+'</seq>',
       '<h3>(4) Add P5 and the Read 2 arm</h3><seq>'+oligo("Feature SI forward",si_fwd)+oligo("Feature SI reverse",si_rev)+'</seq>'+info('Feature SI reverse is TruSeq Read 2 followed by the partial TSO. It converts the template-switched end into a standard Read 2 end.'),
-      '<h3>(5) Add P7 and the i7 sample index</h3>'+panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="Final Feature Barcode library. Read 1 identifies the cell and molecule; Read 2 identifies the guide."),sequencing(lib),'</div>'])
+      '<h3>(5) Add P7 and the i7 sample index</h3>'+panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="Final Feature Barcode library. Read 1 identifies the cell and molecule; Read 2 identifies the guide."),sequencing(graph),'</div>'])
 def main(): OUT.write_text(render(),encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 if __name__=="__main__": main()

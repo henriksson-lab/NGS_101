@@ -4,7 +4,11 @@ import illumina as il
 import rt
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,feature
-from tenx_graph import chromium_rna_graph
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
+from protocol_families.tenx_graph import ChromiumRNAOps
+from protocol_graph import ProtocolGraph, SourceClaim, SourceDiscrepancy
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
 CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-3prime-v3")
@@ -38,7 +42,30 @@ def read1_layout(): return [(x.cycles,x.feature.label) for x in sp.feature_spans
 def protocol_graph():
     authority=('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
                '10x Genomics User Guide CG000183 Rev A</a>.')
-    return chromium_rna_graph(title="10x Chromium Single Cell 3-prime Gene Expression v3",
-        authority=authority,final=final_library(),primers=SEQ_PRIMERS,
-        first_strand=first_strand(),amplified_cdna=amplified_cdna(),
-        read_lengths=READ_LENGTHS)
+    graph = ProtocolGraph("10x Chromium Single Cell 3-prime Gene Expression v3", authority=authority)
+    ops = ChromiumRNAOps(graph, inferred_intermediates=False)
+    first_state = first_strand()
+    final = final_library()
+    cells = ops.cells()
+    occupied = ops.partition(cells)
+    first, rt_enzyme = ops.reverse_transcribe(
+        occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer")
+    switched = ops.template_switch(
+        first, rt_enzyme, first_state, tso_label="template-switch oligo")
+    recovered = ops.recover(switched, first_state)
+    amplified = ops.preamplify(recovered, first_state, amplified_cdna())
+    fragments = ops.fragment(amplified)
+    tailed = ops.end_prepare(fragments)
+    adapted = ops.ligate_read2(tailed)
+    library = ops.index_pcr(adapted, final)
+    ops.sequence(library, final, SEQ_PRIMERS, READ_LENGTHS)
+    graph.annotate(SourceDiscrepancy(
+        "rt_primer", "CG000183 poly(dT) anchor disagreement",
+        (SourceClaim("CG000183 Rev A, overview figure (Poly(dT)VN)",
+                     "The bead primer is labelled Poly(dT)VN."),
+         SourceClaim("CG000183 Rev A, Appendix, Oligonucleotide Sequences",
+                     "The printed gel-bead primer ends with T30 and no VN bases.")),
+        "The construct uses the appendix's printed T30 sequence.",
+        "The appendix provides a base-resolved oligo, whereas the overview gives a role label.",
+        "The physical bead-primer anchor may include VN bases omitted by the appendix."))
+    return graph

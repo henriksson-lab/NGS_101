@@ -2,6 +2,7 @@
 # source: a URL, or HANDLER:ARG for a fetcher in tools/fetchers/ (scg:<glob in Teichlab/scg_lib_structs>,
 # protocolsio:<doi>, doi:<doi>, pmc:<PMCID>, pmccloud:<PMCID>). See tools/fetchers/__init__.py.
 slug	source	what	why
+split-seq__10.1126+science.aam8999	scg:data/SPLiT-seq/aam8999_tables12.xlsx	Rosenberg et al. SPLiT-seq original Supplementary Tables S1 and S2 workbook	The published ligation splints and barcode oligos are in this workbook; its filename lacks the defining DOI and needs an explicit source locator.
 cel-seq2__10.1186+s13059-016-0938-8	https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm	Illumina TruSeq Small RNA adapter and RP1/RPI oligo sequences	The defining author protocol invokes RP1/RPIX but directs readers to Illumina for their sequences.
 scrb-seq__10.1101+003236	https://support-docs.illumina.com/SHARE/AdapterSequences/Content/Nextera_Illumina-Sequences.htm	Illumina Nextera adapter-sequence table	SCRB-seq uses Nextera tagmentation; the manufacturer defines the mosaic-end and s7 adapter arm represented in its graph.
 sf4su-seq__10.1093+nar+gkag652	https://www.neb.com/en/-/media/nebus/files/manuals/manuale7300_e7330_e7560_e7580.pdf	NEBNext Small RNA Library Prep Set E7300/E7330 manual	The defining supplement specifies kit E7300S; the official manual gives adapter and primer oligos.

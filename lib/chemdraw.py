@@ -745,7 +745,7 @@ def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str) -> Workflo
 
 
 def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
-    """Render every sequencing lineage plus every produced contributing precursor.
+    """Render sequencing lineages, produced precursors, and every other terminal.
 
     Linear SVGs stay readable while the graph may branch and join.  A non-spine input
     whose material was produced inside the protocol gets a separate precursor panel;
@@ -808,6 +808,27 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
                 caption=f"{precursor_material.label} preparation"))
         panels.append(workflow_panel(workflow_from_protocol_graph(graph, material_id), cls=cls,
                                      caption=f"{material.label} provenance"))
+    other_terminals = [terminal for terminal in graph.terminals.values()
+                       if terminal.material not in graph.sequencing]
+    if other_terminals:
+        panels.append("<h3>Other material outcomes</h3>")
+        for terminal in other_terminals:
+            material = graph.materials[terminal.material]
+            target = html.escape(material.id, quote=True)
+            fate = html.escape(terminal.disposition.value)
+            label = html.escape(material.label)
+            reason = html.escape(terminal.reason)
+            body = (f"<h4>{label} — {fate}</h4>"
+                    + (f"<p>{reason}</p>" if reason else ""))
+            if material.state is not None:
+                body += panel(_graph_material_state(material).rows, cls=cls,
+                              caption=f"{material.label} — {terminal.disposition.value}")
+            else:
+                body += "<p>Molecular structure is not represented in this graph.</p>"
+            panels.append(
+                f'<section data-graph-target="{target}" '
+                f'data-graph-disposition="{html.escape(terminal.disposition.value, quote=True)}">'
+                f'{body}</section>')
     return "\n".join(panels)
 
 

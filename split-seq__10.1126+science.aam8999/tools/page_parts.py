@@ -58,7 +58,7 @@ def render_page(protocol):
     rows=[("Read 1","transcript sequence"),
           ("Read 2","UMI, barcode 3, barcode 2, barcode 1"),
           ("Index","sublibrary barcode (round 4)")]
-    graph=S.protocol_graph(protocol)
+    graph=S.graph_for(protocol)
     return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap" data-protocol-complete="true">',
       f'<h1>{protocol} &mdash; split-pool ligation barcoding in fixed cells</h1>',
       f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',

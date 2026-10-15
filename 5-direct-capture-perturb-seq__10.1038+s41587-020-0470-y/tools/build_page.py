@@ -9,9 +9,9 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import direct_capture as C
-import seqprimers as sp
-from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
+from chemdraw import Scene, annotation_rows, oligo, panel
 from page import head, info
+from protocol_views import assemble_page, WorkflowSection, PrimerBindingSection
 
 OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
 
@@ -19,7 +19,7 @@ OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
 def render() -> str:
     cdna = C.amplified_guide_cdna()
     graph = C.protocol_graph()
-    return "\n".join([
+    return assemble_page(graph, [
         head("5′ direct-capture Perturb-seq"), '<div class="wrap" data-protocol-complete="true">',
         "<h1>5′ direct-capture Perturb-seq</h1>",
         '<p class="research-notes"><a href="01_5p-direct-capture-perturb-seq.html">Research notes</a></p>',
@@ -27,15 +27,14 @@ def render() -> str:
         "<h2>Key oligos</h2>",
         f'<seq>{oligo("oJR160", C.ojr160_segments())}</seq>',
         f'<seq>{oligo("oJR163 (forward)", C.ojr163_segments())}\n\n{oligo("oJR165 (indexed reverse)", C.ojr165_segments())}</seq>',
-        "<h2>Reaction workflow</h2>", protocol_graph_panels(graph, cls="long"),
+        WorkflowSection("Reaction workflow"),
         "<h2>Final guide library</h2>",
         panel(C.final_scene().rows(), cls="small",
               caption=f"Final guide library: {len(C.final_library())} bp for the printed AGGAGTCC example index (reported as approximately 250 bp)."),
-        sp.section(C.final_library(), C.sequencing_primers(), heading="Sequencing",
-                   intro="Read 1 records cell barcode and UMI. Read 2 crosses the constant region before reaching the protospacer; the protocol recommends 98 Read 2 cycles.",
-                   required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
-                   read_lengths={"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98},
-                   show_read_content=True),
+        PrimerBindingSection("library", "Sequencing", "Sequencing",
+                             intro_html=("Read 1 records cell barcode and UMI. Read 2 "
+                                         "crosses the constant region before reaching the "
+                                         "protospacer; the protocol recommends 98 Read 2 cycles.")),
         "</div>",
     ])
 

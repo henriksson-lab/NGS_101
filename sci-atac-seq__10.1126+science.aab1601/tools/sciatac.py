@@ -146,13 +146,34 @@ def indexed_transposome(which: str) -> Scene:
     return sc
 
 
-def two_tagmented() -> Scene:
+def tagmented_pair(left: str, right: str) -> Scene:
+    """Draw one Tn5 end combination from the same two loaded-end constructors."""
+    if left not in {"T5", "T7"} or right not in {"T5", "T7"}:
+        raise ValueError("tagmented ends must be T5 or T7")
     g = nx.TAGMENTATION_GAP
-    top = [*t5(), seg("gap-facing A", "X" * g, placeholder=True), seg("core", "XXXXXXXX...XXXXXXXX", placeholder=True)]
-    bot = [*t7(), seg("gap-facing B", "x" * g, placeholder=True), *complement_segments([top[-1]])]
-    sc = Scene(); sc.strand("T5 end", top); sc.anneal("T7 end", bot, to="T5 end", pair=("core'", "core")); sc.anneal("T5 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T5 end", pair=("ME", "ME"), label=""); sc.anneal("T7 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T7 end", pair=("ME", "ME"), label="", above=True)
-    sc.mark("T5 end", "gap-facing A", "9-nt gap"); sc.mark("T7 end", "gap-facing B", "9-nt gap")
+    top = [*(t5() if left == "T5" else t7()),
+           seg("gap-facing A", "X" * g, placeholder=True),
+           seg("core", "XXXXXXXX...XXXXXXXX", placeholder=True)]
+    bot = [*(t5() if right == "T5" else t7()),
+           seg("gap-facing B", "x" * g, placeholder=True),
+           *complement_segments([top[-1]])]
+    left_name = f"{left} end" if left != right else f"left {left} end"
+    right_name = f"{right} end" if left != right else f"right {right} end"
+    sc = Scene(); sc.strand(left_name, top)
+    sc.anneal(right_name, bot, to=left_name, pair=("core'", "core"))
+    left_ments = f"{left} pMENTS" if left != right else f"left {left} pMENTS"
+    right_ments = f"{right} pMENTS" if left != right else f"right {right} pMENTS"
+    sc.anneal(left_ments, [seg("ME", nx.ME_RC, "me")],
+              to=left_name, pair=("ME", "ME"), label="")
+    sc.anneal(right_ments, [seg("ME", nx.ME_RC, "me")],
+              to=right_name, pair=("ME", "ME"), label="", above=True)
+    sc.mark(left_name, "gap-facing A", "9-nt gap")
+    sc.mark(right_name, "gap-facing B", "9-nt gap")
     return sc
+
+
+def two_tagmented() -> Scene:
+    return tagmented_pair("T5", "T7")
 
 def pool_indexed_nuclei(graph: ProtocolGraph, material, *, prefix: str, state, label: str):
     peers = graph.input(prefix + "_peers", label, MaterialKind.MOLECULAR, state=state)

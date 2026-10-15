@@ -16,6 +16,8 @@ from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_seg
                       panel, strand_row)
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head
+from protocol_views import assemble_page, WorkflowSection
+from protocol_graph import AnnotationSlot
 
 OUT = HERE.parent / "atrandi_wgs.html"
 
@@ -354,8 +356,10 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    A.protocol_graph()
-    parts = [head("Atrandi PTA Library Chemistry"), preamble(), oligos(),
+    graph = A.protocol_graph()
+    parts = [head("Atrandi PTA Library Chemistry"), preamble(), AnnotationSlot.INTRO,
+             oligos(),
+             WorkflowSection("Reaction graph"),
              "<h2>Step-by-step library generation</h2>",
              "<h3>(1) Encapsulate single cells in SPCs and lyse</h3>",
              "<p><info>Cells are diluted to a Poisson loading of &lambda;&nbsp;&le;&nbsp;0.1 and "
@@ -365,7 +369,7 @@ def main() -> None:
              "performed through the capsule shell, which retains the genomic DNA throughout.</info></p>",
              step_pta(), step_endprep(), step_barcode_a(), step_barcode_bcd(),
              step_release_frag(), step_adapter(), step_pcr(), step_final(), sequencing()]
-    OUT.write_text("\n".join(parts), encoding="utf-8")
+    OUT.write_text(assemble_page(graph, parts), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

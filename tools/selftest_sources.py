@@ -29,9 +29,14 @@ import get_sources as gs  # noqa: E402
 from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
 from source_oligo_check import (_exact_hit, check_graph, unrepresented_input_ids,
                                 unrepresented_inputs)  # noqa: E402
+from selftest_source_oligos import graph_module_paths  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
 
 check = Check()
+check("a graph owned by a page builder enters the source transcription guard",
+      [path.name for path in graph_module_paths(
+          ROOT / "quartz-seq__10.1186+gb-2013-14-4-r31")],
+      ["build_page.py"])
 
 # ------------------------------------------------------------------------------
 check.section("DOI routing")

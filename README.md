@@ -88,6 +88,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding
 │   └── checks.py            self-test harness + checks true for every protocol
+├── protocol_families/       bounded family-specific operations (currently Chromium)
 ├── ref/                     shared reference material
 │   ├── concepts/            chemistry that recurs across protocols, written once
 │   │   ├── tn5-tagmentation.md
@@ -336,9 +337,13 @@ producers; publication validation requires directed primary-template provenance,
 reaction geometry, source-attributed inputs and steps, a closed source-coverage inventory,
 explicit terminal disposition for every branch, and at least one validated sequencing
 library. `protocol_graph_panels()` derives one visible provenance path per sequencing
-output and names side outputs at the step where they branch. A `Workflow` maintains a
+output and renders every other terminal from the graph: a molecular panel if its state
+is known, or an explicit absence statement if it is not. A `Workflow` maintains a
 non-publishable graph during legacy migration, but generic construct-changing steps do not
 satisfy the finished-page contract.
+For source-supported, structurally modelled side-product classes, give each a distinct
+material state; the renderer draws it automatically, as for the sci-ATAC-seq 2018
+T5/T5 and T7/T7 branches.
 
 For a necessary transition whose chemistry cannot yet be modelled, declare
 `graph.react(..., StepKind.MAGIC, ..., reason="why the gap is needed")`. The step still

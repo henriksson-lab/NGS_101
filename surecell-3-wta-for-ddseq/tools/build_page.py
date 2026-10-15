@@ -68,29 +68,36 @@ def final_panel() -> str:
                  caption="INFERRED — qualitative final library after TPP1 + N7xx PCR. Bracketed regions encode reagent roles only, not bases or lengths.")
 
 
-def steps() -> str:
-    return '<h2>Library generation</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+def steps(graph) -> str:
+    return '<h2>Library generation</h2>\n'+protocol_graph_panels(graph,cls="long")
 
 
-def sequencing() -> str:
-    final = S.selected_fragment()
+def sequencing(graph) -> str:
+    final = graph.materials["library"].state
+    plan = graph.sequencing["library"]
     boundaries = S.read_boundaries()
     rows = [(read, boundary) for read, boundary in boundaries]
+    contents = {
+        "Read 1": "cell barcode, UMI, then transcript-facing sequence",
+        "Index 1 (i7)": "N7xx sample index",
+        "Read 2": "transcript sequence from the tagmented end",
+    }
+    if set(contents) != set(plan.acquired_roles):
+        raise ValueError("vendor read roles disagree with the graph sequencing plan")
+    specs = [sp.read_spec(role, None, contents[role], plan.read_uses[role])
+             for role in plan.acquired_roles]
     return f'''<h2>Supported read boundaries</h2>
 {sp.unavailable_diagram(final, "the vendor does not publish Sequencing Primer SP or the other library-primer sequences")}
 {table(("Read", "Starts on"), rows)}
 {info('The guide requires the supplied custom Sequencing Primer SP for Read 1 and names the N7xx sample index. It does not publish read lengths or oligo sequences, so no base-resolved layout is asserted here.')}
-{sp.read_spec_table([
-    sp.read_spec("Read 1", None, "cell barcode, UMI, then transcript-facing sequence", "extract_then_include"),
-    sp.read_spec("Index 1 (i7)", None, "N7xx sample index", "demultiplex"),
-    sp.read_spec("Read 2", None, "transcript sequence from the tagmented end", "include"),
-], "Read boundaries are vendor-declared; primer sequences and cycle counts are proprietary.")}
+{sp.read_spec_table(specs, "Read boundaries are vendor-declared; primer sequences and cycle counts are proprietary.")}
 </div>'''
 
 
 def main() -> None:
+    graph = S.protocol_graph()
     OUT.write_text("\n".join([head("SureCell WTA 3' library chemistry"), preamble(),
-                              steps(), sequencing()]), encoding="utf-8")
+                              steps(graph), sequencing(graph)]), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

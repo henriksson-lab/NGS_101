@@ -113,6 +113,8 @@ finds oligos, not reaction order: the methods still have to be **read**.
   Read 1/2 + index primers on a library by computation), `mdfacts.py` + `mdrender.py`
   (Markdown with computed facts), `page.py` (shared HTML/CSS), `checks.py` (harness +
   `run_common`, retained for legacy suites; new protocol suites do not repeat it).
+- **`protocol_families/`** — bounded operations shared by a named family, such as
+  Chromium GEM partitioning and PCR. Protocol modules still assemble their own graphs.
 - **`<protocol>__<doi with / → +>/`** — one directory per protocol, named for its defining
   paper. `catalogue/ours.tsv` is the single record mapping protocol → directory, and the
   catalogue self-test rebuilds directory names from it (so renames must go through it).

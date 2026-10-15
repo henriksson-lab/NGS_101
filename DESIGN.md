@@ -291,7 +291,12 @@ connected graph from being mistaken for a complete transcription by itself.
 eligibility. Linear `Workflow` objects acquire a graph in lock-step as a migration aid, but
 generic construct-changing transitions are not publishable. Rendering is derived from the
 native graph once a protocol has migrated; parallel sequencing outputs receive separate
-provenance paths and side outputs remain visible at their producing step.
+provenance paths. The graph renderer lists every non-sequencing terminal and draws its
+molecular state when present. When no state is available, the page says so explicitly.
+The page author need not redeclare those branches as annotations. When the model validates
+distinct molecular off-product classes and can construct their states, represent each as
+a separate graph material. The sci-ATAC-seq 2018 T5/T5 and T7/T7 products use the same
+loaded-end constructors as its retained T5/T7 product.
 
 **Why.** The earlier model strongly checked bases and individual reaction geometry, but a
 page could still omit a branch, disconnect an intermediate from its inputs, or declare
