@@ -41,7 +41,7 @@ Supplementary Table 2 is internally consistent about this: in the copy fetched i
 bundle (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
 `rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
 
-🟡 **The model assumes the `ACAT` form** — `lib/smartseq2.TSO_LINKER` — because that is the
+🟡 **The model assumes the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER` — because that is the
 protocol as practised and the constant four SMART-seq2 derivatives share. Nothing in
 scM&T-seq chooses between the two, so the schematic now draws the **whole linker** dotted,
 with all three required signals: a preamble caveat naming both forms, an `INFERRED — …`

@@ -331,6 +331,18 @@ output and names side outputs at the step where they branch. A `Workflow` mainta
 non-publishable graph during legacy migration, but generic construct-changing steps do not
 satisfy the finished-page contract.
 
+For a necessary transition whose chemistry cannot yet be modelled, declare
+`graph.react(..., StepKind.MAGIC, ..., reason="why the gap is needed")`. The step still
+needs a template input, explicit products, source attribution, and reviewed source
+coverage. The independent chemistry check leaves its product relation unresolved and
+reports the reason as a warning; `protocol_graph_panels()` shows every warning on the
+page. Use this for an acknowledged gap, not as evidence that the reaction works.
+
+Use `relations=(MolecularRelation.CIRCLE_CLOSURE,)` or another declared molecular
+relation only when the step has the corresponding molecular input and output states.
+These relations are checked independently of the displayed `StepKind`; a missing state
+or contradictory claim appears in the audit and page warnings.
+
 When sticky-end adapter ligation follows dA-tailing, use
 `endprep.react_dA_tail_then_ligate()` so the ligation-ready dA-tailed molecule is a visible
 state rather than being swallowed by a combined step. Use `ligation_product_scene()` for

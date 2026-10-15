@@ -9,13 +9,13 @@ HERE = Path(__file__).resolve().parent
 SHARED = HERE.parents[1] / "cel-seq__10.1016+j.celrep.2012.08.003" / "tools"
 sys.path.insert(0, str(SHARED))
 
-from page_parts import render_page
+import chem
 
 OUT = HERE.parent / "cel-seq2.html"
 
 
 def main() -> None:
-    OUT.write_text(render_page("CEL-Seq2"), encoding="utf-8")
+    OUT.write_text(chem.render_page(), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

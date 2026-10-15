@@ -1,5 +1,4 @@
 """scMT-seq joint Smart-seq2 transcriptome and scRRBS methylome workflow."""
-from dataclasses import replace
 
 from chemdraw import Construct, Row
 from batch_ngs import nextera_library, seg
@@ -10,6 +9,9 @@ from protocol_extensions import analyte_split
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 import rrbs
 import rt
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "smart-seq2__10.1038+nmeth.2639" / "tools"))
 import smartseq2 as s2
 
 
@@ -31,22 +33,10 @@ CAVEAT = ("The defining paper explicitly inherits Smart-seq2/Nextera and scRRBS.
           "inference.")
 
 
-def _tso_linker_inferred(con: Construct) -> Construct:
-    """Redraw the inherited Smart-seq2 TSO linker as an inference, not a published base.
-
-    scMT-seq prints no TSO, so the choice between the two published Smart-seq2 linkers
-    (``AC`` and ``ACAT``) is ours.  Marking the segment here, rather than in every
-    caller, keeps the uncertainty a property of the state the page renders.
-    """
-    con.get("TSO linker")   # a lib rename must fail loudly, not silently un-mark it
-    return Construct([replace(s, inferred=True) if s.name == "TSO linker" else s
-                      for s in con], name=con.name)
-
-
 RNA, RP = nextera_library([seg("Smart-seq2 cDNA insert", "X" * 36,
                                placeholder=True)], "scMT-seq RNA library")
 DNA, DP = rrbs.final_library(), tuple(rrbs.SEQ_PRIMERS)
-RNA_PREAMP = _tso_linker_inferred(s2.preamp_template())
+RNA_PREAMP = s2.preamp_template()
 FINAL_LIBRARIES = (
     ("Transcriptome library", RNA, RP,
      "Smart-seq2 cDNA after Nextera tagmentation and indexing.",
@@ -190,8 +180,9 @@ def protocol_graph():
     finish_pcr_branch(
         g, "dna", converted, DNA, DP, reviewed, label="scMT-seq methylome",
         geometry=PCRGeometry.unavailable(
-            DNA, reason=("The inherited scRRBS paper identifies its PCR primers and "
-                         "fixes the final canonical arms, but the bisulfite-converted "
-                         "pre-PCR intermediate is not represented base-for-base.")))
+            DNA, reason=("The inherited scRRBS paper does not sequence the library-PCR "
+                         "primers. Its canonical final Illumina arms are vendor-derived, "
+                         "and the bisulfite-converted pre-PCR intermediate is not "
+                         "represented base-for-base.")))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

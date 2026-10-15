@@ -14,6 +14,11 @@ branches. scMT-seq remains distinct from scM&T-seq, a separate named protocol.
 
 The defining paper does not introduce a new oligo set for either branch. The earlier page's generic post-bisulfite random-primer branch was therefore incorrect for scMT-seq and has been replaced by the inherited scRRBS chemistry.
 
+🔴 The inherited scRRBS paper names standard premethylated indexed Illumina adapters but
+does not print its library-PCR primer oligos. The final arms are assembled from the
+Illumina adapter guide; they do not establish exact primer landing on an unmodelled
+bisulfite-converted pre-PCR intermediate. The scMT-seq DNA PCR geometry stays unavailable.
+
 ## The TSO linker is inherited, not published here — 🟡
 
 🟢 Hu et al. 2016 print **no oligo sequence** for the RNA branch. The whole of
@@ -39,7 +44,7 @@ In the copy of Supplementary Table 2 fetched into this bundle
 (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
 `rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
 
-🟡 **The model assumes the `ACAT` form** — `lib/smartseq2.TSO_LINKER`, the constant four
+🟡 **The model assumes the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER`, the constant four
 SMART-seq2 derivatives share — because that is the protocol as practised. Citing both
 papers does not choose between them, so the schematic now draws the **whole linker**
 dotted, with all three required signals: a preamble caveat naming both forms, an

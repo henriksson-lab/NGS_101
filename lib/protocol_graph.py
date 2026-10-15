@@ -51,6 +51,7 @@ class InputRole(str, Enum):
 
 class StepKind(str, Enum):
     GENERIC = "generic transformation"
+    MAGIC = "magic happens"
     INTEGRATION = "genomic integration"
     GENOME_EDITING = "genome editing"
     CROSS_LINKING = "cross-linking"
@@ -92,6 +93,16 @@ class StepKind(str, Enum):
     PARTITION = "partition"
 
 
+class MolecularRelation(str, Enum):
+    """A narrow molecular claim to check, independent of the displayed operation."""
+    CIRCLE_CLOSURE = "circle closure preserves strand order"
+    RESTRICTION_FILL = "restriction end fill follows cut coordinates"
+    ROLLING_CIRCLE_COPY = "rolling-circle repeats copy the circle"
+    CONTACT_JUNCTION = "contact product contains the derived junction"
+    HAIRPIN_STEM = "intramolecular stem can pair"
+    STRAND_ORDER = "covalent strand order is preserved"
+
+
 class Disposition(str, Enum):
     SEQUENCING = "sequencing"
     DISCARD = "discard"
@@ -121,6 +132,7 @@ class Material:
     primary: bool = False
     source: str = ""
     inferred: bool = False
+    chemical_state: Any = None
 
     def __post_init__(self) -> None:
         _identifier(self.id, "material id")
@@ -152,11 +164,21 @@ class Step:
     geometry: Any = None
     source: str = ""
     changes_molecule: bool = True
+    reason: str = ""
+    relations: tuple[MolecularRelation, ...] = ()
 
     def __post_init__(self) -> None:
         _identifier(self.id, "step id")
         if not self.label.strip():
             raise ValueError("step needs a label")
+        if self.kind is StepKind.MAGIC and not self.reason.strip():
+            raise ValueError(f"magic step {self.id!r} needs a reason")
+        if self.kind is StepKind.MAGIC and self.relations:
+            raise ValueError(f"magic step {self.id!r} cannot claim checked relations")
+        if len(set(self.relations)) != len(self.relations):
+            raise ValueError(f"step {self.id!r} repeats a molecular relation")
+        if any(not isinstance(relation, MolecularRelation) for relation in self.relations):
+            raise ValueError(f"step {self.id!r} has an unknown molecular relation")
         if not self.inputs:
             raise ValueError(f"step {self.id!r} needs an input")
         if not self.outputs:
@@ -259,26 +281,31 @@ class ProtocolGraph:
         return material
 
     def input(self, identifier: str, label: str, kind: MaterialKind, *,
-              state: Any = None, primary: bool = False, source: str | None = None,
+              state: Any = None, chemical_state: Any = None,
+              primary: bool = False, source: str | None = None,
               inferred: bool = False) -> Material:
         """Construct and declare an external material using the graph authority by default."""
-        material = Material(identifier, label, kind, state=state, primary=primary,
+        material = Material(identifier, label, kind, state=state,
+                            chemical_state=chemical_state, primary=primary,
                             source=self.authority if source is None else source,
                             inferred=inferred)
         return self.add_input(material)
 
     def product(self, identifier: str, label: str, kind: MaterialKind, *,
-                state: Any = None, source: str | None = None,
+                state: Any = None, chemical_state: Any = None,
+                source: str | None = None,
                 inferred: bool = False) -> Material:
         """Construct a prospective step output; :meth:`react` installs its producer."""
         return Material(identifier, label, kind, state=state,
+                        chemical_state=chemical_state,
                         source=self.authority if source is None else source,
                         inferred=inferred)
 
     def react(self, identifier: str, label: str, kind: StepKind,
               inputs: Iterable[Input | tuple[Material | str, InputRole]],
               outputs: Iterable[Material], *, geometry: Any = None,
-              source: str | None = None, changes_molecule: bool = True) -> Step:
+              source: str | None = None, changes_molecule: bool = True,
+              reason: str = "", relations: Iterable[MolecularRelation] = ()) -> Step:
         """Construct a typed step while preserving explicit role-labelled ports."""
         ports = tuple(
             value if isinstance(value, Input)
@@ -288,7 +315,8 @@ class ProtocolGraph:
         step = Step(identifier, label, kind, ports, tuple(x.id for x in made),
                     geometry=geometry,
                     source=self.authority if source is None else source,
-                    changes_molecule=changes_molecule)
+                    changes_molecule=changes_molecule, reason=reason,
+                    relations=tuple(relations))
         return self.add_step(step, made)
 
     def sequence(self, material: Material | str, plan: SequencingPlan) -> Terminal:
@@ -421,7 +449,9 @@ class ProtocolGraph:
         if step.kind in {StepKind.PCR, StepKind.LIGATION,
                          StepKind.CIRCULARIZATION} and step.geometry is None:
             raise ValueError(f"{step.kind.value} step {step.id!r} needs structured geometry")
-        if step.kind is StepKind.PCR:
+        if step.kind is StepKind.MAGIC:
+            need(InputRole.TEMPLATE, "needs a substrate")
+        elif step.kind is StepKind.PCR:
             need(InputRole.TEMPLATE, "needs a template")
             primer_inputs = roles.count(InputRole.STRUCTURAL)
             symmetric = getattr(step.geometry,"symmetric_species",False)

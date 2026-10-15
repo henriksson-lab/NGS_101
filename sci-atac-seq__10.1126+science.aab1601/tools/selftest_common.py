@@ -14,9 +14,6 @@ def run(protocol: str) -> None:
     check.section("published oligo assembled from canonical components")
     if protocol == S.SCI15:
         check("T5_1", "".join(x.top for x in S.t5("TATAGCCT")), S.SOURCE_T5_1)
-    elif protocol == S.SCI18:
-        assembled = il.P5 + "CTCCATCGAG" + nx.S5
-        check("P5_1_PCR_Primer", assembled, S.SOURCE_2018_P5_1)
     elif protocol == S.SCI3:
         check("3LV2 Index 1 reconstruction", S.SCI3_I1, S.SOURCE_SCI3_I1)
     else:

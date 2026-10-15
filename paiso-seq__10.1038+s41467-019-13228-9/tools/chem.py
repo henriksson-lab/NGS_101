@@ -8,6 +8,9 @@ from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_extensions import capped_full_length_cdna
 import rt
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "smart-seq2__10.1038+nmeth.2639" / "tools"))
 import smartseq2 as s2
 TITLE="PAIso-seq — poly(A)-inclusive full-length isoform sequencing"
 NOTES="01_paiso-seq.html"
@@ -16,7 +19,7 @@ SUMMARY="A dU-interrupted oligo templates end extension across the complete RNA 
 # PAIso-seq reuses the SMART-seq2 handle system, so the shared model supplies the bases
 # instead of a second transcription of them.  Supplementary Table 1 of the defining paper
 # ("Oligos for PAIso-seq library construction") prints TSO, RT primer and PCR primer in
-# full, and its TSO carries the four-base ACAT linker of lib/smartseq2.TSO_LINKER — the
+# full, and its TSO carries the four-base ACAT linker of smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER — the
 # Nature Protocols form of SMART-seq2 — so no base here is inherited by assumption.  The
 # self-test pins the three ordering strings against that table.
 PCR_HANDLE = rt.SMART_HANDLE

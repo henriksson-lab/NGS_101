@@ -73,7 +73,7 @@ Supplementary Table 2 is internally consistent about this: three of its thirteen
 belongs to the *Nature Protocols* version of the protocol published a year later.
 
 The model keeps the longer, `ACAT` form, because that is what the protocol as practised
-uses and what `lib/smartseq2.TSO_LINKER` supplies to the SMART-seq2 derivatives
+uses and what `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER` supplies to the SMART-seq2 derivatives
 (scM&T-seq, scMT-seq, scNMT-seq, scCAT-seq). The page therefore draws **`AC` as
 established and the trailing `AT` as inferred**, with all three required signals: a
 preamble caveat naming both forms, an `INFERRED — …` caption on the template-switch step,

@@ -17,7 +17,7 @@ print `5′-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3′` — 23-nt SMART handle, `ACA
 That distinction matters because SMART-seq2 published two linkers: Picelli et al. 2013
 Supplementary Table 2 gives the chosen `rGrG+G` oligo as handle + `AC` + `rGrG+G`, while
 the *Nature Protocols* form carries `ACAT`. scCAT-seq states which one it used, so
-`lib/smartseq2.TSO_LINKER` is reproducing a published base here, not an assumption;
+`smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER` is reproducing a published base here, not an assumption;
 `tools/selftest.py` pins the shared constant to the sentence above.
 
 🟢 The same Methods give both ATAC preamplification primers:

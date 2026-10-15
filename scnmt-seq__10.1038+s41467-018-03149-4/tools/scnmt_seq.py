@@ -1,9 +1,9 @@
 """Clark et al. 2018 scNMT-seq chemistry and its two library branches."""
-from dataclasses import replace
 from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/"lib"), str(ROOT/"scbs-seq__10.1038+nmeth.3035"/"tools")]
+sys.path.insert(0,str(ROOT/"smart-seq2__10.1038+nmeth.2639"/"tools"))
 
 from base_conversion import bisulfite_path
 from batch_ngs import nextera_library, seg
@@ -31,19 +31,6 @@ CAVEAT = ("The scBS-seq branch is source-exact. The defining paper explicitly us
           "drawn dotted.")
 
 
-def _tso_linker_inferred(con: Construct) -> Construct:
-    """Redraw the inherited Smart-seq2 TSO linker as an inference, not a published base.
-
-    scNMT-seq cites Picelli 2013 and 2014 together without printing a TSO, and those two
-    sources disagree about the linker, so the choice between ``AC`` and ``ACAT`` is ours.
-    Marking the segment here, rather than in every caller, keeps the uncertainty a
-    property of the state the page renders.
-    """
-    con.get("TSO linker")   # a lib rename must fail loudly, not silently un-mark it
-    return Construct([replace(s, inferred=True) if s.name == "TSO linker" else s
-                      for s in con], name=con.name)
-
-
 def oligos():
     return [
         f"Smart-seq2 oligo-dT30VN: 5′-{s2.OLIGO_DT}-3′",
@@ -64,7 +51,7 @@ def dna_library():
 
 
 RNA_LIBRARY, RNA_PRIMERS = rna_library()
-RNA_PREAMP = _tso_linker_inferred(s2.preamp_template())
+RNA_PREAMP = s2.preamp_template()
 DNA_LIBRARY, DNA_PRIMERS = dna_library()
 FINAL_LIBRARIES = (
     ("RNA branch", RNA_LIBRARY, RNA_PRIMERS,
@@ -132,11 +119,15 @@ def protocol_graph():
     bisulfite=g.input("bisulfite","bisulfite-conversion condition",MaterialKind.CONDITION)
     converted=g.product("converted","bisulfite-converted GpC-marked genomic DNA",MaterialKind.MOLECULAR,state=DNA_LIBRARY)
     g.react("bisulfite_convert","Bisulfite-convert the marked genomic-DNA fraction",StepKind.CHEMICAL_CONVERSION,((dna,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))
-    oligo1=g.input("oligo1","source-exact scBS-seq oligo1 random primer",MaterialKind.OLIGO)
+    oligo1=g.input("oligo1","source-exact scBS-seq oligo1 random primer",MaterialKind.OLIGO,
+                   state=tuple(scbs.oligo1_segments()),
+                   source="Clark et al. 2018 Methods inherit Smallwood et al. scBS-seq oligo1")
     strand_pol=g.input("strand_polymerase","scBS-seq strand-synthesis polymerase",MaterialKind.CATALYST)
     first=g.product("first_strand","oligo1-primed converted-DNA copies",MaterialKind.MOLECULAR,state=DNA_LIBRARY)
     g.react("prime_oligo1","Random-prime converted DNA with oligo1",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(oligo1,InputRole.STRUCTURAL),(strand_pol,InputRole.CATALYST)),(first,))
-    oligo2=g.input("oligo2","source-exact scBS-seq oligo2 random primer",MaterialKind.OLIGO)
+    oligo2=g.input("oligo2","source-exact scBS-seq oligo2 random primer",MaterialKind.OLIGO,
+                   state=tuple(scbs.oligo2_segments()),
+                   source="Clark et al. 2018 Methods inherit Smallwood et al. scBS-seq oligo2")
     second=g.product("second_strand","oligo1/oligo2-completed scBS templates",MaterialKind.MOLECULAR,state=DNA_LIBRARY)
     g.react("prime_oligo2","Random-prime the complementary strand with oligo2",StepKind.EXTENSION,((first,InputRole.TEMPLATE),(oligo2,InputRole.STRUCTURAL),(strand_pol,InputRole.CATALYST)),(second,))
 

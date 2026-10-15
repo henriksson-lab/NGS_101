@@ -22,11 +22,14 @@ sys.path.insert(0, str(ROOT))
 
 from checks import Check, run_common  # noqa: E402
 from adapter_ligation import cohesive_duplex  # noqa: E402
-from chemdraw import Row, Segment, oligo, panel  # noqa: E402
+from chemdraw import Row, Segment, oligo, panel, protocol_graph_panels  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
+                            MolecularRelation,
                             ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
                             Step, StepKind, Terminal)  # noqa: E402
+from chemistry_validation import (Status, check_graph as check_chemistry,
+                                  warnings as chemistry_warnings)  # noqa: E402
 
 def _raise_fact():
     """Expanding a fact that names a missing attribute must raise (regression guard)."""
@@ -102,6 +105,165 @@ def _uncovered_source():
 
 check("unaccounted authoritative operations prevent publication",
       _uncovered_source(), ["authoritative source item 'cleanup' is not accounted for"])
+
+check.raises("magic steps require an explanation", lambda: Step(
+    "unknown", "Unknown chemistry", StepKind.MAGIC,
+    (Input("sample", InputRole.TEMPLATE),), ("product",)))
+check.raises("magic steps cannot assert a checked molecular relation", lambda: Step(
+    "unknown", "Unknown chemistry", StepKind.MAGIC,
+    (Input("sample", InputRole.TEMPLATE),), ("product",), reason="Gap in methods",
+    relations=(MolecularRelation.STRAND_ORDER,)))
+
+magic = ProtocolGraph("explained gaps", authority="example source")
+raw = magic.input("raw", "raw material", MaterialKind.BIOLOGICAL, primary=True)
+intermediate = magic.product("intermediate", "intermediate", MaterialKind.MOLECULAR)
+library = magic.product("library", "library", MaterialKind.LIBRARY)
+magic.react("gap_one", "First gap", StepKind.MAGIC,
+            ((raw, InputRole.TEMPLATE),), (intermediate,),
+            reason="Paper omits the conversion <mechanism>.")
+magic.react("gap_two", "Second gap", StepKind.MAGIC,
+            ((intermediate, InputRole.TEMPLATE),), (library,),
+            reason="Product structure is not specified.")
+magic.sequence(library, SequencingPlan(limitation="Primer sites are unavailable"))
+magic.declare_reviewed_scope(("raw", "gap_one", "gap_two", "library"),
+                             "example source")
+check("explained gaps remain publishable with reviewed provenance",
+      magic.publication_problems(), [])
+check("validation reports every magic warning",
+      [(w.target, w.message) for w in chemistry_warnings(magic)],
+      [("gap_one", "Paper omits the conversion <mechanism>."),
+       ("gap_two", "Product structure is not specified.")])
+check("magic transitions remain unresolved",
+      [c.status for c in check_chemistry(magic) if c.target.startswith("gap_")],
+      [Status.UNRESOLVED, Status.UNRESOLVED])
+magic_html = protocol_graph_panels(magic)
+check("page shows and escapes every warning",
+      (magic_html.count("<li>") == 2
+       and "Paper omits the conversion &lt;mechanism&gt;." in magic_html
+       and "Product structure is not specified." in magic_html), True)
+
+check.section("independent molecular claims")
+from chemdraw import Construct, Scene  # noqa: E402
+from circular import CircularizationGeometry, circularize_ssdna, rolling_circle  # noqa: E402
+from dataclasses import replace  # noqa: E402
+
+linear = Construct([Segment("body", "ACGTTGCA")], "test strand")
+circle = circularize_ssdna(linear, five_prime_phosphate=True)
+chem = ProtocolGraph("synthetic chemistry")
+substrate = chem.input("substrate", "linear strand", MaterialKind.MOLECULAR,
+                       state=linear, primary=True)
+ligase = chem.input("ligase", "ligase", MaterialKind.CATALYST)
+closed = chem.product("closed", "circle", MaterialKind.MOLECULAR,
+                      chemical_state=circle)
+chem.react("close", "close", StepKind.CIRCULARIZATION,
+           ((substrate, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)),
+           (closed,), relations=(MolecularRelation.CIRCLE_CLOSURE,),
+           geometry=CircularizationGeometry.known(
+               "single-strand intramolecular ligation", statement="synthetic test"))
+check("circle order is checked against the input strand",
+      check_chemistry(chem)[0].status, Status.ESTABLISHED)
+
+wrong_circle = circularize_ssdna(Construct([Segment("body", "ACGTTGCC")],
+                                           "wrong strand"), five_prime_phosphate=True)
+chem.materials["closed"] = replace(closed, chemical_state=wrong_circle)
+check("a circular product with a changed base is contradictory",
+      check_chemistry(chem)[0].status, Status.CONTRADICTORY)
+chem.materials["closed"] = closed
+
+polymerase = chem.input("polymerase", "polymerase", MaterialKind.CATALYST)
+rca = rolling_circle(circle, "TGC", copies=2)
+product = chem.product("product", "concatemer", MaterialKind.MOLECULAR,
+                       chemical_state=rca)
+chem.react("copy", "rolling copy", StepKind.EXTENSION,
+           ((closed, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (product,),
+           relations=(MolecularRelation.ROLLING_CIRCLE_COPY,))
+check("RCA repeat derives from input circle",
+      [c.status for c in check_chemistry(chem) if c.target == "copy"],
+      [Status.ESTABLISHED])
+chem.materials["product"] = replace(product, chemical_state=replace(rca, unit="A" * len(rca.unit)))
+check("wrong RCA repeat is contradictory",
+      [c.status for c in check_chemistry(chem) if c.target == "copy"],
+      [Status.CONTRADICTORY])
+
+scene = Scene(); scene.strand("a", [Segment("a", "AAAA")])
+scene.anneal("b", [Segment("b", "TTTT")], to="a", pair=("b", "a"))
+pair_graph = ProtocolGraph("pairing")
+pair_graph.input("pair", "duplex", MaterialKind.MOLECULAR, state=scene)
+check("exact scene pairing is established",
+      check_chemistry(pair_graph)[0].status, Status.ESTABLISHED)
+scene.strands["b"].segs[0].top = "CCCC"
+check("checker detects a changed strand after scene construction",
+      check_chemistry(pair_graph)[0].status, Status.CONTRADICTORY)
+
+from restriction import Digest, MBOI  # noqa: E402
+from topology import HairpinTopology  # noqa: E402
+
+digest = Digest(MBOI, "AAAA", "CCCC")
+fill = digest.fill_in(biotin_base="A")
+cut_graph = ProtocolGraph("restriction fill")
+cut = cut_graph.input("cut", "MboI ends", MaterialKind.MOLECULAR,
+                      chemical_state=digest)
+enzyme = cut_graph.input("enzyme", "polymerase", MaterialKind.CATALYST)
+filled = cut_graph.product("filled", "blunt ends", MaterialKind.MOLECULAR,
+                           chemical_state=fill)
+cut_graph.react("fill", "fill", StepKind.EXTENSION,
+                ((cut, InputRole.TEMPLATE), (enzyme, InputRole.CATALYST)), (filled,),
+                relations=(MolecularRelation.RESTRICTION_FILL,))
+check("restriction cut conserves both strand paths",
+      [c.status for c in check_chemistry(cut_graph) if c.target == "cut"],
+      [Status.ESTABLISHED])
+class BrokenDigest(Digest):
+    @property
+    def left_top(self):
+        return "T" + super().left_top
+
+cut_graph.materials["cut"] = replace(cut, chemical_state=BrokenDigest(MBOI, "AAAA", "CCCC"))
+check("an inconsistent restriction cut is contradictory",
+      [c.status for c in check_chemistry(cut_graph) if c.target == "cut"],
+      [Status.CONTRADICTORY])
+cut_graph.materials["cut"] = cut
+check("restriction fill derives both recessed tracts",
+      [c.status for c in check_chemistry(cut_graph) if c.target == "fill"],
+      [Status.ESTABLISHED])
+cut_graph.materials["filled"] = replace(
+    filled, chemical_state=replace(fill, left_new_top="AAAA"))
+check("wrong fill tract is contradictory",
+      [c.status for c in check_chemistry(cut_graph) if c.target == "fill"],
+      [Status.CONTRADICTORY])
+
+fold_graph = ProtocolGraph("symbolic fold")
+unfolded = fold_graph.input("unfolded", "unknown strand", MaterialKind.MOLECULAR,
+                            state=Construct([Segment("whole", "N" * 10,
+                                                     placeholder=True)]))
+temperature = fold_graph.input("temperature", "folding temperature",
+                               MaterialKind.CONDITION)
+topology = HairpinTopology("hairpin", "N" * 10, 0, 7, 3)
+folded = fold_graph.product("folded", "hairpin", MaterialKind.MOLECULAR,
+                            chemical_state=topology)
+fold_graph.react("fold", "fold", StepKind.FOLDING,
+                 ((unfolded, InputRole.TEMPLATE),
+                  (temperature, InputRole.CONDITION)), (folded,),
+                 relations=(MolecularRelation.HAIRPIN_STEM,))
+check("unknown stem bases make folding conditional",
+      check_chemistry(fold_graph)[0].status, Status.CONDITIONAL)
+
+order_graph = ProtocolGraph("relation independent of step label")
+order_input = order_graph.input("input", "DNA", MaterialKind.MOLECULAR, state=linear)
+heat = order_graph.input("heat", "heat", MaterialKind.CONDITION)
+order_output = order_graph.product("output", "heated DNA", MaterialKind.MOLECULAR,
+                                  state=linear)
+order_graph.react("heat_dna", "Heat DNA", StepKind.THERMAL_TREATMENT,
+                  ((order_input, InputRole.TEMPLATE), (heat, InputRole.CONDITION)),
+                  (order_output,), relations=(MolecularRelation.STRAND_ORDER,))
+check("same relation checks a different displayed step kind",
+      [c.status for c in check_chemistry(order_graph) if c.target == "heat_dna"],
+      [Status.ESTABLISHED])
+order_graph.materials["output"] = replace(order_output, state=None)
+check("declared relation without sufficient states stays unresolved and warns",
+      ([c.status for c in check_chemistry(order_graph) if c.target == "heat_dna"],
+       [(w.target, w.message.startswith("Unresolved"))
+        for w in chemistry_warnings(order_graph)]),
+      ([Status.UNRESOLVED], [("heat_dna", True)]))
 
 check.section("molecular diagram renderers")
 svg_panel = panel([Row(chunks=[("ACGT", "r1", False)])])
@@ -535,12 +697,26 @@ check("--find: a pasted query with ends, mods, marks and a placeholder",
 check("--find: rGrGrG / +rG marks and -s- in the text are looked through",
       [spx.find("ACACTCTTTCCCTACACGACGC+rGrGrG\n", "ACACTCTTTCCCTACACGACGCGGG"),
        spx.find(_d2, "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT")], [[1], [16]])
+check("--find: a following rG modification does not extend a completed primer hit",
+      spx.find("ACACTCTTTCCCTACACGACGCrGrGrG\n", "ACACTCTTTCCCTACACGACGC"), [1])
+check("--find: internal biotin-dT counts as its T base",
+      [(strand, exact) for _, strand, exact, _ in spx.find(
+          "A1\tGATCGAGCTCGAGAA/iBiodT/T\n", "GATCGAGCTCGAGAATT", detail=True)],
+      [("+", "exact")])
+check("--find: adjacent (N)10(T)30 shorthands stay one oligo",
+      spx.find("E3V6NEXT\tACACTCTTTCCCTACACGACGCTCTTCCGATCT[BC6](N)10(T)30VN\n",
+               "ACACTCTTTCCCTACACGACGCTCTTCCGATCT" + "N" * 16 + "T" * 30 + "VN"),
+      [1])
 check("--find: tags exact vs only through IUPAC letters; mostly-N text is not a hit",
       [t[2] for t in spx.find("AAGCAGTGGTATCAACGCAGAGTGANNNGG\nNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN\n",
                               "AAGCAGTGGTATCAACGCAGAGTGAATGG", detail=True)], ["iupac"])
 check("--find: a strand written 3'->5' is found as 'rev'",
       [t[1] for t in spx.find("3'-TCTCTTACTCCTTGGGCCCCGTC-5'\n", "CTGCCCCGGGTTCCTCATTCTCT",
                               detail=True)], ["rev"])
+from source_oligo_check import _exact_hit  # noqa: E402
+check("source guard accepts a printed 3'-to-5' strand as an ordered 5'-to-3' input",
+      _exact_hit("P2 lower,3'-TCT CTT ACT CCT TGG GCC CCG TC-5'\n",
+                 "CTGCCCCGGGTTCCTCATTCTCT"), True)
 
 check.section("documents to text (tools/doctext.py)")
 import tempfile  # noqa: E402

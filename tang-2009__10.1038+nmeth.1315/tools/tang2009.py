@@ -92,13 +92,13 @@ def protocol_graph() -> ProtocolGraph:
                 ((first,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(cleaned,primer_waste))
     graph.discard(primer_waste,"unused reverse-transcription primer is digested")
     tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
-    datp=graph.input("datp","dATP tailing substrate",MaterialKind.OLIGO)
+    datp=graph.input("datp","dATP tailing substrate",MaterialKind.CONDITION)
     tailed_state=Construct([*first_state.segments,Segment("TdT poly(A)","A"*12)],
                            name="poly(A)-tailed first-strand cDNA")
     tailed=graph.product("tailed_first_strand",tailed_state.name,MaterialKind.MOLECULAR,
                          state=tailed_state)
     graph.react("tail","Add the second poly(A) tail with TdT",StepKind.TAILING,
-                ((cleaned,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),
+                ((cleaned,InputRole.TEMPLATE),(datp,InputRole.CONDITION),
                  (tdt,InputRole.CATALYST)),(tailed,))
     up2=graph.input("up2","UP2 oligo-dT second-strand primer",MaterialKind.OLIGO,
                     state=(Segment("UP2",UP2),))
@@ -138,7 +138,9 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("end_repair","End-repair the sheared cDNA",StepKind.END_REPAIR,
                 ((fragments,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
     adapters=graph.input("solid_adapters","unbarcoded SOLiD P1/P2 adapter duplexes",
-                         MaterialKind.ADAPTER)
+                         MaterialKind.ADAPTER,
+                         state=(P1_TOP,P1_BOTTOM,P2_TOP,P2_BOTTOM),
+                         source=source+"; 2009 Supplementary Data adapter table")
     ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
     ligated=graph.product("ligated_library","P1/P2-ligated cDNA fragments",
                           MaterialKind.MOLECULAR,state=final_library())

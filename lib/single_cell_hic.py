@@ -13,7 +13,7 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (InputRole, MaterialKind, MolecularRelation, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
 from restriction import Digest, RestrictionEnzyme
@@ -162,7 +162,8 @@ def protocol_graph(module) -> ProtocolGraph:
     nuclease = graph.input("restriction_enzyme", design.enzyme.name + " restriction enzyme",
                            MaterialKind.CATALYST)
     digested = graph.product("digested", design.enzyme.name + "-digested chromatin",
-                             MaterialKind.MOLECULAR, state=current.state)
+                             MaterialKind.MOLECULAR, state=current.state,
+                             chemical_state=getattr(module, "DEMO", None))
     graph.react("digest", "Digest chromatin with " + design.enzyme.name,
                 StepKind.DIGESTION,
                 ((current, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
@@ -176,11 +177,14 @@ def protocol_graph(module) -> ProtocolGraph:
         fill_enzyme = graph.input("fill_enzyme", "restriction-end fill-in polymerase",
                                   MaterialKind.CATALYST)
         marked = graph.product("marked", "biotin-marked restriction ends",
-                               MaterialKind.MOLECULAR, state=current.state)
+                               MaterialKind.MOLECULAR, state=current.state,
+                               chemical_state=getattr(module, "FILLED", None))
         graph.react("mark_ends", "Fill and biotin-mark restriction ends",
                     StepKind.EXTENSION,
                     ((current, InputRole.TEMPLATE), (nucleotide, InputRole.STRUCTURAL),
-                     (fill_enzyme, InputRole.CATALYST)), (marked,))
+                     (fill_enzyme, InputRole.CATALYST)), (marked,),
+                    relations=(MolecularRelation.RESTRICTION_FILL,)
+                    if marked.chemical_state is not None else ())
         reviewed.extend(("biotin_nucleotide", "fill_enzyme", "mark_ends"))
         current = marked
     elif design.marking == "bridge-adaptor":
@@ -206,7 +210,8 @@ def protocol_graph(module) -> ProtocolGraph:
     graph.react("proximity_ligation", "Ligate spatially adjacent restriction fragments",
                 StepKind.PROXIMITY_LIGATION,
                 ((current, InputRole.TEMPLATE), (contact_ligase, InputRole.CATALYST)),
-                (contacts,))
+                (contacts,), relations=(MolecularRelation.CONTACT_JUNCTION,)
+                if getattr(module, "FILLED", None) is not None else ())
     reviewed.extend(("contact_ligase", "proximity_ligation"))
     current = contacts
 

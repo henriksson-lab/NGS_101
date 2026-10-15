@@ -66,6 +66,16 @@ def render() -> str:
         '27-nt handle, <code>N</code> the random foot, <code>X</code> the genomic insert, '
         'and no library-prep kit, adapter, sequencing primer or read length is established.'
         '</div>',
+        info('<b>Published-source difference.</b> The <a href="https://pmc.ncbi.nlm.nih.gov/'
+             'articles/PMC3600412/">Science author manuscript</a> describes a common '
+             '27-nt handle followed by <b>8 variable bases</b>, but does not print the '
+             'handle. The inventors\' <a href="https://patents.google.com/patent/'
+             'US20140200146A1/en">MALBAC patent</a> prints a candidate 27-nt handle '
+             'in Example II; its worked preamplification primers use <b>5 random bases '
+             'followed by GGG or TTT</b>. These may describe different embodiments, so '
+             'the patent sequence does not establish the Science experiment\'s primer. '
+             'This page follows the Science paper\'s 27 + 8 architecture and leaves '
+             'the handle bases unknown.'),
         '<h2>Primers</h2><seq>', oligos, '</seq>',
         '<h2>Step-by-step amplification</h2>',
         protocol_graph_panels(M.protocol_graph(),cls="long"),

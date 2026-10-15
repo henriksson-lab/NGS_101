@@ -23,6 +23,16 @@ def preamble() -> str:
 <h1>VASA-seq &mdash; total RNA by fragmenting and poly(A)-tailing</h1>
 {info('Defining source: <a href="https://doi.org/10.1038/s41587-022-01361-8">Salmen et al., Nature Biotechnology (2022)</a>.')}
 <div class="caveat"><b>Inferred regions.</b> The paper cites earlier capture-oligo and VASA-plate PCR designs without printing them, and its VASA-drop adapter annotation does not establish a complete internal sequence. Bracketed dotted regions preserve those boundaries without importing secondary reconstructions.</div>
+<div class="caveat"><b>Published VASA-drop oligos do not close the PCR path.</b>
+Supplementary Table 12 labels <code>/5rApp/TGGAATTCTCGGGTGCCAAGG/3SpC3/</code>
+and <code>GCCTTGGCACCCGAGAATTCCA</code> as the VASA-drop RA3/RTP pair. Its
+<code>VD_ILMN8_i5</code> primer has the 3&prime; landing sequence
+<code>TCGTCGGCAGCGTC</code>, which occurs on neither strand of that pair.
+Supplementary Table 14 separately cites another RA3/RTP design for VASA-plate.
+The source does not resolve whether Table 12 mislabels a plate pair or omits a
+drop-specific adapter/RT primer. The model retains both printed oligo claims but
+leaves the VASA-drop ligation-to-PCR junction unestablished; the final drop library
+is a source-limited schematic, not a validated amplicon.</div>
 '''
 
 

@@ -57,12 +57,16 @@ def candidates(graph: ProtocolGraph) -> tuple[Candidate, ...]:
                  for seq in _sequences(m.state))
 
 
+def unrepresented_input_ids(graph: ProtocolGraph) -> tuple[str, ...]:
+    """Oligo/adapter input IDs without an exact whole-strand state to compare."""
+    return tuple(m.id for m in graph.materials.values()
+                 if m.id not in graph._producer
+                 and m.kind in {MaterialKind.OLIGO, MaterialKind.ADAPTER}
+                 and not m.inferred and not _sequences(m.state))
+
+
 def unrepresented_inputs(graph: ProtocolGraph) -> int:
-    """Oligo/adapter inputs without an exact whole-strand state to compare."""
-    return sum(1 for m in graph.materials.values()
-               if m.id not in graph._producer
-               and m.kind in {MaterialKind.OLIGO, MaterialKind.ADAPTER}
-               and not m.inferred and not _sequences(m.state))
+    return len(unrepresented_input_ids(graph))
 
 
 def declared_locators(slug: str) -> tuple[str, ...]:
@@ -147,11 +151,17 @@ def excluded_text_count(folder: Path, doi: str = "") -> int:
 
 def _exact_hit(text: str, seq: str, scan=None) -> bool:
     """Require every fixed query base to agree; N in the model is variable."""
-    for _, _, _, written in scrape_primers.find(text, seq, sc=scan, detail=True):
+    for _, strand, _, written in scrape_primers.find(text, seq, sc=scan, detail=True):
         try:
             observed = scrape_primers._letters(written)
         except ValueError:
             continue
+        if strand == "rc":
+            observed = scrape_primers.revcomp(observed)
+        elif strand == "rev":
+            observed = observed[::-1]
+        elif strand == "comp":
+            observed = scrape_primers.complement(observed)
         if len(observed) == len(seq) and all(a == "N" or a == b
                                              for a, b in zip(seq.upper().replace("U", "T"), observed)):
             return True

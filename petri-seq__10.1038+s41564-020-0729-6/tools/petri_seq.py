@@ -29,6 +29,11 @@ R3_PREFIX = "AGAATACACGACGCTCTTCCGATCT"
 R3_SUFFIX = "GGTCCTTG"
 LINKER_R2 = "STCTGGCGTAGGAGGW"
 LINKER_R3 = "GCGAAGCCAAGGACCW"
+# Members 1 and 2 of the three 96-well oligo sets in Supplementary Table 3.
+R1_MEMBERS = tuple(R1_PREFIX + bc + "N" * 6 for bc in ("CAGAGAA", "CCAGGAA"))
+R2_MEMBERS = tuple(R2_PREFIX + bc + R2_SUFFIX for bc in ("GACCTTA", "AGAGTGA"))
+R3_MEMBERS = tuple(R3_PREFIX + "N" * 7 + bc + R3_SUFFIX
+                   for bc in ("GTGTGAA", "TTGGTGA"))
 I5_OLIGO_INDEX = il.NEBNEXT_I5_SET1["i501"]
 I7_OLIGO_INDEX = "TAAGGCGA"
 I7_INDEX_READ = "TCGCCTTA"
@@ -74,20 +79,23 @@ def after_round3(insert_nt: int = 28) -> Construct:
 
 def splint_geometry(round_no: int) -> AdapterLigationGeometry:
     linker = LINKER_R2 if round_no == 2 else LINKER_R3
-    rc = revcomp(linker)
-    sc = Scene(); sc.strand("splint", [seg(f"round-{round_no} new half", linker[8:], placeholder=True),
-                                       seg(f"round-{round_no} old half", linker[:8], placeholder=True)],
-                                  label=f"round-{round_no} linker")
-    sc.anneal("ligating oligos", [seg(f"round-{round_no} 5-prime arm", rc[:8], placeholder=True),
-                                   seg("previous-round 3-prime arm", rc[8:], placeholder=True)],
-              to="splint", pair=(f"round-{round_no} 5-prime arm",
-                                  f"round-{round_no} new half"),
-              label="adjacent barcode oligos", mod5="p",
-              unpaired=(f"round-{round_no} 5-prime arm", "previous-round 3-prime arm",
-                        f"round-{round_no} new half", f"round-{round_no} old half"))
-    sc.ligation_end("ligating oligos", f"round-{round_no} 5-prime arm",
+    old_head = R1_PREFIX + "C" if round_no == 2 else R2_PREFIX
+    new_tail = "A" + (R2_SUFFIX if round_no == 2 else R3_SUFFIX)
+    old_name = f"round-{round_no - 1} phosphorylated head"
+    new_name = f"round-{round_no} incoming 3-prime end"
+    sc = Scene()
+    sc.strand("splint", [seg("old-side splint", linker[:len(old_head)], placeholder=True),
+                         seg("new-side splint", linker[len(old_head):], placeholder=True)],
+              label=f"round-{round_no} linker")
+    sc.anneal("old barcode oligo", [seg(old_name, old_head)],
+              to="splint", pair=(old_name, "old-side splint"),
+              label="retained 5′-phosphorylated oligo", mod5="p")
+    sc.anneal("incoming barcode oligo", [seg(new_name, new_tail)],
+              to="splint", pair=(new_name, "new-side splint"),
+              label="incoming 3′-OH oligo")
+    sc.ligation_end("old barcode oligo", old_name,
                     kind="splinted", polarity="5-prime", owner="adapter",
-                    text="5′-phosphorylated nick partner")
+                    text="5′-phosphorylated nick partner; linker pairs to both source oligos")
     return AdapterLigationGeometry.known(
         "splinted", sc,
         statement=f"The PETRI-seq supplement prints the 16-base round-{round_no} linker; its two eight-base halves align the barcode oligos across the nick.")
@@ -152,7 +160,7 @@ def protocol_graph() -> ProtocolGraph:
     cells = graph.input("cells", "fixed permeabilized bacterial cells",
                         MaterialKind.BIOLOGICAL, primary=True)
     r1 = graph.input("round1_primers", "round-1 barcoded random-hexamer RT primers",
-                     MaterialKind.OLIGO, state=tuple(round1_primer()))
+                     MaterialKind.OLIGO, state=tuple(R1_MEMBERS), source=source + "; Supplementary Table 3")
     rt = graph.input("reverse_transcriptase", "reverse transcriptase",
                      MaterialKind.CATALYST)
     well1 = graph.product("round1_well_a", "representative round-1 well A cells",
@@ -179,9 +187,9 @@ def protocol_graph() -> ProtocolGraph:
                 ((cdna1, InputRole.TEMPLATE), (cdna2, InputRole.TEMPLATE)), (pooled1,))
 
     r2 = graph.input("round2_oligos", "round-2 barcode oligos",
-                     MaterialKind.ADAPTER, state=tuple(round2_oligo()))
+                     MaterialKind.ADAPTER, state=tuple(R2_MEMBERS), source=source + "; Supplementary Table 3")
     linker2 = graph.input("round2_linker", "round-2 splint linker",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=LINKER_R2, source=source + "; Supplementary Table 2")
     ligase = graph.input("ligase", "DNA ligase", MaterialKind.CATALYST)
     r2a = graph.product("round2_well_a", "representative round-2 well A cells",
                         MaterialKind.MOLECULAR)
@@ -206,9 +214,9 @@ def protocol_graph() -> ProtocolGraph:
                 ((lig2a, InputRole.TEMPLATE), (lig2b, InputRole.TEMPLATE)), (pooled2,))
 
     r3 = graph.input("round3_oligos", "round-3 UMI/barcode oligos",
-                     MaterialKind.ADAPTER, state=tuple(round3_oligo()))
+                     MaterialKind.ADAPTER, state=tuple(R3_MEMBERS), source=source + "; Supplementary Table 3")
     linker3 = graph.input("round3_linker", "round-3 splint linker",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=LINKER_R3, source=source + "; Supplementary Table 2")
     r3a = graph.product("round3_well_a", "representative round-3 well A cells",
                         MaterialKind.MOLECULAR)
     r3b = graph.product("round3_well_b", "representative round-3 well B cells",

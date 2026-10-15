@@ -8,4 +8,4 @@ import chem
 from protocol_build import build
 
 OUT = HERE.parent / "sf4su-seq.html"
-build(chem, OUT)
+build(chem.SPEC, OUT)

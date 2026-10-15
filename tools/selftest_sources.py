@@ -27,7 +27,8 @@ import doctext  # noqa: E402
 import fetchers  # noqa: E402
 import get_sources as gs  # noqa: E402
 from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
-from source_oligo_check import _exact_hit, check_graph, unrepresented_inputs  # noqa: E402
+from source_oligo_check import (_exact_hit, check_graph, unrepresented_input_ids,
+                                unrepresented_inputs)  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
 
 check = Check()
@@ -336,5 +337,7 @@ with tempfile.TemporaryDirectory() as tmp:
           ([], [f"example: no extracted source text in {folder / 'absent'}"], 0))
     graph.input("unnamed_sequence", "an unsequenced oligo", MaterialKind.OLIGO)
     check("unrepresented graph input is reported", unrepresented_inputs(graph), 1)
+    check("coverage details name the missing input",
+          unrepresented_input_ids(graph), ("unnamed_sequence",))
 
 check.report()

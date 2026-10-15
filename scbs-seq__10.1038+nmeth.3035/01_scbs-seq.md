@@ -29,7 +29,7 @@ Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, 
 | File | What | Used for |
 |---|---|---|
 | `nmeth.3035_PMC4117646.html.txt` | author manuscript, full text (PMC) | **all methods and oligos** (Online Methods, line 1287) |
-| `upstream_scBS-seq.html.txt` | scg_lib_structs page | second account: oligos, read primers, iPCRtag, library drawing |
+| `upstream_scBS-seq.html.txt` | scg_lib_structs drawn page | orientation aid only; not evidence for bases or reactions |
 | `nmeth.3035_41592_2014_BFnmeth3035_MOESM643_ESM.pdf.txt` | Supplementary Figures + Note (Springer) | QC context (poly-T artefact, Supp. Fig. 2) |
 | `nmeth.3035_supp_NIHMS59406-supplement-2.pdf.txt` | Supplementary Note 1 (statistics) | not chemistry |
 | `nmeth.3035_supp_NIHMS59406-supplement-1.doc` | Supplementary Figures (Word; no `.txt` twin, read via `catdoc`) | nothing new — figure legends only |
@@ -66,8 +66,8 @@ generally described as also using a biotinylated first-strand primer and bead ca
 
 There is **no cell barcode and no UMI in the chemistry** (none is described 🟡): one cell
 per tube, identified by the index of the "indexed iPCRTag reverse primer" at the final
-PCR, 12–14 cells pooled per sequencing run 🟢; the index length (8 nt) comes only from
-the upstream page 🟡. None of the repository concept pages (Tn5, template switching,
+PCR, 12–14 cells pooled per sequencing run 🟢; the eight-base index is printed in
+Quail 2012 Supplementary Table 1 and the later Clark 2017 Table 1 🟢. None of the repository concept pages (Tn5, template switching,
 ligation, RT, padlock) applies — this is DNA-polymerase random priming on bisulfite-
 converted single-stranded DNA. 🟡
 
@@ -84,8 +84,8 @@ iPCRTag reverse    "indexed iPCRTag reverse primer" — sequence not given, cite
 ```
 
 The hyphen in PE1.0 is a line-break artefact of the manuscript (`TCTTTC-CCTACAC`); the
-bases are `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, which is also
-exactly how the upstream page writes it. 🟡
+bases are `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, also
+printed as a continuous sequence in the defining paper's PDF text. 🟢
 
 🟢 From Quail *et al.* 2012 Supplementary Table 1, the source cited by Smallwood *et al.*:
 
@@ -96,8 +96,10 @@ Index sequencing primer     AAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC
 Read 2 sequencing primer    CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT
 ```
 
-The upstream page itself notes that this iPCRtag design follows an **obsolete** Illumina
-adapter layout (the old PE / multiplexing read-2 arm, not the TruSeq one).
+The Quail primer table defines the historical PE / multiplexing read-2 arm used here.
+The typed graph uses Quail's printed `iPCRtagT1` (`AACGTGAT` in the ordered primer)
+as one source-exact representative; the page schematic retains the eight-base
+family placeholder because the paper does not identify one index for all cells. 🟢
 Quail 2012 Supplementary Table 1 also prints `C*T` at the 3′ end of PE1.0 and each
 indexed iPCRTag primer; its table key defines `*` as a phosphorothioate linkage and
 says all oligos were PAGE purified. 🟢 The later Clark 2017 protocol retains `C*T`
@@ -241,5 +243,5 @@ names). `tools/doctext.py` made no `.txt` twin of the Word supplement
 reads"); it was read with `catdoc` and contains only figure legends. All oligos are in a
 single paragraph of the Online Methods, which `tools/scrape_primers.py` found; it named
 the oligo1 hit "Btn" (from the `[Btn]` prefix) without parsing `[Btn]` as a 5'
-modification, whereas the upstream `/Bio/` form was parsed. The iPCRTag primer exists
-only by citation, so it came from the upstream page.
+modification, whereas the upstream `/Bio/` form was parsed. Smallwood cites Quail 2012
+for the iPCRTag primer; the sequence above was transcribed from that cited supplement.

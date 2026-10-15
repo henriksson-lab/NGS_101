@@ -459,7 +459,7 @@ def final_library() -> str:
             + pub
             + "<h3>Sizes cross-check the published SRX arm</h3>\n"
             + info(f"""<cbc>SRX</cbc>'s 3' end anneals where RTP anneals &mdash; over
-            <r2>RA3</r2> &mdash; so what it adds is P7 + index + its 13-nt common linker.
+            <r2>RA3</r2> &mdash; so what it adds is P7 + index + its 12-nt common linker.
             Two independent size observations provide a separate cross-check:""")
             + bracket
             + info(f"""The windows overlap, which they did not have to: <b>37&ndash;47

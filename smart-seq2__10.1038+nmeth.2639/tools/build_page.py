@@ -10,12 +10,14 @@ SHARED = HERE.parents[1] / "smart-seq__10.1038+nbt.2282" / "tools"
 sys.path.insert(0, str(SHARED))
 
 from page_parts import render_page  # noqa: E402
+import smartseq2 as chem
 
 OUT = HERE.parent / "smart-seq2.html"
 
 
 def main() -> None:
-    OUT.write_text(render_page("SMART-seq2"), encoding="utf-8")
+    OUT.write_text(render_page("SMART-seq2", graph_factory=chem.protocol_graph),
+                   encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

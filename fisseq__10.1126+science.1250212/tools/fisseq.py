@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows
 from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (InputRole, MaterialKind, MolecularRelation, ProtocolGraph, SequencingPlan,
                             StepKind)
 from topology import CircularPrimerTopology
 
@@ -153,7 +153,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("immobilize_cdna", "Cross-link the aminoallyl-bearing cDNA in place",
                 StepKind.CROSS_LINKING,
                 ((hybrid, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
-                (immobilized_hybrid,))
+                (immobilized_hybrid,), relations=(MolecularRelation.STRAND_ORDER,))
 
     ribonucleases = graph.input("ribonucleases", "RNase plus RNase H",
                                 MaterialKind.CATALYST)
@@ -169,6 +169,7 @@ def protocol_graph() -> ProtocolGraph:
     circle = graph.product(
         "cdna_circle", "covalently closed single-stranded cDNA circle",
         MaterialKind.MOLECULAR,
+        chemical_state=CIRCLE,
         state=tuple([*CIRCLE.rows("CircLigase II"),
                      *annotation_rows(linear_cdna(), prefix_width=6)]))
     graph.react(
@@ -178,13 +179,15 @@ def protocol_graph() -> ProtocolGraph:
         geometry=CircularizationGeometry.known(
             "single-strand intramolecular ligation",
             statement=("CircLigase II directly closes the phosphorylated single-stranded "
-                       "cDNA by joining its 3-prime and 5-prime ends.")))
+                       "cDNA by joining its 3-prime and 5-prime ends.")),
+        relations=(MolecularRelation.CIRCLE_CLOSURE,))
 
     rca_primer = graph.input(
         "rca_primer", "phosphorothioate-protected RCA primer", MaterialKind.OLIGO,
         state=Construct([seg("RCA primer", RCA_PRIMER, "r2")], name="RCA primer"))
     primed_circle = graph.product(
         "primed_cdna_circle", "RCA-primer-bound cDNA circle", MaterialKind.MOLECULAR,
+        chemical_state=CIRCLE,
         state=tuple(rca_primed_rows()))
     graph.react(
         "bind_rca_primer", "Anneal the phosphorothioate-protected RCA primer",
@@ -195,13 +198,13 @@ def protocol_graph() -> ProtocolGraph:
                         MaterialKind.CATALYST)
     rolony_product = graph.product(
         "rolony_product", "aminoallyl-bearing rolling-circle concatemer",
-        MaterialKind.MOLECULAR, state=rolony())
+        MaterialKind.MOLECULAR, state=rolony(), chemical_state=RCA)
     graph.react(
         "rolling_circle", "Amplify the cDNA circle into a tandem-repeat rolony",
         StepKind.EXTENSION,
         ((primed_circle, InputRole.TEMPLATE), (phi29, InputRole.CATALYST),
          (aminoallyl_dutp, InputRole.STRUCTURAL)),
-        (rolony_product,))
+        (rolony_product,), relations=(MolecularRelation.ROLLING_CIRCLE_COPY,))
 
     library = graph.product("sequencing_library", "cross-linked FISSEQ rolony",
                             MaterialKind.LIBRARY, state=rolony())

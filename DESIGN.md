@@ -5,6 +5,115 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-15 — Put source discrepancies on every affected public protocol page
+
+**Decision.** If two authoritative publications disagree, or a source appears
+internally wrong about a sequence, length, reagent name or reaction, each affected
+public protocol page states the exact source locations and conflicting claims, the
+value chosen for the model, the evidence for that choice and its remaining
+uncertainty. A detailed research note may hold the full comparison, but a link to
+that note alone does not make the discrepancy visible on the schematic. A derived
+protocol that inherits the disputed component needs its own page notice.
+
+**Why.** A reader may use the schematic without opening maintainer notes. A quiet
+correction would make the diagram look more certain than the source warrants. The
+notice lets the reader distinguish a verified correction, an alternate published
+variant and an unresolved conflict. Errors introduced by this repository are fixed
+and described as model corrections, never attributed to the publication.
+
+**Review when.** Recheck the notice when a correction, original supplement or vendor
+revision becomes available; update every affected page and the local model together.
+
+## 2026-10-15 — Check narrow chemistry claims from existing declarations
+
+**Decision.** Keep protocol declarations as ordinary Python objects. Analyze each
+`ProtocolGraph` in a separate, small checker (`lib/chemistry_validation.py`); do not
+introduce a protocol DSL or treat a publishable graph as a biochemical proof. A material
+may supply `chemical_state` when its `state` is a rendering view that has lost molecular
+identity, as with FISSEQ's circle rows. The chemical state must come from the same
+molecular constructor as the drawing, not from a second hand-typed sequence.
+
+The checker reports *scoped claims*, each established, conditional, unresolved, or
+contradictory. Its initial kernel rechecks paired columns and exact PCR primer sites,
+preservation of strand order on circle closure and non-sequence-changing operations,
+rolling-circle repeat derivation, restriction-end fill and contact-junction sequence,
+and a declared hairpin stem. An IUPAC or placeholder pairing is conditional because
+existence of a compatible assignment is weaker than a known exact duplex. A checked
+stem does not establish that it is the preferred thermodynamic fold. A checked primer
+site does not establish the resulting PCR product. Unmodelled input-to-output
+transitions are explicitly unresolved; the checker must not upgrade them because a
+step has the right roles or a page draws a plausible product.
+
+Source fidelity remains a separate obligation: this checker does not verify that a
+paper stated a sequence, modification, reaction order, concentration, yield, or
+temperature. The source-text oligo guard and human reading continue to cover that
+boundary. Chemistry claims are currently an audit, not a publication gate; coverage
+is too sparse for a green summary to imply that a protocol has been proved.
+
+An explicitly unmodelled transition may use `StepKind.MAGIC` with a required reason
+explaining why the gap is needed. Its input and output still belong to the provenance
+graph and source-reviewed scope. The chemistry checker leaves its transition unresolved
+and emits a warning; the audit and graph page render every such warning. Warnings do
+not establish that the proposed product follows from its inputs.
+
+The displayed `StepKind` is an operation label and a graph-shape contract. A transition
+claims a molecular check only by declaring one or more `MolecularRelation` values on
+the step, backed by molecular input/output states. The initial relation set covers
+circle closure, restriction-end fill, rolling-circle copying, derived contact junctions,
+hairpin stem pairing, and strand-order preservation. PCR geometry, drawn pairing,
+restriction-cut coordinates, and rendered/chemical-state agreement are already typed
+declarations and are checked directly. A missing state leaves its declared relation
+unresolved and visible as a warning; a contradiction is also shown. A successful local
+relation never establishes an entire named reaction.
+
+**Why.** The ten local-ownership pilots contain 78 steps across 17 `StepKind`s but
+mostly lack exact molecular inputs and outputs for a reaction-level proof. Five
+boundary protocols add gap-sealing capture (smMIP), circle copying (FISSEQ), RNA
+ligation/dephosphorylation (Small-seq), a symbolic fold (MALBAC), and a restriction
+fill/contact join (in situ Hi-C). An independent audit of all 15 currently yields
+25 established, 29 conditional, 114 unresolved, and zero contradictory *local claims*.
+The two FISSEQ sequence transitions and the in situ Hi-C fill/junction can be checked
+without inventing bases; the other examples expose missing state or source evidence.
+
+**Review when.** Add a primitive only after a real protocol provides explicit inputs
+and outputs whose relation it can check. Make a contradiction test for each new rule.
+Broaden molecular-state coverage before considering this audit for publication gating.
+Keep the four statuses per claim; do not compress them into a single protocol pass.
+
+## 2026-10-15 — Protocol directories assemble their own reaction graphs
+
+**Decision.** Each documented protocol owns the assembly of its typed reaction graph in
+its own `tools/` module. The local graph states the ordered operations, inputs, outputs,
+selection and discard decisions, evidence boundary, and final sequencing material.
+`build_page.py` remains the small executable entry point. A page renderer may live in a
+published predecessor's directory when the page genuinely inherits its drawing grammar.
+
+Reuse molecular constructors and bounded chemistry operations when they express the
+same operation across protocols: a cDNA amplification front end, an adapter ligation,
+or a family member's published molecular state are examples. Such helpers accept the
+caller's source-specific states and choices; they do not choose a named protocol's
+reaction order or evidence status. A protocol that inherits another published method
+may import that method's molecular constructors explicitly. Its own graph still shows
+where that branch enters and what happens after it.
+
+A bounded operation may contain several graph steps when the same sequence is supported
+for every caller. Its name, inputs, outputs and scope should make those steps clear at
+the call site. Reused molecular states belong in a model module with a stable import
+path, separate from the page renderer. Source-specific definitions must not be moved
+into `lib/` merely to make that import convenient.
+
+**Why.** The ten-protocol ownership pilot found that a local `protocol_graph()` which
+only calls a family graph builder hides the reaction sequence outside the protocol
+directory. It also lets a change to one family builder silently alter several protocol
+schematics. Local assembly makes the source boundary and reaction order reviewable
+where the protocol's oligos and final construct are defined.
+
+**Review when.** Revisit this boundary if the same reaction sequence is independently
+verified in several protocols and duplication causes demonstrable drift. Share the
+smallest invariant operation, retaining each protocol's visible graph assembly and
+source decisions. Graph completeness and source-text coverage remain separate checks:
+a publishable graph does not prove that every oligo has been transcribed exactly.
+
 ## 2026-10-14 — Local source text guards exact graph oligo inputs
 
 **Decision.** `tools/selftest_source_oligos.py` checks exact, non-inferred oligo and
@@ -15,6 +124,8 @@ protocol when the defining source text is absent. A protocol module can declare
 verbatim comparison is inappropriate; stale and reasonless entries fail. The
 test is separate from the normal offline site build because downloaded source
 documents are never committed.
+`--details` lists the unrepresented graph input IDs so the aggregate coverage count
+remains actionable without treating an unavailable sequence as a transcription error.
 
 **Why.** A model constant and a hard-coded test expectation can share the same
 transcription mistake. Matching the model against a separately extracted source

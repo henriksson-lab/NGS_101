@@ -49,7 +49,7 @@ In the copy of Supplementary Table 2 fetched into this bundle
 (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
 `rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
 
-🟡 **The model assumes the `ACAT` form** — `lib/smartseq2.TSO_LINKER`, the constant four
+🟡 **The model assumes the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER`, the constant four
 SMART-seq2 derivatives share — because that is the protocol as practised. "Exiqon" names
 the supplier of the LNA `+G`, not a linker. The schematic therefore draws the **whole
 linker** dotted, with all three required signals: a preamble caveat naming both forms, an

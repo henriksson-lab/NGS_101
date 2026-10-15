@@ -4,6 +4,7 @@ from dataclasses import replace
 import sys
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/"scbs-seq__10.1038+nmeth.3035"/"tools"))
+sys.path.insert(0,str(ROOT/"smart-seq2__10.1038+nmeth.2639"/"tools"))
 from chemdraw import Construct, Row
 from batch_ngs import nextera_library, seg
 import illumina as il
@@ -31,24 +32,12 @@ CAVEAT=("The defining method establishes bead-based physical separation and expl
         "linker is therefore drawn dotted as an inherited inference.")
 
 
-def _tso_linker_inferred(con: Construct) -> Construct:
-    """Redraw the inherited Smart-seq2 TSO linker as an inference, not a published base.
-
-    scM&T-seq prints no TSO, so the choice between the two published Smart-seq2 linkers
-    (``AC`` and ``ACAT``) is ours.  Marking the segment here, rather than in every caller,
-    keeps the uncertainty a property of the state the page renders.
-    """
-    con.get("TSO linker")      # a lib rename must fail loudly, not silently un-mark it
-    return Construct([replace(s,inferred=True) if s.name=="TSO linker" else s
-                      for s in con],name=con.name)
-
-
 RNA,RP=nextera_library([seg("Smart-seq2 cDNA insert","X"*36,placeholder=True)],"scM&T-seq RNA")
 DNA=Construct([replace(s,name=s.name.replace("N9","N6"),top="N"*6)
                if s.name in ("oligo1 N9","oligo2 N9") else s
                for s in scbs.final_library()],name="scM&T-seq DNA methylome")
 DP=tuple(scbs.SEQ_PRIMERS)
-RNA_PREAMP=_tso_linker_inferred(s2.preamp_template())
+RNA_PREAMP=s2.preamp_template()
 FINAL_LIBRARIES=(("RNA library",RNA,RP,"Smart-seq2 cDNA after Nextera XT.","Nextera primers declared for the RNA branch."),("DNA methylome library",DNA,DP,"Bisulfite-converted genomic fragments after scBS-seq.","Illumina primers declared for the DNA branch."))
 
 def oligos():
@@ -93,11 +82,17 @@ def protocol_graph():
     bisulfite=g.input("bisulfite","bisulfite-conversion condition",MaterialKind.CONDITION)
     converted=g.product("converted","bisulfite-converted genomic DNA",MaterialKind.MOLECULAR,state=DNA)
     g.react("bisulfite_convert","Bisulfite-convert the genomic-DNA fraction",StepKind.CHEMICAL_CONVERSION,((dna,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))
-    random_primer=g.input("random_primer","scM&T oligo1 with a six-base random 3′ end",MaterialKind.OLIGO)
+    random_primer=g.input("random_primer","scM&T oligo1 with a six-base random 3′ end",MaterialKind.OLIGO,
+                          state=(seg("oligo1 inherited handle",scbs.OLIGO1_HANDLE,"r1"),
+                                 seg("paper-specified random hexamer","N"*6,placeholder=True)),
+                          source="Angermueller et al. Methods: N6 replaces the inherited scBS-seq N9 tail")
     dna_polymerase=g.input("dna_strand_polymerase","scBS-seq strand-synthesis polymerase",MaterialKind.CATALYST)
     primed=g.product("primed_dna","oligo1-primed bisulfite-converted DNA",MaterialKind.MOLECULAR,state=DNA)
     g.react("prime_dna","Random-prime converted genomic DNA",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),(dna_polymerase,InputRole.CATALYST)),(primed,))
-    oligo2=g.input("oligo2","scM&T oligo2 with a six-base random 3′ end",MaterialKind.OLIGO)
+    oligo2=g.input("oligo2","scM&T oligo2 with a six-base random 3′ end",MaterialKind.OLIGO,
+                   state=(seg("oligo2 inherited handle",scbs.OLIGO2_HANDLE,"r2"),
+                          seg("paper-specified random hexamer","N"*6,placeholder=True)),
+                   source="Angermueller et al. Methods: N6 replaces the inherited scBS-seq N9 tail")
     dna_adapted=g.product("dna_adapted","oligo1/oligo2-completed scBS-seq template",MaterialKind.MOLECULAR,state=DNA)
     g.react("adapt_dna","Random-prime the complementary strand with scBS-seq oligo2",StepKind.EXTENSION,((primed,InputRole.TEMPLATE),(oligo2,InputRole.STRUCTURAL),(dna_polymerase,InputRole.CATALYST)),(dna_adapted,))
 

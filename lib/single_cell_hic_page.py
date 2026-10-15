@@ -9,7 +9,8 @@ from single_cell_hic import protocol_graph
 
 
 def render(module) -> str:
-    graph = protocol_graph(module)
+    graph = (module.protocol_graph() if hasattr(module, "protocol_graph")
+             else protocol_graph(module))
     w = module.WORKFLOW
     contact = module.contact_product()
     junctions = getattr(module, "JUNCTIONS",

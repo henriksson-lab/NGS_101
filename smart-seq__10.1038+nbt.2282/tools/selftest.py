@@ -19,6 +19,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 import nextera as nx
 import rt
 import smartseq as ss
+import smartseq2 as s2
 from checks import Check, run_common
 from chemdraw import revcomp, strand_row
 from illumina import P5, P7
@@ -29,14 +30,14 @@ run_common(check)
 # ----------------------------------------------- SMART-seq / SMART-seq2 front end
 check.section("SMART-seq / SMART-seq2 oligos")
 check("oligo-dT, TSO and ISPCR all carry the SAME handle -- this is the whole design",
-      all(x.startswith(rt.SMART_HANDLE) for x in (ss.SS2_OLIGO_DT, ss.SS2_TSO, ss.SS2_ISPCR)))
-check("the ISPCR primer IS that handle", ss.SS2_ISPCR, rt.SMART_HANDLE)
-check("oligo-dT is anchored with VN", ss.SS2_OLIGO_DT.endswith("VN"))
-check("oligo-dT carries 30 T", ss.SS2_OLIGO_DT.count("T" * 30) == 1)
+      all(x.startswith(rt.SMART_HANDLE) for x in (s2.OLIGO_DT, s2.TSO, s2.ISPCR)))
+check("the ISPCR primer IS that handle", s2.ISPCR, rt.SMART_HANDLE)
+check("oligo-dT is anchored with VN", s2.OLIGO_DT.endswith("VN"))
+check("oligo-dT carries 30 T", s2.OLIGO_DT.count("T" * 30) == 1)
 check("the TSO ends in an LNA-locked G (the SMART-seq2 improvement)",
-      ss.SS2_TSO.endswith("+G"))
+      s2.TSO.endswith("+G"))
 check("the TSO's G tail is 3 nt, matching MMLV's CCC overhang",
-      ss.SS2_TSO.count("G"), 3 + rt.SMART_HANDLE.count("G"))
+      s2.TSO.count("G"), 3 + rt.SMART_HANDLE.count("G"))
 
 # --------------------------------------------------------- SMART-seq3 front end
 check.section("SMART-seq3 family oligos")
@@ -72,16 +73,16 @@ check("the separate FS-UMI TSO-CTAAC is not the base FLASH-seq TSO", ss.FS_UMI_T
 check.section("oligos against the primary sources, verbatim")
 # Ramskold 2012, PMC3467340 Methods: "the CDS primer (5'-AAGCAGTGGTATCAACGCAGAGTACT(30)VN-3')"
 check("SMART-seq CDS primer / SMART-seq2 oligo-dT, Ramskold 2012 Methods",
-      ss.SS2_OLIGO_DT, "AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "VN")
+      s2.OLIGO_DT, "AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "VN")
 # Picelli 2013 Supplementary Table 2, row "rGrG+G" (named as the Smart-seq2 TSO by
 # Supplementary Table 4): AAGCAGTGGTATCAACGCAGAGTACrGrG+G
 check("the defining SMART-seq2 paper's own rGrG+G TSO carries the shorter AC linker",
-      rt.SMART_HANDLE + ss.SS2_DT_LINKER + "GGG",
+      rt.SMART_HANDLE + s2.DT_LINKER + "GGG",
       "AAGCAGTGGTATCAACGCAGAGTAC" + "GGG")
 # Hagemann-Jensen 2020 Supplementary Table 1 condition 1 ("Smart-seq2 as of Nature
 # Protocol"): AAGCAGTGGTATCAACGCAGAGTACATrGrG+G
 check("the modelled SMART-seq2 TSO is the Nature Protocols ACAT form",
-      ss.SS2_TSO, "AAGCAGTGGTATCAACGCAGAGTACAT" + "rGrG+G")
+      s2.TSO, "AAGCAGTGGTATCAACGCAGAGTACAT" + "rGrG+G")
 # Hahaut 2022 Supplementary Note 2, FLASH-seq / Smart-seq2 rows
 check("FLASH-seq FS dT30VN, Hahaut 2022 Supplementary Note 2",
       ss.FS_OLIGO_DT, "AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "VN")
@@ -113,7 +114,7 @@ check.section("final library structures vs the canonical Nextera back end")
 EXPECTED_SS2 = (P5 + "N" * 8 + nx.S5 + nx.ME
                 + "XXXXXXXX...XXXXXXXX"
                 + nx.ME_RC + nx.S7_RC + "N" * 8 + revcomp(P7))
-ss2 = ss.smartseq2_library()
+ss2 = s2.final_library()
 check("SMART-seq2 top strand is P5-i5-s5-ME / insert / ME'-s7'-i7-P7'",
       ss2.top(), EXPECTED_SS2)
 check("SMART-seq2 bottom strand is the complement throughout",
@@ -200,7 +201,7 @@ for p in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
     drawn = bp.ss2_tso(p)
     check(f"{p} drawn TSO spells its handle + linker + G tail",
           "".join(s.top for s in drawn),
-          rt.SMART_HANDLE + ("AC" if p == "FLASH-seq" else ss.SS2_TSO_LINKER) + "GGG")
+          rt.SMART_HANDLE + ("AC" if p == "FLASH-seq" else s2.TSO_LINKER) + "GGG")
 check("SMART-seq's whole TSO is drawn inferred: the SMARTer II A bases are unpublished",
       [s.inferred for s in bp.ss2_tso("SMART-seq")], [True, True, True])
 check("SMART-seq2 asserts only the defining paper's AC; the Nature Protocols AT is inferred",

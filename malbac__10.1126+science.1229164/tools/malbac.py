@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from chemdraw import Construct, Segment, complement_segments
 from pcr import PCRGeometry
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (InputRole,MaterialKind,MolecularRelation,ProtocolGraph,SequencingPlan,StepKind)
 from topology import HairpinTopology
 
 HANDLE_NT = 27
@@ -102,11 +102,13 @@ def protocol_graph() -> ProtocolGraph:
     loop_temp=graph.input("loop_temperature","58-degree intramolecular annealing condition",
                           MaterialKind.CONDITION)
     looped=graph.product("looped_amplicon","looped full amplicon withdrawn from random priming",
-                         MaterialKind.MOLECULAR,state=full_amplicon(),inferred=True,
+                         MaterialKind.MOLECULAR,state=full_amplicon(),
+                         chemical_state=loop_topology(),inferred=True,
                          source=source+" (handle bases unavailable)")
     graph.react("loop","Anneal complementary handles intramolecularly after each cycle",
                 StepKind.FOLDING,
-                ((full,InputRole.TEMPLATE),(loop_temp,InputRole.CONDITION)),(looped,))
+                ((full,InputRole.TEMPLATE),(loop_temp,InputRole.CONDITION)),(looped,),
+                relations=(MolecularRelation.HAIRPIN_STEM,))
     pcr_primer_input=graph.input("pcr_primer","common 27-nt MALBAC PCR primer",
                                  MaterialKind.OLIGO,state=pcr_primer(),inferred=True,
                                  source=source+" (exact bases unavailable)")

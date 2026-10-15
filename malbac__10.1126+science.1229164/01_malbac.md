@@ -9,8 +9,10 @@
 > from it, and agreement with it is not evidence. An earlier revision of this note carried
 > that page's reconstruction — a 27-nt handle `GTGAGTGATGGTTGAGGTAGTGTGGAG`, an extension
 > temperature of 68 °C, "Bst or Phi29" as the polymerase, and two worked example
-> Nextera/TruSeq libraries — and built a base-composition argument on the handle. **None of
-> that has a source we hold**, so none of it is reproduced or relied on any more.
+> Nextera/TruSeq libraries — and built a base-composition argument on the handle. The
+> inventor patent discussed below independently prints that 27-mer for a related MALBAC
+> embodiment, but the original paper's SOM remains unavailable and the other details
+> remain unverified. None of those details is used as established model input.
 >
 > **What is left, and it is enough for the schematic.** The accessible PMC author
 > manuscript states the architecture and the whole temperature programme in words, and
@@ -54,6 +56,17 @@ and sequencer. It is now requested through the PMC Cloud bucket in
 `catalogue/extra_sources.tsv` (`pmccloud:PMC3600412`), the route that already served this
 article's JATS XML when the gated article page would not.
 
+An alternate primary source narrows, but does not close, the handle gap: the original
+inventors Xie, Zong and Lu filed [US20140200146A1, *Methods of amplifying whole genome
+of a single cell*](https://patents.google.com/patent/US20140200146A1/en) before the Science
+paper. Its Example II lists the common 27-mer `GTGAGTGATGGTTGAGGTAGTGTGGAG` as the PCR
+primer (paragraph around lines 1279–1286 in the linked text). Its worked preamplification
+primers, however, have **5 random bases followed by GGG or TTT**, whereas the accessible
+Science main text describes an **8-variable-base** foot. The patent therefore supports
+this sequence for an inventor MALBAC embodiment, but does not establish that the Science
+experiment used the same exact handle. The paper's SOM is still needed; the model keeps
+the handle inferred and its bases unknown.
+
 ---
 
 ## 1. What it is
@@ -82,7 +95,7 @@ padlock) is used *by MALBAC itself*; the downstream library in §5 is a plain Ne
 TruSeq prep — see [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) for the
 Nextera one.
 
-## 2. Oligos — 🔴 no MALBAC sequence is published in anything we hold
+## 2. Oligos — 🔴 the Science experiment's exact handle remains unverified
 
 Only two oligos exist, and the main text describes both in words without printing either
 🟢 (`science.1229164_PMC3600412.xml.txt`):
@@ -207,8 +220,10 @@ view: with the kit unknown there is no site to locate 🔴.
 
 ## 7. Open questions
 
-- 🔴 **The 27-nt handle sequence itself.** It is in the SOM and nowhere else we can read.
-  This is the single gap that keeps the whole schematic at placeholder resolution, and it
+- 🔴 **Which 27-nt handle the Science experiment used.** The inventors' earlier patent
+  gives a candidate for a related embodiment, but its 5N+GGG/TTT primer feet differ from
+  the paper's 8-variable-base description. The paper's SOM must resolve that difference.
+  This is the gap that keeps the whole schematic at placeholder resolution, and it
   is the reason `catalogue/extra_sources.tsv` now requests `pmccloud:PMC3600412`.
 - 🔴 Exact polymerase(s) for the linear phase and for PCR, buffer, and the time at each
   temperature — all in the SOM. The main text gives only "DNA polymerases with strand

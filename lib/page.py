@@ -72,6 +72,11 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans);
               border-radius:4px; font-size:.95rem; line-height:1; }
 .site-nav a:hover { background:#fff; color:#000; }
 .wrap { max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:4px; }
+.validation-warnings { max-width:88ch; margin:1em 0; padding:12px 16px;
+                       background:var(--note-bg); border-left:3px solid var(--note-rule); }
+.validation-warnings h3 { margin:.1em 0 .5em; }
+.validation-warnings ul { margin:.3em 0; padding-left:1.5em; }
+.validation-warnings li + li { margin-top:.4em; }
 
 h1 { font-size:clamp(1.5rem,1.1rem + 1.6vw,2.1rem); font-weight:600; line-height:1.2;
      text-wrap:balance; margin:0 0 .2em; letter-spacing:-0.01em; }

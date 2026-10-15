@@ -7,4 +7,4 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 import chem
 
-chem.workflow()
+chem.SPEC.workflow()

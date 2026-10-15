@@ -1,7 +1,10 @@
 """scCAT-seq physical RNA/nucleus separation."""
 import nextera as nx
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "smart-seq2__10.1038+nmeth.2639" / "tools"))
 import smartseq2 as ss2
-from chemdraw import Row
+from chemdraw import Construct, Row, Segment
 from multibranch import illumina_branch
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
@@ -44,17 +47,24 @@ def protocol_graph():
     nucleus=g.product("nucleus","matched intact nucleus",MaterialKind.MOLECULAR,state=analyte_split("cytoplasmic RNA → Smart-seq2","nucleus → scATAC-seq")[1:])
     g.react("separate","Gently lyse the cell and separate cytoplasm from its nucleus",StepKind.SPLIT,((cell,InputRole.TEMPLATE),),(cytoplasm,nucleus),changes_molecule=False)
 
-    oligo_dt=g.input("oligo_dt","published Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO)
+    oligo_dt=g.input("oligo_dt","published Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO,
+                     state=Construct((Segment("anchored oligo(dT)",ss2.OLIGO_DT,
+                                              placeholder=True),)))
     rt=g.input("reverse_transcriptase","template-switching reverse transcriptase",MaterialKind.CATALYST)
     first_strand=g.product("first_strand","oligo(dT)-primed cytoplasmic first-strand cDNA",MaterialKind.MOLECULAR)
     g.react("reverse_transcribe","Reverse-transcribe cytoplasmic poly(A) RNA",StepKind.REVERSE_TRANSCRIPTION,((cytoplasm,InputRole.TEMPLATE),(oligo_dt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first_strand,))
-    tso=g.input("tso","published Smart-seq2 template-switch oligo",MaterialKind.OLIGO)
-    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template())
+    tso=g.input("tso","published Smart-seq2 template-switch oligo",MaterialKind.OLIGO,
+                state=Construct((Segment("scCAT template-switch oligo",
+                                         ss2.ISPCR+ss2.TSO_LINKER+"GGG",
+                                         placeholder=True),)))
+    switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template(linker_inferred=False))
     g.react("template_switch","Template-switch at the cDNA 5-prime end",StepKind.TEMPLATE_SWITCHING,((first_strand,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
-    preamp_f=g.input("preamp_forward","published SMART/ISPCR primer, forward-facing copy",MaterialKind.OLIGO)
-    preamp_r=g.input("preamp_reverse","published SMART/ISPCR primer, reverse-facing copy",MaterialKind.OLIGO)
+    preamp_f=g.input("preamp_forward","published SMART/ISPCR primer, forward-facing copy",MaterialKind.OLIGO,
+                     state=Construct((Segment("ISPCR",ss2.ISPCR),)))
+    preamp_r=g.input("preamp_reverse","published SMART/ISPCR primer, reverse-facing copy",MaterialKind.OLIGO,
+                     state=Construct((Segment("ISPCR",ss2.ISPCR),)))
     preamp_pol=g.input("preamp_polymerase","Smart-seq2 cDNA PCR polymerase",MaterialKind.CATALYST)
-    amplified=g.product("amplified_cdna","amplified full-length transcript cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template())
+    amplified=g.product("amplified_cdna","amplified full-length transcript cDNA",MaterialKind.MOLECULAR,state=ss2.preamp_template(linker_inferred=False))
     g.react("preamp","Preamplify the Smart-seq2 cDNA",StepKind.PCR,((switched,InputRole.TEMPLATE),(preamp_f,InputRole.STRUCTURAL),(preamp_r,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),(amplified,),geometry=ss2.ispcr_geometry(switched.state))
 
     rna_adapter=g.input("rna_transposome","Nextera transposome for amplified cDNA",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (loaded-adapter oligos not transcribed on this page)")

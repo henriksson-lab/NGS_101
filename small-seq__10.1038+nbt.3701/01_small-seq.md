@@ -47,7 +47,7 @@ RA5   5'- NH2-rGrUrUrCrArGrArGrUrUrCrUrArCrArGrUrCrCrGrArCrGrArUrC rHrHrHrHrHrHr
 RA3   5'- rApp TGGAATTCTCGGGTGCCAAGG ddC -3'
 RTP   5'- biotin CCTTGGCACCCGAGAATTCC rA -3'
 RP1   5'- AATGATACGGCGACCACCGAGATCTACAC GTTCAGAGTTCTACAGTCCGA -3'
-SR001 5'- CAAGCAGAAGACGGCATACGAGAT TTCGTGAT GTGACTGGAGTTC CCTTGGCACCCGAGAATTCCA -3'
+SR001 5'- CAAGCAGAAGACGGCATACGAGAT TTCGTGAT GTGACTGGAGTT CCTTGGCACCCGAGAATTCCA -3'
 
 mask  5'- ATCGGCAAGCGACGCTCAGACAGGCGTAGCCCCGGGAGGAACCCGGGGCCGCAAGTGCGTTCGAAGTGTCGATGAT biotin -3'
 ```
@@ -188,9 +188,9 @@ AATGATACGGCGACCACCGAGATCTACAC GTTCAGAGTTCTACAGTCCGACGATC HHHHHHHH CA … TGGAATT
 ```
 
 🟢 **The right arm is published.** SR001 is
-`P7 + TTCGTGAT + GTGACTGGAGTTC + RTP`; the supplement separately reports the index-read
+`P7 + TTCGTGAT + GTGACTGGAGTT + RTP`; the supplement separately reports the index-read
 barcode `ATCACGAA`, the reverse complement of the eight bases inside the ordered primer.
-Its RTP foot anneals over RA3, so the newly copied arm is P7 + index + the 13-nt common
+Its RTP foot anneals over RA3, so the newly copied arm is P7 + index + the 12-nt common
 linker.
 
 The exact sequence can be independently checked against two published size observations:
@@ -201,19 +201,19 @@ The exact sequence can be independently checked against two published size obser
 | 5.8S peak with the mask omitted, insert ≈ 156 nt | 🟢 270–290 bp | 28–48 nt |
 
 ✅ The windows overlap (they did not have to): **37–47 nt**. The printed arm is P7 (24) +
-index (8) + common linker (13) = **45 nt**, inside both:
+index (8) + common linker (12) = **44 nt**, inside both:
 
 | Insert | Library | Published check |
 |---|---|---|
-| 0 (adapter dimer) | **131 bp** | — |
-| 18 nt (shortest analysed) | 149 bp | — |
-| 22 nt (typical miRNA) | **153 bp** | 🟢 cut target 145–155 bp ✅ |
-| 40 nt (longest "small RNA") | 171 bp | 🟢 profile 100–300 bp ✅ |
-| 156 nt (5.8S, mask omitted) | **287 bp** | 🟢 peak 270–290 bp ✅ |
+| 0 (adapter dimer) | **130 bp** | — |
+| 18 nt (shortest analysed) | 148 bp | — |
+| 22 nt (typical miRNA) | **152 bp** | 🟢 cut target 145–155 bp ✅ |
+| 40 nt (longest "small RNA") | 170 bp | 🟢 profile 100–300 bp ✅ |
+| 156 nt (5.8S, mask omitted) | **286 bp** | 🟢 peak 270–290 bp ✅ |
 
 🟡 **And this explains the paper's own complaint.** It lists as a limitation 🟢 *"the
 abundance of adapter dimers in the sequencing reads, despite the effects of the digestion
-step"*. The dimer is **131 bp** and the Pippin window 🟢 *starts* at 130 bp; the gel cut
+step"*. The dimer is **130 bp** and the Pippin window 🟢 *starts* at 130 bp; the gel cut
 🟢 120–200 bp contains it outright. The shortest real library is only **18 bp** away. On a
 3% agarose cassette that separation is not achievable, so size selection can *reduce*
 dimers but never remove them — which is exactly what the paper reports.

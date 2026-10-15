@@ -33,10 +33,13 @@ def preamble(protocol: str) -> str:
              "../indrop-v1__10.1016+j.cell.2015.04.044/01_indrop.html")
     caveat = ('''<div class="caveat"><b>Upstream-only v1 oligos.</b> The Cell supplement containing the author sequences was unavailable. Every dotted v1 oligo and final-library base follows the secondary scg_lib_structs reconstruction; only the reaction outline is established by the defining paper.</div>'''
               if protocol == I.V1 else "")
+    bead_qc = ('''<div class="caveat"><b>Published bead-QC size conflict.</b> Zilionis et al. 2017 Supplementary Method 2 lists the intermediate bead band as 102 nt in the gel-imaging instruction and 101 nt in Anticipated Results; both passages list the full and unextended bands as 135 and 65 nt. The bead primer shown here keeps the published variable 8–11 nt first barcode, so no single intermediate length is asserted. The v1 bead drawing also uses this v2 bead-synthesis reference, but its source bases remain inferred.</div>'''
+               if protocol == I.V1 else
+               '''<div class="caveat"><b>Published bead-QC size conflict.</b> Zilionis et al. 2017 Supplementary Method 2 lists the intermediate bead band as 102 nt in the gel-imaging instruction and 101 nt in Anticipated Results; both passages list the full and unextended bands as 135 and 65 nt. The bead primer shown here keeps the published variable 8–11 nt first barcode, so no single intermediate length is asserted.</div>''')
     return f'''<div class="wrap"><h1>{title} &mdash; droplet barcoding with photo-released hydrogel primers</h1>
 <p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
-{info('Each bead carries a split-pool cell barcode, a 6-nt UMI, oligo-dT and a T7 promoter. UV releases the primers into the droplet; pooled cDNA is amplified linearly by IVT.')}{caveat}'''
+{info('Each bead carries a split-pool cell barcode, a 6-nt UMI, oligo-dT and a T7 promoter. UV releases the primers into the droplet; pooled cDNA is amplified linearly by IVT.')}{caveat}{bead_qc}'''
 
 
 def bead_oligos() -> str:
@@ -128,8 +131,8 @@ def sequencing(protocol: str) -> str:
             + '</div>')
 
 
-def render_page(protocol: str, out: Path) -> None:
-    graph = I.protocol_graph(protocol)
+def render_page(protocol: str, out: Path, graph=None) -> None:
+    graph = graph if graph is not None else I.protocol_graph(protocol)
     version_steps = v1_steps() if protocol == I.V1 else v2_steps()
     html = "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
                        bead_oligos(), library_oligos(protocol),

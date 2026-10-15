@@ -23,6 +23,7 @@ python3 small-seq__10.1038+nbt.3701/tools/selftest.py   # a single protocol's su
 python3 tools/selftest.py          # Markdown renderer, computed facts, docs build
 python3 tools/selftest_sources.py  # source fetcher: DOI routing, download validation, fetchers (offline)
 python3 tools/selftest_source_oligos.py [protocol-dir ...]  # local source-text transcription guard
+python3 tools/check_chemistry.py --details  # scoped molecular claims across ten pilots + five boundary examples
 python3 tools/lint_pairing.py [page.html ...]   # drawn duplex columns must base-pair
 
 # build
@@ -177,6 +178,13 @@ finds oligos, not reaction order: the methods still have to be **read**.
 - **Evidence marking** in notes: 🟢 verbatim from source · 🟡 derived/inferred · 🔴 not
   published. On pages, inferred regions need all three: a preamble caveat, an
   `INFERRED — …` step caption, and `<inf>` around the bases.
+- **Show published discrepancies on every affected protocol page.** When a paper,
+  supplement or vendor original contains an apparent error or conflicts with another
+  authoritative source, identify both source locations and values on that protocol's
+  public schematic page, explain which value the model uses and why, and state what
+  remains uncertain. Keep the detailed evidence in its note too. Apply this to each
+  page that inherits the disputed claim. Do not call a repository transcription or
+  modelling mistake a publication error, and do not silently repair a source value.
 - **mdrender subset:** no indented code blocks (4-space indents are list continuations);
   raw HTML is escaped except `<br> <sub> <sup> <i> <b> <em> <strong>` because `<cbc>`-style
   metavariables must render literally.

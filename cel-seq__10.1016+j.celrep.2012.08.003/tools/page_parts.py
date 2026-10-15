@@ -24,12 +24,12 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 PAPERS = {
     "CEL-Seq": ("10.1016/j.celrep.2012.08.003", "Cell Reports", "2012"),
-    "CEL-Seq2": ("10.1186/s13059-016-0938-8", "Genome Biology", "2016"),
 }
 
 
-def preamble(protocol: str, *, complete: bool = False) -> str:
-    doi, journal, year = PAPERS[protocol]
+def preamble(protocol: str, *, complete: bool = False,
+             source: tuple[str, str, str] | None = None) -> str:
+    doi, journal, year = source or PAPERS[protocol]
     supporting = ""
     if protocol == "CEL-Seq":
         supporting = (' Supporting primer source: <a href="https://doi.org/'
@@ -44,12 +44,14 @@ not print the Illumina library-primer sequences. Dotted outer arms are unpublish
 placeholders, not the secondary-source TruSeq Small RNA reconstruction.</div>"""
 
 
-def oligos(protocol: str) -> str:
-    rows = [oligo(f"{protocol} RT primer", C.rt_primer_segments(protocol))]
+def oligos(protocol: str, design: C.PrimerDesign | None = None) -> str:
+    rows = [oligo(f"{protocol} RT primer", C.rt_primer_segments(protocol, design))]
     if protocol == "CEL-Seq2":
+        if design is None:
+            raise ValueError("CEL-Seq2 requires its source-specific primer design")
         rows.append(oligo("randomhexRT primer", [
-            seg("library-RT tail", C.RANDOMHEX_TAIL, "r2"),
-            seg("random hexamer", "N" * C.RANDOMHEX_NT, placeholder=True),
+            seg("library-RT tail", design.randomhex_tail, "r2"),
+            seg("random hexamer", "N" * design.randomhex_nt, placeholder=True),
         ]))
     return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"
 
@@ -71,58 +73,34 @@ def cel1_readout() -> str:
 ], "Read roles are source-declared; exact primer sequences and cycle counts are unavailable.")}"""
 
 
-def cel2_readout() -> str:
-    final = C.final_library("CEL-Seq2")
-    r1 = [seg("UMI", "N" * C.CEL2_UMI_NT, "umi", placeholder=True),
-          seg("cell barcode", "N" * C.CEL2_BARCODE_NT, "cbc", placeholder=True),
-          seg("poly(T)", "TTT")]
-    r2 = [seg("transcript", "XXXXXXXX...", placeholder=True)]
-    reads = [
-        ("Read 1", "15 nt: 6-nt UMI + 6-nt cell barcode + three T"),
-        ("Index", "7 cycles: indexed library identity"),
-        ("Read 2", "36 nt: transcript sequence from the random-primed end"),
-    ]
-    return f"""<h2>Read layout</h2>
-{sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
-{panel([strand_row(Construct(r1), prefix="Read 1  ", suffix=""),
-        strand_row(Construct(r2), prefix="Read 2  ", suffix="")],
-       cls="small", caption="Paired-end sequencing keeps cell identity in Read 1 and "
-                            "transcript sequence in Read 2.")}
-{table(("Read", "Published layout"), reads)}
-{sp.read_spec_table([
-    sp.read_spec("Read 1", 15, "6-nt UMI, 6-nt cell barcode, then three T", "extract"),
-    sp.read_spec("Index 1 (i7)", 7, "indexed library identity", "demultiplex"),
-    sp.read_spec("Read 2", 36, "transcript sequence from the random-primed end", "include"),
-], "Read roles, cycle counts and contents are source-declared; exact primer sequences are unavailable.")}"""
-
-
-def protocol_graph(protocol: str) -> ProtocolGraph:
-    if protocol not in PAPERS:
+def protocol_graph(protocol: str, *, design: C.PrimerDesign | None = None,
+                   doi: str | None = None) -> ProtocolGraph:
+    if protocol not in PAPERS and doi is None:
         raise ValueError(f"unknown CEL-Seq protocol: {protocol!r}")
-    doi = PAPERS[protocol][0]
+    doi = doi or PAPERS[protocol][0]
     source = f"https://doi.org/{doi}"
     graph = ProtocolGraph(protocol, authority=source)
 
     primary = graph.input("mrna", "polyadenylated RNA from one well",
-                          MaterialKind.BIOLOGICAL, state=C.rt_scene(protocol),
+                          MaterialKind.BIOLOGICAL, state=C.rt_scene(protocol, design),
                           primary=True)
     arna, reviewed = barcoded_ivt_front(
         graph, primary, rt_primer_label=f"{protocol} RT primer",
-        rt_state=C.rt_scene(protocol), first_state=C.rt_scene(protocol),
-        duplex_state=C.double_stranded_cdna(protocol),
-        arna_state=C.arna(protocol))
+        rt_state=C.rt_scene(protocol, design), first_state=C.rt_scene(protocol, design),
+        duplex_state=C.double_stranded_cdna(protocol, design),
+        arna_state=C.arna(protocol, design))
     reviewed.insert(0, "mrna")
 
     shear = graph.input("fragmentation_condition", "RNA fragmentation condition",
                         MaterialKind.CONDITION)
     fragmented = graph.product("fragmented_arna", "fragmented amplified RNA",
-                               MaterialKind.MOLECULAR, state=C.arna(protocol))
+                               MaterialKind.MOLECULAR, state=C.arna(protocol, design))
     graph.react("fragment_arna", "Fragment amplified RNA", StepKind.FRAGMENTATION,
                 ((arna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
                 (fragmented,))
     reviewed.extend(("fragmentation_condition", "fragment_arna"))
 
-    final_state = C.final_library(protocol)
+    final_state = C.final_library(protocol, design)
     if protocol == "CEL-Seq":
         adapter = graph.input(
             "rna_adapter", "RNA 3′ adapter (sequence not disclosed)",
@@ -162,7 +140,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     else:
         randomhex = graph.input("randomhex_rt", "randomhexRT primer",
                                 MaterialKind.OLIGO,
-                                state=C.cel2_random_rt_scene())
+                                state=C.random_rt_scene(design))
         library_rt = graph.input("library_reverse_transcriptase",
                                  "library reverse transcriptase",
                                  MaterialKind.CATALYST)
@@ -211,10 +189,12 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     return graph.require_publishable()
 
 
-def render_page(protocol: str) -> str:
-    graph = protocol_graph(protocol)
-    readout = cel1_readout() if protocol == "CEL-Seq" else cel2_readout()
+def render_page(protocol: str, *, design: C.PrimerDesign | None = None,
+                source: tuple[str, str, str] | None = None,
+                graph_factory=None, readout=None) -> str:
+    graph = graph_factory() if graph_factory else protocol_graph(protocol)
+    readout_html = readout() if readout else cel1_readout()
     workflow = "<h2>Library construction</h2>\n" + protocol_graph_panels(graph)
     return "\n".join([head(f"{protocol} library chemistry"),
-                      preamble(protocol, complete=True), oligos(protocol),
-                      workflow, readout, "</div>"])
+                      preamble(protocol, complete=True, source=source),
+                      oligos(protocol, design), workflow, readout_html, "</div>"])

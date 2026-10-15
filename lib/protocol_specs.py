@@ -10,6 +10,7 @@ from types import SimpleNamespace
 from typing import Callable
 
 import seqprimers as sp
+from rna_library_operations import finish_pcr, finish_rt_pcr, molecule
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from batch_ngs import nextera_library, seg, truseq_library
 from bliss_chem import adapter_a1 as bliss_adapter_a1, oligos as bliss_oligos
@@ -32,7 +33,6 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPl
                             StepKind)
 from rage_seq_chem import oligos as rage_seq_oligos
 from seqscope_chem import oligos as seqscope_oligos
-from splash_chem import oligos as splash_oligos
 from stlfr_chem import (barcode_transfer_geometry as stlfr_barcode_transfer_geometry,
                         oligos as stlfr_oligos)
 
@@ -43,21 +43,6 @@ def role(name: str, width: int = 18, tag: str | None = None, *, length_bp=None,
     return Segment(name, token, tag, placeholder=True, length_bp=length_bp,
                    inferred=inferred, feature=molecular_feature)
 
-
-def molecule(label: str, names: tuple[str, ...], *, joined: bool = False,
-             note: str = "", junctions: tuple[tuple[str, str, str], ...] = ()) -> Scene:
-    parts = [Segment(name, chr(88 + (i % 2)) * 18, placeholder=True)
-             for i, name in enumerate(names)]
-    sc = Scene(); sc.strand("molecule", parts, label=label)
-    # ``joined`` means only that the labels describe one covalent molecule.  A barcode
-    # copied from a primer is just as joined as a ligated adapter, but it is not a
-    # ligation site.  Only callers naming an exact boundary may draw the ** marker.
-    for left, right, label_text in junctions:
-        sc.junction("molecule", left, right, label_text)
-    if note:
-        sc.note("molecule", note)
-    sc.labels("molecule")
-    return sc
 
 
 def two_branch(label: str, a: str, b: str, note: str = "") -> Scene:
@@ -75,12 +60,8 @@ def workflow(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workf
     return w
 
 
-def _psoralen(key: str) -> Workflow:
-    reagent, selection = {
-        "paris": ("AMT", "cross-linked duplexes selected above the diagonal on a 2D gel"),
-        "splash": ("biotinylated psoralen", "streptavidin selects biotin-psoralen RNA duplexes"),
-        "ligr-seq": ("AMT", "RNase R depletes uncross-linked linear RNA"),
-    }[key]
+def psoralen_workflow(reagent: str, selection: str) -> Workflow:
+    """Construct the shared crosslink, selection and proximity-ligation workflow."""
     x = ReversibleDuplexCrosslink(reagent, selection)
     return workflow(molecule("cellular RNA", ("RNA molecules",)), (
         (f"Cross-link paired RNA with {reagent} and long-wave UV", x.duplex(), selection),
@@ -94,8 +75,12 @@ def _psoralen(key: str) -> Workflow:
 
 
 def workflow_for(key: str) -> Workflow:
-    if key in {"paris", "splash", "ligr-seq"}:
-        return _psoralen(key)
+    if key in {"paris", "ligr-seq"}:
+        reagent, selection = {
+        "paris": ("AMT", "cross-linked duplexes selected above the diagonal on a 2D gel"),
+        "ligr-seq": ("AMT", "RNase R depletes uncross-linked linear RNA"),
+        }[key]
+        return psoralen_workflow(reagent, selection)
     if key == "mario":
         x = ProteinMediatedRNAContact("biotinylated RNA linker", True)
         return workflow(molecule("cellular RNPs", ("protein-bound RNAs",)), (
@@ -346,7 +331,6 @@ DEFS = {
     "stlfr": Definition("stLFR — single-tube long-fragment reads", "10.1101/gr.245126.118", "Wang et al., Genome Research (2019)", "Transposon-tagged subfragments from one long DNA molecule are captured on one bead and receive a shared linked-read barcode before DNBSEQ.", "dnb", ("linked-read barcode", "genomic subfragment"), "The cited detailed protocol publishes the BGI Read 1, barcode and Read 2 sequencing primers and states paired-end 100-base genomic reads; barcode demultiplexing consumes a 42-base barcode/common-adapter string. The exact DNB circle-closing adapter or splint geometry is not published.", "DNA", "The paper-cited Protocol Exchange workbook publishes the common bead, bridge, transposon, PCR, branch-ligation, BGI and Illumina oligos, plus all 1,536 members of each of the three 10-nt barcode sets. The page shows the barcode-family architecture; the external workbook remains the authoritative full whitelist."),
     "nano3p-seq": Definition("Nano3P-seq — Nanopore 3′-end capture", "10.1038/s41592-022-01714-w", "Begik et al., Nature Methods (2023)", "Template-switching reverse transcription captures native RNA 3′ ends for PCR-free Nanopore cDNA sequencing without RNA-adapter ligation.", "nanopore", ("motor adapter", "full-length cDNA from native 3-prime end"), "Nanopore traverses the cDNA from the captured native RNA 3′ end, retaining tail length and composition information.", "RNA", "The defining paper prints all three custom Nano3P-seq oligos and their modifications. The SQK-DCS109 Adapter Mix motor-adapter sequence remains proprietary to Oxford Nanopore and is marked inferred."),
     "paris": Definition("PARIS — psoralen analysis of RNA interactions and structures", "10.1016/j.cell.2016.04.028", "Lu et al., Cell (2016)", "AMT photocrosslinking, two-dimensional gel enrichment and proximity ligation preserve the two partners of an RNA duplex in one chimera.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "The detailed PARIS protocol publishes the complete custom P6 sequencing primer and all adapter, RT and PCR oligos. Its circular-cDNA junction still needs to be represented before primer placement can be computed rather than stated by role.", "RNA", "The exact oligos were not absent: Lu et al.'s detailed PARIS protocol prints them, including modifications and the 24-member RT-index list. The current diagram retains a role-level final construct until the circular-cDNA library geometry is reconstructed."),
-    "splash": Definition("SPLASH — sequencing psoralen-crosslinked RNA hybrids", "10.1016/j.molcel.2016.04.028", "Aw et al., Molecular Cell (2016)", "Biotinylated psoralen photocrosslinks RNA duplexes for streptavidin selection, proximity ligation and sequencing.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "The detailed protocol specifies paired-end 150-base sequencing. Its activated 3-prime adapter and 96-nt RT/circularization primer are published, but the final universal and indexed PCR primers are named without sequences, so exact read-primer placement remains unresolved.", "RNA", "The exact adapter and RT primer were not absent: the author protocol prints both, including the 5rApp, 3ddC and two internal iSp18 modifications. The final PCR-primer pair remains undisclosed in that protocol."),
     "ligr-seq": Definition("LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030", "Sharma et al., Molecular Cell (2016)", "AMT-crosslinked RNA duplexes survive RNase R enrichment and are proximity-ligated before cDNA library construction.", "truseq", ("5-prime random barcode", "RNA A-derived cDNA", "RNA B-derived cDNA"), "The study analyzed single-end, strand-specific reads after trimming a 5-prime random barcode. The SMARTer kit supplies standard Illumina/TruSeq-compatible endpoints, so the standard sequencing-primer sites are derived centrally; the proprietary internal priming sequences remain unknown.", "RNA", "The defining paper and its complete supplement were checked. They identify the SMARTer Stranded RNA-Seq kit and reaction roles but do not print its N6, SMART, or PCR-primer sequences. The contemporary Clontech manual explicitly marks those component sequences proprietary, while identifying its Illumina-compatible endpoint and index families."),
     "mario": Definition("MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023", "Nguyen et al., Nature Communications (2016)", "UV-crosslinked RNPs receive a selectable biotinylated RNA linker that joins two RNAs co-bound by one protein.", "truseq", ("UMI", "RNA A cDNA", "MARIO linker", "RNA B cDNA"), "Standard paired-end Illumina reads traverse the two RNA-derived arms and linker. The paper publishes the full PE1/PE2 primers, three inline sample-barcode/UMI RT primers, and every custom linker/adapter oligo.", "RNA", "The original Methods section has a complete source-exact oligo list. Three RT-primer variants differ in their four-base sample barcode and random-barcode length; all three are shown."),
     "maester": Definition("MAESTER — mitochondrial variant enrichment from scRNA-seq", "10.1038/s41587-022-01210-8", "Miller et al., Nature Biotechnology (2022)", "Multiplex PCR enriches mitochondrial transcripts from barcoded 3′ scRNA-seq cDNA while preserving cell barcodes and UMIs.", "truseq", ("cell barcode", "UMI", "mitochondrial target"), "Read 1 retains the parent scRNA-seq cell barcode and UMI; the opposite read reports the enriched mitochondrial target.", "RNA"),
@@ -365,52 +349,12 @@ DEFS = {
 }
 
 
-def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
-    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
-                          MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
-                             MaterialKind.CATALYST)
-    library = graph.product(prefix + "_library", label + " sequencing library",
-                            MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
-                StepKind.PCR,
-                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The defining source establishes the library roles but not one universal source-exact amplicon geometry."))
-    plan = (SequencingPlan(library=final, primers=tuple(primers)) if primers
-            else SequencingPlan(limitation=endpoint))
-    graph.sequence(library, plan)
-    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
-                     prefix + "_pcr", prefix + "_library"))
-    return library
 
-
-def _finish_rt_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
-    rt_primer = graph.input(prefix + "_rt_primer", label + " reverse-transcription primer",
-                            MaterialKind.OLIGO)
-    rt = graph.input(prefix + "_rt_enzyme", label + " reverse transcriptase",
-                     MaterialKind.CATALYST)
-    cdna = graph.product(prefix + "_cdna", label + " cDNA", MaterialKind.MOLECULAR,
-                         state=molecule(label + " cDNA", ("cDNA insert",)))
-    graph.react(prefix + "_rt", "Reverse-transcribe the " + label + " product",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((template, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (cdna,))
-    reviewed.extend((prefix + "_rt_primer", prefix + "_rt_enzyme", prefix + "_rt"))
-    return _finish_pcr(graph, prefix, cdna, final, primers, endpoint, reviewed, label=label)
-
-
-def _psoralen_graph(key, d, final, primers):
+def psoralen_graph(d, final, primers, *, reagent: str,
+                   selection_label: str):
+    """Build a psoralen contact graph from source-specific reagent choices."""
     source = f"{d.source_label}; doi:{d.doi}"
     graph = ProtocolGraph(d.title, authority=source)
-    reagent, selection_label = {
-        "paris": ("AMT psoralen", "two-dimensional-gel duplex selection"),
-        "splash": ("biotinylated psoralen", "streptavidin capture"),
-        "ligr-seq": ("AMT psoralen", "RNase-R-resistant duplex selection"),
-    }[key]
     topology = ReversibleDuplexCrosslink(reagent, selection_label)
     rna = graph.input("rna", "cellular RNA containing paired regions",
                       MaterialKind.BIOLOGICAL,
@@ -457,7 +401,7 @@ def _psoralen_graph(key, d, final, primers):
     reviewed = ["rna", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
                 "selector", "select_duplexes", "proximity_ligase", "proximity_ligation",
                 "photoreversal", "photoreverse"]
-    _finish_rt_pcr(graph, "library", reversed_chimera, final, primers, d.sequencing,
+    finish_rt_pcr(graph, "library", reversed_chimera, final, primers, d.sequencing,
                    reviewed, label=d.title)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -496,7 +440,7 @@ def _mario_graph(d, final, primers):
     graph.discard(rejected, "does not contain the biotinylated interaction linker")
     reviewed = ["rnps", "uv", "crosslink", "linker", "ligase", "ligate_linker",
                 "streptavidin", "capture"]
-    _finish_rt_pcr(graph, "library", captured, final, primers, d.sequencing, reviewed,
+    finish_rt_pcr(graph, "library", captured, final, primers, d.sequencing, reviewed,
                    label="MARIO chimera")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -551,7 +495,7 @@ def _codec_graph(d, final, primers):
                 (linked,))
     reviewed = ["duplex", "end_repair_enzyme", "end_repair", "codec_adapter", "ligase",
                 "ligate", "strand_polymerase", "link_duplex"]
-    _finish_pcr(graph, "library", linked, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", linked, final, primers, d.sequencing, reviewed,
                 label="CODEC linked duplex")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -592,7 +536,7 @@ def _nanoseq_graph(d, final, primers):
                     "The source establishes complementary duplex tags; the role-level page does not assert one adapter-end sequence."))
     reviewed = ["dna", "restriction_enzyme", "digest", "repair_mix",
                 "restrictive_end_repair", "duplex_adapters", "ligase", "ligate"]
-    _finish_pcr(graph, "library", adapted, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", adapted, final, primers, d.sequencing, reviewed,
                 label="NanoSeq duplex")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -729,7 +673,7 @@ def _maester_graph(d, final, primers):
                 (enriched,), geometry=PCRGeometry.unavailable(
                     enriched.state, reason="The multiplex target panel, rather than one universal amplicon, defines the PCR geometry."))
     reviewed = ["cdna", "target_forward", "target_reverse", "target_polymerase", "target_pcr"]
-    _finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
                 label="MAESTER mitochondrial-target")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -774,7 +718,7 @@ def _malbac_dt_graph(d, final, primers):
     graph.discard(waste, "does not retain an amplifiable barcoded transcript insert")
     reviewed = ["rna", "rt_primer", "reverse_transcriptase", "reverse_transcribe",
                 "malbac_primer", "malbac_polymerase", "malbac", "transposome", "tn5", "tagment"]
-    _finish_pcr(graph, "library", tagged, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", tagged, final, primers, d.sequencing, reviewed,
                 label="MALBAC-DT")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -815,7 +759,7 @@ def _seq_scope_graph(d, final, primers):
                  (rt, InputRole.CATALYST)), (cdna,))
     reviewed = ["surface", "decoder", "decode", "tissue_rna", "capture", "rt_primer",
                 "reverse_transcriptase", "reverse_transcribe"]
-    _finish_pcr(graph, "library", cdna, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", cdna, final, primers, d.sequencing, reviewed,
                 label="Seq-Scope spatial transcript")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -857,7 +801,7 @@ def _bliss_graph(d, final, primers):
                 ((tagged, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
     reviewed = ["dna", "blunting_enzyme", "blunt", "break_adapter", "ligase", "ligate",
                 "t7_polymerase", "transcribe"]
-    _finish_rt_pcr(graph, "library", rna, final, primers, d.sequencing, reviewed,
+    finish_rt_pcr(graph, "library", rna, final, primers, d.sequencing, reviewed,
                    label="BLISS break")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -900,7 +844,7 @@ def _scsplat_graph(d, final, primers):
                     "The source identifies splinted P7 installation; this role-level page does not assert the panel-specific splint bases."))
     reviewed = ["dna", "bisulfite", "convert", "random_primer", "strand_polymerase",
                 "second_strand", "p7_adapter", "ligase", "ligate"]
-    _finish_pcr(graph, "library", adapted, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", adapted, final, primers, d.sequencing, reviewed,
                 label="scSPLAT")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -930,7 +874,7 @@ def _dart_graph(d, final, primers):
                 ((targeted, InputRole.TEMPLATE), (deamination, InputRole.CONDITION)),
                 (marked,))
     reviewed = ["rna", "fusion", "bind", "deamination_condition", "deaminate"]
-    _finish_rt_pcr(graph, "library", marked, final, primers, d.sequencing, reviewed,
+    finish_rt_pcr(graph, "library", marked, final, primers, d.sequencing, reviewed,
                    label="DART-seq marked RNA")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -980,7 +924,7 @@ def _snubar_graph(d, final, primers):
     graph.discard(collisions, "does not retain an interpretable cell barcode")
     reviewed = ["nuclei", "transposome", "tn5", "tagment", "snubar", "anneal_snubar",
                 "droplets", "partition"]
-    _finish_pcr(graph, "library", barcoded, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", barcoded, final, primers, d.sequencing, reviewed,
                 label="SNuBar-ATAC")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -1027,15 +971,15 @@ def _redeem_graph(d, final, primers):
     graph.discard(rejected, "does not belong to the selected mitochondrial branch")
     reviewed = ["cells", "multiome_droplets", "multiome", "split_branches",
                 "capture_probes", "capture_mt"]
-    _finish_pcr(graph, "mt", captured, final, primers, "mtDNA branch: " + d.sequencing,
+    finish_pcr(graph, "mt", captured, final, primers, "mtDNA branch: " + d.sequencing,
                 reviewed, label="ReDeeM mtDNA")
     atac_final, atac_primers = nextera_library(
         [role("cell barcode"), role("accessible-DNA insert")], "ReDeeM ATAC library")
     rna_final, rna_primers = truseq_library(
         [role("cell barcode"), role("UMI"), role("transcript cDNA")], "ReDeeM RNA library")
-    _finish_pcr(graph, "atac", atac, atac_final, atac_primers,
+    finish_pcr(graph, "atac", atac, atac_final, atac_primers,
                 "matched ATAC branch: " + d.sequencing, reviewed, label="ReDeeM ATAC")
-    _finish_pcr(graph, "rna", rna, rna_final, rna_primers,
+    finish_pcr(graph, "rna", rna, rna_final, rna_primers,
                 "matched RNA branch: " + d.sequencing, reviewed, label="ReDeeM RNA")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -1085,7 +1029,7 @@ def _rage_graph(d, final):
         "RAGE-Seq matched expression library")
     reviewed = ["cdna", "split", "capture_probes", "capture", "motor_adapter",
                 "adapter_ligase", "ligate_motor", "long_library"]
-    _finish_pcr(graph, "expression", expression, expression_final, expression_primers,
+    finish_pcr(graph, "expression", expression, expression_final, expression_primers,
                 "matched short-read expression branch", reviewed,
                 label="RAGE-Seq expression")
     graph.declare_reviewed_scope(reviewed, source)
@@ -1235,7 +1179,7 @@ def _cfmedip_graph(d, final, primers):
     reviewed = ["cfdna", "repair_mix", "end_repair", "tailing_enzyme", "tail", "adapters",
                 "ligase", "ligate", "controls", "pool_controls", "denaturing_condition",
                 "denature", "antibody", "immunoprecipitate"]
-    _finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
                 label="cfMeDIP-seq")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -1276,7 +1220,7 @@ def _ric_graph(d, final, primers):
                 ((chimera, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)), (purified,))
     reviewed = ["cells", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
                 "proximity_ligase", "ligate", "reversal", "reverse_crosslinks"]
-    _finish_rt_pcr(graph, "library", purified, final, primers, d.sequencing, reviewed,
+    finish_rt_pcr(graph, "library", purified, final, primers, d.sequencing, reviewed,
                    label="RIC-seq chimera")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -1343,7 +1287,7 @@ def _plac_graph(d, final, primers):
                 "fill_polymerase", "fill", "proximity_ligase", "proximity_ligation",
                 "shear_condition", "shear", "antibody", "chip_capture", "streptavidin",
                 "junction_capture"]
-    _finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
+    finish_pcr(graph, "library", enriched, final, primers, d.sequencing, reviewed,
                 label="PLAC-seq contact")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -1369,8 +1313,10 @@ def _payload(d: Definition) -> list[Segment]:
     return out
 
 
-def get(key: str):
-    d = DEFS[key]
+def get(key: str, *, definition: Definition | None = None,
+        psoralen: tuple[str, str, str, str] | None = None):
+    """Create a page spec; caller-owned definitions supply named protocol claims."""
+    d = definition if definition is not None else DEFS[key]
     primers = ()
     if key == "codec":
         final = codec_final_library()
@@ -1402,7 +1348,9 @@ def get(key: str):
         SEQUENCING_ENDING=d.sequencing,
         SEQUENCING_UNAVAILABLE=("The defining source does not expose an exact sequencing-primer sequence; the molecular read entry is shown by role."
                                 if not primers else ""),
-        workflow=lambda: workflow_for(key), oligos=lambda: (),
+        workflow=(lambda: psoralen_workflow(*psoralen[:2])) if psoralen else
+                 (lambda: workflow_for(key)),
+        oligos=lambda: (),
     )
     if key == "codec":
         spec.oligos = codec_oligos
@@ -1411,13 +1359,6 @@ def get(key: str):
         spec.SEQUENCING_UNAVAILABLE = (
             "The custom sequencing-primer bases are published; exact placement remains "
             "unresolved only because the circular-cDNA junction is not yet represented.")
-    elif key == "splash":
-        spec.oligos = splash_oligos
-        spec.SEQUENCING_UNAVAILABLE = (
-            "The activated adapter and 96-nt RT/circularization-primer bases are "
-            "published. The detailed protocol names Universal PCR Primer and "
-            "Index (X) Primer without printing their sequences, so the completed "
-            "amplicon and exact sequencing-primer sites cannot yet be derived.")
     elif key == "mario":
         spec.oligos = mario_oligos
     elif key == "rage-seq":
@@ -1442,9 +1383,12 @@ def get(key: str):
             "The BGI sequencing-primer sequences are published; only the DNB "
             "circle-closing adapter or splint geometry remains unavailable.")
     factories = {
-        "paris": lambda: _psoralen_graph(key, d, final, primers),
-        "splash": lambda: _psoralen_graph(key, d, final, primers),
-        "ligr-seq": lambda: _psoralen_graph(key, d, final, primers),
+        "paris": lambda: psoralen_graph(d, final, primers,
+                                         reagent="AMT psoralen",
+                                         selection_label="two-dimensional-gel duplex selection"),
+        "ligr-seq": lambda: psoralen_graph(d, final, primers,
+                                            reagent="AMT psoralen",
+                                            selection_label="RNase-R-resistant duplex selection"),
         "mario": lambda: _mario_graph(d, final, primers),
         "codec": lambda: _codec_graph(d, final, primers),
         "nanoseq": lambda: _nanoseq_graph(d, final, primers),

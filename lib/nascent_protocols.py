@@ -16,6 +16,7 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import chain, molecule, role
+from rna_library_operations import finish_cdna, ligate_rna_adapter
 
 
 @dataclass(frozen=True)
@@ -134,14 +135,18 @@ def _end_capture(key: str) -> Workflow:
     ))
 
 
-def _four_su(key: str) -> Workflow:
-    cfg = {
+def _four_su(key: str, *, config: FourSUReadout | None = None,
+             route: str | None = None) -> Workflow:
+    cfg = config or {
         "timelapse-seq": FourSUReadout("oxidation plus 2,2,2-trifluoroethylamine nucleophilic substitution", "U-to-C mismatch", False),
         "tuc-seq": FourSUReadout("osmium-tetroxide-mediated 4sU-to-cytidine conversion", "U-to-C mismatch", False),
         "snu-seq": FourSUReadout("thiol biotinylation, streptavidin purification and bacterial poly(A) polymerase", "native RNA ends", True),
-        "sf4su-seq": FourSUReadout("thiol biotinylation, streptavidin purification and ≈100-nt denaturing-gel selection", "native RNA ends", True),
     }[key]
-    if key in {"timelapse-seq", "tuc-seq"}:
+    route = route or ("recode" if key in {"timelapse-seq", "tuc-seq"}
+                      else "polyadenylate")
+    if route not in {"recode", "polyadenylate", "size_select"}:
+        raise ValueError(f"unknown 4sU route: {route}")
+    if route == "recode":
         return chain(molecule("living cells", (role("RNA synthesis during pulse"),)), (
             ("Pulse-label newly synthesized RNA with 4-thiouridine", cfg.labelled(),
              "Pre-existing RNA lacks 4sU; newly made RNA incorporates it."),
@@ -153,8 +158,8 @@ def _four_su(key: str) -> Workflow:
              "New molecules are recognized from distributed T-to-C mismatches rather than a separate barcode."),
         ))
     extra = ("Polyadenylate the intact enriched RNA with bacterial poly(A) polymerase"
-             if key == "snu-seq" else "Gel-select the abundant ≈100-nt enriched RNA fraction")
-    result = ("3-prime-anchored intact 4sU-RNA" if key == "snu-seq"
+             if route == "polyadenylate" else "Gel-select the abundant ≈100-nt enriched RNA fraction")
+    result = ("3-prime-anchored intact 4sU-RNA" if route == "polyadenylate"
               else "size-resolved 5-prime and 3-prime RNA ends")
     return chain(molecule("living cells", (role("RNA synthesis during pulse"),)), (
         ("Pulse-label RNA with 4sU, thiol-biotinylate and enrich on streptavidin", cfg.labelled(),
@@ -162,7 +167,7 @@ def _four_su(key: str) -> Workflow:
         (extra, cfg.product(),
          "SNU-Seq and sf4sU-Seq deliberately create different endpoint information from the same labelled pool."),
         ("Build the directional sequencing library", molecule(result, (role("left sequencing end"),
-            *(() if key == "snu-seq" else (SAMPLE_INDEX,)),
+            *(() if route == "polyadenylate" else (SAMPLE_INDEX,)),
             role("4sU-enriched RNA-derived cDNA"), role("right sequencing end"))),
          "The final read coordinate reflects the selected intact or size-fractionated RNA end."),
     ))
@@ -205,7 +210,6 @@ DEFS = {
     "timelapse-seq": Definition("TimeLapse-seq — nucleoside-recoding RNA dynamics", "10.1038/nmeth.4582", "Schofield et al., Nature Methods (2018)", "Oxidative nucleophilic substitution converts 4sU in newly synthesized RNA into a cytidine-like base, producing T-to-C mismatches in ordinary RNA-seq reads.", "Standard RNA-seq reads identify newly synthesized molecules from distributed T-to-C conversions.", "01_timelapse_seq.html"),
     "tuc-seq": Definition("TUC-seq — thiouridine-to-cytidine conversion sequencing", "10.1002/anie.201707465", "Riml et al., Angewandte Chemie (2017)", "Osmium-mediated chemistry converts incorporated 4sU into native cytidine, encoding newly transcribed RNA as U-to-C sequence changes.", "RNA-seq reads distinguish labelled molecules through U-to-C conversions created before reverse transcription.", "01_tuc_seq.html"),
     "snu-seq": Definition("SNU-Seq — single-nucleotide-resolution 4sU sequencing", "10.1093/nar/gkag652", "Gerlevik et al., Nucleic Acids Research (2026)", "Biotin-selected intact 4sU RNA is polyadenylated with bacterial poly(A) polymerase and captured by a 3′ RNA-seq workflow to preserve native endpoint information.", "The 3′-anchored read reports the native end of an intact pulse-labelled RNA molecule.", "01_snu_seq.html"),
-    "sf4su-seq": Definition("sf4sU-Seq — size-fractionated 4sU sequencing", "10.1093/nar/gkag652", "Gerlevik et al., Nucleic Acids Research (2026)", "Biotin-enriched 4sU RNA is gel-selected around 100 nt and sequenced directionally from both ends to map initiation and promoter-proximal pausing.", "The two read ends report the native 5′ and 3′ coordinates of the selected short labelled RNA.", "01_sf4su_seq.html"),
     "cagescan": Definition("CAGEscan — paired-end cap-to-transcript sequencing", "10.1038/nmeth.1470", "Plessy et al., Nature Methods (2010)", "Cap-dependent template switching marks the transcript 5′ end while a random RT primer supplies a downstream mate, linking promoters to transcript bodies without tag cleavage.", "One mate enters at the cap-derived 5′ end and the other enters from the random-primer-defined downstream end.", "01_cagescan.html"),
 }
 
@@ -221,58 +225,6 @@ CAGE_OLIGOS = (
     "5′-CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′ — CAGEscan reverse paired-end sequencing primer",
 )
 
-
-def _ligate_rna_adapter(graph: ProtocolGraph, prefix: str, template, label: str,
-                        reviewed: list[str]):
-    adapter = graph.input(prefix + "_adapter", label + " RNA adapter", MaterialKind.ADAPTER)
-    ligase = graph.input(prefix + "_ligase", label + " RNA ligase", MaterialKind.CATALYST)
-    product = graph.product(prefix + "_product", label + " adapter-ligated RNA",
-                            MaterialKind.MOLECULAR,
-                            state=molecule(label + " adapter-ligated RNA", (
-                                role(label + " adapter"), role("selected RNA"))))
-    graph.react(prefix + "_ligation", "Ligate the " + label + " RNA adapter",
-                StepKind.LIGATION,
-                ((template, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (product,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The defining source establishes this RNA-adapter role but not one immutable ligating-end sequence for the page model."))
-    reviewed.extend((prefix + "_adapter", prefix + "_ligase", prefix + "_ligation"))
-    return product
-
-
-def _finish_cdna(graph: ProtocolGraph, prefix: str, template, final: Construct,
-                 endpoint: str, reviewed: list[str], *, rt_label: str = "adapter RT primer"):
-    rt_primer = graph.input(prefix + "_rt_primer", rt_label, MaterialKind.OLIGO)
-    reverse_transcriptase = graph.input(prefix + "_reverse_transcriptase", "reverse transcriptase",
-                                       MaterialKind.CATALYST)
-    cdna = graph.product(prefix + "_cdna", "assay-derived first-strand cDNA",
-                         MaterialKind.MOLECULAR,
-                         state=molecule("assay-derived cDNA", (role("selected RNA cDNA"),)))
-    graph.react(prefix + "_rt", "Reverse-transcribe the selected RNA",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((template, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
-    forward = graph.input(prefix + "_pcr_forward", "library PCR forward primer",
-                          MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_pcr_reverse", "indexed library PCR reverse primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input(prefix + "_pcr_polymerase", "library PCR polymerase",
-                             MaterialKind.CATALYST)
-    library = graph.product(prefix + "_library", "indexed sequencing library",
-                            MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Index and amplify the cDNA library", StepKind.PCR,
-                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    final,
-                    reason="The source establishes read direction and library roles but not one immutable complete primer geometry."))
-    graph.sequence(library, SequencingPlan(limitation=endpoint))
-    reviewed.extend((
-        prefix + "_rt_primer", prefix + "_reverse_transcriptase", prefix + "_rt",
-        prefix + "_pcr_forward", prefix + "_pcr_reverse", prefix + "_pcr_polymerase",
-        prefix + "_pcr", prefix + "_library",
-    ))
-    return library
 
 
 def _mnet_graph(d: Definition, final: Construct) -> ProtocolGraph:
@@ -334,9 +286,9 @@ def _mnet_graph(d: Definition, final: Construct) -> ProtocolGraph:
         "immunoprecipitate", "rna_extraction", "extract_rna", "rna_kinase",
         "phosphorylate", "size_selection", "select_size",
     ]
-    ligated3 = _ligate_rna_adapter(graph, "three_prime", sized, "3-prime", reviewed)
-    ligated5 = _ligate_rna_adapter(graph, "five_prime", ligated3, "5-prime", reviewed)
-    _finish_cdna(graph, "library", ligated5, final, d.endpoint, reviewed)
+    ligated3 = ligate_rna_adapter(graph, "three_prime", sized, "3-prime", reviewed)
+    ligated5 = ligate_rna_adapter(graph, "five_prime", ligated3, "5-prime", reviewed)
+    finish_cdna(graph, "library", ligated5, final, d.endpoint, reviewed)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -399,9 +351,9 @@ def _runon_cap_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph
         "nuclei", "labelled_ntp", "engaged_polymerase", "run_on", "runon_capture",
         "enrich_runon", "phosphatase", "dephosphorylate", "tap", "decap",
     ]
-    ligated5 = _ligate_rna_adapter(graph, "five_prime", cap_selected, "5-prime", reviewed)
-    ligated3 = _ligate_rna_adapter(graph, "three_prime", ligated5, "3-prime", reviewed)
-    _finish_cdna(graph, "library", ligated3, final, d.endpoint, reviewed)
+    ligated5 = ligate_rna_adapter(graph, "five_prime", cap_selected, "5-prime", reviewed)
+    ligated3 = ligate_rna_adapter(graph, "three_prime", ligated5, "3-prime", reviewed)
+    finish_cdna(graph, "library", ligated3, final, d.endpoint, reviewed)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -447,23 +399,25 @@ def _start_graph(d: Definition, final: Construct) -> ProtocolGraph:
         "nuclear_rna", "size_selection", "select_size", "cap_selection", "select_caps",
         "split_end_libraries",
     ]
-    five3 = _ligate_rna_adapter(graph, "five_library_three", five_input,
+    five3 = ligate_rna_adapter(graph, "five_library_three", five_input,
                                 "5-prime-library 3-prime", reviewed)
-    five5 = _ligate_rna_adapter(graph, "five_library_five", five3,
+    five5 = ligate_rna_adapter(graph, "five_library_five", five3,
                                 "5-prime-library 5-prime", reviewed)
-    _finish_cdna(graph, "five_library", five5, final,
+    finish_cdna(graph, "five_library", five5, final,
                  "5-prime Start-seq library: " + d.endpoint, reviewed)
-    three3 = _ligate_rna_adapter(graph, "three_library_three", three_input,
+    three3 = ligate_rna_adapter(graph, "three_library_three", three_input,
                                  "3-prime-library 3-prime", reviewed)
-    three5 = _ligate_rna_adapter(graph, "three_library_five", three3,
+    three5 = ligate_rna_adapter(graph, "three_library_five", three3,
                                  "3-prime-library 5-prime", reviewed)
-    _finish_cdna(graph, "three_library", three5, final,
+    finish_cdna(graph, "three_library", three5, final,
                  "3-prime Start-seq library: " + d.endpoint, reviewed)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
 
-def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
+def four_su_graph(key: str, d: Definition, final: Construct, *,
+                   config: FourSUReadout | None = None,
+                   route: str | None = None) -> ProtocolGraph:
     source = f"{d.citation}; doi:{d.doi}"
     graph = ProtocolGraph(d.title, authority=source)
     cells = graph.input(
@@ -474,7 +428,7 @@ def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
                           MaterialKind.MOLECULAR)
     polymerase = graph.input("cellular_rna_polymerase", "cellular RNA polymerases",
                              MaterialKind.CATALYST)
-    cfg = {
+    cfg = config or {
         "timelapse-seq": FourSUReadout(
             "oxidation plus 2,2,2-trifluoroethylamine nucleophilic substitution",
             "U-to-C mismatch", False),
@@ -484,10 +438,11 @@ def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
         "snu-seq": FourSUReadout(
             "thiol biotinylation, streptavidin purification and bacterial poly(A) polymerase",
             "native RNA ends", True),
-        "sf4su-seq": FourSUReadout(
-            "thiol biotinylation, streptavidin purification and ≈100-nt denaturing-gel selection",
-            "native RNA ends", True),
     }[key]
+    route = route or ("recode" if key in {"timelapse-seq", "tuc-seq"}
+                      else "polyadenylate")
+    if route not in {"recode", "polyadenylate", "size_select"}:
+        raise ValueError(f"unknown 4sU route: {route}")
     labelled = graph.product("labelled_rna", "4sU pulse-labelled RNA",
                              MaterialKind.MOLECULAR, state=cfg.labelled())
     graph.react("pulse_label", "Pulse-label newly synthesized RNA with 4sU",
@@ -496,7 +451,7 @@ def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
                  (polymerase, InputRole.CATALYST)), (labelled,))
     reviewed = ["cells", "four_su", "cellular_rna_polymerase", "pulse_label"]
 
-    if key in {"timelapse-seq", "tuc-seq"}:
+    if route == "recode":
         chemistry = graph.input("recoding_chemistry", cfg.chemistry,
                                 MaterialKind.CONDITION)
         selected = graph.product("recoded_rna", "chemically recoded 4sU RNA",
@@ -532,7 +487,7 @@ def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
             "thiol_biotin", "biotinylation_condition", "biotinylate",
             "streptavidin", "enrich",
         ))
-        if key == "snu-seq":
+        if route == "polyadenylate":
             pap = graph.input("poly_a_polymerase", "bacterial poly(A) polymerase",
                               MaterialKind.CATALYST)
             atp = graph.input("tailing_atp", "ATP for RNA polyadenylation",
@@ -558,9 +513,9 @@ def _four_su_graph(key: str, d: Definition, final: Construct) -> ProtocolGraph:
             graph.discard(rejected, "falls outside the size-resolved endpoint population")
             reviewed.extend(("size_selection", "select_size"))
 
-    ligated = _ligate_rna_adapter(graph, "library_adapter", selected,
+    ligated = ligate_rna_adapter(graph, "library_adapter", selected,
                                   "directional library", reviewed)
-    _finish_cdna(graph, "library", ligated, final, d.endpoint, reviewed)
+    finish_cdna(graph, "library", ligated, final, d.endpoint, reviewed)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -619,15 +574,20 @@ def _cagescan_graph(d: Definition, final: Construct) -> ProtocolGraph:
     return graph.require_publishable()
 
 
-def get(key: str):
-    d = DEFS[key]
+def get(key: str, *, definition: Definition | None = None,
+        four_su_config: FourSUReadout | None = None,
+        four_su_route: str | None = None):
+    d = definition if definition is not None else DEFS[key]
     workflow_fn = (_cagescan if key == "cagescan" else
-                   (lambda: _four_su(key)) if key in {"timelapse-seq", "tuc-seq", "snu-seq", "sf4su-seq"}
+                   (lambda: _four_su(key, config=four_su_config,
+                                      route=four_su_route))
+                   if four_su_config or key in {"timelapse-seq", "tuc-seq", "snu-seq"}
                    else (lambda: _end_capture(key)))
     payload = (role("cap-linked transcript cDNA"), role("downstream transcript cDNA")) if key == "cagescan" else (role("assay-derived cDNA"),)
     final = role_library(d.title + " final library", payload,
-                         indexed=key != "snu-seq",
-                         platform="platform-specific" if key == "snu-seq" else "Illumina-compatible")
+                         indexed=four_su_route != "polyadenylate" and key != "snu-seq",
+                         platform=("platform-specific" if four_su_route == "polyadenylate" or key == "snu-seq"
+                                   else "Illumina-compatible"))
     unavailable = ("The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role."
                    if key != "cagescan" else
                    "The original CAGEscan supplement publishes the RT and PCR oligos, but the historical instrument-primer geometry is not asserted as a modern invariant.")
@@ -645,8 +605,9 @@ def get(key: str):
         spec.protocol_graph = lambda: _start_graph(d, final)
     elif key in {"gro-cap", "pro-cap"}:
         spec.protocol_graph = lambda: _runon_cap_graph(key, d, final)
-    elif key in {"timelapse-seq", "tuc-seq", "snu-seq", "sf4su-seq"}:
-        spec.protocol_graph = lambda: _four_su_graph(key, d, final)
-    else:
+    elif key in {"timelapse-seq", "tuc-seq", "snu-seq"}:
+        spec.protocol_graph = lambda: four_su_graph(
+            key, d, final, config=four_su_config, route=four_su_route)
+    elif key == "cagescan":
         spec.protocol_graph = lambda: _cagescan_graph(d, final)
     return spec

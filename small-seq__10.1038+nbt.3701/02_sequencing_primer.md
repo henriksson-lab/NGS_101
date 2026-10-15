@@ -112,9 +112,10 @@ are *added after* it, between adapter and insert. The direct consequence:
 > pipeline trims (🟢 `-u 2` in cutadapt, after UMI extraction with `NNNNNNNN`).
 
 **(e) The index read is resolved.** 🟢 SR001 is
-`P7 + TTCGTGAT + GTGACTGGAGTTC + RTP`; its separately listed barcode is `ATCACGAA`,
-exactly `revcomp(TTCGTGAT)`. The 13-nt common segment pairs with the 3′ end of the standard
-TruSeq Index 1 primer, so the final construct now places the index read by computation.
+`P7 + TTCGTGAT + GTGACTGGAGTT + RTP`; its separately listed barcode is `ATCACGAA`,
+exactly `revcomp(TTCGTGAT)`. The 12-nt common segment plus the first RA3 base pair
+with the 13-nt 3′ end of the standard TruSeq Index 1 primer, so the final construct
+now places the index read by computation.
 
 ## 4. Conclusion, stated precisely
 

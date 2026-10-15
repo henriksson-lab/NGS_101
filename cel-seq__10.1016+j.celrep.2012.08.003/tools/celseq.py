@@ -8,6 +8,7 @@ are deliberately not supplied here.
 from __future__ import annotations
 
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
@@ -29,14 +30,17 @@ CEL1_SPACER = "CGATTGAGGCCGG"
 CEL1_RA5 = "GTTCAGAGTTCTACAGTCCGACGATC"
 CEL1_BARCODE_NT = 8
 
-CEL2_SPACER = "GCCGG"
-CEL2_RA5 = "AGTTCTACAGTCCGACGATC"
-CEL2_UMI_NT = 6
-CEL2_BARCODE_NT = 6
+@dataclass(frozen=True)
+class PrimerDesign:
+    spacer: str
+    ra5: str
+    umi_nt: int
+    barcode_nt: int
+    randomhex_tail: str = ""
+    randomhex_nt: int = 0
 
-RANDOMHEX_TAIL = "GCCTTGGCACCCGAGAATTCCA"
-RANDOMHEX_NT = 6
-RANDOMHEX_RT = RANDOMHEX_TAIL + "N" * RANDOMHEX_NT
+
+CEL1_DESIGN = PrimerDesign(CEL1_SPACER, CEL1_RA5, 0, CEL1_BARCODE_NT)
 
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -44,14 +48,13 @@ def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def rt_primer_segments(protocol: str) -> list[Segment]:
+def rt_primer_segments(protocol: str, design: PrimerDesign | None = None) -> list[Segment]:
     """Published primer design with invalid variants made unrepresentable."""
-    if protocol == "CEL-Seq":
-        spacer, ra5, umi_n, barcode_n = CEL1_SPACER, CEL1_RA5, 0, CEL1_BARCODE_NT
-    elif protocol == "CEL-Seq2":
-        spacer, ra5, umi_n, barcode_n = CEL2_SPACER, CEL2_RA5, CEL2_UMI_NT, CEL2_BARCODE_NT
-    else:
-        raise ValueError(f"unknown CEL-Seq protocol: {protocol!r}")
+    design = design or (CEL1_DESIGN if protocol == "CEL-Seq" else None)
+    if design is None:
+        raise ValueError(f"{protocol}: supply the paper's primer design")
+    spacer, ra5, umi_n, barcode_n = (design.spacer, design.ra5,
+                                     design.umi_nt, design.barcode_nt)
     out = [
         _seg("5' spacer", spacer),
         _seg("T7 promoter", T7_PROMOTER, "t7"),
@@ -67,33 +70,33 @@ def rt_primer_segments(protocol: str) -> list[Segment]:
     return out
 
 
-def rt_primer(protocol: str) -> Construct:
-    return Construct(rt_primer_segments(protocol), name=f"{protocol} RT primer")
+def rt_primer(protocol: str, design: PrimerDesign | None = None) -> Construct:
+    return Construct(rt_primer_segments(protocol, design), name=f"{protocol} RT primer")
 
 
-def rt_scene(protocol: str) -> Scene:
+def rt_scene(protocol: str, design: PrimerDesign | None = None) -> Scene:
     mrna = [_seg("mRNA body", "XXXXXXXXXXXX", placeholder=True),
             _seg("poly(A) junction", "B", placeholder=True),
             _seg("poly(A)", "A" * POLYT_NT)]
     sc = Scene()
     sc.strand("mRNA", mrna, label="mRNA")
-    sc.anneal("RT primer", rt_primer_segments(protocol), to="mRNA",
+    sc.anneal("RT primer", rt_primer_segments(protocol, design), to="mRNA",
               pair=("oligo-dT", "poly(A)"), label="RT primer")
     sc.mark("RT primer", "V anchor", "anchored at the poly(A) junction")
     sc.arrow("RT primer", "reverse transcriptase")
     return sc
 
 
-def double_stranded_cdna(protocol: str) -> Construct:
+def double_stranded_cdna(protocol: str, design: PrimerDesign | None = None) -> Construct:
     return Construct([
-        *rt_primer_segments(protocol),
+        *rt_primer_segments(protocol, design),
         _seg("cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
     ], name=f"{protocol} double-stranded cDNA")
 
 
-def arna(protocol: str) -> Construct:
+def arna(protocol: str, design: PrimerDesign | None = None) -> Construct:
     """The amplified antisense RNA, downstream of the double-stranded T7 promoter."""
-    primer = rt_primer_segments(protocol)
+    primer = rt_primer_segments(protocol, design)
     first_ra5 = next(i for i, s in enumerate(primer) if s.name == "small-RNA 5' sequence")
     transcribed = primer[first_ra5:]
     return Construct([
@@ -103,17 +106,17 @@ def arna(protocol: str) -> Construct:
     ], name=f"{protocol} amplified RNA")
 
 
-def cel2_random_rt_scene() -> Scene:
+def random_rt_scene(design: PrimerDesign) -> Scene:
     """Random-hexamer priming on the fragmented, 5'-most CEL-Seq2 aRNA piece."""
     fragment = [
-        _seg("5' tag", "GGG" + CEL2_RA5, "r1"),
-        _seg("UMI", "N" * CEL2_UMI_NT, "umi", placeholder=True),
-        _seg("cell barcode", "N" * CEL2_BARCODE_NT, "cbc", placeholder=True),
+        _seg("5' tag", "GGG" + design.ra5, "r1"),
+        _seg("UMI", "N" * design.umi_nt, "umi", placeholder=True),
+        _seg("cell barcode", "N" * design.barcode_nt, "cbc", placeholder=True),
         _seg("poly(U)/insert", "UUUXXXXXXXXXXXX", placeholder=True),
-        _seg("random site", "XXXXXX", placeholder=True),
+        _seg("random site", "X" * design.randomhex_nt, placeholder=True),
     ]
-    primer = [_seg("library-RT tail", RANDOMHEX_TAIL, "r2"),
-              _seg("random hexamer", "NNNNNN", placeholder=True)]
+    primer = [_seg("library-RT tail", design.randomhex_tail, "r2"),
+              _seg("random hexamer", "N" * design.randomhex_nt, placeholder=True)]
     sc = Scene()
     sc.strand("aRNA fragment", fragment, label="aRNA")
     sc.anneal("randomhexRT", primer, to="aRNA fragment",
@@ -140,7 +143,7 @@ def cel1_adapter_geometry() -> AdapterLigationGeometry:
         "modifications or ligation-facing end geometry.")
 
 
-def final_library(protocol: str) -> Construct:
+def final_library(protocol: str, design: PrimerDesign | None = None) -> Construct:
     """Supported inner architecture plus explicitly unpublished outer PCR arms."""
     if protocol == "CEL-Seq":
         middle = [
@@ -151,12 +154,14 @@ def final_library(protocol: str) -> Construct:
                  placeholder=True),
         ]
     elif protocol == "CEL-Seq2":
+        if design is None:
+            raise ValueError("CEL-Seq2 requires its source-specific primer design")
         middle = [
-            _seg("RT-primer 5' sequence", CEL2_RA5, "r1"),
-            _seg("UMI", "N" * CEL2_UMI_NT, "umi", placeholder=True),
-            _seg("cell barcode", "N" * CEL2_BARCODE_NT, "cbc", placeholder=True),
+            _seg("RT-primer 5' sequence", design.ra5, "r1"),
+            _seg("UMI", "N" * design.umi_nt, "umi", placeholder=True),
+            _seg("cell barcode", "N" * design.barcode_nt, "cbc", placeholder=True),
             _seg("poly(T)/cDNA", "TTTXXXXXXXX...XXXXXXXX", placeholder=True),
-            _seg("randomhexRT tail", RANDOMHEX_TAIL, "r2"),
+            _seg("randomhexRT tail", design.randomhex_tail, "r2"),
         ]
     else:
         raise ValueError(f"unknown CEL-Seq protocol: {protocol!r}")
@@ -171,18 +176,11 @@ def final_library(protocol: str) -> Construct:
 
 def _validate_model() -> None:
     cel1 = rt_primer("CEL-Seq")
-    cel2 = rt_primer("CEL-Seq2")
     expected1 = (CEL1_SPACER + T7_PROMOTER + CEL1_RA5 + "N" * CEL1_BARCODE_NT
                  + "T" * POLYT_NT + ANCHOR)
-    expected2 = (CEL2_SPACER + T7_PROMOTER + CEL2_RA5 + "N" * CEL2_UMI_NT
-                 + "N" * CEL2_BARCODE_NT + "T" * POLYT_NT + ANCHOR)
-    if cel1.top() != expected1 or cel2.top() != expected2:
+    if cel1.top() != expected1:
         raise ValueError("RT primer assembly no longer matches the source designs")
-    if RANDOMHEX_RT != RANDOMHEX_TAIL + "N" * RANDOMHEX_NT:
-        raise ValueError("randomhexRT tail/hexamer boundary is invalid")
     rt_scene("CEL-Seq").rows()
-    rt_scene("CEL-Seq2").rows()
-    cel2_random_rt_scene().rows()
 
 
 _validate_model()

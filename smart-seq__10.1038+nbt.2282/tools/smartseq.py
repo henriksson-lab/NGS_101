@@ -41,6 +41,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "smart-seq2__10.1038+nmeth.2639" / "tools"))
 
 import nextera as nx
 import rt
@@ -56,23 +57,12 @@ FEATURES = {"UMI": UMI_FEATURE, "i5": I5_FEATURE, "i7": I7_FEATURE}
 
 # =============================================================== SMART-seq / SMART-seq2
 # One handle, used for priming, for template switching and for amplification.
-DT_LEN, DT_ANCHOR = s2.DT_LEN, s2.DT_ANCHOR
-SS2_DT_LINKER = s2.DT_LINKER            # AC. Ramskold 2012 CDS primer; Hahaut Suppl Note 2
-SS2_TSO_LINKER = s2.TSO_LINKER          # ACAT: the Nature Protocols TSO, printed verbatim in
-                                        # Hagemann-Jensen 2020 Suppl Table 1 condition 1. The
-                                        # defining Picelli 2013 Suppl Table 2 prints the
-                                        # selected rGrG+G oligo with AC instead, so the page
-                                        # draws the extra AT inferred (see page_parts).
-SS2_OLIGO_DT = s2.OLIGO_DT              # handle + AC + (T)30VN; Ramskold 2012, verbatim
-SS2_TSO = s2.TSO                                            # ...ACATrGrG+G
-SS2_ISPCR = s2.ISPCR                    # the bare handle; Hahaut Suppl Note 2 "ISPCR" row
-
 # =============================================================== FLASH-seq
 # Hahaut et al. Supplementary Note 2: the main FLASH-seq branch retains the common
 # SMART handle and has no UMI. The ordered oligos are 5'-biotinylated. Every string
 # below is a verbatim transcription of that table.
-FS_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, rt.SMART_HANDLE + SS2_DT_LINKER)
-FS_TSO = rt.SMART_HANDLE + SS2_DT_LINKER + rt.TSO_G_TAIL
+FS_OLIGO_DT = rt.oligo_dt(s2.DT_LEN, s2.DT_ANCHOR, rt.SMART_HANDLE + s2.DT_LINKER)
+FS_TSO = rt.SMART_HANDLE + s2.DT_LINKER + rt.TSO_G_TAIL
 FS_ISPCR = rt.SMART_HANDLE
 # The optional FS-UMI branch, not the main chemistry this page draws: Supplementary
 # Note 2 lists nine spacer variants and the paper selects CTAAC.
@@ -82,7 +72,7 @@ FS_UMI_TSO_CTAAC = rt.SMART_HANDLE + "N" * 8 + "CTAAC" + rt.TSO_G_TAIL
 # Hagemann-Jensen 2020 Supplementary Table 1 and the author protocol both print
 # /5Biosg/ACGAGCATCAGCAGCATACGA(T)30VN and /5Biosg/AGAGACAGATTGCGCAATG(N)8rGrGrG.
 SS3_OLIGO_DT_HANDLE = "ACGAGCATCAGCAGCATACGA"               # 5'-biotinylated
-SS3_OLIGO_DT = rt.oligo_dt(DT_LEN, DT_ANCHOR, SS3_OLIGO_DT_HANDLE)
+SS3_OLIGO_DT = rt.oligo_dt(s2.DT_LEN, s2.DT_ANCHOR, SS3_OLIGO_DT_HANDLE)
 SS3_TSO_TAG = "ATTGCGCAATG"                                 # the 11-bp 5' marker
 SS3_TSO_ME3 = nx.ME[-8:]                                    # AGAGACAG: the 3' end of ME
 SS3_TSO_HANDLE = SS3_TSO_ME3 + SS3_TSO_TAG                  # 3' end of ME, then the tag
@@ -123,14 +113,6 @@ def _nextera_i7():
             _seg("Illumina P7", P7_RC, "p7")]
 
 
-def smartseq2_library() -> Construct:
-    """SMART-seq / SMART-seq2 final library. Nextera at both ends; no UMI, no 5' marker."""
-    return Construct([*_nextera_i5(),
-                      _seg("cDNA", "XXXXXXXX...XXXXXXXX", None, placeholder=True),
-                      *_nextera_i7()],
-                     name="SMART-seq2 library")
-
-
 def smartseq3_library(variant: str = "SMART-seq3", five_prime: bool = True) -> Construct:
     """SMART-seq3 final library.
 
@@ -158,13 +140,12 @@ def smartseq3_library(variant: str = "SMART-seq3", five_prime: bool = True) -> C
 # where each lands on the final library. Both chemistries read with stock Nextera primers.
 # The SMART-seq3 point is that the TSO supplied SS3_TSO_ME3, the last 8 nt of ME, so the
 # stock Read 1 primer (s5 + ME) ends exactly where the 11-bp tag begins.
-SS2_SEQ_PRIMERS = [sp.NEXTERA[k] for k in ("R1", "I1", "I2", "R2")]
-SS3_SEQ_PRIMERS = SS2_SEQ_PRIMERS          # same primers; what Read 1 reports differs
+SS3_SEQ_PRIMERS = s2.SEQ_PRIMERS          # same primers; what Read 1 reports differs
 
 
 def seq_primer_sets():
     """(final library, declared primers) for every final library this page draws."""
-    out = [(smartseq2_library(), SS2_SEQ_PRIMERS)]
+    out = [(s2.final_library(), s2.SEQ_PRIMERS)]
     for v in SS3_TSO_SPACERS:
         out.append((smartseq3_library(v), SS3_SEQ_PRIMERS))
         out.append((smartseq3_library(v, five_prime=False), SS3_SEQ_PRIMERS))

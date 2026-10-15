@@ -10,6 +10,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import sciatac as S
+from sciatac import indexed_transposome, pool_indexed_nuclei, two_tagmented
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_segments,
                       oligo, panel, protocol_graph_panels, revcomp, strand_row)
@@ -23,7 +24,6 @@ import seqprimers as sp
 
 PAPERS = {
     S.SCI15: ("10.1126/science.aab1601", "sci-ATAC-seq"),
-    S.SCI18: ("10.1038/nature25981", "sci-ATAC-seq (2018)"),
     S.SCI3: ("10.1126/science.aba7612", "sci-ATAC-seq3"),
 }
 
@@ -32,8 +32,9 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def preamble(protocol: str, *, complete: bool = False) -> str:
-    doi, title = PAPERS[protocol]
+def preamble(protocol: str, *, complete: bool = False,
+             source: tuple[str, str] | None = None) -> str:
+    doi, title = source or PAPERS[protocol]
     if protocol == S.SCI15:
         caveat = '<div class="caveat"><b>Inferred PCR indices.</b> The defining paper’s gated supplement contains the PCR-primer list. Dotted 8-nt PCR indices use the compatible Amini 2014 Nextera-kit layout; their exact 2015 length and bases remain unavailable.</div>'
     elif protocol == S.SCI3:
@@ -45,9 +46,10 @@ def preamble(protocol: str, *, complete: bool = False) -> str:
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}{caveat}'''
 
 
-def two_oligos(protocol: str) -> str:
-    pcr_n = 8 if protocol == S.SCI15 else 10
-    inf = protocol == S.SCI15
+def two_oligos(protocol: str, *, pcr_n: int | None = None,
+               inferred: bool | None = None) -> str:
+    pcr_n = 8 if pcr_n is None else pcr_n
+    inf = protocol == S.SCI15 if inferred is None else inferred
     rows = [
         oligo("T5 indexed transposon", S.t5()), oligo("T7 indexed transposon", S.t7()),
         oligo("pMENTS", [seg("ME'", nx.ME_RC, "me")], mods="5Phos"),
@@ -68,22 +70,6 @@ def sci3_oligos() -> str:
         oligo("P7 PCR primer", [seg("P7", il.P7, "p7"), seg("i7", "I" * 10, "cbc", placeholder=True), seg("N7 head", S.N7_HEAD, "r3", inferred=inf)]),
     ]
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
-
-
-def indexed_transposome(which: str) -> Scene:
-    top = S.t5() if which == "T5" else S.t7()
-    sc = Scene(); sc.strand(which, top, label=which); sc.anneal("pMENTS", [seg("ME'", nx.ME_RC, "me")], to=which, pair=("ME'", "ME"), label="pMENTS", mod5="p")
-    sc.mark(which, "t5 barcode" if which == "T5" else "t7 barcode", "round-1 barcode")
-    return sc
-
-
-def two_tagmented() -> Scene:
-    g = nx.TAGMENTATION_GAP
-    top = [*S.t5(), seg("gap-facing A", "X" * g, placeholder=True), seg("core", "XXXXXXXX...XXXXXXXX", placeholder=True)]
-    bot = [*S.t7(), seg("gap-facing B", "x" * g, placeholder=True), *complement_segments([top[-1]])]
-    sc = Scene(); sc.strand("T5 end", top); sc.anneal("T7 end", bot, to="T5 end", pair=("core'", "core")); sc.anneal("T5 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T5 end", pair=("ME", "ME"), label=""); sc.anneal("T7 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T7 end", pair=("ME", "ME"), label="", above=True)
-    sc.mark("T5 end", "gap-facing A", "9-nt gap"); sc.mark("T7 end", "gap-facing B", "9-nt gap")
-    return sc
 
 
 def final_panel(protocol: str) -> str:
@@ -138,20 +124,14 @@ def sci3_steps() -> str:
 <h3>(5) Final library</h3>{final_panel(S.SCI3)}'''
 
 
-def _pool(graph: ProtocolGraph, material, *, prefix: str, state, label: str):
-    peers = graph.input(prefix + "_peers", label, MaterialKind.MOLECULAR, state=state)
-    pooled = graph.product(prefix + "_pool", "pooled " + label,
-                           MaterialKind.MOLECULAR, state=state)
-    graph.react(prefix + "_pool_step", "Pool indexed nuclei", StepKind.POOL,
-                ((material, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
-                (pooled,), changes_molecule=False)
-    return pooled, [prefix + "_peers", prefix + "_pool_step"]
-
-
-def protocol_graph(protocol: str) -> ProtocolGraph:
-    if protocol not in PAPERS:
+def protocol_graph(protocol: str, *, doi: str | None = None,
+                   final_library: Construct | None = None,
+                   pcr_n: int | None = None,
+                   inferred: bool | None = None,
+                   primers: tuple | None = None) -> ProtocolGraph:
+    if protocol not in PAPERS and doi is None:
         raise ValueError(f"unknown sci-ATAC protocol: {protocol!r}")
-    source = "https://doi.org/" + PAPERS[protocol][0]
+    source = "https://doi.org/" + (doi or PAPERS[protocol][0])
     graph = ProtocolGraph(protocol, authority=source)
     nuclei = graph.input(
         "nuclei", "accessible chromatin in nuclei", MaterialKind.BIOLOGICAL,
@@ -160,7 +140,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     reviewed = ["nuclei"]
 
     if protocol != S.SCI3:
-        inferred = protocol == S.SCI15
+        inferred = protocol == S.SCI15 if inferred is None else inferred
         transposome = graph.input(
             "indexed_transposomes", "indexed T5 and T7 transposomes",
             MaterialKind.ADAPTER, state=indexed_transposome("T5"),
@@ -182,12 +162,12 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                      (tn5, InputRole.CATALYST)), (tagmented, tagment_waste))
         graph.discard(tagment_waste,
                       "same-end T5/T5 and T7/T7 products lack one terminal PCR site")
-        pooled, pool_reviewed = _pool(
+        pooled, pool_reviewed = pool_indexed_nuclei(
             graph, tagmented, prefix="round1", state=two_tagmented(),
             label="first-round indexed tagmented nuclei from other wells")
         gap_polymerase = graph.input("gap_polymerase", "gap-fill DNA polymerase",
                                      MaterialKind.CATALYST)
-        final = S.library(protocol)
+        final = final_library or S.library(protocol)
         filled = graph.product(
             "gap_filled_fragments", "gap-filled redistributed fragments",
             MaterialKind.MOLECULAR, state=final, inferred=inferred,
@@ -197,7 +177,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                     StepKind.EXTENSION,
                     ((pooled, InputRole.TEMPLATE),
                      (gap_polymerase, InputRole.CATALYST)), (filled,))
-        pcr_n = 8 if protocol == S.SCI15 else 10
+        pcr_n = 8 if pcr_n is None else pcr_n
         p5_sequence = il.P5 + "N" * pcr_n + nx.S5
         p7_sequence = il.P7 + "N" * pcr_n + nx.S7
         p5 = graph.input(
@@ -230,9 +210,10 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                      (p7, InputRole.STRUCTURAL),
                      (polymerase, InputRole.CATALYST)), (library,),
                     geometry=geometry)
+        run_primers = primers or S.TWO_LEVEL_PRIMERS
         graph.sequence(library, SequencingPlan(
-            library=final, primers=S.TWO_LEVEL_PRIMERS,
-            acquired_roles=tuple(p.role for p in S.TWO_LEVEL_PRIMERS)))
+            library=final, primers=run_primers,
+            acquired_roles=tuple(p.role for p in run_primers)))
         reviewed.extend([
             "indexed_transposomes", "tn5", "tagment", *pool_reviewed,
             "gap_polymerase", "gap_fill", "p5_index_primer", "p7_index_primer",
@@ -284,7 +265,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                     geometry=AdapterLigationGeometry.known(
                         "splinted", ligation_reagent_scene("N5"),
                         statement="Table S7 prints the N5 oligo and its end-specific splint."))
-        pooled1, pool1_reviewed = _pool(
+        pooled1, pool1_reviewed = pool_indexed_nuclei(
             graph, first_ligated, prefix="n5_round", state=ligation_scene("N5"),
             label="N5-barcoded fragments from other first-round wells")
         n7_state = Construct([
@@ -303,7 +284,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                     geometry=AdapterLigationGeometry.known(
                         "splinted", ligation_reagent_scene("N7"),
                         statement="Table S7 prints the N7 oligo and its end-specific splint."))
-        pooled2, pool2_reviewed = _pool(
+        pooled2, pool2_reviewed = pool_indexed_nuclei(
             graph, second_ligated, prefix="n7_round", state=final,
             label="N5/N7-barcoded fragments from other second-round wells")
         gap_polymerase = graph.input("gap_polymerase", "gap-fill DNA polymerase",
@@ -352,12 +333,14 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     return graph.require_publishable()
 
 
-def sequencing(protocol: str) -> str:
-    lib = S.library(protocol)
-    primers = S.SCI3_PRIMERS if protocol == S.SCI3 else S.TWO_LEVEL_PRIMERS
+def sequencing(protocol: str, *, final_library: Construct | None = None,
+               read_rows: list[tuple[str, str, str]] | None = None,
+               primers: tuple | None = None) -> str:
+    lib = final_library or S.library(protocol)
+    primers = primers or (S.SCI3_PRIMERS if protocol == S.SCI3 else S.TWO_LEVEL_PRIMERS)
     if sp.verify(lib, primers): raise ValueError("read layout does not match final library")
-    if protocol == S.SCI18:
-        rows = [("Read 1", "50", "genomic insert"), ("Index 1", "8 + 27 dark + 10", "t7 barcode + PCR i7"), ("Index 2", "8 + 21 dark + 10", "t5 barcode + PCR i5"), ("Read 2", "50", "genomic insert")]
+    if read_rows is not None:
+        rows = read_rows
     elif protocol == S.SCI15:
         rows = [("Read 1", "not available", "genomic insert"), ("Index 1", "8 + 27 constant + PCR i7", "first- and second-round barcodes"), ("Index 2", "8 + 21 constant + PCR i5", "first- and second-round barcodes"), ("Read 2", "not available", "genomic insert")]
     else:
@@ -374,11 +357,20 @@ def sequencing(protocol: str) -> str:
             + '</div>')
 
 
-def render_page(protocol: str, out: Path) -> None:
-    graph = protocol_graph(protocol)
+def render_page(protocol: str, out: Path, *,
+                source: tuple[str, str] | None = None,
+                graph_factory=None,
+                final_library: Construct | None = None,
+                pcr_n: int | None = None,
+                inferred: bool | None = None,
+                read_rows: list[tuple[str, str, str]] | None = None,
+                primers: tuple | None = None) -> None:
+    graph = graph_factory() if graph_factory else protocol_graph(protocol)
     body = "<h2>Library generation</h2>\n" + protocol_graph_panels(graph)
-    olig = two_oligos(protocol) if protocol != S.SCI3 else sci3_oligos()
+    olig = (two_oligos(protocol, pcr_n=pcr_n, inferred=inferred)
+            if protocol != S.SCI3 else sci3_oligos())
     out.write_text("\n".join([head(f"{protocol} library chemistry"),
-                              preamble(protocol, complete=True), olig, body,
-                              sequencing(protocol)]), encoding="utf-8")
+                              preamble(protocol, complete=True, source=source), olig, body,
+                              sequencing(protocol, final_library=final_library,
+                                         read_rows=read_rows, primers=primers)]), encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")

@@ -43,7 +43,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, feature, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from illumina import P5, P7, P7_RC, TRUSEQ_SMALL_RNA_RA5, TRUSEQ_SMALL_RNA_RA3
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
@@ -116,11 +116,11 @@ SRX_N_INDICES = 192                             # [green] "for 192 samples" (two
 SRX_CONC_UM = 50                                # [green] dissolved to 50 uM, 1 ul per well
 SRX_001_PRIMER_INDEX = "TTCGTGAT"               # sequence inside the ordered primer
 SRX_001_INDEX_READ = "ATCACGAA"                 # table's reported barcode, revcomp above
-SRX_COMMON_LINK = "GTGACTGGAGTTC"               # between the index and RTP foot
+SRX_COMMON_LINK = "GTGACTGGAGTT"                # Supplementary Table 1, between index and RTP foot
 SRX_SEQUENCE = P7 + SRX_001_PRIMER_INDEX + SRX_COMMON_LINK + RTP
 SRX_P7_NT = len(P7)                             # 24 [check] = len(illumina.P7)
-SRX_LINKER_NT = len(SRX_COMMON_LINK)             # 13, now read rather than inferred
-SRX_RIGHT_ARM_NT = SRX_P7_NT + SRX_INDEX_NT + SRX_LINKER_NT      # 45
+SRX_LINKER_NT = len(SRX_COMMON_LINK)             # 12, source-written SR001 primer
+SRX_RIGHT_ARM_NT = SRX_P7_NT + SRX_INDEX_NT + SRX_LINKER_NT      # 44
 
 # ================================================================= protocol constants
 LYSIS_TEMP_C, LYSIS_MIN = 72, 20                # [green] Step 9
@@ -194,6 +194,20 @@ def ligated_rna(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
     ], name="ligated small RNA")
 
 
+def free_ra3_rtp_duplex() -> Scene:
+    """The source-written RTP binds the complete free RA3 after rApp removal.
+
+    Hagemann-Jensen et al. 2018, p. 2410 and Reagent setup p. 2414: deadenylase
+    leaves a 5′ phosphate on RA3; the 5′-biotinylated RTP is its reverse
+    complement and protects itself while lambda exonuclease removes RA3.
+    """
+    sc = Scene()
+    sc.strand("free RA3", [Segment("RA3", RA3, "r2")], mod5="p", mod3="ddC")
+    sc.anneal("RTP", [Segment("RTP", RTP, "r2")], to="free RA3",
+              pair=("RTP", "RA3"), mod5="biotin")
+    return sc
+
+
 def library(insert_nt: int = TYPICAL_MIRNA_NT) -> Construct:
     """The final, indexed library.
 
@@ -261,8 +275,8 @@ SEQ_PRIMERS = [
                                     "only with it reads nothing"),
     sp.custom("Index 1 (i7)", "TruSeq Index 1 (13-nt 3′ annealing site)",
               sp.TRUSEQ["I1"].seq, sp.TRUSEQ["I1"].source,
-              "Small-seq's published SRX common tail pairs only with the primer's "
-              "13-nt 3′ end; the eight-base index read is printed in the supplement.",
+              "Small-seq's 12-nt SRX common tail and the next RA3 base pair with "
+              "the primer's 13-nt 3′ end; the index read is printed in the supplement.",
               min_anneal=13),
     sp.mismatching(sp.TRUSEQ["I2"], "single-indexed: RP1 puts P5 directly on RA5, so there "
                                     "is no i5 index and no TruSeq i5 primer site"),
@@ -294,9 +308,10 @@ def protocol_graph():
     rtp=graph.input("rtp","biotin-blocked RTP oligo",MaterialKind.OLIGO)
     deadenylase=graph.input("deadenylase","5′ deadenylase",MaterialKind.CATALYST)
     deadenylated=graph.product("deadenylated_ra3","deadenylated free RA3–RTP duplex",
-                               MaterialKind.MOLECULAR)
+                               MaterialKind.MOLECULAR,state=free_ra3_rtp_duplex())
     graph.react("deadenylate","Remove rApp from unligated RA3",StepKind.DEPHOSPHORYLATION,
-                ((free_ra3,InputRole.TEMPLATE),(deadenylase,InputRole.CATALYST)),(deadenylated,))
+                ((free_ra3,InputRole.TEMPLATE),(rtp,InputRole.STRUCTURAL),
+                 (deadenylase,InputRole.CATALYST)),(deadenylated,))
     lambda_exo=graph.input("lambda_exonuclease","lambda exonuclease",MaterialKind.CATALYST)
     adapter_waste=graph.product("adapter_waste","digested unligated RA3",MaterialKind.WASTE)
     graph.react("digest_free_adapter","Digest free RA3 annealed to protected RTP",
@@ -332,6 +347,7 @@ def protocol_graph():
                     PCRPrimer("RTP", RTP),
                     statement="The detailed protocol prints RP1 and RTP; their inward-facing sites are computed on the first-round amplicon."))
     srx=graph.input("srx","SRX indexed reverse primer",MaterialKind.OLIGO,
+                    state=SRX_SEQUENCE,
                     source=SOURCE+" (Supplementary Table 1, SR001 representative)")
     unselected=graph.product("unselected_library","indexed small-RNA library before size selection",
                              MaterialKind.LIBRARY,state=library(),source=SOURCE)

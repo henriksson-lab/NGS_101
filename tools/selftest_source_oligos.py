@@ -18,7 +18,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "tools"))
-from source_oligo_check import check_graph, unrepresented_inputs  # noqa: E402
+from source_oligo_check import check_graph, unrepresented_input_ids  # noqa: E402
 
 
 def graph_module_paths(directory: Path) -> list[Path]:
@@ -62,6 +62,8 @@ def clear_protocol_imports() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("dirs", nargs="*", help="protocol directory names; default: every catalogue entry")
+    parser.add_argument("--details", action="store_true",
+                        help="show graph input IDs that lack an exact whole-strand state")
     args = parser.parse_args()
     with (ROOT / "catalogue" / "ours.tsv").open(encoding="utf-8", newline="") as handle:
         known = {row["dir"]: row for row in csv.DictReader(handle, delimiter="\t")}
@@ -80,7 +82,10 @@ def main() -> int:
                     graph = module.protocol_graph()
                 finally:
                     sys.path.pop(0)
-                unrepresented += unrepresented_inputs(graph)
+                missing = unrepresented_input_ids(graph)
+                unrepresented += len(missing)
+                if args.details and missing:
+                    print(f"UNREPRESENTED {name}: {', '.join(missing)}")
                 problems, omitted, count = check_graph(
                     graph, source_root / name,
                     getattr(module, "SOURCE_OLIGO_EXCEPTIONS", {}), known[name]["doi"])

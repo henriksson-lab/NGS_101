@@ -605,7 +605,8 @@ def scan_copy(orig: str) -> Scan:
                 and orig[m.end():m.end() + 1] in tuple(BASE + LOW + "[")):
             continue
         name = m.group(1).lower()
-        add(m.start(), m.end(), "U" if re.search(r"deoxyu|^i?du$", name) else
+        add(m.start(), m.end(), "T" if name == "ibiodt" else
+            "U" if re.search(r"deoxyu|^i?du$", name) else
             "N" if re.search(r"deoxyi|^i?di$|inosine", name) else "")
     for m in _BRACKET_INTERNAL.finditer(orig):
         if prev(m.start()) in BASE + LOW + "]" and prev(m.start()) \
@@ -639,7 +640,8 @@ def scan_copy(orig: str) -> Scan:
         bare = not paren and m.group(3) is not None
         a0 = m.start() - (not paren and prev(m.start()) == "d")     # dT30, dT(30)
         p = prev(a0)
-        if p and (p.isdigit() or p.islower() or p in "EFIJLOPQXZ" if bare else p.isalnum()):
+        if p and (p.isdigit() or p.islower() or p in "EFIJLOPQXZ" if bare else
+                  p.isalnum() and not re.search(r"\([ACGTUN]\)\d{1,3}$", orig[:a0])):
             continue
         least = 10 if bare and base != "N" else 3      # bare "T7", "U6" are names
         if bare and base == "U":
@@ -1018,7 +1020,17 @@ def find(text: str, query: str, strict: bool = False, sc: Scan | None = None,
         done.add(x)
         rx = re.compile(_pattern(x, strict))
         for m in rx.finditer(sc.text):
-            mtext = _TRIM_GAP.fullmatch(m.group(0)).group(1)
+            matched = m.group(0)
+            # A terminal ``r``/``m`` can be consumed as a modification prefix
+            # because its lookahead sees the next base in the full scan copy.
+            # That lookahead is absent when trimming the isolated match.
+            trim = _TRIM_GAP.fullmatch(matched)
+            while trim is None and matched:
+                matched = matched[:-1]
+                trim = _TRIM_GAP.fullmatch(matched)
+            if trim is None:
+                continue
+            mtext = trim.group(1)
             s, e = sc.span(m.start(), m.start() + len(mtext))
             line = sc.line(s)
             if (line, s) in seen:

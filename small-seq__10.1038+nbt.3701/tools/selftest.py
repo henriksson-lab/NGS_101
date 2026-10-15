@@ -203,19 +203,19 @@ check("the two windows overlap at all -- they did not have to",
 check("the modelled arm sits inside BOTH published windows",
       lo_mi <= sm.SRX_RIGHT_ARM_NT <= hi_mi and lo_rr <= sm.SRX_RIGHT_ARM_NT <= hi_rr)
 
-check("a 22-nt miRNA library is 153 bp", sm.library_bp(sm.TYPICAL_MIRNA_NT), 153)
+check("a 22-nt miRNA library is 152 bp", sm.library_bp(sm.TYPICAL_MIRNA_NT), 152)
 check("...which lands in the published 145-155 bp cut window",
       sm.SIZE_SELECT_TARGET_BP[0] <= sm.library_bp(22) <= sm.SIZE_SELECT_TARGET_BP[1])
 check("...and inside the Pippin 130-160 bp window too",
       sm.PIPPIN_WINDOW_BP[0] <= sm.library_bp(22) <= sm.PIPPIN_WINDOW_BP[1])
-check("a full-length 5.8S rRNA library would be 287 bp",
-      sm.library_bp(sm.RRNA_58S_NT), 287)
+check("a full-length 5.8S rRNA library would be 286 bp",
+      sm.library_bp(sm.RRNA_58S_NT), 286)
 check("...landing in the 270-290 bp peak seen when the mask is left out",
       sm.RRNA_PEAK_BP[0] <= sm.library_bp(sm.RRNA_58S_NT) <= sm.RRNA_PEAK_BP[1])
 check("the whole insert range 18-40 nt fits the 100-300 bp Bioanalyzer profile",
       all(sm.LIBRARY_PROFILE_BP[0] <= sm.library_bp(n) <= sm.LIBRARY_PROFILE_BP[1]
           for n in range(sm.SMALLRNA_MIN_NT, sm.SMALLRNA_MAX_NT + 1)))
-check("the adapter dimer is 131 bp", sm.ADAPTER_DIMER_BP, 131)
+check("the adapter dimer is 130 bp", sm.ADAPTER_DIMER_BP, 130)
 check("...which is INSIDE the Pippin window, so size selection cannot remove it",
       sm.PIPPIN_WINDOW_BP[0] <= sm.ADAPTER_DIMER_BP)
 check("...and inside the 120-200 bp gel cut as well",

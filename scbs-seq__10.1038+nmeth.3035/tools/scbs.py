@@ -33,6 +33,7 @@ PE1 = il.P5 + il.TRUSEQ_READ1[4:]  # the shared ACAC is present only once
 IPCRTAG_INDEX_NT = 8
 READ2_PRIMER = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
 IPCRTAG_3_ARM = "GAGAT" + READ2_PRIMER
+IPCRTAG_T1 = il.P7 + "AACGTGAT" + IPCRTAG_3_ARM
 INDEX_PRIMER = "AAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTC"
 
 
@@ -106,7 +107,9 @@ def protocol_graph() -> ProtocolGraph:
                 ((genome, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
                 (converted,))
     oligo1 = graph.input("oligo1", "biotinylated oligo1 random primer",
-                         MaterialKind.OLIGO, state=tuple(oligo1_segments()))
+                         MaterialKind.OLIGO,
+                         state=OLIGO1_HANDLE + "N" * RANDOM_NT,
+                         source=source + "; Online Methods, [Btn]oligo1")
     klenow = graph.input("klenow", "Klenow exo- polymerase",
                          MaterialKind.CATALYST)
     first = graph.product("oligo1_products", "displaced oligo1 extension products",
@@ -115,6 +118,27 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.EXTENSION,
                 ((converted, InputRole.TEMPLATE), (oligo1, InputRole.STRUCTURAL),
                  (klenow, InputRole.CATALYST)), (first,))
+    exo = graph.input("exonuclease_i", "Exonuclease I for unused oligo1",
+                      MaterialKind.CATALYST)
+    cleaned = graph.product("primer_cleaned", "oligo1 products after free-primer digestion",
+                            MaterialKind.MOLECULAR)
+    primer_waste = graph.product("free_oligo1_waste", "digested free oligo1",
+                                 MaterialKind.WASTE)
+    graph.react("remove_free_oligo1", "Digest unused oligo1 with Exonuclease I",
+                StepKind.CLEANUP,
+                ((first, InputRole.TEMPLATE), (exo, InputRole.CATALYST)),
+                (cleaned, primer_waste))
+    graph.discard(primer_waste, "unused random primer does not enter the captured library")
+    ampure = graph.input("ampure", "AMPure XP cleanup beads", MaterialKind.SELECTION)
+    purified = graph.product("purified_oligo1_products", "purified oligo1 extension products",
+                             MaterialKind.MOLECULAR)
+    ampure_waste = graph.product("ampure_waste", "removed short fragments and buffer",
+                                 MaterialKind.WASTE)
+    graph.react("ampure_cleanup", "Purify oligo1 products with AMPure XP",
+                StepKind.CLEANUP,
+                ((cleaned, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
+                (purified, ampure_waste))
+    graph.discard(ampure_waste, "unretained material is removed during AMPure purification")
     beads = graph.input("streptavidin_beads", "streptavidin capture beads",
                         MaterialKind.SELECTION)
     captured = graph.product("captured_products", "bead-bound oligo1 products",
@@ -123,20 +147,23 @@ def protocol_graph() -> ProtocolGraph:
                              MaterialKind.WASTE)
     graph.react("capture", "Capture biotinylated products and wash",
                 StepKind.AFFINITY_CAPTURE,
-                ((first, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                ((purified, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "unbound material is removed during streptavidin washes")
     oligo2 = graph.input("oligo2", "oligo2 random primer", MaterialKind.OLIGO,
-                         state=tuple(oligo2_segments()))
+                         state=OLIGO2_HANDLE + "N" * RANDOM_NT,
+                         source=source + "; Online Methods, oligo2")
     second = graph.product("dual_handle_products", "dual-handle extension products",
                            MaterialKind.MOLECULAR)
     graph.react("oligo2_extension", "Random-prime the captured strand with oligo2",
                 StepKind.EXTENSION,
                 ((captured, InputRole.TEMPLATE), (oligo2, InputRole.STRUCTURAL),
                  (klenow, InputRole.CATALYST)), (second,))
-    forward = graph.input("pe1_primer", "PE1.0 forward PCR primer", MaterialKind.OLIGO)
+    forward = graph.input("pe1_primer", "PE1.0 forward PCR primer", MaterialKind.OLIGO,
+                          state=PE1, source=source + "; Online Methods, PE1.0")
     reverse = graph.input("ipcrtag_primer", "indexed iPCRTag reverse primer",
-                          MaterialKind.OLIGO, state=tuple(ipcrtag_primer_segments()))
+                          MaterialKind.OLIGO, state=IPCRTAG_T1,
+                          source="Quail et al. 2012, doi:10.1038/nmeth.1814, Supplementary Table 1 iPCRtagT1")
     polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product("library", final_library().name, MaterialKind.LIBRARY,
@@ -156,7 +183,8 @@ def protocol_graph() -> ProtocolGraph:
                    "Read 2": "include"}))
     graph.declare_reviewed_scope((
         "genome", "bisulfite", "bisulfite_conversion", "oligo1", "klenow",
-        "oligo1_extension", "streptavidin_beads", "capture", "oligo2",
+        "oligo1_extension", "exonuclease_i", "remove_free_oligo1",
+        "ampure", "ampure_cleanup", "streptavidin_beads", "capture", "oligo2",
         "oligo2_extension", "pe1_primer", "ipcrtag_primer", "pcr_polymerase",
         "indexed_pcr", "library"), source)
     return graph.require_publishable()

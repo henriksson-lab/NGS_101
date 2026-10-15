@@ -753,6 +753,25 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
     """
     graph.require_publishable()
     panels = []
+    # Imported here because the independent checker also reads chemdraw states.
+    from chemistry_validation import warnings as validation_warnings
+    warnings = validation_warnings(graph)
+    if warnings:
+        def warning_label(target: str) -> str:
+            owner = target.split(":", 1)[0]
+            if owner in graph.steps:
+                return graph.steps[owner].label
+            if owner in graph.materials:
+                return graph.materials[owner].label
+            return target
+
+        items = "\n".join(
+            f"<li><strong>{html.escape(warning_label(warning.target))}</strong> "
+            f"({html.escape(warning.target)}): {html.escape(warning.message)}</li>"
+            for warning in warnings)
+        panels.append(
+            '<aside class="validation-warnings"><h3>Validation warnings</h3>'
+            f'<ul>{items}</ul></aside>')
     for material_id in graph.sequencing:
         material = graph.materials[material_id]
         panels.append(f"<h3>{html.escape(material.label)}</h3>")

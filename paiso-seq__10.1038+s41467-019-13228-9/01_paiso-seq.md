@@ -17,7 +17,7 @@ four-base linker `ACAT` and the `rGrG+G` tail. This matters because SMART-seq2 h
 published linkers — `AC` in Picelli et al. 2013 Supplementary Table 2 for the chosen
 `rGrG+G` oligo, `ACAT` in the *Nature Protocols* form — and a protocol that only cites
 SMART-seq2 cannot tell them apart. PAIso-seq prints its own, so no base is inherited by
-assumption. `tools/chem.py` therefore takes the bases from `lib/smartseq2` (handle,
+assumption. `tools/chem.py` therefore takes the bases from `smart-seq2__10.1038+nmeth.2639/tools/smartseq2` (handle,
 `DT_LINKER` for the RT primer's `AC`, `TSO_LINKER`, `TSO`) rather than retyping them, and
 `tools/selftest.py` pins all three ordering strings against Supplementary Table 1 so a
 change in the shared constant would fail here rather than silently redraw this page.

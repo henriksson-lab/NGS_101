@@ -2,6 +2,12 @@
 # source: a URL, or HANDLER:ARG for a fetcher in tools/fetchers/ (scg:<glob in Teichlab/scg_lib_structs>,
 # protocolsio:<doi>, doi:<doi>, pmc:<PMCID>, pmccloud:<PMCID>). See tools/fetchers/__init__.py.
 slug	source	what	why
+cel-seq2__10.1186+s13059-016-0938-8	https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm	Illumina TruSeq Small RNA adapter and RP1/RPI oligo sequences	The defining author protocol invokes RP1/RPIX but directs readers to Illumina for their sequences.
+scrb-seq__10.1101+003236	https://support-docs.illumina.com/SHARE/AdapterSequences/Content/Nextera_Illumina-Sequences.htm	Illumina Nextera adapter-sequence table	SCRB-seq uses Nextera tagmentation; the manufacturer defines the mosaic-end and s7 adapter arm represented in its graph.
+sf4su-seq__10.1093+nar+gkag652	https://www.neb.com/en/-/media/nebus/files/manuals/manuale7300_e7330_e7560_e7580.pdf	NEBNext Small RNA Library Prep Set E7300/E7330 manual	The defining supplement specifies kit E7300S; the official manual gives adapter and primer oligos.
+splash__10.1016+j.molcel.2016.04.028	pmccloud:PMC5608146	Aw et al. JoVE detailed SPLASH protocol (doi:10.3791/55255)	The author protocol gives RNA adapter and modified RT/circularization primer details omitted from the short article.
+splash__10.1016+j.molcel.2016.04.028	https://www.neb.com/en/-/media/nebus/files/manuals/manuale7335_e7500_-e7710_e7730.pdf	NEBNext Multiplex Oligos E7335/E7500/E7710/E7730 manual	The SPLASH author protocol names E7335L for library PCR; this vendor manual supplies the primer family.
+small-seq__10.1038+nbt.3701	doi:10.1038/s41596-018-0049-y	Hagemann-Jensen et al. detailed Small-seq author protocol	The later author protocol prints RA3/RTP modifications and reaction order, while the defining paper's supplement lists indexed SRX primers.
 hires__10.1126+science.adg3797	https://bio-protocol.org/pdf/bio-protocol4886.pdf	Authors' HiRES Bio-protocol 10.21769/BioProtoc.4886	Materials print the GAT5 and RNA-P7 oligos and define the joint library workflow.
 m6a-seq__10.1038+nature11112	https://www.weizmann.ac.il/molgen/Sorek/files/publications/Dominissini_Nature_2012.pdf	Author-hosted defining m6A-seq paper	Methods name an Illumina mRNA sequencing kit but do not give its SKU or ordered adapter oligos.
 illumina-dna-prep-shotgun-metagenomics	https://support.illumina.com/downloads/illumina-dna-prep-reference-guide-1000000025416.html	Illumina DNA Prep Reference Guide 1000000025416 v12	Primary vendor guide for bead-linked tagmentation and indexing.
@@ -113,6 +119,8 @@ ch-atac-seq__10.1016+j.devcel.2024.01.015	doi:10.1038/s41467-022-31879-z	CH-RNA-
 mars-seq__10.1126+science.1247651	doi:10.1038/s41596-019-0164-4	MARS-seq2.0 Nature Protocols 2019 (Springer ESM)	RT2/PCR primers; main text paywalled
 indrop-v1__10.1016+j.cell.2015.04.044	doi:10.1038/nprot.2016.154	inDrop Nature Protocols 2017 (Springer ESM)	bead and primer tables; main text paywalled
 scbs-seq__10.1038+nmeth.3035	doi:10.1038/nprot.2016.187	scBS-seq Nature Protocols 2017 (Springer ESM)	protocol detail
+scbs-seq__10.1038+nmeth.3035	doi:10.1038/nmeth.1814	Quail 2012 iPCRTag primer table	cited source for the scBS-seq indexed primer
+scbs-seq__10.1038+nmeth.3035	https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.1814/MediaObjects/41592_2012_BFnmeth1814_MOESM37_ESM.pdf	Quail 2012 Supplementary Table 1 PDF	exact source for iPCRtagT1 and historical read primers
 scrrbs__10.1101+gr.161679.113	doi:10.1038/nprot.2015.039	scRRBS Nature Protocols 2015 (Springer ESM)	protocol detail; main text paywalled
 tang-2009__10.1038+nmeth.1315	doi:10.1093/nar/gkl050	Kurimoto 2006 NAR (the amplification Tang 2009 builds on)	open access
 sci-atac-seq__10.1126+science.aab1601	protocolsio:10.17504/protocols.io.be8mjhu6	sci-ATAC-seq3 protocols.io protocol	cited by the paper

@@ -6,10 +6,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment, feature, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 import illumina as il
 import nextera as nx
 import seqprimers as sp
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 SCI15 = "sci-ATAC-seq"
 SCI18 = "sci-ATAC-seq (2018)"
@@ -37,7 +38,6 @@ SCI3_I1 = nx.ME_RC[-2:] + nx.S7_RC + revcomp(N7_TAIL)
 SCI3_I2 = nx.ME_RC[-8:] + nx.S5_RC + revcomp(N5_TAIL)
 
 SOURCE_T5_1 = "TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG"
-SOURCE_2018_P5_1 = "AATGATACGGCGACCACCGAGATCTACACCTCCATCGAGTCGTCGGCAGCGTC"
 SOURCE_SCI3_I1 = "CTCCGAGCCCACGAGACGACAAGTC"
 
 
@@ -78,13 +78,11 @@ TWO_LEVEL_PRIMERS = (
 )
 
 
-def two_level_library(protocol: str) -> Construct:
-    if protocol == SCI15:
-        pcr_n, inferred = 8, True
-    elif protocol == SCI18:
-        pcr_n, inferred = 10, False
-    else:
-        raise ValueError(protocol)
+def two_level_library(protocol: str, *, pcr_n: int,
+                      inferred: bool) -> Construct:
+    """Assemble either published two-round variant from caller-owned index choices."""
+    if pcr_n < 1:
+        raise ValueError("PCR index length must be positive")
     right = t7()
     con = Construct([
         seg("P5", il.P5, "p5"), variable("PCR i5", pcr_n, "N", "cbc", inferred,
@@ -134,4 +132,33 @@ def sci3_library() -> Construct:
 
 
 def library(protocol: str) -> Construct:
-    return sci3_library() if protocol == SCI3 else two_level_library(protocol)
+    if protocol == SCI3:
+        return sci3_library()
+    if protocol == SCI15:
+        return two_level_library(protocol, pcr_n=8, inferred=True)
+    raise ValueError(f"{protocol}: supply the paper's two-round index design")
+
+
+def indexed_transposome(which: str) -> Scene:
+    top = t5() if which == "T5" else t7()
+    sc = Scene(); sc.strand(which, top, label=which); sc.anneal("pMENTS", [seg("ME'", nx.ME_RC, "me")], to=which, pair=("ME'", "ME"), label="pMENTS", mod5="p")
+    sc.mark(which, "t5 barcode" if which == "T5" else "t7 barcode", "round-1 barcode")
+    return sc
+
+
+def two_tagmented() -> Scene:
+    g = nx.TAGMENTATION_GAP
+    top = [*t5(), seg("gap-facing A", "X" * g, placeholder=True), seg("core", "XXXXXXXX...XXXXXXXX", placeholder=True)]
+    bot = [*t7(), seg("gap-facing B", "x" * g, placeholder=True), *complement_segments([top[-1]])]
+    sc = Scene(); sc.strand("T5 end", top); sc.anneal("T7 end", bot, to="T5 end", pair=("core'", "core")); sc.anneal("T5 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T5 end", pair=("ME", "ME"), label=""); sc.anneal("T7 pMENTS", [seg("ME", nx.ME_RC, "me")], to="T7 end", pair=("ME", "ME"), label="", above=True)
+    sc.mark("T5 end", "gap-facing A", "9-nt gap"); sc.mark("T7 end", "gap-facing B", "9-nt gap")
+    return sc
+
+def pool_indexed_nuclei(graph: ProtocolGraph, material, *, prefix: str, state, label: str):
+    peers = graph.input(prefix + "_peers", label, MaterialKind.MOLECULAR, state=state)
+    pooled = graph.product(prefix + "_pool", "pooled " + label,
+                           MaterialKind.MOLECULAR, state=state)
+    graph.react(prefix + "_pool_step", "Pool indexed nuclei", StepKind.POOL,
+                ((material, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
+                (pooled,), changes_molecule=False)
+    return pooled, [prefix + "_peers", prefix + "_pool_step"]
