@@ -38,7 +38,7 @@ SKIP_DIRS = {".git", "_data", "pdf", "__pycache__", ".venv", "venv", "_site",
 INDEX_EXCLUDE = {"ref/scg_lib_structs_style.md"}
 
 # Instructions for coding agents, not notes: they quote the {{= ...}} syntax literally.
-NOT_NOTES = {"CLAUDE.md", "AGENTS.md"}
+NOT_NOTES = {"CLAUDE.md", "AGENTS.md", "MAINTAINERS.md"}
 
 OUT_INDEX = ROOT / "notes.html"
 

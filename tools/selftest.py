@@ -667,7 +667,8 @@ check("it redefines the palette for system dark",
       '@media (prefers-color-scheme: dark)' in one and ':root:not([data-theme="light"])' in one)
 check("it redefines the palette for an explicit dark choice",
       ':root[data-theme="dark"]' in one)
-check("tables are wrapped so the page never scrolls sideways", 'class="tw"' in one)
+check("tables are wrapped so the page never scrolls sideways",
+      'class="tw"' in build_docs.build_page(ROOT / "catalogue" / "README.md"))
 check("it links back to the front page", 'href="index.html"' in one)
 check("a nested note's breadcrumb walks up to the root",
       'href="../index.html"' in build_docs.build_page(

@@ -4,9 +4,9 @@ Instructions for coding agents working in this repository.
 
 Base-by-base documentation of NGS library chemistries (what the DNA construct looks like at
 every protocol step), in the style of Teichlab's scg_lib_structs. `README.md` is the
-authoritative, detailed description; this file is the condensed working guide for coding
-agents of any kind (Claude Code, Codex, Cursor, Gemini, ...). `CLAUDE.md` only imports it,
-so edit this file, not that one.
+short reader-facing introduction. `MAINTAINERS.md` holds the detailed build and handover
+guide; this file is the condensed working guide for coding agents of any kind.
+`CLAUDE.md` only imports it, so edit this file, not that one.
 
 Project policy and its rationale live in `DESIGN.md`. Read it before changing site
 presentation, protocol boundaries, evidence display, or model/test responsibilities.
@@ -77,7 +77,13 @@ finds oligos, not reaction order: the methods still have to be **read**.
 ## Writing up a protocol (notes first)
 
 1. `python3 tools/get_sources.py "<protocol>"` — fetch; check the manifest for `(manual)`.
-2. `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` — find the oligo table(s).
+2. **Always run** `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/`
+   when reading an article for a protocol, including its extracted supplements. Review
+   the hits and modifications before deciding that an oligo sequence is unavailable.
+   Use `--find` for a suspected sequence and `--all` to inspect collapsed primer
+   families. The scraper is an aid to reading, never page content or evidence by
+   itself: follow its source-line pointers and verify each relevant hit in the
+   original article or supplement before using that source fact in notes or a page.
 3. Read the methods in the `.txt` files. **`upstream_*.html.txt` is not a source.** The
    scg_lib_structs drawn page is inspiration — useful for orienting yourself in a
    chemistry, never evidence: do not cite it, do not take a sequence from it, and do not
@@ -103,7 +109,7 @@ finds oligos, not reaction order: the methods still have to be **read**.
    `python3 build_docs.py`, and the self-tests. The protocol is listed by name on the public
    front page, but its notes remain maintainer-facing. A `tools/` module, self-test and
    finished schematic page (status `draft` → `documented`) come later; only then does its
-   title link to a public page — see README "Adding a protocol".
+   title link to a public page — see MAINTAINERS.md "Adding a protocol".
 
 ## Architecture
 
@@ -125,7 +131,7 @@ finds oligos, not reaction order: the methods still have to be **read**.
   Keep that protocol's citations, displayed oligos, read layout and evidence notices in
   its module; import predecessor molecular constructors when the chemistry is inherited.
   Status `notes` directories hold reference notes only. Scripts bootstrap
-  `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see README "Adding a protocol").
+  `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see MAINTAINERS.md "Adding a protocol").
 - **`catalogue/`** — scraped worklist of protocols from scg_lib_structs
   (`tools/fetch_scg_lib_structs.py`, network, cached). `properties.tsv` drives the public
   chemistry finder: every `ours.tsv` directory must choose a profile and record overrides;

@@ -1,0 +1,498 @@
+# Maintainer guide
+
+Detailed build, model, source-reading, and handover guidance for repository contributors.
+Coding agents should start with [AGENTS.md](AGENTS.md); project-level decisions are in
+[DESIGN.md](DESIGN.md). The short [README.md](README.md) is for readers of the project.
+
+Base-by-base documentation of sequencing library chemistries — what the DNA construct
+actually looks like at every step of a protocol, drawn in the idiom of the Teichmann lab's
+[scg_lib_structs](https://teichlab.github.io/scg_lib_structs/) pages.
+
+Project-level presentation and modelling choices are recorded in [DESIGN.md](DESIGN.md)
+so they can be reviewed independently of the implementation.
+
+Each protocol gets a set of reference notes and one generated HTML page. The sequences and
+diagrams are **generated from a segment table, not hand-written**. Intended invariants are
+enforced by the functions that construct and render the model; tests cover only properties
+that cannot be made true by construction.
+
+## Why it is built this way
+
+Hand-aligning a dozen near-identical duplex ladders is exactly the kind of work that goes
+wrong silently: a reverse complement written backwards, a primer arrow two columns off, an
+annotation row that drifts the moment a segment length changes. Several real errors were
+caught this way during the first protocol — a primer line double-counting an overlap
+between two adjacent sequences, an adapter strand written 5'→3' where it should have been
+3'→5', a junction base on the wrong strand.
+
+So: define the construct once, derive every diagram from it, and make invalid structures
+unrepresentable in the construction API.
+
+**No hand-typed columns.** Any panel with more than one strand is a `chemdraw.Scene`: each
+strand is given 5'→3' as ordered, and placed by naming which of its segments pairs with
+which segment of a strand already drawn (`sc.anneal(..., pair=("oligo-dT", "polyA"))`).
+The Scene computes every column, draws the antiparallel strand reversed, and **raises** if
+any drawn column does not base-pair. Marks and arrows are anchored to segments, not columns.
+`Row(indent=...)` and `markers([(col, ...)])` are legacy; don't add new ones.
+`tools/lint_pairing.py` (run by `tools/selftest.py`) checks every generated page's labelled
+duplexes as a backstop. Current protocol pages use the semantic drawing model; nothing in `lib/` or any
+`tools/build_page.py` positions sequence by a typed column any more.
+
+**Facts in prose come from the model too.** A Markdown note writes `{{= crisprmip.PROBE_LEN }}`
+or ```` {{oligo: crisprmip.probe_construct()}} ```` and `build_docs.py` substitutes the
+computed value (`lib/mdfacts.py`). Every lib and protocol module is in scope. A fact that
+stops resolving is a build error, so prose cannot quietly disagree with the chemistry it
+describes -- which is how the notes came to state a 6-nt index that was really 8, and a
+closed circle of 238 nt that was really 237.
+
+**Sequencing primers are declared, not described.** Read 1 / Index 1 / Index 2 / Read 2 live
+once in `lib/illumina.py` and `lib/nextera.py`; a protocol lists which it uses by reference
+(`lib/seqprimers.py`) and `sp.section()` computes, from that page's own final library, which
+strand each primer anneals to, what it covers and the first bases each read reports. A
+declared primer with no site -- 3' end exact over >= 18 nt -- fails the build unless the
+protocol declares why.
+
+**One directory per protocol, named for its defining paper.**
+
+```
+<protocol>__<doi, with every "/" replaced by "+">
+smart-seq2__10.1038+nmeth.2639
+```
+
+Protocol names collide and get reused; a DOI does not, and every preprint has one from the
+day it is posted. `catalogue/ours.tsv` is the single record of which protocol lives in
+which directory, and the catalogue self-test rebuilds every directory name from it, so the
+name on disk and the paper it claims cannot drift apart. `catalogue/README.md` explains the
+scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
+
+## Layout
+
+```
+.
+├── index.html               landing page: searchable protocol list, work in progress (generated)
+├── build_index.py           builds it from catalogue/ours.tsv + the notes; runs the suites
+├── build_site.py            builds every page and assembles the website in _site/
+├── .github/workflows/pages.yml   builds and deploys the website on push to main
+├── lib/                     shared, protocol-agnostic
+│   ├── chemdraw.py          Segment / Construct, duplex rendering, Tm
+│   ├── illumina.py          canonical Illumina + NEBNext sequences (verbatim, sourced)
+│   ├── nextera.py           Tn5 / Nextera: ME, s5, s7, index + read primers, 9-bp gap
+│   ├── rt.py                reverse transcription, oligo-dT, TSO / template switching
+│   ├── plasmid.py           GenBank parsing, restriction digest, primer binding, amplicons
+│   ├── crispr.py            U6/scaffold landmarks, guide oligos, cloning simulation
+│   ├── padlock.py           padlock / MIP capture, gap-fill, circularisation
+│   ├── endprep.py           end repair, opposed dA tails, compatible TA ligation
+│   ├── hairpin.py           self-pairing oligos and site-specific loop opening
+│   ├── dumbbell.py          covalently closed hairpin-ended sequencing templates
+│   ├── restriction.py       typed restriction cuts, cohesive-end fill and junctions
+│   ├── telomere.py          chromosome 3′ overhangs, repeat phases and affinity capture
+│   ├── protocol_graph.py    typed material/reagent DAG + publication completeness contract
+│   ├── protocol_views.py    graph-targeted highlights, detail views, source notices
+│   ├── seqprimers.py        Read 1/2 + index primers, located on a library by computation
+│   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
+│   ├── page.py              shared stylesheet and page scaffolding
+│   └── checks.py            self-test harness + checks true for every protocol
+├── protocol_families/       bounded family-specific operations (currently Chromium)
+├── ref/                     shared reference material
+│   ├── concepts/            chemistry that recurs across protocols, written once
+│   │   ├── tn5-tagmentation.md
+│   │   ├── template-switching.md
+│   │   ├── small-rna-ligation.md
+│   │   ├── reverse-transcription.md
+│   │   └── padlock-circularization.md
+│   ├── scg_lib_structs_style.md   the house style, reverse-engineered
+│   ├── SPLiT-seq.html             archived style exemplar
+│   └── page_format.css            its stylesheet
+├── catalogue/               what exists out there, and what we have tackled
+│   ├── scg_lib_structs.tsv  the scraped worklist (protocol x paper), built by tools/
+│   ├── ours.tsv             our own coverage -- and the source of the names below
+│   └── README.md            the naming scheme and the worklist, with live counts
+│
+├── <protocol>__<doi>/       one directory per protocol, named for its defining paper
+│   ├── 0*.md                reference notes, one per source
+│   ├── *.html               the generated page
+│   ├── ref/                 protocol-specific reference material, where there is any
+│   └── tools/
+│       ├── <chem>.py        segment definitions for this chemistry
+│       ├── build_page.py    emits the HTML
+│       └── selftest.py      shared checks + this protocol's checks
+│                            wrapper-free protocols put page + checks in <chem>.py
+```
+
+## Using it
+
+```sh
+# self-tests -- run first, and after any edit. Every suite is found, so nothing here
+# needs updating when a protocol is added or a directory is renamed.
+for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
+python3 tools/protocol.py test fisseq__10.1126+science.1250212  # one-module pilot
+python3 tools/selftest.py                 # Markdown renderer, computed facts, docs build
+python3 tools/lint_pairing.py             # every page: drawn duplex columns must base-pair
+
+# the diagram pages
+for b in */tools/build_page.py; do python3 "$b"; done
+python3 tools/protocol.py build fisseq__10.1126+science.1250212
+
+# reading sources for a protocol (details: AGENTS.md, "Reading sources")
+python3 tools/get_sources.py "sci-CAR-seq"    # paper, preprint, supplements -> $CHEM_DATA/sources/<slug>/
+python3 tools/doctext.py DIR                  # PDF/DOCX/XLSX/HTML -> FILE.txt (get_sources does this)
+# Always run this when reading a paper and its supplements for a protocol. It lists every
+# oligo-looking sequence as written (modifications kept), with its nearby name, matching
+# lib/ sequences and context. It is a reading aid for a person or LLM, not page content
+# or evidence: verify each relevant hit in the original source before using it.
+python3 tools/scrape_primers.py DIR             # or files; --tsv, --known-only, --max-hits
+python3 tools/scrape_primers.py DIR --find AGATGTGTATAAGAGACAG  # where does an oligo occur
+# rebuild/check the source-review ledger for pages that still report unresolved oligos
+python3 tools/audit_missing_oligos.py --write
+python3 tools/selftest_source_oligos.py        # local text twins: exact graph oligo inputs
+python3 tools/selftest_source_oligos.py <dir>  # one protocol; absent defining text SKIPs
+
+# the catalogue of what exists (network; cached, so re-running is cheap)
+python3 catalogue/tools/fetch_scg_lib_structs.py
+
+# every .md note -> a sibling .html, plus notes.html; then the front page
+python3 build_docs.py                     # regenerates all note pages
+python3 build_index.py                    # regenerates index.html
+
+# or all of the above plus the deployable website in _site/ (see "Website")
+python3 build_site.py
+```
+
+Run the self-tests first and after any edit. Each one runs the shared checks plus its own,
+so a change to a shared sequence is caught by every protocol that depends on it.
+
+### Keeping the HTML current
+
+Every `.md` in the repo renders to a sibling `.html`, and `notes.html` indexes them all.
+One command does the lot, and it only rewrites files whose content actually changed:
+
+```sh
+python3 build_docs.py            # render anything that changed
+python3 build_docs.py --check    # exit 1 and name the stale pages; nothing written
+python3 build_docs.py --force    # re-render everything
+python3 build_docs.py --list     # list the notes it would render
+python3 build_docs.py crispr-mip__10.1101+2024.03.28.587082/01_crispr-mip.md
+```
+
+`--check` is the one to put in CI or a pre-commit hook: it fails if a `.md` was edited
+without regenerating its page, so the HTML cannot silently drift from the source.
+
+The renderer is `lib/mdrender.py` — a small dependency-free Markdown subset, because none
+of python-markdown, mistune, commonmark or markdown-it is installed and the repo takes no
+third-party dependencies. It covers what the notes use: ATX headings with anchors, GFM
+tables with alignment, fenced code, blockquotes, nested lists, rules, and inline
+code/bold/italic/links/autolinks. Two deliberate departures, both forced by the content:
+
+- **No indented code blocks.** Every code block here is fenced; all 84 four-space indents
+  in the notes are list continuations, so an indented line is continuation text.
+- **Raw HTML is escaped except for `<br> <sub> <sup> <i> <b> <em> <strong>`.** The notes
+  use angle brackets as *metavariables* far more often than as markup — `<cbc>`,
+  `<seqid>`, `<align>`, `<inf>` — and those must render literally rather than vanish into
+  the DOM.
+
+Links to `.md` files are rewritten to `.html`, so the generated site navigates the same
+way the sources do. `tools/selftest.py` pins the supported subset by example and then
+renders every real note in the repo, asserting that tags balance, that each source table
+and fence becomes exactly one element, and that no markdown is left unconsumed.
+
+No dependencies beyond the Python standard library.
+
+## Website
+
+The generated pages are published as a static site on GitHub Pages. One command builds it:
+
+```sh
+python3 build_site.py              # every page, then _site/, then a link check
+python3 -m http.server -d _site    # preview at http://localhost:8000/
+```
+
+Citation counts on the index come from the dated, checked-in
+`catalogue/citations.tsv` snapshot. Refresh it deliberately—not during a normal build—with
+`python3 tools/fetch_citations.py`; `OPENALEX_API_KEY` is optional and is never stored.
+Run that command whenever a defining DOI is added or removed. The offline index build
+requires a snapshot row for every defining DOI, so citation coverage cannot silently lag
+behind the protocol catalogue; an unresolved DOI is retained as an explicit blank row.
+
+`build_site.py` runs every local `build_page.py` and wrapper-free protocol module,
+then `build_docs.py` and
+`build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
+diagram pages, a `.nojekyll`, and the few files of ours those pages deliberately link to.
+The main research note for a finished schematic is available through a quiet link on that
+schematic page. Other reference notes and work in progress remain in the repository and are
+not public site navigation or search content. It never copies third-party material --
+nothing from `_data/`, `pdf/`, the catalogue's download cache, archived exemplars such as
+`ref/SPLiT-seq.html`, any `ref/`
+data file, or a file type `.gitignore` treats as source material. It then checks that every
+relative link and anchor in `_site/` resolves, and fails if one does not.
+
+**The front page** (`index.html`) is built from data, not a hand-written list:
+
+- **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,
+  in a compact table led by chemistry filters rather than a name search. The filter data are
+  `catalogue/properties.tsv`: sixteen closed facets covering indexing, assay, platform,
+  partitioning, input, fragmentation, adapter installation, amplification, topology,
+  strand handling, identifiers, reads, selection, conversion and availability. A derived
+  bulk/single-cell/spatial facet comes from partitioning and identifier semantics rather
+  than another hand-maintained field. Profiles
+  supply shared facts and each row records only its differences. `properties.load()` expands
+  and validates the records; a missing protocol, empty facet or unknown value stops the
+  build. Options within a facet are OR, while facets combine with AND. An unobtrusive text
+  search remains for titles, aliases, papers and descriptions. Filter state is kept in the
+  URL, so a result set can be linked.
+
+  A title opens its schematic when one exists; entries without one remain listed by name
+  rather than exposing their working notes. The index is JSON embedded in the page and
+  filtered by vanilla JavaScript: no library or network, so it works from `file://` too,
+  and without JavaScript the full list is still shown. Reference-note bodies are never
+  embedded.
+
+Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
+paragraph of its first note that describes the method (preferring the `## 1. What it is`
+section), kept in the search data rather than printed on every entry. A new protocol appears
+by name from `ours.tsv`; its title becomes a link when a page builder produces a
+finished schematic.
+
+When adding a protocol, add its row to both `catalogue/ours.tsv` and
+`catalogue/properties.tsv`. Choose the closest named profile, then override every facet
+where the protocol differs. In particular, keep **library amplification** separate from
+**how an index is introduced**, and keep **adapter architecture** (TruSeq, Nextera, custom)
+separate from **adapter installation chemistry** (ligation, Tn5, PCR, template switching).
+
+**In CI** (`.github/workflows/pages.yml`, on every push to `main` and on demand) the runner
+has only what is committed. The self-tests skip what needs a third-party file, and the
+diagram pages whose build scripts need one (plasmid maps, for CRISPR-MIP, CRISPR-UMI and the
+pooled-screen page) fail with their "missing source" message; the site is built without them
+-- the index does not link them, and a short stand-in page at their address explains why,
+so a link from another page still lands. Those pages are therefore only complete in a local
+build that has the sources.
+
+**Turning it on** (once the repository has a GitHub remote): Settings → Pages → Build and
+deployment → Source: **GitHub Actions**. The next push to `main` (or a manual run of the
+"Pages" workflow) builds and deploys the site.
+
+## Adding a protocol
+
+1. `mkdir -p <name>/tools <name>/ref`
+2. Write the reference notes first, one `.md` per source document, marking evidence as you
+   go (see *Evidence marking* below). The notes are where the thinking happens; the page is
+   a rendering of conclusions already reached.
+3. Write `<name>/tools/<name>.py` defining the construct as a list of `Segment`s. Import
+   canonical sequences from `illumina` rather than retyping them — that is the single
+   biggest source of avoidable error, and it means a correction propagates everywhere.
+   Give every barcode, sample index and UMI a `MolecularFeature` via `feature(...)`; never
+   infer its meaning from a colour, prose name or placeholder letter. Reuse the same feature
+   identity when that molecular region is copied or reverse-complemented.
+4. Build a `ProtocolGraph`: declare the primary template and every used structural,
+   catalytic, selection and condition input; connect them through typed steps; terminate
+   every material branch as sequencing, discard, QC, stored or explicitly unresolved; and
+   map the reviewed source inventory to its graph targets. A sequencing terminal carries
+   the final construct and sequencing plan. `require_publishable()` is the completeness
+   gate; do not manually assert that an incomplete graph is documented.
+5. Put chemistry invariants in the model and rendering functions used by the page. Add a
+   self-test only for source transcription or behavior that cannot be enforced by those
+   functions; do not restate model constants as checks.
+6. Write `<name>/tools/build_page.py` to emit the page, or make the one protocol module
+   declare a literal `PAGE_FILE` and provide `render_page()` and `selftest()`; the central
+   `tools/protocol.py` command then builds and tests it. Keep a separate local self-test
+   when it makes source review clearer. Keep that protocol's displayed oligos, citations,
+   read layout and evidence notices in its module even when it imports molecular
+   constructors from a published predecessor.
+7. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
+   `python3 tools/fetch_citations.py` so every defining DOI has a dated snapshot row.
+
+Each script starts with the same three-line bootstrap:
+
+```python
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(HERE.parents[1] / "lib"))
+```
+
+## Conventions
+
+**Drawing.** Duplex ladders draw the bottom strand as the plain *complement* of the top
+(not the reverse complement), written left to right and labelled `3'-…-5'`, so that paired
+bases share a column. `revcomp()` exists separately, for working out primer sequences.
+
+**Placeholders.** Barcodes, linkers and inserts are stand-ins (`AAAAAAAA`, `LLLL`,
+`XXX...XXX`), never complemented as if they were bases — this is a property of the
+`Segment`, never of the characters, so `AAAAAAAA` (barcode A) can never become eight
+thymines. Their complements render lowercase, which keeps them visually distinct from real
+bases and from a dA/dT ligation junction sitting next to them.
+
+**Identifier semantics.** `Segment.feature` records what an identifier does independently
+of how it is drawn. Its role distinguishes UMIs, cell/sample/feature/spatial/guide and
+inline barcodes; its encoding says whether values are random, fixed, whitelist-backed,
+combinatorial or unknown. Multipart barcodes share a group and name their parts. A
+whitelist field is a stable reference, not a reason to commit the vendor's barcode file.
+Read-cycle spans are computed by `seqprimers.feature_spans()` from the final construct,
+primer geometry and declared run length; do not type those ranges into a second model.
+
+**Reaction workflows.** `chemdraw.Workflow` owns the ordered molecular states of a
+reaction path. `Workflow.react()` always connects the current state to the newly produced
+state, and `workflow_panel()` derives the labelled SVG arrows from that chain. Protocol
+pages therefore never hand-align reaction arrows or separately repeat a step's input.
+Ordering-oligo lists stay as raw HTML text; `panel()` remains for non-reaction construct
+views such as final libraries and sequencing-primer binding.
+
+**Protocol completeness.** `protocol_graph.ProtocolGraph` is the authority above any one
+linear drawing. It is a typed acyclic hypergraph because a reaction can consume several
+inputs and produce several outputs. Topological construction prevents cycles and duplicate
+producers; publication validation requires directed primary-template provenance, typed
+reaction geometry, source-attributed inputs and steps, a closed source-coverage inventory,
+explicit terminal disposition for every branch, and at least one validated sequencing
+library. `protocol_graph_panels()` derives one visible provenance path per sequencing
+output and renders every other terminal from the graph: a molecular panel if its state
+is known, or an explicit absence statement if it is not. A `Workflow` maintains a
+non-publishable graph during legacy migration, but generic construct-changing steps do not
+satisfy the finished-page contract.
+For source-supported, structurally modelled side-product classes, give each a distinct
+material state; the renderer draws it automatically, as for the sci-ATAC-seq 2018
+T5/T5 and T7/T7 branches.
+
+For a necessary transition whose chemistry cannot yet be modelled, declare
+`graph.react(..., StepKind.MAGIC, ..., reason="why the gap is needed")`. The step still
+needs a template input, explicit products, source attribution, and reviewed source
+coverage. The independent chemistry check leaves its product relation unresolved and
+reports the reason as a warning; `protocol_graph_panels()` shows every warning on the
+page. Use this for an acknowledged gap, not as evidence that the reaction works.
+
+Page emphasis can be declared on graph nodes with `graph.annotate(Highlight(...))`,
+`DetailView(...)`, or `SourceDiscrepancy(...)`. `lib/protocol_views.py` assembles the
+page with `AnnotationSlot` markers at the intro, before/after workflow, or sequencing
+section and fails if an annotated slot is omitted. A detail view normally draws the
+targeted material's state; specialist views may
+use a state derived from the same molecular constructor. Source discrepancies require
+located conflicting claims, the model choice, supporting evidence, and remaining
+uncertainty. Annotations select explanations and views; the chemistry checker still
+generates validation warnings independently. `OligoSection` and `WorkflowSection`
+declare routine page sections using protocol-owned segments and the graph.
+`PrimerBindingSection` computes primer landing and read content from an exact graph
+sequencing plan. `ReadLayoutSection` pairs that plan with source-declared run rows,
+including dark-cycle recipes. `OffsetPrimerSection` displays a repeated-template primer
+series under an explicit sequencing-plan limitation; it does not claim unique linear
+primer sites. The source-specific rows, primers, and explanatory text remain local.
+
+Use `relations=(MolecularRelation.CIRCLE_CLOSURE,)` or another declared molecular
+relation only when the step has the corresponding molecular input and output states.
+These relations are checked independently of the displayed `StepKind`; a missing state
+or contradictory claim appears in the audit and page warnings.
+For Tn5 with two loaded adapter species, `END_COMBINATIONS` enumerates every end pair
+and checks its declared retained or waste fate against the actual downstream primer
+footprints. This is a product-class check, not a yield prediction.
+
+When sticky-end adapter ligation follows dA-tailing, use
+`endprep.react_dA_tail_then_ligate()` so the ligation-ready dA-tailed molecule is a visible
+state rather than being swallowed by a combined step. Use `ligation_product_scene()` for
+the product: its subtle component backgrounds distinguish insert from adapter, and two
+copies of the same adapter are guaranteed to share one background identity.
+
+`Scene` rows retain molecular meaning into rendering: strands become directional boxes,
+binding spans become vector brackets, and synthesis/enzyme movement becomes a vector
+arrow. Comments use the proportional UI font while bases remain selectable monospaced
+text. Hovering a named concrete sequence shows its model name and, for an unambiguous
+region, its known length plus a Tm computed from that same `Segment` when relevant.
+
+**Evidence marking.** Notes mark every claim 🟢 verbatim from the source · 🟡 derived or
+inferred · 🔴 not published anywhere. On the page, inference is marked three ways, all
+required: a standing caveat in the preamble, an `INFERRED — …` caption on each affected
+step, and an `<inf>` element (dotted underline) around the bases themselves. Colour says
+what a region *is*; `<inf>` says how well it is *known*. The two are orthogonal and nest
+freely.
+
+**Open questions are switches, not prose.** Where a length or structure is genuinely
+uncertain, make it a module constant with both options documented
+(e.g. `D_ARM_INCLUDES_CCGATCT`). Flip it, rebuild, and every diagram re-aligns — and a
+check asserts what the flip should and should not change.
+
+## Recurring chemistry
+
+Worth reading before adding a protocol, because most new chemistries are a new front end
+bolted to one of these:
+
+- **[Tn5 tagmentation](ref/concepts/tn5-tagmentation.md)** — fragmentation and adapter
+  addition in one step. The back end of SMART-seq, SPLiT-seq, ATAC-seq and most
+  tagmentation-based single-cell methods. Always the same 19-bp mosaic end, the same s5/s7
+  entry points, the same 9-bp gap and 72 °C fill-in, and the same rule that only the s5/s7
+  heteroduplex amplifies.
+- **[Template switching and the TSO](ref/concepts/template-switching.md)** — how a defined
+  handle reaches the 5' end of a cDNA without ligation, and the place a UMI can be attached
+  before amplification.
+- **[Sequential ligation, and masking oligos](ref/concepts/small-rna-ligation.md)** — how a
+  22-nt RNA with no cap, no poly(A) and no handle gets two defined ends with no polymerase
+  involved: a pre-adenylated 3' adapter, an exonuclease step that destroys the leftovers so
+  adapter dimers do not take over, and a 5' adapter that can only ligate to a 5'-phosphate
+  (which is what excludes capped mRNA). Plus rRNA depletion by occupying an end rather than
+  by pulldown.
+- **[Reverse transcription, RNA vs DNA](ref/concepts/reverse-transcription.md)** — the fork
+  that determines nearly everything downstream, including why UMIs belong to RNA protocols
+  and not to single-cell WGS.
+- **[Padlock probes and circularisation](ref/concepts/padlock-circularization.md)** —
+  capture by two arms rather than one primer, and the trick of letting an exonuclease throw
+  away every failure mode because only the successes are circular.
+
+## Data policy — never check in data
+
+**No sequencing data, count table, or downloaded archive is ever committed to this
+repository.** Not a FASTQ, not a subsample, not a "small" test slice. The repo holds *code
+and documentation only*; anything that came off an instrument or out of an archive lives
+outside it and is reproduced on demand.
+
+What that means in practice:
+
+- Every external dataset gets a **download script** that fetches it from its accession, and
+  that script is the artefact we keep. If a result cannot be regenerated from a script in
+  this repo plus a public accession, it is not finished.
+- Downloads go to a directory named by `$CHEM_DATA` (default `./_data/`), which is
+  **gitignored**. The scripts create it; nothing in it is tracked.
+- Download scripts must support **subsetting** (`--max-reads`), because the real files here
+  run to tens of gigabytes and almost every question can be answered on a slice.
+- Scripts record what they fetched — URL, accession, byte count, md5 where the archive
+  provides one — into a manifest *next to the data*, not in the repo.
+- Derived tables (count matrices, fitted parameters) are also data: they go to `$CHEM_DATA`
+  too. Only the script that produces them is tracked.
+
+CRISPR-MIP analysis download scripts live in the companion `chem_crisprmip` repository. A
+new analysis keeps its download tooling beside that analysis rather than in this chemistry
+catalogue.
+
+### Nor any third-party source document
+
+Papers, vendor manuals, supplementary tables, and anything **derived from them by
+extraction** — page-text dumps, figures, gel photographs, spreadsheets, SnapGene exports —
+are copyrighted and not ours to redistribute, so none of it is committed either
+(`*.pdf`, `*.xls(x)`, `*.doc(x)`, `*.txt`, image formats, `*.dna`). Generated HTML is
+ignored for a different reason: it is output, rebuilt by the build scripts, and committing
+it would bury a one-line sequence change under thousands of lines of re-aligned diagram.
+
+This costs nothing in checkability, which is the point of the repo: **what we computed from
+a source lives in the model and is pinned in the self-test**, so the derived fact is
+verifiable and citable without the document. Where a value had to be transcribed, the
+transcription itself is quoted once in a comment and the self-test parses that comment and
+compares it to what the model derives — see `tools/atrandi.py` and its self-test.
+
+Two conventions make this workable:
+
+- **Every `ref/` directory has a `MANIFEST.md`** naming each file it expects, what it is,
+  the exact source to re-obtain it (DOI, supplementary file name, vendor document number
+  *and revision*, Addgene ID), and which checks depend on it.
+- **Checks that read a third-party file skip instead of failing** when it is absent, naming
+  the file and its origin (`checks.Source` / `checks.have`). A fresh clone therefore runs
+  green with a loud, specific list of what it could not check — a missing source document
+  is an incomplete clone, not a wrong chemistry. Build scripts, which genuinely cannot
+  produce a page without their data, exit with that same message instead.
+
+## CRISPR-MIP analysis
+
+This repository keeps the published CRISPR-MIP chemistry and protocol schematic. GC-bias
+work, dataset investigations, proposed experiments and live protocol troubleshooting live
+in the companion `chem_crisprmip` repository, which may depend on this one. The dependency
+never runs in the other direction: this site builds without the analysis checkout.
+
+## A note on what the checks are for
+
+They are regression tests, not discovery. The useful ones assert relationships that *must*
+hold if the model is right — for instance, the Atrandi Read-2 layout is derived from the
+segment table and then asserted against the offsets hard-coded in Bascet
+(`0, 12, 24, 36`, trim `45`), which were arrived at independently from sequencing data.
+When a model reproduces a number nobody fed it, that is worth locking down.
