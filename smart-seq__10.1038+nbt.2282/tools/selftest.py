@@ -217,8 +217,12 @@ check("the SMART-seq2 template-switch step is captioned INFERRED",
 check("the SMART-seq3 template-switch step is not",
       bp.protocol_graph("SMART-seq3").steps["template_switch"].label.startswith("INFERRED"),
       False)
-for p in ("SMART-seq", "SMART-seq2"):
-    check(f"{p} carries a preamble caveat for its inferred region", p in bp.CAVEATS)
+check("SMART-seq carries a preamble caveat for its inferred region",
+      "SMART-seq" in bp.CAVEATS)
+check("SMART-seq2 attaches the source disagreement to the affected graph step",
+      [(a.target, a.title) for a in s2.protocol_graph().annotations
+       if a.__class__.__name__ == "SourceDiscrepancy"],
+      [("template_switch", "Two published TSO linkers")])
 check("no page lists a secondary redrawing among the sources read for its bases",
       [p for p, items in bp.READ_FOR_OLIGOS.items()
        if any("scg_lib_structs" in i or "teichlab" in i for i in items)], [])

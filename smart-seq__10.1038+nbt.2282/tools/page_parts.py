@@ -25,7 +25,8 @@ from illumina import P5, P7
 from page import head, info, table
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
-                            SequencingPlan, StepKind)
+                            SequencingPlan, StepKind, AnnotationSlot)
+from protocol_views import assemble_page
 
 PRE = 4
 H = rt.SMART_HANDLE
@@ -74,7 +75,6 @@ CAVEATS = {
                   "and ISPCR bases below are the later SMART-seq2 / Nature Protocols design "
                   "(as transcribed in Hagemann-Jensen et al. 2020, Supplementary Table 1) "
                   "and are drawn dotted throughout.</div>"),
-    "SMART-seq2": s2.CAVEAT,
 }
 
 
@@ -373,17 +373,6 @@ READ_FOR_OLIGOS = {
         "Illumina adapter sequences (via <code>lib/nextera.py</code>) for ME, s5, s7 and "
         "the N5xx/N7xx index primers",
     ],
-    "SMART-seq2": [
-        "Picelli et al. 2013 Supplementary Tables 2 and 4: every TSO tested, and which one "
-        "<i>Smart-seq2</i> uses (<code>rGrG+G</code>)",
-        "Picelli et al. 2013 Supplementary Tables 1 and 3: the oligo-dT named as the "
-        "commercial <i>SMARTer dT30VN</i>, and the ISPCR primer named but not printed",
-        "Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1: the Nature "
-        "Protocols Smart-seq2 oligo-dT, TSO and forward PCR primer, printed in full",
-        "Hahaut et al. 2022 Supplementary Note 2: the same handle oligo-dT and the "
-        "biotinylated ISPCR primer, attributed to Picelli et al. 2013",
-        "Illumina adapter sequences (via <code>lib/nextera.py</code>) for the Nextera back end",
-    ],
     "SMART-seq3": [
         "Hagemann-Jensen et al. 2020 Supplementary Table 1: oligo-dT, TSO, forward and "
         "reverse PCR primers, printed in full",
@@ -602,6 +591,8 @@ def protocol_graph(protocol: str, *, doi: str | None = None,
 
 
 def render_page(protocol: str, *, graph_factory=None) -> str:
+    if protocol == "SMART-seq2":
+        raise ValueError("SMART-seq2 page is rendered by its own protocol module")
     graph = graph_factory() if graph_factory else protocol_graph(protocol)
     graph_workflow = ("<h2>Step-by-step library generation</h2>\n"
                       + protocol_graph_panels(graph, cls="long"))
@@ -609,5 +600,7 @@ def render_page(protocol: str, *, graph_factory=None) -> str:
         body = [ss2_oligos(protocol), graph_workflow, ss2_final()]
     else:
         body = [ss3_oligos(protocol), graph_workflow, ss3_final(protocol)]
-    return "\n".join([head(f"{protocol} library chemistry"), preamble(protocol, complete=True),
-                      *body, sequencing(protocol)])
+    return assemble_page(graph, [
+        head(f"{protocol} library chemistry"), preamble(protocol, complete=True),
+        AnnotationSlot.INTRO, *body, AnnotationSlot.AFTER_WORKFLOW,
+        sequencing(protocol)])

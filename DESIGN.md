@@ -5,6 +5,27 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-15 — Permit one-module protocol pages
+
+**Decision.** A protocol module may declare a literal `PAGE_FILE` and expose
+`protocol_graph()`, `render_page()` and `selftest()`. The central `tools/protocol.py`
+command builds and tests it; site, index and catalogue discovery accept this alongside
+existing local `build_page.py` and `selftest.py` scripts. A protocol with substantial
+source checks may retain a separate self-test. Only the local protocol module chooses
+its source-specific reaction graph and page emphasis.
+
+**Why.** SMART-seq2, sci-ATAC-seq 2018 and FISSEQ produced byte-identical pages after
+their local build and test wrappers were removed. Their separate checks were small
+enough to keep as `selftest()` functions. The central command removes repetitive entry
+points without relocating source choices into shared code. SMART-seq2 and sci-ATAC-seq
+2018 subsequently moved their source-specific oligo lists, citations and read layout
+into their own modules. They may still reuse predecessor molecular constructors; their
+published pages no longer call a predecessor's page renderer.
+
+**Review when.** Apply the layout to a protocol with a much larger page or source-test
+suite before making it the default. Split a module when separate code makes its evidence
+boundary easier to review; minimizing file count is not itself a chemistry invariant.
+
 ## 2026-10-15 — Put source discrepancies on every affected public protocol page
 
 **Decision.** If two authoritative publications disagree, or a source appears
@@ -23,6 +44,44 @@ and described as model corrections, never attributed to the publication.
 
 **Review when.** Recheck the notice when a correction, original supplement or vendor
 revision becomes available; update every affected page and the local model together.
+
+## 2026-10-15 — Attach page emphasis to graph nodes
+
+**Decision.** A protocol may attach typed `Highlight`, `DetailView`, and
+`SourceDiscrepancy` annotations to existing step or material IDs. A detail view uses the
+target material's drawing state by default; an explicit view may use a state derived
+from the same molecular constructor, such as FISSEQ's circular topology or its
+sequencing-primer scene. Four simple page slots place annotations without making
+reaction order or chemical truth depend on display order. The shared renderer escapes
+annotation text and labels every rendered item with its graph target. Page assembly fails
+if any declared annotation slot was omitted or repeated.
+
+The graph remains the authority for inputs, outputs, reactions, terminal fates and
+sequencing plans. Validation warnings come from the chemistry checker and cannot be
+suppressed or promoted by an annotation. A source discrepancy records both located
+claims, the chosen model, its supporting evidence and remaining uncertainty; the
+public page renders those fields together.
+
+**Why.** The sci-ATAC-seq 2018 Tn5 branch, SMART-seq2 TSO disagreement and FISSEQ
+circle/rolony views need different emphasis, but each already has a stable graph target.
+Keeping the emphasis beside that target removes protocol-name decisions from page
+renderers while preserving specialist molecular drawings. A page can increasingly be
+assembled from graph data and a short list of selected views. `OligoSection` and
+`WorkflowSection` are presentation declarations: the former receives protocol-owned
+segment constructors and the latter renders the existing graph. They add no chemical
+claim or source authority.
+
+The three pilot readout sections now use graph-linked view declarations as well:
+`PrimerBindingSection` for an exact run, `ReadLayoutSection` for source-declared cycle
+recipes beside exact primer sites, and `OffsetPrimerSection` for FISSEQ's five primers
+on repeated rolony units. The last requires an explicit sequencing-plan limitation.
+These views check that they target a declared plan, but only molecular states and the
+independent chemistry checker can establish a reaction or binding claim.
+
+**Review when.** Try a dense protocol such as Small-seq before adding more annotation
+kinds or page slots. If detailed figures require a second hand-entered molecular state,
+improve the graph's state model first. Do not treat annotations as evidence or a
+replacement for independently reviewed source coverage.
 
 ## 2026-10-15 — Check narrow chemistry claims from existing declarations
 
@@ -66,6 +125,13 @@ declarations and are checked directly. A missing state leaves its declared relat
 unresolved and visible as a warning; a contradiction is also shown. A successful local
 relation never establishes an entire named reaction.
 
+Two-ended adapter reactions may also declare `END_COMBINATIONS`. A loaded-end pool
+supplies the source-backed adapter sequences; the step supplies the actual downstream
+PCR primers and assigns every derived unordered end pair to a retained or waste output.
+The checker tests exact 3′ primer footprints and complete, non-overlapping assignment.
+This establishes eligibility for the specified two-primer library, not Tn5 insertion
+mechanism, product frequency, or absolute inability to amplify with other primers.
+
 **Why.** The ten local-ownership pilots contain 78 steps across 17 `StepKind`s but
 mostly lack exact molecular inputs and outputs for a reaction-level proof. Five
 boundary protocols add gap-sealing capture (smMIP), circle copying (FISSEQ), RNA
@@ -85,8 +151,10 @@ Keep the four statuses per claim; do not compress them into a single protocol pa
 **Decision.** Each documented protocol owns the assembly of its typed reaction graph in
 its own `tools/` module. The local graph states the ordered operations, inputs, outputs,
 selection and discard decisions, evidence boundary, and final sequencing material.
-`build_page.py` remains the small executable entry point. A page renderer may live in a
-published predecessor's directory when the page genuinely inherits its drawing grammar.
+`build_page.py` may remain a small executable entry point; a `PAGE_FILE` module may instead
+use the central command. Protocol-specific citations, oligo displays, read layouts and
+evidence notices belong with the protocol even when its molecular constructors are
+inherited from a published predecessor.
 
 Reuse molecular constructors and bounded chemistry operations when they express the
 same operation across protocols: a cDNA amplification front end, an adapter ligation,

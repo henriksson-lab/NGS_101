@@ -43,6 +43,7 @@ import vendors  # noqa: E402
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
 from page import head, info, site_header  # noqa: E402
+from protocol_pages import page_module  # noqa: E402
 
 OUT = ROOT / "index.html"
 
@@ -186,22 +187,27 @@ def notes_of(d: str) -> list[Path]:
 
 # ---------------------------------------------------------- the diagram pages
 def diagram_out(d: str) -> Path | None:
-    """The page a protocol's tools/build_page.py writes (its `OUT = HERE.parent / ...`)."""
+    """Output of a legacy page builder or a PAGE_FILE protocol module."""
     bp = ROOT / d / "tools" / "build_page.py"
-    if not bp.exists():
-        return None
-    m = OUT_RE.search(bp.read_text(encoding="utf-8"))
-    if not m:
-        raise ValueError(f"{bp}: cannot determine generated HTML from its OUT assignment")
-    return ROOT / d / m.group("out")
+    if bp.exists():
+        m = OUT_RE.search(bp.read_text(encoding="utf-8"))
+        if not m:
+            raise ValueError(f"{bp}: cannot determine generated HTML from its OUT assignment")
+        return ROOT / d / m.group("out")
+    declared = page_module(ROOT / d)
+    return ROOT / d / declared[1] if declared else None
 
 
 def checks(d: str) -> tuple[int, bool]:
     """Run a directory's self-test and report (count, passed); (0, False) if none."""
     st = ROOT / d / "tools" / "selftest.py"
-    if not st.exists():
+    if st.exists():
+        command = [sys.executable, str(st)]
+    elif page_module(ROOT / d):
+        command = [sys.executable, str(ROOT / "tools" / "protocol.py"), "test", d]
+    else:
         return 0, False
-    r = subprocess.run([sys.executable, str(st)], capture_output=True, text=True)
+    r = subprocess.run(command, capture_output=True, text=True)
     m = re.search(r"all (\d+) checks passed", r.stdout)
     if m:
         return int(m.group(1)), True

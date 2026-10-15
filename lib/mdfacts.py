@@ -19,6 +19,7 @@ import importlib
 import re
 import sys
 from pathlib import Path
+from protocol_pages import page_module
 
 ROOT = Path(__file__).resolve().parents[1]
 FACT = re.compile(r"\{\{\s*(=|scene:|oligo:|duplex:)\s*(.+?)\s*\}\}")
@@ -31,7 +32,8 @@ def namespace() -> dict:
     if _ns is None:
         lib = ROOT / "lib"
         tools = sorted(p for p in ROOT.glob("*/tools")
-                       if (p / "build_page.py").exists() or (p / "catalogue.py").exists())
+                       if (p / "build_page.py").exists() or (p / "catalogue.py").exists()
+                       or page_module(p.parent) is not None)
         for d in [lib, *tools]:
             if str(d) not in sys.path:
                 sys.path.append(str(d))

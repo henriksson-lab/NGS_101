@@ -58,6 +58,11 @@ random, so fragments end up with:
 | s7 / s7 | no | P7 at both ends; no P5 site |
 | **s5 / s7** | **yes** | the only product that can bridge P5 to P7 |
 
+The graph's `END_COMBINATIONS` check derives these three *end-identity classes* from
+the loaded adapter pool and tests whether each class has both specified index-primer
+entry sites. It establishes eligibility for the P5/P7 library, not the frequency of
+each class or whether a same-end molecule could amplify under other PCR conditions.
+
 This is suppression by design, not an inefficiency — and it is why the scg_lib_structs pages
 draw every product and label which survives. When one end of the molecule is *not* tagmented
 (e.g. the 3' end of a barcoded cDNA), the product table grows accordingly; SPLiT-seq draws

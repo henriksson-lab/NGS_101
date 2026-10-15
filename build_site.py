@@ -7,7 +7,8 @@
 
 Steps:
 
-1. Run every `*/tools/build_page.py`. A failure is reported, not fatal: in CI the
+1. Run every legacy `*/tools/build_page.py` or wrapper-free page module. A failure is
+   reported, not fatal: in CI the
    third-party source files (plasmid maps, supplementary tables) are absent, and those
    build scripts exit with a "missing source" message. Such a page is left out of the site
    -- the index does not link it, and a short stand-in page explains why, so that a link
@@ -46,6 +47,7 @@ import build_docs  # noqa: E402
 import build_index  # noqa: E402
 from page import ASSETS, MD_STYLE, site_header  # noqa: E402
 from seqprimers import ensure_read_content  # noqa: E402
+from protocol_pages import page_module  # noqa: E402
 
 # Never published from here, whatever links to it.
 NEVER = {"_data", "pdf", ".cache", ".git", "__pycache__", "_site"}
@@ -65,11 +67,16 @@ def rel(p: Path) -> str:
 
 # ----------------------------------------------------------------- 1. build
 def build_pages() -> dict[str, tuple[bool, str]]:
-    """Run each protocol's build_page.py; {dir: (ok, last line of its output)}."""
+    """Build every protocol page; {dir: (ok, last line of its output)}."""
     out = {}
-    for bp in sorted(ROOT.glob("*/tools/build_page.py")):
-        d = bp.parents[1].name
-        r = subprocess.run([sys.executable, str(bp)], capture_output=True, text=True,
+    directories = {bp.parents[1].name for bp in ROOT.glob("*/tools/build_page.py")}
+    directories.update(r["dir"] for r in build_index.cat.ours()
+                       if page_module(ROOT / r["dir"]) is not None)
+    for d in sorted(directories):
+        bp = ROOT / d / "tools" / "build_page.py"
+        command = ([sys.executable, str(bp)] if bp.exists() else
+                   [sys.executable, str(ROOT / "tools" / "protocol.py"), "build", d])
+        r = subprocess.run(command, capture_output=True, text=True,
                            cwd=ROOT)
         msg = (r.stdout + r.stderr).strip().splitlines()
         last = msg[-1] if msg else ""
@@ -332,7 +339,7 @@ def main() -> int:
                     help="do not run the self-tests to put check counts on the index")
     args = ap.parse_args()
 
-    print("1. diagram pages (*/tools/build_page.py)")
+    print("1. diagram pages (local builders and protocol modules)")
     results = build_pages()
     failed = sorted(d for d, (ok, _) in results.items() if not ok)
 

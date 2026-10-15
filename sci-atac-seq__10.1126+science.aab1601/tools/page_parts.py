@@ -19,7 +19,8 @@ import nextera as nx
 from page import head, info, table
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+                            StepKind, AnnotationSlot)
+from protocol_views import assemble_page
 import seqprimers as sp
 
 PAPERS = {
@@ -357,20 +358,25 @@ def sequencing(protocol: str, *, final_library: Construct | None = None,
             + '</div>')
 
 
-def render_page(protocol: str, out: Path, *,
+def render_page(protocol: str, out: Path | None = None, *,
                 source: tuple[str, str] | None = None,
                 graph_factory=None,
                 final_library: Construct | None = None,
                 pcr_n: int | None = None,
                 inferred: bool | None = None,
                 read_rows: list[tuple[str, str, str]] | None = None,
-                primers: tuple | None = None) -> None:
+                primers: tuple | None = None) -> str:
     graph = graph_factory() if graph_factory else protocol_graph(protocol)
     body = "<h2>Library generation</h2>\n" + protocol_graph_panels(graph)
     olig = (two_oligos(protocol, pcr_n=pcr_n, inferred=inferred)
             if protocol != S.SCI3 else sci3_oligos())
-    out.write_text("\n".join([head(f"{protocol} library chemistry"),
-                              preamble(protocol, complete=True, source=source), olig, body,
-                              sequencing(protocol, final_library=final_library,
-                                         read_rows=read_rows, primers=primers)]), encoding="utf-8")
-    print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
+    rendered = assemble_page(graph, [
+        head(f"{protocol} library chemistry"),
+        preamble(protocol, complete=True, source=source), AnnotationSlot.INTRO,
+        olig, body, AnnotationSlot.AFTER_WORKFLOW,
+        sequencing(protocol, final_library=final_library,
+                   read_rows=read_rows, primers=primers)])
+    if out is not None:
+        out.write_text(rendered, encoding="utf-8")
+        print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
+    return rendered

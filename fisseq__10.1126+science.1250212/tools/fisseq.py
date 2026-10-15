@@ -1,4 +1,4 @@
-"""Molecular model for the Church-lab transcriptome-wide RNA FISSEQ protocol."""
+"""Molecular model, graph, and page for transcriptome-wide RNA FISSEQ."""
 from __future__ import annotations
 import sys
 from pathlib import Path
@@ -7,12 +7,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, annotation_rows
 from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
-from protocol_graph import (InputRole, MaterialKind, MolecularRelation, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from page import head, info
+from protocol_graph import (AnnotationSlot, DetailStyle, DetailView, InputRole, MaterialKind,
+                            MolecularRelation, ProtocolGraph, SequencingPlan, StepKind)
+from protocol_views import OffsetPrimerSection, WorkflowSection, assemble_page
 from topology import CircularPrimerTopology
 
 
 TITLE = "FISSEQ — transcriptome sequencing inside fixed cells"
+PAGE_FILE = "fisseq.html"
 SOURCE = ("Lee et al., Science (2014), doi:10.1126/science.1250212; "
           "Lee et al., Nature Protocols (2015), doi:10.1038/nprot.2014.191")
 
@@ -222,4 +225,50 @@ def protocol_graph() -> ProtocolGraph:
         "reverse_transcribe", "crosslinker", "immobilize_cdna", "ribonucleases",
         "remove_rna", "circligase", "circularize", "rca_primer", "bind_rca_primer", "phi29",
         "rolling_circle", "immobilize_rolony", "sequencing_library"), SOURCE)
+    graph.annotate(DetailView(
+        "cdna_circle", "Circular template and RCA primer",
+        "The complete cDNA is covalently closed. The protected RCA primer binds "
+        "the adapter antiparallel; Phi29 extends from its 3′ end, and the resulting "
+        "concatemer is shown as the next molecular state in the workflow.",
+        state=RCA_TOPOLOGY, slot=AnnotationSlot.BEFORE_WORKFLOW,
+        style=DetailStyle.FOLDED))
+    graph.annotate(DetailView(
+        "sequencing_library", "Sequencing primers on the finished rolony",
+        "All five sliding primers are shown on the middle repeat. The three primer-N "
+        "sites in this three-repeat drawing are found computationally; every physical "
+        "repeat carries the same nested sites.",
+        state=sequencing_scene(), slot=AnnotationSlot.SEQUENCING))
     return graph.require_publishable()
+
+
+def render_page() -> str:
+    graph = protocol_graph()
+    return assemble_page(graph, [head("FISSEQ library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
+        '<h1>FISSEQ &mdash; transcriptome sequencing inside fixed cells</h1>',
+        '<p class="research-notes"><a href="01_fisseq.html">Research notes</a></p>',
+        info('Defining source: <a href="https://doi.org/10.1126/science.1250212">Lee et al., <i>Science</i> (2014)</a>. Exact oligos and reaction order are from the authors\' open <a href="https://doi.org/10.1038/nprot.2014.191"><i>Nature Protocols</i> procedure</a>.'),
+        AnnotationSlot.BEFORE_WORKFLOW,
+        WorkflowSection("Reaction workflow"),
+        AnnotationSlot.SEQUENCING,
+        OffsetPrimerSection(
+            "sequencing_library", SEQUENCING_PRIMERS,
+            "SOLiD sequencing-by-ligation uses primer N, then four primers shortened "
+            "successively at the 5′ end. The offsets make the five-base ligation stride "
+            "interrogate all positions.",
+            "in-situ rolony cDNA interrogated by five offset SOLiD ligation primers",
+            "FISSEQ uses SOLiD sequencing-by-ligation rather than an R1/I1/I2/R2 run."),
+        '</div>'])
+
+
+def selftest() -> None:
+    """Check oligos and incubation against the Lee et al. procedure."""
+    from checks import Check, run_common
+    check = Check()
+    check.section("Lee et al. protocol choices")
+    check("RT primer as published", RT_PRIMER_WRITTEN,
+          "/5phos/TCTCGGGAACGCTGAAGANNNNNN")
+    check("RCA primer as published", RCA_PRIMER_WRITTEN, "TCTTCAGCGTTCCCGA*G*A")
+    check("CircLigase II incubation", (CIRCLIGASE_C, CIRCLIGASE_MIN), (60, 60))
+    run_common(check)
+    check.report()

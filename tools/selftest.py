@@ -24,10 +24,15 @@ from checks import Check, run_common  # noqa: E402
 from adapter_ligation import cohesive_duplex  # noqa: E402
 from chemdraw import Row, Segment, oligo, panel, protocol_graph_panels  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
-from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
-                            MolecularRelation,
+from protocol_graph import (AnnotationSlot, DetailView, Disposition, Highlight,
+                            Input, InputRole, Material, MaterialKind, MolecularRelation,
                             ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
-                            Step, StepKind, Terminal)  # noqa: E402
+                            SourceClaim, SourceDiscrepancy, Step, StepKind,
+                            Terminal)  # noqa: E402
+from protocol_views import (OffsetPrimerSection, OligoEntry, OligoSection,
+                            PrimerBindingSection, ReadLayoutSection, SourceRead,
+                            WorkflowSection,
+                            assemble_page, render_annotations)  # noqa: E402
 from chemistry_validation import (Status, check_graph as check_chemistry,
                                   warnings as chemistry_warnings)  # noqa: E402
 
@@ -90,6 +95,56 @@ def _complete_graph():
 
 check("a connected, source-covered graph with a sequencing terminal is publishable",
       _complete_graph().publication_problems(), [])
+annotated = _complete_graph()
+annotated.annotate(Highlight("tagment", "Branch", "Retained < discarded.",
+                             slot=AnnotationSlot.AFTER_WORKFLOW))
+annotated.annotate(SourceDiscrepancy(
+    "adapter", "Conflicting sources",
+    (SourceClaim("source A, table 1", "AC"),
+     SourceClaim("source B, table 2", "ACAT")),
+    "ACAT", "source B prints the full oligo", "AT is absent from source A"))
+check("graph annotations render at their declared slots and escape source text",
+      ("Retained &lt; discarded." in render_annotations(
+          annotated, AnnotationSlot.AFTER_WORKFLOW),
+       "source A, table 1" in render_annotations(annotated, AnnotationSlot.INTRO),
+       "Conflicting sources" in render_annotations(
+           annotated, AnnotationSlot.AFTER_WORKFLOW)),
+      (True, True, False))
+check.raises("annotation target must exist in the graph",
+             lambda: annotated.annotate(Highlight("missing", "Bad", "Unknown node")))
+check.raises("detail view needs a molecular state",
+             lambda: annotated.annotate(DetailView("waste", "Waste", "No drawing")))
+check.raises("source discrepancy requires two located claims",
+             lambda: annotated.annotate(SourceDiscrepancy(
+                 "adapter", "Incomplete", (SourceClaim("source A", "AC"),),
+                 "AC", "printed", "uncertain")))
+check.raises("page assembly rejects an omitted graph annotation slot",
+             lambda: assemble_page(annotated, ["<h1>Example</h1>",
+                                               AnnotationSlot.INTRO]))
+check("page assembly includes each requested graph annotation slot once",
+      assemble_page(annotated, [AnnotationSlot.INTRO,
+                                AnnotationSlot.AFTER_WORKFLOW]).count(
+                                    'data-graph-target="'), 2)
+view_page = assemble_page(annotated, [
+    AnnotationSlot.INTRO,
+    OligoSection("Source oligos", (OligoEntry("adapter", (Segment("end", "AC"),)),)),
+    WorkflowSection("Reaction workflow"), AnnotationSlot.AFTER_WORKFLOW])
+check("declared oligo and workflow sections render from one graph",
+      ("Source oligos" in view_page and "AC" in view_page,
+       "Tagment" in view_page and "Reaction workflow" in view_page),
+      (True, True))
+check.raises("an empty declared oligo section is rejected",
+             lambda: OligoSection("Empty", ()).render())
+check.raises("exact-primer view rejects a graph without exact sequencing geometry",
+             lambda: PrimerBindingSection("library", "Reads", "Primers").render(
+                 _complete_graph()))
+check.raises("source run rows reject a graph without exact sequencing geometry",
+             lambda: ReadLayoutSection("library", (
+                 SourceRead("Read 1", "50", "insert", "Read 1", "include"),),
+                 "source run").render(_complete_graph()))
+check.raises("offset primers require a declared sequencing-output limitation",
+             lambda: OffsetPrimerSection("library", (("N", "ACGT"),),
+                 "offsets", "product", "limitation").render(_complete_graph()))
 check.raises("tagmentation cannot hide its non-library output", lambda: ProtocolGraph(
     "bad", authority="source")._validate_step_shape(Step(
         "tagment", "Tagment", StepKind.TAGMENTATION,
@@ -264,6 +319,85 @@ check("declared relation without sufficient states stays unresolved and warns",
        [(w.target, w.message.startswith("Unresolved"))
         for w in chemistry_warnings(order_graph)]),
       ([Status.UNRESOLVED], [("heat_dna", True)]))
+
+from end_combinations import (EndCombinationGeometry, EndProductGroup,
+                              LoadedEnd, LoadedEndPool)  # noqa: E402
+import nextera as nx  # noqa: E402
+from pcr import PCRGeometry, PCRPrimer  # noqa: E402
+
+end_graph = ProtocolGraph("two-ended outcomes")
+end_sample = end_graph.input("sample", "DNA", MaterialKind.MOLECULAR, primary=True)
+end_pool = end_graph.input("end_pool", "loaded adapters", MaterialKind.ADAPTER,
+                           chemical_state=LoadedEndPool(
+                               (LoadedEnd("s5", nx.ADAPTOR_S5),
+                                LoadedEnd("s7", nx.ADAPTOR_S7)), nx.ME))
+end_enzyme = end_graph.input("enzyme", "Tn5", MaterialKind.CATALYST)
+end_kept = end_graph.product("kept", "dual-site fragments", MaterialKind.MOLECULAR)
+end_waste = end_graph.product("waste", "same-end fragments", MaterialKind.WASTE)
+end_primers = (PCRPrimer("N5xx", nx.n5xx_primer("N" * 8), len(nx.S5)),
+               PCRPrimer("N7xx", nx.n7xx_primer("N" * 8), len(nx.S7)))
+end_geometry = EndCombinationGeometry(
+    end_primers,
+    (EndProductGroup("kept", (("s5", "s7"),)),
+     EndProductGroup("waste", (("s5", "s5"), ("s7", "s7")))),
+    "index_pcr")
+end_graph.react("attach", "Attach ends", StepKind.TAGMENTATION,
+                ((end_sample, InputRole.TEMPLATE), (end_pool, InputRole.STRUCTURAL),
+                 (end_enzyme, InputRole.CATALYST)), (end_kept, end_waste),
+                geometry=end_geometry,
+                relations=(MolecularRelation.END_COMBINATIONS,))
+end_pcr_template = Construct([
+    Segment("s5", nx.S5), Segment("me", nx.ME),
+    Segment("body", "X" * 30, placeholder=True),
+    Segment("me2", nx.ME_RC), Segment("s7", nx.S7_RC)])
+end_f = end_graph.input("forward", "N5xx", MaterialKind.OLIGO)
+end_r = end_graph.input("reverse", "N7xx", MaterialKind.OLIGO)
+end_pol = end_graph.input("polymerase", "PCR polymerase", MaterialKind.CATALYST)
+end_library = end_graph.product("library", "library", MaterialKind.LIBRARY)
+end_graph.react("index_pcr", "Index PCR", StepKind.PCR,
+                ((end_kept, InputRole.TEMPLATE), (end_f, InputRole.STRUCTURAL),
+                 (end_r, InputRole.STRUCTURAL), (end_pol, InputRole.CATALYST)),
+                (end_library,), geometry=PCRGeometry.exact(
+                    end_pcr_template, *end_primers, statement="synthetic test"))
+check("all three Tn5 end classes follow from two loaded ends and primer sites",
+      [c.status for c in check_chemistry(end_graph) if c.target == "attach"],
+      [Status.ESTABLISHED])
+end_graph.steps["attach"] = replace(
+    end_graph.steps["attach"], geometry=EndCombinationGeometry(
+        end_primers,
+        (EndProductGroup("kept", (("s5", "s5"),)),
+         EndProductGroup("waste", (("s5", "s7"), ("s7", "s7")))),
+        "index_pcr"))
+check("a same-end class claimed as dual-primer eligible is contradictory",
+      [c.status for c in check_chemistry(end_graph) if c.target == "attach"],
+      [Status.CONTRADICTORY])
+end_graph.steps["attach"] = replace(
+    end_graph.steps["attach"], geometry=EndCombinationGeometry(
+        end_primers,
+        (EndProductGroup("kept", (("s5", "s7"),)),
+         EndProductGroup("waste", (("s5", "s5"),))),
+        "index_pcr"))
+check("omitting an off-product class is contradictory",
+      [c.status for c in check_chemistry(end_graph) if c.target == "attach"],
+      [Status.CONTRADICTORY])
+end_graph.steps["attach"] = replace(end_graph.steps["attach"], geometry=end_geometry)
+end_graph.materials["end_pool"] = replace(
+    end_pool, chemical_state=LoadedEndPool(
+        (LoadedEnd("s5", nx.ADAPTOR_S5),
+         LoadedEnd("s7", nx.ADAPTOR_S5)), nx.ME))
+check("a loaded end missing its asserted primer footprint is contradictory",
+      [c.status for c in check_chemistry(end_graph) if c.target == "attach"],
+      [Status.CONTRADICTORY])
+end_graph.materials["end_pool"] = end_pool
+altered_primer = replace(end_primers[0],
+                         sequence="C" + end_primers[0].sequence[1:])
+end_graph.steps["index_pcr"] = replace(
+    end_graph.steps["index_pcr"], geometry=PCRGeometry.exact(
+        end_pcr_template, altered_primer, end_primers[1],
+        statement="synthetic changed downstream primer"))
+check("end classes must use the primers of the actual downstream PCR step",
+      [c.status for c in check_chemistry(end_graph) if c.target == "attach"],
+      [Status.CONTRADICTORY])
 
 check.section("molecular diagram renderers")
 svg_panel = panel([Row(chunks=[("ACGT", "r1", False)])])

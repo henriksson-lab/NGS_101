@@ -83,6 +83,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── restriction.py       typed restriction cuts, cohesive-end fill and junctions
 │   ├── telomere.py          chromosome 3′ overhangs, repeat phases and affinity capture
 │   ├── protocol_graph.py    typed material/reagent DAG + publication completeness contract
+│   ├── protocol_views.py    graph-targeted highlights, detail views, source notices
 │   ├── seqprimers.py        Read 1/2 + index primers, located on a library by computation
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding
@@ -110,7 +111,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │       ├── <chem>.py        segment definitions for this chemistry
 │       ├── build_page.py    emits the HTML
 │       └── selftest.py      shared checks + this protocol's checks
-│                            (the seven that exist are listed in catalogue/ours.tsv)
+│                            wrapper-free protocols put page + checks in <chem>.py
 ```
 
 ## Using it
@@ -119,11 +120,13 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 # self-tests -- run first, and after any edit. Every suite is found, so nothing here
 # needs updating when a protocol is added or a directory is renamed.
 for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
+python3 tools/protocol.py test fisseq__10.1126+science.1250212  # one-module pilot
 python3 tools/selftest.py                 # Markdown renderer, computed facts, docs build
 python3 tools/lint_pairing.py             # every page: drawn duplex columns must base-pair
 
-# the diagram pages, one build script each (they carry base-by-base figures)
+# the diagram pages
 for b in */tools/build_page.py; do python3 "$b"; done
+python3 tools/protocol.py build fisseq__10.1126+science.1250212
 
 # reading sources for a protocol (details: AGENTS.md, "Reading sources")
 python3 tools/get_sources.py "sci-CAR-seq"    # paper, preprint, supplements -> $CHEM_DATA/sources/<slug>/
@@ -204,7 +207,8 @@ Run that command whenever a defining DOI is added or removed. The offline index 
 requires a snapshot row for every defining DOI, so citation coverage cannot silently lag
 behind the protocol catalogue; an unresolved DOI is retained as an explicit blank row.
 
-`build_site.py` runs every `*/tools/build_page.py`, then `build_docs.py` and
+`build_site.py` runs every local `build_page.py` and wrapper-free protocol module,
+then `build_docs.py` and
 `build_index.py`, and copies into `_site/` (gitignored) only the public front page, finished
 diagram pages, a `.nojekyll`, and the few files of ours those pages deliberately link to.
 The main research note for a finished schematic is available through a quiet link on that
@@ -239,7 +243,7 @@ relative link and anchor in `_site/` resolves, and fails if one does not.
 Each entry's title is its directory's `protocol` in ours.tsv; its blurb is the first
 paragraph of its first note that describes the method (preferring the `## 1. What it is`
 section), kept in the search data rather than printed on every entry. A new protocol appears
-by name from `ours.tsv`; its title becomes a link when `tools/build_page.py` produces a
+by name from `ours.tsv`; its title becomes a link when a page builder produces a
 finished schematic.
 
 When adding a protocol, add its row to both `catalogue/ours.tsv` and
@@ -281,7 +285,12 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
 5. Put chemistry invariants in the model and rendering functions used by the page. Add a
    self-test only for source transcription or behavior that cannot be enforced by those
    functions; do not restate model constants as checks.
-6. Write `<name>/tools/build_page.py` to emit the page from the construct.
+6. Write `<name>/tools/build_page.py` to emit the page, or make the one protocol module
+   declare a literal `PAGE_FILE` and provide `render_page()` and `selftest()`; the central
+   `tools/protocol.py` command then builds and tests it. Keep a separate local self-test
+   when it makes source review clearer. Keep that protocol's displayed oligos, citations,
+   read layout and evidence notices in its module even when it imports molecular
+   constructors from a published predecessor.
 7. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
    `python3 tools/fetch_citations.py` so every defining DOI has a dated snapshot row.
 
@@ -338,10 +347,29 @@ coverage. The independent chemistry check leaves its product relation unresolved
 reports the reason as a warning; `protocol_graph_panels()` shows every warning on the
 page. Use this for an acknowledged gap, not as evidence that the reaction works.
 
+Page emphasis can be declared on graph nodes with `graph.annotate(Highlight(...))`,
+`DetailView(...)`, or `SourceDiscrepancy(...)`. `lib/protocol_views.py` assembles the
+page with `AnnotationSlot` markers at the intro, before/after workflow, or sequencing
+section and fails if an annotated slot is omitted. A detail view normally draws the
+targeted material's state; specialist views may
+use a state derived from the same molecular constructor. Source discrepancies require
+located conflicting claims, the model choice, supporting evidence, and remaining
+uncertainty. Annotations select explanations and views; the chemistry checker still
+generates validation warnings independently. `OligoSection` and `WorkflowSection`
+declare routine page sections using protocol-owned segments and the graph.
+`PrimerBindingSection` computes primer landing and read content from an exact graph
+sequencing plan. `ReadLayoutSection` pairs that plan with source-declared run rows,
+including dark-cycle recipes. `OffsetPrimerSection` displays a repeated-template primer
+series under an explicit sequencing-plan limitation; it does not claim unique linear
+primer sites. The source-specific rows, primers, and explanatory text remain local.
+
 Use `relations=(MolecularRelation.CIRCLE_CLOSURE,)` or another declared molecular
 relation only when the step has the corresponding molecular input and output states.
 These relations are checked independently of the displayed `StepKind`; a missing state
 or contradictory claim appears in the audit and page warnings.
+For Tn5 with two loaded adapter species, `END_COMBINATIONS` enumerates every end pair
+and checks its declared retained or waste fate against the actual downstream primer
+footprints. This is a product-class check, not a yield prediction.
 
 When sticky-end adapter ligation follows dA-tailing, use
 `endprep.react_dA_tail_then_ligate()` so the ligation-ready dA-tailed molecule is a visible

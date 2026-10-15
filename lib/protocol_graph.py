@@ -101,6 +101,7 @@ class MolecularRelation(str, Enum):
     CONTACT_JUNCTION = "contact product contains the derived junction"
     HAIRPIN_STEM = "intramolecular stem can pair"
     STRAND_ORDER = "covalent strand order is preserved"
+    END_COMBINATIONS = "end combinations have the declared primer sites"
 
 
 class Disposition(str, Enum):
@@ -109,6 +110,19 @@ class Disposition(str, Enum):
     QC = "QC"
     STORED = "stored intermediate"
     UNRESOLVED = "unresolved"
+
+
+class AnnotationSlot(str, Enum):
+    """Where a graph-owned explanation appears on a protocol page."""
+    INTRO = "intro"
+    BEFORE_WORKFLOW = "before_workflow"
+    AFTER_WORKFLOW = "after_workflow"
+    SEQUENCING = "sequencing"
+
+
+class DetailStyle(str, Enum):
+    PANEL = "panel"
+    FOLDED = "folded"
 
 
 _ID = re.compile(r"^[a-z][a-z0-9_]*$")
@@ -258,6 +272,44 @@ class SourceCoverage:
             raise ValueError("excluded source coverage needs a reason")
 
 
+@dataclass(frozen=True)
+class Highlight:
+    target: str
+    title: str
+    explanation: str
+    slot: AnnotationSlot = AnnotationSlot.AFTER_WORKFLOW
+
+
+@dataclass(frozen=True)
+class DetailView:
+    target: str
+    title: str
+    caption: str
+    state: Any = None  # defaults to the targeted material's drawing state
+    slot: AnnotationSlot = AnnotationSlot.AFTER_WORKFLOW
+    style: DetailStyle = DetailStyle.PANEL
+
+
+@dataclass(frozen=True)
+class SourceClaim:
+    location: str
+    claim: str
+
+
+@dataclass(frozen=True)
+class SourceDiscrepancy:
+    target: str
+    title: str
+    claims: tuple[SourceClaim, ...]
+    model_choice: str
+    evidence: str
+    uncertainty: str
+    slot: AnnotationSlot = AnnotationSlot.INTRO
+
+
+GraphAnnotation = Highlight | DetailView | SourceDiscrepancy
+
+
 class ProtocolGraph:
     """A typed protocol hypergraph built strictly in topological order."""
 
@@ -272,6 +324,7 @@ class ProtocolGraph:
         self.sequencing: dict[str, SequencingPlan] = {}
         self.source_items: dict[str, SourceItem] = {}
         self.source_coverage: dict[str, SourceCoverage] = {}
+        self.annotations: list[GraphAnnotation] = []
         self._producer: dict[str, str] = {}
         self._consumers: dict[str, list[str]] = {}
 
@@ -400,6 +453,39 @@ class ProtocolGraph:
             raise ValueError(f"duplicate source item {item.id!r}")
         self.source_items[item.id] = item
         return item
+
+    def annotate(self, annotation: GraphAnnotation) -> GraphAnnotation:
+        """Attach page emphasis to an existing node without changing chemistry claims."""
+        if not isinstance(annotation, (Highlight, DetailView, SourceDiscrepancy)):
+            raise TypeError("unknown graph annotation")
+        if annotation.target not in self.materials and annotation.target not in self.steps:
+            raise ValueError(f"annotation names unknown graph target {annotation.target!r}")
+        if not annotation.title.strip():
+            raise ValueError("annotation needs a title")
+        if not isinstance(annotation.slot, AnnotationSlot):
+            raise ValueError("annotation needs a known page slot")
+        if isinstance(annotation, Highlight) and not annotation.explanation.strip():
+            raise ValueError("highlight needs an explanation")
+        if isinstance(annotation, DetailView):
+            if not annotation.caption.strip() or not isinstance(annotation.style, DetailStyle):
+                raise ValueError("detail view needs a caption and known style")
+            if annotation.state is None and (annotation.target not in self.materials or
+                                             self.materials[annotation.target].state is None):
+                raise ValueError("detail view needs a drawing state")
+            if annotation.style is DetailStyle.FOLDED:
+                state = annotation.state or self.materials[annotation.target].state
+                if not callable(getattr(state, "folded_panel", None)):
+                    raise ValueError("folded detail view needs folded_panel(caption)")
+        if isinstance(annotation, SourceDiscrepancy):
+            if len(annotation.claims) < 2 or any(
+                    not claim.location.strip() or not claim.claim.strip()
+                    for claim in annotation.claims):
+                raise ValueError("source discrepancy needs at least two located claims")
+            if not all((annotation.model_choice.strip(), annotation.evidence.strip(),
+                        annotation.uncertainty.strip())):
+                raise ValueError("source discrepancy needs choice, evidence and uncertainty")
+        self.annotations.append(annotation)
+        return annotation
 
     def cover_source_item(self, coverage: SourceCoverage) -> SourceCoverage:
         if coverage.item not in self.source_items:

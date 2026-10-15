@@ -19,6 +19,7 @@ why `lib/mdrender.py` is a home-grown Markdown renderer).
 ```sh
 # self-tests: shared primitives once, then only protocol suites affected by an edit
 for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done
+python3 tools/protocol.py test fisseq__10.1126+science.1250212  # wrapper-free protocol
 python3 small-seq__10.1038+nbt.3701/tools/selftest.py   # a single protocol's suite
 python3 tools/selftest.py          # Markdown renderer, computed facts, docs build
 python3 tools/selftest_sources.py  # source fetcher: DOI routing, download validation, fetchers (offline)
@@ -28,6 +29,7 @@ python3 tools/lint_pairing.py [page.html ...]   # drawn duplex columns must base
 
 # build
 for b in */tools/build_page.py; do python3 "$b"; done   # protocol diagram pages
+python3 tools/protocol.py build fisseq__10.1126+science.1250212  # wrapper-free page
 python3 build_docs.py              # every .md -> sibling .html + notes.html (only changed)
 python3 build_docs.py --check      # exit 1 if any note page is stale; --force, --list
 python3 build_index.py             # index.html (runs the self-tests to get check counts)
@@ -114,9 +116,13 @@ finds oligos, not reaction order: the methods still have to be **read**.
 - **`<protocol>__<doi with / → +>/`** — one directory per protocol, named for its defining
   paper. `catalogue/ours.tsv` is the single record mapping protocol → directory, and the
   catalogue self-test rebuilds directory names from it (so renames must go through it).
-  Each contains `0*.md` notes, `ref/` (with `MANIFEST.md`), and `tools/` with
-  `<chem>.py` (segment definitions), `build_page.py`, `selftest.py` — except status
-  `notes` directories, which hold reference notes only. Scripts bootstrap
+  Each contains `0*.md` notes, `ref/` (with `MANIFEST.md`), and `tools/`. Most have
+  `<chem>.py`, `build_page.py`, and `selftest.py`; a wrapper-free protocol instead has
+  one module declaring `PAGE_FILE`, `protocol_graph()`, `render_page()`, and `selftest()`.
+  `tools/protocol.py` builds or tests it, and `build_site.py` discovers it automatically.
+  Keep that protocol's citations, displayed oligos, read layout and evidence notices in
+  its module; import predecessor molecular constructors when the chemistry is inherited.
+  Status `notes` directories hold reference notes only. Scripts bootstrap
   `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see README "Adding a protocol").
 - **`catalogue/`** — scraped worklist of protocols from scg_lib_structs
   (`tools/fetch_scg_lib_structs.py`, network, cached). `properties.tsv` drives the public

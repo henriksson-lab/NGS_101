@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "lib"))
 
 import catalogue as cat  # noqa: E402
 from checks import Check  # noqa: E402
+from protocol_pages import page_module  # noqa: E402
 from fetch_scg_lib_structs import (COLUMNS, decode_doi, doi_of, encode_doi,  # noqa: E402
                                    family_members, name_slug, page_papers, short_name,
                                    slug)
@@ -205,10 +206,11 @@ check("status is one of documented / assay / draft / notes",
 check("a 'notes' directory has at least one reference note",
       [r["dir"] for r in cat.ours() if r["status"] == "notes"
        and not list((ROOT / r["dir"]).glob("0*.md"))], [])
-check("every documented, assay or draft directory has a build script and a selftest",
+check("every documented, assay or draft directory has a page builder and a selftest",
       [r["dir"] for r in cat.ours() if r["status"] != "notes"
-       and not ((ROOT / r["dir"] / "tools" / "build_page.py").exists()
-               and (ROOT / r["dir"] / "tools" / "selftest.py").exists())], [])
+       and not (((ROOT / r["dir"] / "tools" / "build_page.py").exists()
+                 and (ROOT / r["dir"] / "tools" / "selftest.py").exists())
+                or page_module(ROOT / r["dir"]) is not None)], [])
 # ``dir`` is the explicit stable identifier.  Commercial protocols intentionally use
 # concise product/version identifiers (for example ``3-ge-v3`` rather than spelling out
 # “Gene Expression”), so reconstructing it from display prose would be a second and
@@ -220,7 +222,8 @@ check("no two of our directories collide",
       len({r["dir"] for r in cat.ours()}), len(cat.ours()))
 check("every protocol directory on disk is declared in ours.tsv",
       sorted(p.name for p in ROOT.iterdir()
-             if p.is_dir() and (p / "tools" / "build_page.py").exists()
+             if p.is_dir() and ((p / "tools" / "build_page.py").exists()
+                                or page_module(p) is not None)
              and p.name not in {r["dir"] for r in cat.ours()}), [])
 check.section("website sections and modality (catalogue/ours.tsv)")
 from fetch_scg_lib_structs import OURS_COLUMNS, OURS_VOCAB, read_ours  # noqa: E402

@@ -11,8 +11,10 @@ from enum import Enum
 
 from chemdraw import Construct, Scene, bases_pair
 from circular import ClosedCircle, RCAProduct, rolling_circle
+from end_combinations import EndCombinationGeometry, LoadedEndPool, validate_groups
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MolecularRelation, ProtocolGraph, StepKind
+from protocol_graph import (InputRole, MaterialKind, MolecularRelation,
+                            ProtocolGraph, StepKind)
 from restriction import Digest, FilledDigest
 from topology import HairpinTopology
 import seqprimers
@@ -166,6 +168,58 @@ def _transition(graph: ProtocolGraph, step,
     if step.kind is StepKind.MAGIC:
         return Claim(target, question, Status.UNRESOLVED,
                      f"unmodelled transition: {step.reason}")
+    if relation is MolecularRelation.END_COMBINATIONS:
+        question = "all loaded end combinations match their two-primer library fate"
+        pools = [graph.materials[port.material].chemical_state for port in step.inputs
+                 if port.role is InputRole.STRUCTURAL and isinstance(
+                     graph.materials[port.material].chemical_state, LoadedEndPool)]
+        if len(pools) != 1 or not isinstance(step.geometry, EndCombinationGeometry):
+            return Claim(target, question, Status.UNRESOLVED,
+                         "one loaded-end pool and end-combination geometry are required")
+        pcr_step = graph.steps.get(step.geometry.pcr_step)
+        if (pcr_step is None or pcr_step.kind is not StepKind.PCR
+                or not isinstance(pcr_step.geometry, PCRGeometry)):
+            return Claim(target, question, Status.UNRESOLVED,
+                         "the declared downstream PCR step or its geometry is unavailable")
+        pcr_primers = (pcr_step.geometry.forward, pcr_step.geometry.reverse)
+        if pcr_step.geometry.availability != "exact" or any(
+                primer is None for primer in pcr_primers):
+            return Claim(target, question, Status.UNRESOLVED,
+                         "the downstream PCR primer sites are not exact")
+        if {(primer.sequence, primer.anneal_nt) for primer in pcr_primers} != {
+                (primer.sequence, primer.anneal_nt) for primer in step.geometry.primers}:
+            return Claim(target, question, Status.CONTRADICTORY,
+                         "end-class primers differ from the downstream PCR primers")
+        retained = [group.output for group in step.geometry.groups
+                    if group.output in graph.materials
+                    and graph.materials[group.output].kind is not MaterialKind.WASTE]
+        frontier = list(retained)
+        seen: set[str] = set()
+        reaches_pcr = False
+        while frontier:
+            material = frontier.pop()
+            if material in seen:
+                continue
+            seen.add(material)
+            for consumer in graph.consumers_of(material):
+                if not any(port.material == material and port.role is InputRole.TEMPLATE
+                           for port in consumer.inputs):
+                    continue
+                if consumer.id == pcr_step.id:
+                    reaches_pcr = True
+                frontier.extend(consumer.outputs)
+        if not reaches_pcr:
+            return Claim(target, question, Status.CONTRADICTORY,
+                         "retained end classes do not feed the declared PCR step")
+        mismatch = validate_groups(
+            pools[0], step.geometry,
+            {output: graph.materials[output].kind is MaterialKind.WASTE
+             for output in step.outputs})
+        if mismatch:
+            return Claim(target, question, Status.CONTRADICTORY, mismatch)
+        return Claim(target, question, Status.ESTABLISHED,
+                     "all end-identity classes are accounted for by exact primer-entry "
+                     "footprints; this does not establish reaction yield or PCR efficiency")
     templates = [_chemical(graph.materials[p.material]) for p in step.inputs
                  if p.role is InputRole.TEMPLATE]
     products = [_chemical(graph.materials[id]) for id in step.outputs
@@ -286,7 +340,9 @@ def check_graph(graph: ProtocolGraph) -> tuple[Claim, ...]:
                 "drawn strand differs from derived RCA repeats"
                 if material.state.top() != state.sequence else
                 "drawn strand equals the derived repeats"))
-        if isinstance(state, Scene):
+        if isinstance(material.state, Scene):
+            claims.extend(_pairing(material.id, material.state))
+        if isinstance(state, Scene) and state is not material.state:
             claims.extend(_pairing(material.id, state))
     for step in graph.steps.values():
         if isinstance(step.geometry, PCRGeometry):
