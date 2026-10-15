@@ -9,7 +9,7 @@ from chemdraw import Construct, Row, Scene, Segment
 from dumbbell import Dumbbell, dumbbell_rows
 
 
-def marked_fiber(enzyme: str, *, target: str = "accessible adenines") -> list[Row]:
+def marked_fiber(enzyme: str, *, target: str) -> list[Row]:
     """A duplex fiber with methyltransferase access represented as anchored marks."""
     con = Construct([
         Segment("protein-protected DNA", "X" * 14, placeholder=True),
@@ -25,7 +25,7 @@ def marked_fiber(enzyme: str, *, target: str = "accessible adenines") -> list[Ro
     return sc.rows()
 
 
-def conventional_smrtbell(insert_name: str | Construct = "m6dA-marked genomic insert") -> Dumbbell:
+def conventional_smrtbell(insert_name: str | Construct) -> Dumbbell:
     """A repaired/dA-tailed insert closed by two proprietary PacBio hairpins."""
     insert = (insert_name if isinstance(insert_name, Construct) else
               Construct([Segment(insert_name, "X" * 54, placeholder=True)], name=insert_name))
@@ -34,7 +34,7 @@ def conventional_smrtbell(insert_name: str | Construct = "m6dA-marked genomic in
 
 
 def hairpin_tagmented_smrtbell(
-        insert_name: str = "m6dA-marked chromatin fragment", *,
+        insert_name: str, *,
         adapter_sequence: str | None = None, stem_length: int = 0) -> Dumbbell:
     """The final closed product of hairpin-Tn5 transfer followed by gap repair.
 

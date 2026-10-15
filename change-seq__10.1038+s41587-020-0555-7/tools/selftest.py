@@ -5,7 +5,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from editing_outcomes import CHANGE_TRANSPOSON_BOTTOM, CHANGE_TRANSPOSON_TOP
+from chem import CHANGE_TRANSPOSON_BOTTOM, CHANGE_TRANSPOSON_TOP
 
 c = Check()
 c.section("CHANGE-seq Supplementary Protocol transcription")

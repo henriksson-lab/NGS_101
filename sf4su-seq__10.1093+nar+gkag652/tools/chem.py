@@ -1,5 +1,5 @@
 """sf4sU-Seq source definition and size-selection route."""
-from nascent_protocols import Definition, FourSUReadout, get
+from nascent_protocols import Definition, FourSUReadout, make_spec, role_library
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment
 from pcr import PCRGeometry
@@ -40,8 +40,10 @@ READOUT = FourSUReadout(
     "thiol biotinylation, streptavidin purification and ≈100-nt denaturing-gel selection",
     "native RNA ends", True,
 )
-SPEC = get("sf4su-seq", definition=DEFINITION,
-           four_su_config=READOUT, four_su_route="size_select")
+FINAL_LIBRARY = role_library(DEFINITION.title + " final library",
+    (role("assay-derived cDNA"),), indexed=True, platform="Illumina-compatible")
+SPEC = make_spec(DEFINITION, FINAL_LIBRARY,
+    unavailable="The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role.")
 SPEC.oligos = kit_oligos
 SPEC.CAVEAT = ("Supplementary Methods identify NEBNext Small RNA kit E7300S. "
                "The official E7300 manual supplies adapter and primer families; "

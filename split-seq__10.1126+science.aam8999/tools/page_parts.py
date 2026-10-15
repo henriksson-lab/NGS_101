@@ -14,7 +14,7 @@ PAPERS={"SPLiT-seq":("10.1126/science.aam8999","Rosenberg et al.","2018"),
         "microSPLiT":("10.1126/science.aba5257","Kuchina et al.","2021")}
 def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 
-def render_page(protocol):
+def render_page(protocol, *, graph_factory=None):
     doi,author,year=PAPERS[protocol]; micro=protocol=="microSPLiT"
     notes=("01_split-seq.html" if not micro else
            "../split-seq__10.1126+science.aam8999/01_split-seq.html")
@@ -58,7 +58,7 @@ def render_page(protocol):
     rows=[("Read 1","transcript sequence"),
           ("Read 2","UMI, barcode 3, barcode 2, barcode 1"),
           ("Index","sublibrary barcode (round 4)")]
-    graph=S.graph_for(protocol)
+    graph=graph_factory() if graph_factory else S.graph_for(protocol)
     return "\n".join([head(f"{protocol} library chemistry"),'<div class="wrap" data-protocol-complete="true">',
       f'<h1>{protocol} &mdash; split-pool ligation barcoding in fixed cells</h1>',
       f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',

@@ -30,64 +30,20 @@ class BasePath:
         return self.states[min(reactions, len(self.states) - 1)]
 
 
-def taps_path(base: str) -> BasePath:
-    """TAPS chemistry and PCR readout for one cytosine state."""
-    if base in {"5mC", "5hmC"}:
-        return BasePath((base, "5caC", "DHU", "T"))
-    if base == "C":
-        return BasePath(("C", "C"))
-    raise ValueError("TAPS input must be C, 5mC or 5hmC")
 
 
-def caps_plus_path(base: str) -> BasePath:
-    """CAPS+ selective 5hmC oxidation, borane reduction and PCR readout."""
-    if base == "5hmC":
-        return BasePath(("5hmC", "5fC", "5caC", "DHU", "T"))
-    if base in {"5mC", "C"}:
-        return BasePath((base, base))
-    raise ValueError("CAPS+ input must be C, 5mC or 5hmC")
 
 
 def bisulfite_path(*, protected: bool) -> BasePath:
     return BasePath(("5mC", "C")) if protected else BasePath(("C", "U", "T"))
 
 
-def oxbs_path(base: str) -> BasePath:
-    """Oxidative-bisulfite state and PCR readout for one genomic cytosine."""
-    if base == "5hmC":
-        return BasePath(("5hmC", "5fC", "U", "T"))
-    if base == "5mC":
-        return BasePath(("5mC", "5mC", "C"))
-    if base == "C":
-        return BasePath(("C", "U", "T"))
-    raise ValueError("oxBS input must be C, 5mC or 5hmC")
 
 
-def tab_path(base: str) -> BasePath:
-    """TAB-seq protection/oxidation, bisulfite conversion and PCR readout."""
-    if base == "5hmC":
-        return BasePath(("5hmC", "5gmC", "5gmC", "C"))
-    if base == "5mC":
-        return BasePath(("5mC", "5caC", "U", "T"))
-    if base == "C":
-        return BasePath(("C", "C", "U", "T"))
-    raise ValueError("TAB-seq input must be C, 5mC or 5hmC")
 
 
-def ace_path(base: str) -> BasePath:
-    """ACE-seq glucosylation, APOBEC3A deamination and PCR readout."""
-    if base == "5hmC":
-        return BasePath(("5hmC", "5gmC", "5gmC", "C"))
-    if base == "5mC":
-        return BasePath(("5mC", "5mC", "U", "T"))
-    if base == "C":
-        return BasePath(("C", "C", "U", "T"))
-    raise ValueError("ACE-seq input must be C, 5mC or 5hmC")
 
 
-def slam_path(*, labelled: bool) -> BasePath:
-    """SLAM-seq base path through IAA derivatization and RT readout."""
-    return BasePath(("s4U", "IAA-s4U", "C")) if labelled else BasePath(("U", "T"))
 
 
 @dataclass(frozen=True)

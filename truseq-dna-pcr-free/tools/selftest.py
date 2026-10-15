@@ -6,11 +6,11 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 from batch_ngs import seg, truseq_full_length_adapter, truseq_library
 from checks import Check
-from illumina_vendor_workflows import get
+import chem
 
 c = Check()
 # Construction validates the canonical library and all declared primer landing sites.
-m = get("truseq-dna-pcr-free")
+m = chem
 c("PCR-free workflow has no PCR reaction", any("PCR" in r.action for r in m.workflow().reactions), False)
 
 # Source transcription: which canonical oligo goes where in the ligated full-length

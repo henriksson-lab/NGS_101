@@ -5,6 +5,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "scnome-seq__10.7554+eLife.23203" / "tools"))
 from page_parts import render_page
 import nomecool
+from sccool_graph import protocol_graph
 OUT = HERE.parent / "sccool-seq.html"
-if __name__ == "__main__": render_page(nomecool.SCCOOL, OUT)
+if __name__ == "__main__": render_page(nomecool.SCCOOL, OUT, graph_factory=protocol_graph)
 

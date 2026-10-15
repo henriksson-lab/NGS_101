@@ -15,6 +15,8 @@ from chemdraw import (Scene, Segment, annotation_rows, complement_segments, olig
 import nextera as nx
 from page import head, info, table
 import seqprimers as sp
+from protocol_graph import AnnotationSlot
+from protocol_views import assemble_page
 
 OUT = HERE.parent / "snatac-seq.html"
 
@@ -164,7 +166,8 @@ def sequencing() -> str:
 
 def main() -> None:
     graph = S.protocol_graph()
-    html = "\n".join([head("snATAC-seq library chemistry"), preamble(), oligos(),
+    html = assemble_page(graph, [head("snATAC-seq library chemistry"), preamble(),
+                       AnnotationSlot.INTRO, oligos(),
                        '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
                        '<h2>Molecular details</h2>', steps(), sequencing()])
     html = html.replace('<div class="wrap">',

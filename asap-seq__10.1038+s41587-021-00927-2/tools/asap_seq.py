@@ -2,12 +2,27 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from antibody_tags import bridge_extension_scene, feature_library
+from antibody_tags import feature_library
 from batch_ngs import nextera_library, seg
-from chemdraw import Row, feature
+from chemdraw import Row, Scene, feature
 from multimodal_spatial import finish_pcr_branch, modality_split
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role
+
+def bridge_extension_scene(label: str = "antibody-derived tag") -> Scene:
+    """Draw the blocked bridge used to transfer the ATAC bead capture handle."""
+    tag = [seg("antibody barcode and UMI", "B" * 25, "cbc", placeholder=True),
+           seg("bridge-complementary tail", "T" * 18, "r2", placeholder=True)]
+    bridge = [seg("bead-capture handle", "H" * 18, "r1", placeholder=True),
+              seg("bridge annealing region", "A" * 18, "r2", placeholder=True)]
+    sc = Scene(); sc.strand("tag", tag, label=label)
+    sc.anneal("bridge", bridge, to="tag",
+              pair=("bridge annealing region", "bridge-complementary tail"),
+              label="3-prime-blocked bridge", unpaired=("bead-capture handle",))
+    sc.arrow("tag", "polymerase copies the bridge handle onto the antibody tag")
+    sc.labels("tag"); sc.labels("bridge")
+    return sc
+
 
 TITLE = "ASAP-seq — ATAC and surface-protein profiling"
 NOTES = "01_asap-seq.html"
@@ -16,7 +31,11 @@ SUMMARY = "Antibody-derived tags are extended with an ATAC-bead capture handle b
 CAVEAT = "The paper prints exact TotalSeq-A/B bridge oligos, shown below. Variable antibody tags and commercial 10x bead sequences remain role tokens in the library diagram."
 CELL=feature("asap_cell","cell_barcode","whitelist",whitelist="10x Chromium ATAC bead barcode")
 ATAC, ATAC_P = nextera_library([seg("cell barcode association","C"*16,"cbc",placeholder=True,feature=CELL),seg("accessible genomic DNA", "X" * 42, placeholder=True)], "ASAP-seq ATAC library")
-ADT, ADT_P = feature_library("ASAP-seq antibody-tag library", barcode_id="asap_antibody",cell_id="asap_cell")
+ADT, ADT_P = feature_library("ASAP-seq antibody-tag library", barcode_id="asap_antibody",cell_id="asap_cell",
+                            barcode_len=15, umi_len=10, capture_len=18,
+                            cell_barcode_len=16,
+                            bead_whitelist="single-cell bead barcode set",
+                            panel_whitelist="published antibody-tag panel")
 FINAL_LIBRARIES = (
     ("ATAC library", ATAC, ATAC_P, "10x scATAC bead barcoding and indexed PCR complete the tagmented chromatin library.", "Paired genomic reads use the standard Nextera primer sites."),
     ("Antibody-tag library", ADT, ADT_P, "The extended TotalSeq tag is amplified as a separate Illumina library.", "Read cycles recover antibody barcode, UMI and sample indexes."),

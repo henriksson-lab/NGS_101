@@ -4,11 +4,17 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from chemdraw import Row
-from targeted_ngs import shotgun_library
+from batch_ngs import nextera_library, seg
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
+
+def shotgun_library():
+    return nextera_library([seg("metagenomic DNA fragment", "N" * 36,
+                                placeholder=True)],
+                           "Illumina DNA Prep shotgun library", i5_nt=10, i7_nt=10)
+
 
 TITLE="Illumina DNA Prep shotgun metagenomics"
 NOTES="01_shotgun-metagenomics.html"

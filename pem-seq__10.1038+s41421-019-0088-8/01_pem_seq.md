@@ -60,7 +60,7 @@ The STAR table contradicts its own prose, which says the adapter contains "a 14-
 RMB libraries in its supplementary figures. Table S11 is internally consistent with both
 papers' text, so `PEM_BA_UP` keeps the 14-base, T/A/T-separated form. The STAR Table 2
 printing is recorded here as an error in the later paper, not as a variant to model; a
-comment in `lib/editing_outcomes.py` says so at the constant.
+comment in `tools/chem.py` says so at the constant.
 
 ## Represented branch
 

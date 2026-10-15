@@ -21,11 +21,11 @@ HAIRPIN_STEM_NT = len(nx.ME) + len(BARCODE_001)
 HAIRPIN_ADAPTER = (revcomp(nx.ME) + revcomp(BARCODE_001) + HAIRPIN_LOOP
                    + BARCODE_001 + nx.ME)
 SMRTBELL = hairpin_tagmented_smrtbell(
-    adapter_sequence=HAIRPIN_ADAPTER, stem_length=HAIRPIN_STEM_NT)
+    "m6dA-marked chromatin fragment", adapter_sequence=HAIRPIN_ADAPTER, stem_length=HAIRPIN_STEM_NT)
 FINAL_LIBRARY = None
 SEQ_PRIMERS = ()
 SEQUENCING_ENDING = pacbio_entry(SMRTBELL, adapter_sequence_known=True)
-INITIAL_ROWS=tuple(marked_fiber("EcoGII"))
+INITIAL_ROWS=tuple(marked_fiber("EcoGII", target="accessible adenines"))
 INITIAL_NAME="Native chromatin fiber"
 TOPOLOGY_PANELS = ((
     "Published hairpin-Tn5 oligo",
@@ -62,7 +62,7 @@ def hairpin_adapter_scene():
 
 def sections():
     return [
-        ("Mark accessible adenines in nuclei", marked_fiber("EcoGII"),
+        ("Mark accessible adenines in nuclei", marked_fiber("EcoGII", target="accessible adenines"),
          "EcoGII and SAM deposit m6dA on exposed DNA while protein-bound intervals remain footprints."),
         ("Tagment with hairpin-loaded Tn5", joined_scene([seg("left hairpin-ME","X"*20,"me",placeholder=True),seg("marked chromatin fragment","X"*36,placeholder=True),seg("right ME-hairpin","X"*20,"me",placeholder=True)],(("left hairpin-ME","marked chromatin fragment","Tn5 transfer"),("marked chromatin fragment","right ME-hairpin","Tn5 transfer")),label="hairpin-tagmented chromatin").rows(),
          "Tn5 couples fragmentation to transfer of a hairpin-bearing mosaic-end adapter at both boundaries."),

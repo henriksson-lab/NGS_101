@@ -4,7 +4,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE.parents[1] / "lib")]
-from bulk_atac import ATAC_AD1_NOMX, ATAC_AD2_1
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from protocol_families.atac import ATAC_AD1_NOMX, ATAC_AD2_1
 from checks import Check
 
 c = Check()

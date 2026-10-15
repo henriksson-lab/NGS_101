@@ -15,6 +15,8 @@ import scifi_atac as S
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import assemble_page
 
 OUT = HERE.parent / "scifi-atac-seq.html"
 
@@ -29,8 +31,8 @@ def oligos() -> str:
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
 
 
-def construction() -> str:
-    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+def construction(graph) -> str:
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(graph,cls="long")
 
 
 def sequencing() -> str:
@@ -49,10 +51,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("scifi-ATAC-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
+    graph = S.protocol_graph()
+    page = assemble_page(graph, [head("scifi-ATAC-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scifi-ATAC-seq &mdash; plate pre-indexing plus overloaded 10x scATAC</h1>',
         info('Defining source: <a href="https://doi.org/10.1101/2023.09.17.558155">Wang et al., bioRxiv (2023)</a>; droplet chemistry follows the cited 10x scATAC v1.1 guide.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

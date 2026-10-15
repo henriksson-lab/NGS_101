@@ -53,5 +53,4 @@ trimming motifs `CCAAACACACCCAA` and `GAGCGGACTCTGCG`, respectively.
 These are observed adapter-related read motifs, not separately ordered
 oligos. 🟡 Exact pairing, strand orientation and sequencing-primer landing
 should be computed from the published oligos in a molecular model rather
-than copied from the trimming rules. 🔴 The current shared factory still
-draws only roles for the final library.
+than copied from the trimming rules. 🔴 The local protocol model still draws only roles for the final library.

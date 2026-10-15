@@ -11,8 +11,8 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 
 # Constant portions of the two barcoded transposons, Supplementary Table 5.
@@ -189,4 +189,13 @@ def protocol_graph() -> ProtocolGraph:
         "nuclei","tagment_split","indexed_transposomes","tn5","tagment_a",
         "tagment_b","pool","pcr_well_sort","sort","gap_fill_polymerase",
         "gap_fill","i5_primer","i7_primer","indexed_pcr","library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="indexed_pcr", title="Published i7 primer concentration in the sort well",
+        claims=(
+            SourceClaim("Preissl et al. Methods, sort-well PCR mix", "Lists i7 primer as 50 pM."),
+            SourceClaim("The same Methods, sort-well PCR mix", "Adds 2 µL of 25 µM i5 primer, about 1 µM final.")),
+        model_choice="The graph records both index primers without assigning an unverified stock concentration.",
+        evidence="The reported i7 and i5 concentrations differ by orders of magnitude despite sharing the indexed PCR.",
+        uncertainty="The intended i7 unit could be nM or µM; no correction was found in the reviewed source.",
+        slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H.parents[1]/"lib")]
 from checks import Check
-from rare_cell_and_affinity import MiraclLoading
+from chem import MiraclLoading
 c=Check(); c.section("MIRACL construction boundary")
 try:
     MiraclLoading(1)

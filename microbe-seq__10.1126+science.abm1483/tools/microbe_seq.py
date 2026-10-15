@@ -4,10 +4,17 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from batch_ngs import nextera_library,seg
 from chemdraw import Row,feature
-from microbial_singlecell import indexed_mda_rows
+
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+
+def indexed_mda_rows() -> list[Row]:
+    return [
+        Row(chunks=[("one microbe per lysis droplet → MDA amplicons", None, False)]),
+        Row(chunks=[("Tn5 fragments amplified DNA and transfers mosaic ends", "me", False)]),
+        Row(chunks=[("barcode-bead primer extends: bead barcode — genomic insert", "cbc", False)]),
+    ]
 
 TITLE="Microbe-seq — droplet single-microbe genome sequencing"
 NOTES="01_microbe-seq.html"

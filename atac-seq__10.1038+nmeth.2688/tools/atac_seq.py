@@ -3,7 +3,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import nextera_library, seg
-from bulk_atac import ATAC_AD1_NOMX, ATAC_AD2_1
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from protocol_families.atac import ATAC_AD1_NOMX, ATAC_AD2_1
 from chemdraw import Construct, Row, Scene
 from chromatin_epigenetics import tagmented_library, tagmentation_scene
 import nextera as nx

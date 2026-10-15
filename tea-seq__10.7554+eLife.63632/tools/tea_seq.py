@@ -12,7 +12,10 @@ from protocol_model import molecule, role
 CELL=feature("tea_cell","cell_barcode","whitelist",whitelist="10x Multiome bead barcode")
 RNA=transcript_library("TEA-seq transcript library")
 ATAC,ATAC_P=nextera_library([seg("shared cell barcode","C"*16,"cbc",placeholder=True,feature=CELL),seg("accessible DNA","X"*42,placeholder=True)],"TEA-seq ATAC library")
-ADT,ADT_P=feature_library("TEA-seq antibody-tag library",barcode_id="tea_antibody",cell_id="tea_cell")
+ADT,ADT_P=feature_library("TEA-seq antibody-tag library", barcode_id="tea_antibody", cell_id="tea_cell",
+                           barcode_len=15, umi_len=10, capture_len=18, cell_barcode_len=16,
+                           bead_whitelist="10x Single Cell Multiome bead barcode set",
+                           panel_whitelist="TotalSeq-A antibody-tag panel")
 TITLE="TEA-seq — transcripts, epitopes and accessibility"
 NOTES="01_tea-seq.html"
 SOURCE='<a href="https://doi.org/10.7554/eLife.63632">Swanson et al., <i>eLife</i> (2021)</a>.'

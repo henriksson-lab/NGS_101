@@ -3,9 +3,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE.parents[1] / "lib")]
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from editing_outcomes import (PEM_BA_LOWER, PEM_BA_UP, PEM_BIO_RAG1AB,
+from chem import (PEM_BA_LOWER, PEM_BA_UP, PEM_BIO_RAG1AB,
                               PEM_I5_R1_RAG1AB, PEM_I7_B01, PEM_P5_I5, PEM_P7)
 
 c = Check()

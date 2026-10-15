@@ -3,9 +3,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE.parents[1] / "lib")]
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from protein_dna_mapping import (CHEC_INDEXED_ADAPTER, CHEC_P5_PCR, CHEC_P7_PCR,
+from chem import (CHEC_INDEXED_ADAPTER, CHEC_P5_PCR, CHEC_P7_PCR,
                                  CHEC_UNIVERSAL_ADAPTER)
 
 c = Check()

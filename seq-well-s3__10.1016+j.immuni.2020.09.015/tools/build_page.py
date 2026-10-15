@@ -15,6 +15,8 @@ import seqprimers as sp
 import seqwell_s3 as S
 from chemdraw import oligo, protocol_graph_panels
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import assemble_page
 
 OUT = HERE.parent / "seq-well-s3.html"
 
@@ -37,8 +39,8 @@ def oligos() -> str:
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
 
 
-def construction() -> str:
-    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+def construction(graph) -> str:
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(graph,cls="long")
 
 
 def sequencing() -> str:
@@ -59,10 +61,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("Seq-Well S3 library chemistry"), '<div class="wrap" data-protocol-complete="true">',
+    graph = S.protocol_graph()
+    page = assemble_page(graph, [head("Seq-Well S3 library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>Seq-Well S3 &mdash; randomly primed second-strand capture</h1>',
         info('Defining source: <a href="https://doi.org/10.1016/j.immuni.2020.09.015">Hughes et al., <i>Immunity</i> (2020)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

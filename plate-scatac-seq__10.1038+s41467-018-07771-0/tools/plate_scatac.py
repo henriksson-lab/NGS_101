@@ -5,8 +5,8 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature,revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
 
@@ -85,4 +85,13 @@ def protocol_graph():
         "nuclei","transposome","tn5","tagment","single_nucleus_sort","sort",
         "release_mix","release","gap_fill_polymerase","gap_fill","s5_index_primer",
         "n7_index_primer","indexed_pcr","library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="gap_fill", title="Published gap-fill timing difference",
+        claims=(
+            SourceClaim("Chen et al. main text, qPCR optimization", "Gap fill at 72 °C for 5 min."),
+            SourceClaim("Chen et al. Supplementary Methods, library preparation", "Gap fill at 72 °C for 10 min.")),
+        model_choice="The page follows the 10 min library-preparation instruction.",
+        evidence="The supplementary step is the production library recipe represented by this graph.",
+        uncertainty="The sources do not establish whether the qPCR and production timings differ intentionally.",
+        slot=AnnotationSlot.BEFORE_WORKFLOW))
     return graph.require_publishable()

@@ -9,7 +9,7 @@ from chemdraw import Construct, MolecularState, Segment, Workflow, feature, revc
 import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from molecular_consensus import CopiedDuplexUID, saferseqs_graph
+from molecular_consensus import CopiedDuplexUID
 
 TITLE = "SaferSeqS — copied duplex UID with strand-specific enrichment"
 NOTES = "01_saferseqs.html"
@@ -106,8 +106,98 @@ def oligos():
     )
 
 
-protocol_graph = lambda: saferseqs_graph(
-    SOURCE, FINAL_LIBRARY,
-    "Target-specific and indexed nested-PCR oligos vary by assay; the page models one "
-    "published TP53 GSP2 with a representative eight-base index.",
-    primers=SEQ_PRIMERS, read_uses=READ_USES)
+
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
+from molecular_consensus import uid_segment
+
+def saferseqs_graph(authority: str, final: Construct, limitation: str, *,
+                    primers: tuple = (), read_uses: dict | None = None) -> ProtocolGraph:
+    graph = ProtocolGraph("SaferSeqS — copied duplex UID with strand-specific enrichment",
+                          authority=authority)
+    dna = graph.input("genomic_dna", "end-repaired genomic duplex DNA",
+                      MaterialKind.BIOLOGICAL,
+                      state=molecule("end-repaired genomic DNA", (role("original Watson strand"),
+                                                                   role("original Crick strand"))),
+                      primary=True)
+    phosphatase = graph.input("phosphatase", "fragment-end phosphatase",
+                              MaterialKind.CATALYST)
+    dephosphorylated = graph.product("dephosphorylated", "blunt dephosphorylated duplex DNA",
+                                    MaterialKind.MOLECULAR, state=dna.state)
+    graph.react("dephosphorylate", "Dephosphorylate repaired fragment ends",
+                StepKind.DEPHOSPHORYLATION,
+                ((dna, InputRole.TEMPLATE), (phosphatase, InputRole.CATALYST)),
+                (dephosphorylated,))
+    uid_adapter = graph.input("uid_adapter", "random-UID-bearing 3-prime adapter",
+                              MaterialKind.ADAPTER,
+                              source=authority + " Supplementary Table 7")
+    ligase3 = graph.input("three_prime_ligase", "3-prime adapter ligase",
+                          MaterialKind.CATALYST)
+    uid_ligated = graph.product("uid_ligated", "3-prime UID-adapter-ligated duplex",
+                                MaterialKind.MOLECULAR, state=CopiedDuplexUID(14).three_prime_adapter())
+    graph.react("ligate_uid", "Ligate the UID-bearing 3-prime adapter",
+                StepKind.LIGATION,
+                ((dephosphorylated, InputRole.TEMPLATE), (uid_adapter, InputRole.STRUCTURAL),
+                 (ligase3, InputRole.CATALYST)), (uid_ligated,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The published oligo pair is transcribed on the protocol page; its "
+                    "two-ended placement on the genomic duplex is not yet encoded as an exact geometry."))
+    extension = graph.input("extension_polymerase", "UID-copying DNA polymerase",
+                            MaterialKind.CATALYST)
+    copied = graph.product("uid_copied", "duplex with the UID copied into both strands",
+                           MaterialKind.MOLECULAR, state=CopiedDuplexUID(14).copied_barcode())
+    graph.react("copy_uid", "Extend through the UID to copy it into both strands",
+                StepKind.EXTENSION,
+                ((uid_ligated, InputRole.TEMPLATE), (extension, InputRole.CATALYST)),
+                (copied,))
+    five_adapter = graph.input("five_prime_adapter", "5-prime library adapter",
+                               MaterialKind.ADAPTER,
+                               source=authority + " Supplementary Table 7")
+    ligase5 = graph.input("five_prime_ligase", "5-prime adapter ligase",
+                          MaterialKind.CATALYST)
+    sealed = graph.product("sealed", "duplex-barcoded library precursor",
+                           MaterialKind.MOLECULAR, state=copied.state)
+    graph.react("ligate_five_prime", "Ligate the 5-prime adapter",
+                StepKind.LIGATION,
+                ((copied, InputRole.TEMPLATE), (five_adapter, InputRole.STRUCTURAL),
+                 (ligase5, InputRole.CATALYST)), (sealed,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The published 5-prime adapter is transcribed on the protocol page; its "
+                    "two-ended placement on the genomic duplex is not yet encoded as an exact geometry."))
+    watson = graph.product("watson_template", "Watson-oriented target molecules",
+                           MaterialKind.MOLECULAR, state=sealed.state)
+    crick = graph.product("crick_template", "Crick-oriented target molecules",
+                          MaterialKind.MOLECULAR, state=sealed.state)
+    graph.react("orient", "Partition into Watson- and Crick-specific enrichments",
+                StepKind.SPLIT, ((sealed, InputRole.TEMPLATE),), (watson, crick),
+                changes_molecule=False)
+    polymerase = graph.input("nested_polymerase", "hemi-nested PCR polymerase",
+                             MaterialKind.CATALYST)
+    reviewed = ["genomic_dna", "phosphatase", "dephosphorylate", "uid_adapter",
+                "three_prime_ligase", "ligate_uid", "extension_polymerase", "copy_uid",
+                "five_prime_adapter", "five_prime_ligase", "ligate_five_prime",
+                "orient", "nested_polymerase"]
+    for prefix, template in (("watson", watson), ("crick", crick)):
+        forward = graph.input(prefix + "_forward", prefix.title() + " hemi-nested forward primer",
+                              MaterialKind.OLIGO, source=authority + " Supplementary Tables 5 and 7")
+        reverse = graph.input(prefix + "_reverse", prefix.title() + " hemi-nested reverse primer",
+                              MaterialKind.OLIGO, source=authority + " Supplementary Tables 5 and 7")
+        library = graph.product(prefix + "_library", prefix.title() + " SaferSeqS library",
+                                MaterialKind.LIBRARY, state=final)
+        graph.react(prefix + "_pcr", "Hemi-nested PCR of the " + prefix + " strand",
+                    StepKind.PCR,
+                    ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                     (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                    (library,), geometry=PCRGeometry.unavailable(final, reason=limitation))
+        graph.sequence(library, SequencingPlan(
+            library=final if primers else None, primers=primers,
+            acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
+            read_uses=read_uses or {}, limitation=limitation))
+        reviewed.extend((forward.id, reverse.id, prefix + "_pcr", library.id))
+    graph.declare_reviewed_scope(reviewed, authority)
+    return graph.require_publishable()
+
+
+def protocol_graph():
+    return saferseqs_graph(SOURCE, FINAL_LIBRARY, "Target-specific and indexed nested-PCR oligos vary by assay; the page models one published TP53 GSP2 with a representative eight-base index.", primers=SEQ_PRIMERS, read_uses=READ_USES)

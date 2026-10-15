@@ -11,7 +11,7 @@ Supplementary Fig. 1c. Nothing fetched above contains a single base of it: `grep
 "[ACGT]{15,}"` over all extracted `.txt` twins returns no hit, and `strings` over the raw
 `supplementary_figures.doc` finds no oligo, because the figure is an embedded image. The
 bases this repository models therefore have no machine-checkable witness, which
-`lib/dsb_capture.py` records per graph material in `SOURCE_OLIGO_EXCEPTIONS` and
+`tools/chem.py` records per graph material in `SOURCE_OLIGO_EXCEPTIONS` and
 `01_dsbcapture.md` explains under "Oligo provenance".
 
 **The missing document is the authors' step-by-step protocol.** The Methods cite it twice

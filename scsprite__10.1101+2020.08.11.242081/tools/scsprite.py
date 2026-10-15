@@ -1,13 +1,32 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row
-from sprite import final_library, ligation_round_rows, single_cell_barcode
+from chemdraw import Row, Segment
+from sprite import CompositeIdentifier, final_library, ligation_round_rows, tag as _tag
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 from interaction_capture import FixedMolecularComplex
+
+def tag(name: str, length: int, part: int, *, group: str, role: str):
+    return _tag(name, length, part, group=group, role=role,
+                whitelist="published 96-well SPRITE tag set")
+
+
+def single_cell_barcode() -> tuple[list[Segment], tuple[CompositeIdentifier, ...]]:
+    names = ("DPM tag", "Odd cell tag", "Even cell tag", "Odd spatial tag",
+             "Even spatial tag", "Y-even terminal tag")
+    lengths = (9, 17, 17, 17, 17, 9)
+    parts=[]
+    for i,(name,n) in enumerate(zip(names,lengths),1):
+        role="cell_barcode" if i <= 3 else "inline_barcode"
+        group="cell_id" if i <= 3 else "spatial_extension"
+        parts.append(tag(name,n,i,group=group,role=role))
+    ids=(CompositeIdentifier("cell_id","cell",tuple(x.name for x in parts[:3])),
+         CompositeIdentifier("spatial_cluster","spatial complex",tuple(x.name for x in parts)))
+    return parts,ids
+
 
 TITLE="scSPRITE — cell and spatial-complex barcoding"
 NOTES="01_scsprite.html"

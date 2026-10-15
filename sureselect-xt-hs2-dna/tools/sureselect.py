@@ -10,7 +10,37 @@ from endprep import dA_tailed_scene, repair_and_dA_tail
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
-from targeted_ngs import hybrid_capture_scene, sureselect_library
+from batch_ngs import seg, truseq_library
+from chemdraw import complement_segments, feature
+
+def hybrid_capture_scene() -> Scene:
+    """An indexed library hybridized to one complementary biotinylated RNA bait."""
+    library = [seg("left adapter", "X" * 12, placeholder=True),
+               seg("off-target flank", "N" * 8, placeholder=True),
+               seg("target interval", "ACGTTGCAACGTTGCAACGT"),
+               seg("right flank / adapter", "Y" * 16, placeholder=True)]
+    bait = [seg("biotinylated RNA bait", "ACGTTGCAACGTTGCAACGT")]
+    sc = Scene()
+    sc.strand("library", library, label="indexed library")
+    sc.anneal("bait", complement_segments(bait), to="library",
+              pair=("biotinylated RNA bait'", "target interval"),
+              label="5'-biotin RNA bait")
+    sc.mark("bait", "biotinylated RNA bait'", "streptavidin capture")
+    return sc
+
+
+def sureselect_library():
+    """HS2 MBC form: five inline molecular-barcode bases at each insert end."""
+    return truseq_library([
+        seg("left molecular barcode", "U" * 5, "umi", placeholder=True,
+            feature=feature("molecular_barcode_left", "umi", "random",
+                            group="molecular_barcode", part="left")),
+        seg("captured target insert", "N" * 34, placeholder=True),
+        seg("right molecular barcode", "V" * 5, "umi", placeholder=True,
+            feature=feature("molecular_barcode_right", "umi", "random",
+                            group="molecular_barcode", part="right")),
+    ], "SureSelect XT HS2 captured library")
+
 
 TITLE = "SureSelect XT HS2 DNA target enrichment"
 NOTES = "01_sureselect-xt-hs2.html"

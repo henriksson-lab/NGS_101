@@ -6,7 +6,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE.parents[1] / "lib")]
 import seqprimers as sp
 from checks import Check
-from spatial_proximity_labeling import tsa_library
+from chem import tsa_library
 
 c = Check()
 c.section("TSA-seq defining run boundary")

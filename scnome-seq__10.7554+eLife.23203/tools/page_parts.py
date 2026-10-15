@@ -119,8 +119,8 @@ def sequencing(protocol: str) -> str:
             + '</div>')
 
 
-def render_page(protocol: str, out: Path) -> None:
-    graph = N.protocol_graph(protocol)
+def render_page(protocol: str, out: Path, *, graph_factory=None) -> None:
+    graph = graph_factory() if graph_factory else N.protocol_graph(protocol)
     lib_steps = nome_library_steps() if protocol == N.SCNOME else cool_priming() + '<h3>(5) Indexed PCR on the beads</h3>' + final_panel(N.SCCOOL)
     html = "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
                        oligos(protocol), '<h2>Reaction workflow</h2>',

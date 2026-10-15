@@ -6,7 +6,8 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -171,4 +172,33 @@ def protocol_graph() -> ProtocolGraph:
         "droplet_device","partition","bead_oligo","gap_fill_polymerase",
         "droplet_extension","pcr_forward","pcr_reverse","pcr_polymerase",
         "library_pcr","library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="tagment", title="A/B plate axes in the published Methods",
+        claims=(
+            SourceClaim("Wang et al. main and Supplementary Methods, plate description",
+                        "Place 12 A adapters by rows and 8 B adapters by columns."),
+            SourceClaim("Wang et al. Results, 96-well layout",
+                        "The plate has 8 rows by 12 columns, with 15 µL in 8 rows and 10 µL in 12 columns.")),
+        model_choice="Twelve A adapters occupy columns and eight B adapters occupy rows.",
+        evidence="That orientation fits the 8-by-12 plate and the published adapter counts.",
+        uncertainty="The Methods axis wording is unresolved; individual well assignments need the experimental plate map.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="tagment", title="B-adapter count in the supplement",
+        claims=(
+            SourceClaim("Supplementary Methods step II.1", "States 18 Tn5-ME-Bx adapters."),
+            SourceClaim("Supplementary Table S1 and the remaining Methods", "List eight B adapters, B1–B8.")),
+        model_choice="The graph uses the eight B members printed in Table S1.",
+        evidence="Only B1–B8 are listed, and eight B by twelve A yields the stated 96 combinations.",
+        uncertainty="The source does not publish a formal correction of the number 18.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="tagment", title="Separate versus mixed Tn5 loading",
+        claims=(
+            SourceClaim("Main Methods, Tn5 loading", "Annealed A and B adapters are mixed 1:1 before addition to Tn5."),
+            SourceClaim("Supplementary Methods, Tn5 assembly", "Load A and B adapters in separate Tn5 stocks (2 µL + 15 µL and 3 µL + 25 µL diluted Tn5).")),
+        model_choice="The graph follows separate A- and B-loaded transposomes for combinatorial plating.",
+        evidence="The supplement's separate stocks can preserve the intended A-by-B well identities.",
+        uncertainty="The main Methods may describe a different preparation; its relation to the plated experiment is unclear.",
+        slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

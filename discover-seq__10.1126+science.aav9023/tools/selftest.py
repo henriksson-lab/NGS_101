@@ -3,9 +3,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE.parents[1] / "lib")]
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from editing_outcomes import DISCOVER_AR001, discover_library
+from chem import DISCOVER_AR001, discover_library
 
 c = Check()
 c.section("DISCOVER-Seq source transcription")

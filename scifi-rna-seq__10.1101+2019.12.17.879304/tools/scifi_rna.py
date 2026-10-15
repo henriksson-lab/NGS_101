@@ -8,7 +8,8 @@ import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
@@ -253,4 +254,26 @@ def protocol_graph() -> ProtocolGraph:
         "barcode_ligation","tso","template_switch","preamp_forward","preamp_reverse",
         "preamp_polymerase","preamp","i7_transposome","tn5","tagment","partial_p5",
         "indexed_p7","library_polymerase","library_pcr","library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="library_pcr", title="P7 index orientation differs within the published oligo table",
+        claims=(
+            SourceClaim("Datlinger et al. 2021 Supplementary oligo table, P7-001–P7-008",
+                        "The primer contains the reverse complement of the listed P7_index_seq; P7-001 has TCGCCTTA for listed TAAGGCGA."),
+            SourceClaim("The same table, P7-009–P7-016",
+                        "The primer contains the listed bases as written; P7-009 has AAGAGGCA for listed N711 AAGAGGCA.")),
+        model_choice="The representative library uses P7-001 and its printed primer sequence; it does not silently normalize P7-009–P7-016.",
+        evidence="Direct comparison of each printed full primer and its index column shows the orientation change.",
+        uncertainty="It is unknown whether the last eight primers were synthesized as printed or transcribed incorrectly.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="barcode_ligation", title="Thermoligation denaturation temperature",
+        claims=(
+            SourceClaim("Datlinger et al. protocol v2021-01-25, round-2 thermoligation",
+                        "Twelve cycles denature at 95 °C for 30 s."),
+            SourceClaim("Datlinger et al. 2019 preprint Methods, round-2 thermoligation",
+                        "Twelve cycles denature at 98 °C for 30 s.")),
+        model_choice="The graph records thermoligation without fixing a temperature; the note presents both recipes.",
+        evidence="Both documents describe the same round-2 bead barcode ligation with different denaturation settings.",
+        uncertainty="Whether this was a deliberate protocol revision is not established.",
+        slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

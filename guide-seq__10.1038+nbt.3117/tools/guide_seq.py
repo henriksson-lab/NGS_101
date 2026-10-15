@@ -152,7 +152,14 @@ SUMMARY = ("A protected, phosphorylated blunt dsODN integrates into nuclease-cre
            "genomic DNA immediately beside either dsODN end.")
 CAVEAT = ("The two STAT-PCR orientations are parallel libraries built from the two dsODN "
           "strands with the +/- GSP pairs. Everything drawn here is the strand-A "
-          "orientation; the mirrored reaction is named explicitly at its step.")
+          "orientation; the mirrored reaction is named explicitly at its step. "
+          "<b>Published source conflict:</b> the main text, Stage II, says the random "
+          "8-bp molecular barcode is incorporated during amplification; the corrected "
+          "Supplementary Methods, Supplementary Fig. 1 and Supplementary Table 4 place "
+          "the NNWNNWNN index in the Y adapter before ligation. This model installs "
+          "that degenerate index at adapter ligation because the printed adapter "
+          "oligos locate it there. Whether Stage II means amplification of already "
+          "indexed molecules or describes a different step remains unresolved.")
 
 # -------------------------------------------------------------- final library
 # Written 5'->3' from P5. The P7-side arm is the GSP2 tail completed by P7_#, so

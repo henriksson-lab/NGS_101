@@ -7,8 +7,8 @@ import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
 UMI_FEATURE = feature("umi", "umi", "random")
@@ -224,4 +224,25 @@ def protocol_graph() -> ProtocolGraph:
         "klenow","random_second_strand","pool_routes","smart_primer","preamp_polymerase",
         "preamp","transposome","tn5","tagment","p5_primer","p7_primer",
         "library_polymerase","library_pcr","library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="s3_randomer", title="Randomer length in the supplement",
+        claims=(
+            SourceClaim("Hughes et al. Supplementary oligo table, S3 Randomer",
+                        "The tail is NNNGGNNNB: nine positions, seven degenerate and two fixed G."),
+            SourceClaim("Supplementary Figure S1A legend", "Calls this a random octamer.")),
+        model_choice="The molecular model uses the printed nine-position NNNGGNNNB tail.",
+        evidence="The oligo table gives the actual synthesis sequence; the pairing scene uses that tail.",
+        uncertainty="The legend's intended meaning of octamer is not explained.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="strip_rna", title="Ambiguous TE wash concentration",
+        claims=(
+            SourceClaim("Hughes et al. S3 Methods, wash after NaOH RNA stripping",
+                        "The text says 1 M TE."),
+            SourceClaim("The same S3 Methods, other bead washes",
+                        "Other washes are named TE-SDS, TE-Tween or TE, with no 1 M TE formulation supplied.")),
+        model_choice="The graph records an RNA-stripping and wash transition without assigning a TE concentration.",
+        evidence="No authoritative correction or independent concentration statement was found in the reviewed source.",
+        uncertainty="The intended TE concentration remains unresolved.",
+        slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

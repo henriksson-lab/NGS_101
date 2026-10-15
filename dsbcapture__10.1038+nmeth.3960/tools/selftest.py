@@ -16,7 +16,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
 import chem
-from dsb_capture import DSB_AD006, DSB_P5, DSB_P5_BOTTOM, DSB_P7, DSB_P7_BOTTOM
+from chem import DSB_AD006, DSB_P5, DSB_P5_BOTTOM, DSB_P7, DSB_P7_BOTTOM
 
 c = Check()
 c.section("DSBCapture Supplementary Fig. 1c transcription")

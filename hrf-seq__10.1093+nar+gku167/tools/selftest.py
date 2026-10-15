@@ -3,11 +3,11 @@ import sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
-import rna_end_readout as shared
+import chem
 from checks import Check
 c=Check()
-c("published random RT primer", shared.HRF_RT_RANDOM,
+c("published random RT primer", chem.HRF_RT_RANDOM,
   "AGACGTGTGCTCTTCCGATCTNNNNNNNNS")
-c("four published sample-index oligos", shared.HRF_INDEXES,
+c("four published sample-index oligos", chem.HRF_INDEXES,
   ("GGAACT", "GGACGG", "CGTACG", "GCTACC"))
 c.report()

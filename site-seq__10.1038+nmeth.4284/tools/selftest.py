@@ -3,9 +3,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE.parents[1] / "lib")]
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from dsb_capture import (SITE_A1_F, SITE_A1_R, SITE_A2_F5, SITE_A2_F6,
+from chem import (SITE_A1_F, SITE_A1_R, SITE_A2_F5, SITE_A2_F6,
                          SITE_A2_F7, SITE_A2_R, SITE_INDEX_F, SITE_INDEX_R,
                          SITE_RECOVERY_F, SITE_RECOVERY_R)
 

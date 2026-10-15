@@ -5,7 +5,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE.parents[1] / "lib")]
 from checks import Check
-from open_chromatin_conformation import HICAR7_I0_WRITTEN, TRUSEQ_R1_SPLINT
+from chem import HICAR7_I0_WRITTEN, TRUSEQ_R1_SPLINT
 
 c = Check()
 c.section("HiCAR source transcription")

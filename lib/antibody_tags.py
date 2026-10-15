@@ -2,43 +2,35 @@
 from __future__ import annotations
 
 from batch_ngs import seg, truseq_library
-from chemdraw import Scene, feature
+from chemdraw import feature
 
 
-def antibody_tag(*, name: str, barcode_len: int = 15, umi_len: int = 10,
-                 capture_len: int = 18, barcode_id: str = "antibody_barcode",
-                 cell_id: str = "antibody_tag_cell") -> list:
+def antibody_tag(*, name: str, barcode_len: int, umi_len: int,
+                 capture_len: int, cell_barcode_len: int,
+                 barcode_id: str, cell_id: str,
+                 bead_whitelist: str, panel_whitelist: str) -> list:
     """An antibody oligo after extension has made it library-amplifiable."""
     return [
         seg("Read 1/capture handle", "H" * capture_len, "r1", placeholder=True),
-        seg("cell barcode", "C" * 16, "cbc", placeholder=True,
+        seg("cell barcode", "C" * cell_barcode_len, "cbc", placeholder=True,
             feature=feature(cell_id, "cell_barcode", "whitelist",
-                            whitelist="single-cell bead barcode set")),
+                            whitelist=bead_whitelist)),
         seg("antibody-tag UMI", "U" * umi_len, "umi", placeholder=True,
             feature=feature(barcode_id + "_umi", "umi", "random")),
         seg(name, "B" * barcode_len, "cbc", placeholder=True,
             feature=feature(barcode_id, "feature_barcode", "whitelist",
-                            whitelist="published antibody-tag panel")),
+                            whitelist=panel_whitelist)),
     ]
 
 
-def bridge_extension_scene(label: str = "antibody-derived tag") -> Scene:
-    """Blocked bridge oligo transfers the droplet-bead capture handle to a tag."""
-    tag = [seg("antibody barcode and UMI", "B" * 25, "cbc", placeholder=True),
-           seg("bridge-complementary tail", "T" * 18, "r2", placeholder=True)]
-    bridge = [seg("bead-capture handle", "H" * 18, "r1", placeholder=True),
-              seg("bridge annealing region", "A" * 18, "r2", placeholder=True)]
-    sc = Scene(); sc.strand("tag", tag, label=label)
-    sc.anneal("bridge", bridge, to="tag",
-              pair=("bridge annealing region", "bridge-complementary tail"),
-              label="3-prime-blocked bridge", unpaired=("bead-capture handle",))
-    sc.arrow("tag", "polymerase copies the bridge handle onto the antibody tag")
-    sc.labels("tag"); sc.labels("bridge")
-    return sc
-
-
-def feature_library(name: str, *, barcode_id: str = "antibody_barcode",
-                    cell_id: str = "antibody_tag_cell"):
+def feature_library(name: str, *, barcode_id: str, cell_id: str,
+                    barcode_len: int, umi_len: int, capture_len: int,
+                    cell_barcode_len: int, bead_whitelist: str,
+                    panel_whitelist: str):
     return truseq_library(
         antibody_tag(name="antibody feature barcode", barcode_id=barcode_id,
-                     cell_id=cell_id), name)
+                     cell_id=cell_id, barcode_len=barcode_len,
+                     umi_len=umi_len, capture_len=capture_len,
+                     cell_barcode_len=cell_barcode_len,
+                     bead_whitelist=bead_whitelist,
+                     panel_whitelist=panel_whitelist), name)

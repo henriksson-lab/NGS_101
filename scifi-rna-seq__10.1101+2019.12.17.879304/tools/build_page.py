@@ -15,6 +15,8 @@ import scifi_rna as S
 import seqprimers as sp
 from chemdraw import annotation_rows, oligo, panel, protocol_graph_panels, strand_row
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import assemble_page
 
 OUT = HERE.parent / "scifi-rna-seq.html"
 
@@ -33,8 +35,8 @@ def oligos() -> str:
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
 
 
-def construction() -> str:
-    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+def construction(graph) -> str:
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(graph,cls="long")
 
 
 def sequencing() -> str:
@@ -56,10 +58,11 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page = "\n".join([head("scifi-RNA-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
+    graph = S.protocol_graph()
+    page = assemble_page(graph, [head("scifi-RNA-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scifi-RNA-seq &mdash; combinatorial fluidic indexing</h1>',
         info('Defining source: <a href="https://doi.org/10.1101/2019.12.17.879304">Datlinger et al., bioRxiv (2019)</a>; expanded protocol: <a href="https://doi.org/10.1038/s41592-021-01153-z">Nature Methods (2021)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

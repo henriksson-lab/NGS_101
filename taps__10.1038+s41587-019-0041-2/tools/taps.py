@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import illumina as il
 import seqprimers as sp
-from base_conversion import taps_path
+from base_conversion import BasePath
 from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature
 from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
                      dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
@@ -13,6 +13,16 @@ from pcr import PCRGeometry
 from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
                             ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
                             Step, StepKind, Terminal)
+
+
+
+def taps_path(base: str) -> BasePath:
+    """TAPS chemistry and PCR readout for one cytosine state."""
+    if base in {"5mC", "5hmC"}:
+        return BasePath((base, "5caC", "DHU", "T"))
+    if base == "C":
+        return BasePath(("C", "C"))
+    raise ValueError("TAPS input must be C, 5mC or 5hmC")
 
 TITLE = "TAPS — bisulfite-free methylation sequencing"
 NOTES = "01_taps.html"

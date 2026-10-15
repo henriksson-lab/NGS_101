@@ -7,11 +7,21 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from base_conversion import caps_plus_path
+from base_conversion import BasePath
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
+
+
+
+def caps_plus_path(base: str) -> BasePath:
+    """CAPS+ selective 5hmC oxidation, borane reduction and PCR readout."""
+    if base == "5hmC":
+        return BasePath(("5hmC", "5fC", "5caC", "DHU", "T"))
+    if base in {"5mC", "C"}:
+        return BasePath((base, base))
+    raise ValueError("CAPS+ input must be C, 5mC or 5hmC")
 
 TITLE = "scCAPS+ — single-cell 5hmC sequencing"
 NOTES = "01_sccaps-plus.html"

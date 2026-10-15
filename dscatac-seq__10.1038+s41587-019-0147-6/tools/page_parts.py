@@ -11,8 +11,8 @@ from chemdraw import (Construct,Scene,Segment,annotation_rows,oligo,panel,
 from page import head,info,table
 
 def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
-def render_page(protocol):
-    graph=D.protocol_graph(protocol)
+def render_page(protocol, *, graph_factory=None):
+    graph=graph_factory() if graph_factory else D.protocol_graph(protocol)
     sci=protocol=="dsciATAC-seq"
     notes=("01_dscatac-seq.html" if not sci else
            "../dscatac-seq__10.1038+s41587-019-0147-6/01_dscatac-seq.html")

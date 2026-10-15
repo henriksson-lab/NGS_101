@@ -7,7 +7,8 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from base_conversion import taps_path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "taps__10.1038+s41587-019-0041-2" / "tools"))
+from taps import taps_path
 from chemdraw import Construct, MolecularState, Scene, Workflow, feature
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,

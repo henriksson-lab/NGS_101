@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from batch_ngs import duplex_fragment, seg, truseq_library
 from chemdraw import MolecularState, Workflow, feature
-from molecular_consensus import SingleStrandUID, safe_seqs_graph
+from molecular_consensus import SingleStrandUID
 
 TITLE = "Safe-SeqS — single-strand UID-family consensus"
 NOTES = "01_safe_seqs.html"
@@ -49,4 +49,53 @@ def oligos():
     return ()
 
 
-protocol_graph = lambda: safe_seqs_graph(SOURCE, FINAL_LIBRARY, SEQ_PRIMERS)
+
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import molecule, role
+
+def safe_seqs_graph(authority: str, final: Construct, primers) -> ProtocolGraph:
+    graph = ProtocolGraph("Safe-SeqS — single-strand UID-family consensus",
+                          authority=authority)
+    target = graph.input("target_dna", "target DNA containing assay primer sites",
+                         MaterialKind.BIOLOGICAL,
+                         state=molecule("target DNA", (role("target strands"),)), primary=True)
+    uid_primer = graph.input("uid_primer", "target-specific primer carrying a random UID",
+                             MaterialKind.OLIGO)
+    opposing = graph.input("opposing_primer", "opposing target-specific primer",
+                           MaterialKind.OLIGO)
+    assignment_pol = graph.input("assignment_polymerase", "UID-assignment PCR polymerase",
+                                 MaterialKind.CATALYST)
+    assigned = graph.product("uid_assigned", "UID-assigned target strands",
+                             MaterialKind.MOLECULAR, state=SingleStrandUID(14).assignment())
+    graph.react("assign_uid", "Assign a random UID in two target-specific PCR cycles",
+                StepKind.PCR,
+                ((target, InputRole.TEMPLATE), (uid_primer, InputRole.STRUCTURAL),
+                 (opposing, InputRole.STRUCTURAL),
+                 (assignment_pol, InputRole.CATALYST)), (assigned,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason="The assay-specific target template and opposing site vary by panel."))
+    universal_f = graph.input("universal_forward", "universal-handle forward primer",
+                              MaterialKind.OLIGO)
+    universal_r = graph.input("universal_reverse", "universal-handle reverse primer",
+                              MaterialKind.OLIGO)
+    family_pol = graph.input("family_polymerase", "UID-family amplification polymerase",
+                             MaterialKind.CATALYST)
+    library = graph.product("library", "redundantly amplified Safe-SeqS UID families",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("amplify_families", "Amplify through the universal handles",
+                StepKind.PCR,
+                ((assigned, InputRole.TEMPLATE), (universal_f, InputRole.STRUCTURAL),
+                 (universal_r, InputRole.STRUCTURAL), (family_pol, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final, reason="The final TruSeq shell is exact, while target-specific insert coordinates vary."))
+    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
+    graph.declare_reviewed_scope([
+        "target_dna", "uid_primer", "opposing_primer", "assignment_polymerase",
+        "assign_uid", "universal_forward", "universal_reverse", "family_polymerase",
+        "amplify_families", "library"], authority)
+    return graph.require_publishable()
+
+
+def protocol_graph():
+    return safe_seqs_graph(SOURCE, FINAL_LIBRARY, SEQ_PRIMERS)

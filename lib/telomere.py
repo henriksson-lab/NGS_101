@@ -130,136 +130,130 @@ class AffinityCapture:
         return out + ((f"release with {self.release_enzyme}",) if self.release_enzyme else ())
 
 
-def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGraph:
-    """Typed provenance for the four terminal-telomere nanopore workflows."""
-    if kind not in {"telotag", "telo_seq", "dtm", "profiling"}:
-        raise ValueError(f"unknown telomere workflow {kind!r}")
-    graph = ProtocolGraph(title, authority=authority)
-    dna = graph.input("genomic_dna", "high-molecular-weight genomic DNA with native telomeres",
-                      MaterialKind.BIOLOGICAL,
-                      state=molecule("chromosome ends", (role("subtelomere"), role("native telomere terminus"))),
-                      primary=True)
-    reviewed = ["genomic_dna"]
-    current = dna
+def start_telomere_graph(graph: ProtocolGraph):
+    return graph.input("genomic_dna", "high-molecular-weight genomic DNA with native telomeres",
+                       MaterialKind.BIOLOGICAL,
+                       state=molecule("chromosome ends", (role("subtelomere"),
+                                                         role("native telomere terminus"))),
+                       primary=True)
 
-    if kind == "profiling":
-        nuclease = graph.input("internal_nuclease", "internal genomic restriction enzyme",
-                               MaterialKind.CATALYST)
-        digested = graph.product("internally_digested", "restriction-shortened telomere-bearing DNA",
-                                 MaterialKind.MOLECULAR, state=current.state)
-        graph.react("digest_internal", "Digest genomic DNA away from native telomere ends",
-                    StepKind.DIGESTION,
-                    ((current, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
-                    (digested,))
-        reviewed.extend(("internal_nuclease", "digest_internal")); current = digested
 
-    if kind == "telotag":
-        tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase",
-                          MaterialKind.CATALYST)
-        tailed = graph.product("polya_tailed", "poly(A)-tailed native chromosome ends",
-                               MaterialKind.MOLECULAR, state=current.state)
-        graph.react("polya_tail", "Add poly(A) at the native 3-prime chromosome end",
-                    StepKind.TAILING,
-                    ((current, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
-        reviewed.extend(("tdt", "polya_tail")); current = tailed
+def digest_internal_telomere(graph: ProtocolGraph, current):
+    nuclease = graph.input("internal_nuclease", "internal genomic restriction enzyme",
+                           MaterialKind.CATALYST)
+    digested = graph.product("internally_digested", "restriction-shortened telomere-bearing DNA",
+                             MaterialKind.MOLECULAR, state=current.state)
+    graph.react("digest_internal", "Digest genomic DNA away from native telomere ends",
+                StepKind.DIGESTION,
+                ((current, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)), (digested,))
+    return digested
 
-    tag = graph.input("terminal_tag", ("published barcoded capture/seqTether duplex" if kind == "dtm"
-                                      else "published phased TeloTag duplex" if kind == "profiling"
-                                      else "phased telomere-capture or TeloTag oligo"),
-                      MaterialKind.OLIGO,
-                      inferred=False)
+
+def add_poly_a_tail(graph: ProtocolGraph, current):
+    tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase", MaterialKind.CATALYST)
+    tailed = graph.product("polya_tailed", "poly(A)-tailed native chromosome ends",
+                           MaterialKind.MOLECULAR, state=current.state)
+    graph.react("polya_tail", "Add poly(A) at the native 3-prime chromosome end",
+                StepKind.TAILING,
+                ((current, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
+    return tailed
+
+
+def anneal_terminal_tag(graph: ProtocolGraph, current, *, label: str):
+    tag = graph.input("terminal_tag", label, MaterialKind.OLIGO, inferred=False)
     hybrid = graph.product("tag_hybrid", "capture oligo annealed at the native telomere end",
                            MaterialKind.MOLECULAR, state=current.state)
-    graph.react("anneal_tag", "Anneal the terminal capture oligo",
-                StepKind.HYBRIDIZATION,
+    graph.react("anneal_tag", "Anneal the terminal capture oligo", StepKind.HYBRIDIZATION,
                 ((current, InputRole.TEMPLATE), (tag, InputRole.STRUCTURAL)), (hybrid,))
-    reviewed.extend(("terminal_tag", "anneal_tag")); current = hybrid
+    return tag, hybrid
 
-    if kind != "telotag":
-        terminal_ligase = graph.input("terminal_ligase", "terminal-tag DNA ligase",
-                                      MaterialKind.CATALYST)
-        tagged = graph.product("terminal_tagged", "covalently terminal-tagged telomere DNA",
-                               MaterialKind.MOLECULAR, state=current.state)
-        graph.react("ligate_terminal_tag", "Seal the tag to the native telomere terminus",
-                    StepKind.LIGATION,
-                    ((current, InputRole.TEMPLATE), (tag, InputRole.STRUCTURAL),
-                     (terminal_ligase, InputRole.CATALYST)), (tagged,),
-                    geometry=AdapterLigationGeometry.unavailable(
-                        "The terminal telomere pairing is drawn from the phased oligo family; it is not a universal adapter-end geometry."))
-        reviewed.extend(("terminal_ligase", "ligate_terminal_tag")); current = tagged
 
-    if kind in {"telotag", "dtm"}:
-        polymerase = graph.input("gap_fill_polymerase", "Sulfolobus DNA polymerase IV",
-                                 MaterialKind.CATALYST)
-        filled = graph.product("gap_filled", "gap-filled terminal-tagged telomere DNA",
-                               MaterialKind.MOLECULAR, state=current.state)
-        graph.react("gap_fill", "Fill the terminal tag–chromosome gap",
-                    StepKind.EXTENSION,
-                    ((current, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)),
-                    (filled,))
-        reviewed.extend(("gap_fill_polymerase", "gap_fill")); current = filled
-        if kind == "telotag":
-            nick_ligase = graph.input("nick_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
-            sealed = graph.product("sealed", "nick-sealed TeloTag chromosome end",
-                                   MaterialKind.MOLECULAR, state=current.state)
-            graph.react("seal_nick", "Seal the filled TeloTag–chromosome nick",
-                        StepKind.NICK_SEALING,
-                        ((current, InputRole.TEMPLATE), (nick_ligase, InputRole.CATALYST)),
-                        (sealed,))
-            reviewed.extend(("nick_ligase", "seal_nick")); current = sealed
+def ligate_terminal_tag(graph: ProtocolGraph, hybrid, tag):
+    ligase = graph.input("terminal_ligase", "terminal-tag DNA ligase", MaterialKind.CATALYST)
+    tagged = graph.product("terminal_tagged", "covalently terminal-tagged telomere DNA",
+                           MaterialKind.MOLECULAR, state=hybrid.state)
+    graph.react("ligate_terminal_tag", "Seal the tag to the native telomere terminus",
+                StepKind.LIGATION,
+                ((hybrid, InputRole.TEMPLATE), (tag, InputRole.STRUCTURAL),
+                 (ligase, InputRole.CATALYST)), (tagged,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The terminal telomere pairing is drawn from the phased oligo family; it is not a universal adapter-end geometry."))
+    return tagged
 
-    if kind == "telo_seq":
-        ecov = graph.input("ecorv", "EcoRV", MaterialKind.CATALYST)
-        cut = graph.product("ecorv_cut", "telorette-tagged DNA with distal blunt EcoRV ends",
-                            MaterialKind.MOLECULAR, state=current.state)
-        graph.react("digest_ecorv", "Cut distal genomic DNA with EcoRV", StepKind.DIGESTION,
-                    ((current, InputRole.TEMPLATE), (ecov, InputRole.CATALYST)), (cut,))
-        klenow = graph.input("klenow", "Klenow exo-minus dA-tailing enzyme",
+
+def fill_terminal_gap(graph: ProtocolGraph, current):
+    polymerase = graph.input("gap_fill_polymerase", "Sulfolobus DNA polymerase IV",
                              MaterialKind.CATALYST)
-        tailed = graph.product("distal_tailed", "dA-tailed internal EcoRV ends",
-                               MaterialKind.MOLECULAR, state=cut.state)
-        graph.react("tail_distal", "dA-tail only the new distal EcoRV ends",
-                    StepKind.TAILING,
-                    ((cut, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)), (tailed,))
-        reviewed.extend(("ecorv", "digest_ecorv", "klenow", "tail_distal")); current = tailed
+    filled = graph.product("gap_filled", "gap-filled terminal-tagged telomere DNA",
+                           MaterialKind.MOLECULAR, state=current.state)
+    graph.react("gap_fill", "Fill the terminal tag–chromosome gap", StepKind.EXTENSION,
+                ((current, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (filled,))
+    return filled
 
-    if kind == "profiling":
-        beads = graph.input("streptavidin", "streptavidin capture beads",
-                            MaterialKind.SELECTION)
-        captured = graph.product("captured", "biotin-TeloTag-enriched telomere DNA",
-                                 MaterialKind.MOLECULAR, state=current.state)
-        rejected = graph.product("uncaptured", "untagged genomic fragments", MaterialKind.WASTE)
-        graph.react("capture", "Select biotinylated TeloTag molecules",
-                    StepKind.AFFINITY_CAPTURE,
-                    ((current, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
-                    (captured, rejected))
-        graph.discard(rejected, "does not carry the biotinylated terminal tag")
-        release = graph.input("release_nuclease", "adapter-site release nuclease",
-                              MaterialKind.CATALYST)
-        released = graph.product("released", "restriction-released tagged telomere molecules",
-                                 MaterialKind.MOLECULAR, state=captured.state)
-        graph.react("release", "Release captured molecules at the adapter restriction site",
-                    StepKind.DIGESTION,
-                    ((captured, InputRole.TEMPLATE), (release, InputRole.CATALYST)),
-                    (released,))
-        reviewed.extend(("streptavidin", "capture", "release_nuclease", "release")); current = released
 
-    if kind == "telo_seq":
-        splint = graph.input("s1_splint", "S1 motor-adapter recruitment splint",
-                             MaterialKind.OLIGO)
-        recruited = graph.product("motor_recruited", "S1-recruited telomere library substrate",
-                                  MaterialKind.MOLECULAR, state=current.state)
-        graph.react("recruit_motor", "Hybridize S1 to recruit the nanopore adapter",
-                    StepKind.HYBRIDIZATION,
-                    ((current, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL)),
-                    (recruited,))
-        reviewed.extend(("s1_splint", "recruit_motor")); current = recruited
+def seal_terminal_nick(graph: ProtocolGraph, current):
+    ligase = graph.input("nick_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    sealed = graph.product("sealed", "nick-sealed TeloTag chromosome end",
+                           MaterialKind.MOLECULAR, state=current.state)
+    graph.react("seal_nick", "Seal the filled TeloTag–chromosome nick", StepKind.NICK_SEALING,
+                ((current, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (sealed,))
+    return sealed
 
+
+def cut_and_tail_distal_end(graph: ProtocolGraph, current):
+    ecov = graph.input("ecorv", "EcoRV", MaterialKind.CATALYST)
+    cut = graph.product("ecorv_cut", "telorette-tagged DNA with distal blunt EcoRV ends",
+                        MaterialKind.MOLECULAR, state=current.state)
+    graph.react("digest_ecorv", "Cut distal genomic DNA with EcoRV", StepKind.DIGESTION,
+                ((current, InputRole.TEMPLATE), (ecov, InputRole.CATALYST)), (cut,))
+    klenow = graph.input("klenow", "Klenow exo-minus dA-tailing enzyme",
+                         MaterialKind.CATALYST)
+    tailed = graph.product("distal_tailed", "dA-tailed internal EcoRV ends",
+                           MaterialKind.MOLECULAR, state=cut.state)
+    graph.react("tail_distal", "dA-tail only the new distal EcoRV ends", StepKind.TAILING,
+                ((cut, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)), (tailed,))
+    return tailed
+
+
+def capture_and_release_tag(graph: ProtocolGraph, current):
+    beads = graph.input("streptavidin", "streptavidin capture beads", MaterialKind.SELECTION)
+    captured = graph.product("captured", "biotin-TeloTag-enriched telomere DNA",
+                             MaterialKind.MOLECULAR, state=current.state)
+    rejected = graph.product("uncaptured", "untagged genomic fragments", MaterialKind.WASTE)
+    graph.react("capture", "Select biotinylated TeloTag molecules", StepKind.AFFINITY_CAPTURE,
+                ((current, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, rejected))
+    graph.discard(rejected, "does not carry the biotinylated terminal tag")
+    nuclease = graph.input("release_nuclease", "adapter-site release nuclease",
+                           MaterialKind.CATALYST)
+    released = graph.product("released", "restriction-released tagged telomere molecules",
+                             MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("release", "Release captured molecules at the adapter restriction site",
+                StepKind.DIGESTION,
+                ((captured, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
+                (released,))
+    return released
+
+
+def recruit_nanopore_motor(graph: ProtocolGraph, current):
+    splint = graph.input("s1_splint", "S1 motor-adapter recruitment splint",
+                         MaterialKind.OLIGO)
+    recruited = graph.product("motor_recruited", "S1-recruited telomere library substrate",
+                              MaterialKind.MOLECULAR, state=current.state)
+    graph.react("recruit_motor", "Hybridize S1 to recruit the nanopore adapter",
+                StepKind.HYBRIDIZATION,
+                ((current, InputRole.TEMPLATE), (splint, InputRole.STRUCTURAL)),
+                (recruited,))
+    return recruited
+
+
+def attach_nanopore_motor(graph: ProtocolGraph, current, *, title: str,
+                          authority: str, reviewed: tuple[str, ...]):
     motor = graph.input("motor_adapter", "motor-loaded Oxford Nanopore sequencing adapter",
                         MaterialKind.ADAPTER, inferred=True,
                         source=authority + " (the complete kit- and revision-specific motor-bearing assembly is unavailable)")
-    motor_ligase = graph.input("motor_ligase", "Oxford Nanopore adapter ligase",
-                               MaterialKind.CATALYST)
+    ligase = graph.input("motor_ligase", "Oxford Nanopore adapter ligase",
+                         MaterialKind.CATALYST)
     final_state = Construct([
         Segment("motor-loaded ONT adapter", "[motor adapter]", placeholder=True, inferred=True),
         Segment("terminal-tagged telomere fragment", "[tagged telomere DNA]", placeholder=True),
@@ -269,12 +263,11 @@ def nanopore_telomere_graph(kind: str, title: str, authority: str) -> ProtocolGr
     graph.react("ligate_motor", "Attach the motor-loaded nanopore sequencing adapter",
                 StepKind.LIGATION,
                 ((current, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
-                 (motor_ligase, InputRole.CATALYST)), (library,),
+                 (ligase, InputRole.CATALYST)), (library,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The cited workflow does not disclose the complete kit- and revision-specific motor-bearing adapter assembly."))
     graph.sequence(library, SequencingPlan(
         acquired_roles=("Sequencing output",),
         limitation="Oxford Nanopore motor entry is platform-driven; no sequencing primer binds the library."))
-    reviewed.extend(("motor_adapter", "motor_ligase", "ligate_motor", "library"))
-    graph.declare_reviewed_scope(reviewed, authority)
+    graph.declare_reviewed_scope((*reviewed, "motor_adapter", "motor_ligase", "ligate_motor", "library"), authority)
     return graph.require_publishable()

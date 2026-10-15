@@ -3,5 +3,5 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 from checks import Check
-from isothermal_protocols import get
-c=Check(); c("finished graph is publishable", get("picoplex-dna-seq").protocol_graph().publishable, True); c.report()
+import picoplex_dna_seq as model
+c=Check(); c("finished graph is publishable", model.protocol_graph().publishable, True); c.report()

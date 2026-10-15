@@ -9,7 +9,10 @@ from multimodal_spatial import finish_pcr_branch
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import molecule, role
 ATAC,ATAC_P=droplet_targeted_tagment_library("accessible DNA",assay_name="poly(dT)/R2N capture branch",assay_barcode_len=8,assay_is_feature=False)
-ADT,ADT_P=feature_library("ICICLE-seq antibody-tag library",barcode_id="icicle_antibody",cell_id="cell_barcode")
+ADT,ADT_P=feature_library("ICICLE-seq antibody-tag library", barcode_id="icicle_antibody", cell_id="cell_barcode",
+                           barcode_len=15, umi_len=10, capture_len=18, cell_barcode_len=16,
+                           bead_whitelist="10x Chromium 3-prime bead barcode set",
+                           panel_whitelist="TotalSeq-A antibody-tag panel")
 TITLE="ICICLE-seq — chromatin accessibility and epitopes"
 NOTES="01_icicle-seq.html"
 SOURCE='<a href="https://doi.org/10.7554/eLife.63632">Swanson et al., <i>eLife</i> (2021)</a>.'

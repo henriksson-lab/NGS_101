@@ -26,5 +26,5 @@ pdftoppm -r 400 -f 10 -l 11 -png \
 Page 10 is Table 1 (bait DSBs; PAM in red), page 11 is Table 2 (DNA sequences). The colour
 coding in Table 2 carries information that no text extraction preserves: the I5/I7 index
 bases are red, and the bridge-adapter random molecular barcode is orange and underlined.
-The 4-nt inline I5 index boundary in `lib/editing_outcomes.py` was confirmed this way and
+The 4-nt inline I5 index boundary in `tools/chem.py` was confirmed this way and
 cross-checked inside Supplementary Table S11 — see `01_pem_seq.md`.

@@ -7,8 +7,8 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 I5_FEATURE = feature("sample_index_i5", "sample_index", "fixed")
@@ -285,4 +285,15 @@ def protocol_graph() -> ProtocolGraph:
         "second_strand_polymerase", "second_strand", "transposome", "tn5",
         "tagment", "i5_primer", "i7_primer", "pcr_polymerase", "selective_pcr",
         "library"), source)
+    graph.annotate(SourceDiscrepancy(
+        target="round1_rt_a", title="SB5/SB6 qPCR-pair table labels",
+        claims=(
+            SourceClaim("Blattman et al. Supplementary Table 2, SB5/SB6 descriptions",
+                        "Each oligo's pairing description names itself ('with SB5' / 'with SB6')."),
+            SourceClaim("Blattman et al. Methods, qPCR quality-control pair",
+                        "SB5 and SB6 are used together as the qPCR pair.")),
+        model_choice="The schematic's sequenced construct does not include this quality-control PCR; SB5 and SB6 are treated as a pair in the source notes.",
+        evidence="The Methods explicitly name the pair used for genomic DNA and random-hexamer cDNA checks.",
+        uncertainty="The supplementary table has no formal corrected version in the sources reviewed.",
+        slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

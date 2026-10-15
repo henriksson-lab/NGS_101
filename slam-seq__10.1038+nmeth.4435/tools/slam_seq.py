@@ -2,12 +2,18 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from base_conversion import slam_path
+from base_conversion import BasePath
 from batch_ngs import seg, truseq_library
 from chemdraw import Row
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
+
+
+
+def slam_path(*, labelled: bool) -> BasePath:
+    """SLAM-seq base path through IAA derivatization and RT readout."""
+    return BasePath(("s4U", "IAA-s4U", "C")) if labelled else BasePath(("U", "T"))
 
 TITLE = "SLAM-seq — thiol-linked metabolic RNA sequencing"
 NOTES = "01_slam-seq.html"

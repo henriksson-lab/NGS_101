@@ -42,6 +42,12 @@ def render(module) -> str:
                 final, module.SEQUENCING_UNAVAILABLE,
                 read_lengths=getattr(module, "READ_LENGTHS", None),
                 acquired_roles=getattr(module, "REQUIRED_ROLES", None)))
+    adapter_geometry = getattr(module, "LIBRARY_ADAPTER_GEOMETRY", None)
+    adapter_end = ([
+        '<h2>Sequencing-adapter end</h2>',
+        panel(adapter_geometry.rows(), cls="small",
+              caption=getattr(module, "LIBRARY_ADAPTER_CAPTION", "Adapter ligation end")),
+    ] if adapter_geometry is not None else [])
     return "\n".join([
         head(module.TITLE), '<div class="wrap" data-protocol-complete="true">', f'<h1>{module.TITLE}</h1>',
         f'<p class="research-notes"><a href="{module.NOTES}">Research notes</a></p>',
@@ -50,6 +56,7 @@ def render(module) -> str:
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>The proximity-ligation product</h2>',
         panel(contact_rows, cls="small", caption=module.JUNCTION_CAPTION),
+        *adapter_end,
         '<h2>Final sequencing molecule</h2>',
         panel(final_rows, cls="small", caption=module.LIBRARY_CAPTION),
         sequencing, '</div>'])

@@ -2,8 +2,8 @@
 from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
-from accuracy_protocols import (BOTSEQS_INSERT_BP, BOTSEQS_READ_BP,
-                                BOTSEQS_TYPICAL_DILUTION_FOLD, get)
+from chem import (BOTSEQS_INSERT_BP, BOTSEQS_READ_BP,
+                                BOTSEQS_TYPICAL_DILUTION_FOLD, workflow)
 from checks import Check
 
 c = Check()
@@ -11,5 +11,5 @@ c = Check()
 c("typical dilution after adapter ligation", BOTSEQS_TYPICAL_DILUTION_FOLD, 100_000)
 c("selected insert and paired-read lengths", (BOTSEQS_INSERT_BP, BOTSEQS_READ_BP),
   (350, 100))
-get("botseqs").workflow()
+workflow()
 c.report()

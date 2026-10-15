@@ -1,13 +1,27 @@
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Row
+from chemdraw import Row, Segment
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from interaction_capture import FixedMolecularComplex
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
-from sprite import bulk_barcode, final_library, ligation_round_rows
+from sprite import CompositeIdentifier, final_library, ligation_round_rows, tag as _tag
+
+def tag(name: str, length: int, part: int, *, group: str, role: str):
+    return _tag(name, length, part, group=group, role=role,
+                whitelist="published 96-well SPRITE tag set")
+
+
+def bulk_barcode() -> tuple[list[Segment], CompositeIdentifier]:
+    parts = [tag("DPM tag", 9, 1, group="sprite_cluster", role="inline_barcode"),
+             tag("Odd tag 1", 17, 2, group="sprite_cluster", role="inline_barcode"),
+             tag("Even tag", 17, 3, group="sprite_cluster", role="inline_barcode"),
+             tag("Odd tag 2", 17, 4, group="sprite_cluster", role="inline_barcode"),
+             tag("Terminal tag", 9, 5, group="sprite_cluster", role="inline_barcode")]
+    return parts, CompositeIdentifier("sprite_cluster", "spatial complex", tuple(x.name for x in parts))
+
 
 TITLE="SPRITE — split-pool tagging of spatial complexes"
 NOTES="01_sprite.html"

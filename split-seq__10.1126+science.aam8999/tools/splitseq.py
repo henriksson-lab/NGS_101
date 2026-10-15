@@ -341,3 +341,86 @@ def graph_for(protocol: str):
 def protocol_graph() -> ProtocolGraph:
     """The defining SPLiT-seq chemistry for source and molecular audits."""
     return graph_for("SPLiT-seq")
+
+
+def start_split_pool(graph: ProtocolGraph, *, protocol: str, source: str):
+    cells = graph.input("fixed_cells", "fixed permeabilized cells", MaterialKind.BIOLOGICAL,
+                        primary=True)
+    rt_oligo = graph.input("round1_primer", "round-1 barcoded oligo-dT primer",
+                           MaterialKind.OLIGO, state=tuple(round1(protocol)), source=source)
+    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
+    first = graph.product("round1_cdna", "round-1 barcoded first-strand cDNA",
+                          MaterialKind.MOLECULAR, state=barcoded_first_strand(protocol, 1),
+                          source=source)
+    graph.react("reverse_transcribe", "Install barcode 1 during in-cell reverse transcription",
+                StepKind.REVERSE_TRANSCRIPTION,
+                ((cells, InputRole.TEMPLATE), (rt_oligo, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (first,))
+    ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
+    return first, rt, ligase
+
+
+def ligate_split_pool_round(graph: ProtocolGraph, current, ligase, *, n: int,
+                            protocol: str, source: str):
+    adapter = graph.input(f"round{n}_adapter", f"round-{n} split-pool barcode adapter",
+                          MaterialKind.ADAPTER,
+                          state=tuple(round2() if n == 2 else round3()), source=source)
+    splint = graph.input(f"round{n}_splint", f"round-{n} ligation splint",
+                         MaterialKind.ADAPTER, source=source)
+    product = graph.product(f"round{n}_cdna", f"cDNA after barcode round {n}",
+                            MaterialKind.MOLECULAR,
+                            state=barcoded_first_strand(protocol, n), source=source)
+    graph.react(f"ligate_round{n}", f"Ligate split-pool barcode round {n}",
+                StepKind.LIGATION,
+                ((current, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (splint, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
+                (product,), geometry=AdapterLigationGeometry.known(
+                    "splinted", splint_ligation_scene(n), splint_scene(n),
+                    statement=f"The microSPLiT oligo table establishes the round-{n} splinted nick."))
+    return product
+
+
+def capture_split_pool_cdna(graph: ProtocolGraph, current, *, protocol: str):
+    beads = graph.input("streptavidin", "streptavidin capture beads", MaterialKind.SELECTION)
+    captured = graph.product("captured_cdna", "captured round-3-biotinylated cDNA",
+                             MaterialKind.MOLECULAR,
+                             state=barcoded_first_strand(protocol, 3))
+    waste = graph.product("uncaptured", "uncaptured cellular material", MaterialKind.WASTE)
+    graph.react("capture", "Capture biotinylated barcoded cDNA", StepKind.AFFINITY_CAPTURE,
+                ((current, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (captured, waste), changes_molecule=False,
+                relations=(MolecularRelation.STRAND_ORDER,))
+    graph.discard(waste, "material not linked to the biotinylated round-3 oligo is washed away")
+    return captured
+
+
+def switch_and_amplify_split_pool(graph: ProtocolGraph, captured, rt, *,
+                                  protocol: str, source: str):
+    tso = graph.input("tso", "template-switch oligo", MaterialKind.OLIGO,
+                      state=Construct([_s("BC_0127", TSO_BODY + "GGG")]),
+                      source=source + " Supplementary Table S3; 3' rGrG+G")
+    switched = graph.product("switched_cdna", "template-switched three-barcode cDNA",
+                             MaterialKind.MOLECULAR)
+    graph.react("template_switch", "Install the distal amplification handle",
+                StepKind.TEMPLATE_SWITCHING,
+                ((captured, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (rt, InputRole.CATALYST)), (switched,))
+    forward = graph.input("preamp_forward", "round-3-handle cDNA amplification primer",
+                          MaterialKind.OLIGO,
+                          state=Construct([_s("BC_0062", MICRO_PREAMP_FWD)]),
+                          source=source + " Supplementary Table S3")
+    reverse = graph.input("preamp_reverse", "template-switch-handle cDNA amplification primer",
+                          MaterialKind.OLIGO,
+                          state=Construct([_s("BC_0108", MICRO_PREAMP_REV)]),
+                          source=source + " Supplementary Table S3")
+    polymerase = graph.input("preamp_polymerase", "cDNA PCR polymerase", MaterialKind.CATALYST)
+    amplified = graph.product("amplified_cdna", "amplified three-barcode cDNA",
+                              MaterialKind.MOLECULAR,
+                              state=barcoded_first_strand(protocol, 3))
+    graph.react("cdna_pcr", "Amplify captured template-switched cDNA", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(
+                    barcoded_first_strand(protocol, 3),
+                    reason="The available source record does not establish both primer-binding scenes."))
+    return amplified

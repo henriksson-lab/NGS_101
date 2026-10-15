@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import chem
-from accuracy_protocols import TIME_B_TS301, TIME_CUSTOM_I1, TIME_METHYLATED_A
+from chem import TIME_B_TS301, TIME_CUSTOM_I1, TIME_METHYLATED_A
 from checks import Check
 
 # These checks protect transcription from Supplementary Table 5. Primer landing,

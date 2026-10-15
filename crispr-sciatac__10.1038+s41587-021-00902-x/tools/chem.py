@@ -32,7 +32,14 @@ CAVEAT = ("Every oligo drawn here is verbatim from Supplementary Table 2. Three 
           "whose length comes from the CROPseq-Guide-Puro map (Addgene 86708) named in "
           "the Methods rather than from the defining paper. The guide library is drawn "
           "with the unstaggered P5 PCR2 primer; the published primer set also carries "
-          "+1, +2, +3 and +8 diversity bases, which shift every later Read 1 cycle.")
+          "+1, +2, +3 and +8 diversity bases, which shift every later Read 1 cycle. "
+          "<b>Published sequence conflict:</b> Supplementary Table 2 prints the U6 outer "
+          "PCR1 primer as TGCATATACGATCACAAGGCTGTTAG, while the CROPseq-Guide-Puro "
+          "vector map (Addgene 86708), named in Methods, has "
+          "TGCATATACGATACAAGGCTGTTAG at the corresponding hU6 promoter site. "
+          "The model preserves the printed primer and uses regional PCR geometry "
+          "because its exact site is absent on that vector map. The lab's actual U6 "
+          "variant and whether the table has a typo remain unresolved.")
 
 SUPP_T2 = "Liscovitch-Brauer et al. 2021, Supplementary Table 2"
 SUPP_F1 = "Liscovitch-Brauer et al. 2021, Supplementary Fig. 1d,e"

@@ -220,3 +220,47 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
         limitation="Internal commercial-kit junction sequences are unavailable."))
     graph.declare_reviewed_scope((*reviewed, "pcr_polymerase", pcr_id, "library"), source)
     return graph.require_publishable()
+
+
+def mark_and_convert_graph(graph: ProtocolGraph):
+    """The shared GpC marking and bisulfite conversion front end."""
+    genome = graph.input("genome", "single-cell genomic DNA", MaterialKind.BIOLOGICAL,
+                         primary=True)
+    mcvi = graph.input("mcvi", "M.CviPI GpC methyltransferase", MaterialKind.CATALYST)
+    marked = graph.product("gpc_marked_dna", "accessibility-marked genomic DNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("gpc_marking", "Methylate accessible GpC sites", StepKind.CHEMICAL_CONVERSION,
+                ((genome, InputRole.TEMPLATE), (mcvi, InputRole.CATALYST)), (marked,))
+    bisulfite = graph.input("bisulfite", "bisulfite-conversion conditions",
+                            MaterialKind.CONDITION)
+    converted = graph.product("converted_dna", "bisulfite-converted marked DNA",
+                              MaterialKind.MOLECULAR)
+    graph.react("bisulfite_conversion", "Bisulfite-convert marked DNA",
+                StepKind.CHEMICAL_CONVERSION,
+                ((marked, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
+                (converted,))
+    return converted
+
+
+def finish_indexed_graph(graph: ProtocolGraph, template, forward, reverse,
+                         *, source: str, reviewed: tuple[str, ...]):
+    """Shared indexed PCR/readout boundary after a protocol's priming sequence."""
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+                             MaterialKind.CATALYST)
+    final = library(SCCOOL)
+    out = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
+                        inferred=True,
+                        source=source + " (outer PCR arms inferred from named primers)")
+    graph.react("indexed_pcr", "Add flow-cell arms and index by PCR", StepKind.PCR,
+                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (out,), geometry=PCRGeometry.unavailable(
+                    final, reason="The low-input intermediate does not disclose enough sequence to locate both PCR sites exactly."))
+    graph.sequence(out, SequencingPlan(
+        library=final, primers=tuple(SEQ_PRIMERS),
+        acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),
+        read_lengths={"Read 1": 150, "Read 2": 150},
+        read_uses={"Read 1": "include", "Index 1 (i7)": "demultiplex", "Read 2": "include"},
+        limitation="Internal commercial-kit junction sequences are unavailable."))
+    graph.declare_reviewed_scope((*reviewed, "pcr_polymerase", "indexed_pcr", "library"), source)
+    return graph.require_publishable()

@@ -3,7 +3,7 @@
 from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
-from hybrid_base_protocols import ACE_QC_PRIMERS
+from chem import ACE_QC_PRIMERS
 from checks import Check
 c=Check()
 c("published ACE-seq control-primer transcription",

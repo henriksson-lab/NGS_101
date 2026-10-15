@@ -6,6 +6,8 @@ from batch_page import oligo_rows
 from chemdraw import (duplex_rows, panel, protocol_graph_panels,
                       workflow_from_sections, workflow_panel)
 from page import head, info
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 
 
 def render(m) -> str:
@@ -17,8 +19,14 @@ def render(m) -> str:
     parts = [head(m.TITLE), f'<div class="wrap"{graph_attr}>', f'<h1>{m.TITLE}</h1>',
              f'<p class="research-notes"><a href="{m.NOTES}">Research notes</a></p>',
              info(m.SOURCE), info(m.SUMMARY)]
+    def annotations(slot):
+        if graph is not None:
+            markup = render_annotations(graph, slot)
+            if markup:
+                parts.append(markup)
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
+    annotations(AnnotationSlot.INTRO)
     if callable(getattr(m, "oligos", None)):
         rows = oligo_rows(m.oligos())
         if rows:
@@ -31,23 +39,42 @@ def render(m) -> str:
         sections = list(m.sections())
         workflow = workflow_from_sections(sections) if sections else None
     if graph is not None:
+        annotations(AnnotationSlot.BEFORE_WORKFLOW)
         parts.extend(['<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long")])
+        annotations(AnnotationSlot.AFTER_WORKFLOW)
     elif workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>',
                       workflow_panel(workflow, cls="long")])
     finals = tuple(getattr(m, "FINAL_LIBRARIES", ()))
     if not finals:
         raise ValueError(f"{m.TITLE}: no final sequencing libraries declared")
-    for heading, library, primers, caption, intro in finals:
+    for index, (heading, library, primers, caption, intro) in enumerate(finals):
+        if index == 0:
+            annotations(AnnotationSlot.SEQUENCING)
+        plan = None
+        if graph is not None:
+            matches = [candidate for candidate in graph.sequencing.values()
+                       if candidate.library is library or candidate.library == library]
+            if len(matches) > 1:
+                raise ValueError(f"{m.TITLE}: multiple graph readouts match {heading}")
+            plan = matches[0] if matches else None
+        if plan is not None:
+            library = plan.library
+            primers = plan.primers
         if not primers:
             raise ValueError(f"{m.TITLE}: {heading} has no declared sequencing primers")
         parts.extend([f'<h2>{heading}</h2>',
                       panel(duplex_rows(library, label="library"),
                             cls="long", caption=caption),
                       sp.section(library, primers, intro=intro,
-                                 required_roles=tuple(p.role for p in primers),
-                                 read_lengths=getattr(m, "READ_LENGTHS", {}).get(heading),
-                                 read_uses=getattr(m, "READ_USES", {}).get(heading),
+                                 required_roles=(plan.acquired_roles if plan is not None and
+                                                 plan.acquired_roles else tuple(p.role for p in primers)),
+                                 read_lengths=(plan.read_lengths if plan is not None and
+                                               plan.read_lengths else
+                                               getattr(m, "READ_LENGTHS", {}).get(heading)),
+                                 read_uses=(plan.read_uses if plan is not None and
+                                            plan.read_uses else
+                                            getattr(m, "READ_USES", {}).get(heading)),
                                  show_read_content=getattr(m, "SHOW_READ_CONTENT", True))])
     parts.append('</div>')
     return "\n".join(parts)

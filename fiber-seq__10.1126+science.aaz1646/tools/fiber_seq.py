@@ -13,14 +13,14 @@ NOTES = "01_fiber-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1126/science.aaz1646">Stergachis et al., <i>Science</i> (2020)</a>.'
 SUMMARY = "Hia5 methylates exposed adenines in intact nuclei; PCR-free PacBio sequencing preserves that m6dA stencil together with the underlying long DNA molecule."
 CAVEAT = "The defining paper establishes Hia5 marking and PacBio single-molecule readout. The page uses the current standard PCR-free SMRTbell geometry; hairpin bases are proprietary and are not invented."
-SMRTBELL = conventional_smrtbell()
+SMRTBELL = conventional_smrtbell("m6dA-marked genomic insert")
 FINAL_LIBRARY = None
 SEQ_PRIMERS = ()
 SEQUENCING_ENDING = pacbio_entry(SMRTBELL)
 
 def sections():
     return [
-        ("Stencil accessible DNA with Hia5", marked_fiber("Hia5"),
+        ("Stencil accessible DNA with Hia5", marked_fiber("Hia5", target="accessible adenines"),
          "SAM-dependent m6dA is deposited where chromatin does not protect adenines."),
         ("Extract high-molecular-weight marked DNA", [Row(chunks=[("one native, m6dA-bearing DNA fiber", "w1", False)])],
          "No amplification is introduced: the modification pattern must remain on the sequenced template."),
@@ -40,7 +40,7 @@ def protocol_graph():
     hia5=graph.input("hia5","Hia5 adenine methyltransferase",MaterialKind.CATALYST)
     sam=graph.input("sam","S-adenosyl methionine methyl donor",MaterialKind.MOLECULAR)
     marked=graph.product("marked_chromatin","Hia5-stencilled native chromatin",
-                         MaterialKind.MOLECULAR,state=tuple(marked_fiber("Hia5")))
+                         MaterialKind.MOLECULAR,state=tuple(marked_fiber("Hia5", target="accessible adenines")))
     graph.react("mark_accessible","Methylate solvent-accessible adenines with Hia5",
                 StepKind.CHEMICAL_CONVERSION,
                 ((nuclei,InputRole.TEMPLATE),(hia5,InputRole.CATALYST),

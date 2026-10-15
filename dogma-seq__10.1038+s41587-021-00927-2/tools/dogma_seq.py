@@ -18,7 +18,11 @@ CELL = feature("dogma_cell", "cell_barcode", "whitelist", whitelist="10x Chromiu
 UMI = feature("dogma_rna_umi", "umi", "random")
 RNA, RNA_P = truseq_library([seg("cell barcode", "C"*16,"cbc",placeholder=True,feature=CELL),seg("RNA UMI","U"*12,"umi",placeholder=True,feature=UMI),seg("3-prime cDNA","X"*40,placeholder=True)], "DOGMA-seq RNA library")
 ATAC, ATAC_P = nextera_library([seg("cell barcode association", "C"*16,"cbc",placeholder=True,feature=CELL),seg("accessible genomic DNA","X"*40,placeholder=True)], "DOGMA-seq ATAC library")
-ADT, ADT_P = feature_library("DOGMA-seq antibody-tag library", barcode_id="dogma_antibody",cell_id="dogma_cell")
+ADT, ADT_P = feature_library("DOGMA-seq antibody-tag library", barcode_id="dogma_antibody",cell_id="dogma_cell",
+                            barcode_len=15, umi_len=10, capture_len=18,
+                            cell_barcode_len=16,
+                            bead_whitelist="single-cell bead barcode set",
+                            panel_whitelist="published antibody-tag panel")
 FINAL_LIBRARIES = (
  ("RNA library",RNA,RNA_P,"Poly(dT) capture, GEM barcoding and cDNA library construction recover gene expression.","Read 1 carries cell barcode/UMI; the insert read reports cDNA."),
  ("ATAC library",ATAC,ATAC_P,"Tagmented chromatin is barcoded and PCR-completed as the accessibility library.","Paired genomic reads use Nextera sites."),

@@ -8,6 +8,8 @@ import seqprimers as sp
 from chemdraw import (duplex_rows, panel, protocol_graph_panels,
                       workflow_from_sections, workflow_panel)
 from page import head, info
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 
 
 def oligo_rows(rows):
@@ -37,8 +39,14 @@ def render(m) -> str:
     parts = [head(m.TITLE), '<div class="wrap">', f'<h1>{m.TITLE}</h1>',
              f'<p class="research-notes"><a href="{m.NOTES}">Research notes</a></p>',
              info(m.SOURCE), info(m.SUMMARY)]
+    def annotations(slot):
+        if graph is not None:
+            markup = render_annotations(graph, slot)
+            if markup:
+                parts.append(markup)
     if getattr(m, "CAVEAT", ""):
         parts.append(f'<div class="caveat">{m.CAVEAT}</div>')
+    annotations(AnnotationSlot.INTRO)
     if callable(getattr(m, "oligos", None)):
         rows = oligo_rows(m.oligos())
         if rows:
@@ -54,14 +62,26 @@ def render(m) -> str:
             initial_name=getattr(m, "INITIAL_NAME", "Starting material"))
             if sections else None)
     if graph is not None:
+        annotations(AnnotationSlot.BEFORE_WORKFLOW)
         parts[1] = '<div class="wrap" data-protocol-complete="true">'
         parts.extend(['<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long")])
+        annotations(AnnotationSlot.AFTER_WORKFLOW)
     elif workflow is not None:
         parts.extend(['<h2>Reaction workflow</h2>', workflow_panel(workflow, cls="long")])
     for title, markup in getattr(m, "TOPOLOGY_PANELS", ()):
         parts.extend([f'<h2>{title}</h2>', markup])
-    lib = getattr(m, "FINAL_LIBRARY", None)
-    primers = getattr(m, "SEQ_PRIMERS", ())
+    plan = (next(iter(graph.sequencing.values()))
+            if graph is not None and len(graph.sequencing) == 1 else None)
+    # A declared None means this page draws a topology (for example a circular
+    # SMRTbell) instead of a linear final-library duplex.  A graph sequencing
+    # circuit is a read path, not necessarily that physical final molecule.
+    topology_endpoint = (hasattr(m, "FINAL_LIBRARY") and m.FINAL_LIBRARY is None
+                         and not hasattr(m, "FINAL_CAPTION"))
+    lib = (None if topology_endpoint else
+           ((plan.library if plan is not None else None)
+            or getattr(m, "FINAL_LIBRARY", None)))
+    primers = ((plan.primers if plan is not None else ())
+               or getattr(m, "SEQ_PRIMERS", ()))
     if lib is not None:
         # Bracketed role tokens deliberately stand for unavailable molecular sequence.
         # Scene still owns placement; excluding those prose columns from base-pair
@@ -78,12 +98,16 @@ def render(m) -> str:
                       panel(duplex_rows(state, label="library", unpaired=unknown),
                             cls="long", caption=caption)])
     if primers:
-        acquired_roles = getattr(m, "ACQUIRED_ROLES", tuple(p.role for p in primers))
+        annotations(AnnotationSlot.SEQUENCING)
+        acquired_roles = ((plan.acquired_roles if plan is not None else ())
+                          or getattr(m, "ACQUIRED_ROLES", tuple(p.role for p in primers)))
         show_read_content = getattr(m, "SHOW_READ_CONTENT", True)
         parts.append(sp.section(lib, primers, intro=m.SEQUENCING_INTRO,
                                 required_roles=acquired_roles,
-                                read_lengths=getattr(m, "READ_LENGTHS", None),
-                                read_uses=getattr(m, "READ_USES", None),
+                                read_lengths=(plan.read_lengths if plan is not None and
+                                              plan.read_lengths else getattr(m, "READ_LENGTHS", None)),
+                                read_uses=(plan.read_uses if plan is not None and
+                                           plan.read_uses else getattr(m, "READ_USES", None)),
                                 show_read_content=show_read_content))
         if not show_read_content:
             specs = getattr(m, "READ_SPECS", ())
@@ -95,6 +119,7 @@ def render(m) -> str:
         if unavailable:
             parts.append(sp.unavailable_diagram(lib, unavailable))
     else:
+        annotations(AnnotationSlot.SEQUENCING)
         ending = getattr(m, "SEQUENCING_ENDING", "")
         if not ending:
             raise ValueError(f"{m.TITLE}: page has neither sequencing primers nor a declared endpoint")

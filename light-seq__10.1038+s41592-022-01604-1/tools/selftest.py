@@ -3,10 +3,9 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE.parents[1] / "lib")]
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 from checks import Check
-from light_directed_spatial import (BARCODE_1_AS_WRITTEN, GATE, GATC, RT_5N_3G,
-                                    final_library)
+from chem import (BARCODE_1_AS_WRITTEN, GATE, GATC, RT_5N_3G, final_library)
 
 c = Check()
 c.section("Light-Seq source transcription and asymmetric library")
