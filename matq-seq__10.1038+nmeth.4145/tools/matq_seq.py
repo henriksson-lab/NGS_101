@@ -160,7 +160,7 @@ def protocol_graph():
                           MaterialKind.CATALYST)
     amplified = graph.product("amplified", "GAT-handle-amplified MATQ cDNA",
                               MaterialKind.MOLECULAR, state=duplex.state)
-    graph.react("wta", "Amplify and convert the MATQ cDNA handles", StepKind.PCR,
+    graph.react("wta", "24-cycle WTA then20-cycle3NGAT24 conversion (summarized)", StepKind.PCR,
                 ((duplex, InputRole.TEMPLATE), (handle_f, InputRole.STRUCTURAL),
                  (handle_r, InputRole.STRUCTURAL), (wta_pol, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(

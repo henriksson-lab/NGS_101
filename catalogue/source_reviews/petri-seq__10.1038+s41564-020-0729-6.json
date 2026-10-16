@@ -113,5 +113,20 @@
       "evidence": "Workbook identifies an author and date, but original hosting was not checked."
     }
   ],
-  "conclusion": "Original 2020 supplemental oligos are available, but the 2021 mirrored author protocol cannot stand in for the inaccessible 2020 original; version-specific procedural claims remain blocked."
+  "conclusion": "Original 2020 supplemental oligos are available, but the 2021 mirrored author protocol cannot stand in for the inaccessible 2020 original; version-specific procedural claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC8330242 JATS90–110 and Figure1 overview789; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added proteinase-K lysis/recovery after round3pooling and before second-strand synthesis; candidate Tn5 products now unresolved. Source confirms RT plus two ligations and7-base UMI.",
+      "deferred": [
+        "Original oligo tables, blocker/recovery states and variant-specific acquisition/washing"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard capped at25s, incomplete"
+    }
+  ]
 }

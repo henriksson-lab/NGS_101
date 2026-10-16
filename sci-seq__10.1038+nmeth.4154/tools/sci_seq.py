@@ -10,7 +10,7 @@ import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, Row, Scene, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 TITLE = "SCI-seq — single-cell combinatorial-indexed genome sequencing"
@@ -111,19 +111,19 @@ def protocol_graph():
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged=graph.product("tagged","indexed transposition products in intact nuclei",
                          MaterialKind.MOLECULAR,state=tagged_scene())
-    tagment_waste=graph.product("tagment_waste","non-amplifiable transposition products",
-                                MaterialKind.WASTE)
-    graph.react("tagment","Install the first bipartite index pair by transposition",
+    tagment_waste=graph.product("tagment_waste","candidate non-library transposition products",
+                                MaterialKind.MOLECULAR)
+    graph.react("tagment","Install first bipartite indexes: 55°C tagmentation for15min",
                 StepKind.TAGMENTATION,
                 ((depleted,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,tagment_waste))
-    graph.discard(tagment_waste,"non-amplifiable Tn5 outcomes do not enter the library")
+    graph.mark_terminal(Terminal(tagment_waste.id,Disposition.UNRESOLVED,"Candidate transposition outcomes are not a demonstrated physical discarded fraction."))
     sorting=graph.input("sorting_rule","FANS redistribution of 22 nuclei per PCR well",
                         MaterialKind.SELECTION)
     resorted=graph.product("resorted","pooled and resorted indexed nuclei",
                            MaterialKind.MOLECULAR)
     excluded=graph.product("excluded","nuclei excluded during sorting",MaterialKind.WASTE)
-    graph.react("resort","Pool and resort nuclei into PCR wells",StepKind.SAMPLING,
+    graph.react("resort","Pool and resort22 nuclei per PCR well",StepKind.SAMPLING,
                 ((tagged,InputRole.TEMPLATE),(sorting,InputRole.SELECTION)),
                 (resorted,excluded),changes_molecule=False)
     graph.discard(excluded,"nuclei outside the sorted PCR-well allocation are not processed")
@@ -137,7 +137,7 @@ def protocol_graph():
                            MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY)
-    graph.react("library_pcr","Add the second bipartite PCR-well index pair",
+    graph.react("library_pcr","Add second PCR-well indexes: 15–20 cycles monitored in real time",
                 StepKind.PCR,
                 ((extended,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),

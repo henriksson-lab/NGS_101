@@ -17,8 +17,9 @@ if __name__ == "__main__":
     check("STRT-C1 source-owned graph is publishable", graph.publishable, True)
     check("STRT-C1 names its own defining source",
           graph.authority, "https://doi.org/10.1038/nmeth.2772")
-    check("Unpublished C1 selection stays inferred",
-          graph.materials["selected_five_prime_fragments"].inferred, True)
+    check("Unverified C1 recovery is an explicit warning boundary",
+          (graph.steps["recover_library"].kind.value, bool(graph.steps["recover_library"].reason)),
+          ("magic happens", True))
     check.report()
     run(strt.C1)
 

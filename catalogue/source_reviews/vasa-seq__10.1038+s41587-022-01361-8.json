@@ -186,5 +186,20 @@
       "evidence": "Authors point to predecessor protocols; the exact inherited branches still need original-source comparison."
     }
   ],
-  "conclusion": "VASA-plate GEO mapping recovered with 384 exact barcodes. Published drop indexes are in Table S12. Inherited 2012 plate adapters and 2018 v3 bead scheme need original source review."
+  "conclusion": "VASA-plate GEO mapping recovered with 384 exact barcodes. Published drop indexes are in Table S12. Inherited 2012 plate adapters and 2018 v3 bead scheme need original source review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC9750877 JATS274–288,388–392; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Changed RNaseH rRNA depletion from selection to digestion; fragments unresolved. Added RNaseA digestion after second RT before PCR. Removed obsolete statement that cited originals are not on disk.",
+      "deferred": [
+        "Original oligo/reagent tables and published capture protocols; library junctions, plate ExoSAP, DNase/cleanup, mixture units and simultaneous repair/tailing"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard capped at25s, incomplete"
+    }
+  ]
 }

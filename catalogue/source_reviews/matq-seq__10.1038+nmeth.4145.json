@@ -357,5 +357,20 @@
       "evidence": "The original Online Methods name TruSeq adapters and a TruSeq PCR primer but do not give selected adapter/index member or ordered bases. The contemporary Illumina v00 guide lists distinct HT dual-index and LT single-index families; no source selects between them. The detailed protocol and preprint stop before final library prep, and the preprint-linked supplement0.docx remains unavailable. No confirmed-absent claim is made."
     }
   ],
-  "conclusion": "Original defining article establishes TruSeq adapter family, end repair, dA tailing, T4 Quick Ligase, KAPA PCR and 2×75 NextSeq run. Its 2×75 statement conflicts with Supplementary Fig. 21’s 85×2 caption, disclosed on the page. Contemporary Illumina guide cannot select HT versus LT or exact adapter/index member; the preprint-linked supplement remains unavailable, so the missing claim is blocked."
+  "conclusion": "Original defining article establishes TruSeq adapter family, end repair, dA tailing, T4 Quick Ligase, KAPA PCR and 2×75 NextSeq run. Its 2×75 statement conflicts with Supplementary Fig. 21’s 85×2 caption, disclosed on the page. Contemporary Illumina guide cannot select HT versus LT or exact adapter/index member; the preprint-linked supplement remains unavailable, so the missing claim is blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published Supplementary detailed protocol MOESM227 PDF text1–120; MOESM217 XLSX heading identifies coverage statistics; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Distinguished24-cycle WTA and subsequent20-cycle3NGAT24 conversion in the summarized graph label. Source confirms T4DNApolymerase primer digestion, RNaseH/I and TdT dC tailing before second-strand synthesis.",
+      "deferred": [
+        "Published main article and primer table, complete adapter/index acquisition and source mixture-unit wording; graph separation of WTA/conversion and recovery"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented"
+    }
+  ]
 }

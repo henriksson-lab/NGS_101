@@ -47,3 +47,11 @@ Supplementary Figure 21's caption (MOESM220 text lines 312–319) instead calcul
 library fragment size using **85×2** bases of paired-end reads. The page models the
 named 2×75 kit. The reason the supplementary caption says 85×2 and whether it describes
 a different run are unresolved.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published Supplementary detailed protocol MOESM227 PDF text1–120; MOESM217 XLSX heading identifies coverage statistics.
+
+Distinguished24-cycle WTA and subsequent20-cycle3NGAT24 conversion in the summarized graph label. Source confirms T4DNApolymerase primer digestion, RNaseH/I and TdT dC tailing before second-strand synthesis.
+
+Deferred: Published main article and primer table, complete adapter/index acquisition and source mixture-unit wording; graph separation of WTA/conversion and recovery. This capped pass does not establish a complete source review or publication-wide absence.

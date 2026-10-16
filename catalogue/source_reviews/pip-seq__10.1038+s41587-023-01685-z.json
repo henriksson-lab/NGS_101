@@ -118,5 +118,20 @@
       "evidence": "Published Table 1 omits some synthesis blocks; relevant vendor guides unavailable."
     }
   ],
-  "conclusion": "First original-source reading only. Linked-source coverage and an independent second reading are required before any absence can be accepted."
+  "conclusion": "First original-source reading only. Linked-source coverage and an independent second reading are required before any absence can be accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC10635830 JATS265–267, PIP-seq protocol; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added65°C/35min lysis and16-cycle WTA labels. Source confirms emulsion breaking/washing before bulk MaximaH-minus RT and custom-P5 NexteraXT library preparation.",
+      "deferred": [
+        "Published SupplementaryTable1 oligos, exact acquired mask, explicit bead-filter/AMPure recovery and product fates; no superseded preprint used"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented"
+    }
+  ]
 }

@@ -6,8 +6,8 @@ it does *not* print, the publication it came from: the VASA-plate CEL-seq2 captu
 primers to Muraro et al. 2016 (doi:10.1016/j.cels.2016.09.002, barcodes in
 GSE176588), the VASA-plate RA3/RTP to Hashimshony et al. 2012
 (doi:10.1016/j.celrep.2012.08.003), and the inDrop v3 bead barcoding to Briggs et
-al. 2018 (doi:10.1126/science.aar5780).  None of those documents is on disk, so
-every region they would supply is an inferred placeholder here.  The scg_lib_structs
+al. 2018 (doi:10.1126/science.aar5780).  Their exact assignment has not been established in this model, so
+regions requiring that evidence remain inferred placeholders here.  The scg_lib_structs
 drawn page prints reconstructions of all of them; it is not used.
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ from chemdraw import Construct, Scene, Segment, feature, revcomp
 from illumina import P5, P7, TRUSEQ_SMALL_RNA_RA3
 import nextera as nx
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
 
@@ -210,7 +210,7 @@ def read_layouts() -> tuple[tuple[str, str, str], ...]:
 
 def protocol_graph() -> ProtocolGraph:
     source = "Defining source: https://doi.org/10.1038/s41587-022-01361-8"
-    unresolved = source + "; capture oligos and complete terminal PCR arms are not printed"
+    unresolved = source + "; capture oligos and complete terminal PCR arm assignments remain unverified"
     graph = ProtocolGraph("VASA-seq", authority=source)
     rna = graph.input("total_rna", "cellular total RNA", MaterialKind.BIOLOGICAL,
                       primary=True)
@@ -242,8 +242,8 @@ def protocol_graph() -> ProtocolGraph:
     ds_polymerase = graph.input("ds_polymerase", "second-strand DNA polymerase",
                                 MaterialKind.CATALYST)
     t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
-    rnase_h = graph.input("rnase_h", "thermostable RNase H rRNA-depletion reagent",
-                          MaterialKind.SELECTION)
+    rnase_h = graph.input("rnase_h", "thermostable RNase H rRNA-depletion enzyme",
+                          MaterialKind.CATALYST)
     ra3 = graph.input("ra3", "published 5′-rApp RA3 adapter", MaterialKind.ADAPTER,
                       state=(seg("RA3", RA3, "r2"),))
     ligase = graph.input("rna_ligase", "RNA adapter ligase", MaterialKind.CATALYST)
@@ -253,7 +253,7 @@ def protocol_graph() -> ProtocolGraph:
                                  MaterialKind.CATALYST)
     branch_data = (
         ("plate", plate_input, plate_library(),
-         "VASA-plate capture oligo and PCR arms are cited but not printed.",
+         "VASA-plate capture oligo and PCR arm assignments remain unverified.",
          {"Read 1": 26, "Read 2": 135},
          {"Read 1": "extract", "Read 2": "include"}),
         ("drop", drop_input, drop_library(),
@@ -292,13 +292,13 @@ def protocol_graph() -> ProtocolGraph:
                     ((template, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (arna,))
         depleted = graph.product(f"{fmt}_depleted", f"rRNA-depleted VASA-{fmt} aRNA",
                                  MaterialKind.MOLECULAR)
-        rrna = graph.product(f"{fmt}_rrna_waste", f"removed VASA-{fmt} rRNA-derived aRNA",
-                             MaterialKind.WASTE)
-        graph.react(f"{fmt}_depletion", f"Deplete rRNA from VASA-{fmt} aRNA",
-                    StepKind.SELECTION,
-                    ((arna, InputRole.TEMPLATE), (rnase_h, InputRole.SELECTION)),
+        rrna = graph.product(f"{fmt}_rrna_waste", f"digested VASA-{fmt} rRNA-derived aRNA",
+                             MaterialKind.MOLECULAR)
+        graph.react(f"{fmt}_depletion", f"Digest rRNA from VASA-{fmt} aRNA with hybridized probes",
+                    StepKind.DIGESTION,
+                    ((arna, InputRole.TEMPLATE), (rnase_h, InputRole.CATALYST)),
                     (depleted, rrna))
-        graph.discard(rrna, "rRNA-derived amplified RNA is removed before library construction")
+        graph.mark_terminal(Terminal(rrna.id, Disposition.UNRESOLVED, "Digestion products pass through source-described DNase and AMPure cleanup, whose individual recovery states remain unrepresented."))
         ligated = graph.product(f"{fmt}_ra3_ligated", f"RA3-ligated VASA-{fmt} aRNA",
                                 MaterialKind.MOLECULAR, state=ligated_arna())
         graph.react(f"{fmt}_ra3_ligation", f"Ligate RA3 to VASA-{fmt} aRNA",
@@ -311,12 +311,16 @@ def protocol_graph() -> ProtocolGraph:
                     StepKind.REVERSE_TRANSCRIPTION,
                     ((ligated, InputRole.TEMPLATE), (rtp, InputRole.STRUCTURAL),
                      (rt, InputRole.CATALYST)), (second,))
+        rnase_a = graph.input(f"{fmt}_rnase_a", "RNase A after second reverse transcription", MaterialKind.CATALYST)
+        dna_only = graph.product(f"{fmt}_rna_depleted_cdna", f"VASA-{fmt} cDNA after RNA digestion", MaterialKind.MOLECULAR)
+        graph.react(f"{fmt}_digest_rna", "Digest excess RNA before final PCR", StepKind.DIGESTION,
+                    ((second, InputRole.TEMPLATE), (rnase_a, InputRole.CATALYST)), (dna_only,))
         primers = graph.input(f"{fmt}_pcr_primers", f"VASA-{fmt} terminal PCR-primer set",
                               MaterialKind.OLIGO, inferred=True, source=unresolved)
         library = graph.product(f"{fmt}_library", final.name, MaterialKind.LIBRARY,
                                 state=final, inferred=True, source=unresolved)
         graph.react(f"{fmt}_pcr", f"PCR-complete the VASA-{fmt} library", StepKind.PCR,
-                    ((second, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
+                    ((dna_only, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
                      (pcr_polymerase, InputRole.CATALYST)), (library,),
                     geometry=PCRGeometry.unavailable(
                         final, reason=limitation, symmetric_species=True), source=unresolved)
@@ -328,5 +332,6 @@ def protocol_graph() -> ProtocolGraph:
             f"{fmt}_ivt", f"{fmt}_depletion", f"{fmt}_ra3_ligation",
             f"{fmt}_second_rt", f"{fmt}_pcr_primers", f"{fmt}_pcr",
             f"{fmt}_library"))
+    reviewed.extend(("plate_rnase_a", "plate_digest_rna", "drop_rnase_a", "drop_digest_rna"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

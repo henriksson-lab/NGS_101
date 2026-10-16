@@ -15,12 +15,8 @@ SUMMARY = DEFINITION.summary
 CAVEAT = ('Published Supplementary Table S1 prints SINE Alu/LINE-1 primers and '
           'indexed stagger families. This role-level diagram does not yet select '
           'one well-specific member or map the inherited Smart-seq2 and NEBNext '
-          'oligos onto the final libraries. The earlier preprint media-1 Table S1 '
-          'prints first-generation Sine.Alu_F as AAAAATATAAAAAATTAGTTGGG '
-          '(without the 5′ partial-adapter arm), whereas the published MOESM2 '
-          'Table S1 prints CTACACGACGCTCTTCCGATCTAAAAATATAAAAAATTAGTTGGG. '
-          'This page uses the published row; whether the difference was a design '
-          'change or a table correction is unresolved.')
+          'oligos onto the final libraries. The published article and supplements '
+          'define this page; superseded preprint primer designs are not used.')
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
@@ -82,17 +78,30 @@ def protocol_graph() -> ProtocolGraph:
                              MaterialKind.OLIGO)
     te_reverse = graph.input("te_reverse", "staggered internally indexed TE reverse-primer pool",
                              MaterialKind.OLIGO)
-    te_polymerase = graph.input("te_polymerase", "transposable-element PCR polymerase",
+    te_polymerase = graph.input("te_polymerase", "KAPA HiFi HotStart Uracil+ polymerase",
                                 MaterialKind.CATALYST)
-    dna_library = graph.product("dna_library", "scTEM transposable-element amplicon library",
-                                MaterialKind.LIBRARY, state=final)
-    graph.react("te_pcr", "Amplify converted transposable elements",
+    amplicons = graph.product("te_amplicons", "scTEM partial-adapter TE amplicons",
+                              MaterialKind.MOLECULAR, state=molecule("TE amplicons", PAYLOAD))
+    graph.react("te_pcr", "Amplify converted transposable elements (35 cycles)",
                 StepKind.PCR,
                 ((converted, InputRole.TEMPLATE), (te_forward, InputRole.STRUCTURAL),
                  (te_reverse, InputRole.STRUCTURAL), (te_polymerase, InputRole.CATALYST)),
-                (dna_library,), geometry=PCRGeometry.unavailable(
+                (amplicons,), geometry=PCRGeometry.unavailable(
                     final,
                     reason="The panel uses staggered internally indexed primer families rather than one universal amplicon."))
+    cleanup = graph.input("ampure_cleanup", "1.2x AMPure purification and normalized pooling", MaterialKind.SELECTION)
+    pooled = graph.product("pooled_amplicons", "purified pooled TE amplicons", MaterialKind.MOLECULAR, state=amplicons.state)
+    wash = graph.product("ampure_wash", "AMPure supernatant and wash fraction", MaterialKind.WASTE)
+    graph.react("purify_pool", "Purify TE amplicons (1.2x AMPure), normalize and pool", StepKind.CLEANUP,
+                ((amplicons, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)), (pooled, wash), changes_molecule=False)
+    graph.discard(wash, "physical AMPure purification fraction")
+    index_primers = graph.input("nebnext_indexes", "NEBNext dual-index oligos E7780S", MaterialKind.OLIGO)
+    index_reverse = graph.input("nebnext_reverse", "NEBNext opposite-end dual-index oligo E7780S", MaterialKind.OLIGO)
+    index_polymerase = graph.input("index_polymerase", "KAPA HiFi HotStart polymerase", MaterialKind.CATALYST)
+    dna_library = graph.product("dna_library", "dual-indexed scTEM TE library", MaterialKind.LIBRARY, state=final)
+    graph.react("index_pcr", "Add adapters and dual indexes to pooled TE amplicons (5 cycles)", StepKind.PCR,
+                ((pooled, InputRole.TEMPLATE), (index_primers, InputRole.STRUCTURAL), (index_reverse, InputRole.STRUCTURAL), (index_polymerase, InputRole.CATALYST)),
+                (dna_library,), geometry=PCRGeometry.unavailable(final, reason="Selected NEBNext dual-index primer geometry has not been mapped in this role-level model."))
     graph.sequence(dna_library, SequencingPlan(limitation="DNA branch: " + d.endpoint))
     rna_final = role_library(
         "scTEM matched transcriptome library roles",
@@ -100,6 +109,7 @@ def protocol_graph() -> ProtocolGraph:
     reviewed = [
         "cell", "separate_modalities", "bisulfite", "bisulfite_conversion",
         "te_forward", "te_reverse", "te_polymerase", "te_pcr", "dna_library",
+        "ampure_cleanup", "purify_pool", "nebnext_indexes", "nebnext_reverse", "index_polymerase", "index_pcr",
     ]
     _rt_then_pcr(graph, "rna", rna, rna_final,
                  "matched RNA branch: Smart-seq-type full-length transcript reads",

@@ -7,7 +7,7 @@ import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (AnnotationSlot, Highlight, InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, AnnotationSlot, Highlight, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
@@ -187,13 +187,13 @@ def protocol_graph() -> ProtocolGraph:
     cleaned=graph.product("exo_cleaned_cdna","bead-bound first strands after Exonuclease I",
                           MaterialKind.MOLECULAR)
     unused_primers=graph.product("unused_capture_primers","digested unextended capture primers",
-                                 MaterialKind.WASTE)
+                                 MaterialKind.MOLECULAR)
     graph.react("exonuclease_cleanup","Digest unextended oligos with Exonuclease I",
                 StepKind.DIGESTION,
                 ((switched,InputRole.TEMPLATE),(unswitched,InputRole.TEMPLATE),
                  (exonuclease,InputRole.CATALYST)),(cleaned,unused_primers),
                 source=author_protocol)
-    graph.discard(unused_primers,"unextended capture primers cannot seed the S3 randomer")
+    graph.mark_terminal(Terminal(unused_primers.id,Disposition.UNRESOLVED,"Digestion products pass through subsequent TE-SDS/TE-Tween washes; exact recovery is not represented as a separate graph step."))
     alkali=graph.input("alkali","RNA-stripping alkali",MaterialKind.CONDITION)
     te_wash=graph.input("te_wash","1xTE wash after NaOH",MaterialKind.CONDITION,
                         source=author_protocol)
@@ -221,7 +221,7 @@ def protocol_graph() -> ProtocolGraph:
     preamp_pol=graph.input("preamp_polymerase","WTA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna","amplified S3 WTA cDNA",MaterialKind.MOLECULAR,
                             state=wta_product())
-    graph.react("preamp","Amplify handle-flanked cDNA",StepKind.PCR,
+    graph.react("preamp","Amplify cDNA: 4 cycles plus9–12 additional cycles",StepKind.PCR,
                 ((rescued,InputRole.TEMPLATE),(smart,InputRole.STRUCTURAL),
                  (preamp_pol,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.symmetric(
@@ -244,7 +244,7 @@ def protocol_graph() -> ProtocolGraph:
     library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("library_pcr","INFERRED — select the bead-end/standard Nextera fragment and add P5/P7",StepKind.PCR,
+    graph.react("library_pcr","INFERRED — 12-cycle library PCR selects bead-end/Nextera fragments",StepKind.PCR,
                 ((tagged,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                  (p7,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.exact(

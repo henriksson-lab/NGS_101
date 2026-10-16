@@ -379,3 +379,11 @@ from reading Table 14 and computing against the i5 primers.
 printed oligo inputs (RA3, RTP) against the extracted text of Supplementary Table 12 and
 reports `0 inputs without exact states`: every oligo input in the graph either has a
 source-verbatim sequence or is explicitly inferred.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC9750877 JATS274–288,388–392.
+
+Changed RNaseH rRNA depletion from selection to digestion; fragments unresolved. Added RNaseA digestion after second RT before PCR. Removed obsolete statement that cited originals are not on disk.
+
+Deferred: Original oligo/reagent tables and published capture protocols; library junctions, plate ExoSAP, DNase/cleanup, mixture units and simultaneous repair/tailing. This capped pass does not establish a complete source review or publication-wide absence.

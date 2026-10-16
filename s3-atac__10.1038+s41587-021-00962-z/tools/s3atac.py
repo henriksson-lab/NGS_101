@@ -11,7 +11,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (Disposition, Terminal, InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -196,12 +196,12 @@ def protocol_graph() -> ProtocolGraph:
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged=graph.product("tagmented_fragments","symmetrically U-ME-tagmented accessible chromatin",
                          MaterialKind.MOLECULAR,state=tagmented_scene())
-    waste=graph.product("tagment_waste","non-library tagmentation products",MaterialKind.WASTE)
+    waste=graph.product("tagment_waste","candidate non-library tagmentation products",MaterialKind.MOLECULAR)
     graph.react("tagment","Tagment accessible chromatin with indexed U-ME transposomes",
                 StepKind.TAGMENTATION,
                 ((nuclei,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,waste))
-    graph.discard(waste,"products without usable indexed fragment ends are not library-amplified")
+    graph.mark_terminal(Terminal(waste.id,Disposition.UNRESOLVED,"Candidate insertion products and their physical recovery remain unresolved."))
     npm=graph.input("npm","uracil-intolerant Nextera polymerase mix",MaterialKind.CATALYST)
     dntps=graph.input("gap_fill_dntps","gap-fill dNTPs",MaterialKind.OLIGO)
     filled=graph.product("gap_filled",gap_filled_strand().name,MaterialKind.MOLECULAR,
@@ -213,7 +213,7 @@ def protocol_graph() -> ProtocolGraph:
                        MaterialKind.OLIGO,state=tuple(switching_oligo()))
     switched=graph.product("switched",switched_strand().name,MaterialKind.MOLECULAR,
                            state=switched_strand())
-    graph.react("adapter_switch","Template addition of s5 from the blocked LNA oligo",
+    graph.react("adapter_switch","Template addition of s5: 10 adapter-switching cycles",
                 StepKind.EXTENSION,
                 ((filled,InputRole.TEMPLATE),(switch,InputRole.STRUCTURAL),
                  (npm,InputRole.CATALYST)),(switched,))
@@ -224,7 +224,7 @@ def protocol_graph() -> ProtocolGraph:
     q5u=graph.input("q5u","uracil-tolerant Q5U polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("library_pcr","Add i5/P5 and i7/P7 by uracil-tolerant PCR",
+    graph.react("library_pcr","Add i5/P5 and i7/P7: 16–18 Q5U PCR cycles",
                 StepKind.PCR,
                 ((switched,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(q5u,InputRole.CATALYST)),(library,),

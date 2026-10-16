@@ -507,5 +507,20 @@
     "second_pass_update": "2026-10-16 s3_second_pass independently inspected all newly inventoried local original supplements and sibling author protocol PDFs, after targeted oligo scraping. Figure/data supplements are not oligo inventories. Both author-named oligo workbooks remain unavailable as independently sourced originals; scg mirror cannot establish their contents. Linked-information disposition remains blocked."
   },
   "missing_claims": [],
-  "conclusion": "Two independent passes now cover the newly inventoried available originals. Published MOESM6 oligo table and branch protocols are source-positive; the independently sourced author s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx attachments remain unavailable. No missing sequence claim is accepted."
+  "conclusion": "Two independent passes now cover the newly inventoried available originals. Published MOESM6 oligo table and branch protocols are source-positive; the independently sourced author s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx attachments remain unavailable. No missing sequence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC8678206 JATS124–140, WGS branch and explicitly inherited shared downstream steps; mandatory oligo scraper reviewed, original provenance distinguished from upstream. Full-bundle scraper was stopped at large quantitative workbooks; focused published-article scraper completed and returned only contextual false positives. Supplementary oligo tables remain deferred.",
+      "findings": "Added10 adapter-switching cycles,13–15 WGS PCR cycles and85/10/10/85 acquisition inherited explicitly from ATAC by the published WGS Methods. Candidate Tn5 product recovery unresolved.",
+      "deferred": [
+        "Published oligo tables, formaldehyde fixation/nucleosome depletion and nuclei-pooling/sorting graph stages; detailed protocols.io revision"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard capped at25s, incomplete"
+    }
+  ]
 }

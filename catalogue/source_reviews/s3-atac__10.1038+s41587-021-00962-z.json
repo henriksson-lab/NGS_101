@@ -481,5 +481,20 @@
     "second_pass_update": "2026-10-16 s3_second_pass independently inspected all newly inventoried local original supplements and sibling author protocol PDFs, after targeted oligo scraping. Figure/data supplements are not oligo inventories. Both author-named oligo workbooks remain unavailable as independently sourced originals; scg mirror cannot establish their contents. Linked-information disposition remains blocked."
   },
   "missing_claims": [],
-  "conclusion": "Two independent passes now cover the newly inventoried available originals. Published MOESM6 oligo table and branch protocols are source-positive; the independently sourced author s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx attachments remain unavailable. No missing sequence claim is accepted."
+  "conclusion": "Two independent passes now cover the newly inventoried available originals. Published MOESM6 oligo table and branch protocols are source-positive; the independently sourced author s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx attachments remain unavailable. No missing sequence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC8678206 JATS110–128; mandatory oligo scraper reviewed, original provenance distinguished from upstream. Full-bundle scraper was stopped at large quantitative workbooks; focused published-article scraper completed and returned only contextual false positives. Supplementary oligo tables remain deferred.",
+      "findings": "Added10 adapter-switching cycles and16–18 Q5U PCR cycles; candidate Tn5 product recovery unresolved. Source confirms85/10/10/85 read mask.",
+      "deferred": [
+        "Published SupplementaryTables2–5, nuclei pooling/sorting and SDS/Triton recovery stages; detailed published protocols.io revision"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard capped at25s, incomplete"
+    }
+  ]
 }

@@ -132,5 +132,20 @@
       "evidence": "Published source controls current model, but the inaccessible preprint was not version-compared."
     }
   ],
-  "conclusion": "Published chemistry and correction were independently checked; inaccessible Research Square preprint prevents a complete version comparison, so the preprint claim remains blocked."
+  "conclusion": "Published chemistry and correction were independently checked; inaccessible Research Square preprint prevents a complete version comparison, so the preprint claim remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published PMC10078054 JATS227–238; published correction PMC10122391 correction body/Figure1; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added16-cycle final PCR label. Replaced blanket multiplet-GEM physical discard with unresolved occupancy outcomes because combinatorial indexing deliberately overloads GEMs. Existing page correctly identifies the Figure1 typesetting correction.",
+      "deferred": [
+        "Original supplementary oligo tables, precise accepted-cell identity rules and recovery states; corrected figure layers not independently inspected visually"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented"
+    }
+  ]
 }

@@ -237,5 +237,20 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent readers checked the plate scATAC paper, its main oligo supplement, all other plate supplements, the related Pi-ATAC paper, and the linked author code. Plate scATAC index primers are printed in the original supplement. No missing-information claim is accepted. Pi-ATAC retains its own blocked source review."
+  "conclusion": "Two independent readers checked the plate scATAC paper, its main oligo supplement, all other plate supplements, the related Pi-ATAC paper, and the linked author code. Plate scATAC index primers are printed in the original supplement. No missing-information claim is accepted. Pi-ATAC retains its own blocked source review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC6297232 JATS115–117,139–141; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added37°C/30min tagmentation and18-total-cycle study PCR labels. Candidate insertion products and solubilized protein/debris no longer treated as demonstrated physical discarded fractions.",
+      "deferred": [
+        "Original SupplementaryMethods, indexed primer identities, precise single-well release/recovery and read acquisition; no C1-specific PCR settings transferred"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 2 checked, 1 unrepresented"
+    }
+  ]
 }

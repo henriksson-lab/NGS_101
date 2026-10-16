@@ -6,7 +6,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 ROUND1_FEATURE = feature("cell_barcode_round1", "cell_barcode", "combinatorial",
@@ -122,13 +122,13 @@ def protocol_graph() -> ProtocolGraph:
                           MaterialKind.CONDITION)
     droplets = graph.product("productive_gems", "GEMs containing cells and gel-bead oligos",
                              MaterialKind.MOLECULAR)
-    excluded = graph.product("excluded_gems", "empty or multiplet GEMs",
-                             MaterialKind.WASTE)
+    excluded = graph.product("excluded_gems", "other GEM occupancy outcomes with unresolved identities",
+                             MaterialKind.MOLECULAR)
     graph.react("partition", "Overload a 10x 5-prime channel with tagmented cells",
                 StepKind.PARTITION,
                 ((tagged, InputRole.TEMPLATE), (loading, InputRole.CONDITION)),
                 (droplets, excluded))
-    graph.discard(excluded, "empty and multiplet GEMs are excluded from accepted cells")
+    graph.mark_terminal(Terminal(excluded.id, Disposition.UNRESOLVED, "The protocol deliberately overloads GEMs; multiple-cell occupancy is not a physical discard rule. Recovery and computational identity filtering are separate."))
     bead = graph.input("bead_tso", "10x 5-prime gel-bead template-switch oligo",
                        MaterialKind.OLIGO, state=tuple(bead_tso()))
     switched = graph.product("dual_index_cdna", "plate- and droplet-indexed 5-prime cDNA",
@@ -166,7 +166,7 @@ def protocol_graph() -> ProtocolGraph:
                                 MaterialKind.OLIGO)
     library = graph.product("library", final_library().name, MaterialKind.LIBRARY,
                             state=final_library())
-    graph.react("library_pcr", "Complete the adapters and add the sample index",
+    graph.react("library_pcr", "Complete adapters and sample index: 16 PCR cycles",
                 StepKind.PCR,
                 ((captured, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (sample_primer, InputRole.STRUCTURAL),

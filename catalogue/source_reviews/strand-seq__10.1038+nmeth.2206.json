@@ -112,5 +112,20 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open."
+  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC3580294 JATS116–126; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added15-cycle PhusionHF PCR and76/7/76 read lengths. UV-nicked BrdU fragments now unresolved rather than presumed physically discarded. Existing seven-N/hexamer published discrepancy remains visible.",
+      "deferred": [
+        "Historical vendor adapter/primer originals,200–400bp gel-selection graph stages and exact index-base assignment; nicking efficiency not proven"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented"
+    }
+  ]
 }

@@ -8,7 +8,7 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
 CELL_CASSETTE = feature("cell_barcode_cassette", "cell_barcode", "combinatorial",
@@ -141,7 +141,7 @@ def protocol_graph() -> ProtocolGraph:
     primer = graph.product("released_bead_primer", "released bead capture primer",
                            MaterialKind.OLIGO, state=bead_oligo(), inferred=True,
                            source=unresolved)
-    graph.react("lysis", "Lyse cells and break the emulsion", StepKind.EXTRACTION,
+    graph.react("lysis", "Lyse cells at65°C for35min, then break the emulsion", StepKind.EXTRACTION,
                 ((loaded, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (rna, primer))
     reverse_transcriptase = graph.input("reverse_transcriptase",
                                        "template-switching reverse transcriptase",
@@ -165,7 +165,7 @@ def protocol_graph() -> ProtocolGraph:
                              MaterialKind.CATALYST)
     wta = graph.product("wta_cdna", "whole-transcriptome-amplified cDNA",
                         MaterialKind.MOLECULAR)
-    graph.react("wta_pcr", "Amplify handle-flanked cDNA with one WTA primer", StepKind.PCR,
+    graph.react("wta_pcr", "Amplify handle-flanked cDNA: 16 WTA cycles", StepKind.PCR,
                 ((switched, InputRole.TEMPLATE), (wta_primer, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (wta,),
                 geometry=PCRGeometry.unavailable(

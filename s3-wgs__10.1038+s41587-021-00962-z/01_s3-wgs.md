@@ -291,3 +291,11 @@ HTML error pages saved under `.pdf`/`.xlsx`/`.zip` names. `tools/scrape_primers.
 whole directory timed out (same large workbooks); on `MOESM6_ESM.xlsx.txt` alone it found
 the Tn5 adaptor, the dU and inverted-dT modifications and recognised `TRUSEQ_READ2`,
 `ME` and `ME_RC`. Reaction order and conditions were read from the methods by hand.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC8678206 JATS124–140, WGS branch and explicitly inherited shared downstream steps.
+
+Added10 adapter-switching cycles,13–15 WGS PCR cycles and85/10/10/85 acquisition inherited explicitly from ATAC by the published WGS Methods. Candidate Tn5 product recovery unresolved.
+
+Deferred: Published oligo tables, formaldehyde fixation/nucleosome depletion and nuclei-pooling/sorting graph stages; detailed protocols.io revision. This capped pass does not establish a complete source review or publication-wide absence.

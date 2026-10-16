@@ -28,3 +28,11 @@ implementation used here must be compared; an inDrop sequence from another
 version cannot establish the bases of these beads. The article's available
 workbook supplements are cell counts, device fabrication and cost tables,
 not an oligo table.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC10409775 JATS265–294, microfluidic encapsulation and RT picoinjection; article author heading.
+
+Corrected citation to DeJonghe etal. Added25-minute23°C lysis/7-minuteUV primer release before70°C10-minute treatment; clarified bead primers precede picoinjected RT reagent. Recorded61/8/8/14 acquisition.
+
+Deferred: Detailed inherited inDrop-v3 IVT/library construction and recovery, selected bead oligos and RT-variant conditions; quantitative barcode-like workbook hits not treated as molecular oligos. This capped pass does not establish a complete source review or publication-wide absence.

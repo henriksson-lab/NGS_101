@@ -343,3 +343,11 @@ upstream artwork, not used for oligo evidence. The defining article also identif
 GEO GSE150672 and the Alexandria processed-data portal. No raw data are required
 for the present molecular claims; metadata and linked-source scope remain to be
 checked. This protocol remains in progress, with no new source-absence acceptance.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC7562821 JATS479–495,507–513.
+
+Added4+9–12-cycle cDNA preamplification and12-cycle library PCR labels; digested free-primer products remain unresolved until unrepresented washes. Source confirms NaOH removal, randomer/Klenow second strand and NexteraXT.
+
+Deferred: Original author protocol and oligo tables; exact acquisition, cleanup representation, source PCR mixture/wash wording discrepancies not re-reviewed. This capped pass does not establish a complete source review or publication-wide absence.

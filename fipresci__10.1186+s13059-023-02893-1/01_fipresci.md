@@ -347,3 +347,11 @@ the full S-P7 / S-P7-index sequences ending in `…CCGATCT`, because the source 
 last base as `-s-T`; the sequences were confirmed with `--find` on `…CCGATC` plus a plain
 grep for `CCGATC-s-T` (13 occurrences: S-P7 and the 12 indexed primers). The methods were read, not
 scraped.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC10078054 JATS227–238; published correction PMC10122391 correction body/Figure1.
+
+Added16-cycle final PCR label. Replaced blanket multiplet-GEM physical discard with unresolved occupancy outcomes because combinatorial indexing deliberately overloads GEMs. Existing page correctly identifies the Figure1 typesetting correction.
+
+Deferred: Original supplementary oligo tables, precise accepted-cell identity rules and recovery states; corrected figure layers not independently inspected visually. This capped pass does not establish a complete source review or publication-wide absence.

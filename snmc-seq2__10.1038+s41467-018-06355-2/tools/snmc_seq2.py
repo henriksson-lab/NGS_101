@@ -1,4 +1,5 @@
 """Luo et al. 2018 snmC-seq2 chemistry."""
+from dataclasses import replace
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
@@ -7,7 +8,7 @@ from base_conversion import bisulfite_path
 from batch_ngs import seg
 from chemdraw import Row, Scene, Segment, feature, oligo
 from multimodal_spatial import finish_pcr_branch
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, StepKind
 import snmc2_core
 
 TITLE = "snmC-seq2 — indexed single-nucleus methylomes"
@@ -71,13 +72,26 @@ def protocol_graph():
     polymerase=g.input("strand_polymerase","random-primer extension polymerase",MaterialKind.CATALYST)
     primed=g.product("primed","inline-cell-barcoded random-primer products",MaterialKind.MOLECULAR,state=sections()[1][1])
     g.react("random_prime","Copy converted DNA with an indexed H9 random primer",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(primed,))
+    exo=g.input("exonuclease_i","Exonuclease I",MaterialKind.CATALYST)
+    rsap=g.input("rsap","rSAP",MaterialKind.CATALYST)
+    treated=g.product("exo_rsap_treated","random-primed products after ExoI/rSAP treatment",MaterialKind.MOLECULAR)
+    g.react("exo_rsap","Treat with Exonuclease I and rSAP before Adaptase",StepKind.DIGESTION,
+            ((primed,InputRole.TEMPLATE),(exo,InputRole.CATALYST),(rsap,InputRole.CATALYST)),(treated,))
+    spri=g.input("spri","0.8x SPRI beads",MaterialKind.SELECTION)
+    purified=g.product("purified_primed","SPRI-purified random-primed products",MaterialKind.MOLECULAR)
+    waste=g.product("spri_waste","unretained treatment products and buffer",MaterialKind.WASTE)
+    g.react("purify_primed","SPRI-purify treated products before Adaptase",StepKind.CLEANUP,
+            ((treated,InputRole.TEMPLATE),(spri,InputRole.SELECTION)),(purified,waste),changes_molecule=False)
+    g.discard(waste,"removed during source SPRI purification")
     adaptase=g.input("adaptase","Adaptase adapter-completion reagent",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (added bases unverified in checked sources)")
     adaptase_enzyme=g.input("adaptase_enzyme","Adaptase completion enzyme",MaterialKind.CATALYST)
     adapted=g.product("adapted","Adaptase-completed dual-index PCR template",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (Adaptase-added bases unverified in checked sources)")
-    g.react("adaptase_complete","Add the unchecked Adaptase completion end",StepKind.ADAPTER_ATTACHMENT,((primed,InputRole.TEMPLATE),(adaptase,InputRole.STRUCTURAL),(adaptase_enzyme,InputRole.CATALYST)),(adapted,))
+    g.react("adaptase_complete","Add the unchecked Adaptase completion end",StepKind.ADAPTER_ATTACHMENT,((purified,InputRole.TEMPLATE),(adaptase,InputRole.STRUCTURAL),(adaptase_enzyme,InputRole.CATALYST)),(adapted,))
     reviewed=["nucleus","bisulfite","bisulfite_convert","random_primer","strand_polymerase","random_prime","adaptase","adaptase_enzyme","adaptase_complete"]
     pcr_geometry = snmc2_core.representative_pcr_geometry(FINAL_LIBRARY)
     finish_pcr_branch(g,"final",adapted,FINAL_LIBRARY,SEQ_PRIMERS,reviewed,
                       label="snmC-seq2 methylome", geometry=pcr_geometry)
+    g.steps["final_pcr"]=replace(g.steps["final_pcr"],label="Amplify snmC-seq2 library: 15 KAPA HiFi PCR cycles")
+    reviewed.extend(("exonuclease_i","rsap","exo_rsap","spri","purify_primed"))
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

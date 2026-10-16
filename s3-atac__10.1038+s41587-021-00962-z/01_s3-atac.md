@@ -244,3 +244,11 @@ whole directory also timed out (tens of MB of `.xlsx.txt`); run on the three rel
 `.txt` files it found every oligo segment. Because the tables split each oligo into
 columns, the scraper reports segments, not whole oligos; `--find` nevertheless locates
 the joined sequences across column breaks.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC8678206 JATS110–128.
+
+Added10 adapter-switching cycles and16–18 Q5U PCR cycles; candidate Tn5 product recovery unresolved. Source confirms85/10/10/85 read mask.
+
+Deferred: Published SupplementaryTables2–5, nuclei pooling/sorting and SDS/Triton recovery stages; detailed published protocols.io revision. This capped pass does not establish a complete source review or publication-wide absence.

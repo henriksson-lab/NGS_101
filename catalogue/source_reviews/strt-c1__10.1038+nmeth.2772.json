@@ -97,5 +97,20 @@
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Explicit Nature PDF returned HTML. Initial EPFL request429 was transient; standard fetcher recovered institutional record156221 (title matches original article). Public DSpace item1ce22827-db3f-49e3-8b7c-31bb33898057/bundles lists LICENSE only, no original article file. This repository record is metadata, not a recovered fulltext copy."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published SupplementaryNote MOESM266 PDF111–126; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added21-cycle preamplification; replaced upstream-derived streptavidin/PvuI/alkaline recovery with a warned unresolved recovery boundary. Source establishes all-RNA TSO and no library PCR.",
+      "deferred": [
+        "Published main Online Methods, exact strand recovery, TSO chemistry representation, original oligo table and acquisition"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 2 checked, 1 unrepresented"
+    }
+  ]
 }

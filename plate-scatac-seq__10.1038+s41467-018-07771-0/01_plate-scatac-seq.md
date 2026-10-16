@@ -275,3 +275,11 @@ twins, and two readers checked those original tables.
 Supplementary Information. A form-feed character before `S510` in the PDF
 text broke a line-anchored regex in my own check script (not the tool). The methods
 themselves were read, not scraped.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC6297232 JATS115–117,139–141.
+
+Added37°C/30min tagmentation and18-total-cycle study PCR labels. Candidate insertion products and solubilized protein/debris no longer treated as demonstrated physical discarded fractions.
+
+Deferred: Original SupplementaryMethods, indexed primer identities, precise single-well release/recovery and read acquisition; no C1-specific PCR settings transferred. This capped pass does not establish a complete source review or publication-wide absence.

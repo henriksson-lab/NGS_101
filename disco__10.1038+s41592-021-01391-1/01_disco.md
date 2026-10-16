@@ -33,3 +33,11 @@ cannot place its known custom SeqB primer. The selected i7 index and the
 lot-specific Drop-seq bead barcode remain variable. The defining Nature
 Methods article is subscription-gated through the source fetcher, but the
 author-maintained step-by-step protocol resolves the primer identities above.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published MOESM1 PDF title and SupplementaryFigure1 caption; MOESM2 PDF extracted text; MOESM7 XLSX SupplementaryTable1 header/rows and Table2 header.
+
+No correction to molecular claims: available publisher supplements inspected here concern live-cell gating and biological/sample results; they do not support completing the molecular workflow. Defining full text remains unavailable in the local manifest.
+
+Deferred: Defining article and linked detailed protocol remain unavailable/unread; bead primer, RT/cleanup/library stages and run assignment not independently verified; no missing-information claim accepted. This capped pass does not establish a complete source review or publication-wide absence.

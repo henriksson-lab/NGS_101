@@ -322,3 +322,11 @@ that text. `--find` reported **no location** for SB84 (`GCCAGASACGTTAGGCAGGACCTA
 for full round-3 oligos (`AGAATACACGACGCTCTTCCGATCTNNNNNNN…GGTCCTTG`), although both
 occur verbatim (plain `grep`: `MOESM1_ESM.pdf.txt` / `upstream_PETRI-seq.html.txt`, and
 `MOESM3_ESM.xlsx.txt` line 4); `--find` on the 15-nt barcode tail found the latter.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC8330242 JATS90–110 and Figure1 overview789.
+
+Added proteinase-K lysis/recovery after round3pooling and before second-strand synthesis; candidate Tn5 products now unresolved. Source confirms RT plus two ligations and7-base UMI.
+
+Deferred: Original oligo tables, blocker/recovery states and variant-specific acquisition/washing. This capped pass does not establish a complete source review or publication-wide absence.

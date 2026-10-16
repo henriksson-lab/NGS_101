@@ -7,7 +7,7 @@ import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (AnnotationSlot, Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
@@ -238,25 +238,29 @@ def protocol_graph() -> ProtocolGraph:
                             MaterialKind.MOLECULAR)
     graph.react("round3_pooling", "Pool round-3 wells", StepKind.POOL,
                 ((lig3a, InputRole.TEMPLATE), (lig3b, InputRole.TEMPLATE)), (pooled3,))
+    proteinase = graph.input("proteinase_k", "proteinase K lysis,55°C for1h; recovery summarized", MaterialKind.CATALYST)
+    recovered = graph.product("recovered_cdna", "cDNA recovered after barcoded-cell lysis", MaterialKind.MOLECULAR)
+    graph.react("lyse_barcoded_cells", "Lyse pooled barcoded cells and recover cDNA", StepKind.DEPROTEINIZATION,
+                ((pooled3, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)), (recovered,))
     second_pol = graph.input("second_strand_polymerase", "second-strand polymerase",
                              MaterialKind.CATALYST)
     duplex = graph.product("double_stranded_cdna", "double-stranded barcoded cDNA",
                            MaterialKind.MOLECULAR)
     graph.react("second_strand", "Synthesize the second cDNA strand",
                 StepKind.EXTENSION,
-                ((pooled3, InputRole.TEMPLATE), (second_pol, InputRole.CATALYST)),
+                ((recovered, InputRole.TEMPLATE), (second_pol, InputRole.CATALYST)),
                 (duplex,))
     transposome = graph.input("transposome", "Nextera transposome",
                               MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
     tagged = graph.product("tagmented_cdna", "tagmented barcoded cDNA",
                            MaterialKind.MOLECULAR)
-    waste = graph.product("tagmentation_waste", "non-library tagmentation products",
-                          MaterialKind.WASTE)
+    waste = graph.product("tagmentation_waste", "candidate non-library tagmentation products",
+                          MaterialKind.MOLECULAR)
     graph.react("tagment", "Tagment double-stranded cDNA", StepKind.TAGMENTATION,
                 ((duplex, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, waste))
-    graph.discard(waste, "fragments lacking the round-3 handle and usable Tn5 end are not amplified")
+    graph.mark_terminal(Terminal(waste.id, Disposition.UNRESOLVED, "Amplification eligibility does not establish physical removal of candidate insertion products."))
     i5 = graph.input("i5_primer", "NEB i50x selective PCR primer", MaterialKind.OLIGO)
     i7 = graph.input("i7_primer", "Nextera N7xx selective PCR primer", MaterialKind.OLIGO)
     polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
@@ -276,7 +280,7 @@ def protocol_graph() -> ProtocolGraph:
                       "Index 2 (i5)": 8, "Read 2": 17},
         read_uses={"Read 1": "extract", "Index 1 (i7)": "demultiplex",
                    "Index 2 (i5)": "demultiplex", "Read 2": "include"}))
-    graph.declare_reviewed_scope((
+    graph.declare_reviewed_scope(("proteinase_k", "lyse_barcoded_cells",
         "cells", "round1_primers", "reverse_transcriptase", "round1_split",
         "round1_rt_a", "round1_rt_b", "round1_pooling", "round2_oligos",
         "round2_linker", "ligase", "round2_split", "round2_ligation_a",

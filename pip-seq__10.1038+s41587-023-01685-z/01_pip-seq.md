@@ -337,3 +337,11 @@ supplementary table when the starred tail is left off; the full stripped sequenc
 only upstream's copy (or nothing, for Weissman_U6). The table rows were checked by eye.
 The 15-nt ADT/HTO barcodes and the Delley barcode tables made up
 most of the hits.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC10635830 JATS265–267, PIP-seq protocol.
+
+Added65°C/35min lysis and16-cycle WTA labels. Source confirms emulsion breaking/washing before bulk MaximaH-minus RT and custom-P5 NexteraXT library preparation.
+
+Deferred: Published SupplementaryTable1 oligos, exact acquired mask, explicit bead-filter/AMPure recovery and product fates; no superseded preprint used. This capped pass does not establish a complete source review or publication-wide absence.

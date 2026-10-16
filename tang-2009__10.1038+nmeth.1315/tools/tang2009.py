@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Scene, Segment, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (Disposition, Terminal, InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 from tang_cdna import (AUP1, AUP2, DT_LEN, UP1, UP1_HANDLE, UP2, UP2_HANDLE,
                        amplified_cdna)
 
@@ -86,10 +86,10 @@ def protocol_graph() -> ProtocolGraph:
     exo=graph.input("exonuclease","Exonuclease I",MaterialKind.CATALYST)
     cleaned=graph.product("cleaned_first_strand","first-strand cDNA after free-primer removal",
                           MaterialKind.MOLECULAR,state=first_state)
-    primer_waste=graph.product("primer_waste","digested unused UP1",MaterialKind.WASTE)
-    graph.react("remove_up1","Remove unused UP1",StepKind.CLEANUP,
+    primer_waste=graph.product("primer_waste","digested unused UP1",MaterialKind.MOLECULAR)
+    graph.react("remove_up1","Digest unused UP1",StepKind.DIGESTION,
                 ((first,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(cleaned,primer_waste))
-    graph.discard(primer_waste,"unused reverse-transcription primer is digested")
+    graph.mark_terminal(Terminal(primer_waste.id,Disposition.UNRESOLVED,"UP1 digestion does not establish physical removal; the fragment fate is unassigned."))
     tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
     datp=graph.input("datp","dATP tailing substrate",MaterialKind.CONDITION)
     tailed_state=Construct([*first_state.segments,Segment("TdT poly(A)","A"*12)],

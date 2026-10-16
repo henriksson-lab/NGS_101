@@ -65,3 +65,11 @@ C15/ME site derived from the P5-side construct.
 🟢 The custom NextSeq recipe is R1: 50 imaged cycles; I1: 8 imaged, 27 dark, 10 imaged; I2:
 8 imaged, 21 dark, 10 imaged; R2: 50 imaged. Thus each index read crosses a transposase barcode,
 skips the constant adapter/connector, and then reads the PCR-well barcode.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC5908213 JATS122–138.
+
+Added55°C/15min tagmentation,22 nuclei per PCR well and15–20-cycle real-time PCR labels. Candidate insertion product recovery is unresolved. Source distinguishes QRP/DOP control preparations from sci-seq.
+
+Deferred: Published indexed transposome predecessor/oligos, LAND versus xSDS handling and reverse-crosslinking graph branches; exact imaged/dark-cycle mask validation. This capped pass does not establish a complete source review or publication-wide absence.

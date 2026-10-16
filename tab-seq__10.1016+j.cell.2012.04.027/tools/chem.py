@@ -57,11 +57,11 @@ def _conversion_graph(definition, final: Construct, primers: tuple) -> ProtocolG
     adapters = graph.input('wgbs_adapters', 'WGBS library adapters', MaterialKind.ADAPTER, inferred=True)
     ligase = graph.input('dna_ligase', 'DNA ligase', MaterialKind.CATALYST)
     ligated = graph.product('ligated_precursor', 'adapter-ligated TAB-seq DNA', MaterialKind.MOLECULAR, state=tailed.state, inferred=True)
-    graph.react('adapter_ligation', 'Ligate WGBS adapters', StepKind.LIGATION, ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (ligated,), geometry=AdapterLigationGeometry.unavailable('The defining source names its WGBS preparation but does not print the adapter-end oligos.'))
+    graph.react('adapter_ligation', 'Ligate WGBS adapters', StepKind.LIGATION, ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (ligated,), geometry=AdapterLigationGeometry.unavailable('Adapter-end geometry has not been verified against the original WGBS preparation sources in this model.'))
     conversion_input = ligated
     reviewed.extend(('end_repair_enzymes', 'end_repair', 'a_tailing_enzyme', 'da_tail', 'wgbs_adapters', 'dna_ligase', 'adapter_ligation'))
     bisulfite = graph.input('bisulfite_reagent', 'bisulfite conversion reagent', MaterialKind.CONDITION)
-    converted = graph.product('bisulfite_converted_dna', 'bisulfite-converted library template', MaterialKind.MOLECULAR, state=_conversion_scene(tuple(((base, tab_path(base).states[-1]) for base in ('C', '5mC', '5hmC'))), 'converted readout'))
+    converted = graph.product('bisulfite_converted_dna', 'bisulfite-converted library template', MaterialKind.MOLECULAR, state=_conversion_scene((('C', 'U'), ('5mC', '5caU'), ('5hmC', '5gmC')), 'after bisulfite, before PCR'))
     graph.react('bisulfite_conversion', 'Bisulfite-convert the treated DNA', StepKind.CHEMICAL_CONVERSION, ((conversion_input, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)), (converted,))
     conversion_input = converted
     reviewed.extend(('bisulfite_reagent', 'bisulfite_conversion'))
@@ -69,7 +69,7 @@ def _conversion_graph(definition, final: Construct, primers: tuple) -> ProtocolG
     reverse = graph.input('library_reverse_primer', 'indexed library PCR reverse primer', MaterialKind.OLIGO, inferred=not bool(primers))
     polymerase = graph.input('library_polymerase', 'library amplification polymerase', MaterialKind.CATALYST)
     library = graph.product('sequencing_library', definition.title + ' sequencing library', MaterialKind.LIBRARY, state=final, inferred=not bool(primers))
-    graph.react('library_pcr', 'Index and amplify the sequencing library', StepKind.PCR, ((conversion_input, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,), geometry=PCRGeometry.unavailable(conversion_input.state if isinstance(conversion_input.state, Construct) else final, reason='The source identifies the library PCR but does not print one immutable selected primer pair.'))
+    graph.react('library_pcr', 'Index and amplify the sequencing library', StepKind.PCR, ((conversion_input, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,), geometry=PCRGeometry.unavailable(conversion_input.state if isinstance(conversion_input.state, Construct) else final, reason='The selected library PCR primer pair and its binding geometry have not been verified in this model.'))
     plan = SequencingPlan(final, tuple(primers), tuple((p.role for p in primers))) if primers else SequencingPlan(limitation=definition.caveat or definition.sequencing)
     graph.sequence(library, plan)
     reviewed.extend(('library_forward_primer', 'library_reverse_primer', 'library_polymerase', 'library_pcr', 'sequencing_library'))

@@ -298,5 +298,20 @@
       "evidence": "Published Key Resources resolves four input oligos; inherited library finish and proprietary Adaptase need second-pass linked-source review."
     }
   ],
-  "conclusion": "Published Key Resources resolves four input oligos; inherited library finish and proprietary Adaptase need second-pass linked-source review."
+  "conclusion": "Published Key Resources resolves four input oligos; inherited library finish and proprietary Adaptase need second-pass linked-source review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC9004682 JATS540–554; newly retrieved through existing source fetcher; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added nuclear-branch cDNA amplification (15 cycles cultured nuclei, 14 brain), UDG treatment with source-specific EndoVIII distinction, and paired150-base acquisition. Named SuperScriptII and distinguished whole-cell snmC-seq finish from nuclear snmC-seq2. Source primers verified in published Methods; superseded preprint not used.",
+      "deferred": [
+        "Full nuclear methylome finish and recovery, selected index acquisition, methylation propagation through amplification and exact Adaptase bases; endonuclease branch remains summarized"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 7 unrepresented"
+    }
+  ]
 }

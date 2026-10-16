@@ -5,7 +5,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
@@ -46,11 +46,11 @@ def protocol_graph():
  tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
  tagged=graph.product("tagmented_cells","fixed cells containing tagmented chromatin",
                       MaterialKind.MOLECULAR,state=tagmented_scene(),inferred=True,source=inferred_source)
- twaste=graph.product("tagmentation_waste","non-library tagmentation products",MaterialKind.WASTE)
+ twaste=graph.product("tagmentation_waste","candidate non-library tagmentation products",MaterialKind.MOLECULAR)
  graph.react("tagment","Tagment antibody-stained cells in bulk",StepKind.TAGMENTATION,
              ((stained,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
               (tn5,InputRole.CATALYST)),(tagged,twaste))
- graph.discard(twaste,"fragments lacking usable paired adapter ends are not amplified")
+ graph.mark_terminal(Terminal(twaste.id,Disposition.UNRESOLVED,"Amplification eligibility is not a demonstrated physical discard of candidate insertion products."))
  sorter=graph.input("index_sort","one-cell-per-indexed-well FACS rule",MaterialKind.SELECTION)
  wells=graph.product("single_cell_wells","one protein-profiled cell per indexed well",MaterialKind.MOLECULAR)
  excluded=graph.product("excluded_events","empty wells and multiplet events",MaterialKind.WASTE)
@@ -59,7 +59,7 @@ def protocol_graph():
  graph.discard(excluded,"empty and multiplet sorting events are excluded")
  proteinase=graph.input("proteinase_k","proteinase K reverse-crosslink reagent",MaterialKind.CATALYST)
  released=graph.product("released_fragments","reverse-crosslinked tagmented fragments",MaterialKind.MOLECULAR)
- graph.react("reverse_crosslinks","Reverse crosslinks and release Tn5",StepKind.DEPROTEINIZATION,
+ graph.react("reverse_crosslinks","Reverse crosslinks overnight at65°C; inactivate proteinase K at80°C for10min",StepKind.DEPROTEINIZATION,
              ((wells,InputRole.TEMPLATE),(proteinase,InputRole.CATALYST)),(released,))
  gap_pol=graph.input("gap_fill_polymerase","gap-fill and PCR polymerase",MaterialKind.CATALYST)
  filled=graph.product("gap_filled","gap-filled tagmented fragments",MaterialKind.MOLECULAR)
@@ -72,7 +72,7 @@ def protocol_graph():
  final=final_library()
  library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
                        inferred=True,source=inferred_source)
- graph.react("indexed_pcr","Amplify with the well-specific barcoding-primer pair",StepKind.PCR,
+ graph.react("indexed_pcr","Amplify with well-specific barcoding primers: 20 cycles",StepKind.PCR,
              ((filled,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
               (i7,InputRole.STRUCTURAL),(gap_pol,InputRole.CATALYST)),(library,),
              geometry=PCRGeometry.unavailable(final,

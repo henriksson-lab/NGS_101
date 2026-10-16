@@ -35,3 +35,11 @@ seven-N printing. The standard PE adapter and Read 1/Read 2 primer bases are mat
 The PE adapter's 3′ dT end pairs with the source-described A-tailed fragment. 🔴 The
 particular hexamer assigned to each of the 66 libraries has not been verified from the
 linked supplementary material.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC3580294 JATS116–126.
+
+Added15-cycle PhusionHF PCR and76/7/76 read lengths. UV-nicked BrdU fragments now unresolved rather than presumed physically discarded. Existing seven-N/hexamer published discrepancy remains visible.
+
+Deferred: Historical vendor adapter/primer originals,200–400bp gel-selection graph stages and exact index-base assignment; nicking efficiency not proven. This capped pass does not establish a complete source review or publication-wide absence.

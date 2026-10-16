@@ -31,3 +31,11 @@ Sources read: the defining Nature Communications article, its Supplementary Meth
 (`s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf`), Supplementary Table 2
 (`294355_294355-3.xlsx`, identical material linked from the associated preprint), and
 the associated bioRxiv manuscript (doi `10.1101/294355`).
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC6147798 JATS147–155.
+
+Added ExonucleaseI/rSAP treatment and0.8xSPRI purification before Adaptase; added15-cycle KAPAHiFi PCR label. Source also requires three finalSPRI rounds, currently deferred in graph.
+
+Deferred: Published random-primer/index tables, exact Adaptase completion and acquired run mask; final threeSPRI cleanup states. This capped pass does not establish a complete source review or publication-wide absence.

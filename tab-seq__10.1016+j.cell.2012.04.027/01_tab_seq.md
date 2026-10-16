@@ -15,3 +15,11 @@
 ## Final readout
 
 TAB-seq directly reports 5hmC as retained C. It has the opposite biological target from oxBS-seq, which retains 5mC as C.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC3589129 JATS70–74, TAB-Seq of model DNA and specific loci.
+
+Corrected pre-PCR bisulfite state: C is U, oxidized5mC is5caU and protected5hmC remains5gmC; C/T belongs to the later amplified sequencing readout. Replaced unsupported source-wide adapter/primer absence claims with unverified model geometry.
+
+Deferred: Original Extended Experimental Procedures and WGBS precursor, full enzyme/adapter order, spike-in controls and read acquisition; later published protocol scraper hits not promoted as defining2012 oligos. This capped pass does not establish a complete source review or publication-wide absence.

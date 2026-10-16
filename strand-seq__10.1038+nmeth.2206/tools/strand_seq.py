@@ -9,7 +9,7 @@ from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from chromatin_epigenetics import strand_selection_rows
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 
@@ -167,26 +167,26 @@ def protocol_graph():
     parental=graph.product("parental_templates","intact parental template strands",
                            MaterialKind.MOLECULAR)
     nascent=graph.product("damaged_nascent","nicked BrdU-containing nascent strands",
-                          MaterialKind.WASTE)
+                          MaterialKind.MOLECULAR)
     graph.react("destroy_nascent","Nick BrdU-containing nascent strands selectively",
                 StepKind.CHEMICAL_CONVERSION,
                 ((adapted,InputRole.TEMPLATE),(damage,InputRole.CONDITION)),
                 (parental,nascent))
-    graph.discard(nascent,"UV-nicked BrdU strands do not support intact library amplification")
+    graph.mark_terminal(Terminal(nascent.id,Disposition.UNRESOLVED,"UV nicking reduces intact amplification templates; physical removal of nascent fragments is not established by nicking alone."))
     pe1=graph.input("pe1_primer","Illumina PE 1.0 PCR primer",MaterialKind.OLIGO)
     indexed=graph.input("indexed_primer","custom P7/index/PE2 PCR primer",
                         MaterialKind.OLIGO)
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY)
-    graph.react("library_pcr","Amplify only intact parental-template molecules",
+    graph.react("library_pcr","Amplify intact parental-template molecules: 15 Phusion HF PCR cycles",
                 StepKind.PCR,
                 ((parental,InputRole.TEMPLATE),(pe1,InputRole.STRUCTURAL),
                  (indexed,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The source gives the custom indexed primer and PE 1.0 by name; the historical PE1 PCR-primer base string is not independently transcribed here."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
-                                          primers=tuple(SEQ_PRIMERS)))
+                                          primers=tuple(SEQ_PRIMERS), read_lengths={"Read 1":76,"Index 1 (i7)":7,"Read 2":76}))
     graph.declare_reviewed_scope((
         "cells","brdu","replication_polymerase","label_nascent","mnase","fragment_dna",
         "repair_enzymes","end_repair","tailing_enzymes","a_tail","pe_adapter",

@@ -54,3 +54,11 @@ is a SuperSeries with eight SubSeries. Its family SOFT metadata contains sample
 protocols and sample identifiers; bulk peak-file names include some literal indexes,
 which do not establish the single-cell well-to-primer map. Direct source/link inspection
 continues; no publication-wide absence claim is accepted.
+
+## Bounded curation round 3 (2026-10-16)
+
+Inspected: Published PMC6214962 JATS202–226.
+
+Added overnight65°C reverse crosslinking,80°C/10min proteinase-K inactivation and20-cycle PCR labels. Source confirms75-base paired genomic reads. Candidate Tn5 products no longer presumed physically discarded.
+
+Deferred: Published supplementary oligos, precise index-read mask, gel recovery stages;25mM primer stock wording not assigned a corrected value. This capped pass does not establish a complete source review or publication-wide absence.

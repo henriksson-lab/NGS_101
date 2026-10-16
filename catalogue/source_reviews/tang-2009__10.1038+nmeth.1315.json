@@ -221,5 +221,20 @@
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Existing institutional mirror re-fetched with working network; defining original PDF now validated and marked available pending full independent reading."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published Tang2009 PDF OnlineMethods950–985; original MOESM297 PDF263–270; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Changed unused-UP1 removal to enzymatic digestion with unresolved fragments. Source confirms50°C RT, ExoI→TdT→UP2 and original SOLiD50-base route.",
+      "deferred": [
+        "Original oligo table, full intermediate/recovery verification; no2010barcoded extension substituted"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 10 checked, 0 unrepresented"
+    }
+  ]
 }

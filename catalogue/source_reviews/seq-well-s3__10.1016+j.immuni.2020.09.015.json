@@ -404,5 +404,20 @@
       "locations": "Fresh original JATS lines491/495 andKeyResources393/409; Hughes.et_.al_.Master.Protocol.pdf.txt730–803,930–970,1068–1100,1895–1925; Chapter3_SeqWell.pdf.txt880–935,1093–1170,1280–1310. Root independently reported actual original reading in collaboration message.",
       "finding": "Independent fresh original reading confirms real1MTE/1xTE andKAPA5X/2x source conflicts. Guide versions are distinct:2019 TD/ATM11/4 and40µLWTAmix vs2023 TD/ATM10/5 and50µLWTAmix; their readoptions are source-specific. These positive recipe differences are not resolved by assigning the later version to the defining experiment."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-03",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC7562821 JATS479–495,507–513; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added4+9–12-cycle cDNA preamplification and12-cycle library PCR labels; digested free-primer products remain unresolved until unrepresented washes. Source confirms NaOH removal, randomer/Klenow second strand and NexteraXT.",
+      "deferred": [
+        "Original author protocol and oligo tables; exact acquisition, cleanup representation, source PCR mixture/wash wording discrepancies not re-reviewed"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 2 checked, 5 unrepresented"
+    }
   ]
 }

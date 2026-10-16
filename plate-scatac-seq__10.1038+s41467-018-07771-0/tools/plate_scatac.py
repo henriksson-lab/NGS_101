@@ -5,7 +5,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct,Scene,Segment,complement_segments,feature,revcomp
 from pcr import PCRGeometry
-from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 def seg(name,top,tag=None,**kw): return Segment(name=name,top=top,tag=tag,**kw)
@@ -46,11 +46,11 @@ def protocol_graph():
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged=graph.product("tagmented_nuclei","intact nuclei containing tagmented chromatin",
                          MaterialKind.MOLECULAR,state=tagmented_scene())
-    waste=graph.product("tagmentation_waste","non-library tagmentation products",MaterialKind.WASTE)
-    graph.react("tagment","Tagment native nuclei in bulk",StepKind.TAGMENTATION,
+    waste=graph.product("tagmentation_waste","candidate non-library tagmentation products",MaterialKind.MOLECULAR)
+    graph.react("tagment","Tagment native nuclei in bulk: 37°C for30min",StepKind.TAGMENTATION,
                 ((nuclei,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,waste))
-    graph.discard(waste,"products without usable paired transposon ends are not amplified")
+    graph.mark_terminal(Terminal(waste.id,Disposition.UNRESOLVED,"Amplification eligibility is not evidence of physical removal of candidate insertion products."))
     sorter=graph.input("single_nucleus_sort","one-nucleus-per-well sorting rule",MaterialKind.SELECTION)
     wells=graph.product("single_nucleus_wells","single tagmented nuclei in indexed wells",MaterialKind.MOLECULAR)
     excluded=graph.product("excluded_events","empty wells and multiplet sorting events",MaterialKind.WASTE)
@@ -59,10 +59,10 @@ def protocol_graph():
     graph.discard(excluded,"empty and multiplet events are excluded from single-cell libraries")
     release=graph.input("release_mix","SDS, proteinase K and Tween-20 release conditions",MaterialKind.CONDITION)
     released=graph.product("released_fragments","Tn5-released tagmented fragments",MaterialKind.MOLECULAR)
-    debris=graph.product("protein_debris","digested Tn5 and nuclear debris",MaterialKind.WASTE)
+    debris=graph.product("protein_debris","solubilized Tn5 and nuclear components",MaterialKind.MOLECULAR)
     graph.react("release","Release Tn5 and nuclear proteins in each well",StepKind.SOLUBILIZATION,
                 ((wells,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,debris))
-    graph.discard(debris,"protein and nuclear debris do not enter the library")
+    graph.mark_terminal(Terminal(debris.id,Disposition.UNRESOLVED,"Solubilization does not itself establish a physical discarded fraction; detailed recovery remains deferred."))
     polymerase=graph.input("gap_fill_polymerase","gap-fill polymerase",MaterialKind.CATALYST)
     filled=graph.product("gap_filled_fragments","gap-filled tagmented fragments",MaterialKind.MOLECULAR)
     graph.react("gap_fill","Fill the transposition gaps at 72 degrees C",StepKind.EXTENSION,
@@ -70,7 +70,7 @@ def protocol_graph():
     s5=graph.input("s5_index_primer","well-specific S5xx primer",MaterialKind.OLIGO,state=tuple(s502()))
     n7=graph.input("n7_index_primer","well-specific N7xx primer",MaterialKind.OLIGO,state=tuple(n701()))
     library=graph.product("library",final_library().name,MaterialKind.LIBRARY,state=final_library())
-    graph.react("indexed_pcr","Amplify with the well-specific S5xx/N7xx primer pair",StepKind.PCR,
+    graph.react("indexed_pcr","Amplify with well-specific S5xx/N7xx: 18 total cycles in this study",StepKind.PCR,
                 ((filled,InputRole.TEMPLATE),(s5,InputRole.STRUCTURAL),
                  (n7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(final_library(),
