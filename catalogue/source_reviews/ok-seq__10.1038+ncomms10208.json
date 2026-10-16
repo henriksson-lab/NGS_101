@@ -1,0 +1,79 @@
+{
+  "dir": "ok-seq__10.1038+ncomms10208",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/ok-seq__10.1038+ncomms10208/ncomms10208_PMC4729899.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 134–156; scraper source hits",
+        "finding": "Double-stranded adaptors with random hexanucleotide overhangs and A1/A2 oligo sequences are printed; paper also prints amplification primers and Illumina index placeholder."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC4729899 JATS Methods lines 130–158 and matching article PDF around lines 1635–1670; primer scraper run on source bundle",
+        "finding": "Independently verified four complete A1/A2 adapter oligos with two N6 overhangs, [Phos] and [ddC] modifications, truncated PE PCR Primer 1.0, indexed reverse primer with six-base index placeholder, custom Read 1 primer, and HiSeq 1000 single-read 51-cycle run. The defining article directly gives these bases; only the selected index member is unspecified."
+      }
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "_data/sources/ok-seq__10.1038+ncomms10208/ncomms10208_supp_ncomms10208-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplement contains Figures 1–22 and Tables 1–2 about replication-fork directionality, origin calls, chromatin features and read/result statistics; no adapter sequence or index assignment table.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Full supplementary PDF text (lines 1–1900), all figure headings/captions and sequence/oligo/primer/adaptor search; source scraper found no supplement oligos",
+        "finding": "Supplementary Figure 1 confirms all four listed runs are single-end; remaining figures concern genomic results and analysis. No adapter or index assignment is present."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original ncomms10208-s1 supplementary PDF text lines 1–2327; headings/captions Fig. S1–S22 lines 130–1874, Tables S1–S2 lines 2264–2293 and references; searched oligo/primer/adaptor/adapter/ligation/index and ran primer scraper on original bundle",
+        "finding": "Supplementary Figure 1 panel d labels all four HeLa/GM06990 runs HiSeq SE; Figures 2–22 and Tables 1–2 report replication-fork directionality, origin calls, chromatin correlations and result statistics. The PDF contains no chemistry protocol or oligo/index member table. The first review description overlooked Tables 1–2, but their headings/content are also result-only."
+      }
+    },
+    {
+      "id": "truseq_adaptor",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq adapter identified in Methods lines 146–156",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-specific official adapter reference not independently checked.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS/PDF Methods, supplementary figures 1–22 and source manifest",
+      "finding": "The defining paper itself prints the exact adapter, PCR primer and custom Read 1 sequences. The result-only supplement adds no oligos. The cited version-specific TruSeq reference remains uninspected, so no global absence claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Two readers checked the defining article and found the printed adapter/primer bases; the result-only supplement has two independent source reads, while the historical TruSeq reference remains uninspected. The selected six-base index member is not specified by the defining article.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent readers verified the defining article's exact adapter and primer oligos and run layout. The supplementary figures and two result tables received two independent reads and are result-only; the version-specific historical TruSeq reference remains uninspected. A related October 2013 TruSeq ChIP guide is cached under DISCOVER-seq, but its different kit identity cannot establish the OK-seq adapter/index choice. No remaining absence claim is accepted."
+}

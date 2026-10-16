@@ -14,6 +14,9 @@ import io
 import sys
 import tempfile
 import zipfile
+import zlib
+from types import SimpleNamespace
+from unittest.mock import patch
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -29,7 +32,8 @@ import audit_protocol_sources as source_reviews  # noqa: E402
 import fetchers  # noqa: E402
 import get_sources as gs  # noqa: E402
 from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
-from source_oligo_check import (_exact_hit, check_graph, unrepresented_input_ids,
+from source_oligo_check import (_exact_hit, check_graph, declared_locators,
+                                unrepresented_input_ids,
                                 unrepresented_inputs)  # noqa: E402
 from selftest_source_oligos import graph_module_paths  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
@@ -45,6 +49,8 @@ check.section("DOI routing")
 check("bioRxiv dated DOI", gs.doi_kind("10.1101/2019.12.17.879304"), "biorxiv")
 check("bioRxiv 6-digit DOI", gs.doi_kind("10.1101/003236"), "biorxiv")
 check("bioRxiv DOI with a version suffix", gs.doi_kind("10.1101/2023.05.11.540245v2"), "biorxiv")
+check("bioRxiv DOI with newer prefix", gs.doi_kind("10.64898/2026.07.07.736965"), "biorxiv")
+check("bioRxiv newer DOI with a version suffix", gs.doi_kind("10.64898/2026.07.07.736965v1"), "biorxiv")
 check("Genome Research (10.1101/gr.) is a journal", gs.doi_kind("10.1101/gr.110882.110"), "journal")
 check("Genes & Dev (10.1101/gad.) is a journal", gs.doi_kind("10.1101/gad.350434.123"), "journal")
 check("CSH Protocols (10.1101/pdb.) is a journal", gs.doi_kind("10.1101/pdb.prot5384"), "journal")
@@ -56,6 +62,35 @@ check("protocols.io PDF attachment discovery",
           b"https://content.protocols.io/files/figure-2.pdf"),
       ["https://content.protocols.io/files/a1.xlsx",
        "https://content.protocols.io/files/figure-2.pdf"])
+check("protocols.io legacy workbook link is not lost or truncated to xls",
+      protocolsio.attachment_urls(b"https://content.protocols.io/files/order.xls "
+                                 b"https://content.protocols.io/files/order.xlsm"),
+      ["https://content.protocols.io/files/order.xls",
+       "https://content.protocols.io/files/order.xlsm"])
+check("protocols.io exported revision is read from the printed integer ID",
+      protocolsio.protocol_integer_id("Protocol Integer ID:\n51484\nLatest version: 117877"),
+      "51484")
+check("protocols.io attachment metadata cannot silently select another revision",
+      protocolsio.matching_public_protocol({"protocol": {"id": 117877, "public": 1}}, "51484"), {})
+check("protocols.io private metadata is not followed",
+      protocolsio.matching_public_protocol({"protocol": {"id": 51484, "public": 0}}, "51484"), {})
+with tempfile.TemporaryDirectory() as folder:
+    pdf_path = Path(folder) / "protocol.pdf"
+    pdf_path.write_bytes(b"%PDF-1.4\n(no attachment annotations)")
+    pdf_path.with_name(pdf_path.name + ".txt").write_text("Protocol Integer ID: 51484")
+    calls = []
+    class ProtocolFolder:
+        def save(self, name, url, what):
+            calls.append((name, url))
+            return pdf_path if name.endswith(".pdf") else None
+    workbook = "https://content.protocols.io/files/order.xls"
+    with patch.object(protocolsio, "resolve", return_value="https://www.protocols.io/view/example"), \
+         patch.object(protocolsio, "public_attachments", return_value=[workbook]) as public_metadata, \
+         patch.dict("os.environ", {}, clear=True):
+        protocolsio.fetch(SimpleNamespace(folder=ProtocolFolder()), "https://www.protocols.io/view/example")
+    check("PDF without annotations still fetches the public original workbook",
+          ([args.args[1] for args in public_metadata.call_args_list], calls[-1][1]),
+          (["51484"], workbook))
 check("Research Square", gs.doi_kind("10.21203/rs.3.rs-3210240/v1"), "researchsquare")
 check("Nature journal", gs.doi_kind("10.1038/ncomms14049"), "journal")
 check("doi.org prefix stripped", gs.norm_doi("https://doi.org/10.1038/nmeth.1470"), "10.1038/nmeth.1470")
@@ -232,6 +267,13 @@ check("vendor file name from a URL with %20 and a query",
 check("vendor file name respects an explicit export format",
       vendor.url_filename("https://docs.google.com/spreadsheets/d/example/export?format=xlsx"),
       "export.xlsx")
+check("Addgene sequence listings retain distinct plasmid IDs",
+      [vendor.url_filename(f"https://www.addgene.org/{plasmid}/sequences/")
+       for plasmid in (52963, 196709)],
+      ["addgene-52963-sequences.html", "addgene-196709-sequences.html"])
+check("original experiment XML export keeps its type",
+      vendor.url_filename("https://www.ebi.ac.uk/ena/browser/api/xml/SRX2134246?format=xml"),
+      "SRX2134246.xml")
 import catalogue as cat  # noqa: E402
 _slugs = cat.source_slugs()
 _real = fetchers.extra_sources()
@@ -321,7 +363,23 @@ check("titles and paragraphs on their own lines; inline markup does not split a 
       _lines, ["A method", "Li Yun", "Methods", "RT primer AAGCAGTGGTATCAACGCAGAGT & 37 °C.", "P5\tAATGATACGG"])
 check(".xml is converted", ".xml" in doctext.CONVERT, True)
 
+check.section("doctext: filled XFA PDF form")
+def xfa_stream(number: int, xml: bytes) -> bytes:
+    packed = zlib.compress(xml)
+    return (f"{number} 0 obj\n<</Filter/FlateDecode/Length {len(packed)}>>\nstream\n".encode()
+            + packed + b"\nendstream\nendobj\n")
+
+blank_xfa = b'<xfa:datasets xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/"><xfa:data><form><sampleprep/></form></xfa:data></xfa:datasets>'
+filled_xfa = b'<xfa:datasets xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/"><xfa:data><form><sampleprep>30 min tagmentation; 40 mM EDTA</sampleprep><index>ACGT</index></form></xfa:data></xfa:datasets>'
+sample_xfa_pdf = b"%PDF-1.7\n" + xfa_stream(2, blank_xfa) + xfa_stream(3, filled_xfa) + b"%%EOF\n"
+check("filled XFA dataset chosen over blank template", doctext.xfa_text(sample_xfa_pdf),
+      "sampleprep: 30 min tagmentation; 40 mM EDTA\nindex: ACGT\n")
+check("ordinary PDF without XFA has no form text", doctext.xfa_text(PDF), None)
+
 check.section("source oligo transcription")
+check("protocols.io source locator retains the accession before /v1",
+      "rm7vzqr92vx1" in declared_locators(
+          "hybrid-bag-seq__10.1186+s13059-025-03790-5"), True)
 check("source match accepts a printed exact oligo",
       _exact_hit("primer 5′-ACGTACGTACGTACGT-3′", "ACGTACGTACGTACGT"), True)
 check("source match rejects a one-base copy error",
@@ -364,6 +422,13 @@ _review = {
 _known = {"example": {"dir": "example"}}
 check("two independent source and link checks pass",
       source_reviews.validate("example", _review, _known), [])
+_vendor_review = copy.deepcopy(_review)
+_vendor_review["source_checklist"][0]["role"] = "vendor"
+check("vendor guide defines a DOI-free commercial protocol",
+      source_reviews.validate("example", _vendor_review, _known), [])
+check("vendor guide alone cannot replace a DOI article",
+      bool(source_reviews.validate("example", _vendor_review,
+                                   {"example": {"doi": "10.1/example"}})), True)
 _one_pass = copy.deepcopy(_review)
 del _one_pass["source_checklist"][0]["pass_2"]
 check("one source check cannot complete review",
@@ -376,6 +441,13 @@ _unavailable = copy.deepcopy(_review)
 _unavailable["source_checklist"][0].update(availability="unavailable", reason="paywall")
 check("unavailable relevant source blocks completed review",
       bool(source_reviews.validate("example", _unavailable, _known)), True)
+_available = copy.deepcopy(_review)
+_available["source_checklist"][0].update(availability="available", pass_1=None, pass_2=None)
+check("downloaded but unread source cannot complete review",
+      bool(source_reviews.validate("example", _available, _known)), True)
+_available["status"] = "in_progress"
+check("downloaded source can await reading without an access blocker",
+      source_reviews.validate("example", _available, _known), [])
 _excluded_once = copy.deepcopy(_review)
 _excluded_once["source_checklist"].append({
     "id": "supplement", "role": "supplement", "locator": "figure-only supplement",
@@ -408,5 +480,13 @@ for _path in source_reviews.REVIEWS.glob("*.json"):
         continue
     _review_errors.extend(source_reviews.validate(_path.stem, _record, _known_protocols))
 check("checked-in source reviews satisfy the acceptance gate", _review_errors, [])
+_accepted_path = source_reviews.REVIEWS / "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049.json"
+_accepted = source_reviews.json.loads(_accepted_path.read_text(encoding="utf-8"))
+_unrendered = copy.deepcopy(_accepted)
+_unrendered["source_checklist"].append({**copy.deepcopy(_accepted["source_checklist"][0]),
+                                         "id": "unrendered_checked_source"})
+check("accepted absence page must enumerate every checked source",
+      any("public page omits source unrendered_checked_source" in issue for issue in
+          source_reviews.validate(_accepted_path.stem, _unrendered, _known_protocols)), True)
 
 check.report()

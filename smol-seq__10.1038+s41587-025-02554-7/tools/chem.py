@@ -104,8 +104,11 @@ SPEC = SimpleNamespace(
     SUMMARY=d.summary, CAVEAT="", FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("The defining source establishes adapter and identifier roles, but the page does not promote panel-specific or supplementary oligo sequences into universal protocol constants."),
-    workflow=_smol, oligos=lambda: (),
+    SEQUENCING_UNAVAILABLE=("Supplementary Data 1 publishes the sensor-specific ligand-binding and released-oligo families. The examples above represent one mefloquine sensor; the sequence differs with analyte and barcode."),
+    workflow=_smol, oligos=lambda: (
+        "<p>Published Supplementary Data 1, mefloquine bSSA ligand-binding oligo (5′→3′): /5Biosg/ATACCGCTCTCGGGACGACGGCAGTCTATACCCCGTATCGCCGAAGGTTGTCGTCCC</p>",
+        "<p>Published Supplementary Data 1, mefloquine barcode 1 release oligo (5′→3′): CGTCGTCCCGAGAGTAGC <cbc>AGTCTGAC</cbc> N5-7 AGATCGGAAGAGCGTCGTGTAG</p>",
+    ),
 )
 SPEC.protocol_graph = protocol_graph
 globals().update(vars(SPEC))

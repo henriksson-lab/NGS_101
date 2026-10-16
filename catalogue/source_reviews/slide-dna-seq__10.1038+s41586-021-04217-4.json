@@ -1,0 +1,423 @@
+{
+  "dir": "slide-dna-seq__10.1038+s41586-021-04217-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-rm7vz861xvx1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Original Martin et al. protocols.io v2 PDF title/DOI/abstract lines 1–53 and 10x nuclei handoff lines 205–265; Zhao Supplementary Methods §1.9 lines 163–169",
+        "finding": "Independently confirmed bi62khge is July 2020 v2 nuclei extraction for 10xV3 snRNA, while Zhao cites February 2020 v1 bck6iuze. This is an assay-specific exclusion. The v2 PDF links a Kamath Nature Neuroscience article about dopamine neurons, unrelated to Slide-DNA DNA-library construct; no molecular detail was inherited from it."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Protocol title/DOI and abstract lines 1–53; procedure lines 61–117 and 220–273; compared Zhao Supplementary Methods §1.9 lines 163–173",
+        "finding": "Independently read this original. It details frozen tissue nuclei extraction for 10x v3 snRNA-seq and cites DOI bi62khge, whereas Zhao cites bck6iuze for its companion snRNA assay. It has no Slide-DNA-seq bead, Tn5, bridge, PCR or read-layout recipe. Exclusion is assay-specific, not evidence that Slide-DNA-seq details are absent."
+      },
+      "discovered_from": "source_2",
+      "reason": "This is the July 2020 version 2, DOI bi62khge, of the frozen-tissue nuclei-extraction protocol; Zhao Supplementary Methods §1.9 cites the February 2020 version 1, DOI bck6iuze, for companion snRNA-seq. Both are nuclei preparation for a different assay, not Slide-DNA-seq DNA-library chemistry."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Information lines 1–35",
+        "finding": "Original supplement contains additional methods; full chemistry relevance remains to review."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Information opening pp. 1-3, lines 1-35",
+        "finding": "Supplement begins additional figure/method context; its chemistry relevance cannot be closed from the first pages alone."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "slide_dna_second",
+          "date": "2026-10-16",
+          "locations": "Publisher Supplementary Methods §1.3–1.6 lines 75–131, §1.9–1.10 lines 163–173, References lines 511–524",
+          "finding": "Original methods give slide-DNA 57/57/8/44 read cycles at lines 113–117, versus bulk WGS 40/40/8/8 at lines 129–131. §1.3 points to Rodriques Slide-seq for bead array indexing, §1.5 to Buenrostro 2015 for PCR, and §1.9 points to a different nuclei protocol DOI bck6iuze for companion snRNA-seq. The bead oligo, bridge and adapters are in Supplementary Table 1."
+        }
+      ]
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Publisher Reporting Summary p.1, extracted lines 31–57; checked links to author bead-index code, author analysis code/Zenodo, SRA PRJNA768453 and Broad SCP1278",
+        "finding": "Independently read exact source-link inventory. It identifies data-collection and analysis software plus four chemistry-adjacent source routes; it does not print a bead/bridge/primer recipe. The linked originals are separately checked below, and portal downloadable files still require inspection."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Publisher Reporting Summary pp.1–3, extracted lines 31–57 and 69–224",
+        "finding": "Reporting Summary links original bead-indexing GitHub, Slide-DNA analysis GitHub/Zenodo, SRA PRJNA768453 and Single Cell Portal SCP1278. The report itself gives no oligo or construct recipe. Both GitHub repositories, the Zenodo metadata/archive and exact cited nuclei protocol were subsequently inspected in independently located source rows; data deposits still need source-scope review."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 lines 1–19",
+        "finding": "Original workbook prints bead oligo, tagmentation and library oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 1 workbook lines 1-19",
+        "finding": "Lists PCT bead oligo with two 7N blocks, bridge, /5Phos/...-ddC mosaic end, bulk and spatial PCR primers, custom R1/R2/i1/i2 primers and Tn5 adapters. These bases and modifications are published."
+      }
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 2, all three sheets: Samples lines 1–13, Library statistics lines 14–24, Array statistics lines 25–35",
+        "finding": "Independently read original workbook. It inventories standard and 4x Slide-DNA, Slide-RNA samples plus library/array performance metrics. It supplies no oligo sequence, reaction order, modification, or sequencing primer geometry; exclusion applies only to chemistry claims, while sample identities remain relevant context."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 2 workbook, Samples lines 1–13, Library statistics lines 14–25, Array statistics lines 26–35",
+        "finding": "Lists DNA, RNA and 4x variant sample IDs and read/array metrics; no oligo bases, primer modifications, step geometry or read-cycle scheme. The 4x variant is explicitly listed, matching Supplementary Methods §1.5."
+      },
+      "reason": "Supplementary Table 2 is the study sample inventory and library/array performance statistics, not a reagent, oligo, reaction or cycle recipe; it cannot support missing-sequence claims."
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_PMC9301586.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Main manuscript lines 77–83 and supplement descriptions lines 225–241",
+        "finding": "Study says spatial bead barcode chemistry builds on Slide-seq and identifies Supplementary Table 1 as oligo source."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Zhao original JATS lines 77-83 and supplement descriptions lines 225-241",
+        "finding": "Original says spatial coordinate comes from previously sequenced barcoded beads, then HCl-treated tissue DNA is tagmented, photocleaved bead barcode transferred/ligated and amplified; custom reagents are in Supplementary Table 1."
+      }
+    },
+    {
+      "id": "manual_7",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Info.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_8",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Tab_1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_9",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Tab_2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_10",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Tab_3.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_11",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Tab_4.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_12",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9301586/bin/NIHMS1820300-supplement-1820300_Sup_Tab_5.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "linked_slide_seq_predecessor",
+      "role": "predecessor",
+      "locator": "Rodriques et al., Science 2019, DOI 10.1126/science.aaw1219; _data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_2",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original Rodriques Slide-seq PMC JATS lines 64–66 and 96; original biorxiv v1 supplementary Methods lines 7–21 and 41–65, after full oligo scrape of predecessor bundle",
+        "finding": "The predecessor establishes 10-µm RNA-capture beads spatially indexed by SOLiD ligation; its supplement prints RNA-capture bead oligos with PCT, split-pool J barcode blocks, random N/UMI and T30. Zhao Supplementary Methods §1.3 explicitly replaces this bead oligo for DNA ligation and prints the Slide-DNA oligo in its own Supplementary Table 1; predecessor RNA-capture bases must not be copied into Slide-DNA."
+      }
+    },
+    {
+      "id": "linked_atac_pcr_predecessor",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt; DOI 10.1002/0471142727.mb2129s109",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_2",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original Buenrostro 2015 PMC JATS, PCR Amplification lines 111–167 and Figure 1 legend line 293, after full oligo scrape of the predecessor source bundle",
+        "finding": "Predecessor specifies 72°C 5-min end extension, five initial cycles with 63°C annealing, qPCR side reaction to choose additional cycles, then final PCR. Zhao Supplementary Methods §1.5 says it uses this method with annealing changed to 65°C. The predecessor names custom Nextera primers but directs primer list elsewhere; Zhao Table 1 prints its own indexed primers."
+      }
+    },
+    {
+      "id": "linked_bead_index_code",
+      "role": "linked_material",
+      "locator": "https://github.com/broadchenf/Slideseq; cached original gh_ReadMe.txt and gh_BeadSeq.m in _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Author broadchenf/Slideseq gh_ReadMe.txt lines 1–28, 44–69 and 82–88; gh_BeadSeq.m lines 91–121",
+        "finding": "Independently checked README and MATLAB script. README describes mapping in situ SOLiD/image calls to Illumina bead barcodes and labels Sequence 1/2 for Slide-seq RNA beads; script turns image base calls into bead barcode identifiers. Neither defines Zhao DNA-capture oligo or index-primer binding geometry; Zhao Table 1 remains the source for DNA oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original author GitHub BeadSeq Code/ReadMe.txt lines 1–12, 25–28, 44–69, 76–86; BeadSeq Code/BeadSeq.m lines 91–121; Rodriques Slide-seq supplement Methods lines 7–21 and 41–65",
+        "finding": "README explains SOLiD imaging/basecalling and mapping in situ bead barcodes to Illumina barcodes, with 14 meaningful ligations and Sequence 1/2 bead types from Slide-seq RNA supplement. BeadSeq.m processes image-derived barcode calls. It is upstream spatial bead-indexing machinery; it does not replace Zhao Supplementary Table 1 DNA-capture oligo."
+      }
+    },
+    {
+      "id": "linked_analysis_code",
+      "role": "linked_material",
+      "locator": "https://github.com/buenrostrolab/slide_dna_seq_analysis; publication-era snapshot at Zenodo DOI 10.5281/zenodo.5553305",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Original Zenodo v1.0 ZIP README.md; scripts/preprocess/extractBCfromR2.py lines 1–59, add_umis_from_R2.py lines 1–37, pyadapter_trim.py options lines 39–44; scripts/run/slidedna_alignment_template.sh lines 23–103 and 143–183",
+        "finding": "Independently read selected publication-era scripts. Pipeline expects three demultiplexed FASTQ streams R1/R2/R3; the middle stream yields two 7-base spatial blocks around ACGCTGAAGA and is added to R1/R3 headers; these two genomic streams are aligned as a pair. add_umis_from_R2 calls this string umi in code, but it is the bead spatial barcode by extraction logic. Inspected scripts do not establish physical index-primer binding, and the entire archive has not been exhaustively checked."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Author GitHub repository root README/folder list; archived v1.0 ZIP README.md; scripts/preprocess/extractBCfromR2.py and add_umis_from_R2.py; scripts/run/slidedna_alignment_template.sh §§1–5 and §§8–10; scripts/preprocess/pyadapter_trim.py",
+        "finding": "Archived pipeline splits three demultiplexed FASTQ streams named R1/R2/R3. extractBCfromR2.py finds fixed motif ACGCTGAAGA and extracts two 7-base spatial-barcode blocks from middle R2 stream; add_umis_from_R2.py attaches that 14-base string to both genomic-read headers, then alignment template aligns original R1/R3 as a paired fragment and groups by barcode. This corroborates barcode handling but does not itself establish index-primer binding geometry or an unprinted reagent sequence."
+      }
+    },
+    {
+      "id": "linked_zenodo_archive",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.5281/zenodo.5553305; metadata and publication-era ZIP cached as _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/5553305.html and slide_dna_seq_analysis-v1.0.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Original Zenodo API record 5553305 cached 5553305.html.txt JSON line 1: id/DOI/version/publication date/related GitHub v1.0/file metadata; opened ZIP README and selected scripts named in linked_analysis_code",
+        "finding": "Independently confirmed Zenodo DOI 10.5281/zenodo.5553305 is an open 6 Oct 2021 v1.0 archive of buenrostrolab/slide_dna_seq_analysis, with one 26,335,256-byte ZIP and a related GitHub v1.0 tag. This identifies the authoritative publication-era code snapshot. Selected barcode/alignment files were read separately; the archive inventory alone cannot prove an oligo is absent."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original Zenodo record 5553305 API metadata id/DOI/title/related identifiers/file list; version v1.0 ZIP README.md; scripts/preprocess/extractBCfromR2.py, add_umis_from_R2.py, pyadapter_trim.py; scripts/run/slidedna_alignment_template.sh",
+        "finding": "Zenodo record resolves and preserves the 2021 publication-era v1.0 GitHub code as a 26,335,256-byte ZIP. The archive confirms two genomic FASTQ streams and a barcode-containing middle stream; it does not supply a new physical oligo beyond Zhao Supplementary Table 1 in inspected files. This is a scoped positive reading, not a claim that all archive files were searched twice."
+      }
+    },
+    {
+      "id": "linked_sn_rna_nuclei_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-bck6iuze.pdf.txt; DOI 10.17504/protocols.io.bck6iuze",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The cited original v1 is explicitly a frozen-nuclei preparation protocol for 10x v3 single-nucleus RNA sequencing; Zhao places the citation in Supplementary Methods §1.9, its companion snRNA branch. It does not define Slide-DNA-seq bead/Tn5/bridge/PCR chemistry.",
+      "discovered_from": "source_2",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Exact Martin et al. protocols.io v1 PDF dated 19 Feb 2020, title/DOI lines 1–46, dissociation/wash/FACS procedure lines 61–173, 10x handoff lines 199–217; compared Zhao Supplementary Methods §1.9 lines 163–169",
+        "finding": "Independently verified DOI bck6iuze is nuclei extraction for 10xV3 snRNA, ending at 10x nuclei input. Zhao cites it solely in companion snRNA subsection, not Slide-DNA §1.3–1.5. This exclusion is supported by both originals; its cooling-block vendor link is procedural equipment, not DNA library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io PDF v1 title/DOI lines 1–46, buffer/procedure lines 54–160, handoff to 10x lines 202–217; Zhao Supplementary Methods §1.9 lines 163–169",
+        "finding": "Fetched and independently read exact cited DOI bck6iuze. It is February 2020 v1 of frozen tissue nuclei extraction for 10xV3 snSEQ, ending with input to 10x. Earlier bi62khge source is July 2020 v2. Neither specifies Slide-DNA-seq DNA capture chemistry; exclusion is based on the original source content and Zhao section context."
+      }
+    },
+    {
+      "id": "linked_sra_project",
+      "role": "linked_material",
+      "locator": "PRJNA768453; _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/filereport.tsv and SRX12501989.xml.txt (original ENA SRA mirror metadata)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Original ENA PRJNA768453 read_run filereport.tsv header/all 18 records lines 1–19 and SRX12501989.xml original XML TITLE/DESIGN_DESCRIPTION/LIBRARY_DESCRIPTOR/LIBRARY_LAYOUT lines 7–30",
+        "finding": "Independently counted 18 paired runs: named Slide-DNA, two 4x variants, companion Slide-RNA/snRNA, scWGS and bulk WGS. Cerebellum Slide-DNA SRX12501989 is WGS/GENOMIC/PCR with generic design description “slide-DNA-seq” and paired layout; no LIBRARY_CONSTRUCTION_PROTOCOL element or custom index-primer geometry in this experiment XML. No raw FASTQ was read; this is metadata scope only."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original ENA project read_run table header and all 18 records; original SRX12501989 experiment XML TITLE, DESIGN_DESCRIPTION, LIBRARY_NAME and LIBRARY_LAYOUT",
+        "finding": "Project run list distinguishes slide-DNA-seq, 4x variant, companion snRNA/slide-RNA, scWGS and bulk WGS libraries and labels runs PAIRED. The inspected slide-DNA experiment has a generic DESIGN_DESCRIPTION (slide-DNA-seq) and no detailed LIBRARY_CONSTRUCTION_PROTOCOL or index-primer geometry. Raw reads were not downloaded; therefore metadata does not close read-layout reconstruction."
+      }
+    },
+    {
+      "id": "linked_spatial_portal",
+      "role": "linked_material",
+      "locator": "https://singlecell.broadinstitute.org/single_cell/study/SCP1278/spatial-genomics-enables-multi-modal-study-of-clonal-heterogeneity-in-tissues",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Original Broad SCP1278 static Summary and sample table rows 7–22, checked Download tab link through browser on 16 Oct 2026",
+        "finding": "Independently read sample inventory: separate Slide-DNA, 4x DNA, Slide-RNA, snRNA and scWGS rows; it corroborates modality/sample identities but prints no oligo or reagent sequences. Static Download link returns the same page and does not expose linked barcode-location/count files; those assets remain uninspected rather than confirmed sequence-free."
+      },
+      "pass_2": {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original Broad Single Cell Portal SCP1278 study landing page Summary and sample table rows 7–22; Download tab not rendered in static view",
+        "finding": "The portal lists DNA, 4x DNA, RNA and scWGS samples, with distinct modalities. The sample inventory does not print oligo or reagent bases. Downloadable spatial barcode-location/count files remain to inspect before making any absence claim from this deposit."
+      }
+    },
+    {
+      "id": "linked_portal_downloads",
+      "role": "linked_material",
+      "locator": "Broad Single Cell Portal SCP1278 Download tab: spatial bead-barcode location and count matrix files, link from Reporting Summary p.1 lines 53–57",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Static browser Download tab returned the same summary page and did not expose file names/contents; linked data can inform barcode interpretation and has not been source-checked.",
+      "discovered_from": "linked_spatial_portal",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "linked_sra_raw_reads",
+      "role": "linked_material",
+      "locator": "SRA PRJNA768453 raw reads, especially SRR16220127/SRX12501989; project linked by Reporting Summary p.1 line 56",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original run/experiment metadata were inspected but raw FASTQ was not downloaded; raw cycles may clarify read/index stream mapping, not a missing oligo declaration.",
+      "discovered_from": "linked_sra_project",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "linked_cooling_block_vendor",
+      "role": "linked_material",
+      "locator": "https://www.daigger.com/eppendorf-pcr-coolers-14616-group (equipment link in exact nuclei protocol PDF lines 185–189)",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "The link concerns a cold block used after FACS in the companion snRNA nuclei preparation. It cannot specify Slide-DNA bead/Tn5/ligation/PCR chemistry; no product details were used as source evidence.",
+      "discovered_from": "linked_sn_rna_nuclei_protocol",
+      "pass_1": {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Exact nuclei PDF lines 185–189 plus Zhao Supplementary Methods §1.9 lines 163–169",
+        "finding": "Link is a vendor cold-block product for FACS collection of companion snRNA nuclei, irrelevant to Slide-DNA DNA-library construct."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods and the located publisher oligo tables listed in the independent second-pass source rows",
+      "finding": "Chemistry-relevant linked supplements, historical predecessors or vendor sources remain unread/unavailable in this checklist. This review remains blocked until those are resolved and two independent located passes cover each relevant source."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "slide_dna_second",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Methods §1.3–1.6 and §1.9–1.10; Reporting Summary pp.1–2; original GitHub repository roots",
+        "finding": "Followed Supplementary Methods to Rodriques 2019 bead indexing, Buenrostro 2015 PCR and exact protocols.io bck6iuze v1 nuclei preparation; the latter is companion snRNA and a separate v2 had initially been fetched. Followed Reporting Summary to the author bead-indexing GitHub README/script and Zenodo v1.0 Slide-DNA analysis archive. Archive scripts extract two 7-nt spatial-barcode blocks from a middle FASTQ stream and align two genomic streams. Inspected SRA project run metadata and one slide-DNA experiment XML plus the Broad portal sample table; raw reads and portal downloadable files remain uninspected. No absence is accepted."
+      },
+      {
+        "reviewer": "slide_dna_first_independent",
+        "date": "2026-10-16",
+        "locations": "Publisher Reporting Summary p.1 lines 31–57; Zhao Supplementary Methods §1.3–1.5 and §1.9 lines 75–117, 163–169; exact protocols.io v1; author GitHub bead code, Zenodo archive/scripts, ENA PRJNA768453 metadata and Broad SCP1278 sample table",
+        "finding": "Independently followed source links to exact v1 nuclei protocol and classified it as companion snRNA; followed bead-indexing and analysis code, Zenodo v1.0, ENA run/experiment metadata and Broad sample inventory. The nuclei protocol also links a cold-block vendor item, classified not relevant to Slide-DNA chemistry. Broad Download files, raw SRA reads and gated PMC mirrors remain uninspected/unavailable; no missing-information absence is accepted."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Two located passes now cover the exact nuclei protocol, author code/Zenodo and sampled ENA/portal metadata, but relevant raw reads, portal downloadable files and gated PMC supplement mirrors remain uninspected; several source checklist rows still lack first/second passes.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Independent source checks now cover exact cited nuclei protocol (companion snRNA), author bead-indexing and analysis code, Zenodo v1.0, ENA PRJNA768453 metadata and Broad SCP1278 sample inventory. These corroborate sample/barcode handling without resolving the physical index-primer sites. Raw reads, portal downloads, gated PMC mirrors and other checklist passes remain open. No missing-information claim is accepted."
+}

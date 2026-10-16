@@ -7,6 +7,7 @@ Marchal C et al. *Genome-wide analysis of replication timing by next-generation 
 ## Sources read
 
 - 🟢 The complete defining protocol in [PMC6044726](https://pmc.ncbi.nlm.nih.gov/articles/PMC6044726/).
+- 🟢 Its publisher Supplementary Data 1 and 2 (MOESM34) print the NEBNext adaptor, index-primer families, BrdU-IP qPCR primers and re-amplification primers. The oligo scraper was run on the original article and supplements; relevant hits were checked against those source lines.
 
 ## 1. What it is
 
@@ -25,7 +26,9 @@ Marchal C et al. *Genome-wide analysis of replication timing by next-generation 
 
 🟢 These are conventional indexed Illumina genomic libraries. Normalized coverage is calculated separately for early and late fractions and reported as an early/late ratio.
 
-🟡 The page uses canonical compatible Illumina geometry. Kit-specific universal-adapter oligos are not retyped from a commercial reagent.
+🟢 Supplementary Data 1 prints the NEBNext Adaptor for Illumina as `5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC/ideoxyU/ACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`, with an internal deoxyU and terminal phosphorothioate bond. It lists i5 and i7 index-primer families. Supplementary Methods print BrdU-IP adaptor qPCR primers `ACACTCTTTCCCTACACGACGC` and `GACTGGAGTTCAGACGTGTGC`; Supplementary Data 2 prints the two short re-amplification oligos.
+
+🟡 The page uses a canonical Illumina library endpoint while keeping the annealed adaptor-end ligation geometry unresolved pending direct molecular pairing review. The source-printed adapter and primers are shown separately on the public page.
 
 ## 4. Boundary
 

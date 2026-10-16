@@ -1,0 +1,277 @@
+{
+  "dir": "uda-seq__10.1038+s41592-024-02586-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_PMC12165859.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 329–355 and 371–383; scraper on article and Additional file 1",
+        "finding": "Article describes i7-only Tn5 assembly, template-switch oligo/index amplification, RNA library tagmentation and a separate Chromium-based chromatin branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole UDA-seq source-bundle oligo scraper run first (170 hits across 9 files); defining PMC12165859 original JATS Methods text lines 329-385 and 385-402 re-read: i7-only Tn5 assembly, droplet partitioning, 85 °C release, well indexing, RNA tagmentation, Multiome ATAC branch; read source references to Supplementary Table 7 and detailed refs 62 (scRNA) and 63 (Multiome), and compared Table 7 local original MOESM8 sheet rows 3-9 with paper-specified oligo names.",
+        "finding": "Article specifies i7-only Tn5 assembly with published Table 7 oligos, 10x droplet RT, 96-well i5 indexing, RNA-library Tn5 and separate Chromium Multiome ATAC route. It directs branch details to refs 62/63 and vendor kits; those linked sources require their own checklist passes. Paper alone does not establish complete proprietary bead or branch-specific primer geometry, so missing claims remain blocked."
+      }
+    },
+    {
+      "id": "manual_1",
+      "role": "supplement",
+      "locator": "https://doi.org/10.17504/protocols.io.5qpvokd4xl4o",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "protocols.io protocol cited by a fetched paper; DOI did not resolve to a protocols.io page"
+    },
+    {
+      "id": "manual_2",
+      "role": "supplement",
+      "locator": "https://doi.org/10.17504/protocols.io.n2bvjne15gk5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "protocols.io protocol cited by a fetched paper; DOI did not resolve to a protocols.io page"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_10X_V1_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_10X_V2_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_10X_V3_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_Source_Date_Fig.1e_benchmarking.csv",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_UDA-seq_V2-1_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_UDA-seq_V2-2_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM10_ESM_UDA-seq_V3_cell_info.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM12_ESM.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM12_ESM_Fig4c_immune_signature_score_donor.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM12_ESM_Fig4d_metabolic_signature_score_donor.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_21",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_22",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_23",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_24",
+      "role": "supplement",
+      "locator": "_data/sources/uda-seq__10.1038+s41592-024-02586-y/s41592-024-02586-y_supp_41592_2024_2586_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "chromium_vendor",
+      "role": "linked_material",
+      "locator": "10x Chromium Controller and kit named in Methods lines 371–383",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-specific commercial bead/adapter documentation not independently checked.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "audit_sci_hic",
+      "date": "2026-10-16",
+      "locations": "Defining article Methods text lines 329-385 and references 62-63 at lines 1201-1208; local publisher Supplementary Table 7/MOESM8 rows 3-9; paper-linked protocols.io DOI 10.17504/protocols.io.n2bvjne15gk5/v1 (sc5′ RNA), 10.17504/protocols.io.5qpvokd4xl4o/v1 (Multiome), and 10x kit names inventoried.",
+      "finding": "Paper explicitly defers step-by-step RNA and Multiome workflows to protocols.io refs 62 and 63 and uses versioned 10x kits. Their original protocol records and vendor guides still lack independent source passes in this checklist, so linked-information review is not closed and proprietary bead/primer absences remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First-pass review in progress. No missing claim accepted; relevant source inventory and independent second pass remain open."
+}

@@ -37,7 +37,8 @@ def preamble(protocol: str, *, complete: bool = False,
              source: tuple[str, str] | None = None) -> str:
     doi, title = source or PAPERS[protocol]
     if protocol == S.SCI15:
-        caveat = '<div class="caveat"><b>Inferred PCR indices.</b> The defining paper’s gated supplement contains the PCR-primer list. Dotted 8-nt PCR indices use the compatible Amini 2014 Nextera-kit layout; their exact 2015 length and bases remain unavailable.</div>'
+        caveat = ('<div class="caveat"><b>Inferred PCR indices.</b> The defining paper’s gated supplement contains the PCR-primer list. Dotted 8-nt PCR indices use the compatible Amini 2014 Nextera-kit layout; their exact 2015 length and bases remain unavailable. '
+                  '<b>Published predecessor correction:</b> <a href="https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fng.3119/MediaObjects/41588_2014_BFng3119_MOESM2_ESM.xlsx">Amini 2014 Supplementary Table 4</a>, Correction Notice and corrected rows 1–5, reports that its original online table omitted the first five indexed Tn5 oligos; they were restored on 20 May 2015. Their corrected 8-base i5 values are TATAGCCT, ATAGAGGC, CCTATCCT, GGCTCTGA and AGGCGAAG. The model uses Amini’s shared Tn5 architecture with an unspecified first-well index; the gated 2015 supplement prevents assignment of these Amini members to this protocol.</div>')
     elif protocol == S.SCI3:
         caveat = ""
     else:

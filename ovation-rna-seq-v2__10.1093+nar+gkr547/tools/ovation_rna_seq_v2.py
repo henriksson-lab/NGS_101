@@ -69,9 +69,9 @@ def _ovation_graph(source: str) -> ProtocolGraph:
     g.react("fragment", "Shear the amplified cDNA for library construction",
             StepKind.FRAGMENTATION,
             ((amplified, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragmented,))
-    adapters = g.input("library_reagents", "Encore Rapid Illumina library reagents",
+    adapters = g.input("library_reagents", "NEB Illumina library-preparation reagents",
                        MaterialKind.ADAPTER, inferred=True,
-                       source=source + " (commercial oligo sequences not reported)")
+                       source=source + " (exact kit and adapter oligos unresolved)")
     library = g.product("library", "Illumina library from Ribo-SPIA cDNA",
                         MaterialKind.LIBRARY, state=OVATION_LIBRARY, inferred=True,
                         source=source + " (canonical shell inferred from compatibility)")
@@ -102,14 +102,14 @@ spec = SimpleNamespace(
              "RNase H repeatedly exposes SPIA priming sites, and a strand-displacing "
              "polymerase repeatedly displaces cDNA copies before "
              "conventional Illumina library construction."),
-    CAVEAT=("NuGEN did not publish the chimeric primer bases. The defining paper "
-            "used the Ovation product with a separate Encore Rapid Illumina "
-            "library workflow; canonical TruSeq-compatible ends below are marked "
-            "inferred rather than attributed to the Ribo-SPIA kit itself."),
+    CAVEAT=("The audited article does not print the chimeric primer bases, and its "
+            "cited commercial guide remains to be checked. The article used a "
+            "separate NEB library-preparation kit, without naming its exact adapter "
+            "variant; canonical TruSeq-compatible ends below are inferred."),
     oligos=lambda: (), FINAL_LIBRARY=OVATION_LIBRARY,
     FINAL_CAPTION=("Sequencing library made from sheared Ribo-SPIA cDNA. The "
                    "transcript-derived insert is source-established; exact commercial "
-                   "adapter/index oligos were not disclosed in the defining paper."),
+                   "adapter/index oligos are not printed in the defining paper."),
     SEQ_PRIMERS=OVATION_PRIMERS,
     ACQUIRED_ROLES=("Read 1", "Index 1 (i7)", "Read 2"),
     READ_LENGTHS={"Read 1": 50, "Index 1 (i7)": 8, "Read 2": 50},

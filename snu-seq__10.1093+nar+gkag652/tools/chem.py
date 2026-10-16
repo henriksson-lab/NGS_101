@@ -1,12 +1,19 @@
 from nascent_protocols import make_spec, role_library
 
-from nascent_protocols import Construct, Definition, FourSUReadout, InputRole, MaterialKind, ProtocolGraph, StepKind, finish_cdna, ligate_rna_adapter, molecule, role
+from nascent_protocols import Construct, Definition, FourSUReadout, InputRole, MaterialKind, ProtocolGraph, StepKind, finish_cdna, molecule, role
 DEFINITION = Definition("SNU-Seq — single-nucleotide-resolution 4sU sequencing", "10.1093/nar/gkag652", "Gerlevik et al., Nucleic Acids Research (2026)", "Biotin-selected intact 4sU RNA is polyadenylated with bacterial poly(A) polymerase and captured by a 3′ RNA-seq workflow to preserve native endpoint information.", "The 3′-anchored read reports the native end of an intact pulse-labelled RNA molecule.", "01_snu_seq.html")
 
 FINAL_LIBRARY = role_library(DEFINITION.title + " final library", (role("assay-derived cDNA"),),
                              indexed=False, platform="platform-specific")
 globals().update(vars(make_spec(DEFINITION, FINAL_LIBRARY,
-    unavailable='The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role.')))
+    unavailable='The paper names Ion Torrent and Illumina FWD QuantSeq branches without assigning a kit revision or barcode to each sample. The official 2018 Ion and 2021 FWD guides print their distinct finished library shells and sequencing entries; this combined schematic keeps the platform-specific ends by role.')))
+CAVEAT = ('Lexogen QuantSeq Ion Torrent and Illumina FWD are distinct library branches. '
+          'Official <a href="https://www.lexogen.com/wp-content/uploads/2018/06/012UG036V0130_QuantSeq-IonTorrent.pdf">Ion guide 012UG036V0130</a> '
+          '(Appendix E) and <a href="https://www.lexogen.com/wp-content/uploads/2021/08/015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf">Illumina FWD guide 015UG009V0260</a> (Appendix G) '
+          'print their finished library architecture. The original paper and GEO do not '
+          'assign an exact guide revision or barcode well to every SNU-Seq library; '
+          'the final panel represents their shared assay insert and leaves kit-specific '
+          'ends symbolic.')
 
 READOUT = FourSUReadout('thiol biotinylation, streptavidin purification and bacterial poly(A) polymerase', 'native RNA ends', True)
 
@@ -32,11 +39,14 @@ def four_su_graph(d: Definition, final: Construct) -> ProtocolGraph:
     reviewed.extend(('thiol_biotin', 'biotinylation_condition', 'biotinylate', 'streptavidin', 'enrich'))
     pap = graph.input('poly_a_polymerase', 'bacterial poly(A) polymerase', MaterialKind.CATALYST)
     atp = graph.input('tailing_atp', 'ATP for RNA polyadenylation', MaterialKind.MOLECULAR)
-    selected = graph.product('selected_rna', 'polyadenylated intact 4sU RNA', MaterialKind.MOLECULAR, state=enriched.state)
+    selected = graph.product('selected_rna', 'polyadenylated intact 4sU RNA', MaterialKind.MOLECULAR,
+                             state=molecule('polyadenylated intact 4sU RNA',
+                                            (role('native intact 4sU-labelled RNA'),
+                                             role('bacterial poly(A) tail'))))
     graph.react('polyadenylate', 'Polyadenylate intact enriched RNA', StepKind.TAILING, ((enriched, InputRole.TEMPLATE), (atp, InputRole.STRUCTURAL), (pap, InputRole.CATALYST)), (selected,))
     reviewed.extend(('poly_a_polymerase', 'tailing_atp', 'polyadenylate'))
-    ligated = ligate_rna_adapter(graph, 'library_adapter', selected, 'directional library', reviewed)
-    finish_cdna(graph, 'library', ligated, final, d.endpoint, reviewed)
+    finish_cdna(graph, 'library', selected, final, d.endpoint, reviewed,
+                rt_label='Lexogen QuantSeq 3-prime oligo(dT) capture primer')
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

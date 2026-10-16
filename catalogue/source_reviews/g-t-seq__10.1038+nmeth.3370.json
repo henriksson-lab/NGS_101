@@ -1,0 +1,191 @@
+{
+  "dir": "g-t-seq__10.1038+nmeth.3370",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "macaulay_2015",
+      "role": "defining",
+      "locator": "Macaulay et al. 2015 Nat Methods DOI 10.1038/nmeth.3370; author-uploaded full PDF with Online Methods at https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "Original seven-page PDF Online Methods lines 554-623, especially 573-605 and 621-623; Figure 1 caption lines 193-196; ran oligo scraper on available source bundle and verified the 2015 PDF's printed oligos directly",
+        "finding": "The defining 2015 Methods print the 5′ biotin-TEG dT30VN capture primer, TSO AAGCAGTGGTATCAACGCAGAGTACrGrG+G, PCR primer AAGCAGTGGTATCAACGCAGAGT, bead capture and separation, on-bead RT/PCR, MDA/PicoPLEX alternatives and Nextera XT library preparation. The 2016 detailed protocol prints an extra AT before its TSO rGrG+G."
+      },
+      "pass_2": {"reviewer": "audit_a_h", "date": "2026-10-16", "locations": "Author-uploaded original seven-page PDF, https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf, web-extracted lines 554-605 and 612-623", "finding": "Independently read original Online Methods: biotin-TEG-AAGCAGTGGTATCAACGCAGAGTAC-T30VN capture, TSO ending AGTACrGrG+G, ISPCR, on-bead RT/PCR, genomic branch MDA or PicoPLEX, followed by Nextera XT. The 2016 TSO has an extra AT before rGrG+G. Web PDF readable though local curl route remains manual."}
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "nmeth.3370 MOESM222 PDF text, local G&T bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PDF text lines 1-145 and 246-550",
+        "finding": "Original file is supplemental figure legends/analysis metrics. It is not an oligo ordering protocol; local MANIFEST mislabels its duplicate as author-deposited supplementary methods."
+      },
+      "pass_2": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "MOESM222 PDF text lines 1-145 and 246-550; checked figure headings and legends independently",
+        "finding": "This supplement contains figures and analysis descriptions, not an oligonucleotide table or detailed laboratory procedure."
+      },
+      "reason": "No chemical method or oligo table in inspected figures and legends."
+    },
+    {
+      "id": "supp_cn",
+      "role": "supplement",
+      "locator": "nmeth.3370 MOESM221 workbook text, local G&T bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Workbook sheet Fig 2c header and initial rows",
+        "finding": "Genome copy-number/figure data, not primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "MOESM221 extracted text sheet Fig 2c header and initial rows",
+        "finding": "The workbook maps cells and chromosomes to copy-number values for Fig. 2c; no laboratory protocol or oligo table is present in its sheet structure."
+      },
+      "reason": "Results workbook."
+    },
+    {
+      "id": "supp_rna",
+      "role": "supplement",
+      "locator": "nmeth.3370 MOESM223 workbook text, local G&T bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Workbook first sheet header and initial rows",
+        "finding": "RNA sequencing analysis metrics, not primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "MOESM223 extracted text Supplementary File 1 introductory sheet and five worksheet descriptions",
+        "finding": "The authors identify all five sheets as sequencing statistics, including WGA, RNA alignment and Smart-seq2 comparisons. It does not provide an oligo list."
+      },
+      "reason": "Results workbook."
+    },
+    {
+      "id": "supp_unconverted",
+      "role": "supplement",
+      "locator": "nmeth.3370 MOESM220 workbook, local bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "All three worksheet headings and extracted headers identify Fig. 1b chromosome-position values and Fig. 1c gene expression values, not laboratory chemistry.",
+      "pass_1": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "MOESM220 extracted text lines 1-2, 5435-5436 and 10405-10406; workbook sheet names Fig. 1b, Fig. 1b (bulk), Fig. 1c (all genes); scraper run on the workbook",
+        "finding": "The 18-MB workbook contains chromosome-position measurements and per-gene expression values for figures. It has no methods or oligo table in its three worksheets."
+      },
+      "pass_2": {"reviewer": "audit_a_h", "date": "2026-10-16", "locations": "nmeth.3370_41592_2015_BFnmeth3370_MOESM220_ESM.xlsx.txt lines 1-3, 5435-5437 and 10405-10407; scraper found only a gene-name false hit at line 11486", "finding": "All three sheets are result tables: Fig. 1b chromosome positions/cell values, Fig. 1b bulk chromosome positions, and Fig. 1c Ensembl gene expression. No chemistry instructions or oligo list in their headers or sampled rows."}
+    },
+    {
+      "id": "macaulay_2016",
+      "role": "linked_material",
+      "locator": "Macaulay et al. 2016 Nat Protoc DOI 10.1038/nprot.2016.138; author-deposited original PDF in local G&T bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "macaulay_2015",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original PDF text lines 144-185, 421-440, 644-658, 718-734 and 1373-1387; scraper hit lines 644-656",
+        "finding": "Authors print exact 5′-Biotin-TEG capture/RT oligo with dT30VN, TSO ending ATrGrG+G and ISPCR; prescribe bead loading and name Nextera XT plus MDA/PicoPLEX alternatives. This is a 2016 implementation, not direct proof of 2015 ordering identity."
+      },
+      "pass_2": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "Authors' 2016 PDF extracted text lines 140-181, 644-656, 718-734 and 1373-1391; ran scrape_primers.py on the original PDF and verified every relevant hit in those lines",
+        "finding": "Independently confirmed 5′-Biotin-TEG capture dT30VN, TSO ATrGrG+G, ISPCR, bead capture before branch separation, and the recommended Nextera XT library step. The text presents PicoPLEX and MDA as choices; it cannot by itself establish exact 2015 reagent identity."
+      }
+    },
+    {
+      "id": "later_implementation",
+      "role": "other",
+      "locator": "Direct G&T-seq implementation PMC7581540 cited by current research note",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "A later implementation is not needed to establish the exact oligos printed in the recovered 2015 original; it may still inform a separate comparison of variants."
+    },
+    {
+      "id": "klein_2002_capture",
+      "role": "predecessor",
+      "locator": "Klein et al. 2002 Nat Biotechnol 20:387–392, DOI 10.1038/nbt0402-387; cited as reference 11 by Macaulay 2015 for earlier RNA/DNA separation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The predecessor full method has not yet been obtained and independently read; 2015 prints its own exact capture oligo, but the inherited separation chemistry still needs the linked-source check."
+    },
+    {
+      "id": "guzvic_2014_capture",
+      "role": "predecessor",
+      "locator": "Gužvić et al. 2014 Cancer Res 74:7383–7394; cited as reference 12 by Macaulay 2015 for earlier RNA/DNA separation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The cited predecessor full method has not yet been obtained and independently read."
+    },
+    {
+      "id": "picelli_smartseq2",
+      "role": "predecessor",
+      "locator": "Picelli et al. 2014 Nat Protoc 9:171–181, cited as reference 14 by Macaulay 2015 for modified Smart-seq2 RT/WTA",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "A G&T-specific two-reader check of the cited original Smart-seq2 protocol has not yet been recorded."
+    },
+    {
+      "id": "nextera_xt_historical",
+      "role": "vendor",
+      "locator": "Contemporaneous Illumina Nextera XT kit protocol and index oligo tables, invoked in Macaulay 2015 Online Methods lines 621–623",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The historical vendor guide and the particular index set used in the 2015 experiment have not yet been independently checked."
+    },
+    {
+      "id": "wga_kit_historical",
+      "role": "vendor",
+      "locator": "Contemporaneous GenomiPhi V2 MDA and PicoPLEX WGA guides, named in Macaulay 2015 Online Methods lines 612–616",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The 2015 vendor reagent specifications have not yet been checked; the original paper treats the two WGA kits as alternative branches."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "2015 Nature abstract/MANIFEST; author 2016 protocol DOI and source PDF lines 144-185, 644-658; supplementary inventory",
+      "finding": "Followed author detailed 2016 protocol and read its exact oligo list. Original 2015 full Methods and one large unconverted results workbook still needed review at this pass; the workbook was subsequently converted and identified as figure data."
+    },
+    "pass_2": {
+      "reviewer": "root-independent-review",
+      "date": "2026-10-15",
+      "locations": "2016 detailed protocol lines 140-190, 644-656 and 1373-1391; MOESM220/221/223 sheet titles and headers; local manifest for original 2015 Methods",
+      "finding": "Followed the 2015 method to its author-written 2016 detailed protocol and inspected both versions' capture, TSO and PCR oligos. The 2015 full Methods were subsequently recovered as an author-uploaded original PDF; the previously unconverted MOESM220 workbook is figure data. Kit-specific index and WGA oligos still require independent vendor checks."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact G&T-seq capture, template-switch and PCR oligos are unavailable for the 2015 implementation",
+      "disposition": "resolved",
+      "evidence": "The original 2015 Online Methods lines 573-605 print all three exact oligos. Its TSO lacks the AT before rGrG+G printed by the 2016 author protocol; the page displays both source values and uses 2015 for the defining version."
+    },
+    {
+      "claim": "Selected downstream Nextera XT index members and MDA/PicoPLEX kit-specific oligos are unavailable",
+      "disposition": "blocked",
+      "evidence": "The original 2015 Online Methods lines 612-623 choose MDA or PicoPLEX and Nextera XT, but do not choose individual index members or disclose proprietary WGA primer compositions; contemporaneous vendor documents have not yet been independently checked."
+    }
+  ],
+  "conclusion": "The original 2015 Methods are recovered and establish the defining capture, TSO and PCR oligos. The two-base TSO difference from the 2016 author protocol is disclosed on the page. Downstream vendor kit identity and selected index members remain blocked; no missing information is accepted."
+}

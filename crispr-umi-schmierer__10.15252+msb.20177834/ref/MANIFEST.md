@@ -57,6 +57,14 @@ vector-shaped on this page is rebuilt from it by `crisprumi.rebuild_vector()`, s
 file the directory genuinely cannot do without.
 **Source:** Addgene **#52963** (lentiGuide-Puro), full sequence.
 
+Addgene now also lists the Schmierer laboratory's **#196709**
+(`lentiGuide-Puro.3xBsmBI`) as an empty backbone linked to the 2017 paper and
+#52963 parent, with one verified full sequence map. Its sequence copy/download
+requires an Addgene login and is not in this reference set. A later original
+article explicitly identifies `pLenti-Puro-AU-flip-3xBsmBI` with #196709, but
+the deposited bases still need direct comparison with this paper-derived model.
+The separately cloned guide and random label are not part of the empty backbone.
+
 Depended on by:
 
 - `tools/build_page.py` → `crisprumi.html`: the cloned-vector and PCR1 sizes in *What changes,

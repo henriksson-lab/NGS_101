@@ -28,9 +28,9 @@ def preamble() -> str:
 <p><info>Defining protocol: <a href="https://doi.org/10.1038/nmeth.1315">Tang et al.
 (2009)</a>. Oligo-dT reverse transcription and TdT tailing make amplified cDNA; an
 unbarcoded SOLiD fragment library is then prepared from it.</info></p>
-<div class="caveat"><b>Source boundary.</b> The 2009 supplementary oligo table and figures
-define the unbarcoded construct. Step order is taken from the authors' detailed 2010
-companion protocol; its later barcoded P2 extension is excluded below.</div>
+<div class="caveat"><b>Source boundary.</b> The recovered 2009 Online Methods and supplementary oligo table
+define this unbarcoded workflow: 80–130 bp sheared cDNA, 150–200 bp adapter-ligated
+gel fraction and 8–10 library-PCR cycles. The later 2010 barcoded P2 extension is excluded.</div>
 """
 
 
@@ -114,17 +114,17 @@ def solid_library() -> str:
     duplex.junction("top", "cDNA fragment", "SOLiD P2")
     rows = [*duplex.rows(), *annotation_rows(lib, prefix_width=4)]
     return ("<h2>Fragment library</h2>\n"
-            + info("The amplified cDNA is sheared to about 100–110 bp, end-repaired, ligated to unbarcoded SOLiD P1/P2 adapters and nick-translated.")
+            + info("The 2009 Online Methods specifies shearing to 80–130 bp, endrepair, unbarcoded SOLiD P1/P2 adapter ligation, selection of the 150–200 bp gel fraction, then 8–10 library-PCR cycles.")
             + solid_adapters()
             + panel(rows, cls="long",
                     caption="2009 final library: one cell per unbarcoded library. Adapter ligation is not directional, so either cDNA strand may face P1.")
-            + sp.unavailable_diagram(lib, "the SOLiD sequencing-primer sequence is not published",
+            + sp.unavailable_diagram(lib, "the loaded SOLiD sequencing oligo is outside this model evidence scope",
                                      roles=("Read 1",))
             + "<h3>Sequencing</h3>\n"
-            + info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. The sequencing-primer sequence was not published in the sources read, so none is drawn or declared.")
+            + info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. Online Methods specifies 50-base output; supplementary tables also label 35-mer runs. The loaded sequencing oligo has not been established by this model.")
             + sp.read_spec_table([sp.read_spec("Sequencing output", "35 or 50",
                   "single-end cDNA sequence entered from P1", "include")],
-                  "The source declares the SOLiD output; the sequencing-primer sequence is unavailable.")
+                  "The source declares SOLiD output; instrument-primer identity remains outside the modeled evidence.")
             + '<details class="sources"><summary>Related source</summary><ul>'
               '<li><a href="https://doi.org/10.1038/nprot.2009.236">Tang et al. 2010 '
               'protocol</a>: adds sixteen 6-nt barcoded P2 adapters for multiplexing; '
@@ -134,13 +134,13 @@ def solid_library() -> str:
 
 def sequencing() -> str:
     lib=T.final_library()
-    return (sp.unavailable_diagram(lib,"the SOLiD sequencing-primer sequence is not published",
+    return (sp.unavailable_diagram(lib,"the loaded SOLiD sequencing oligo is outside this model evidence scope",
                                    roles=("Read 1",))
             +"<h2>Sequencing</h2>"
-            +info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. The sequencing-primer sequence was not published in the sources read.")
+            +info("SOLiD single-end reads are 35 or 50 bases and enter the cDNA from P1. Online Methods specifies 50-base output; supplementary tables also label 35-mer runs. The loaded sequencing oligo has not been established by this model.")
             +sp.read_spec_table([sp.read_spec("Sequencing output","35 or 50",
                 "single-end cDNA sequence entered from P1","include")],
-                "The source declares the SOLiD output; the sequencing-primer sequence is unavailable.")
+                "The source declares SOLiD output; instrument-primer identity remains outside the modeled evidence.")
             +'<details class="sources"><summary>Related source</summary><ul>'
              '<li><a href="https://doi.org/10.1038/nprot.2009.236">Tang et al. 2010 '
              'protocol</a>: adds sixteen 6-nt barcoded P2 adapters for multiplexing; '

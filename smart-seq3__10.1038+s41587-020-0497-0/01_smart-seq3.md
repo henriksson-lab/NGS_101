@@ -130,3 +130,30 @@ Identical to SMART-seq2 and to every other Nextera method — see
 [`../ref/concepts/tn5-tagmentation.md`](../ref/concepts/tn5-tagmentation.md). The sequencing
 primers are unchanged; only read 1's *content* differs, depending on whether that fragment
 kept the TSO.
+
+
+## Source recovery and index-design scope (2026-10-16)
+
+The original publisher HTML was retrieved through `tools/get_sources.py`, but its
+body explicitly labels itself a subscription preview (`s41587-020-0497-0.html.txt`,
+line 627); it does not supply the published Methods. The PDF route also returns
+HTML rather than the original PDF. These are concrete access restrictions; the
+preprint and author protocol remain the accessible method sources.
+
+The original author protocol is integer ID 33276, DOI
+`10.17504/protocols.io.bcq4ivyw`. Its anonymous public API guidelines and its PDF
+pages 3–4 give custom index-design instructions, including ten-base or eight-base
+options, minimum Levenshtein distance, homopolymer/GC filtering and avoidance of
+`AC` at the i5 start. This original protocol does **not identify a separate custom
+index-order workbook**. The previous review's assumed unavailable Smart3 i5/i7
+order list was not an identified source and has been corrected in the checklist.
+The distinct xpress protocol's recovered 384-well workbook cannot establish the
+original Smart3 experiment's selected pair.
+
+The actual linked source is Costello et al., BMC Genomics 2018,
+DOI `10.1186/s12864-018-4703-0` (PMC5941783). Its Additional file 3 explains the
+`AC` mispriming issue and general index-design recommendations. Additional file 2
+is that paper's own two sets of 96 eight-base indexes, not a Smart3 order roster;
+Additional file 1 concerns index swapping. These linked originals were checked
+for their actual scope. No categorical absence of a selected Smart3 pair is
+claimed while the published Methods remain inaccessible.

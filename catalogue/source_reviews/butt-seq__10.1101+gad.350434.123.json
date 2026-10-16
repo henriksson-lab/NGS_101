@@ -1,0 +1,287 @@
+{
+  "dir": "butt-seq__10.1101+gad.350434.123",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "Yu and Rosbash 2023, PMC10270195, Materials and Methods; local gad.350434.123_PMC10270195.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Extracted XML lines 177-199, especially 179, 181, 191 and 195",
+        "finding": "SCR2R modified RNA, SCR2 DNA, shorter R1ME pair, two TGIRT reactions and PCR primer architecture are printed. Exact run-primer usage is not stated there."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC10270195 XML text lines 177-203, especially 179 (SCR2R), 181 (MER1R), 197 (PCR), 203 (run-file processing)",
+        "finding": "Independently found the blocked SCR2R RNA and 27-base R1ME RNA in Materials and Methods, both TGIRT reactions, i5/P5 PCR addition, and the three output FASTQ roles. The article does not state the physical sequencing-primer oligos used by the instrument."
+      }
+    },
+    {
+      "id": "primer_workbook",
+      "role": "supplement",
+      "locator": "PMC10270195 Supplemental_Primers.xlsx; local gad.350434.123_supp_supp_gad.350434.123_Supplemental_Primers.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "TGIRT Primers rows 4-15; PCR Primers rows 18-43",
+        "finding": "Both 3′-blocked RNA starters, all four terminal DNA variants in each family, SCP7 and indexed Ad1 primers are printed. The second starter is six bases longer than in the article Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplemental_Primers.xlsx.txt lines 4-8, 11-19; source oligo scraper hits checked against these rows",
+        "finding": "Verified SCR2R_RNA with /3SpC3/, four SCR2 DNA terminal variants, four R1ME DNA variants, R1MER_RNA with /3SpC3/, SCP7 and barcoded Ad1. Workbook R1MER_RNA is 33 bases before the blocker and its DNA is 34 bases; article Methods has 27/28. The workbook's additional 5′ TCGTCG/3′-complement extension makes the blocked RNA duplex pair with the source DNA."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "PMC10270195 Supplemental_Detailed_Protocol.docx; local gad.350434.123_supp_supp_gad.350434.123_Supplemental_Detailed_Protocol.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Extracted DOCX lines 36-69 and annealing-primer note",
+        "finding": "Directs an equimolar A/T/C/G terminal-base mixture for both starter DNA families and points to the supplemental primer table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Supplemental_Detailed_Protocol.docx.txt lines 40–57 and 730–739; bundle scraper run",
+        "finding": "Verified equimolar terminal-base hybrid starters and workbook pointer. Sequencing paragraph specifies NextSeq 500 75-cycle kit, but not separate R1/R2/R3 cycle counts or physical run-primer oligos. RunInfo.xml example changes read number 2, eight cycles, IsIndexedRead Y to N; bcl2fastq then emits R1/R2/R3 FASTQs. This supports the three-read roles without establishing a complete post-PCR junction."
+      }
+    },
+    {
+      "id": "supplementary_figures",
+      "role": "supplement",
+      "locator": "PMC10270195 SupplementaryFigures.pdf; local gad.350434.123_supp_supp_gad.350434.123_SupplementaryFigures.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "SupplementaryFigures.pdf.txt searched for SCR2, R1ME, MER1, primer, adapter and sequencing",
+        "finding": "No oligo sequence table or additional starter identity was found in the extracted figure text."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud SupplementaryFigures.pdf text, pp. 1–2: complete captions for Supplementary Figures 1 and 2",
+        "finding": "Supplementary Figure 1 compares sno/sn/scaRNA and rRNA contamination across methods; Supplementary Figure 2 shows pausing motif/index analyses. The two-page figure file contains result plots/captions, with no starter, adapter or sequencing-primer sequences."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "bioRxiv 10.1101/2023.03.04.531084v1; local 2023.03.04.531084_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Preprint extracted PDF text lines 486-502",
+        "finding": "The preprint also prints the shorter 27/28-base MER1R pair, so it does not resolve the article-versus-workbook discrepancy."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Yu/Rosbash bioRxiv v1 PDF (posted 4 March 2023), text lines 1–13 and BuTT-Seq library-prep lines 480–552",
+        "finding": "Original preprint prints the same short 27-nt blocked R1ME RNA and 28-nt R1ME DNA as later article Methods, and the full first-starter/PCR recipe. Its RNA-removal step says 3 µL each of 1.3 M NaOH and HCl (lines 522–523), while later published Methods and detailed protocol specify 1 M/1 N. Preprint does not resolve the workbook full-length second-starter choice."
+      }
+    },
+    {
+      "id": "supplement_index",
+      "role": "linked_material",
+      "discovered_from": "published_article",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10270195.1/supp_37_9-10_432__DC1.html (official PMC Cloud copy of JATS-linked landing page)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official PMC Cloud HTML supplement landing page, title and three-list-item body, 894 bytes, ETag bd237f76e206110a77069c0977c1189c",
+        "finding": "Landing page links exactly Supplemental_Primers.xlsx, Supplemental_Detailed_Protocol.docx and SupplementaryFigures.pdf; these are the three already cached publisher originals. No additional attachment is listed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read official PMC Cloud 894-byte supp_37_9-10_432__DC1.html title and complete three-item href list; compared each basename and URL with local MANIFEST.tsv rows 7–9",
+        "finding": "The original index lists exactly Supplemental_Primers.xlsx, Supplemental_Detailed_Protocol.docx and SupplementaryFigures.pdf; all three match cached original attachments. No fourth supplemental link appears in this index."
+      }
+    },
+    {
+      "id": "author_analysis_code",
+      "role": "linked_material",
+      "discovered_from": "published_article",
+      "locator": "https://github.com/albertdyu/BuTTSeq; pinned commit a2a815f04b2b7a0e0f65c23be5c4b24cffa82fc4 in local source bundle ZIP",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Author repository README, Input files and RunInfo.xml instructions",
+        "finding": "The pipeline expects R1 = Read 1, R2 = 8-cycle UMI read, R3 = biological Read 2 and directs changing the second read from indexed to non-indexed before demultiplexing. It does not give the molecular sequencing-primer oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Pinned author archive a2a815f... ZIP complete member inventory; README Input files and RunInfo; Snakefile lines 283–311; scripts/get_SNR_bam.py read-level comments/functions; all three scripts inventoried",
+        "finding": "Full pinned tree contains README, Snakefile, config/env, three analysis scripts and BED annotations. Snakefile lines 302–311 takes biological R1, eight-cycle UMI R2 and biological R3, then extracts exactly eight UMI bases from R2 and appends them separately to the two biological reads. Lines 283–300 trim adapter motifs from the two biological reads. Scripts process alignments/counts and do not print a physical sequencing-primer oligo or additional library molecule."
+      }
+    },
+    {
+      "id": "mohr_2013_tgirt",
+      "role": "linked_material",
+      "locator": "Mohr et al. 2013 RNA DOI 10.1261/rna.039743.113; local rna.039743.113_PMC3683930.xml.txt in Butt source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 126, 130, 134, 192; source-bundle oligo scraper run",
+        "finding": "Mohr tests initial RNA-template/DNA-primer duplexes with A/C/G/T single-base 3′ DNA overhangs; an equimolar mixture supports template switching to diverse RNA 3′ terminal bases, often with seamless adapter–cDNA junctions. This explains the inherited Butt terminal-N hand mix, not the exact Butt starter sequence or read primer."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Mohr 2013 JATS rna.039743.113_PMC3683930.xml.txt lines 120–137 and 186–197, after source-bundle oligo scraper",
+        "finding": "Mohr reports the A/C/G/T one-nucleotide 3′ DNA-overhang starter mixture and its template-switching behavior. This predecessor explains a mechanism but gives no Butt-specific final library or sequencing-primer junction."
+      }
+    },
+    {
+      "id": "rhee_burke_2004_tcep",
+      "role": "linked_material",
+      "locator": "Rhee & Burke 2004 Analytical Biochemistry DOI 10.1016/j.ab.2003.10.019; original article full text at https://www.researchgate.net/publication/8926239_Tris2-carboxyethylphosphine_stabilization_of_RNA_Comparison_with_dithiothreitol_for_use_with_nucleic_acid_and_thiophosphoryl_chemistry",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original article web text lines 80–90, 203–305 and Methods 310+; DOI/title verified; source-bundle scraper run after original fetch (publisher DOI route unavailable)",
+        "finding": "Original study compares TCEP and DTT for RNA/nucleic-acid and thiophosphate stability and supports use of TCEP as a reductant. It does not specify Butt’s 10 mM Tris/EDTA/TCEP hybrid-primer annealing buffer or starter oligo sequence; those come from Butt Methods line 181."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read author-uploaded original article full text at ResearchGate, title/DOI lines 54–98, rationale lines 204–308 and Materials and methods starting 310; source-bundle scraper previously run",
+        "finding": "The original studies TCEP versus DTT in RNA and nucleic-acid chemistry, including RNA stability. It supports why TCEP may be used, but does not establish the Butt-specific 10 mM Tris/EDTA/TCEP mixture, oligo sequence, or final sequencing junction."
+      }
+    },
+    {
+      "id": "buenrostro_2015_ad1",
+      "role": "linked_material",
+      "locator": "Buenrostro et al. 2015 Nature DOI 10.1038/nature14590; local nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt in Butt source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM36 workbook Ad1.53–Ad1.63 rows, especially Ad1.60 line 65; compared all 25 Butt Supplemental_Primers.xlsx.txt Ad1 rows 19–43 by exact name and sequence; scraper exact match Ad1.60",
+        "finding": "Every one of Butt’s 25 source-printed v2_Ad1 primer names and full sequences matches the Buenrostro 2015 original oligo workbook. This independently confirms the cited family provenance, but the Butt workbook itself already supplies exact members and neither source determines which index was used for each sample."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Springer MOESM36 workbook text rows v2_Ad1.53–.70 including Ad1.60, then compared all 25 Butt Supplemental_Primers.xlsx.txt v2_Ad1 name/sequence pairs to the original by script after source-bundle scraper",
+        "finding": "All 25 Butt v2_Ad1 name/sequence pairs match the original Buenrostro workbook exactly. Neither workbook assigns a specific indexed member to each Butt sample or gives the missing physical run-primer junction."
+      }
+    },
+    {
+      "id": "nextseq_custom_primer_guide",
+      "role": "vendor",
+      "locator": "Illumina NextSeq 500/550 Sequencing Systems Custom Primers Guide, document #15057456 v03 (March 2020), https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/nextseq/nextseq-500-550-custom-primers-guide-15057456-03.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "butt_completion",
+        "date": "2026-10-16",
+        "locations": "Original Illumina PDF pages 2–4, lines 57–98, especially standard/custom primer positions and Primers.xml note at 78",
+        "finding": "NextSeq 500/550 has separate standard Read 1, Read 2, Index 1 and Index 2 primer positions; the exact primer positions used for a run are in Primers.xml. Butt paper and analysis pipeline do not provide Primers.xml, so the guide does not establish loaded oligo identities."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina NextSeq 500/550 Custom Primers Guide #15057456 v03 PDF pp. 2–4, browser lines 36–98, including primer-reservoir table and Primers.xml statement at line 78; Butt bundle oligo scraper run first",
+        "finding": "Independently verified distinct standard/custom R1, R2, i7 and i5 primer reservoirs and that Primers.xml records which positions a run used. The published Butt paper/analysis sources do not supply that run file, so the guide cannot identify the physically loaded primers."
+      }
+    },
+    {
+      "id": "illumina_indexed_sequencing_overview",
+      "role": "vendor",
+      "locator": "Illumina Indexed Sequencing Overview Guide, document #15057455 v08, https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/miseq/indexed-sequencing-overview-guide-15057455-08.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "butt_completion",
+        "date": "2026-10-16",
+        "locations": "Original Illumina PDF pages 7 and 9, lines 192–220 and 250–274",
+        "finding": "NextSeq systems use the reverse-complement i5 workflow with a separate i5 sequencing primer after paired-end resynthesis; this supports the computed i5 read orientation. It does not identify the actual Butt run primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Indexed Sequencing Overview Guide #15057455 v08 PDF pp. 7 and 9, browser lines 188–220 and 250–257; Butt bundle oligo scraper run first",
+        "finding": "Independently verified that NextSeq systems sequence Index 2 after Read 2 resynthesis and therefore acquire the reverse complement of the i5 adapter index. This supports the modeled i5 read orientation but does not establish the specific run primer identities."
+      }
+    },
+    {
+      "id": "illumina_adapter_sequences",
+      "role": "vendor",
+      "locator": "Illumina Adapter Sequences, document #1000000002694 v22, official TruSeq primer section https://support-docs.illumina.com/SHARE/AdapterSequences/Content/OligoSeqsMultiplexOligo.htm and Nextera section https://support-docs.illumina.com/SHARE/AdapterSequences/Content/Nextera_Illumina-Sequences.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "butt_completion",
+        "date": "2026-10-16",
+        "locations": "Official Illumina v22 TruSeq multiplexing oligo page lines 21–30 and Nextera adapter page lines 30–53",
+        "finding": "Prints the canonical 34-base TruSeq Read 2 primer and 33-base Index 1 primer, and the 33-base Nextera Read 1 adapter. The Butt SCR2 donor is 35 bases, so a canonical 34-base Read 2 primer would begin its read with a fixed T before the variable TGIRT overhang. The Illumina document does not establish which oligos were physically loaded for Butt."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Illumina Adapter Sequences #1000000002694 v22 original official Multiplexing Sample Prep Oligo-Only HTML lines 21–30, revision lines 81–82; original Nextera/Prep HTML lines 30–53; Butt local source-bundle oligo scraper run before reading",
+        "finding": "Independently confirmed standard multiplexing Read 2 sequencing primer is the printed 34-base GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT, with Index Read primer and Nextera Read 1 adapter also printed. The Butt SCR2 donor has one extra terminal T relative to this canonical primer, implying a fixed first R2 base if this standard primer was loaded. The vendor family table cannot establish the custom primer loaded in the specific published run."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Article supplemental-material list, author analysis-code README, and official PMC Cloud 894-byte supplement index with three hrefs; MANIFEST.tsv rows 7–9",
+      "finding": "Followed the paper through the workbook, detailed protocol, figures and the now-recovered original supplement index. All three index links match cached originals; full author-code script retrieval and post-PCR primer geometry remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Butt JATS lines 41–43, 179–203 and cited references; detailed protocol lines 730–739; pinned author repo a2a815f full tree/Snakefile 283–311; Mohr JATS 126/130/134/192; Rhee 2004 original web text 80–90/203–305; Buenrostro MOESM36 Ad1 workbook; PMC supplement index already double-read",
+      "finding": "Followed all chemistry-relevant cited sources found in the paper and primer workbook: Mohr starter-mixture mechanism, Rhee TCEP rationale, Buenrostro exact indexed Ad1 family, full author analysis pipeline, and three original publisher supplements. The 25 Ad1 members match Buenrostro exactly. The author code and detailed protocol establish eight-cycle non-indexed R2 UMI handling but not physical run-primer bases or complete post-PCR junction. The predecessor sources now have independent second checks; the publisher DOI route for Rhee remains gated but an author-uploaded original is readable. Linked-information result remains blocked by incomplete molecular reconstruction, especially the physical sequencing-primer junction."
+    },
+    "resolution": "Both original readers followed the source links. Their contemporaneous notes called the molecular reconstruction blocked; the 2026-10-16 model update subsequently derived the adapter/primer geometry from already reviewed published oligos. The run-specific physical primer inventory remains a separate blocked claim."
+  },
+  "missing_claims": [
+    {
+      "claim": "The complete post-PCR library and sequencing-primer binding sites are not yet represented.",
+      "disposition": "resolved",
+      "evidence": "The publisher primer workbook prints both blocked TGIRT starters, the full-length R1MER family, the SCP7 PCR primer and 25 indexed Ad1 primers. Combining the two starter handles and Ad1/SCP7 gives a P5–i5–S5–ME–N–insert–N–SCR2 donor complement–UMI–P7 duplex; four standard-primer-compatible sites and both PCR binding sites are computed in the protocol model. Insert and overhang bases vary per molecule."
+    },
+    {
+      "claim": "The physical sequencing-primer oligos loaded for the reported NextSeq 500 run are not identified by the inspected protocol and analysis files.",
+      "disposition": "blocked",
+      "evidence": "Article, three supplements, detailed protocol, and pinned author analysis tree were inspected twice; the NextSeq vendor guide states the run-specific primer positions are recorded in Primers.xml, which is not among the linked author files. Vendor guides still need a second independent source check before absence can be accepted. The paper Results first-base interpretation also conflicts with the standard 34-base TruSeq R2 primer geometry: a fixed T would be read first, while a 35-base custom primer could skip it. The official Illumina adapter-sequence guide now has first-pass inspection only."
+    }
+  ],
+  "conclusion": "The original article, all three publisher supplements, supplement index, pinned full author code, preprint and all three chemistry-linked predecessor sources have two located independent checks. Published oligos resolve the final duplex architecture, exact PCR binding regions and standard-primer-compatible Read 1, UMI/i7, i5 and Read 2 sites; the protocol model and page now render them. NextSeq 500 vendor operation guides have first-pass checks and need independent second passes. The actual run-specific loaded primer oligos are still not established; no absence claim is accepted. The paper's claim that the first Read 2 base reports RNA terminal identity is unresolved under the standard 34-base primer because the published donor has a fixed extra T; a custom 35-base primer could change that but is not recorded."
+}

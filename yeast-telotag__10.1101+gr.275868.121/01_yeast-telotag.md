@@ -28,6 +28,8 @@ Sholes TeloTag marks the physical end of each *S. cerevisiae* telomere with poly
 
 The shared 20-base core is followed by 35 T bases in member 1 and 36 T bases plus a 3-base terminal variant in members 2–5 🟡 (counted from the table). The Methods text points to Supplemental Table S6, but that table lists plasmids; the primer mix appears in S5. The variable length of the terminal-transferase poly(A) addition remains unknown. The model shows a representative 35-base pairing footprint, not a measured tail length 🟡. The EXP-NBD104 barcodes and SQK-LSK109 motor-adapter oligos remain kit-specific 🔴.
 
+🟢 The author bioRxiv v1 Methods (`2021.06.07.447263_v1.full.pdf.txt`, lines 872–874) describe Short Read Eliminator XS as retaining molecules **above 5 kb**. The final Genome Research Methods (`gr.275868.121_PMC8997346.xml.txt`, line 193) say the same kit retains molecules **above 10 kb**. The page follows the final publication for the size-selection threshold; why the wording changed between versions is unknown. This source-version discrepancy is separate from the S6/S5 primer-table error.
+
 ## 4. Final library and sequencing
 
 The TeloTag is a terminal landmark in an otherwise long genomic molecule. Nanopore sequencing uses a motor-loaded adapter, not a sequencing primer.

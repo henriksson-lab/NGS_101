@@ -106,7 +106,7 @@ def finish_pcr_branch(graph, prefix, template, final, primers, reviewed, *, labe
     centralizes the invariant common to multimodal protocols: each physical branch gets
     its own primer inputs, typed PCR step, library terminal and primer-derived readout.
     """
-    source = graph.authority + (" (endpoint primer sequence not disclosed)" if inferred_primers else "")
+    source = graph.authority + (" (endpoint primer sequence not declared in this model)" if inferred_primers else "")
     forward = graph.input(prefix + "_forward", label + " forward PCR primer",
                           MaterialKind.OLIGO, inferred=inferred_primers, source=source)
     reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",

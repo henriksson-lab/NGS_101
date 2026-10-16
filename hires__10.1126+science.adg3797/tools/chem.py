@@ -10,7 +10,8 @@ SOURCE = ('Defining <a href="https://doi.org/10.1126/science.adg3797">Science pa
 SUMMARY = ("The same fixed nucleus is reverse-transcribed, MboI-digested and proximity-ligated. "
            "A joint amplification then feeds tagmentation and per-well indexed PCR.")
 CAVEAT = ("The author protocol prints four HiRES primers and specifies per-well i5/i7 indexing. "
-          "TruePrep transposome oligos and actual index-member bases are unavailable. "
+          "The TruePrep manual prints a standard finished-library shell, but its loaded adapter oligos, "
+          "the HiRES RNA-P7 junction and selected index-member bases remain unresolved. "
           "The two views below are read classes from one library, not separate index-ligation rounds.")
 
 CONTACT, CP = illumina_branch("HiRES contact reads", "DNA–DNA contact insert",

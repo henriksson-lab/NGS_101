@@ -14,11 +14,12 @@ CHEC_P5_PCR = "AATGATACGGCGACCACCGAG"
 
 CHEC_P7_PCR = "CAAGCAGAAGACGGCATACGAG"
 
-HENIKOFF_DA_LIGATION = reported_adapter_end(
+ORSI_DA_LIGATION = reported_adapter_end(
     "phosphorothioate-protected TruSeq adapter", kind="cohesive",
     polarity="3-prime", terminal_sequence="T",
-    statement=("The cited Henikoff low-input procedure publishes the protected TruSeq "
-               "adapter and its terminal dT/dA ligation compatibility."))
+    statement=("The later Orsi stepwise ORGANIC procedure prints protected TruSeq "
+               "adapters and a dA-tailed insert ligation workflow; the displayed "
+               "dT/dA terminal compatibility follows from those printed bases."))
 
 
 def organic_library():
@@ -73,12 +74,12 @@ def oligos():
 FINAL_LIBRARY, SEQ_PRIMERS = organic_library()
 TITLE = 'ORGANIC profiling — native affinity-purified chromatin footprints'
 NOTES = '01_organic_profiling.html'
-SOURCE = '<a href="https://doi.org/10.1038/nmeth.2766">Kasinathan et al., Nature Methods (2014)</a>; exact library chemistry from the authors’ <a href="https://doi.org/10.1002/0471142727.mb2131s110">detailed Current Protocols procedure</a>.'
+SOURCE = '<a href="https://doi.org/10.1038/nmeth.2766">Kasinathan et al., Nature Methods (2014)</a>; the fixed oligo example comes from the authors’ later <a href="https://doi.org/10.1002/0471142727.mb2131s110">detailed Current Protocols procedure (2015)</a>. The 2014 article instead cites <a href="https://doi.org/10.1073/pnas.1110731108">Henikoff et al. (2011)</a> for its modified library preparation.'
 SUMMARY = 'MNase digests unfixed native chromatin until bound proteins block further cleavage. Low-salt solubilization and affinity purification isolate factor-associated footprints whose paired endpoints and insert lengths map direct occupancy.'
-CAVEAT = 'ORGANIC relies on stable native protein–DNA association: weak or rapidly exchanging complexes can be lost, while MNase sequence preference and digestion depth affect boundaries. A titrated MNase ladder, total-digest input and biological replicates are integral controls.'
+CAVEAT = 'ORGANIC relies on stable native protein–DNA association: weak or rapidly exchanging complexes can be lost, while MNase sequence preference and digestion depth affect boundaries. A titrated MNase ladder, total-digest input and biological replicates are integral controls. The exact adapter arms drawn here are source-backed by a later same-author ORGANIC procedure; the 2014 article names TruSeq adapters but does not itself print those bases or identify each sample’s six-base index. Its cited 2011 predecessor and supplement remain to be checked before claiming the 2014 samples used precisely this oligo variant.'
 FINAL_CAPTION = 'Both insert ends are MNase boundaries around DNA that remained protected with the affinity-purified factor. Paired-end geometry is essential because a 20–40-bp single-factor footprint and longer co-occupied or nucleosomal fragments are distinguished by their full insert span.'
 READ_LENGTHS = {'Read 1': 25, 'Index 1 (i7)': 6, 'Read 2': 25}
-SEQUENCING_INTRO = 'The defining study used 25-cycle paired-end HiSeq 2500 sequencing. Standard TruSeq primers read inward from the two native MNase boundaries, while the six-cycle Index 1 read identifies the sample.'
+SEQUENCING_INTRO = 'The defining study used 25-cycle paired-end HiSeq 2000 sequencing. Standard TruSeq primers read inward from the two native MNase boundaries, while the six-cycle Index 1 read identifies the sample.'
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
 
@@ -177,9 +178,11 @@ def protocol_graph() -> ProtocolGraph:
     lengths = {"Read 1": 25, "Index 1 (i7)": 6, "Read 2": 25}
     _finish_henikoff_library(
         graph, "ip", footprints, "ORGANIC IP", final, primers, source, reviewed, lengths,
-        HENIKOFF_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR)
+        ORSI_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR,
+        "Orsi et al. (2015), Basic Protocol 3, prints both enrichment-primer sequences for this later ORGANIC library variant.")
     _finish_henikoff_library(
         graph, "input", input_dna, "ORGANIC input", final, primers, source, reviewed, lengths,
-        HENIKOFF_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR)
+        ORSI_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR,
+        "Orsi et al. (2015), Basic Protocol 3, prints both enrichment-primer sequences for this later ORGANIC library variant.")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

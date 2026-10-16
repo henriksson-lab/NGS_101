@@ -1,0 +1,453 @@
+{
+  "dir": "target-seq__10.1016+j.molcel.2019.01.009",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_PMC6436961.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Key Resources lines 479–495; Methods/STAR sections",
+        "finding": "Key Resources prints modified TSO-LNA, ISPCR, custom CS1/CS2 sequencing primers and indexed P5 shell; Methods separate transcriptome and genotype products."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Key Resources lines 479–495 and STAR Methods",
+        "finding": "Publishes modified TSO-LNA and branch-specific primer names; genotype and transcriptome libraries must be kept distinct."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplemental PDF primer examples lines 8275–8340",
+        "finding": "Supplemental procedures include full targeted genotyping primer examples and PCR steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplemental author PDF primer entries lines 8275–8302",
+        "finding": "Target-specific gDNA/cDNA PCR primer examples including ISPCR-tailed mJAK2 are printed."
+      }
+    },
+    {
+      "id": "supp_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table S1 header lines 1–2",
+        "finding": "Table S1 records reaction conditions for Smart-seq2, Smart-seq+, mRNA targeting and TARGET-seq."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published workbook Table S1 lines 1–10",
+        "finding": "Reagent and reaction-condition matrices for cDNA synthesis across Smart-seq2, optimized Smart-seq and TARGET-seq variants."
+      }
+    },
+    {
+      "id": "supp_table_s2",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table S2 heading lines 1–2 and primer rows",
+        "finding": "Table S2 lists mRNA/gDNA amplification and barcoding primers and the 3-prime TARGET-seq barcoded oligo(dT) family."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S2 workbook headings lines 1–8 and primer sections",
+        "finding": "Source explicitly covers mRNA/gDNA amplification and barcoding, plus 3-prime TARGET-seq barcoded oligo(dT), so exact primer claims should use this workbook."
+      }
+    },
+    {
+      "id": "supp_mmc4",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Sheet heading identifies Patient/sample characteristics, not reagent oligos."
+      },
+      "reason": "Biological/sample result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S3 workbook lines 1–5",
+        "finding": "Patient sample mutational status and clinical characteristics."
+      }
+    },
+    {
+      "id": "supp_mmc5",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Sheet heading identifies GSEA and differential expression results, not reagent oligos."
+      },
+      "reason": "Biological/sample result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S4 workbook lines 1–5",
+        "finding": "Differential expression and gene-set results."
+      }
+    },
+    {
+      "id": "supp_mmc6",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Sheet heading identifies GSEA and differential expression results, not reagent oligos."
+      },
+      "reason": "Biological/sample result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S5 workbook lines 1–5",
+        "finding": "Gene-set and differential expression analyses."
+      }
+    },
+    {
+      "id": "supp_mmc7",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc7.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Sheet heading identifies Subclone differential expression results, not reagent oligos."
+      },
+      "reason": "Biological/sample result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S6 workbook lines 1–5",
+        "finding": "Genetic subclone expression results."
+      }
+    },
+    {
+      "id": "supp_full",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc8.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 1857–2000, 2188–2207",
+        "finding": "Supplemental author PDF has TARGET-seq methods and Key Resources, including oligo list and branch-specific PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published supplemental author PDF Key Resources lines 1857–1875",
+        "finding": "OligodT-ISPCR, RNA/LNA-modified TSO-LNA and ISPCR primer bases are explicitly printed."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 565–566",
+        "finding": "Preprint Methods print Fluidigm CS1/CS2 universal adapter arms for target PCR1."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v2 Methods lines 560–570",
+        "finding": "Preprint prints Fluidigm Access Array CS1/CS2 arms and two PCR steps for genotyping; exact variant may differ from publication."
+      }
+    },
+    {
+      "id": "preprint_s1",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Earlier Table S1 gives cDNA reaction conditions."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv Table S1 workbook lines 1–6",
+        "finding": "Earlier cDNA-synthesis reagent and condition table for TARGET-seq comparisons."
+      }
+    },
+    {
+      "id": "preprint_s2",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Earlier Table S2 gives mRNA and gDNA amplification/barcoding primer table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv Table S2 workbook lines 1–8",
+        "finding": "Earlier mRNA/gDNA amplification and barcoding primer tables."
+      }
+    },
+    {
+      "id": "preprint_media3",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Heading identifies gene-set lists."
+      },
+      "reason": "Analysis results, not ordering oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-3 Table S4 lines 1–5",
+        "finding": "Gene sets for GSEA analysis."
+      }
+    },
+    {
+      "id": "preprint_media4",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Heading identifies differential expression results."
+      },
+      "reason": "Analysis results, not ordering oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-4 Table S5 lines 1–5",
+        "finding": "Differential expression results."
+      }
+    },
+    {
+      "id": "preprint_media5",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook first two lines",
+        "finding": "Heading identifies GSEA result analysis."
+      },
+      "reason": "Analysis results, not ordering oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-5 Table S6 lines 1–5",
+        "finding": "Gene-set results."
+      }
+    },
+    {
+      "id": "preprint_media6",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv media-6 PDF, detailed protocol pp. 1–20: extracted lines 52–62, 384–406, 652–657",
+        "finding": "Full-length TARGET-seq protocol names CS1/CS2 and their LNA custom sequencing-primer variants, Nextera XT kit FC-131-1001, Fluidigm Access Array 384 barcode kit; genotyping sequence reads use CS1/CS2 custom primers. The PDF does not itself print every primer base; original table and vendor identities govern exact oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "474734_media-6.pdf.txt lines 1–2, 386–409, 650–666",
+        "finding": "Original author full-length 96-well TARGET-seq protocol gives Nextera XT FC-131-1096 plus index kit FC-131-1001 for transcriptome branch; targeted amplicon branch uses CS1/CS2 custom read and index primers with LNA modifications. The document points to Key Resources for bases and does not itself bind an unspecified experiment to one index member."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_PMC7757016.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 97–153",
+        "finding": "Later STAR Protocols original provides target-primer design and optional ISPCR-tailed target primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later STAR Protocols JATS lines 97–153",
+        "finding": "Primer-design guidance distinguishes mRNA/cDNA versus gDNA target sites and size; does not replace original assay oligo inventory."
+      }
+    },
+    {
+      "id": "detailed_s1",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table S1 heading lines 1–3",
+        "finding": "Detailed protocol Table S1 lists 384 barcoded oligo(dT)-ISPCR primers for the 3-prime branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later STAR Protocols Table S1 workbook lines 1–5",
+        "finding": "384 barcoded oligo(dT)-ISPCR family listed; source prints bases, barcode and poly(dT) structure."
+      }
+    },
+    {
+      "id": "detailed_s2",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table S2 heading lines 1–3",
+        "finding": "Detailed protocol Table S2 gives target-specific genotyping PCR1 primer design."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later STAR Protocols Table S2 workbook lines 1–8",
+        "finding": "Target-specific genotyping PCR1 primer design includes CS1 arm and plate identifier fields."
+      }
+    },
+    {
+      "id": "fluidigm",
+      "role": "vendor",
+      "locator": "https://www.standardbio.com/products/microfluidics/access-array",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Source names Fluidigm Access Array CS1/CS2 adapters; historical vendor oligo manual/version not yet checked."
+    },
+    {
+      "id": "detailed_s3",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table S3 heading and N701/N702 primer rows, lines 1–5",
+        "finding": "Detailed protocol Table S3 prints P7+i7 index primers and P5_index primer for the 3-prime transcriptome branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later STAR Protocols Supplementary Table 3 lines 1–8",
+        "finding": "Prints N701–N705 P7+i7 index primer bases and a P5 index family for the 3-prime transcriptome branch."
+      }
+    },
+    {
+      "id": "detailed_sfig",
+      "role": "supplement",
+      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "STAR Protocols Figure S1 PDF lines 1–24; Supplemental Methods link line 50",
+        "finding": "Supplementary Fig. S1 gives gDNA intronic versus mRNA exon primer design, 250–500-bp preferred amplicons, 57–63 °C primer Tm and 19–25-base primer length; final line points to Mendeley Methods S1–S3."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later STAR Protocols PMC supplementary Figure S1 PDF lines 1–24 and final Supplementary Methods link line 50",
+        "finding": "Figure S1 gives target-primer design constraints, including intronic gDNA versus exonic mRNA sites, amplicon size and primer Tm; it is relevant. Final line links Mendeley Methods S1–S3 automation scripts, newly added as a linked-source blocker."
+      }
+    },
+    {
+      "id": "mendeley_methods",
+      "role": "linked_material",
+      "locator": "https://data.mendeley.com/datasets/k92cnf2fph/1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "detailed_sfig",
+      "reason": "STAR Protocols supplementary Figure S1 links Mendeley Methods S1–S3, including genotyping targeted-library automation; dataset files not yet fetched or read."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Key Resources lines 479–495; Table S2 heading; detailed protocol lines 97–153",
+      "finding": "Original and linked protocol oligos are source-positive, but preprint PDF supplement and version-specific Fluidigm documentation remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS Key Resources 479–495, Table S2; detailed STAR protocol Figure S1 lines 1–50",
+      "finding": "Many oligos are printed. Figure S1 links separate Mendeley Methods S1–S3 automation details, currently unavailable; Fluidigm vendor source also open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact TARGET-seq oligo sequences are absent from publication",
+      "disposition": "blocked",
+      "evidence": "Original Key Resources and Supplementary Table S2 publish numerous oligos; linked version-specific material remains open."
+    }
+  ],
+  "conclusion": "Original Key Resources and Supplementary Table S2 publish numerous oligos; linked version-specific material remains open."
+}

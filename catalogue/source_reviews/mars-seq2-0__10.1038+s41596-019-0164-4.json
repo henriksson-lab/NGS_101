@@ -1,0 +1,135 @@
+{
+  "dir": "mars-seq2-0__10.1038+s41596-019-0164-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "nature_protocols_2019",
+      "role": "defining",
+      "locator": "doi:10.1038/s41596-019-0164-4, main article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full journal text is paywalled in the source manifest; the authors' open detailed procedure was read separately.",
+      "pass_2": null
+    },
+    {
+      "id": "nature_supplementary_information",
+      "role": "supplement",
+      "locator": "41596_2019_164_MOESM1_ESM.pdf.txt, pipeline read-design fields near line 600",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Supplementary Information, pipeline manual and seq_batches.txt field description",
+        "finding": "Gives read-design fields but does not print the RT2 or enrichment-primer oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "MOESM1 extracted lines 280-296, seq_batches.txt read-design example",
+        "finding": "The pipeline example says R1_design 3I.4P.50M and R2_design 7W.8R.5I. It describes read positions, not the RT2 or enrichment-primer oligos."
+      }
+    },
+    {
+      "id": "nature_supplementary_tables",
+      "role": "supplement",
+      "locator": "41596_2019_164_MOESM4_ESM.xlsx.txt RT1 rows; MOESM5_ESM.xlsx.txt ligation-adapter rows",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "MOESM4 sheet MARS-seq2.0_RT1 primers; MOESM5 sheet MARS-seq2.0_Ligation adapter",
+        "finding": "Exact RT1 family and modified ligation-adapter family are present; RT2 and enrichment primers are absent from these two tables."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "MOESM4 extracted rows 1-9; MOESM5 extracted rows 1-11",
+        "finding": "MOESM4 lists RT1 well-barcode variants, including the T7/Read2 handle, 8N UMI and oligo-dT. MOESM5 lists /5Phos/ four-base pool barcodes plus N5 and /3SpC3/; neither table gives RT2 or PCR primers."
+      }
+    },
+    {
+      "id": "authors_protocolsio",
+      "role": "linked_material",
+      "discovered_from": "nature_protocols_2019",
+      "locator": "doi:10.17504/protocols.io.7hkhj4w; protocolsio_mars-seq2-0-an-experimental-and-analytical-pipelin-7hkhj4w.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Reagent setup p. 29/54, extracted lines 1416 and 1420–1421; oligo scraper exact hits at those lines",
+        "finding": "Prints RT2 CTACACGACGCTCTTCCGATCT and both full P5-Read1/P7-Read2 enrichment primers. The page/model now use them; the former missing-oligo conclusion was false."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Author protocols.io PDF pages 28-29, extracted lines 1374-1423",
+        "finding": "Independently read RT1 architecture, 5′-phosphorylated/3′-blocked ligation adapter, exact RT2 and full P5/P7 enrichment primers. The formerly missing three oligos are printed verbatim."
+      }
+    },
+    {
+      "id": "jaitin_2014_predecessor",
+      "role": "predecessor",
+      "locator": "Jaitin et al. Science 2014 supplement Tables S7–S8; scg_jaitin-sm.pdf.txt (original paper supplement mirrored by scg_lib_structs); full original coauthor upload https://www.researchgate.net/publication/279842956_Jaitin-SM",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Tables S7–S8, source-text lines 31–60",
+        "finding": "Prints v1 RT2 and PCR primers, useful for comparison but not proof of v2 primer identity; the v2 author protocol settles the latter independently."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Jaitin 2014 Supplementary Tables S7–S8 local scg_jaitin-sm.pdf.txt lines 23–67; coauthor-uploaded full original Methods lines 254–324, 326–390",
+        "finding": "Independently compared v1 RT1, RT2, ligation adapter and PCR oligos with v2. The v1 Methods pool first-strand cDNA before Exo I, then pool again before second-strand synthesis and IVT; v2 authors’ protocols.io uses Exo I in individual wells before pooling. These are protocol-specific orders and oligo identities, not a common inherited sequence claim."
+      }
+    },
+    {
+      "id": "tanay_resource",
+      "role": "linked_material",
+      "discovered_from": "authors_protocolsio",
+      "locator": "http://compgenomics.weizmann.ac.il/tanay/?page_id=672, linked on protocol p. 28 for full RT1/ligation-adapter lists and pipeline",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The linked resource did not open during this pass; RT1 and ligation-adapter lists are independently present in the publisher's supplementary tables.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-1",
+      "date": "2026-10-15",
+      "locations": "Author procedure p. 28–29 and its linked Tanay data resource; predecessor citation in the 2019 article",
+      "finding": "Found and read the author protocols.io procedure and predecessor supplement. The linked Tanay data page could not be opened; its oligo lists are duplicated by the publisher tables."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-15",
+      "locations": "Author protocol pages 28-29; linked Tanay page http://compgenomics.weizmann.ac.il/tanay/?page_id=672",
+      "finding": "Independently followed the procedure's oligo table pointers. The Tanay page redirects to an inaccessible site; the publisher tables do carry the RT1 and ligation-adapter families, but the link remains unverified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "MARS-seq2.0 RT2 and enrichment-primer sequences were not published",
+      "disposition": "resolved",
+      "evidence": "The author protocols.io procedure p. 29 prints all three; original PDF extracted lines 1416 and 1420–1421."
+    },
+    {
+      "claim": "Separate instrument sequencing-primer oligos are not specified",
+      "disposition": "blocked",
+      "evidence": "The checked author procedure supplies amplification-primer flanks, while an independent review of instrument information and linked resources is pending."
+    },
+    {
+      "claim": "The supplementary read-design field says 3I while the v2 adapter table shows N5",
+      "disposition": "resolved",
+      "evidence": "MOESM1 seq_batches.txt field description prints 3I.4P.50M; MOESM5 ligation-adapter rows print five random bases before the four-base pool barcode. The public page identifies both, models N5, and leaves the carryover explanation uncertain."
+    }
+  ],
+  "conclusion": "Pass 1 corrected the missing RT2/PCR claim; pass 2 and an inaccessible linked resource remain pending."
+}

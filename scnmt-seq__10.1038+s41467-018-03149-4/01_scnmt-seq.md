@@ -49,14 +49,22 @@ In the copy of Supplementary Table 2 fetched into this bundle
 (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
 `rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
 
-🟡 **The model assumes the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER`, the constant four
-SMART-seq2 derivatives share — because that is the protocol as practised. "Exiqon" names
+🟡 **The model uses the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER`, the constant four
+SMART-seq2 derivatives share — because Clark cites the 2014 detailed protocol that prints it. This remains an inferred selection. "Exiqon" names
 the supplier of the LNA `+G`, not a linker. The schematic therefore draws the **whole
 linker** dotted, with all three required signals: a preamble caveat naming both forms, an
 `INFERRED — …` caption on the template-switch step, and `<inf>` around `ACAT` in the oligo
-list and the drawn cDNA states. `tools/scnmt_seq.py:_tso_linker_inferred` applies the mark
-to the state itself and raises if the shared segment is renamed, so the uncertainty cannot
-be lost by a caller.
+list and the drawn cDNA states. The local graph marks its TSO input linker inferred;
+`smartseq2.preamp_template()` marks the same linker inferred in the inherited cDNA state.
 
-🔴 What would settle it: the 2014 *Nature Protocols* Smart-seq2 paper is not in this
-bundle, and nothing by Clark et al. picks one of their two citations.
+🟢 An author-uploaded copy of Picelli et al. 2014 *Nature Protocols* is readable
+[online](https://www.researchgate.net/publication/259566573_Full-length_RNA-seq_from_single_cells_using_Smart-seq2):
+its Reagent Setup (web lines 763–789) prints the `ACATrGrG+G` TSO, oligo-dT30VN
+and ISPCR. It confirms that inherited option, but Clark et al. still cite the
+2013 and 2014 protocols together without identifying which TSO they ordered.
+The exact scNMT-seq TSO remains inferred.
+
+🟡 The DNA branch inherits the published scBS-seq iPCRTag primer family. Clark et al.
+name an iTAG index primer but do not identify the selected sequence member in the
+defining Methods or the inspected supplements. The final-library diagram therefore
+shows a variable sample-index window, not an experiment-specific iTAG sequence.

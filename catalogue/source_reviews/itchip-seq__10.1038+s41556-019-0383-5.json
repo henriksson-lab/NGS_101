@@ -1,0 +1,125 @@
+{
+  "dir": "itchip-seq__10.1038+s41556-019-0383-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Ai et al Nat Cell Biol 2019 doi:10.1038/s41556-019-0383-5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher HTML cached but contains abstract/references, not paywalled main Methods; complete original article unavailable.",
+      "pass_2": null
+    },
+    {
+      "id": "publisher_page",
+      "role": "defining",
+      "locator": "Nature publisher article_s41556-019-0383-5.html",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "article_s41556-019-0383-5.html.txt lines 1-130",
+        "finding": "Metadata/abstract only, no detailed reaction order; page is partial original."
+      },
+      "reason": "No detailed Methods in cached public page.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "article_s41556-019-0383-5.html.txt lines 95-127",
+        "finding": "Public publisher page gives abstract and figure titles but explicitly labels full article as subscription preview at lines 98-99; complete Methods cannot be checked from it."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "Published 41556_2019_383_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM1_ESM.pdf.txt lines 132-145 and figure legends",
+        "finding": "Legends identify Supplementary Table 1 as custom primer source and describe indexed transposomes."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM1_ESM.pdf.txt lines 123-142",
+        "finding": "Publisher supplement legends identify Table 1 as custom Tn5 barcode, Nextera PCR and custom sequencing primers; Table 2 is Tn5 amount by cell input. Figure legends are not complete reaction-order Methods."
+      }
+    },
+    {
+      "id": "table1",
+      "role": "supplement",
+      "locator": "Published 41556_2019_383_MOESM3_ESM.xlsx Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM3_ESM.xlsx.txt lines 1-80; scraper lines 4,13,76-77",
+        "finding": "Lists i5/i7 PCR families, barcoded Tn5 oligos, phosphorylated ME and custom sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM3_ESM.xlsx.txt lines 1-26, 76-87; scraper hits followed in original rows",
+        "finding": "Original Table 1 prints i5-N501–508, i7-N701–712, T5/T7 barcode transposon families, common 5Phos/ME annealing primer, connector PCR primers and four custom sequencing primers."
+      }
+    },
+    {
+      "id": "table2",
+      "role": "supplement",
+      "locator": "Published MOESM4 Supplementary Table 2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM4_ESM.xlsx.txt lines 1-8",
+        "finding": "Reports Tn5 amount by cell count, no further oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41556-019-0383-5_41556_2019_383_MOESM4_ESM.xlsx.txt lines 1-7",
+        "finding": "Original Table 2 gives 12.5- and 37.5-micromolar Tn5 transposome volumes for 1, 100–1000, 5000–20000 and 100000–1000000 cells; it is relevant to reagent dosage but gives no further oligo bases."
+      }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "linked_material",
+      "locator": "Ai et al Nature Protocol Exchange itChIP detailed protocol cited in note",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Detailed Protocol Exchange original absent from local source bundle; reaction order still unverified.",
+      "pass_2": null,
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Publisher public page and Supplementary Figure/Table legends, Supplementary Tables 1/2, Methods/Protocol Exchange source inventory",
+      "finding": "Primer identities verified in publisher supplement; main Methods and Protocol Exchange were not accessible."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Publisher preview lines 95-127, MOESM1 legends lines 123-142, Tables 1 and 2 original rows",
+      "finding": "Supplementary oligos and Tn5 dosing checked independently. Full article Methods and cited detailed Protocol Exchange remain unavailable, so exact reaction order is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact main-text reaction order and conditions",
+      "disposition": "blocked",
+      "evidence": "Only figures and tables are on disk; cached publisher page lacks Methods and detailed Protocol Exchange is absent."
+    }
+  ],
+  "conclusion": "Two independent readings of available publisher preview and supplements. Main article Methods and Protocol Exchange remain unavailable; reaction-order claims blocked."
+}

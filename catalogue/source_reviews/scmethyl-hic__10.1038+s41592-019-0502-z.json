@@ -1,0 +1,258 @@
+{
+  "dir": "scmethyl-hic__10.1038+s41592-019-0502-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "li_2019_article",
+      "role": "defining",
+      "locator": "Li et al. 2019 doi:10.1038/s41592-019-0502-z; s41592-019-0502-z_PMC6765429.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Results extracted lines 61-69, especially 67; Methods and single-cell analysis lines 105-115",
+        "finding": "Defines scMethyl-HiC as a separate single-cell adaptation: after proximity ligation, individual nuclei are sorted into 96-well plates, bisulfite-converted and amplified. The analysis treats G-to-A in Read 1 and C-to-T in Read 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC6765429 JATS article lines 79-85 and 103-115; independently read the single-cell Methods and mapping paragraphs",
+        "finding": "The single-cell branch follows bulk in situ Hi-C through proximity ligation, then sorts one nucleus per well and performs bisulfite library construction. Analysis states G-to-A Read 1 and C-to-T Read 2. The article does not print the Adaptase-added sequence."
+      }
+    },
+    {
+      "id": "li_2019_supplementary_protocol",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_41592_2019_502_MOESM1_ESM.pdf.txt, original Springer Supplementary Protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Oligo table lines 212-258; single-cell path lines 640-795, particularly 665-668, 711-730, 735-790; primer scraper run on full bundle and original hits checked",
+        "finding": "Prints all four /5SpC3/ P5L random primers and full D501-D508/D701-D712 PCR families. Specifies four-plex random-primer pool, Exo I/SAP cleanup, Adaptase 33096, and dual-index PCR; does not resolve exact historical Adaptase-added junction bases in these checked passages."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM1 lines 212-258 and 652-795; independently read primer table and full single-cell library branch after running scrape_primers.py on the source bundle",
+        "finding": "Four /5SpC3/ P5L indexed random primers, eight P5L indexing PCR primers and twelve P7L indexing PCR primers are explicit. After sorting and bisulfite treatment, the branch uses random priming, Exo I/SAP, optional four-plex pooling, Adaptase 33096 and dual-index PCR. No exact Adaptase-added junction bases or length are supplied."
+      }
+    },
+    {
+      "id": "pmc_protocol_copy",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-5.pdf.txt, PMC copy of the protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Copied oligo table lines 59-105; primer scraper family hits at 60, 66 and 83",
+        "finding": "Repeats the P5L random-primer and P5L/P7L PCR families from the Springer protocol; this is a second copy of one author source, not a second independent confirmation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-5 lines 59-105; independently compared its oligo table with Springer MOESM1 lines 212-258",
+        "finding": "The PMC copy repeats the four P5L random primers and D501-D508/D701-D712 PCR families; it is an alternate copy of the same author protocol."
+      }
+    },
+    {
+      "id": "nature_reporting_summary",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_41592_2019_502_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Reporting Summary, lines 1-20 and 101-159",
+        "finding": "Nature Research reproducibility form; no oligo or chemistry method details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM2 reporting summary lines 1-20 and 151-180, particularly sample preparation lines 159-164",
+        "finding": "The reporting summary does contain a brief single-cell method: in situ Hi-C through proximity ligation followed by DRAQ7-stained nuclear sorting. It contains no oligo or Adaptase junction sequence. First-pass exclusion as containing no chemistry detail was too broad; retain this source as relevant corroboration of the branch."
+      }
+    },
+    {
+      "id": "pmc_supp_1_figures",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure captions and analysis results; no oligo table.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Figures, lines 1-62",
+        "finding": "Figure captions and analysis results; no oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-1 lines 1-62, including Supplementary Figure 5 caption lines 19-21",
+        "finding": "Figure captions discuss single-cell contact analysis and a broad Methyl-HiC workflow, but print neither primer bases nor Adaptase product sequence. Exclusion is limited to the missing-oligo claim."
+      }
+    },
+    {
+      "id": "pmc_supp_2_loops",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Genome contact-coordinate/result tables, not reagent methods.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Workbook sheet names and first data rows of the 5K_loops sheet",
+        "finding": "Genome contact-coordinate/result tables, not reagent methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-2 workbook sheet 5K_loops line 1 and contact-coordinate rows 2-12; scanned extracted sheet headers and sequence terms",
+        "finding": "This workbook is a genomic loop result table, not a reagent sequence table. No chemistry-relevant oligo hit appeared in the scraper run."
+      }
+    },
+    {
+      "id": "pmc_supp_3_cells",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Per-cell contact and methylation metrics, not oligos.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table 2 header and sample rows",
+        "finding": "Per-cell contact and methylation metrics, not oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-3 Supplementary_Table_2 header lines 1-2 and per-cell rows 3-12; scanned extracted table for chemistry terms",
+        "finding": "The table reports per-cell read, contact and methylation metrics and has no reagent or oligo column."
+      }
+    },
+    {
+      "id": "pmc_supp_4_compartments",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Compartment-coordinate data, not oligos.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Compartment_A_to_B and related sheet headers, first coordinate rows",
+        "finding": "Compartment-coordinate data, not oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-4 compartment sheet headers and coordinate rows, including lines 1-12, 44 and 104",
+        "finding": "Compartment switching and coordinate data only; no reagent or oligo content."
+      }
+    },
+    {
+      "id": "pmc_supp_6_notes",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-6.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "References to background datasets, not library chemistry.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Published datasets list, lines 1-57",
+        "finding": "References to background datasets, not library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-6 lines 1-57, published-dataset inventory",
+        "finding": "A list of outside datasets and citations, not a library-chemistry supplement."
+      }
+    },
+    {
+      "id": "idt_2022_successor",
+      "role": "linked_material",
+      "discovered_from": "li_2019_supplementary_protocol",
+      "locator": "IDT xGen Adaptase Module Protocol (2022); https://sfvideo.blob.core.windows.net/sitefinity/docs/default-source/protocol/xgen-adaptase-module-protocol.pdf?sfvrsn=a5a7e007_10; local xgen-adaptase-module-protocol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Extracted lines 150-164, 523-532, 1235-1243; Appendix B/C primer tables",
+        "finding": "Later IDT guide explains tailing plus R2 Stubby Adapter ligation and an average eight-base synthetic tail; repeats the published primer families. It cannot establish the 2019 Swift reagent sequence or a fixed tail length."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2022 IDT xGen Adaptase guide extracted lines 150-164, 523-532, 1173-1227 and 1229-1239; inspected chemistry text and Appendix B/C primer and finished-adapter tables",
+        "finding": "The successor guide describes tailing and R2 stub ligation, calls the synthetic tail approximately eight bases on average, and reproduces the 2019 P5L/P7L primer families. Its later date does not establish exact 2019 lot junction bases or a fixed tail length."
+      }
+    },
+    {
+      "id": "swift_2019_manual",
+      "role": "vendor",
+      "locator": "Swift Accel-NGS Adaptase Module 33096 contemporaneous 2019 manual, named in MOESM1 reagent list",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "A version-matched 2019 Swift manual has not been obtained; the 2022 IDT successor is not proof of historic oligo identity."
+    },
+    {
+      "id": "swift_idt_2021_mapping",
+      "role": "linked_material",
+      "discovered_from": "swift_2019_manual",
+      "locator": "Official Swift Biosciences product-change notification, September 2021; https://sfvideo.blob.core.windows.net/sitefinity/docs/default-source/miscellaneous/swift-change-notification---090721.pdf?sfvrsn=a9f4e007_2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PDF page 1, lines 29-62, especially 56-62; opening letter page 0 lines 1-18",
+        "finding": "Official product crosswalk identifies Swift 33096 Accel-NGS Adaptase Module for Single-Cell Methyl-Seq as IDT 10009826 xGen Adaptase Module and states the branding transition leaves formulation, manufacturing and QC unchanged. This supports successor identity as of 2021, but does not independently prove the exact 2019 formulation or reveal the junction bases."
+      },
+      "pass_2": {
+        "reviewer": "root-independent-review",
+        "date": "2026-10-15",
+        "locations": "Official Swift Biosciences Communication PDF, page 0 lines 1-18 and page 1 lines 29-62, especially 56-62",
+        "finding": "Independently confirmed the formal Swift 33096 to IDT 10009826 xGen Adaptase mapping. The notice says formulation, manufacturing and quality control do not change in the 2021 branding transition; it does not disclose the 2019 reagent oligo or establish whether earlier formulations changed."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "MOESM1 reagent list lines 200-211 and single-cell Adaptase steps 735-758; IDT successor guide lines 150-164 and 523-532",
+      "finding": "Followed the Adaptase product name to the official 2022 IDT successor guide and read its chemistry description and primer tables. The version-matched 2019 Swift manual remains unavailable; source linkage is not closed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MOESM1 lines 200-211 and 672-768; official 2021 Swift-to-IDT product crosswalk page 1 lines 56-62; 2022 IDT xGen Adaptase guide chemistry and primer appendices",
+      "finding": "Followed Swift product 33096 through the official product crosswalk to IDT 10009826 and independently inspected the 2022 successor protocol. The 2021 notice confirms product lineage and says transition formulation unchanged, but a contemporaneous 2019 manual is still absent. The historical junction-base and length claim remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "2019 Adaptase-added P7-side junction exact sequence and length are unavailable",
+      "disposition": "blocked",
+      "evidence": "The Li 2019 article and full single-cell supplement do not print the Adaptase-added junction bases. Two independent readers checked the official 2021 product crosswalk linking Swift 33096 to IDT 10009826, and the 2022 successor guide describes a variable synthetic tail. The contemporaneous 2019 Swift manual remains unavailable."
+    },
+    {
+      "claim": "The P5L/P7L primer sequences are missing",
+      "disposition": "resolved",
+      "evidence": "Original Springer Supplementary Protocol oligo table lines 212-258 prints four random-primer members plus eight P5L and twelve P7L indexing PCR primer members."
+    }
+  ],
+  "conclusion": "Original article, supplementary protocol, all listed supplements and official successor/product-lineage documents have two independent checks. The contemporaneous Swift manual remains unavailable, so the historical Adaptase junction and exact sample assignments remain blocked."
+}

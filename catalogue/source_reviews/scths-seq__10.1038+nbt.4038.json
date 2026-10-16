@@ -1,0 +1,97 @@
+{
+  "dir": "scths-seq__10.1038+nbt.4038",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Lake et al Nat Biotechnol 2018 doi:10.1038/nbt.4038 PMC5951394",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nbt.4038_PMC5951394.xml.txt lines 158-174, scTHS transposon and library Methods",
+        "finding": "Table S12 cited for 384 r5 barcodes, 19-nt phosphorylated ME, second-strand primer, custom Nextera and PCR indices; RT uses 20 µM random hexamers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nbt.4038_PMC5951394.xml.txt lines 156-174; source-bundle scraper run and Table S12 hits checked",
+        "finding": "Methods specify 74-nt, 6-bp barcoded r5 plus 19-nt 5-prime phosphorylated mosaic end, Tn5059 first tagmentation, pool/sort, gap fill, 19-h T7 IVT, random-hexamer RT, RNase H, second strand, second Tn5059 tagmentation and indexed PCR; run layouts 50+32+32 validation and 50+8+32 production."
+      }
+    },
+    {
+      "id": "table_s12",
+      "role": "supplement",
+      "locator": "Published 41587_2018_BFnbt4038_MOESM11_ESM.xlsx Table S12",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nbt.4038_41587_2018_BFnbt4038_MOESM11_ESM.xlsx.txt lines 221830-221850; mirrored original table scg_...MOESM11...txt lines 1-13; scraper mirror lines 7,10-12",
+        "finding": "Original spreadsheet prints phosphorylated ME, r5 transposon, custom reads and PCR indices; random-hexamer molecular identity is not listed."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nbt.4038_41587_2018_BFnbt4038_MOESM11_ESM.xlsx.txt lines 221830-221844, 222228-222252; scraper family hit at 221844-222227 verified against original table",
+        "finding": "Table S12 prints sss_scnXTv2, i7 top, /5Phos/ ME bottom, read primers, 384 first-round 6-base barcoded transposons, custom i5 PCR family and standard i7 Nextera primer family. Source-specific bases and modifications are directly available."
+      }
+    },
+    {
+      "id": "prior_ths",
+      "role": "linked_material",
+      "locator": "Sos et al Genome Biology 2016 doi:10.1186/s13059-016-0882-7",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s13059-016-0882-7_PMC4743176.xml.txt lines 119-133 and MOESM1 Supplementary Table S5 lines 1800-1840; scraper lines 1836-1837",
+        "finding": "Defining THS predecessor prints T7 transposon and primers, but its RT Methods also only name random hexamers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s13059-016-0882-7_PMC4743176.xml.txt lines 119-133; inspected earlier T7tspn and IVT/RT methods",
+        "finding": "Prior THS-seq gives the T7 transposon, gap-fill then IVT, random-hexamer RT, RNase H, second-strand and second tagmentation lineage. It is a predecessor, not evidence for selecting 2018 scTHS barcodes."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "smart_kit",
+      "role": "linked_material",
+      "locator": "Clontech SMART MMLV reverse transcriptase kit used in Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit guide not cached; does not establish whether random hexamers were generic or kit-supplied.",
+      "pass_2": null,
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article lines 158-174, published Table S12, cited Sos THS paper and Supplementary Table S5, kit reference",
+      "finding": "Followed predecessor to its oligo table. No located exact RT random-hexamer preparation or Clontech kit manual."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining Methods lines 156-174, Table S12 lines 221830-222252 and predecessor THS original lines 119-133",
+      "finding": "Independently followed THS predecessor and original primer table. Clontech SMART MMLV kit is named in Methods but its manufacturer manual remains unavailable; source-specific oligo sequences are in Table S12."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "RT random-hexamer chemical identity or tail",
+      "disposition": "blocked",
+      "evidence": "Article Methods specify random hexamers, but neither Table S12 nor available predecessor source provides their composition; historical kit source missing."
+    }
+  ],
+  "conclusion": "Available defining Methods, oligo table and THS predecessor independently checked; SMART MMLV kit document remains unavailable, so related missing claims stay blocked."
+}

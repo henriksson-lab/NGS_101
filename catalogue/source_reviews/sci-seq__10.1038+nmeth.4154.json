@@ -1,0 +1,108 @@
+{
+  "dir": "sci-seq__10.1038+nmeth.4154",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Vitak et al Nat Methods 2017 doi:10.1038/nmeth.4154 PMC5908213",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC5908213 lines 122-140",
+        "finding": "Defines LAND/xSDS nucleosome depletion then indexed tagmentation in 96 wells, second sort and indexed PCR; custom 50-cycle R1 and two index read layout at line 138."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC5908213 JATS Standard Single Cell Library Construction and Combinatorial indexing via tagmentation and PCR paragraphs, lines 122-140",
+        "finding": "Independently confirmed nuclei are sorted to indexed Tn5 wells, pooled, redistributed and PCR-indexed; the article points to custom sequencing primers described by Amini and separates QRP/DOP controls."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Springer MOESM252 detailed SCI-seq primer designs",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM252.pdf.txt lines 450-490; scraper line 471",
+        "finding": "Prints /5Phos/ mosaic-end and combinatorial i5/i7 transposase oligo families with variable indices."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM252 extracted Methods lines 453-490, including indexed Tn5 transposome sequences and /5Phos/ mosaic-end complement at line 471",
+        "finding": "The detailed supplement prints the phosphorylated ME complement and indexed Tn5 oligo families. The chemistry is an indexed transposome followed by indexed PCR, with dark index cycles in the run recipe."
+      }
+    },
+    {
+      "id": "index_table",
+      "role": "supplement",
+      "locator": "MOESM253 SCIseq index/readme files",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM253 SCIseq.TSase8nt...index.txt lines 1-15 and README lines 1-10",
+        "finding": "Index table gives Nex_i5/i7 sequences and readme describes demultiplexing."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM253 README lines 1-14 and SCIseq.TSase8nt...ind file first 15 entries",
+        "finding": "README states the SCI-seq read processing uses CPT-seq chemistry and custom index FASTQs; the index list contains first-stage i5/i7 member identifiers."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC NIHMS956855 original protocol and supplementary information",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC route manifest marks both PDFs manual; Springer MOESM252 does not prove their content is duplicate.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_kit",
+      "role": "linked_material",
+      "locator": "Illumina Nextera DNA Sample Prep FC-121-1031",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical manufacturer loaded-transposome manual not present in bundle.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 122-140; Springer MOESM252 lines 450-490; PMC manifest manual rows",
+      "finding": "PCR/index family accessible, but separate original PMC supplements and historical kit internals remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked defining source Methods/SI citations, supplement inventory and named vendor/predecessor sources in the checklist",
+      "finding": "Original available sources corroborate the chemistry, but checklist-linked original vendor or predecessor material remains unavailable or unread; linked-information closure is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Loaded Tn5 end geometry",
+      "disposition": "blocked",
+      "evidence": "Custom oligo family printed, but specific manufacturer kit chemistry remains unchecked."
+    }
+  ],
+  "conclusion": "First located pass only; supplement and kit links remain blocked."
+}

@@ -1,0 +1,137 @@
+{
+  "dir": "gage-seq__10.1101+2023.07.20.549578",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods opening lines 1–45",
+        "finding": "Publisher supplement contains chemistry methods; reaction order remains for full review."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Methods opening lines 1-45",
+        "finding": "Supplement contains chemistry methods rather than only result figures; full reaction order remains to inspect."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Workbook Introduction lines 1–16 and Supplementary Table 1a lines 17–35",
+        "finding": "Original workbook has nine primer/adapter tables 1a–1i; Table 1a includes modified biotin-dT RT primers and RNA/Hi-C linkers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Tables workbook Introduction lines 1-16 and Table 1a lines 17-40",
+        "finding": "Nine primer/adapter tables 1a-1i are named. Table 1a prints biotin-dT oligo-dT and random hexamer RT primers, RNA linkers/protectors and Hi-C Tn5 adapters with modifications."
+      }
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_PMC11323187.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 141–171",
+        "finding": "Published paper delegates 96-well barcode adapters and library construction to Supplementary Table 1 and Supplementary Methods."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 141-171",
+        "finding": "Published methods describe two rounds of 96-well ligation barcodes shared across RNA/Hi-C arms, MseI/CviQI fragmentation, RT with biotinylated primers, and downstream PE150 sequencing; Supplementary Table 1 carries exact adapter families."
+      }
+    },
+    {
+      "id": "manual_7",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11323187/bin/NIHMS2006647-supplement-Supplemental_Information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_8",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11323187/bin/NIHMS2006647-supplement-Supplementary_Tables.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_6",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods and the located publisher oligo tables listed in the independent second-pass source rows",
+      "finding": "Chemistry-relevant linked supplements, historical predecessors or vendor sources remain unread/unavailable in this checklist. This review remains blocked until those are resolved and two independent located passes cover each relevant source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open."
+}

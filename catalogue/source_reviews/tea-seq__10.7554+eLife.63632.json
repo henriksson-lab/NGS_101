@@ -1,0 +1,297 @@
+{
+  "dir": "tea-seq__10.7554+eLife.63632",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "swanson2021",
+      "role": "defining",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_PMC8034981.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 702-763; specifically ICICLE Methods 708-737 and TEA Methods 745-763",
+        "finding": "ICICLE custom poly-T/Nextera Tn5 captures chromatin and antibody tags on 10x 3′ GEMs; TEA modifies 10x Multiome RNA+ATAC with TotalSeq-A ADT branch. Supplementary file 5 is the custom oligo source."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC8034981 JATS Methods lines 702-763 and embedded oligo table around line 505; full-bundle oligo scraper checked",
+        "finding": "Independent reading confirms custom poly(T)/Nextera Tn5 complexing, ICICLE 10x 3′ GEM branch, and TEA 10x Multiome ATAC/GEX plus TotalSeq-A ADT. Methods explicitly use the Supplementary file 5 SI-PCR-Oligo and ADT-i7 and cite CG000338 Rev A and protocols.io."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp1-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 1 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 1 antibody fluorophore panel, not library oligos."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary workbook 1, first 4 extracted rows and sheet header",
+        "finding": "Independently classified as biotin bead-antibody panel; no library oligo table in inspected rows."
+      }
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp2-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 2 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 2 depletion flow metrics, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary workbook 2, first 4 extracted rows and sheet header",
+        "finding": "Independently classified as depletion flow counts; no library oligo table in inspected rows."
+      }
+    },
+    {
+      "id": "supp3",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp3-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 3 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 3 flow cytometry panel, not library oligos."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary workbook 3, first 4 extracted rows and sheet header",
+        "finding": "Independently classified as flow-cytometry antibody panel; no library oligo table in inspected rows."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp4-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 4 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 4 cell populations, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary workbook 4, first 4 extracted rows and sheet header",
+        "finding": "Independently classified as survey population counts; no library oligo table in inspected rows."
+      }
+    },
+    {
+      "id": "supp5",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp5-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 5 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 5 names Tn5 mosaic-end oligos, poly-T Top-L, ADT and index PCR oligos with modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary file 5, Table 5 lines 1-11; checked scraper hits against rows",
+        "finding": "Prints /5phos/ MOSAIC_Bot, Tn5ME-s7_Top, poly-T Top-L, SI-P5-22, F BC Primer, ADT-Rev-AMP, TruSeq R1, ADT-i7 with terminal phosphorothioate and SI-PCR-Oligo."
+      }
+    },
+    {
+      "id": "supp6",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp6-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 6 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 6 TotalSeq-A antibody conjugate identities used for ICICLE and TEA, but no tag-member bases in inspected header and rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary file 6 Table 6 header and first 9 antibody rows",
+        "finding": "Lists target, clone, BioLegend catalog and ICICLE/TEA use; no antibody tag member bases in inspected rows."
+      }
+    },
+    {
+      "id": "supp7",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp7-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 7 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 7 biological sample sources, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supplementary workbook 7, first 4 extracted rows and sheet header",
+        "finding": "Independently classified as biological sample provenance; no library oligo table in inspected rows."
+      }
+    },
+    {
+      "id": "bench_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/protocolsio_tea-seq-bqagmsbw.pdf.txt; doi:10.17504/protocols.io.bqagmsbw; Version2, Dec1 2020 (modified Apr21 2021)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "swanson2021",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original author PDF oligo table lines507–535; Sequencing step80 pp26–27 lines1703–1750; source scraper run on original export",
+        "finding": "The author explicitly says forward-strand indexing permits joint ATAC/GEX/ADT flow cell with50R1/10i7/16i5/90R2. Reverse-complement indexing requires separate ATAC flow cell and24-basei5 because of spacer. Oligo table independently prints SI-PCR-Oligo, ADT-Rev-AMP and ADT-i7 including phosphorothioate and index placeholder. The loaded R2/I1 sequencing primer strands are not established by these inspected sections; no absent-source conclusion is accepted."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original author bench PDF Step80 pp26–27 / text1698–1750; full source-bundle scraper checked against Table5 workbook lines6–11 and article Methods745–774",
+        "finding": "Independently confirms forward-index joint ATAC/GEX/ADT run50/10/16/90; reverse indexing requires separate ATAC run with24cycleI2. ADT-only alternative15cycleRead2 is distinct from the article joint-run90cycle demultiplex mask. Source printed SI-PCR-Oligo and ADT-i7 agree with model primers. This check does not establish exact loaded ADT sequencing oligos or complete other linked-source coverage."
+      }
+    },
+    {
+      "id": "multiome_rev_a",
+      "role": "vendor",
+      "locator": "https://assets.ctfassets.net/an68im79xiti/5tnYerYC4FdDwYK0hlcfWj/cc46120ef02327249b5c42f24f44d699/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev A PDF p. 1 (kit PN-1000283), p. 80 Sequences (web text lines 2468-2475)",
+        "finding": "The exact Rev A guide named in TEA Methods covers Reagent Bundle PN-1000283 and prints RNA gel-bead Read1–N16–N12–T30VN, ATAC P5–N16–CGCGTCTG, and ATAC/GEX final library architectures. Antibody TotalSeq-A conjugate member barcodes remain separate."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev A PDF Sequences appendix p80 / web lines 2468-2478, cover kit identity p1",
+        "finding": "Independently confirmed PN-2000261 RNA gel bead Read1-N16-N12-T30VN and ATAC P5-N16-CGCGTCTG; also final ATAC/GEX architecture. This is the exact Rev A cited by TEA Methods, resolving scaffold absence while individual barcode members remain undisclosed."
+      }
+    },
+    {
+      "id": "tn5_mulqueen2019",
+      "role": "predecessor",
+      "locator": "Mulqueen et al. 2019 Tn5 complexing method cited in JATS line 708",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Source-specific transposome assembly inheritance needs an original-source read."
+    },
+    {
+      "id": "multiome_rev_b_comparator",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev B Appendix Sequences lines 5658-5710",
+        "finding": "Later Rev B guide prints Multiome gel-bead RNA and ATAC oligo architecture, but paper specifically cites Rev A; this comparator cannot prove identical historical reagent bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev B local PDF extracted lines 5658-5692",
+        "finding": "Later Rev B prints the same two PN-2000261 bead scaffolds and ATAC library architecture; Rev A independently establishes TEA historical applicability."
+      }
+    },
+    {
+      "id": "multiome_sequencing_note_reva",
+      "role": "linked_material",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/10x_CG000373_TechNote_SeqMetrics_MultiomeATACLibrary_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "multiome_rev_a",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original10x CG000373 RevA p2, text77–110 and schematic; p3 Table1 lines118–236; p4 Table2 lines237–313; p5 custom reverse lines314–337; source-note scraper",
+        "finding": "Original forward workflow performsI2 before Read2 resynthesis; its index entry bindsP5 and reads towardRead1N to acquireCBC16 directly. Reverse workflow bindsRead1N towardP5 and reads8-base spacer plusCBC16 (24cycles); custom reverse uses8dark plus16called cycles. NovaSeqv1 kits/v1.6 software appear in forward table, v1.5 kits/v1.7 software in reverse table. This matches author joint-flowcell16-cycleI2 instruction without inventing custom loaded oligos. Source describes entry spans/directions, not exact loaded primer molecules."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000373RevA pp1–3, forward workflow lines77–110 and Table1; reverse-workflow explanation; original author bench Step80; full bundle scraper",
+        "finding": "Independent reading confirms forward I2 precedes Read2 resynthesis and enters fromP5 directly into16-base ATAC cell barcode; reverse I2 traverses8-base spacer beforeCBC and requires24cycles. The current TEA ATAC cell barcode belongs toI2, notRead1. Exact loaded primer molecules are not inferred from the schematic binding spans."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 337, 708, 745-763",
+      "finding": "Followed the paper links to its own Table 5/6 and identified protocols.io, 10x Rev A and Mulqueen Tn5 predecessor as chemistry-relevant; those linked originals remain unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Swanson original JATS lines 702-763; Table 5/6 original workbooks; official CG000338 Rev A p80; attempted linked protocols.io DOI in article line 763",
+      "finding": "Followed printed custom oligos and the exact cited 10x Rev A guide. The linked TEA bench protocol, Mulqueen Tn5 predecessor, and selected TotalSeq-A tag-member source still require original inspection; absence remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "10x Multiome gel-bead primer scaffold is unavailable",
+      "disposition": "resolved",
+      "evidence": "Exact cited CG000338 Rev A p80 prints PN-2000261 RNA and ATAC gel-bead primer scaffolds."
+    },
+    {
+      "claim": "Exact commercial Multiome and TotalSeq-A oligo members are not yet verified",
+      "disposition": "blocked",
+      "evidence": "Published custom primers are in Supplementary file 5. Linked vendor and detailed sources remain to be checked twice."
+    }
+  ],
+  "conclusion": "Original author bench protocol and vendor sequencing note recovered. Forward-strand joint-run I2 geometry is source-established and differs from reverse-workflow spacer-containingI2. Exact loaded ADT R2/I1 molecules remain a model/source boundary rather than accepted absence; independent checks and remaining linked source work continue.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "locations": "Defining eLife Figure3–figure supplement1 caption at JATSline267, original Table5 workbook; author bench oligo table/step80; original vendor CG000373RevA",
+      "finding": "ADT-i7 source tail encodes small-RNA read-side priming region. Defining ICICLE figure caption expressly identifies TruSeq small RNA/i7 Read2 priming site for ADT; TEA Methods says same ADT indexing route with SI-PCR-Oligo substitution. This supports primer-derived read-site identity, while exact loaded R2/I1 strands remain unestablished in inspected sources. ATAC forwardI2 source geometry is positively resolved by original vendor and author bench declarations."
+    },
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original TEA Methods745–774/Table5 rows6–11; CG000338RevA p80 visually rendered plus text5630–5706; CG000317RevE p72 visually rendered plus text6470–6515, kit lists in both guides",
+      "finding": "Independent endpoint and chronology check supports TruSeqR1 GEX dual10, ATAC CBC16 inforwardI2, ADT12-baseUMI and primer-derived smallRNA arm; sharedRT/preamp precedes branch allocation/cDNAamplification/sizefractionation/GEXfragment-endprep-ligation. Both original guides name TTkitPN1000215 and platePN3000431, but MultiomeRevA p80 GEX prefix beforeN10 is25bases AATGATACGGCGACCACCGAGATCT while CG000317RevE p72 TTprimer and product print29bases endingACAC. This is an apparent cross-guide inconsistency, not evidence of an established reagent variant; historical physical prefix remains unresolved. Each local model retains its explicitly named source layout pending resolution. No broad absence claim or complete review is accepted."
+    },
+    {
+      "reviewer": "root_independent_source_review",
+      "date": "2026-10-16",
+      "locations": "Article Methods745–767 and sequencing817–829; original Table5 all primer rows; CG000338RevA p80 lines5634–5685; CG000373RevA pp2–3; author bench step80; CG000317RevE pp71–72",
+      "finding": "Source-owned full GEX/ATAC endpoints, forward joint-run versus demultiplexing masks, Table5 whole ADT primers and shared preamplification chronology independently inspected. Exact ADT loaded R2/I1 remains unverified, not confirmed absent. CG000338RevA and CG000317RevE name the same TT kit/plate but differ by terminal ACAC before i5; both public pages now retain their named guide choice with explicit apparent inconsistency and historical-prefix uncertainty."
+    }
+  ]
+}

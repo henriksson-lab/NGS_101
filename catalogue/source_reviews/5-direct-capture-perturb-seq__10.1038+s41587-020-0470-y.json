@@ -1,0 +1,109 @@
+{
+  "dir": "5-direct-capture-perturb-seq__10.1038+s41587-020-0470-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Replogle et al Nature Biotechnology 2020 doi:10.1038/s41587-020-0470-y; PMC7416462 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 111-149, especially 133-145",
+        "finding": "Original distinguishes 3-prime and 5-prime capture; 5-prime branch modifies 10x CG000086 V(D)J chemistry and names source oligo/kit roles."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC7416462 JATS Methods lines 111-149",
+        "finding": "Original article distinguishes 3-prime cs1/cs2 and 5-prime oJR160 capture; expressly names 10x V(D)J guide and product-specific primers."
+      }
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "Springer MOESM1 PDF plus PMC supplementary Note 3 PDFs",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 text lines 211-214, 306-335; oJR table lines 315-325",
+        "finding": "Companion note prints oJR160/oJR161 capture primers and oJR163/165/166 amplification oligos; separate modified-guide branches are explicit."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1 PDF text lines 306-339",
+        "finding": "Original supplementary note prints oJR160/oJR163/oJR165 and exact stated roles, and says oJR160 adapter matches 10x PN-2000007. 10x kit internals remain unchecked."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "bioRxiv 503367_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods lines 364-428",
+        "finding": "Preprint also prints oJR160/161 and says they share adapter sequence with 10x PN-2000007, while PN-220106 kit primer is identified by catalog number."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF Methods extracted lines 364–428, especially 364–375 and 398–429; source-bundle oligo scraper independently rerun",
+        "finding": "Preprint explicitly prints oJR160/oJR161 RT spike-ins and oJR163/oJR165/oJR166 guide-library amplification primers, and names CG000086, PN-2000007 and PN-220106. It does not expose the proprietary full PN-220106 sequence or prove the chosen historical guide revision."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tenx_cg000086",
+      "role": "linked_material",
+      "locator": "10x Chromium Single Cell V(D)J Reagent Kits User Guide CG000086, named by JATS line 137",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historic guide not present locally; local CG000331 v2 is a successor, not proof of original kit oligos.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tenx_catalog_oligos",
+      "role": "linked_material",
+      "locator": "10x PN-2000007 Poly-dT RT Primer and PN-220106 Non-Poly(dT) amplification primer original specifications",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Kit identifiers are printed but full exact oligos not in checked defining Methods or Supplementary Note 3.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Followed defining Methods to Supplementary Note 3, bioRxiv, named CG000086 and 10x catalog numbers; historical vendor guide unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Defining Methods and MOESM1 Supplementary Note 3 lines 306–339; local MANIFEST.tsv",
+      "finding": "Supplement prints oJR160/163/165 and relates oJR160 adapter to 10x PN-2000007. Historical CG000086 and catalog oligo sequence source are still unavailable; no absence acceptance is supported."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact historical 10x bead/TSO and Non-Poly(dT) primer bases in the 5-prime branch unresolved",
+      "disposition": "blocked",
+      "evidence": "The original article, supplement and preprint have independent reads, but original 10x CG000086 and PN-220106 specifications remain unavailable. Exact historical kit oligo absence cannot be accepted."
+    }
+  ],
+  "conclusion": "The original article, supplement and linked preprint now have two independent source checks. Public guide-capture and amplification oligos are verified; the historical 10x kit guide and full proprietary primer specifications remain unavailable, so missing-information claims stay blocked."
+}

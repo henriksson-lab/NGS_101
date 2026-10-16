@@ -83,7 +83,8 @@ def ligate_rna_adapter(graph: ProtocolGraph, prefix: str, template, label: str,
 
 
 def finish_cdna(graph: ProtocolGraph, prefix: str, template, final: Construct,
-                 endpoint: str, reviewed: list[str], *, rt_label: str = "adapter RT primer"):
+                 endpoint: str, reviewed: list[str], *, rt_label: str = "adapter RT primer",
+                 indexed: bool = True):
     rt_primer = graph.input(prefix + "_rt_primer", rt_label, MaterialKind.OLIGO)
     reverse_transcriptase = graph.input(prefix + "_reverse_transcriptase", "reverse transcriptase",
                                        MaterialKind.CATALYST)
@@ -96,13 +97,13 @@ def finish_cdna(graph: ProtocolGraph, prefix: str, template, final: Construct,
                  (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
     forward = graph.input(prefix + "_pcr_forward", "library PCR forward primer",
                           MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_pcr_reverse", "indexed library PCR reverse primer",
+    reverse = graph.input(prefix + "_pcr_reverse", "indexed library PCR reverse primer" if indexed else "library PCR reverse primer",
                           MaterialKind.OLIGO)
     polymerase = graph.input(prefix + "_pcr_polymerase", "library PCR polymerase",
                              MaterialKind.CATALYST)
-    library = graph.product(prefix + "_library", "indexed sequencing library",
+    library = graph.product(prefix + "_library", "indexed sequencing library" if indexed else "sequencing library",
                             MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Index and amplify the cDNA library", StepKind.PCR,
+    graph.react(prefix + "_pcr", "Index and amplify the cDNA library" if indexed else "Amplify the cDNA library", StepKind.PCR,
                 ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(

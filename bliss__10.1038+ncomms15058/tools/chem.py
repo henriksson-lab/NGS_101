@@ -4,6 +4,8 @@ from __future__ import annotations
 from protocol_specs import Definition, get
 from adapter_ligation import AdapterLigationGeometry
 from bliss_chem import adapter_a1 as bliss_adapter_a1
+from chemdraw import Segment, oligo
+from illumina import TRUSEQ_SMALL_RNA_RA3
 from protocol_graph import InputRole
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
@@ -18,6 +20,11 @@ from protocol_specs import workflow
 from bliss_chem import oligos as bliss_oligos
 
 
+def _oligos():
+    return (*bliss_oligos(), oligo("RA3 RNA 3′ adapter (custom-synthesized TruSeq Small RNA sequence)",
+                                  [Segment("RA3", TRUSEQ_SMALL_RNA_RA3)]))
+
+
 def _source_workflow():
     return workflow(molecule("fixed DNA", ("native double-strand break",)), (
         ("Blunt the break ends in situ",
@@ -27,14 +34,17 @@ def _source_workflow():
          molecule("tagged break", ("genomic break", "UMI", "sample barcode", "RA5", "T7 promoter"), joined=True,
                   junctions=(("genomic break", "UMI", "break-adapter ligation"),)),
          "The ligation boundary marks the nucleotide adjacent to the break."),
-        ("Linearly amplify by T7 transcription and complete the RNA library",
+        ("Linearly amplify by T7 transcription",
+         molecule("BLISS IVT RNA", ("RA5", "UMI", "sample barcode", "break-adjacent RNA"), joined=True),
+         "The break-adjacent sequence is copied into RNA."),
+        ("Ligate the RA3 adapter to the IVT RNA, reverse-transcribe and index-amplify",
          molecule("BLISS library", ("RA5", "UMI", "sample barcode", "break-adjacent DNA"), joined=True),
-         "IVT reduces dependence on exponential preamplification."),
+         "The original Protocol Exchange method names RA3, RTP, RP1 and a chosen RPI primer."),
     ))
 
 SPEC = get('bliss', definition=DEFINITION,
            workflow_fn=_source_workflow,
-           oligos_fn=bliss_oligos)
+           oligos_fn=_oligos)
 
 
 def _local_graph(d, final, primers):
@@ -71,9 +81,22 @@ def _local_graph(d, final, primers):
     graph.react("transcribe", "Linearly amplify tagged breaks by T7 transcription",
                 StepKind.TRANSCRIPTION,
                 ((tagged, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
+    ra3 = graph.input("ra3_adapter", "custom TruSeq Small RNA RA3 3′ adapter",
+                      MaterialKind.ADAPTER, source=source + "; Protocol Exchange v2 pp. 3, 10")
+    rna_ligase = graph.input("rna_ligase", "T4 RNA ligase 2, truncated (NEB M0242L)", MaterialKind.CATALYST)
+    ligated_rna = graph.product("ra3_ligated_rna", "RA3-ligated BLISS IVT RNA",
+                               MaterialKind.MOLECULAR,
+                               state=molecule("RA3-ligated IVT RNA",
+                                              ("RA5", "UMI", "sample barcode", "break-adjacent RNA", "RA3"),
+                                              joined=True))
+    graph.react("ligate_ra3", "Ligate RA3 to the IVT RNA 3′ end", StepKind.LIGATION,
+                ((rna, InputRole.TEMPLATE), (ra3, InputRole.STRUCTURAL),
+                 (rna_ligase, InputRole.CATALYST)), (ligated_rna,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The custom RA3 bases are printed by Illumina, but the original BLISS protocol does not specify its custom-synthesis end modifications."))
     reviewed = ["dna", "blunting_enzyme", "blunt", "break_adapter", "ligase", "ligate",
-                "t7_polymerase", "transcribe"]
-    finish_rt_pcr(graph, "library", rna, final, primers, d.sequencing, reviewed,
+                "t7_polymerase", "transcribe", "ra3_adapter", "rna_ligase", "ligate_ra3"]
+    finish_rt_pcr(graph, "library", ligated_rna, final, primers, d.sequencing, reviewed,
                    label="BLISS break")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

@@ -2,7 +2,7 @@
 
 from chemdraw import Construct, Row
 from batch_ngs import nextera_library, seg
-from adapter_ligation import reported_adapter_end
+from adapter_ligation import AdapterLigationGeometry
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry
 from protocol_extensions import analyte_split
@@ -22,8 +22,11 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1186/s13059-016-0950-z">
 SUMMARY = ("Cytoplasmic RNA and nuclear genomic DNA from one cell are physically "
            "separated for Smart-seq2 transcriptomics and scRRBS methylome sequencing.")
 CAVEAT = ("The defining paper explicitly inherits Smart-seq2/Nextera and scRRBS. "
-          "Their source-verified oligos and adapter structures are reused here, so "
+          "Their source-described chemistry is reused here, so "
           "the earlier generic random-priming methylome representation is removed. "
+          "INFERRED — the inherited scRRBS paper names standard premethylated indexed "
+          "Illumina adapters but does not print their exact oligos or index member; "
+          "dotted canonical TruSeq arms illustrate a compatible design. "
           "One inherited sequence is not source-verified, though: Hu et al. name the "
           "Smart-seq2 protocol but print no template-switch oligo, and Smart-seq2 "
           "has two published TSO linkers &mdash; <code>AC</code> for the chosen "
@@ -144,17 +147,14 @@ def protocol_graph():
             ((fragments, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)),
             (prepared,))
     adapters = g.input("methylated_adapters",
-                       "premethylated indexed TruSeq adapters", MaterialKind.ADAPTER,
-                       state=rrbs.adapter_scene())
+                       "canonical premethylated indexed TruSeq illustration", MaterialKind.ADAPTER,
+                       state=rrbs.adapter_scene(), inferred=True)
     ligase = g.input("ligase", "DNA ligase", MaterialKind.CATALYST)
     ligated = g.product("ligated_fragments", "adapter-ligated genomic fragments",
                         MaterialKind.MOLECULAR)
-    geometry = reported_adapter_end(
-        "premethylated TruSeq Y adapter", kind="cohesive", polarity="3-prime",
-        terminal_sequence="T", substrate_scenes=(rrbs.a_tailed_fragment_scene(),),
-        statement=("The inherited scRRBS adapter presents one 3′-dT to each "
-                   "dA-tailed MspI fragment end."))
-    g.react("adapter_ligation", "Ligate premethylated indexed Y-adapters",
+    geometry = AdapterLigationGeometry.unavailable(
+        "The inherited scRRBS source does not print the ligation-facing adapter oligos or exact end geometry.")
+    g.react("adapter_ligation", "INFERRED — ligate a compatible premethylated indexed Y-adapter",
             StepKind.LIGATION,
             ((prepared, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
              (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)

@@ -1,0 +1,79 @@
+{
+  "dir": "gro-seq__10.1126+science.1162228",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "core_2008",
+      "role": "defining",
+      "locator": "Core et al. Science 2008 doi:10.1126/science.1162228; science.1162228_PMC2833333.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS opening through Results, especially paragraph after abstract describing BrUTP run-on, short RNA fragmentation, triple BrU selection and Illumina NRO-cDNA",
+        "finding": "Original article describes GRO-seq reaction and Illumina read origin, but does not print exact historic library oligos in accessible article text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC2833333 XML lines 28-32",
+        "finding": "Original article explains BrUTP run-on, fragmentation, BrU immunopurification and sequencing from fragment 5-prime end, but does not print historic ligation/primer oligos in these accessible Methods/results."
+      }
+    },
+    {
+      "id": "core_2008_supp",
+      "role": "supplement",
+      "locator": "NIHMS177763-supplement-Supplementary_Data.pdf, DOI manuscript MANIFEST explicit PMC gated URL",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original 2008 supplementary PDF is marked manual behind PMC Preparing to download gate.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "core_2008"
+    },
+    {
+      "id": "later_author_2018",
+      "role": "linked_material",
+      "locator": "Later author GRO-seq stepwise protocol, PMC5880289 JATS, local PMC5880289_PMC5880289.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Materials lines 95-113 and library preparation lines 326-355; scraper hits NTI223/NTI200/NTI201/NTI202",
+        "finding": "Later author method prints a /5Phos/ and /idSp/ NTI223 oligo, PCR primers NTI200/201 and read primer NTI202. This does not prove the original 2008 library used that exact oligo set."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC5880289 XML Materials lines 107-113 and library steps 328-355",
+        "finding": "Later author protocol prints /5Phos/ and /idSp/ NTI223, NTI200/201 PCR primers and NTI202 run primer; cannot project this later construction onto 2008 without original supplement."
+      },
+      "discovered_from": "core_2008"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Core 2008 JATS article opening method paragraph and supplementary manifest; later author 2018 Materials and library section",
+      "finding": "Followed later author protocol and read its exact oligos, but original 2008 supplement is unavailable and cannot be replaced by later implementation."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Core 2008 PMC2833333 lines 28-32 and later author PMC5880289 lines 107-113, 328-355",
+      "finding": "Checked original article-to-supplement inventory and later author method; original 2008 supplementary material remains unavailable, preventing backward projection of later primers."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact original GRO-seq sequencing primers and adapter set are unresolved",
+      "disposition": "blocked",
+      "evidence": "2008 primary text lacks oligo table and its historical supplement is inaccessible; 2018 author oligos are later variant evidence only."
+    }
+  ],
+  "conclusion": "First pass separates original 2008 method from later 2018 author implementation; original supplement and second pass pending."
+}

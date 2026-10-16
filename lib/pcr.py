@@ -143,7 +143,7 @@ class PCRGeometry:
     @classmethod
     def unavailable(cls, template: Construct, *, reason: str,
                     symmetric_species: bool = False) -> "PCRGeometry":
-        """Record a PCR whose source does not disclose usable primer/site information."""
+        """Record a PCR without declared usable primer/site information."""
         return cls(template, None, None, "unavailable", reason, None, None,
                    symmetric_species=symmetric_species)
 

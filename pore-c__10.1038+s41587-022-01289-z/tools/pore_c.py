@@ -85,14 +85,15 @@ def workflow():
              note='Compatible ends from several proximal loci become one chimeric dsDNA polymer.')
     wf.react('Proteinase K reverse-crosslinking and DNA purification',rows(CONCATEMER,'released concatemer'),
              note='The covalent multiway DNA concatemer is released intact; no PCR is performed.')
-    wf.react('Long-fragment selection, end repair and dA-tailing',dA_tailed_scene(DA_CONCATEMER).rows(),
-             note='The published workflow preserves long multi-contact polymers for nanopore sequencing.')
+    wf.react('Optional size selection, then repair and dA-tailing',dA_tailed_scene(DA_CONCATEMER).rows(),
+             note='The later ONT info sheet recommends 0.85X SPRI selection when yield permits and a native ligation kit; the original paper\'s kit remains unverified.')
     wf.react('ONT ligation-adapter attachment',final_rows(),
-             note='Motor-loaded long-read adapters are ligated to the repaired concatemer ends.')
+             note='In the later V14 example, Salt-T4 DNA ligase attaches motor-loaded adapters to repaired concatemer ends.')
     return wf
 
 def protocol_graph():
     source="Defining source: https://doi.org/10.1038/s41587-022-01289-z"
+    vendor="Later ONT RE-Pore-C info sheet and SQK-LSK114 ligation guidance; the kit used in the defining 2022 paper is unverified"
     graph=ProtocolGraph("Pore-C",authority=source)
     chromatin=graph.input("chromatin","formaldehyde-crosslinked proximal chromatin",
                           MaterialKind.BIOLOGICAL,state=tuple(chromatin_rows()),primary=True)
@@ -113,12 +114,12 @@ def protocol_graph():
                            MaterialKind.MOLECULAR,state=CONCATEMER)
     graph.react("deproteinize","Reverse crosslinks and remove proteins",StepKind.DEPROTEINIZATION,
                 ((concatemer,InputRole.TEMPLATE),(proteinase,InputRole.CATALYST)),(released,))
-    selector=graph.input("long_fragment_selection","long-fragment selection reagent",
+    selector=graph.input("long_fragment_selection","optional 0.85X SPRI size-selection beads",
                          MaterialKind.SELECTION)
     selected=graph.product("selected_concatemer","long selected multiway concatemer",
                            MaterialKind.MOLECULAR,state=CONCATEMER)
     rejected=graph.product("short_fragments","rejected short DNA fragments",MaterialKind.WASTE)
-    graph.react("size_selection","Retain long multi-contact concatemers",StepKind.SELECTION,
+    graph.react("size_selection","Enrich long multi-contact concatemers when input permits",StepKind.SELECTION,
                 ((released,InputRole.TEMPLATE),(selector,InputRole.SELECTION)),(selected,rejected))
     graph.discard(rejected,"short fragments are removed to preserve multi-contact molecules")
     endprep=graph.input("end_repair_mix","end-repair and dA-tailing enzymes",MaterialKind.CATALYST)
@@ -127,22 +128,24 @@ def protocol_graph():
     graph.react("end_prepare","End-repair and dA-tail the selected concatemer",StepKind.END_REPAIR,
                 ((selected,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(tailed,))
     adapter=graph.input("ont_adapter","motor-loaded ONT ligation adapter",MaterialKind.ADAPTER,
-                        inferred=True,source=source+" (adapter body bases are proprietary)")
+                        inferred=True,source=vendor)
+    adapter_ligase=graph.input("ont_salt_t4_ligase","Salt-T4 DNA ligase for later ONT V14 kit",
+                               MaterialKind.CATALYST,inferred=True,source=vendor)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,inferred=True,
-                          source=source+" (terminal ONT adapter roles are proprietary)")
+                          source=vendor)
     geometry=reported_adapter_end(
         "ONT ligation adapter",kind="cohesive",polarity="3-prime",terminal_sequence="T",
         substrate_scenes=(dA_tailed_scene(DA_CONCATEMER),),
-        statement="The restriction-enzyme Pore-C workflow dA-tails the concatemer before ONT ligation-adapter attachment.")
+        statement="The later ONT info sheet recommends an SQK-LSK114 native ligation branch; its kit documentation specifies dA-tailed DNA and complementary adapter dT. This does not establish the kit used in the 2022 paper.")
     graph.react("adapter_ligation","Attach motor-loaded ONT ligation adapters",
                 StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(library,),geometry=geometry)
+                 (adapter_ligase,InputRole.CATALYST)),(library,),geometry=geometry)
     graph.sequence(library,SequencingPlan(
-        limitation="Nanopore sequencing is primer-free and the motor-adapter bases are proprietary.",
+        limitation="Nanopore sequencing is primer-free. The exact kit and adapter used by the defining 2022 paper remain unresolved; the drawn dA/dT attachment is a later vendor-documented example.",
         acquired_roles=("Sequencing output",),read_uses={"Sequencing output":"include"}))
     graph.declare_reviewed_scope((
         "chromatin","nlaiii","digest","t4_ligase","proximity_ligation","proteinase_k",
         "deproteinize","long_fragment_selection","size_selection","end_repair_mix",
-        "end_prepare","ont_adapter","adapter_ligation","library"),source)
+        "end_prepare","ont_adapter","ont_salt_t4_ligase","adapter_ligation","library"),vendor)
     return graph.require_publishable()

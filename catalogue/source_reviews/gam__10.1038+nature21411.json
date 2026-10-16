@@ -1,0 +1,86 @@
+{
+  "dir": "gam__10.1038+nature21411",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "beagrie_full",
+      "role": "defining",
+      "locator": "Beagrie et al. Nature 2017 doi:10.1038/nature21411; PMC5366070 author manuscript",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Local GAM source bundle absent; Nature page exposes abstract only; PMC page challenge blocked full article text.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gam_guide",
+      "role": "supplement",
+      "locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Guide.pdf (337.8 KB)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original source inventory located via PMC indexed page, but PDF not downloaded or read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gam_notes",
+      "role": "supplement",
+      "locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Notes.pdf (1.3 MB)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original source inventory located, but PDF not downloaded or read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gam_tables",
+      "role": "supplement",
+      "locator": "PMC5366070 Supplementary Tables 1-5 (XLSX), listed on original PMC page",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplementary workbooks not downloaded or checked for oligo tables.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "wga4_guide",
+      "role": "vendor",
+      "locator": "Sigma GenomePlex WGA4 kit guide, named in reported GAM amplification workflow",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-matched vendor guide unavailable; proprietary adaptor bases cannot be checked.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "beagrie_full"
+    },
+    {
+      "id": "multiplex_gam",
+      "role": "linked_material",
+      "locator": "Later Multiplex-GAM protocol mentioned by existing note",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Not independently read in this pass and cannot establish 2017 reagent identity.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "beagrie_full"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Local GAM source directory and get_sources DOI manifest; Nature article preview; PMC article access; PMC indexed source inventory listing Guide, Notes and Tables 1-5",
+      "finding": "Original article and supplements are not locally available; web Nature page is only a paywall preview and PMC gave a challenge. Later method and WGA4 guide need source checks."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "The WGA4 adaptor bases are undisclosed",
+      "disposition": "blocked",
+      "evidence": "Original GAM full text, supplement and vendor guide were unavailable in this pass. The older ledger assertion of two 30-base adaptors is a lead, not a verified first-pass source reading."
+    }
+  ],
+  "conclusion": "Blocked at original-source retrieval. No published-absence claim is accepted."
+}

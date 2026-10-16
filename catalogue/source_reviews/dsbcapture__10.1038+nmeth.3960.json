@@ -1,0 +1,111 @@
+{
+  "dir": "dsbcapture__10.1038+nmeth.3960",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/dsbcapture__10.1038+nmeth.3960/article.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Methods lines 59–85; scraper run on bundle",
+        "finding": "Methods specify adapter annealing, in situ P5 and distal P7 ligation, Protocol Exchange detailed method, and paired-end 50/75 sequencing."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5045719 Methods lines 59–85 and PDF Methods lines 283–286, 340–379; local scraper",
+        "finding": "Original establishes P5 in situ and distal P7 ligation followed by PCR; points to authors’ detailed Protocol Exchange procedure for bases and index architecture."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/dsbcapture__10.1038+nmeth.3960/supplementary_figures.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. 1c caption and Fig. 1e control legend; scraper run",
+        "finding": "Raster figure depicts modified P5/P7 and PCR primer family, but extracted captions do not carry bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original supplementary_figures.doc.txt Supplementary Fig. 1c caption and Fig. 1e legend; local scraper",
+        "finding": "Figures depict P5/P7 and control design; text captions do not replace authors’ base-level table in detailed Protocol Exchange."
+      }
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/dsbcapture__10.1038+nmeth.3960/supplementary_tables.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 opening lines 1–30; scraper run",
+        "finding": "Tables give sequencing/alignment data, not complete adapter oligo identities in inspected portion."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original supplementary_tables.pdf.txt Supplementary Table 1 opening lines 1–30; local scraper",
+        "finding": "Inspected first table is sequencing/alignment summary, not adapter inventory. Remaining table extent is not independently cleared for absence."
+      }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "linked_material",
+      "locator": "_data/sources/dsbcapture__10.1038+nmeth.3960/supplement_0.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original detailed method lines 229–231, 568–574, 608–653; scraper run",
+        "finding": "Original authors print full modified P5/P7 and control duplexes, PCR F and eight AD-indexed PCR R primers. Text explicitly specifies TruSeq single index 6 bp; resolves former page assertion that sequence exists only as figure artwork."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original authors’ Protocol Exchange supplement_0.pdf.txt lines 568–574 and 608–653; local scraper",
+        "finding": "Detailed method says TruSeq single index, 6 bp. Oligo table prints modified P5/P7 and control duplexes, PCR F, and eight AD1/2/3/4/5/6/12/19 reverse primers. These are published, source-positive sequences."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "truseq_pooling_guide",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq Library Prep Pooling Guide #15042173-01 (2015)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Protocol Exchange lines 626–632 cites this vendor guide for index pooling combinations; not retrieved yet.",
+      "discovered_from": "protocol_exchange"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original paper Methods lines 59–85; Protocol Exchange method lines 568–653 and reference to vendor pooling guide",
+      "finding": "Followed the missing URL to original authors’ detailed method; all oligos and six-base single-index architecture are printed. Vendor pooling guide still unavailable, but does not define the printed oligos."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 59–85 and authors’ detailed Protocol Exchange lines 568–653",
+      "finding": "Followed linked detailed method and verified base-level oligos and 6-bp index. Cited TruSeq pooling guide #15042173-01 has not been retrieved; its remaining role is index-pooling compatibility, so keep link disposition blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Both readers located authors’ detailed source and its P5/P7/PCR oligos; cited vendor pooling guide remains unavailable. No missing claim accepted."
+}

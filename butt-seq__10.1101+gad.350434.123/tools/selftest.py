@@ -5,6 +5,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 import chem
+import seqprimers as sp
 from checks import Check, Source, have
 
 check = Check()
@@ -30,4 +31,12 @@ if have(check, article, workbook, label="Butt-seq source oligo transcription"):
           "GCAGCGTCAGATGTGTATAAGAGACAGN" in methods
           and "GCAGCGTCAGATGTGTATAAGAGACAGN" not in table)
 chem.protocol_graph()
+spans = sp.feature_spans(chem.FINAL_LIBRARY, chem.SEQ_PRIMERS, chem.READ_LENGTHS)
+check("eight-cycle UMI and i5 sample index land in different index acquisitions",
+      [(span.read, span.feature.role, span.cycles) for span in spans],
+      [("Index 1 (i7)", "umi", "1–8"),
+       ("Index 2 (i5)", "sample_index", "1–8")])
+read2 = sp.locate(chem.FINAL_LIBRARY, sp.TRUSEQ["R2"])
+check("Read 2 begins with the first-starter fixed T before the variable overhang",
+      (read2.strand, read2.reads[:2]), ("top", "Tn"))
 check.report()

@@ -16,6 +16,10 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-019-0290-0">
 SUMMARY = ("A phosphorylated poly(A) splint anneals across the complete Nextera S5+ME "
            "end of pre-tagmented chromatin. A Drop-seq bead oligo captures that tail and "
            "nuclear mRNA, transferring the same cell barcode to both branches.")
+CAVEAT = ('<b>Published table cross-reference error:</b> The <a href="https://doi.org/10.1038/s41587-019-0290-0">article Methods</a> name “Table S3” for Nextera-R1-rc-polyA. '
+          '<a href="https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-019-0290-0/MediaObjects/41587_2019_290_MOESM5_ESM.xlsx">Table S3</a> instead contains differential-accessibility results. '
+          'The actual /5Phos/ Nextera-R1-rc-polyA sequence is in the “Oligonucleotide sequences” sheet of '
+          '<a href="https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-019-0290-0/MediaObjects/41587_2019_290_MOESM6_ESM.xlsx">Table S4</a>; this model uses that printed strand. The source does not identify a particular library’s index-primer member.')
 
 BEAD_SMART = "AAGCAGTGGTATCAACGCAGAGTAC"
 BEAD_SPACER = "T" * 8

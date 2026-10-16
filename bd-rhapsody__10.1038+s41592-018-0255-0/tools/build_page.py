@@ -18,20 +18,20 @@ def render():
     return "\n".join([head("BD Rhapsody WTA library chemistry"),'<div class="wrap" data-protocol-complete="true">',
       '<h1>BD Rhapsody WTA &mdash; microwell bead capture and random-primer second strand</h1>',
       info('Defining platform-use paper: <a href="https://doi.org/10.1038/s41592-018-0255-0">Yoon et al., <i>Nature Methods</i> (2019)</a>. Chemistry authority: BD Whole Transcriptome Analysis Alpha Protocol 23-21179-00 (December 2018).'),
-      '<div class="caveat"><b>Workflow and sequence boundary.</b> This page follows BD\'s documented random-primer-extension workflow, not the older ligation route summarized in the paper. BD publishes the Randomer but not the bead, Universal Oligo or library-primer sequences; dotted regions are architecture placeholders.</div>',
+      '<div class="caveat"><b>Workflow and sequence boundary.</b> This page follows BD\'s documented random-primer-extension workflow, not the older ligation route summarized in the paper. The checked BD alpha protocol prints the Randomer but does not resolve the bead, Universal Oligo or library-primer sequences; other relevant BD kit documents remain unchecked or unavailable. Dotted regions are architecture placeholders, not a claim that BD never published those bases.</div>',
       '<h2>Key oligos</h2><seq>'+oligo("BD Randomer",R.randomer_segments())+
       oligo("bead capture oligo — published architecture",R.bead_capture_segments())+'</seq>',
       '<h2>Library construction</h2>',
       protocol_graph_panels(R.protocol_graph(),cls="long"),
       '<h2>Read layout</h2>',
-      sp.unavailable_diagram(final,'BD does not publish the proprietary primer sequences'),
-      panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption="The platform paper used 101 × 2 sequencing. Exact primer bases are proprietary."),
+      sp.unavailable_diagram(final,'Primer-binding bases are unresolved in the checked BD sources'),
+      panel([strand_row(r1,prefix="Read 1  ",suffix=""),strand_row(r2,prefix="Read 2  ",suffix="")],cls="small",caption="The platform paper used 101 × 2 sequencing. Exact primer-binding bases remain unverified."),
       table(("Read","Reports"),[("Read 1","cell label, UMI, then poly(T)"),("Index 1","library index"),("Read 2","cDNA from the random-primed end")]),
       sp.read_spec_table([
           sp.read_spec("Read 1",101,"cell label, UMI, then poly(T)","extract"),
           sp.read_spec("Index 1 (i7)",None,"library index","demultiplex"),
           sp.read_spec("Read 2",101,"cDNA from the random-primed end","include")],
-          "The run layout is source-declared because BD's primer sequences are proprietary."),'</div>'])
+          "The run layout is source-declared because the checked sources do not establish the exact primer-binding bases."),'</div>'])
 
 if __name__=="__main__":
     OUT.write_text(render(),encoding="utf-8");print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

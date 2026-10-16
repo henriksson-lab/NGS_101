@@ -1,0 +1,279 @@
+{
+  "dir": "invadeseq__10.1038+s41596-023-00888-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/invadeseq__10.1038+s41596-023-00888-7/s41596-023-00888-7_PMC10790651.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JATS lines 60–78, 152–172, 740–920, 1418–1450; article PDF lines 572–607",
+        "finding": "2023 author manuscript prints 1100R, 16S Enrich Forward and 1061R Enrich Nested Reverse; states 5-prime v1 detailed branch with v2 kit alternatives, two enrichments, 955–1215 bp selection and TT Set A indexing. Explicitly cites CG000086 Rev J; published article has supplementary figure and results workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41596-023-00888-7_PMC10790651.xml.txt lines 152–172 (kits/custom primers), 740–760 (enrichment 1), 788–850 (size selection/enrichment 2), 866–900 (index PCR), 1418–1449 (linked supplement/code); source-bundle scraper run",
+        "finding": "The protocol prints 1100R, 16S Enrich Forward and degenerate 1061R Enrich Nested Reverse, specifies v1 detailed route with v2 alternative, two enrichments and TT Set A indexing. It cites CG000086 Rev J. Step 85 sets 1.5 µM per enrichment primer; article does not identify selected index well or print exact proprietary reagent internals."
+      }
+    },
+    {
+      "id": "protocol_supp_figure",
+      "role": "supplement",
+      "locator": "s41596-023-00888-7_supp_NIHMS1955151-supplement-Supplementary_materials_2.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Entire 3-page PDF text, especially final Supplementary Figure 1 caption",
+        "finding": "Only bacterial-enrichment library size pseudo-gel and trace; no molecular oligos or extra reaction order."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41596-023-00888-7_supp_NIHMS1955151-supplement-Supplementary_materials_2.pdf.txt entire 3-page extracted text, final Supplementary Figure 1 caption",
+        "finding": "Only an example bacterial enrichment size pseudo-gel and electropherogram; no extra oligo or construction operation. Exclusion as result QC is supported."
+      },
+      "reason": "Figure is size QC, not the source of the claimed missing kit oligos."
+    },
+    {
+      "id": "protocol_supp_tables",
+      "role": "supplement",
+      "locator": "s41596-023-00888-7_supp_NIHMS1955151-supplement-Supplementary_materials_1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "List lines 1–10 and sheet headings at lines 11,214,8396,8477,8715,19320,19360,19405",
+        "finding": "Eight sheets contain microbiome composition, host gene expression and GSEA outputs, not primer or kit sequence tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41596-023-00888-7_supp_NIHMS1955151-supplement-Supplementary_materials_1.xlsx.txt sheet headings and headers at lines 1–14, 214–217, 8402–8405, 8483–8486, 8721–8724, 19326–19329, 19366–19369, 19411–19414",
+        "finding": "Eight sheets are cell-associated genus/UMI, gene expression and GSEA result tables. No oligo-ordering or kit-architecture table is identified in headings or headers; exclusion is limited to molecular-chemistry claims."
+      },
+      "reason": "Result tables only for oligo/chemistry claim."
+    },
+    {
+      "id": "protocol_reporting_summary",
+      "role": "supplement",
+      "locator": "s41596-023-00888-7_supp_NIHMS1955151-supplement-3.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all six rendered pages of image-only Nature Portfolio Reporting Summary",
+        "finding": "Reporting checklist contains study design, materials and data policy, not oligo sequences or library construction steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41596-023-00888-7_supp_NIHMS1955151-supplement-3.pdf, all six image pages rendered and independently OCR-searched; p1 statistics/software/data and later study-design/reagent checklist",
+        "finding": "Nature Portfolio reporting form describes statistics, software, sample design, data and general reagents. It supplies no primer list or library step details, so exclusion for oligo claim is supported."
+      },
+      "reason": "Reporting summary is not a protocol sequence source."
+    },
+    {
+      "id": "application",
+      "role": "predecessor",
+      "locator": "s41586-022-05435-0_PMC9684076.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JATS lines 112–114, 210–212, 270–272 and supplementary-source links",
+        "finding": "2022 Nature application introduces 1100R 16S primer into 10x GEMs and nested bacterial enrichment; directs detailed methods to its Supplementary Information."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-022-05435-0_PMC9684076.xml.txt lines 110–114 (new 16S RT primer), 270–276 (data/code links) and linked MOESM1 Methods",
+        "finding": "The 2022 Nature application introduces 1100R to capture bacterial transcripts in 10x single-cell cDNA and links its Methods supplement; article alone does not settle v1/v2 reagent sequence."
+      }
+    },
+    {
+      "id": "application_methods",
+      "role": "supplement",
+      "locator": "s41586-022-05435-0_supp_41586_2022_5435_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Information Methods lines 640–699; lines 19–32 inventory",
+        "finding": "Original application prints 1100R and full 16S enrichment primer pair, two PCR rounds, BluePippin window, 10x CG000086 Rev J and PE300 MiSeq run; it reports Next GEM 5-prime v2 for GEX and Rev J for bacterial enrichment. Also prints separate validation TaqMan assay oligos at lines 308–321."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-022-05435-0_supp_41586_2022_5435_MOESM1_ESM.pdf.txt lines 645–693 (5-prime v2, 1100R, enrichment primer pair, size selection, CG000086 Rev J/indexing), lines 308–321 (separate TaqMan assay)",
+        "finding": "Original application names 5-prime v2 for GEX, prints full 1100R and both custom enrichment primers, then two PCRs, 955–1215 bp BluePippin selection and MiSeq PE300; separately cites Rev J for bacterial branch. Assay primers at 308–321 are validation controls, not library oligos."
+      }
+    },
+    {
+      "id": "application_tables",
+      "role": "supplement",
+      "locator": "s41586-022-05435-0_supp_41586_2022_5435_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Sheet List lines 1–13 and all eleven sheet headings",
+        "finding": "Patient, microbiome, Visium, GeoMx, host expression, GSEA and nCounter result tables; no protocol oligo list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-022-05435-0_supp_41586_2022_5435_MOESM3_ESM.xlsx.txt all eleven sheet headings/headers: lines 1–17, 116–119, 238–241, 326–329, 1041–1044, 12347–12350, 23236–23239, 28066–28069, 36798–36801, 36927–36930, 37133–37136",
+        "finding": "Workbook tabulates patients, bacteria and UMI counts, expression, GeoMx and GSEA results. It does not present a library-oligo table in inspected headings/headers; excluded from molecular missing claim."
+      },
+      "reason": "Result workbook unrelated to adapter sequence claims."
+    },
+    {
+      "id": "application_reporting_summary",
+      "role": "supplement",
+      "locator": "s41586-022-05435-0_supp_41586_2022_5435_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all four rendered pages",
+        "finding": "Nature Portfolio study-reporting form; no primer table or kit chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-022-05435-0_supp_41586_2022_5435_MOESM2_ESM.pdf, all four image pages rendered/OCR-searched; study design and data statements",
+        "finding": "Nature Portfolio reporting form concerns study design, data and antibody reporting, without a primer table or library construction recipe; exclusion for oligo claims supported."
+      },
+      "reason": "Reporting form only."
+    },
+    {
+      "id": "application_video_legends",
+      "role": "supplement",
+      "locator": "s41586-022-05435-0_supp_41586_2022_5435_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Information Guide, video legends lines 37–68",
+        "finding": "The original supplement captions describe three videos of neutrophil migration and bacterial effects on cancer spheroid invasion; they are biological result footage, not library construction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-022-05435-0_supp_41586_2022_5435_MOESM1_ESM.pdf.txt lines 22–51 inventory and 68–89 all three video captions",
+        "finding": "All three videos concern neutrophil movement or spheroid invasion, as the original captions show. They are unrelated to construction chemistry; video bodies were not treated as sequence sources."
+      },
+      "reason": "Original video captions establish that the referenced footage is unrelated to library molecules; video files were not relied upon for chemistry."
+    },
+    {
+      "id": "tenx_revj",
+      "role": "linked_material",
+      "locator": "10x CG000086 Rev J, cited in protocol JATS lines 760 and 872 and application supplement lines 669–692",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact cited Rev J guide has not been recovered; a later Rev K comparator is available.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tenx_revk",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Rev K Sequences appendix lines 6739–6904 and 7084–7233",
+        "finding": "Later official guide publishes gel-bead TSO primer architecture with 16-base barcode, 10-base UMI, modified rGrGrG and finished v1 V(D)J libraries. It disproves a blanket claim of unpublished bead architecture but is not proof of exact Rev J reagent revision."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt lines 6848–6905 (TSO gel bead and cDNA primer) and 7084–7095 (v1 adapter and final structure)",
+        "finding": "Later official Rev K prints gel-bead TSO with 16-N barcode, 10-N UMI and rGrGrG terminus plus 5-prime product architecture. It is a later revision and cannot establish that the cited Rev J or alternative Next GEM v2 kit used identical reagent internals."
+      },
+      "discovered_from": "tenx_revj"
+    },
+    {
+      "id": "tenx_nextgem_v2",
+      "role": "linked_material",
+      "locator": "10x Next GEM Single Cell 5-prime v2 kit PN-1000263, named protocol JATS lines 154–166",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Version-matched v2 guide for the alternative branch has not been checked here.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_analysis_code",
+      "role": "linked_material",
+      "locator": "_data/sources/invadeseq__10.1038+s41596-023-00888-7/37049d3d8e7f78f09a1f5dc505e5544b9b503434.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Pinned archive README.md sections Part 2; patient_samples/patient_samples_16s_pipeline.sh lines 1–157; patient_samples/INVADEseq.py lines 59–145",
+        "finding": "README separates GEX and 16S processing. The 16S shell pipeline converts Cell Ranger BAM to fastqs and trims its derived r1, then INVADEseq.py uses CB/UB BAM tags and a GEX barcode whitelist. Thus its processed r1 name is downstream analysis terminology, not a source for the physical raw sequencing-primer orientation. No new synthesis oligos are specified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Pinned author ZIP README.md lines 46–55, patient_samples/patient_samples_16s_pipeline.sh lines 42–72 and 129–153, patient_samples/INVADEseq.py lines 59–112; read directly from original archive",
+        "finding": "Pipeline derives r1/r2 FASTQs from Cell Ranger BAM, trims its derived r1 for PathSeq, and joins microbial reads to CB/UB tags with a GEX barcode whitelist. This processed r1 label does not establish physical raw sequencing-primer orientation; no additional synthesized oligos are specified."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "dual_index_tt_set_a",
+      "role": "linked_material",
+      "locator": "10x Dual Index Kit TT Set A PN-1000215, named protocol JATS lines 158, 678 and 886",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Version-matched 10x index-member plate list and selected well have not been checked.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Protocol JATS lines 152–172, 760, 872, 1436–1450; application JATS lines 112–114/272 and MOESM1 Methods 640–699; supplement inventory and cached official Rev K appendix",
+      "finding": "Followed original application and supplements, later official 10x Rev K, and pinned author analysis code. Original application supplies full custom primers; author code confirms CB/UB tag use but does not establish physical raw read primer geometry. Exact cited CG000086 Rev J, Next GEM v2 guide and TT Set A well list remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "2023 JATS lines 152–172, 740–760, 866–900 and supplement/code links 1418–1449; 2022 JATS 110–114 and MOESM1 Methods 645–693; all listed result supplements; 10x Rev K appendix 6848–6905; author ZIP README and scripts",
+      "finding": "Independently followed application Methods, supplement inventory, later Rev K vendor guide and pinned analysis code. Custom 16S oligos are published; code does not prove raw read geometry. Cited CG000086 Rev J, version-matched 5-prime v2 guide and actual TT Set A chosen well remain unchecked/unassigned, so no missing information accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete version-specific 10x backbone, exact bead reagent and sample index member for INVADEseq",
+      "disposition": "blocked",
+      "evidence": "Original prints protocol-specific primers; later official Rev K prints 5-prime bead architecture, but cited Rev J and v2 guide/version mapping and sample index choice remain unresolved."
+    }
+  ],
+  "conclusion": "Two independent passes cover readable originals, supplements, later 10x comparator and author code. Cited Rev J, v2 version match and selected index member remain blocked; exact kit-internal absence is not established."
+}

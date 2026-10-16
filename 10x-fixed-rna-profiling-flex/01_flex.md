@@ -2,13 +2,15 @@
 
 ## 1. What it is
 
-Flex measures RNA in fixed cells or nuclei through pairs of gene-specific DNA probes. Adjacent probe halves hybridize to one RNA target and are ligated; the reporter product is then cell-barcoded in GEMs.
+This CG000674 variant measures fixed-cell RNA and antibody-tagged proteins in separate libraries. Gene-specific probe halves hybridize on RNA, then are ligated inside GEMs. An antibody-bound oligo is captured in the same GEM; both reporters receive GEM barcode and UMI by gel-bead primer extension.
 
 ## 2. Sources read
 
 - 🟢 10x Genomics, *Chromium Fixed RNA Profiling Reagent Kits for Singleplexed Samples with Feature Barcode technology for Protein using Barcode Oligo Capture*, CG000674 Rev C: [support page](https://www.10xgenomics.com/support/cn/flex-gene-expression/documentation/steps/library-prep/chromium-fixed-rna-profiling-reagent-kits-for-singleplexed-samples-with-feature-barcode-technology-for-protein-using-barcode-oligo-capture).
-- 🟢 Earlier CG000477 Rev E library and sequencing diagrams were checked for the same fixed-RNA probe-pair architecture.
+- 🟢 [CG000477 Rev E predecessor PDF](https://cdn.10xgenomics.com/image/upload/v1694503286/support-documents/CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf), pp. 15–19 and Appendix p. 85: independent readers confirmed in-GEM ligation after partitioning. Its gene-expression shell matches CG000674 Rev C, but its TotalSeq-B protein oligo differs from CG000674's TotalSeq-C Barcode Oligo Capture branch.
+- 🟢 [CG000621 Rev D custom-probe note](https://cdn.10xgenomics.com/image/upload/v1729114202/support-documents/CG000621_CustomProbeDesign_RevD.pdf), pp. 11–12 Tables 7–8 and pp. 14–15 Tables 12–13: independent readers checked exact custom Flex LHS/RHS configurations, a 5′ phosphate on the RHS, BC001 and multiplex probe barcodes, and six EGFP/RFP examples. It is a custom-probe specification, not the commercial whole-transcriptome probe inventory.
 - 🟢 [CG000674 Rev C direct PDF](https://cdn.10xgenomics.com/image/upload/v1729115031/support-documents/CG000674_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_BarcodeOligoCapture_UserGuide_Rev_C.pdf), Appendix p. 85, **Oligonucleotide Sequences**, prints the Flex gel-bead primer and both completed gene-expression and protein-expression library layouts. Its sequencing section specifies TruSeq Read 1 / Small RNA Read 2 for gene expression, and TruSeq Read 1 / Nextera Read 2 for protein expression.
+- 🟢 [CG000529 Rev C antibody labeling](https://cdn.10xgenomics.com/image/upload/v1719610805/support-documents/CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf), p. 4, prints the antibody-conjugated oligo pattern for this Barcode Oligo Capture variant. [CG000478 Rev C fixation](https://cdn.10xgenomics.com/image/upload/v1676674019/support-documents/CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf) places optional antibody labeling before fixation. [CG000528 Rev D protocol planner](https://cdn.10xgenomics.com/image/upload/v1694503152/support-documents/CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf) maps CG000674 to the gene-and-protein workflow. Each was independently checked twice; see the source-review checklist for instrument and clogging links.
 
 ## 3. Published oligo structure
 
@@ -16,16 +18,20 @@ Flex measures RNA in fixed cells or nuclei through pairs of gene-specific DNA pr
 
 🟢 The gene-expression library is printed with a 10-base i5 index, TruSeq Read 1 arm, GEM barcode, UMI, the bead-primer terminus, `BC8-NN-TACGTGCTAACCGCGT`, a ligated-probe insert, the Small RNA Read-2-side constant `TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC`, a 10-base i7 index and P7. `BC8` is a probe barcode window, not an extra GEM cell barcode. The full duplex appears on p. 85 of the guide; these exact constants are now surfaced on the schematic as key oligos.
 
-🟢 The [10x Probe Set Reference CSV description](https://www.10xgenomics.com/support/flex-gene-expression/documentation/steps/probe-sets/chromium-frp-probe-set-files) says downloadable Cell Ranger probe-set files contain the **combined LHS/RHS target sequence** for each probe, along with probe-barcode sequence files. 🔴 This guide does not print the complete ordered LHS/RHS oligos, including any synthesis-specific modifications. The page's compact final duplex still uses normalized platform arms and must be rebuilt against the source-exact Small RNA Read-2 end before it can be considered base-complete.
+🟢 The [official human v1.0.1 WTA CSV](https://cf.10xgenomics.com/supp/cell-exp/probeset/Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv), compatible with NextGEM Flex v1, was read twice. Its header identifies GRCh38 2020-A and file format 2.0; all 54,580 rows have a 50-nt `probe_seq`, with 53,444 included in default analysis. The first TSPAN6 spliced target-region record is `GGTGACACCACAACAATGCAACGTATTTTGGATCTTGTCTACTGCATGGC`. The [10x format overview](https://www.10xgenomics.com/support/flex-gene-expression/documentation/steps/probe-sets/chromium-frp-probe-set-files) and custom design note identify this column as the combined target-region probe sequence without handles. The CSV does not itself assign the exact commercial physical LHS/RHS oligos, modifications or chosen specimen barcode mixture; that reconstruction remains blocked. The compact RNA final duplex still uses normalized platform arms and must be rebuilt against the printed Small RNA Read-2 end before it is base-complete.
+
+🟢 The custom Flex design note specifies `5′-CCTTGGCACCCGAGAATTCCA-[25-nt target LHS]-3′` and `/5Phos/-[25-nt target RHS]-ACGCGGTTAGCACGTA-NN-ACTTTAGG-CGGTCCTAGCAA-3′` for singleplex BC001 (Table 7). Table 13 prints the complete example `EGFP-RHS-1` as `/5Phos/gccgtcctcgatgttgtggcggatcACGCGGTTAGCACGTANNACTTTAGGCGGTCCTAGCAA`. The note says the whole-transcriptome probe sets use four distinct physical barcode sequences per barcode ID, so the single custom BC001 string is not a substitute for the commercial barcode mixture.
+
+🟢 CG000529 Rev C p. 4 prints the current protein capture oligo as `/5AmMC12/CGGAGATGTGTATAAGAGACAG-N10-N15-N9-CCCATATAAGAAA` for TotalSeq-C conjugates. `N15` is the antibody feature barcode, and the amino modifier attaches the oligo to the antibody. CG000674 Rev C step 1.1h adds a selected Antibody Multiplexing Barcode AB001–AB016 during hybridization; its GEM section says this oligo attaches to the antibody feature oligo inside GEMs. Appendix p. 85 prints a separate protein final library with GEM barcode/UMI, `AB8`, protein constants, feature barcode and a Nextera Read 2 arm. These segments now form a separate source-backed graph branch and completed protein construct; the drawn barcode windows remain unknown values. The physical AB oligo and its attachment geometry are still unresolved, shown as a validation warning. CG000477 Rev E instead uses TotalSeq-B and TruSeq Read 2, so its protein molecule was not inherited.
 
 ## 4. Construct-changing steps
 
-1. Fix and permeabilize the sample.
-2. Hybridize target-specific left and right probe halves.
-3. Ligate adjacent probe pairs.
-4. Partition cells or nuclei into GEMs and transfer cell barcode and UMI to reporters.
-5. Pre-amplify and add sample indexes.
+1. Label cells with antibody-oligo conjugates, then fix and permeabilize them.
+2. Hybridize target-specific left and right RNA probe halves.
+3. Add an Antibody Multiplexing Barcode oligo with the RNA probes; partition hybridized cells, bound antibody oligos, that AB oligo and barcoded gel beads into GEMs.
+4. Inside GEMs, ligate the RNA probe pair; attach the AB oligo to the antibody feature oligo; extend the bead primer on both resulting reporters.
+5. Pre-amplify both branches and add sample indexes to make distinct gene-expression and protein-expression libraries.
 
 ## 5. Evidence boundary
 
-🟢 The current manual establishes adjacent-probe ligation, read roles, the gel-bead sequence and the complete library shell. The downloadable probe-set reference supplies target-region sequences, but the complete ordered probe halves have not been reconstructed here. 🟡 The current schematic preserves assay roles but still normalizes the source-specific Read-2 arm; its caveat calls that out explicitly.
+🟢 The current and predecessor manuals establish GEM partitioning, nick sealing and barcode transfer; the current guide and labeling protocol establish the separate protein branch and its oligo pattern. The official v1.0.1 WTA CSV supplies commercial target-region sequences, and the custom note supplies verified physical custom-probe examples. The physical commercial probe inventory, actual barcode choices and AB oligo attachment geometry remain unresolved. 🟡 The gene-expression schematic still normalizes the source-specific Small RNA Read-2 arm; the protein shell follows CG000674 Rev C but uses placeholders for source-variable barcodes and indexes. The linked-source checklist records both reads and the disposition of fixation, planner, instrument and clogging documents.

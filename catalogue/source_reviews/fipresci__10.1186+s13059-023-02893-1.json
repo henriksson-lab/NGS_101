@@ -1,0 +1,136 @@
+{
+  "dir": "fipresci__10.1186+s13059-023-02893-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "FIPRESCI Genome Biology 2023 doi:10.1186/s13059-023-02893-1 PMC10078054 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s13059-023-02893-1_PMC10078054.xml.txt lines 55-71 and Methods; Results line 73, Fig. 1 legend line 67, Methods line 237",
+        "finding": "Article describes RNA/cDNA hybrid tagmentation with indexed Tn5 and unmodified 10x 5-prime gel bead as second index. The Results name HEK293T/Jurkat/K562, but Fig. 1 legend and Methods name HEK293(T)/HeLa/K562 for the benchmark."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s13059-023-02893-1_PMC10078054.xml.txt lines 175, 223 and Methods",
+        "finding": "Original article prints phosphorothioate S-P7 and 5′-biotin S5R-P5-Bio PCR oligos in Methods; it describes the two-round indexing and links full oligo table."
+      }
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "MOESM2_ESM.xlsx.txt Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Fipresci-Seq oligos sheet lines 1-10; 96 i7-Tn5 sheet; scraper hits at lines 3 and 9",
+        "finding": "Prints 5Phos/3ddC Tn5 ME, indexed transposon arm and terminal phosphorothioate P7 primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s13059-023-02893-1 MOESM2 original Table S1 lines 3–21",
+        "finding": "Original Table S1 prints 5′-phosphate/3′-dideoxy Tn5 ME and indexed S-P7 primer family; these are exact source oligos, not inferred from a diagram."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "MOESM1_ESM.pdf.txt Additional file 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Figure S2 detailed assay design and captions",
+        "finding": "Original figure details staged RT/tagmentation and second 10x index."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s13059-023-02893-1 MOESM1 original PDF lines 128–152",
+        "finding": "Original supplement depicts i7-only transposome and 5′-biotin S5R-P5 PCR placement; the cited bases agree with the table and main Methods."
+      }
+    },
+    {
+      "id": "correction",
+      "role": "linked_material",
+      "locator": "Genome Biology 2023 publisher correction doi:10.1186/s13059-023-02944-7",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Publisher correction JATS lines 35-47",
+        "finding": "Correction states that figure layers were lost in typesetting and restores Fig. 1; it adds an acknowledgement and does not address the Jurkat/HeLa conflict."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Publisher correction s13059-023-02944-7_PMC10122391_correction.xml.txt lines 38–52",
+        "finding": "Publisher explicitly corrects missing artwork layers in Fig. 1 and adds acknowledgement text. It does not alter printed oligo strings or resolve the cell-line wording conflict already shown on the public page."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "10x_v2_guide",
+      "role": "linked_material",
+      "locator": "10x CG000331 Rev E 5-prime v2 guide",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Sibling 10x VDJ bundle CG000331 guide VDJ/gel-bead sections",
+        "finding": "Vendor original documents gel-bead chemistry inherited by FIPRESCI; exact kit generation must follow paper statement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Official 10x CG000331 Rev E user guide appendix, source bundle 10x-chromium-single-cell-5-vdj-v2 lines 6787–6860",
+        "finding": "Manufacturer 5′ v2 guide prints gel-bead primer and library architecture. FIPRESCI combines this with its own i7-only Tn5 step; no unprinted 10x bases were silently assigned."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "research_square",
+      "role": "linked_material",
+      "locator": "Research Square preprint doi:10.21203/rs.3.rs-1510072/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Research Square source is behind Cloudflare in MANIFEST; preprint-to-published differences unreviewed.",
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article original JATS, Table S1 oligo sheets, Figure S2 and publisher correction; 10x guide version",
+      "finding": "Followed published article supplements and correction, plus named 10x branch. Research Square predecessor version unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original FIPRESCI paper Methods; MOESM1/2; publisher correction; official 10x CG000331 Rev E appendix; preprint manifest row",
+      "finding": "Independently followed published article to its original oligo table, correction and 10x inherited 5′ v2 guide. Preprint is still unavailable, so a version comparison cannot be completed or accepted missing."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Whether inaccessible preprint differs materially from published chemistry",
+      "disposition": "blocked",
+      "evidence": "Published source controls current model, but the inaccessible preprint was not version-compared."
+    }
+  ],
+  "conclusion": "Published chemistry and correction were independently checked; inaccessible Research Square preprint prevents a complete version comparison, so the preprint claim remains blocked."
+}

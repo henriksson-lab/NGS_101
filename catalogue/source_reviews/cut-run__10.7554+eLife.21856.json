@@ -1,0 +1,83 @@
+{
+  "dir": "cut-run__10.7554+eLife.21856",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt:374-376",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Library preparation Methods lines 374-376.",
+        "finding": "Original eLife Methods name KAPA DNA polymerase library preparation kit and cited Kasinathan/Henikoff predecessors, with 25-cycle paired-end HiSeq; no selected index member."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife JATS lines 374-376",
+        "finding": "Original CUT&RUN library paragraph delegates construction to Kasinathan/Henikoff predecessors and a KAPA DNA polymerase library kit, skips size selection and gives 8+ PCR cycles; no selected sample index printed."
+      }
+    },
+    {
+      "id": "kapa",
+      "role": "vendor",
+      "locator": "KAPA DNA polymerase library preparation kit protocol linked in eLife Methods line 376",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Period-specific kit guide/revision and index-plate selection not locally available; product link from 2017 article may redirect."
+    },
+    {
+      "id": "predecessor",
+      "role": "predecessor",
+      "locator": "Kasinathan et al. 2014 and Henikoff et al. 2011, cited in eLife Methods line 376",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Both cited library-preparation precedents need sequence/variant checks before inferring adapters."
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.pdf.txt and supplementary inventory",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PDF library-preparation Methods and source inventory.",
+        "finding": "Original published PDF is locally available; article Methods is the precise kit reference used here."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife PDF text lines 840-845; local source MANIFEST supplementary inventory",
+        "finding": "Independent PDF method agrees with JATS on KAPA/predecessor delegation; scraper found no relevant library oligo in original source bundle."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original eLife Methods line 376",
+      "finding": "Recorded explicit KAPA kit and two predecessor citations; did not equate a modern kit guide with 2017 chemistry."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "eLife JATS line 376 and PDF lines 840-845 citations/kit URL",
+      "finding": "KAPA kit and predecessor papers are explicit linked chemistry sources and remain unreviewed/unavailable in this pass; absence blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Selected sample-index member and exact library adapter instance",
+      "disposition": "blocked",
+      "evidence": "Original Methods name KAPA kit and predecessors; historical kit guide and member index remain unverified."
+    }
+  ],
+  "conclusion": "Primary Methods read, but named vendor/predecessor material remains unresolved."
+}

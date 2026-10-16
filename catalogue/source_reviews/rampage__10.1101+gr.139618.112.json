@@ -1,0 +1,130 @@
+{
+  "dir": "rampage__10.1101+gr.139618.112",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 143–147 and supplement references",
+        "finding": "Original states template switching plus cap trapping and paired 76/101 sequencing; detailed oligos in linked protocol."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Batut 2013 original JATS Methods lines 143–147 and supplement pointer",
+        "finding": "Defining source states RT and template switching combined with cap trapping, pooling after RT, and paired-end 2×76/2×101 sequencing; detailed oligos delegated to linked protocol/supplement."
+      }
+    },
+    {
+      "id": "detailed",
+      "role": "linked_material",
+      "locator": "_data/sources/doi_10.1002+0471142727.mb25b11s104/0471142727.mb25b11s104_PMC4372803.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Protocol lines 192–232, especially TSO/primers 192,208,214,218,224,228; scraper run on linked protocol",
+        "finding": "Direct original protocol prints oligo scaffold and 40-barcode set pointer."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Batut & Gingeras Current Protocols original JATS lines 192–232 and barcode reference lines 230–238",
+        "finding": "Published TSO has N6 library barcode and 3′ rGrGrG, RT primer has (N)15, and exact final PCR and custom read primers are printed; the 40 actual barcode members are delegated to Supplementary File 1."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "ebi_zip",
+      "role": "supplement",
+      "locator": "_data/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677_supplementary.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory: twelve image files, 169fig1–6 gif/jpg",
+        "finding": "Europe PMC ZIP contains figure images only; no oligo table."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Batut 2013 EBI supplementary ZIP central directory: all 12 entries 169fig1–169fig6 .gif/.jpg",
+        "finding": "Archive is figure images only, no oligo or barcode table; checked as excluded from missing-sequence inference."
+      },
+      "reason": "Europe PMC ZIP contains figure images only; no oligo table."
+    },
+    {
+      "id": "barcode_supp",
+      "role": "supplement",
+      "locator": "Batut & Gingeras 2013 Current Protocols Supplementary File 1 barcode table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original PMC JATS links NIHMS665960-supplement-Supp.pdf at https://pmc.ncbi.nlm.nih.gov/articles/instance/4372803/bin/NIHMS665960-supplement-Supp.pdf; PMC download remains gated and direct PMC Cloud object returned HTTP 404 on 2026-10-16. Author thesis indexed with a 01–40 table also timed out, so no primary full membership can be checked.",
+      "discovered_from": "detailed"
+    },
+    {
+      "id": "gingeras_encode_lab_protocol",
+      "role": "other",
+      "locator": "Gingeras Lab RNA-Seq Library Production Document, ENCODE library 296007, https://www.encodeproject.org/documents/db4fd5dc-145b-44a7-b3ea-0cddb5b458cb/@@download/attachment/296007.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Later lab implementation from the same group, not original Batut & Gingeras Supplementary File 1; cannot establish complete original 40-member family or the defining study sample choices.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original ENCODE PDF pp.1,9–10 visually checked, local extracted text /tmp/rampage_encode_296007.pdf.txt lines 306–347; scraper run on temporary source PDF",
+        "finding": "The source identifies an ENCODE tissue RAMPAGE library and repeats the TSO, RT, PCR and sequencing-primer family. Its page 10 visually prints four sets of five indexes (sets 1,2,3,5), despite general text saying 40 and reaction text requesting set 4. The ENCODE sample barcode assignment and complete original 40-family remain unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original ENCODE PDF 296007, extracted text lines 299–353 (Synthetic oligonucleotides and Sequence barcodes); PDF pp. 9–10; scraper run on PDF text",
+        "finding": "Independent read confirms TSCAGE_6N_** with 3′ rGrGrG, RT/random-15 primer, final PCR and custom sequencing primers. The document says a 40-member six-base index set but actually prints only four sets of five: sets 1, 2, 3 and 5. Its RT recipe calls for set 4. This later tissue-library protocol cannot establish the missing original 40-member Supplementary File 1 or the sample-used assignment."
+      }
+    },
+    {
+      "id": "author_thesis_barcode_table",
+      "role": "linked_material",
+      "locator": "https://repository.cshl.edu/31200/1/Batut%20Thesis.pdf (also /id/eprint/31200/1/Batut%20Thesis.pdf)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Search-indexed CSHL author thesis states Table 25B.11.1 lists RAMPAGE TSO barcodes 01–40; web open of both /31200/1 and /id/eprint/31200/1 returned timeout (400), direct curl HEAD timed out, and local get_sources fetch returned curl error 6 (DNS/network restriction) on 2026-10-16. Original table and bases were not inspected. Search snippets establish a retrieval lead only, not sequence evidence.",
+      "discovered_from": "detailed"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Original detailed protocol barcode section and PMC Supplementary File 1 URL followed; author Batut thesis Table 25B.11.1 lead from indexed CSHL PDF followed via two PDF URLs, both timed out. Source-bundle and detailed-protocol oligo scrapers run before reading.",
+      "finding": "Likely alternative original barcode table identified in author thesis, but neither original supplement nor thesis can be read yet; all 40 bases and sample assignments remain blocked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Batut 2013 original JATS Methods lines 143–147 and supplement pointer; Batut & Gingeras Current Protocols original JATS lines 192–232 and barcode reference lines 230–238; Original Batut 2013 EBI supplementary ZIP central directory: all 12 entries 169fig1–169fig6 .gif/.jpg",
+      "finding": "All accessible source rows listed above read independently. Remaining relevant linked documents are unavailable and keep exact undisclosed claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact 40 six-base inline barcode assignments",
+      "evidence": "Defining article and Current Protocols text have two located reads; they refer to a 40-member family in Supplementary File 1. Original supplement is gated and the direct PMC Cloud object was 404. A later Gingeras Lab ENCODE protocol prints only 20 strings for a particular library, leaving original full membership and sample assignments unverified. An indexed author thesis appears to reproduce the 01–40 TSO barcode table but its PDF times out; no bases may be inferred from snippets.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original paper, detailed protocol, figure ZIP and later ENCODE implementation have two independent reads. Original 40-member Supplementary File 1 and author thesis copy of Table 25B.11.1 remain inaccessible; exact family and sample assignments stay blocked."
+}

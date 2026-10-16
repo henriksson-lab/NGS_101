@@ -26,10 +26,23 @@ isolating spatial complexes. It therefore has its own page and source identity.
 ## Oligo source review
 
 🟢 The preprint's Methods and published article specify the six-tag order as
-DPM–Odd–Even–Odd–Even–Y-even. Barcode assignment uses a known tag-sequence
-table, but neither accessible main text prints the ordering oligos, terminal
-Y-even sequence, or library PCR primer pair. The first three tags identify a
-cell; all six identify a spatial complex. 🟡 Bulk SPRITE's 2018 tag table and
-the authors' 2022 detailed SPRITE workbook may explain the shared DPM/Odd/Even
-chemistry, but they do not establish the scSPRITE-specific Y-even adapter without
-an explicit match to this protocol. Exact end geometry remains open.
+DPM–Odd–Even–Odd–Even–Y-even. The first three tags identify a cell; all six
+identify a spatial complex. The original 2018 SPRITE Supplementary Table S5,
+recovered from the authors' Caltech archive, prints the complete DPM, Odd,
+Even and Terminal oligos. The [scSPRITE author parser](https://github.com/caltech-bioinformatics-resource-center/Guttman_Ismagilov_Labs)
+lists 96 read-barcode strings each for DPM, Odd, Even and Y; its 96 Y strings
+exactly match the 2018 Table S5 Terminal Bottom barcode column. 🟡 A match in
+read-barcode strings does not prove that scSPRITE used the 2018 full Terminal
+duplex for its Y-even ligation. The scSPRITE-specific Y-even ordering oligo,
+end geometry and exact library PCR primer pair remain unresolved.
+
+🟢 The parser's Odd read strings are the Table S5 Odd Bottom barcodes without
+their first base. Its Even strings are likewise the Table S5 Even Bottom
+barcodes without the first base, although the 96 entries are ordered
+differently in the two files. Its DPM strings are the reverse complements of
+the Table S5 DPM Top eight-base barcodes followed by `TT`. These are read
+parsing relationships, not evidence for a complete ligation-ready duplex.
+The adjacent author parser configuration uses the same Y, Odd and Even read
+strings but prepends a constant 17-base motif to every DPM read string. The
+paper does not identify which parser setting applied to every published
+library, so the exact raw-read offset of DPM remains open.

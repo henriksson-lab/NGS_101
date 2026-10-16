@@ -1,0 +1,70 @@
+{
+  "dir": "drip-seq__10.1016+j.molcel.2012.01.017",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1016/j.molcel.2012.01.017; j.molcel.2012.01.017_PMC3319272.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Genome-wide R-loop profiling paragraph lines 113-119",
+        "finding": "Restriction fragmentation, S9.6 pull-down, sonication/size selection and ligation to Illumina barcoded adapters; exact adapter not printed there."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article XML lines 74-75, 111-117",
+        "finding": "Methods describe restriction fragmentation, S9.6 pull-down, sonication, size selection and ligation to Illumina barcoded adaptors; no specific adapter sequence or selected barcode is printed there."
+      }
+    },
+    {
+      "id": "supp01",
+      "role": "supplement",
+      "locator": "NIHMS362480-supplement-01.xlsx; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "supp02",
+      "role": "supplement",
+      "locator": "NIHMS362480-supplement-02.doc; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "medip",
+      "role": "predecessor",
+      "locator": "Weber et al. 2005 MeDIP protocol cited in profiling method",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original predecessor method not yet acquired.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Profiling paragraph refers to MeDIP (Weber 2005) and two original supplements; all original supplement links are manual.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "Illumina barcoded adapter sequence and junction",
+      "disposition": "blocked",
+      "evidence": "Defining method names but does not print adapter; original methods supplement and predecessor remain unchecked."
+    }
+  ],
+  "conclusion": "Original supplement and predecessor access blocks acceptance. Independent pass 2 pending; no missing claim accepted."
+}

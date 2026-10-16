@@ -1,0 +1,115 @@
+{
+  "dir": "dm-trna-seq__10.1038+nmeth.3478",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:86-94",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS Methods lines 86-94; paper PDF lines 285-315.",
+        "finding": "Original Methods print modified 41nt RNA template with /3SpC3/, TGIRT template switching, CircLigase II, and both multiplex/barcoded PCR primer sequences. Separate instrument run-primer oligo not named."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4624326 JATS lines 86-94, especially line 90",
+        "finding": "Original explicitly prints 41-nt blocked RNA template with both Illumina read-primer binding sites, plus TGIRT template-switch substrate. Scraper detects published oligo; exact separate run primer must be distinguished from binding site."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_41592_2015_BFnmeth3478_MOESM324-326_ESM.*.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary workbook headings and MOESM326 figure captions.",
+        "finding": "Original supplements are plots/data on demethylation and sequencing results; no separate run-primer row surfaced."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM324 XLSX lines 1-13; MOESM325 XLSX first rows; MOESM326 PDF lines 1-30",
+        "finding": "324/325 are quantitative data tables; 326 is figure caption on AlkB development, not a sequencing-primer list in checked text."
+      }
+    },
+    {
+      "id": "illumina",
+      "role": "vendor",
+      "locator": "Illumina HiSeq 2015 sequencing reagent kit guide for the authors' unspecified HiSeq run and flow-cell chemistry",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original paper names HiSeq system but not instrument model, run mode, kit, or revision. Illumina's HiSeq 2500 primers page (https://support.illumina.com/sequencing/sequencing_instruments/hiseq_2500/primer-box.html, lines 1081-1105) names HP6/HP10 and other possible primer mixes but does not identify which the authors used or disclose their bases."
+    },
+    {
+      "id": "nihms_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_supp_NIHMS701567-supplement-1.doc.txt:1-18",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "All four captions concern demethylation experiments and mapping/replicate results; this separate NIHMS document has no library-chemistry methods or primer table.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplementary DOC text lines 1-18, all four figure captions; oligo/primer/adapter keyword scan",
+        "finding": "This separately cached NIHMS supplement contains four result/analysis figure captions about AlkB development, mapping, replicates and chromosome 6. It provides no additional library primer or reaction recipe in its extracted text. Independent second reader has not reviewed this file."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS701567 supplementary DOC extracted text lines 1–18, all four Supplementary Figure captions; source-bundle oligo scraper run before read (9 hits, all in article text).",
+        "finding": "Independent read finds only AlkB mutant/demethylation plots, mapping rate, replicate sequencing plots and chromosome 6 tRNA expression. This attachment has no library construction or run-primer information; exclusion as not relevant is supported."
+      }
+    },
+    {
+      "id": "later_tgirt_vendor_protocol",
+      "role": "linked_material",
+      "locator": "https://fnkprddata.blob.core.windows.net/domestic/data/datasheet/IGX/TGIRT10.pdf, InGex TGIRT-III Small RNA/CircLigase protocol updated 2017-01-23",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Vendor PDF pp. 1-2, web text lines 25-55, especially 41-49; p. 3 lines 74-100",
+        "finding": "Later vendor protocol explicitly prints the same blocked 41-nt R1R2 RNA and complementary 42-nt DNA primer with N overhang, versus the 2015 DM paper's specified T overhang. It says the R1 binding sequence corresponds to the NEBNext small-RNA sequencing primer site, but this later protocol does not identify the authors' exact HiSeq run reagent or distinct instrument primer. No paper-versus-vendor error is inferred from the different overhang choices."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original InGex TGIRT10.pdf, update 2017-01-23, PDF p.1 overview and p.2 oligonucleotide table (web lines 25–55), p.3 template-switch setup (lines 74–95), p.4 CircLigase II (111–125), p.5 PCR (128–145); source-bundle scraper run before reading.",
+        "finding": "Independent read verifies blocked 41-nt R1R2 RNA, complementary DNA with 3-prime N overhang, same multiplex and barcoded PCR primer family, and CircLigase II completion. It explicitly distinguishes the Read 1 binding site as NEBNext small-RNA primer site. This 2017 alternative uses N overhang while the 2015 paper specifies a T overhang; it neither proves an error nor identifies the original study’s HiSeq run-primer reagent or selected barcode."
+      },
+      "discovered_from": "article TGIRT template-switch method and later InGex protocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Article Methods HiSeq mention and source supplement inventory",
+      "finding": "Checked author oligos and supplement headings; period-specific HiSeq run kit guide remains unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "JATS methods and supplement headers; local MANIFEST",
+      "finding": "Article names read-primer binding sites but no independent Illumina run-oligo document found; keep exact primer claim blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Distinct sequencing-primer oligo and exact landing site",
+      "disposition": "blocked",
+      "evidence": "PCR primers are explicitly published in article Methods, but a distinct run-primer reagent and kit revision are unverified."
+    }
+  ],
+  "conclusion": "The article, publisher supplements, NIHMS supplement, and later InGex protocol have independent reads. The 2015 paper prints PCR primers; the 2017 vendor method confirms the broader TGIRT/CircLigase family but uses a different overhang. Authors’ HiSeq kit/run primer is still unidentified, so exact run-primer claim stays blocked."
+}

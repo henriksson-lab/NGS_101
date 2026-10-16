@@ -9,9 +9,14 @@ from types import SimpleNamespace
 
 TRANSCRIPT = role("transcript-derived insert")
 GENOMIC = role("genomic insert")
-BAG_DNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/TGTGTTGGGTGTGTTTGGKKKKKKKGKKKKKKKKNN"
-BAG_RNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/AAGCAGTGGTATCAACGCAGAGTNNWNNNSTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+BAG_DNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/TGTGTTGGGTGTGTTTGG NBBBB KKKKKKKGKKKKKKKKNN"
+BAG_RNA_CAPTURE_WRITTEN = "/5ACryd//iSp18/TGTGTTGGGTGTGTTTGG DDDDDNNN T(30)"
+HYBRID_TSO_WRITTEN = "AAGGCTCTTGACATGAAGGATAGrGrGrG"
 CUSTOM_READ1_PRIMER = "CGCTGTCCAAGGCTCTTGACACGAAGGATAG"
+P5_ADAPTER3 = "AATGATACGGCGACCACCGAGATCTACACCGCTGTCCAAGGCTCTTGACACGAAGGATAG"
+N701_PRIMER = "CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGG"
+ROUND3_TG_PRIMER = "TGTGTTGGGTGTGTTTGG"
+ROUND3_ADAPTER3_EXAMPLE = "AAGGCTCTTGACACGAAGGATAGTACCGTNNGACCGACTCGCATTACCCTAT"
 BAG_BARCODE = feature("bag_barcode", "cell_barcode", "combinatorial",
                       group="bag_barcode")
 BAG_VARIETAL = feature("varietal_tag", "umi", "combinatorial",
@@ -51,18 +56,21 @@ def bag_workflow() -> Workflow:
          "Both copy types remain covalently gel-bound; the TSO supplies a double-stranded NlaIII site to cDNA."),
         ("Digest the bound copies with NlaIII", cut,
          "Cleavage exposes the sticky end used by the first split-pool extension."),
-        ("Add two ligation/hybridization-extension tags, then a split PCR tag", tagged,
+        ("Add a ligation-extension tag, a Bst-extension tag, then a split PCR tag", tagged,
          "The three rounds form a 17-nt BAG barcode and a 12-nt varietal tag."),
-        ("Pool and tagment the amplicons", _scene("hybrid BAG-seq library", *tuple(final)),
-         "Paired-end 150-bp sequencing starts one read at the tag-bearing end and the other at a random tagmentation end."),
+        ("Pool and tagment the amplicons", _scene("tagmented BAG amplicons", role("tag-bearing end"),
+                                                       role("random Tn5 end")),
+         "The author protocol incubates pooled amplicons with Nextera transposase before final indexing PCR."),
+        ("Add P5 and the N7 sample index by PCR", _scene("hybrid BAG-seq library", *tuple(final)),
+         "P5-Adapter3 and a Nextera_N70x primer complete the library. Paired-end 150-bp sequencing starts one read at the tag-bearing end and the other at a random tagmentation end."),
     ))
 
 SPEC = SimpleNamespace(
     TITLE="Hybrid BAG-seq — joint single-nucleus DNA and RNA sequencing",
     NOTES="01_hybrid_bag_seq.html",
-    SOURCE='Defining source: <a href="https://doi.org/10.1186/s13059-025-03790-5">Li et al., Genome Biology (2025)</a>; capture-primer sequences were checked against the original <a href="https://doi.org/10.1101/gr.253047.119">BAG-seq paper</a>.',
+    SOURCE='Defining source: <a href="https://doi.org/10.1186/s13059-025-03790-5">Li et al., Genome Biology (2025)</a>; hybrid capture-primer sequences and split-pool chemistry are printed in the <a href="https://doi.org/10.17504/protocols.io.rm7vzqr92vx1/v1">linked author protocol</a>.',
     SUMMARY="Acrydite random-TG and poly(dT) primers copolymerized into one gel capture genomic DNA and RNA-derived cDNA from the same nucleus before three rounds of split-pool tagging.",
-    CAVEAT="The papers establish the barcode geometry and print the capture primers, but do not expose one complete base-level final adapter construct; unreleased regions are shown by role.",
+    CAVEAT="The linked author protocol prints the hybrid capture and tagging oligos, but their complete final adapter construct has not been assembled base by base here; unresolved regions are shown by role. N701 is a family representative, not the assigned index for every sample. The older BAG capture primers differ from this hybrid version.",
     FINAL_LIBRARY=bag_final_library(),
     SEQ_PRIMERS=(),
     READ_LENGTHS=None,
@@ -70,12 +78,15 @@ SPEC = SimpleNamespace(
     SEQUENCING_INTRO="",
     SEQUENCING_ENDING="NovaSeq 6000 paired-end 150-bp reads were used. Read 1 begins with an 80-base tag/adapter block containing the 17-nt BAG barcode and 12-nt varietal tag.",
     SEQUENCING_UNAVAILABLE=("The author protocol prints the custom Read 1 primer (Read1-Adapter3), "
-                            "but this role-level final construct has not yet placed its binding site. "
-                            "The complete final adapter geometry remains unresolved."),
+                            "but this role-level model has not yet placed its binding site or assembled "
+                            "the source-printed final primer and adapter families into a complete duplex."),
     workflow=bag_workflow,
     oligos=lambda: (f"5′-{BAG_DNA_CAPTURE_WRITTEN}-3′ — Acrydite random-TG DNA capture primer",
                              f"5′-{BAG_RNA_CAPTURE_WRITTEN}-3′ — Acrydite poly(dT) RNA capture primer",
-                             f"5′-{CUSTOM_READ1_PRIMER}-3′ — custom Read 1 primer (Read1-Adapter3; author protocol)"),
+                             f"5′-{HYBRID_TSO_WRITTEN}-3′ — hybrid template-switch oligo",
+                             f"5′-{CUSTOM_READ1_PRIMER}-3′ — custom Read 1 primer (Read1-Adapter3; author protocol)",
+                             f"5′-{P5_ADAPTER3}-3′ — final P5-Adapter3 PCR primer (author protocol)",
+                             f"5′-{N701_PRIMER}-3′ — illustrative Nextera_N701 indexed PCR primer (author workbook)"),
 )
 
 def _bag_graph(spec):
@@ -99,7 +110,9 @@ def _bag_graph(spec):
                 (bag, excluded), changes_molecule=False)
     graph.discard(excluded, "does not retain a one-nucleus hybrid gel particle")
     rt_primer = graph.input("rna_capture_primer", "Acrydite poly(dT) RNA capture primer",
-                            MaterialKind.OLIGO)
+                            MaterialKind.OLIGO, state=BAG_RNA_CAPTURE_WRITTEN)
+    tso = graph.input("template_switch_oligo", "hybrid TSO carrying an NlaIII site",
+                      MaterialKind.OLIGO, state=HYBRID_TSO_WRITTEN.replace("rG", "G"))
     rtase = graph.input("reverse_transcriptase", "reverse transcriptase",
                         MaterialKind.CATALYST)
     rna_copy = graph.product("rna_copy", "gel-bound transcript cDNA",
@@ -107,9 +120,10 @@ def _bag_graph(spec):
     graph.react("reverse_transcribe", "Reverse-transcribe gel-captured RNA",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((bag, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                 (tso, InputRole.STRUCTURAL),
                  (rtase, InputRole.CATALYST)), (rna_copy,))
     dna_primer = graph.input("dna_capture_primer", "Acrydite random-TG DNA capture primer",
-                             MaterialKind.OLIGO)
+                             MaterialKind.OLIGO, state=BAG_DNA_CAPTURE_WRITTEN)
     klenow = graph.input("klenow", "Klenow DNA polymerase", MaterialKind.CATALYST)
     copies = graph.product("copies", "gel-bound genomic and transcript-derived copies",
                            MaterialKind.MOLECULAR, state=rna_copy.state)
@@ -124,28 +138,34 @@ def _bag_graph(spec):
                 ((copies, InputRole.TEMPLATE), (nla, InputRole.CATALYST)), (cut,))
     current = cut
     reviewed = ["nucleus", "gel_condition", "encapsulate", "rna_capture_primer",
+                "template_switch_oligo",
                 "reverse_transcriptase", "reverse_transcribe", "dna_capture_primer",
                 "klenow", "copy_dna", "nlaiii", "digest"]
     for round_number in (1, 2):
         prefix = f"round{round_number}"
         adapter = graph.input(prefix + "_adapter", f"BAG barcode/varietal-tag adapter round {round_number}",
                               MaterialKind.ADAPTER)
-        ligase = graph.input(prefix + "_ligase", f"BAG tagging ligase round {round_number}",
+        enzyme = graph.input(prefix + "_enzyme",
+                             "Klenow exo− and Quick Ligase" if round_number == 1 else "Bst 2.0 DNA polymerase",
                              MaterialKind.CATALYST)
         tagged = graph.product(prefix + "_product", f"BAG-tagged molecules after round {round_number}",
                                MaterialKind.MOLECULAR, state=current.state)
-        graph.react(prefix + "_ligate", f"Add BAG barcode/tag round {round_number}",
-                    StepKind.LIGATION,
+        step_id = prefix + ("_ligation_extension" if round_number == 1 else "_linear_extension")
+        graph.react(step_id,
+                    "Add first BAG tag by ligation-extension" if round_number == 1 else
+                    "Add second BAG tag by hybridization and Bst extension",
+                    StepKind.LIGATION if round_number == 1 else StepKind.EXTENSION,
                     ((current, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                     (ligase, InputRole.CATALYST)), (tagged,),
-                    geometry=AdapterLigationGeometry.unavailable(
-                        "The papers establish barcode lengths and order but do not expose one complete base-level tagging construct."))
-        reviewed.extend((prefix + "_adapter", prefix + "_ligase", prefix + "_ligate"))
+                     (enzyme, InputRole.CATALYST)), (tagged,),
+                    **({"geometry": AdapterLigationGeometry.unavailable(
+                        "The linked author protocol prints the oligos, but their exact ligated molecular alignment is not yet resolved in this model.")}
+                       if round_number == 1 else {}))
+        reviewed.extend((prefix + "_adapter", prefix + "_enzyme", step_id))
         current = tagged
     round3_f = graph.input("round3_forward", "third-round split-PCR forward primer",
-                           MaterialKind.OLIGO)
+                           MaterialKind.OLIGO, state=ROUND3_TG_PRIMER)
     round3_r = graph.input("round3_reverse", "third-round split-PCR reverse primer",
-                           MaterialKind.OLIGO)
+                           MaterialKind.OLIGO, state=ROUND3_ADAPTER3_EXAMPLE)
     polymerase = graph.input("round3_polymerase", "third-round PCR polymerase",
                              MaterialKind.CATALYST)
     amplified = graph.product("amplified", "three-round BAG-tagged amplicons",
@@ -154,21 +174,34 @@ def _bag_graph(spec):
                 ((current, InputRole.TEMPLATE), (round3_f, InputRole.STRUCTURAL),
                  (round3_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(
-                    spec.FINAL_LIBRARY, reason="The source defines barcode geometry but not one complete universal amplicon."))
+                    spec.FINAL_LIBRARY, reason="This model has not assembled the source-printed barcode and primer families into an exact amplicon."))
     transposome = graph.input("transposome", "library transposome", MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
-    library = graph.product("library", "hybrid BAG-seq library", MaterialKind.LIBRARY,
-                            state=spec.FINAL_LIBRARY)
+    tagmented = graph.product("tagmented", "tagmented BAG-tagged amplicons", MaterialKind.MOLECULAR,
+                              state=amplified.state)
     waste = graph.product("tn5_waste", "same-end or non-library tagmentation products",
                           MaterialKind.WASTE)
     graph.react("tagment", "Pool and tagment the BAG-tagged amplicons",
                 StepKind.TAGMENTATION,
                 ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (library, waste))
+                 (tn5, InputRole.CATALYST)), (tagmented, waste))
     graph.discard(waste, "does not retain the tag-bearing end in a sequenceable library")
+    p5_primer = graph.input("p5_adapter3", "P5-Adapter3 final PCR primer", MaterialKind.OLIGO,
+                            state=P5_ADAPTER3)
+    n7_primer = graph.input("n7_primer", "Nextera N70x indexed final PCR primer (N701 representative)", MaterialKind.OLIGO,
+                            state=N701_PRIMER)
+    final_polymerase = graph.input("final_polymerase", "Nextera PCR mix", MaterialKind.CATALYST)
+    library = graph.product("library", "hybrid BAG-seq library", MaterialKind.LIBRARY,
+                            state=spec.FINAL_LIBRARY)
+    graph.react("index_pcr", "Add P5 and the N7 sample index by PCR", StepKind.PCR,
+                ((tagmented, InputRole.TEMPLATE), (p5_primer, InputRole.STRUCTURAL),
+                 (n7_primer, InputRole.STRUCTURAL), (final_polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="The final primer strings are printed in the author protocol, but this role-level model does not yet place both binding sites."))
     graph.sequence(library, SequencingPlan(limitation=spec.SEQUENCING_ENDING))
     reviewed.extend(("round3_forward", "round3_reverse", "round3_polymerase", "round3_pcr",
-                     "transposome", "tn5", "tagment", "library"))
+                     "transposome", "tn5", "tagment", "p5_adapter3", "n7_primer",
+                     "final_polymerase", "index_pcr", "library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

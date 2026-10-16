@@ -1,0 +1,83 @@
+{
+  "dir": "modified-smart-seq__10.1007+7651_2021_435",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "zheng2022",
+      "role": "defining",
+      "locator": "_data/sources/modified-smart-seq__10.1007+7651_2021_435/7651_2021_435.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author PDF p. 237 Table 1 (text lines 152-190), Methods lines 2180-2490 and library steps 2567-2635",
+        "finding": "Table 1 prints 8-bp well-barcode/N10/poly(dT)-VN RT primer, rGrGrG TSO, cDNA primers and P5/library index primers. Methods pool after cDNA amplification, digest spare RT primers with Exo I, then Tn5/PCR library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer author PDF Table 1 extracted lines 152-202, Table 2 starting line 512 and Table 3 starting line 1985; library Methods 2567-2635, Notes 10-11; scraper run on bundle",
+        "finding": "Independently verified barcoded RT oligo with N10 UMI/poly(T)VN, rGrGrG TSO, cDNA and indexed PCR primer arms. The original chapter itself also prints individual 8-base well barcodes in Table 2 and N701 onward plate-index members in Table 3. Pooled full-length cDNA is tagmented and PCR-indexed; exact TDE1 transposome constituents are not disclosed in these tables."
+      }
+    },
+    {
+      "id": "smartseq3",
+      "role": "predecessor",
+      "locator": "_data/sources/smart-seq3__10.1038+s41587-020-0497-0/817924_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Smart-seq3 original author preprint Introduction/Results lines 74-92 and Fig 1 legend lines 369-374",
+        "finding": "Predecessor uses oligo-dT RT, template switching with an 8-base UMI in the TSO, cDNA PCR and Tn5 tagmentation. Zheng moves the well barcode and UMI to the RT primer, so exact Zheng oligos come from its own Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Smart-seq3 author preprint extracted lines 74-95 and Fig 1 legend 369-374",
+        "finding": "Independently verified oligo(dT) RT, tagged/UMI-bearing TSO, full-cDNA PCR and Tn5 library construction; Zheng moves well barcode and UMI into RT primer, so its own Table 1 controls exact oligo identity."
+      }
+    },
+    {
+      "id": "illumina_tde1",
+      "role": "vendor",
+      "locator": "Illumina Tagment DNA TDE1 kit 20034197 named in Zheng PDF Note 10",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact transposome oligos and kit chemistry not independently read."
+    },
+    {
+      "id": "nextera_xt",
+      "role": "vendor",
+      "locator": "Illumina Nextera XT Index PCR Primer named Zheng PDF Note 11",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Index family from vendor source not independently checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Zheng author PDF pp. 235-237, 249-259; Notes 10-11",
+      "finding": "The defining chapter names SMART-seq3 inheritance and Illumina TDE1/Nextera XT kit components. Table 1 and Notes were read; predecessor/vendor originals remain to be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Zheng original chapter Tables 1-3 and library Methods 2567-2635; Smart-seq3 author preprint 74-95; Notes 10-11",
+      "finding": "Independently followed Smart-seq3 inheritance and found member sequences for well and plate indices in the chapter itself. Original TDE1/Nextera manuals remain unread, so source absence is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact commercial TDE1 transposome chemistry and experiment-specific plate-index mapping remain unverified",
+      "disposition": "blocked",
+      "evidence": "Zheng Table 1 prints custom primers, Table 2 well barcode members, and Table 3 Nextera plate index members; vendor TDE1 reagent internals and selected sample-to-index assignments still need source check."
+    }
+  ],
+  "conclusion": "All custom RT/TSO/cDNA primers are printed; commercial TDE1/Nextera source versions remain open."
+}

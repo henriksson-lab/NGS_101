@@ -22,7 +22,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41564-020-0729-6_PMC8330242.html.txt` | full text (PMC author manuscript) incl. Methods and Extended Data legends | **all methods**, reaction order, conditions, sequencing |
 | `s41564-020-0729-6_41564_2020_729_MOESM1_ESM.pdf(.txt)` | Supplementary Information: Supp. Figs 1–2, **Supp. Table 1** (costs), **Supp. Table 2** (single-tube oligos) | linkers, blockers, TSO, PCR/qPCR oligos |
 | `s41564-020-0729-6_41564_2020_729_MOESM3_ESM.xlsx(.txt)` | **Supp. Tables 3–5**: 96-well barcode oligos, experiment overview, statistics | **every barcode oligo** (3 × 96), which experiment used which variant |
-| `scg_PETRI-seq_Protocol.pdf.txt`, `scg_PETRI-seq_Oligonucleotide_Table.xlsx.txt` | Teichlab mirror of the authors' PETRI-seq protocol and oligo workbook, credited in the workbook to Sydney Blattman (25 March 2020) | cross-check of SB80–SB85 and an optional EZ-Tn5 loading recipe; original hosting/version was not verified |
+| `scg_PETRI-seq_Protocol.pdf.txt`, `scg_PETRI-seq_Oligonucleotide_Table.xlsx.txt` | Teichlab mirrors of two different author versions: protocol last updated **10 February 2021**; oligo workbook credited to Sydney Blattman and last updated **25 March 2020** | cross-check of SB80–SB85 and an optional EZ-Tn5 loading recipe; the later protocol cannot establish 2020 reaction conditions |
 | `s41564-020-0729-6_41564_2020_729_MOESM2_ESM.pdf.txt` | Reporting summary | sequencer, software, GEO |
 | `upstream_PETRI-seq.html.txt` | scg_lib_structs page | second source, checked below |
 | `MOESM4_ESM.gz`, `MOESM5..16_ESM.xlsx` | count matrix (Supp. Table 6), source data | not chemistry, not read |
@@ -34,7 +34,7 @@ Not fetched / not usable:
 | `…NIHMS1587539-supplement-…_Supp_Fig1-2-Supp_Tab1-2.pdf`, `…_Supp_Tab3-5.xlsx`, `…_Supp_Tab6.gz` | saved, but each is the PMC JavaScript download-gate HTML page, not the file. Same content is in the Springer `MOESM1` / `MOESM3` / `MOESM4` files, so nothing is lost. |
 | `…_SourceDataED1..10.xlsx`, `…_SourceDataFig2/3.xlsx` (PMC) | `(manual)`, download gate; source data, not chemistry |
 | Publisher PDF of the main text | not needed (PMC full text read) |
-| Authors' protocol website (upstream's source) | the protocol and workbook are available through the Teichlab mirror above; original hosting/version remains unverified |
+| [Tavazoie lab 2020 protocol](https://tavazoielab.c2b2.columbia.edu/PETRI-seq/PETRI_Seq_Protocol.pdf) | Original author-hosted May 2020 version is discoverable, but the targeted fetch failed DNS; it cannot yet be compared with the 2021 mirror. |
 
 ---
 
@@ -294,7 +294,7 @@ barcodes), **Read 2 17 cycles** (cDNA), **Index 1 8**, **Index 2 8**.
 | Read 1 length | "at least 57 cycles" | 58 cycles used | consistent |
 | Read 2 / index | 17 cycles cDNA, 8 + 8 | same | agree |
 | Hairpin annealing of SB84/SB81, EDTA in round-3 block, 1× vs 4×, TSO variant | not mentioned | in Methods | upstream omits |
-| Source | authors' website (2024) | paper (2020) | website not checked 🔴 |
+| Source | author protocol mirrored from 2021; oligo workbook dated 2020 | paper (2020) | original May 2020 author PDF not yet directly compared 🔴 |
 
 No disagreement in sequence was found.
 
@@ -305,8 +305,8 @@ No disagreement in sequence was found.
 - 🔴 Why the round-3 oligo begins `AGAA…` rather than with full TruSeq Read 1 (shared
   with SPLiT-seq; probably inherited).
 - 🔴 The `GAAT` between the SMART handle and `rGrGrG` in SB14 is not explained.
-- 🟡 Whether the authors' later website protocol (upstream's source) changed reagents or
-  concentrations relative to the paper — not fetched.
+- 🔴 Whether the mirrored 2021 author protocol changed reagents or concentrations
+  relative to the 2020 paper. The separate original May 2020 PDF is currently unreachable.
 - SB5/SB6 pairing descriptions in Supp. Table 2 are self-referential (typo); resolved by the Methods, which use SB5 + SB6 together 🟢.
 
 ## 9. How this note was made (tool evaluation)

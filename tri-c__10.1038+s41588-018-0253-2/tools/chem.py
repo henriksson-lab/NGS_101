@@ -13,7 +13,8 @@ DEFINITION = Definition(
         "Small NlaIII fragments, gentle sonication and viewpoint capture preserve multiple proximity-ligation junctions in one sequenced molecule.",
         (role("viewpoint"), role("reporter 1"), role("second proximity junction"),
          role("reporter 2")),
-        "150-bp paired-end Illumina reads identify the viewpoint and two or more reporters within one roughly 450-bp captured 3C fragment.", True)
+        "150-bp paired-end Illumina reads identify the viewpoint and two or more reporters within one roughly 450-bp captured 3C fragment.", True,
+        "<b>Published source discrepancies:</b> the 2018 article Methods describes the biotinylated capture-probe pool at 2.9 nM total, whereas the directly cited <a href='https://doi.org/10.1038/protex.2018.113'>2018 Tri-C detailed protocol</a> (Capture enrichment, p. 7) specifies 2.9 nM <i>per oligonucleotide</i>. Its materials list (p. 2) names NEBNext E6040, but the library-preparation heading (p. 5) says E7370. The <a href='https://doi.org/10.21203/rs.2.1650/v2'>2019 revision</a> (pp. 3, 9) consistently names E6040 and presents E7645 Ultra II as a later low-input option. Both detailed versions say that 10 nmol in 3.46 µl gives 2.9 µM; arithmetic gives about 2.9 mM. The <a href='https://doi.org/10.1101/307405'>preprint</a> Methods instead specifies a 13-fmol pool without a matching volume. The schematic uses the E6040 reaction family and no probe concentration; the actual 2018 mixture and kit lot remain uncertain.")
 
 
 def _conformation_graph(key: str, definition, final: Construct,
@@ -269,6 +270,11 @@ from replication_labeling import CopyNumberReplication
 def workflow():
     contact = multiway_contact("NlaIII", "viewpoint fragment",
                                ("reporter fragment 1", "reporter fragment 2"))
+    sonicated = molecule("sonicated multiway 3C fragment",
+                         ("random sonication endpoint", "viewpoint", "reporter 1",
+                          "reporter 2", "random sonication endpoint"),
+                         junctions=(("viewpoint", "reporter 1", "proximity ligation"),
+                                    ("reporter 1", "reporter 2", "proximity ligation")))
     adapted = molecule("adapter-ligated multiway 3C fragment",
                        ("left TruSeq adapter", "random sonication endpoint", "viewpoint",
                         "reporter 1", "reporter 2", "right TruSeq adapter"),
@@ -279,10 +285,10 @@ def workflow():
     return chain(molecule("formaldehyde-fixed chromatin", ("viewpoint", "two proximal regions")), (
         ("Digest with NlaIII and proximity-ligate in nuclei", contact.scene("multiway 3C concatemer"),
          "At least two ligation junctions in one molecule encode a concurrent contact."),
-        ("Reverse crosslinks and sonicate gently to about 450 bp", adapted,
+        ("Reverse crosslinks and sonicate gently to about 450 bp", sonicated,
          "Longer fragments preserve multiple short NlaIII products and their junctions."),
-        ("Add TruSeq adapters, index, then perform double viewpoint capture", adapted,
-         "A biotinylated oligo targets the middle of the short viewpoint restriction fragment."),
+        ("Ligate adapters, treat with USER, index, then double-capture the viewpoint", adapted,
+         "The detailed Tri-C method places USER treatment after adapter ligation. A biotinylated oligo targets the middle of the short viewpoint restriction fragment."),
     ))
 
 d = DEFINITION

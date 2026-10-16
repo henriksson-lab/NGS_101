@@ -1,0 +1,77 @@
+{
+  "dir": "ribomethseq__10.1002+anie.201408362",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1002/anie.201408362",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original Wiley paper not locally obtainable through DOI route."
+    },
+    {
+      "id": "wiley_si",
+      "role": "supplement",
+      "locator": "https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201408362&file=anie_201408362_sm_miscellaneous_information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher original supporting-information download failed; likely required for chemistry details."
+    },
+    {
+      "id": "later_same_group",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5027498/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Same-group 2016 NAR PMC5027498 web article Materials and Methods lines 125–137; comparison to original lines 157–160",
+        "finding": "The later implementation uses alkaline/metal cleavage, Antarctic Phosphatase 3′ dephosphorylation, T4 PNK 5′ phosphorylation and NEBNext Small RNA E7330S library preparation. Its authors explicitly contrast the original RiboMethSeq direct ligation from 2′,3′ cyclic-phosphate/5′OH fragments using mutant RNA ligase and specially prepared 5′ adapter. This successor must not be substituted for the unavailable 2015 original protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same-group 2016 NAR PMC5027498 browser Methods lines 130–137",
+        "finding": "Successor treats fragments with Antarctic Phosphatase then PNK and uses NEBNext Small RNA E7330S (or Illumina equivalent), 50-bp single-end or MiSeq paired-end. This does not establish the original 2015 Wiley kit revision or primer/index choice."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "later_same_group_supplements",
+      "role": "supplement",
+      "locator": "_data/sources/ribomethseq__10.1002+anie.201408362/nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt and File009.pdf.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Two original supplements of already cited later study recovered by DOI/PMCCloud; original chemistry/relevance reading and independent passes pending. Not substitutes for2015 Wiley original."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original DOI, Wiley SI URL in source manifest, later same-group 2016 method lead",
+      "finding": "Defining original and supporting information inaccessible. Scraper run on empty local bundle cannot support absence."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Wiley DOI and SI access attempts; same-group PMC5027498 Methods lines 130–137",
+      "finding": "A later related original was read, but defining 2015 Wiley article and SI remain inaccessible. Missing chemistry claims remain blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "No original methods read; review blocked without accepting any missing claim.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Original Wiley article and both action/downloadSupplement and direct doi/suppl supporting-information routes return403 with working network. RTH author news links only DOI. Existing later gkw547 DOI now recovers original main and two supplements from PMCCloud, distinct from unavailable defining Wiley paper."
+  }
+}

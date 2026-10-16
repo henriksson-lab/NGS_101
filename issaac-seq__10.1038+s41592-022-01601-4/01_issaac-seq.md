@@ -2,15 +2,15 @@
 
 ## Sources read
 
-- 🟢 Xu et al. 2022, DOI `10.1038/s41592-022-01601-4`, article and complete protocol supplement.
+- 🟢 Xu et al. 2022 author bioRxiv v2 preprint and the published Supplementary Information (MOESM1). The published main article remains inaccessible for direct reading.
 - 🟢 Supplementary Table 4 (`s41592-022-01601-4_41592_2022_1601_MOESM4_ESM.xlsx`), droplet- and plate-workflow oligo tables.
-- 🟢 Teichlab ISSAAC-seq page, checked as a secondary reconstruction against the source table and protocol.
+- 🟢 10x Chromium Next GEM Single Cell ATAC v1.1 user guide CG000209 Rev G, Appendix A1, for the gel-bead P5–N16–S5 scaffold. The exact revision used in the ISSAAC experiments is unverified.
 
 ## Shared reactions
 
 🟢 `ME_S5` and `ME_S7` are the canonical S5–ME and S7–ME oligos. Each is annealed to `ME_bottom`, written `Phos-C*T*G*T*C*T*C*T*T*A*T*A*C*A*C*A*T*C*/iInvdT/`: a 5′ phosphate, phosphorothioate linkages and a 3′ inverted-dT block are therefore part of the reagent, not merely a generic Nextera end.
 
-🟢 S5/S7 Tn5 first tagments accessible chromatin. In situ RT then uses a 5′-biotin capture oligo containing a partial TruSeq arm, 10 random bases (UMI), 32 thymidines and VN. A second, S7/S7 transposome tagments the RNA/cDNA hybrid. The productive RNA fragment retains the capture end and gains S7 at its other end; internal S7/S7 products are not amplifiable by the asymmetric primer set.
+🟢 S5/S7 Tn5 first tagments accessible chromatin. In situ RT then uses a 5′-biotin capture oligo containing a partial TruSeq arm, 10 random bases (UMI), 32 thymidines and VN. The second transposome differs by branch: published Supplementary Protocol 1 (droplet; MOESM1 lines 863 and 1087) assembles and uses S5/S5, whereas Protocol 2 (plate; lines 1806 and 2047) uses S7/S7. The plate RNA fragment drawn here retains the capture end and gains S7 at its other end; internal S7/S7 products are not amplified by the asymmetric primer set.
 
 ## Plate branch drawn on the public page
 
@@ -24,4 +24,4 @@
 
 ## Droplet branch
 
-🟢 The droplet workflow uses `biotin-CAGACGTGTGCTCTTCCGATCT` + 10-nt UMI + dT32VN and sends the tagged material through a 10x Single Cell ATAC gel-bead reaction. Its 16-nt cell barcode is carried next to the Nextera S5 handle. The RNA branch is completed from its printed RNA-specific P7/index primer family. The public page names this branch but uses the plate workflow for its exact reaction and final-library drawings so the two architectures are not collapsed into a fictitious common construct.
+🟢 The droplet workflow uses `biotin-CAGACGTGTGCTCTTCCGATCT` + 10-nt UMI + dT32VN and its second tagmentation uses S5/S5 Tn5, unlike the plate S7/S7 step. It sends tagged material through a 10x Single Cell ATAC v1.1 gel-bead reaction. CG000209 Rev G Appendix A1 prints the gel-bead P5–N16–S5 scaffold, placing the 16-nt cell barcode next to the Nextera S5 handle. The RNA branch is completed from its printed RNA-specific P7/index primer family. The public page names this branch but uses the plate workflow for its exact reaction and final-library drawings so the two architectures are not collapsed into a fictitious common construct. The revision actually used by Xu et al. is not established. 🟡

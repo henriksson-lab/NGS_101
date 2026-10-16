@@ -1,0 +1,223 @@
+{
+  "dir": "cobatch__10.1016+j.molcel.2019.07.015",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "Wang et al. Molecular Cell 2019 doi:10.1016/j.molcel.2019.07.015 and original supplements",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cell originalPDF andScienceDirect fullarticle both403; OpenAlex lists CellPDF andalready-readauthorpreprint, nofinalauthorcopy. Pekinginstitutionalannouncement links DOI only. OriginalpublisherTablesS1–S4 recovered separately; finalSTARMethods remains uninspected."
+    },
+    {
+      "id": "author_preprint",
+      "role": "other",
+      "locator": "Wang et al. bioRxiv 2019 doi:10.1101/590661; local 590661_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author preprint Methods lines 350-368 T5/T7/MErev and 423-450 indexed PCR; scraper run on entire local bundle",
+        "finding": "Methods specify PA-Tn5 barcode oligos annealed to common MErev and indexed library PCR. The preprint explicitly points to Supplementary Table 2 for exact sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv original PDF lines 358–375 and 420–460; scraper run on preprint",
+        "finding": "Preprint gives pA-Tn5 loading, target binding, tagmentation and indexed PCR. The preprint cannot independently prove what the final 2019 Molecular Cell paper altered."
+      }
+    },
+    {
+      "id": "author_oligo_table",
+      "role": "supplement",
+      "locator": "Author preprint Supplementary Table 2; local 590661_media-3.xlsx.txt sheets Mosaic-A&B, PA-Tn5_barcodes and Nextera_index",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table 2 extracted rows 1-7, 8-58 and 59-110",
+        "finding": "Prints mosaic-A/B, 5Phos/CTGTCTCTTATACACATCT common annealer, 24 T5 and 25 T7 PA-Tn5 barcode members, and Nextera i5/i7 PCR primer families. These sequences are published in the author preprint supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original media-3 workbook sheets Mosaic-A&B lines 1–6, PA-Tn5_barcodes lines 7–58 and Nextera_index lines 59–110; scraper run on workbook",
+        "finding": "Table 2 prints phosphorylated ME reverse, paired mosaic oligos, T5/T7 target barcode families, and all listed i5/i7 PCR primer sequences."
+      }
+    },
+    {
+      "id": "cut_tag_predecessor",
+      "role": "predecessor",
+      "locator": "Kaya-Okur et al. CUT&Tag 2019 doi:10.1038/s41467-019-09982-5; local PMC6488672 original and MOESM1-4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The CoBATCH preprint cites PA-Tn5/CUT&Tag predecessors; their exact adapter use has not been independently cross-mapped in this pass.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local original CUT&Tag PMC6488672 JATS Methods lines 126–156, plus local MOESM1 heading",
+        "finding": "Cited CUT&Tag predecessor uses pA-Tn5 and preannealed Tn5MEDS-A/B, describes bench-top and single-cell libraries; it does not override CoBATCH-specific author oligo table."
+      }
+    },
+    {
+      "id": "sci_atac_predecessor",
+      "role": "predecessor",
+      "locator": "Cusanovich et al. sci-ATAC 2015 doi:10.1126/science.aab1601; local PMC4836442 original; supplement manual",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original main article is local but its supplementary methods and Table S2 are gated in the manifest.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local original sci-ATAC PMC4836442 JATS lines 37–45, 251–255; scraper run",
+        "finding": "Cited combinatorial indexing predecessor loads barcoded Tn5 in first 96-well round, pools nuclei and uses second indexing; no CoBATCH-specific bases from this source."
+      }
+    },
+    {
+      "id": "published_supplement_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc1.pdf cover and FigureS1caption274–287, FigureS2caption408–410, FigureS3caption573–578, FigureS4caption594–599",
+        "finding": "Original supplemental PDF containsFigsS1–S4 with dataquality/target-signal comparisons; captions point to final STARMethods, not an additional library primer table. MainSTARMethods remains inaccessible."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc1 captions274–287,408–410,573–578,594–599 and cover; full bundle scraper",
+        "finding": "Supplement contains FiguresS1–S4 experimental signal/reproducibility/fragment-length/cell-state analyses. Their captions do not identify custom genomic sequencing oligos or an acquired50-cycle run."
+      }
+    },
+    {
+      "id": "published_supplement_workbook_2",
+      "role": "supplement",
+      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc2.xlsx TableS1 all109extractedlines: Mosaic-A&B1–6, PA-Tn5_barcodes7–57, Nextera_index58–109; full bundle scraper",
+        "finding": "PublishedTableS1 (renamed from preprintTable2) prints5Phos MEreverse,24T5+25T7barcodedtransferoligos and24i5+24i7PCRprimers. Complete modelT5-1/T7-2 and selectedPCRarmfamilies match originals. No physical custom sequencing primer assignment follows from adapter subsequences alone; old model Read1/2 primer assignments removed rather than called sourceerror."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc2 TableS1 MosaicA&B1–6, PA-Tn5 family and Nexteraindex sections, full109line source inventory",
+        "finding": "PublishedTableS1, not preprintTable2, prints canonical phosphorylatedME19 and custom T5/T7 adapter/PCR/index families. These are positive original oligo evidence, not proof of the exact loaded custom genomic sequencing primers previously asserted by repository."
+      }
+    },
+    {
+      "id": "published_supplement_workbook_3",
+      "role": "supplement",
+      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc3.xlsx TableS2 sheetheaders/firstrows: lowinput1–10, ESC_native57–64, EC_10organs2221–2228, EC_heart_RNApolII_H3K36me3 2575–2582",
+        "finding": "Sequencing metadata table recordsprimaryantibodies/customNextera label forlowinput andper-cell mapped/nonduplicate counts fornativeESC/organs. Relevant context, not a new sequencing-primer table. Did not treat full resultmatrix as raw evidence for library chemistry."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc3 all4sheet inventory; headings/initialrows at1,57,2221,2575",
+        "finding": "Sequencing sample/mapping/fragment statistics across lowinput/ESC/10organs/heart marks; not a table of synthesized primers or source support for an asserted50cycle run."
+      }
+    },
+    {
+      "id": "published_supplement_workbook_4",
+      "role": "supplement",
+      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc4.xlsx TableS3 all8textlines",
+        "finding": "Performance comparison CoBATCH vsKu2019scChIC-seq; no libraryconstructionoligos or chemistrysteps. Linkedcomparator is assaybenchmark, not importedrecipe."
+      },
+      "reason": "Performance comparison CoBATCH vsKu2019scChIC-seq; no libraryconstructionoligos or chemistrysteps. Linkedcomparator is assaybenchmark, not importedrecipe.",
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc4 all8lines",
+        "finding": "Comparison of CoBATCH/scChIC sample/read/FRiP metrics; independent exclusion from oligo/reaction instructions."
+      }
+    },
+    {
+      "id": "published_supplement_workbook_5",
+      "role": "supplement",
+      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc5.xlsx TableS4 all11textlines",
+        "finding": "Organ-specific collagenaseII/trypsin digestion recipes; relevant samplepreparation context, not library barcode/adaptor/readoligos."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc5 all11lines",
+        "finding": "Tissue-specific dissociation buffers/times are real preparation conditions; they do not prescribe the library ends/loaded sequencing primers. Exclusion is only from missing library-oligo/read-site scope."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CoBATCH preprint Methods 350-368, 423-450, author MOESM Table 2 rows 1-110, local MANIFEST.tsv",
+      "finding": "Followed the preprint's explicit Supplementary Table 2 and recovered the indexed adapter/PCR oligos. The published article and some cited predecessor supplements remain unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Preprint reference and supplementary Table 2; local CUT&Tag and sci-ATAC originals",
+      "finding": "Both local cited predecessors checked; defining published Molecular Cell version and original publisher supplement remain inaccessible, so no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "CoBATCH custom Tn5 adapter or PCR oligo sequences are undisclosed",
+      "disposition": "resolved",
+      "evidence": "Author preprint Supplementary Table 2 prints the modified annealer, barcode adapters and i5/i7 PCR primers; exact mapping to the final published version still requires checking."
+    },
+    {
+      "claim": "No custom index-read primer sequence is given in the published source set",
+      "disposition": "blocked",
+      "evidence": "Final published article and supplements, plus predecessor material, have not been fully checked twice."
+    }
+  ],
+  "conclusion": "Published supplement and all four workbooks now independently checked; TableS1 confirms source-owned adapter/index oligos. Unsupported custom sequencing-primer and50-cycle claims removed; preprintPE150 remains qualified. Final main paper remains access-blocked and inherited chemistry/source-link checks continue; no missing information accepted.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Original publisher mmc1.pdf and four XLSX attachments mmc2–5 recovered and validated via Crossref-confirmed PII. Explicit Cell original main PDF remains403. Added each uninspected attachment separately; no reading pass inferred from successful retrieval."
+  },
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Authorpreprint423–452; originalpublishedTableS1 all109lines andTablesS2–S4; supplementFigsS1–S4captions; Cell/ScienceDirect/OpenAlex/Pekinginstitutionalroutes",
+      "finding": "Publishedoligos agree with originalpreprintfamily. Prior50bp genomicreads and custominnerconnector+ME sequencingprimer declarations were unsupported repositoryassignments: removed; PE150 now explicitlyqualified toauthorpreprint. Finalmainaccessblocked403, institutionalnewsDOIonly; no exact-loaded-primer absence claim accepted. Predecessororiginals andtheir links stillneedfullindependentmapping."
+    }
+  ]
+}

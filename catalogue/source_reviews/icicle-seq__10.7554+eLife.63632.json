@@ -1,0 +1,210 @@
+{
+  "dir": "icicle-seq__10.7554+eLife.63632",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "swanson2021",
+      "role": "defining",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_PMC8034981.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 702-743 and 763",
+        "finding": "ICICLE uses custom poly-T/Nextera Tn5 and 10x 3′ GEM, with separate ATAC and ADT libraries; its Methods point to Supplementary file 5."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife PMC8034981 JATS Methods lines 702-741, especially 708-729 ICICLE branch; full TEA source-bundle oligo scraper run",
+        "finding": "Independently read Poly-T Top-L/MOSAIC_Bot and Nextera R2N Tn5 annealing, oligo-conjugated TotalSeq-A staining, 10x 3′ RNA bead GEM barcoding of ATAC/ADT, and F BC Primer + ADT-Rev-AMP capture. ICICLE is distinct from the TEA Multiome workflow."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp1-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 1 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 1 antibody fluorophore panel, not library oligos."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife supplementary file 1, extracted header and first 4 rows",
+        "finding": "Independently classified as bead depletion antibody panel; no sequencing oligo recipe in inspected rows."
+      }
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp2-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 2 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 2 depletion flow metrics, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife supplementary file 2, extracted header and first 4 rows",
+        "finding": "Independently classified as depletion flow metrics; no sequencing oligo recipe in inspected rows."
+      }
+    },
+    {
+      "id": "supp3",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp3-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 3 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 3 flow cytometry panel, not library oligos."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife supplementary file 3, extracted header and first 4 rows",
+        "finding": "Independently classified as flow-cytometry panel; no sequencing oligo recipe in inspected rows."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp4-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 4 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 4 cell populations, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife supplementary file 4, extracted header and first 4 rows",
+        "finding": "Independently classified as survey population counts; no sequencing oligo recipe in inspected rows."
+      }
+    },
+    {
+      "id": "supp5",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp5-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 5 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 5 names Tn5 mosaic-end oligos, poly-T Top-L, ADT and index PCR oligos with modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife Supplementary Table 5 extracted lines 1-11; scraper candidates checked",
+        "finding": "Prints /5phos/ MOSAIC_Bot, poly-T Top-L, Tn5ME-s7_Top, F BC, ADT-Rev-AMP, SI-P5-22, ADT-i7 with terminal phosphorothioate and SI-PCR-Oligo. This source applies to ICICLE."
+      }
+    },
+    {
+      "id": "supp6",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp6-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 6 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 6 TotalSeq-A antibody conjugate identities used for ICICLE and TEA, but no tag-member bases in inspected header and rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife Supplementary Table 6 header and first 9 antibody entries",
+        "finding": "Lists 46 TotalSeq-A conjugate targets/clones/catalog IDs and use in ICICLE/TEA; inspected rows do not print individual tag-member bases."
+      }
+    },
+    {
+      "id": "supp7",
+      "role": "supplement",
+      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp7-v2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary file 7 table heading and first reagent/data rows; for file 5 rows 1-11",
+        "finding": "Table 7 biological sample sources, not chemistry."
+      },
+      "reason": "This table concerns flow cytometry or sample metadata, not the sequencing-library recipe.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author eLife supplementary file 7, extracted header and first 4 rows",
+        "finding": "Independently classified as biological sample metadata; no sequencing oligo recipe in inspected rows."
+      }
+    },
+    {
+      "id": "tn5_mulqueen2019",
+      "role": "predecessor",
+      "locator": "Mulqueen et al. 2019 Tn5 complexing method cited in JATS line 708",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original predecessor not yet read."
+    },
+    {
+      "id": "tenx_atac_guide",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell ATAC reagent guide referenced by ICICLE Methods lines 714-737",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The exact contemporaneous 10x guide and kit-internal bead geometry have not been independently checked."
+    },
+    {
+      "id": "totalseq_a",
+      "role": "vendor",
+      "locator": "BioLegend TotalSeq-A oligo-tagged antibodies listed in Supplementary file 6",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Source-specific TotalSeq-A tag/constant sequence manual not yet checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 702-743 and Supplementary files 5-6",
+      "finding": "Article source links were followed to custom oligo and conjugate tables; inherited Tn5, 10x, and antibody-tag originals remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Swanson JATS ICICLE Methods lines 708-741; author Supplementary Tables 1-7 headings and Table 5 oligo rows; 10x next GEM bead and Mulqueen 2019 references identified",
+      "finding": "Custom ICICLE oligos and antibody panel are source-positive. Historical 10x 3′ bead guide, TotalSeq-A member strings and Mulqueen transposome predecessor remain to read; missing-information gate stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact commercial 10x and TotalSeq-A oligo members are not yet verified",
+      "disposition": "blocked",
+      "evidence": "Custom ICICLE oligos are source-positive in Table 5. Vendor and predecessor sources remain blocked."
+    }
+  ],
+  "conclusion": "Custom ICICLE oligos are source-positive in Table 5. Vendor and predecessor sources remain blocked."
+}

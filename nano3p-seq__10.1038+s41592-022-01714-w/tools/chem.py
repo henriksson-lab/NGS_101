@@ -10,7 +10,7 @@ from protocol_graph import SequencingPlan
 from protocol_graph import StepKind
 from rna_library_operations import molecule
 
-DEFINITION = Definition("Nano3P-seq — Nanopore 3′-end capture", "10.1038/s41592-022-01714-w", "Begik et al., Nature Methods (2023)", "Template-switching reverse transcription captures native RNA 3′ ends for PCR-free Nanopore cDNA sequencing without RNA-adapter ligation.", "nanopore", ("motor adapter", "full-length cDNA from native 3-prime end"), "Nanopore traverses the cDNA from the captured native RNA 3′ end, retaining tail length and composition information.", "RNA", "The defining paper prints all three custom Nano3P-seq oligos and their modifications. The SQK-DCS109 Adapter Mix motor-adapter sequence remains proprietary to Oxford Nanopore and is marked inferred.")
+DEFINITION = Definition("Nano3P-seq — Nanopore 3′-end capture", "10.1038/s41592-022-01714-w", "Begik et al., Nature Methods (2023)", "Template-switching reverse transcription captures native RNA 3′ ends for PCR-free Nanopore cDNA sequencing without RNA-adapter ligation.", "nanopore", ("motor adapter", "full-length cDNA from native 3-prime end"), "Nanopore traverses the cDNA from the captured native RNA 3′ end, retaining tail length and composition information.", "RNA", "The paper and Supplementary Protocol print all three custom Nano3P-seq oligos. The CompA-annealed cDNA has a reported A overhang; the exact SQK-DCS109 AMX complementary motor-adapter end remains unresolved pending kit-source review.")
 
 
 from protocol_specs import workflow
@@ -60,9 +60,9 @@ def _local_graph(d, final):
                  (rt, InputRole.CATALYST)), (full,))
     compa = graph.input("compa", "published CompA_DNA ligation complement",
                         MaterialKind.OLIGO, source=source + "; Methods")
-    ready = graph.product("ligation_ready", "CompA-annealed cDNA end",
+    ready = graph.product("ligation_ready", "CompA-annealed cDNA end with reported A overhang",
                           MaterialKind.MOLECULAR, state=full.state)
-    graph.react("anneal_compa", "Anneal CompA_DNA to make the adapter-ligation end",
+    graph.react("anneal_compa", "Anneal CompA_DNA to form the reported A-overhang cDNA end",
                 StepKind.HYBRIDIZATION,
                 ((full, InputRole.TEMPLATE), (compa, InputRole.STRUCTURAL)), (ready,))
     motor = graph.input("motor_adapter", "Nanopore motor sequencing adapter",
@@ -75,7 +75,7 @@ def _local_graph(d, final):
                 ((ready, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (library,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The source defines the motor-adapter role; kit-revision-specific end chemistry is not asserted."))
+                    "Supplementary Protocol section 5 states the CompA-annealed cDNA has an A overhang; the matching SQK-DCS109 AMX motor-adapter end is not established by the checked sources."))
     graph.sequence(library, SequencingPlan(limitation=d.sequencing))
     reviewed = ["rna", "rt_starter", "reverse_transcriptase", "template_switch_rt",
                 "compa", "anneal_compa", "motor_adapter", "adapter_ligase",

@@ -1,0 +1,104 @@
+{
+  "dir": "umi-4c__10.1038+nmeth.3922",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "schwartzman_2016_article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth.3922 (Nature Methods original article and Online Methods)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher/PubMed abstract is accessible, but the complete original article and Online Methods redirect to a gated publisher login; no validated full-text copy is in the source bundle."
+    },
+    {
+      "id": "supplementary_figures_tables",
+      "role": "supplement",
+      "locator": "_data/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM330_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PDF Supplementary Figure 1 page 1 inspected visually and caption lines 79–84; Supplementary Table 4 lines 2529–2597; oligo scraper source hits 2562–2597 verified in original table",
+        "finding": "Table 4 prints locus-specific upstream/downstream primers, the full two-strand forked adapter with a six-base index window, and Universal Primer 2. Figure 1 shows library-size distributions, not an annealed adapter-end diagram."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figure 1 page 1 viewed in rendered PDF and caption extracted lines 79–84; Supplementary Table 4 extracted lines 2529–2597 (numbered with nl -ba); scraper source hits checked against printed table",
+        "finding": "Table 4 lines 2591–2597 explicitly prints the Illumina prefix, Universal Primer 2 CAAGCAGAAGACGGCATACGA, and both full forked-adapter strands, with (PO4) and (NNNNNN) on strand 2. G1p1 upstream and downstream primers are table rows 2562 and 2577; downstream primer takes the shared prefix at 2591–2592. Figure 1 is size/PCR-yield traces and does not establish annealed fork or dA-tailed ligation-end pairing."
+      },
+      "discovered_from": "schwartzman_2016_article"
+    },
+    {
+      "id": "supplementary_software",
+      "role": "supplement",
+      "locator": "_data/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM331_ESM_umi4c-usage.html.txt (from the original publisher ZIP)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author package usage document opening Background and FASTQ processing sections, lines 1–120 and following processing description",
+        "finding": "The package describes paired-end parsing, DpnII splitting and sonication-based molecule counting; it does not provide an alternative adapter ligation geometry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher ZIP usage HTML extracted lines 74–83, 97–121, 190–209, 241; scraper run on full source bundle",
+        "finding": "Usage says sonication endpoints count molecules and paired FASTQs are split at DpnII; bait table stores the DS primer without padding and separate bait pad. It links generic Bowtie2 and misha analysis dependencies plus example FASTQs, but no further adapter assembly or ligation-end geometry. The misha dependency is analysis software, not a linked wet-lab chemistry source."
+      },
+      "discovered_from": "schwartzman_2016_article"
+    },
+    {
+      "id": "geo_gsm2054403",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2054403",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author GEO sample GSM2054403 Extraction protocol lines 35–53 and library description lines 54–65",
+        "finding": "The deposited experimental description gives 3C digestion/ligation, sonication, end repair, dA tailing and dephosphorylation, indexed-adapter ligation, strand release, two nested viewpoint PCRs and paired-end sequencing."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NCBI GEO author sample GSM2054403 Extraction protocol lines 35–53 and library description lines 54–65, independently read in the original record",
+        "finding": "UMI-4C/3way 4C branch specifically lines 48–53 states sonication, end repair, dA tailing, 5′ dephosphorylation, indexed-adapter ligation, 95°C release of non-ligated adapter strand, and two nested viewpoint PCRs; paired-end 800–1000 bp libraries. Lines 40–47 describe a separate C-walk/Phi29 branch and must not be merged into UMI-4C. GEO does not specify annealed fork-end base pairing."
+      },
+      "discovered_from": "schwartzman_2016_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Nature Methods article record, publisher MOESM330/331 inventory, Supplementary Table 4, author package usage HTML and linked GEO GSM2054403 experimental protocol",
+      "finding": "Followed the published supplement and deposited protocol links. Original full article/Online Methods remains gated; no source-verified annealed fork or adapter ligation junction was obtained."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Nature Methods source manifest; original publisher MOESM330 Figure 1 and Table 4 lines 2529–2597; MOESM331 usage lines 74–83, 97–121, 190–209, 241; author GEO GSM2054403 lines 35–65",
+      "finding": "Independently followed original publisher supplements and author GEO. Supplementary Table 4 resolves oligo availability, while GEO resolves reaction order and distinguishes the C-walk branch. Usage links Bowtie2/misha analysis dependencies and example FASTQs; none establishes wet-lab adapter end pairing. Defining full Online Methods remains unavailable, so the precise annealed fork and ligation junction remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The UMI-4C forked-adapter oligos are unavailable",
+      "disposition": "resolved",
+      "evidence": "Defining Supplementary Table 4 prints both complete forked-adapter strands and the six-base index window; the page now shows them."
+    },
+    {
+      "claim": "The precise annealed fork and dA-tailed 3C end geometry is absent from the relevant sources",
+      "disposition": "blocked",
+      "evidence": "Oligo strands and experimental steps are published, but the full original Online Methods and molecular pairing have not received two independent checks."
+    }
+  ],
+  "conclusion": "The source-positive adapter and example viewpoint primers are now shown on the page. Exact adapter-end pairing and the complete original article remain under review."
+}

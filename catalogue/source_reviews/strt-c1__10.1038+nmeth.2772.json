@@ -1,0 +1,101 @@
+{
+  "dir": "strt-c1__10.1038+nmeth.2772",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Islam et al. 2014 Nature Methods DOI 10.1038/nmeth.2772",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full original article remains manual in source MANIFEST and Nature redirects to an inaccessible login."
+    },
+    {
+      "id": "supp266",
+      "role": "supplement",
+      "locator": "Nature Methods MOESM266 Supplementary Text and Figures PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM266 text",
+        "finding": "Read 1 and index primer roles but no full sequences found."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM266 extracted PDF and complete bundle scraper",
+        "finding": "No full custom run-primer oligo hit in this source."
+      }
+    },
+    {
+      "id": "supp268",
+      "role": "supplement",
+      "locator": "Nature Methods MOESM268 Supplementary Table XLSX",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM268 rows 3–8 and 96 C1-TN5 variants",
+        "finding": "Complete barcoded adapter family printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM268 text rows 3–12 onward; scraper",
+        "finding": "C1-TN5-U and 96 C1-TN5 oligo members printed; no separate Read 1/index sequencing primer in table."
+      }
+    },
+    {
+      "id": "strt_predecessor",
+      "role": "linked_material",
+      "locator": "Islam et al. 2011 original STRT source, PMC3129258",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original STRT predecessor",
+        "finding": "Provides source architecture but cannot prove revised C1 run primer."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC3129258 Methods lines 1279–1300",
+        "finding": "Earlier architecture and construction oligos; C1 run primer identity must be confirmed from C1 original."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Defining source and predecessor",
+      "finding": "Full defining article inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Nature DOI, supplements and STRT 2011 predecessor",
+      "finding": "Publisher full article unavailable; source links cannot be completely inventoried."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "STRT-C1 Read 1 and index sequencing-primer bases are unpublished",
+      "disposition": "blocked",
+      "evidence": "Defining article full text remains unavailable despite original supplementary oligo tables."
+    }
+  ],
+  "conclusion": "Supplement table confirms indexed adapter family; missing run-primer claim remains blocked.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Explicit Nature PDF returned HTML. Initial EPFL request429 was transient; standard fetcher recovered institutional record156221 (title matches original article). Public DSpace item1ce22827-db3f-49e3-8b7c-31bb33898057/bundles lists LICENSE only, no original article file. This repository record is metadata, not a recovered fulltext copy."
+  }
+}

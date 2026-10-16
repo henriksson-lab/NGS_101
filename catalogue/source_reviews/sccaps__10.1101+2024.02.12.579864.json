@@ -1,0 +1,209 @@
+{
+  "dir": "sccaps__10.1101+2024.02.12.579864",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/2024.02.12.579864_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint extracted lines 205–230, 510–570, 884–1140 (Tn5 oligo table), and 1388–1414 (custom run primers); primer scraper rerun on preprint and supplement",
+        "finding": "Preprint itself prints the indexed Tn5 oligos (lines 884–1140) and all four custom NovaSeq sequencing primers (lines 1397–1411) alongside barcoded Tn5, pooled conversion and library PCR methods. The 2025 published successor reprints the oligos in Additional file 5 Tables S3–S4."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF text lines 183–215, 1280–1420",
+        "finding": "Preprint separately describes scTAPS TET oxidation and scCAPS+ chemical oxidation, both after barcoded Tn5 tagmentation/gap fill/pooling; prints four custom sequencing primer strings at lines 1395–1415."
+      }
+    },
+    {
+      "id": "published",
+      "role": "linked_material",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_PMC12359873.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 136–165 and supplement links lines 173–178",
+        "finding": "Published 2025 version explicitly directs to Additional file 5 Table S3 for 8×12 Tn5 MEDS oligos and Table S4 for custom run primers; names Nextera XT Index Kit for PCR."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published Genome Biology PMC12359873 JATS lines 86–94, 148–160",
+        "finding": "Published version separately defines scTAPS as combined 5mC+5hmC conversion and scCAPS+ as 5hmC-specific; single-cell barcoded Tn5, pool 96, oxidize/reduce, Nextera XT-index PCR."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "All 35 extracted lines; scraper rerun on this file",
+        "finding": "Table S3 prints eight phosphorylated i5 and twelve phosphorylated i7 Tn5 oligos plus pMENTS reverse; Table S4 prints four custom sequencing primers. Table S1 prints control spike oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM5 workbook Table S3 rows 1–22 and Table S4 rows 31–35",
+        "finding": "Table S3 prints phosphorylated P5/P7 barcoded Tn5 mosaic-end oligo families and pMENTS; Table S4 prints Read 1/2 and Index 1/2 custom sequencing primers."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 1 extracted PDF lines 1–94, Fig. S1–S7 headings and legends",
+        "finding": "Supplement is seven assay validation/insert-size figures, not a detailed methods or oligo appendix."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF opening and Fig S1–S7 legend headings",
+        "finding": "Supplementary figures and captions for low-input validation and QC; no independent full sequence table in inspected captions."
+      },
+      "reason": "Supplement is seven assay validation/insert-size figures, not a detailed methods or oligo appendix."
+    },
+    {
+      "id": "supp_qc",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 2 workbook Table S1 header and first row",
+        "finding": "QC metrics for scTAPS cells (reads, mapped reads, conversion and coverage), no oligo-design column."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 workbook QC-scTAPS-CD8 T cell sheet header and first rows",
+        "finding": "QC measurements by cell, not oligo or reaction methods."
+      },
+      "reason": "QC metrics for scTAPS cells (reads, mapped reads, conversion and coverage), no oligo-design column."
+    },
+    {
+      "id": "supp_large",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 3 XLSX workbook.xml sheet-name inventory (five sheets); 53-MB data workbook not fully converted",
+        "finding": "Sheets are scCAPS hippocampus QC, neuronal and age marker tables, and genebody 5hmCG levels; no oligo or reaction-method sheet."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM3 53-MB workbook zip integrity/member list, xl/sharedStrings.xml initial strings",
+        "finding": "Large scCAPS mouse hippocampus QC workbook; initial fields are cell ID, reads, mapping, duplication, conversion. Only structure and header/sample inspected."
+      },
+      "reason": "Sheets are scCAPS hippocampus QC, neuronal and age marker tables, and genebody 5hmCG levels; no oligo or reaction-method sheet."
+    },
+    {
+      "id": "supp_comparison",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 4 XLSX Table S1 heading and first row",
+        "finding": "Comparison of scTAPS/scCAPS with other published methylation methods; no ordering oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM4 workbook comparison sheet header and initial rows",
+        "finding": "Cross-method performance comparison, not protocol oligo source."
+      },
+      "reason": "Comparison of scTAPS/scCAPS with other published methylation methods; no ordering oligos."
+    },
+    {
+      "id": "supp_odt",
+      "role": "supplement",
+      "locator": "_data/sources/sccaps__10.1101+2024.02.12.579864/s13059-025-03708-1_supp_13059_2025_3708_MOESM6_ESM.odt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 6 ODT content.xml opening paragraphs",
+        "finding": "Peer-review comments document, not a primary oligo ordering table; no chemistry sequence in inspected opening. Full exclusion still warrants second reader."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM6 ODT archive content.xml opening parsed text",
+        "finding": "Peer-review comments/replies, not an original protocol oligo table; only opening content inspected."
+      },
+      "reason": "Peer-review comments document, not a primary oligo ordering table; no chemistry sequence in inspected opening. Full exclusion still warrants second reader."
+    },
+    {
+      "id": "nextera_xt_kit",
+      "role": "linked_material",
+      "locator": "Illumina Nextera XT Index Kit FC-131-1001",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Version-specific PCR/index kit documentation named in Methods not yet checked.",
+      "discovered_from": "published"
+    },
+    {
+      "id": "tn5_predecessor",
+      "role": "linked_material",
+      "locator": "Published article refs [27–28] for Tn5 assembly",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Cited predecessor transposome assembly source not checked.",
+      "discovered_from": "published"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: preprint, published, oligo_table",
+      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint v1 Methods lines 1280–1420; published JATS Methods 148–160; MOESM1–6 as itemized in checklist.",
+      "finding": "Independently distinguished preprint and published protocol chemistry. Nextera XT and Tn5 predecessor original sources remain unavailable relevant."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+}

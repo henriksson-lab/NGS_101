@@ -1,0 +1,160 @@
+{
+  "dir": "nextera-xt-dna-library-prep",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_15031942_07_nextera-xt-product-documentation.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 99–180, 466 and 895–897",
+        "finding": "Official Nextera XT v07 guide specifies 1 ng input, transposome tagmentation, neutralization and limited-cycle PCR adding dual indexes; distinguishes Nextera XT v2 8-base indexes from later IDT UD 10-base indexes."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Nextera XT document 15031942-07 tagmentation/index PCR workflow lines 99–180, 466 and 895–897; scraper",
+        "finding": "Tn5 tagmentation of 1 ng DNA, neutralization and limited-cycle index PCR make the library; exact N/S index examples depend on the chosen index kit and are not all in the workflow guide."
+      }
+    },
+    {
+      "id": "adapter_guide",
+      "role": "linked_material",
+      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "N7xx section lines 13318–13345 and S5xx section around 13521",
+        "finding": "Official adapter reference prints Nextera XT v2 N7xx/S5xx sequence families; exact index selection varies by kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Adapter Sequences v22 Nextera DNA Indexes section lines 13318–13358 and S5xx section around 13521; scraper",
+        "finding": "Guide distinguishes H7xx Nextera DNA CD from N7xx Nextera XT Index Kit v2, prints adapter-oriented bases and sample-sheet reverse-complement orientation. Do not confuse index names with one selected sample or substitute H7xx for N7xx."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "tips_troubleshooting",
+      "role": "linked_material",
+      "discovered_from": "guide",
+      "locator": "https://www.illumina.com/content/dam/illumina-marketing/documents/products/technotes/nextera-xt-troubleshooting-technical-note.pdf (Illumina 770-2015-015; source fetch manifest records curl DNS failure, original read through publisher PDF)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "nextera_illumina",
+        "date": "2026-10-16",
+        "locations": "original PDF pp. 1–2 and 5–6, browser text lines 6–26 and 149–211",
+        "finding": "Illumina depicts partial adapters on the transposome and PCR completion of sequencing arms. It confirms that PCR-cleanup library is double-stranded and optional bead-normalized library is single-stranded. It does not print the loaded transposome oligo inventory."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Nextera XT Tips and Troubleshooting PDF pp. 4–6, browser lines 149–200; source-bundle oligo scraper run before reading",
+        "finding": "Independently verified that post-PCR-cleanup library is double-stranded and can be the drawn final library; optional bead normalization yields a single-stranded eluted product. The note explains adapter-arm completion through PCR but does not provide a separate loaded-transposome strand inventory."
+      }
+    },
+    {
+      "id": "index_pooling",
+      "role": "linked_material",
+      "discovered_from": "guide",
+      "locator": "https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/1000000041074_13_index-adapters-pooling.pdf (Illumina 1000000041074 v13; source fetch manifest records curl DNS failure, original read through publisher PDF)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "nextera_illumina",
+        "date": "2026-10-16",
+        "locations": "original PDF pp. 21–22, browser text lines 1617–1665",
+        "finding": "Nextera XT Index Kit v2 has four sets with 12 i7 and eight i5 tubes each; the guide gives dual-index pooling combinations. It does not select a specific pair for every sample."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Index Adapters Pooling Guide document 1000000041074 v13 PDF pp. 23–24, browser lines 1617–1665; reached via indexed source after direct PDF open error; source-bundle scraper run first",
+        "finding": "Independently verified Nextera XT Index Kit v2 Sets A–D with twelve i7 and eight i5 adapters each, and the permitted balanced pool combinations. These are selectable kit members, not evidence of one index pair used in every Nextera XT experiment."
+      }
+    },
+    {
+      "id": "library_validation",
+      "role": "linked_material",
+      "discovered_from": "tips_troubleshooting",
+      "locator": "https://www.illumina.com/documents/products/technotes/technote_nextera_library_validation.pdf (Illumina 770-2013-003, original publisher PDF)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "nextera_illumina",
+        "date": "2026-10-16",
+        "locations": "original PDF pp. 1–2, browser text lines 8–30 and 117–143",
+        "finding": "This note confirms XT 1-ng tagmentation, that library after AMPure cleanup can be the final double-stranded state, and that optional bead normalization makes dilute single-stranded library. It gives no loaded-transposome oligo inventory."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Nextera Library Validation technical note 770-2013-003 PDF pp. 1–2, browser lines 0–30, 51–63 and 100–143; source-bundle scraper run first",
+        "finding": "Independently verified that XT uses 1 ng input and that the note discusses double-stranded final libraries before normalization, with size/quantification guidance. It contains no loaded-transposome oligo table."
+      }
+    },
+    {
+      "id": "qpcr_quantification",
+      "role": "linked_material",
+      "discovered_from": "tips_troubleshooting",
+      "locator": "https://jp.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/qpcr/sequencing-library-qpcr-quantification-guide-11322363-c.pdf (Illumina 11322363 Rev C, original publisher PDF)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The troubleshooting note links page 6 solely for optional quality-control PCR primers. This assay quantifies a completed library and adds no base or step to its constructed molecule.",
+      "pass_1": {
+        "reviewer": "nextera_illumina",
+        "date": "2026-10-16",
+        "locations": "original PDF pp. 6 and 12, browser text lines 83–111 and 197–215",
+        "finding": "The two printed P5/P7 qPCR primers are for a separate quantification reaction after library preparation. Checked the sequences and use; they are not adapter-incorporation reagents."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Sequencing Library qPCR Quantification Guide 11322363 Rev C PDF pp. 3 and 6, browser lines 49–64 and 83–111; source-bundle scraper run first",
+        "finding": "Independently verified the two printed P5/P7 qPCR primers are used to quantify already prepared sequencing libraries. They are assay primers and do not define the adapter installed in Nextera XT library construction."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Nextera XT official guide reference to Illumina adapter sequences; index sections",
+      "finding": "Followed adapter guide link and distinguished XT v2 from IDT UD index families; kit/version choice needs independent verification."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Illumina Nextera XT 15031942-07 workflow and Adapter Sequences v22 Nextera section lines 13318–13358/13521",
+      "finding": "Named kit guide and vendor index-family document followed; member choice remains unspecific, and exact sample identity is not accepted missing."
+    },
+    "followup": {
+      "reviewer": "nextera_illumina",
+      "date": "2026-10-16",
+      "locations": "XT guide lines 204, 466, 1027–1030 and 1652–1710; original troubleshooting PDF pp. 1–6; original pooling PDF pp. 21–22; original validation PDF pp. 1–2; original qPCR PDF pp. 6 and 12",
+      "finding": "Followed the named troubleshooting and pooling documents; then followed the troubleshooting note to library-validation and qPCR guides. Validation concerns the final molecule's single/double-strand endpoint; qPCR primers only quantify a completed library and are excluded with reason. These four newly checked links await independent second review."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Loaded solution-transposome oligo inventory",
+      "disposition": "blocked",
+      "evidence": "The original XT product guide and the linked 2015 troubleshooting and 2014 library-validation notes describe partial-adapter tagmentation but did not print an assembled reagent inventory in the located sections. Those linked notes have only one independent original-source reading so far; absence is not accepted."
+    },
+    {
+      "claim": "Exact i5/i7 bases for the illustrated generic XT v2 library",
+      "disposition": "resolved",
+      "evidence": "Illumina Adapter Sequences v22 lists N7xx and S5xx index families, and the XT guide and Index Adapters Pooling Guide list compatible combinations. The sample's purchased kit/well is run-specific, not an unknown protocol constant."
+    }
+  ],
+  "conclusion": "Official guides define tagmentation and index families. The newly followed troubleshooting, pooling, validation and QC-primer documents have one located reading each; independent second readings are pending. The loaded solution-transposome oligo inventory has not been accepted as confirmed missing."
+}

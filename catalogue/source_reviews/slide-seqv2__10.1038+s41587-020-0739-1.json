@@ -1,0 +1,137 @@
+{
+  "dir": "slide-seqv2__10.1038+s41587-020-0739-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 110–153, bead synthesis and puck sequencing",
+        "finding": "Original author manuscript gives 15-base bead barcode synthesis, fourteen bases decoded, SOLiD/monobase ligation sequence and Table 6 pointer."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original JATS Online Methods lines 93–111 (three bead oligos and 15 split-pool cycles), 119–135 (14-base monobase decoding), 195–333 (capture, RT, dN-SMRT second strand, PCR, Nextera XT), 417–445 (supplement attachment descriptions), 559–563 (Hughes 2019 citation); source-bundle scraper hits checked.",
+        "finding": "Printed Chemgenes and two in-house bead oligo variants, with PC linker and differing J/UMI/poly(dT) boundaries. Table 6 supplies decoding and library primers; Methods specify 8 five-prime, 3 three-prime, and 3 SEDAL ligations, plus RT→second strand→PCR→Nextera XT. Supplementary datasets and tables are explicitly linked, but their PMC attachments remain gated."
+      }
+    },
+    {
+      "id": "supp_table6",
+      "role": "supplement",
+      "locator": "_data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_41587_2020_739_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 6 lines 125–180; scraper source hits verified 130–146",
+        "finding": "Original supplement prints TSO with rG/+G, Truseq primers and fluorescent-ligation primer family."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF Supplementary Table 6, extracted lines 123–203 (TSO 130, dN-SMRT 142, TruSeq P5 146, ligation-primer families 150–203); checked scraper source hits.",
+        "finding": "Verified modified TSO AAGCAGTGGTATCAACGCAGAGTGAATrG+GrG, degenerate dN-SMRT, P5 and TruSeq/UP offset primer families including /5phos/ and /3InvdT/. These oligos are available; no absence claim is supported by this table."
+      }
+    },
+    {
+      "id": "pmc_sup_info",
+      "role": "supplement",
+      "locator": "PMC8606189 NIHMS1751017 Sup_info.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC download gate; publisher MOESM1 may duplicate but not yet proven."
+    },
+    {
+      "id": "pmc_data",
+      "role": "supplement",
+      "locator": "PMC8606189 Sup_Dataset_1/2.zip and Sup_Tab_3/4/5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC download gate; tabular details unresolved."
+    },
+    {
+      "id": "springer_figures",
+      "role": "supplement",
+      "locator": "Springer MOESM2–4 Slide-seqV2 PDF files in _data/sources/slide-seqv2__10.1038+s41587-020-0739-1/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 extraction empty; MOESM3/4 representative extracted headings inspected",
+        "finding": "Figure/data PDFs rather than full primer table; entire file set not deeply inspected, so no absence inference."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "MOESM2 PDF pages 1–2 visually inspected (Nature Research Reporting Summary); MOESM3 ZIP inventory Enriched Gene Plots/* and extracted 1.2.pdf.txt first page; MOESM4 ZIP inventory *cortex.pdf and extracted Eepd1cortex.pdf.txt first page; original JATS lines 417–425 describes Supplementary Data 1/2.",
+        "finding": "MOESM2 is a reporting summary with no oligo table on either page. MOESM3/4 names and representative pages are gene-enrichment/spatial-expression plots; full ZIP members were inventoried, not individually read. Cannot infer completeness of inaccessible PMC attachments from these sampled figures."
+      }
+    },
+    {
+      "id": "original_slideseq",
+      "role": "predecessor",
+      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Slide-seq JATS main text lines 64–70 and 84 after source-bundle scraper; original Slide-seq source review supplement rows consulted.",
+        "finding": "Predecessor uses spatially decoded 10-µm bead pucks, SOLiD sequencing by ligation and bead capture; its detailed published supplement remains inaccessible in its own source review, while a preprint supplement is locally readable. V2 Methods provide its own bead variants and decoding scheme."
+      },
+      "pass_2": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Slide-seq PMC6927209 JATS main text lines 66–69; original 2019 bioRxiv supplement 563395_media-1.pdf.txt lines 6–21 (bead oligos and J/N/photocleavable-thymidine definitions), 47–77 (SOLiD ligation); Slide-seqV2 PMC8606189 JATS Online Methods lines 93–108 (three V2 bead designs). Full source-bundle scrapers for both Slide-seq and Slide-seqV2 run before reading.",
+        "finding": "Original Slide-seq used 10-µm DNA-barcoded bead pucks, SOLiD ligation to spatially decode bead barcodes, and 3′ RNA capture. Its readable bioRxiv supplement prints two capture oligo variants with J barcode and N UMI positions, including a photocleavable-thymidine version. V2 prints three own bead variants and its own decoding methods. The inaccessible published 2019 supplement cannot independently certify whether the preprint variants exactly match the final version; no absence conclusion follows."
+      }
+    },
+    {
+      "id": "hughes_second_strand",
+      "role": "predecessor",
+      "locator": "Hughes TK et al., 2019 bioRxiv, cited as reference 10 for added second-strand synthesis in Stickels et al. JATS lines 59 and 559–563",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "The cited predecessor has not been securely identified to a source version or independently read; V2 Methods themselves give its second-strand reaction but the linked chemistry history remains open."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Author manuscript methods 110–153 and Springer MOESM1 Table 6 read; PMC extra supplements unavailable and remaining figures only sampled.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "V2 JATS lines 59, 93–135, 417–445, 559–563; original Slide-seq JATS lines 64–70; MOESM1 Table 6 lines 123–203; MOESM2 pages 1–2; MOESM3/4 ZIP inventories and representative pages.",
+      "finding": "Followed V2 Methods to Table 6 and original Slide-seq predecessor main text. Identified Hughes 2019 second-strand predecessor; its version and the PMC Sup_info/Sup_Tab attachments remain unavailable. Publisher ZIP plots and reporting summary do not resolve those links. Linked-information disposition stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Completeness of all bead-decoding oligo variants and source table correspondence",
+      "evidence": "Author manuscript methods 110–153 and Springer MOESM1 Table 6 read; PMC extra supplements unavailable and remaining figures only sampled.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent located reads now cover the V2 article and Table 6. The public page displays all three source-printed bead versions and selects the Chemgenes core for its schematic. PMC Sup_info and supplementary tables, plus the cited Hughes second-strand predecessor, remain unavailable/unread; no missing-information claim accepted."
+}

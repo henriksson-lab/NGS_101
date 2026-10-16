@@ -7,7 +7,7 @@ import illumina as il
 import seqprimers as sp
 from adapter_ligation import reported_adapter_end
 from batch_ngs import seg
-from chemdraw import Construct, Scene, complement_segments, feature
+from chemdraw import Construct, Scene, complement_segments, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -24,7 +24,8 @@ INLINE_FEATURE=feature("inline_rna_barcode","inline_barcode","fixed")
 RANDOMER_5=feature("molecular_barcode_rna_adapter","umi","random",group="molecular_barcode",part="RNA adapter")
 RANDOMER_10=feature("molecular_barcode_cdna_adapter","umi","random",group="molecular_barcode",part="cDNA adapter")
 
-RIL19 = "AGATCGGAAGAGCGTCGTGTG"
+RIL19 = "AGATCGGAAGAGCGTCGTG"
+X1A_TAIL = "AGATCGGAAGAGCGTCGTGTAG"
 RNA_X1A_BARCODE = "ATATAGG"
 AR17 = "ACACGACGCTCTTCCGA"
 RAND103TR3_FIXED = "AGATCGGAAGAGCACACGTCTG"
@@ -35,8 +36,8 @@ FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
     seg("D501 i5", D501_I5, "cbc", feature=I5_FEATURE),
     seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-    seg("X1A inline RNA barcode", RNA_X1A_BARCODE, "cbc", feature=INLINE_FEATURE),
     seg("X1A five-base randomer", "U" * 5, "umi", placeholder=True, feature=RANDOMER_5),
+    seg("X1A inline RNA barcode read", revcomp(RNA_X1A_BARCODE), "cbc", feature=INLINE_FEATURE),
     seg("RBP-bound RNA cDNA", "X" * 34, placeholder=True),
     seg("rand103Tr3 ten-base randomer", "V" * 10, "umi", placeholder=True, feature=RANDOMER_10),
     seg("Read 2 arm first base", "A", "r2"),
@@ -48,8 +49,8 @@ SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"
 if problems := sp.verify(FINAL_LIBRARY, SEQ_PRIMERS):
     raise ValueError("eCLIP final library: " + "; ".join(problems))
 
-FINAL_CAPTION = "Original paired-end eCLIP amplicon using the SOP's X1A/D501/D701 examples. Read 1 starts with the seven-base inline barcode and five-base randomer; Read 2 starts with the ten-base cDNA-adapter randomer."
-SEQUENCING_INTRO = "Original eCLIP uses paired-end reads and both D5/i5 and D7/i7 index reads. Read 1 begins at the RNA-adapter barcode; Read 2 begins at rand103Tr3's ten-base randomer and approaches the RNA 5′ end/crosslink-stop boundary."
+FINAL_CAPTION = "Original paired-end eCLIP amplicon using the SOP's X1A/D501/D701 examples. Read 1 starts with the five-base randomer and reverse complement of the seven-base inline RNA barcode; Read 2 starts with the ten-base cDNA-adapter randomer."
+SEQUENCING_INTRO = "Original eCLIP uses paired-end reads and both D5/i5 and D7/i7 index reads. Read 1 begins with five random bases then the reverse complement of the RNA-adapter barcode; Read 2 begins at rand103Tr3's ten-base randomer and approaches the RNA 5′ end/crosslink-stop boundary."
 
 
 def crosslinked_rna_rows():
@@ -153,8 +154,8 @@ def protocol_graph():
                               MaterialKind.MOLECULAR)
     rna_geometry=reported_adapter_end(
         "X1A RNA adapter",kind="single-strand",polarity="5-prime",
-        terminal_sequence=RNA_X1A_BARCODE+"N"*5+RIL19,
-        statement="The ENCODE SOP prints the X1A barcode/randomer and RIL19 adapter sequence used at the RNA 3-prime boundary.")
+        terminal_sequence=RNA_X1A_BARCODE+"N"*5+X1A_TAIL,
+        statement="The ENCODE SOP prints the X1A barcode, five random bases and its 22-base tail at the RNA 3-prime boundary; RiL19 is a distinct 19-base adapter.")
     graph.react("ligate_rna_adapter","Ligate the barcoded RNA adapter on beads",
                 StepKind.LIGATION,
                 ((enriched,InputRole.TEMPLATE),(rna_adapter,InputRole.STRUCTURAL),

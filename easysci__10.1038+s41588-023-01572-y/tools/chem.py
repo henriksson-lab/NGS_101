@@ -16,9 +16,16 @@ CAVEAT = ""
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
-SEQUENCING_INTRO = DEFINITION.endpoint
+SEQUENCING_INTRO = (DEFINITION.endpoint +
+    ' The <a href="https://github.com/JunyueCaoLab/EasySci">authors\' analysis README</a>'
+    ' labels the demultiplexed files R1 = genomic Read 1, R2 = P5 barcode,'
+    ' R3 = genomic Read 2, and I1 = P7 barcode. It says P7 alone is used for initial'
+    ' demultiplexing because every P5–P7 combination occurs. That README describes an'
+    ' updated pipeline; the <a href="https://zenodo.org/records/8395492">publication-era'
+    ' archive</a> and original run metadata still need checking before assigning exact'
+    ' cycle lengths.')
 READ_LENGTHS = None
-SEQUENCING_ENDING = DEFINITION.endpoint
+SEQUENCING_ENDING = SEQUENCING_INTRO
 SEQUENCING_UNAVAILABLE = "The source defines the read roles, but the primer sequence is panel-, kit- or implementation-dependent; no universal binding oligo is asserted."
 
 def workflow():

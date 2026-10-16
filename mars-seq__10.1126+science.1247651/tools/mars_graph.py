@@ -46,7 +46,9 @@ def graph_for(protocol: str) -> ProtocolGraph:
         graph, primary, rt_primer_label=f"{protocol} RT1",
         rt_state=M.MARS1_RT1,
         first_state=M.rt_scene(protocol),
-        duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol))
+        duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol),
+        pool_before_second=True, exonuclease_when="after_pool",
+        final_pool_after_exonuclease=True)
     reviewed.insert(0, "mrna")
 
     fragmentation = graph.input("fragmentation_condition",
@@ -84,9 +86,9 @@ def graph_for(protocol: str) -> ProtocolGraph:
     final = M.final_library(protocol)
     pcr_template = graph.product(
         "pcr_template", "second-strand library-PCR template",
-        MaterialKind.MOLECULAR, state=final, source=source)
+        MaterialKind.MOLECULAR, state=final, source=source, inferred=True)
     graph.react("second_reverse_transcription",
-                "Reverse-transcribe the adapter-ligated amplified RNA with RT2",
+                "INFERRED — reverse-transcribe adapter-ligated RNA with printed RT2; exact landing unresolved",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((ligated, InputRole.TEMPLATE), (rt2, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (pcr_template,))
@@ -104,7 +106,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
                              MaterialKind.CATALYST)
     library = graph.product(
         "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
-        state=final, source=source)
+        state=final, source=source, inferred=True)
     graph.react("library_pcr", "Amplify the final sequencing library",
                 StepKind.PCR,
                 ((pcr_template, InputRole.TEMPLATE),

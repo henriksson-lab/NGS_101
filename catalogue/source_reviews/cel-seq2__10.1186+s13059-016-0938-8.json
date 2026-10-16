@@ -1,0 +1,232 @@
+{
+  "dir": "cel-seq2__10.1186+s13059-016-0938-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC4848782 JATS, local s13059-016-0938-8_PMC4848782.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS Methods and supplementary-file inventory",
+        "finding": "Original article directs to detailed protocol and primer plate."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC4848782 original JATS Methods and supplement links",
+        "finding": "Original paper points to author protocol and plate supplement."
+      }
+    },
+    {
+      "id": "protocol",
+      "role": "detailed_protocol",
+      "locator": "MOESM4 CEL-Seq2 protocol DOCX text",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 34,47,297-298 and 330-331",
+        "finding": "Protocol explicitly says RNA PCR primer sequences are available from Illumina, identifies RP1 and RPIX, and states 15-base R1, 7-base index and 36-base R2 with Small-RNA library handling."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM4 original author DOCX text lines 34,47,297-298,330-331",
+        "finding": "Author protocol names Illumina RP1/RPIX and read lengths; it directs readers to Illumina for sequences."
+      }
+    },
+    {
+      "id": "supp_table_s2",
+      "role": "supplement",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM5_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Table S2 PDF extracted lines 1–24 after bundle scraper: four rows CEL-Seq, CEL-Seq+UMI, CEL-Seq2 and Library RT primer.",
+        "finding": "This is the actual published Table S2, giving CEL-Seq2 6-nt UMI/6-nt barcode/T25V primer architecture and randomhexRT oligo; prior checklist falsely assigned the RT-primer plate to MOESM6."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 Table S2 PDF, entire text lines 1–24; oligo scraper verified against original PDF",
+        "finding": "Table S2 prints four design rows: CEL-Seq, CEL-Seq plus UMI, CEL-Seq2, and Library RT primer. CEL-Seq2 has N6 UMI followed by a six-base barcode placeholder, T25V and a shorter T7/RA5 scaffold. MOESM5, not MOESM6, is the published design table."
+      }
+    },
+    {
+      "id": "supp_c1_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM6_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary file 2 C1 protocol lines 1–119: 96-primer stock lines 25–29; C1 RT/second-strand/IVT mixes lines 32–86; C1 steps lines 88–119.",
+        "finding": "This is a Fluidigm C1 implementation and reagent/step protocol, not an RT-primer plate or sequence table. It names a 96-primer stock and follows the separate C1 branch; actual oligo sequences are in MOESM4 and Table S2 MOESM5."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 DOCX, Purchases/Stocks and C1 Mixes/Steps lines 1–119; scraper on full bundle",
+        "finding": "MOESM6 is a Fluidigm C1 implementation: a stock of 96 primers feeds RT, second-strand and IVT mixes in ordered chambers; pooled aRNA continues through ExoSAP as in regular CEL-Seq2. It does not print the ordering strings of the 96 primers and is not a primer-plate table."
+      }
+    },
+    {
+      "id": "supp_fig1",
+      "role": "supplement",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figure 1 PDF extracted lines 1–145, panels a–e, especially lines 100–145 comparison of RT enzyme, cleanup and second-strand enzyme.",
+        "finding": "Figure compares shortened/UMI RT primers and enzymatic/cleanup alternatives; it supports optimization context but does not specify additional ordered oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 Supplementary Figure 1 PDF, entire extracted text lines 1–145, panels a–e",
+        "finding": "Panels compare original versus UMI versus shortened primer performance and RT/cleanup/second-strand enzyme choices. Labels do not print any full ordering string beyond the oligo table/protocol."
+      }
+    },
+    {
+      "id": "supp_fig2",
+      "role": "supplement",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figure 2 PDF extracted lines 1–85, ligation versus random priming plots and transcript/gene counts.",
+        "finding": "Result plots compare adapter ligation with randomhexRT route, consistent with the article Methods; no new ordered primer sequence seen in the inspected figure."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 Supplementary Figure 2 PDF, entire extracted text lines 1–85, panels a–g",
+        "finding": "Figure compares ligation with random priming and CEL-Seq/CEL-Seq2/C1 performance. It adds no full oligo sequence or selected index member."
+      }
+    },
+    {
+      "id": "supp_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S1 PDF extracted lines 1–112, cell position, numeric barcode number, cell count and GFP status.",
+        "finding": "C1 cell-capture table maps positions to numbered primer/barcode members, rather than printing their six-base sequences; relevant to which member was used in the C1 branch."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 Table S1 PDF, extracted lines 1–112 and remaining table of cell positions/barcode numbers/GFP calls",
+        "finding": "Table maps C1 cell position to barcode number and cell/GFP outcome. It gives barcode numbers rather than the nucleotide identities; the separate author protocol provides nucleotide barcode inventory."
+      }
+    },
+    {
+      "id": "illumina_oligos",
+      "role": "linked_material",
+      "locator": "Official Illumina TruSeq Small RNA adapter sequences, local illumina_TruSeq-SmallRNA.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local vendor HTML sequence table; source scraper hits",
+        "finding": "Original vendor table is locally available, but assay-specific index member and historical kit revision must still be aligned before drawing exact outer arms."
+      },
+      "discovered_from": "protocol",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original Illumina TruSeq Small RNA table lines 180-198",
+        "finding": "Vendor table explicitly prints RP1 full sequence and RPI-n family with six-base index window, resolving blanket absence."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 115–135 and 153–173 supplement list; MOESM1 Fig S1 lines 1–145, MOESM2 Fig S2 lines 1–85, MOESM3 Table S1 lines 1–112, MOESM4 author protocol lines 1–330, MOESM5 Table S2 lines 1–24, MOESM6 C1 protocol lines 1–119; official Illumina TruSeq Small RNA table lines 180–198 and index rows 227–245; bundle scraper run before reading.",
+      "finding": "Followed the paper to every six PMC Cloud supplements and the author protocol to Illumina RP1/RPIX. MOESM4 contains 96 RT-primer members, MOESM5 gives the compact architecture and randomhexRT sequence, MOESM6 is a C1 branch protocol, MOESM3 maps C1 wells to numbered barcode members. RP1/RPI-n family is available, but the study-specific RPIX member and 2016 kit revision remain unidentified; linked disposition stays blocked pending independent reread of corrected inventory."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently followed original JATS supplementary list to MOESM1 Fig S1 (entire text), MOESM2 Fig S2 (entire text), MOESM3 Table S1 (cell/barcode-number/GFP table), MOESM4 author protocol, MOESM5 Table S2 (entire four-row oligo design), MOESM6 C1 protocol (Purchases through aRNA cleanup); official Illumina TruSeq Small RNA table sequence rows 176–192; full-bundle scraper before original reads",
+      "finding": "The publisher attachment identities match the corrected checklist: Table S2 is MOESM5 and MOESM6 is a C1 procedure, not an oligo plate. The author protocol’s Illumina link resolves RP1/RPI-family bases. Table S1 maps C1 wells to barcode numbers but not an assay-wide selected RPIX tube; the historical kit revision and exact member remain unresolved, so linked information is still blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The published CEL-Seq2 library PCR primer bases are unavailable.",
+      "disposition": "resolved",
+      "evidence": "Two independent source reads confirm author protocol MOESM4 names RP1/RPIX and original Illumina table lines 180-198 prints their family bases. Exact chosen index tube is separate."
+    }
+  ],
+  "conclusion": "The RP1/RPIX family is source-positive; the current official Illumina table provides representative RPI1 but does not establish the 2016 run-specific index tube. MOESM5/MOESM6 identities were corrected and the earlier false two-pass row was archived. All six original attachments and the linked vendor table now have two located readings. Historical index choice and kit revision remain unresolved.",
+  "superseded_source_checks": [
+    {
+      "date": "2026-10-16",
+      "reason": "Both earlier reviewers mislabeled MOESM6 as an RT-primer plate; the original is the C1 Supplementary file 2 protocol. Their original pass records are retained here but do not count toward any corrected source row.",
+      "row": {
+        "id": "primer_plate",
+        "role": "supplement",
+        "locator": "MOESM6 RT-primer plate DOCX text",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "Source oligo scraper and RT primer table",
+          "finding": "Original primer plate supplies RT primer family; exact RP1/RPIX comes from linked Illumina material."
+        },
+        "pass_2": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-15",
+          "locations": "MOESM6 author DOCX primer rows",
+          "finding": "RT-primer family present in original author supplement."
+        }
+      }
+    }
+  ],
+  "superseded_linked_information": {
+    "date": "2026-10-16",
+    "reason": "Original two link dispositions predated correction of MOESM5/MOESM6 source identities and did not cover all original supplements. Retained as history, not a completed link gate.",
+    "record": {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM4 lines 34,47,297-298,330-331; Illumina table manifest",
+        "finding": "Followed explicit protocol link to official Illumina sequence table; kit revision and selected RPIX member remain unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original author MOESM4 Illumina RP1/RPIX pointer and vendor table lines 180–198; later inventory error corrected 2026-10-16",
+        "finding": "Followed the named Illumina primer family. This earlier pass did not inspect all six supplements: MOESM5 Table S2 and MOESM6 C1 protocol were misidentified in the checklist. Further independent checks pending."
+      },
+      "pass_3_correction": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM1/2 full figure text, MOESM3 table, MOESM5 oligo table, MOESM6 C1 protocol, original Illumina linked primer table",
+        "finding": "Independently corrected the publisher attachment identities and followed the author protocol to the Illumina primer family. The complete supplement inventory is now double-read for these rows; exact per-study selected RPIX member remains a separate unresolved claim."
+      }
+    }
+  }
+}

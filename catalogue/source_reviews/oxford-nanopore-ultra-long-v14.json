@@ -1,0 +1,103 @@
+{
+  "dir": "oxford-nanopore-ultra-long-v14",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 1224–1277 and 1321–1385",
+        "finding": "Official SQK-ULK114 protocol dilutes FRA, adds it to long DNA, heat/ice steps, then adds Rapid Adapter and purifies by precipitation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT SQK-ULK114 protocol fragmentation mix and adapter steps around lines 1224–1277 and 1321–1385; scraper",
+        "finding": "Ultra-long workflow uses controlled fragmentation, end preparation and Rapid Adapter loading. Protocol names kit reagents but does not print motor-bound assembly chemistry."
+      }
+    },
+    {
+      "id": "chemistry_doc",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Rapid Adapter lines 2081–2087; Fragmentation Mix lines 1498–1501",
+        "finding": "Official chemistry document prints Rapid Adapter top CCTGTACTTCGTTCAGTTACGTATTGCT and describes transposase Fragmentation Mix; kit-specific tag-end and motor assembly remain to verify."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT chemistry technical document Fragmentation Mix lines 1498–1501 and Rapid Adapter table lines 2081–2087; scraper; ultra-long chemistry explanation lines 421–423 and reagent table lines 2124–2125",
+        "finding": "The document prints Rapid Adapter top strand CCTGTACTTCGTTCAGTTACGTATTGCT, identifies FRA as a transposase that fragments and tags the DNA, and states that motor-loaded RA attaches to those tags in an enzyme-free reaction. Exact tag bases, joining geometry and full motor-bearing assembly remain unresolved in this document."
+      },
+      "discovered_from": "protocol"
+    },
+    {
+      "id": "neb_monarch_tissue_t3060",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://www.neb.com/en/-/media/nebus/files/manuals/manualt3060.pdf?rev=163cc9c7951d4797851b4777b20f6f21; NEB Monarch HMW DNA Extraction Kit for Tissue T3060 manual Version 3.0_3/24",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Official NEB T3060 manual title and table of contents, extraction workflow, principles of DNA capture; ONT ULK114 original protocol extraction/materials links",
+        "finding": "T3060 documents upstream HMW DNA isolation, lysis, DNA capture and elution. It does not disclose the kit 14 FRA tag or Rapid Adapter motor-bearing assembly; an independent full manual pass remains open."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB manual T3060 v3.0_3/24, https://www.neb.com/en/-/media/nebus/files/manuals/manualt3060.pdf?hash=206F2811EA6670C983360430E19549C3&rev=163cc9c7951d4797851b4777b20f6f21, PDF pp. 3–5, 11–15 and 28–30; full ULK114 local source-bundle oligo scraper run first.",
+        "finding": "Independently read extraction workflow: tissue homogenization/proteinase K lysis, RNase removal, protein separation, alcohol precipitation onto glass beads, washing/elution of HMW DNA. Manual discusses agitation and downstream ONT reads, with older LSK109 example, but it neither uses FRA nor describes Rapid Adapter attachment or motor chemistry. Its input DNA cleanup details are upstream of ULK114 construct formation."
+      }
+    },
+    {
+      "id": "flow_cell_wash_exp_wsh004",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://nanoporetech.com/document/flow-cell-wash-kit-exp-wsh004; official ONT Flow Cell Wash Kit EXP-WSH004 revS_25Jul2025",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Flow-cell reuse and DNA removal after sequencing; it acts on a loaded library in the device and does not define the ULK114 library construct.",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Official ONT wash-kit original, introduction, kit contents and wash procedure §§1–6",
+        "finding": "Wash Mix contains DNase I and removes library already on the flow cell for reuse. No ULK114 adapter construction or tag-end chemistry is specified."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original ONT Flow Cell Wash Kit EXP-WSH004 protocol revS_25Jul2025 https://nanoporetech.com/document/flow-cell-wash-kit-exp-wsh004, lines 110–185 and wash workflow 263 onward; full ULK114 local source-bundle oligo scraper run first.",
+        "finding": "Independent original read confirms DNase I wash of an already loaded library for flow-cell reuse. It follows sequencing and gives no FRA tag, Rapid Adapter, or motor-bearing construct detail; chemistry irrelevance to library assembly is supported. Optional later reloading uses kit-14 priming reagents but does not make this an adapter-construction source."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official ULK114 protocol and Chemistry Technical Document",
+      "finding": "Followed reagent terminology to official chemistry document; exact compatibility/version and unstated motor-end assembly require independent review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Official ULK114 protocol and ONT chemistry technical document Rapid Adapter/Fragmentation Mix sections",
+      "finding": "Vendor SQK-ULK114 Rev Q protocol and July 2026 chemistry document are compatible by named kit/reagent. Chemistry document lines 421–423 and 2124–2125 resolve enzyme-free RA attachment to FRA tags. Exact tag/junction/full motor complex remain unresolved; no global absence accepted. Independent follow-up found linked NEB T3060 upstream extraction manual and ONT flow-cell wash procedure; their second readings remain open. The wash procedure is downstream of library construction."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Official SQK-ULK114 Rev Q and July 2026 chemistry document have two located readings. RA top strand and enzyme-free attachment to FRA transposase tags are source-printed; exact tag bases, joining geometry and full motor-bearing complex remain unresolved. Linked upstream NEB T3060 extraction manual and downstream ONT flow-cell wash guide now each have two independent reads; neither defines those kit-14 molecular details. No missing claim is accepted; status remains blocked."
+}

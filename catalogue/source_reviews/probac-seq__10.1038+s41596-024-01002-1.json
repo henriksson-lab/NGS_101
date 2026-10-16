@@ -1,0 +1,141 @@
+{
+  "dir": "probac-seq__10.1038+s41596-024-01002-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "samanta2024",
+      "role": "defining",
+      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_PMC13621791.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 76-112, 326-544 and downstream GEM/library steps",
+        "finding": "Stepwise protocol gives three ligation–phi29 RCA–HindIII cycles, blocked extension to add probe UMI/poly(A), hybridization to bacteria, 10x v3.1 in-GEM PCR and library construction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 76-108, 216, 326-350, 388, 450, 500-520, 725-744",
+        "finding": "Original defines three phi29 RCA rounds and modified in-GEM probe PCR. It calls kit V3 chemistry in overview but the reagent list names 10x V3.1 cat. no. 2000164; no publication error inferred from shorthand."
+      }
+    },
+    {
+      "id": "moesm1",
+      "role": "supplement",
+      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary PDF opening contents and figure legends",
+        "finding": "Supplementary methodological/figure context, no separate primer ordering table in inspected beginning."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary PDF lines 1-18 and 120-138",
+        "finding": "Opened supplementary figures and captions, which concern protocol performance, not an oligo order table in inspected sections."
+      }
+    },
+    {
+      "id": "moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 heading and probe rows 1-36",
+        "finding": "B. subtilis ordered probe library has constant arms AAGCTTTGCTCGAAGAAACTATG and GTATGGACCGGGTCATC around varying target regions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 workbook lines 1-25",
+        "finding": "TWIST B. subtilis probe rows print target-specific sequences flanked by common AAGCTTTGCTCGAAGAAACTATG and GTATGGACCGGGTCATC arms."
+      }
+    },
+    {
+      "id": "moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 2 rows 1-23",
+        "finding": "RCA1/3 and RCA2 primer orientations, blocked T30-V-N11 extension primer, PCR1/2 and sixteen PCR3 indexed primers are printed. Extension arm differs from probe arm by one T."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 2 workbook lines 1-25",
+        "finding": "RCA1/2/3 primers, blocked V-N11 poly(A) extension oligo, 10x forward/InDrop reverse and PCR3 indexed primer family are printed with exact bases and /3Phos/."
+      }
+    },
+    {
+      "id": "probac_predecessor",
+      "role": "predecessor",
+      "locator": "ProBac-seq original research report cited in Samanta Nature Protocols 2024",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The protocol discusses a previously published ProBac method; original predecessor has not been independently checked."
+    },
+    {
+      "id": "tenx_v31",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000204 Rev D Appendix Oligonucleotide Sequences lines 5132-5224",
+        "finding": "v3.1 guide prints Read1 handle, N16 cell barcode, N12 UMI, T30VN bead oligo, TSO and cDNA PCR/adaptor oligos. This documents the commercial shell used by ProBac, subject to exact kit revision matching."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000204 Rev D PDF lines 5132-5141, 5179-5191, 5276",
+        "finding": "Appendix prints 3′ v3.1 N16/N12/poly(T)30VN gel-bead construct and library shell; original ProBac reagent list gives V3.1 cat. no. 2000164, so guide chemistry is relevant but historical Rev D may differ from exact study lot."
+      }
+    },
+    {
+      "id": "hormoz_code",
+      "role": "linked_material",
+      "locator": "https://gitlab.com/hormozlab",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "JATS line 112 links analysis/reference-building code; repository subpaths remain unexamined.",
+      "discovered_from": "samanta2024"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 76-112, 214-216, 326-544; Supplementary Tables 1-2",
+      "finding": "Opened published custom probe and primer tables; the predecessor, 10x v3.1 guide and linked author code remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 102, 216; Supplementary Tables 1-2 rows 1-25; CG000204 Rev D appendix lines 5132-5141",
+      "finding": "Original oligo tables and vendor kit scaffold independently checked. Original ProBac research report and Hormoz linked code remain unavailable; do not confirm any residual absence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Commercial 10x bead and full exact internal chemistry remain unverified",
+      "disposition": "blocked",
+      "evidence": "The original prints custom probe and PCR oligos, including an internal one-T arm discrepancy; inherited 10x shell remains open."
+    }
+  ],
+  "conclusion": "The original prints custom probe and PCR oligos, including an internal one-T arm discrepancy; inherited 10x shell remains open."
+}

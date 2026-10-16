@@ -1,0 +1,118 @@
+{
+  "dir": "multi-cut-tag__10.1016+j.molcel.2021.09.019",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Gopalan et al Molecular Cell 2021 DOI:10.1016/j.molcel.2021.09.019; j.molcel.2021.09.019_PMC8604773.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "STAR Methods lines 161-183 and resources 502, 518-541",
+        "finding": "Paper prints oligo roles via Table S1 and identifies Chromium Next GEM Single Cell ATAC v1.1 CG000209 plus cellranger-atac 1.1.0."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 161-183",
+        "finding": "Published STAR Methods explicitly refer to published Table S1 for Tn5 adapter and custom read/index primer sequences, and name 10x ATAC v1.1 for single-cell branch."
+      }
+    },
+    {
+      "id": "preprint_table",
+      "role": "supplement",
+      "locator": "2021.04.27.441642_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Table S1 lines 40-79",
+        "finding": "Preprint table gives P5_i5 connector oligos, custom Read2 and PhiX primers; scraper finds sequence hit."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original bioRxiv media-1 PDF extracted text lines 40-79",
+        "finding": "Preprint Table S1 has P5_i5, P7_i7, Read 1/2, Index 1/2 oligos; published supplement remains unavailable, so preprint cannot validate final published values."
+      }
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "NIHMS1743381-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published Cell supplement remains manual/gated in MANIFEST; preprint table cannot prove no revision.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vendor_guide",
+      "role": "linked_material",
+      "locator": "10x Chromium Next GEM Single Cell ATAC v1.1 User Guide CG000209 Rev G; local _data/sources/10x-chromium-single-cell-atac guide",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Guide lines 915-961, 3729-3811",
+        "finding": "Guide explains 16-nt gel bead barcode from a pool and invariant gel-bead oligo arms."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "10x CG000209 Rev G PDF extracted text lines 915-961, 3729-3744",
+        "finding": "Vendor guide provides barcoded bead architecture and sequencing primers for named ATAC v1.1 branch."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vendor_whitelist",
+      "role": "linked_material",
+      "locator": "10XGenomics/cellranger-atac 1.1 official software barcode whitelist 737K-cratac-v1.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "10x GitHub software tree listing whitelist",
+        "finding": "Vendor candidate cell-barcode list is publicly distributed; experimental bead assignment variable."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "10x ATAC mirror MANIFEST row; decompressed vendor 737K-cratac-v1 whitelist first four lines",
+        "finding": "Vendor list contains candidate BC2 sequences but cannot identify a cell-specific assignment."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Paper STAR Methods 161-183; preprint Table S1; CG000209 guide; vendor software listing",
+      "finding": "Followed named 10x kit and software; published Cell supplement still inaccessible, so preprint-to-publication differences unresolved."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 161-183; bioRxiv Table S1 lines 40-79; 10x CG000209 guide lines 915-961, 3729-3744",
+      "finding": "Followed paper to preprint oligo table and vendor ATAC v1.1 guide/whitelist. Published Table S1 attachment is unavailable and cannot be replaced by preprint."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact single-cell barcode assigned to each cell is sample-dependent; published vendor whitelist means categorical barcode-base absence requires narrowing",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

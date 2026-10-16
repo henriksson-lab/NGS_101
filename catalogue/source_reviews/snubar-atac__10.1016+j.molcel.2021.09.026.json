@@ -1,0 +1,97 @@
+{
+  "dir": "snubar-atac__10.1016+j.molcel.2021.09.026",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/snubar-atac__10.1016+j.molcel.2021.09.026/j.molcel.2021.09.026_PMC8611914.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS STAR Methods lines 179–199; key-resource table lines 769–795; Supplement list lines 311–325",
+        "finding": "Original STAR Methods first tagment nuclei with Illumina TDE1, then anneal published SBO family (PCR handle–N8 UMI–N18 sample barcode–CST arm). After GEM cleanup, ATAC and SBO templates are separated, individually PCR-amplified, mixed 8:2 for sequencing; RPIX/P5 and custom sequencing primers are printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS STAR Methods lines 179–200",
+        "finding": "Confirms TDE1 tagmentation, sample barcode oligo step, and separate 10x ATAC/Multiome guide citations; unavailable supplementary methods and exact guide revisions block absence conclusions."
+      }
+    },
+    {
+      "id": "methods_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Supplemental_Figures_and_Tables.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC gated supplementary figures, Table S1 and detailed Methods S1."
+    },
+    {
+      "id": "table_s3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Table_S3.csv",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Article JATS line 325 identifies Table S3 as ChromVAR transcription-factor results; file gated."
+    },
+    {
+      "id": "tenx_atac",
+      "role": "vendor",
+      "locator": "10x CG000168 Rev A cited original JATS line 191",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical 10x ATAC shell guide not yet checked."
+    },
+    {
+      "id": "tenx_multiome",
+      "role": "vendor",
+      "locator": "10x CG000365 Rev A cited original JATS line 197",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Alternate ATAC+RNA co-assay shell not yet checked."
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/navinlabcode/snubar_atac_scripts",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked demultiplexing code not inspected for source oligo inventory.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "tenx_atac_nextgem",
+      "role": "vendor",
+      "locator": "10x CG000209 Rev D cited original JATS line 191",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Alternative historical Next GEM v1.1 shell guide not yet checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 179–199 and 769–795; supplement list 311–325",
+      "finding": "Original STAR Methods corrected the public graph to Illumina TDE1 plus separate ATAC/SBO library branches; Table S1/Methods S1 and historical 10x guides remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "JATS STAR Methods lines 179–200",
+      "finding": "Source names specific 10x ATAC/Multiome guide revisions and supplement; those and author code are still unreviewed, so status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Individual 18-base sample barcode inventory and historical 10x shell are fully checked",
+      "disposition": "blocked",
+      "evidence": "Generic oligo/primers are source-positive; Table S1 and detailed Methods S1 remain gated."
+    }
+  ],
+  "conclusion": "Generic oligo/primers are source-positive; Table S1 and detailed Methods S1 remain gated."
+}

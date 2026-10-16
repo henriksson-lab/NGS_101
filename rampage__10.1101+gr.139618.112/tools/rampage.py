@@ -15,7 +15,13 @@ TITLE = "RAMPAGE — paired-end promoter profiling"
 NOTES = "01_rampage.html"
 SOURCE = 'Defining paper: <a href="https://doi.org/10.1101/gr.139618.112">Batut et al. (2013)</a>; detailed protocol: <a href="https://doi.org/10.1002/0471142727.mb25b11s104">Batut &amp; Gingeras (2013)</a>.'
 SUMMARY = "Template switching tags 5′-complete cDNA, cap trapping enriches genuine capped molecules, and paired-end sequencing connects a base-resolution transcription start site to downstream transcript sequence."
-CAVEAT = "RAMPAGE was selected over generic CAGE because its defining paper and complete public protocol specify the paired-end molecular path and exact oligos. The six-base inline barcode is shown as a placeholder because its identity varies by sample."
+CAVEAT = ("The defining paper and linked detailed protocol specify the paired-end path and "
+          "primer scaffolds. The original 40-member six-base barcode supplement remains "
+          "unavailable, so the inline barcode is a placeholder. A later Gingeras Lab ENCODE "
+          "protocol says 40 barcodes exist but prints only 20 (sets 1, 2, 3 and 5), while "
+          "its RT recipe calls for set 4. Those are distinct locations in that later "
+          "document; neither the omitted set nor the defining study's sample assignments "
+          "are inferred here.")
 TSO_HANDLE = "TAGTCGAACTGAAGGTCTCCAGCA"
 RT_HANDLE = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
 R1_PRIMER = TSO_HANDLE

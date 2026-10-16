@@ -5,6 +5,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 import marsseq as M  # noqa: E402
+from mars_graph import protocol_graph  # noqa: E402
+from page_parts import render_page  # noqa: E402
 from checks import Check  # noqa: E402
 check = Check()
 
@@ -24,4 +26,20 @@ check("Table S7 P7_Rd2 PCR reverse", M.MARS1_P7_PCR,
       "CAAGCAGAAGACGGCATACGAGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT")
 # Table S8, row lig_NNNX4_ix1: /5Phos/GACTNNNAGATCGGAAGAGCGTCGTGTAG/3SpC3/
 check("Table S8 ligation-adapter constant", M.LIG_CONSTANT, "AGATCGGAAGAGCGTCGTGTAG")
+# Jaitin 2014 full Supplementary Methods, steps 2–4 (visible pp. 4–5): the
+# first-strand pool and its Exo I cleanup precede final pooling and second strand.
+graph = protocol_graph()
+required = ("reverse_transcription", "pool", "remove_free_primers",
+            "pool_after_exonuclease", "second_strand", "ivt")
+order = tuple(graph.steps)
+check("original Methods reaction order", tuple(order.index(s) for s in required),
+      tuple(sorted(order.index(s) for s in required)))
+check("Exo I fragments have a discard terminal",
+      graph.terminals["exo_primer_fragments"].disposition.value, "discard")
+check("Exo I fragments appear on the public page",
+      "digested unincorporated RT-primer fragments → discard" in
+      render_page("MARS-seq", graph=graph), True)
+check("unresolved RT2-dependent Read 1 junction remains inferred",
+      next(s.inferred for s in M.final_library("MARS-seq")
+           if s.name == "TruSeq Read 1, non-overlap"), True)
 check.report()

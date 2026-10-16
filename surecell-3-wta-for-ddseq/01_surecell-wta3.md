@@ -6,9 +6,7 @@
 >
 > **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
 > sequence, length or reaction in this note or in the model is taken from it, and
-> agreement with it is not evidence. **Illumina never published the kit's oligo
-> sequences** 🔴, and `tools/surecell.py` consequently contains no proprietary base at
-> all: every kit-derived region is a bracketed, inferred placeholder. The one base-level
+> agreement with it is not evidence. **The checked kit guide does not print bead, TPP1 or Sequencing Primer SP bases** 🔴. Official MiSeq and later NextSeq custom-primer guides have been read for instrument loading, but do not give SP bases; NovaSeq, HiSeq and MiniSeq guides remain unchecked. `tools/surecell.py` therefore contains no unverified kit base: every kit-derived region is a bracketed, inferred placeholder. The one base-level
 > fact that does have a vendor source is the N7xx index set, printed in Illumina's own
 > *Adapter Sequences* document. Earlier revisions of this note printed the drawn page's
 > reconstruction of the bead oligo, TPP1, the Read-1 primer and the spacers; those
@@ -30,7 +28,7 @@ Illumina support page and the `vals/umis` GitHub repository and added to `MANIFE
 | File | What | Used for |
 |---|---|---|
 | `upstream_SureCell.html.txt`, `scg_adapters_SureCell.fa` | scg_lib_structs method page, and that repository's own derived adapter FASTA (`chemistries/adapters/SureCell.fa` — not a mirrored vendor file) | **inspiration only, not sources** — nothing is cited from or verified against them |
-| `scg_10000167449.pdf.txt`, `scg_Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx.txt` | Bio-Rad ddSEQ 3′ scRNA kit guide and bead-structure table, mirrored in the scg repo | the **successor** kit: a different bead design (TruSeq Read-1 stem, UMI first, 7-nt barcodes, phase block). Useful context, never evidence about this kit |
+| `scg_10000167449.pdf.txt`, `scg_Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx.txt` | original Bio-Rad ddSEQ 3′ scRNA kit guide and a separate scg-hosted bead-structure workbook of uncertain authorship | the **successor** kit has a different dual-index/deconvolution workflow. Its guide is source context; the workbook is not established as a vendor original and neither proves SureCell bases |
 | `umis_SureCell_K562_R1.fastq` | 10 real SureCell Read 1s | **empirical** evidence for the read-1 anatomy and the two 15-nt spacers (§2) |
 | `surecell-wta3-library-prep-reference-guide-1000000021452-01.pdf.txt` | Illumina Reference Guide v01 | **all steps and conditions**, kit contents, index set, sequencing primer |
 | `surecell-wta3-library-prep-checklist-1000000021454-00.pdf.txt` | Illumina checklist | same steps, condensed (agrees with the guide) |
@@ -41,10 +39,12 @@ Illumina support page and the `vals/umis` GitHub repository and added to `MANIFE
 | `umis_SureCell_barcodes.txt` | 96 six-mers | the bead barcode whitelist |
 | `umis_SureCell_K562_R1.fastq` | 10 real SureCell read 1s (K562) | read-1 length, the variable 5′ offset (§5) |
 
-Not obtained 🔴: the *Custom Primers Guides* for each instrument (read-primer
-concentrations); the Bio-Rad *ddSEQ Single-Cell Isolator Instruction Manual*
+Official MiSeq Custom Primers Guide 15041638 v01 (pp. 2–5) and NextSeq 500/550 Guide
+15057456 v03 (pp. 2–5) were read online: both describe loading custom primers, without
+printing the SureCell SP bases. Their local PDF fetches failed DNS. Not yet checked 🔴:
+NovaSeq, HiSeq and MiniSeq guides; the Bio-Rad *ddSEQ Single-Cell Isolator Instruction Manual*
 (#10000069430); Illumina's ddSEQ technical / application notes. No vendor document
-seen gives any oligo sequence.
+seen gives the proprietary SureCell bead, TPP1 or SP sequence.
 
 ---
 
@@ -82,7 +82,7 @@ the custom primer is
 > concentration …" — Reference Guide 1000000021452 v01 🟢
 
 So: the bead-oligo 5′ handle, TPP1, the Read-1 primer SP, the transposome's adapter load,
-the poly(dT) length and every chemical modification are **unpublished** 🔴, and
+the poly(dT) length and chemical modifications remain **unverified in the checked guides** 🔴, and
 `tools/surecell.py` asserts none of them — each is a bracketed placeholder created by its
 `inferred()` helper, which refuses anything that is not a bracketed description.
 
@@ -197,7 +197,7 @@ molecular interpretation of each step 🟡 *(computed from the guide's reagent r
   BSA 10 mg/mL; washed in PBS + 1 % DEPC and in storage buffer (same without IGEPAL);
   loaded at 2500 nuclei/µL. Chemistry otherwise unchanged.
 
-## 4. Final library — 🟡 role-level layout, 🔴 most bases unpublished
+## 4. Final library — 🟡 role-level layout, 🔴 most bases unresolved
 
 Top strand, 5′→3′ (the strand whose 5′ end is P5):
 
@@ -232,7 +232,7 @@ towards the polyadenylation site.
   presumably a read error) 🟡; `TAAGGCGA` matches the vendor N701 sample-sheet
   index exactly 🟢. No Index 2.
 - **Read 2** (standard Nextera Read 2 primer): the cDNA, sense, starting at the Tn5 cut
-  🟡; its length is not published 🔴.
+  🟡; its length is not established by the checked guide 🔴.
 - Illumina gives **no read lengths** in any document read 🔴; it requires Illumina
   Experiment Manager ≥ 1.13 / bcl2fastq ≥ 2.18 for "the appropriate UMI settings" and
   says SP is compatible "with this library and PhiX only" 🟢. Loading: NextSeq
@@ -245,7 +245,7 @@ in three (preceding `GCA`); one read has no spacer1. The `umis` regex starts wit
 greedy `(.*)` before barcode1 for the same reason. So Read 1 does **not** always start
 with barcode1: the bead oligos carry a **0–3 nt (at least) phasing insert** before
 barcode1, presumably to diversify the
-first cycles of a low-complexity read. Its length set and sequences are not published
+first cycles of a low-complexity read. Its length set and sequences remain unverified from the checked guides
 🔴. With a 3-nt offset only 3 nt of dT remain within 68 cycles. Other observations 🟡:
 cycle 6 is `N` in every example read (a run-specific base-call dropout, not chemistry),
 one read has `TAACTCTGAGCTGAA` for spacer2 (one mismatch), and one read lacks
@@ -287,6 +287,7 @@ spacer2–UMI entirely (a truncated bead oligo or synthesis error).
 `tools/get_sources.py` found the drawn page and the scg mirrors (the catalogue row has no
 DOI: a vendor kit). The four Illumina PDFs were found on the kit's support "documentation"
 page and the three `umis` files on GitHub, all fetched by hand into the source directory;
-`tools/doctext.py` made the text twins. `tools/scrape_primers.py` correctly found **no
-sequence in any Illumina PDF** — the whole point for this kit. It does not scan `.json` /
+`tools/doctext.py` made the text twins. `tools/scrape_primers.py` found no proprietary
+SureCell bead, TPP1 or SP sequence in the kit PDF; the separate Illumina Adapter
+Sequences guide does print N7xx index bases. The scraper does not scan `.json` /
 `.fastq` files, so the umis and real-read evidence was parsed by hand.

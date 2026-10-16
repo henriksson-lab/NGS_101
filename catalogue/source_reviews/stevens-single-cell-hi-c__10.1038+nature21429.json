@@ -1,0 +1,128 @@
+{
+  "dir": "stevens-single-cell-hi-c__10.1038+nature21429",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Stevens et al Nature 2017 DOI:10.1038/nature21429; nature21429_PMC5385134.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS lines 90-134, 336-344",
+        "finding": "Original article links supplementary methods and describes 3D single-cell Hi-C."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5385134 JATS Introduction/Methods pointer near lines 100-135 and supplementary citations",
+        "finding": "Paper reports nucleus isolation and in situ Hi-C and refers to detailed supplementary method."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "NIHMS71261-supplement-Supplementary_methods.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "DOCX extracted text lines 1113-1120, 1128-1169",
+        "finding": "Detailed methods distinguish standard adapter ligation from a Nextera XT branch; print twelve historical inline-tag adapter pairs and two PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NIHMS71261 Supplementary_methods.docx.txt lines 1113-1169; scraper hits at lines 1130-1133",
+        "finding": "Two branches are explicit: standard adapter ligation versus Nextera XT. The standard branch lists all twelve 3-base indexed adapter pairs plus two PCR primers and modifications."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_guide",
+      "role": "supplement",
+      "locator": "NIHMS71261-supplement-Suplementary_guide.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "DOCX extracted text lines 1-16",
+        "finding": "Guide indexes supplementary methods and video descriptions; no adapter oligos in inspected section."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NIHMS71261 Suplementary_guide.docx.txt first 16 lines",
+        "finding": "Guide indexes detailed methods and 3D-structure videos; no oligo list in this guide section."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "springer_methods",
+      "role": "supplement",
+      "locator": "Springer MOESM26_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM26_ESM.pdf.txt lines 245-260 and 361 onward",
+        "finding": "Publisher supplement repeats the two library branches and prints the customized inline-tag adapters under its own sequence heading."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "springer_figures",
+      "role": "supplement",
+      "locator": "Springer MOESM21-25 PPT originals",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_videos",
+      "role": "supplement",
+      "locator": "Springer MOESM27-35 MOV originals; NIHMS supplementary video ZIP",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_xt",
+      "role": "linked_material",
+      "locator": "Illumina Nextera XT kit manual named by supplementary methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical kit documentation not fetched.",
+      "discovered_from": "supp_methods"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS and DOCX detailed methods lines 1113-1169; scraper hits",
+      "finding": "Followed original article to detailed chemistry method and adapter list. Nextera XT branch and remaining supplement media still require checking."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC article supplement pointers and original Supplementary_methods lines 1113-1169",
+      "finding": "Followed original detailed methods. Nextera XT vendor manual remains unavailable; Springer media/guide not independently fully audited."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+}

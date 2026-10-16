@@ -1,0 +1,96 @@
+{
+  "dir": "cel-seq__10.1016+j.celrep.2012.08.003",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Original Hashimshony et al. Cell Reports 2012 full article text at https://www.researchgate.net/publication/230782244_CEL-Seq_Single-cell_RNA-Seq_by_Multiplexed_linear_amplification (author/publisher article text visible; DOI 10.1016/j.celrep.2012.08.003)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "The publisher route remained manual in MANIFEST, but the original article text is visible on ResearchGate; original supplement remains a distinct unavailable row.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original article visible text, Figure 1 caption lines 333–338 and Results lines 265–299; bundle scraper run as source-reading aid",
+        "finding": "The author article explicitly performs second-strand synthesis in individual cells before pooling cDNA for a single IVT reaction. This supports the existing CEL-Seq graph order; the supplementary extended protocol and exact oligos are still unavailable and require independent source review."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original Cell Reports article text on ResearchGate, Results lines 265–299 and Supplementary Information pointer lines 1226–1234; local source-bundle scraper rerun but yielded only excluded upstream files",
+        "finding": "Independently confirms cell-specific RT with T7, barcode and Illumina 5′ arm, second-strand synthesis before pooling and IVT, then RNA fragmentation, 3′ adapter ligation, RT and paired-end sequencing. Original article explicitly links a detailed 9-page supplement; its exact oligo inventory remains unread."
+      }
+    },
+    {
+      "id": "later_celseq2",
+      "role": "other",
+      "locator": "CEL-Seq2 2016 PMC4848782 and MOESM4 protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "CEL-Seq2 MOESM4 lines 34,47,297-298",
+        "finding": "Later related protocol names Illumina RNA PCR primers but cannot establish all 2012 CEL-Seq oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "CEL-Seq2 author MOESM4 lines 34,47,297-298; Illumina kit cross-reference",
+        "finding": "Later CEL-Seq2 document describes descendant primer design and names Illumina Small RNA primers, but cannot alone establish original 2012 CEL-Seq exact oligos."
+      }
+    },
+    {
+      "id": "original_supp",
+      "role": "linked_material",
+      "locator": "CEL-Seq 2012 original supplementary protocol/oligo table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The author-uploaded original paper is readable through ResearchGate, but its linked detailed 9-page original supplement is not available in the local source bundle or through the publisher route, so its oligo inventory cannot be checked.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_oligos",
+      "role": "vendor",
+      "locator": "Official Illumina TruSeq Small RNA adapter sequence page, in CEL-Seq2 source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local illumina_TruSeq-SmallRNA.htm.txt",
+        "finding": "Official current sequence table exists, but does not alone prove the historical kit revision or member used in 2012."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original Illumina TruSeq Small RNA vendor table in CEL-Seq2 bundle lines 180-198",
+        "finding": "Vendor gives public RP1/RPI family; original 2012 CEL-Seq kit use and exact chosen variant still need defining supplement."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "CEL-Seq MANIFEST.tsv; later CEL-Seq2 protocol; official Illumina table",
+      "finding": "Original 2012 paper and supplement unavailable; secondary scg FASTA was excluded as evidence."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original 2012 bundle has only upstream schematic; CEL-Seq2 and Illumina sources checked separately",
+      "finding": "Upstream schematic excluded as evidence; successor chemistry cannot replace inaccessible original CEL-Seq supplement."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original CEL-Seq kit outer arms and sequencing-primer sites are unpublished.",
+      "disposition": "blocked",
+      "evidence": "Two independent reads of the original article establish reaction order but not exact oligos. The original detailed supplement is unavailable and could print the requested arms or primer sites."
+    }
+  ],
+  "conclusion": "The original 2012 article has two independent reads and establishes reaction order, but its linked detailed supplement remains unavailable. Exact original oligo and sequencing-primer absence cannot be accepted."
+}

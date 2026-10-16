@@ -1,0 +1,189 @@
+{
+  "dir": "discover-seq__10.1126+science.aav9023",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "science_original",
+      "role": "defining",
+      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/PMC6589096_PMC6589096.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "article Results and Methods lines 50–85",
+        "finding": "Original reports MRE11 chromatin immunoprecipitation around cellular CRISPR cuts; detailed ChIP library recipe is delegated to later author protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Science PMC6589096 JATS Results/Methods around lines 50–85; scraper",
+        "finding": "MRE11 recruitment after cellular CRISPR cleavage is assayed by ChIP-seq; this paper does not by itself define a custom adapter."
+      }
+    },
+    {
+      "id": "nature_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/PMC7305837_PMC7305837.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Procedure lines 795–847",
+        "finding": "The author stepwise protocol says to use Illumina TruSeq ChIP kit for library preparation, then sequence 100-bp paired-end at about 30–40 million pairs per ChIP sample."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same-author Nature Protocols PMC7305837 JATS lines 119–125, 507, 809; scraper",
+        "finding": "Stepwise procedure explicitly uses Illumina TruSeq ChIP Library Preparation Kit IP-202-1012 and 100-bp paired-end sequencing after end repair, A tailing, adapter ligation and PCR."
+      }
+    },
+    {
+      "id": "illumina_guide",
+      "role": "vendor",
+      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/illumina_truseq-chip-sample-prep-guide-15023092-b.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "library steps and index table lines 2109–2186",
+        "finding": "Official Rev B guide supplies end repair, dA tail, indexed adapter ligation, PCR, and six-base single-index examples, including AR001 ATCACG."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq ChIP guide 15023092 Rev B library workflow and six-base index table; scraper",
+        "finding": "Vendor guide gives the named kit architecture and six-base index examples, but a specific index selection is not established by the article."
+      }
+    },
+    {
+      "id": "science_supp_table_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; chemistry relevance cannot yet be excluded."
+    },
+    {
+      "id": "science_supp_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplementary PDF is behind PMC download gate; may contain method details."
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/469635_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "preprint Methods and MRE11-ChIP sections",
+        "finding": "Earlier author version is local and provides method context; full version comparison remains pending."
+      },
+      "discovered_from": "science_original",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v1 main PDF lines 1–60 title/version, 266–327 DISCOVER/MRE11 definition, 520–540 read-start discussion, 1860–1920 author and funding sections; searched entire extracted main text for library, adapter, TruSeq and index",
+        "finding": "Independently read the author preprint main text and searched its full extract. It describes MRE11 ChIP-seq and paired-end 100-mer reads beginning randomly around breaks (lines 528–536), but the main preprint does not give a ChIP library adapter, index oligo, vendor kit recipe or selected index member. This is a precursor version, not evidence that the later published supplement lacks these details; original inaccessible supplement still blocks absence."
+      }
+    },
+    {
+      "id": "protocolsio_discover_seq_mre11_chip_seq_kqdg349ypl25_pdf",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/protocolsio_discover-seq-mre11-chip-seq-kqdg349ypl25.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io v2 PDF cover pp. 1–2; MRE11 ChIP steps pp. 4–10; Illumina sequencing step 43, extracted lines 437–445",
+        "finding": "2023 author protocol v2 gives MRE11 ChIP wet steps and 100-bp paired-end HiSeq 4000 at 12.5 million reads/sample. Step 43 delegates library preparation without naming an adapter kit or index member; this later version cannot establish the original 2019 kit identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io v2 PDF lines 1–28, 425–452, 454–467",
+        "finding": "Author 2023 v2 is a later MRE11 ChIP wet-lab protocol. Step 43 says to proceed to Illumina library preparation but gives no adapter/index kit or strand geometry; it does specify 100-bp paired-end HiSeq 4000 at 12.5M reads/sample and links BLENDER for downstream analysis. Cannot transfer this later unspecified library prep to the 2019 defining article."
+      }
+    },
+    {
+      "id": "science_supp_table_s2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "science_supp_table_s3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "science_supp_table_s4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "science_supp_table_s5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "science_supp_table_s7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S7.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "science_supp_table_s8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6589096/bin/NIHMS1030113-supplement-Table_S8.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science supplementary table is behind PMC download gate; molecular-method relevance has not been checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Science author manuscript, later Nature Protocols procedure 795–847, TruSeq guide index table, manifest gated rows",
+      "finding": "Linked detailed protocol and vendor chemistry checked. Eight original Science supplementary files are gated, so no missing-source claim is accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original PMC6589096 and author Nature Protocols PMC7305837 lines 119–125, 507/809; Illumina guide",
+      "finding": "Followed author protocol and named kit guide. Original Science supplemental methods/tables and protocols.io route remain inaccessible, so missing claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "DISCOVER-Seq ChIP adapter/index identities are unreported",
+      "disposition": "blocked",
+      "evidence": "The named TruSeq ChIP guide has index families; exact experiment member and inaccessible original supplements remain blocked."
+    }
+  ],
+  "conclusion": "The named TruSeq ChIP guide has index families; exact experiment member and inaccessible original supplements remain blocked."
+}

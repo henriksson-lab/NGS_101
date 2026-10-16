@@ -37,7 +37,7 @@ Not obtained / not needed:
 | What | URL | Why it matters |
 |---|---|---|
 | PMC copies of the supplements (`..._supp_NIHMS1615475-*`) | `https://pmc.ncbi.nlm.nih.gov/articles/instance/10299900/bin/NIHMS1615475-supplement-TableS4.xlsx` (and `-TableS5.tsv`, `-TableS6.tsv`; S1–S3, `-8.pdf`, `-Supplement_integrated.pdf` were saved but are reCAPTCHA pages) | redundant — the Springer `MOESM*` files are the same tables |
-| SureCell ATAC-Seq Library Prep Kit User Guide (Bio-Rad 10000106678) | product page linked upstream: `http://www.bio-rad.com/en-uk/product/surecell-atac-seq-library-prep-kit?ID=PEXSR1MC1ORV` | 🔴 buffer formulations, bead oligo as manufactured, the 85 °C step, cycle table ("Table 21") — the paper defers all of these to it |
+| SureCell ATAC-Seq Library Prep Kit User Guide (Bio-Rad 10000106678), 2018 Ver A | the paper cites guide number 10000106678; the current Bio-Rad URL serves a 2024 revision | 🔴 the publication-era 2018 guide remains unavailable; later revisions cannot establish its exact bead or primer bases |
 
 ---
 
@@ -115,6 +115,15 @@ Index kit (12009360)   CAAGCAGAAGACGGCATACGAGAT <8-bp sample index> GTCTCGTGGGCT
 The Bio-Rad spreadsheet linked from the upstream page gives the bead oligo **without** the
 `TTTTTTTUUUTTTTT` linker (it starts `Bead-AATGATACG…`) and lists **192** 7-mers per
 barcode position.
+
+The official Bio-Rad Japanese SureCell guide M12173L (copyright 2019, hosted in a
+2021-12 path) identifies the custom Read 1 primer as catalog **16005986**, 50 µM,
+in its kit table (p. 5) and sequencing section (pp. 33–34). It confirms the
+118/8/0/40 cycle layout but does not print primer bases. The 2024 guide at the
+paper-cited number 10000106678 also names 16005986 without bases; its revision
+history only reaches Ver B (2023). An independently attempted 2018 Ver A archive
+was inaccessible. The 37-nt sequence above remains an upstream reconstruction,
+not a verified sequence of reagent 16005986; exact bases remain unresolved.
 
 ### 2c. Upstream vs paper — checked
 

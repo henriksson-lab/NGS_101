@@ -1,0 +1,183 @@
+{
+  "dir": "music__10.1038+s41586-024-07239-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/export.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author Supplementary Table 2, Linkers and Adaptors lines 1–30",
+        "finding": "Author oligo workbook prints full modified RNA/DNA linkers and indexed/universal adapters; other barcode sheets still need inspection."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author Supplementary Table 2 workbook Linkers and Adaptors lines 1-36 and BC1_Top opening",
+        "finding": "Prints modified DNA linker top with 5Phos, 1-nt N overhang and polyA30; bottom with N5; RNA/DNA chimera with N5 and ribonucleotides; universal/index adaptors and start of first cell-barcode family."
+      }
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original published PDF-derived text Methods around lines 1798–1815 and 1985–1996; bundle oligo scraper",
+        "finding": "PDF version independently prints the /5OH/ DNA/RNA linker and /5Phos/ DNA linker with UMI and poly(A) elements. It is the same published article represented by source_3 JATS, with PDF line wraps but no divergent chemistry identified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published s41586-024-07239-w_PMC11023937.pdf.txt Methods lines 1798–1825 (linker sequences and 15-bp duplex), 1970–2005 (RNA ligation and repeated DNA linker strands with 14-bp claim); compared original Supplementary Table 2 export.xlsx.txt rows 3–5; scraper run on MUSIC bundle",
+        "finding": "The PDF prints the /5OH/ chimeric RNA linker and /5Phos/ DNA-linker strands, consistent with the JATS and ordering workbook. It also contains an internal length conflict: Critical reagents calls the hybridized DNA-linker core 15 bp at 1816–1819, whereas DNA-linker ligation calls the same printed strands 14 bp at 1991–1995. Sequence pairing gives 15 complementary bases offset by the stated one-base 3′ dT overhang. This discrepancy is now called out on the public page and note."
+      },
+      "discovered_from": "source_3"
+    },
+    {
+      "id": "source_3",
+      "role": "defining",
+      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 169–203 and 235–264",
+        "finding": "Original article prints RNA/DNA linker geometry and modifications, three rounds of cell barcodes, 10x barcode architecture, indexed/universal adapter roles."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 169-203 and 235-264",
+        "finding": "Original describes RNA/DNA linkers, three split-pool barcode rounds, 10x 3′ kit complex barcode input and 28-bp R1/150-bp R2; states 10x oligo is 82 nt with partial R1, 16-nt CBC, 12-nt UMI and polyT30."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Notes opening lines 1–35",
+        "finding": "Original supplementary notes available; full chemistry/order remains to review."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Notes opening lines 1-35",
+        "finding": "Supplementary notes are present and describe workflow context; not enough yet to close every chemistry claim."
+      }
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF: all three pages visually inspected; PDF text twin is empty; title page Nature Portfolio Reporting Summary",
+        "finding": "This source is a reporting summary with statistics, code/data, sample design and materials checkboxes. It is not a molecular oligo or reaction supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published s41586-024-07239-w_supp_41586_2024_7239_MOESM2_ESM.pdf, all three pages independently rendered and OCR-checked: p1 Statistics, p2 data/code, p3 life-sciences study design",
+        "finding": "Nature Portfolio reporting summary only; no oligo table, reagent construction recipe or base-level linker geometry. Its exclusion from chemistry claims is supported."
+      },
+      "reason": "Three visually inspected pages comprise a Nature Portfolio reporting summary, not chemistry methods."
+    },
+    {
+      "id": "tenx_cg000315_reve",
+      "role": "vendor",
+      "discovered_from": "source_3",
+      "locator": "https://cdn.10xgenomics.com/image/upload/v1668017706/support-documents/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevE.pdf ; original 10x CG000315 Rev E, kit PN-1000268 (scoped extra_sources route, local curl DNS error 6)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official original CG000315 Rev E PDF pp1 and 7–8, browser extracted lines 0–15 and 107–149; Sequences appendix p62–63, lines 2140–2169 and 2190–2199; MUSIC JATS lines 177, 193, 247 and 252",
+        "finding": "The vendor guide explicitly lists PN-1000268 as Next GEM Single Cell 3′ v3.1 Dual Index kit and prints gel-bead Read1–N16–N12–poly(dT)VN, RT/product, adapter and final index-PCR architecture. This confirms the kit generation and broad bead scaffold inherited by MUSIC. It does not identify the particular gel-bead barcode member used in an experiment or prove a MUSIC-specific linker junction."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MUSIC defining JATS lines 177, 193, 247, 252; original 10x CG000315 Rev E PDF cover p1, kit inventory pp7–8, oligo appendix pp62–63 (browser extracted lines 0–13, 107–149, 2140–2169, 2190–2199); MUSIC local bundle scraper run before reading",
+        "finding": "Independently matched MUSIC's stated PN-1000268 to the official v3.1 Dual Index kit and checked its published Read1–N16–N12–poly(dT)VN bead structure and final index-PCR shell. The guide gives a chemistry scaffold, not a chosen N16 member or MUSIC linker junction."
+      }
+    },
+    {
+      "id": "music_tools_readme",
+      "role": "linked_material",
+      "discovered_from": "source_3",
+      "locator": "https://github.com/Zhong-Lab-UCSD/MUSIC-tools (author analysis repository, article Code availability lines 450–456)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author MUSIC-tools GitHub README online lines 164–179, original article JATS lines 264–268 and 450–456",
+        "finding": "README identifies read-library configuration, paired FASTQ barcode extraction and links the MUSIC-docker and Snakemake pipelines. This is relevant to interpreted read roles, not synthesis of linker oligos. Pipeline code/configs still need separate inspection."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Defining MUSIC JATS lines 264–268, 454–456; author MUSIC-tools GitHub README lines 163–179",
+        "finding": "Independently verified the author repository identifies paired FASTQ processing and links the MUSIC-docker and Snakemake library-configuration pipelines. README alone gives no additional oligo bases or exact barcode parser coordinates; downstream code needs its own row."
+      }
+    },
+    {
+      "id": "music_docker_pipeline",
+      "role": "linked_material",
+      "discovered_from": "music_tools_readme",
+      "locator": "https://github.com/Zhong-Lab-UCSD/MUSIC-docker (article JATS line 456; fork of https://github.com/Irenexzwen/MUSIC-docker) and http://sysbiocomp.ucsd.edu/public/wenxingzhao/MUSIC_docker/intro.html (linked from author MUSIC-tools README)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Raw-read parser/configuration source not cached or inspected; may constrain exact barcode/read boundaries."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods and the located publisher oligo tables listed in the independent second-pass source rows",
+      "finding": "Chemistry-relevant linked supplements, historical predecessors or vendor sources remain unread/unavailable in this checklist. This review remains blocked until those are resolved and two independent located passes cover each relevant source."
+    },
+    "followup_audit_a_h": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "MUSIC JATS lines 177, 193, 247, 252, 264–268 and 450–456; official CG000315 Rev E original pp7–8/62–63; author MUSIC-tools README lines 164–179; local MANIFEST and bundle scraper",
+      "finding": "Additional source inventory: version-matched 10x PN-1000268 vendor guide is readable online; author MUSIC-tools README is readable, but downstream MUSIC-docker parser/config remains unchecked. Supplementary Table 2 full 96-member barcode sheets and the full publisher Supplementary Notes remain only partly read in earlier passes. The 15-vs-14-bp paper discrepancy is source-positive. Missing claims remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two passes now cover the published PDF and reporting summary. A source-positive 15-vs-14-bp linker duplex discrepancy is documented on the page. Version-matched 10x guide and author code links require independent follow-up; full supplementary tables/notes are incompletely checked. No missing claim accepted."
+}

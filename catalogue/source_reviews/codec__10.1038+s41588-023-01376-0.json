@@ -1,0 +1,64 @@
+{
+  "dir": "codec__10.1038+s41588-023-01376-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "bae2023",
+      "role": "defining",
+      "locator": "Bae et al. Nature Genetics 2023 doi:10.1038/s41588-023-01376-0; https://www.nature.com/articles/s41588-023-01376-0",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official article online lines 94-109 and Methods 212-223; scraper run on empty local bundle",
+        "finding": "Article describes ligated four-part CODEC adapter, phi29 strand-displacement concatemer, relocated read sites and NEBNext Ultra II kit exceptions; explicitly points to Supplementary Table 5 for adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Nature Genetics article doi:10.1038/s41588-023-01376-0 web Methods lines 214-224 and CODEC adapter Methods lines 212-223; scraper on local bundle (no original local)",
+        "finding": "Authors replace NEB adapter with 500 nM custom CODEC adapter, add 5-prime deadenylase, phi29 strand-displacement then KAPA/xGen PCR. Full adapter oligos delegated to Supplementary Table 5, still inaccessible."
+      }
+    },
+    {
+      "id": "supp_table5",
+      "role": "supplement",
+      "locator": "Original publisher Supplementary Information Table 5, manifest manual MOESM1 PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Curl DNS error 6 and supplement not independently opened; exact eight matched adapter/bridge sets remain unchecked."
+    },
+    {
+      "id": "neb_kit",
+      "role": "vendor",
+      "locator": "NEBNext Ultra II DNA Library Prep Kit and xGen/KAPA primers named in article Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original kit generation/manual and commercial oligo arms not independently read."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official Nature article Methods 212-223 and local MANIFEST.tsv",
+      "finding": "Identified original Supplementary Table 5 and named commercial kits, but supplement and vendor guides remain unavailable in this pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
+      "finding": "Followed source-linked leads to available text; remaining relevant supplement/vendor/predecessor documents unresolved, so no absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact CODEC adapter/bridge oligo sets are absent from the relevant source set",
+      "disposition": "blocked",
+      "evidence": "Original article explicitly delegates full oligos to unavailable Supplementary Table 5, so absence cannot be accepted."
+    }
+  ],
+  "conclusion": "Original article explicitly delegates full oligos to unavailable Supplementary Table 5, so absence cannot be accepted."
+}

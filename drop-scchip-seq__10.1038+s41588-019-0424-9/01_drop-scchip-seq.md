@@ -20,10 +20,16 @@
 
 🟢 Supplementary Figure 4 defines the amplified product as P7 — Read 2 primer — 76-bp cell-barcode region — 12-bp linker — 150–300-bp nucleosomal DNA — Read 1 primer — P5. It assigns 100 cycles to the barcode-side read and 50 cycles to genomic Read 1.
 
+🟢 The original article Methods (local source lines 1948–1951) state that the first four Read 2 cycles were dark. Molecule coordinates below therefore do not imply that every depicted Read 2 base was called; the exact relation of these dark cycles to the 100 reported barcode-side cycles is not resolved by the diagram.
+
 🟢 Enriched barcoded nucleosomes undergo T7 in-vitro transcription. The RNA is reverse-transcribed with SEQ4, whose terminal six random bases are a priming tract, not a UMI. PCR uses the exact P5 primer and an indexed P7/Read-2 primer.
 
-🟡 From the final construct and standard primer binding, Read 2 covers the three index oligos plus the terminal `CAAC` boundary in cycles 1–76, the 12-bp linker in cycles 77–88, and reaches genomic DNA at cycle 89. Read 1 starts directly in nucleosomal DNA. Index 1 reads the PCR sample index.
+🟡 From the final construct and standard primer binding, Read 2 points across the three index oligos plus the terminal `CAAC` boundary at molecular positions 1–76, the 12-bp linker at positions 77–88, and toward genomic DNA after position 88. These are construct coordinates, not base-called cycle positions because of the four initial dark cycles. Read 1 starts directly in nucleosomal DNA. Index 1 reads the PCR sample index.
+
+🟢 The original GEO [GSE117309 barcode FASTA](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE117309) contains 884,736 80-base entries, the 96³ combinations described in article Methods lines 1964–1980. Each entry has three variable 20-mers (96 possibilities each) followed by the invariant 20-mer `ACAGATATCCACAGATATCC`. For the A01 example, the variable segments are the reverse complements of the Table 4 round 3, 2 and 1 paired cores in that order. Thus the file is a read-processing whitelist with a fixed flank, not 80 variable barcode bases; the physical synthesis oligos and modifications are in the publisher's Supplementary Table 4.
 
 ## Remaining limitation
 
 🔴 The supplied figure fixes the final barcode and linker dimensions but does not expose, base by base, which residues around the circularized PacI half-sites remain after processing. The page therefore draws the source-resolved 12-bp linker and states this limitation instead of inventing a complete PacI junction.
+
+🟢 The published article's Methods refer to SEQ1 and SEQ2 as “Supplementary Table 4” at local lines 1880–1890, and to SEQ4/SEQ5 the same way at lines 1943–1947. They cite “Supplementary Table 5” for the barcode structure at line 1969. In the original supplementary workbook, Table 4 (lines 4172–4749) holds the A/B/C index plates, whereas Table 5 (lines 4750–4762) holds SEQ1–5. The model follows the workbook for these oligos. The reason for the article's reversed table references is unknown.

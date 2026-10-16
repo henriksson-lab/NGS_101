@@ -66,6 +66,15 @@ def main() -> None:
         '<div class="wrap" data-protocol-complete="true">',
         '<h1>FIPRESCI &mdash; plate-indexed hybrid tagmentation plus 10x 5-prime barcoding</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/s13059-023-02893-1">Luo et al., <i>Genome Biology</i> (2023)</a>.'),
+        info('Published cell-line discrepancy: the Results paragraph "FIPRESCI validation" '
+             'names HEK293T, Jurkat and K562 for the three-line benchmark, whereas the '
+             'Methods paragraph "proof-of-concept scRNA-seq and snRNA-seq experiments", '
+             'Fig. 1e–f legend, Supplementary Table 3 (cell-line nuclei sheet), and '
+             'Supplementary file 6 name HEK293(T), HeLa and K562. This molecular model '
+             'does not depend on the benchmark cell-line identity; the middle '
+             'line remains uncertain from those conflicting source statements. The '
+             '<a href="https://doi.org/10.1186/s13059-023-02944-7">publisher correction</a> '
+             'restores lost layers in Fig. 1 but does not resolve the cell-line wording.'),
         oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>', construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")

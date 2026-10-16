@@ -1,0 +1,100 @@
+{
+  "dir": "hydrop-rna__10.7554+eLife.73971",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "eLife 2022 doi:10.7554/eLife.73971 PMC8993220 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife.73971_PMC8993220.xml.txt lines 160-176 and method sections",
+        "finding": "Article defines dissolvable hydrogel beads and split-pool barcode synthesis, citing supplementary molecular descriptions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "eLife.73971_PMC8993220.xml.txt lines 166–174, 290–296, 412–416, 530–544",
+        "finding": "Original article defines split-pool hydrogel bead barcoding, 3′ poly(dT) RT capture in droplets, and points to supplementary files 1/3/4 and author protocols."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "eLife supplementary file 4 v5, eLife.73971_elife-73971-supp4-v5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo sheet lines 32-40; scraper hits HYi7 variants at lines 35-50",
+        "finding": "Prints 5Acryd/thiol bead primer, TSO with RNA G, and indexed HYi7 oligos with terminal phosphorothioates."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "eLife.73971_elife-73971-supp4-v5.xlsx.txt lines 32–50 and 79–81",
+        "finding": "Original eLife reagent list prints 5′ acrydite/thiol bead oligo, rGrGrG TSO, TSO-P, indexed HYi7 family with phosphorothioate ends and FAM QC oligos; these are published sequences."
+      }
+    },
+    {
+      "id": "supp1_3",
+      "role": "supplement",
+      "locator": "eLife supplementary molecular descriptions 1 and 3, elife_cdn/elife-73971-supp1-v3.docx.txt and supp3-v3.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Molecular sequence descriptions and reaction headings",
+        "finding": "Author supplements describe bead oligo construction and RNA chemistry at successive steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "scg_elife-73971-supp1-v4.docx.txt lines 11–23; scg_elife-73971-supp3-v4.docx.txt lines 30–43",
+        "finding": "Original author supplemental documents mirrored in scg specify bead-bound acrydite/thiol oligo and barcode extension architecture, plus a HyDrop-RNA construct/read diagram. Contents were read as source documents, not upstream schematics."
+      }
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Authors HyDrop-RNA and HyDrop bead-generation protocols.io PDFs in source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol title, reagents and reaction sections",
+        "finding": "Linked author procedures give bench conditions; the published supp4 table supplies ordered oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "protocolsio_hydrop-rna-v1-0-dm6gpwqjjlzp.pdf.txt and protocolsio_hydrop-bead-generation-amp-pcr-barcoding-v1-0-n92ld9np9g5b.pdf.txt methods and reagent sections",
+        "finding": "Original author protocols.io procedures give bead generation/RT/PCR order and refer to the published oligo list; no new blanket absence was inferred from the scraper returning zero on procedure text."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "eLife main article supplement links, supp4 v5 oligo sheet, author protocols.io exports",
+      "finding": "Followed paper to molecular supplements and author protocols. v5 oligo list is available; avoid treating older v3 names as final."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "eLife JATS lines 530–544; original supp1/3/4; author protocols.io RNA and bead procedures",
+      "finding": "Independently followed the article to its reagent workbook, hydrogel bead supplemental descriptions and author procedure PDFs. These jointly disclose core oligo/architecture details."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent source passes locate the HyDrop-RNA oligo families and reaction order in the original paper, eLife supplements and author protocols; no missing claim accepted."
+}

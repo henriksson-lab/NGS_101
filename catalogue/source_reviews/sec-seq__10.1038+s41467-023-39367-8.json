@@ -1,0 +1,255 @@
+{
+  "dir": "sec-seq__10.1038+s41467-023-39367-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cheng2023",
+      "role": "defining",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_PMC10272111.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 258-272, 322-326",
+        "finding": "Mixed-species validation uses TotalSeq-C and 10x 5′ v2; main human ASC SEC-seq uses PE anti-IgG, oligo-barcoded anti-PE, then 10x 3′ v3.1. These branches are distinct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 258-272, 322-326",
+        "finding": "Original distinguishes TotalSeq-C/5′ v2 mixed-species validation from PE anti-IgG/anti-PE 3′ v3.1 human ASC branch; author analysis code is linked."
+      }
+    },
+    {
+      "id": "preprint2022",
+      "role": "other",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/2022.08.25.505190_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original preprint title/abstract and SEC-seq Methods headings",
+        "finding": "Preprint is earlier report of nanovial SEC-seq; published paper used as defining source for main 3′ branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2022 preprint PDF lines 1-12, 146-163",
+        "finding": "Earlier author report describes nanovial IgG secretion assay and oligo-barcoded antibody link to transcriptomes; inspected abstract/introduction, not a new oligo order table."
+      }
+    },
+    {
+      "id": "preprint_supp1",
+      "role": "supplement",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/2022.08.25.505190_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary first pages and captions",
+        "finding": "Supplementary nanovial/assay figures, no ordered feature barcode seen in inspected captions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint supplement PDF lines 1-30, 525-540",
+        "finding": "Opened supplementary figures and nanovial barcode read plot; no antibody oligo string in inspected captions."
+      }
+    },
+    {
+      "id": "moesm1",
+      "role": "supplement",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_supp_41467_2023_39367_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Tables 1-4 headings; Fig S6-S8 and S10 captions",
+        "finding": "Buffers, antibody identities, fluorochrome layout and nanovial validation figures; no anti-PE oligo bases in these inspected sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published supplement PDF lines 1-8, 58-65",
+        "finding": "Table of contents enumerates buffers, antibodies and flow cytometry metadata, with no listed primer/oligo order table."
+      }
+    },
+    {
+      "id": "moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_supp_41467_2023_39367_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening Peer Review File heading",
+        "finding": "Peer review correspondence, no methods table in inspected beginning."
+      },
+      "reason": "Peer review correspondence is not an oligo source.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published peer review PDF lines 1-8",
+        "finding": "File is peer review correspondence, not a sequencing reagent list."
+      }
+    },
+    {
+      "id": "moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_supp_41467_2023_39367_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening Nature reporting-summary heading",
+        "finding": "Reporting summary, not an oligo ordering table."
+      },
+      "reason": "Reporting summary, not molecular reagents.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published reporting summary PDF lines 1-8, 47",
+        "finding": "Reporting summary references author analysis code, not an oligo order form in inspected sections."
+      }
+    },
+    {
+      "id": "moesm4",
+      "role": "supplement",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_supp_41467_2023_39367_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheets 2c, 2d, 3bc, 3d, 2f, 4d and S7/S12/S13 headings",
+        "finding": "Source-data and statistical/result worksheets, not sequencing oligo recipe."
+      },
+      "reason": "Result workbook only.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published source-data workbook sheets 2c/2d etc.; lines 1-8, 39-46",
+        "finding": "Source-data workbook reports nanovial barcode read counts and transcript statistics, not barcode base identities in inspected headings."
+      }
+    },
+    {
+      "id": "tenx_v31",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000204 Rev D Appendix Oligonucleotide Sequences lines 5132-5224",
+        "finding": "v3.1 gene-expression guide prints N16/N12/T30VN bead oligo, TSO, cDNA amplification and adapter sequences. The main human SEC-seq experiment uses this 3′ kit family."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000204 Rev D PDF lines 5132-5141, 5179-5191, 5276",
+        "finding": "10x 3′ v3.1 guide prints N16/N12/poly(T)30VN bead and final library shell; this is relevant to the human ASC branch."
+      }
+    },
+    {
+      "id": "tenx_5v2",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell 5′ v2 guide used only for mixed-species validation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Alternative validation branch vendor guide not independently checked."
+    },
+    {
+      "id": "biolegend_anti_pe",
+      "role": "vendor",
+      "locator": "BioLegend barcoded anti-PE secondary used in main human ASC branch",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Paper does not identify ordered oligo barcode/chemistry; source-specific vendor catalogue/guide not checked."
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/Rene2718/SEC-seq_plasma-cell_nanovial",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original JATS line 326 links author analysis code; not reviewed for barcode references.",
+      "discovered_from": "cheng2023"
+    },
+    {
+      "id": "tenx_feature_rev_e",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-featurebarcoding/10x_CG000317_ChromiumNextGEMSingleCell3_v3.1_CellSurfaceProtein_RevE.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000317 Rev E Appendix Oligonucleotide Sequences lines 6315-6444",
+        "finding": "The v3.1 surface-protein feature guide prints Capture Sequence 1 N16/N12 bead oligo and feature-library amplification shell. It does not print the BioLegend anti-PE member barcode or prove this guide revision was used in the 2023 experiment."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000317 Rev E PDF lines 6315-6345, 6410-6444",
+        "finding": "Feature Barcoding guide prints Capture Sequence 1 and feature library shell; it does not identify the BioLegend anti-PE member barcode used in this study."
+      }
+    },
+    {
+      "id": "cg000317_main_asc_endpoint",
+      "role": "vendor",
+      "locator": "_data/sources/sec-seq__10.1101+2022.08.25.505190/10x_CG000317_ChromiumNextGEMSingleCell3_v3.1_CellSurfaceProtein_RevE.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original article JATS Methods lines258–272; official CG000317 Rev E Appendix pp71–72/text6315–6550, complete GEM/cDNA-amplification/adapter-ligation/sample-index products; guide workflow/Step3.1 headings4258–4260 and4584–4621. Full article bundle and vendor file scrapers run before inspection.",
+        "finding": "Main human ASC branch explicitly cites CG000317 and28/10/10/90. Guide distinguishes TruSeq-R1 GEX from Nextera-R1 CaptureSeq1 feature product, withN16 CBC,N12 UMI,N9/N15/N10 feature region and dualN10 indexes. Full printed guide products now source-transcription checked. Earlier library helper supplied wrong GEX primer family, single8index and polyA-mimic tag branch; these were repository errors. RevE exact study usage and selected antiPE/index members remain unassigned;5v2 validation chemistry is kept distinct."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 258-272 and 322-326; Supplementary Table/Fig headings",
+      "finding": "Distinguished mixed-species 5′ TotalSeq-C from main human 3′ anti-PE branch and enumerated two 10x vendor shells, BioLegend conjugate and author code as open links."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 258-272, 322-326; supplement MOESM1 contents lines 58-65; CG000204/CG000317 appendices",
+      "finding": "Mixed-species and human ASC branches verified separately. Exact anti-PE reagent barcode, 5′ validation kit guide and author code remain uninspected/unavailable, so no missing claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact anti-PE tag oligo and commercial 10x bead/feature components remain unverified",
+      "disposition": "blocked",
+      "evidence": "Article and supplement establish the branch roles, but vendor and linked code checks remain blocked."
+    }
+  ],
+  "conclusion": "Main human ASC endpoint corrected from the article-named CG000317 family: source-owned dual-index GEX and CaptureSeq1 feature branches. Independent check of newly used complete guide products remains pending; selected anti-PE/index members,5v2 branch resources and linked author code remain under review. No absence accepted.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "CG000317RevE original p72 rendered visually / text6470–6515 and kitlist486–494; CG000338RevA original p80 rendered visually / text5684 and kitlist728–738; TEA full source-bundle scraper",
+      "finding": "Both guides list TTkitPN1000215/platePN3000431, but CG000317RevE prints29-base P5 prefix endingACAC in TTforwardprimer and finalGEX, while CG000338RevA prints25-base prefix endingAGATCT. Public SEC notice retains29-baseCG000317 layout and qualifies historical study applicability; apparent cross-guide inconsistency is not called a validated reagent variant."
+    },
+    {
+      "reviewer": "root_independent_source_review",
+      "date": "2026-10-16",
+      "locations": "Original SEC article JATS258–274; CG000317RevE pp71–72 lines6360–6560, full-guide oligo scrape reviewed before source reading; MultiomeCG000338RevA p80",
+      "finding": "Independent main-human-ASC scope check confirms CG000317, 28/10/10/90 run and dual-index GEX/CaptureSequence1 feature architecture. The separate mixed-species validation uses5primev2/TotalSeqC and cannot supply this endpoint. CG000317RevE TT primer/product uses29-base prefix; named sameTTkit/plate in MultiomeRevA prints25. Public notices correctly preserve qualified choices without asserting a proven variant."
+    }
+  ]
+}

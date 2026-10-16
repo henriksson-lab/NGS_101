@@ -1,0 +1,83 @@
+{
+  "dir": "cotech__10.1038+s41592-021-01129-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41592-021-01129-z",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher full text is a manual row in MANIFEST; original article not locally read."
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM3_ESM.xlsx.txt:1-35,67-162",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Sheets Custom_primers and PA-Tn5_barcodes lines 1-35; RT barcode family 67-162.",
+        "finding": "Author Supplementary Table 1 prints modified TSO, phosphorylated ME reverse, indexed PA-Tn5 family and 96 RT barcode/UMI primers; blanket oligo absence is false."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM3 XLSX Custom_primers rows 1-11, PA-Tn5_barcodes rows 12-35, RT-barcode rows 67-76 and remainder family through 162",
+        "finding": "Independently confirmed phosphate-marked common annealer, modified TSO, Tn5 mosaic oligos, 22 PA-Tn5 barcode entries and RT barcode/UMI family are printed. Scraper found actual oligos. Exact target-panel read placement still requires paper methods and source model review."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM1_ESM.pdf.txt and MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplement inventory and methods headings.",
+        "finding": "Publisher original methods/figures are locally available, but source-to-read layout comparison remains."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 PDF text lines 1-30 and MOESM2 lines 1-30, 220-300",
+        "finding": "MOESM1 is Supplementary Notes comparing CoTECH to other methods; MOESM2 is reporting summary, not a detailed oligo methods supplement. Neither substitutes for missing defining paper."
+      }
+    },
+    {
+      "id": "other_tables",
+      "role": "supplement",
+      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/*MOESM4-14*",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Other local workbook sheets are results/barcode-count tables; oligo table is MOESM3."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "MOESM3 table and publisher supplement inventory",
+      "finding": "Explicit source oligos inspected; no acceptance of read-placement absence while main article remains inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Springer MOESM3 workbook headers; MOESM1/2 first sections; local MANIFEST full-text entry",
+      "finding": "Named original article remains inaccessible; other supplementary tables MOESM4-14 were not individually read in this pass. No absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact target-panel read placement across CoTECH variants",
+      "disposition": "blocked",
+      "evidence": "MOESM3 publishes oligo families, but defining text and target-panel/version-specific linkage remain unavailable."
+    }
+  ],
+  "conclusion": "Author oligo table recovered; inaccessible defining article prevents a complete source review."
+}

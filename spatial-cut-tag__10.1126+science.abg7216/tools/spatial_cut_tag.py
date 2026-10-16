@@ -17,9 +17,15 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1126/science.abg7216">'
 SUMMARY = ("Antibody-tethered pA–Tn5 transfers linker-bearing adapters beside a chosen "
            "histone mark. Two perpendicular in-tissue ligations append 8-nt A and B "
            "barcodes whose ordered pair identifies a tissue pixel.")
+CAVEAT = ("The displayed oligo sequences and barcode pools come from the authors' 2024 "
+          "detailed protocol, which describes a later implementation. The 2021 preprint "
+          "shows the reaction order but no ordered oligo table; the 2022 Science "
+          "supplementary methods remain unavailable for comparison. Sequence identity "
+          "with every 2022 experiment is therefore unverified.")
 FINAL_LIBRARY, SEQ_PRIMERS = se.library("histone-mark-associated genomic fragment")
 READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8}
 SHOW_READ_CONTENT = True
+TN5_ME_A_CUT_TAG = "/5Phos/TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
 FINAL_CAPTION = ("The custom-primer end reads barcode B, linker 2, barcode A, linker 1 "
                  "and then genomic DNA. ** marks the two in-tissue ligations.")
 SEQUENCING_INTRO = ("HiSeq 4000 paired-end 150 sequencing was used. Raw Read 1 carries "
@@ -28,7 +34,10 @@ SEQUENCING_INTRO = ("HiSeq 4000 paired-end 150 sequencing was used. Raw Read 1 c
 
 
 def oligos():
-    return se.oligos()
+    shared = se.oligos()
+    return (shared[0],
+            f"<b>Tn5ME-A (CUT&Tag loading)</b> — 5′-{TN5_ME_A_CUT_TAG}-3′",
+            *shared[1:])
 
 
 def workflow():

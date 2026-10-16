@@ -16,19 +16,29 @@ from types import SimpleNamespace
 
 TITLE = 'sciPlex-ATAC-seq'
 NOTES = '01_sciplex_atac_seq.html'
-SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2023.03.05.531201">Booth et al., bioRxiv (2023; Genome Research 2023)</a>.'
+SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2023.03.05.531201">Booth et al., bioRxiv (2023; published in BMC Genomics 2023)</a>.'
 SUMMARY = 'Permeabilized nuclei absorb sample-specific ssDNA hashes, then two-level combinatorial ATAC indexing assigns a separate cell identity.'
-CAVEAT = ''
+CAVEAT = ('Source-version difference in the two-level hash-capture primer: the defining bioRxiv v1 '
+          'Methods (pp. 12–13) and author protocols.io two-level protocol (pp. 3–4) print an '
+          'unmodified T30VN tract. The published BMC Genomics Methods ("Co-capture … two-level") '
+          'instead mark LNA bases with + within that tract. The oligo below follows the defining '
+          'preprint; the role-level graph does not require either modification. Which formulation '
+          'was used for each published sample remains unresolved.')
 FINAL_CAPTION = 'Hash reads identify sample origin; the ordered combinatorial indices identify the nucleus; paired genomic reads report accessibility.'
 SEQUENCING_INTRO = 'Hash reads identify sample origin; the ordered combinatorial indices identify the nucleus; paired genomic reads report accessibility.'
 READ_LENGTHS = None
 READ_USES = None
 SEQUENCING_ENDING = 'Hash reads identify sample origin; the ordered combinatorial indices identify the nucleus; paired genomic reads report accessibility.'
-SEQUENCING_UNAVAILABLE = 'The defining source establishes the read roles; kit revisions and barcode panels prevent one universal sequencing-primer sequence from being asserted here.'
-oligos = lambda: ()
+SEQUENCING_UNAVAILABLE = 'The defining source publishes hash, capture and indexed Tn5 oligos; individual hash and well index choices vary, so one full sequencing-primer landing is not asserted.'
+def oligos():
+    return (
+        "<p>Defining bioRxiv v1, sample hash (5′→3′): GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG<cbc>XXXXXXXXXX</cbc>B" + "A" * 30 + "</p>",
+        "<p>Defining bioRxiv v1, two-level capture primer (5′→3′): TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG<umi>NNNNNNNN</umi><cbc>XXXXXXXXXX</cbc>" + "T" * 30 + "VN</p>",
+        "<p>Preprint Supplementary Table 4, example indexed P5 Tn5 oligo (5′→3′): TCGTCGGCAGCGTCTCCACGC<cbc>TATAGCCT</cbc>GCGATCGAGGACGGCAGATGTGTATAAGAGACAG</p>",
+    )
 FINAL_LIBRARY = role_library(TITLE + " final library roles", (HASH, CELL_A, CELL_B, role("ATAC insert")), index=SAMPLE)
 SEQ_PRIMERS = ()
-_definition = SimpleNamespace(title=TITLE, doi='10.1101/2023.03.05.531201', citation='Booth et al., bioRxiv (2023; Genome Research 2023)', endpoint='Hash reads identify sample origin; the ordered combinatorial indices identify the nucleus; paired genomic reads report accessibility.')
+_definition = SimpleNamespace(title=TITLE, doi='10.1101/2023.03.05.531201', citation='Booth et al., bioRxiv (2023; BMC Genomics 2023)', endpoint='Hash reads identify sample origin; the ordered combinatorial indices identify the nucleus; paired genomic reads report accessibility.')
 
 
 def _sciplex_atac():

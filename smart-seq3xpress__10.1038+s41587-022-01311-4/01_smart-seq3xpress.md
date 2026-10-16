@@ -23,12 +23,16 @@ doi:[10.1038/s41587-022-01311-4](https://doi.org/10.1038/s41587-022-01311-4)
   footnote that `*` marks phosphorothioate bonds.
 - 🟢 **Springer supplementary files** `41587_2022_1311_MOESM1/2_ESM.pdf` — supplementary
   figures; no additional oligo table.
+- 🟢 **The original protocol-linked `384set_Nextera_BC_order.xls`**, sheets
+  `UD_i5_indices` and `UD_i7_indices`: complete ten-base index primers; retrieval
+  and the explicit illustrative pair are detailed below.
 - 🟢 **Hagemann-Jensen et al. 2020 Supplementary Table 1** for the shared SMART-seq3 core,
   recorded in that protocol's note.
 - 🟡 **Illumina adapter-sequence documentation**, via `lib/nextera.py` and
   `lib/illumina.py`, for ME, s5, s7, P5, P7 and the index-primer architecture.
 
-Every modelled base is a transcription of one of the above. No secondary redrawing of the
+The RT/TSO bases are transcribed from the sources above. The indexed endpoint is
+now declared in this protocol, using the author-linked order workbook below. No secondary redrawing of the
 SMART-seq family is used as evidence here, and none is needed: the paper and the author
 protocol each print the complete oligo set independently.
 
@@ -62,16 +66,31 @@ and post-pre-amplification clean-up variants. None of it changes a modelled base
 | forward / reverse PCR primers, incl. terminal phosphorothioates | 🟢 | protocols.io ordered table |
 | Nextera ME / s5 / s7, read and index primer entry | 🟢 | Illumina adapter sequences, via `lib/nextera.py` |
 | P5 / P7 flowcell ends | 🟢 | Illumina adapter sequences, via `lib/illumina.py` |
-| i5 / i7 index *members* | 🔴 | never asserted; see below |
+| i5 / i7 index *members* | 🟢 illustrative | original order workbook, A1 on each sheet; no experimental cell assignment |
 
 ## Open roles
 
-- 🔴 **Index members and length.** The author protocol orders *custom* Nextera index
-  primers and recommends a 10-bp barcode designed with the `DNABarcodes` R package
-  (minimum Levenshtein distance 3, no homopolymers ≥ 3, no i5 starting `AC` on NovaSeq
-  v1), noting that 8 bp — Illumina's length — works as well. The page draws an 8-base
-  index window and names no member; the 8-vs-10 choice is a protocol option, not a fact
-  about this chemistry.
+- 🟢 **Index oligos recovered.** The original author protocol (DOI
+  `10.17504/protocols.io.yxmvmk1yng3p/v1`, integer ID 51484) names
+  `384set_Nextera_BC_order.xls`. Its anonymous public API stores the attachment URL
+  in `guidelines.entityMap[2].data.source`:
+  `https://content.protocols.io/files/gh7u2zw6.xls`. The PDF names the file but has
+  no clickable attachment annotation. The recovered original has sheets
+  `UD_i5_indices` and `UD_i7_indices`, each with 384 full oligos. All index windows
+  are ten bases. The defining paper Methods, "Sequence library preparation for
+  Smart-seq3xpress", independently specifies ten-base dual indexes.
+- 🟢 **Explicit illustrative pair.** The page now uses i5 A1 `TTGGTACGCG` and i7
+  A1 `ATAGGCGCTC`. Their complete ordered primers are `P5 + i5 + s5` and
+  `P7 + i7 + s7`; the top-strand endpoint therefore carries the reverse complement
+  of the ordered i7 index. These are source-known available oligos, **not an
+  assignment to any published cell or well**. The former eight-base endpoint was
+  a repository model choice inherited from the shared recipe; it was not an error
+  in the publication. The author's eight-base alternative remains a protocol option,
+  while the represented published xpress route uses ten.
+- 🟡 **Sequencing scope.** This page represents the Illumina-compatible library.
+  The defining Methods also reports MGI conversion/circularization and custom
+  sequencing primers; that distinct branch is not represented here. A library
+  architecture does not by itself establish the run cycle mask of every experiment.
 - 🟡 The drawn tagmentation and gap-fill geometry is the shared Nextera back end from
   `lib/nextera.py`, not an xpress-specific transcription.
 

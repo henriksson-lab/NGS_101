@@ -1,0 +1,289 @@
+{
+  "dir": "cite-seq__10.1038+nmeth.4380",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods/antibody oligo paragraphs lines 82–92, 136–144",
+        "finding": "Original describes antibody-derived tags combined with single-cell transcriptome library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "PMC5669064 JATS lines 62, 82–94, 136–144",
+        "finding": "Original describes 5-prime antibody tag conjugation, poly(A) capture with Drop-seq, reduction release and separate ADT PCR; explicitly distinguishes 10x 3-prime v1/v2 handling."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Original PMC5669064 JATS lines 62–70, 88–108, 110–132, 140–156, 166–170; original Figure 1 caption line 390",
+          "finding": "Independently checked the original after running the full CITE-seq scraper. Online Methods prints BC6/BC12 for species mixing with Drop-seq versus 10x v1 handles, calls v2_BC1–6 and BC8–14 the CBMC profiling family, and says 10x v2 was used for the broad CBMC panel. Main text line 70 says the panel contains 13 antibodies; lines 68/156 say the four CD8a FACS validation pools used oligo-labelled CD8a and Drop-seq. The Methods do not explicitly assign a complete handle-bearing oligo separately to each validation pool."
+        }
+      ]
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary protocol around lines 390–455; scraper hits 421, 438–444",
+        "finding": "Supplement prints v2_BC14 oligo and PCR/ADT primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM3 pages 7–8, extracted lines 399–459",
+        "finding": "Author protocol prints v2_BC1–14 with /5AmMC12/, identifier, B and poly(A), plus Drop-seq P5-SMART-PCR, 10x v2 PE1.0 P5, and small-RNA index PCR primer; source version is 2017-07-11."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Original Springer MOESM3 author protocol lines 173–221, 269–276, 403–444 (pages 4–8)",
+          "finding": "Independently read after full CITE scraper. The author protocol prints 14 v2_BC oligos, including v2_BC7 ACAGATC at line 427, and the branch-specific ADT PCR primers. Its generic staining and run instructions do not say that all 14 were included in the published 13-antibody CBMC panel."
+        }
+      ]
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement around lines 390–415; scraper verifies same v2_BC14 sequence",
+        "finding": "PMC counterpart includes sequence table; relation to Springer MOESM3 appears parallel but was not byte-compared."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS891423 supplement-3 extracted lines 382–455",
+        "finding": "PMC supplementary protocol also prints v2_BC1–14 at lines 405–418 and amplification primers. Its sequence content agrees on these rows with Springer MOESM3, though files are not byte-identical."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/113068_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author preprint methods headings; scraper run on bundle",
+        "finding": "Preprint source present; variant comparison remains open."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "113068_v3.full.pdf.txt lines 297–341, 343–432, 1879–1893, 2316–2319",
+        "finding": "Original preprint itself prints modified antibody oligos for human/mouse and CBMC experiments and describes Drop-seq versus 10x version-dependent oligo handles; Supplementary Table 2 is signposted. V2 CBMC family is also in published protocol."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "springer_moesm1",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM1_ESM.pdf.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original grouped first-pass inventory: headers/first pages of nmeth.4380_41592_2017_BFnmeth4380_MOESM1_ESM.pdf.txt",
+        "finding": "Source was inventoried as Supplementary Figures 1–4; oligo conjugation/library schematic and results; this initial pass did not establish absence of chemistry details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1 lines 1–36",
+        "finding": "Supplementary Figures 1–4; oligo conjugation/library schematic and results. The second pass described these locations in the former grouped row; first-pass depth remains limited."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "springer_moesm2",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM2_ESM.pdf.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original grouped first-pass inventory: headers/first pages of nmeth.4380_41592_2017_BFnmeth4380_MOESM2_ESM.pdf.txt",
+        "finding": "Source was inventoried as Three-page reporting summary; text extraction is sparse; this initial pass did not establish absence of chemistry details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM2 visually inspected pages 1–3",
+        "finding": "Three-page reporting summary; text extraction is sparse. The second pass described these locations in the former grouped row; first-pass depth remains limited."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "pmc_supp1",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-1.pdf.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original grouped first-pass inventory: headers/first pages of nmeth.4380_supp_NIHMS891423-supplement-1.pdf.txt",
+        "finding": "Source was inventoried as Supplementary Tables 1–2, including antibody-to-six-base-identifier map; this initial pass did not establish absence of chemistry details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "supplement-1 lines 42–224",
+        "finding": "Supplementary Tables 1–2, including antibody-to-six-base-identifier map. The second pass described these locations in the former grouped row; first-pass depth remains limited."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Original NIHMS891423 supplement-1 Table 2 extracted lines 45–223, including CD29 experiment-only notes lines 178–196",
+          "finding": "Independently checked each antibody/identifier row. The 13 CBMC markers map uniquely to v2_BC1–6 and v2_BC8–14 in the published Methods/author protocol; no Table 2 antibody maps to ACAGATC/v2_BC7. Human CD29 is GCCAAT/BC6 and mouse CD29 CTTGTA/BC12, explicitly restricted to the Human/Mouse experiment. CD2/CD57 are marked quantification validation only and their identifiers are not in the v2_BC1–14 set."
+        }
+      ]
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "pmc_supp2",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-2.doc.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original grouped first-pass inventory: headers/first pages of nmeth.4380_supp_NIHMS891423-supplement-2.doc.txt",
+        "finding": "Source was inventoried as Supplementary figure captions and results; this initial pass did not establish absence of chemistry details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "supplement-2 lines 1–25 and figure headings",
+        "finding": "Supplementary figure captions and results. The second pass described these locations in the former grouped row; first-pass depth remains limited."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "pmc_supp4",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-4.pdf.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original grouped first-pass inventory: headers/first pages of nmeth.4380_supp_NIHMS891423-supplement-4.pdf.txt",
+        "finding": "Source was inventoried as Three-page reporting summary; text extraction is sparse; this initial pass did not establish absence of chemistry details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "supplement-4 visually inspected pages 1–3",
+        "finding": "Three-page reporting summary; text extraction is sparse. The second pass described these locations in the former grouped row; first-pass depth remains limited."
+      }
+    },
+    {
+      "id": "dropseq_predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Original Macosko 2015 JATS lines 96–104 and Figure 1 caption lines 410–412",
+        "finding": "Bead primer has PCR handle, cell barcode, UMI, and terminal oligo(dT); this supports inherited capture architecture, not the CITE v2 selected antibody oligos. Drop-seq is cited as the original bead primer architecture for the species-mixing branch."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Macosko 2015 JATS lines 96–104 and Figure 1 caption lines 410–412 after running scraper on Drop-seq source bundle; excluded scg_adapters upstream schematic hits",
+        "finding": "Original Drop-seq bead oligo architecture includes a shared PCR handle, bead cell barcode, molecular index and oligo(dT) capture sequence. It provides a predecessor capture concept, not evidence for the exact selected CITE antibody tag variant."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Original Macosko 2015 PMC4481139 JATS lines 96–104 and Figure 1 caption lines 406–414; full scraper run on Drop-seq bundle before reading, ignoring upstream_*/scg_adapters_* as non-source",
+          "finding": "Independent check: the original bead primer has a constant PCR handle, 12-base bead barcode, 8-base UMI, and terminal T30; this establishes the Drop-seq capture ancestor but cannot choose a CITE-seq antibody handle or identify which ADT oligo was used in a later validation aliquot. The citation in CITE Methods line 140 was followed. Some Drop-seq supplemental downloads in its source bundle are invalid/manual, so those are not evidence of absence."
+        }
+      ]
+    },
+    {
+      "id": "tenx_v2_vendor_guide",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG00052 Rev D lines 1100–1140 and 3531–3532",
+        "finding": "Gel-bead primer contains R1, 16-base cell barcode, 10-base UMI and poly(dT); Read 1 is barcode+UMI, Read 2 cDNA and i7 indexes sample. This does not assign an antibody variant per CBMC subexperiment. Original manufacturer guide for the 10x 3-prime v2 branch explicitly used in CITE-seq CBMC."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original 10x CG00052 Rev D User Guide text lines 1100–1144 after targeted oligo scraper on the guide; full-bundle scraper was stopped on a large unrelated 12 MB historical text file",
+        "finding": "The v2 gel-bead primer has R1, 16-nt cell barcode, 10-nt UMI and poly(dT). Final library has P5/P7, Read 1 carries barcode and UMI, Read 2 cDNA, and i7 sample index. This defines the commercial expression branch but cannot select the CITE antibody oligo variant."
+      },
+      "additional_passes": [
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Original 10x Chromium Single Cell 3-prime Reagent Kits v2 User Guide CG00052 Rev D extracted lines 1094–1141 and 3523–3534; full bundle scraper attempted but stopped on a large unrelated historical text, followed by completed scraper run on the guide itself (zero oligo hits)",
+          "finding": "Independent check: the guide explicitly gives R1 + 16-nt 10x barcode + 10-nt UMI + poly(dT) on the gel bead and final P5/P7, R1 barcode/UMI, R2 cDNA, i7 sample index geometry. It supplies the commercial capture branch cited by CITE Methods line 144, but does not assign CITE-seq ADT antibody variants or establish the four FACS aliquots. Upstream schematic hits from the partial bundle scan were not used as evidence."
+        }
+      ]
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining JATS and original supplementary sequence table checked; preprint/version crosswalk and extra supplements need independent review.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS lines 82–94 and 136–144; MOESM3 lines 399–459; NIHMS supplement-1 lines 42–224; preprint lines 343–432",
+      "finding": "Followed original to author protocol, antibody-to-barcode table, preprint oligos and image-rich other supplements. Exact per-experiment mapping is partly printed; image-only adjuncts have not been fully inspected, so absence remains blocked."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Independently followed CITE JATS references 1 and 3 and its Supplementary Table 2 pointer at lines 88–92 to original Drop-seq JATS, original 10x CG00052 Rev D, author MOESM3 sequence list, and PMC Supplementary Table 2; checked Supplementary Fig. 2/3 captions in PMC supplement-2 lines 9–13.",
+        "finding": "Linked originals resolve the inherited bead geometry and the 13-panel antibody-to-v2 oligo crosswalk. They do not explicitly assign a full handle-bearing CD8a oligo to each of the four Drop-seq FACS comparison aliquots. Existing first-pass inventory of image-rich adjuncts remains shallow, so no missing-information assertion is accepted."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete handle-bearing CD8a ADT oligo assigned to each of four Drop-seq FACS comparison aliquots",
+      "evidence": "Source-positive scope: JATS lines 68 and 156 identify oligo-labelled CD8a/RPA-T8 and Drop-seq; Supplementary Table 2 lines 79–87 gives identifier GCCAAT; JATS lines 106–132 and author MOESM3 lines 403–434 print the 10x-v2-compatible v2_BC6 construct with that identifier. No inspected original expressly says that this same v2 handle, rather than another Drop-seq-compatible handle, was used in each FACS pool. Image-rich adjuncts and any linked raw-run records have not passed a complete two-reader check.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Independent recheck followed original Drop-seq and CG00052 v2 capture documents and crosswalked CITE paper Methods to Supplementary Table 2 and the author protocol. Source-positive: human/mouse species mixing uses BC6/BC12 with branch-specific handles; the 10x v2 CBMC 13-antibody panel maps to v2_BC1–6 and v2_BC8–14. The extra v2_BC7 is printed by the author protocol but has no Table 2 panel assignment. Only the complete handle-bearing ADT oligo for each CD8a FACS validation aliquot remains blocked; no absence is accepted, and limited first-pass review of image-rich adjuncts still needs completion."
+}

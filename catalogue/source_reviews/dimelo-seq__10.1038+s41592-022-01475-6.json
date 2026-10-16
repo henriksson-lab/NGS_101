@@ -1,0 +1,289 @@
+{
+  "dir": "dimelo-seq__10.1038+s41592-022-01475-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Altemose et al Nat Methods 2022 doi:10.1038/s41592-022-01475-6 PMC9189060",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_PMC9189060.xml.txt lines 202-224; scraper directory hits author protocols",
+        "finding": "Methods identify antibody-pA-Hia5, SAM marking, native DNA extraction; multiple distinct ONT kits/branch-specific barcoding, plus PacBio comparison."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC9189060 lines 200-226",
+        "finding": "DiMeLo tethers Hia5 via antibody; extracted methylated DNA enters ONT SQK-LSK109 with EXP-NBD104/114 or SQK-LSK110, with PacBio as a comparison branch."
+      }
+    },
+    {
+      "id": "supp_main",
+      "role": "supplement",
+      "locator": "Published DiMeLo Supplementary Information MOESM1 / PMC copy",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Supplementary_information.pdf.txt lines 40-116,4118-4140,5245-5255",
+        "finding": "Tables of conditions and Supplementary Note 15; names EXP-NBD104/114 plus SQK-LSK109 for a subset, not motor oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary_information.pdf.txt lines 5653-5665 and Notes 3-4",
+        "finding": "In vitro chromatin branch releases DNA after targeted methylation, then uses PCR-free ONT native barcoding EXP-NBD104/114 with SQK-LSK109."
+      }
+    },
+    {
+      "id": "supp_moesm2",
+      "role": "supplement",
+      "locator": "Publisher MOESM2 Supplementary File 2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_41592_2022_1475_MOESM2_ESM.pdf.txt first pages",
+        "finding": "Non-oligo appendix in inspected first pages; full relevance awaits independent check."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF text lines 1-3",
+        "finding": "Text conversion is blank; no claim about molecular content can be established from this extraction."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "Altemose et al protocols.io DiMeLo-seq directed methylation",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/protocolsio_dimelo-seq-directed-methylation-with-long-read-seq-n2bvjxe4wlk5.pdf.txt lines 46-55,94-126,486-500,572 onward",
+        "finding": "Detailed pA-Hia5 binding and activation instructions; identifies SQK-LSK109/110 but not kit adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io DiMeLo PDF text lines 94-118 and 625-650",
+        "finding": "Lists ONT LSK109/LSK110 and barcode expansions; barcoded workflow uses 3 µg end repair, ~1 µg barcode ligation and longer ligation time."
+      }
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "Altemose et al bioRxiv 2021.07.06.451383 v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/2021.07.06.451383_v1.full.pdf.txt Methods and supplement references",
+        "finding": "Earlier author version; published article governs branch identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv v1 PDF text lines 939-983,1058-1059",
+        "finding": "Preprint states LSK109+NBD104/114 and LSK110 alternatives and branch-specific changes; no strand-level vendor adapter synthesis printed in inspected methods."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "ont_lsk109",
+      "role": "linked_material",
+      "locator": "ONT SQK-LSK109 and EXP-NBD104/114 historical guides",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical kit-specific motor/barcode oligo details not cached.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "ont_lsk110",
+      "role": "linked_material",
+      "locator": "ONT SQK-LSK110 historical guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical unbarcoded branch kit-specific adapter guide not cached.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "pacbio",
+      "role": "linked_material",
+      "locator": "PacBio library kit used only in platform-comparison branch",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Platform-comparison kit guide not checked; branch differs from main ONT library.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_edf10b",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_10b.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Source image for a figure, not methods or an oligo table.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_10b.pdf.txt first page",
+        "finding": "Embedded extended-figure image data."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Source_data_EDF_10b.pdf.txt first page",
+        "finding": "Extended figure 10b image source data, not a chemistry oligo table."
+      }
+    },
+    {
+      "id": "source_edf1abd",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_1abd.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Source images for a figure, not oligo synthesis.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_1abd.pdf.txt first page",
+        "finding": "Embedded extended-figure image data."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Source_data_EDF_1abd.pdf.txt first page",
+        "finding": "Extended figure 1a image source data, not a chemistry oligo table."
+      }
+    },
+    {
+      "id": "source_edf2cd",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2c_d.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Source images for a figure, not library chemistry.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2c_d.pdf.txt first page",
+        "finding": "Embedded microscopy/source images."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Source_data_EDF_2c_d.pdf.txt first page",
+        "finding": "Extended figure 2c/d image source data, not a chemistry oligo table."
+      }
+    },
+    {
+      "id": "source_edf2e",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2e.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Quantitative source data rather than protocol.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2e.xlsx.txt sheet extfig_2e_methyladenosine_signa header and first rows",
+        "finding": "m6A signal measurements, no primer design columns."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Source_data_EDF_2e.xlsx.txt sheet heading and first rows",
+        "finding": "Methyladenosine signal measurements, not a library-adapter source."
+      }
+    },
+    {
+      "id": "source_edf3cd",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_3cd_IF_images.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Source microscopy images rather than chemistry instructions.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_3cd_IF_images.pdf.txt first page",
+        "finding": "Image-only microscopy source file."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Source_data_EDF_3cd_IF_images.pdf.txt first page",
+        "finding": "Immunofluorescence image source data, not library-adapter source."
+      }
+    },
+    {
+      "id": "peer_review",
+      "role": "supplement",
+      "locator": "s41592-022-01475-6_supp_NIHMS1792670-supplement-Peer_Review_File.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Editorial review rather than authoritative published chemistry.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Peer_Review_File.pdf.txt title and first page",
+        "finding": "Peer-review correspondence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Peer_Review_File.pdf.txt first page",
+        "finding": "Peer review correspondence identity verified; not an oligo synthesis source."
+      }
+    },
+    {
+      "id": "detail2024",
+      "role": "linked_material",
+      "locator": "Maslan et al. Nat Protoc 2024 doi:10.1038/s41596-024-01032-9 PMC11674881",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Prior checklist DOI 10.1038/s41596-023-00969-3 was wrong. PubMed PMID 39237830 identifies actual DOI; full detailed protocol challenged by PMC/Nature access and not read in either pass."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining Methods and supplement Table/Note inventory; author protocols.io; branch-specific ONT/PacBio kit links.; 2024 successor article overview; individual source-data supplement headers",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 200-226; author protocols.io lines 94-118,625-650; preprint lines 939-983; PMC/PubMed/Nature search identifies 2024 detailed protocol DOI 10.1038/s41596-024-01032-9",
+      "finding": "Original and author protocol enumerate ONT and PacBio kit branches. Corrected 2024 linked-protocol DOI; full text and historical ONT/PacBio vendor guides remain unread, so adapter claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Kit-specific motor adapters for each DiMeLo sequencing branch",
+      "evidence": "Original identifies SQK-LSK109+EXP-NBD104/114 versus SQK-LSK110, but historical manuals unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original and author protocol independently checked, but historical vendor kits and corrected 2024 detailed protocol remain unavailable. No missing claim accepted."
+}

@@ -1,0 +1,79 @@
+{
+  "dir": "end-seq__10.1016+j.molcel.2016.06.034",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/end-seq__10.1016+j.molcel.2016.06.034/j.molcel.2016.06.034_PMC6299834.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 159–161; scraper hits line 159",
+        "finding": "Original author JATS prints hairpin adaptor 1 with two biotin-dT and adaptor 2 with U stretch, both 5′ phosphorylated; USER opens hairpins after ligation. Exact PCR primer pair should be checked against missing supplements."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC6299834 JATS lines 63, 159–161",
+        "finding": "Original prints both modified hairpin adaptor strings, including 5′ phosphate, RNA U, biotin-dT and terminal phosphorothioate; DNA blunting/A-tailing, first hairpin, shearing, capture, second hairpin, USER and PCR order explicit."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "PMC6299834 NIHMS998981 Supplement 1 PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary download gate; chemistry details may reside here."
+    },
+    {
+      "id": "supp2_6",
+      "role": "supplement",
+      "locator": "PMC6299834 NIHMS998981 Supplement 2–6 XLSX",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Five supplementary workbooks gated; relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "bless_predecessor",
+      "role": "linked_material",
+      "locator": "BLESS method cited at original article line 71",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Referenced DSB labeling chemistry not independently followed for this review.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: paper",
+      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC6299834 JATS lines 63, 159–161",
+      "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+}

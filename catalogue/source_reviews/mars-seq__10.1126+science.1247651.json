@@ -1,0 +1,108 @@
+{
+  "dir": "mars-seq__10.1126+science.1247651",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "science_article",
+      "role": "defining",
+      "locator": "Jaitin et al Science 2014, science.1247651_PMC4412462.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods and supplementary-information references in JATS",
+        "finding": "Main article establishes MARS-seq workflow and points to supplementary primer tables."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Jaitin 2014 PMC4412462 JATS extracted lines 46-52, 64-66 and 156; original Science supplement cover/table extract lines 1-20",
+        "finding": "Independently confirmed the article describes FACS sorting into 384-well plates, pooled processing and three barcode levels, and points to supplementary methods. The local Science PDF is only two pages, despite its cover sheet naming Methods and figures."
+      }
+    },
+    {
+      "id": "science_s7",
+      "role": "supplement",
+      "locator": "Original Science Supplementary Tables S7-S9 only, two-page scg_jaitin-sm.pdf.txt extract (publisher table pages mirrored in scg data)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Table S7 lines 23-44; Table S8 from line 45",
+        "finding": "This two-page extract prints the modified RT primer, eight 5-prime-phosphorylated/3-prime-C3 ligation adapters, second RT primer and both PCR primers. The cover names Methods and figures but those pages are absent from this file."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "scg_jaitin-sm.pdf.txt lines 1-20, 23-67; pdfinfo Pages: 2; tools/scrape_primers.py on the original PDF",
+        "finding": "Independently checked all Table S7 and S8 oligos and modifications. The local mirror is a two-page table extract, not the full supplementary Methods."
+      }
+    },
+    {
+      "id": "science_full_methods",
+      "role": "supplement",
+      "locator": "Coauthor Alexander Mildner-uploaded full original Jaitin-SM.pdf text at https://www.researchgate.net/publication/279842956_Jaitin-SM, Methods page lines 108-390",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "The original 5.02 MB PDF download is HTTP 403, but its original text is displayed in the coauthor upload and the source identity matches the separate original table extract.",
+      "discovered_from": "science_s7",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Coauthor-uploaded original Jaitin-SM visible text lines 174-252 (RT), 254-307 (first-strand pooling, Exo I, final pooling), 311-324 (second strand, IVT, DNase), 326-390 (fragmentation, ligation, RT2, PCR); independently compared original Table S7 extract lines 23-44",
+        "finding": "Independently read the original Methods: barcoded first-strand cDNA is initially pooled, Exonuclease I removes free RT primer in 24 wells, a final 192-cell pooling/cleanup precedes second-strand synthesis and T7 IVT. Subsequent Zn2+ fragmentation, T4 RNA ligase I adapter ligation, AffinityScript RT2 and nested PCR are explicit. Methods lines 370-375 call RT2 complementary to the ligated adapter, but printed Table S7 RT2 and adapter constant have no contiguous 8-base match; exact primer landing is unresolved."
+      },
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Coauthor-uploaded original supplement page lines 108-122, 124-174, 174-252, 254-324, 326-390; original table extract lines 1-67 for identity and oligos",
+        "finding": "Original Methods state lysis solution and RT primer in 384-well plate, two empty controls, RT then first-strand pooling then Exo I then final 192-cell pooling then second strand and IVT, Zn2+ aRNA fragmentation, T4 RNA ligase I adapter attachment, AffinityScript RT2 and nested PCR. Previous two-page mirror was only primer tables."
+      }
+    },
+    {
+      "id": "science_figures",
+      "role": "supplement",
+      "locator": "PMC NIHMS666898 supplementary figures PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate; no local original supplementary-figures text.",
+      "discovered_from": "science_article",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Science JATS supplement references and original Tables S7-S8 in scg_jaitin-sm.pdf.txt",
+      "finding": "Followed the author supplement to its primer tables. Supplementary figures remain gated; MARS-seq2.0 is a later distinct method."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-15",
+      "locations": "Jaitin 2014 JATS lines 50, 64-66, 156; scg_jaitin-sm.pdf.txt lines 1-20; PMC article supplementary link NIHMS666898-supplement-Sup_Figures.pdf",
+      "finding": "Followed the article to Science DC1, distinguished the two-page mirrored table extract, then located and read the coauthor-uploaded full original Methods on ResearchGate. The separate PMC figure-PDF link still yields a download gate; PDF download of the coauthor upload is also HTTP 403, though its original text is visible."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any chemistry detail exclusive to unavailable supplementary figures",
+      "disposition": "blocked",
+      "evidence": "Table S7 resolves key oligo bases, but the gated figure supplement has not been independently examined."
+    },
+    {
+      "claim": "Exact 2014 reaction conditions and order beyond the main article and printed primer tables",
+      "disposition": "resolved",
+      "evidence": "Two independent readers checked coauthor-uploaded original Supplementary Methods lines 108-390. They resolve the order and most conditions; the graph now pools before second-strand synthesis and renders Exo I primer-fragment waste."
+    },
+    {
+      "claim": "Exact 2014 RT2 landing on the ligated adapter",
+      "disposition": "blocked",
+      "evidence": "Original Methods lines 370-375 say the second RT primer complements the ligated adapter, but Table S7 prints TCTAGCCTTCTCGCAGCACATC. The reverse complement of the printed adapter constant AGATCGGAAGAGCGTCGTGTAG is CTACACGACGCTCTTCCGATCT, the later 2.0 RT2. The 2014 site cannot be assigned from the printed sequences."
+    }
+  ],
+  "conclusion": "Two independent readers checked the 2014 main article, primer tables and coauthor-uploaded full Methods. The original source resolves reaction order and most conditions. The 2014 RT2 landing conflicts with its printed adapter/primer relationship, and the separate PMC figure PDF remains gated; no missing claim is accepted."
+}

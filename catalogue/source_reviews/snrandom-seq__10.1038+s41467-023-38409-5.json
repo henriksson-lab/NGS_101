@@ -1,0 +1,100 @@
+{
+  "dir": "snrandom-seq__10.1038+s41467-023-38409-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Sun et al Nat Commun 2023 doi:10.1038/s41467-023-38409-5 PMC10182092",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC10182092 lines 234-256",
+        "finding": "FFPE nuclei receive block primer, random/oligo-dT RT, TdT dA tailing, barcoded bead capture and Vazyme ND607-01 final library prep."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC10182092 JATS Methods lines 234-256: in situ DNA blocking, RT, dA tailing, barcode bead synthesis and library preparation",
+        "finding": "Independently confirmed ordered nuclear DNA blocking, random plus poly(dT) RT, TdT dA tails, acrydite hydrogel bead barcode extension in droplets and Vazyme kit end-repair/ligation; paper points to SI Table 1 primer sequences."
+      }
+    },
+    {
+      "id": "supp_info",
+      "role": "supplement",
+      "locator": "Original MOESM1 Supplementary Information",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 PDF text lines 190-245; scraper lines 200,204-240",
+        "finding": "Supplementary Table 1 prints block primer, random primer and oligo(dT) primer families with sequence, plus acrydite-modified bead oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 Supplementary Table 1 extracted lines 190-245; independently checked scraper hits against source table",
+        "finding": "SI prints block primer, five random and five oligo(dT) primer members, plus /5Acryd/ bead-primer motif containing a deoxyuridine and three ten-base barcode slots."
+      }
+    },
+    {
+      "id": "supp_data",
+      "role": "supplement",
+      "locator": "Original MOESM4 source-data workbook",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Large source-data workbook not independently classified for chemistry relevance in this pass.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "delley2021",
+      "role": "predecessor",
+      "locator": "Delley and Abate Sci Rep 2021 doi:10.1038/s41598-021-90255-x PMC8149635",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cites predecessor bead design in refs16/17; original bead synthesis paper not yet read.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vazyme_nd607",
+      "role": "vendor",
+      "locator": "Vazyme VAHTS Universal DNA Library Prep Kit for Illumina V3 ND607-01",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Kit named in original lines 254-256, but original vendor adapter/primer table not obtained.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 234-256; MOESM1 oligo table lines 190-245; Delley refs16/17; Vazyme ND607-01",
+      "finding": "Followed source into Supplementary Table 1 and found extensive modified primer families. Predecessor bead chemistry and downstream vendor kit remain unread."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked the available original Methods, supplement inventory and cited predecessor/vendor routes recorded in the checklist",
+      "finding": "Available originals were checked, but relevant historical supplements, vendor manuals or molecular predecessors still require reading; linked-information closure remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Vazyme terminal adapter strands and geometry",
+      "disposition": "blocked",
+      "evidence": "Final library kit named, but vendor source unavailable; no fixed chemistry absence accepted."
+    }
+  ],
+  "conclusion": "First located pass only; vendor kit and bead predecessor remain blocked."
+}

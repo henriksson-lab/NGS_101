@@ -10,7 +10,8 @@ from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
-from tenx_rna import SEQ_PRIMERS, captured_rna_library, transcript_library
+import illumina as il
+import seqprimers as sp
 
 
 TITLE = "Direct-seq — poly(dT) capture of programmed guide RNA"
@@ -22,9 +23,12 @@ SUMMARY = ("A 30-nt A/G capture tract is encoded in the sgRNA scaffold. A normal
 CAVEAT = ("The programmed transcript uses the published Tail-8A8G scaffold and human "
           "Gln tRNA. G residues intentionally interrupt the capture tract, so the poly(dT) "
           "drawing marks that duplex as mismatch-tolerant rather than pretending it is a "
-          "perfect 30-bp poly(A):poly(dT) helix.")
+          "perfect 30-bp poly(A):poly(dT) helix. The 10x bead handle follows the "
+          "paper-cited CG000184 Rev A oligonucleotide appendix; cell-barcode and UMI "
+          "members are variable.")
 
 CAPTURE = "AAAAAAAAGAAAAAAAGAAAAAAAGAAAAA"
+BEAD_HANDLE = "CTACACGACGCTCTTCCGATCT"  # 10x CG000184 Rev A, oligo appendix.
 HUMAN_TRNA_GLN = "GGTTCCATGGTGTAATGGTTAGCACTCTGGACTCTGAATCCAGCGATCCGAGTTCAAATCTCGGTGGAACCT"
 TRNA_BIND = "CTCTGGACTCTGAATCCAGCGAT"
 if HUMAN_TRNA_GLN.find(TRNA_BIND) != 24:
@@ -92,7 +96,7 @@ def _programmed_transcript_scene() -> Scene:
 def _capture_scene() -> Scene:
     transcript = [Segment("guide body", "X" * 28, placeholder=True),
                   Segment("8A8G capture tract", CAPTURE)]
-    primer = [Segment("10x bead handle", "H" * 12, placeholder=True),
+    primer = [Segment("10x bead handle", BEAD_HANDLE),
               Segment("cell barcode", "B" * 16, "cbc", placeholder=True),
               Segment("UMI", "U" * 12, "umi", placeholder=True),
               Segment("poly(dT)30", "T" * 30)]
@@ -110,11 +114,10 @@ def _capture_scene() -> Scene:
 
 def _barcoded_guide_cdna_scene() -> Scene:
     sc = Scene(); sc.strand("guide cDNA", [
-        Segment("10x cDNA handle", "H" * 12, placeholder=True),
+        Segment("10x cDNA handle", BEAD_HANDLE),
         Segment("cell barcode", "B" * 16, "cbc", placeholder=True),
         Segment("UMI", "U" * 12, "umi", placeholder=True),
-        Segment("poly(dT)-derived tract", "T" * 20),
-        Segment("capture-tract cDNA", revcomp(CAPTURE)),
+        Segment("poly(dT)-derived tract", "T" * 30),
         Segment("scaffold-derived cDNA", revcomp(SCAFFOLD_BEFORE_CAPTURE)),
         Segment("guide spacer cDNA", "F" * 20, "cbc", placeholder=True, feature=GUIDE),
         Segment("tRNA-derived cDNA", revcomp(HUMAN_TRNA_GLN)),
@@ -137,10 +140,46 @@ def _nested_pcr_scene() -> Scene:
     return sc
 
 
-RNA_LIB = transcript_library("Direct-seq gene-expression library")
-GUIDE_LIB = captured_rna_library([
-    Segment("poly(dT)-derived tract", "T" * 20),
-    Segment("capture-tract cDNA", revcomp(CAPTURE)),
+# Source-owned 10x v3 / Table S3d architecture. The GEX and guide branches
+# share the TruSeq barcode end; tRNA_Read2 supplies the guide branch's other end.
+SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
+CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
+                       whitelist="10x Chromium 3-prime v3")
+UMI_FEATURE = feature("umi", "umi", "random")
+INDEX_FEATURE = feature("sample_index_i7", "sample_index", "unknown")
+
+
+def require_guide_primer_sites(library):
+    """Reject an endpoint incompatible with the independently printed PCR pair."""
+    return PCRGeometry.exact(library, PCRPrimer("Table S3d P5_Read1", P5_READ1, anneal_nt=len(P5_READ1)),
+                             PCRPrimer("Table S3d P7_Read2_Index1", P7_READ2_INDEX1),
+                             statement="Direct-seq Table S3d source primers must land on the declared guide endpoint.")
+
+
+def _indexed_library(payload, name):
+    library = Construct([
+        Segment("P5", il.P5, "p5"),
+        Segment("TruSeq Read 1 arm", il.TRUSEQ_READ1[4:], "r1"),
+        Segment("cell barcode", "B" * 16, "cbc", placeholder=True, feature=CELL_BARCODE),
+        Segment("UMI", "U" * 12, "umi", placeholder=True, feature=UMI_FEATURE),
+        *payload,
+        Segment("Read 2 primer-site complement", revcomp(il.TRUSEQ_READ2), "r2"),
+        Segment("i7 reverse complement", "I" * 8, "cbc", placeholder=True, feature=INDEX_FEATURE),
+        Segment("P7 reverse complement", il.P7_RC, "p7"),
+    ], name)
+    problems = sp.verify(library, SEQ_PRIMERS, required_roles=tuple(p.role for p in SEQ_PRIMERS))
+    if problems:
+        raise ValueError("Direct-seq endpoint: " + "; ".join(problems))
+    require_guide_primer_sites(library)
+    return library
+
+
+RNA_LIB = _indexed_library([
+    Segment("poly(dT)-derived tract", "T" * 30),
+    Segment("endogenous cDNA", "X" * 40, placeholder=True),
+], "Direct-seq gene-expression library")
+GUIDE_LIB = _indexed_library([
+    Segment("poly(dT)-derived tract", "T" * 30),
     Segment("scaffold-derived cDNA", revcomp(SCAFFOLD_BEFORE_CAPTURE)),
     Segment("guide spacer cDNA", "F" * 20, "cbc", placeholder=True, feature=GUIDE),
     Segment("post-primer tRNA cDNA", revcomp(TRNA_DOWNSTREAM)),
@@ -165,6 +204,7 @@ def oligos():
     return (
         f"<b>8A8G capture tract</b> — 5′-{CAPTURE}-3′",
         f"<b>Human Gln tRNA</b> — 5′-{HUMAN_TRNA_GLN}-3′",
+        f"<b>10x CG000184 Rev A gel-bead primer</b> — 5′-{BEAD_HANDLE}-N16-N12-{'T' * 30}-3′",
         f"<b>P5_Read1</b> — 5′-{P5_READ1}-3′",
         f"<b>tRNA_Read2</b> — 5′-{TRNA_READ2}-3′",
         f"<b>P7_Read2_Index1</b> — 5′-{P7_READ2_INDEX1}-3′",
@@ -212,8 +252,13 @@ def protocol_graph():
     g.discard(failed, "does not retain a resolvable cell barcode")
 
     bead = g.input("bead_primer", "10x cell-barcode/UMI oligo(dT) bead primer",
-                   MaterialKind.OLIGO, inferred=True,
-                   source=SOURCE + " (commercial bead oligo bases are not disclosed here)")
+                   MaterialKind.OLIGO,
+                   state=Construct([Segment("10x Read 1 handle", BEAD_HANDLE),
+                                    Segment("cell barcode", "B" * 16, placeholder=True),
+                                    Segment("UMI", "U" * 12, placeholder=True),
+                                    Segment("poly(dT)30", "T" * 30)],
+                                   "10x 3′ v3 gel-bead primer"),
+                   source="10x CG000184 Rev A, oligonucleotide appendix")
     rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
     shared = g.product("shared_cdna", "cell-barcoded mRNA and guide cDNA",
                        MaterialKind.MOLECULAR,

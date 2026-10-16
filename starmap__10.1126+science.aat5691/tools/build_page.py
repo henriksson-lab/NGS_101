@@ -11,11 +11,11 @@ OUT=HERE.parent/"starmap.html"
 def render():
     return "\n".join([head("STARmap chemistry"), '<div class="wrap" data-protocol-complete="true">',
       '<h1>STARmap</h1>', '<p class="research-notes"><a href="01_starmap.html">Research notes</a></p>',
-      info('Defining source: <a href="https://doi.org/10.1126/science.aat5691">Wang et al., <i>Science</i> (2018)</a>. Symbolic bases mark panel-specific sequences not exposed by the available defining-paper tables.'),
+      info('Defining source: <a href="https://doi.org/10.1126/science.aat5691">Wang et al., <i>Science</i> (2018)</a>. Its supplementary methods cite sequence Tables S1 and S2, but the available public PDF stops before those tables. Symbolic bases mark original-panel sequences that remain unverified until the tables are recovered.'),
       '<h2>Paired SNAIL recognition</h2>', panel(M.snail_scene().rows(), cls="long"),
       '<h3>Nucleotide-resolved SNAIL fold</h3>', M.SNAIL_TOPOLOGY.folded_panel(
         'The same complex with every modelled nucleotide shown. N denotes panel-specific '
-        'bases not exposed by the defining-paper table. The primer probe remains bound to '
+        'bases awaiting the original Tables S1 and S2. The primer probe remains bound to '
         'RNA and supplies the 12-nt splint/RCA primer; both 6-nt padlock ends dock on it, '
         'and the marked bond is the sole T4-ligase closure.'),
       '<h2>Reaction workflow</h2>', protocol_graph_panels(M.protocol_graph(), cls="long"),

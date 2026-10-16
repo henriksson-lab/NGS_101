@@ -1,0 +1,127 @@
+{
+  "dir": "cfmedip-seq__10.1038+s41596-019-0202-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41596-019-0202-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full Nature Protocols Methods not fetched; publisher page alone cannot support exact adapter or index claims."
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/cfmedip-seq__10.1038+s41596-019-0202-2/s41596-019-0202-2_41596_2019_202_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary opening pages and methods checklist",
+        "finding": "Study reporting summary, no ordering oligo sequences."
+      },
+      "reason": "Reporting summary."
+    },
+    {
+      "id": "original_cfmedip",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41586-018-0703-0",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor article and any detailed adapter/kit references not yet checked."
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/bratmanlab/cfMeDIP_Protocol",
+      "discovered_from": "original",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Author repository is analysis/QC code, not the defining wet-lab reagent recipe.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README lines 149–172 and 181–216, repository inventory and analysis steps",
+        "finding": "Repository README identifies FASTQ/BAM processing, QC and plotting scripts; inspected linked code inventory does not describe adapter synthesis."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author GitHub repository README, files list lines 149–170 and procedure lines 181–216",
+        "finding": "Repository code covers BAM alignment, QC and Figure 3/4 plotting; no oligo ordering or wet-lab adapter sequence is supplied in inspected README and inventory."
+      }
+    },
+    {
+      "id": "taiwo_2012_original",
+      "role": "predecessor",
+      "locator": "Taiwo et al., Nature Protocols 7:617-636 (2012), DOI:10.1038/nprot.2012.012; full original facsimile at https://www.researchgate.net/publication/221688580_Methylome_analysis_using_MeDIP-seq_with_low_DNA_concentrations",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Nature Protocols 2012 facsimile on ResearchGate, full HTML text lines 1-3416; library-preparation A lines 677-718; Table 2 lines 883-916; Materials adapter/primer preparation lines 1904-1927. cfMeDIP source bundle scraper run before article reading.",
+        "finding": "Actual Taiwo 2012 original separates end repair, 3-prime dA tailing and paired-end adapter ligation from later MeDIP and PCR. Table 2 prints PE.Adapter.1.0 terminal phosphorothioate, PE.Adapter.2.0 5-prime phosphate, and PCR.primer.PE.1.0/.2.0. Materials anneal those two adapter strands at equimolar stock. The original does not establish that Shen 2019 cfMeDIP selected this exact adapter, index or kit generation."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Taiwo 2012 Nature Protocols facsimile on ResearchGate, library preparation lines 677–718, Table 2 lines 883–916, adapter/primer Materials lines 1904–1927; cfMeDIP source-bundle oligo scraper run before reading",
+        "finding": "Independently verified that Taiwo end-repairs, dA-tails and ligates its paired-end adapter before MeDIP, then uses adapter-mediated PCR. Original Table 2 prints PE.Adapter.1.0 with terminal phosphorothioate, PE.Adapter.2.0 with 5′ phosphate, and two PCR primers; Materials prescribe equimolar adapter-strand annealing. It does not identify Shen 2019's selected adapter or kit."
+      },
+      "reason": "The original is readable from a hosted facsimile, but its chemistry cannot be transferred wholesale to the unavailable 2019 defining protocol."
+    },
+    {
+      "id": "butcher_beck_nano_medip_draft",
+      "role": "linked_material",
+      "locator": "Butcher and Beck, Nano-MeDIP-seq: Methylome analysis using low DNA concentrations, author draft at https://discovery.ucl.ac.uk/10050678/1/Beck__LMB_draft_v4%20%28with%20comments%29.pdf; local Beck__LMB_draft_v4__with_comments_.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "taiwo_2012_original",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Defining Shen 2019 publisher page Related links lines 225–235 explicitly names Taiwo et al. 2012 as protocol extension; Taiwo author draft text lines 699–716 Notes 4–5, 995–1055 Table 1 adapters/PCR primers; original PDF pp. 14, 21. Ran oligo scraper on fetched source bundle and verified hits against table.",
+        "finding": "The cited predecessor draft prints both single-plex and multiplex Illumina PE adapters/primers, including 5-prime-phosphorylated strands and terminal phosphorothioates. Its own Note 4 allows alternative adapter systems. This establishes possible inherited MeDIP ligation chemistry but does not identify the 2019 cfMeDIP adapter or selected index; the published Taiwo version and Shen full protocol still require independent reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author draft PDF extracted lines 1-8 title/authors; lines 453-492 library-adapter ligation then MeDIP; Notes 4-5 lines 705-717; Table 1 lines 995-1055, 1080-1140; reference 11 lines 959-961. Ran bundle oligo scraper before original reading.",
+        "finding": "This is Butcher and Beck Nano-MeDIP-seq, not Taiwo et al 2012; it explicitly cites Taiwo 2012 as reference 11. Notes 4-5 allow either single-plex or multiplex Illumina adapters/primers, and Table 1 prints both sets with 5-prime phosphate and terminal phosphorothioates. They are candidate related chemistry, not a selected cfMeDIP adapter/index set."
+      },
+      "reason": "Source-identity correction: pass_1 incorrectly called this Taiwo 2012. Original title/authors are Butcher and Beck, and its reference 11 cites Taiwo as a separate source. It is a related later draft with optional adapter designs, not evidence of the 2019 selected cfMeDIP kit."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Nature Protocols manifest manual entry; reporting-summary opening pages",
+      "finding": "Full defining protocol was unavailable. Reporting supplement is not a reagent recipe; predecessor and vendor routes remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Nature Protocols defining article access page; author GitHub README lines 149–172, 181–216",
+      "finding": "Author code is analysis/QC only; defining full Nature Protocols and predecessor remain inaccessible, so status stays blocked."
+    },
+    "followup_2026_10_16": {
+      "reviewer": "audit_a_h",
+      "locations": "Butcher/Beck draft title lines 1-8 and reference 11 lines 959-961; actual Taiwo 2012 original Table 2 lines 883-916 and Materials lines 1904-1927",
+      "finding": "Corrected previously misidentified predecessor source and followed its citation to the actual Taiwo original. Actual Taiwo Table 2 has exact PE adapter/PCR primers. A separate reader has now checked Taiwo independently; Shen 2019 full Methods and the 2018 cfMeDIP source remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact adapter, index-primer and ligation-ready end chemistry are undisclosed",
+      "disposition": "blocked",
+      "evidence": "The actual Taiwo 2012 original Table 2 prints its PE adapter and PCR primers, but cannot establish Shen 2019 selection. Shen 2019 full Methods and the 2018 cfMeDIP predecessor remain unavailable; no exact cfMeDIP absence can be confirmed."
+    }
+  ],
+  "conclusion": "The recovered Butcher/Beck Nano-MeDIP author draft was incorrectly labeled Taiwo 2012; its title and reference 11 establish the distinction. Two readers independently checked the actual Taiwo 2012 original, which prints its own PE adapter and PCR primer sequences. The 2019 defining full protocol and 2018 cfMeDIP article remain unavailable. No cfMeDIP adapter, selected index, or exact kit claim is accepted missing or inherited."
+}

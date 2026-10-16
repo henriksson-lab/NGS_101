@@ -1,0 +1,232 @@
+{
+  "dir": "light-seq__10.1038+s41592-022-01604-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "kishi_2022_article",
+      "role": "defining",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_PMC9636025.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS Abstract, Methods, online data/code links and supplementary listing; compared author PDF; source oligo scraper run on full bundle",
+        "finding": "Describes cnvK photocrosslinking, RNase H release, Bst cross-junction synthesis, asymmetric Nextera XT endpoint and custom R1/i5 sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC9636025 JATS Results lines 82–104 and Methods line 244; Light bundle scraper",
+        "finding": "Photo-crosslinked ROI barcode joins cDNA by cross-junction synthesis; defining Methods specify Nextera XT FC-131-1096 and custom i5 GATE primer during tagmentation/index PCR. Published article has an oligo-rich supplement, so printed sequences are not missing."
+      }
+    },
+    {
+      "id": "moesm1_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original supplement oligo table extracted lines 1135-1321 and library protocol sections; source scraper hits 1146-1321",
+        "finding": "Prints three modified ROI barcode strands, cross-junction RT/extension primers, S5XX.GATE and N7XX indexing families, and custom sequencing primers. These are already represented by the public page as an S502/N701 example."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 supplementary PDF Table 6 lines 1135–1321 and detailed workflow; bundle scraper",
+        "finding": "Table prints modified cnvK/Cy5/Cy3/fluorescein barcode strands, cross-junction primer, GATE/GATC PCR primers, custom i5 S502.GATE family, custom read primer and library structures. The representative page example is source-backed, with other index variants distinct."
+      }
+    },
+    {
+      "id": "moesm2_reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM2_ESM.pdf, four image-only pages",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all four pages after the text extractor reported no text layer; focus pages 2-3 study design and library/sample descriptions",
+        "finding": "Nature reporting form describes replication and computational code but prints no oligo order list or molecular construct detail."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF all four pages visually inspected via rendered images",
+        "finding": "Nature Portfolio reporting summary covering statistics, sample design, antibodies and animal methods; no molecular oligo table or sequencing library procedure."
+      },
+      "reason": "Reporting summary has study design rather than protocol oligo table."
+    },
+    {
+      "id": "moesm3_peer_review",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Peer Review Information first sections and text search for oligo/adapter/reaction details",
+        "finding": "Peer review history and responses, not a reagent or ordering table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 peer-review PDF opening and keyword occurrences near lines 223–231, 463–502",
+        "finding": "Peer comments discuss assay efficiency and general RT/cross-junction behavior, but inspected passages give no alternate library oligo or reaction order. It is review history, not the defining chemistry source."
+      },
+      "reason": "Peer-review document, not the final protocol source."
+    },
+    {
+      "id": "moesm4_fish_probes",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook SABER-FISH Probes sheet headers and rows 447-475; oligo scraper hits for /3InvdT/ probes",
+        "finding": "Contains modified FISH probes for downstream imaging experiments, not the Light-Seq library primers or barcode strand."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 SABER-FISH Probes workbook sheet header and first rows, plus /3InvdT/ probe hits; bundle scraper",
+        "finding": "These are imaging validation probe sequences for SABER-FISH, not Light-Seq sequencing-library adapters or ROI-barcoding oligos. Their sequence positivity has a distinct experimental role."
+      },
+      "reason": "Ancillary FISH readout oligos are outside the sequencing chemistry represented by this protocol page."
+    },
+    {
+      "id": "moesm5_results",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM5_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "First sheet header and first result rows; oligo scraper full bundle",
+        "finding": "Contains differential-expression tables for retinal cell types; no chemistry reagent or primer columns in the inspected table header."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 workbook opening sheet/header and first result rows; bundle scraper",
+        "finding": "ONLvsRGC differential-expression sheet contains expression-result columns and gene identifiers, not library reagent oligos."
+      },
+      "reason": "Expression-result workbook rather than a library chemistry source."
+    },
+    {
+      "id": "moesm6_results",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM6_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "First sheet header and first result rows; oligo scraper full bundle",
+        "finding": "Contains differential-expression tables for amacrine cells; no chemistry reagent or primer columns in the inspected table header."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 workbook opening sheet/header and first result rows; bundle scraper",
+        "finding": "TH_Amacrine_DEGs differential-expression sheet contains expression-result columns and gene identifiers, not library reagent oligos."
+      },
+      "reason": "Expression-result workbook rather than a library chemistry source."
+    },
+    {
+      "id": "moesm7_results",
+      "role": "supplement",
+      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "First sheet header and first result rows; oligo scraper full bundle",
+        "finding": "Contains gene-expression result matrix; no chemistry reagent or primer columns in the inspected table header."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM7 workbook opening sheet/header and first result rows; bundle scraper",
+        "finding": "Human gene TPM/expression matrix sheet contains expression-result columns and gene identifiers, not library reagent oligos."
+      },
+      "reason": "Expression-result workbook rather than a library chemistry source."
+    },
+    {
+      "id": "author_protocolsio",
+      "role": "linked_material",
+      "locator": "doi:10.17504/protocols.io.x54v9jno4g3e/v1; _data/sources/light-seq__10.1038+s41592-022-01604-1/protocolsio_light-seq-x54v9jno4g3e.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Authors detailed protocol oligo list around lines 198-425 and cross-junction/library preparation steps; source scraper hits checked",
+        "finding": "Stepwise guide prints three modified GATE barcode strands, RT.5N.3G, GATC.20T, indexing family and custom sequencing primers, corroborating and extending original supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io x54v9jno4g3e PDF resource list line 105, oligo list lines 198–425, tagmentation steps lines 2580–2582 and 2660 onward; bundle scraper",
+        "finding": "Actual procedure uses Nextera XT FC-131-1096, matching published JATS line 244. The earlier resource list instead names Nextera DNA FC-121-1030; this is a source discrepancy, now disclosed on page/note. Exact oligo and index families are printed in the protocol."
+      },
+      "discovered_from": "kishi_2022_article"
+    },
+    {
+      "id": "analysis_code",
+      "role": "linked_material",
+      "locator": "https://github.com/Harvard-MolSys-Lab/Light-Seq-Nature-Methods-2022/tree/main; raw parser files CellMixing/ExtractTwoBarcodes.py and RetinaCellTypeLayers/ExtractThreeBarcodes.py",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Repository landing and code listing, especially ExtractTwoBarcodes.py/ExtractThreeBarcodes.py references in note",
+        "finding": "Provides actual read-parser boundary supporting UMI then ROI barcode and transcript order; repository code files require a separate direct read to fully verify parser details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author repository README workflow around local HTML text lines 865–935; raw main/CellMixing/ExtractTwoBarcodes.py lines 12–18 and main/RetinaCellTypeLayers/ExtractThreeBarcodes.py lines 12–18",
+        "finding": "Both author parsers expect R1 12-base UMI, a variable intervening tract, ROI code GTTAGG/TATGGA (plus AGGGTA in retina), fixed TGAGTTAT with up to two substitutions, eight following bases and then cDNA. This supports role order but not a fixed cycle offset for ROI after the UMI."
+      },
+      "discovered_from": "kishi_2022_article"
+    },
+    {
+      "id": "nextera_xt_vendor",
+      "role": "vendor",
+      "discovered_from": "kishi_2022_article",
+      "locator": "Illumina Nextera XT guide for the kit revision used by Kishi et al.; not yet acquired for this review",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact ordinary index-side oligo selection and kit-revision details should be checked against vendor original; linked author protocol establishes custom GATE-side primer but vendor guide is not yet separately read.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS, seven local supplements including image-only MOESM2 visual inspection, authors linked protocols.io guide, GitHub repository landing, and full-bundle oligo scraper",
+      "finding": "The original supplement and author guide print the modified barcode and primer families, so the S502/N701 page example is supported. Ancillary FISH and result workbooks are distinguished. Vendor Nextera XT revision and code-level parser details need direct source checks; independent second reader is pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS line 244 and MOESM1 Table 6 lines 1135–1321; author protocols.io list line 105 versus procedure 2580–2582; GitHub raw parser lines 12–18; MOESM2 all pages and result workbook headers",
+      "finding": "Detailed author protocol and actual parsers followed. Nextera kit list/procedure discrepancy is visible on public page; model follows matching published/procedure XT revision. Exact vendor XT manual remains unavailable, so its unpublished-specific claims stay blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Independent pass confirms source-printed library oligos, parser read order and the Nextera kit-list discrepancy. Vendor XT manual remains unavailable; no missing claim accepted."
+}

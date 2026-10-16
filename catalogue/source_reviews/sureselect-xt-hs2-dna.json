@@ -1,0 +1,79 @@
+{
+  "dir": "sureselect-xt-hs2-dna",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "agilent_guide",
+      "role": "defining",
+      "locator": "Agilent SureSelect XT HS2 DNA Kits G9957-90000 B0, https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PDF pp. 61–70, web-extracted lines 1951–2340; index table 61–68",
+        "finding": "Guide prints 384 paired 8-base P7/P5 index values and orientation; complete primer arm/adapter structure not yet independently resolved from this guide."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official G9957-90000 B0 PDF pp. 22–29 (web lines 721–779 and following), pp. 46–50 (1516–1540), pp. 61–70 (1951–2337)",
+        "finding": "Independently read the kit workflow, MBC/read structure, and Tables 61–68. The manual identifies T4 ligase and adaptor mix, standard Illumina paired-end sequencing, five-base MBCs at read starts, and 384 paired eight-base indexes, but prints neither the full adaptor nor full index-primer arms. Selected index pair is user-specific."
+      }
+    },
+    {
+      "id": "index_sequence_resource",
+      "role": "linked_material",
+      "discovered_from": "agilent_guide",
+      "locator": "https://www.agilent.com/cs/library/instructionsheet/public/XTHS2_Index_Sequence_Resource.xlsx (linked from official Agilent Magnis XT HS2 product page, Instruction Sheets, 15 Feb 2024)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official XLSX link identified, but repository fetch and direct curl fail DNS; web tool cannot inspect XLSX content. The workbook is described as containing index sequences, but its cells have not been checked.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "bravo_option_b_guide",
+      "role": "linked_material",
+      "discovered_from": "agilent_guide",
+      "locator": "https://www.agilent.com/cs/library/usermanuals/public/G9985-90011.pdf (Agilent Bravo Option B, version A2, October 2023)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official PDF pp. 10–12 (web lines 284–367), pp. 60–62 (1926–2007), pp. 156–159 (4878–4964), reference index tables pp. 174–181",
+        "finding": "Related automated HS2 kit uses G9985A–D MBC adaptor mixes, T4 ligase and 8-base dual indexes. It names the adaptor mix but the inspected recipe and index tables do not print complete adaptor or primer arms. This alternative 2023 workflow does not establish the exact B0 manual kit oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Agilent G9985-90011 A2 PDF pp. 10–12, 60–62 and 156–159 (browser lines 275–334, 1887–2007, 4857–4940); local SureSelect source-bundle scraper run first, but source fetch returned no files due DNS",
+        "finding": "Independently verified that the related automated HS2 kits offer MBC-tagged and MBC-free adaptor mix options, end repair/dA tailing followed by T4 ligase adaptor ligation, and 8-base paired indexes read with standard Illumina primers. The manual names proprietary adaptor mixes but does not print their constituent strand bases or identify a selected index pair for the B0 workflow."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Official B0 guide index tables pp. 61–70 read on web; local copy unavailable and alternative kit docs unchecked.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "G9957 B0 official PDF pp. 22–29, 46–50, 61–70; Agilent product page Instruction Sheets link 141 to XLSX; G9985 A2 PDF pp. 10–12, 60–62, 156–159 and index-table reference",
+      "finding": "Followed the index resource to its official XLSX URL and the related Bravo Option B guide. The guide was read online; XLSX cells remain inaccessible after local DNS failures. No exact B0 adaptor-arm sequence is validated."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact SureSelect XT HS2 B0 adaptor and index-primer arm sequences are established",
+      "evidence": "G9957 B0 and related G9985 A2 identify adaptor mixes and print paired 8-base indexes, but not full arm oligos in inspected sections; linked official XLSX remains unread.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent readings of G9957 B0 confirm index sequences and workflow. A related A2 guide is first-read, while the official index workbook and complete kit oligo identity remain unresolved; absence is not accepted."
+}

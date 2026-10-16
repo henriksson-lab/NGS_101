@@ -1,0 +1,241 @@
+{
+  "dir": "plate-scatac-seq__10.1038+s41467-018-07771-0",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Chen et al Nat Commun 2018 doi:10.1038/s41467-018-07771-0 PMC6297232",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41467-018-07771-0_PMC6297232.xml.txt lines 46-52 and 117-137",
+        "finding": "Protocol tagmentation happens in bulk before single-nucleus sorting; article points to Supplementary Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-018-07771-0_PMC6297232.xml.txt lines 117-137",
+        "finding": "Defining article details bulk Tn5 tagmentation, cell sorting into plates, indexed library PCR and links detailed Supplementary Methods and GitHub analysis repository."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Springer MOESM1_ESM.pdf.txt, original Supplementary Methods",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Detailed single-cell workflow lines 2600-2640; oligonucleotide table near 2764-2806; scraper hit 2790",
+        "finding": "Prints Nextera S5xx/N7xx indexing primers and per-well PCR mixture, unlike related Pi-ATAC."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-018-07771-0_41467_2018_7771_MOESM1_ESM.pdf.txt lines 2600-2640 and 2764-2806",
+        "finding": "Original supplement gives bench protocol and N701-N729 plus S502-S522 oligo families with full bases."
+      }
+    },
+    {
+      "id": "pi_atac",
+      "role": "linked_material",
+      "locator": "Pi-ATAC Nat Commun 2018 doi:10.1038/s41467-018-07115-y, PMC6214962",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Related paper JATS Methods and supplement inventory",
+        "finding": "Pi-ATAC is a related branch; its sample fixation and index details cannot be assigned to plate scATAC without source."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-018-07115-y_PMC6214962.xml.txt lines 56-78",
+        "finding": "Related Pi-ATAC original adds index-sort proteomics but is a separate variant; it cannot establish plate scATAC-specific index choices."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_github",
+      "role": "linked_material",
+      "locator": "https://github.com/dbrg77/plate_scATAC-seq",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "GitHub repository README lines 209-230; pinned archive 81a158b5386755b02e38042abadf2840b1add4a8, mSp_scATAC-seq/Snakefile lines 45-68 and buenrostro_c1/Snakefile lines 50-73",
+        "finding": "The analysis repository contains cutadapt adapter/read-through patterns in the plate scATAC workflow and comparator. These are relevant corroboration for observed adapter sequence, but do not establish complete synthesized adapter geometry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Full pinned author ZIP archive 81a158b5386755b02e38042abadf2840b1add4a8; mSp_scATAC-seq/Snakefile lines 45-68, buenrostro_c1/Snakefile lines 50-73; all small text/code files searched for adapter, primer, Tn5, tagmentation, cutadapt and long DNA motifs",
+        "finding": "Both workflows specify the same cutadapt -a/-A sequences with an eight-N index window. These are trimming patterns for read-through, not a separate wet-lab oligo table or proof of end geometry. The repository is chemistry-relevant and cannot be excluded based on the README."
+      }
+    },
+    {
+      "id": "plate_moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This is a short review and rebuttal record without additional wet-lab instructions or oligo sequence table.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM2 PDF text lines 1-23",
+        "finding": "Nature Communications reviewer/rebuttal document; no additional oligo table in the inspected text."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original peer-review PDF text lines 1–23, complete available extraction",
+        "finding": "This is a short review and rebuttal record without additional wet-lab instructions or oligo sequence table."
+      }
+    },
+    {
+      "id": "plate_moesm7",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM7_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Data 1–4 are inventoried as QC, cell annotation, marker peak and HOMER motif result tables; no reagent list.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM7 DOCX text lines 1-9",
+        "finding": "Describes Data 1-4 as QC metrics, cell annotations, marker peaks and HOMER motif results."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original DOCX extracted text lines 1–9, complete",
+        "finding": "Data 1–4 are inventoried as QC, cell annotation, marker peak and HOMER motif result tables; no reagent list."
+      }
+    },
+    {
+      "id": "plate_moesm8",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM8_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Nature Research reporting form describes data analysis and study design; it has no library-construction oligo table or additional adapter geometry.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM8 PDF text lines 1-64",
+        "finding": "Reporting summary lists software and links the author analysis repository; chemistry-relevant code was inspected separately."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary original PDF text lines 1–227, including software/data and methods sections",
+        "finding": "Nature Research reporting form describes data analysis and study design; it has no library-construction oligo table or additional adapter geometry."
+      }
+    },
+    {
+      "id": "plate_moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM3_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Batch-level QC measurements include FRiP, library size, mapping, mitochondrial content and depth; no reagent sequence or construction procedure.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM3 original XLS via xls2csv, header and all 15 rows; scraper run on converted text",
+        "finding": "QC metrics by batch; no molecular primer, adapter or reaction columns."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original XLS extracted rows 1–15, all rows",
+        "finding": "Batch-level QC measurements include FRiP, library size, mapping, mitochondrial content and depth; no reagent sequence or construction procedure."
+      }
+    },
+    {
+      "id": "plate_moesm4",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM4_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Per-cell QC, t-SNE positions, clusters and inferred cell types. Identifiers and values are measured outputs, not barcoding oligos or molecular steps.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM4 original XLS via xls2csv, header and all 3168 rows; scraper run on converted text",
+        "finding": "Per-cell QC metrics, coordinates and predicted cell types; no molecular chemistry columns."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original XLS extracted header line 1 and rows 2–3168; checked field names and row structure",
+        "finding": "Per-cell QC, t-SNE positions, clusters and inferred cell types. Identifiers and values are measured outputs, not barcoding oligos or molecular steps."
+      }
+    },
+    {
+      "id": "plate_moesm5",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM5_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Marker genomic peaks, coordinates and annotations are results; no adapter or primer fields.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM5 original XLS via xls2csv, header and all 6002 rows; scraper run on converted text",
+        "finding": "Genomic peaks and marker annotations; no protocol oligo columns."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original XLS extracted header line 1 and rows 2–6002; checked field names and row structure",
+        "finding": "Marker genomic peaks, coordinates and annotations are results; no adapter or primer fields."
+      }
+    },
+    {
+      "id": "plate_moesm6",
+      "role": "supplement",
+      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM6_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "HOMER motif enrichment results. The DNA-like consensus strings (e.g. CEBP and PU.1 rows 2–3) describe transcription-factor binding motifs, not protocol oligos.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM6 original XLS via xls2csv, header and all 4392 rows; scraper run on converted text",
+        "finding": "HOMER motif enrichment table; DNA-like scraper hits are transcription-factor motifs, not library oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original XLS extracted header line 1 and rows 2–4392; checked motif-consensus and other field names",
+        "finding": "HOMER motif enrichment results. The DNA-like consensus strings (e.g. CEBP and PU.1 rows 2–3) describe transcription-factor binding motifs, not protocol oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-15",
+      "locations": "Plate scATAC original article and MOESM1 Methods; Pi-ATAC related source; pinned author GitHub ZIP mSp_scATAC-seq/Snakefile lines 45-68",
+      "finding": "Followed article links to original supplement, related Pi-ATAC publication, and author repository; repository trimming commands provide observed adapter sequence but not synthesized adapter geometry."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 117-137; original MOESM1 lines 2600-2640 and 2764-2806; Pi-ATAC JATS lines 56-78; author GitHub README lines 209-230 and pinned ZIP mSp_scATAC-seq/Snakefile lines 45-68",
+      "finding": "Read original paper and detailed oligo supplement, compared related Pi-ATAC, and independently checked author GitHub analysis code with adapter trimming motifs. No missing claim is made for plate scATAC."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent readers checked the plate scATAC paper, its main oligo supplement, all other plate supplements, the related Pi-ATAC paper, and the linked author code. Plate scATAC index primers are printed in the original supplement. No missing-information claim is accepted. Pi-ATAC retains its own blocked source review."
+}

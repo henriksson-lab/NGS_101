@@ -18,13 +18,13 @@ FINAL_LIBRARY=Construct([
     seg("P5",il.P5,"p5"),seg("Read 1 arm",RT,"r1"),
     seg("well barcode","B"*8,"cbc",placeholder=True,feature=feature(
         "well_barcode","cell_barcode","whitelist",
-        whitelist="Zheng et al. 2022, Table 1 well-barcode set")),
+        whitelist="Zheng et al. 2022, Table 2 well-barcode set")),
     seg("UMI","U"*10,"umi",placeholder=True,feature=feature("umi","umi","random")),
     seg("transcript cDNA","X"*36,placeholder=True),seg("TSO-derived end",TSO),
     seg("mosaic end reverse complement",nx.ME_RC,"me"),seg("S7 reverse complement",nx.S7_RC,"s7"),
     seg("plate index reverse complement","I"*8,"cbc",placeholder=True,feature=feature(
         "plate_index","sample_index","whitelist",
-        whitelist="Zheng et al. 2022, Table 1 plate-barcode set")),
+        whitelist="Zheng et al. 2022, Table 3 plate-index set")),
     seg("P7 reverse complement",il.P7_RC,"p7")],name="Modified SMART-Seq library")
 SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.NEXTERA["I1"],sp.NEXTERA["R2"])
 FINAL_CAPTION="Read 1 begins with the well barcode and UMI; Read 2 reads transcript sequence from the tagmented end."

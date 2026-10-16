@@ -11,7 +11,7 @@ import illumina as il
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
 from protocol_extensions import analyte_split
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 import rt
 import scbs
 import smartseq2 as s2
@@ -21,29 +21,31 @@ SOURCE='Defining source: <a href="https://doi.org/10.1038/nmeth.3728">Angermuell
 SUMMARY="Biotinylated oligo(dT) beads remove a cell's mRNA for Smart-seq2 while the genomic-DNA supernatant enters scBS-seq."
 CAVEAT=("The defining method establishes bead-based physical separation and explicitly "
         "inherits Smart-seq2/Nextera XT and scBS-seq. Their authoritative oligos are "
-        "reused here, so both branch-specific PCR geometries are exact. One inherited "
-        "sequence is not exact, though: Angermueller et al. do not print a "
-        "template-switch oligo at all &mdash; the RNA half is delegated to the "
-        "G&amp;T-seq protocol &mdash; and "
-        "Smart-seq2 has two published TSO linkers. Picelli et al. 2013 Supplementary "
-        "Table 2 gives the chosen <code>rGrG+G</code> oligo as the 23-nt handle + "
-        "<code>AC</code> + <code>rGrG+G</code>, while the <i>Nature Protocols</i> form "
-        "carries <code>ACAT</code>. The longer form is modelled, and the whole TSO "
-        "linker is therefore drawn dotted as an inherited inference.")
+        "reused here. Angermueller et al. do not print a template-switch oligo; their "
+        "cited G&amp;T-seq predecessor (Macaulay et al. 2015, Online Methods p. 4) "
+        "prints the 23-nt handle + <code>AC</code> + <code>rGrG+G</code>. "
+        "Picelli et al. 2013 Supplementary Table 2 also gives <code>AC</code>, "
+        "whereas Picelli et al. 2014 <i>Nature Protocols</i> gives <code>ACAT</code>. "
+        "The G&amp;T <code>AC</code> form is modelled; its linker remains dotted because "
+        "scM&amp;T delegates rather than prints this exact oligo. "
+        "Supplementary Fig. 3e reports sequenced DNA fragments made of "
+        "first-strand primer concatemers; their exact molecular assembly is not established.")
 
+G_AND_T_TSO_LINKER="AC"
 
 RNA,RP=nextera_library([seg("Smart-seq2 cDNA insert","X"*36,placeholder=True)],"scM&T-seq RNA")
 DNA=Construct([replace(s,name=s.name.replace("N9","N6"),top="N"*6)
                if s.name in ("oligo1 N9","oligo2 N9") else s
                for s in scbs.final_library()],name="scM&T-seq DNA methylome")
 DP=tuple(scbs.SEQ_PRIMERS)
-RNA_PREAMP=s2.preamp_template()
+RNA_PREAMP=Construct([replace(s,top=G_AND_T_TSO_LINKER) if s.name=="TSO linker" else s
+                      for s in s2.preamp_template()],name="G&T-inherited full-length cDNA before ISPCR")
 FINAL_LIBRARIES=(("RNA library",RNA,RP,"Smart-seq2 cDNA after Nextera XT.","Nextera primers declared for the RNA branch."),("DNA methylome library",DNA,DP,"Bisulfite-converted genomic fragments after scBS-seq.","Illumina primers declared for the DNA branch."))
 
 def oligos():
-    return [f"Smart-seq2 oligo-dT30VN: 5′-{s2.OLIGO_DT}-3′",
+    return [f"G&T-seq capture oligo-dT30VN (inherited): 5′-biotin-triethyleneglycol-{s2.OLIGO_DT}-3′",
             f"Smart-seq2 TSO (linker inherited, not printed by this paper): "
-            f"5′-{rt.SMART_HANDLE}<inf>{s2.TSO_LINKER}</inf>{rt.TSO_G_TAIL_LNA}-3′",
+            f"5′-{rt.SMART_HANDLE}<inf>{G_AND_T_TSO_LINKER}</inf>{rt.TSO_G_TAIL_LNA}-3′",
             f"Smart-seq2 ISPCR primer: 5′-{s2.ISPCR}-3′",
             f"scBS-seq PE1: 5′-{scbs.PE1}-3′",
             f"scM&T oligo1 N6: 5′-{scbs.OLIGO1_HANDLE}{'N'*6}-3′",
@@ -61,13 +63,15 @@ def protocol_graph():
     dna=g.product("dna_fraction","genomic-DNA supernatant plus retained washes",MaterialKind.MOLECULAR,state=sections()[1][1][1:])
     g.react("separate","Capture mRNA and separate it from genomic DNA",StepKind.AFFINITY_CAPTURE,((lysate,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(rna,dna),changes_molecule=False)
 
-    rt_primer=g.input("rt_primer","Smart-seq2 anchored oligo(dT) primer",MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("oligo-dT linker",s2.DT_LINKER),seg("dT30VN","T"*30+"VN",placeholder=True)))
+    rt_primer=g.input("rt_primer","G&T-seq 5′-biotin-triethyleneglycol anchored oligo(dT) primer",MaterialKind.OLIGO,
+                      state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("oligo-dT linker",s2.DT_LINKER),seg("dT30VN","T"*30+"VN",placeholder=True)),
+                      source="Macaulay et al. 2015 G&T-seq Online Methods p. 4, lines 569–576")
     rt_enzyme=g.input("rt","template-switching reverse transcriptase",MaterialKind.CATALYST)
     copied=g.product("copied","first-strand Smart-seq2 cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
     g.react("reverse_transcribe","Reverse-transcribe bead-captured RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(copied,))
-    tso=g.input("tso","Smart-seq2 template-switch oligo",MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("TSO linker",s2.TSO_LINKER,inferred=True),seg("rGrG+G","GGG","tso")))
+    tso=g.input("tso","G&T-seq template-switch oligo inherited by scM&T",MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),seg("TSO linker",G_AND_T_TSO_LINKER,inferred=True),seg("rGrG+G","GGG","tso")))
     switched=g.product("switched","template-switched full-length cDNA",MaterialKind.MOLECULAR,state=RNA_PREAMP)
-    g.react("template_switch","INFERRED — Template-switch the nascent cDNA (the TSO linker is inherited from Smart-seq2; this paper prints no TSO)",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(switched,))
+    g.react("template_switch","INFERRED — Template-switch the nascent cDNA (the AC linker is printed by cited G&T-seq; this paper prints no TSO)",StepKind.TEMPLATE_SWITCHING,((copied,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt_enzyme,InputRole.CATALYST)),(switched,))
     ispcr_f=g.input("ispcr_forward","Smart-seq2 ISPCR primer at the 5′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
     ispcr_r=g.input("ispcr_reverse","same Smart-seq2 ISPCR species at the 3′ handle",MaterialKind.OLIGO,state=(seg("ISPCR",s2.ISPCR,"tso"),))
     prepol=g.input("preamp_polymerase","Smart-seq2 cDNA PCR polymerase",MaterialKind.CATALYST)
@@ -100,6 +104,18 @@ def protocol_graph():
     finish_pcr_branch(g,"rna",rna_tagged,RNA,RP,reviewed,label="scM&T-seq RNA",geometry=s2.nextera_index_geometry(RNA))
     ipcrtag=il.P7+"N"*scbs.IPCRTAG_INDEX_NT+scbs.IPCRTAG_3_ARM
     dna_geometry=PCRGeometry.exact(DNA,PCRPrimer("PE1",scbs.PE1),PCRPrimer("indexed iPCRTag",ipcrtag,anneal_nt=len(scbs.IPCRTAG_3_ARM)),statement="Smallwood et al. print PE1 and the indexed iPCRTag family; their annealing regions face inward on the scBS-seq product.")
-    finish_pcr_branch(g,"dna",dna_adapted,DNA,DP,reviewed,label="scM&T-seq DNA methylome",geometry=dna_geometry)
+    dna_forward=g.input("dna_forward","scM&T-seq DNA methylome forward PCR primer",MaterialKind.OLIGO)
+    dna_reverse=g.input("dna_reverse","scM&T-seq DNA methylome reverse PCR primer",MaterialKind.OLIGO)
+    dna_pcr_polymerase=g.input("dna_polymerase_pcr","scM&T-seq DNA methylome PCR polymerase",MaterialKind.CATALYST)
+    dna_library=g.product("dna_library","scM&T-seq DNA methylome sequencing library",MaterialKind.LIBRARY,state=DNA)
+    primer_concatemers=g.product("primer_concatemers","first-strand primer concatemers observed among sequenced DNA fragments",MaterialKind.WASTE,
+                                 source="Angermueller et al. 2016, Supplementary Fig. 3e caption; exact assembly not established")
+    g.react("dna_pcr","Amplify and index the scM&T-seq DNA methylome branch",StepKind.PCR,
+            ((dna_adapted,InputRole.TEMPLATE),(dna_forward,InputRole.STRUCTURAL),
+             (dna_reverse,InputRole.STRUCTURAL),(dna_pcr_polymerase,InputRole.CATALYST)),
+            (dna_library,primer_concatemers),geometry=dna_geometry)
+    g.sequence(dna_library,SequencingPlan(library=DNA,primers=DP,acquired_roles=tuple(p.role for p in DP)))
+    g.discard(primer_concatemers,"observed among sequenced reads and limits genomic alignment; exact formation stage is unresolved")
+    reviewed.extend((dna_forward.id,dna_reverse.id,dna_pcr_polymerase.id,"dna_pcr",dna_library.id))
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

@@ -1,0 +1,252 @@
+{
+  "dir": "seq-well__10.1038+nmeth.4179",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "nature_article",
+      "role": "defining",
+      "locator": "Gierahn et al Nat Methods 2017, nmeth.4179_PMC5376227.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods, supplementary material references and Seq-Well workflow",
+        "finding": "Defines Seq-Well and points to original master protocol and oligo table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC5376227 JATS lines 70–76, 96–118 and methods/supplement cross-references; original-bundle oligo scraper",
+        "finding": "Independently verified membrane-sealed nanowell loading, bead-bound oligo-dT with cell barcode and UMI, bulk RT/amplification, paired-end library preparation, and direct pointers to Supplementary Table 1 and Master Protocol. The article identifies Drop-seq as a shared-bead predecessor but does not itself print every library oligo."
+      }
+    },
+    {
+      "id": "supp_table1",
+      "role": "supplement",
+      "locator": "Original Springer supplementary tables, nmeth.4179_41592_2017_BFnmeth4179_MOESM237_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table 1 lines 265-300",
+        "finding": "Prints bead-linker/J12/N8/T30 architecture, RNA-terminated TSO, SMART PCR, phosphorothioate P5-SMART and custom Read 1 primer."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM237 PDF text lines 265–300, Supplementary Table 1 and caption; original-bundle oligo scraper",
+        "finding": "Independently verified five printed oligos: bead linker/12-J cell barcode/8-N UMI/dT30, TSO with terminal rGrGrG, SMART PCR, P5-SMART hybrid with two phosphorothioates, and custom Read 1. Caption assigns them to RT, WTA, step-out PCR and barcode/UMI reading."
+      }
+    },
+    {
+      "id": "master_protocol",
+      "role": "supplement",
+      "locator": "Original Seq-Well Master Protocol, nmeth.4179_41592_2017_BFnmeth4179_MOESM238_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Master Protocol workflow and reagent sections",
+        "finding": "Gives procedural context to Supplementary Table 1 sequence list."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM238 Seq-Well Master Protocol v1.0 (2/13/2017) PDF text lines 630–855 and reagent list 1154–1175; source scraper",
+        "finding": "Independently verified RT, ExoI, WTA PCR, Nextera XT tagmentation, selective P5-SMART plus N70X PCR, 20-cycle Read 1/50-cycle Read 2/optional 8-cycle index, and custom Read 1. The protocol links the Shalek Lab successor, Illumina custom-primer guides and Nextera XT kit."
+      }
+    },
+    {
+      "id": "large_archive",
+      "role": "supplement",
+      "locator": "Original Springer MOESM241 ZIP at _data/sources/seq-well__10.1038+nmeth.4179/nmeth.4179_41592_2017_BFnmeth4179_MOESM241_ESM.zip; member Seq-Well_Gierahn_Supplementary_Table_4.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original archive member was independently streamed in full: one 4,638-sample TBI header and 9,381 gene-expression rows, each with a quoted gene name followed by 4,638 numeric fields. This result matrix is irrelevant to oligo identities or library chemistry.",
+      "discovered_from": "nature_article",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Full original MOESM241 ZIP member Seq-Well_Gierahn_Supplementary_Table_4.txt, uncompressed 322,669,047 bytes; line 1 TBI_1… header (4,638 sample labels), lines 2–9,382 all 9,381 gene-expression rows, including line 5,197 gene NTPCR; JATS line 78 links Supplementary Table 4 to PBMC clusters",
+        "finding": "Independently streamed every row of the downloaded ZIP member. All 9,381 data rows have 4,639 fields: quoted gene identifier and 4,638 numeric measurements; no row contains oligo, adapter, primer or protocol text. Only keyword-like gene name is NTPCR at line 5,197. Thus Table 4 is a numeric expression matrix and contains no extra construct variant; the prior central-directory-only finding is superseded."
+      },
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM241 ZIP central directory and full integrity check; streamed sole 322,669,047-byte Table_4.txt member, 9,382 lines, header and all rows scanned for chemistry terms; article JATS Supplementary Table 4 description",
+        "finding": "Full archive body is a numeric PBMC gene-expression matrix: header has sample IDs TBI_1 etc., rows are gene symbols with expression values (e.g. A1BG-AS1, A2M). Keyword scan found only NTPCR as a gene symbol, no oligo, primer, adapter or reaction record. Independent pass_2 subsequently confirmed the result-only relevance."
+      }
+    },
+    {
+      "id": "other_result_supplements",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well__10.1038+nmeth.4179/ Springer MOESM234–236, 239–240, 242–246 (source-data XLSX and result tables; MOESM239 ZIP)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original JATS labels these as source data for figures and Supplementary Tables 3, 5–10; local workbook headers and MOESM239 ZIP directory show cell barcode/count matrices, cluster/gene-enrichment and expression-result records, not oligo design. Both readers checked their relevance; this is bounded to the inspected headings and headers, not a cell-by-cell read of every result matrix.",
+      "discovered_from": "nature_article",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS supplement descriptions lines 96–112; all locally extracted XLSX first-sheet headers; MOESM239 ZIP central directory (Supplementary Table 3); source bundle scraper reviewed",
+        "finding": "Supplementary Table 3 is a cell count matrix, Tables 5–10 are gene expression/enrichment results, and 234–236 are figure source data. No chemistry tables were located in these result file inventories."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM239 ZIP member inventory and first text-header bytes; MOESM234–236, 240, 242–246 XLSX extracted sheet names and first headings; original JATS line 78 Table 3/4 context",
+        "finding": "Independently inspected MOESM239 ZIP member `Seq-Well_Gierahn_Supplementary_Table_3.txt` and its first header beginning `Array11_1`; other local workbook headings show barcode/UMI results, t-SNE/cluster coordinates, B-cell enrichment and gene lists, not oligo orders or reaction recipes. This exclusion is bounded to names/headers; full large result matrices were not cell-by-cell read."
+      }
+    },
+    {
+      "id": "dropseq_predecessor",
+      "role": "linked_material",
+      "locator": "Macosko et al. Cell 2015 doi:10.1016/j.cell.2015.05.002, cited as ref. 12 and shared-bead predecessor; _data/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original Drop-seq paper describes shared bead architecture but does not by itself establish every Seq-Well processing choice; its defining supplement remains gated.",
+      "discovered_from": "nature_article",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Gierahn JATS lines 74–76 citing Drop-seq ref.12; original Macosko 2015 JATS Methods/figure legend lines 180–190 and 410–428; prior original source-bundle scraper",
+        "finding": "The predecessor uses the ChemGenes bead family with split barcode/UMI capture. Seq-Well directly supplies its own five oligos and master protocol; Drop-seq supplement availability does not determine Seq-Well source-exact bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Macosko et al. Cell 2015 JATS in local Drop-seq bundle lines 184–190 and Figure 1 legend 410–426; Seq-Well original JATS lines 74–76; both local article bundles scraper-checked",
+        "finding": "Macosko original establishes ChemGenes split-and-pool 12-base bead barcode, eight-base UMI, T30 capture and Nextera XT/custom-primer path; Gierahn explicitly says Seq-Well uses the same beads. The Seq-Well oligo exactness is independently supplied by its own Supplementary Table 1; Drop-seq original supplement remains gated and cannot substitute for it."
+      }
+    },
+    {
+      "id": "shalek_2019_s3",
+      "role": "linked_material",
+      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf; Seq-Well S^3 Master Protocol June 2019, linked via 2017 Master Protocol latest-protocol pointer; scoped extra_sources route DNS-failed, original PDF read via official-host web PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This author successor is explicitly Seq-Well S^3 and adds a dN-SMART/Klenow second-strand step after the 2017 protocol; it is a separate chemistry with its own repository protocol page, not evidence that 2017 used that step.",
+      "discovered_from": "master_protocol",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official original PDF pages 1, 19 and 39 (web PDF lines 0–45, 327–346, 935–947); 2017 Master Protocol latest-protocol link line 63; official Shalek Lab protocol page",
+        "finding": "June 2019 document is labelled Seq-Well S^3; it adds second-strand synthesis with dN-SMART and Klenow. Original PDF p.39 retains 12-J/8-N bead family and lists dN-SMART; short search excerpt had misleadingly lost two J characters. No 2017 barcode discrepancy is established."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Shalek Lab June 2019 Seq-Well S^3 Master Protocol web PDF p.1/title (web lines 0–9), pp.19–20 second-strand steps (lines 325–390), p.39 Sequences (lines 935–947); 2017 Master Protocol lines 63–65 links latest Shalek protocol",
+        "finding": "Independently read official author-hosted 39-page PDF. It is explicitly Seq-Well S^3, a later method: adds dN-SMRT oligo plus Klenow second-strand synthesis before WTA; final page still gives a 12-J/8-N SeqB bead family, TSO, dN-SMRT, P5-SMART and custom R1. It must not be used to change the original 2017 workflow. Scoped local fetch remains DNS-failed, so no local PDF body/scraper read of this successor."
+      }
+    },
+    {
+      "id": "miseq_custom_primer_2016",
+      "role": "vendor",
+      "discovered_from": "master_protocol",
+      "locator": "Illumina MiSeq System Custom Primers Guide 15041638 v01, February 2016; https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/miseq/miseq-system-custom-primers-guide-15041638-01.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Official Illumina PDF pp. 3–5, web text lines 30–81; revision history p. 6 lines 84–98; source-bundle oligo scraper run before original review",
+        "finding": "2016 guide specifies separate MiSeq custom-primer reservoirs: 18 for Read 1, 19 for index, 20 for Read 2, and 600 µL at 0.5 µM. It gives instrument loading, not custom oligo bases. Seq-Well Table 1 remains the direct source for its custom Read 1 sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Official Illumina MiSeq Custom Primers Guide 15041638 v01 PDF pp. 3–5, web lines 30–81; 2017 Seq-Well Master Protocol sequencing section; Seq-Well source-bundle oligo scraper run first",
+        "finding": "MiSeq guide assigns custom Read 1, Index and Read 2 primers to cartridge positions 18, 19 and 20 respectively and specifies 600 µl at 0.5 µM. It is an instrument-loading guide, with no Seq-Well primer bases; those come from original Supplementary Table 1."
+      }
+    },
+    {
+      "id": "nextseq_custom_primer_2015",
+      "role": "vendor",
+      "discovered_from": "master_protocol",
+      "locator": "2017 Seq-Well Master Protocol p. 25 links Illumina NextSeq custom-primer guide 15057456-01, October 2015; https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/nextseq/nextseq-custom-primers-guide-15057456-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact historical PDF URL is inaccessible in the web reader and local network DNS is unavailable. The official 2020 v03 guide confirms a v01 revision dated October 2015 but is not the original-era content.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "2017 original Master Protocol sequencing section and exact NextSeq URL; direct web open of 15057456-01 returned inaccessible; official 2020 15057456 v03 PDF revision history p. 6, web lines 141–174",
+        "finding": "The source links a concrete 2015 original; retrieval attempts failed. Later official guide confirms the v01 historical revision and custom-primer loading scope but cannot replace its version-specific instructions."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Original 2017 Seq-Well Master Protocol NextSeq URL in sequencing section; independent direct web open of official 15057456-01 PDF failed; official Illumina 2020 15057456 v03 revision history (web search indexed) confirms October 2015 v01; search of exact filename produced no official original PDF",
+        "finding": "Exact 2015 NextSeq guide remains unavailable. A later official guide confirms v01 existed and concerns cartridge custom-primer loading, but cannot establish version-specific original instructions or primer sequences."
+      }
+    },
+    {
+      "id": "nextera_xt_rev_e",
+      "role": "vendor",
+      "discovered_from": "master_protocol",
+      "locator": "2017 Seq-Well Master Protocol reagent list p. 36 names Nextera XT FC-131-1096 and N70X; contemporary Illumina 15031942 Rev E at https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_nextera/nextera-xt/nextera-xt-library-prep-guide-15031942-e.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official historical Rev E URL is inaccessible via web reader and local network DNS is unavailable; official current product documentation is a later revision. The kit and N70X family are identified, but the sample-specific index member remains unspecified.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "2017 Master Protocol reagent list text lines 1168–1175 and Nextera tagmentation/indexing section; direct web open of official 15031942 Rev E URL failed; Illumina current product documentation page and official FC-131-1096 support listing checked",
+        "finding": "Master Protocol names kit FC-131-1096 and an N70X oligo. Official support confirms this catalog belongs to Nextera XT, but exact Rev E original remains unavailable and the protocol does not select a specific N70X member."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Original 2017 Seq-Well Master Protocol reagent list p. 36/text lines 1168–1175 names Nextera XT FC-131-1096 and N70X; independent direct web open of official 15031942 Rev E failed; exact-document search found only links/citations, no original PDF",
+        "finding": "The original identifies the Nextera XT kit and N70X family but no particular N70X member. Historical Rev E guide remains unavailable and later vendor documents cannot supply a sample-specific index absent from the protocol."
+      }
+    },
+    {
+      "id": "later_illumina_adapter_sequences",
+      "role": "vendor",
+      "discovered_from": "nextera_xt_rev_e",
+      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt (later official Illumina adapter-sequence manual)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original official 1000000002694 v22 PDF extracted text lines 13319–13345, section N7xx—Nextera XT Index Kit v2/Nextera Index Kit; original Seq-Well Master Protocol p. 36, text lines 1168–1175; oligo scraper on Nextera XT source bundle",
+        "finding": "Later official manual names the N7xx family and shows alternatives. This is a later vendor document and the Seq-Well source does not designate one N70X sample member."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Adapter Sequences 1000000002694 v22 extracted PDF lines 13328–13345, N7xx Nextera XT Index Kit v2/Nextera Index Kit section; Seq-Well Master Protocol p. 36; Nextera XT source-bundle oligo scraper run before reading",
+        "finding": "Later official guide lists N7xx index family and distinct N701/N702 etc members. It helps define the family but does not select the Seq-Well N70X used. It is later than the 2017 source and cannot replace the cited historical Rev E guide."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nat Methods article supplement references and original MOESM237 Table 1/MOESM238 Master Protocol",
+      "finding": "Read the exact original oligo table and master protocol. A large Springer archive remains unavailable for relevance check."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article JATS lines 70–76 and 96–118; MOESM237 Table 1 lines 265–300; MOESM238 Master Protocol lines 630–855/1154–1175; original Springer MOESM241 ZIP central directory; official Shalek Lab S^3 PDF pp.1,19,39; local result-table inventories",
+      "finding": "Followed the article to its exact oligo table and 2017 master protocol, the shared-bead Drop-seq predecessor, the master protocol author-lab successor and vendor document references. Large result archive and result table relevance need independent confirmation; original era-matched vendor guides remain uninspected, so linked-information disposition stays blocked. Independent additional vendor check read the official 2016 MiSeq guide and later N7xx adapter manual; independently retried exact 2015 NextSeq and Nextera XT Rev E links without access. The cited 2017 source selects neither a specific N70X nor an alternate vendor document, so linked coverage stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Whether any additional construct variants are specified only in unreviewed large supplementary archive",
+      "disposition": "resolved",
+      "evidence": "Original MOESM241 Table 4 ZIP member was streamed in full by both reviewers: 4,638 TBI sample columns and 9,381 gene rows of numeric expression values, with no chemistry or oligo fields. Seq-Well source-exact five oligos are in original Supplementary Table 1 (MOESM237 lines 264–300)."
+    }
+  ],
+  "conclusion": "The 2017 oligos are in Supplementary Table 1. Two readers checked official MiSeq 2016 custom-primer loading; the later Illumina manual confirms N7xx alternatives. Exact NextSeq 2015 and Nextera XT Rev E guides remain inaccessible, and no sample-specific N70X member is selected. Review stays in progress; no missing claim is accepted."
+}

@@ -1,0 +1,141 @@
+{
+  "dir": "sci-car-seq__10.1126+science.aau0730",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cao2018",
+      "role": "defining",
+      "locator": "Cao et al. Science 2018 doi:10.1126/science.aau0730; local science.aau0730_PMC6571013.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC JATS article lines 76-80 (full eight-stage RNA/ATAC workflow), 126-140 (supplement links/data availability), 189-249 (method predecessor references), 473-475 (read-layout figure legend); primer scraper run on original bundle and returned no candidate because detailed methods are not in the bundle",
+        "finding": "The article specifies indexed poly(dT)/UMI RT, indexed Tn5 ATAC, FACS redistribution, second-strand cDNA, separate RNA and ATAC PCR and independent sequencing. Its complete ordered oligos are not in the main article; Methods are in the linked supplementary PDF."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC6571013 JATS lines 76-80, 126-140; source-bundle manifest checked for gated supplements; scraper run on sci-CAR bundle",
+        "finding": "Independently confirmed sci-CAR combines split-pool indexed Tn5 and barcoded poly(dT) RT in the main article. The article sends exact oligos and detailed reaction order to supplementary methods and table, neither locally available."
+      }
+    },
+    {
+      "id": "cao2018_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-1.pdf; original supplementary Materials and Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate / curl error 6; online PDF link was not accessible through web tool."
+    },
+    {
+      "id": "cao2018_table",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-Supplimentary_table.xlsx; original supplementary table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate / curl error 6; online workbook link was not accessible through web tool."
+    },
+    {
+      "id": "amini2014",
+      "role": "predecessor",
+      "locator": "Amini et al. 2014 doi:10.1038/ng.3119; PMC4409979, sci-CAR reference 7; local sci-atac-seq-family__10.1126+science.aab1601/ng.3119_PMC4409979.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Online Methods lines 116-130, especially assembly of 96 indexed transposome complexes lines 117-120",
+        "finding": "Main Methods specify annealing indexed oligos with a universal 5′-phosphorylated 19-base mosaic-end complement and mixing 8 i5 plus 12 i7 oligos for 96 Tn5 complexes. Their exact oligo members are delegated to Amini Supplementary Table 4, not verified here."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Amini PMC4409979 JATS Online Methods lines 116-122; publisher MOESM2 workbook correction notice lines 1-6 and oligo sheet lines 7-30",
+        "finding": "Independently confirmed indexed transposome construction and that the corrected author workbook supplies 8 i5 and 12 i7 indexed transposons plus sequencing primers. Correction notice says first five rows absent from original online table, corrected 20 May 2015; this pertains to Amini predecessor, not proof of sci-CAR member choice."
+      }
+    },
+    {
+      "id": "cusanovich2015",
+      "role": "predecessor",
+      "locator": "Cusanovich et al. 2015 doi:10.1126/science.aab1601; PMC4836442, sci-CAR reference 8; local sci-atac-seq-family__10.1126+science.aab1601/science.aab1601_PMC4836442.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original article lines 41-45 and supplementary-material heading",
+        "finding": "Defines first-well indexed Tn5 transposition followed by second-well indexed PCR in intact nuclei. The main article does not print complete index oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4836442 JATS lines 39-47",
+        "finding": "Independently confirmed first-well barcoded transposition followed by second-well indexed PCR after pooling/redistribution."
+      }
+    },
+    {
+      "id": "cao2017",
+      "role": "predecessor",
+      "locator": "Cao et al. 2017 doi:10.1126/science.aam8940; PMC5894354, sci-CAR reference 13; local sci-rna-seq-family__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original article Overview of sci-RNA-seq lines 84-90",
+        "finding": "Defines barcoded poly(dT)/UMI in situ RT, FACS redistribution, cDNA second-strand synthesis, Tn5 transposition, and second-well PCR. These are predecessor mechanics, not proof of sci-CAR-specific oligo identities."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC5894354 JATS lines 80-88",
+        "finding": "Independently confirmed first-well barcoded oligo(dT)/UMI in situ RT and second-well split-pool indexing as inherited logic, without inferring sci-CAR-specific oligos."
+      }
+    },
+    {
+      "id": "amini2014_supp_table4",
+      "role": "linked_material",
+      "discovered_from": "amini2014",
+      "locator": "Amini et al. 2014 publisher Supplementary Table 4 corrected 20 May 2015; local ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Amini publisher MOESM2 XLSX extracted lines 1-30: correction notice and Oligonucleotide_Seuqneces sheet",
+        "finding": "Original published correction states first five rows were missing in initial online table, corrected 20 May 2015. Corrected rows print five P5_i5 indexed transposon oligos; subsequent rows print additional i5/i7 and custom run primers. Does not establish which exact members sci-CAR used."
+      },
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Amini Nat Genet 2014 corrected MOESM2 XLSX text lines 1–31, Correction Notice and Oligonucleotide_Seuqneces sheet; source bundle scraper",
+        "finding": "The publisher correction notice says its first five rows were missing originally and were restored 20 May 2015. The corrected table prints five initial P5_i5 transferred-strand Tn5 oligos, further P5_i5/P7_i7 variants, custom Read 1/2 and Index 1 sequencing primers, plus pMENTS. It establishes the Amini source oligos, but does not identify which members sci-CAR-seq used."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Cao 2018 article lines 78, 126 and 140 and references 7, 8, 13 at lines 189-249; followed PMC supplementary links and attempted author-hosted Science PDF",
+      "finding": "Enumerated both original sci-CAR supplements and read the three credited predecessor main articles. Amini also delegates exact indexed Tn5 oligos to its Supplementary Table 4. Original sci-CAR supplements and predecessor oligo tables remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original sci-CAR JATS lines 76-80, 126-140; Amini 2014 JATS 116-122 and corrected MOESM2 lines 1-30; Cusanovich 2015 JATS 39-47; Cao 2017 JATS 80-88",
+      "finding": "Independently followed all three cited predecessor main papers and located the corrected Amini oligo workbook. The original sci-CAR supplementary Methods/table remain gated, so exact variant mapping and any missing-information claim stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact RT primers, ATAC transposome adapters, indexes and sequencing primer sites are absent from published sci-CAR sources",
+      "disposition": "blocked",
+      "evidence": "The main article does not print ordered bases, but its original supplementary Methods and workbook are unavailable; it directly cites molecular-method predecessors that remain to be read."
+    }
+  ],
+  "conclusion": "First pass read the original main article and three credited predecessor main articles. Original sci-CAR supplements and predecessor oligo tables remain unresolved, so no absence claim is accepted."
+}

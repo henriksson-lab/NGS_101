@@ -15,7 +15,8 @@ TITLE = "Earth Microbiome Project ITS amplicon sequencing"
 NOTES = "01_emp-its.html"
 SOURCE = '<a href="https://earthmicrobiome.org/protocols-and-standards/its/">Earth Microbiome Project ITS Illumina Amplicon Protocol (EMP.ITSkabir)</a> and its November 2016 oligo workbook.'
 SUMMARY = "One fusion-primer PCR amplifies fungal ITS1, installs the flow-cell arms and a twelve-base Golay sample barcode, and creates landing sites for three locus-specific custom sequencing primers."
-CAVEAT = "The published Read 2 primer is a degenerate pool (V and R). The landing diagram uses one valid member, V=G and R=A, so its exact binding can be computed; the ordered degenerate sequence is retained below. The fungal insert length and Golay identity vary."
+CAVEAT = ("The published Read 2 primer is a degenerate pool (V and R). The landing diagram uses one valid member, V=G and R=A, so its exact binding can be computed; the ordered degenerate sequence is retained below. The fungal insert length and Golay identity vary. "
+          "<b>Published barcode discrepancy:</b> the EMP ITS web page, reverse-primer construct, and its 2018 protocols.io version, p. 4, print <code>NNNNNNNNNN</code> (10 bases). The linked November 2016 primer workbook, Reverse Primer Constructs sheet, prints 960 individual 12-base Golay barcodes, and Smith and Peay 2014, Molecular methods, p. 3, says both the barcode and index read are 12 bases. This model uses 12 bases because the ordering workbook gives the actual oligos; whether the 10-N web/protocol placeholder was intended as shorthand or a different construct is unresolved.")
 
 FWD_ARM = "AATGATACGGCGACCACCGAGATCTACAC"
 FWD_LINK = "GG"

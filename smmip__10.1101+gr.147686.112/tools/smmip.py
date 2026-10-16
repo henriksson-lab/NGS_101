@@ -17,7 +17,8 @@ TITLE="Single-molecule molecular inversion probes (smMIPs)"
 NOTES="01_smmip.html"
 SOURCE='Hiatt et al. 2013, <a href="https://doi.org/10.1101/gr.147686.112">doi:10.1101/gr.147686.112</a>; detailed MIP protocol: <a href="https://doi.org/10.1007/978-1-4939-6442-0_6">O\'Roak et al. 2017</a>.'
 SUMMARY="A 12-nt-tagged inversion probe copies a target gap, circularizes, survives exonuclease and is universally amplified so reads can be collapsed by original molecule."
-CAVEAT="Probe arms, target bases and tag/index values are variable. The original panel's 28-nt invariant probe backbone is specified in unavailable Supplemental Table S9, so the capture circle keeps it symbolic; the later author protocol supplies the universal PCR and run primers."
+CAVEAT=("Probe arms, target bases and tag/index values are variable. The original panel's 28-nt invariant probe backbone is specified in unavailable Supplemental Table S9, so the capture circle keeps it symbolic; the later author protocol supplies the universal PCR and run primers. "
+        "Published reaction-volume discrepancy: Hiatt et al. 2013, Methods ‘Capture and library construction’, gap-fill recipe says to add water to 10 mL and then calls the total reaction 20 µL. Both cannot describe one reaction. This model uses neither volume; the intended water amount remains uncertain.")
 MOLECULAR_TAG=feature("molecular_tag","umi","random")
 I7_FEATURE=feature("sample_index_i7","sample_index","unknown")
 

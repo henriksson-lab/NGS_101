@@ -10,7 +10,7 @@
 
 ## Evidence boundary
 
-🟢 Sources checked: the defining bioRxiv article and methods supplement; the peer-reviewed article, JATS text and all nine supplementary files; and the cited ASAP-seq bridge-method article. The Phospho-seq methods print the home-conjugated TotalSeq-style tag architectures, blocking oligo, P5 and two P7 index-primer families. The exact BOA and BOB sequences are inherited from ASAP-seq rather than reprinted by Phospho-seq.
+🟢 Sources checked: the defining bioRxiv article and methods supplement, the peer-reviewed article's JATS text, the available antibody-index workbook, and the cited ASAP-seq article and supplement (JATS line 234; Supplementary Methods lines 250–258). The Phospho-seq methods print the home-conjugated TotalSeq-style tag architectures, blocking oligo, P5 and two P7 index-primer families. The exact BOA and BOB sequences are inherited from ASAP-seq rather than reprinted by Phospho-seq. Several other published supplemental files and two author-linked step-by-step PDFs remain inaccessible; the source review records their links and status.
 
 🟢 Bridge oligo A (BOA), 5′→3′: `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNNVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT/3InvdT/`. Its `N9V` window is the unique bridging identifier for TotalSeq-A tags.
 

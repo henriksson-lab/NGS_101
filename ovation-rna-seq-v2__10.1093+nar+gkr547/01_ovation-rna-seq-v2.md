@@ -10,6 +10,11 @@
 
 🟢 RNase H cleaves the RNA portion, a new SPIA primer anneals, and a strand-displacing DNA polymerase releases a linear single-stranded cDNA copy. Repeated cycles give linear Ribo-SPIA amplification rather than PCR.
 
-🟢 The defining study sheared amplified cDNA and prepared a separate multiplexed Illumina library, sequenced as paired 50-nt reads.
+🟢 The defining study tested sheared and unsheared amplified cDNA. Its separate
+Illumina library branch used a New England Biolabs library-preparation kit,
+then paired 50-nt sequencing. The paper does not name an Encore Rapid kit.
 
-🔴 NuGEN did not publish the chimeric primer sequences or the complete commercial adapter/index oligos. The page marks the conventional final Illumina shell as inferred and keeps proprietary regions role-labelled.
+🔴 The audited article does not print the chimeric primer sequences or complete
+adapter/index oligos. The cited NuGEN V2 guide, the 2005 SPIA predecessor and
+the exact NEB adapter kit still need inspection before absence can be accepted.
+The page marks its conventional final Illumina shell as inferred.

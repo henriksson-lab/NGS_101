@@ -1,0 +1,109 @@
+{
+  "dir": "spatac-seq__10.1038+s41556-024-01449-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41556-024-01449-0",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Explicit Nature publisher HTML was fetched successfully, but downloaded page contains institutional-access/preview content rather than full Methods; generic DOI discovery limitation and publisher fulltext access barrier are distinct. Defining full text remains uninspected.",
+      "acquisition": {
+        "date": "2026-10-16",
+        "reviewer": "audit_rna_contacts_closeout",
+        "route": "Explicit https://www.nature.com/articles/s41556-024-01449-0",
+        "result": "Validated HTML landing/preview saved; not a recovered full article."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/spatac-seq__10.1038+s41556-024-01449-0/s41556-024-01449-0_41556_2024_1449_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 lines 1–99; later sheet headers at lines 33346 onward",
+        "finding": "Table 1 prints Round 1 Tn5, Round 2/3 ligation/splint and Round 4 indexed PCR oligo strings and modifications. Later Table 6 starts ACR validation primer listings."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 workbook Supplementary Table 1 lines 1–99; oligo scraper on this original workbook",
+        "finding": "Source explicitly prints Tn5MErev 5′ phosphate/3′ ddC, round 1 Tn5_F/R_D1–8, round 2 Tn5_F_LA/L1–48, round 3 Tn5_R_L1–48/LA, and round 4 i5/i7 primer families. Thus these source-positive chemistry oligos should never be called missing."
+      }
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "_data/sources/spatac-seq__10.1038+s41556-024-01449-0/MOESM1–3, MOESM5–7 (see MANIFEST.tsv)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1–3/7 extracted-text sizes and headings; MOESM5–6 workbook.xml worksheet names",
+        "finding": "MOESM2/7 are image-only, MOESM3 peer-review record; MOESM5/6 worksheets are Figure and Extended Data result tables, without an identified oligo table. Image-only files and original article limit chemistry review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original SPATAC MOESM1 PDF pp.1–3 visually inspected; MOESM2 PDF pp.1–3 visually inspected; MOESM3 extracted text lines 1–25, 360–375, 725–740; MOESM7 PDF p.1 visually inspected; MANIFEST and local source inventory checked; source-bundle scraper",
+        "finding": "MOESM1 contains only supplementary result figures on retinal gene activity and genome browser tracks; MOESM2 is a three-page Nature reporting summary; MOESM3 is a peer-review record, with primer mentions in generic reporting-form prompts; MOESM7 is one uncropped gel figure. None of those four supplies additional oligo bases. MOESM5/6 result workbooks are no longer cached and were not independently inspected, so the grouped source row remains incomplete and missing chemistry cannot be accepted from it."
+      },
+      "reason": "MOESM5/6 were previously inventoried by the first reader but are no longer cached; independent second inspection remains incomplete. The grouped row must not support a confirmed missing claim."
+    },
+    {
+      "id": "author_github",
+      "role": "linked_material",
+      "locator": "_data/sources/spatac-seq__10.1038+s41556-024-01449-0/SPATAC-seq.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "GitHub repository HTML landing/title and manifest route",
+        "finding": "Author repository is linked as workflow/processing code and barcode/read-coordinate lead; individual files and claimed molecular drawing have not been fully checked."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author SPATAC-seq GitHub landing/title in local HTML text; inspected repository role and published supplement table",
+        "finding": "Author code appears to support processing, while source-positive primer base strings are already in original Springer MOESM4. No evidence here that code changes the four-round molecular order."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "geo",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE215901",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "MANIFEST route returns reCAPTCHA; primary deposited read layout remains unchecked.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "MANIFEST.tsv; Supplementary Table 1 headers; author GitHub/GEO routes",
+      "finding": "Enumerated article, seven Springer adjuncts, author repository, and GEO. Original article and GEO remain gated; code-linked information not fully followed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original MOESM4 Table 1 lines 1–99 and local GitHub repository landing; original journal DOI attempted",
+      "finding": "Full defining Nature Cell Biology article remains gated; source-positive oligo table read. Other image/PDF supplements and GEO need independent content checks before absence conclusion."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Supplementary Table 1 resolves oligo identities, but original Methods, some image-only adjuncts, and linked read evidence remain blocked."
+}

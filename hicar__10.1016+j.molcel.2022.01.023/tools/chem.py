@@ -103,6 +103,10 @@ def hicar_workflow():
         ("Digest purified DNA with NlaIII and circularize at low concentration",
          circle,
          "NlaIII shortens the contact product; dilute T4 ligation closes individual molecules in the 4C-like library-preparation step."),
+        ("Treat the circularized material with PmeI before PCR",
+         molecule("PmeI-treated HiCAR template pool", (
+             role("circularized contact molecules and PmeI cleavage products"),)),
+         "The defining Methods, step 5, digest the purified circle pool with PmeI for 1 hour at 37 °C before adding the inverse-PCR mix; the source does not identify every resulting molecular species."),
         ("Inverse-PCR between the splint side and mosaic-end side for 12 cycles",
          molecule("linear dual-index HiCAR amplicon", (
              role("P5, i501 and TruSeq Read 1 arm"),
@@ -205,6 +209,16 @@ def _protocol_graph(final, primers) -> ProtocolGraph:
                 (circles,), geometry=CircularizationGeometry.known(
                     "double-strand intramolecular ligation",
                     statement="The HiCAR workflow dilute-ligates NlaIII-trimmed contact molecules into inverse-PCR circles."))
+    pmei = graph.input("pmei", "PmeI restriction endonuclease", MaterialKind.CATALYST)
+    pmei_templates = graph.product(
+        "pmei_treated_templates", "PmeI-treated HiCAR circle pool",
+        MaterialKind.MOLECULAR,
+        state=molecule("PmeI-treated HiCAR template pool", (
+            role("circularized contact molecules and PmeI cleavage products"),)))
+    graph.react("pmei_digest", "Digest circularized material with PmeI before PCR",
+                StepKind.DIGESTION,
+                ((circles, InputRole.TEMPLATE), (pmei, InputRole.CATALYST)),
+                (pmei_templates,))
     i501 = graph.input("i501_primer", "published NEB i501 inverse-PCR primer",
                        MaterialKind.OLIGO)
     i7 = graph.input("i7_primer", "published Nextera i7-10-L inverse-PCR primer",
@@ -219,7 +233,7 @@ def _protocol_graph(final, primers) -> ProtocolGraph:
         statement="Wei et al. publish both outward inverse-PCR primer sequences.")
     graph.react("inverse_pcr", "Inverse-PCR between splint and mosaic-end sides",
                 StepKind.PCR,
-                ((circles, InputRole.TEMPLATE), (i501, InputRole.STRUCTURAL),
+                ((pmei_templates, InputRole.TEMPLATE), (i501, InputRole.STRUCTURAL),
                  (i7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=geometry)
     graph.sequence(library, SequencingPlan(
@@ -231,7 +245,7 @@ def _protocol_graph(final, primers) -> ProtocolGraph:
         "fixed_nuclei", "hicar7_transposome", "tn5", "tagment", "cviqi",
         "cviqi_digest", "truseq_r1_splint", "proximity_ligase", "proximity_ligation",
         "crosslink_reversal", "reverse_crosslinks", "gap_fill_polymerase", "gap_fill",
-        "nlaiii", "nlaiii_digest", "circle_ligase", "circularize", "i501_primer",
+        "nlaiii", "nlaiii_digest", "circle_ligase", "circularize", "pmei", "pmei_digest", "i501_primer",
         "i7_primer", "pcr_polymerase", "inverse_pcr", "sequencing_library",
     ), source)
     return graph.require_publishable()
@@ -243,7 +257,7 @@ def get():
         TITLE="HiCAR — open-chromatin-anchored chromosome conformation",
         NOTES="01_hicar.html",
         SOURCE='<a href="https://doi.org/10.1016/j.molcel.2022.01.023">Wei et al., <i>Molecular Cell</i> (2022)</a>; defining CviQI/NlaIII implementation.',
-        SUMMARY="An engineered Tn5 adapter marks accessible chromatin and is splint-ligated in fixed nuclei to a spatially proximal CviQI fragment. NlaIII digestion, dilute recircularization and inverse PCR then recover an asymmetric contact library.",
+        SUMMARY="An engineered Tn5 adapter marks accessible chromatin and is splint-ligated in fixed nuclei to a spatially proximal CviQI fragment. NlaIII digestion, dilute recircularization, PmeI treatment and inverse PCR then recover an asymmetric contact library.",
         CAVEAT="The later authors’ Current Protocols version substitutes MseI at the first digest. This page preserves the defining paper’s CviQI implementation; the public HiCAR7-i0 oligo is shown exactly as written.",
         oligos=oligos,
         workflow=hicar_workflow,

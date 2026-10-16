@@ -1,10 +1,8 @@
 # s3-ATAC — symmetrical strand sci-ATAC by uracil-based adapter switching
 
-> **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred (including
-> the upstream scg_lib_structs page, a secondary source) · 🔴 not published / not
-> available. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`).
+> **Evidence marking.** 🟢 verbatim from the original paper, supplement or author
+> protocol · 🟡 derived or inferred · 🔴 not published / not available. The upstream
+> scg_lib_structs diagram is an orientation aid, not evidence.
 
 **s3-ATAC** (and s3-WGS, s3-GCC from the same paper) — Mulqueen RM, Pokholok D,
 O'Connell BL, Thornton CA, Zhang F, O'Roak BJ, Link J, Yardımcı GG, Sears RC, Steemers FJ,
@@ -24,7 +22,8 @@ committed):
 |---|---|---|
 | `s41587-021-00962-z_PMC8678206.html.txt` | PMC author manuscript, full text | rationale, **Online Methods** (all conditions) |
 | `s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx.txt` | Supplementary Tables 1–8 (Springer copy) | **every oligo** (Tables 2–5), the stepwise molecular layout (Table 1), cellID definition (Table 6 info) |
-| `upstream_s3-ATAC.html.txt` | Teichmann-lab scg_lib_structs page | second, secondary account — checked against Tables 1–5 below |
+| `2021.01.11.425995_v1.full.pdf.txt` | author's cited bioRxiv v1 preprint | independently checked ATAC mechanism and Methods lines 41–60, 193–204, 429–488; no different reaction order found; second source-review pass pending |
+| `upstream_s3-ATAC.html.txt` | Teichmann-lab scg_lib_structs page | orientation only, never evidence for bases or reactions |
 | `protocolsio_s3-atac-36wgq5bnygk5.pdf.txt` | author's linked 2021 protocols.io s3-ATAC bench protocol | transposome loading, sorting, adapter switching and PCR volumes |
 | `..._MOESM1_ESM.pdf.txt` | Supplementary Information (4 pages) | figures only (marker tracks, down-sampling); no chemistry |
 | `..._MOESM2_ESM.pdf` | 4-page "Print To PDF" document, no text layer | not read (presumably the Reporting Summary) 🟡 |
@@ -84,8 +83,10 @@ PCR_A_i5_A            AATGATACGGCGACCACCGAGATCTACAC CCTTAAGA TCGTCGGCAGCGTC
  ...                  PCR_A..H_i5_A..H (last, PCR_H_i5_H: TGCGCTGA)
 ```
 
-Table 5 is titled "Oligonucleotides used for PCR, i7 Molecule side" although it lists the
-i5 primers — a copy-paste slip in the source. 🟢 (title) / 🟡 (reading)
+Table 5 is titled "Oligonucleotides used for PCR, i7 Molecule side" although its
+rows are named i5 and carry P5/i5/s5 arms. The repeated i7 heading appears to
+be a source error; the authors have not confirmed that explanation. The model
+uses the row sequences as i5 primers. 🟢 (title and rows) / 🟡 (interpretation)
 
 ### How they interlock — 🟡 (computed with `lib/`)
 

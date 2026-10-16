@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 
 from checks import Check, run_common  # noqa: E402
 from adapter_ligation import cohesive_duplex  # noqa: E402
-from chemdraw import Construct, Row, Segment, oligo, panel, protocol_graph_panels  # noqa: E402
+from chemdraw import Construct, Row, Segment, oligo, panel, protocol_graph_panels, revcomp  # noqa: E402
 from mdrender import render, rewrite_link, slug  # noqa: E402
 from protocol_graph import (AnnotationSlot, DetailView, Disposition, Highlight,
                             Input, InputRole, Material, MaterialKind, MolecularRelation,
@@ -49,6 +49,31 @@ def _raise_fact():
 
 check = Check()
 run_common(check)
+
+check.section("sequencing preview across an unknown-length insert")
+import seqprimers as sp  # noqa: E402
+left_site = "ACGTTGCAACGTTGCAAGGA"
+right_site = "GATCGTACCTGATCGTACCT"
+preview_lib = Construct([
+    Segment("left site", left_site), Segment("left flank", "AG"),
+    Segment("variable insert", "[variable insert]", placeholder=True),
+    Segment("right flank", "CT"), Segment("right site", right_site),
+], "unknown insert preview")
+left_read = sp.locate(preview_lib, sp.custom("Read 1", "left", left_site, "test"))
+right_read = sp.locate(preview_lib, sp.custom("Read 2", "right", revcomp(right_site), "test"))
+check("Read 1 preview stops before unknown insert", left_read.reads, "AG…")
+check("Read 2 preview stops before unknown insert without reversing its label",
+      right_read.reads, "AG…")
+check("primer landing still reports the flanking segment",
+      (left_read.reads_from, right_read.reads_from), ("left flank", "right flank"))
+preview_html = sp.section(
+    preview_lib,
+    (sp.custom("Read 1", "left", left_site, "test"),
+     sp.custom("Read 2", "right", revcomp(right_site), "test")),
+    required_roles=("Read 1", "Read 2"), show_read_content=False)
+check("first-bases table renders one unknown-region marker",
+      (preview_html.count("<code>AG…</code> (from"),
+       "<code>AG…</code>&hellip;" in preview_html), (2, False))
 
 check.section("restriction adapter compatibility")
 from restriction import ECORI, MSPI  # noqa: E402
@@ -423,6 +448,21 @@ check("the legacy renderer remains explicitly available",
 text_oligo = oligo("PCR primer", [Segment("binding", "ACGTACGT")])
 check("ordering oligos stay raw selectable text", "<svg" not in text_oligo)
 check("ordering oligos retain explicit strand ends", "5'- ACGTACGT -3'" in text_oligo)
+
+from types import SimpleNamespace
+from multimodal_page import render as render_multimodal
+source_readout=SimpleNamespace(TITLE="Source-declared endpoint",NOTES="notes.html",
+    SOURCE="Original source",SUMMARY="One library",sections=lambda:[],
+    FINAL_LIBRARIES=(("Library",Construct([Segment("insert","ACGTACGT")]),(),"Library","Readout"),),
+    SEQUENCING_UNAVAILABLE={"Library":"Loaded primer sequence remains unverified."},
+    READ_SPECS={"Library":(sp.read_spec("Read 1",8,"source-declared payload","include"),)})
+source_readout_html=render_multimodal(source_readout)
+check("multimodal source reads render without invented primer sequences",
+      "source-declared payload" in source_readout_html and "Loaded primer sequence remains unverified." in source_readout_html)
+check.raises("missing primer geometry requires an explicit source read layout",
+    lambda:render_multimodal(SimpleNamespace(**{**vars(source_readout),"READ_SPECS":{}})))
+check.raises("source read layout cannot hide an unexplained missing primer",
+    lambda:render_multimodal(SimpleNamespace(**{**vars(source_readout),"SEQUENCING_UNAVAILABLE":{}})))
 
 
 def r(md: str) -> str:
@@ -810,6 +850,17 @@ check("upper-case English words and all-lower-case runs are not sequences",
       [h.seq for h in _hits.values() if "CATS" in h.seq or h.seq.islower()], [])
 check("--find matches the reverse strand across a line break",
       spx.find(_doc, "TCGGACTGTAGAACTCTGAACG"), [3, 8])
+
+_bracketed = ("ME-ddC\t[Phos]CTGTCTCTTATACACATCT[ddc]\n"
+              "Blocker\tGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-[invdT]\n")
+_bracketed_hits = {h.label: h for h in spx.scan(Path("sum_oligos"), _bracketed,
+                                                spx.known_sequences())}
+check("bracketed terminal blocks survive source scraping",
+      [(_bracketed_hits[n].written, _bracketed_hits[n].mods) for n in ("ME-ddC", "Blocker")],
+      [("[Phos]CTGTCTCTTATACACATCT[ddc]",
+        ["5' phosphate ([Phos])", "3' dideoxy ([ddc])"]),
+       ("GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-[invdT]",
+        ["3' inverted dT ([invdT])"])])
 
 # Regression corpus for the source forms described in tools/scrape_primers.py.
 _d2 = ("STRT-V3-T30 (5'-biotin-AAGCAGTGGTATCAACGCAGAGTCGACT30VN-3')\n"

@@ -1,0 +1,98 @@
+{
+  "dir": "got__10.1038+s41586-019-1367-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "nature_article",
+      "role": "defining",
+      "locator": "Nam et al. Nature 2019 doi:10.1038/s41586-019-1367-0; s41586-019-1367-0_PMC6782071.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 194-202 and 214-216",
+        "finding": "GoT starts with 10x Chromium 3-prime v2/v3 or 5-prime cDNA; linear and circularized branches vary by target and kit. Article refers to Supplementary Table 5 for primer members."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC6782071 XML Methods lines 194-218",
+        "finding": "Original Methods distinguishes 10x 3-prime v2/v3 and 5-prime inputs, targeted PCR and USERII/Gibson circularization variants, explicitly sending primer list to Supplementary Table 5."
+      }
+    },
+    {
+      "id": "supp_table5",
+      "role": "supplement",
+      "locator": "s41586-019-1367-0_supp_NIHMS1531200-supplement-sup_tab_5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Sheet1 lines 1-52; scraper hit on modified U-overhang universal primer at line 21",
+        "finding": "Prints P5generic and RPI-X, staggered/gene-specific target primer families, U-overhang and Gibson circularization handles, including phosphorothioate modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "NIHMS1531200 Supplementary Table 5 XLSX Sheet1 rows 1-55",
+        "finding": "Original table prints P5generic, RPI-X, staggered handles, U-overhang and Gibson handle families plus gene-specific members and phosphorothioate positions."
+      }
+    },
+    {
+      "id": "other_tables",
+      "role": "supplement",
+      "locator": "GoT PMC supplementary tables 1-4 and 6 in same bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplementary table 1 headers lines 1-4; table 2 lines 1-4; table 3 lines 1-4; table 4 lines 1-4; table 6 lines 1-4",
+        "finding": "These other workbooks contain patient metadata, gene modules, differential expression, enrichment or cell counts; they contain no chemistry method or oligo table in inspected headers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original supplementary tables 1-4 and 6 workbook sheet headers/first rows",
+        "finding": "Other workbooks contain clinical/results metadata and enrichment, not an additional reagent oligo ordering list in inspected headers."
+      },
+      "reason": "Patient metadata, gene modules, differential expression, enrichment and cell counts, not library chemistry."
+    },
+    {
+      "id": "10x_v2_v3_guide",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell 3-prime v2/v3 and 5-prime guides named in GoT Methods line 196",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-matched upstream 10x kit source not independently inspected for this pass.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "nature_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "GoT JATS Methods lines 194-202 and Supplementary Table 5 lines 1-52",
+      "finding": "Followed article pointer to oligo table; several invariant handles and target examples are explicit. Version-matched 10x cDNA kit descriptions remain to be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "GoT PMC6782071 Methods lines 194-218 and Supplementary Table 5 first 55 rows",
+      "finding": "Checked article-to-oligo-table link; article names 10x v2/v3 and 5-prime inputs whose version-matched manufacturer guides remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact sequencing-primer placement across GoT implementations is unresolved",
+      "disposition": "blocked",
+      "evidence": "GoT supports 10x 3-prime v2/v3 and 5-prime cDNA plus target-dependent branches; sample-specific upstream kit and target choices are not fixed by one representative table row."
+    }
+  ],
+  "conclusion": "First pass found substantial published oligos; original upstream kit branch and independent pass pending."
+}

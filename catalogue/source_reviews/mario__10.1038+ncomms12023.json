@@ -1,0 +1,152 @@
+{
+  "dir": "mario__10.1038+ncomms12023",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "mario_jats",
+      "role": "defining",
+      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS Methods lines 143–261, especially linker 159–171, generic RT primer 175 and explicit ES oligos 231–239; scraper source lines 171–253",
+        "finding": "Original prints RNA linker, phosphorothioate complement, /5rApp/.../3ddC/ RT adapter, /5Phos/ RT primers, Cut_oligo, DP5/DP3 and PE1/PE2. Generic primer says six random bases; ES-1 explicit example has five."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 141–159, 169–209, 213–245",
+        "finding": "Original prints linker, phosphorothioate cDNA complement, modified RT adapter, RT primer family, Cut_oligo and PCR primers. Generic RT template at line 175 has six random bases, but explicit ES-1 oligo line 231 has five; ES-2 and ES-indirect lines 235/239 have six."
+      }
+    },
+    {
+      "id": "mario_pdf",
+      "role": "defining",
+      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PDF Methods source lines 2137–2425; scraper found modified linker/adapter and primer hits at 2137, 2255, 2406",
+        "finding": "PDF confirms original JATS oligo transcription and same generic-versus-ES-1 random-barcode discrepancy."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PDF newline lines 2137–2255 and 2395–2425",
+        "finding": "PDF independently confirms modified linker, phosphorothioate complement, /5rApp/.../3ddC/ RT adapter and the explicit primer family; generic-vs-ES-1 mismatch is also present in the PDF."
+      }
+    },
+    {
+      "id": "mario_supp",
+      "role": "supplement",
+      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_supp_ncomms12023-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figs 1–5 lines 1–59, Fig 26–27 lines 227–250, Tables 1–8 lines 257–965",
+        "finding": "Supplement gives circularization/library assembly figures, sample branches, primer usage context and computational reconstruction; outcome tables do not replace explicit Methods oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher supplement newline lines 3–18, 227–250, 388–420",
+        "finding": "Supplementary Fig. 1 says inline barcode is 10 nt and describes circularization/BamHI/DP5/DP3; Figs 26–27 describe read recovery and sample-index parsing; Table 1 identifies sample branches. This reinforces published mismatch with printed nine-base ES-1 inline region."
+      }
+    },
+    {
+      "id": "neb_pnk_minus",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en-us/products/m0236-t4-polynucleotide-kinase-3-phosphatase-minus",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Product Information paragraph, web lines 28–33; compared original MARIO JATS Methods lines 143 and 149.",
+        "finding": "Official product describes kinase activity without 3′ phosphatase activity. Conflicts with the dephosphorylation reagent named in MARIO Methods Proximity ligation, not with the intended 3′OH product."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MARIO ncomms12023_PMC4931010.xml.txt Methods lines 143–149, checked after full bundle oligo scraper; official NEB M0236 Product Information paragraph, web lines 28–30",
+        "finding": "Independently confirmed an internal Methods conflict: the proximity-ligation paragraph intends RNA 3′-phosphate removal but names the phosphatase-minus T4 PNK variant, whose vendor specification explicitly lacks 3′ phosphatase activity. Earlier linker ligation deliberately uses that variant to preserve 3′ phosphate. The intended 3′OH intermediate is source-described, while the enzyme identity needed to obtain it remains unresolved."
+      }
+    },
+    {
+      "id": "iclip_method",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.ymeth.2013.10.011; PMC3988997",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MARIO ref. 62 is explicitly the RT-primer and circularization predecessor; original full source and supplements have not been inspected in this followup."
+    },
+    {
+      "id": "t7_rnaseh_original",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1093/nar/5.11.4245; PMC342746",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MARIO ref. 63 supports removal of terminal RNA linkers; original linked method not yet inspected."
+    },
+    {
+      "id": "phosphorothioate_original",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1101/gr.3.5.285",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MARIO ref. 64 supports protection of complementary DNA during exonuclease treatment; original linked method not yet inspected."
+    },
+    {
+      "id": "mariotools_publication",
+      "role": "linked_material",
+      "locator": "https://mariotools.ucsd.edu/legacy/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article Methods links MARIO tools; portal read and identifies v0.3 as publication version, but linked legacy documentation fetch failed. Code/sample-barcode settings not inspected.",
+      "discovered_from": "mario_jats"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods links Supplementary Figs 1 and 26–27 and Tables 1–8; publisher supplement and PMC original PDF read",
+      "finding": "Followed article to its single publisher supplementary PDF and checked library construction figures and tables; independent second read is pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Methods JATS lines 175, 213–245; supplement Fig. 1 lines 3–18 and Fig. 26–27 lines 227–250",
+      "finding": "Original article, PDF and single publisher supplement independently checked. Explicit ES-1 oligo contains five random plus four sample bases, whereas generic Methods and supplement say ten total. Public page now names both and models explicit ES-1; whether ordered ES-1 had five random bases remains unresolved."
+    },
+    "followup": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods 141–259, software 275; ref. 62–64; MARIO tools portal v0.3 link; NEB PNK product information.",
+      "finding": "Followed software portal to publication legacy documentation but fetch failed; original Methods additionally cite iCLIP circularization, T7 RNA/DNA hybrid digestion and phosphorothioate protection predecessors, now explicit unresolved checklist entries. No absence accepted."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MARIO Methods linker ligation and proximity ligation lines 143–149; original NEB M0236 Product Information specification",
+        "finding": "Independently followed the named enzyme to the vendor original and confirmed that its activity conflicts with the stated dephosphorylation operation. This check does not close the other linked predecessor/software sources."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact generic random-barcode length applies uniformly to all MARIO RT primers",
+      "disposition": "blocked",
+      "evidence": "Original Methods generic has NNXXXXNNNN, while explicit ES-1 primer is NNAGGTNNN; page now discloses both and uses explicit ES-1."
+    }
+  ],
+  "conclusion": "Original article/PDF and supplement have two checks. ES-1 inline-barcode discrepancy and PNK enzyme conflict are public. Linked predecessor methods/software and independent vendor-product check remain outstanding; review remains blocked."
+}

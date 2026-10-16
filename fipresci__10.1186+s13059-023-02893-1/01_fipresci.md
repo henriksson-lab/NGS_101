@@ -293,9 +293,11 @@ From Supplementary Table 3 "Reaction conditions" 🟢:
 Results quoted for orientation 🟢: 8,049 cells from 15,300 loaded (0.2 % collisions);
 58,771 cells and 59,622 nuclei from 100,000 loaded each; 117,804 nuclei from one channel
 for the embryo. Note: the main text says the three cell lines were HEK293T, Jurkat and
-K562 (as does Supplementary Table 3), but the Fig. 1 legend, the correlation values and
-the data-file legends (`MOESM6`) say HEK293(T), HeLa and K562 — an internal
-inconsistency of the paper. 🟡
+K562, but the Methods ("proof-of-concept scRNA-seq and snRNA-seq experiments"), Fig. 1
+legend, Supplementary Table 3 (`TN5 -index_3_cell_line_nuclei`), and data-file
+legends (`MOESM6`) say HEK293(T), HeLa and K562. The model describes the molecular
+workflow, which is the same for either named cell line; the middle cell line is
+uncertain from the publication alone. 🟡
 
 ## 7. Upstream (scg_lib_structs) checked against the paper
 

@@ -31,6 +31,11 @@ the same for the two assays; only the targeting reaction differs.
 ordered. The first and second barcode oligos determine the two covalent ligation boundaries
 inside those linkers, which the model validates and marks.
 
+🟢 The defining Spatial-ATAC Methods print the Tn5 loading oligo `Tn5ME-A` as
+`/5Phos/CATCGGCGTACGACTAGATGTGTATAAGAGACAG`. Farzad et al. 2024
+Supplementary Table 1 prints a different `Tn5ME-A` for Spatial-CUT&Tag; the shared
+spatial linker and barcode architecture does not make those loading oligos interchangeable.
+
 ## Read layout
 
 🟢 Paired-end 150 sequencing was used. The custom Read 1 primer enters barcode B first,

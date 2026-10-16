@@ -1,0 +1,239 @@
+{
+  "dir": "bliss__10.1038+ncomms15058",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_PMC5437291.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Yan 2017 original PMC JATS lines 80–88 (workflow), 130–138 (adapter phosphorylation/sample prep), 199–219 (supplement inventory), 331–332 (Protocol Exchange citation)",
+        "finding": "Paper describes fixed cells/tissue, in situ blunting and adapter ligation, T7 IVT, UMI 8–12, and links Supplementary Fig. 1a/Data 1 plus Protocol Exchange DOI 10.1038/protex.2017.018."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC JATS lines 80–88, 130–138, 199–220 and 331–332",
+        "finding": "Paper describes in situ blunting and ligation of a T7/RA5/UMI/sample-barcode adapter to DSBs, subsequent T7 IVT, mostly single-end sequencing, six publisher supplements and a separate Protocol Exchange detailed method."
+      }
+    },
+    {
+      "id": "supplement_figure",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published Supplementary Information lines 1–18, Fig. 1a/f and lines 87–101, Fig. 6b",
+        "finding": "Fig. 1a states blunt break ligation end, 5′ phosphate and opposite bottom 3′ overhang against concatemers; Fig. 6b documents modified end-protected CRISPR-BLISS adapter variants. Do not conflate them with classic A1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Supplementary Information extracted text lines 1–18 (Figure 1a), 87–101 (Figure 6b)",
+        "finding": "Fig. 1a captions a blunt DSB ligation face, 5-prime phosphate and anti-concatemer 3-prime overhang. Fig. 6b concerns modified longer-UMI CRISPR adapter variants, so its end protection must not be assigned to all classic BLISS A1 molecules."
+      }
+    },
+    {
+      "id": "supplement_data",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Data 1 Sheet1 lines 1–25 classic A1–A11 and lines 26–50 longer-UMI end-protected variants",
+        "finding": "Workbook prints complete paired classic A1–A11 adapter strands and modified CRISPR variants with /5phos/ and terminal * phosphorothioate notation. Classic A1 is the representative page duplex."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 1 Sheet1 text lines 1–25, 26–50",
+        "finding": "A1–A11 classic paired top/bottom adapter oligos are explicitly printed with eight random UMI bases. Later lines contain modified CRISPR/Cpf1 adapter variants with /5phos/ and phosphorothioate notation. A1 is a valid representative classic adapter."
+      }
+    },
+    {
+      "id": "supplement_data2",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 2 Sheet1 lines 1–4 headings and per-library rows; paper JATS lines 207–209",
+        "finding": "Sequencing-run summary documents SE/PE status by sample; useful for read-layout scope but does not select one protocol-wide RPI primer."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 2 Sheet1 header and per-library rows beginning lines 1–5; original paper JATS 207–209",
+        "finding": "Library-level sequencing-run table contains Sample and Seq. mode columns, with both PE and SE rows. It does not identify a universal RPI index member."
+      }
+    },
+    {
+      "id": "supplement_data3",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 3 Sheet1 lines 1–4 headings; paper JATS lines 211–213",
+        "finding": "Fragile-gene result table, no reagent or library construct recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 3 Sheet1 lines 1–7 and paper JATS 211–213",
+        "finding": "Fragile-gene TSS/gene-body output table; no adapter or library chemistry in its headings. Exclusion from oligo evidence is justified."
+      },
+      "reason": "Original workbook heading and paper supplement inventory show downstream result tables rather than library chemistry; this bounded exclusion awaits independent review."
+    },
+    {
+      "id": "supplement_data4",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 4 Sheet1 lines 1–4 headings; paper JATS lines 215–217",
+        "finding": "GO enrichment results, no library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 4 Sheet1 lines 1–5 and paper JATS 215–217",
+        "finding": "GO term enrichment output with P/FDR and gene columns; no synthesis or library procedure. Exclusion is justified."
+      },
+      "reason": "Original workbook heading and paper supplement inventory show downstream result tables rather than library chemistry; this bounded exclusion awaits independent review."
+    },
+    {
+      "id": "supplement_data5",
+      "role": "supplement",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s6.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 5 SpCas9 sheet lines 1–13 headings and validation-primer columns; paper JATS lines 219–220",
+        "finding": "On/off-target result table includes genomic guide sequences and targeted validation PCR primers. These are assay-validation primers, not BLISS library RA3/RTP/RP1/RPI components."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 5 SpCas9 sheet lines 1–13 and second sheet heading; paper JATS 219–220",
+        "finding": "Contains target guides and PCR primers for targeted deep-sequencing validation of on/off-target sites. These oligos are real source rows but distinct from the BLISS library RA3/RTP/RP1/RPI set."
+      }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "linked_material",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/17ba35a1-4de4-4f0a-8953-6004ecad1900.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Protocol Exchange v2 author PDF lines 91–110 Reagents, 165–199 in situ blunting/ligation, 235–269 IVT, RA3 ligation, RTP RT and RP1/RPI PCR",
+        "finding": "Step-by-step author method explicitly orders IVT RNA -> custom RA3 ligation with T4 RNA ligase 2 truncated (NEB M0242L) -> RTP reverse transcription -> RP1 plus chosen RPI indexed PCR. It says RA3/RTP/RP1/RPI were custom synthesized from TruSeq Small RNA sequences; it does not name a selected RPI member."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Protocol Exchange v2 PDF text lines 89–110, 165–199 and 235–269",
+        "finding": "Reagent list points to unavailable Supplementary Table 2 and says RA3/RTP/RP1/RPI were custom synthesized based on TruSeq Small RNA. Steps establish blunting, overnight in situ adapter ligation, T7 IVT, RA3 ligation with truncated T4 RNA ligase 2, RTP RT and PCR with RP1 plus a chosen RPI member. No universal RPI well named."
+      }
+    },
+    {
+      "id": "protocol_supp_table2",
+      "role": "supplement",
+      "locator": "Protocol Exchange v2 page nprot-5597 Supplementary_Table_2.xlsx (author-linked adapter list)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "protocol_exchange",
+      "reason": "Protocol Exchange PDF line 91 cites Supplementary Table 2 and author-upload page lists the XLSX, but no original workbook URL/body was obtained. Publisher paper Supplementary Data 1 is readable but exact version identity is not proven."
+    },
+    {
+      "id": "finishing_kit",
+      "role": "linked_material",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/illumina_TruSeq-SmallRNA.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol_exchange",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq Small RNA sequence table lines 150–205 and 227–1073",
+        "finding": "Manufacturer table prints RA3 TGGAATTCTCGGGTGCCAAGG, RTP GCCTTGGCACCCGAGAATTCCA, RP1 AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA and indexed RPI primer family. The original BLISS protocol names the same family but does not choose one RPI member or disclose custom adapter end modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq Small RNA HTML text lines 150–205 and beginning of RPI member list",
+        "finding": "Original manufacturer sequence table prints RA3, RTP, RP1 and six-base indexed RPI family. It supplies family bases but not which custom variant or RPI member BLISS ordered."
+      }
+    },
+    {
+      "id": "historical_truseq_guide",
+      "role": "linked_material",
+      "locator": "_data/sources/bliss__10.1038+ncomms15058/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "finishing_kit",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Illumina original 15004197 Rev C PDF lines 392–599 component/part numbers, 795–833 RA3 ligation, 982–985 RT/PCR reagent roles, 1653–1695 RPI six-mers",
+        "finding": "Historical manufacturer guide supports RA3/RTP/RP1/RPI reagent roles and several six-base RPI index choices. It is a 2011 revision mirrored by Boston University, not evidence of the exact modified custom oligo ordered for BLISS in 2017."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Illumina TruSeq Small RNA Sample Prep Guide 15004197 Rev C text lines 392–415, 795–838 and 1653–1695",
+        "finding": "Historical Illumina guide lists component numbers, RA3 3-prime RNA ligation and RPI index six-mers. It supports manufacturer family identity but cannot establish the BLISS custom end chemistry or sample assignment."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Yan JATS lines 86/130/199–219/331–332; original Protocol Exchange PDF lines 91–110/235–269; Illumina source table lines 150–205; Rev C guide lines 392–599; linked Supplementary Table 2 unavailable",
+      "finding": "Followed defining paper to all six publisher supplements and the author Protocol Exchange. The detailed method resolves RA3 ligation before RT and names RTP/RP1/RPI; official Illumina table prints their sequence family. Protocol Exchange Supplementary Table 2 is still unavailable, and no sample-specific RPI choice or custom RA3 end modifications are established."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Yan JATS lines 80–88/130–138/199–220/331–332; all six publisher supplement headings/pertinent rows; Protocol Exchange v2 lines 89–110 and 235–269; official Illumina source table and Rev C manual",
+      "finding": "Independently followed all six publisher supplements and Protocol Exchange/Illumina links. Original data identify classic and modified BLISS break adapters, and official documents identify the RA3/RTP/RP1/RPI family. The separate author Protocol Exchange Supplementary Table 2 remains unobtained; neither paper nor vendor selects a universal RPI sample index or proves custom RA3 end modifications."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The selected RPI index member and custom-synthesis RA3 end modifications for a particular original BLISS sample remain unresolved; the RA3/RTP/RP1/RPI sequence family and reaction order are published.",
+      "disposition": "blocked",
+      "evidence": "Two independent reads of author Protocol Exchange and original Illumina sequence table. Separate Protocol Exchange Supplementary Table 2 remains unavailable, and no source selects one RPI member or specifies custom RA3 end modification for each sample."
+    }
+  ],
+  "conclusion": "Two independent reads now cover paper, six publisher supplements, author Protocol Exchange PDF and Illumina family sources. Protocol Exchange Supplementary Table 2 and sample-specific/custom-end details remain blocked; no absence accepted."
+}

@@ -1,0 +1,82 @@
+{
+  "dir": "oxford-nanopore-native-barcoding-v14",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/ligation-sequencing-gdna-native-barcoding-v14-sqk-nbd114-24.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "revision/date near line 100; barcode table lines 452–485; end-prep and ligation sections lines 190–346",
+        "finding": "Official SQK-NBD114.24 protocol prints all 24 barcode sequences and orders end preparation, barcode ligation/pooling, then Native Adapter ligation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT SQK-NBD114.24 protocol barcode table lines 452–485 and ligation setup around 865; scraper",
+        "finding": "NB01–NB24 forward/reverse barcode bases are published. End preparation adds dA, barcode adapter is dT-tailed and ligated before pooling and Native Adapter ligation. Exact proprietary barcode-adapter flanks/motor assembly are separate from public barcode member bases."
+      }
+    },
+    {
+      "id": "kit_page",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/native-barcoding-kit-24-v14.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "kit description/contents and linked protocol",
+        "finding": "Kit page establishes product identity but does not replace the stepwise protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT Native Barcoding Kit 24 v14 page description and linked procedure inventory; scraper",
+        "finding": "Kit page identifies v14 native barcoding/ligation components and directs users to the source-specific protocol; not an independent strand sequence inventory."
+      },
+      "discovered_from": "protocol"
+    },
+    {
+      "id": "chemistry_doc",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "native barcode section lines 1130–1170; adapter strand table lines 2074–2087",
+        "finding": "Official current chemistry document prints Native Adapter top CCTGTACTTCGTTCAGTTACGTATTGCT and bottom ACGTAACTGAACGAAGTACAGG; also prints barcode flanking sequence families. Motor-bearing assembly/end chemistry still needs precise review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT chemistry technical document adapter table lines 2067–2087; scraper",
+        "finding": "Native Adapter top CCTGTACTTCGTTCAGTTACGTATTGCT and bottom ACGTAACTGAACGAAGTACAGG are printed. This verifies known Native Adapter strands while other motor/barcode flanks remain undisclosed."
+      },
+      "discovered_from": "protocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official protocol, kit page and Chemistry Technical Document",
+      "finding": "Followed official linked kit and chemistry documentation; source version applicability to SQK-NBD114.24 needs independent check."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Official ONT NBD114.24 protocol barcode table 452–485 and chemistry document adapter table 2067–2087",
+      "finding": "Protocol and chemistry technical document followed; public barcode and Native Adapter bases are source-positive, while unprinted motor and barcode-flank details remain blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Current official sequence table provides adapter and barcode families; proprietary assembly claims remain blocked."
+}

@@ -1,0 +1,188 @@
+{
+  "dir": "sci-hi-c__10.1038+nmeth.4155",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Ramani et al Nature Methods 2017 DOI:10.1038/nmeth.4155; nmeth.4155_PMC5330809.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS lines 60-62, 104-118",
+        "finding": "Original JATS describes first biotin bridge-barcode ligation, proximity ligation and second Y-adapter barcode ligation; names Supplementary Spreadsheet 1 and analysis code."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5330809 JATS lines 60-62 and 104; supplementary spreadsheet citation",
+        "finding": "The paper describes first-round bridge barcode and second-round Y-adapter barcoding and explicitly locates all oligos in Supplementary Spreadsheet 1."
+      }
+    },
+    {
+      "id": "barcode_workbook",
+      "role": "supplement",
+      "locator": "NIHMS839786-supplement-supp_data.xlsx.txt; duplicate Springer MOESM255",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "XLSX extracted text lines 1-6, 97-103, 197-204",
+        "finding": "Original sheet gives 96 forward biotin bridge oligos, 96 reverse bridge oligos and second-round Y-adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NIHMS839786-supplement-supp_data.xlsx.txt first rows and rows 97-104; scraper on original workbook",
+        "finding": "Workbook prints first-round forward/reverse bridge oligo family and second-round adapter entries. Barcode bases are source-present."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "NIHMS839786-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "DOC text lines 1-60",
+        "finding": "File holds supplementary figure captions; no reaction sequence claim based on it."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NIHMS839786-supplement-1.doc.txt heading and figure-caption lines 1-60",
+        "finding": "Supplementary figure captions cover intact nuclei, coverage and cell mixtures; no oligo sequence table in inspected captions."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_pdf",
+      "role": "supplement",
+      "locator": "NIHMS839786-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "NIHMS839786-supplement-2.pdf.txt lines 1-25, 46-89, 91-199",
+        "finding": "Original supplementary PDF is Table 1: library programming and read, mapped-read, cellular-index and cis:trans summaries for six libraries. It has no oligo table; the paper links that information to separate Supplementary Spreadsheet 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NIHMS839786-supplement-2.pdf.txt first pages and oligo/adapter search",
+        "finding": "Contains experimental library summary and barcode programming table, not oligo sequences in inspected sections."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "springer_supp",
+      "role": "supplement",
+      "locator": "Springer MOESM254_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM254_ESM.pdf.txt lines 1-160 (figure legends), 386-449 (adapter preparation and DpnII digestion), 456-484 (first bridge ligation), 595-761 (second-well processing and adapter ligation), 762-846 (PCR, sequencing and primers)",
+        "finding": "This original contains a full Supplementary Protocol after the figures: bridge and Y adapters are separately annealed, DpnII fragments receive biotin bridge adapters, nuclei are redistributed, MseI/HaeIII digestion precedes dA tailing and indexed Y-adapter ligation, and final PCR uses source-printed Illumina F and barcoded Illumina R primers. Exact cellular oligos are referred to Supplementary File 1 and were followed to the separate workbook. This confirms the page's detailed-method order; the main-text overview differs."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM254_ESM.pdf.txt first figures and oligo/adapter search",
+        "finding": "Springer file is supplementary figure legends; detailed reaction descriptions appear later, while exact oligos are in separate Spreadsheet 1."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "bioRxiv 065052_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "bioRxiv 065052_v1.full.pdf.txt lines 919-923 (oligo source and HiSeq 2500), 978-998 (bridge-barcode design), 1003-1011 (analysis repository)",
+        "finding": "The original preprint explicitly points all oligos to Supplementary File 1, states that bridge barcodes are constrained 8-mers, and names the authors' analysis-code repository. The oligo link was followed to the workbook and the code link to its README."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv 065052_v1.full.pdf.txt lines 919-923 and 960-990",
+        "finding": "Author preprint independently cites Supplementary File 1 for all oligos and describes barcode design constraints."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "analysis_code",
+      "role": "linked_material",
+      "locator": "https://github.com/VRam142/combinatorialHiC",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "https://github.com/VRam142/combinatorialHiC README sections 'Running the wrapper script' and 'Barcode Association & Read Trimming' (web page lines 179-216); repository file listing lines 147-172",
+        "finding": "Authors' repository is live. README names inner_barcodes.txt and outer_barcodes.txt and explains that the first eight bases of each mate encode the outer barcode; first 11 are trimmed, then internal bridge barcodes are searched around the ligation junction. This corroborates the page's inline-barcode read layout. The separate barcode-list files could not be fetched here and are tracked below."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author original GitHub repository README https://github.com/VRam142/combinatorialHiC lines 179–216; sci-Hi-C source-bundle oligo scraper run first",
+        "finding": "Independently confirmed README says first 8 bases of both mates are terminal outer barcodes, first 11 bases are removed, and 8 bases flanking common bridge sequence identify inner barcodes; this supports read parsing but the separate barcode-list file bodies were not accessible."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "code_barcode_lists",
+      "role": "linked_material",
+      "locator": "https://github.com/VRam142/combinatorialHiC/blob/master/inner_barcodes.txt and /outer_barcodes.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "GitHub repository listing lines 168-169; attempted GitHub blob pages, raw.githubusercontent.com files and api.github.com contents endpoints",
+        "finding": "README identifies these as the first- and second-round barcode lookup lists. Their direct contents were inaccessible from the available web/sandbox route, so they cannot be independently compared with the original workbook here."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author repo tree lines 151–170 lists inner_barcodes.txt and outer_barcodes.txt; independently attempted both GitHub blob URLs after source-bundle oligo scraper",
+        "finding": "Author README identifies the two files as required references, and repository tree lists them. Web blob file bodies failed; their exact 96-member sequences remain unverified, so missing claim stays blocked."
+      },
+      "reason": "GitHub blob and raw routes returned cache miss; GitHub API route was inaccessible; sandbox DNS denied raw.githubusercontent.com.",
+      "discovered_from": "analysis_code"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "JATS lines 60-62, 104-118; original barcode workbook lines 1-204; supplement inventory",
+      "finding": "Followed paper to the original barcode workbook and supplementary figure captions. This pass predates later checks of the preprint, supplementary table, detailed protocol and named code repository."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article JATS line 104 and original barcode workbook first and later sheet rows",
+      "finding": "Followed the primary paper to its oligo workbook and checked the table, Springer supplement and preprint. The code repository was then reached in a third audit pass, but its separate barcode-list files remain inaccessible; no absence accepted."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Original author GitHub README and repository tree; attempted both linked barcode-list blobs",
+      "finding": "Independent second check confirms outer and inner barcode parsing roles, but neither barcode-list original body could be read. Linked-source disposition remains blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent checks now cover defining article, publisher supplementary protocol/table, preprint and author code README. The code describes outer and inner barcode parsing, but its inner/outer barcode-list bodies remain inaccessible. Exact list membership and any absence claim stay blocked."
+}

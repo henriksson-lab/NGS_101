@@ -1,0 +1,104 @@
+{
+  "dir": "ribo-seq__10.1126+science.1168978",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/ribo-seq__10.1126+science.1168978/science.1168978_PMC2746483.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Results and Figure 1 caption lines 32–40, 248",
+        "finding": "Original establishes footprint recovery and deep-sequencing overview, not all oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Results and Fig. 1 caption, original JATS lines 32–40 and 248",
+        "finding": "2009 source establishes RNase-protected footprints and an RNA-ligase-avoiding library strategy. It does not print RT/PCR oligos in these accessible sections."
+      }
+    },
+    {
+      "id": "ingolia2012",
+      "role": "linked_material",
+      "locator": "_data/sources/ribo-seq__10.1126+science.1168978/PMC3535016_PMC3535016.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Detailed protocol lines 98–104, 188–208, 539–615, 689",
+        "finding": "Original successor prints modified linker, RT primer, indexed PCR primer and reaction order; scraper hits verified at lines 188/194/206/208."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols 2012 original JATS lines 98–104 (Linker ligation), 188–208 (oligos), 539–615 (procedure)",
+        "finding": "Authors explicitly identify the earlier poly(A)-tail route and introduce optimized preadenylated linker ligation plus changed RT/PCR primers and optional 6-nt index. Thus its printed linker/index cannot be attributed to the 2009 library."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "original_si",
+      "role": "supplement",
+      "locator": "2009 original Science Supporting Online Material: PMC NIHMS131482-supplement-MS_131482_Supplementary_Data.pdf https://pmc.ncbi.nlm.nih.gov/articles/instance/2746483/bin/NIHMS131482-supplement-MS_131482_Supplementary_Data.pdf; publisher DC1 https://www.science.org/doi/suppl/10.1126/science.1168978/suppl_file/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC attachment remains behind download gate; publisher Science DC1 could not be retrieved via web. PMC Cloud for this TDM author manuscript contains JATS only, without supplement. No original SI text inspected.",
+      "recovery_attempt": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "finding": "Independent locator search verified the PMC and publisher entries. Neither yielded a readable original supplement; the PMC Cloud JATS listing contains no attached supplement."
+      }
+    },
+    {
+      "id": "2012_supp",
+      "role": "supplement",
+      "locator": "Nature Protocols 2012 MOESM445_ESM.zip at _data/sources/doi_10.1038+nprot.2012.086/; nested ribosome-footprinting-galaxy.dat tar",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory (one ribosome-footprinting-galaxy.dat 698,664,960-byte member); streamed nested tar member list all 13 members, from (i)_Footprint_FastQ.fastqsanger through jobs_attrs.txt",
+        "finding": "All nested files are sequencing/reference/intermediate data or Galaxy metadata; no primer or chemistry methods. Exclude from oligo absence evidence without extracting 700 MB."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "MOESM445 ZIP central directory and all 13 streamed nested TAR member headers, (i)_Footprint_FastQ.fastqsanger to jobs_attrs.txt",
+        "finding": "This archive contains FASTQ, FASTA, GTF, SAM, BED, BAM and Galaxy metadata only; no methods/oligo document. Excluded as data-only supplement."
+      },
+      "discovered_from": "ingolia2012",
+      "reason": "ZIP contains a Galaxy exercise dataset archive: FASTQ/FASTA/GTF/SAM/BAM/BED and metadata; no protocol oligo document."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "2009 JATS lines 32–40/248; 2012 protocol lines 188–208 read; 2009 supplementary PDF and 2012 protocol supplement remain to inspect. The linked 2012 MOESM445 ZIP was streamed and its complete nested tar inventory is data only.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "2009 JATS Results/Fig. 1 lines 32–40, 248 and SI reference lines 88–90; 2012 successor JATS Linker ligation lines 98–104, oligos 188–208; MOESM445 archive inventory",
+      "finding": "Followed 2012 successor and inspected data-only supplement. Original 2009 NIHMS131482 SI remains unavailable, so exact first-version oligos and run geometry stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact oligos and read geometry used in the original 2009 poly(A)-tail library",
+      "evidence": "Original 2009 JATS Results/Fig. 1 and 2012 retrospective account read twice; original 2009 SI still gated. The 2012 printed linker and indexed primers are expressly later optimizations.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent located reads of accessible 2009 article and 2012 successor identify different library versions. The 2009 original supplement remains unavailable, so exact original oligos and run geometry are blocked."
+}

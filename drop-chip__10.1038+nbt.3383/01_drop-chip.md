@@ -2,8 +2,7 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet.
+> writing this note; the current protocol model and self-test live in `tools/`.
 
 **Drop-ChIP** — Rotem A, Ram O, Shoresh N, Sperling RA, Goren A, Weitz DA, Bernstein BE.
 "Single-cell ChIP-seq reveals cell subpopulations defined by chromatin state."
@@ -17,20 +16,21 @@ Sources read (fetched by `tools/get_sources.py`, into
 
 | File | What | Used for |
 |---|---|---|
-| `nbt.3383_PMC4636926.html(.txt)` | author manuscript on PMC, with Online Methods | **all reaction steps**, SC-PCR primers, read layout |
-| `nbt.3383_41587_2015_BFnbt3383_MOESM11_ESM.pdf(.txt)` | Supplementary Information (figures, Suppl. Tables 1, 3, Notes) | buffer recipes (Suppl. Table 1), SC-PCR program, legend of Suppl. Fig. 2 |
+| `nbt.3383_PMC4636926.xml.txt` and `.html.txt` | original PMC article with Online Methods | **all reaction steps**, SC-PCR primers, read layout |
+| `nbt.3383_41587_2015_BFnbt3383_MOESM11_ESM.pdf(.txt)` | Supplementary Information (figures, Suppl. Tables 1, 3, Notes) | buffer recipes (Suppl. Table 1), SC-PCR program, visually inspected Supplementary Fig. 2A/B |
 | `nbt.3383_41587_2015_BFnbt3383_MOESM12_ESM.xlsx(.txt)` | Supplementary Table 2 | **all 1,152 barcode adaptors** (sheet `IDT_COA_07_26_12_RAM_convert`) |
 | `nbt.3383_41587_2015_BFnbt3383_MOESM10_ESM.xlsx`, `MOESM13_ESM.xlsx` | Suppl. Tables 4, 5 (signatures, clustering) | not chemistry |
-| `nbt.3383_41587_2015_BFnbt3383_MOESM14_ESM.zip` | Suppl. File 1, chip designs (`.dwg`) | not opened (CAD) |
-| `MOESM15/16_ESM.avi` | Suppl. Movies 1, 2 | not chemistry |
-| `upstream_Drop-ChIP.html(.txt)` | Teichmann-lab scg_lib_structs page | step-by-step drawing; checked below |
+| `nbt.3383_41587_2015_BFnbt3383_MOESM14_ESM.zip` | Suppl. File 1, three chip-design `.dwg` files | member inventory checked; device designs, not chemistry |
+| `MOESM15/16_ESM.avi` | Suppl. Movies 1, 2 | frames checked; droplet devices, not chemistry |
+| `upstream_Drop-ChIP.html(.txt)` | Teichmann-lab scg_lib_structs page | orientation only; never primary evidence |
 
-Not obtained: the Europe PMC JATS XML (HTTP 500) and the four NIHMS supplement copies
-(download gate) — these duplicate the Springer files above. 🔴 **The sequences printed
-in Supplementary Fig. 2A/B** (the adaptor in both orientations and the four final
-configurations) are an image in `MOESM11_ESM.pdf`; only the legend came through as text.
-🔴 **The Illumina adaptor and primers used for the library step are never given as
-sequences** in any fetched file.
+The JATS XML and PMC Cloud NIHMS supplements are now cached; the latter duplicate or
+overlap the publisher supplements above. 🟢 **Supplementary Fig. 2A/B was inspected
+visually in the original PDF, page 2.** The extracted text contains only its legend;
+the bases in the image required separate transcription, recorded below.
+🔴 **The exact final Illumina adaptor and library-primer identities remain unresolved:**
+Online Methods names diluted Illumina adapters and Illumina primers but no product or
+revision that identifies a matching vendor sequence source.
 
 ---
 
@@ -77,17 +77,16 @@ SC-PCR1   TAAGGTGGGGGGGATAC    Tm 59.6
 SC-PCR2   TAAGGTCCCCCGGATAC    Tm 59.6
 ```
 
-(The paper gives the two sequences without names; "SC-PCR1 / SC-PCR2" is upstream's
-labeling. No modifications are given, so they are taken as unmodified DNA. 🟡)
+(The paper gives the two sequences without names; SC-PCR1 and SC-PCR2 are labels in
+this note. No modifications are given, so unmodified DNA is inferred. 🟡)
 
-### Illumina adaptor and library primers — 🔴 not published
+### Illumina adaptor and library primers — 🔴 unresolved from checked sources
 
-The methods say only "Illumina adapters diluted 1:150" and "Illumina Primers at 25 µM".
-Upstream draws TruSeq forked adaptors (P5 + TruSeq Read 1 on one arm, TruSeq Read 2 arm +
-8-nt i7 + P7 on the other, 3'-T overhang) and P5/P7 as primers, and **marks this itself as
-an educated guess**, supported by finding `GATCGGAAGAGCACA…` (`illumina.STEM` + read-2 arm)
-next to adaptor sequence in the public reads. 🟡 (upstream; plausible, because BciVI leaves
-a single 3'-A that a T-tailed TruSeq adaptor would ligate to)
+The original Online Methods names "Illumina adapters diluted 1:150" and "Illumina
+Primers at 25 µM" without their product identity, revision, bases or index set
+(JATS line 185). A matching vendor guide cannot yet be selected. The outer arms in
+the model therefore remain inferred placeholders. No specific TruSeq construct is
+established by these sources.
 
 ### How the adaptor is built — 🟡 (computed over all 1,152 rows)
 
@@ -195,31 +194,41 @@ Volumes and conditions 🟢 from the Online Methods and Supplementary Table 1 un
     The paper says a "sample" index is read to tell the ~100-cell pools apart 🟢; that it
     is added in this PCR is inferred 🟡. Primer sequences 🔴.
 
-**Agreement with upstream**: steps 3–13 match upstream's drawing in order (ligation →
-IP → PacI → SC-PCR → BciVI → Illumina ligation → PacI → P5/P7 PCR). Upstream omits the
-dephosphorylation step and the carrier chromatin; it places PacI #1 after IP as the
-paper does. 🟡
-
 ## 4. Final library — 🟡
 
-Assembled from the BA table and the BciVI cut, with upstream's guessed TruSeq adaptor
-(🟡 upstream / 🔴 unconfirmed) for the outer parts. The `lib/` check confirms upstream's
-orientation-1 product starts with `illumina.NEBNEXT_UNIVERSAL_PRIMER` (P5 + TruSeq Read 1)
-and contains `illumina.TRUSEQ_READ1`, `illumina.INDEX1_PRIMER` and `illumina.P7_RC`.
-Top strand, orientation 1 (both adaptors in the forward orientation):
+The barcode-adaptor sequences in Supplementary Table 2 and the BciVI step support
+the inner constant/barcode/TTAA region on both sides of the nucleosomal insert.
+Supplementary Fig. 2B illustrates four orientations. The exact sequence outside
+those inner regions depends on the unselected Illumina adapter and primer reagents;
+the model leaves both outer arms unresolved rather than assigning P5, P7 or a
+particular index sequence.
+
+🟢 The original Supplementary Fig. 2A (PDF page 2) prints this illustrative top
+strand in orientation 1, grouped by its colour-coded blocks:
 
 ```
-5'- P5 · TruSeq Read 1 · GGGGGGGATAC · reverse(bc) · TTAA · <nucleosomal DNA> · TTAA · bc · GTATCCGGGGGA · TruSeq Read 2' · i7' · P7' -3'
+5′-TTAA TTTCAATG GTATCC GGGGGACC TTAATTAA GGTGGGGG GGATAC GTAACTTT TTAA-3′  printed top
+3′-AATT AAAGTTAC CATAGG GGGGGTGG AATTAATT CCAGGGGG CCTATG CATTGAAA AATT-5′  printed bottom
+3′-AATT AAAGTTAC CATAGG CCCCCTGG AATTAATT CCACCCCC CCTATG CATTGAAA AATT-5′  computed complement
 ```
 
-The four configurations (upstream's orientations 1–4, the paper's Suppl. Fig. 2B) come
-from each of the two adaptors being ligated in either orientation. They differ only in
-the 11-nt stub next to each Illumina arm (`GGGGGGGATAC` on one adaptor strand,
-`CCCCCGGATAC` on the other, as read toward the insert) and in whether the barcode
-appears as reverse(bc) or revcomp(bc). 🟡 (computed)
+Orientation 2 swaps the two 8-nt barcode blocks between strands. Fig. 2B shows the
+derived post-BciVI constants `GGGGGGGATAC` on the left and `GTATCCGGGGGA` on the
+right, the two 8-nt barcode alternatives in each of four ligation orientations,
+and `TTAA` at both insert junctions. It labels the outer regions only **“Illumina
+adapter”**, without their bases. The pictured `TTTCAATG`/`GTAACTTT` pair is an
+illustrative figure example and was not found among the 1,152 listed forward
+oligos; the model continues to use listed row 1 rather than substituting the
+figure barcode for a published production oligo. 🟢 for image text, 🟡 for its
+relation to the production list.
 
-Upstream notes that configurations 2 and 3 (same stub at both ends) may amplify poorly by
-suppression PCR; the paper does not discuss this. 🟡
+🟡 **Published Fig. 2A pairing discrepancy:** both bottom green priming-site blocks
+are printed as `GGGGGTGG` and `CCAGGGGG` in each orientation, whereas their top
+partners `GGGGGACC` and `GGTGGGGG` require `CCCCCTGG` and `CCACCCCC`
+respectively. The published Supplementary Table 2 forward strands share the
+top-strand constant, so the model uses one listed top oligo and computes its
+Watson–Crick complement for the duplex. The intended reason for the lower
+figure motifs is unresolved; they cannot be used as a physically paired duplex.
 
 ## 5. Sequencing
 
@@ -230,31 +239,22 @@ half of the PacI site, then genome. Alignment: `bowtie2 -X 1000 --trim5 23` (mm9
 pairs whose two barcodes match are kept (with a rule merging two barcodes that co-label
 ≥10 % of each other's reads, for drops that fused with two barcode drops). 🟢
 
-🟡 (computed with `lib/`, on the upstream-style library): after `illumina.TRUSEQ_READ1`,
-exactly **11 nt** (`GGGGGGGATAC` or `CCCCCGGATAC`) precede the barcode; the same is true
-after `illumina.TRUSEQ_READ2` (`CCCCCGGATAC` in orientation 1; the 3'-A from BciVI is
-paired by the read-2 primer's terminal T). 11 + 8 + 4 (TTAA) = **23**, the `--trim5` value.
-So read 1 with 11 dark cycles starts at the barcode (bases 1–8, as stated), and read 2
-without dark cycles has the barcode at bases 12–19 (as stated). That would mean the
-dark cycles were applied to read 1 only — but then trimming 23 nt from read 1 removes 11
-genomic bases. Upstream draws 11 dark cycles on **both** reads. Which is right is not
-resolvable from the text. 🔴
+🟢 Fig. 2B places the blue Read 1 interval at the barcode after the 11-nt outer
+constant, while the blue Read 2 interval includes its 11-nt outer constant before
+the barcode. This matches the Methods coordinates and the 23-nt Read 2 prefix
+(11 constant + 8 barcode + `TTAA`) trimmed during alignment. 🟡 The figure does not
+label the instrument's dark-cycle instruction or sequencing primer, so allocating
+the stated 11 initial dark cycles specifically to Read 1 remains an inference.
 
-Index read: upstream's guess is the standard TruSeq i7 read with `illumina.INDEX1_PRIMER`,
-8 nt. 🟡
+## 6. Source discrepancies and boundaries
 
-## 6. Upstream page, checked
-
-| Claim on upstream page | Paper / supplement | Verdict |
-|---|---|---|
-| BA = `TTAA·N8·GTATCCGGGGGACCTTAATTAAGGTGGGGGGGATAC·N8·TTAA`, 1,152 of them | matches all 1,152 rows of Suppl. Table 2 | agree 🟢 |
-| Both barcodes drawn as the same `NNNNNNNN` | the right barcode is the left one **reversed** | upstream simplifies 🟡 |
-| SC-PCR1 / SC-PCR2 sequences | identical to Online Methods | agree 🟢 |
-| PacI after IP, before SC-PCR; again before final PCR | same | agree 🟢 |
-| BciVI leaves an A overhang; TruSeq forked adaptors ligated | A overhang stated; adaptor identity not given | upstream's own "educated guess" 🟡 |
-| Dephosphorylation before BciVI | in paper, not on upstream | upstream omits |
-| 11 dark cycles on read 1 and read 2 | "first 11 cycles are dark"; barcode at read-2 bases 12–19 | conflict, see §5 🔴 |
-| Adaptor length (drawn 60) | paper says 64 bp | paper's number inconsistent with its own table 🟡 |
+The main-paper Fig. 3A legend calls the barcode adapters **64 bp** (JATS line 547),
+whereas all 1,152 Supplementary Table 2 forward sequences are **60 nt**. The model
+uses the actual listed 60-nt strands; an unlisted four-base extension cannot be
+inferred. The Methods describes an A overhang at the **5′ end** (JATS line 185),
+while the BciVI cut geometry from the printed recognition motif yields a **3′-A**
+overhang in the model. The published orientation wording remains unresolved.
+The separate Fig. 2A lower-strand priming-site mismatch is documented in §4.
 
 ## 7. Open questions
 
@@ -263,5 +263,5 @@ Index read: upstream's guess is the standard TruSeq i7 read with `illumina.INDEX
 - 🔴 Dark cycles on read 1 only or on both reads (§5).
 - 🔴 Whether the 13 barcodes with a built-in PacI site at the insert boundary (and the 6
   with an extra BciVI site) were usable.
-- 🔴 Sequences in Supplementary Fig. 2 (image only) — would settle the four
-  configurations and the read-2 layout.
+- 🔴 Sequencing-primer bases and the exact instrument configuration for the 11 dark
+  cycles; Fig. 2 resolves the molecular read boundaries, not those run settings.

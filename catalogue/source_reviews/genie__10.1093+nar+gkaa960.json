@@ -1,0 +1,117 @@
+{
+  "dir": "genie__10.1093+nar+gkaa960",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cooper2020",
+      "role": "defining",
+      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_PMC7736817.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 53-109 and 243-263",
+        "finding": "GenIE uses Cas9 RNP + 100nt HDR donor, gene-specific RNA RT, separate gDNA/cDNA amplicons and indexed MiSeq PCR. JATS line 61 assigns oligos to Supplementary Tables S3-S5."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7736817 JATS Methods lines 53-110, references 7–8 around lines 308-330; scraper run on local source bundle",
+        "finding": "Independently confirmed Cas9 RNP editing with 100-nt HDR donor, gene-specific RNA RT, gDNA and cDNA amplicons and barcoding PCR for MiSeq. Main Methods identify Supplementary Tables S3–S5 as sequence source and cite Kan et al. 2017 HDR orientation and Kozarewa & Turner 2011 96-plex barcoding."
+      }
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_Supplementary_Tables.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary workbook sheets S2-S5; specifically S3 lines 75-103, S4 lines 104-130 and S5 lines 131-170",
+        "finding": "S3 has RT/amplicon primers; S4 guide RNAs; S5 HDR donor sequences. S2 is target amplicon metadata."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author supplementary workbook S3 lines 75-103, S4 lines 104-130, S5 lines 131-170; scraper hit checked",
+        "finding": "Independently verified common amplicon adapter tails and locus-specific RT/forward/reverse primers in S3, guide spacers in S4, and donor oligos in S5. S2 is target metadata."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_supplement.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary PDF opening and Fig/Methods headings",
+        "finding": "Supplement describes method and extended results; no separate ordered oligo table in inspected headings."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author supplementary PDF lines 1-35 and headings through subsequent supplement",
+        "finding": "Supplementary notes and figures explain assay optimization, including Trizol extraction and gene-specific RT; the ordered oligos are in the separate supplementary workbook."
+      }
+    },
+    {
+      "id": "rgenie_code",
+      "role": "linked_material",
+      "locator": "https://github.com/Jeremy37/rgenie",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked author GitHub README/root tree read online and identifies analysis-only package; subdirectory source files were not exhaustively inspected.",
+      "discovered_from": "cooper2020",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Linked author GitHub README/root tree online lines 147-189",
+        "finding": "README says rgenie is an R package analyzing aligned GenIE replicate amplicon output, with scripts/vignettes for statistics and visualization. No wet-lab oligo specification in the README; subdirectories not exhaustively read."
+      }
+    },
+    {
+      "id": "index_predecessor",
+      "role": "predecessor",
+      "locator": "Kozarewa and Turner 2011, Methods Mol Biol doi:10.1007/978-1-61779-089-8_20; GenIE ref 8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original article delegates sequencing-barcode adapter method to cited reference; predecessor not yet checked."
+    },
+    {
+      "id": "cas9_hdr_predecessor",
+      "role": "predecessor",
+      "locator": "Kan et al. 2017 Genome Research doi:10.1101/gr.214775.116, PMC5495063; GenIE ref 7",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Donor design ancestry not independently checked here."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 61-69 and 243-263; Supplementary Tables S2-S5",
+      "finding": "Oligo source tables were read; indexed amplicon method and HDR orientation references plus author code remain linked and unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original GenIE JATS Methods lines 61-69, refs 7–8 at 308-330, original supplementary S3–S5, author GitHub README lines 147-189",
+      "finding": "Independently followed all explicit sequence tables and identified exact predecessor citations. The linked rgenie root is analysis-oriented but its files, and both predecessor originals, remain open; missing adapter method stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact inherited amplicon barcoding adapter method is not yet verified",
+      "disposition": "blocked",
+      "evidence": "Guide, donor and RT/amplicon oligos are printed in Supplementary Tables S3-S5; predecessor and code links remain blocked."
+    }
+  ],
+  "conclusion": "Guide, donor and RT/amplicon oligos are printed in Supplementary Tables S3-S5; predecessor and code links remain blocked."
+}

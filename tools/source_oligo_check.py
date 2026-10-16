@@ -91,7 +91,11 @@ def declared_locators(slug: str) -> tuple[str, ...]:
             if not source:
                 continue
             arg = source.split(":", 1)[1] if ":" in source and "//" not in source else source
-            for token in (arg, arg.rsplit("/", 1)[-1]):
+            # protocols.io references often end in /v1, while fetched PDFs use
+            # the protocol accession in their filename rather than the DOI.
+            accession = re.search(r"protocols\.io\.([a-z0-9]+)", arg, re.I)
+            for token in (arg, arg.rsplit("/", 1)[-1],
+                          accession.group(1) if accession else ""):
                 token = token.strip().strip("*").lower()
                 if len(token) >= 6:
                     result.append(token)

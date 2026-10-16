@@ -1,0 +1,137 @@
+{
+  "dir": "hrf-seq__10.1093+nar+gku167",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_PMC4005689.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 30–55 and supplementary table citation",
+        "finding": "Hydroxyl-radical cleavage followed by random-primed RT and ligation; cites supplementary oligo list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4005689 JATS Methods paragraphs and cited Supplementary Table S1",
+        "finding": "Hydroxyl-radical cleavage/RT-stop workflow uses barcoded ligation adapters and primer positions for sequencing; original points to supplementary oligo table and inherits SHAPE-seq-type completion."
+      }
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_nar-03510-met-f-2013-File009.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table S1 lines 60–100",
+        "finding": "Publishes named oligos and modifications; broad missing-primer claim is false."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S1 PDF text lines 60–100",
+        "finding": "Published table names RT_random_primer, RT_structure_cassette, ligation adapter and PCR primer families, including N windows; exact family must be taken from this table."
+      }
+    },
+    {
+      "id": "supp_dataset",
+      "role": "supplement",
+      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_HRF-seq-supplementary-dataset.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Position-level termination, priming, effective coverage and reactivity measurements; these are processed outcomes, not reagent oligo sequences.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheets 16S rRNA lines 1–1544 and RNase P lines 1545–1748; column headers and data sampled",
+        "finding": "Position-level termination, priming, effective coverage and reactivity measurements; these are processed outcomes, not reagent oligo sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplemental XLS sheet 16S rRNA, lines 1–6; 1748 extracted rows",
+        "finding": "Per-nucleotide treated/control termination and priming EUC plus effective coverage; analysis result table, not oligo inventory."
+      }
+    },
+    {
+      "id": "shape_predecessor",
+      "role": "predecessor",
+      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "SHAPE-Seq predecessor Methods lines 1266–1270, 1352–1365",
+        "finding": "Related RT-stop/adapter workflow, but HRF original table sets its actual oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "SHAPE-seq original PMC3131332 Methods and later SI adapter rows 39–46",
+        "finding": "SHAPE predecessor uses primer extension and single-strand adapter ligation; its sequences inform the inherited family but HRF-specific barcodes come from the HRF supplement."
+      }
+    },
+    {
+      "id": "cdna_ligation_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1007/978-1-62703-514-9_13; PMID 23872978",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "HRF Methods Sequencing library preparation explicitly inherits this cDNA-ligation method (ref. 20), including cleanup and terminal-addition processing. PubMed abstract inspected; Springer full protocol unavailable via web during followup; full method remains uninspected."
+    },
+    {
+      "id": "fenton_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/S0076-6879(09)68002-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "HRF Methods Hydroxyl radical probing explicitly cites this peroxidative Fenton method (ref. 19). The short HRF recipe is available, but the cited original has not been checked."
+    },
+    {
+      "id": "raw_data_site",
+      "role": "linked_material",
+      "locator": "http://people.binf.ku.dk/jvinther/data/HRF-Seq/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining article Sequencing library preparation links this study data page; linked sample/read-layout metadata has not been inspected.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 30–55, Supplementary Table S1 lines 60–100, and cited SHAPE-Seq original",
+      "finding": "The original oligo table is present; linked dataset and other cited method still require inspection."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining article links and every locally recovered supplement/author workbook listed in source checklist",
+      "finding": "Independently inspected recovered supplements including chemistry-relevant oligo and protocol sources; any still-unavailable relevant source remains a blocker to confirmed absence."
+    },
+    "followup": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original JATS Sequencing library preparation line 40, probing line 36, references 19–20; original Supplementary Table 1 lines 60–109.",
+      "finding": "Actual library-preparation predecessor is Kielpinski et al. 2013 DOI 10.1007/978-1-62703-514-9_13, not merely SHAPE-seq. Added missing predecessor and original raw-data URL to checklist; no source completeness or absence claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "HRF-Seq oligo sequences are absent",
+      "disposition": "resolved",
+      "evidence": "Both existing readers inspected original Supplementary Table S1, which prints the RT primers, modified ligation adapter and all four indexed PCR primers. This is not an accepted absence; linked-method coverage remains blocked."
+    }
+  ],
+  "conclusion": "Original oligo-absence claim is resolved by the published Supplementary Table S1 already independently read twice. Full source audit remains blocked by the actual cDNA-ligation predecessor, Fenton predecessor, raw-data site and incomplete independent linked-source review."
+}

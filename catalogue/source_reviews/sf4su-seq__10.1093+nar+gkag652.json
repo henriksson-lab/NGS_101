@@ -1,0 +1,106 @@
+{
+  "dir": "sf4su-seq__10.1093+nar+gkag652",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_PMC13309788.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "article Methods and Supplementary Material lines 302–314",
+        "finding": "The article identifies size fractionated 4sU RNA capture and links the single supplementary methods file."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 118–125, size-fractionated 4sU-Seq paragraph",
+        "finding": "The defining method gel-selects short thio-labelled RNA, decaps with 5-prime pyrophosphohydrolase, then uses NEBNext Small RNA library kit; no protocol-specific oligo sequence table here."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_supp_gkag652_supplemental_file.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods pp. 21–22, text lines 428–453",
+        "finding": "Small thio-labelled RNA is gel-selected, extracted, decapped with 5′ pyrophosphohydrolase and built with NEBNext Small RNA Library kit; original does not print kit oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods PDF lines 428–453; Supplementary Figure 4 caption lines 75–80",
+        "finding": "Supplement describes gel/dialysis/decapping and explicit handoff to NEBNext kit; Fig. 4 shows adaptor-ligated product and adaptor dimer but no distinct sf4sU adaptor bases."
+      }
+    },
+    {
+      "id": "nebnext_manual",
+      "role": "vendor",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/manuale7300_e7330_e7560_e7580.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "cover lines 1–4 and oligo section lines 961–1066",
+        "finding": "Official manual covers cited E7300S kit and prints adapter/primer oligo families; must compare revision and purchased index set before asserting one exact library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NEB E7300 manual extracted lines 946–1070, especially 1042–1069; oligo scraper hits checked",
+        "finding": "Official E7300 appendix prints 3-prime rApp adaptor ending NH2, RNA 5-prime adaptor, RT primer, PCR primer and index-primer family. These are kit-family bases, not evidence of the exact index tube chosen in this study."
+      }
+    },
+    {
+      "id": "snu_predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v2 abstract lines 77–85 and Methods lines 308–324",
+        "finding": "Earlier preprint explicitly includes both SNU and sf4sU, and specifies common 4sU pulse, HPDP-biotin conjugation and streptavidin capture. SNU differs by bacterial poly(A) tailing of intact RNA; sf4sU additionally size-selects short thio-labelled RNA before small-RNA library preparation."
+      },
+      "discovered_from": "supp_methods",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original SNU preprint extracted lines 205–234 and method passages naming sf4sU and SNU",
+        "finding": "Preprint describes common 4sU pulldown and the sf4sU size-fractionation branch; supports inheritance of thio-labelled input, not a new unique small-RNA adaptor."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Supplementary Methods lines 360–367 and 428–453; NEB manual cover and oligo section",
+      "finding": "The shared 2021 bioRxiv preprint and 2026 supplementary methods establish the inherited 4sU capture versus distinct sf4sU size-selection/NEB kit branch; versioned NEB index set and remaining source files still need second pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining JATS lines 118–125, original Supplementary Methods 428–453, NEB E7300 manual 946–1070, linked SNU preprint methods",
+      "finding": "Followed source-named NEBNext kit to its E7300 original manual and checked the shared SNU chemistry predecessor. No sf4sU-specific index choice was given in these inspected sources."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact sf4sU-Seq index and adapter set is unavailable",
+      "disposition": "blocked",
+      "evidence": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+    }
+  ],
+  "conclusion": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+}

@@ -1,0 +1,225 @@
+{
+  "dir": "pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_PMC4053792.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 160–171; references 29–30",
+        "finding": "Four PIP branches use prior strand-specific library preparation (Li 2012 and Zheng 2010); exact inherited adapters must be checked there."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4053792 JATS overview lines 65–71 and Methods lines 165–171",
+        "finding": "PIP-seq compares RNaseONE/RNaseV1 footprint vs protein-depleted digestion control, reverses crosslinks, then uses previously described strand-specific RNA library prep with DSN normalization. Original explicitly cites refs 29/30 for library chemistry."
+      }
+    },
+    {
+      "id": "zheng_predecessor",
+      "role": "predecessor",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_PMC2947979.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 220–232 and Table S7 link",
+        "finding": "Zheng dsRNA-seq uses Illumina Small RNA Sample Prep v1.5; its Table S7/Text S1 supply primer and adapter context."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Predecessor PMC2947979 JATS lines 220–232",
+        "finding": "Zheng dsRNA-seq uses RNase One and Illumina Small RNA Sample Prep v1.5 kit; sequence details are deferred to Text S1/Table S7 and historical vendor guide."
+      }
+    },
+    {
+      "id": "zheng_text_s1",
+      "role": "supplement",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_supp_pgen.1001141.s017.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Text S1 lines 68–69",
+        "finding": "Discusses v1.5 3′ adapter trimming and predecessor library details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Text S1 pgen.1001141.s017.doc.txt lines 68–69",
+        "finding": "Text S1 describes v1.5 3′ adapter trimming and mapping. It does not by itself print complete v1.5 kit oligo sequences."
+      }
+    },
+    {
+      "id": "li_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.celrep.2011.10.002",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited Cell Reports predecessor remains unavailable."
+    },
+    {
+      "id": "illumina_smallrna_v15",
+      "role": "vendor",
+      "locator": "Illumina Small RNA Sample Prep Kit v1.5 historical guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit guide not yet located; Zheng predecessor explicitly names this kit."
+    },
+    {
+      "id": "pip_s1",
+      "role": "supplement",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional Table 1 lines 1–72",
+        "finding": "PIP-seq library characteristics list cross-linker, RNase, replicate, footprint/control branch and raw/trimmed/mapped read counts; relevant read-layout context."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original S1 XLSX Supplemental Table 1 lines 1–12",
+        "finding": "PIP-seq library characteristics enumerate crosslinker, RNase, replicate, footprint/control, raw/trimmed/mapped read counts. Supports sample/read branches but no adapter bases."
+      }
+    },
+    {
+      "id": "pip_s10",
+      "role": "supplement",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S10.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Motif and bound-site result table, no ordering oligo.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 10 lines 1–111",
+        "finding": "Motif and bound-site result table, no ordering oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original S10 XLSX motif table first rows",
+        "finding": "RBP motif names, enrichment E-values and logos; downstream inference, not molecular preparation."
+      }
+    },
+    {
+      "id": "pip_s11",
+      "role": "supplement",
+      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S11.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "SNP-to-PPS genomic overlap table, no library adapter or reaction details.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 11 lines 1–5112",
+        "finding": "SNP-to-PPS genomic overlap table, no library adapter or reaction details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original S11 XLSX SNP/PPS table first rows",
+        "finding": "Genomic SNP and protein-protected-site overlap coordinates; downstream results only."
+      }
+    },
+    {
+      "id": "pip_s2",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S2.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s3",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S3.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s4",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S4.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s5",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S5.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s6",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S6.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s7",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S7.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s8",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S8.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "pip_s9",
+      "role": "supplement",
+      "locator": "gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S9.jpeg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining Methods lines 160–171, cited Zheng 2010 Methods lines 220–232 and Text S1, Cell Reports DOI and Illumina v1.5 kit reference",
+      "finding": "Followed one predecessor to small-RNA kit v1.5; other predecessor and historical kit source are unavailable, so exact PIP adapter claim blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining article links and every locally recovered supplement/author workbook listed in source checklist",
+      "finding": "Independently inspected recovered supplements including chemistry-relevant oligo and protocol sources; any still-unavailable relevant source remains a blocker to confirmed absence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact PIP-seq library adapter sequence is confirmed unavailable",
+      "disposition": "blocked",
+      "evidence": "The defining article delegates strand-specific library prep to two papers; one cited predecessor and historical vendor guide remain unavailable."
+    }
+  ],
+  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding."
+}

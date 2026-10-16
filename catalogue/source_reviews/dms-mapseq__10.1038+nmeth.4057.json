@@ -1,0 +1,88 @@
+{
+  "dir": "dms-mapseq__10.1038+nmeth.4057",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_PMC5508988.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 95–111; scraper rerun",
+        "finding": "Author JATS describes DMS, TGIRT-III reverse transcription, UMI N10 targeted RT-PCR and Nextera XT variant."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5508988 JATS lines 93–125",
+        "finding": "Genome-wide route uses Zn2+ RNA fragmentation, rSAP, Linker 2 ligation, deadenylase/RecJ cleanup, RT and PCR; targeted amplicon route uses distinct gene-specific primers and NexteraXT."
+      }
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_41592_2017_BFnmeth4057_MOESM168_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 lines 155–203; scraper source hits",
+        "finding": "Publisher supplement prints linker, RT, indexing, sequencing and targeted PCR oligos; some have /5phos/, 5rApp and dideoxy modifications."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM168 PDF Table S1 text lines 140–218",
+        "finding": "Table S1 prints modified Linker 2 5rApp/CACTCGGGCACCAAGGA/3ddC, oCJ200link2 and PCR/UMI oligo families. Cloning/FXR2 primers elsewhere are not all library oligos."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC5508988 NIHMS867560 supplement_1 PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC copy gated; publisher supplementary PDF appears content-equivalent but identity remains unchecked."
+    },
+    {
+      "id": "dms_seq_predecessor",
+      "role": "linked_material",
+      "locator": "DMS-seq predecessor cited in original Methods line 101",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Referenced library chemistry not independently compared with this variant.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: paper, supp_oligos",
+      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC5508988 JATS lines 93–125; Published MOESM168 PDF Table S1 text lines 140–218",
+      "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+}

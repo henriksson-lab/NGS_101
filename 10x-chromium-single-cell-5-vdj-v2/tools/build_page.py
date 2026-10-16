@@ -14,7 +14,7 @@ import seqprimers as sp
 from chemdraw import Scene, Segment, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info, table
 from vdj_common import VDJ_FORWARD
-from vdj_v2 import CHEM as C, protocol_graph
+from vdj_v2 import CHEM as C, HUMAN_T_INNER, HUMAN_T_OUTER, protocol_graph
 
 OUT = HERE.parent / "10x-5prime-vdj-v2.html"
 
@@ -55,6 +55,10 @@ def render() -> str:
         oligo("gel-bead barcoded TSO", C.gel_bead_segments()[:-1], three="rGrGrG-3'"),
         oligo("poly(dT) RT primer", C.polydt_segments()),
         oligo("V(D)J universal forward primer", [Segment("", VDJ_FORWARD)]),
+        oligo("human T outer Mix 1 primer, representative 1 of 2",
+              [Segment("", HUMAN_T_OUTER[0])]),
+        oligo("human T inner Mix 2 primer, representative 1 of 2",
+              [Segment("", HUMAN_T_INNER[0])]),
         oligo("TT i5 primer", C.index_p5_segments()),
         oligo("TT i7 primer", C.index_p7_segments()), '</seq>',
         '<h2>Library construction</h2>',
@@ -64,8 +68,11 @@ def render() -> str:
               caption="The gel-bead TSO installs the cell barcode, UMI and Read 1 handle."),
         '<h3>(2) Amplify cDNA, then enrich V(D)J with outer and inner constant-region pools</h3>',
         panel([*Scene.duplex(list(amplicon)).rows(), *annotation_rows(amplicon)], cls="long",
-              caption="Both nested reactions use the universal forward primer; reverse "
-                      "primer pools land in receptor constant regions."),
+              caption="Both nested reactions use the universal forward primer; Rev F "
+                      "Appendix p. 74 prints the human/mouse T/B reverse-primer pools. "
+                      "The two human T Mix 1 and two human T Mix 2 sequences are "
+                      "published; examples appear above. Their exact transcript "
+                      "coordinates vary with receptor sequence."),
         '<h3>(3) Fragment, end-repair, A-tail and ligate the Read 2 adaptor</h3>',
         panel(C.adapter_scene().rows(), cls="small",
               caption="The half adaptor has a 12-base stem and 3'-T overhang."),

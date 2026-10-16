@@ -1,0 +1,263 @@
+{
+  "dir": "10x-chromium-single-cell-5-vdj-v2",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "cg000331_revf",
+      "role": "defining",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt appendix lines 6724–7182",
+        "finding": "Original 10x Rev F guide appendix prints gel bead primer and cDNA/VDJ library layouts, including modified rGrGrG, 16-base cell barcode and 10-base UMI. Scraper points to line 6804 and final constructs at 7114. The same Rev F appendix also prints species-specific V(D)J outer/inner enrichment primer lists at lines 6865–7010."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000331 Rev F appendix, extracted lines 6780–6885 and 7050–7160",
+        "finding": "Independently verified 5-prime v2 dual-index guide prints rGrGrG template-switch bead primer, 16-base barcode, 10-base UMI, poly(dT)VN RT primer and nested V(D)J amplification primer sections."
+      }
+    },
+    {
+      "id": "cg000331_reve",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Official 10x CG000331 Rev E Appendix Protocol Steps 3.1 and 3.3, PDF text lines 6849–6998; scraper on target bundle",
+        "finding": "Rev E itself prints the human/mouse T/B outer and inner V(D)J enrichment reverse primer families, shared forward primer and PN identifiers. The inspected primer strings and placement match Rev F at the same appendix steps; no inference from a later kit is required."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000331 Rev E appendix, extracted lines 6777–6840",
+        "finding": "Independently read prior revision appendix and verified the same stated 5-prime v2 bead-primer/RT-primer orientation and representative cDNA product; this is a distinct original vendor revision."
+      },
+      "reason": "Official Rev E now fetched into this protocol bundle; revision delta with Rev F has not been checked.",
+      "discovered_from": "cg000331_revf"
+    },
+    {
+      "id": "vdj_enrichment",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "10x CG000331 Rev F appendix lines 6865–7010, Protocol Steps 3.1 and 3.3",
+        "finding": "The manufacturer guide itself prints species-specific human/mouse T/B V(D)J Amplification 1 outer and Amplification 2 inner reverse primer strings, plus shared forward PCR primer and PN identifiers. The previous assumption that these mixes were undisclosed is false."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original CG000331 Rev F appendix p. 74 (PDF page 74), extracted lines 6865–7010; original official CG000331 Rev E appendix p. 74, extracted lines 6835–6975",
+        "finding": "Independently read all human/mouse T/B Mix 1 outer and Mix 2 inner reverse-primer lists and shared forward primer. The manufacturer prints 54 primer-string instances (47 unique) on p. 74; the extracted p. 74 sequence list is identical between Rev E and Rev F. Representative human T outer TGAAGGCGTTTGCACATGCA and inner AGTCTCTCAGCTGGTACACG are now displayed on the page. The previous unavailable claim for enrichment sequences was false."
+      },
+      "discovered_from": "cg000331_revf"
+    },
+    {
+      "id": "tt_index_map",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_Dual_Index_Kit_TT_Set_A.csv",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original vendor CSV comment/header rows and all 96 data rows, SI-TT-A1 through SI-TT-H12; MD5 26a1d95a7f88e69b1fc519ec7f5c5121",
+        "finding": "The linked TT Set A map has 96 well names and 10-base i7, workflow-A i5 and workflow-B i5 values. SI-TT-A1 gives GTAACATGCG / AGTGTTACCT / AGGTAACACT; A/B i5 are reverse complements. These are sample-sheet/read index values, not a claim about all synthesis oligo modifications. Rev F identifies TT Set A PN-1000215 directly."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original TT Set A CSV comment/header and all96 records; independently checked every i7/i5 length/base alphabet and workflowB=reverse-complement(workflowA); firstA1 and lastH12 rows; CG000331 Rev F sample-index section6103–6107",
+        "finding": "All96 wells assign one10-basei7 and one10-basei5 with instrument-dependent i5 read orientation. A1=GTAACATGCG/AGTGTTACCT/AGGTAACACT; H12=TGATGATTCA/GTAGGAGTCG/CGACTCCTAC. The guide names TT Set A PN1000215. CSV links only Illumina workflow guidance and does not claim synthesis-modification or bead-member assignments."
+      }
+    },
+    {
+      "id": "cg00053",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Excluded from fixed-oligo/read-layout omission targets: this guide prepares the input cells and does not define the subsequent assay-specific cDNA construct. Source facts about cell preparation remain available in the original.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG00053 Rev C introduction p.iv; Tips §§1.1–1.7 pp.2–4; General/Limited Sample Preparation §§2–3 pp.6–10; Counting/QC §4 pp.12–16",
+        "finding": "Read original guide after source scraper. It governs cell suspension quality, washing/resuspension, counting and viability before entry to the 10x assay. It hands the prepared cells to the assay-specific protocol. Linked sample-specific demonstrated methods, cell counter manuals, LIVE/DEAD stain manuals and ImageJ/Fiji concern optional input preparation/counting rather than construction of this barcode-bearing cDNA library."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG00053 Rev C introduction p.iv, Tips§1.1–1.7, limited preparation§3.2 and counting/viability§4; original PDF/text hash checked across all three bundles; full bundle scrapers",
+        "finding": "Independently read original input-cell handling and counting scope. The guide hands prepared cells to the assay protocol. Counter/stain manuals and ImageJ/Fiji links support viability/counting rather than barcode-bearing cDNA architecture; their exclusion from fixed-oligo claims is warranted. No missing-library-oligo inference is based on these optional workflows."
+      }
+    },
+    {
+      "id": "cg000126",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The document is explicitly a counting/sample-loading flowchart before library chemistry. Excluded from fixed-library-oligo omission targets; partly blank rendering is recorded rather than treated as missing published information.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG000126 Rev A single rendered page: title, whole visible counting/loading flowchart, lower-left key points and footnotes; pdftoppm and pdftocairo renderings; extraction has no text layer",
+        "finding": "Original PDF is image-only. Rendered page shows filtering, repeated cell counts, stock concentration/viability and transfer into assay Master Mix. Some boxes have blank text in both local renderers, so no operational claim is taken from those boxes. Footnotes point to CG00053, CG000093 dead-cell removal and assay user guides. These are input-cell preparation references; no claim of missing oligos is based on this rendering."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000126 Rev A single page rendered with pdftoppm and viewed at1800px; whole visible flowchart, legend and footnotes; identical PDF MD5 6517f5f53ee723782636c8dc8ce0a5e9 across three bundles",
+        "finding": "Independently inspected image-only original. It concerns viable single-cell suspension, straining/counting and transfer into assay mix; footnotes reference sample-preparation CG00053/93 and assay guides. Several boxes render blank, so no operation is inferred from those boxes. Visible original scope justifies excluding it from fixed adapter/primer absence claims."
+      }
+    },
+    {
+      "id": "cg000123",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/CG000123_SamplePrepDemonstratedProtocol_-_CD3__Enrichment_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Optional biological-input enrichment is outside the defined V(D)J cDNA-library scope; do not conflate it with V(D)J PCR enrichment.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG000123 Rev A whole protocol §§1–4 pp.2–6, especially §2.4 and §3",
+        "finding": "This is magnetic selection of CD3-positive input cells from dissociated tissues, not the nested V(D)J cDNA amplification. It ends by handing cells to the 10x assay. Its Conversant thawing, CG000091 counting, CG000093 dead-cell removal and optional Miltenyi LS-column links address input-cell sampling/preparation, outside this library construct."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000123 Rev A title/Overview pp1–2; source/enrichment§2.4 and§3 pp4–5; final stepq at line476 and counting/dead-cell references",
+        "finding": "Independently read CD3-positive cell magnetic enrichment. It ends by handing cell suspension to the10x assay, distinct from nested V(D)J cDNA PCR. Miltenyi-column/counting/dead-cell/thawing references concern optional input preparation; excluding them from fixed V(D)J primer-absence scope is justified."
+      }
+    },
+    {
+      "id": "cg000479",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Input quality and instrument failure handling; additional example sample workflows are outside the molecular-construct/primer omission targets.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG000479 Rev B pp.1–10 sample clogs/wetting failures, pp.11–12 compatibility list/references, p.13 revision summary",
+        "finding": "Read the original chip-failure note after scraper. It concerns cell/debris/surfactant effects on GEM generation and contrasts successful vs failed emulsions. Figure3 optional CellPlex-labeled mouse-brain demonstration and references to CG00055/391, CG000233 and CG000093 are sample-preparation examples, not additions to plain V(D)J library chemistry. The guide does not alter the CG000331 oligo architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000479 Rev B introduction and chip-failure definitions pp1–2; scope of example tables and References lines914–925",
+        "finding": "Original concerns debris, cell/gel-bead clogs, surfactant-driven wetting failure and GEM recovery. Optional CellPlex/tissue preparation examples and CG00053/233/93 references are input handling, not new plain-V(D)J primer chemistry. The note sends users to their assay guide; it does not replace CG000331 sequence authority."
+      }
+    },
+    {
+      "id": "cg000396",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Instrument-operation scope only; RevM is later than the primary RevF chemistry guide and is not used to assign reagent sequences.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG000396 Rev M table of contents, Introduction p.6; System Operation pp.17–25; Main One-Touch Operation p.24",
+        "finding": "The later RevM guide describes instrument installation, firmware/readiness, chip loading and pressing play to run. It directs assay chemistry/compatible consumables to the assay-specific guide. Networking, cloud, readiness and compatible-assay references are instrument operation, not an original 2024 reagent-sequence source."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000396 Rev M introduction pp5–6, lines194–244; MainOne-Touch operation p24 lines1084–1130",
+        "finding": "Original is instrument operation: compatible assays, firmware, loading chip/holder, eject and play. It directs compatible kit/consumable choices to assay-specific guide. LaterRevM does not establish historicalRevF oligo sequences; installation/cloud/readiness references remain instrument-only scope."
+      }
+    },
+    {
+      "id": "cg00053_revd",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG00053_Handbook_CellPreparation_SingleCellProtocols_Rev_D.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Sample preparation before cell input, not the fixed cDNA-library chemistry; this newer revision is included to avoid silently substituting the2017RevC for the2024 guide context.",
+      "discovered_from": "cg000331_revf",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG00053 Rev D introduction/assay applicability p.2 (text115–151), sample-quality/handling pp.3–4, filtration/counting pp.7–8, general preparation §2.2 p.14",
+        "finding": "Handbook addresses preparation and assessment of cells/nuclei for many assays; p.2 specifically says nuclei are unsupported for V(D)J, consistent with the page cell input. Optional Flex, ATAC, Multiome, surface-labeling and sample-specific prep links are outside plain cell V(D)J cDNA chemistry; they are not imported as reagent-sequence evidence."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG00053 Rev D title/contents; p2 assay/input table lines105–151; cell preparation and wash/resuspension headings, including lines416–450",
+        "finding": "Independently confirmed broad cell/nuclei input handbook with explicit warning that nuclei do not support V(D)J. Input filtration/counting/washing and optional Flex/ATAC/surface-labeling preparation references do not define the plainV(D)J cDNA-library oligos. Keep page cell input and original CG000331 sequence authority."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Manufacturer guide introductions, appendices, and referenced guide numbers; source MANIFEST.tsv ",
+      "finding": "CG000331 Rev E was fetched from official 10x CDN; Rev F is a local manufacturer PDF mirror. Rev F appendix lines 6865–7010 directly prints human/mouse T/B outer and inner V(D)J enrichment primer mixes. Rev E/F differences still need comparison."
+    },
+    "pass_2": {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "locations": "Original CG000331 Rev F source/kit links lines19,707,1617–1622,3391,6103–6107,6388,6558,6643; new original source sections recorded per-row; complete target-bundle scraper",
+      "finding": "Independently followed the concrete TT index, cell-preparation/flowchart, optionalCD3, clog and instrument guide inventory. Newly added included/excluded sources now each have independent original P2. Original guide assigns actual library chemistry and nested enrichment primers; preparation and instrument references are scoped out from fixed-oligo absence claims. No missing source sequence or generic kit formulation is asserted."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Manufacturer original guide cross-references; source MANIFEST.tsv; printed sample-index kit identities",
+        "finding": "Enumerated explicit guide references and original index-map scope in new checklist rows. Existing source-level independent passes are preserved. Additional listed documents remain routine retrieval/reading work, rather than evidence of absence. Generic internal reagent formulation and physical bead-lot allocation are not required claims of these protocol pages."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Manufacturer guide reference sections and newly fetched source originals; per-source checklist locations",
+        "finding": "Followed every newly enumerated guide/map route. Relevant sequencing/base-composition/index-map information is recorded and source-led read variants displayed. Sample-preparation/instrument references and their optional example-method/software/manual links are explicitly scoped out from fixed-library-oligo claims based on the originals. Independent second review of these new inclusions/exclusions remains required."
+      },
+      {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000331 Rev E and Rev F Appendix p. 74, original PDFs read with layout-preserving extraction; Rev F guide appendix lines 6780–7010",
+        "finding": "Followed guide references to both vendor revisions and compared their species-specific nested enrichment primer tables. Both print the same 54 sequence instances on Appendix p. 74; barcode whitelist/kit-internal details remain a separate blocked source question."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "The former unavailable cDNA/index or V(D)J enrichment primer statements are resolved by the printed manufacturer sequence appendices.",
+      "disposition": "resolved",
+      "evidence": "Source-specific original oligos are available. The remaining variable barcode/index symbols do not assert that member sequences are unpublished. No physical-lot assignment or generic internal reagent formulation is claimed by these schematic pages. New source checklist rows still require independent second checks before the overall review is complete."
+    }
+  ],
+  "conclusion": "Completed scoped original-source audit: printed V(D)J oligo architecture and nested enrichment source checks plus independently checked linked TT index map, input preparation and instrument exclusions. No confirmed-missing information claim. Existing exact molecular/junction modelling limitations do not imply unpublished oligos.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "CG000331 Rev E and Rev F revision summary p.3; Rev F introduction pp.16–17, GEM-RT p.33, cDNA amplification p.38, Appendix pp.73–75; Rev E sequencing pp.62–63",
+      "finding": "Independent reading after full target-bundle scraper and separate Rev F scraper confirms barcoded rGrGrG bead TSO, poly(dT)VN RT primer, cDNA forward/reverse primers, human/mouse nested T/B enrichment lists and dual-index final architecture. Rev F (June 2024) summary names equipment, glycerol volume and quantification changes; these changes do not establish a new sequence chemistry. Rev E and Rev F print the same guide-level 26/10/10/90 read configuration. No undisclosed enrichment-primer claim is justified."
+    }
+  ]
+}

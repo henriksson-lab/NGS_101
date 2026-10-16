@@ -25,3 +25,14 @@ more directly an RNA-accessibility assay than a base-pairing assay alone.
 The representative schematic uses the `GGAACT` reverse-primer member. Its Index 1 read
 is `AGTTCC`, the reverse complement carried by the completed library. The other three
 source-published members differ only at that six-base sample-index window.
+
+## Linked-method coverage
+
+The article's library-preparation Methods explicitly inherit [Kielpinski et al.
+2013, *Detection of reverse transcriptase termination sites using cDNA ligation
+and massive parallel sequencing*](https://doi.org/10.1007/978-1-62703-514-9_13)
+(reference 20), including cleanup and terminal-addition processing. This is a
+distinct source from the SHAPE-seq predecessor already inspected. Its full
+protocol was unavailable in the followup pass, so the source audit remains
+incomplete. The original oligo-absence claim is resolved by Supplementary Table
+S1; it is not evidence of missing published oligos.

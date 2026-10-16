@@ -16,17 +16,20 @@
 - 🟢 Reverse transcriptase and DNA polymerase make gel-bound RNA- and genomic-DNA-derived copies. A TSO gives cDNA a double-stranded NlaIII site; Klenow extends captured genomic DNA.
 - 🟢 NlaIII cleavage exposes a sticky end. Round 1 ligation-extension adds barcode 1 plus varietal tag 1; round 2 hybridization-extension adds barcode 2 plus varietal tag 2 and a common adapter; split PCR adds barcode 3.
 - 🟢 The complete BAG barcode is 17 nt (5 + 6 + 6). The 12-nt varietal tag comprises 4 + 4 random bases plus four genomic bases two bases from the CATG cut site.
-- 🟢 Pooled amplicons are tagmented and sequenced 2 × 150 bp on NovaSeq 6000. Read 1 begins with an 80-base tag/adapter region; Read 2 starts from a random tagmentation end.
+- 🟢 Pooled amplicons are tagmented, then amplified with P5-Adapter3 and one Nextera_N70x indexed primer (author protocol step 38). The libraries are sequenced 2 × 150 bp on NovaSeq 6000. Read 1 begins with an 80-base tag/adapter region; Read 2 starts from a random tagmentation end.
 - 🟢 The author-deposited protocol supplies exact barcode-family and primer
   sequences, though the current schematic has not yet assembled them into a
   final base-level construct.
+- 🟢 The original BAG predecessor's linked Supplemental Methods also print
+  its earlier Acrydite capture primer and adapter arms. Those differ from the
+  hybrid-specific primers and do not fill any hybrid source gap.
 
-## Verbatim capture oligos
+## Predecessor BAG capture oligos
 
 - 🟢 DNA: `/5ACryd//iSp18/TGTGTTGGGTGTGTTTGGKKKKKKKGKKKKKKKKNN`
 - 🟢 RNA: `/5ACryd//iSp18/AAGCAGTGGTATCAACGCAGAGTNNWNNNSTTTTTTTTTTTTTTTTTTTTTTTTTTTT`
 
-These are retained with modification syntax and IUPAC symbols exactly as printed by the original BAG paper.
+These are retained with modification syntax and IUPAC symbols exactly as printed by the original BAG paper. They describe its DNA-only and RNA-only branches. The hybrid author protocol prints different capture primers below, which are the ones displayed on the hybrid schematic.
 
 ## Hybrid-specific oligos recovered from the author protocol
 
@@ -47,6 +50,8 @@ source columns and are not nucleotide symbols. `+` marks locked nucleotides,
 | Final P5-side PCR primer | `AATGATACGGCGACCACCGAGATCTACAC CGCTGTCC AAGGCTCTTGACACGAAGGAT*A*G` |
 | Final P7-side N701 primer | `CAAGCAGAAGACGGCATACGAGAT TCGCCTTA GTCTCGTGGGCTCGG` |
 | Custom Read 1 primer | `CGCTGTCC AAGGCTCTTGACACGAAGGATAG` |
+
+🟢 In the author protocol, round 1 adds Adapter1 using Klenow exo− plus Quick Ligase (steps 25–26). Round 2 hybridizes Adapter2 and extends it with Bst 2.0 DNA polymerase (steps 31–32); it is not a second ligation. The public reaction graph follows these separate operations.
 
 🟢 The paper's analysis Methods additionally print the Read 1 and Read 2
 trimming motifs `CCAAACACACCCAA` and `GAGCGGACTCTGCG`, respectively.

@@ -1,0 +1,119 @@
+{
+  "dir": "tt-seq__10.1126+science.aad9841",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "science_supp",
+      "role": "supplement",
+      "locator": "_data/sources/tt-seq__10.1126+science.aad9841/aad9841-Schwalb-SM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods lines 21–49; scraper run on original supplement",
+        "finding": "Five-minute 4sU pulse, fragmentation before capture, NuGEN Ovation Human Blood RNA-seq kit and 2×50 + six index cycles directly printed."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Schwalb Science supplementary PDF text lines 20–52",
+        "finding": "5-min 4sU label, RNA extraction, fragmented/nonfragmented arms, labeled RNA capture delegated to ref. 26, Ovation Human Blood RNA-seq kit library prep; the printed T7 spike-in primers are spike-in construction, not the library adapter."
+      }
+    },
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Schwalb et al. 2016 original Science publisher PDF, author-hosted https://www.cecerelab.com/_files/ugd/594009_11de357b920049e591acf3b31623ab1b.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Science PDF p.1, lines 61–98, after source-bundle oligo scraper on TT-seq supplement",
+        "finding": "The defining article says 4sU-labeled RNA is fragmented before selection so only newly synthesized labeled pieces are recovered. It describes TT-seq as an extension of 4sU-seq, not a disclosure of NuGEN adapter strands."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Author-hosted original Science PDF p.1, web text lines 61–98 and Fig. 1 caption lines 256–259; TT-seq supplementary methods lines 20–32 inspected after source-bundle oligo scraper",
+        "finding": "The 2016 original explicitly explains that TT-seq fragments 4sU-labeled RNA before selecting labeled fragments to eliminate the 5′ bias of earlier 4sU-seq. It does not specify the NuGEN library adapter or index-primer sequences in these method sections."
+      }
+    },
+    {
+      "id": "label_capture_predecessor",
+      "role": "linked_material",
+      "locator": "Dölken et al. 2008 original RNA article DOI 10.1261/rna.1136108, university-hosted publisher PDF https://www.pure.ed.ac.uk/ws/portalfiles/portal/8206533/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Dölken 2008 publisher PDF pp.3 and 12, especially PDF text lines 679–713; TT-seq supplement lines 20–32 and ref.26 lines 1114–1117 establish inheritance; TT-seq source-bundle oligo scraper run first",
+        "finding": "Ref.26 is explicitly Dölken 2008. Its capture method uses EZ-Link Biotin-HPDP to derivatize 4sU, removes excess reagent, binds to µMACS streptavidin columns, washes, then elutes labeled RNA with DTT. TT-seq delegates purification to this method, so the reagent identity is source-supported, though TT-seq does not repeat its volumes."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "TT-seq original supplementary methods lines 20–32 and reference 26 lines 1114–1117; Dölken 2008 original RNA publisher PDF web text lines 679–713, p.12",
+        "finding": "Independently confirmed TT-seq cites Dölken 2008 for purification. Dölken directly specifies 4sU thiol labeling with EZ-Link Biotin-HPDP, excess-biotin removal, capture on µMACS streptavidin beads/columns, washing, and DTT elution. This supports the inherited capture chemistry, not the later NuGEN adapter sequence."
+      },
+      "discovered_from": "science_supp"
+    },
+    {
+      "id": "nugen_guide",
+      "role": "linked_material",
+      "locator": "Historical NuGEN Ovation Human Blood RNA-Seq Library Systems 1-8 (part 0337-32) and 9-16 (part 0338-32) original user guide; product was formerly Encore Whole Blood RNA-Seq Library Systems. NuGEN/Tecan original manual URL not located.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original TT-seq supplement names this kit, but a historical NuGEN/Tecan user guide or oligo table for part 0337-32/0338-32 has not been found through vendor, distributor, archived-name, and part-number searches. A distributor product description identifies barcoded adapters but does not print bases and is not a replacement for the original guide.",
+      "discovered_from": "science_supp",
+      "recovery_attempt": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original TT-seq supplement lines 29–33; searched NuGEN/Tecan original manual routes, former Encore Whole Blood name, part numbers 0337-32 and 0338-32; distributor product listing https://bmlabosis.com/en/product/ovation%C2%AE-human-blood-rna-seq-library-systems-p2746 lines 374–384",
+        "finding": "The exact historical guide remains unavailable. Distributor listing identifies eight barcoded adaptors in each part-numbered system and describes strand selection with a nucleotide analogue; it provides no adapter/index bases. Related Ovation RNA-Seq V2 or Encore Complete manuals are distinct products and cannot supply this kit’s oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original supplement read; main Science article, reference 26 capture method and NuGEN kit manual remain missing.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Schwalb Science supplementary PDF text lines 20–52",
+      "finding": "Read listed originals and followed identified linked sources in checklist; unavailable relevant source rows remain blocked."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Schwalb original Science PDF p.1; Schwalb supplement lines 20–32 and ref.26; Dölken original RNA article p.12",
+      "finding": "Recovered main paper and exact cited 4sU capture predecessor. Two independent checks are still needed for these newly read originals. Historical NuGEN Ovation Human Blood RNA-seq kit guide remains unavailable."
+    },
+    "followup_2026_10_16_second": {
+      "reviewer": "fisseq_ribo_recovery",
+      "locations": "Original Schwalb PDF p.1 and original Dölken PDF p.12; TT-seq supplementary methods and reference 26",
+      "finding": "Independently followed the 4sU-seq predecessor link and verified its chemical capture and release steps. Historical NuGEN Ovation Human Blood kit documentation remains unavailable, so adapter/index sequences remain blocked."
+    },
+    "followup_2026_10_16_nugen_search": {
+      "reviewer": "fisseq_ribo_recovery",
+      "locations": "TT-seq supplement 29–33; NuGEN/Tecan guide searches by exact product title, former Encore title and part numbers; distributor product description 374–384",
+      "finding": "Historical guide not retrieved. The linked kit has barcoded adaptors according to the distributor description, but neither the adaptor base strings nor which kit barcode was used in TT-seq is verified; missing claim remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical NuGEN Ovation Human Blood adapter and index-primer bases",
+      "evidence": "Original Schwalb article, Science supplement and cited Dölken 2008 capture predecessor read twice; none identifies historical NuGEN kit adapter/index bases. The relevant original NuGEN kit guide remains unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent located reads now cover the original Science article, supplement and cited Dölken 2008 capture method. HPDP-biotin/streptavidin capture with DTT release is supported; the relevant historical NuGEN kit guide is unavailable, so its adapter/index bases remain blocked and no absence claim is accepted."
+}

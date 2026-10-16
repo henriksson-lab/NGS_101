@@ -1,0 +1,145 @@
+{
+  "dir": "char-seq__10.7554+eLife.27024",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/char-seq__10.7554+eLife.27024/eLife.27024_v2.xml.txt; original eLife 2018 article",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Paper extracted lines 239–294 and Methods bridge discussion; scraper rerun",
+        "finding": "ChAR-seq uses a 5′-adenylated, biotinylated bridge with a restriction site; truncated T4 RNA Ligase 2 joins RNA, Bst3.0 traverses RNA–DNA junction and DpnII/T4 DNA ligase joins genomic DNA."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original eLife v2 JATS lines 88–90, 154–161 and Methods around 900–910; original article and supplement scraper",
+        "finding": "Independently verified pre-adenylated six-base RNA-ligation tail, DpnII opening and genomic ligation, Bst3.0 RT and NEBNext hairpin/USER library. Original article does not state a three-base bridge UMI; the later 2020 chapter is a distinct version."
+      }
+    },
+    {
+      "id": "bridge_figure",
+      "role": "supplement",
+      "locator": "https://cdn.elifesciences.org/articles/27024/elife-27024-fig1-figsupp1-v2.jpg; original eLife Figure 1—figure supplement 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Figure 1—figure supplement 1 v2 graphic, upper bridge diagram; source JATS caption lines 88–90",
+        "finding": "Read seven leading A bases on 5′-App top, six unpaired; paired 2018 bridge core, bottom drawn 3′→5′, four-base CTAG bottom 5′ overhang, internal desthiobiotin TEG, 3′ Sp3. No NNN UMI is shown."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife Fig. 1—figure supplement 1 v2 JPG visually read; compared to original JATS v2 lines 88–90 and 2020 chapter §2.3",
+        "finding": "Independently transcribed 5′-App-AAAAAAACCGGCGTCCAAGGATCTAG-3′-Sp3 and bottom 3′-TGGCCGCAGGTTCCTAGATCCTAG-5′. Six A bases are unpaired; bottom 5′ CTAG overhang and internal desthiobiotin TEG are drawn. No UMI; linkage of TEG is not base-precise in figure."
+      }
+    },
+    {
+      "id": "preprint_and_bridge_supp",
+      "role": "linked_material",
+      "locator": "_data/sources/char-seq__10.7554+eLife.27024/118786_v1.full.pdf.txt and 118786_118786-1.pdf.txt; original bioRxiv v1 article and supplementary PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv article lines 90–103, 417–436; supplementary PDF lines 33–43, 97–110; primer scraper on both",
+        "finding": "Supplementary Figure 1 PDF text prints both original 2018 bridge strings verbatim and labels internal desthiobiotin TEG, 5′ App and 3′ Sp3. No bridge UMI is printed; this supports the eLife figure transcription."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 article text lines 88–107 and 415–437; original preprint supplementary PDF lines 34–48 and 95–108; oligo scraper run on full ChAR source bundle",
+        "finding": "Independently read original preprint and supplement. Supplementary Fig. 1 explicitly prints top 5′-App-AAAAAAACCGGCGTCCAAGGATCTAG-3′-Sp3 and bottom drawn 3′-TGGCCGCAGGTTCCTAGATCCTAG-5′ (lines 101–102), with an internal desthiobiotin-TEG label (106–108), six-nt single-stranded 5′ A tail (caption 36–40), and no NNN UMI. Full preprint Methods retain RNA→bridge ligation, Bst3.0 extension, DpnII digestion and genomic ligation, followed by NEBNext hairpin adapter/USER/index PCR; they do not specify the NEB index member."
+      }
+    },
+    {
+      "id": "author_detailed_2020",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/char-seq__10.7554+eLife.27024/PMC7607860_PMC7607860.xml.txt; Limouse et al. Methods Mol Biol 2020 doi:10.1007/978-1-0716-0680-3_10",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7607860 JATS lines 1129–1130, 132–134; source primer scraper on chapter XML",
+        "finding": "Later same-group detailed protocol prints top /5rApp/AANNNAAACCGGCGTCCAAGGATCTTTAATTAAGTCGCAG/3SpC3/ and bottom /5Phos/GATCTGCGACTTAATTAAAGATCCTTGGACGCCGG/iBiodT/T. It adds a three-base UMI and PacI site and changes the biotin chemistry from the 2018 figure. This is a distinct version, not evidence the original bridge had a UMI."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7607860 §2.3 bridge preparation, compared independently with original 2018 eLife Figure 1—figure supplement 1",
+        "finding": "Independently verified the longer top with NNN UMI/PacI and internally biotinylated bottom. These differ from the 2018 short bridge with desthiobiotin TEG."
+      }
+    },
+    {
+      "id": "result_supplements",
+      "role": "supplement",
+      "locator": "_data/sources/char-seq__10.7554+eLife.27024/eLife.27024_elife-27024-supp1-v2.xlsx.txt; eLife.27024_elife-27024-supp2-v2.csv; eLife.27024_elife-27024-transrepform-v2.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplementary file 1 reports library read counts and lengths, supplementary file 2 is a contact-RNA results table, and the transparent reporting form covers replicates and statistics; no ordered bridge chemistry or index assignment. Read length is separately checked in the source paper and library-metrics supplement.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Full 9-line library metrics workbook; CSV header and first data rows plus file role description; transparent reporting form full text (sample size, replicates, statistics, source data)",
+        "finding": "The metrics table confirms main libraries are single-end 152 cycles and control pair-end 2×75; the other two files are result/statistics records. None supplies bridge oligo or index choice."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original eLife supp1 workbook all 9 lines; supp2 CSV header and all 8,822 data records; transparent reporting form all 51 extracted lines",
+        "finding": "Independent complete inventory: supp1 lists library read counts and run lengths (main libraries 152 SE; RNase control 2×75 PE), supp2 is contact-RNA enrichment results with columns contacts, length, name, FBid, CPKM, FPKM, enrichment, and transparent report covers sample size, replicates and statistics. None provides bridge bases, modification position, adapter/index member or reaction recipe; exclusion from molecular-source claims is justified."
+      }
+    },
+    {
+      "id": "nebnext_kit_manuals",
+      "role": "vendor",
+      "locator": "Historical NEBNext DNA-library hairpin adapter/index-primer kit generation used by 2018 ChAR remains unidentified. Local later comparator manuals: _data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt (E7600 Dual Index Primers Set 1, Version 6.0_6/24); _data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt (E7335 Index Primers Sets 1–4, Version 8.0_6/24).",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original 2018 ChAR preprint Methods lines 425–429 names NEBNext hairpin adaptors, USER and NEBNext Indexing Primers for Illumina (TruSeq compatible), but gives no kit catalogue/revision or selected index. Later original NEB E7600 and E7335 manuals exist locally and are relevant comparators; their 2024 revisions cannot establish the exact 2018 reagent version or index member. Historical matched kit/manual remains unavailable for this claim.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "eLife v2 article and Figure 1 supplement, bioRxiv v1 article/supplement, 2020 same-group chapter, eLife result supplements and source manifest",
+      "finding": "Followed the original figure and preprint supplement to exact 2018 bridge; followed 2020 detailed protocol and found a different UMI-containing bridge. NEB kit manuals remain to be checked for inherited adapter/index claims."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original eLife v2 Figure 1 supplement graphic/JATS caption lines 88–90; bioRxiv v1 article lines 88–107, 415–437 and supplementary PDF lines 34–48, 95–108; 2020 same-group protocol PMC7607860 JATS section 2.3 lines 130–134; result supplements inventory; local E7600/E7335 2024 manual opening/kit lists",
+      "finding": "Followed original preprint and its bridge supplement and independently checked all eLife result-only supplements. The 2018 bridge lacks the 2020 NNN UMI and differs in duplex length/biotin chemistry. Local 2024 NEB manuals cover relevant adapter/index families, but original ChAR names no kit revision or selected index; historical continuity is unverified. Linked-information disposition remains blocked for that kit-specific claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "2018 bridge oligo bases and UMI status",
+      "disposition": "resolved",
+      "evidence": "Original eLife Figure 1—figure supplement 1 and original bioRxiv supplementary PDF print the short bridge; the original has no UMI. The 2020 same-group detailed protocol prints a longer revised UMI bridge; they must not be conflated."
+    },
+    {
+      "claim": "Exact 2018 desthiobiotin TEG linker position and any selected NEBNext index-primer member",
+      "disposition": "blocked",
+      "evidence": "Original eLife figure and original bioRxiv supplementary PDF agree on internal desthiobiotin-TEG but do not specify a base-precise attachment bond. Two independent source readings of the preprint and result supplements are now complete. The original 2018 ChAR methods name NEBNext hairpin adapter, USER and indexing primers without catalogue/revision or selected index; available local E7600/E7335 manuals are 2024 revisions, so exact 2018 kit and index choice remain unverified."
+    }
+  ],
+  "conclusion": "Original eLife Figure 1 supplement and bioRxiv v1 supplementary PDF independently establish the short 2018 no-UMI bridge; the protocol model/page now use this original version. Two readers also checked preprint and result-only supplements. Exact internal desthiobiotin-TEG linkage and the chosen 2018 NEBNext kit revision/index member remain blocked because the figure lacks linkage detail and only later vendor manuals are locally available. No missing-information claim is accepted."
+}

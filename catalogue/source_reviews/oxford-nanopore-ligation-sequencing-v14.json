@@ -1,0 +1,230 @@
+{
+  "dir": "oxford-nanopore-ligation-sequencing-v14",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "Oxford Nanopore genomic DNA by ligation SQK-LSK114; genomic-dna-by-ligation-sqk-lsk114.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original vendor page lines 268-273, 400-406, 611-680",
+        "finding": "Vendor instructions specify DNA repair/end-prep, dA-tail, LA ligation and clean-up in order."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "SQK-LSK114 original vendor page lines 268-273, 400-406, 611-680; scraper on page",
+        "finding": "Vendor states dA-tailing, ligation of Ligation Adapter and cleanup; kit-specific LA is not interchangeable."
+      }
+    },
+    {
+      "id": "chemistry_technical",
+      "role": "linked_material",
+      "locator": "Oxford Nanopore Chemistry Technical Document CHTD_500_v1 revAV 24July2026; chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original vendor page lines 2069-2130",
+        "finding": "Vendor lists core LA top/bottom DNA strands and states motor-loaded LA attaches to dA-tailed DNA; does not print complete motor/leader structure."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Vendor chemistry-technical-document.html.txt lines 2069-2124; scraper on document",
+        "finding": "Current vendor technical document prints both LA DNA strands exactly (top CCTGTACTTCGTTCAGTTACGTATTGCT; bottom GCAATACGTAACTGAACGAAGTACAGG), and identifies motor-loaded adapter. It does not disclose the motor/leader complex completely."
+      },
+      "discovered_from": "protocol"
+    },
+    {
+      "id": "nanopore_sensing",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "_data/sources/oxford-nanopore-ligation-sequencing-v14/nanopore-sensing.html.txt; https://nanoporetech.com/document/nanopore-sensing",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original vendor sensing explanation lines 297-328, plus version cue at line 282; whole-bundle oligo scraper",
+        "finding": "Conceptual vendor explanation says motor is provided on a leader adapter, unzips DNA and feeds one strand; it describes membrane tethering. Its pore example is R9, so it does not establish current v14 motor identity or complete molecular leader/tether structure."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nanopore-sensing.html.txt lines 164, 279–290, 297–328; original HTML anchors inspected for chemistry-relevant onward links",
+        "finding": "Vendor document NSTD_5000_v1_revG_04Apr2016 explains a motor on a leader adapter, strand unzipping/feed-through, and membrane tethering. Its stated current pore is R9 and its 1D² discussion is historical. It provides no v14-specific leader bases, motor identity/attachment or tether structure. Its section links are internal anchors; no further chemistry protocol was linked from this page."
+      }
+    },
+    {
+      "id": "neb_companion_v2_e7672",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://www.neb.com/en/products/e7672-nebnext-companion-module-oxford-nanopore-technologies-ligation-sequencing; NEBNext Companion Module v2 E7672 official product and Usage Guidelines",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7672 product page Product Information and Reagents Supplied; official Usage Guidelines lines 1–13; ONT LSK114 original protocol materials/reaction sections",
+        "finding": "NEB lists FFPE DNA Repair Mix/Buffer v2, Ultra II End Prep Enzyme Mix, and Salt-T4 DNA Ligase specifically for updated SQK-LSK114. Its Usage Guidelines direct users to device-specific ONT protocols and give reagent handling but no LA leader/motor molecular sequence."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB E7672 product page https://www.neb.com/en/products/e7672-nebnext-companion-module-oxford-nanopore-technologies-ligation-sequencing lines 1–61; linked original usage guideline https://www.neb.com/en/tools-and-resources/usage-guidelines/usage-guidelines-for-reagents-included-in-the-nebnext-companion-module-v2-for-oxford-nanopore-e7672 lines 0–14; linked FAQs on v2 versus E7180, native barcoding and protocol choice checked; full LSK114 local bundle oligo scraper first.",
+        "finding": "Independently confirms E7672 v2 is the updated singleplex SQK-LSK114 reagent set: FFPE repair mix/buffer v2, Ultra II End Prep Enzyme Mix, Salt-T4 DNA Ligase. Usage guideline and FAQs defer to ONT device-specific LSK114 protocol and print no Ligation Adapter leader, motor or tether sequence. Native-barcoding FAQ expressly says this singleplex-volume module is not the choice for multiplexing."
+      }
+    },
+    {
+      "id": "neb_e7672_faq_v2_vs_e7180",
+      "role": "linked_material",
+      "discovered_from": "neb_companion_v2_e7672",
+      "locator": "https://www.neb.com/en/faqs/what-is-the-difference-between-nebnext-companion-module-v2-for-oxford-nanopore-technologies-ligation-sequencing-and-nebnext-companion-module-for-oxford-nanopore-technologies-ligation-sequencing; original NEB E7672 versus E7180 FAQ",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ title and answer lines 0–7; linked E7672 product page separately checklisted; full LSK114 source-bundle oligo scraper run before reading.",
+        "finding": "FAQ says E7672 v2 updates reagents to match changed SQK-LSK114 protocols and directs users to the device-specific ONT original. It confirms version scope, but prints no Ligation Adapter leader, motor or tether molecular details. E7180 link is to an older reagent module, not evidence for current E7672/v14 chemistry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ at locator, title and answer lines 0–7; full local LSK114 source-bundle scraper run first.",
+        "finding": "NEB independently confirms E7672 v2 is updated for changed SQK-LSK114 protocols and routes to a device-specific ONT recipe. The linked E7180 product is a prior kit generation. The FAQ provides no LA leader, motor or tether sequence; its scope is version authority."
+      }
+    },
+    {
+      "id": "neb_e7672_faq_native_barcoding",
+      "role": "linked_material",
+      "discovered_from": "neb_companion_v2_e7672",
+      "locator": "https://www.neb.com/en/faqs/is-the-nebnext-companion-module-v2-for-oxford-nanopore-technologies-ligation-sequencing-the-best-choice-if-i-am-performing-native-barcoding-ont-sequencing; original NEB E7672 native-barcoding FAQ",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The answer distinguishes singleplex E7672 reagent volumes from separate multiplex/native-barcoding workflows; it contains no current singleplex Ligation Adapter chemistry or strand identity.",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ title and answer lines 0–7; related E7672 product link already checklisted; full LSK114 source-bundle oligo scraper run before reading.",
+        "finding": "NEB says E7672 volumes serve singleplex SQK-LSK114 only; native-barcoded multiplex users should use individual reagents per ONT protocols. The answer does not supply an adapter oligo, motor or tether structure, and native barcoding is outside this protocol's declared singleplex construct."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ at locator, title and answer lines 0–7; full local LSK114 source-bundle scraper run first.",
+        "finding": "NEB explicitly limits the E7672 module volumes to singleplex SQK-LSK114 and directs native-barcoded multiplex workflows to individual reagents. Since this review models singleplex, the linked multiplex advice is outside its molecular construct and cannot establish LA architecture."
+      }
+    },
+    {
+      "id": "neb_e7672_faq_protocol_choice",
+      "role": "linked_material",
+      "discovered_from": "neb_companion_v2_e7672",
+      "locator": "https://www.neb.com/en/faqs/which-protocol-should-be-followed-when-using-the-nebnext-companion-module-v2-for-oxford-nanopore-technologies-ligation-sequencing; original NEB E7672 protocol-choice FAQ",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ title and answer lines 0–8; linked E7672 product page and device-specific ONT SQK-LSK114 protocol are separately checklisted; full LSK114 source-bundle oligo scraper run before reading.",
+        "finding": "FAQ directs E7672 users to the appropriate device-specific SQK-LSK114 ONT protocol. It establishes that the ONT protocol controls the reaction recipe; it gives no additional leader, motor, tether or adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ at locator, title and answer lines 0–8; full local LSK114 source-bundle scraper run first.",
+        "finding": "NEB points to the device-specific ONT SQK-LSK114 protocol for use of this reagent module. That governs the recipe and gives no additional adapter bases or motor/tether attachment geometry."
+      }
+    },
+    {
+      "id": "ont_ligation_input_load",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://nanoporetech.com/document/requirements/lig-seq-input-load; official ONT Ligation Sequencing sample input/loading know-how",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Original ONT ligation input/load know-how, opening library-quality and loading sections",
+        "finding": "Vendor states good library carries sequencing adapters at both ends for pore tethering and sequencing. It does not print current LA motor/leader attachment or tether structure."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original ONT Ligation Sequencing sample input/loading know-how https://nanoporetech.com/document/requirements/lig-seq-input-load, lines 81–112; full LSK114 local source-bundle oligo scraper run first.",
+        "finding": "Original states that good ligation library has sequencing adapters at both DNA ends, which optimizes membrane tethering and pore capture; molecules lacking an adapter cannot be sequenced. It does not identify v14 leader bases, motor attachment or tether molecule. Thus it supports the final-end requirement but does not resolve the blocked molecular details."
+      }
+    },
+    {
+      "id": "ont_input_qc",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://nanoporetech.com/document/input-dna-rna-qc; official ONT input DNA/RNA QC know-how",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Input measurement and fragment quality guidance; no LSK114 adapter assembly details or final construct sequences.",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Original ONT input QC know-how, DNA quality table and LSK114 ligation method mention",
+        "finding": "Document covers input quantity, purity and integrity; LSK114 is named as a downstream library method without LA end structure."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original ONT Input DNA/RNA QC revD_10Oct2025 https://nanoporetech.com/document/input-dna-rna-qc, lines 110–217 (DNA mass, purity, molecular-weight and LSK114 input table); full LSK114 local source-bundle oligo scraper run first.",
+        "finding": "Independently checked original: guidance is input DNA quantity, purity and fragment integrity, with LSK114 starting amounts. It has no adapter assembly recipe, leader or motor structure. Linked equipment and contaminant guidance concern QC, not LA construction; not relevant to the missing molecular claim."
+      }
+    },
+    {
+      "id": "ont_protocol_versions",
+      "role": "linked_material",
+      "discovered_from": "protocol",
+      "locator": "https://nanoporetech.com/resources/technique/whole-genome-sequencing/document/genomic-dna-by-ligation-sqk-lsk114?format=versions; official ONT version history for GDE_9161_v114",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Official ONT SQK-LSK114 document versions page, 2024 revision history and current Rev AC header",
+        "finding": "Protocol revisions altered end-prep and adapter-ligation details; molecular claims must be scoped to current Rev AC. Version history does not resolve motor/leader structure."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original ONT document-version page https://nanoporetech.com/resources/technique/whole-genome-sequencing/document/genomic-dna-by-ligation-sqk-lsk114?format=versions lines 124–166 and 1110–1125; full LSK114 local source-bundle oligo scraper run first.",
+        "finding": "Independently confirmed current document identifier GDE_9161_v114_revAC_24Sep2025 and 2024 change history naming NEB E7672 v2 and changed repair/end-prep and ligation methods. Version page gives no v14 leader or motor structure. Claims from older versions require explicit version separation."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "SQK-LSK114 protocol and ref/MANIFEST.md link to sensing explanation; original sensing page lines 297-328",
+      "finding": "Followed the named sensing document. It supports general motor and tether roles but is not v14-specific molecular inventory; independent link check remains open. Further linked-source inventory found ONT input/loading know-how, input QC, version history and NEB E7672 companion module; independent second readings remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "SQK-LSK114 protocol LA references and chemistry technical document section 15 lines 2069-2124",
+      "finding": "Followed vendor protocol to current technical sequence page; full protein/leader structure still unresolved, so no missing claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete v14 leader bases, current motor identity/attachment chemistry, tether structure and definitive strand polarity are absent from public original sources",
+      "disposition": "blocked",
+      "evidence": "The protocol and chemistry document were checked by two readers; historical sensing explanation was checked independently by two readers and its section links inspected. Page now states only that these properties are unverified in inspected sources."
+    }
+  ],
+  "conclusion": "Two independent checks establish the SQK-LSK114 adapter DNA duplex, dA/dT ligation workflow, and the historical sensing explanation. NEB E7672, ONT loading know-how, input QC and protocol-version history now each have two located reads; they do not define the current full leader/motor/tether details or definitive strand polarity. Those properties remain unverified; no absence claim is accepted. The linked-source inventory and review status remain blocked pending any version-specific molecular documentation beyond the inspected originals."
+}

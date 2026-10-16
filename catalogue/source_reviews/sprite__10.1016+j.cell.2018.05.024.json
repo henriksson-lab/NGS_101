@@ -1,0 +1,108 @@
+{
+  "dir": "sprite__10.1016+j.cell.2018.05.024",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/j.cell.2018.05.024_PMC6548320.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods near lines 1190–1210; scraper source hits lines 1200–1206",
+        "finding": "Original manuscript explains split-pool serial tag ligations and prints sequencing primer sequences. Detailed original supplements are still inaccessible."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350",
+        "finding": "DNA end repair/dA tail then five split-pool ligations DPM→Odd→Even→Odd→Terminal; article says original Table S5 has full top/bottom barcoded adaptor sequences but original supplementary file is unavailable."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/219683_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods and adapter schematic lines 1238–1242; scraper source hits",
+        "finding": "Preprint includes phosphorylated adaptor schematic with spacer and complementary oligo; publication comparison remains open."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781",
+        "finding": "Preprint independently gives cDNA-tag design, ligation/read parsing and DPM/Odd/Even/Terminal barcode order; does not replace unavailable original Table S5."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "original_supps",
+      "role": "supplement",
+      "locator": "PMC6548320 NIHMS972930 supplements 1–14",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original Cell supplementary PDF/workbooks blocked by PMC download gate; chemistry tables cannot be excluded."
+    },
+    {
+      "id": "successor_method",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_PMC12145137.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552",
+        "finding": "Later detailed SPRITE method gives dA/dT DPM geometry, round order and tag annealing; a successor, not proof of every 2018 member sequence."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "successor_barcodes",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+        "finding": "Successor table prints explicit modified terminal tag members with barcode and entire sequence columns. Version-specific to 2021 method."
+      },
+      "discovered_from": "successor_method"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: paper, preprint",
+      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350; Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781; Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552; 2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+      "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+}

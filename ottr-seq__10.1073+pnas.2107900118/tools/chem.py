@@ -21,7 +21,7 @@ TITLE = 'OTTR-seq — Ordered Two-Template Relay'
 NOTES = '01_ottr_seq.html'
 SOURCE = 'Upton et al., PNAS (2021); <a href="https://doi.org/10.1073/pnas.2107900118">doi:10.1073/pnas.2107900118</a>.'
 SUMMARY = 'BoMoC standardizes RNA 3′ ends with one ddR, then performs two ordered template jumps to copy the insert and the second adapter in one reverse-transcription reaction.'
-CAVEAT = ''
+CAVEAT = 'The oligos displayed here are printed in the authors’ bioRxiv v1 Table S1 (PDF text lines 768–1200). The final PNAS article cites its SI Table S1, but that appendix is currently inaccessible; exact agreement between versions remains unresolved.'
 FINAL_LIBRARY = Construct((role('P5'), role('i5', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'random')), role('R1 adapter'), role('input cDNA'), role('R2 adapter'), role('i7', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'random')), role('P7')), name='OTTR-seq library')
 FINAL_CAPTION = 'Universal-adapter branch after indexed PCR; the paper also validates a full-length, PCR-free branch.'
 SEQ_PRIMERS = ()

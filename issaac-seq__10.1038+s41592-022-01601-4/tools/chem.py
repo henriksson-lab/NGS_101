@@ -17,12 +17,14 @@ NOTES = "01_issaac-seq.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41592-022-01601-4">'
           'Xu et al., <i>Nature Methods</i> (2022)</a>.')
 SUMMARY = ("One S5/S7 transposome tags accessible chromatin, reverse transcription makes "
-           "RNA/DNA hybrids, and a second S7/S7 transposome tags those hybrids. Distinct "
-           "primer pairs then recover ATAC and RNA libraries from each sorted cell.")
+           "RNA/DNA hybrids, and a second transposome tags those hybrids: S7/S7 in the "
+           "plate workflow drawn here, S5/S5 in the droplet workflow. Distinct primer "
+           "pairs then recover ATAC and RNA libraries from each cell.")
 CAVEAT = ("The exact constructs shown are the plate workflow from Supplementary Table 4. "
-          "The droplet workflow uses the same two tagmentations but replaces the plate "
-          "indexes with a 16-nt 10x scATAC gel-bead cell barcode and uses the published "
-          "TruseqR2 capture/P7 RNA branch.")
+          "Published Supplementary Protocols 1 and 2 specify S5/S5 for the second "
+          "droplet tagmentation and S7/S7 for the second plate tagmentation. The "
+          "droplet workflow also replaces the plate indexes with a 16-nt 10x scATAC "
+          "gel-bead cell barcode and uses the published TruseqR2 capture/P7 RNA branch.")
 
 ME_S5 = nx.ADAPTOR_S5
 ME_S7 = nx.ADAPTOR_S7

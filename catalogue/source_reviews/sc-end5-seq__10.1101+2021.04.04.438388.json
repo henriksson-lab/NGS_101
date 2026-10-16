@@ -1,0 +1,83 @@
+{
+  "dir": "sc-end5-seq__10.1101+2021.04.04.438388",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "doi:10.1101/2021.04.04.438388; 2021.04.04.438388_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 1402-1457, especially 1410 and 1418-1436",
+        "finding": "Prints control 3-prime TSO and both sc-end5-dT/rand RT primers; names initial Chromium Single Cell 5-prime Library and Gel Bead Kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v2 extracted Methods lines 1395-1445",
+        "finding": "Preprint prints template-switch oligo, sc-end5-dT RT primer AAGCAGTGGTATCAACGCAGAGTAC–T(30)–VN, and sc-end5-rand RT primer AAGCAGTGGTATCAACGCAGAGTACNNNNNN; it delegates cDNA primer mix and downstream processing to initial 10x 5-prime kit."
+      }
+    },
+    {
+      "id": "chromium_5prime",
+      "role": "vendor",
+      "locator": "10x Genomics initial Chromium Single Cell 5-prime Library and Gel Bead Kit user guide, cited at preprint lines 1418-1423",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact initial kit manual and bead oligo were not in the local source bundle.",
+      "pass_2": null
+    },
+    {
+      "id": "cg000086_revk_comparator",
+      "role": "vendor",
+      "discovered_from": "preprint",
+      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt; official 10x CG000086 Rev K 2019 for PN-1000006/1000014",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG000086 Rev K PDF lines 1–27, 127–259, 1327–1395, 6850–6895 and 7070–7240, independently recorded in the 10x 5-prime v1 checklist",
+        "finding": "Later same-kit guide shows 16-base bead barcode, 10-base UMI, TSO and GEX library architecture. This first reading was for the v1 guide audit; it did not establish the exact revision used in sc-end5."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original CG000086 Rev K PDF cover lines 1–42, GEX overview lines 1315–1395, bead oligo/RT product lines 6846–6910 and Read 2 adapter/index-PCR lines 7070–7240. Cross-checked sc-end5 preprint Methods lines 1409–1437; ran scrape_primers on both local source bundles and followed hits to original lines.",
+        "finding": "Rev K covers PN-1000006 and PN-1000014 5-prime Library & Gel Bead Kits and prints R1–CB16–UMI10–TTTCTTATATrGrGrG bead oligo, RT product and Read 2 adapter. It is a later same-kit architecture comparator; sc-end5 names initial kit but no revision or selected i7 member, so exact historical kit revision and sample assignment remain unresolved."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "preprint library-preparation Methods lines 1402-1457 and its cited initial 10x kit",
+      "finding": "The preprint directly links the experimental chemistry to a commercial 5-prime kit; its guide is not yet checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint Methods lines 1395-1445 and local MANIFEST.tsv",
+      "finding": "Original preprint identifies the initial 10x 5-prime Library and Gel Bead Kit; its versioned original guide is not local."
+    },
+    "followup": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Preprint lines 1417–1437 and CG000086 Rev K original cover, 5-prime GEX section and oligo appendix; vendor guide cross-audit source row above",
+      "finding": "Followed the named initial 10x 5-prime kit to a later official guide for the same product numbers. The guide resolves general bead and Read 2 architecture but not the experiment-specific revision or i7 well. It links other CG documents on immune enrichment and cell preparation; these do not identify the sc-end5 run-specific index and remain outside the specific missing claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact original 10x 5-prime kit revision and selected i7 sample-index well for the sc-end5 runs",
+      "disposition": "blocked",
+      "evidence": "The preprint prints the sc-end5 RT primers and says initial 5-prime kit, but no revision or i7 well. Two independent readers inspected later CG000086 Rev K for same product numbers and its bead/Read 2 architecture; later guide does not establish the historical lot/revision or sample assignment."
+    }
+  ],
+  "conclusion": "Two independent checks cover the preprint and later same-kit CG000086 Rev K comparator. The source-published sc-end5 RT primers are displayed; general 5-prime bead architecture is known from Rev K, but the original kit revision and selected i7 well remain blocked. No missing-information claim is accepted."
+}

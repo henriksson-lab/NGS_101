@@ -15,8 +15,9 @@ protein epitope profiling reveals environmental regulation of epigenomic heterog
 *Nature Communications* 9 (2018). doi:[10.1038/s41467-018-07115-y](https://doi.org/10.1038/s41467-018-07115-y)
 (PMC6214962).
 
-Upstream (scg_lib_structs) draws both on one page, because the chemistry is the same:
-tag in bulk, sort single nuclei, fragment and index-PCR per well.
+The two papers both describe bulk tagmentation followed by sorting one nucleus per
+well and index PCR. Their index-primer evidence differs, so their exact library
+constructs must be evaluated separately.
 
 Sources read (fetched by `tools/get_sources.py`, into
 `_data/sources/plate-scatac-seq-and-pi-atac-seq__10.1038+s41467-018-07771-0/`, never committed):
@@ -30,14 +31,16 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41467-018-07115-y_PMC6214962.html.txt` | Pi-ATAC paper, full text | **all Pi-ATAC methods** (fixation, reverse-crosslinking buffer, PCR, sequencing) |
 | `s41467-018-07115-y_41467_2018_7115_MOESM1_ESM.pdf.txt` (+ MOESM2/3/5/6/12) | Pi-ATAC supplementary figures / tables | checked: no oligo sequences |
 | `s41467-018-07115-y_41467_2018_7115_MOESM4,7–11_ESM.xlsx.txt` | ChromVAR / k-mer / peak tables | not chemistry |
-| `upstream_plate_and_piATAC-seq.html.txt` | scg_lib_structs method page | second account; checked below |
+| Author [plate scATAC repository](https://github.com/dbrg77/plate_scATAC-seq), pinned commit `81a158b5386755b02e38042abadf2840b1add4a8`, `mSp_scATAC-seq/Snakefile` lines 45–68 | linked analysis code | cutadapt read-through adapter patterns; corroboration only, not a synthesized adapter specification |
+
+The scg_lib_structs drawing was consulted for orientation only; it is not source evidence.
 
 Not available / not read:
 
 | What | Why |
 |---|---|
-| Plate scATAC Supplementary Data 1–4 (`MOESM3–6_ESM.xls`) | legacy `.xls`, no `.txt` twin made; by their descriptions (MOESM2/MOESM7) QC metrics, cell annotations, marker peaks and HOMER results — not chemistry |
-| Pi-ATAC step-by-step protocol, protocols.io *private* link `https://www.protocols.io/private/F59D7D2F8FD5E57A20E039E9CF7A9785` | private link; not fetched — **the Pi-ATAC barcoding-primer sequences are in neither the paper nor its supplements** 🔴 |
+| Plate scATAC Supplementary Data 1–4 (`MOESM3–6_ESM.xls`) | originals were converted locally with `xls2csv`; two independent checks found QC metrics, cell annotations, marker peaks and HOMER motif results, with no library-chemistry columns. |
+| Pi-ATAC step-by-step protocol, protocols.io *private* link `https://www.protocols.io/private/F59D7D2F8FD5E57A20E039E9CF7A9785` | private link; not fetched; exact Pi-ATAC primer inventory remains unverified |
 | Buenrostro *et al.* 2015 (*Nature* 523:486, doi:10.1038/nature14590) primer table | Pi-ATAC ref. 3, cited for its single-cell *data* preprocessing (its bulk PCR cites Buenrostro 2013, ref. 37); not fetched |
 
 ---
@@ -46,9 +49,10 @@ Not available / not read:
 
 Both methods are **one cell per well, no combinatorial barcode**: the cell's identity is
 the pair of PCR index primers in its well (i5 × i7), exactly as in a bulk dual-indexed
-Nextera library. 🟢 (upstream; implied by both papers)
+Nextera library. 🟢 (plate scATAC original Methods and Supplementary Methods; Pi-ATAC
+original Methods)
 
-The trick both rely on 🟢 (stated in the plate scATAC introduction and on the upstream page): **Tn5 tags without
+The trick both rely on 🟢 (stated in the plate scATAC introduction): **Tn5 tags without
 fragmenting**. After tagmentation the transposase stays bound to the DNA, so nuclei
 tagmented in bulk stay intact and can be FACS-sorted as single nuclei. The DNA only falls
 apart in the well, when Tn5 is stripped off (SDS + heat, or proteinase K). See
@@ -62,7 +66,7 @@ apart in the well, when Tn5 is stripped off (SDS + heat, or proteinase K). See
 | Sort | DAPI+ nuclei, 96/384-well plate (index sort optional) | **index sort** (protein levels recorded per well), 96-well plates |
 | Well chemistry | SDS + proteinase K lysis, 65 °C Tn5 release, Tween-20 quench | **SDS-free** reverse-crosslinking buffer (Tween-20 / Igepal + proteinase K), 65 °C overnight, 80 °C 10 min |
 | Index primers | **in the well before sorting** | added with the PCR mix after reverse crosslinking |
-| Index set | Nextera XT N7xx × S5xx, 24 × 16 = 384 (§2) | "barcoding primers", 96 × 90 combinations — **sequences not given** 🔴 |
+| Index set | Nextera XT N7xx × S5xx, 24 × 16 = 384 (§2) | "barcoding primers", 96 × 90 combinations; their exact sequences remain unverified in the inspected sources |
 
 What is new in each 🟡:
 
@@ -137,24 +141,23 @@ Per well: 2 µL of a 10 µM S5xx/N7xx mix (5 µM each) 🟢.
 - Index orientation as written in the oligo: N701 carries `TCGCCTTA` (the reverse
   complement of the Illumina i7 read `TAAGGCGA`); S502 carries `CTCTCTAT` (read as such
   on the forward-strand i5 workflow, as `ATAGAGAG` on reverse-complement i5 instruments).
-- The four sequencing primers on the upstream page are exactly `nextera.READ1_PRIMER`,
-  `READ2_PRIMER`, `INDEX1_PRIMER` and `INDEX2_PRIMER` (scraper match).
+- The four standard Nextera sequencing-primer sequences can be derived from the
+  library model in `nextera`; neither paper specifies this primer set for its run.
 
-### Check against upstream scg_lib_structs
+### Source boundary and linked author code
 
-- **Agree** 🟡 *(computed)*: the 8-nt index that upstream lists for each of the 40
-  names (N701–N729, N/S502–N/S522) is, for **all 40**, exactly the 8 nt between P7/P5
-  and s7/s5 in the oligo the paper prints. Upstream's generic index-primer layouts
-  (`P5 [i5] s5`, `P7 [i7] s7`) match.
-- **Agree**: index primers sit in the lysis buffer before sorting; 72 °C gap fill-in
-  as the first PCR step.
-- **Upstream generalises**: it gives the same Nextera XT primer set for Pi-ATAC. The
-  Pi-ATAC paper does **not** print its primers and quotes "96 × 90 adapter combinations"
-  (8640 cells) — not a 24 × 16 set, so Pi-ATAC used a different, larger barcoding-primer
-  set (presumably the Buenrostro 2015 one, its ref. 3) 🟡/🔴.
-- Upstream labels its products "semi-suppressive PCR" for s5/s5 and s7/s7 fragments;
-  that is upstream's (and the standard Nextera) interpretation, not stated in either
-  paper 🟡.
+- The original plate scATAC Supplementary Methods print each N7xx and S5xx oligo.
+  For every printed primer, the 8-nt index is exactly between P7/P5 and s7/s5 🟡
+  *(computed)*. The same supplement places the primers in lysis buffer before sorting
+  and starts index PCR with a 72 °C fill-in step.
+- The linked author repository is an analysis repository, but its pinned
+  `mSp_scATAC-seq/Snakefile` lines 45–68 specify cutadapt read-through motifs for both
+  reads. The same motifs occur in a comparator Snakefile. They corroborate observed
+  adapter sequence; trimming commands do not establish the synthesized adapter-end
+  geometry or a separate protocol-specific oligo set.
+- Pi-ATAC reports 96 × 90 adapter combinations, a different set size from plate
+  scATAC. Its exact primer bases remain unresolved pending the private protocol and
+  other source checks; plate scATAC oligos cannot be assigned to Pi-ATAC 🟡.
 
 ## 3. Step by step — plate scATAC-seq
 
@@ -217,7 +220,7 @@ Supplementary Methods protocol as **72 °C 10 min**.
    (500 mM NaCl, 1 mM EDTA, 0.5 % SDS, 55 °C overnight), Zymo ChIP DNA Clean &
    Concentrator.
 
-## 4. Final library — 🟡 (assembled from the oligos above; same as upstream's drawing)
+## 4. Final library — 🟡 (assembled from the printed plate scATAC oligos)
 
 Top strand, 5'→3' (standard dual-indexed Nextera):
 
@@ -234,8 +237,7 @@ CTGTCTCTTATACACATCT CCGAGCCCACGAGAC <i7':8> ATCTCGTATGCCGTCTTCTGCTTG
 ```
 
 136 nt of fixed sequence (incl. the two 8-nt indices) plus the insert. The ME bases
-come from the Tn5 adapter, not from the primers. Upstream's final-library drawing gives
-the same segment order and sequences. Only s5…s7 fragments amplify exponentially;
+come from the Tn5 adapter, not from the primers. Only s5…s7 fragments amplify exponentially;
 s5/s5 and s7/s7 fragments are suppressed 🟡 (standard Nextera; see concept note).
 
 For Pi-ATAC the segment list is the same if Buenrostro-style Ad1/Ad2 primers were used
@@ -250,26 +252,26 @@ For Pi-ATAC the segment list is the same if Buenrostro-style Ad1/Ad2 primers wer
 - **Pi-ATAC** 🟢: **2 × 75** on HiSeq 4000, ~1000 cells per lane, ~0.3 M reads/cell.
 - Read primers: standard Nextera — Read 1 = `nextera.READ1_PRIMER` (s5 + ME), Index 1
   (i7) = `INDEX1_PRIMER`, Index 2 (i5) = `INDEX2_PRIMER`, Read 2 = `READ2_PRIMER`
-  (s7 + ME) 🟡 (upstream gives these; neither paper names read primers). Cell = (i5, i7)
+  (s7 + ME) 🟡 (inferred from the plate scATAC library structure; neither paper names read primers). Cell = (i5, i7)
   pair; no UMI, no in-read barcode.
 
 ## 6. Open questions
 
-- 🔴 Pi-ATAC barcoding-primer sequences (96 × 90 set) — in the private protocols.io
-  protocol or Buenrostro 2015; neither was read.
+- 🔴 Pi-ATAC barcoding-primer sequences (96 × 90 set) remain unverified; the linked
+  private protocols.io protocol and predecessor documents require their own review.
 - 🟡 Pi-ATAC proteinase K "5 ng/ml" and primer "25 mM" are almost certainly unit typos.
 - 🟡 Gap fill-in 5 min (main text) vs 10 min (Supplementary Methods) in plate scATAC.
 - 🔴 Read lengths for plate scATAC.
-- 🟡 Whether index FACS data were used in plate scATAC (upstream says "can be reported";
-  the paper used gating — DAPI, DAPI + CD4-PE — not index values).
+- 🟡 Whether index FACS data were used in plate scATAC; the paper describes gating
+  with DAPI or DAPI + CD4-PE but does not establish use of index values.
 
 ## 7. How this note was made (tool evaluation)
 
 `tools/get_sources.py` fetched both papers (PMC HTML + JATS XML), all supplements twice
-(Springer and Europe PMC zip copies, identical md5) and the upstream page. The four
-plate-scATAC Supplementary Data files are legacy `.xls` and got no `.txt` twin (not
-chemistry, so not needed). `tools/scrape_primers.py` found the upstream sequences and
-the N7xx/S5xx table in the Supplementary Information, and correctly found nothing in the
-Pi-ATAC files (none are printed there). A form-feed character before `S510` in the PDF
+(Springer and Europe PMC zip copies, identical md5) and the author repository. The four
+plate-scATAC Supplementary Data files are legacy `.xls`; `xls2csv` made local text
+twins, and two readers checked those original tables.
+`tools/scrape_primers.py` located the N7xx/S5xx table in the
+Supplementary Information. A form-feed character before `S510` in the PDF
 text broke a line-anchored regex in my own check script (not the tool). The methods
 themselves were read, not scraped.

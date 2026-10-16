@@ -1,0 +1,64 @@
+{
+  "dir": "nanoseq__10.1038+s41586-021-03477-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "author_manuscript",
+      "role": "defining",
+      "locator": "Original author manuscript of NanoSeq Nature 2021 doi:10.1038/s41586-021-03477-4; local author_manuscript.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author manuscript extracted lines 264-279; scraper run on bundle, zero oligo hits",
+        "finding": "Describes restriction-enzyme fragmentation replacing sonication/end repair, non-A ddNTPs during A-tailing to block nick copying, and random-barcode adapters. Delegates exact chemistry to Supplementary Notes 2-5 and Table 3."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local author_manuscript.pdf.txt lines 268-279 and cited Methods; scraper on local bundle",
+        "finding": "Restriction fragmentation avoids end repair; non-A ddNTPs block nick extension during A-tailing; author manuscript points to Supplementary Notes 2-5 and Table 3 for adapter details."
+      }
+    },
+    {
+      "id": "nature_supplement",
+      "role": "supplement",
+      "locator": "NanoSeq original supplementary Notes 2-5 and Supplementary Table 3 cited in author manuscript lines 268-279",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement not present in local source bundle and not independently read."
+    },
+    {
+      "id": "nature_final",
+      "role": "other",
+      "locator": "Published Nature version doi:10.1038/s41586-021-03477-4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Only author manuscript locally accessible; final publication text/changes not independently compared."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author manuscript lines 264-279 and bundle manifest",
+      "finding": "Main manuscript explicitly delegates enzyme choice, end chemistry and adapter design to missing Supplementary Notes and Table 3."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
+      "finding": "Followed source-linked leads to available text; remaining relevant supplement/vendor/predecessor documents unresolved, so no absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "NanoSeq exact adapter and restriction-end chemistry are absent from published sources",
+      "disposition": "blocked",
+      "evidence": "Relevant original supplementary Notes and Table 3 are unavailable; first pass cannot validate their contents."
+    }
+  ],
+  "conclusion": "Relevant original supplementary Notes and Table 3 are unavailable; first pass cannot validate their contents."
+}

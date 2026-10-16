@@ -22,8 +22,8 @@ Agilent SureSelect XT HS2 converts fragmented genomic DNA into dual-indexed Illu
 
 ## 4. Uncertainty and scope
 
-🟡 The current manual publishes index sequences but not the complete adaptor-oligo sequences. The schematic therefore uses canonical Illumina sequencing arms and marks the kit-specific adaptor duplex as a role rather than inventing hidden bases. Capture baits are design-specific and are shown as a complementary target interval.
+🟡 The B0 guide prints 384 paired eight-base indexes and the five-base MBC read layout, but not complete HS2 adaptor or indexing-primer arms. The schematic uses inferred canonical TruSeq arms only for orientation and primer landing; these bases are not established as the Agilent kit oligos. No specific index pair is chosen. Capture baits are design-specific and are shown as a complementary target interval.
 
 ## 5. Read layout
 
-Read 1 and Read 2 each encounter a five-base MBC before target DNA. Index 1 and Index 2 read the paired eight-base sample indexes. Primer placement is computed on the final construct.
+Read 1 and Read 2 each encounter a five-base MBC before target DNA. Index 1 and Index 2 read paired eight-base sample indexes. Primer placement is computed on the inferred canonical Illumina shell; it does not verify the exact proprietary HS2 arm bases.

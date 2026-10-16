@@ -28,7 +28,9 @@ TITLE = "ASAP-seq — ATAC and surface-protein profiling"
 NOTES = "01_asap-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41587-021-00927-2">Mimitou et al., <i>Nature Biotechnology</i> (2021)</a>.'
 SUMMARY = "Antibody-derived tags are extended with an ATAC-bead capture handle before a 10x single-cell ATAC workflow yields separate chromatin-accessibility and protein-tag libraries."
-CAVEAT = "The paper prints exact TotalSeq-A/B bridge oligos, shown below. Variable antibody tags and commercial 10x bead sequences remain role tokens in the library diagram."
+CAVEAT = ('The paper prints exact TotalSeq-A/B bridge oligos, shown below. The historical '
+          '<a href="https://assets.ctfassets.net/an68im79xiti/3SEbiWVegS8it73fsQNXr0/458c7ee408f249e1762233ef2f437c9e/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevA.pdf">10x CG000209 Rev A guide</a> '
+          'prints the v1.1 gel-bead primer constant arms and a 16-base barcode position; the article cites Rev D, whose sequence appendix still needs comparison. The library diagram uses role tokens for variable barcode members and antibody-tag regions.')
 CELL=feature("asap_cell","cell_barcode","whitelist",whitelist="10x Chromium ATAC bead barcode")
 ATAC, ATAC_P = nextera_library([seg("cell barcode association","C"*16,"cbc",placeholder=True,feature=CELL),seg("accessible genomic DNA", "X" * 42, placeholder=True)], "ASAP-seq ATAC library")
 ADT, ADT_P = feature_library("ASAP-seq antibody-tag library", barcode_id="asap_antibody",cell_id="asap_cell",
@@ -44,6 +46,7 @@ READ_LENGTHS = {"ATAC library": {"Read 1": 50, "Read 2": 50}, "Antibody-tag libr
 
 def oligos():
     return [
+        "<b>10x scATAC v1.1 gel-bead primer (CG000209 Rev A, PN-2000210)</b> — 5′-AATGATACGGCGACCACCGAGATCTACAC-NNNNNNNNNNNNNNNN-TCGTCGGCAGCGTC-3′ (N16: cell barcode)",
         "<b>TotalSeq-A bridge BOA</b> — 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNNVTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT/3InvdT/-3′",
         "<b>TotalSeq-B bridge BOB</b> — 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGTTGCTAGGACCGGCCTTAAAGC/3InvdT/-3′",
         "<b>TotalSeq-A P7 index primer family</b> — 5′-CAAGCAGAAGACGGCATACGAGATxxxxxxxxGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′ (x: sample index)",

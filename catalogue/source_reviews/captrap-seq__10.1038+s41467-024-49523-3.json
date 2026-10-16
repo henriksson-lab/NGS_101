@@ -1,0 +1,84 @@
+{
+  "dir": "captrap-seq__10.1038+s41467-024-49523-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "Nature Communications DOI 10.1038/s41467-024-49523-3",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MANIFEST.tsv full text is manual; published article not on disk."
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "bioRxiv 10.1101/2023.06.16.543444 v1, local preprint PDF text",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Preprint lines 1118-1142",
+        "finding": "Preprint describes ONT Direct RNA RTA oligo and ligation sequencing adapters, plus SQK-LSK108/109 protocols; kit adapter bases not printed in inspected Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "2023 bioRxiv v1 PDF text lines 1118-1142 and oligo list lines 5119-5130",
+        "finding": "Preprint names ONT SQK-RNA002 and SQK-LSK108/109 and prints assay-specific oligo-dT, linker, second primer and PCR oligos; ONT motor adapter details belong to kit documentation."
+      }
+    },
+    {
+      "id": "springer_supps",
+      "role": "supplement",
+      "locator": "Springer MOESM1–MOESM3 original supplemental PDFs",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv and MOESM1 extracted text",
+        "finding": "Published supplements are present; source oligo scraper finds candidates in one file, requiring source validation for any page transcription."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM1 PDF text oligo/adapter search and other supplement inventory",
+        "finding": "Available original supplement did not reveal ONT motor adapter bases in the inspected material; published article itself remains unavailable."
+      }
+    },
+    {
+      "id": "ont_guides",
+      "role": "linked_material",
+      "locator": "ONT Direct RNA and SQK-LSK108/109 kit protocol and adapter specifications",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named by preprint lines 1118-1142; original vendor guides unavailable locally.",
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint Methods 1118-1142 and Springer supplement manifest",
+      "finding": "Preprint explicitly names ONT kit protocols; no local vendor originals. Published main article remains manual."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Preprint platform sequencing Methods lines 1118-1142; Springer MOESM1-3 inventory",
+      "finding": "Followed kit identifiers to ONT vendor manuals in principle, but exact contemporary manuals are not in bundle."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "ONT terminal adapter and sequencing-primer site are undisclosed.",
+      "disposition": "blocked",
+      "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
+    }
+  ],
+  "conclusion": "Defining article and period-specific ONT kit manuals unavailable; assay oligos are printed in preprint but ONT endpoint unresolved."
+}

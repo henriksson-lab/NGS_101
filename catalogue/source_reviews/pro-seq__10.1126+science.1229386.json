@@ -1,0 +1,98 @@
+{
+  "dir": "pro-seq__10.1126+science.1229386",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/pro-seq__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Introduction/results lines 27–49 and supplement pointer",
+        "finding": "Original establishes biotin run-on and base-resolution mapping; original supplementary methods not in bundle."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Kwak 2013 JATS Introduction/Results lines 27–49 and Supplementary Material pointer",
+        "finding": "The defining paper supports single/four biotin-NTP run-on and selective recovery of nascent RNA 3′ ends; the main text does not print the full PRO-seq oligos."
+      }
+    },
+    {
+      "id": "mahat2016",
+      "role": "linked_material",
+      "locator": "_data/sources/pro-seq__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Detailed protocol Table 1 around lines 1215 and 2870–2876; scraper run on bundle",
+        "finding": "Later detailed PRO-seq protocol prints VRA3/VRA5 and PCR primers, but variant identity in original 2013 SI remains unchecked."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870–2876",
+        "finding": "Detailed PRO-seq protocol prints VRA3/VRA5 RNA adapters, RP1 and other oligos; this is a later protocol and must be cited with its version."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "procap_supp",
+      "role": "linked_material",
+      "locator": "_data/sources/pro-seq__10.1126+science.1229386/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author-hosted PRO-cap supplement lines 122–154; scraper hits verified",
+        "finding": "Related PRO-cap procedure prints adapters and GX2/RP1 choices; it is not Kwak PRO-seq original supplement."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122–154",
+        "finding": "Source prints reverse 3′ and 5′ RNA adapter sequences, TAP/PNK distinction, RT and PCR primers; PRO-cap substitutions must not silently define PRO-seq."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "original_si",
+      "role": "supplement",
+      "locator": "PMC3974810 NIHMS563579-supplement-supplement.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC gate; cannot confirm original oligo and variant choices."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS and linked detailed 2016 protocol were read; original 2013 supplementary PDF remains inaccessible.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Kwak 2013 JATS Introduction/Results lines 27–49 and Supplementary Material pointer; Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870–2876; Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122–154",
+      "finding": "Opened the accessible original and linked source rows listed above. Any remaining unavailable original supplement stays a blocked relevant source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original 2013 PRO-seq oligo and library variant identity",
+      "evidence": "Original JATS and linked detailed 2016 protocol were read; original 2013 supplementary PDF remains inaccessible.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open."
+}

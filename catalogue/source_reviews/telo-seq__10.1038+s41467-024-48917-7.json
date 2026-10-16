@@ -1,0 +1,108 @@
+{
+  "dir": "telo-seq__10.1038+s41467-024-48917-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Schmidt et al., Nat Commun 2024, doi:10.1038/s41467-024-48917-7",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/fulltext.xml.txt lines 61,165-170",
+        "finding": "Methods specify six phosphorylated telorettes, S1 splint, EcoRV/dA-tailing, and ONT AMII adapter; no full motor adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/fulltext.xml.txt lines 165-178",
+        "finding": "Original Methods describe six 5-prime-phosphorylated telorette phases, S1 splint and ONT adapter ligation after telomere enrichment."
+      }
+    },
+    {
+      "id": "supp_pdf",
+      "role": "supplement",
+      "locator": "Schmidt et al. Supplementary Information, Table 7",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/supp.pdf.txt lines 1778-1810; scraper T1 at line 1784",
+        "finding": "Table prints six telorettes and S1; distinct third and fourth sequences are both labelled T3, no T4. Page and note disclose discrepancy."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/supp.pdf.txt lines 1778-1811",
+        "finding": "Original Table 7 prints six distinct telorette sequences and S1 but labels the third and fourth both T3, omitting T4. Page already discloses this publication discrepancy."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "Schmidt et al. supplementary data workbook, sheet Supplementary Table 2_Telo-seq",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Workbook is sample measurements rather than Telo-seq oligo list.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/supp_table_1.xlsx.txt sheet header and initial rows",
+        "finding": "Sheet Supplementary Table 2_Telo-seq is chromosome-arm telomere measurement data, not an oligo design table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-024-48917-7/supp_table_1.xlsx.txt lines 1-8",
+        "finding": "Original Supplementary Table 2 is per-cell/per-arm telomere result data, not oligo chemistry."
+      }
+    },
+    {
+      "id": "ont_kit",
+      "role": "linked_material",
+      "locator": "ONT SQK-NBD111 / AMII historical kit guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical ONT kit-specific adapter assembly inaccessible in local originals.",
+      "discovered_from": "article",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "stela_tesla",
+      "role": "predecessor",
+      "locator": "STELA / TeSLA telorette methods cited in article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor method source not yet retrieved for this pass.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Article telorette citations, Supplementary Table 7 and ONT kit names; current ONT requirements page in note is successor, not historical proof.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining JATS lines 165-178; Supplementary Table 7 PDF lines 1778-1811; Supplementary Table 2 workbook lines 1-8; ONT kit and STELA/TESLA source inventory",
+      "finding": "Verified six telorette strings and duplicate T3 label independently; model uses table order and caveat identifies uncertainty. ONT motor-adapter internals and cited telomere-ligation predecessors remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical ONT AMII motor adapter complete terminal bases",
+      "disposition": "blocked",
+      "evidence": "Original prints S1 complementarity but historical ONT adapter construction is not cached."
+    }
+  ],
+  "conclusion": "Published telorette sequences and duplicate-T3 source error are independently verified and disclosed. ONT motor-adapter and relevant predecessor sources remain unavailable; missing details stay blocked."
+}

@@ -1,0 +1,98 @@
+{
+  "dir": "snmc-seq2__10.1038+s41467-018-06355-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_PMC6147798.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Nature Communications methods and supplement references; scraper run on bundle",
+        "finding": "Original describes RP-H random priming and bisulfite methylome library."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC6147798 JATS lines 79–99, 149–153",
+        "finding": "RP-H replaces RP-N to reduce primer dimers; Exo I/rSAP removes primer and dephosphorylates dNTP before Adaptase 3′ tail/tag; 8 inline barcodes and dual indexes described."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement RP-H oligos around 868–917 and P5/P7 primer tables around 6641–6738; scraper verifies",
+        "finding": "Supplement prints eight modified RP-H primers and paired index/primer families, but Adaptase-added segment not independently sourced."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF text lines 868–917 and 6641–6738",
+        "finding": "Random primer table prints 5SpC3 P5L_AD variants with degenerate H arm and barcode; Supplementary Table 2 prints P5/P7 dual-index amplification oligos; Adaptase G1–G5 named but their component sequences not in inspected text."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/294355_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author preprint methods/oligo table; scraper run on bundle",
+        "finding": "Preprint available; differences from published supplement require second pass."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv 294355 v2 PDF text lines 77–126, 244–257, 578–604",
+        "finding": "Preprint independently supports RP-H nine-base degenerate arm (H=A,T,C), Exo I/SAP before Adaptase and PCR; published MOESM1 is controlling source for full oligos."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "adaptase_manual",
+      "role": "linked_material",
+      "locator": "Swift Biosciences Adaptase kit 33096 original 2018 manual/component sequences",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original names kit; exact added bases not checked from original vendor manual.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS and original supplement oligo table read; Adaptase manual unavailable, so proprietary assertion remains unconfirmed.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC6147798 JATS lines 79–99, 149–153; Published MOESM1 PDF text lines 868–917 and 6641–6738; bioRxiv 294355 v2 PDF text lines 77–126, 244–257, 578–604",
+      "finding": "Read listed originals and linked predecessor materials to stated extent; unavailable relevant original/manual remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Bases added by Swift Adaptase and exact original kit identity",
+      "evidence": "Published JATS and original supplement oligo table read; Adaptase manual unavailable, so proprietary assertion remains unconfirmed.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open."
+}

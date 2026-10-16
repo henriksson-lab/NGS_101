@@ -1,0 +1,238 @@
+{
+  "dir": "e-l-repli-seq__10.1038+nprot.2017.148",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "marchal_jats",
+      "role": "defining",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/nprot.2017.148_PMC6044726.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nature Protocols JATS lines 35–112, 156–172, 300–500",
+        "finding": "Original gives BrdU pulse, early/late sort, end repair/ligation before IP, USER treatment, dual-index PCR and qPCR primer names/sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 58, 104, 156–172, 422–445, 496–500; scraper hit 496 independently checked",
+        "finding": "The article places adaptor ligation before BrdU IP and indexed PCR after IP, names E7370/E7600S, prints the two adapter qPCR oligos, and explicitly says this implementation uses dual indexes while single-index alternatives can work. It refers to Supplementary Data I for the actual NEBNext primer sequences."
+      }
+    },
+    {
+      "id": "publisher_supp",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/nprot.2017.148_41596_2018_BFnprot2017148_MOESM34_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher ESM Supplementary Methods lines 18–70; Supplementary Data 1 lines 233–447; Data 2 lines 448–451; Table 1 beginning 455; scraper source hits checked",
+        "finding": "The publisher supplement prints the 5′-phosphorylated, internal-deoxyU, terminal-phosphorothioate NEBNext adaptor; i5/i7 primer families; BrdU-IP qPCR primers and re-amplification primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher ESM extracted lines 18–29, 233–240, 285–310, 384–417, 448–451; scraper hits verified against source",
+        "finding": "Supplementary Data 1 prints the /5Phos/ NEBNext adaptor with /ideoxyU/ and terminal C*T, plus i5 and i7 indexed PCR primer families. Supplementary Data 2 prints the two short reamplification oligos. Supplementary Methods lines 27–28 print BrdU-IP adaptor qPCR primer bases. No annealed adapter-end construct or dA-tail junction is drawn or specified in these inspected sections."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Methods and oligo/qPCR paragraph around lines 500–590",
+        "finding": "Preprint describes same BrdU sort/library order and qPCR primers, but publication and publisher supplement govern the displayed implementation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 extracted Methods lines 500–590, including qPCR oligos 583–584; source scraper verified",
+        "finding": "The preprint describes the same adapter ligation, BrdU IP and indexing order and prints qPCR oligos; its supplement carries index families. Published Nature Protocols and publisher ESM remain the version used for the page."
+      }
+    },
+    {
+      "id": "preprint_supp_1",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Data I lines 1–89; scraper hit original lines 5–69",
+        "finding": "Preprint supplementary index/adaptor table agrees at the fixed NEBNext adaptor and index-family level with published supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Data I extracted lines 1–6, 8–69 and 69–131; source scraper hits inspected",
+        "finding": "The preprint file prints /5Phos/ and /ideoxyU/ NEBNext adapter with terminal phosphorothioate and i501–i508 plus i701–i712 primer tables. Fixed adapter sequence matches the publisher ESM; table formatting differs and individual selected index pair is not named."
+      }
+    },
+    {
+      "id": "preprint_supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Data II lines 1–4; scraper source hits lines 2–3",
+        "finding": "Prints two short re-amplification primer bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Data II entire extracted lines 1–4; scraper hits 2–3 checked",
+        "finding": "Both short TS-PCROligo reamplification primer sequences are printed and match published Supplementary Data 2."
+      }
+    },
+    {
+      "id": "preprint_supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-3.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Data III heading and representative locus rows",
+        "finding": "Primer pool is for early/late validation PCR, not the sequencing-library molecular construct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Data III extracted heading lines 1–8 and tabular locus/primer rows through line 244",
+        "finding": "This is the early/late locus validation PCR pool, not the construction adapter or index primer family. Exclusion from library-construct evidence is appropriate."
+      },
+      "reason": "Validation locus panel only; no source claim about library oligos or read structure."
+    },
+    {
+      "id": "preprint_supp_4",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-4.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Data IV entire extracted caption and image",
+        "finding": "Bioanalyzer quality-control examples, no molecular sequence or reaction-order detail."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Data IV entire extracted lines 1–10, including plot labels/caption",
+        "finding": "The file contains Bioanalyzer traces for library QC (including adapter dimer and overamplification), not adapter sequence or reaction geometry."
+      },
+      "reason": "Result/quality plot, not a chemistry source."
+    },
+    {
+      "id": "preprint_supp_5",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Method I opening nuclei preparation and handling steps",
+        "finding": "Nuclei preparation can affect early/late sorting input, but contains no adapter or index disclosure."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Method I extracted lines 1–26",
+        "finding": "The file gives pepsin nuclei preparation for sorting input and no adapter sequence or ligation-end geometry."
+      }
+    },
+    {
+      "id": "preprint_supp_6",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-6.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Method II opening and remaining script headings",
+        "finding": "FASTQ concatenation instructions, no molecular protocol steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Method II extracted lines 1–27",
+        "finding": "The file concerns concatenating paired or unpaired FASTQs after sequencing, not construction chemistry."
+      },
+      "reason": "Computational file management after sequencing only."
+    },
+    {
+      "id": "preprint_supp_7",
+      "role": "supplement",
+      "locator": "_data/sources/e-l-repli-seq__10.1038+nprot.2017.148/104653_104653-7.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Supplementary Method III opening and R workflow headings",
+        "finding": "R coverage-ratio processing, no molecular protocol steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Supplementary Method III extracted lines 1–55",
+        "finding": "The file concerns R coverage-ratio analysis after sequencing and gives no molecular library construction information."
+      },
+      "reason": "Computational coverage analysis after sequencing only."
+    },
+    {
+      "id": "pmc_supp_gate",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6044726/bin/NIHMS979784-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC author-manuscript supplement currently shows a Preparing to download gate; publisher ESM was obtained but exact duplication has not been independently established."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article JATS supplement links, publisher ESM, preprint v2 and all seven adjunct files; PMC author-manuscript supplemental link",
+      "finding": "Followed the primary article to all publisher/preprint supplementary files and recorded the gated PMC copy; a second independent pass and duplication assessment remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Nature Protocols JATS lines 58, 104, 156–172, 422–500; publisher ESM lines 18–29, 233–451; bioRxiv v2 Methods lines 500–590 and adjunct files 104653-1 through -7; PMC supplement gate URL from manifest",
+      "finding": "Independently followed the defining article’s supplement references to publisher ESM and preprint adjunct files. Published ESM resolves adaptor and i5/i7 primer families; preprint supplemental files corroborate fixed adaptor and list QC/computational adjuncts. Gated PMC author-manuscript supplement remains unavailable and exact annealed adaptor-end geometry is not established, so missing-geometry claim stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The E/L Repli-seq NEBNext adaptor and indexing-primer family are unpublished",
+      "disposition": "resolved",
+      "evidence": "Publisher Supplementary Data 1 prints the modified adaptor and dual-index primer families; page now shows the source oligo and uses dual-index layout."
+    },
+    {
+      "claim": "Exact annealed adaptor-end geometry is absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "The modified oligo is printed, but its molecular pairing to the dA-tailed fragment and gated PMC supplement still require independent source review."
+    }
+  ],
+  "conclusion": "The source-positive adaptor and dual-index arrangement have been corrected on the page; end geometry remains under two-reader review."
+}

@@ -34,11 +34,27 @@ Fu et al., *Cell* (2022),
 
 ## Exact published oligos
 
+🟢 STAR Methods, "Polony template construction" (original JATS lines 183–200), prints
+the entire seed template. It joins P5, a T7 promoter, 24 random spatial-barcode bases,
+a polony sequencing site, a 19-T capture tract, `TCGA`, a Cy5-probe site, the long
+internal segment ending in a second `TCGA`, and the P7-side sequence. The public page
+renders the full source string from the protocol module; the random barcode remains
+`N` in that ordering sequence.
+
+- 🟢 The STAR Methods resource table lists bridge-amplification primers BA(+)
+  `AATGATACGGCGACCACCGAGAUCTACAC` and BA(−)
+  `CAAGCAGAAGACGGCATACGAGAT`. The plus primer contains a published U base for
+  USER cleavage; it is not a repository typo for T.
+- 🟢 The gel-grafted variants are PS-BA(+)
+  `/5PS/TTTTTTTTTTAATGATACGGCGACCACCGAGAUCTACAC` and PS-BA(−)
+  `/5PS/TTTTTTTTTTCAAGCAGAAGACGGCATACGAGAT`.
+- 🟢 Cy5 probe: `/5Cy5/CTTGCGCTAGTCCGGCAACCTCGGTGG`.
 - 🟢 UMI primer: `CTACACGACGCTCTTCCGATCTNNNNNNNCCGCTAATACGACTCACTATAGGG`.
 - 🟢 Template-switching oligo: `AAGCTGGTATCAACGCAGAGTGAATrG+GrG`.
 - 🟢 Biotinylated TSO primer: `/5’BIOSG/AAGCAGTGGTATCAACGCAGAGT`.
 - 🟢 TruSeq libP5 primer:
   `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`.
+- 🟢 Nextera index primer: `CAAGCAGAAGACGGCATACGAGAT[INDEX]GTCTCGTGGGCTCGG`.
 - 🟢 Polony sequencing primer: `TTCCATCATTGTTCCCGGGTTCCTCATTCTC`.
 
 The spatial barcode is a random 24-base polony identity rather than a finite bead

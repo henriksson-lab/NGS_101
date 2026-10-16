@@ -5,6 +5,7 @@ import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import chem as P
 from checks import Check
+from dumbbell import smrtbell_hairpin_geometry
 c=Check()
 c("TSO-derived handle",P.INSERT.segments[0].top,"AAGCAGTGGTATCAACGCAGAGT")
 # Supplementary Table 1, "Oligos for PAIso-seq library construction", rows TSO / RT primer
@@ -17,4 +18,8 @@ c("published PCR primer",P.PCR_PRIMER,"AAGCAGTGGTATCAACGCAGAGT")
 c("the published extension family has fifteen members",len(P.BARCODES),15)
 c("bulk BC3 ordering string",P.extension_oligo(3),
   "AAGCAGTGGTATCAACGCAGAGTACTACTAGAGTAGCACTCdUTTTTTTTTdUTTTTTTTT")
+c("unversioned SMRTbell junction stays unresolved",P.SMRTBELL.junction_unavailable,True)
+c("ligating end cannot be presented as a known A/T junction",
+  smrtbell_hairpin_geometry(P.SMRTBELL,statement="Kit version unresolved").availability,
+  "unavailable")
 c.report()

@@ -9,7 +9,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
-import illumina as il
 import scrrbs as S
 import seqprimers as sp
 from chemdraw import (Construct, Scene, Segment, annotation_rows, junction_row, oligo, panel,
@@ -25,12 +24,10 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 def oligos() -> str:
     rows = [
-        oligo("premethylated universal TruSeq adaptor", S.universal_segments(),
+        oligo("INFERRED — premethylated universal TruSeq adaptor", S.universal_segments(),
               mods="all C = 5mC"),
-        oligo("premethylated indexed TruSeq adaptor", S.indexed_segments(),
+        oligo("INFERRED — premethylated indexed TruSeq adaptor", S.indexed_segments(),
               mods="/5Phos/; all C = 5mC"),
-        oligo("QP1 / P5 PCR primer", [seg("P5", il.P5, "p5")]),
-        oligo("QP2 / P7 PCR primer", [seg("P7", il.P7, "p7")]),
     ]
     return f"<h2>Key oligos</h2><seq>{''.join(rows)}</seq>"
 
@@ -56,24 +53,24 @@ def digest_and_repair() -> str:
 
 def ligate_and_convert() -> str:
     before = [
-        seg("protected left adaptor", "GATCT", "r1"),
+        seg("protected left adaptor", "GATCT", "r1", inferred=True),
         seg("MspI end", "CGG"),
         seg("genomic DNA", "CXCXXXXXXXX...XXXXXXXXC", placeholder=True),
         seg("filled end", "CGA"),
-        seg("protected right adaptor", "GATC", "r2"),
+        seg("protected right adaptor", "GATC", "r2", inferred=True),
     ]
     after = [
-        seg("protected left adaptor", "GATCT", "r1"),
+        seg("protected left adaptor", "GATCT", "r1", inferred=True),
         seg("converted MspI end", "UGG", placeholder=True),
         seg("converted genomic DNA", "UXUXXXXXXXX...XXXXXXXXU", placeholder=True),
         seg("converted filled end", "UGA", placeholder=True),
-        seg("protected right adaptor", "GATC", "r2"),
+        seg("protected right adaptor", "GATC", "r2", inferred=True),
     ]
     before_con = Construct(before)
     after_con = Construct(after)
     return f"""<h3>(3) Ligate the premethylated indexed Y-adaptor</h3>
 {panel(S.adapter_scene().rows(), cls="small",
-       caption="The standard premethylated universal and indexed oligos meet only in "
+       caption="INFERRED — the canonical premethylated universal and indexed oligos meet only in "
                "the 12-bp TruSeq stem; "
                "3'-T joins each dA-tailed insert end.")}
 <h3>(4) Bisulfite-convert the ligated molecules</h3>
@@ -81,7 +78,7 @@ def ligate_and_convert() -> str:
         junction_row(before_con, "protected left adaptor", "MspI end", prefix_width=12),
         junction_row(before_con, "filled end", "protected right adaptor", prefix_width=12),
         strand_row(after_con, prefix="after   5'- ", suffix=" -3'")],
-       cls="small", caption="Representative unmethylated C becomes U; methylated genomic C "
+       cls="small", caption="INFERRED — representative adapter ends flank an insert where unmethylated C becomes U; methylated genomic C "
                             "stays C. Premethylated adaptor C is protected. PCR later copies "
                             "U as T.")}"""
 
@@ -109,9 +106,11 @@ def render() -> str:
              '<i>Genome Research</i> (2013)</a>. Detailed protocol: '
              '<a href="https://doi.org/10.1038/nprot.2015.039">Guo et al., '
              '<i>Nature Protocols</i> (2015)</a>.'),
-        info('The paper specifies standard premethylated indexed Illumina adapters. '
-             'The displayed six-base single-index sequences are the corresponding '
-             'vendor-published TruSeq adapters; there is no i5 index.'),
+        info('The paper specifies standard premethylated indexed Illumina adapters '
+             'but does not print their exact oligos or selected index member. '
+             'INFERRED — the dotted adapter bases below illustrate a compatible '
+             'vendor-published six-base single-index TruSeq design; exact adapter '
+             'identity and the i7 member remain unverified. No i5 index is modeled.'),
         oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>', digest_and_repair(), ligate_and_convert(),
         amplify_and_sequence(),

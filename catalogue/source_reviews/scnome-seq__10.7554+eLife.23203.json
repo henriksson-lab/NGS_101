@@ -1,0 +1,87 @@
+{
+  "dir": "scnome-seq__10.7554+eLife.23203",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Pott eLife 2017 doi:10.7554/eLife.23203",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife.23203_v1.xml.txt lines 405-418 and 468-474; scraper on JATS",
+        "finding": "Uses M.CviPI mark then bisulfite and Pico Methyl-seq kit; explicitly points to Supplementary file 1 for amplification/barcode primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "eLife.23203_v1.xml.txt lines 403-417 and 469-476; original JATS read and source-bundle scraper run",
+        "finding": "Methods specify intact-nucleus M.CviPI GpC methylation, single-nucleus FACS, lysis and bisulfite conversion, then Zymo Pico Methyl-seq kit with diluted random primers, 10 pre-amplification cycles, barcode PCR and 100-bp paired-end sequencing; explicitly points to Supplementary file 1."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "eLife Supplementary file 1 SD1-data XLSX",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife.23203_elife-23203-supp1-v1.xlsx.txt lines 33-55, Supplemental Table 2; scraper line 34",
+        "finding": "Prints forward P5 and indexed reverse P7 primer families, but no kit random primer or interior oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "eLife.23203_elife-23203-supp1-v1.xlsx.txt lines 33-59; original Supplemental Table 2 rows checked after scraper",
+        "finding": "Table 2 publishes P5 forward and INDEX16–47 indexed P7 reverse primers; it does not print kit-internal random oligos or ligation/priming junctions. Table 1 links index numbers to sample libraries."
+      }
+    },
+    {
+      "id": "zymo_kit",
+      "role": "linked_material",
+      "locator": "Historical Zymo Pico Methyl-seq Library Prep Kit low-input guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named vendor kit guide and kit revision used in study are not cached; present absence of internal oligos cannot be confirmed.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "kelly2012",
+      "role": "linked_material",
+      "locator": "Kelly et al 2012 NOMe-seq GpC methyltransferase predecessor",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "GpC enzyme predecessor is cited but original was not obtained in this pass; does not resolve Pico kit internal oligos.",
+      "pass_2": null,
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "eLife Methods and supplement link at lines 413,468-474, original Supplemental Table 2, kit and predecessor citations",
+      "finding": "Followed author primer table; historical Zymo kit manual and GpC predecessor remain unexamined."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 403-417, supplement pointer lines 469-476 and Supplemental Table 2 lines 33-59",
+      "finding": "Followed and read the published primer supplement; historical Zymo Pico Methyl-seq kit manual and Kelly 2012 predecessor remain unavailable. Kit-internal random primers and junctions are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Pico Methyl-seq internal random primers and adapter junctions",
+      "disposition": "blocked",
+      "evidence": "Defining paper names proprietary kit and prints only outer amplification primers; historical kit guide unavailable."
+    }
+  ],
+  "conclusion": "Defining article and author primer supplement independently read; internal-kit chemistry remains blocked by unavailable historical Zymo guide and linked predecessor."
+}

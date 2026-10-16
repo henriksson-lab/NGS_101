@@ -1,0 +1,132 @@
+{
+  "dir": "sctem-seq__10.1038+s41598-022-09765-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "_data/sources/sctem-seq__10.1038+s41598-022-09765-x/s41598-022-09765-x_PMC8986802.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Library preparation and sequencing lines 124–140",
+        "finding": "G&T separates DNA/RNA; genomic branch uses bisulfite conversion and locus primers while RNA branch inherits Smart-seq2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC JATS Library preparation extracted lines 124–140; oligo scraper run on local original bundle",
+        "finding": "Independently confirmed G&T split, bisulfite conversion and SINE/LINE PCR with partial adapter and internal indexes, followed by NEBNext dual-index PCR; RNA branch follows cited Smart-seq2."
+      }
+    },
+    {
+      "id": "primer_table",
+      "role": "supplement",
+      "locator": "_data/sources/sctem-seq__10.1038+s41598-022-09765-x/s41598-022-09765-x_supp_41598_2022_9765_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "S1-scTEMseq primers lines 1–18 and indexed rows following",
+        "finding": "Published Table S1 prints SINE Alu/LINE-1 primer families and indexed stagger variants."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S1 workbook S1-scTEMseq primers rows 1–25; oligo scraper run on local original bundle",
+        "finding": "Printed SINE Alu/LINE-1 first-generation and indexed staggered primer sequences are available; no one universal primer."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/sctem-seq__10.1038+s41598-022-09765-x/2021.03.25.436351_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods library-preparation section",
+        "finding": "Earlier preprint local; full sequence-version comparison remains pending."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint PDF text Methods around lines 146–154 and cited NEBNext index kit; oligo scraper run on local original bundle",
+        "finding": "Preprint confirms locus-targeted bisulfite PCR and NEBNext index addition; source-version-specific oligo detail resides in its workbook."
+      }
+    },
+    {
+      "id": "preprint_table",
+      "role": "supplement",
+      "locator": "_data/sources/sctem-seq__10.1038+s41598-022-09765-x/2021.03.25.436351_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "primer sheets lines 1–18",
+        "finding": "Preprint workbook independently prints primary SINE/LINE and indexed rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-1 S1-scTEMseq primers rows 1–18; oligo scraper run on local original bundle",
+        "finding": "Earlier preprint first-generation Sine.Alu_F is 23-nt locus-specific AAAAA... without published 5-prime CTACACGACGCTCTTCCGATCT tail; indexed rows contain the tail. This is a source-version difference and should be disclosed if those primers are discussed."
+      }
+    },
+    {
+      "id": "supp_methods_docx",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8986802/bin/41598_2022_9765_MOESM1_ESM.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Relevant supplementary DOCX is missing due source-fetch size/access gate."
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2014.006",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "RNA branch inherits Smart-seq2; original kit/oligo implementation requires comparison.",
+      "discovered_from": "published_article"
+    },
+    {
+      "id": "nebnext_index",
+      "role": "vendor",
+      "locator": "https://www.neb.com/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article names NEBNext dual-index E7780S; exact selected index and vendor oligo revision not checked.",
+      "discovered_from": "published_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published Methods lines 124–140; Table S1 lines 1–18",
+      "finding": "The DNA primer panel is published; supplementary DOCX and versioned Smart-seq2/NEBNext inputs remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked published article and Table S1 plus preprint/table. The large published MOESM1 DOCX, Smart-seq2 original and versioned NEBNext dual-index guide remain unavailable/unread."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "scTEM-seq SINE/LINE primer bases are absent",
+      "disposition": "blocked",
+      "evidence": "Published Table S1 disproves broad absence; sample-specific index choice and inherited branches remain blocked."
+    }
+  ],
+  "conclusion": "Published Table S1 disproves broad absence; sample-specific index choice and inherited branches remain blocked."
+}

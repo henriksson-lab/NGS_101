@@ -9,6 +9,7 @@ Miura H et al. *Mapping replication timing domains genome wide in single mammali
 - 🟢 The defining protocol record, abstract, figures and reagent/library description.
 - 🟢 The open method review by Miura and colleagues summarizing the defining workflow.
 - 🟢 The independent updated scRepli-seq protocol in [PMC8812816](https://pmc.ncbi.nlm.nih.gov/articles/PMC8812816/), used only to corroborate adapter-library geometry and not to replace the defining SeqPlex workflow.
+- 🟢 The publisher's Supplementary Software 1/2 (MOESM3/4) gives the read-trimming patterns for the original SeqPlex implementation. The source bundle and oligo scraper were checked against the original supplementary software.
 
 ## 1. What it is
 
@@ -27,7 +28,9 @@ Miura H et al. *Mapping replication timing domains genome wide in single mammali
 
 🟢 Mapped coverage, rather than a label-derived mismatch, distinguishes replicated from unreplicated domains.
 
-🟡 The page models the library with standard Illumina-compatible primer sites and keeps the proprietary SeqPlex priming region as a named role.
+🟢 Supplementary Software 1 gives an example Illumina single-index trimming pattern `GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG`; the six-N window is the index. It says to infer the SEQXE adapter from the reads and prints an example predicted pattern `TGGTGTGTTGGGTGTGTTTCTGAAGNNNNNNNNN` (software lines 383–424). Supplementary Software 2 repeats both patterns. These are processing patterns, not an orderable SeqPlex kit oligo sequence.
+
+🟡 The page models standard Illumina-compatible primer sites and keeps the proprietary SeqPlex priming region as a named role. The example SEQXE pattern is a source-reported prediction from FASTQ reads; its exact relationship to the synthesized degenerate primer and molecular end remains unresolved.
 
 ## 4. Boundary
 

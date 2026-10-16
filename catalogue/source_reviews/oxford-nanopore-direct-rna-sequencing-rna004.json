@@ -1,0 +1,79 @@
+{
+  "dir": "oxford-nanopore-direct-rna-sequencing-rna004",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vendor_protocol",
+      "role": "defining",
+      "locator": "ONT Direct RNA sequencing SQK-RNA004 v DRS_9195_v4_revL_29June2026, https://nanoporetech.com/document/direct-rna-sequencing-sqk-rna004",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official online protocol lines 110-112,188-210,318-339,414-469,499-507; local bundle MANIFEST empty; scraper zero on bundle",
+        "finding": "Current guide names RT Adapter RTA then RNA Ligation Adapter RLA; T4 DNA ligase attaches RTA before reverse transcription and RLA after. Complementary cDNA is not sequenced. Exact kit oligos absent from inspected sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official ONT SQK-RNA004 DRS_9195_v4_revL_29June2026 online guide https://nanoporetech.com/document/direct-rna-sequencing-sqk-rna004 lines 181-218, 315-348, 414-469, 499-536",
+        "finding": "RTA is ligated to RNA with T4 DNA ligase, then Induro RT generates stabilizing cDNA. RLA is ligated to the hybrid in a second T4 DNA ligase step. Guide lists RTA/RLA as supplied reagents and gives no base-level synthesis in these sections."
+      }
+    },
+    {
+      "id": "garalde2018",
+      "role": "predecessor",
+      "locator": "Garalde et al Nat Methods 2018 doi:10.1038/nmeth.4577",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original earlier chemistry paper not cached or independently read in this pass."
+    },
+    {
+      "id": "neb_companion",
+      "role": "linked_material",
+      "locator": "NEB E3440S companion module named in ONT protocol",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official online protocol lines 298-302,343-347",
+        "finding": "Lists enzyme/buffer reagents rather than defining ONT adapter synthesis; exact current manual not checked."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB E3440S product https://www.neb.com/products/e3440-nebnext-companion-module-for-oxford-nanopore-technologies-direct-rna-sequencing lines 23-35, 74-88",
+        "finding": "Supplies Induro RT, buffer, dNTP, T4 DNA ligase, ligation buffer, RNase inhibitor and water, while ONT supplies RTA/RLA; exclusion from ONT adapter-sequence evidence is supported."
+      },
+      "reason": "Enzyme/buffer module does not supply ONT RTA/RLA oligos.",
+      "discovered_from": "vendor_protocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Current ONT protocol reagent table and library steps, linked older Garalde paper and NEB companion module.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "ONT guide lines 243-245, 315-348, 414-469, 499-507; NEB E3440S official page lines 23-35, 74-88; Garalde 2018 Nature Methods DOI 10.1038/nmeth.4577 listed as predecessor",
+      "finding": "Followed NEB companion link and verified it contains enzymes/buffers only. Earlier Garalde paper and its supplement remain unreviewed and may inform older adapter chemistry, so missing sequence/geometry remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "RTA/RLA oligo bases, motor and ligating-end geometry",
+      "evidence": "Current vendor protocol names components but gives no oligo architecture in inspected sections; historical paper still open.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Current ONT RNA004 guide and NEB companion were read independently twice; earlier chemistry source remains unavailable and no missing claim is accepted."
+}

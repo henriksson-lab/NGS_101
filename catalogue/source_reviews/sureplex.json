@@ -1,0 +1,154 @@
+{
+  "dir": "sureplex",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "sureplex_guide",
+      "role": "defining",
+      "locator": "_data/sources/sureplex/illumina_sureplex-protocol-reference-guide-15053626-02.pdf.txt; official Illumina document 15053626 v02 September 2020",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original guide pp. 3, 6, 8–10; extracted lines 34–74, 180–230, 480–789; full SurePlex-bundle scraper zero hits.",
+        "finding": "Accepts embryo biopsy including one cell in 2.5 uL PBS, then separate lysis, 12-cycle preamplification and 14-cycle amplification with separately named buffers and enzymes. Guide prints no oligo bases or primer formulation in those inspected workflow sections."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read official Illumina SurePlex Summary Protocol 15053626 v02 original PDF text title/Introduction lines 1–75, kit components 180–280, Cell Lysis/Extraction 475–570, Pre-amplification 573–680 and Amplification 685–789; ran bundle oligo scraper before reading",
+        "finding": "The named system starts from embryo-biopsy cells, has distinct extraction, twelve-cycle pre-amplification, then fourteen-cycle amplification with separately supplied proprietary buffers/enzymes. The guide gives reagent roles and cycling, but no primer oligo bases; it directs users to the separate VeriSeq PGS assay for library construction."
+      }
+    },
+    {
+      "id": "veriseq_guide",
+      "role": "vendor",
+      "locator": "_data/sources/sureplex/illumina_veriseq-pgs-library-prep-reference-guide-15052877-05.pdf.txt; official Illumina document 15052877 v05 August 2021",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original guide Introduction lines 195–240, linked resources 345–395, Tagment Input DNA and neutralization lines 777–929, PCR/index setup lines 930–1054, sequencing lines 1715–1776; bundle scraper zero hits.",
+        "finding": "VeriSeq PGS tagmentates 1 ng SurePlex dsDNA (5 uL at 0.2 ng/uL), neutralizes with NT, then 12-cycle PCR uses N701–N712 and S503/S504. Guide supports 12 single-index or 24 dual-index single-read libraries; exact index members depend on plate position."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read official Illumina VeriSeq PGS Library Prep 15052877 v05 original PDF text linked-resources table lines 340–395, Tagment Input DNA lines 777–929, Amplify Tagmented DNA lines 929–1054 and indexed layout lines 965–1030; ran bundle scraper before reading",
+        "finding": "The VeriSeq guide tagmentates diluted SurePlex product with ATM/TD, neutralizes it, and uses Nextera PCR Master Mix plus N701–N712 i7 and S503/S504 i5 primer tubes for twelve-cycle indexed PCR. It assigns tubes by plate position but does not make one index sequence universal to all samples. Its resources table also links BlueFuse sample-sheet and MiSeq reagent guides."
+      }
+    },
+    {
+      "id": "illumina_indexes",
+      "role": "linked_material",
+      "discovered_from": "veriseq_guide",
+      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt; official Illumina Adapter Sequences document 1000000002694 v22",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original table Nextera end arms lines 256–281, N7xx family lines 13318–13425, S5xx family and S503/S504 lines 13515–13585; scraper on source bundle before reading.",
+        "finding": "Current official table gives the named N7xx and S5xx index bases and standard Nextera arms; it does not establish the selected study sample/index tube or 2020/2021 kit-version molecular junctions."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read official Illumina Adapter Sequences 1000000002694 v22 original PDF text Nextera transposase arms lines 255–280, N7xx i7 table lines 13318–13344 and S5xx i5 table lines 13512–13590; ran source-file oligo scraper before reading",
+        "finding": "Official table prints Nextera Read 1/Read 2 transposase arm sequences and the named N701–N712 and S503/S504 index families. It distinguishes bases in adapter from bases entered in a sample sheet. The selected well-specific pair remains a sample-layout choice."
+      }
+    },
+    {
+      "id": "miseq_reagent_guide",
+      "role": "linked_material",
+      "discovered_from": "veriseq_guide",
+      "locator": "MiSeq Reagent Kit v3-PGS Reagent Prep Guide, Illumina document 15055896, linked in VeriSeq guide resource table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked sequencing guide not yet fetched/read; could refine run layout and sequencing-primer requirements.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "index_pooling_guide",
+      "role": "linked_material",
+      "discovered_from": "veriseq_guide",
+      "locator": "VeriSeq PGS Index Adapters Pooling Guide, official Illumina support page https://support.illumina.com/sequencing/sequencing_kits/veriseq-pgs-library-prep-kit.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official support page links kit index pooling material; exact run/sample member choices remain uninspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "bluefuse_workflow",
+      "role": "linked_material",
+      "discovered_from": "veriseq_guide",
+      "locator": "_data/sources/sureplex/illumina_bwm-qrc-veriseq-pgs-15056206-01.pdf.txt; official Illumina document 15056206 v01",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original official quick card p.1, extracted lines 1–137: 12-single/24-dual index setup lines 43–50, per-sample i7/i5 dropdown choice lines 90–98, sample-sheet creation lines 111–136; refreshed SurePlex-bundle scraper before reading.",
+        "finding": "The operator selects i7 and i5 entries per sample; no universal selected member exists for a named SurePlex protocol. This supports variable index features in the model and leaves sample-specific choices open."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently reran scraper on refreshed SurePlex source bundle, then read official Illumina BlueFuse Workflow Manager quick reference 15056206 v01 original PDF text lines 1–137, especially single/dual indexing lines 35–50 and sample-by-sample i7/i5 dropdown fields lines 82–99",
+        "finding": "The original card instructs users to select single or dual indexing at worklist creation and choose Index 1 (I7) and Index 2 (I5) for each sample. Therefore a fixed index member for every SurePlex library is unsupported; the particular sample-sheet assignments remain a per-run choice."
+      }
+    },
+    {
+      "id": "veriseq_guidance_note",
+      "role": "linked_material",
+      "discovered_from": "veriseq_guide",
+      "locator": "_data/sources/sureplex/illumina_veriseq-pgs-guidance-note-1000000138837-00.pdf.txt; official Illumina document 1000000138837 v00",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official guidance note pp.1–3, extracted lines 1–115 (especially possible no-template PCR artifacts lines 96–112) and lines 249–261 (36-cycle short-read recipe); refreshed SurePlex-bundle scraper before reading.",
+        "finding": "This is chemistry/read-layout relevant, not merely QC: it reports possible no-cell-control PCR artifacts that can yield unmapped reads, without molecular structure, and mentions a 36-cycle single/dual-index recipe. Graph now exposes the parallel discarded artifact with a warning; no exact read/index split is inferred from this text."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently reran scraper on refreshed bundle, then read original Illumina VeriSeq PGS Guidance Note 1000000138837 v00 PDF text pp.1–2 lines 1–125 and sequencing recipe lines 240–263",
+        "finding": "The vendor note reports that no-template controls can generate PCR artifacts, sometimes seen as a smear and capable of producing non-mapping sequencing reads. This is a real parallel off-product but the source does not supply molecular bases or precise mechanism, so a MAGIC/warning branch is appropriate. The note names a 36-cycle short-read recipe without resolving exact split across reads/indexes."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "SurePlex v02 pp. 3, 6, 8–10; VeriSeq v05 pp. 3, 9–11 and linked-resources table; Illumina Adapter Sequences v22 Nextera families; local scraper runs on SurePlex and adapter bundles. Linked-resources table lines 345–395 also names BlueFuse Workflow Manager 15056206 and Guidance Technical Note 1000000138837. Original BlueFuse quick card v01 lines 1–137 and VeriSeq guidance note v00 lines 1–115, 249–261.",
+      "finding": "Followed the defining SurePlex guide into the separate VeriSeq guide and current vendor sequence table. Exact selected index tube and kit revision remain unidentified; linked MiSeq reagent and pooling guides await reading. No missing claim is accepted. BlueFuse sample-sheet mapping remains relevant and unread; the technical note appears QC-only from the guide description but its original has not been inspected. BlueFuse confirms per-sample index choice; the guidance note was reclassified relevant because it documents no-template PCR artifacts and 36-cycle recipe context."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently followed SurePlex v02 Introduction/kit and VeriSeq v05 resource table lines 340–395, tagmentation/index setup 777–1054, and official Illumina adapter table index-family pages; checked listed MiSeq and pooling-guide locators; newly fetched official BlueFuse card v01 lines 35–99 and Guidance Note v00 lines 96–112/249–261",
+      "finding": "Followed the SurePlex guide into VeriSeq PGS and the official adapter table, then independently read the newly fetched BlueFuse sample-sheet card and Guidance Note. BlueFuse confirms per-sample index selection; the Guidance Note establishes no-template PCR artifacts. MiSeq reagent and pooling guide remain unread, and the exact selected index/kit junction remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SurePlex preamplification oligo bases and exact formulation",
+      "disposition": "blocked",
+      "evidence": "The inspected v02 workflow guide names only buffers/enzymes; second reading and linked vendor material remain."
+    },
+    {
+      "claim": "Exact selected VeriSeq index members and historical adapter junction",
+      "disposition": "blocked",
+      "evidence": "VeriSeq v05 and Illumina v22 print families but no run-specific selections; linked kit guides and independent pass outstanding."
+    }
+  ],
+  "conclusion": "Official SurePlex/VeriSeq guides, current adapter table, BlueFuse card and guidance note now have two located readings. The model separates preamplification/amplification and renders a warned no-cell-control artifact. Exact commercial preamp oligos, selected index member and historical kit junction remain blocked; MiSeq reagent/pooling links await review."
+}

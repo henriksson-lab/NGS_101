@@ -446,8 +446,8 @@ IDT_INTERNAL = re.compile(rf"(?<=[{BASE}{LOW}\]])/(i?[A-Za-z][\w-]*)/(?=[{BASE}{
 # A 5' modification written directly in front of the bases, and a 3' one directly after.
 _MODNAME = (r"/[5-9i]?[\w-]+/|rApp|App|NH2|Amino(?:\s?C\d+|-?linker)?|Am(?:MC6|C6)|"
             r"[Bb]iotin(?:-?TEG|ylated)?|Bio(?:sg|TEG)?|Btn|[Pp]hosphat(?:e|ed)|[Pp]hosphorylated|Phos|Pho|P|FAM|HEX|ROX|TAMRA|Cy[35](?:\.5)?|"
-            r"DBCO|Acrydite|Acryd|Azide|PC[ -]?[Ss]pacer|Spacer\s?C\d+|SpC\d+|C3|C6|ddC|ddN|"
-            r"dd[ACGT]|InvdT|idT|BHQ-?[12]|SH|Thiol|OH|(?:i[CG]){2,}")
+            r"DBCO|Acrydite|Acryd|Azide|PC[ -]?[Ss]pacer|Spacer\s?C\d+|SpC\d+|C3|C6|"
+            r"[Dd][Dd][ACGTNacgtn]|[Ii]nvd[Tt]|idT|BHQ-?[12]|SH|Thiol|OH|(?:i[CG]){2,}")
 _MOD = rf"[\[(](?:[53]['′’]?[ -]?)?(?:{_MODNAME})[\])]|{_MODNAME}|(?:[rm+][ACGUTN][*∗]?)+|[*∗]"
 # a modification starts a token: "TSO-P AAGC..." is a name, not a 5' phosphate
 MOD5 = re.compile(rf"(?:5['′’][ \t]*-?[ \t]*)?(?:(?<![A-Za-z0-9])(?<![A-Za-z0-9]-)(?:{_MOD})"

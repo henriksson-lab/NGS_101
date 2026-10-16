@@ -98,7 +98,7 @@ DEFINITION = Definition(
         "TruSeq DNA PCR-Free", "01_truseq_dna_pcr_free.html",
         'Illumina <a href="https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-dna-pcr-free-workflow/truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf">TruSeq DNA PCR-Free Reference Guide 1000000039279 v00</a>.',
         "Covaris-sheared genomic DNA is end-repaired, bead-size-selected, dA-tailed and ligated directly to indexed TruSeq adapters without library enrichment PCR.",
-        "The kit offers single, combinatorial-dual and unique-dual index components. The schematic shows the dual-index form; index identities are placeholders, not invented sequences.",
+        "The guide lists separate single, combinatorial-dual and unique-dual index components. The schematic uses the combinatorial-dual adapter family; i5/i7 identities are placeholders for a chosen kit well.",
         "A cluster-capable dual-index TruSeq molecule made entirely by adapter ligation; there is no library PCR.",
         "Standard TruSeq primers read both genomic-insert ends and the two sample indexes.",
         "truseq_pcr_free", "genomic DNA insert", _pcr_free_workflow)

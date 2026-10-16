@@ -21,7 +21,11 @@ scM&T-seq (`scm-t-seq__10.1038+nmeth.3728`), scNMT-seq
 (`scnmt-seq__10.1038+s41467-018-03149-4`), scNOMe-seq / scCOOL-seq
 (`scnome-seq-sccool-seq__10.7554+eLife.23203`). A step-by-step *Nature Protocols* version
 (Clark SJ *et al.* 2017, doi:10.1038/nprot.2016.187) has a supplementary iPCRTag
-primer table; its full article remains unavailable. 🟡
+primer table. Its full original article is now readable through a
+[paper mirror](https://www.researchgate.net/publication/313547641_Genome-wide_base-resolution_mapping_of_DNA_methylation_in_single_cells_using_single-cell_bisulfite_sequencing_scBS-seq).
+Table 2 prints a generic eight-base-window iPCRTag and index-read primer; the text
+explicitly describes this as an **updated** protocol. It cannot identify which
+index member was used for a Smallwood 2014 cell. 🟢
 
 Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, into
 `_data/sources/scbs-seq__10.1038+nmeth.3035/`, never committed):
@@ -35,15 +39,11 @@ Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, 
 | `nmeth.3035_supp_NIHMS59406-supplement-1.doc` | Supplementary Figures (Word; no `.txt` twin, read via `catdoc`) | nothing new — figure legends only |
 | `../doi_10.1038+nmeth.1814/nmeth.1814_41592_2012_BFnmeth1814_MOESM37_ESM.pdf.txt` | Quail *et al.* 2012 Supplementary Table 1 | cited indexed iPCRTag family and sequencing primers |
 | `nprot.2016.187_41596_2017_BFnprot2016187_MOESM358_ESM.pdf.txt` | later Clark *et al.* protocol Supplementary Table 1 | 48 indexed iPCRTag variants, including terminal phosphorothioate |
+| [Clark *et al.* 2017 full article mirror](https://www.researchgate.net/publication/313547641_Genome-wide_base-resolution_mapping_of_DNA_methylation_in_single_cells_using_single-cell_bisulfite_sequencing_scBS-seq) | original later protocol, Table 2 and library amplification steps | confirms the later eight-base iPCRTag family; does not map Smallwood's 2014 samples to index members |
+| `GSE56879_family.soft.txt` ([official GEO series](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE56879)) | sample metadata and generic library recipe | two independent reads of series lines 1–112 and sample records 113–2605 found no per-sample index member; linked ZIP is described as statistical R code, and processed files are methylation/coverage outputs 🟢 |
+| `../pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml.txt` | Miura *et al.* 2012 PBAT predecessor | two independent reads of JATS Methods lines 34–52 confirm cited bisulfite clean-up and N4 ancestry; this earlier primer design does not assign Smallwood's indexes |
 | `*_MOESM644_ESM.xlsx.txt`, `*_MOESM645_ESM.xlsx.txt` (= `Supp_Table_1/2`) | library statistics, region coverage | not chemistry |
 | `nmeth.3035_PMC4117646.xml`, `*.zip`, `*.gif/jpg` | duplicates / figure images | not used |
-
-Not fetched / not available:
-
-| What | Why it matters |
-|---|---|
-| Clark *et al.* 2017 *Nat. Protoc.* doi:10.1038/nprot.2016.187 | full protocol article unavailable; its supplementary indexed-primer table was read |
-| Miura *et al.* 2012 PBAT (doi:10.1093/nar/gks454) | the bisulfite clean-up "as described previously" |
 
 ---
 
@@ -67,7 +67,7 @@ generally described as also using a biotinylated first-strand primer and bead ca
 There is **no cell barcode and no UMI in the chemistry** (none is described 🟡): one cell
 per tube, identified by the index of the "indexed iPCRTag reverse primer" at the final
 PCR, 12–14 cells pooled per sequencing run 🟢; the eight-base index is printed in
-Quail 2012 Supplementary Table 1 and the later Clark 2017 Table 1 🟢. None of the repository concept pages (Tn5, template switching,
+Quail 2012 Supplementary Table 1 and the later Clark 2017 Table 2 and Supplementary Table 1 🟢. None of the repository concept pages (Tn5, template switching,
 ligation, RT, padlock) applies — this is DNA-polymerase random priming on bisulfite-
 converted single-stranded DNA. 🟡
 

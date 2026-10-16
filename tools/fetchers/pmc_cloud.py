@@ -94,4 +94,11 @@ def fetch_article(folder, tag: str, pmcid: str) -> dict:
 @register("pmccloud", doc="PMC Cloud (AWS pmc-oa-opendata): JATS XML, PDF, supplements of a PMCID")
 def fetch(job, arg: str, what: str = "") -> None:
     pmcid = arg.upper() if arg.upper().startswith("PMC") else f"PMC{arg}"
-    fetch_article(job.folder, pmcid, pmcid)
+    result = fetch_article(job.folder, pmcid, pmcid)
+    if not result["xml"] and not result["pdf"] and not result["supp"]:
+        job.folder.manual(
+            f"{pmcid} PMC Cloud source",
+            f"{BUCKET}/?list-type=2&prefix={pmcid}.",
+            what or "original PMC article and attachments",
+            "no usable file returned; obtain the original through another route",
+        )

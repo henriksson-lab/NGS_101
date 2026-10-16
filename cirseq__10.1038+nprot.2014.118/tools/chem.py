@@ -53,15 +53,15 @@ def _cirseq_workflow(library: Construct) -> Workflow:
     return w
 
 
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([role("tandem-repeat cDNA")], "CirSeq library", dual_index=False)
+FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([role("tandem-repeat cDNA")], "CirSeq library", dual_index=False, i7_nt=6)
 TITLE = 'CirSeq — circular resequencing of RNA virus populations'
 NOTES = '01_cirseq.html'
 SOURCE = '<a href="https://doi.org/10.1038/nprot.2014.118">Acevedo and Andino, <i>Nature Protocols</i> (2014)</a>.'
 SUMMARY = 'Short viral RNA fragments are circularized and copied repeatedly by rolling-circle reverse transcription, placing at least three linked template copies inside one Illumina read.'
-CAVEAT = ''
-READ_LENGTHS = {'Read 1': 300, 'Index 1 (i7)': 8, 'Read 2': 300}
+CAVEAT = 'The named FC-121-4001 kit contains twelve six-base Set A indexes, but the protocol does not identify the index member used for a particular library. The defining readout is single-end; the opposite adapter retains a Read 2 primer site even though no paired read is reported.'
+READ_LENGTHS = {'Read 1': 300}
 FINAL_CAPTION = 'TruSeq adapters flank a double-stranded cDNA insert containing tandem copies of one circular RNA fragment.'
-SEQUENCING_INTRO = "The protocol used single-end 300-cycle MiSeq reads; the binding view also shows the adapter's documented index and opposite-end primer sites."
+SEQUENCING_INTRO = "The protocol used single-end 300-cycle MiSeq reads. The adapter has an index and an opposite-end primer site, but the paper does not specify an index read or a paired Read 2 run."
 def oligos():
     return ()
 def final_rows():
@@ -159,9 +159,8 @@ def protocol_graph():
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (final,), geometry=TRUSEQ_DA_LIGATION)
     graph.sequence(final, SequencingPlan(
-        library, tuple(primers), tuple(p.role for p in primers),
-        {"Read 1": 300, "Index 1 (i7)": 8, "Read 2": 300},
-        {"Read 1": "include", "Read 2": "include"}))
+        library, (primers[0],), ("Read 1",),
+        READ_LENGTHS, {"Read 1": "include"}))
     graph.declare_reviewed_scope((
         "viral_rna", "zinc_fragmentation", "fragment", "size_selection", "select_size",
         "polynucleotide_kinase", "phosphorylate", "rna_ligase", "circularize",

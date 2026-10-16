@@ -1,0 +1,118 @@
+{
+  "dir": "scrrbs__10.1101+gr.161679.113",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Guo et al Genome Res 2013 doi:10.1101/gr.161679.113 PMC3847781",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "gr.161679.113_PMC3847781.xml.txt lines 103-110; scraper run on JATS",
+        "finding": "Methods specify MspI, A-tail, standard premethylated indexed Illumina adapters and two PCR rounds but no adapter or primer bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "gr.161679.113_PMC3847781.xml.txt lines 47, 103-109; source-bundle scraper run and its JATS pointers checked in the original Methods",
+        "finding": "The original specifies MspI C^CGG, Klenow exo-minus fill/dA tail, ligation of standard premethylated indexed Illumina adapters, bisulfite conversion, two PCR rounds and paired-end HiSeq 2000. It prints no adapter strand, selected index, PCR primer sequence or 3-prime-dT ligation end; the canonical TruSeq fork is an inference."
+      }
+    },
+    {
+      "id": "supp_zip",
+      "role": "supplement",
+      "locator": "Europe PMC supplementary zip for PMC3847781",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "gr.161679.113_PMC3847781_supplementary.zip member inventory: analysis shell/perl code only",
+        "finding": "Cached supplementary zip contains analysis shell/perl scripts only; no library oligo table."
+      },
+      "reason": "Archive holds rendered article figure and table images only; it does not establish library adapter identity. The first-pass analysis-code description referred to a different, later archive.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "gr.161679.113_PMC3847781_supplementary.zip central directory inspected with unzip -Z1; 12 members 2126fig1-5 and 2126tbl1 GIF/JPG",
+        "finding": "This archive contains rendered article figure/table images, not analysis scripts or an oligo supplement. The first-pass description conflated it with the later Nat Protoc MOESM429 analysis-script archive; this correction preserves the audit trail."
+      }
+    },
+    {
+      "id": "publisher_supp",
+      "role": "supplement",
+      "locator": "Publisher Supplemental Material including cited Supplemental Table 5 for a separate nested-PCR assay",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original Methods line 109 cites Supplemental Table 5 for a separate nested-PCR assay, but the full publisher supplement is unavailable and may contain other chemistry details; absence of library oligos cannot be certified from it.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "gu2011",
+      "role": "linked_material",
+      "locator": "Gu et al. Nature Protocols 2011 bulk RRBS doi:10.1038/nprot.2010.190, cited by Guo 2013 Methods line 105",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Bulk predecessor original source not cached; may identify adapter chemistry, not exact single-cell index choice.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "natprotoc2015",
+      "role": "linked_material",
+      "locator": "Later Guo et al. Nature Protocols 2015 doi:10.1038/nprot.2015.039, available MOESM429 analysis scripts and MOESM430 supplement figures only",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nprot.2015.039_41596_2015_BFnprot2015039_MOESM430_ESM.pdf.txt pages 1-3; full article marked manual",
+        "finding": "Later supplemental PDF has non-chemistry material; full later methods remain unavailable."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nprot.2015.039_41596_2015_BFnprot2015039_MOESM430_ESM.pdf.txt pages 1-3 and MOESM429 ZIP member inventory",
+        "finding": "The available later-protocol supplement contains analysis figures and scripts, no wet-lab adapter oligo table. The full 2015 Nat Protocols article is unavailable and was not read; this row does not establish its chemistry."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "natprotoc2015_full",
+      "role": "linked_material",
+      "locator": "Guo et al. Nature Protocols 2015 doi:10.1038/nprot.2015.039 full detailed wet-lab article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full article is publisher gated; only its analysis/figure supplements were read. It could disclose adapter product identity, ligation end or PCR primers.",
+      "pass_2": null,
+      "discovered_from": "natprotoc2015"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Genome Research Methods lines 103-110, cited supplement reference, Europe PMC zip members, bulk predecessor/later protocol inventory",
+      "finding": "The missing cited Supplemental Table 5 applies to a separate nested-PCR assay; no source-backed library oligo sequence was recovered. Bulk RRBS predecessor remains unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Genome Research JATS lines 47 and 103-109; Europe PMC supplementary ZIP central directory; later Nat Protoc MOESM429/430 inventory",
+      "finding": "The original and available supplements contain no exact scRRBS adapter or library-PCR oligos. The original cites Gu 2011 bulk RRBS and a separate nested-PCR Supplemental Table 5; both Gu and the publisher supplement remain unavailable, as does the full 2015 detailed protocol, so missing sequence identity stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact indexed adapter and PCR-primer identities",
+      "disposition": "blocked",
+      "evidence": "Main scRRBS Methods name generic premethylated indexed Illumina adapters and omit PCR-primer bases; historical adapter/index product choice and bulk predecessor remain unexamined."
+    }
+  ],
+  "conclusion": "Two independent readings of defining article and available archives. Exact scRRBS adapter/primer claims remain blocked by unavailable publisher supplement, Gu 2011 predecessor and full 2015 detailed protocol."
+}

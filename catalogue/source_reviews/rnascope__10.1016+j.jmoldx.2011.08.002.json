@@ -1,0 +1,184 @@
+{
+  "dir": "rnascope__10.1016+j.jmoldx.2011.08.002",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "wang_2012_article",
+      "role": "defining",
+      "locator": "Wang et al. 2012, DOI 10.1016/j.jmoldx.2011.08.002, PMC3338343; local j.jmoldx.2011.08.002_PMC3338343.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted article lines 1195-1222, 1407-1411 and 1325-1368; scrape_primers.py run on the whole local source bundle",
+        "finding": "The article states 18–25 target-binding bases and 14-base tails per Z probe, adjacent pairs creating a 28-base preamplifier site, and 20 amplifier sites and 20 label sites. Its assay procedure explicitly calls the target probes, preamplifier, amplifier and label probe sequences proprietary. It links five supplements and cites the earlier bDNA and ProbeDesigner methods."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "j.jmoldx.2011.08.002_PMC3338343.html.txt lines 1193-1217, 1324-1339 and 1402-1409; source-bundle scraper run and original paragraphs checked",
+        "finding": "Original article defines each Z probe as 18–25 target-complement bases plus spacer plus 14-nt tail; adjacent ZZ tails make a 28-nt preamplifier landing site, with 20 amplifier and 20 label sites per level. Assay Procedure line 1213 explicitly calls target-probe, preamplifier, amplifier and label-probe sequences proprietary. Five supplements are linked, and references 12/13 identify branched-DNA and ProbeDesigner predecessors."
+      }
+    },
+    {
+      "id": "supplement_figures_s1_s3",
+      "role": "supplement",
+      "locator": "PMC3338343 mmc1.pdf, mmc2.pdf and mmc3.pdf, Supplemental Figures S1–S3; three separate manual rows in local MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The PMC supplement download endpoints return a download gate; figure captions are embedded in the article, but the figure files have not been independently read."
+    },
+    {
+      "id": "supplement_table_s1",
+      "role": "supplement",
+      "locator": "PMC3338343 mmc4.doc, Supplemental Table S1 of target genes and probed regions; manual row in local MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The PMC supplement download endpoint returns a download gate; the table may constrain which target regions were probed and has not been read."
+    },
+    {
+      "id": "supplement_table_s2",
+      "role": "supplement",
+      "locator": "PMC3338343 mmc5.doc, Supplemental Table S2 of single/duplex dot counts; manual row in local MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The article labels it a dot-count comparison, but the file is unavailable and must be independently inspected twice before it can be excluded from the missing-sequence claim."
+    },
+    {
+      "id": "double_z_patent",
+      "role": "other",
+      "locator": "US7709198B2, https://patents.google.com/patent/US7709198B2/en; local en.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted patent lines 4667, 5497-5545; Tables 1–2 and SEQ ID NO:1; scraper hits followed to original patent text",
+        "finding": "The patent prints historical GAPD217/218 target-binding and Z-tail sequences plus an example preamplifier. It establishes one exact double-Z implementation but does not identify present commercial-kit oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "US7709198B2 en.html.txt lines 4660-4667 and 5497-5545; patent example checked after source-bundle scraper",
+        "finding": "Patent prints one historical preamplifier SEQ ID NO:1 and GAPD217/GAPD218 target-binding sequences plus distinct tail sequences. This is exact example architecture, but patent example alone cannot identify oligos in the commercial RNAscope kit used by Wang 2012."
+      }
+    },
+    {
+      "id": "vendor_current",
+      "role": "vendor",
+      "locator": "Bio-Techne RNAscope technology description linked in protocol note: https://www.bio-techne.com/spatial/reagents/rnascope-ish-technology/get-started",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Bio-Techne get-started page, Probe Hybridization and Amplification and Detection sections, lines 77–106 of web extraction; Materials Checklists and User Manuals lines 28–34",
+        "finding": "Current vendor page confirms paired 18–25-base target-binding regions, spacer-connected 14-base upper arms, 28-base joint preamplifier site, 20-pair standard probe sets and branched amplification. It does not print nucleotide sequences and directs readers to product-specific manuals, which remain to be enumerated. Local fetch of this URL failed DNS; this pass read the official page online."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Bio-Techne get-started page, Materials Checklists and User Manuals lines 28–34, Probe Hybridization lines 77–90 and Amplification and Detection lines 91–103, read online 2026-10-16; source-bundle scraper run separately on local originals",
+        "finding": "Vendor currently describes two adjacent 18–25-base target-complement probe regions linked by spacers to 14-base upper arms, together forming a 28-base preamplifier site. It says standard RNAscope assays contain 20 probe pairs and gives amplification architecture but no base strings on this page. It directs readers to individual product pages for kit manuals; therefore absence cannot be concluded from the technology overview alone."
+      }
+    },
+    {
+      "id": "branched_dna_predecessor",
+      "role": "predecessor",
+      "locator": "Player et al. 2001, DOI 10.1177/002215540104900507, cited as reference 12 for branched-DNA in situ hybridization",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor has not yet been fetched or checked for amplification-tree construction."
+    },
+    {
+      "id": "probe_designer_predecessor",
+      "role": "predecessor",
+      "locator": "Bushnell et al. 1999, DOI 10.1093/bioinformatics/15.5.348, cited as reference 13 for target-probe design",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor has not yet been fetched or checked for design constraints and disclosed examples."
+    },
+    {
+      "id": "collins1997_bdna_amplification",
+      "role": "predecessor",
+      "discovered_from": "branched_dna_predecessor",
+      "locator": "Collins et al. Nucleic Acids Res 1997, doi:10.1093/nar/25.15.2979; original article text reproduced at https://www.researchgate.net/publication/13994209_A_branched_DNA_signal_amplification_assay_for_quantification_of_nucleic_acid_targets_below_100_moleculesml; Player 2001 p.604 cites it",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ResearchGate reproduction of original six-page NAR article, Methods and Tables 1–2 at web lines 291–371; local PMC146852 HTML abstract and source-bundle scraper also checked",
+        "finding": "The original publishes exact system-8 bDNA amplification motifs containing noncanonical isoC and isoG (F and J), including preamplifier leader/repeat, amplifier leader/repeat, and alkaline-phosphatase probe interaction. It describes enzymatic preamplifier and amplifier assembly. These are the 1997 microtiter assay's sequences, not evidence of 2012 RNAscope or current-kit reagent identity. Original PDF remains inaccessible in local cache; this pass read full original article text online."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Collins et al. 1997 Nucleic Acids Research original full-text reproduction on ResearchGate, lines 153–174, 288–354 (Table 1), 356–376 (Table 2), 422–445 (assay steps), 588–612; independently read online. RNAscope source-bundle scraper also run.",
+        "finding": "Original 1997 system-8 bDNA assay prints isoC/isoG amplification oligos in Table 1 (F=isoC, J=isoG), target oligos in Table 2, and preamplifier→amplifier→alkaline-phosphatase-probe hybridization steps. These sequences pertain to the HIV bDNA predecessor and do not establish the later RNAscope probe or amplifier bases."
+      }
+    },
+    {
+      "id": "vendor_25hd_brown_manual",
+      "role": "vendor",
+      "locator": "Bio-Techne official RNAscope 2.5 HD Detection Reagent BROWN Cat. 322310 user manual, 322310-USM Rev. Date 11052015, https://resources.bio-techne.com/products/documents/manual/mnl_322310_rnascope-2.5-hd-detection-reagents-brown_20240827221544.pdf; linked from Cat. 322300 product documents",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official 322310-USM Rev 11052015 PDF pp. 1, 5–7 and 10–14, online extraction lines 1–7, 89–115, 138–191 and assay workflow; inspected product/kit contents and probe→AMP order",
+        "finding": "This RNAscope 2.5 Brown manual states that 2.5 adds amplification relative to 2.0, names the user-specified target/control probes and AMP1–AMP6 reagents, and shows their workflow. It supplies no nucleotide strings in those sections. Its 2015 version does not establish reagent identity in the 2012 paper or every current kit."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official PDF pp. 5–7 (web extraction lines 85–99, 102–143 and 165–199); assay chapter pp. 10–14 (lines 273–294, 373–463); searched extracted PDF for “sequence” with no match",
+        "finding": "This later 2.5 Brown manual names separate target/control probes and six AMP reagents and prescribes probe→AMP1→AMP2→AMP3→AMP4→AMP5→AMP6 hybridizations. It supplies no nucleotide sequence in inspected kit/assay sections. It is a later kit version with an extra amplification step, so it does not resolve exact sequences of the 2012 assay or all current RNAscope products."
+      }
+    },
+    {
+      "id": "vendor_multiplex_v2_manual",
+      "role": "vendor",
+      "locator": "Bio-Techne official RNAscope Multiplex Fluorescent Reagent Kit v2 Cat. 323100 manual, UM 323100 Rev D effective 2026-01-29, https://resources.bio-techne.com/products/documents/manual/mnl_323100_rnascope-multiplex-fluorescent-reagent-kit-v2_20260202235252749.pdf; linked from Cat. 323100 product documents",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official UM 323100 Rev D PDF pp. 8–10 and 51–54, online extraction lines 200–228, 307–355 and 1569–1680; inspected kit reagent table and Chapter 6 workflow",
+        "finding": "The 2026 multiplex v2 manual names separate target/control probes, AMP1–AMP3, channel-specific HRP reagents and fluorophore steps, and warns reagent components from different kits are not interchangeable. It supplies no nucleotide strings in those sections. This is a later distinct kit, not a source for exact 2012 reagent bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official PDF pp. 8–10 (web extraction lines 200–218, 321–337), Chapter 6 pp. 51–58 (lines 1572–1609, 1625–1647 and 1812–1825); searched extracted PDF for “sequence” with no match",
+        "finding": "Manual identifies its proprietary multiplex assay, separate target/control probes, AMP1–AMP3 and channel-specific HRP detection reagents. It gives reagent/order details in Chapter 6 but no base strings in inspected probe/assay sections. This 2026 multiplex version is distinct from the 2012 defining kit and does not establish exact probe or amplifier sequences for that version."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Wang article assay procedure and references 12–13; supplementary listing; patent Tables 1–2 and SEQ ID NO:1; local MANIFEST.tsv",
+      "finding": "Followed the article to the named five supplements and two chemistry-relevant cited methods, and read the historical double-Z patent example. Supplement files, predecessor originals and current vendor documents remain to be obtained and checked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Wang original Methods lines 1193-1217, linked supplement captions lines 1324-1368, refs 12-13 lines 1406-1409; patent example lines 4660-4667, 5497-5545; Bio-Techne technology page lines 28–34, 77–103, Cat. 322310 official manual pp. 5–7 and 10–14, Cat. 323100 official manual pp. 8–10 and 51–58",
+      "finding": "Independently followed the patent example, article references/supplement inventory and current vendor technology page to two product-specific official manuals. Those manuals describe later kit steps but no exact bases in inspected sections; five PMC supplements and cited predecessor methods remain inaccessible or unchecked, so current-kit sequence absence stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Current commercial RNAscope target-probe and amplification-tree sequences are unpublished",
+      "disposition": "blocked",
+      "evidence": "The 2012 article calls its own sequences proprietary, but that does not establish absence from its supplements, patents, predecessor material or current vendor sources. The page now limits itself to the reviewed article and a historical patent example."
+    }
+  ],
+  "conclusion": "Two independent readings of original article and historical patent example; current-kit missing-sequence claim remains blocked by five unavailable supplements, vendor documentation and predecessor methods."
+}

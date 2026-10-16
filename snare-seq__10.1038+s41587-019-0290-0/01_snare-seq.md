@@ -3,7 +3,17 @@
 ## Sources read
 
 - 🟢 Chen et al. 2019, DOI `10.1038/s41587-019-0290-0`, PMC full text, Supplementary Protocol and Supplementary Table 4.
-- 🟢 The Teichlab SNARE-seq construct page, checked as a secondary reconstruction.
+- The Teichlab SNARE-seq construct page was used for orientation only; it is not source evidence.
+
+🟢 **Published table cross-reference error:** Chen et al. Methods (original PMC
+JATS line 64) directs the Nextera-R1-rc-polyA splint to “Table S3”. The actual
+Table S3 (`sup_tab3.xlsx.txt`, lines 1–4) contains differential-accessibility
+results; it does not list oligos. Original Table S4 (`sup_tab4.xlsx.txt`, sheet
+“Oligonucleotide sequences”, lines 1–27) prints `/5Phos/`–`CTGTCTCTTATACACATCTGACGCTGCCGACG`–A31 for that splint, plus blockers,
+TSO, PCR, index and custom Read 1 primers. The model uses the Table S4 strand.
+There is no disagreement about the printed bases; the error is the Methods
+table number. The particular index-primer member used for each library is not
+established by this correction.
 
 ## Construct path
 
@@ -18,8 +28,8 @@ products; the adjacent 8-base UMI belongs to the RNA readout.
 🟢 The combined reverse-transcription/ligation mix contains Hemo KlenTaq, T7 ligase and
 reverse transcriptase. The captured chromatin intermediate is gap-filled, and the
 splint-side nick can be sealed because Nextera-R1-rc-polyA is 5′ phosphorylated. The
-other nick is not shown as covalently sealed: the source reconstruction notes that its S5
-end lacks a phosphate and that the completed bottom strand is sufficient for PCR.
+other nick is not shown as covalently sealed: 🟡 the ordered S5 strand in the source
+oligo table has no stated 5′ phosphate, while a completed bottom strand could support PCR.
 
 🟢 The common amplification uses Nextera-R2 with TSO-PCR. Their exact sequences select
 the asymmetric S5/S7 chromatin product and retain the bead barcode. The RNA branch uses

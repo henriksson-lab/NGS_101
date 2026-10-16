@@ -1,0 +1,82 @@
+{
+  "dir": "smart-seq__10.1038+nbt.2282",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Ramsköld et al. 2012 PMC3467340 JATS/PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC3467340 Methods and Supplementary Fig. 1",
+        "finding": "CDS is printed; SMARTer II A and IS PCR full bases are not."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC3467340 XML line 113",
+        "finding": "CDS AAGCAGTGGTATCAACGCAGAGTACT(30)VN printed; manuscript says contemporaneous Clontech kit manual reflects its method."
+      }
+    },
+    {
+      "id": "supp_fig1",
+      "role": "supplement",
+      "locator": "Nature Biotechnology MOESM11 Supplementary Fig. 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM11 schematic",
+        "finding": "Names SMARTer II A and CDS reagent roles, not full TSO bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM11 text lines 7–21",
+        "finding": "Confirms named SMARTer II A reagent and CDS primer; no full TSO sequence in extracted schematic."
+      }
+    },
+    {
+      "id": "clontech_manual",
+      "role": "linked_material",
+      "locator": "Clontech SMARTer Ultra Low RNA Kit for Illumina Sequencing User Manual PT5163-1 (120213), cited by PMC3467340 Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original vendor PDF is not in local source bundle; web text mirror exposes component names but figure/complete sequence disclosure has not been verified from original PDF.",
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Manualzilla transcript of original PT5163-1 lines 450–456, 590–591",
+        "finding": "Names SMARTer II A and IS PCR and says they share sequence; original PDF remains to be checked for full oligo information."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original manuscript kit reference",
+      "finding": "Contemporaneous Clontech kit identified but not source checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "PMC3467340 Methods line 113 and PT5163-1 web transcript",
+      "finding": "Followed manual link; original PDF not yet acquired, so negative claim remains open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SMARTer II A and IS PCR full bases are unpublished",
+      "disposition": "blocked",
+      "evidence": "Contemporaneous kit manual is a relevant cited source not fully checked."
+    }
+  ],
+  "conclusion": "Second pass found a linked contemporaneous kit manual; no missing claim accepted."
+}

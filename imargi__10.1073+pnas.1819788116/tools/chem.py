@@ -3,6 +3,8 @@ from multibranch import illumina_branch
 from interaction_capture import BivalentRNAChromatinBridge
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState,Row,Scene,Segment,Workflow
+from chemdraw import Construct
+from endprep import dA_tailed_scene, repair_and_dA_tail
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
@@ -13,7 +15,28 @@ SUMMARY="A bivalent linker is ligated in situ first to fragmented chromatin-asso
 FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("iMARGI","RNA–linker–DNA contact chimera",inferred_adapters=True)
 FINAL_CAPTION="INFERRED — paired reads recover the RNA-derived and DNA-derived ends; the exact PCR landing geometry is not represented by this compact library view. The linker has two ligation-bias bases, not a UMI."
 SEQUENCING_INTRO="Declared Illumina primers bind the completed iMARGI library."
-CAVEAT="The author protocol prints the modified bivalent linker, cut oligo and PCR primers. This compact final-library view does not draw the strand-resolved BamHI split and PCR landing junctions."
+CAVEAT=(
+    "The author protocol prints the modified bivalent linker, cut oligo and PCR primers. "
+    "This compact final-library view does not draw the strand-resolved BamHI split and PCR landing junctions. "
+    "Published citation discrepancy: Yan et al. 2019 reference 10 cites "
+    "<a href=\"https://doi.org/10.1016/j.cub.2017.01.068\">DOI 10.1016/j.cub.2017.01.068</a> "
+    "for Sridhar et al. MARGI, but that DOI is the erratum; "
+    "the <a href=\"https://doi.org/10.1016/j.cub.2017.01.011\">original article</a> "
+    "has DOI 10.1016/j.cub.2017.01.011. The model uses the "
+    "iMARGI detailed-protocol oligos. Original Sridhar 2017 MARGI Document S1 "
+    "(Supplemental Experimental Procedures, lines 204–215) prints a top linker "
+    "ending ...TCCGA/BiodT/CT without a C* mark; later Wu 2019 iMARGI Nature "
+    "Protocols (JATS lines 275–285) prints ...TCC*GA/iBiodT/CT and defines C* "
+    "as phosphorothioated C. The bases agree, but the printed modifications differ. "
+    "This model uses the later iMARGI-specific C* oligo; the 2019 PNAS paper's "
+    "statement that it reused the MARGI linker sequence does not establish "
+    "which modification was in its experimental oligo."
+    " Apparent reagent typo in Wu et al. 2019 detailed protocol: stock-preparation text "
+    "(extracted JATS lines 395–397) says ATP for a reagent labeled 10 mM dATP, "
+    "while its dA-tailing reaction table (lines 673–685) and Yan et al. 2019 "
+    "Methods (line 203) specify dATP. This model uses a 3′-dA tail from the "
+    "reaction descriptions; the reagent actually used in the experiment remains unverified."
+)
 READ_LENGTHS={"Read 1":100,"Read 2":100}
 def oligos():
  return [
@@ -29,7 +52,22 @@ def rna_ligation_geometry():
     rna.ligation_end("RNA arm","preadenylated RNA-ligation end",kind="single-strand",polarity="5-prime",owner="adapter",text="preadenylated 5′ RNA-ligation end")
     return AdapterLigationGeometry.known("single-strand",rna,statement="The detailed protocol identifies a preadenylated RNA-compatible end on the annealed bivalent linker; this is a single-strand end ligation, not a duplex overhang.")
 def dna_ligation_geometry():
-    return AdapterLigationGeometry.unavailable("The sources establish the second linker-to-restriction-fragment ligation but do not provide a source-supported adapter-overhang sequence or polarity.")
+    linker=Scene()
+    linker.strand("linker top",[
+        Segment("5-prime RNA ligation tail", "NNAGATCGGA"),
+        Segment("paired linker core", "AGAGCGTCGTGTAGGGAGGATCCGTTCAGACGTGTGCTCTTCCGATC"),
+        Segment("3-prime T overhang", "T")],label="iMARGI bivalent linker")
+    linker.anneal("linker bottom",[
+        Segment("paired bottom core", "GATCGGAAGAGCACACGTCTGAACGGATCCTCCCTACACGACGCTCT")],
+        to="linker top",pair=("paired bottom core","paired linker core"),
+        label="5′-phosphorylated bottom strand")
+    linker.ligation_end("linker top","3-prime T overhang",kind="cohesive",
+                      polarity="3-prime",owner="adapter",text="3′-T linker overhang")
+    substrate=dA_tailed_scene(repair_and_dA_tail(Construct([
+        Segment("AluI-cut genomic fragment", "X"*24,placeholder=True)])),
+        label="dA-tailed genomic DNA end")
+    return AdapterLigationGeometry.known("cohesive",substrate,linker,
+        statement="The detailed iMARGI protocol describes dA tailing and sticky-end DNA ligation (Wu et al. 2019, lines 101–103); the original MARGI Fig. 1 identifies a linker 3′-T overhang paired with the genomic 3′-A tail. The 2019 linker strands print the same paired core and terminal T (lines 273–285).")
 def sections():
     wf=Workflow(MolecularState("Crosslinked and fragmented chromatin",tuple(BRIDGE.unjoined().rows())))
     wf.ligate_adapter("Ligate the RNA end of the bivalent linker in situ",rna_ligation_geometry(),BRIDGE.rna_joined().rows(),note="The linker end joins fragmented RNA; its DNA-reactive end remains free.")

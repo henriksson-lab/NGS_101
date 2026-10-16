@@ -117,8 +117,13 @@ SPEC = SimpleNamespace(
     SUMMARY=d.summary, CAVEAT="", FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("The defining source establishes adapter and identifier roles, but the page does not promote panel-specific or supplementary oligo sequences into universal protocol constants."),
-    workflow=_tirtl, oligos=lambda: (),
+    SEQUENCING_UNAVAILABLE=("Supplementary Data 1 publishes the full V/C primer and well-specific UDI families. The examples above identify source-known arms; one exact library depends on the chosen TCR segment, plate and well."),
+    workflow=_tirtl, oligos=lambda: (
+        "<p>Published Supplementary Data 1, representative PCR I primers (5′→3′):</p>",
+        "<p>P7_TRAV01-1: GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGTCATTCCTTAGTCGCTCTGATAGTTATGGTTA</p>",
+        "<p>TIRTL_alpha_P5_ID01: TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG<cbc>TCCTTC</cbc>GAGCTGGTACACGGCAGGGTC</p>",
+        "<p>Published Supplementary Data 1, example well A1 i5 PCR II primer: AATGATACGGCGACCACCGAGATCTACAC<cbc>TTGGTACGCG</cbc>TCGTCGGCAGCGTC</p>",
+    ),
 )
 SPEC.protocol_graph = protocol_graph
 globals().update(vars(SPEC))

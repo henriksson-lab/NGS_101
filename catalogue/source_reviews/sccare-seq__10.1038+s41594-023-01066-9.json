@@ -1,0 +1,167 @@
+{
+  "dir": "sccare-seq__10.1038+s41594-023-01066-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 lines 1–35",
+        "finding": "Original publisher primer workbook prints Tn5-N5/N7, phosphorylated Tn5-Rev, carrier ssDNA, eight UMI-barcode oligo-dT variants and indexed primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 1 primer workbook lines 1-43",
+        "finding": "Original table prints Tn5-N5/N7, 5Phos Tn5-Rev, carrier ssDNA, common/DNA/RNA primers, eight UMI-barcode-poly(dT)-VN RT oligos and i5/i7 index primer families. Defining article itself remains inaccessible."
+      }
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "_data/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9_41594_2023_1066_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_14",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41594-023-01066-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "discovered_from": "MANIFEST.tsv",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods and the located publisher oligo tables listed in the independent second-pass source rows",
+      "finding": "Chemistry-relevant linked supplements, historical predecessors or vendor sources remain unread/unavailable in this checklist. This review remains blocked until those are resolved and two independent located passes cover each relevant source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open."
+}

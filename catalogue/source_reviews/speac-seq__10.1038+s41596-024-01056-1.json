@@ -1,0 +1,81 @@
+{
+  "dir": "speac-seq__10.1038+s41596-024-01056-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41596-024-01056-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Nature Protocols full text and chemistry-relevant attachments are not local/reliably accessible; abstract alone cannot establish primer absence."
+    },
+    {
+      "id": "original_study",
+      "role": "predecessor",
+      "locator": "_data/sources/speac-seq__10.1038+s41596-024-01056-1/science.abq4822_PMC10066924.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods and data availability around lines 160–185",
+        "finding": "Original Science study describes sgRNA PCR from sorted droplets but does not in these inspected sections print guide-flanking or indexing primer bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Science JATS extracted lines 136–156, 188 and figure caption 605–607; oligo scraper run on local original bundle",
+        "finding": "SPEAC recovers integrated sgRNAs from sorted droplets by genomic DNA PCR and Illumina sequencing, but inspected original article does not give flanking primer bases; it points to supplementary material."
+      }
+    },
+    {
+      "id": "science_supp_pdf",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10066924/bin/NIHMS1883502-supplement-Supplement.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original study supplementary Methods PDF is gated and remains relevant to guide/primer ordering."
+    },
+    {
+      "id": "science_supp_data",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10066924/bin/NIHMS1883502-supplement-Data_S1-S17.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original study data ZIP is gated; could contain oligo tables and must be checked before absence claim."
+    },
+    {
+      "id": "geo",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE200457",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Raw sequence data can aid inference but cannot independently prove ordered oligo identity; not yet inspected.",
+      "discovered_from": "original_study"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Science JATS Methods around lines 160–185; Nature Protocols abstract; local manifest manual supplement rows",
+      "finding": "The original describes sgRNA recovery but the detailed protocol and supplementary source files remain inaccessible; linked source search is incomplete."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked original Science JATS and source-manifest pointers. Detailed Nature Protocols procedure, Science supplementary materials and GEO deposition remain inaccessible/unread."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SPEAC-seq guide-flanking PCR and index primers are unpublished",
+      "disposition": "blocked",
+      "evidence": "Relevant defining protocol and original-study supplements are unavailable; absence claim remains blocked."
+    }
+  ],
+  "conclusion": "Relevant defining protocol and original-study supplements are unavailable; absence claim remains blocked."
+}

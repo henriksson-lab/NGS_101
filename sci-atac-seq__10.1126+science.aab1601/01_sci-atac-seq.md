@@ -45,7 +45,7 @@ Fetched by `tools/get_sources.py` into
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_sci-ATAC-seq_family.html.txt` | scg_lib_structs page (both variants) | second source, checked below |
+| `upstream_sci-ATAC-seq_family.html.txt` | scg_lib_structs page (both variants) | orientation only; not source evidence |
 | `science.aab1601_PMC4836442.html.txt` | 2015 *Science* main text (author manuscript) | design, nuclei numbers, collision rate |
 | `ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt` | Amini 2014 Supplementary Table 4 (oligos) | **transposon oligos, sequencing primers** |
 | `ng.3119_PMC4409979.html.txt` | Amini 2014 Online Methods | transposome assembly, PCR, sequencing |
@@ -55,6 +55,16 @@ Fetched by `tools/get_sources.py` into
 | `science.aba7612_PMC7785298.html.txt` | 2020 *Science* (sci-ATAC-seq3) methods | sci-ATAC-seq3 steps and read recipe |
 | `scg_aba7612_domcke_table-s7.xlsx.txt` | original Domcke 2020 Supplementary Table S7, mirrored by scg_lib_structs | every sci-ATAC-seq3 splint, N5/N7 ligation oligo, PCR oligo and custom sequencing primer |
 | `nature25981_…MOESM1_ESM.pdf`, `…MOESM3_ESM.xlsx`, `x_moesm2/…/Table_S11.xlsx` | reporting summary, enrichment tables, enhancer-cloning primers | not chemistry |
+
+🟢 **Published predecessor correction:** Amini 2014 Supplementary Table 4
+(`ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt`) has a correction notice at
+lines 1–6: its originally posted table omitted the first five rows, restored on
+20 May 2015. Corrected rows 9–13 give `P5_i5_1` through `P5_i5_5` and their
+respective 8-base indices `TATAGCCT`, `ATAGAGGC`, `CCTATCCT`, `GGCTCTGA`,
+`AGGCGAAG`. The earlier source omitted values rather than printing conflicting
+bases. 🟡 This model uses Amini's common indexed-Tn5 architecture and an
+unspecified first-well index; it does not assign those five members to the 2015
+sci-ATAC experiment because that protocol's own oligo table remains gated.
 
 Could not be fetched (PMC download gate). The URLs are in `MANIFEST.tsv`:
 

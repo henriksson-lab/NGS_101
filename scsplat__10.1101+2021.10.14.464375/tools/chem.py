@@ -83,7 +83,7 @@ def _local_graph(d, final, primers):
                      "The second oligo is named ss1b: 5′Phos/AGATCGGAAGAGCACACGTC/3′AmMo.")),
         "The graph records a splinted P7 adapter with unavailable exact end geometry; it does not choose whether ss1b and ss2b are the same reagent.",
         "The Methods print the second oligo and its modifications but use two names for it.",
-        "Supplementary Table S1 still needs checking before an exact adapter duplex is asserted."))
+        "Supplementary Table S1 prints ss1b and no ss2b entry; the intended annealing-partner name remains uncertain."))
     return graph.require_publishable()
 
 

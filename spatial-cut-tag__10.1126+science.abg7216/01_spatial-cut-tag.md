@@ -19,11 +19,22 @@ microfluidic ligations add an A×B spatial address.
   ligations, crosslink reversal and library PCR.
 - 🟢 Farzad et al., *Nature Protocols* (2024),
   [doi:10.1038/s41596-024-01013-y](https://doi.org/10.1038/s41596-024-01013-y), is the
-  authors' detailed protocol for Spatial-CUT&Tag and Spatial-ATAC-seq. Supplementary Tables
-  2–3 print the linker, barcode, PCR and custom sequencing-primer oligos.
+  authors' detailed protocol for Spatial-CUT&Tag and Spatial-ATAC-seq. Supplementary
+  Table 1 prints the CUT&Tag loading oligos and primers; Table 2 is the distinct
+  Spatial-ATAC set, and Table 3 prints the shared spatial barcodes.
 - 🟢 The authors' `dyxmvp/spatial-CUT-Tag` processing repository was read to verify the raw
   read coordinates: barcode B is raw Read 1 bases 1–8, barcode A is bases 39–46, and raw
   Read 2 is genomic sequence.
+
+The 2021 bioRxiv PDF appends Supplementary Fig. S1 and other figure captions, but no
+ordered oligo table or full wet-lab recipe. Its Data and materials availability section
+links `dyxmvp/hsrChST-seq`, which did not resolve when checked; the accessible
+`dyxmvp/spatial-CUT-Tag` repository may be a successor, but equivalence is unverified.
+The 2024 supplementary PDF MOESM1 contains only a gene-score mapping figure; the
+ordered oligos below are in the separate MOESM2 workbook. The defining 2022 Science
+supplementary DOCX remains unavailable, so the 2024 sequences describe a later
+published implementation and have not been independently established as the exact
+sequences used in every 2022 experiment.
 
 ## Molecular reconstruction
 
@@ -40,6 +51,11 @@ Both boundaries are consequently computed and marked rather than placed by eye.
 🟢 The 50 first-barcode sequences and 50 second-barcode sequences are public. The page
 shows one representative oligo from each plate and records the two 8-base regions as
 separate parts of one combinatorial spatial coordinate.
+
+🟢 Farzad et al. Supplementary Table 1 prints the CUT&Tag-specific Tn5ME-A loading
+oligo, `/5Phos/TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG`. It differs from the
+Spatial-ATAC loading oligo in Deng et al. (2022) Methods; the page displays the
+CUT&Tag value and uses the shared linker and barcode construct for the sequenced strand.
 
 ## Read layout
 

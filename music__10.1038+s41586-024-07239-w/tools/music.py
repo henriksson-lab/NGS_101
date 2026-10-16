@@ -26,7 +26,12 @@ TITLE="MUSIC — multinucleic-acid interaction mapping in single cells"
 NOTES="01_music.html"
 SOURCE='<a href="https://doi.org/10.1038/s41586-024-07239-w">Zhao et al., <i>Nature</i> (2024)</a>.'
 SUMMARY="RNA and fragmented DNA receive distinct linkers, three rounds of cell barcodes and a two-part molecular-complex barcode. Reads sharing both identities reveal multiway DNA–DNA and RNA–DNA complexes."
-CAVEAT="The public oligo sheet resolves the linkers, representative barcode duplexes and final PCR primers. The page shows one representative barcode from each 96-member round; the full barcode sets remain in the source sheet."
+CAVEAT=("The public oligo sheet resolves the linkers, representative barcode duplexes and final PCR primers. "
+        "The page shows one representative barcode from each 96-member round; the full barcode sets remain in the source sheet. "
+        "Published discrepancy: the paper's Critical reagents DNA-linker paragraph (Methods, extracted PDF lines 1811–1819) "
+        "calls the linker duplex 15 bp, but its DNA-linker ligation paragraph (lines 1991–1995) calls the same "
+        "printed strands 14 bp. The model uses the printed top and bottom oligos from Supplementary Table 2, "
+        "whose complementary overlap is 15 bp with a one-base 3′-dT overhang; the source of the 14-bp count is unresolved.")
 FINAL_LIBRARIES=(("Combined RNA/DNA library",FINAL,PRIMERS,"One molecule contains either an RNA or DNA insert; its linker distinguishes the analyte.","Read 1 gives the 16-bp GEM complex barcode and 12-bp UMI; i7 completes complex identity; Read 2 traverses three cell barcodes, linker and insert."),)
 READ_LENGTHS={"Combined RNA/DNA library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":150}}
 COMPLEX=FixedMolecularComplex(("RNA molecule","DNA fragment A","DNA fragment B"),"formaldehyde",label="multiway nucleic-acid complex")

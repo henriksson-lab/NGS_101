@@ -1,0 +1,91 @@
+{
+  "dir": "illumina-dna-prep-shotgun-metagenomics",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_1000000025416_12_idp.pdf.txt:97-131,295-386,507",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Overview lines 97-131, index-kit list 295-386, reagent line 507",
+        "finding": "Official guide describes bead-bound transposome and limited-cycle index PCR but not bead-bound reagent molecular sequence/composition."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original Illumina DNA Prep guide 1000000025416 v12 lines 97-131,295-386",
+        "finding": "Guide establishes bead-linked DNA Prep and optional UD index sets; no sample-specific choice fixed."
+      }
+    },
+    {
+      "id": "application_note",
+      "role": "linked_material",
+      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_novaseq-shotgun-metagenomics-app-note-m-na-00010.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "guide",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Application note title and kit-use context",
+        "finding": "Shotgun application note uses DNA Prep, adding sequencing context rather than reagent composition."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NovaSeq shotgun metagenomics application note text lines 30-49, 102 and 220-225",
+        "finding": "Official note applies shotgun metagenomics workflow to DNA Prep/UD index kits; it does not define a new molecular adapter."
+      }
+    },
+    {
+      "id": "adapters",
+      "role": "linked_material",
+      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_Nextera_Illumina-Sequences.htm.txt and illumina_IDTIllumina-UDIndexes.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "guide",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Cached Illumina sequence reference pages",
+        "finding": "Public adapter/index tables present."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official Nextera sequence page lines 139-203; IDT UD index page 138-199",
+        "finding": "Vendor pages provide tagmentation/adaptor and index-family sequences, while exact per-library index member remains variable."
+      }
+    },
+    {
+      "id": "adapter_reference",
+      "role": "linked_material",
+      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/adapter-sequences.htm",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Manifest manual; exact linked vendor page not cached.",
+      "discovered_from": "guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "DNA Prep guide index list, application note, vendor child sequence pages, MANIFEST.tsv",
+      "finding": "Followed available official child pages; umbrella adapter-sequences landing file remains unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Bead-linked transposome reagent composition",
+      "disposition": "blocked",
+      "evidence": "Guide identifies BLT reagent and process; exact reagent composition absent from inspected guide, but linked reference remains unavailable."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

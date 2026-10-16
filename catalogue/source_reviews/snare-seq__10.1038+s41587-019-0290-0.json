@@ -1,0 +1,130 @@
+{
+  "dir": "snare-seq__10.1038+s41587-019-0290-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Chen et al. Nat Biotechnol 2019 doi:10.1038/s41587-019-0290-0; PMC6893138",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC6893138 JATS lines 58-72",
+        "finding": "Methods name the Nextera-R1-rc-polyA splint, blocking oligos, Drop-seq beads, custom sequencing primers and reads; points to Table S3/S4."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Chen 2019 PMC6893138 JATS Methods lines 58–72 and article PDF corresponding Methods; scraper on source bundle",
+        "finding": "The original tagmentation precedes droplets, Nextera-R1-rc-polyA splint is added to Drop-seq lysis buffer, and blocked bead-bound oligos undergo RT/ligation with Hemo KlenTaq, T7 ligase and reverse transcriptase. cDNA and chromatin libraries are finished separately. The article specifies RNA 30+80 cycles and chromatin 30+75+75 plus 8-base index 2; Methods incorrectly point the splint to Table S3."
+      }
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Original NIHMS1539957 sup_tab4.xlsx, sheet Oligonucleotide sequences",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "sup_tab4.xlsx.txt lines 1-27",
+        "finding": "Prints /5Phos/ splint, /3InvdT/ blockers, rGrGrG TSO, PCR/index oligos and Read1CustomSeqB. Despite the filename tab4, sheet itself is oligonucleotide sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS1539957 sup_tab4.xlsx text sheet Oligonucleotide sequences lines 1–27; original source-bundle scraper",
+        "finding": "Table S4 prints exact /5Phos/ Nextera-R1-rc-polyA splint with A31, /3InvdT/ blockers, rGrGrG-ending TSO, common PCR primers, six P5 TSO index primers, six Ad2 indexed primers, and Read1CustomSeqB. This directly resolves any blanket missing-oligo claim; the table does not map each sample to a chosen index member."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "misreferenced_table_s3",
+      "role": "supplement",
+      "locator": "Original NIHMS1539957 sup_tab3.xlsx / Springer MOESM5 (Table S3)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original sup_tab3.xlsx.txt lines 1-4 compared with original PMC6893138 JATS line 64",
+        "finding": "Methods points splint to Table S3, but Table S3 is differential accessibility results; actual splint is in Table S4 oligo worksheet."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS1539957 sup_tab3.xlsx text lines 1–15 and sheet inventory; compared Chen JATS Methods line 64 and original Table S4; source-bundle scraper",
+        "finding": "Table S3 is a differential-accessibility result matrix with chrom/start/end/p/q columns, not an oligo table. The Methods citation to Table S3 for Nextera-R1-rc-polyA is a published cross-reference error; the sequence appears in Table S4. Existing page/note correctly disclose both source locations and use Table S4 bases."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "dropseq",
+      "role": "predecessor",
+      "locator": "Macosko et al. Cell 2015 Drop-seq doi:10.1016/j.cell.2015.05.002; PMC4481139",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4481139 JATS lines 98-104, 412-416",
+        "finding": "Original describes split-and-pool bead primer synthesis and bead architecture inherited by SNARE-seq."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Macosko 2015 Drop-seq PMC4481139 JATS lines 96–106, including four-part bead oligo architecture and split-pool synthesis; Drop-seq source-bundle scraper",
+        "finding": "Drop-seq establishes co-encapsulation of cells and barcoded beads, poly(dT) RNA capture, and bead oligo with PCR handle, 12-base cell barcode and 8-base UMI. SNARE-seq reuses this bead/microfluidic front end but adds its own chromatin splint; the original Drop-seq JATS does not establish SNARE-specific splint or Nextera-XT finishing."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "dropseq_si",
+      "role": "supplement",
+      "locator": "Drop-seq NIHMS687993 supplements",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "dropseq",
+      "reason": "Original Drop-seq supplementary downloads remain manual/curl error 6 in manifest."
+    },
+    {
+      "id": "nextera_xt",
+      "role": "vendor",
+      "locator": "Illumina Nextera XT library prep guide used for cDNA branch",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "Original Methods cite Nextera XT; historical guide revision not identified here."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 58-72; original sup_tab4.xlsx.txt lines 1-27; Drop-seq JATS 98-104",
+      "finding": "Found source oligo table and read the cited Drop-seq main method. Drop-seq supplements and historical Nextera XT guide remain open. Original Methods Table S3 pointer is erroneous: Table S3 is differential accessibility, and Table S4 supplies the splint sequence."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Chen 2019 original JATS Methods 58–72; NIHMS1539957 Tables S3/S4 extracted sheets lines 1–27; Macosko 2015 Drop-seq original JATS 96–106; local Drop-seq MANIFEST and source bundle; searched local vendor-guide inventory; scraper on SNARE and Drop-seq bundles",
+      "finding": "Original SNARE Table S4 supplies splint, blockers, TSO, PCR/index and custom read primer. Table S3 is results only, confirming the public page cross-reference correction. Drop-seq bead architecture is independently verified, but its original extended supplement and historical Nextera XT guide remain unavailable; no exact sample-to-index member selection was found."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any blanket assertion that SNARE-seq splint, blockers or custom read primer are unpublished",
+      "disposition": "blocked",
+      "evidence": "Original oligo workbook explicitly prints those exact modified oligos; remaining linked chemistry documents are open."
+    }
+  ],
+  "conclusion": "Two independent readers checked the 2019 defining article, original oligo Table S4, misreferenced result Table S3 and Drop-seq main predecessor. The page correctly discloses the published S3/S4 cross-reference error and uses S4 bases. Drop-seq extended methods and historical Nextera XT guide remain unavailable, and sample-specific index selection is unresolved; no absence claim is accepted."
+}

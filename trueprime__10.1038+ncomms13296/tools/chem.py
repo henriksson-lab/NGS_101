@@ -1,4 +1,7 @@
 """Protocol-owned source, oligos, workflow and reaction graph."""
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
@@ -11,12 +14,15 @@ from protocol_model import closed_circle, molecule, role
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from accuracy_protocols import _workflow
+from protocol_families.primpol_mda import (AMPLIFICATION_C, INACTIVATION_C,
+                                          PRIMER_LENGTH_NT, add_amplification,
+                                          add_reported_sequencing)
 
-TRUEPRIME_PRIMER_LENGTH_NT = (7, 9)
+TRUEPRIME_PRIMER_LENGTH_NT = PRIMER_LENGTH_NT
 
-TRUEPRIME_AMPLIFICATION_C = 30
+TRUEPRIME_AMPLIFICATION_C = AMPLIFICATION_C
 
-TRUEPRIME_INACTIVATION_C = 65
+TRUEPRIME_INACTIVATION_C = INACTIVATION_C
 
 
 def workflow() -> Workflow:
@@ -27,24 +33,24 @@ def workflow() -> Workflow:
         role("long genomic copies"), role("displaced single strands"), role("new DNA primers")))
     input_dna = molecule("genomic DNA", (role("genomic DNA"),))
     return _workflow(input_dna, (
-        ("Lyse the cell, denature DNA and neutralize", template,
-         "The single-cell workflow lyses on ice before neutralization; purified DNA is alkaline-denatured."),
+        ("Alkaline-denature purified DNA for 3 min and neutralize", template,
+         "The source uses Buffer D followed by Buffer N for the purified-DNA WGA experiment."),
         ("TthPrimPol synthesizes short DNA primers directly from dNTPs", primed,
          "The principal primer products are 7–9 nt; no synthetic random primer is added."),
         ("phi29 DNA polymerase extends the primers and displaces downstream strands", product,
          "Displacement exposes new single-stranded template for another priming round."),
-        ("Repeat priming and strand-displacement synthesis at 30 °C", product,
-         "The paper used 3 h for WGA and 3 or 6 h for single cells, then 10 min at 65 °C."),
+        ("Repeat priming and strand-displacement synthesis for 3 h at 30 °C", product,
+         "The purified-DNA WGA experiment ends with 10 min at 65 °C."),
     ))
 
 
 FINAL_LIBRARY = Construct([role("TruePrime-amplified genomic DNA")], name="TruePrime WGA product")
 SEQ_PRIMERS = ()
-TITLE = 'TruePrime — primase-driven whole-genome amplification'
+TITLE = 'TruePrime — purified-DNA whole-genome amplification'
 NOTES = '01_trueprime.html'
 SOURCE = '<a href="https://doi.org/10.1038/ncomms13296">Picher et al., <i>Nature Communications</i> (2016)</a>.'
-SUMMARY = 'TthPrimPol makes 7–9-nt DNA primers directly on denatured genomic DNA; phi29 DNA polymerase extends them by multiple-displacement synthesis.'
-CAVEAT = 'TruePrime ends at amplified DNA. The paper used an unspecified NEBNext library preparation downstream, so no adapter sequence or sequencing-primer landing site is asserted here.'
+SUMMARY = 'Purified genomic DNA is alkaline-denatured, then TthPrimPol makes 7–9-nt primers that phi29 DNA polymerase extends by strand-displacement synthesis.'
+CAVEAT = 'This page follows the purified-DNA WGA experiment. The <a href="../trueprime-single-cell__10.1038+ncomms13296/trueprime-single-cell.html">single-cell L2-lysis workflow</a> has a separate page. TruePrime ends at amplified DNA. The paper used an unspecified NEBNext library preparation downstream, so no adapter sequence or sequencing-primer landing site is asserted here.'
 FINAL_CAPTION = 'The named protocol product is amplified genomic DNA, before sequencing adapters.'
 SEQUENCING_INTRO = ''
 READ_LENGTHS = None
@@ -68,49 +74,10 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("denature", "Denature genomic DNA and neutralize",
                 StepKind.THERMAL_TREATMENT,
                 ((dna, InputRole.TEMPLATE), (denaturation, InputRole.CONDITION)), (single,))
-    primpol = graph.input("tth_primpol", "TthPrimPol", MaterialKind.CATALYST)
-    primed = graph.product("primed", "templates bearing de-novo 7–9-nt DNA primers",
-                           MaterialKind.MOLECULAR, state=single.state)
-    graph.react("prime", "Synthesize short DNA primers directly from dNTPs",
-                StepKind.EXTENSION,
-                ((single, InputRole.TEMPLATE), (primpol, InputRole.CATALYST)), (primed,))
-    phi29 = graph.input("phi29", "phi29 DNA polymerase", MaterialKind.CATALYST)
-    amplified = graph.product("amplified", "branched multiple-displacement WGA product",
-                              MaterialKind.MOLECULAR, state=final)
-    graph.react("amplify", "Extend primers with repeated strand displacement",
-                StepKind.EXTENSION,
-                ((primed, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)), (amplified,))
-    fragmentation = graph.input("fragmentation_condition", "downstream fragmentation condition",
-                                MaterialKind.CONDITION, inferred=True,
-                                source=authority + " (downstream NEBNext implementation unspecified)")
-    fragments = graph.product("fragments", "fragmented TruePrime-amplified DNA",
-                              MaterialKind.MOLECULAR, state=amplified.state, inferred=True,
-                              source=authority + " (downstream NEBNext implementation unspecified)")
-    graph.react("fragment", "Fragment the amplified DNA for library preparation",
-                StepKind.FRAGMENTATION,
-                ((amplified, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
-                (fragments,), source=authority + " (downstream NEBNext kit unspecified)")
-    adapter = graph.input("nebnext_adapter", "unspecified NEBNext sequencing adapter",
-                          MaterialKind.ADAPTER, inferred=True,
-                          source=authority + " (kit generation and oligos not identified)")
-    ligase = graph.input("adapter_ligase", "NEBNext adapter ligase",
-                         MaterialKind.CATALYST, inferred=True,
-                         source=authority + " (kit generation not identified)")
-    library = graph.product("sequencing_library", "unspecified NEBNext library",
-                            MaterialKind.LIBRARY, inferred=True,
-                            source=authority + " (adapter architecture unavailable)")
-    graph.react("library_prep", "Prepare the unspecified NEBNext sequencing library",
-                StepKind.LIGATION,
-                ((fragments, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (library,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The paper does not identify the NEBNext kit generation or adapter-end geometry."),
-                source=authority + " (downstream kit named only)")
-    graph.sequence(library, SequencingPlan(
-        acquired_roles=("Read 1", "Read 2"),
-        limitation="The paper reports paired-end HiSeq 2500 sequencing but not the NEBNext kit generation, adapter oligos or primer sites."))
+    amplified = add_amplification(graph, single, authority=authority, duration="3 h")
+    add_reported_sequencing(graph, amplified, authority=authority)
     graph.declare_reviewed_scope([
         "genomic_dna", "denaturation_condition", "denature", "tth_primpol", "prime",
-        "phi29", "amplify", "fragmentation_condition", "fragment", "nebnext_adapter",
-        "adapter_ligase", "library_prep", "sequencing_library"], authority)
+        "phi29", "amplify", "inactivation_condition", "inactivate", "fragmentation_condition", "fragment",
+        "library_prep", "sequencing_library"], authority)
     return graph.require_publishable()

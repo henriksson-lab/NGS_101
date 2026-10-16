@@ -1,0 +1,122 @@
+{
+  "dir": "pip-seq__10.1038+s41587-023-01685-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PIP-seq Nature Biotechnology 2023 doi:10.1038/s41587-023-01685-z PMC10635830",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41587-023-01685-z_PMC10635830.xml.txt lines 113-155 and Methods",
+        "finding": "Article describes bead-templated vortex emulsification with barcoded poly(T) beads and points to oligo supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41587-023-01685-z_PMC10635830.xml.txt lines 123-129, 255-259",
+        "finding": "Original Methods prints the /5Acryd/ bead seed, four rounds of split-pool ligation, 12-N UMI and poly(T), but not the individual PIP barcode/splint identities."
+      }
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "Springer MOESM2_ESM.xlsx.txt, published Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligonucleotides sheet lines 1-7 and bead-related entries; scraper on duplicate preprint table",
+        "finding": "Prints PIPS_TSO, WTA primer, P5 library primer, indexed oligos and some bead intermediates but not each split-pool barcode/splint base."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41587-023-01685-z_41587_2023_1685_MOESM2_ESM.xlsx.txt lines 1-7",
+        "finding": "Original Supplementary Table 1 prints PIPS_TSO with rGrGrG, WTA primer, modified P5 library primer and P5-PE1/N7xx family; no four-round PIP bead barcode list."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 10.1101/2022.06.10.495582 v2 and media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Published duplicate table compared with 2022 preprint oligo sheet",
+        "finding": "Preprint version carries same principal oligos and bead intermediate entries."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "2022.06.10.495582_media-1.xlsx.txt lines 1-7 and author preprint Methods near lines 1479-1541",
+        "finding": "Author preprint gives same principal TSO/WTA/library oligos; no additional PIP barcode inventory was found in its table."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "fluent_guides",
+      "role": "linked_material",
+      "locator": "Fluent Biosciences PIP-seq reagent user guides, including FB0002079",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named proprietary kit manuals and exact commercial shipped oligos are not cached.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41598-021-90255-x_41598_2021_90255_MOESM2_ESM.pdf.txt lines 317-320, 371-378, 489-493; 2020.09.10.292326_media-1.xlsx.txt lines 591-595",
+        "finding": "Delley predecessor prints its own pBB1/pBB2 bead handles and splint. Its 5-prime acrydite seed differs from the PIP paper's printed seed, so transfer of its barcode identities into PIP would be unsupported."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "bead_predecessor",
+      "role": "linked_material",
+      "locator": "Delley et al 2021 doi:10.1038/s41598-021-90255-x original bead paper and MOESM4",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Sibling source bundle predecessor Methods and oligo table",
+        "finding": "Predecessor explains bead concept but does not prove PIP split-pool barcode identities."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached Delley 2021 original s41598-021-90255-x_PMC8149635.xml.txt lines 42–56 and 108–120 (modular bead construction and dU cleavage), same source bundle MOESM4_ESM.xlsx.txt lines 1–8 and 589–621 (Tables 1–7, fabrication and sequencing primers); source-bundle scraper run",
+        "finding": "Predecessor uses split-pool ligation of eight-base barcode blocks and a dU cleavage linker; its Table 7 publishes pBB fabrication/release oligos and sequencing primers. These prove the predecessor bead design and oligo families, not identity of the later PIP-seq bead barcodes or selected primer members."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nature Biotechnology paper Methods, published Supplementary Table 1 and linked Fluent/predecessor inventory",
+      "finding": "Followed paper into published oligo table and author preprint; exact split-pool intermediates and commercial-kit guides remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "PIP original JATS Methods lines 255-259, Springer MOESM2 lines 1-7, bioRxiv media-1 lines 1-7 and Delley predecessor MOESM2 lines 317-320",
+      "finding": "Read original and independently followed author preprint and bead predecessor. Printed PIP seed and principal PCR oligos are recoverable; no source-backed identities for its four split-pool blocks/splints. Fluent FB0002079 guide is still unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "All PIP-seq split-pool barcode/splint oligos and later Fluent kit oligos",
+      "disposition": "blocked",
+      "evidence": "Published Table 1 omits some synthesis blocks; relevant vendor guides unavailable."
+    }
+  ],
+  "conclusion": "First original-source reading only. Linked-source coverage and an independent second reading are required before any absence can be accepted."
+}

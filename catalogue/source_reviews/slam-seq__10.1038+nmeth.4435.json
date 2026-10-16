@@ -1,0 +1,137 @@
+{
+  "dir": "slam-seq__10.1038+nmeth.4435",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_PMC5712218.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 90–112, 134–142 and supplementary pointers",
+        "finding": "Original establishes 4sU conversion to T>C signal and RNA library path."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Herzog 2017 published JATS Online Methods lines 90–112 and 134–142",
+        "finding": "IAA converts incorporated s4U for T>C detection; typical mESC protocol uses 10 mM IAA then Lexogen Quant-seq 3′ library. Original delegates detailed workflow to Protocol Exchange."
+      }
+    },
+    {
+      "id": "bio_supp",
+      "role": "supplement",
+      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/177642_177642-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary oligos lines 44–63; scraper hits verified",
+        "finding": "Primary author supplement prints modified let-7 calibration templates, RT/PCR primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv supplement PDF Supplementary Table 3 lines 44–63",
+        "finding": "Prints synthetic let-7 assay RNAs, RT primer, Solexa PCR forward/indexed reverse primers; these include validation assay oligos and should not be mistaken for undisclosed Quant-seq kit internals."
+      }
+    },
+    {
+      "id": "springer_supp",
+      "role": "supplement",
+      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_41592_2017_BFnmeth4435_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement methods/oligos headings and scraper run",
+        "finding": "Publisher supplementary methods present; version relationship to preprint supplement requires review."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 supplementary PDF figures 1–12 headings and assay notes around figure 3",
+        "finding": "Chemistry/assay supplementary figures explain alkylation and readout; no independent complete Lexogen kit oligo recipe in inspected figure text."
+      }
+    },
+    {
+      "id": "pmc_tables",
+      "role": "supplement",
+      "locator": "PMC5712218 Supplementary Tables 1–3 under _data/sources/slam-seq__10.1038+nmeth.4435/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Table headers and first entries sampled; scraper run on bundle",
+        "finding": "Tables are available but full chemistry relevance not yet established."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Tables 1–3 extracted headers and first entries; Supplementary Table 3 mirrored by bioRxiv PDF lines 44–63",
+        "finding": "Supplementary Table 3 is the oligo table for validation assays and sequencing primers; tables 1–2 are data/analysis context."
+      }
+    },
+    {
+      "id": "protex",
+      "role": "linked_material",
+      "locator": "https://assets-eu.researchsquare.com/files/nprot-6257/v1/8bc3034f-b1da-42a1-a3bb-5446016a9efc.pdf (original authored Protocol Exchange DOI 10.1038/protex.2017.105; also migrated to protocols.io v1)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original six-page Research Square archive PDF p.1 authors/DOI; p.2 Reagents; pp.3–4 s4U labeling, DTT RNA isolation and IAA treatment; pp.4–5 library preparation and sequencing; p.5 Tables 1–4 pointer",
+        "finding": "Original authored protocol establishes Lexogen QuantSeq 3-prime mRNA-Seq Illumina catalog 015 FWD kit, SR100 HiSeq 2500 recommendation, 100 µM s4U mESC example, DTT during isolation and IAA 50 °C for 15 min. Full reaction setup is delegated to separate Table 4."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original authored six-page archive PDF: title, authors and DOI p.1; reagent list pp.2–3 (PDF lines 38–55); s4U/IAA procedure pp.3–4 (lines 82–140); library and sequencing pp.4–5 (lines 138–151); separate table pointer and archive attachment list pp.5–6 (lines 170–175 and 196–201). Ran the local SLAM-seq source-bundle oligo scraper first.",
+        "finding": "The authored protocol specifies Lexogen QuantSeq FWD catalog 015, an mESC 100 µM s4U example, IAA incubation at 50 °C for 15 min, and a single-read 100 recommendation. It refers the reaction mix to separate Table 4, while the archive PDF lists only image attachments; the table and kit oligo bases remain unverified."
+      },
+      "reason": "Original authored six-page PDF read through archive web viewer; local get_sources download returned curl error 6 (DNS/network restriction) on 2026-10-16. Linked Tables 1–4 are separate and still unavailable.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "protex_tables",
+      "role": "supplement",
+      "locator": "Protocol Exchange DOI 10.1038/protex.2017.105 supplementary Tables 1–4 (Table 4 IAA reaction setup)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original archived six-page PDF p.5 states Tables 1–4 are in supplementary file section, but archive only exposes supplement2.jpg through supplement5.jpg figure attachments; table files not yet recovered. Nature DOI redirects to protocols.io migrated page and does not expose table download in accessible text.",
+      "discovered_from": "protex"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Defining JATS linked detailed DOI followed to original Research Square six-page PDF; PDF pp.2–5 read after source-bundle oligo scraper; PDF p.5 supplementary Tables 1–4 pointer followed but table attachments unavailable.",
+      "finding": "Detailed original resolves FWD catalog 015 and SR100. Supplementary Table 4 and kit manufacturing oligos remain unverified, so exact library-adapter and complete IAA-mix claims stay blocked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Herzog 2017 published JATS Online Methods lines 90–112 and 134–142; original bioRxiv supplement PDF Supplementary Table 3 lines 44–63; publisher MOESM1 figures 1–12; PMC supplementary Tables 1–3; independently followed the detailed DOI to its original authored archive PDF pp.1–6, especially PDF lines 38–55, 82–151 and 170–201, after rerunning the local oligo scraper",
+      "finding": "The accessible original detailed protocol resolves Lexogen QuantSeq FWD catalog 015 and recommended SR100, while its linked Tables 1–4 are separate and the accessible archive lists only image attachments. Table 4 and version-matched kit oligo sources remain unavailable, so related missing-information claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact oligo/library variant for the defining SLAM-seq experiments",
+      "evidence": "Defining article and original authored Protocol Exchange PDF identify QuantSeq FWD catalog 015 and recommend SR100; neither prints kit adapter bases. Protocol Exchange separately linked Table 4 is inaccessible, so the full detailed IAA mix cannot be checked. Exact kit oligos require a version-matched vendor guide.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original authored Protocol Exchange procedure independently read twice; it resolves QuantSeq FWD catalog 015 and SR100. Separate protocol tables and version-matched vendor oligos remain inaccessible; no absence claim accepted."
+}

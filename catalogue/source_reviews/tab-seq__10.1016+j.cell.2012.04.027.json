@@ -1,0 +1,92 @@
+{
+  "dir": "tab-seq__10.1016+j.cell.2012.04.027",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/tab-seq__10.1016+j.cell.2012.04.027/j.cell.2012.04.027_PMC3589129.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 140–152",
+        "finding": "Original Methods describe βGT glucosylation of 5hmC, TET1 oxidation of 5mC and bisulfite conversion; library details and controls are dispersed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Cell JATS Experimental Procedures lines 144–152",
+        "finding": "βGT glucosylates 5hmC then mTet1 oxidizes 5mC before bisulfite; full library details are not established by this paragraph."
+      }
+    },
+    {
+      "id": "original_supp1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3589129/bin/NIHMS375032-supplement-01.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplement 01 is gated by PMC and not checked."
+    },
+    {
+      "id": "original_supp2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3589129/bin/NIHMS375032-supplement-02.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplement 02 is gated by PMC and not checked."
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tab-seq__10.1016+j.cell.2012.04.027/PMC3641661_PMC3641661.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS oligo table lines 1132–1146",
+        "finding": "Later TAB-seq protocol Table 2 includes 5hmC spike-in and methylation-control PCR primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later TAB-seq detailed protocol JATS Table 2 lines 1132–1146",
+        "finding": "Prints 5hmC and methylation-control PCR primers for validation; original supplement still unavailable."
+      }
+    },
+    {
+      "id": "bisulfite_predecessor",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/nprot.2008.176",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Referenced bisulfite sequencing library-preparation predecessor/version not yet checked.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS 140–152; later protocol Table 2 lines 1132–1146",
+      "finding": "Control primers are source-positive in later protocol; original supplements and bisulfite-library predecessor remain blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published Cell JATS Experimental Procedures 144–152; later detailed Table 2 1132–1146",
+      "finding": "Original supplements and bisulfite predecessor are unreviewed; detailed successor provides controls but not all original library chemistry."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact TAB-seq spike-in and library oligos are absent",
+      "disposition": "blocked",
+      "evidence": "Later protocol prints spike-in/control primers, while original supplements remain inaccessible."
+    }
+  ],
+  "conclusion": "Later protocol prints spike-in/control primers, while original supplements remain inaccessible."
+}

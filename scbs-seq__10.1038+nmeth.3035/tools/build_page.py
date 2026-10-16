@@ -32,6 +32,12 @@ handles are then added without ligation.</info></p>
 <p><info>The indexed arm is the eight-base iPCRTag design cited by the paper and printed
 in Quail et al. 2012 Supplementary Table&nbsp;1. This is the obsolete paired-end layout,
 not a modern TruSeq dual-index library.</info></p>
+<p><info>The diagram models Smallwood's 2014 N9 primers and streptavidin capture.
+Clark et al. 2017, <i>Nature Protocols</i>, Development of the protocol and Table&nbsp;2,
+describes a later N6/SPRI optimization; its 48-index table does not assign an index
+member to each 2014 cell. Smallwood's linked GEO GSE56879 sample metadata repeats a
+generic iPCRTag recipe but also omits that assignment. The index bases are therefore
+shown as a variable family member.</info></p>
 <p><info>Quail's ordering table marks a terminal phosphorothioate linkage (`C*T`) on
 PE1.0 and the indexed iPCRTag primers. Smallwood's own PE1.0 listing omits that
 modification, so the plain bases below follow the defining article.</info></p>

@@ -1,0 +1,80 @@
+{
+  "dir": "chip-seq__10.1038+nmeth.1068",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Robertson et al Nat Methods 2007 doi:10.1038/nmeth.1068",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "No defining paper full text in named/DOI local bundle; publisher article not obtained."
+    },
+    {
+      "id": "schmidt2009",
+      "role": "detailed_protocol",
+      "locator": "Schmidt et al., Methods 2009 doi:10.1016/j.ymeth.2009.03.001, PMC4052679 author manuscript",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Later (2009) detailed ChIP-seq protocol; not evidence cited by the 2007 Robertson paper. PMC full text currently challenged."
+    },
+    {
+      "id": "illumina_archived",
+      "role": "linked_material",
+      "locator": "Illumina ChIP-Seq Sample Prep Guide, 2007, https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/cluster_station/11257047_ChIP_Sample_Prep.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Vendor original PDF pp.3–4, 8, 11 (web-extracted lines 54–98, 166–185, 232–259); guide uses Adapter Oligo Mix part 1000521 and PCR Primers 1.1/2.1 parts 1000537/1000538.",
+        "finding": "The guide confirms end repair, dA tailing, adapter ligation, and single-read PCR kit parts, but prints no complete oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina 2007 ChIP-Seq Sample Prep Guide Rev A PDF https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/cluster_station/11257047_ChIP_Sample_Prep.pdf, web lines 42-68, 79-98, 111-185",
+        "finding": "Guide specifies blunt end repair, Klenow exo- dA tailing and 3′ T-overhang adapters. It names Adapter Oligo Mix 1000521 and primers 1000537/1000538 but does not print their bases."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_adapter_sequences",
+      "role": "linked_material",
+      "locator": "Illumina Adapter Sequences document 1000000002694, historical kit-specific sequence table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Specific adapter sequence document not obtained or inspected; 2007 guide names parts but does not print bases.",
+      "discovered_from": "illumina_archived"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Protocol note citation audit exposed a false DOI/author association; PMC4052679 is Schmidt et al., not Park. Defining Robertson source and historical Illumina guides remain unavailable. Illumina 2007 ChIP-Seq Sample Prep Guide pp.3–4, 8, 11 was independently read online; adapter-sequences document remains to be found.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PubMed PMID 17558387 Robertson article identity/DOI; PubMed PMID 19275939 and PMC4052679 Schmidt 2009 identity; Illumina 2007 Rev A guide web lines 42-185",
+      "finding": "Verified Schmidt 2009 is a later detailed protocol, not a predecessor linked by Robertson 2007. Read original Illumina guide; defining Robertson text and historical adapter-sequence table remain unavailable, so missing adapter bases are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical 2007 single-read Illumina adapter synthesis sequence",
+      "evidence": "The 2007 Illumina sample prep guide confirms kit part numbers but does not print bases; defining paper and historical adapter-sequences document remain unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Independent second pass confirmed the 2007 Illumina guide and corrected Schmidt 2009 source relationship; defining paper and adapter-sequence table remain unavailable."
+}

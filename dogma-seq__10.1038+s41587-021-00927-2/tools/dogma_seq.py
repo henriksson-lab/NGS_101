@@ -13,7 +13,9 @@ TITLE = "DOGMA-seq — RNA, ATAC and protein from one cell"
 NOTES = "01_dogma-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41587-021-00927-2">Mimitou et al., <i>Nature Biotechnology</i> (2021)</a>.'
 SUMMARY = "A 10x Multiome-compatible workflow jointly captures poly(A) RNA, accessible chromatin and antibody-derived tags from each permeabilized cell."
-CAVEAT = "The three outputs share cell identity but are distinct sequencing libraries. Proprietary bead and antibody-tag regions remain structural placeholders."
+CAVEAT = ('The three outputs share cell identity but are distinct sequencing libraries. '
+          'The cited <a href="https://assets.ctfassets.net/an68im79xiti/5tnYerYC4FdDwYK0hlcfWj/cc46120ef02327249b5c42f24f44d699/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf">10x CG000338 Rev A guide</a> '
+          'prints both Multiome gel-bead primer architectures; diagrams use role tokens for the variable barcode and UMI members and antibody-tag conjugates.')
 CELL = feature("dogma_cell", "cell_barcode", "whitelist", whitelist="10x Chromium Next GEM bead barcode")
 UMI = feature("dogma_rna_umi", "umi", "random")
 RNA, RNA_P = truseq_library([seg("cell barcode", "C"*16,"cbc",placeholder=True,feature=CELL),seg("RNA UMI","U"*12,"umi",placeholder=True,feature=UMI),seg("3-prime cDNA","X"*40,placeholder=True)], "DOGMA-seq RNA library")
@@ -32,6 +34,8 @@ READ_LENGTHS={"RNA library":{"Read 1":28,"Read 2":90},"ATAC library":{"Read 1":5
 
 def oligos():
     return [
+        "<b>10x Multiome RNA gel-bead primer (CG000338 Rev A, PN-2000261)</b> — 5′-CTACACGACGCTCTTCCGATCT-N16-N12-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3′ (N16: cell barcode; N12: UMI)",
+        "<b>10x Multiome ATAC gel-bead primer (same guide)</b> — 5′-AATGATACGGCGACCACCGAGATCTACAC-N16-CGCGTCTG-3′",
         "<b>ADT additive for Multiome preamplification</b> — 5′-CCTTGGCACCCGAGAATT*C*C-3′ (*: phosphorothioate linkage)",
         "<b>Antibody-tag SI-PCR forward</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC-3′",
         "<b>Antibody-tag RPI-x P7 index family</b> — 5′-CAAGCAGAAGACGGCATACGAGATxxxxxxxxGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′ (x: sample index)",
@@ -62,11 +66,11 @@ def protocol_graph():
  g.react("partition","Partition cells with barcoded gel beads",StepKind.PARTITION,((tagged,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable cell barcode")
  rna=g.product("rna_branch","RNA branch",MaterialKind.MOLECULAR,state=occupied.state); atac=g.product("atac_branch","ATAC branch",MaterialKind.MOLECULAR,state=occupied.state); adt=g.product("adt_branch","antibody-tag branch",MaterialKind.MOLECULAR,state=occupied.state)
  g.react("split","Separate RNA, ATAC and antibody-tag products",StepKind.SPLIT,((occupied,InputRole.TEMPLATE),),(rna,atac,adt),changes_molecule=False)
- bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial sequence not disclosed)")
+ bead=g.input("bead_primer","cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete historical commercial sequence not yet verified in source audit)")
  rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
  cdna=g.product("cdna","cell-barcoded, UMI-tagged cDNA",MaterialKind.MOLECULAR,state=molecule("DOGMA cDNA",(role("cell barcode"),role("RNA UMI"),role("cDNA"))))
  g.react("reverse_transcribe","Capture and reverse-transcribe poly(A) RNA",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
- tag_primer=g.input("tag_primer","antibody-tag capture primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete commercial sequence not disclosed)")
+ tag_primer=g.input("tag_primer","antibody-tag capture primer",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (complete historical commercial sequence not yet verified in source audit)")
  tag_pol=g.input("tag_polymerase","antibody-tag barcode-transfer polymerase",MaterialKind.CATALYST)
  copied=g.product("copied_tags","cell-barcoded antibody-derived tags",MaterialKind.MOLECULAR,state=molecule("DOGMA antibody-tag precursor",(role("cell barcode"),role("UMI"),role("antibody barcode"))))
  g.react("copy_tags","Transfer cell identity to antibody-derived tags",StepKind.EXTENSION,((adt,InputRole.TEMPLATE),(tag_primer,InputRole.STRUCTURAL),(tag_pol,InputRole.CATALYST)),(copied,))

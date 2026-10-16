@@ -1,0 +1,116 @@
+{
+  "dir": "nice-seq__10.1186+s13059-017-1247-6",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_PMC5488340.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods Open chromatin labeling and library construction lines 156–170",
+        "finding": "Nt.CviPII nicks accessible DNA and polymerase I incorporates biotin dNTPs; sonication, E7370 ligation, streptavidin capture and PCR follow. Labeling recipe uses 10 U polymerase I."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5488340 JATS lines 156–170; scraper",
+        "finding": "Nt.CviPII nicking and polymerase I biotin fill precede shearing, NEB E7370 end repair/A tail/ligation, streptavidin enrichment and PCR. The article identifies kit but no particular adapter/index oligo set."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_supp_13059_2017_1247_MOESM1_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "supplement opening Figure S1 and following captions",
+        "finding": "Additional file 1 contains open-chromatin analysis figures rather than an ordering-level adapter table in inspected sections."
+      },
+      "reason": "All 17 figure captions concern peak calling, OCS quality and biological comparisons. There is no construct or oligo detail in this supplement.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 DOCX text lines 1-81, Figure S1-S17 captions; search for primer, adapter, oligo, PCR; scraper on NicE-seq bundle",
+        "finding": "All 17 figure captions concern peak calling, OCS quality and biological comparisons. There is no construct or oligo detail in this supplement."
+      }
+    },
+    {
+      "id": "neb_manual",
+      "role": "vendor",
+      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/manuale7370.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "required materials lines 24–52 and notes lines 169, 443–504",
+        "finding": "E7370 manual explicitly says NEBNext oligo sets are purchased separately; kit name alone cannot fix one adapter/index sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7370 manual lines 24–52, 169–171 and 443–507; scraper",
+        "finding": "Manual says NEBNext oligo/index kits are separate purchases and lists several configurations; E7370 alone does not determine exact index bases."
+      }
+    },
+    {
+      "id": "geo_sample",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2579632",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "GEO extraction protocol lines 35–42",
+        "finding": "Deposited sample metadata says 50 U polymerase I for the 250,000-cell sample versus 10 U in the article Methods; both sources agree on nickase/biotin labeling and E7370 kit."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original NCBI GEO GSM2579632 accession HTML extraction protocol lines 35–42, compared with original PMC5488340 JATS Methods lines 156–170; full NicE-seq source-bundle scraper run before reading.",
+        "finding": "The authors' deposited 250,000-cell sample protocol specifies 2.5 U Nt.CviPII and 50 U DNA polymerase I in 200 µL at 37°C for 2 h; the article's standard recipe specifies 10 U polymerase I. GEO also identifies E7370S ligation and PCR, but gives no purchased index-oligo set. The public model/page already disclose the 10-versus-50-U source difference and avoid choosing one amount."
+      }
+    },
+    {
+      "id": "index_oligo_set",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en/products/e7370-nebnext-ultra-dna-library-prep-kit-for-illumina",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The paper does not identify the separate oligo kit/index set used; exact indexed adapter remains version/lot dependent.",
+      "discovered_from": "neb_manual"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Methods lines 156–170; E7370 manual lines 24–52/169/502; GEO GSM2579632 extraction lines 35–42",
+      "finding": "Published 10-U versus GEO 50-U discrepancy is already disclosed on page; exact separately purchased index set remains unidentified."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original PMC5488340 Methods lines 156–170 and NEB E7370 manual lines 24–52/169–171/443–507",
+      "finding": "Named vendor kit guide read; separate oligo-set choice and GEO sample details remain unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "NicE-seq indexed adapter bases are absent",
+      "disposition": "blocked",
+      "evidence": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+    }
+  ],
+  "conclusion": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+}

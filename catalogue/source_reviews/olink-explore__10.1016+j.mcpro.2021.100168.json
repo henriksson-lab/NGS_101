@@ -1,0 +1,195 @@
+{
+  "dir": "olink-explore__10.1016+j.mcpro.2021.100168",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "wik_article",
+      "role": "defining",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_PMC8633680.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS lines 152, 158, 168-176 and 366-372; whole-bundle oligo scraper",
+        "finding": "Figure 1 names P5/Rd1SP, paired assay barcodes, hybridization site, inline sample index and P7; methods provide PCR1/PCR2 and sequencing. No complete oligo table was seen in inspected methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC8633680 JATS lines 152, 166–168, 186–194 and 238–264; oligo scraper on local bundle",
+        "finding": "Original defines P5/Rd1SP–FBC–Hyb–RBC–sample index–P7 roles, PCR1 then sample-specific PCR2, and a 148-bp product. It prints no complete matched probe sequences or assay/index member dictionary in these sections."
+      }
+    },
+    {
+      "id": "wik_supp_mmc1",
+      "role": "supplement",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All extracted workbook sheets and sequence/primer/oligo searches; assay metadata rows 1-1463",
+        "finding": "Assay and target metadata; oligo-like words are protein names, not a probe sequence table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original mmc1 workbook sheets Assays rows 1–1474 and Information rows 1475 onward; oligo/primer/sequence searches",
+        "finding": "Workbook is 1472-assay protein metadata with Olink IDs, gene/protein names and panel membership; no DNA bases or probe pairing dictionary."
+      }
+    },
+    {
+      "id": "wik_supp_mmc2",
+      "role": "supplement",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Performance and validation result tables, without molecular reagent sections in extracted sheets.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All extracted workbook sheet headings and oligo/sequence/primer/barcode searches",
+        "finding": "No molecular reagent table located; excluded from sequence claim but retained in checklist."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original mmc2 workbook Blad1 first rows and column headings; oligo/primer/sequence searches",
+        "finding": "Rows report assay detection above LOD across samples, not a molecular reagent table; exclusion supported."
+      }
+    },
+    {
+      "id": "wik_supp_mmc3",
+      "role": "supplement",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Performance and validation result tables, without molecular reagent sections in extracted sheets.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All extracted workbook sheet headings and oligo/sequence/primer/barcode searches",
+        "finding": "No molecular reagent table located; excluded from sequence claim but retained in checklist."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original mmc3 workbook Blad1 first rows and column headings; oligo/primer/sequence searches",
+        "finding": "Rows report plasma/serum significance estimates and assay names, not a probe/primer table; exclusion supported."
+      }
+    },
+    {
+      "id": "wik_supp_mmc4",
+      "role": "supplement",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc4.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary appendix lines 1-90, including PCR1/PCR2 handling, plus oligo/primer searches",
+        "finding": "Discusses controls, intermediate products and index hopping; no complete probe or primer bases found in the extracted appendix."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original mmc4 DOCX text lines 1–90 including PCR1/PCR2 storage and index hopping; oligo/primer/sequence searches",
+        "finding": "Supplementary appendix studies stability, controls and index hopping, but does not print full oligo members in inspected text."
+      }
+    },
+    {
+      "id": "olink_patent",
+      "role": "linked_material",
+      "discovered_from": "wik_article",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/en.html.txt; WO2021191442A1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Patent lines 1687-1861 and 4634; SEQ ID NO 1-2 at line 1753; whole-bundle scraper",
+        "finding": "Published P5 20-mer and P7 24-mer are adapter portions; this is not a full probe, universal primer or barcode dictionary."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original WO2021191442A1 local HTML text lines 1753 and 4634; oligo scraper source hit",
+        "finding": "Patent explicitly prints 20-nt P5 portion AATGATACGGCGACCACCGA and 24-nt P7 portion CAAGCAGAAGACGGCATACGAGAT. These portions do not identify complete probe strands, sample indices or assay barcodes."
+      }
+    },
+    {
+      "id": "olink_software",
+      "role": "vendor",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/download.html.txt; https://olink.com/software/download",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fetched landing page extracted text, all 90 lines, and downloaded HTML link/title searches",
+        "finding": "Current page is a software landing page; no probe sequences in visible text. Onward archive/download links require separate inventory."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole Olink source-bundle oligo scraper run first (2 hits, neither from this page); original fetched download.html.txt lines 1-90 and HTML page payload inspected, especially “Olink software solutions”/“This is password protected content” at extracted text lines 244-245; independently opened https://olink.com/software/download on 2026-10-16, web lines 227-232 show password gate; checked visible links and page text for oligos/archive URLs.",
+        "finding": "The current Olink software page is a password-protected landing page. Visible text provides no sequence or accessible software archive; software payload and any internal reference barcode files remain unavailable. Linked software cannot close assay-barcode or probe-base missing claims."
+      }
+    },
+    {
+      "id": "olink_preprocessing",
+      "role": "vendor",
+      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/1344-Olink-explore-preprocessing.pdf.txt; https://7074596.fs1.hubspotusercontent-na1.net/hubfs/7074596/01-User%20Manuals%20for%20website/1344-Olink-explore-preprocessing.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Guide contents and ngs2counts input/output/product detection sections, extracted lines 1-250; sequence/barcode/oligo/primer searches; bundle scraper",
+        "finding": "Current preprocessing guide describes conversion of reads to counts and product detection, but no oligo table or barcode-base dictionary was found. It is a later product-software document, not a 2021 probe design source."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole Olink source-bundle oligo scraper run first; original locally fetched vendor PDF 1344-Olink-explore-preprocessing.pdf.txt cover/contents lines 1-50 (1344 v6.2.2 dated 2026-05-19), overview lines 52-76, product/index/panel detection lines 140-181, ngs2counts input/output lines 185-250, error/compatibility lines 278-317; searched full extracted PDF for oligo, primer, barcode, sequence, counts and index. Independently attempted original HubSpot PDF URL by web reader, inaccessible, but local PDF validates and is readable.",
+        "finding": "This 2026 NPX Map Preprocessing guide describes conversion of NGS runs into counts, control-based product detection, and index/panel inference; it does not print probe oligos or a base-level assay/index dictionary. It references installed ngs2counts/NPX software and metadata, but the password-protected vendor software page prevents review of those payloads. The guide is later than the 2021 assay paper, so it cannot prove publication-era probe contents or their absence."
+      }
+    },
+    {
+      "id": "cruk_combine_olink",
+      "role": "linked_material",
+      "discovered_from": "wik_article",
+      "locator": "https://github.com/crukci-bioinformatics/combine-olink",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Existing note cites public example count files, but the original repository and its links have not been checked in this audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Article linked supplements and patent; existing note's Olink software, preprocessing and CRUK references",
+      "finding": "Patent P5/P7 adapter portions, current preprocessing guide and software landing page are checked once. Their onward links, CRUK example files and independent second pass are still open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article JATS and four original supplements; patent WO2021191442A1 lines 1753/4634",
+      "finding": "Article, supplements and patent checked independently. Olink software, preprocessing PDF and CRUK code linked by existing note remain unavailable/unreviewed, so absence is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete probe and PCR primer bases and assay/sample barcode dictionaries are unavailable in public original sources",
+      "disposition": "blocked",
+      "evidence": "Original article, supplements and patent have been read once; linked vendor material and independent second pass remain outstanding."
+    }
+  ],
+  "conclusion": "Molecular roles, 148-base architecture and two patent adapter portions are established; complete-oligo absence remains unconfirmed pending onward links and second check."
+}

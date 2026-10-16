@@ -1,0 +1,100 @@
+{
+  "dir": "tell-seq__10.1101+gr.260380.119",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "author_preprint",
+      "role": "defining",
+      "locator": "Chen et al bioRxiv 852947 v1, linked published doi:10.1101/gr.260380.119",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author preprint 852947_v1.full.pdf.txt lines 110-125,320-345",
+        "finding": "Tn5 strand-transfer complexes capture long DNA on clonally barcoded beads, then PCR; Index 1 is 18-base molecular barcode, Index 2 is 8-base sample index, R1/R2 146 cycles."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv 852947_v1.full.pdf.txt lines 108-128 and 318-348, independently read Tn5/MuA alternatives, bead capture and run layout",
+        "finding": "The preprint describes simultaneous strand transfer and transpososome capture on clonally barcoded beads; its barcode is 18 degenerate bases in Index 1 and its library run uses 2×146, i1 18 and i2 8 cycles. It does not supply a complete bead-oligo member list."
+      }
+    },
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Chen et al Genome Res 2020 doi:10.1101/gr.260380.119 PMC7370886",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher/PMC full text not available in local bundle; official publisher PDF route still manual.",
+      "discovered_from": "author_preprint"
+    },
+    {
+      "id": "preprint_media",
+      "role": "supplement",
+      "locator": "Author bioRxiv 852947 media-1 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original 852947_media-1.pdf.txt lines 1-40",
+        "finding": "Supplementary figure/data text inspected; barcode synthesis sequence table not evident in extracted pages."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv 852947_media-1.pdf.txt first 45 lines, supplementary-data headings",
+        "finding": "The attached media lists assembly/result data and does not provide a reagent oligo table in these inspected opening sections; full contents still require classification before any absence claim."
+      }
+    },
+    {
+      "id": "ust_kit",
+      "role": "vendor",
+      "locator": "Universal Sequencing Technology TELL-Seq WGS Library Prep Kit",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original Methods explicitly use commercial barcoded bead kit; full bead-linked oligo synthesis and whitelist unavailable.",
+      "discovered_from": "author_preprint"
+    },
+    {
+      "id": "stlfr",
+      "role": "predecessor",
+      "locator": "stLFR bead/transposase predecessor cited in TELL-seq introduction",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Predecessor architecture cited at lines 110-117 but not independently read for chemistry transfer.",
+      "discovered_from": "author_preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author preprint lines 110-125,320-345; published source and UST vendor kit routes",
+      "finding": "Preprint fixes read/index lengths and bead-capture order. Published version and vendor bead/adapter documentation remain unavailable; earlier bead method not checked."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked the available original Methods, supplement inventory and cited predecessor/vendor routes recorded in the checklist",
+      "finding": "Available originals were checked, but relevant historical supplements, vendor manuals or molecular predecessors still require reading; linked-information closure remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full bead-linked barcode/adapter oligo strands",
+      "disposition": "blocked",
+      "evidence": "Preprint gives architecture and read lengths, but commercial kit synthesis source unavailable."
+    }
+  ],
+  "conclusion": "First located pass only; published original and vendor source still blocked."
+}

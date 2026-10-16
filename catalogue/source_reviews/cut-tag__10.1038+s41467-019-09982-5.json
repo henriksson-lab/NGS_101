@@ -1,0 +1,177 @@
+{
+  "dir": "cut-tag__10.1038+s41467-019-09982-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Kaya-Okur et al. Nat Commun 2019 doi:10.1038/s41467-019-09982-5 PMC6488672",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153; scraper zero hits",
+        "finding": "Methods specify Tn5MEDS A/B from Picelli, universal i5 and barcoded i7 from cited source 33, and link detailed protocols.io method."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153",
+        "finding": "Defining paper describes pA-Tn5 with preannealed Tn5MEDS-A/B adapters and i5/i7 index PCR; exact adapter oligos are inherited from Picelli and author protocol."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "Original Supplementary File 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640,974; scraper zero hits",
+        "finding": "Figures and references, no adapter oligo table in inspected chemistry sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640, 973-977",
+        "finding": "Original supplementary figure legends and references, not an oligo list; scraper zero relevant hits."
+      }
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "Original Supplementary File 2 peer review",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Peer-review correspondence does not define library oligos.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-25,100-150",
+        "finding": "Peer-review material rather than oligo ordering list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-18",
+        "finding": "Reviewer correspondence about performance and reproducibility, no primer table."
+      }
+    },
+    {
+      "id": "supp3",
+      "role": "supplement",
+      "locator": "Original Supplementary File 3 peer review",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Peer-review correspondence does not specify primer identities.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt header and first pages",
+        "finding": "Peer-review material rather than oligo list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt lines 1-18",
+        "finding": "Reporting summary, no adapter sequence list."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "Original Supplementary File 4 source data workbook",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original Supplementary Data 4 Fig 2c is chromosome peak-coordinate result data, not chemistry; two independent readers checked the header and first rows.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1\u20135, Fig 2c sheet header and first chromosome rows",
+        "finding": "Original Supplementary Data 4 is CUT&Tag/CUT&RUN/ChIP-seq summit chromosome start/stop result table, not a protocol or oligo table; genomic sequences from scraper are irrelevant."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1-5 and sheet headings; scraper hits at 491308 are genomic sequences",
+        "finding": "Converted 26 MB workbook is Fig. 2c peak coordinate/result table, not an oligo or methods source; scraper genomic hits are false for primer discovery."
+      }
+    },
+    {
+      "id": "picelli",
+      "role": "predecessor",
+      "locator": "Picelli et al. Genome Res 2014 doi:10.1101/gr.177881.114 PMC4248319",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original PMC/publisher page blocked in this pass; author detailed CUT&Tag protocol reproduces the Picelli-derived three oligos."
+    },
+    {
+      "id": "protocolsio",
+      "role": "detailed_protocol",
+      "locator": "Kaya-Okur and Henikoff 2019 Bench top CUT&Tag v1 doi:10.17504/protocols.io.wnufdew, https://www.protocols.io/view/bench-top-cut-amp-tag-wnufdew.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Detailed protocol inaccessible in current local source bundle.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author protocol PDF pages 2,4; web extracted lines 74-79,101-103,127-135",
+        "finding": "Prints /5Phos/ mosaic-end reverse and complete ME-A/ME-B sequence; says universal i5 and 16 distinct i7 primers from Buenrostro 2015. No exact sample-to-index assignment."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official author Bench top CUT&Tag protocol https://www.protocols.io/view/bench-top-cut-amp-tag-z6hf9b6.pdf, web lines 65-105",
+        "finding": "Author protocol explicitly prints phosphorylated mosaic end reverse and adapter A/B sequences, credits Picelli 2014, and says i5 universal plus 16 i7 primers from Buenrostro 2015."
+      }
+    },
+    {
+      "id": "index_predecessor",
+      "role": "predecessor",
+      "locator": "Buenrostro et al Nature 2015 doi:10.1038/nature14590, Supplementary Table workbook MOESM36",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Cited primer source 33 not yet retrieved.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-194; scraper family lines 6 and 99",
+        "finding": "Original linked source prints full i5 and i7 PCR primer families, including 96 i7 variants. CUT&Tag protocol does not identify which 16 or which sample used which barcode."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-8 and 99-194",
+        "finding": "Buenrostro predecessor workbook publishes i5/i7 index primer families; author protocol cites it for CUT&Tag index PCR."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "CUT&Tag article Methods lines 130-138; protocols.io author PDF pages 2,4; Buenrostro 2015 original supplement workbook lines 1-194; Picelli original direct access blocked.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 125-153; original supplements 1-4; author protocols.io PDF lines 65-105; Buenrostro 2015 index workbook lines 1-194; Picelli 2014 original route blocked",
+      "finding": "Author protocol recovers three Tn5 oligos and links Picelli; Buenrostro table supplies index family. Picelli original remains unavailable and newly converted Supplementary Data 4 exclusion needs independent first pass."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Particular sample-specific i7 index chosen per CUT&Tag library",
+      "disposition": "blocked",
+      "evidence": "Buenrostro 2015 MOESM36 prints candidate primer family, but CUT&Tag article/protocol gives no sample-to-index assignment or which 16 of 96 i7 members were selected."
+    }
+  ],
+  "conclusion": "Author protocol prints CUT&Tag Tn5 adapter oligos and cited index table is present. Picelli predecessor remains unavailable; Supplementary Data 4 exclusion needs independent second-reader check before review closes."
+}

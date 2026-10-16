@@ -1,0 +1,98 @@
+{
+  "dir": "scribo-seq__10.1038+s41586-021-03887-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41586-021-03887-4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher article absent in local source bundle."
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Extracted MOESM1 PDF opening lines 1–18 and form section headings",
+        "finding": "Nature Research Reporting Summary: statistical and data/software availability form, without ordering oligos or method sequence."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF opening pages",
+        "finding": "Nature Reporting Summary, with study statistics; no chemistry oligo table in inspected pages."
+      },
+      "reason": "Nature Research Reporting Summary: statistical and data/software availability form, without ordering oligos or method sequence."
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Extracted MOESM2 PDF opening lines 1–22 and source heading inventory",
+        "finding": "Peer Review File of reviewer reports and author rebuttals; the chemistry ordering strings are in MOESM3 workbook, not this file."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF opening pages",
+        "finding": "Peer Review File with comments/rebuttals; no source oligo table in inspected opening pages."
+      },
+      "reason": "Peer Review File of reviewer reports and author rebuttals; the chemistry ordering strings are in MOESM3 workbook, not this file."
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Rows 1–6 and 6–389; scraper source hits lines 3–6",
+        "finding": "Workbook prints /5rApp/ small-RNA 3′ adapter with /3ddC/, RT primer, RNA capture oligo and a 384-member barcoded PCR primer family. Main method/order remains unreviewed."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM3 XLSX Sheet1 rows 1–35",
+        "finding": "Prints /5rApp/TGGAATTCTCGGGTGCCAAGG/3ddC/ 3′ adapter, GCCTTGGCACCCGAGAATTCCA RT primer, modified RNA 5′ adapter and a family of indexed PCR forward oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: oligo_table",
+      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published MOESM1 PDF opening pages; Published MOESM2 PDF opening pages; Published MOESM3 XLSX Sheet1 rows 1–35",
+      "finding": "Inspected listed originals/supplements and source roles. Unavailable chemistry-relevant predecessor/original remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+}

@@ -1,0 +1,90 @@
+{
+  "dir": "indrop-v1__10.1016+j.cell.2015.04.044",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/indrop__10.1016+j.cell.2015.04.044/j.cell.2015.04.044_PMC4441768.xml.txt:67-69,153,163",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_i_r",
+        "date": "2026-10-15",
+        "locations": "Original article JATS/HTML Methods and Supplementary Material line 163",
+        "finding": "Original article available; exact v1 bead-primer and library details delegated to original supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original PMC4441768 JATS Methods and Supplementary Material list; local indrop__ source bundle",
+        "finding": "Article describes droplet RT and barcode workflow; defining 2015 supplement-1 and spreadsheets are manual rows. Scraper on the actual indrop__ source bundle finds 46 hits, mainly in 2017 descendant sources, not the missing 2015 originals."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4441768/bin/NIHMS685995-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC preparing-to-download gate; defining paper original detailed supplement not cached.",
+      "pass_1": {
+        "reviewer": "audit_i_r",
+        "date": "2026-10-15",
+        "locations": "Original supplement-1 manual row in MANIFEST.tsv",
+        "finding": "Original detailed supplement inaccessible."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original supplement-1 manual row and PMC article Supplementary Material line 163",
+        "finding": "Original detailed supplement remains unavailable."
+      }
+    },
+    {
+      "id": "supp11_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/4441768/bin/NIHMS685995-supplement-{11,12}.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original author spreadsheet supplements both manual in source manifest; relevance to exact primer whitelist unresolved."
+    },
+    {
+      "id": "later2017",
+      "role": "linked_material",
+      "locator": "_data/sources/indrop__10.1016+j.cell.2015.04.044/nprot.2016.154_41596_2017_BFnprot2016154_MOESM454_ESM.pdf.txt and MOESM455-457 XLSX text",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "2017 descendant Nature Protocols supplement inventory in same bundle",
+        "finding": "2017 detailed supplement and barcode spreadsheets present; they are a later v2 procedure and cannot silently stand in for original v1. Sequence-by-sequence comparison still needed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2017 Nature Protocols MOESM454 method PDF and MOESM455–457 workbook files in indrop__ bundle",
+        "finding": "Descendant source gives oligo designs, but cannot independently establish original 2015 v1 author supplement members."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "2015 MANIFEST.tsv supplement-1 and -11/-12 manual rows; 2017 Nature Protocols supplement files",
+      "finding": "2015 original oligo supplements remain gated; followed later protocol as a distinct source, excluded scg self-authored files from original-source evidence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact v1 bead-primer oligos and post-RT read construct",
+      "disposition": "blocked",
+      "evidence": "Original 2015 supplementary Methods and author spreadsheets inaccessible; 2017 v2 descendant is present but may differ."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

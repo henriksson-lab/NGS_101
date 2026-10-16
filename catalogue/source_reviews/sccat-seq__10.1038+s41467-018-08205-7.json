@@ -1,0 +1,124 @@
+{
+  "dir": "sccat-seq__10.1038+s41467-018-08205-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41467-018-08205-7; s41467-018-08205-7_PMC6349937.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 1613-1682",
+        "finding": "Prints RT/TSO and ATAC preamplification sequences; lines 1670-1682 name but do not sequence final universal/barcode PCR primers or BGISEQ circle/DNB reagents."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC6349937 JATS lines 219-229 and references 351,523",
+        "finding": "Original paper describes physical RNA/nucleus split, SMART-seq2-like RT, Tn5 chromatin branch and BGISEQ-500 finishing; linked predecessor and vendor roles are explicit."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "316208_316208-1.pdf.txt and 316208_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "supplement lines 274-302, 471-530; full preprint Methods",
+        "finding": "Preprint corroborates modified RT/ATAC oligos and labels endpoint primers only by universal/barcode role."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Author preprint 316208_v2.full.pdf.txt Methods and 316208_316208-1.pdf.txt supplement",
+        "finding": "Preprint version confirms chemistry route but does not replace the missing BGISEQ-500 original guide."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "s41467-018-08205-7_supp_41467_2018_8205_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "supplement title and sequence/primer search; lines 293-294",
+        "finding": "Supplementary methods do not add endpoint primer sequences in inspected locations."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Publisher MOESM1 lines 293-294 and sequence-word search",
+        "finding": "Supplement includes assay-validation details; no additional terminal adapter identity was established from inspected text."
+      }
+    },
+    {
+      "id": "supp_data",
+      "role": "supplement",
+      "locator": "MOESM2-MOESM10 publisher supplements",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Data and reporting supplements are not oligo tables; inaccessible MOESM6-9 remain listed separately in the bundle manifest.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "MOESM2 editorial note; MOESM3 index; MOESM4-5 data-table headers; MOESM10 reporting summary; MOESM6-9 manifest gates",
+        "finding": "Accessible files are reporting/data; MOESM6-9 are large data tables or invalid legacy-Office downloads, so cannot support a complete absence claim."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2–MOESM10 document/table headings and adapter/primer search",
+        "finding": "These original files are supplemental data/figures; no verified BGISEQ terminal oligo sequence found in inspected extracted text."
+      }
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "SMART-seq2 method cited at paper line 1678",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The predecessor source was not independently checked in this pass.",
+      "pass_2": null
+    },
+    {
+      "id": "bgiseq",
+      "role": "vendor",
+      "locator": "BGISEQ-500 circle/DNB library preparation manual cited at paper lines 1679-1682",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No exact guide/revision is in the local bundle.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "paper Methods lines 1674-1682 and citations to SMART-seq2 and BGISEQ-500",
+      "finding": "Found two chemistry-relevant predecessor/vendor routes, neither read yet in this pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC paper Methods 219-229; SMART-seq2/BGISEQ citations; MANIFEST.tsv",
+      "finding": "Identified predecessor SMART-seq2 and BGISEQ-500 terminal library prep; original linked protocol/guide not fully checked, so blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Universal/barcode endpoint primer and BGISEQ conversion oligos were not disclosed",
+      "disposition": "blocked",
+      "evidence": "The defining paper names but does not sequence them at lines 1670-1682; predecessor and BGISEQ guide still need checking."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

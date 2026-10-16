@@ -12,6 +12,9 @@ from protocol_model import molecule, role
 from protocol_families.tenx_graph import READ2_ADAPTER_END, chromium_pcr, partition_material
 
 CHEM = VDJChemistry(version="v2", umi_nt=10, guide="CG000331 Rev F")
+# CG000331 Rev F, Appendix p. 74, Human T Cell Mix 1/2 v2 (PN-2000242/2000246).
+HUMAN_T_OUTER = ("TGAAGGCGTTTGCACATGCA", "TCAGGCAGTATCTGGAGTCATTGAG")
+HUMAN_T_INNER = ("AGTCTCTCAGCTGGTACACG", "TCTGATGGCTCAAACACAGC")
 
 
 def protocol_graph() -> ProtocolGraph:

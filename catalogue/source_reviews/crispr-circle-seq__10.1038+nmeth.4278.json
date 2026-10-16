@@ -1,0 +1,387 @@
+{
+  "dir": "crispr-circle-seq__10.1038+nmeth.4278",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "tsai2017",
+      "role": "defining",
+      "locator": "Tsai et al. Nat Methods 2017 doi:10.1038/nmeth.4278; nmeth.4278_PMC5924695.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 62-66, 111-120, 150-182; oligo scraper run on full local bundle and hits followed to source text",
+        "finding": "Methods print phosphorylated, terminal phosphorothioate oSQT1288, ordered exonuclease/USER/PNK/circularization/Cas9 steps and 150-bp paired-end sequencing; they delegate detailed library construction to Supplementary Protocol."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5924695 JATS Online Methods lines 103–127",
+        "finding": "300-bp shear, end repair/A tail, uracil stem-loop oSQT1288, exo/USER/PNK, circle ligation, linear DNA digestion, Cas9 cut, second hairpin ligation, USER/PCR and 150-bp PE read order."
+      }
+    },
+    {
+      "id": "springer_protocol",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4278_41592_2017_BFnmeth4278_MOESM84_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Reagent list lines 36-66; oSQT1288 preparation lines 119-126; sequencing library steps 270-310, especially E7601A line 292",
+        "finding": "Names NEBNext Multiplex Oligos Dual Index Primers Set 1 and prints the oSQT1288 modified hairpin. E7601A adapter is printed with a 64-base transcription lacking one C in its loop; i5/i7 are named but the selected index pair is not stated."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM84 PDF text lines 60–90, 275–305",
+        "finding": "Supplementary Protocol prints modified oSQT1288 and step 21 named E7601A hairpin with ACACTCTTTCCTACACGACG (64-nt total)."
+      }
+    },
+    {
+      "id": "pmc_protocol_copy",
+      "role": "supplement",
+      "locator": "Original PMC Cloud nmeth.4278_supp_NIHMS866510-supplement-3.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Oligo table line 32; E7601A transcription line 161",
+        "finding": "Independent deposited copy also prints oSQT1288 and the shorter E7601A adapter transcription; the latter is not a local extraction artifact."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud supplement-3 DOCX text lines 30–36, 145–172",
+        "finding": "Independent hosted copy of protocol prints same oSQT1288 and 64-nt step-21 E7601A sequence with missing C versus later NEB manual."
+      }
+    },
+    {
+      "id": "springer_moesm75",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM75_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result workbook, not library-construction chemistry.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first result rows; scraper hits classified as genomic target sites",
+        "finding": "GUIDE-seq/CIRCLE-seq comparison counts; not a reagent or index-primer specification."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM75 XLSX sheet 2a header and first rows",
+        "finding": "GUIDE/CIRCLE off-target result comparison table; no reagent oligos in inspected header."
+      }
+    },
+    {
+      "id": "springer_moesm76",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM76_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result workbook, not library-construction chemistry.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first result rows; scraper hits classified as genomic target sites",
+        "finding": "Fig. 3 target-site counts; not a reagent or index-primer specification."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM76 XLSX sheet Fig3a header and first rows",
+        "finding": "Per-target detection counts; no chemistry oligo field in inspected header."
+      }
+    },
+    {
+      "id": "springer_moesm77",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM77_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result workbook, not library-construction chemistry.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first result rows; scraper hits classified as genomic target sites",
+        "finding": "Fig. 4 allele-frequency analysis; not a reagent or index-primer specification."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM77 XLSX sheet Fig4c header and first rows",
+        "finding": "Population/variant comparison values; no chemistry oligo field in inspected header."
+      }
+    },
+    {
+      "id": "springer_moesm81",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM81_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result workbook, not library-construction chemistry.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first result rows; scraper hits classified as genomic target sites",
+        "finding": "Targeted Tag Sequencing validation counts; not a reagent or index-primer specification."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM81 XLSX Targeted Tag Sequencing Data sheet header and first rows",
+        "finding": "Validation integration-count table; no core CIRCLE adapter field."
+      }
+    },
+    {
+      "id": "springer_moesm78",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM78_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. 1 caption and schematic description lines 1-12; Supplementary Note 1 after Fig. 12",
+        "finding": "The alternative linear stem-loop method and the CIRCLE-seq circularization optimization are described; these sources reinforce USER/PNK and intramolecular ligation order."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM78 PDF Supplementary Fig.1 opening legend lines 1–7",
+        "finding": "Detailed linear stem-loop schematic supports first hairpin ligation and exonuclease/USER steps; no new oligo bases in inspected legend."
+      }
+    },
+    {
+      "id": "pmc_supp1",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Contents/manifest only.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Information Titles first page",
+        "finding": "Manifest of supplementary files; points to figures, note, protocols and tables but contains no separate chemistry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplement-1 DOC opening lines 1–10",
+        "finding": "Supplementary Information Titles submission inventory, no protocol sequences."
+      }
+    },
+    {
+      "id": "pmc_supp2",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-2.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. 1-3 captions near document start; Fig. 2 explicitly traces CIRCLE circularization",
+        "finding": "Deposited figure captions explain the linear alternative and CIRCLE stem-loop, exonuclease, USER/PNK and ligation sequence."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplement-2 DOC opening Supplementary Figure 1 legend",
+        "finding": "Second deposited figure legend for linear stem-loop method; relevant to reaction geometry, no new oligo bases in inspected legend."
+      }
+    },
+    {
+      "id": "pmc_supp4",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-4.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original supplement is a 17-page visualization of genomic off-target site alignments, not reagent or library oligos.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Visually inspected original PDF pages 1-3 and 17 with pdftoppm; page 17 caption identifies the 17-page supplement as off-target-site visualization; extracted text contains only target alignments",
+        "finding": "Colored mismatch charts and CIRCLE-seq read counts for intended/off-target genomic sites; no library adapter or selected dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplement-4 PDF pages 1 and 17 visually inspected (text extraction broken)",
+        "finding": "Seventeen-page off-target site alignment visualization; page 17 caption names visualization, and inspected pages have target/mismatch plots rather than reagent oligos."
+      }
+    },
+    {
+      "id": "pmc_supp5",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Note lines 1-20",
+        "finding": "Optimization note details initial stem-loop ligation, exonuclease selection, USER/PNK 4-nt overhang formation, dilute intramolecular T4 ligation and 90-nM Cas9 choice."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplement-5 PDF text lines 1–20",
+        "finding": "Optimization Note explicitly says uracil stem-loop ligated after end repair/A-tail, exonuclease selects dual ligations, USER/PNK releases 4-bp overhangs, T4 ligase circularizes; gives optimized 400 U ligase at 2.5 ng/µl."
+      }
+    },
+    {
+      "id": "pmc_table2",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results or validation material; not the main CIRCLE library construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first data rows; scraper hits classified by column label",
+        "finding": "CIRCLE genomic off-target coordinate table; no main CIRCLE library dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary table2 XLSX circleSeq sheet header and first rows",
+        "finding": "CIRCLE off-target genomic result table; no library oligo columns."
+      }
+    },
+    {
+      "id": "pmc_table3",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results or validation material; not the main CIRCLE library construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first data rows; scraper hits classified by column label",
+        "finding": "site count and comparison table; no main CIRCLE library dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary table3 XLSX Sheet1 header and first rows",
+        "finding": "Off-target detection comparison, no library oligo columns."
+      }
+    },
+    {
+      "id": "pmc_table4",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results or validation material; not the main CIRCLE library construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first data rows; scraper hits classified by column label",
+        "finding": "Targeted Tag Sequencing validation counts; no main CIRCLE library dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary table4 XLSX Targeted Tag Sequencing Data sheet header and first rows",
+        "finding": "Validation integration counts, no CIRCLE library oligos."
+      }
+    },
+    {
+      "id": "pmc_table5",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results or validation material; not the main CIRCLE library construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first data rows; scraper hits classified by column label",
+        "finding": "cell-specific SNP and target sequence table; no main CIRCLE library dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary table5 XLSX Cell-specific SNPs sheet header and first rows",
+        "finding": "SNP result table, no library oligos."
+      }
+    },
+    {
+      "id": "pmc_table6",
+      "role": "supplement",
+      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results or validation material; not the main CIRCLE library construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet header and first data rows; scraper hits classified by column label",
+        "finding": "validation PCR primer list; no main CIRCLE library dual-index pair."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary table6 XLSX Supplementary Table 4 sheet header and first rows",
+        "finding": "Targeted validation primer pairs are printed, but are for secondary site validation PCR, not CIRCLE library construction."
+      }
+    },
+    {
+      "id": "neb_e7600",
+      "role": "vendor",
+      "locator": "NEB E7600 Dual Index Primers Set 1 manual, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7600.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Manual page 3 adapter/primer table and revision history",
+        "finding": "The named kit manual prints E7601A as 65 bases with the additional C, including 5′ phosphate, internal dU and terminal phosphorothioate; it lists index-primer families but cannot identify which pair was used for these libraries. Current manual revision does not establish historical lot contents."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55–76 and revision history p.14 lines 443–461; primer Appendix pp.11–12 lines 283–414",
+        "finding": "Current manual prints E7601A as 65 nt with ACACTCTTTCCCTACACGACG, U-containing hairpin opened by USER and i5/i7 primer families. Revision history says NEB corrected adapter sequence in Nov 2017; this later manual cannot prove which physical lot/sequence Tsai used earlier in 2017."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Article Methods line 116; detailed publisher protocol reagent list line 43 and E7601A line 292; PMC deposited copy line 161; NEB E7600 manual page 3",
+      "finding": "Followed the paper to publisher and PMC detailed protocols, supplementary figures and optimization note, visually classified the off-target visualization supplement, classified individual result/validation tables, and checked the named vendor kit. Historical kit lot and selected i5/i7 pair remain unverified."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC5924695 JATS Online Methods lines 103–127; Original Springer MOESM84 PDF text lines 60–90, 275–305; Original PMC Cloud supplement-3 DOCX text lines 30–36, 145–172; Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55–76 and revision history p.14 lines 443–461; primer Appendix pp.11–12 lines 283–414",
+      "finding": "Read defining original, both detailed protocol copies, named NEB manual and individually listed supplements to the specified extent. Published 64/65-nt discrepancy remains historically unresolved because NEB revised its sequence after the paper; exact study kit lot and index pair are unknown."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The sequence of the post-cleavage adapter is undisclosed",
+      "disposition": "resolved",
+      "evidence": "Supplementary Protocol line 292 prints E7601A with a one-C discrepancy; the named NEB E7600 manual prints the 65-base adapter. Both values and the model choice are displayed on the page."
+    },
+    {
+      "claim": "The selected i5 and i7 index pair can be reconstructed",
+      "disposition": "blocked",
+      "evidence": "The protocol names a dual-index primer kit but no particular pair; NEB prints a family. Historic kit version and experiment metadata have not been fully audited."
+    }
+  ],
+  "conclusion": "Two located independent passes on the available original, protocol and individually checked supplements. NEB revision history shows its adapter sequence was corrected in November 2017; the physical lot used for the earlier study and chosen i5/i7 pair remain unverified, so missing claims stay blocked."
+}

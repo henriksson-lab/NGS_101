@@ -1,0 +1,187 @@
+{
+  "dir": "hichip__10.1038+nmeth.3999",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Mumbach et al Nat Methods 2016 doi:10.1038/nmeth.3999 PMC5501173",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_PMC5501173.xml.txt lines 87-111; scraper short primers in preprint at 829,838",
+        "finding": "Methods specify in situ Hi-C contact preparation, ChIP, Tn5, biotin capture, Ad1_noMX/Ad2.X PCR and optional short post-pooling primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Mumbach JATS nmeth.3999_PMC5501173.xml.txt lines 49,85-111",
+        "finding": "HiChIP inherits in situ contact generation, followed by factor ChIP, on-bead Tn5 and PCR with Nextera Ad1_noMX/Ad2.X listed in Supplementary Table 4."
+      }
+    },
+    {
+      "id": "supp_info",
+      "role": "supplement",
+      "locator": "Publisher MOESM254 Supplementary Information",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM254_ESM.pdf.txt lines 1-35",
+        "finding": "Supplementary figures, not oligo ordering table in opening sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM254 PDF text lines 1-35 and figure headings",
+        "finding": "Supplementary figure file documents interaction/peak comparison rather than construction oligo sequences."
+      },
+      "reason": "Figures and analytic comparisons rather than adapter sequences."
+    },
+    {
+      "id": "supp_tab1",
+      "role": "supplement",
+      "locator": "Publisher MOESM255 Supplementary Table 1",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM255_ESM.xlsx.txt first rows",
+        "finding": "Prior-study contact data; no primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM255 workbook lines 1-8",
+        "finding": "Prior-method comparison sheet has PMID/lab/factor/read counts; not an oligo table."
+      },
+      "reason": "Comparative sequencing metrics."
+    },
+    {
+      "id": "supp_tab2",
+      "role": "supplement",
+      "locator": "Publisher MOESM256 Supplementary Table 2",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM256_ESM.xlsx.txt first rows",
+        "finding": "Alignment/filtering metrics, not chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM256 workbook lines 1-8",
+        "finding": "Mapping and Hi-C filtering table reports interaction counts; not chemistry instructions."
+      },
+      "reason": "Read-processing table."
+    },
+    {
+      "id": "supp_tab3",
+      "role": "supplement",
+      "locator": "Publisher MOESM257 Supplementary Table 3",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM257_ESM.xlsx.txt first rows",
+        "finding": "Genomic loop coordinates, not oligo design."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM257 workbook lines 1-3",
+        "finding": "Loop coordinate/call table; not molecular construction evidence."
+      },
+      "reason": "Contact-coordinate table."
+    },
+    {
+      "id": "supp_tab4",
+      "role": "supplement",
+      "locator": "Publisher MOESM258 Supplementary Table 4",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM258_ESM.xlsx.txt lines 1-26; scraper directory family",
+        "finding": "Full universal Ad1 and 24 indexed Ad2 primers printed; resolves primer-family disclosure."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM258 workbook lines 1-26",
+        "finding": "Supplementary Table 4 explicitly prints Ad1_noMX and 24 indexed Ad2 family members."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Mumbach et al bioRxiv 073619 v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/hichip__10.1038+nmeth.3999/073619_v1.full.pdf.txt lines 790-850; scraper short primers 829,838",
+        "finding": "Earlier author version also gives optional short primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv 073619 v1 PDF text lines 688-709, 800-846",
+        "finding": "Preprint details contact ligation, on-bead Tn5 and indexed PCR, plus short i7 and i5 amplification oligos at lines 835-846."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "in_situ_hic",
+      "role": "predecessor",
+      "locator": "Rao et al Cell 2014 in situ Hi-C original linked protocol, local Hi-C_Protocol.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt lines 48-88; scraper zero",
+        "finding": "Original predecessor specifies MboI digest, Klenow fill-in with biotin-14-dATP, and in-nucleus T4 ligation; HiChIP adds ChIP and bead Tn5 after this contact intermediate."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Rao in situ Hi-C protocol Hi-C_Protocol.pdf.txt lines 48-85",
+        "finding": "MboI cut, Klenow biotin-14-dATP fill-in and T4 DNA ligase proximity ligation are explicitly specified in inherited contact-prep protocol."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Online Methods, each of five publisher supplements, author preprint and linked in situ Hi-C.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Mumbach JATS lines 49,85-111; MOESM254-258; bioRxiv 073619 lines 688-846; Rao Hi-C_Protocol lines 48-85",
+      "finding": "All identified source families read independently. Contact-ligation and PCR primer details are supported; no linked source remains unavailable for the stated resolved claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Inherited contact-ligation details from in situ Hi-C",
+      "evidence": "Rao 2014 in situ Hi-C protocol lines 48-88 verifies MboI, Klenow biotin-14-dATP fill-in and T4 proximity ligation; Mumbach 2016 Methods lines 87-103 show ChIP/Tn5 modifications.",
+      "disposition": "resolved"
+    }
+  ],
+  "conclusion": "Two independent source passes support inherited contact ligation and the published PCR oligo family; no missing-information claim remains."
+}

@@ -31,7 +31,7 @@ def partition_material(graph, material, reviewed, *, label="cells or nuclei"):
 
 def chromium_pcr(graph, prefix, template, product_state, reviewed, *, label,
                  library=False, geometry=None, inferred_primers=False,
-                 limitation="The page authority does not print both PCR-primer sequences."):
+                 limitation="Exact sequences for both PCR primers have not been declared in this model."):
     """Add one explicitly primed Chromium PCR and return its product material."""
     source = graph.authority + (" (commercial primer bases not asserted here)"
                                 if inferred_primers else "")
@@ -142,7 +142,7 @@ class ChromiumRNAOps:
                 ((recovered, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL),
                  (pre_r, InputRole.STRUCTURAL), (pre_pol, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(
-                    first_strand, reason="The page authority does not print both cDNA preamplification primers."))
+                    first_strand, reason="Exact cDNA preamplification primer sequences have not been declared in this model."))
         self.reviewed.extend(("preamp_forward", "preamp_reverse", "preamp_polymerase", "preamp"))
         return amplified
 
@@ -201,7 +201,7 @@ class ChromiumRNAOps:
                 ((adapted, InputRole.TEMPLATE), (index_f, InputRole.STRUCTURAL),
                  (index_r, InputRole.STRUCTURAL), (index_pol, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The page authority does not print both sample-index PCR primers."))
+                    final, reason="Exact sample-index PCR primer sequences have not been declared in this model."))
         self.reviewed.extend(("index_forward", "index_reverse", "index_polymerase",
                               "index_pcr", "library"))
         return library

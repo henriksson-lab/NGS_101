@@ -21,16 +21,20 @@ Vendor documents (primary for the chemistry):
 
 - **CG000108 Rev A** — Technical Note "Assay Scheme and Configuration of Chromium Single
   Cell 3' v2 Libraries" (2017); refers to the v2 user guide CG00052.
+- **CG00052 Rev D** — original 10x Single Cell 3' Reagent Kits v2 User Guide (2018),
+  checked for the v2 thermal programs and sequencing parameters. Its revision is later
+  than CG000108 Rev A, so exact 2017 conditions remain revision-dependent.
 - **CG000183 Rev A** — Chromium Single Cell 3' Reagent Kits **v3** User Guide.
 - **CG000731 Rev A** — Chromium **GEM-X** Single Cell 3' Reagent Kits **v4** User Guide.
 
-Sources read (in `$CHEM_DATA/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/`,
-never committed):
+Sources read (in `$CHEM_DATA/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/`
+and `$CHEM_DATA/sources/10x-chromium-single-cell-3-ge-v2/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_10xChromium3.html(.txt)` | scg_lib_structs page "10x Chromium Single Cell 3' Gene Expression" | second source: oligos, steps, final library, read layout; checked against the vendor PDFs |
+| `upstream_10xChromium3.html(.txt)` | scg_lib_structs drawn page | orientation only; not molecular evidence |
 | `upstreamdata_CG000108_AssayConfiguration_SC3v2.pdf(.txt)` | 10x technical note, v2 | **every v2 oligo**, verbatim (fetched by hand from the upstream site's `data/10X-Genomics/`) |
+| `CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf(.txt)` | official 10x v2 Rev D user guide | **v2 thermal programs, amplification tiers and 26/8/98 run**, sections 1.5, 2.2, 3.1, 4.2 |
 | `upstreamdata_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf(.txt)` | 10x v3 user guide | **v3 oligos** (appendix "Oligonucleotide Sequences"), thermal programs, cycle numbers, run parameters |
 | `upstreamdata_CG000731_ChromiumGEM-X_SingleCell3_ReagentKits_v4_UserGuide_RevA.pdf(.txt)` | 10x v4 (GEM-X) user guide | **v4 bead oligo and final library**, thermal programs, run parameters |
 | `10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf(.txt)` | 10x v3.1 single-index guide, appendix pp. 57–58 | v3.1 bead, TSO, cDNA primers, adapter, 8-nt i7 single-index primer and library |
@@ -46,7 +50,7 @@ Not fetched / not available:
 
 | What | Where | Why it matters |
 |---|---|---|
-| CG00052, v2 user guide (thermal programs, cycle numbers for v2) | 10x support site, `https://www.10xgenomics.com/support` (login/JS) | v2 conditions are only inferred from v3 here 🔴 |
+| CG00052 revision contemporaneous with CG000108 Rev A | 10x historical support archive | Rev D is available and checked; earlier differences remain unverified 🟡 |
 
 ---
 
@@ -77,11 +81,11 @@ Version differences (🟢 per the respective vendor document unless marked):
 | UMI | 10 nt | 12 nt | 12 nt |
 | poly(dT) on bead, as written | `T30VN` | `T30` (appendix) but `Poly(dT)VN` in the overview figure | `T30VN` |
 | second bead oligo (Capture Seq 1, Feature Barcode) | — | yes, "not used for 3' Gene Expression" | yes ("Capture Sequence 1") |
-| cDNA reverse primer | 27 nt (handle + `ACAT`) | 22 nt ("Partial TSO") | 🔴 not given in CG000731 |
+| cDNA reverse primer | 27 nt (handle + `ACAT`) | 22 nt ("Partial TSO") | CG000731 lists PN-2000089 but omits bases; same PN is printed as 22 nt in CG000315 Rev F 🟡 |
 | Read 2 adapter top strand | 33 nt, ends `…CAGTCAC` | 32 nt, ends `…CAGTCA` | 🔴 not given |
 | sample index | single, i7 8 nt | single, i7 8 nt | **dual**, i7 10 nt + i5 10 nt (Dual Index Kit TT Set A) |
-| GEM-RT | 🔴 (v2 guide not read) | 53 °C 45 min, 85 °C 5 min | **48 °C** 45 min, 85 °C 5 min |
-| run (R1 / i7 / i5 / R2) | 26 / 8 / 0 / 98 🟡 (upstream; its 98-cycle Read 2 is not tied to a version) | 28 / 8 / 0 / 91 | 28 / 10 / 10 / 90 |
+| GEM-RT | 53 °C 45 min, 85 °C 5 min 🟢 (CG00052 Rev D §1.5) | 53 °C 45 min, 85 °C 5 min | **48 °C** 45 min, 85 °C 5 min |
+| run (R1 / i7 / i5 / R2) | 26 / 8 / 0 / 98 🟢 (CG00052 Rev D §4.2) | 28 / 8 / 0 / 91 | 28 / 10 / 10 / 90 |
 
 **Disagreement with upstream.** The scg_lib_structs page says the v4 library structure
 "is exactly the same as v3 and v3.1". CG000731 shows otherwise: the v4 library is
@@ -147,9 +151,14 @@ Gel Bead Primers
   5’-CTACACGACGCTCTTCCGATCT-N16-N12-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3’
 ```
 
-CG000731 gives no TSO, cDNA primer, adaptor or index-primer sequences — only the bead
-oligo and the final product (§5). 🔴 for the v4 TSO / cDNA primers / adaptor. Upstream
-assumes they equal v3. 🟡
+CG000731 gives no TSO, cDNA-primer, adaptor or full index-primer sequences — only the
+bead oligo and final product (§5). Its kit contents (p. 9) identify **cDNA Primers
+PN-2000089**. CG000315 Rev F, "Oligonucleotide Sequences" (p. 62), prints the same
+part number with forward `CTACACGACGCTCTTCCGATCT` and reverse
+`AAGCAGTGGTATCAACGCAGAG`. 🟢 Each document's own claim; 🟡 assigning those bases to
+v4 on the assumption that a stable part number means a stable oligo formulation.
+The v4 TSO and adaptor sequences remain unresolved. The TT index **read** bases are
+available in the manufacturer CSV, but the full index-primer oligos are not established.
 
 ### Sequencing primers (upstream only)
 
@@ -200,13 +209,15 @@ With `lib/` (`chemdraw.revcomp`, `illumina`, `rt`, `nextera`):
 
 ## 4. Step by step
 
-Conditions 🟢 from CG000183 (v3) / CG000731 (v4) as noted. The v2 guide (CG00052) was not
-read; its steps are named in CG000108 (1.5 GEM-RT, 2.2 cDNA amplification, 3.3 adapter
-ligation, 3.5 sample-index PCR) but conditions are 🔴 here.
+Conditions below are revision-specific: v2 from CG00052 Rev D, v3 from CG000183,
+and v4 from CG000731. CG000108 Rev A names the v2 steps (1.5 GEM-RT, 2.2 cDNA
+amplification, 3.3 adapter ligation, 3.5 sample-index PCR), but does not print
+their thermal programs.
 
 1. **GEM generation.** Cells, RT master mix (with TSO), gel beads and partitioning oil
    meet on the chip; the bead dissolves, its oligos are released and the cell lyses. 🟢
-2. **GEM-RT.** v3: 53 °C 45 min, 85 °C 5 min, 4 °C. v4: **48 °C** 45 min, 85 °C 5 min. 🟢
+2. **GEM-RT.** v2 Rev D and v3: 53 °C 45 min, 85 °C 5 min, 4 °C.
+   v4: **48 °C** 45 min, 85 °C 5 min. 🟢
    The bead oligo primes at the poly(A) tail; at the mRNA 5' end the RT adds non-templated
    C's and switches to the TSO. First strand, 5'→3':
    `Partial Read 1 · <cbc16> · <umi> · T30VN · <cDNA> · CCCATGTACTCTGCGTTGATACCACTGCTT`
@@ -216,7 +227,10 @@ ligation, 3.5 sample-index PCR) but conditions are 🔴 here.
    [reverse transcription](../ref/concepts/reverse-transcription.md).
 3. **Break GEMs, Dynabeads MyOne SILANE cleanup** of the single-stranded cDNA. 🟢
 4. **cDNA amplification** with the forward (Partial Read 1) and reverse (TSO-handle)
-   primers: 98 °C 3 min; cycles of 98 °C 15 s, 63 °C 20 s, 72 °C 1 min; 72 °C 1 min (v3).
+   primers: v2 Rev D uses 98 °C 3 min; cycles of 98 °C 15 s, **67 °C** 20 s,
+   72 °C 1 min; 72 °C 1 min. Its recommended cycles are 14 for <2,000 cells,
+   12 for 2,000–6,000, 10 for 6,000–10,000 and 8 for >10,000. 🟢
+   v3 uses 98 °C 3 min; cycles of 98 °C 15 s, 63 °C 20 s, 72 °C 1 min; 72 °C 1 min.
    v4: 98 °C 45 s; 98 °C 20 s, 63 °C 30 s, 72 °C 1 min; 72 °C 1 min. Total cycles by
    targeted cell number: 13 (<500), 12 (500–6,000; v4 writes 501–6,000), 11 (>6,000) in
    both. 🟢 Then
@@ -295,12 +309,13 @@ bead-primed first strand). 🟡
 
 | Read | Primer | Reads | Cycles |
 |---|---|---|---|
-| Read 1 | TruSeq Read 1 (`illumina.TRUSEQ_READ1`) on the bottom strand | `<cbc16>` + `<umi>` | v2 26 🟡 (upstream); v3 28 🟢; v4 28 🟢 |
-| i7 | `illumina.INDEX1_PRIMER` = the adapter top strand 🟡 | sample index | v2/v3 8 🟢 (v3); v4 10 🟢 |
-| i5 | P5-side (`illumina.INDEX2_PRIMER_RC` or flow-cell primed, instrument dependent) | v4 only | 0 (v3) / 10 (v4) 🟢 |
-| Read 2 | TruSeq Read 2 (`illumina.TRUSEQ_READ2`) | cDNA, **sense** to the mRNA, starting at the fragmentation end 🟡 | 98 🟡 (upstream, no version given; v2 guide not read); v3 91 🟢; v4 90 🟢 |
+| Read 1 | TruSeq Read 1 (`illumina.TRUSEQ_READ1`) on the bottom strand | `<cbc16>` + `<umi>` | v2 26 🟢 (CG00052 Rev D §4.2); v3 28 🟢; v4 28 🟢 |
+| i7 | `illumina.INDEX1_PRIMER` = the adapter top strand 🟡 | sample index | v2 8 🟢 (CG00052 Rev D §4.2); v3 8 🟢; v4 10 🟢 |
+| i5 | P5-side (`illumina.INDEX2_PRIMER_RC` or flow-cell primed, instrument dependent) | v4 only | 0 (v2/v3) / 10 (v4) 🟢 |
+| Read 2 | TruSeq Read 2 (`illumina.TRUSEQ_READ2`) | cDNA, **sense** to the mRNA, starting at the fragmentation end 🟡 | v2 98 🟢 (CG00052 Rev D §4.2); v3 91 🟢; v4 90 🟢 |
 
-- v3: "Paired-end, single indexing", 28 / 8 / 0 / 91. v4: "Paired-end, dual indexing",
+- v2 Rev D: paired-end, single indexing, 26 / 8 / 0 / 98. v3: paired-end, single indexing,
+  28 / 8 / 0 / 91. v4: paired-end, dual indexing, 28 / 10 / 10 / 90. 🟢
   28 / 10 / 10 / 90, minimum 20,000 read pairs per cell. 🟢
 - Read 1 primer's 3' end = the bead handle, so Read 1 base 1 is the first barcode base;
   26 = 16 + 10 (v2), 28 = 16 + 12 (v3/v4). 🟡 (computed)
@@ -310,21 +325,36 @@ bead-primed first strand). 🟡
   is used to sequence the cDNA fragment" and the sample index is "the i7 index read"
   (v3) / "i7 and i5 … sample index reads" (v4). 🟢 (short quotes).
 
-Barcode whitelists (upstream, 🟡): v2 `737K-august-2016.txt`, v3/v3.1
-`3M-february-2018.txt`, v4 `3M-3pgex-may-2023.txt` (all from Cell Ranger).
+Barcode inclusion lists: the [10x Cell Ranger algorithm guide](https://www.10xgenomics.com/support/software/cell-ranger/7.2/algorithms-overview/cr-gex-algorithm)
+assigns approximately 737,000 allowed 16-base barcodes to v2 and approximately 3
+million to v3/v3.1. The original 10x `737K-august-2016.txt` in its
+[Supernova tenkit repository](https://github.com/10XGenomics/supernova/blob/master/tenkit/lib/python/tenkit/barcodes/737K-august-2016.txt)
+has 737,280 16-base rows; its SHA-256 matches the decompressed cached scg copy
+exactly (`b0dda4b114d8fc7ea8def94fb472e6205c1831a72e3ac245ed13cc332d9f20d1`).
+The cached scg `3M-february-2018.txt.gz` has 6,794,880 16-base rows
+(streamed count). That file's line count does not match the
+guide's approximate v3 inclusion-list size or [CG000201 Rev A's](https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf)
+3.5-million *gel-bead diversity* figure; those are different claims and the
+mirror's provenance and precise relation to the v3 reagent remain unverified.
+The v4 mirror is named `3M-3pgex-may-2023.txt.gz`; its members have not been
+traced to an original manufacturer file here. A barcode inclusion list does
+not assign a particular barcode to a physical bead or well.
 
 ## 7. Open questions
 
-- 🔴 **v2 conditions**: GEM-RT temperature/time, cDNA cycles and fragmentation for v2
-  (CG00052) were not read; §4 uses v3/v4 values.
+- 🟡 **v2 revision boundary**: CG00052 Rev D gives the programs and cycle tiers
+  above, but CG000108 Rev A is earlier. Exact changes between these revisions
+  have not been established. The v2 model uses CG000108 for molecular structure.
 - 🟢 **v3.1** CG000204 Rev D and CG000315 Rev E were subsequently checked. Both print
   the 16-nt-barcode/12-nt-UMI `T30VN` bead primer, TSO
   `AAGCAGTGGTATCAACGCAGAGTACATrGrGrG`, cDNA primers and adaptor. CG000204 has
   one 8-nt i7 index; CG000315 prints P5–N10 i5 and P7–N10 i7 TT primers and the
   corresponding dual-index final product. The v3.1 dual-index arrangement above is
   therefore source-supported, rather than an inference from v4.
-- 🔴 **v4 TSO, cDNA primers and adaptor**: not printed in CG000731. Whether the v4 TSO is
-  still the v3 sequence is not documented in what was read.
+- 🔴 **v4 TSO and adaptor**: not printed in CG000731. Whether the v4 TSO is still the v3
+  sequence is not documented in what was read. The guide does list cDNA Primers PN-2000089;
+  CG000315 Rev F p. 62 prints both sequences under that same PN, giving a conditional
+  cross-guide assignment rather than direct v4 sequence disclosure. 🟡
 - 🔴 **v3 bead `T30` vs `T30VN`**: CG000183 appendix omits VN, its own overview figure
   shows `Poly(dT)VN`; v2 and v4 both write VN.
 - 🔴 **v3 adapter 32 vs 33 nt**: the v3 adapter top strand ends `…CAGTCA`, but CG000183's
@@ -371,3 +401,52 @@ converted with `doctext.py`, and `scrape_primers.py` then found every oligo in t
 the as-written strings are there; those were confirmed with `grep -F` on the exact
 as-written text instead. The scraper's top hits on the supplements were 14-nt cell
 barcodes from per-cell tables (expected false positives).
+
+
+## Source-led model corrections (2026-10-16)
+
+🟢 Both the cDNA-amplification and sample-index-PCR primer architectures are
+printed in the version-specific manufacturer source (v2: CG000108 Rev A Fig. 4;
+v3: CG000183 Rev A Appendix pp. 54–55). The schematic now uses these sequences
+in its PCR geometry instead of claiming that they were unavailable. Copied TSO
+bases are derived from the printed TSO, and the post-template-switch state
+includes that handle before recovery and amplification. These are repository
+model corrections.
+
+For v3, CG000183 Rev A Appendix p. 54 prints a 32-base adaptor ending `CAGTCA`,
+while its ligation-product drawing ends `CAGTCAC`. The public page now shows
+this source discrepancy. The model retains the printed 32-base input; the
+sample-index reverse primer supplies the terminal C in the completed library.
+The guide does not resolve which pre-PCR drawing reflects the supplied oligo.
+
+
+## Followed manufacturer references (2026-10-16)
+
+🟢 The source review followed CG00052 Rev D to CG000089 Rev B, CG000085 Rev A,
+CG000120 Rev A and CG000061 Rev A, plus the original Chromium i7 Multiplex
+index map. CG000089 and CG000085 explicitly use 26/8/98. CG000120 Table 2
+uses 26/8/91 on the NovaSeq 100-cycle kit, whose available cycle budget is
+125 cycles. The shorter insert read is an explicit run variant rather than
+a sequence discrepancy. CG000085 further links CG000080 Rev B: its Table 1
+prints both 26/8/98 and an alternative 150/8/150 run; p. 4 says Cell Ranger
+does not use R1 cycles beyond 26. The displayed default remains CG00052
+Rev D's run.
+
+🟢 The original manufacturer `chromium-shared-sample-indexes-plate.json`
+contains 96 named wells with four eight-base i7 members per well. SI-GA-A1
+contains `GGTTTACT`, `CTAAACGG`, `TCGGCGTC`, `AACCGTAA`, matching the named
+well in the separately downloaded Single Index Kit T map. The model's N8
+index denotes one member, not the entire well mixture concatenated.
+
+CG000061 studies a **Genome** library made with Genome Reagent Kits v2
+(CG00043); it explains general double-sided SPRI selection and does not
+replace the RNA-specific size-selection instructions in CG00052. Its linked
+CG00043/CG00047/CG00048 concern Genome library preparation and QC and are
+outside the RNA construct claim. CG00053 Rev C and the image-only CG000126
+Rev A flowchart were also inspected for their input-cell preparation scope;
+they concern suspension quality, washing, counting and loading before the
+cell input represented by this schematic. They are not additional sources
+for the barcode-bearing library's fixed oligo sequences. Sample-specific
+thawing, counting-instrument and viability-stain manuals were not imported
+into the molecular model. Full source locations and independent-review
+status are recorded in the source-review checklist.

@@ -15,3 +15,35 @@
 ## Final readout
 
 The final construct is a single-index TruSeq bisulfite library. Paired or single-end genomic reads carry the converted-base signal; the index read identifies the library.
+
+## Implementation and recovered control oligos
+
+The schematic's sonication/TruSeq preparation follows the authors' later 2013
+detailed protocol. The defining 2012 Science article demonstrates oxRRBS. The
+original Science supplementary library details are still inaccessible; the
+later implementation must not establish the original study's exact kit/index
+selection.
+
+🟢 The recovered 2013 Supplementary Table 2 (original Springer MOESM16, p. 1)
+prints seven sequencing-control DNAs plus a digestion control, and the seven
+primers Q3, Q6, Q7, Q8, DFP1, DRP1 and post-bisulfite DFP2. These synthesize
+or assay control molecules; they are not the selected genomic-library adapter
+primers. The table defines `5` as 5-methylcytosine. Its caption places 5mC
+through modified primers and 5hmC through 5hmCTP incorporation during PCR.
+The caption's literal statement that other “Cs and Gs” are 5hmC is ambiguous
+for a displayed single strand; no guanine-conversion rule is inferred from it.
+The control modifications need strand-aware reconstruction before a molecular
+control model is added.
+
+🟢 **Published caption discrepancy:** 2013 Supplementary Fig. 1b (original
+Springer MOESM11, p. 1) describes DNA made by PCR with d5fCTP, then names
+5hmC as the substrate in one conversion clause, while the opening and final
+clauses describe 5fC. The model follows the main protocol and surrounding
+caption, representing 5fC → U; the repeated 5hmC in that clause is an apparent
+caption error; its intended wording remains unresolved.
+
+The remaining recovered originals show Sanger conversion controls (Fig. 1),
+HPLC confirmation of oxidation (Fig. 2), oxidant solution colors (Fig. 3),
+TaqI digestion-control traces (Fig. 4), and a statistical coverage example
+(Table 1). They do not replace Supplementary Table 2's control oligo identities
+or establish the selected genomic-library PCR pair.

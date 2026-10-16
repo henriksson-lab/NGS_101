@@ -68,8 +68,7 @@ def solid_adapter_geometry() -> AdapterLigationGeometry:
 
 
 def protocol_graph() -> ProtocolGraph:
-    source=("Defining source: https://doi.org/10.1038/nmeth.1315; detailed step order: "
-            "https://doi.org/10.1038/nprot.2009.236")
+    source="https://doi.org/10.1038/nmeth.1315; Online Methods and Supplementary Table 9"
     graph=ProtocolGraph("Tang 2009 single-cell mRNA sequencing",authority=source)
     cell=graph.input("single_cell","single cell lysate",MaterialKind.BIOLOGICAL,primary=True)
     up1=graph.input("up1","UP1 oligo-dT reverse-transcription primer",MaterialKind.OLIGO,
@@ -80,7 +79,7 @@ def protocol_graph() -> ProtocolGraph:
                           name="UP1-primed first-strand cDNA")
     first=graph.product("first_strand",first_state.name,MaterialKind.MOLECULAR,
                         state=first_state)
-    graph.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with UP1",
+    graph.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with UP1 (50 C, 30 min)",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((cell,InputRole.TEMPLATE),(up1,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),
                 (first,))
@@ -112,7 +111,7 @@ def protocol_graph() -> ProtocolGraph:
     pcr_pol=graph.input("pcr_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna","UP1/UP2-amplified cDNA",MaterialKind.MOLECULAR,
                             state=amplified_cdna())
-    graph.react("cdna_pcr","Amplify cDNA with UP1 and UP2",StepKind.PCR,
+    graph.react("cdna_pcr","Amplify cDNA with UP1 and UP2 (20 cycles)",StepKind.PCR,
                 ((duplex,InputRole.TEMPLATE),(up1,InputRole.STRUCTURAL),
                  (up2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.unavailable(
@@ -123,13 +122,13 @@ def protocol_graph() -> ProtocolGraph:
                      state=(Segment("AUP2",AUP2),))
     blocked=graph.product("amine_blocked_cdna","5-prime-amine-blocked amplified cDNA",
                           MaterialKind.MOLECULAR,state=amplified_cdna())
-    graph.react("blocked_pcr","Re-amplify with amine-blocked AUP1/AUP2",StepKind.PCR,
+    graph.react("blocked_pcr","Re-amplify with amine-blocked AUP1/AUP2 (9 cycles)",StepKind.PCR,
                 ((amplified,InputRole.TEMPLATE),(aup1,InputRole.STRUCTURAL),
                  (aup2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(blocked,),
                 geometry=PCRGeometry.unavailable(
                     amplified_cdna(),reason="The source prints AUP1/AUP2, but the representative insert does not assert transcript-specific primer landing coordinates."))
     shear=graph.input("shearing","mechanical shearing condition",MaterialKind.CONDITION)
-    fragments=graph.product("fragments","100-110 bp cDNA fragments",MaterialKind.MOLECULAR)
+    fragments=graph.product("fragments","80–130 bp cDNA fragments",MaterialKind.MOLECULAR)
     graph.react("fragment","Shear amplified cDNA",StepKind.FRAGMENTATION,
                 ((blocked,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
     repair=graph.input("end_repair_mix","end-repair enzyme mix",MaterialKind.CATALYST)
@@ -148,14 +147,21 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.LIGATION,
                 ((repaired,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(ligated,),geometry=solid_adapter_geometry())
+    gel=graph.input("gel_selection","6% polyacrylamide gel, 150–200 bp fraction",MaterialKind.SELECTION)
+    selected=graph.product("selected_ligated_library","150–200 bp adapter-ligated fraction",
+                           MaterialKind.MOLECULAR,state=final_library())
+    rejected=graph.product("offsize_library","excluded gel fractions",MaterialKind.WASTE)
+    graph.react("size_select","Select 150–200 bp adapter-ligated DNA",StepKind.SELECTION,
+                ((ligated,InputRole.TEMPLATE),(gel,InputRole.SELECTION)),(selected,rejected))
+    graph.discard(rejected,"outside the source-selected gel fraction")
     lib1=graph.input("library_primer_1","SOLiD library PCR primer 1",MaterialKind.OLIGO,
                      state=(Segment("Library PCR Primer 1",LIBRARY_PCR_1),))
     lib2=graph.input("library_primer_2","SOLiD library PCR primer 2",MaterialKind.OLIGO,
                      state=(Segment("Library PCR Primer 2",LIBRARY_PCR_2),))
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("library_pcr","Amplify the adapter-ligated SOLiD library",StepKind.PCR,
-                ((ligated,InputRole.TEMPLATE),(lib1,InputRole.STRUCTURAL),
+    graph.react("library_pcr","Amplify the adapter-ligated SOLiD library (8–10 cycles)",StepKind.PCR,
+                ((selected,InputRole.TEMPLATE),(lib1,InputRole.STRUCTURAL),
                  (lib2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.exact(
                     final,PCRPrimer("library PCR 1",LIBRARY_PCR_1),
@@ -163,12 +169,12 @@ def protocol_graph() -> ProtocolGraph:
                     statement="The 2009 supplementary table prints both SOLiD library PCR primers and adapter sites."))
     graph.sequence(library,SequencingPlan(
         acquired_roles=("Read 1",),read_uses={"Read 1":"include"},
-        limitation="The sources declare 35- or 50-base SOLiD single-end output but do not publish the sequencing-primer sequence."))
+        limitation="Online Methods specifies 50-base SOLiD output; supplements also label35mer runs. Loaded sequencing-primer identity is outside this model evidence scope."))
     graph.declare_reviewed_scope((
         "single_cell","up1","reverse_transcriptase","reverse_transcribe","exonuclease",
         "remove_up1","tdt","datp","tail","up2","second_strand_polymerase",
         "second_strand","pcr_polymerase","cdna_pcr","aup1","aup2","blocked_pcr",
         "shearing","fragment","end_repair_mix","end_repair","solid_adapters","ligase",
-        "adapter_ligation","library_primer_1","library_primer_2","library_pcr","library"),source)
+        "adapter_ligation","gel_selection","selected_ligated_library","size_select","library_primer_1","library_primer_2","library_pcr","library"),source)
     return graph.require_publishable()
 

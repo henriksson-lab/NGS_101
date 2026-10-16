@@ -1,0 +1,64 @@
+{
+  "dir": "tail-seq__10.1016+j.molcel.2014.02.007",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "chang2014",
+      "role": "defining",
+      "locator": "Chang et al. Molecular Cell 2014 doi:10.1016/j.molcel.2014.02.007; https://phmpt.org/wp-content/uploads/2024/06/125752_S2_M3_33_chang-2014.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article mirror PDF text lines 80-93 and Methods 753-776; local source-bundle scraper run and returned zero hits because the article itself remains manual",
+        "finding": "Paper specifies biotinylated 3\u2032-adapter ligation before RNase T1 fragmentation, a 15-degenerate-base adapter segment, reverse transcription, PCR and 51\u00d7251 paired-end HiSeq 2500. It directs readers to Supplemental Experimental Procedures for detail; the visible main text does not settle exact adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original mirror PDF web pp.1,7; web text lines 75\u201396 and 753\u2013776; local-bundle scraper gave 0 hits",
+        "finding": "Main original establishes 3\u2032 biotinylated adaptor with 15 degenerate bases, ligated before RNase T1 fragmentation; 51-nt Read1 and long 3\u2032-end Read2. No full adapter bases in main PDF."
+      }
+    },
+    {
+      "id": "chang2014_supplement",
+      "role": "supplement",
+      "locator": "Chang et al. 2014 Supplemental Experimental Procedures, five supplementary figures and two tables, linked from the defining paper",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Not in local source bundle; original article explicitly delegates detailed methods to it."
+    },
+    {
+      "id": "illumina_hiseq",
+      "role": "vendor",
+      "locator": "HiSeq 2500 51\u00d7251 paired-end run and library reagents named in Chang 2014 Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact kit/reagent generation and its adapter source have not yet been matched to an original vendor document."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Chang 2014 PDF Methods lines 753-776 and local MANIFEST.tsv",
+      "finding": "Followed article mirror and identified the linked Supplemental Experimental Procedures; supplement remains unavailable and the vendor chemistry is unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article web lines 75\u201396 and 753\u2013776; supplementary reference and HiSeq kit mention",
+      "finding": "Original links Supplemental Experimental Procedures; not reachable in local bundle. Vendor/library sequence details still inaccessible, so absence remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "TAIL-seq adapter terminal bases and exact RT/PCR primers are absent from the published source set",
+      "disposition": "blocked",
+      "evidence": "Defining paper delegates detailed procedures to an unavailable supplement; no second independent reader has checked the source set."
+    }
+  ],
+  "conclusion": "First pass read the defining article online and ran the oligo scraper on the local bundle. Original supplementary procedures remain unavailable, so absence is unconfirmed."
+}

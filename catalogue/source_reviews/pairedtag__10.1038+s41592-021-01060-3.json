@@ -1,0 +1,100 @@
+{
+  "dir": "pairedtag__10.1038+s41592-021-01060-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Zhu et al Nat Methods 2021 doi:10.1038/s41592-021-01060-3 PMC7954905",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC7954905 lines 126-150, 254, 304-306",
+        "finding": "Methods define pA-Tn5 targeting, RT with barcoded T15/N6, three rounds of ligation barcoding, TdT dC tail, and FokI-mediated second-adapter tagging. Article identifies Supplementary Table 1 as primer/barcode source."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7954905 JATS Methods lines 126-150, especially RT and ligation paragraphs; line 126 Protocol Exchange link",
+        "finding": "Independently confirmed barcoded T15/N6 RT, two ligation barcode rounds with blockers, TdT dCTP tailing, FokI anchor amplification and later adapter tagging. Original explicitly refers to a step-by-step Protocol Exchange source."
+      }
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Original PMC NIHMS1660233 Supplementary Table 1 workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supp_Tab1.xlsx.txt lines 1-30; scraper lines 4-6",
+        "finding": "Table gives /5Phos/ pMENTs ending ddC, Adaptor A and ligation linker sequences, with barcode families; original source directly supports many base-level claims."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC Supplementary Table 1 workbook sheet 1 lines 1-19 and sheet 2 rows A1-A9; primer scraper run on bundle and checked against those rows",
+        "finding": "The table prints /5Phos/ pMENTs ending ddC, AdaptorA, linker/blocker pairs, FokI anchors, P5/P7 oligos and plate-specific phosphorylated DNA barcode members. A family of barcode rows is present, not just generic placeholders."
+      }
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "PMC NIHMS1660233 and Springer MOESM1-23 supplementary files",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Main supplement and oligo table read, but other numerical-data workbooks and one blank extraction not all independently classified.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "linked_material",
+      "locator": "Zhu et al 2021 Protocol Exchange doi:10.21203/rs.3.pex-1301/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Article explicitly cites step-by-step protocol at reference 51; DOI route pending or not yet verified.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "paired_seq",
+      "role": "predecessor",
+      "locator": "Zhu et al 2019 Paired-seq doi:10.1038/s41594-019-0323-x",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original cites this predecessor for RT; its molecular details not yet independently read.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 126-150 and reference 51; oligo workbook lines 1-30; Paired-seq ref31",
+      "finding": "Followed published pointer into supplementary primer table. Explicit step-by-step Protocol Exchange and inherited Paired-seq chemistry remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked defining source Methods/SI citations, supplement inventory and named vendor/predecessor sources in the checklist",
+      "finding": "Original available sources corroborate the chemistry, but checklist-linked original vendor or predecessor material remains unavailable or unread; linked-information closure is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full branch-specific oligo inventory",
+      "disposition": "blocked",
+      "evidence": "Supplementary Table 1 gives many strands, but detailed linked protocol and predecessor remain unread."
+    }
+  ],
+  "conclusion": "First located pass only; linked detailed protocol and predecessor block missing claims."
+}

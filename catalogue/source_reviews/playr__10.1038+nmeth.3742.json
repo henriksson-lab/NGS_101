@@ -1,0 +1,390 @@
+{
+  "dir": "playr__10.1038+nmeth.3742",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "frei_original",
+      "role": "defining",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_PMC4767631.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Methods and overview lines 52-108",
+        "finding": "Adjacent RNA probes template insert/backbone circle; T4 ligation, phi29 RCA, labeled detection."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4767631 JATS lines 52\u201358 and Methods probe/ligation section",
+        "finding": "Adjacent target-bound probe pair creates template for phosphorylated insert and backbone ligation into ssDNA circle; phi29 RCA from probe 3\u2032OH yields repeated barcode sequence detected by labeled oligo. This is cytometric RNA detection, not an NGS library."
+      }
+    },
+    {
+      "id": "frei_si",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_supp_NIHMS747713-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All Supplementary Figure headings and captions 1-7",
+        "finding": "Figure captions describe validation rather than reagent sequence table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS747713 supplemental DOC extracted lines 1\u201330",
+        "finding": "Document contains Supplementary Figure captions/control validations, not an ordering table or new adapter recipe; exclusion from missing oligo claim is justified."
+      },
+      "reason": "Figure captions/validation, no molecular recipe in extracted document."
+    },
+    {
+      "id": "publisher_results_640",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM640_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM640 workbook heading and first data rows, 27 extracted lines",
+        "finding": "Original Springer workbook is Figure 1c result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_results_641",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM641_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM641 workbook heading and first data rows, 10002 extracted lines",
+        "finding": "Original Springer workbook is Figure 2c result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_results_642",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM642_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM642 workbook heading and first data rows, 450 extracted lines",
+        "finding": "Original Springer workbook is Figure 4b result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_results_643",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM643_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM643 workbook heading and first data rows, 107 extracted lines",
+        "finding": "Original Springer workbook is Figure S1 result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_results_644",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM644_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM644 workbook heading and first data rows, 119 extracted lines",
+        "finding": "Original Springer workbook is Figure S4 a result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_results_645",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM645_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted workbook sheet headings, first rows and oligo/sequence/primer searches",
+        "finding": "Figure result values without molecular oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM645 workbook heading and first data rows, 354 extracted lines",
+        "finding": "Original Springer workbook is Figure S6 result/source data, without a synthesized insert/backbone/probe-tail recipe; published MOESM647 holds that table."
+      },
+      "reason": "Figure source data, not molecular methods."
+    },
+    {
+      "id": "publisher_reporter_table",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM647_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "PLAYR sequences sheet, insert rows 61-70 and universal backbone rows; full-bundle scraper",
+        "finding": "Original oligo table includes phosphorylated insert and backbone sequences, reporter families and detection probes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM647 workbook PLAYR sequences sheet lines 1\u201380; scraper source pointers lines 61\u201366",
+        "finding": "Workbook prints 27 probe-tail systems, 5\u2032-P backbone at line 60 and 5\u2032-P inserts starting line 61; source-positive reporter oligo families with modifications."
+      }
+    },
+    {
+      "id": "playrdesign",
+      "role": "linked_material",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_PLAYR_Systems.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All 27 PLAYR1 and PLAYR2 system rows 2-55",
+        "finding": "Author software archive contains source-positive designed reporter tails."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bundled PLAYR_Systems.txt rows 1\u201355",
+        "finding": "Author design-system file prints PLAYR1 and PLAYR2 tails for 27 systems; complements published MOESM647 but does not replace its phosphorylated backbone/insert rows."
+      },
+      "discovered_from": "frei_original"
+    },
+    {
+      "id": "playrdesign_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_README.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "README design instructions and table descriptions",
+        "finding": "Author software explains RNA-arm design; should independently compare repository history."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bundled PLAYRDesign README.md lines 1\u2013140",
+        "finding": "README describes R-package setup and probe-design usage; it does not itself print the chemistry table but is relevant for followable software-designed probe variants."
+      },
+      "discovered_from": "playrdesign"
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_PMC7075472.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Procedure lines 59, 147-239; Table 1 lines 725-779",
+        "finding": "Later detailed protocol repeats 27 reporter systems and describes one 10-A linker, circularization and RCA."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols PMC7075472 JATS lines 59\u201363, 147\u2013149, 411\u2013423 and Table 1 lines 721\u2013735",
+        "finding": "Later detailed protocol independently describes 10-A spacer, adjacent target hybridization, insert/backbone circle, T4 ligation and phi29 RCA; Table 1 prints 27 phosphorylated inserts/detection-probe families."
+      }
+    },
+    {
+      "id": "detailed_supp_1",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted file headings and oligo/sequence searches",
+        "finding": "Detailed-protocol supplement checked for additional molecular details; independent review pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols MOESM1 PDF extracted lines 1\u201340",
+        "finding": "Supplementary Figures 1\u20132 compare methanol and milder hybridization, including no-phi29 control; useful protocol-condition evidence, no additional oligo table."
+      }
+    },
+    {
+      "id": "detailed_supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted file headings and oligo/sequence searches",
+        "finding": "Detailed-protocol supplement checked for additional molecular details; independent review pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols MOESM2 PDF extracted headings lines 1\u201315 and methods reporting lines 91\u2013190",
+        "finding": "This is Nature Research Reporting Summary, not a chemistry supplement; it should be excluded from base-level missing claims."
+      },
+      "reason": "Independently inspected: reporting summary, antibody panel, or fluorophore stability data rather than DNA probe/ligation chemistry."
+    },
+    {
+      "id": "detailed_supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted file headings and oligo/sequence searches",
+        "finding": "Detailed-protocol supplement checked for additional molecular details; independent review pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols MOESM3 XLSX extracted lines 1\u201333",
+        "finding": "Supplementary Table 1 enumerates antibody panel suppliers/conjugations, not PLAYR DNA oligos; irrelevant to molecular library construction."
+      },
+      "reason": "Independently inspected: reporting summary, antibody panel, or fluorophore stability data rather than DNA probe/ligation chemistry."
+    },
+    {
+      "id": "detailed_supp_4",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extracted file headings and oligo/sequence searches",
+        "finding": "Detailed-protocol supplement checked for additional molecular details; independent review pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols MOESM4 XLSX extracted lines 1\u201315",
+        "finding": "Supplementary Table 2 records fluorophore stability under assay variants; no oligo sequence or ligation-end geometry."
+      },
+      "reason": "Independently inspected: reporting summary, antibody panel, or fluorophore stability data rather than DNA probe/ligation chemistry."
+    },
+    {
+      "id": "detailed_pmc_figures",
+      "role": "supplement",
+      "locator": "PMC7075472 NIHMS1044011 supplemental figures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; publisher ESM1-2 may duplicate it but equivalence unverified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "detailed_pmc_tables",
+      "role": "supplement",
+      "locator": "PMC7075472 NIHMS1044011 supplemental tables 1-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; publisher ESM3-4 may duplicate them but equivalence unverified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "playrdesign_github",
+      "role": "linked_material",
+      "discovered_from": "playrdesign",
+      "locator": "https://github.com/nolanlab/PLAYRDesign",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original article links live software repository; publisher archive is available but repository history unreviewed.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "publisher_supp_figures_646",
+      "role": "supplement",
+      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM646_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM646 PDF extracted pages 1-7, Supplementary Figures 1-7 captions",
+        "finding": "Caption 1 validates alternate insert systems; caption 3 tests omission of probes, insert, backbone, ligase and detection oligo; caption 5 optimizes antibody/RNA processing. It provides supporting chemistry controls but no sequence table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM646 PDF extracted lines 1\u2013100, Supplementary Figures 1\u20137 captions",
+        "finding": "Figure captions include insert-system performance (Fig1), PLAYRDesign display (Fig2), no-probe/no-insert/no-backbone/no-ligase/no-detection controls (Fig3), and probe-spacing/optimization data. Reaction-control evidence but no new oligo table."
+      },
+      "reason": "Awaiting independent first reading by original reviewer."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original Nature Methods article lines 52-108; original Nature Protocols article lines 59, 147-239 and Table 1 lines 725-779; publisher supplements and PLAYRDesign archive",
+      "finding": "Followed original paper to later detailed protocol, its reporter table and design software; reagent bases are present for 27 systems. Further independent linked-source review remains pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Frei JATS software/protocol links; Springer MOESM640\u2013648 inventory; Nature Protocols PMC7075472 and MOESM1\u20134; local PLAYRDesign archive",
+      "finding": "Followed original reporter workbook, design-system file, later detailed protocol and all available publisher adjuncts. MOESM646 was absent from first-pass checklist and has been added. Gated PMC figure/table packages and live GitHub source remain blockers; no missing claim accepted."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive reporter systems found; first pass recorded and second reader pending."
+}

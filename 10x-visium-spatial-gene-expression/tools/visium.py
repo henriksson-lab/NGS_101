@@ -14,9 +14,10 @@ from protocol_model import molecule, role
 
 TITLE = "10x Visium Spatial Gene Expression — array capture"
 NOTES = "01_visium.html"
-SOURCE = 'Commercial protocol: 10x Genomics <a href="https://cdn.10xgenomics.com/image/upload/v1660261286/support-documents/CG000239_Visium_Spatial_Gene_Expression_User_Guide_Rev_F.pdf">CG000239 Rev F</a>.'
+SOURCE = ('Commercial protocol: 10x Genomics <a href="https://cdn.10xgenomics.com/image/upload/v1660261286/support-documents/CG000239_Visium_Spatial_Gene_Expression_User_Guide_Rev_F.pdf">CG000239 Rev F</a>. '
+          'The <a href="https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json">Dual Index TT Set A table</a> publishes the 96 well-specific i7/i5 pairs.')
 SUMMARY = "A tissue section is permeabilized over an array of spatially indexed oligo-dT spots. Released polyadenylated RNA is copied on the slide so each cDNA receives the spot barcode and a UMI before standard short-read library construction."
-CAVEAT = "The Rev F appendix prints the capture-oligo pattern and library primer/adapter strands. A specific spot barcode, random UMI, sample-index well and slide-attachment chemistry still depend on the physical slide and run."
+CAVEAT = "The Rev F appendix prints the capture-oligo pattern and library primer/adapter strands. The TT Set A table publishes each index pair; the selected well and spot barcode depend on the physical slide and run. The UMI is random and slide-attachment chemistry remains unverified."
 SLIDE_READ1 = TRUSEQ_READ1[-23:]
 TSO = "AAGCAGTGGTATCAACGCAGAGTACATrGrGrG"
 SECOND_STRAND_PRIMER = "AAGCAGTGGTATCAACGCAGAG"

@@ -12,7 +12,11 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ""
+CAVEAT = ('Published Supplementary Table 1 prints the target-barcoded pA–Tn5 '
+          'adapter and amplification-primer families; the source manifest confirms '
+          'that publisher MOESM2 and preprint media-2 are byte-identical. This '
+          'role-level diagram has not yet assembled a specific target/index '
+          'combination into a final molecule.')
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
@@ -36,7 +40,8 @@ def workflow():
 
 
 def oligos():
-    return ()
+    return ('Tn5MErev — 5′-/5Phos/CTGTCTCTTATACACATCT-3′',
+            'P5_i5_1 (H3K27me3 example) — 5′-TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG-3′')
 
 
 def protocol_graph() -> ProtocolGraph:

@@ -29,7 +29,14 @@ CAVEAT = ("The drawings use the published A01 member from each 96-oligo barcode 
           "The barcode is three plate identities, not a UMI. The final 12-bp linker and "
           "76-bp barcode dimensions follow Supplementary Figure 4; the source does not "
           "resolve individual bases retained at the PacI processing junction beyond "
-          "those dimensions.")
+          "those dimensions. The article Methods cite Supplementary Table 4 for SEQ1, "
+          "SEQ2, SEQ4 and SEQ5 (local article lines 1880–1890, 1943–1947), but those "
+          "oligos are in Supplementary Table 5 (workbook lines 4750–4762); Table 4 "
+          "contains the three barcode plates. The article's Table 5 citation for "
+          "barcode structure at line 1969 is likewise reversed. The model uses the "
+          "workbook locations. "
+          "The first four Read 2 cycles were dark (Methods lines 1948–1951), so "
+          "diagram positions describe molecule order, not an uninterrupted base-called read.")
 
 BC1 = feature("drop_scchip_bc1", "cell_barcode", "whitelist",
               group="drop_scchip_cell", part="round 1",
@@ -194,7 +201,8 @@ FINAL_CAPTION = ("Source-oriented P7→P5 strand. Read 1 enters nucleosomal DNA;
                  "reads the 76-bp bead-barcode region, the 12-bp linker and then genomic DNA.")
 SEQUENCING_INTRO = ("Standard TruSeq primer sites are inferred from the completed library. "
                     "The defining study acquired 50 cycles for genomic Read 1 and 100 cycles "
-                    "for barcode-side Read 2; the i7 primer is present in the exact PCR oligo.")
+                    "for barcode-side Read 2, with its first four cycles dark; the i7 primer "
+                    "is present in the exact PCR oligo.")
 
 
 def workflow() -> Workflow:

@@ -1,0 +1,136 @@
+{
+  "dir": "scifi-atac-seq__10.1101+2023.09.17.558155",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "bioRxiv 10.1101/2023.09.17.558155 v3 full PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2023.09.17.558155_v3.full.pdf.txt Methods and figure sequence design",
+        "finding": "Author preprint describes dual indexed Tn5 in nuclei then overloaded 10x ATAC droplets."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2023.09.17.558155_v3.full.pdf.txt lines 153-160 and Methods",
+        "finding": "Author preprint describes 96 two-sided indexed Tn5 complexes before overloaded 10x droplets."
+      }
+    },
+    {
+      "id": "published",
+      "role": "linked_material",
+      "locator": "Genome Biology 2024 doi:10.1186/s13059-024-03235-5 PMC11003106",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s13059-024-03235-5_PMC11003106.xml.txt Methods and supplement list",
+        "finding": "Published source provides final procedure and points to Additional files 1 and 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s13059-024-03235-5_PMC11003106.xml.txt lines 43-53 and supplementary file pointers",
+        "finding": "Final original states Tn5 pre-indexing plus droplet cell barcode and links published protocol and Table S1."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "methods",
+      "role": "supplement",
+      "locator": "MOESM1_ESM.pdf.txt original Supplementary Methods",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Adapter and primer design lines 5-12; assembly lines 26-46",
+        "finding": "Prints indexed A/B Tn5 assembly workflow and use of 12-by-8 plate indexes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s13059-024-03235-5_supp_13059_2024_3235_MOESM1_ESM.pdf.txt lines 1-48",
+        "finding": "Supplement prints A1-A12 and B1-B8 adapter layouts, qPCR/custom read primers and assembly. Step II.1 says 18 Bx, in conflict with its own eight B1-B8 table; page already displays discrepancy."
+      }
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "MOESM2_ESM.xlsx.txt Additional file 2 Table S1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "First 30 lines Table S1 oligos; scraper hit qPCR primer at line 25",
+        "finding": "Prints 12 A and 8 B indexed Tn5 oligos, 5-prime phospho reverse ME and four custom sequencing primers. Workbook also contains large unrelated results tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s13059-024-03235-5_supp_13059_2024_3235_MOESM2_ESM.xlsx.txt lines 1-31",
+        "finding": "Published Table S1 prints A1-A12, B1-B8, phosphorylated Tn5MErev, qPCR and custom read primers. It does not list 18 B members."
+      }
+    },
+    {
+      "id": "10x_revg",
+      "role": "linked_material",
+      "locator": "10x Next GEM ATAC v1.1 guide CG000209 Rev G",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "CG000209 appendix A1 gel-bead and sample-index structures",
+        "finding": "Later vendor guide gives v1.1 barcode/bead oligos, but paper cites Rev E; exact revision continuity remains unverified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt Appendix A1 lines 3718-3760",
+        "finding": "Original 10x Rev G prints parent Next GEM ATAC construct architecture and gel bead primer; historical Rev E applicability remains unchecked."
+      },
+      "discovered_from": "published"
+    },
+    {
+      "id": "10x_reve",
+      "role": "linked_material",
+      "locator": "10x Next GEM ATAC v1.1 guide CG000209 Rev E",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Revision cited by scifi-ATAC paper was not obtained; only later Rev G is cached.",
+      "pass_2": null,
+      "discovered_from": "published"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint/published Methods, Additional file 1 and Table S1, CG000209 revision labels",
+      "finding": "Followed author oligo table and vendor guide; paper-cited Rev E remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author preprint v3 lines 153-160; final JATS lines 43-53; MOESM1 lines 1-48; Table S1 lines 1-31; 10x CG000209 Rev G Appendix A1",
+      "finding": "Read defining and linked original sources; eight B adapters in table contradict supplement step II.1 18. Rev E vendor guide cited for historical experiment remains unavailable; no missing vendor detail is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Identity of Rev E 10x ATAC gel-bead stock relative to cached Rev G",
+      "disposition": "blocked",
+      "evidence": "Later guide may show same layout, but source revision continuity is not established."
+    }
+  ],
+  "conclusion": "Two independent source passes locate the eight B adapter family and the published 18-versus-eight discrepancy, already shown publicly. Historical 10x Rev E guide remains unavailable, so vendor-specific claims remain blocked."
+}

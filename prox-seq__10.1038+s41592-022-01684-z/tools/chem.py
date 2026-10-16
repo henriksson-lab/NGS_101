@@ -67,8 +67,10 @@ SPEC.CAVEAT = ("The schematic combines the invariant PLA reporter across publish
                "branch-specific oligos and custom sequencing primers; the schematic "
                "does not choose one platform-specific library end.")
 SPEC.SEQUENCING_UNAVAILABLE = (
-    "The paper publishes custom sequencing primers for its droplet and plate branches, "
-    "but a single primer-binding map cannot describe all Prox-seq back ends at once.")
+    "The paper publishes custom primers and distinct run recipes: Drop-seq Read 1/i7/Read 2 "
+    "20/8/85 cycles, 10x PLA 28/8/75, 10x cDNA 28/10/10/90 (Read 1/i7/i5/Read 2), "
+    "and plate PLA Read 1/i5/i7 75/8/8. A single primer-binding map cannot describe all "
+    "Prox-seq back ends at once.")
 SPEC.oligos = lambda: (
     "<b>Universal ligation connector</b> — 5′-TTTCACGACACGACACGATTTAGGTC-3′",
     "<b>Droplet Read 1</b> — 5′-GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC-3′",

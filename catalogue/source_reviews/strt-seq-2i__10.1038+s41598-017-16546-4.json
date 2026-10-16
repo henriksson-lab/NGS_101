@@ -1,0 +1,108 @@
+{
+  "dir": "strt-seq-2i__10.1038+s41598-017-16546-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt lines 128–152, 170–174",
+        "finding": "Methods explicitly direct readers to Table 1; Table 1 prints modified RT, RNA TSO, indexed PCR, Tn5, and sequencing oligos, including their 5′ Bio or phosphate marks. Index members are placeholders here, so full well/subarray membership needs separate source tracing."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS lines 128–174, Table 1 and Methods through sequencing",
+        "finding": "Independently verified Table 1 modified biotin RT/TSO oligos, dual index PCR and barcoded Tn5 oligos; Methods place indexed PCR before tagmentation and name Read 1 plus 8/5-cycle index reads."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt lines 1–100",
+        "finding": "Supplementary material is present but figure-only text did not provide the full indexed primer membership in the inspected pages."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Supplementary Information PDF pp. 1–4, lines 1–100, Figs S1–S4",
+        "finding": "Independently inspected Figure S1 workflow alternatives and sequencing layout; it is an optimization/figure supplement, with no additional sequence table in these pages."
+      }
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/126268_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Hochgerner et al. bioRxiv 10.1101/126268 v1 PDF text lines 1–25, 652–725; source-bundle scraper",
+        "finding": "This is the author preprint of STRT-seq-2i itself, not a predecessor. Its Methods describe 32 index PCR primers per 10x10 subarray, then 96 indexed Tn5 transposomes, 5-prime biotin/streptavidin capture, and custom sequencing primers yielding 8-base Index 1 and 5-base Index 2. It corroborates the published dual-index scheme but does not supply a distinct earlier STRT protocol."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original bioRxiv 10.1101/126268 preprint extracted lines 1–25 (identity), 652–725 (indexed PCR, Tn5, streptavidin selection and sequencing)",
+        "finding": "Independently verified this is the author preprint of STRT-seq-2i. It confirms two indexing stages and 8/5-base index reads. Prior checklist label `prior_strt` was incorrect; a distinct cited predecessor remains to be traced by first reader."
+      },
+      "reason": "Original Hochgerner et al. STRT-seq-2i bioRxiv manuscript, not an earlier STRT protocol; the original title and DOI are printed at extracted lines 1–8.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "islam_c1",
+      "role": "linked_material",
+      "locator": "_data/sources/strt-c1__10.1038+nmeth.2772/nmeth.2772_41592_2014_BFnmeth2772_MOESM268_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "STRT2i original JATS reference 11 lines 288–295; Islam 2013 C1-STRT supplementary MOESM268 oligo table lines 1–8",
+        "finding": "The actual cited C1-STRT predecessor is Islam et al. doi:10.1038/nmeth.2772. Its original oligo table prints a 5′-biotin all-RNA C1-P1-RNA-TSO and P1 PCR members. Their sequence differs from 2i Table 1 and should not be conflated with the same-author 2i bioRxiv preprint."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "STRT-2i original JATS reference 11 lines 288–295; Islam C1-STRT original Springer MOESM268 XLSX extracted lines 1–27; oligo scraper on predecessor bundle",
+        "finding": "Independently followed the cited predecessor and verified original C1-P1-RNA-TSO is 5′-biotin all-RNA AAUGAUACGGCGACCACCGAUNNNNNGGG; C1-P1-T31, C1-P1-PCR-2 and indexed Tn5 adapter family are also printed. These are predecessor-specific and differ from STRT-seq-2i Table 1; no borrowed sequence is inferred without checking the 2i original."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Source Methods, source bundle MANIFEST.tsv, and cited/supplement list",
+      "finding": "STRT2i article cites Islam et al. 2013 C1-STRT (ref. 11) as chemical predecessor. Its supplementary oligo table is local and has been read once; 126268 is the 2i author preprint, not a predecessor. Independent predecessor cross-check remains pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "STRT-2i JATS Methods and reference 11 lines 128–174, 288–295; bioRxiv 126268 title and Methods lines 1–25, 652–725; Islam C1-STRT MOESM268 lines 1–27",
+      "finding": "Followed the original article to its same-author bioRxiv preprint and the distinct Islam C1-STRT predecessor. Both were read; their oligos were compared against the defining Table 1. Any additional chemistry-specific predecessor links or complete per-well barcode lists remain unverified, so missing claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact well/subarray index membership and any inherited sequence not yet verified across all linked sources.",
+      "disposition": "blocked",
+      "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
+    }
+  ],
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+}

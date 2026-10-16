@@ -99,6 +99,9 @@ disposition on a public page when that page asserts confirmed missing informatio
    families. The scraper is an aid to reading, never page content or evidence by
    itself: follow its source-line pointers and verify each relevant hit in the
    original article or supplement before using that source fact in notes or a page.
+   If the article points to a sequence table but its `.txt` contains only a caption
+   or no bases, inspect the rendered original. Image-based oligo tables can produce
+   zero scraper hits; an empty extraction is not an inspected table.
 3. Read the methods in the `.txt` files. **`upstream_*.html.txt` is not a source.** The
    scg_lib_structs drawn page is inspiration — useful for orienting yourself in a
    chemistry, never evidence: do not cite it, do not take a sequence from it, and do not

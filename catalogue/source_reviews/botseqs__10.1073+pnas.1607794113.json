@@ -1,0 +1,83 @@
+{
+  "dir": "botseqs__10.1073+pnas.1607794113",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/botseqs__10.1073+pnas.1607794113/pnas.1607794113_PMC5024639.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods section around article HTML lines 278 onward",
+        "finding": "TruSeq DNA PCR-Free ~350-bp insert library; bottleneck is applied after ligation. Original does not specify selected index sequence in inspected Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC5024639 HTML text lines 1237–1256 and Methods line 1463",
+        "finding": "BotSeqS shears genomic DNA, ligates TruSeq DNA PCR-Free Y adapters, dilutes the ligated library before PCR, then amplifies and sequences paired-end 100; endogenous mapping endpoints and two strand families are the identifiers, not a newly synthesized UMI."
+      }
+    },
+    {
+      "id": "pnas_sapp",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5024639/bin/pnas.1607794113.sapp.pdf (PNAS SI Appendix; 1.1 MB; original article link)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC original link returns a download gate; PNAS supplemental URL also inaccessible in the available fetch routes. SI Appendix contains further BotSeqS library dilution/sequencing details per the article and remains uninspected."
+    },
+    {
+      "id": "pnas_data",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5024639/bin/pnas.1607794113.sd01.xlsx (PNAS Supplementary Data; 566.7 KB; original article link)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC original link returns a download gate. The workbook contents have not been inspected, so relevance to index assignments cannot be excluded."
+    },
+    {
+      "id": "illumina_guide",
+      "role": "vendor",
+      "locator": "_data/sources/truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Guide cover and index/adapter sections",
+        "finding": "Official guide lists kit architecture, but 2017 revision postdates 2016 BotSeqS and cannot establish exact historical index member."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official TruSeq DNA PCR-Free guide lines 59–62 and 114–135",
+        "finding": "Vendor workflow confirms standard fragment/end-repair/size-select/dA-tail/adapter ligation sequence; BotSeqS adds a post-ligation bottleneck and PCR. Kit guide does not establish a unique BotSeqS index choice."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PNAS Methods and linked TruSeq DNA PCR-Free vendor guide; PNAS supplementary manifest",
+      "finding": "Read original article and later official kit guide; both original PNAS supplements remain gated, and guide version is later."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Independently followed defining Methods citations, checked listed local predecessors/vendor references and MANIFEST-linked supplements",
+      "finding": "The listed local chemistry-relevant links were inspected as recorded in source rows; unavailable original supplements or vendor documents still block any accepted missing-information claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact BotSeqS index adapter sequence is confirmed unpublished",
+      "disposition": "blocked",
+      "evidence": "PNAS supplementary files inaccessible; 2017 kit revision cannot fix exact 2016 member."
+    }
+  ],
+  "conclusion": "Two readers checked the defining article and a later Illumina guide. The article-linked PNAS SI Appendix and data workbook remain inaccessible through tested routes; exact experiment-specific index assignment is unverified and no absence claim is accepted."
+}

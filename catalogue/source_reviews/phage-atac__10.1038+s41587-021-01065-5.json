@@ -1,0 +1,143 @@
+{
+  "dir": "phage-atac__10.1038+s41587-021-01065-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods around lines 2283–2320",
+        "finding": "After GEM barcoding, material splits into PDT and ATAC libraries; PDT PCR uses EF147/EF91 before 10x SI-PCR Primer B and an i7 primer."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv preprint PDF text Methods lines 2283–2320 and 2343–2352; oligo scraper run on local original bundle",
+        "finding": "Independent read: 10x ATAC GEM barcoding precedes split PDT/ATAC libraries; PDT uses EF147+EF91, then SI-PCR Primer B and i7 index primer; paired-end 2x34 reported."
+      }
+    },
+    {
+      "id": "primer_table",
+      "role": "supplement",
+      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 lines 1–25",
+        "finding": "Published table prints EF147 at line 18, EF91 at line 19 and further cloning/PDT oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-3 Sheet1 EF147/EF91 rows 17–19; oligo scraper run on local original bundle",
+        "finding": "EF147 and EF91 base strings are present, with further cloning oligos; source does not resolve versioned commercial 10x primers."
+      }
+    },
+    {
+      "id": "tag_table",
+      "role": "supplement",
+      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 lines 1–10",
+        "finding": "Workbook lists nanobody/hashtag readout sequences; this is a source-positive tag table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-4 Sheet1 rows 1–9; oligo scraper run on local original bundle",
+        "finding": "Nanobody tag barcodes and R1/R3 read assignment are source-positive."
+      }
+    },
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41587-021-01065-5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published version/supplements are not in local bundle and were not compared to the preprint."
+    },
+    {
+      "id": "chromium_atac",
+      "role": "vendor",
+      "locator": "https://www.10xgenomics.com/support/single-cell-atac",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Preprint names Chromium Single Cell ATAC chemistry; version-matched gel-bead, SI-PCR B and i7 source remains unidentified.",
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "2020_10_01_322420_media_1_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-1 Sheet1 all three nanobody clone rows and source column; oligo scraper run on source bundle",
+        "finding": "Prints CD4/CD16/CD8 nanobody coding DNA and patent/GenBank provenance. These are biological capture reagent genes, not the PDT/ATAC sequencing adapter or index oligos under this missing claim."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Prints CD4/CD16/CD8 nanobody coding DNA and patent/GenBank provenance. These are biological capture reagent genes, not the PDT/ATAC sequencing adapter or index oligos under this missing claim. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 header and all three nanobody coding-sequence rows, lines 1–5",
+        "finding": "CD4, CD16, CD8 nanobody coding DNA with provenance; these are reagent genes, not ATAC transposon oligos or indexes under the current missing claim."
+      }
+    },
+    {
+      "id": "2020_10_01_322420_media_2_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-2 Sheet1 plasmid names/Source rows; oligo scraper run on source bundle",
+        "finding": "Inventory of pDXinit and nanobody display plasmids with Addgene IDs, not PDT sequencing oligos; clone construction would require linked maps if that were the claim."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Inventory of pDXinit and nanobody display plasmids with Addgene IDs, not PDT sequencing oligos; clone construction would require linked maps if that were the claim. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 plasmid inventory lines 1–18",
+        "finding": "Lists pDXinit and nanobody-display plasmids/Addgene IDs; no ATAC adapter/index sequences in this table."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint Methods around lines 2283–2320; media-3 lines 18–19; media-4 tag table",
+      "finding": "Custom PDT oligos and readout tags are published; exact versioned Chromium oligos and final published source still require checks."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked original preprint and media-1 through media-4 sheet starts. Published article and versioned Chromium ATAC vendor appendix remain unreviewed; media-1 links nanobody sequence origins, not PDT adapter bases."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "PHAGE-ATAC PDT primers or readout tags are unpublished",
+      "disposition": "blocked",
+      "evidence": "EF147/EF91 and tag members are printed in supplement; vendor kit oligos remain unresolved."
+    }
+  ],
+  "conclusion": "EF147/EF91 and tag members are printed in supplement; vendor kit oligos remain unresolved."
+}

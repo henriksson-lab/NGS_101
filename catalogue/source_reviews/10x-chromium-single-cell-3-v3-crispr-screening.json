@@ -1,0 +1,79 @@
+{
+  "dir": "10x-chromium-single-cell-3-v3-crispr-screening",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cg000184",
+      "role": "defining",
+      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt appendix lines 6064–6420",
+        "finding": "Original Rev A user guide has oligonucleotide sequence appendix and printed TSO plus gene-expression and guide-feature library architecture; scraper hits TSO at 6243 and diagrams from 6313."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000184 Rev A appendix, lines 6113–6188 and 6215–6265",
+        "finding": "Independently verified Capture Sequence 1 and 2 gel-bead strands and example sgRNA insertions in hairpin/3-prime positions, plus bead-oligo/TSO product architecture."
+      }
+    },
+    {
+      "id": "cg000197",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt lines 104–162",
+        "finding": "Original 10x guide-RNA specification explicitly prints engineered sgRNA examples and CS2 gel bead capture sequence, including CS1/CS2 placement and scaffold/stem context."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000197 Rev A pp. 1–4, extracted lines 13–145",
+        "finding": "Independently verified the guide-RNA engineering specification: either Capture Sequence 1 or 2 can be inserted in sgRNA hairpin or near 3-prime end, with representative full scaffold strings. It does not assign guide sequences for a particular library."
+      },
+      "discovered_from": "cg000184"
+    },
+    {
+      "id": "capture_product",
+      "role": "linked_material",
+      "locator": "10x CRISPR Screening capture oligo lot or SKU-specific barcode assignment",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact purchased oligo/barcode member allocation not established in the inspected guide.",
+      "discovered_from": "cg000184"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Manufacturer guide introductions, appendices, and referenced guide numbers; source MANIFEST.tsv ",
+      "finding": "Read chemistry-specific CG000197 from the CG000184 guide chain. The CRISPR guide specification gives engineered sgRNA examples rather than every library-specific protospacer."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original CG000184 Rev A appendix lines 6113–6265; linked original CG000197 Rev A guide-RNA specification lines 13–145",
+      "finding": "Followed user guide to linked manufacturer sgRNA engineering specification and verified both Capture Sequence 1/2 examples. No experiment-specific guide library or lot assignment was supplied by this linked guide; such a claim stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact protospacer/barcode member assignment remains experiment-specific; capture architecture is source-published.",
+      "disposition": "blocked",
+      "evidence": "Only one located original-source reading and/or chemistry-relevant linked guide remains unchecked."
+    }
+  ],
+  "conclusion": "Manufacturer original documents read once; independent second pass and linked source comparison pending."
+}

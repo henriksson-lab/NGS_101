@@ -1,0 +1,76 @@
+{
+  "dir": "bless__10.1038+nmeth.2408",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC3651036, nmeth.2408_PMC3651036.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods and library preparation",
+        "finding": "Names TruSeq DNA Sample Preparation Kit v2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "XML lines 131-139",
+        "finding": "Line 139 explicitly says BLESS Illumina libraries used TruSeq DNA sample preparation kit v2 without fragmentation and size selection."
+      }
+    },
+    {
+      "id": "supplements",
+      "role": "supplement",
+      "locator": "PMC3651036 NIHMS449608 supplement tables and method PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Tables including Supplementary Table 5",
+        "finding": "Linker and PCR primers printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local supplement.pdf.txt and supplement-5.xls.txt; scraper hits",
+        "finding": "Original supplement tables contain assay linker and PCR oligos; checked kit adapter identity remains in external manual."
+      }
+    },
+    {
+      "id": "truseq_guide",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq DNA Sample Preparation Kit v2 original guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Named in paper XML line 139; original guide unavailable locally."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Article Methods and supplement links",
+      "finding": "TruSeq DNA Sample Prep v2 named and unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "XML line 139 and local supplement inventory",
+      "finding": "Independently verified exact named kit; earlier unnamed-supplier claim is a page error that first reviewer corrected."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact outer Illumina kit adapter geometry is unpublished.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

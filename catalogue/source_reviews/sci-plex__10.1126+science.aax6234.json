@@ -1,0 +1,313 @@
+{
+  "dir": "sci-plex__10.1126+science.aax6234",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "srivatsan2019",
+      "role": "defining",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/science.aax6234_PMC7289078.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 75-99, 133-165",
+        "finding": "Original article describes polyadenylated ssDNA nuclear hashes fixed and processed by sci-RNA-seq2/3; Methods/Supplementary Tables S1-S8 are linked; author code and oligo order forms named."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 77-87, 133-165",
+        "finding": "Original describes unmodified polyadenylated nuclear hash oligos, split-pool sci-RNA barcoding, and points to Science supplementary Materials and Methods/Tables S1-S8 plus author code; detailed reaction steps remain in unavailable supplement."
+      }
+    },
+    {
+      "id": "author_plate1",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate1_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 1, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 0 and 1."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 1 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_0 through sciPlex_95 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate2",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate2_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 2, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 96 and 97."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 2 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_96 through sciPlex_191 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate3",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate3_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 3, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 192 and 193."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 3 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_192 through sciPlex_287 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate4",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate4_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 4, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 288 and 289."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 4 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_288 through sciPlex_383 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate5",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate5_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 5, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 384 and 385."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 5 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_384 through sciPlex_479 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate6",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate6_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 6, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 480 and 481."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 6 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_480 through sciPlex_575 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate7",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate7_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 7, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 576 and 577."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 7 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_576 through sciPlex_671 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate8",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate8_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 8, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 672 and 673."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 8 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_672 through sciPlex_767 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate9",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate9_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 9, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 768 and 769."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 9 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_768 through sciPlex_863 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate10",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate10_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 10, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 864 and 865."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 10 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_864 through sciPlex_959 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate11",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate11_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 11, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 960 and 961."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 11 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_960 through sciPlex_1055 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "author_plate12",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate12_for_ordering.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author IDT workbook plate 12, Sheet1 header and wells A1-B1",
+        "finding": "Original author order form prints Nextera Read2 handle, a distinct hash barcode, B, and poly(A) tract for sciPlex IDs 1056 and 1057."
+      },
+      "discovered_from": "srivatsan2019",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "IDT plate 12 Sheet1 lines 2-4 and 98",
+        "finding": "Independent reading confirms sciPlex_1056 through sciPlex_1151 in 96 wells, with common Nextera Read2 arm, distinct 10-base hash, B anchor and poly(A) tract; order form contains literal oligo strings."
+      }
+    },
+    {
+      "id": "science_supp",
+      "role": "supplement",
+      "locator": "Science aax6234 supplementary Materials and Methods, Figs S1-S32, Tables S1-S8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "JATS lines 133-165 identify supplement; full Science methods package is not in local bundle."
+    },
+    {
+      "id": "sci_rna3",
+      "role": "predecessor",
+      "locator": "Cao et al. sci-RNA-seq3 cited by article JATS lines 77, 159",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Nuclear-hash capture inherits sci-RNA-seq3 library route; predecessor original not yet read here."
+    },
+    {
+      "id": "author_analysis",
+      "role": "linked_material",
+      "locator": "https://github.com/cole-trapnell-lab/sci-plex",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author repository has been used for order workbooks, but other protocol/method files and version history remain unexamined.",
+      "discovered_from": "srivatsan2019"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 77, 133-165; author IDT plates 1-12",
+      "finding": "Author ordering workbooks supply 1152 hash oligos; Science detailed supplement, sci-RNA-seq3 predecessor and remaining repository files are still open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS lines 77-87, 133-165; author IDT plates 1-12 lines 2-4 and 98",
+      "finding": "Author hash order forms checked independently. JATS links Science DC1 and sci-RNA-seq3 inheritance; original supplement, predecessor and code are not locally inspectable, so these links remain open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete sci-Plex library chemistry beyond the published hash oligos is not yet verified",
+      "disposition": "blocked",
+      "evidence": "Author order forms resolve the hash-family bases; inherited transcriptome indexing and Science supplementary methods require source checks."
+    }
+  ],
+  "conclusion": "Author order forms resolve the hash-family bases; inherited transcriptome indexing and Science supplementary methods require source checks."
+}

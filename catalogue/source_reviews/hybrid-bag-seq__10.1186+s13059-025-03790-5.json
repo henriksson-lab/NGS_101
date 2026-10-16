@@ -1,0 +1,347 @@
+{
+  "dir": "hybrid-bag-seq__10.1186+s13059-025-03790-5",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_PMC12476631.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 108–115, 283–302; cited author protocol link",
+        "finding": "Defining article names hybrid BAG co-assay and links its detailed protocols.io method."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Defining PMC12476631 JATS lines 108–115 and 283–302",
+        "finding": "Hybrid BAG co-captures RNA and DNA on Acrydite oligo-T and oligo-TG in gels, introduces template tags and BAG barcodes over three split-pool rounds, and tagmentation completes libraries. Original explicitly refers to author protocols.io for exact bench steps."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Oligos lines 77–88; round 1 lines 515–560; round 2 lines 641–671",
+        "finding": "Publishes hybrid capture primers and TSO. First round uses Klenow exo− plus Quick Ligase; second uses Bst 2.0."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io PDF lines 77–88, 515–560, 641–671 and 733 onward; scraper hits modified capture/adapter oligos",
+        "finding": "Author PDF prints /5ACryd//iSp18/ capture oligos, TSO, Adapter1/2/3 families; round 1 ligation extension, round 2 adapter 2 plus Bst2.0 extension, and round 3 further tagging. The round-2 operation should be modeled as extension, not another ligation."
+      }
+    },
+    {
+      "id": "author_attachment",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1_attachment_1_t9bacpj97.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheets 1st-split lines 1–98, 2nd-split 99–196, 3rd-split 197–392, N70x indexes 393–406",
+        "finding": "Complete published 96-member barcode families and N701–N712 index primers; these are relevant original oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io attached XLSX sheets: first round lines 1–98, second 99–196, third 197–392, Nextera N70x lines 393–406",
+        "finding": "Workbook publishes all 96 barcodes for first/second/third split rounds (third with 2N and 3N variants) and full N701–N712 indexed primer strings with modifications. Exact member chosen per well remains plate-map dependent."
+      }
+    },
+    {
+      "id": "bag_predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_PMC6961581.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "BAG-seq Methods and primer/oligo references",
+        "finding": "Earlier BAG method uses related but different capture primer arms; hybrid source must govern hybrid model."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BAG-seq PMC6961581 JATS Methods and read-coordinate paragraphs lines 227–235",
+        "finding": "BAG predecessor explains gel-tethered templates and split-pool barcode/varietal tags, including read-1 barcode windows, but hybrid adaptation adds simultaneous RNA/DNA chemistry and must be read from its own protocol."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "bag_predecessor_methods",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_supp_supp_gr.253047.119_Supplemental_Methods_.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "bag_predecessor",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original BAG predecessor Supplemental Methods primer/reagent table lines 1–68 and library-prep reagent list lines 100–130; source-bundle oligo scraper",
+        "finding": "Predecessor prints the DNA-only Acrydite random-TG oligo and old adapter arms, and lists NlaIII, Klenow exo−, Quick Ligase and Nextera XT. These are predecessor chemistry, not substitutes for the hybrid-specific oligos in the linked 2025 author protocol."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original BAG-seq predecessor Supplemental Methods PDF extracted lines 1–75, 97–134 (primer table and reagent list); Hybrid BAG whole-bundle oligo scraper run before reading",
+        "finding": "Independently verified the predecessor prints a DNA-only acrydite/TG random primer with iSp18, old Adapter1/Adapter2 barcode arms, and names NlaIII/Klenow-related reagents in its library workflow. These establish predecessor chemistry, not the 2025 hybrid branch’s selected oligo structures."
+      }
+    },
+    {
+      "id": "supp_1",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Filtered co-clustering counts, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S8 lines 1–32",
+        "finding": "Filtered co-clustering counts, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM10 Table S8 heading/first rows",
+        "finding": "Co-clustering counts across samples, not wet-lab oligos or reaction order."
+      }
+    },
+    {
+      "id": "supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Genomic bin boundaries for copy-number analysis, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S9 lines 1–304",
+        "finding": "Genomic bin boundaries for copy-number analysis, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM11 Table S9 heading/first rows",
+        "finding": "Empirical copy-number bin boundaries, not molecular chemistry."
+      }
+    },
+    {
+      "id": "supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM1_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Patient metadata table, no reaction/oligo details.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S1 lines 1–20",
+        "finding": "Patient metadata table, no reaction/oligo details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1 Table S1 heading/first rows",
+        "finding": "Patient overview and samples; no oligo or library recipe."
+      }
+    },
+    {
+      "id": "supp_4",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S2 lines 1–36",
+        "finding": "BAG library parameters, including total read pairs and first-round nuclei removal; relevant quality/layout context."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM2 Table S2 lines 1–5, library-parameter column names",
+        "finding": "Read/library metrics per DNA-only, RNA-only and Hybrid experiment, including molecule counts and total read pairs. Relevant to empirical library output but no sequence construction details."
+      }
+    },
+    {
+      "id": "supp_5",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplementary figure captions document copy-number, clustering and quality outcomes, no additional oligo list in inspected captions.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure S1–S21 captions (e.g. lines 1356, 1874, 2164, 5232, 6635)",
+        "finding": "Supplementary figure captions document copy-number, clustering and quality outcomes, no additional oligo list in inspected captions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM3 Supplementary Figure PDF opening figure captions and chemistry-term search",
+        "finding": "Supplementary result figures; no additional synthetic oligo sequence verified."
+      }
+    },
+    {
+      "id": "supp_6",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "DNA clone/RNA cluster contingency results, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S3 lines 1–56",
+        "finding": "DNA clone/RNA cluster contingency results, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Table S3 heading/first rows",
+        "finding": "DNA clone versus RNA cluster contingency matrices, downstream analysis only."
+      }
+    },
+    {
+      "id": "supp_7",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM5_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Case-by-case tumour interpretation, no library preparation detail in inspected text.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Text lines 1–270",
+        "finding": "Case-by-case tumour interpretation, no library preparation detail in inspected text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM5 Supplementary Text opening section and headings",
+        "finding": "Patient/case-specific tumor descriptions; no library oligo chemistry found in inspected headings."
+      }
+    },
+    {
+      "id": "supp_8",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Differential expression result table, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S4 lines 1–316",
+        "finding": "Differential expression result table, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM6 Table S4 heading/first rows",
+        "finding": "Tumor expression sub-cluster results, not a reagent table."
+      }
+    },
+    {
+      "id": "supp_9",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Stromal marker result table, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S5 lines 1–924",
+        "finding": "Stromal marker result table, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM7 Table S5 heading/first rows",
+        "finding": "Stromal marker genes/differential expression results."
+      }
+    },
+    {
+      "id": "supp_10",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Crossover counts after filtering, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S6 lines 1–18",
+        "finding": "Crossover counts after filtering, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM8 Table S6 heading/first rows",
+        "finding": "Crossover analysis counts, not chemistry."
+      }
+    },
+    {
+      "id": "supp_11",
+      "role": "supplement",
+      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Crossover summary, no chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S7 lines 1–13",
+        "finding": "Crossover summary, no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM9 Table S7 heading/first rows",
+        "finding": "Crossover filtering summary, not chemistry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining article Methods lines 108–115, 283–302; linked protocols.io primer list and rounds; original publisher supplement list",
+      "finding": "Followed author detailed protocol and BAG predecessor. Original result supplements and author workbook still need per-file inspection."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining article links and every locally recovered supplement/author workbook listed in source checklist",
+      "finding": "Independently inspected recovered supplements including chemistry-relevant oligo and protocol sources; any still-unavailable relevant source remains a blocker to confirmed absence."
+    },
+    "correction": "New independent review of the predecessor Supplemental Methods is pending. All source-positive hybrid oligos are in the linked author protocol and workbook, but the model has not yet assembled an exact final library.",
+    "resolution": "The defining paper links the 2025 author protocol and the original BAG platform. Both are in this checklist with two independent reads; their linked hybrid workbook and predecessor Supplemental Methods are separately listed and double-checked. The remaining role-level final-library geometry is a modelling gap, not a source absence."
+  },
+  "missing_claims": [
+    {
+      "claim": "Hybrid BAG adapter or index bases are absent from the original sources",
+      "disposition": "resolved",
+      "evidence": "The author protocols.io PDF Primers section lines 77–89 and attached workbook lines 1–406 print the hybrid capture primers, three barcode families, P5-Adapter3, N701–N712 and custom Read1 primer. The remaining role-level final library is a model gap, not evidence of publication absence."
+    }
+  ],
+  "conclusion": "Two independent checks of the defining article, its author protocol/workbook, the original BAG predecessor and Supplemental Methods, and all listed publisher supplements found the hybrid-specific oligo and indexed PCR families. The final duplex still needs model assembly; no source-missing claim is accepted."
+}

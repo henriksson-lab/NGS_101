@@ -23,18 +23,6 @@ DSB_AD006 = "GCCAAT"                       # TruSeq sample index AD006, read as 
 
 DSB_PCR_R_AD06 = il.P7 + revcomp(DSB_AD006) + revcomp(DSB_P7)[:21]
 
-_DSB_FIGURE_ONLY = ("Lensing et al. draw this oligo in Fig. 1a / Supplementary Fig. 1c as"
-                    " raster artwork; no base of the DSBCapture oligo set occurs as text in"
-                    " the author manuscript, Supplementary Figures or Supplementary Tables,"
-                    " so there is no extracted source text to compare against.")
-
-SOURCE_OLIGO_EXCEPTIONS = {
-    "modified_p5": _DSB_FIGURE_ONLY,
-    "modified_p7": _DSB_FIGURE_ONLY,
-    "library_forward": _DSB_FIGURE_ONLY,
-    "library_reverse": _DSB_FIGURE_ONLY + " AD006 is one of three drawn example primers.",
-}
-
 
 def workflow():
     return chain(molecule("fixed nuclei", (role("genomic DNA with a native DSB"),)), (
@@ -56,26 +44,26 @@ def workflow():
                   junctions=(("modified P5", "break-to-random genomic DNA", "native-break ligation"),
                              ("break-to-random genomic DNA", "modified P7", "distal T/A ligation"))),
          "The second adapter is added only to the random sonication end."),
-        ("INFERRED — PCR-add P5, i7 and P7; size-select the library",
-         molecule("DSBCapture sequencing library", (role("P5 and Read 1 site"), role("DNA beginning at the DSB"), role("Read 2 and Index 1 site"), role("six-base sample index", inferred=True), role("P7"))),
-         "The drawn PCR primers complete a single-index Illumina library; the index window's six-base width is measured from Supplementary Fig. 1c artwork and never stated in the text."),
+        ("PCR-add P5, i7 and P7; size-select the library",
+         molecule("DSBCapture sequencing library", (role("P5 and Read 1 site"), role("DNA beginning at the DSB"), role("Read 2 and Index 1 site"), role("six-base sample index"), role("P7"))),
+         "The original detailed method prints PCR F and the indexed PCR R family and specifies a six-base, single-index TruSeq library."),
     ))
 
 
 TITLE = 'DSBCapture — direct in-situ sequencing of DNA breaks'
 NOTES = '01_dsbcapture.html'
-SOURCE = 'Lensing et al., Nature Methods (2016); <a href="https://doi.org/10.1038/nmeth.3960">doi:10.1038/nmeth.3960</a>. The oligo set below is published only as figure artwork (Fig. 1a, Supplementary Fig. 1c).'
+SOURCE = 'Lensing et al., Nature Methods (2016); <a href="https://doi.org/10.1038/nmeth.3960">doi:10.1038/nmeth.3960</a>. The original <a href="https://doi.org/10.1038/protex.2016.52">Protocol Exchange method</a> prints the oligo set on pp. 8–9.'
 SUMMARY = 'A biotinylated modified P5 adapter is ligated to repaired breaks inside fixed nuclei; after sonication and capture, modified P7 is installed only at the random distal end, so Read 1 begins at the DSB.'
-CAVEAT = "<b>Oligo provenance.</b> Lensing et al. print the modified P5, modified P7 and control modified P5 duplexes and the PCR primers only as raster artwork in Fig. 1a and Supplementary Fig. 1c: no base of them occurs as text in the author manuscript, Supplementary Figures or Supplementary Tables, so the bases shown here cannot be re-checked against extracted source text. Every drawn base is a canonical Illumina TruSeq part, so this page derives the set from the shared <code>illumina</code> constants and from each duplex's own top strand; a figure transcription and a reconstruction out of those constants are therefore indistinguishable. The sample-index window is measured from the same artwork — the paper never states an index length, an index read or demultiplexing — and is shaded as inferred."
-FINAL_CAPTION = 'Published modified-P5/modified-P7 library; the proximal orientation is shown. Read 1 starts at the repaired native break. The shaded sample-index window is the figure-measured inference described above.'
+CAVEAT = "<b>Source scope.</b> The paper depicts the oligos in raster figures. The original Protocol Exchange method, doi:10.1038/protex.2016.52, prints the modified P5/P7 and control duplexes, PCR primers, and six-base single-index design on PDF pp. 7–9. The model derives common TruSeq bases from shared constants; an explicit index read on the instrument is not specified by the detailed method."
+FINAL_CAPTION = 'Published modified-P5/modified-P7 library; the proximal orientation is shown. Read 1 starts at the repaired native break. The six-base sample index is printed in the original detailed method.'
 READ_LENGTHS = {'Read 1': 75, 'Index 1 (i7)': 6, 'Read 2': 75}
 READ_USES = {'Index 1 (i7)': 'undetermined'}
-SEQUENCING_INTRO = "The paper used 2×75-bp NextSeq runs (and 2×50-bp MiSeq for the EcoRV pilot); downstream break calling retains the proximal Read 1. The indexed PCR R implies an index read, but the paper never describes one, so the Index 1 length is taken from the figure's index window and its handling is left undetermined."
+SEQUENCING_INTRO = "The paper used 2×75-bp NextSeq runs (and 2×50-bp MiSeq for the EcoRV pilot); downstream break calling retains the proximal Read 1. The linked original detailed method specifies a six-base single index; whether and how the instrument acquired its separate index read remains unstated."
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
-FINAL_LIBRARY, SEQ_PRIMERS = _illumina_break_library("DSBCapture library", inferred=False, tagged=False, index_inferred=True)
+FINAL_LIBRARY, SEQ_PRIMERS = _illumina_break_library("DSBCapture library", inferred=False, tagged=False, index_inferred=False)
 def oligos():
-    return (f'modified P5 top — 5′-/5Biosg/{DSB_P5[0]}*{DSB_P5[1:-1]}*{DSB_P5[-1]}-3′', f'modified P5 bottom — 5′-/5Phos/{DSB_P5_BOTTOM}-3′', f'modified P7 top — 5′-/5Phos/{DSB_P7}-3′', f'modified P7 bottom — 5′-{DSB_P7_BOTTOM[:-1]}*{DSB_P7_BOTTOM[-1]}-3′', f'PCR F — 5′-{DSB_PCR_F}-3′', f'PCR R (AD006 example, one of three drawn) — 5′-{DSB_PCR_R_AD06}-3′', 'control modified P5 — Supplementary Fig. 1c also publishes a non-biotinylated control modified P5 adapter, the negative control of Supplementary Fig. 1e (lane C). Its bases are not transcribed here: the artwork is the only source, and whether it differs from the modified P5 above by nothing but the omitted 5′ biotin is not stated anywhere in the text.')
+    return (f'modified P5 top — 5′-/5Biosg/{DSB_P5[0]}*{DSB_P5[1:-1]}*{DSB_P5[-1]}-3′', f'modified P5 bottom — 5′-/5Phos/{DSB_P5_BOTTOM}-3′', f'modified P7 top — 5′-/5Phos/{DSB_P7}-3′', f'modified P7 bottom — 5′-{DSB_P7_BOTTOM[:-1]}*{DSB_P7_BOTTOM[-1]}-3′', f'PCR F — 5′-{DSB_PCR_F}-3′', f'PCR R (AD06 example, one of eight printed) — 5′-{DSB_PCR_R_AD06}-3′', f'control modified P5 top — 5′-{DSB_P5[0]}*{DSB_P5[1:-1]}*{DSB_P5[-1]}-3′ (original detailed method, PDF p. 8; no biotin; same phosphorylated complement)')
 
 def protocol_graph():
     source = SOURCE
@@ -168,8 +156,6 @@ def protocol_graph():
     _finish_pcr(graph, "library", dual, FINAL_LIBRARY, SEQ_PRIMERS,
                 SEQUENCING_INTRO, reviewed, label="DSBCapture",
                 forward_state=DSB_PCR_F, reverse_state=DSB_PCR_R_AD06,
-                step_label="INFERRED — amplify with PCR F and an AD-indexed PCR R; the"
-                           " sample-index window is measured from Supplementary Fig. 1c"
-                           " artwork, not stated in the text")
+                step_label="Amplify with PCR F and a published six-base AD-indexed PCR R")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

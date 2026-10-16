@@ -1,0 +1,252 @@
+{
+  "dir": "nano-cut-tag__10.1038+s41587-022-01535-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 media-1 PDF text opening Extended Data Figure 1 and remaining figure caption headings; bundle scraper",
+        "finding": "Extended figure descriptions compare scCUT&Tag and nano-CT; no distinct oligo sequence table in this figure supplement. It does not supersede published Supplementary Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v2 media-1.pdf.txt lines 1–22 and 1385–1415; checked all extended-figure headings/captions",
+        "finding": "Extended Figure 1 compares conventional scCUT&Tag with nano-CT and linear preamplification; later panels are result plots. This supplement provides conceptual workflow comparison, not a separate adapter or primer table."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 media-2 workbook Sheet1 first rows and full oligo-family scan",
+        "finding": "The preprint supplementary workbook prints barcoded Tn5_P5_MeA_BcdA/B/C 0N–3N families with actual modality barcode bases; these are source-positive adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v2 media-2.xlsx.txt Sheet1 lines 1–18",
+        "finding": "Preprint workbook gives BcdA/B/C 0N–3N MeA top strands, unbarcoded MeA, MeB, 5Phos Tn5_Rev, custom R1 and I2. BcdA 0N includes TCCACGC before TATAGCCT; bases agree with published Supplementary Table 1."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_3",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 Methods lines 488–490, 525–527, 551–571 and figures/captions; bundle scraper",
+        "finding": "Preprint states equal mix of 0N–3N barcoded MeA oligos, nanobody-Tn5 loading and distinct modalities. It names Supplementary Table 1 for member bases; separate preprint workbook provides them."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v2 full PDF text lines 111–126, 488–505, 593–630",
+        "finding": "Preprint specifies MeA-only first tagmentation, 10x ATAC v1.1 droplet linear amplification, MeB-only second tagmentation, then PCR. It explicitly mixes 0N–3N members equally and cites Supplementary Table 1; final run is 36-8-48-36 with custom R1/I2."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_4",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io v2 PDF lines 203–205, 290–320 and 1256–1257; bundle scraper",
+        "finding": "Detailed protocol prints Custom_primer_R1, Custom_primer_I2 and optional 0N–3N barcoded Tn5_P5_MeA_BcdA families, with note that added random bases reduce low complexity on some sequencers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io v2 PDF text lines 123–144, 201–205, 228–235, 248–324 and 1251–1258",
+        "finding": "Detailed author method names exact custom R1/I2 and 10x ATAC v1.1. Its opening materials table omits CCACGC from BcdA/B/C oligos, but lines 271–293 explicitly correct the prior version and restore CCACGC; the published workbook agrees with corrected strings. Optional 0N–3N family is printed for sequence complexity. Linked Amini barcode suggestion is optional and not needed for the source-defined BcdA/B/C family."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_5",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC10264246 PDF text Methods/adapter-table region; bundle scraper",
+        "finding": "Publisher PDF is a duplicate rendering of source_6 JATS; same modality barcode/tagmentation workflow. No separate revision of bases identified in inspected Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published PMC10264246 PDF text lines 131–138, 2813–2833, 2936–2978",
+        "finding": "Independent PDF rendering confirms same published JATS chemistry: MeA barcoded nano-Tn5, Chromium ATAC v1.1 cell barcoding, MeB second tagmentation, SI-PCR, and R1/I2 custom 36-8-48-36 run. PDF has no alternate primer member table; original Supplementary Table 1 supplies bases."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "source_6",
+      "role": "defining",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 177–209 and Supplementary Table descriptions lines 245–247",
+        "finding": "Main text defines nano-Tn5 barcode family, P7 loading, 10x ATAC v1.1 incorporation and custom 36-8-48-36 read layout."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 177-209, 245-247",
+        "finding": "Nanobody-Tn5 loads barcoded MeA variants and Tn5_Rev; 10x ATAC v1.1 cell barcoding is followed by P7 tagmentation; custom R1/I2 and 36-8-48-36 cycles are stated."
+      }
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 text lines 10–90 and 129–185; bundle scraper",
+        "finding": "Supplement prints anti-mouse/anti-rabbit nanobody-Tn5 fusion protein and DNA coding sequences plus Supplementary Data Figure 2 library structure/barcode regions. The protein CDS is not an ordering oligo, but the library schematic is chemistry-relevant."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF text lines 11–29, 63–82 and 134–180",
+        "finding": "Supplementary sequences 1/2 are nanobody–Tn5 protein and expression-CDS sequences, not library-ordering oligos. Supplementary Data Figure 2 lines 134–180 describes the library drawing, barcode regions and R1/R2/I1/I2 run positions; relevant to molecule/read layout."
+      }
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF: all four pages visually inspected; extracted text empty",
+        "finding": "Nature Research Reporting Summary contains code/data declarations, antibody validation and animal-study reporting; no probe/adapter oligo table or molecular reaction detail."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF, all four pages independently viewed as page images; extracted text has zero lines",
+        "finding": "Four-page Nature Research Reporting Summary: statistics/code/data, study design, antibody validation and animal reporting. No oligo or molecular library-prep recipe; exclusion from chemistry evidence is supported."
+      },
+      "reason": "All four visually inspected pages are a Nature Research Reporting Summary."
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 lines 1–40",
+        "finding": "Original workbook prints nano-Tn5 adapter oligos and custom read/index primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 1 workbook lines 1-23",
+        "finding": "Lists BcdA/B/C four 0N–3N variants, MeA, MeB, 5Phos Tn5_Rev, R1_seq and I2_seq; Table 2 in same workbook starts gene-result lists, not primer values."
+      }
+    },
+    {
+      "id": "atac_v1_1_vendor_guide",
+      "role": "vendor",
+      "locator": "_data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official CG000209 Rev G Appendix A1 lines 3729–3829; primer scraper run on the guide",
+        "finding": "Guide prints gel-bead P5–N16–partial Read1N oligo, SI-PCR Primer B forward and indexed reverse scaffold, and complete final library architecture. N16 cell barcode and N8 sample index are variable windows; prior public absence claims were erroneous and have been corrected."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000209 Rev G Appendix A1 lines 3729-3829",
+        "finding": "Gel-bead oligo is P5–N16–partial Read1N; SI-PCR Primer B and indexed reverse scaffold are explicit. The exact barcode/index members remain variable; the published kit architecture resolves former page claims of a wholly undisclosed 10x shell."
+      },
+      "discovered_from": "source_6"
+    },
+    {
+      "id": "amini_2014_optional_barcodes",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-atac-seq-family__10.1126+science.aab1601/ng.3119_PMC4409979.xml.txt and ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt; Amini et al. Nat Genet 2014 doi:10.1038/ng.3119, cited by nano-CT protocols.io PDF lines 143-144 for additional barcode choices",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_4",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Amini original JATS lines 56-62, 118, 130; original Supplementary Table 4 workbook lines 1-32, especially correction notice lines 1-7 and P5 oligos rows 9-16; scraper run separately on JATS, original supplement PDF and workbook",
+        "finding": "The source-positive optional index library has eight P5 transposon oligos; its first three use the same CCACGC–TATAGCCT/ATAGAGGC/CCTATCCT–GCGATCGAGGACGGC–ME pattern printed in nano-CT published BcdA/B/C. The workbook carries a correction notice: the first five rows were omitted from its original online version and restored 20 May 2015. This predecessor supplies additional candidate barcodes, not evidence of which extra member the nano-CT authors used. Independent second read of this link is pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Amini original ng.3119_PMC4409979.xml.txt lines 56–66 and 116–130; publisher Supplementary Table 4 ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt lines 1–32 (correction notice and all oligo headings), especially P5 rows 9–16; Nano-CUT&Tag author protocols.io v2 lines 123–144 and correction lines 271–293; published Nano-CT MOESM3 rows 3–14; scraper run on Amini bundle and Nano-CT bundle",
+        "finding": "Independently verified original Amini Supplementary Table 4: its 20 May 2015 correction notice says the first five rows were omitted originally. Current P5 rows 9–11 exactly match the corrected Nano-CUT&Tag BcdA/B/C 0N strings, including CCACGC; rows 12–16 offer five additional P5 index constructs. Nano-CT author method cites Amini for optional extra barcode selection, but the original Nano-CT workbook defines only BcdA/B/C with 0N–3N variants. Amini cannot establish use of its additional five P5 codes in Nano-CT experiments."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Nano-CT JATS lines 61, 71, 201-209; protocols.io PDF lines 123-144 and 271-293; original Supplementary Table 1; official 10x CG000209 Rev G Appendix A1 lines 3729-3829; newly followed Amini 2014 JATS lines 118, 130 and corrected Supplementary Table 4 workbook lines 1-32",
+      "finding": "All originally listed paper/preprint/protocol/vendor rows now have two readers. Followed the optional Amini 2014 barcode citation in the author protocols.io method: its corrected Supplementary Table 4 gives the first three nano-CT BcdA/B/C P5 patterns plus more optional indexes. This newly added predecessor row has only my located first pass. Exact experimental choice of any extra member and strand-resolved 10x SI-PCR geometry remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods, located original supplementary oligo table, linked bench-top CUT&Tag where applicable, and official 10x CG000209 Rev G Appendix A1",
+      "finding": "The CG000209 guide resolves kit oligo scaffolds, but other relevant original/preprint/supplement rows remain without two located passes; linked information remains blocked."
+    },
+    "followup": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Nano-CT protocols.io v2 lines 123–144, 271–293; Amini 2014 original JATS lines 116–130 and corrected Supplementary Table 4 lines 1–32; Nano-CT MOESM3 lines 3–14",
+      "finding": "Followed the cited Amini barcode source independently. Its first three P5 sequences corroborate Nano-CT corrected BcdA/B/C; five further Amini P5 sequences are optional candidates, not source evidence of actual Nano-CT use. Exact extra-member use and 10x SI-PCR strand geometry remain unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Original Nano-CT article, preprint, oligo workbook, detailed author protocol, official 10x guide and cited Amini original/supplement now each have two located source passes. Amini provides optional barcode candidates, but no source establishes their use beyond Nano-CT BcdA/B/C; strand-resolved SI-PCR geometry also remains unreconciled.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Originals, preprint, oligo workbook, detailed protocol, 10x vendor guide and cited Amini 2014 supplement now have two independent located reads. Amini confirms corrected BcdA/B/C and provides optional extra P5 index candidates, but does not show that Nano-CT used them. The author protocol correction is already on the public page; extra-member selection and full SI-PCR geometry remain blocked."
+}

@@ -1,0 +1,190 @@
+{
+  "dir": "miracl-seq__10.1016+j.cell.2020.08.003",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/miracl-seq__10.1016+j.cell.2020.08.003/j.cell.2020.08.003_PMC8358727.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "STAR Methods lines 1074–1103; key resources lines 3034–3040",
+        "finding": "MIRACL is the deliberately overloaded GemCode v2 droplet branch (2×–8× nuclei); plate Smart-seq2/Nextera primers are not MIRACL-specific."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS STAR Methods lines 1074–1103",
+        "finding": "MIRACL changes the input strategy by overloading nuclei 2×–8× into GemCode v2 droplets; it uses the droplet RAISIN chemistry, not plate SMART-Seq2 custom Nextera barcodes."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "_data/sources/miracl-seq__10.1016+j.cell.2020.08.003/746743_v4.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author preprint MIRACL Methods",
+        "finding": "Preprint corroborates droplet overloading and must not be conflated with plate RAISIN."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v4 PDF droplet/MIRACL Methods around lines 1306–1335",
+        "finding": "Preprint also describes GemCode v2 partitioning and MIRACL overloaded input; no MIRACL-specific oligo sequence established independently of the kit."
+      }
+    },
+    {
+      "id": "10x_v2",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sequences appendix lines 9–35 and 70–139",
+        "finding": "Original vendor guide prints v2 gel-bead and final-library scaffold; study index member remains unassigned."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000108 technical note lines 1–36 and 70–139",
+        "finding": "Official gel-bead N16 cell barcode/N10 UMI/T30VN and template-switch/scaffold roles support the v2 droplet arm; exact barcode member and study-specific sample index remain separate questions."
+      }
+    },
+    {
+      "id": "cell2020_figure_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_figure_s7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Figure_S7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    },
+    {
+      "id": "cell2020_table_s6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8358727/bin/NIHMS1728589-supplement-Table_S6.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplementary item is PMC download-gated; chemistry relevance cannot be excluded without inspection."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining JATS STAR Methods lines 1074–1103; original Cell supplement manifest and 10x v2 guide",
+      "finding": "Followed the cited v2 platform rather than importing plate RAISIN primers into MIRACL. Cell supplements still inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Independently followed defining Methods citations, checked listed local predecessors/vendor references and MANIFEST-linked supplements",
+      "finding": "The listed local chemistry-relevant links were inspected as recorded in source rows; unavailable original supplements or vendor documents still block any accepted missing-information claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact MIRACL study index member is unavailable",
+      "disposition": "blocked",
+      "evidence": "Vendor v2 scaffold is known, but study assignments may reside in gated Cell tables."
+    }
+  ],
+  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding."
+}

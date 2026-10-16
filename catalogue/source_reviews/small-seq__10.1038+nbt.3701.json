@@ -1,0 +1,292 @@
+{
+  "dir": "small-seq__10.1038+nbt.3701",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "faridani_main",
+      "role": "defining",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/download.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original publisher PDF recovered from institutional library; read after full bundle oligo scraper.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "download.pdf.txt introduction lines35–45; OnlineMethods library preparation lines846–903",
+        "finding": "Original modified adapter ligations, free-adapter digestion, RT and two13cyclePCRs; RPI indexes in2016 differ from2018SRX. Original runs1x43 or1x51 HiSeq2500. Supplement4,Table3andSoftware6 chemistry/readprocessing followed."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original download.pdf.txt lines846–903, especially library-preparation paragraph848–890; original MOESM4 Supplementary Table2 oligo lines6060–6103 independently checked for RPI versus SRX version boundary",
+        "finding": "Independent original reading confirms masking, preadenylated3prime-adapter ligation, RT-primer/deadenylase/lambda digestion,5prime-ligation, RT, first13cyclePCR and indexed second13cyclePCR, then pooling/purification. Defining paper specifies HiSeq2500 single43or51base reads. Supplementary Table2 RPI1 includes six-base CGTGAT between P7 and common tail, distinct from2018eight-baseSRX. Current page explicitly represents2018implementation and explains2016difference; no publication discrepancy follows from these legitimate versions. Main points to originalSupplementaryTable2 oligos,Table3sequencing statistics and analysis/software links. Those inspected originals support entry geometry, not an identified loaded instrument primer."
+      }
+    },
+    {
+      "id": "faridani_supp",
+      "role": "supplement",
+      "locator": "Faridani 2016 MOESM4 original supplemental PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM4 lines 6067–6090",
+        "finding": "Modified small-RNA adapters printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM4 text line 6067 onward; scraper",
+        "finding": "Confirmed rAppTGGAATTCTCGGGTGCCAAGG-ddC and other modified adapter oligos."
+      }
+    },
+    {
+      "id": "hagemann_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/hagemann_s41596-018-0049-y.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Recovered pre-existing ignored original publisher PDF pdf/hagemann s41596-018-0049-y.pdf; title/DOI verified. Acquisition route of old manual file was not logged. Prior unavailable classification was a source-discovery failure.",
+      "discovered_from": "faridani_main",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Reagentsetup lines638–690; Procedure adapterligation/RT/PCR throughline1140; pooling/cleanup1180–1204; sequencingSteps36–38lines1276–1296; reference/link list1549–1576",
+        "finding": "Modified RA3,RA5,RTP,RP1,mask confirmed; H8 UMI usesA/U/C; aminolinkC6 and RTP terminalrA. SRX has8baseindex192samples. Steps37–38 refer sequencing operation to manufacturer and recommend >=51base single read. Actual loaded Read1oligo not identified by this model. Followed original2016paper,SRXtable,reportingsummary,publishedadaptersoftware; vendorinstrumentinstructions and cited ligation-mechanism predecessors remain open."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original hagemann_s41596-018-0049-y.pdf.txt Reagentsetup638–690; Procedure802–925 ligation/digestion,922–1025 ligation/RT,1040–1178 PCR,1180–1208 pooling/cleanup; sequencing1276–1296; actual reference list1549–1580",
+        "finding": "Independent original reading confirms RA3 rApp/ddC, RA5 aminolinkC6 with H8 (A/U/C) plus CA, RTP5primebiotin and terminalrA, exactRP1, SRX eight-base192sample family. Source specifies13cyclePCRs, pooled cleanup, optional size selection and at least51base single read; Step37 delegates instrument operation to manufacturer and does not identify actual loaded oligo in the inspected protocol. It names Landgraf2007,Hafner2011,Munafo2010 as relevant ligation references; these remain separate source rows for their own checks, not silently excluded. Existing source-specific model agrees for2018version; binding-site query is correctly presented as derived geometry, not a physically identified loaded oligo."
+      }
+    },
+    {
+      "id": "hagemann_table",
+      "role": "linked_material",
+      "locator": "Hagemann-Jensen 2018 MOESM1 Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 Supplementary Table 1",
+        "finding": "SRX indexed primer family printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1 line 45 onward",
+        "finding": "Confirmed source table of 192 SRX indexed PCR primer members."
+      }
+    },
+    {
+      "id": "illumina_adapter",
+      "role": "vendor",
+      "locator": "Illumina TruSeq Small RNA adapter-sequences page, cached as cel-seq2/illumina_TruSeq-SmallRNA.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Vendor adapter documentation",
+        "finding": "RA5/RA3/RP1/RPI listed; separate run primer not printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Vendor page lines 142–205",
+        "finding": "RA5, RA3, RP1 and RPI sequence formula are present, but distinct instrument Read 1 oligo is not listed."
+      }
+    },
+    {
+      "id": "faridani_statistics",
+      "role": "supplement",
+      "locator": "nbt.3701_41587_2016_BFnbt3701_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "faridani_main",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Sheet1lines1–5 and33/41ntreadgroup headings",
+        "finding": "SupplementaryTable3 distinguishes33and41baseRNA portions consistent with43/51runs minus8UMI+2CA. Other sample mapping/count columns do not specify adapter chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5_ESM.xlsx.txt Sheet1 title/scope/header lines1–5; entire set of column headings,41basegroup line4,33basegroup line98 and population/dilution/NEBNextgroup lines464–495",
+        "finding": "Original SupplementaryTable3 explicitly separates41base RNA fragments from33base RNA fragments and gives per-sample read/mapping/mask/cell/batch statistics. Together with actual software UMI8+CA2removal this agrees with51or43acquired bases. Population andNEBNext rows are distinct comparison groups, not an instruction to substitute a commercial adapter into Small-seq. Table contains no loaded-primer identity; excluded only from that specific identity claim, not from read-length evidence."
+      }
+    },
+    {
+      "id": "faridani_software",
+      "role": "supplement",
+      "locator": "nbt.3701_41587_2016_BFnbt3701_MOESM6_ESM.zip: README.md and adapters/cutadapt_3prime.fa extracted in source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "faridani_main",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "README UMIremoval andadaptertrimming sections lines10–21; cutadapt_3prime.fa lines1–4",
+        "finding": "Published source configuration extracts8UMI bases then trims2CA; adapterFASTA printsRA3body andpolyA. This supportsreadstart/adapter geometry, not loaded instrument primer identity. Other analysis tool/reference-genome links concern downstream mapping/counts, not molecule construction."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM6_ESM.zip members smallseq-master/README.md (entire file, UMI-removal and adapter-trimming blocks) and smallseq-master/adapters/cutadapt_3prime.fa (entire four-line file), read directly through zipfile as well as extracted twins",
+        "finding": "Independently opened original archive members. README removes N8UMI and then cutadapt-u2 explicitly removes initialCA; sourceFASTA prints TGGAATTCTCGGGTGCCAAGG and polyA. This supports UMI-first acquisition and downstream adapter sequence. CGAT/UMItools/STAR/genome-fetch/Samtools links concern processing/reference/alignment/counts and do not identify a physical loaded primer or a different adapter assembly. Their software roles are explicit in originalREADME; no sequence absence inferred from software."
+      }
+    },
+    {
+      "id": "hagemann_reporting",
+      "role": "supplement",
+      "locator": "s41596-018-0049-y_41596_2018_49_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "hagemann_protocol",
+      "reason": "Original reporting-summary statistics/software/experimentaldesign checklist, not an additional oligo or sequencing-loading protocol.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary statistical parameters and Software/code headings",
+        "finding": "Inspected original reporting form; no chemistry transfer from this exclusion."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2_ESM.pdf.txt all three pages: statistical parameters, software/code, data/study design, cell-line and flow-cytometry sections",
+        "finding": "Independent original reporting form inspected in full. It lists the Smallseq analysis repository and standard processing tools, no new original data, cell provenance and FACS instrument/software/gating. It is not an oligo ordering table or instrument sequencing/loading manual. Exclusion from exact loaded-primer identity is based on the original contents; the software link is followed through the original published pipeline source above."
+      }
+    },
+    {
+      "id": "instrument_sequencing_instructions",
+      "role": "vendor",
+      "locator": "Hagemann2018 Step37 manufacturer sequencing instructions for MiSeq/NextSeq; platform-specific guide revision not identified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "reason": "Vendor adapter sequences were checked but do not substitute for sequencing-operation/primer-loading instructions. Platform and revision scope needs retrieval and two independent checks before any missing-oligo conclusion."
+    },
+    {
+      "id": "landgraf2007",
+      "role": "linked_material",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/j.cell.2007.04.040_PMC2681231.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "reason": "Original PMC fulltext recovered through DOI route; read after full bundle scraper. Methods delegates detailed procedures to supplementary experimental procedures and cites Pfeffer2003/2005.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Experimental Procedures lines2707–2721; supplementary file inventory around2939",
+        "finding": "Main explicitly describes preadenylated3prime adapter and T4Rnl2(1–249). These are predecessor context, not evidence that Smallseq uses this older enzyme variant. Relevant detailed supplementary procedure NIHMS26851-supplement-32.doc remains gated on PMC route; PMCCloud returned no usable copy. This leaves linked chemistry scope open."
+      }
+    },
+    {
+      "id": "hafner2011",
+      "role": "linked_material",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/PMC3162335.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "reason": "Primary PMC original recovered after DOI and PMCCloud missed it; direct publisherPDF returnedHTTP403. Full bundle scraper run before reading.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Introduction line1245; structure-bias discussion; Materials and Methods lines1411–1430",
+        "finding": "Original independently identifies ligation/structure bias and compares Rnl2(1–249)K227Q; prints preadenylated3primeadapter and stockRA5RNA body, but its3prime adapter, RT/PCR primers and library-generation conditions differ from Smallseq. Source barcoded3primeadapter branch refers SupplementalTable12; it is not SmallseqH8UMI. No old recipe defaults are imported. Further supplementary/predecessor scope remains open for any absence assertion."
+      }
+    },
+    {
+      "id": "munafo2010",
+      "role": "linked_material",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/PMC2995414.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "reason": "Primary PMC original recovered after DOI and PMCCloud missed it; direct publisherPDF returnedHTTP403. Full bundle scraper run before reading.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Results 2prime-O-methyl comparison lines1214–1223; Materials and Methods oligos/comparison/optimization1290–1326; SupplementalMaterial1396–1398",
+        "finding": "Original compares 2primeOH/O-methyl substrates, ligases and PEG-dependent incubation regimes; T4Rnl2tr reduces bias under its tested conditions. It prints explicit modified experimental adapters, including AppLinker, distinct from SmallseqRA3. It does not authorize universal absence of methylation bias or substitute its ligation recipe for Smallseq. Supplemental material remains linked; its relevance and original accessibility need a scoped check before any absence acceptance."
+      }
+    },
+    {
+      "id": "landgraf_supp_procedure",
+      "role": "linked_material",
+      "locator": "NIHMS26851-supplement-32.doc; original PMC2681231 supplementary experimental procedures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "landgraf2007",
+      "reason": "Generic PMC attachment route returns Preparing to download/download gate; explicit PMCCloud route returned no usable file. Publisher/author-copy original still needs recovery; no missing claim accepted."
+    },
+    {
+      "id": "illumina_smallrna_guide",
+      "role": "vendor",
+      "locator": "_data/sources/small-seq__10.1038+nbt.3701/illumina_truseq-small-rna-library-prep-kit-reference-guide-15004197-02.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "hagemann_protocol",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original15004197v02 title/history; introduction lines302–319; AdditionalResources390–410; Consumables ClusterGeneration1926–1929; index tables2075–2219",
+        "finding": "Original describes standard bulk SmallRNA adapterligations, sixbase indexes and clustering compatibility; lists any current Illumina cluster-generation kit. Does not establish which instrument/loadedprimer mixture was used in Smallseq. Its sixbase indexing must not replace2018SRX8base declaration. Instrument-specific sequencing instructions remain a separate open source scope."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Faridani and Hagemann source chain",
+      "finding": "Hagemann index table and Illumina adapter page checked; full texts inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Paper/protocol full-text manifest and vendor page",
+      "finding": "Both full texts remain unavailable; no separate run primer source located."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Recovered2016/2018 originals, supplement/source-software scope and2018reference list",
+        "finding": "Original published papers and local supplementary files now read. Manufacturer sequencing instructions and ligation-mechanism references remain open; other software links are mapping/counting infrastructure and do not establish adapter/primer chemistry. Prior unavailable main-text rationale superseded by recovery."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh independent original2016and2018main/source-software/2016Table3/reporting read after fullbundle scraper; explicit2018references12–14 and Step37",
+        "finding": "Newly recovered original main and existing supplement/software exclusions independently checked. Prior historical main-unavailable statements are superseded by original recovery. Actual manufacturer operation instructions and named ligation references are distinct rows being read separately; this pass does not close those unexamined links or establish categorical absence. Local2018page version notice and derived primer-site caveat checked against source."
+      },
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original LandgrafMethods2707–2721; HafnerMaterialsMethods1411–1430; Munafooptimization1290–1326; Illumina15004197v02 AdditionalResources/Consumables",
+        "finding": "Recovered all three cited primary ligation papers plus original vendor library-prep guide. Positive chemistry comparisons recorded per source; historical protocols differ and are not inherited as identical. Landgraf detailed supplemental procedure remains gated; instrument-specific sequencing instructions and relevant source-supplement/predecessor scope remain open. No missing claim is accepted."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact loaded TruSeq Small RNA Read1 instrument oligo",
+      "disposition": "blocked",
+      "evidence": "Current model uses derived UMI-first entry-site geometry, not an identified loaded oligo. Both main texts now available/read; independent new-source passes and manufacturer/predecessor linked scope still pending. This is not an accepted unpublished-information claim."
+    }
+  ],
+  "conclusion": "2018 adapter/index model verified against recovered detailed protocol; page explicitly distinguishes2016RPI/readlength version. Source-discovery error fixed. No publication error or accepted absence claim; additional independent and linked-source checks remain.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Explicit Nature PDF returned HTML, but Institute of Semiconductors public library download yielded the original five-page publisher PDF with correct title/DOI metadata. Source now available pending independent reading; later detailed protocol main remains unavailable."
+  }
+}

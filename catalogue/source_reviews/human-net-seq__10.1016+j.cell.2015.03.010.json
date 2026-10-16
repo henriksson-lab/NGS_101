@@ -1,0 +1,108 @@
+{
+  "dir": "human-net-seq__10.1016+j.cell.2015.03.010",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC4528962_PMC4528962.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Cell methods lines 45–59 and 115; scraper run over bundle",
+        "finding": "Original establishes nascent RNA 3-prime end library design but names linked detailed methods."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Mayer 2015 Cell JATS introduction/results lines 45–59, Methods around 115",
+        "finding": "Human NET-seq isolates engaged polymerase-bound nascent RNA and reuses modified Churchman library construction; it states a preadenylated 3′ DNA linker with N6 barcode and depletion of abundant ncRNAs."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC5326677_PMC5326677.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Detailed protocol oligo table lines 1488–1510; scraper source hits verified 1500–1506",
+        "finding": "Successor protocol prints N6 linker, RT, indexed PCR and sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Mayer 2016 detailed Nature Protocols original JATS library Methods around lines 1480–1510 and Table 1 lines 1492–1510",
+        "finding": "Original successor prints /5rApp/(N)6CTGTAGGCACCATCAAT/3ddC linker, modified RT primer, reverse PCR and sequencing primer; also names empty-circle PCR byproduct from unextended RT primer."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "cell_supp",
+      "role": "supplement",
+      "locator": "Mayer et al. 2015 Cell original with appended Extended Experimental Procedures and figures, author-hosted PDF https://www.cecerelab.com/_files/ugd/594009_59c7fec32bcc42cf8c824804675fe319.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted Cell PDF pp.3,11,15–17, especially PDF text lines 181–200, 960–988; oligo scraper run first on local human NET-seq source bundle",
+        "finding": "2015 extended methods explicitly print the N6 preadenylated blocked linker, oLSC007 RT primer, custom oLSC006 read primer, and linker ligation → partial alkaline RNA fragmentation → 35–100-nt RNA selection → RT → cDNA circle/depletion/PCR. It describes depletion of 19 mature-RNA targets but cites a separate Table S1 for probe identities."
+      },
+      "pass_2": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Independently opened original author-hosted 25-page Cell PDF pp. 3, 11, 15–17 and terminal p.25 via web: PDF lines 181–200, 616–624, 918–988, 1170–1176; ran local human NET-seq source-bundle oligo scraper before reading.",
+        "finding": "Original supplement confirms /5App/NNNNNNCTGTAGGCACCATCAAT/3ddC DNA linker, oLSC007 phosphorylated/dual-spacer RT primer, linker ligation then partial alkaline fragmentation and 35–100-nt RNA selection, cDNA circularization/depletion/PCR, oLSC006 custom sequencing primer, NextSeq 500 SE75 and HiSeq 2000 SE50. It refers to 19 mature-RNA depletion targets in Table S1, but the PDF continues through S10 figures without printing the separate table."
+      }
+    },
+    {
+      "id": "cell_table_s1",
+      "role": "supplement",
+      "locator": "Original PMC JATS supplementary-material id SD6 / NIHMS680477-supplement-6.pdf (65.9 KB): https://pmc.ncbi.nlm.nih.gov/articles/instance/4528962/bin/NIHMS680477-supplement-6.pdf; author-hosted PDF cites separate Table S1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The author-hosted PDF has Extended Experimental Procedures and supplementary figures but ends at S10 without Table S1. PMC Cloud bundle has JATS only; original 2015 probe table remains to be found.",
+      "discovered_from": "cell_supp",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted PDF pp.3,11,16 cites Table S1; checked PDF through final page S10 and local PMC Cloud manifest for attachments",
+        "finding": "The original says nineteen abundant-RNA targets were depleted but the separate Table S1 probe identities were not included in this PDF. Later 2016 Table 2 has twenty oligos and cannot be assigned wholesale to the 2015 experiment."
+      },
+      "pass_2": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted 25-page PDF pp.3,11,16 and terminal p.25; original local PMC4528962 JATS supplementary-material id SD6 xlink:href NIHMS680477-supplement-6.pdf; PMC indexed Supplementary Material listing labels that file 65.9 KB; exact PDF links attempted through PMC article/bin, PMC instance/bin, Europe PMC article/bin, and PMC Cloud, plus Europe PMC supplementaryFiles route and exact-filename web searches.",
+        "finding": "Table S1 is a separate source: JATS cross-reference for Table S1 points to SD6, which points to NIHMS680477-supplement-6.pdf. The author-hosted extended-methods PDF does not contain it. Direct endpoints were inaccessible from web access here, and exact-filename search exposed the listing but not table contents. Nineteen 2015 biotinylated depletion probe identities remain unknown; the twenty-oligo 2016 table must not be substituted."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS and detailed protocol oligo table read; original Cell supplementary details remain absent.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Mayer 2015 Cell JATS introduction/results lines 45–59, Methods around 115; Mayer 2016 detailed Nature Protocols original JATS library Methods around lines 1480–1510 and Table 1 lines 1492–1510",
+      "finding": "Independently read accessible defining/linked sources. Remaining listed original supplements, predecessors or detailed protocols are unavailable and keep missing-information claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact 2015 commercial PCR index-forward primer and original Table S1 mature-RNA depletion oligos",
+      "evidence": "2015 author PDF resolves core linker, RT and read primers, but original Table S1 is not in the recovered PDF and the commercial forward primer remains unnamed. The 2016 successor lists a different-size twenty-oligo depletion set.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original 2015 Extended Experimental Procedures have two independent located readings, and the library order/oligos it prints were corrected in the model. The separately published 2015 Table S1 is now identified precisely as PMC JATS supplement 6, NIHMS680477-supplement-6.pdf, but the original file remains inaccessible after independent retrieval attempts. Its depletion oligos and the selected commercial PCR index-forward primer remain blocked; no missing-information claim is accepted."
+}

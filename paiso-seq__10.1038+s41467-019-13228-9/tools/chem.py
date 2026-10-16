@@ -1,9 +1,8 @@
 """PAIso-seq end extension, USER release and PacBio SMRTbell conversion."""
 from batch_ngs import joined_scene, seg
 from chemdraw import Construct, Row, feature, revcomp
-from dumbbell import smrtbell_circuit, smrtbell_hairpin_geometry, smrtbell_sequencing_plan
-from endprep import dA_tailed_scene, repair_and_dA_tail
-from longread_footprinting import conventional_smrtbell, pacbio_entry, smrtbell_rows
+from dumbbell import Dumbbell, smrtbell_circuit, smrtbell_hairpin_geometry, smrtbell_sequencing_plan
+from longread_footprinting import pacbio_entry, smrtbell_rows
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_extensions import capped_full_length_cdna
@@ -16,6 +15,17 @@ TITLE="PAIso-seq — poly(A)-inclusive full-length isoform sequencing"
 NOTES="01_paiso-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-019-13228-9">Liu et al., <i>Nature Communications</i> (2019)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-022-00704-8">Nat. Protocols (2022)</a>.'
 SUMMARY="A dU-interrupted oligo templates end extension across the complete RNA poly(A) tail, USER releases the copied product, template switching captures the 5-prime end, and PacBio CCS reads the entire isoform plus native tail."
+CAVEAT=('The 2019 paper (Methods, “PAIso-seq library construction”) names a PacBio '
+        'SMRTbell Template Prep Kit without its version. The later <a href="https://doi.org/10.1038/s41596-022-00704-8">'
+        '2022 author protocol</a> specifies kit 1.0-SPv3 (Materials and step 29), '
+        'but that does not establish the 2019 experiment\'s kit. The <a href="https://www.pacb.com/wp-content/uploads/2015/09/Insert-SMRTbell-Template-Prep-Kit-1.0.pdf">'
+        'PacBio 1.0 insert, p. 1</a> lists a Blunt Adapter, while the <a href="https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf">'
+        'Express 2.0 overview, pp. 6 and 8</a> specifies a T-overhang adapter and A/T ligation. '
+        'The model preserves the closed SMRTbell topology but leaves this experiment\'s '
+        'end-preparation and insert–adapter junction geometry unresolved. Drawn N hairpins '
+        'have schematic length; their bases and length are not established. '
+        'The later protocol also adds 5′ iCiGiC and 3′ amine blocking to its TSO '
+        '(Table 2); this model uses the 2019 Supplementary Table 1 TSO instead.')
 # PAIso-seq reuses the SMART-seq2 handle system, so the shared model supplies the bases
 # instead of a second transcription of them.  Supplementary Table 1 of the defining paper
 # ("Oligos for PAIso-seq library construction") prints TSO, RT primer and PCR primer in
@@ -61,7 +71,9 @@ INSERT=Construct([
     seg("guide linker reverse complement", revcomp(GUIDE_LINKER)),
     seg("3-prime PCR handle reverse complement", revcomp(PCR_HANDLE), "tso"),
 ], name="PAIso-seq BC3 full-length cDNA")
-SMRTBELL=conventional_smrtbell(INSERT)
+SMRTBELL=Dumbbell(INSERT,"N"*18,"N"*18,
+                   name=INSERT.name+" SMRTbell",insert_overhang="",
+                   adapter_overhang="",junction_unavailable=True)
 FINAL_LIBRARY=None; SEQ_PRIMERS=(); SEQUENCING_ENDING=pacbio_entry(SMRTBELL)
 def oligos():
     fixed = [
@@ -74,7 +86,7 @@ def oligos():
         for i in range(1, len(BARCODES) + 1)
     ]
 def sections():
-    return [("Template an end extension across the native poly(A) tail",[Row(chunks=[("RNA body—poly(A) ← dU-interrupted barcoded oligo", "r1", False)])],"The designed oligo lets polymerase copy the complete tail rather than prime within it."),("Open the dU sites with USER and reverse-transcribe",capped_full_length_cdna(retain_poly_a=True).rows(),"USER removes the templating oligo; RT and template switching place a known handle at the transcript 5-prime end."),("Amplify full-length cDNA",[Row(chunks=[("TSO handle—full-length cDNA—copied native tail—barcode", "tso", False)])],"The tail remains inside the amplicon rather than being replaced by an oligo(dT) tract."),("Ligate PacBio hairpins",smrtbell_rows(SMRTBELL),"Damage repair, end repair and hairpin ligation produce a closed CCS template."),]
+    return [("Template an end extension across the native poly(A) tail",[Row(chunks=[("RNA body—poly(A) ← dU-interrupted barcoded oligo", "r1", False)])],"The designed oligo lets polymerase copy the complete tail rather than prime within it."),("Open the dU sites with USER and reverse-transcribe",capped_full_length_cdna(retain_poly_a=True).rows(),"USER removes the templating oligo; RT and template switching place a known handle at the transcript 5-prime end."),("Amplify full-length cDNA",[Row(chunks=[("TSO handle—full-length cDNA—copied native tail—barcode", "tso", False)])],"The tail remains inside the amplicon rather than being replaced by an oligo(dT) tract."),("Convert cDNA to a PacBio SMRTbell",smrtbell_rows(SMRTBELL),"The paper establishes a closed CCS template but does not identify the kit version or its insert–adapter junction chemistry."),]
 
 
 def protocol_graph():
@@ -129,27 +141,26 @@ def protocol_graph():
                     statement=("The defining paper states that amplified cDNA uses the "
                                "single published PCR primer; the common handle occurs at "
                                "both inward-facing ends.")))
-    end_mix=graph.input("end_mix","PacBio damage-repair, end-repair and dA-tailing mix",
+    end_mix=graph.input("end_mix","PacBio SMRTbell kit end-preparation reagents (version unspecified)",
                         MaterialKind.CATALYST)
-    end_product=repair_and_dA_tail(INSERT,inferred=True)
-    tailed=graph.product("tailed","repaired dA-tailed full-length PAIso-seq cDNA",
-                         MaterialKind.MOLECULAR,state=dA_tailed_scene(end_product))
-    graph.react("end_prep","Repair and dA-tail full-length cDNA",StepKind.END_REPAIR,
-                ((amplified,InputRole.TEMPLATE),(end_mix,InputRole.CATALYST)),(tailed,))
-    hairpins=graph.input("hairpins","T-overhang PacBio SMRTbell hairpins",
+    prepared=graph.product("prepared","kit-prepared full-length PAIso-seq cDNA; end geometry unresolved",
+                           MaterialKind.MOLECULAR,state=INSERT)
+    graph.react("end_prep","Prepare cDNA ends with the version-unspecified SMRTbell kit",StepKind.END_REPAIR,
+                ((amplified,InputRole.TEMPLATE),(end_mix,InputRole.CATALYST)),(prepared,))
+    hairpins=graph.input("hairpins","PacBio SMRTbell hairpin adapters; ligating ends unresolved",
                          MaterialKind.ADAPTER,inferred=True,
-                         source=SOURCE+" (hairpin-body bases proprietary)")
+                         source=SOURCE+" (kit version and hairpin ends unspecified)")
     ligase=graph.input("smrt_ligase","SMRTbell ligase",MaterialKind.CATALYST)
     circuit=smrtbell_circuit(SMRTBELL)
     library=graph.product("library",SMRTBELL.name,MaterialKind.LIBRARY,
                           state=tuple(smrtbell_rows(SMRTBELL)),inferred=True,
-                          source=SOURCE+" (hairpin-body bases proprietary)")
+                          source=SOURCE+" (hairpin-body bases and junction geometry unresolved)")
     graph.react("ligate_hairpins","Ligate hairpins to both full-length cDNA ends",
                 StepKind.LIGATION,
-                ((tailed,InputRole.TEMPLATE),(hairpins,InputRole.STRUCTURAL),
+                ((prepared,InputRole.TEMPLATE),(hairpins,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(library,),
                 geometry=smrtbell_hairpin_geometry(
-                    SMRTBELL,statement="PacBio SMRTbell preparation ligates T-overhang hairpins to dA-tailed cDNA."))
+                    SMRTBELL,statement="PAIso-seq names an unversioned SMRTbell Template Prep Kit; contemporaneous PacBio 1.0 and Express 2.0 documents describe different adapter ends, so the actual ligating ends are unresolved."))
     graph.sequence(library,smrtbell_sequencing_plan(
         SMRTBELL,circuit,
         limitation="The PacBio sequencing-primer site lies in a proprietary hairpin adapter."))

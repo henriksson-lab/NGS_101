@@ -1,0 +1,223 @@
+{
+  "dir": "spatial-atac-rna-seq__10.1038+s41586-023-05795-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_PMC10076218.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Defining JATS Methods lines 245–255, 262–310; Extended Data Fig. 1 caption",
+        "finding": "Original 2023 paper separates ATAC versus antibody-tethered CUT&Tag DNA branches from the shared RNA RT/barcode ligation sequence; prints Tn5ME-A/rev/B and directs full PCR/library oligos to Supplementary Table 4, spatial barcodes to Tables 5–6."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Defining JATS 245–252 Tn5 oligos; 262–284 ATAC branch; 286–292 CUT&Tag branch; 294–298 read parsing",
+        "finding": "ATAC uses transposome, RT and orthogonal A/B in situ ligations before separate DNA and cDNA libraries. JATS prints Tn5ME A/B/rev and read-parsing orientation."
+      }
+    },
+    {
+      "id": "original_supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table 4 lines 594–657; Table 5 lines 658–1066; Table 6 lines 1067–1475",
+        "finding": "Table 4 prints /5Phos/ RT primer with /iBiodT/ and N10 UMI, two ligation linkers and N501/N701–707 library primers. Tables 5 and 6 print the ordered A and B spatial barcode families; A-1 and B-1 agree with existing page examples."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplement Table 4 lines 594–657; Table 5 lines 658–1066; Table 6 lines 1067–1475; scraper hits checked",
+        "finding": "Tables print RT primer with 5-prime phosphate and internal biotin, linker 1/2, sequencing/PCR oligos and two full spatial barcode families. These apply to shared spatial encoding in both original assay branches."
+      }
+    },
+    {
+      "id": "later_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.1038/s41596-025-01145-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Detailed 2025 Nature Protocols original text remains unavailable in named bundle; local supplement primer table is available."
+    },
+    {
+      "id": "later_oligo_table",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheet 1 lines 1–32",
+        "finding": "Later detailed protocol publishes modified RT primer, TSO, linker, Tn5 mosaic/adapters and example spatial barcode A family; source version differs from 2023 original."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Later Nature Protocols MOESM2 workbook sheet 1 lines 1–25",
+        "finding": "Later detailed-protocol oligo sheet prints same named RT primer, linker 1/2, TSO, PCR/index and Tn5 oligos, plus barcode A rows; relevant comparator, but not proof every later step matches defining 2023 implementation."
+      }
+    },
+    {
+      "id": "dbit_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.cell.2020.10.026",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Nature original describes deterministic two-axis cobarcoding inherited from DBiT-seq; predecessor chemistry remains to be checked for exact branch ancestry.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "s41596_025_01145_9_41596_2025_1145_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2025 Nature Protocols MOESM1 PDF pp. 1–3, visually inspected",
+        "finding": "Three-page reporting summary: statistics, data/source details, study design, antibodies and animals; no library oligo sequences or molecular assembly steps."
+      },
+      "reason": "Three-page reporting summary: statistics, data/source details, study design, antibodies and animals; no library oligo sequences or molecular assembly steps.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2025 Nature Protocols Reporting Summary original PDF, visually inspected pp. 1–3",
+        "finding": "The file is a three-page reporting form covering statistics, analysis software, antibodies and animal sample metadata; it provides no reagent primer or spatial-barcode member table."
+      }
+    },
+    {
+      "id": "s41596_025_01145_9_41596_2025_1145_moesm9_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2025 MOESM9 XLSX text sheets Fig6a onward, header and representative rows",
+        "finding": "Source-data workbook gives fragment, TSS, UMI and other experimental metrics; no oligo or reaction details."
+      },
+      "reason": "Source-data workbook gives fragment, TSS, UMI and other experimental metrics; no oligo or reaction details.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2025 Nature Protocols MOESM9 extracted workbook lines 1–12 and 429–434; all four sheet headings and adjacent headers",
+        "finding": "Sheets Fig6a/b/c and Fig7a list unique fragments, TSS fraction, UMI and other figure QC measurements; no reagent oligo or molecular construction fields."
+      }
+    },
+    {
+      "id": "original_supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM2 PDF pp. 1–3, visually inspected",
+        "finding": "Three-page Nature reporting summary: statistics, study design, antibodies, organisms and participants; no base-level library chemistry."
+      },
+      "reason": "Three-page Nature reporting summary: statistics, study design, antibodies, organisms and participants; no base-level library chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2023 defining original MOESM2 PDF, visually inspected pp. 1–3",
+        "finding": "Nature Research Reporting Summary covers software, data, study design, antibodies and tissues, not adapter or barcode sequences."
+      }
+    },
+    {
+      "id": "original_supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM3 peer-review PDF text lines 1–1343; chemistry term search and reviewer responses lines 1209–1220",
+        "finding": "Peer-review correspondence and barcode yield discussions; no sequence or construct details beyond already described work."
+      },
+      "reason": "Peer-review correspondence and barcode yield discussions; no sequence or construct details beyond already described work.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM3 peer-review text lines 1–50, reviewer/rebuttal sections and 1200–1228; full-text search for primer, adapter and oligo as whole words",
+        "finding": "The peer-review discussion concerns performance and biological interpretation. Apparent oligo substring hits are oligodendrocyte terminology. No reagent oligo table or changed molecular construction step was found in the inspected text."
+      }
+    },
+    {
+      "id": "original_supp_4",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM4 XLSX text sheet mousebrain_scRNA_cell_type, header and rows 1–100",
+        "finding": "Cell-cluster labels/descriptions, not a molecular reagent or oligo table."
+      },
+      "reason": "Cell-cluster labels/descriptions, not a molecular reagent or oligo table.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM4 extracted workbook sheets mousebrain_scRNA_cell_type lines 1–93 and mousebrain_scATAC_cell_type from line 94; headers and representative rows",
+        "finding": "Two sheets map brain cell-cluster codes to descriptions, not barcodes or reagent sequences."
+      }
+    },
+    {
+      "id": "original_supp_5",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM5 XLSX text sheet Fig4a, header/rows and sheet inventory",
+        "finding": "Gene-differential-result source data with log fold changes and FDR, not chemistry."
+      },
+      "reason": "Gene-differential-result source data with log fold changes and FDR, not chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2023 original MOESM5 extracted workbook Fig4a through Fig4e-g sheet headings lines 1,400,816,964,1364,1683,2006 and adjacent headers",
+        "finding": "The seven sheets contain gene fold changes, adjusted P values and figure-result tables; no protocol oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Nature Methods lines 241–252, 256 onward; supplementary information links lines 695–706",
+      "finding": "The 2023 source-positive Supplementary Tables 4–6 have now been read; later 2025 method, DBiT ancestry and remaining original supplements still need review."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining JATS 245–298 and original Supplementary Tables 4–6; later MOESM2 sheet 1–25",
+      "finding": "Independently checked primary molecular oligos and shared A/B barcode source. Later protocol main text, other original supplements and DBiT predecessor are unavailable; CUT&Tag branch also has a distinct predecessor. Missing claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact ATAC and RNA library oligos or spatial barcode families are unpublished",
+      "disposition": "blocked",
+      "evidence": "The 2023 original publishes full oligo and spatial barcode tables; missing claims about these are false. Full linked-source coverage and second independent pass remain outstanding."
+    }
+  ],
+  "conclusion": "The 2023 original publishes full oligo and spatial barcode tables; missing claims about these are false. Full linked-source coverage and second independent pass remain outstanding."
+}

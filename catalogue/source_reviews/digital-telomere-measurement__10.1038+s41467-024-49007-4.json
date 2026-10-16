@@ -1,0 +1,95 @@
+{
+  "dir": "digital-telomere-measurement__10.1038+s41467-024-49007-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_PMC11189511.xml.txt:150-160",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Nanopore library and telomere-capture Methods lines 150-160.",
+        "finding": "Original Methods identify LSK-110, ONT NA versus AMII adapter for different flow cells, and refer to Supplementary Data 3 for capture oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC11189511 JATS lines 150-160",
+        "finding": "Original methods distinguish whole-genome LSK-110, R9 AMII adapter, R10 NA adapter, and 5-prime phosphorylated capture oligo/seqTether ligation. Line 159 links current author Telometer protocol."
+      }
+    },
+    {
+      "id": "capture_table",
+      "role": "supplement",
+      "locator": "_data/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_supp_41467_2024_49007_MOESM6_ESM.xlsx.txt:1-23",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Workbook lines 1-23.",
+        "finding": "Original Supplementary Data 3 prints seqTether plus eight canonical and several variant 5-prime-phosphorylated capture oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Data 3 MOESM6 XLSX lines 1-20",
+        "finding": "Original table prints seqTether and eight 5-prime phosphorylated canonical capture oligos plus variant telomere ends; exact capture oligos are source-known."
+      }
+    },
+    {
+      "id": "ont_lsk110",
+      "role": "vendor",
+      "locator": "ONT LSK-110 native DNA sequencing protocol cited in defining Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Period-specific motor adapter composition/source manual not established from local bundle."
+    },
+    {
+      "id": "ont_na_amii",
+      "role": "linked_material",
+      "locator": "ONT NA and AMII sequencing-adapter documentation for R10.4 versus earlier flow cells",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named proprietary adapter generations not found as original component specifications.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "author_bench_protocol",
+      "role": "linked_material",
+      "locator": "https://github.com/santiago-es/Telometer/blob/main/TelometerLibraryPrep.docx; direct raw URL listed in catalogue/extra_sources.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author README lines 223-225 names bench protocol. get_sources.py direct raw fetch failed curl error 6; DOCX unread.",
+      "discovered_from": "article",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Methods 150-160 and Supplementary Data 3 link",
+      "finding": "Followed author capture table; recorded named ONT kit/version boundary rather than treating both adapters as identical."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "JATS lines 150-160 and author Telometer GitHub README lines 217-225",
+      "finding": "Followed author repository: README links TelometerLibraryPrep.docx as current bench protocol. Added direct source fetch route, but it returned curl error 6; ONT guide/adapter details also unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete ONT motor-bearing NA/AMII assembly",
+      "disposition": "blocked",
+      "evidence": "Capture/tether oligos are published in author Data 3, but the changing ONT adapter reagent internals remain unverified."
+    }
+  ],
+  "conclusion": "Capture and tether oligos are source-backed; ONT motor adapter generations remain blocked."
+}

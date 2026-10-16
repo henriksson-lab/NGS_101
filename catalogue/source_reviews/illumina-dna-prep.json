@@ -1,0 +1,71 @@
+{
+  "dir": "illumina-dna-prep",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_1000000025416_12_idp.pdf.txt:97-131,295-386,507",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Guide overview and component lists lines 97-131,295-386,507",
+        "finding": "Official guide states bead-linked transposome tagmentation and subsequent index PCR; transposome components not disclosed in guide. Same core chemistry applies to the DNA Prep page."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original Illumina DNA Prep guide 1000000025416 v12 text lines 97-131, 295-386 and 507",
+        "finding": "Guide describes bead-linked tagmentation and index-PCR completion; exact bead/transposome formulation is not printed in inspected component list."
+      }
+    },
+    {
+      "id": "adapters",
+      "role": "linked_material",
+      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_Nextera_Illumina-Sequences.htm.txt and illumina_IDTIllumina-UDIndexes.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "guide",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original vendor adapter/index reference pages in shotgun bundle",
+        "finding": "Public adapter/index sequences are available, but these do not reveal bead-bound transposome reagent composition."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official Illumina Nextera sequence page lines 139-203 and IDT UD index page lines 138-199",
+        "finding": "Vendor originals print adapter trimming and tagmentation arms and state IDT UD indexes are 10 bases; chosen member depends on experiment."
+      }
+    },
+    {
+      "id": "adapter_reference",
+      "role": "linked_material",
+      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/adapter-sequences.htm",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Manifest records this official adapter reference as manual; alternate cached vendor sequence pages exist but exact target page has not been read.",
+      "discovered_from": "guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "DNA Prep guide 295-386; local Illumina Nextera and IDT UD pages; MANIFEST.tsv",
+      "finding": "Official component sequence pages were inspected. Umbrella adapter-sequences landing URL is manual; its relevant child pages are local, but completeness of umbrella links remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Bead-linked transposome reagent composition",
+      "disposition": "blocked",
+      "evidence": "Vendor guide names Bead-Linked Transposomes but does not specify complete molecular composition; one relevant adapter reference unavailable and independent second review pending."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

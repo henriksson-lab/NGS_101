@@ -2,9 +2,7 @@
 from chemdraw import Construct, MolecularState, Row, Segment, Workflow
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
-from endprep import (ThreePrimeOverhangAdapter, dA_tailed_scene,
-                     ligation_product_scene, repair_and_dA_tail,
-                     cohesive_ligation_geometry)
+from endprep import dA_tailed_scene, ligation_product_scene, repair_and_dA_tail
 from multibranch import illumina_branch
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
@@ -19,7 +17,7 @@ SOURCE='Defining source: <a href="https://doi.org/10.1038/cr.2016.23">Hou et al.
 # UP1/UP2 and the 5'-amine NH2-UP1/NH2-UP2 are published only in the 2009 supplementary table.
 TANG_OLIGO_SOURCE='Inherited oligo source: <a href="https://doi.org/10.1038/nmeth.1315">Tang et al., <i>Nature Methods</i> (2009)</a>, supplementary oligo table.'
 SUMMARY="A single cell is mechanically separated into cytoplasm for RNA-seq and nucleus for scRRBS; the DNA library jointly reports copy number and CpG methylation."
-CAVEAT="The paper exposes the inherited Tang UP1/UP2 cDNA-amplification oligos and the inherited scRRBS chemistry. The later NEBNext Ultra RNA-library kit is named, but its adapter and indexing-primer bases are not printed in the paper; those terminal arms are therefore marked inferred."
+CAVEAT="The scTrio paper delegates cDNA amplification to Tang et al. and nuclear-library chemistry to scRRBS. Tang's 2009 oligo table prints UP1/UP2 and their 5′-amine versions; a 2010 author protocol confirms the reaction order. The scRRBS source does not identify the exact premethylated DNA adapter ends, so the canonical TruSeq illustration is inferred. For the RNA-derived branch, scTrio names NEBNext Ultra DNA Library Prep E7370; the currently available 2023 manual says adapter/index oligos are supplied in separate kits, and scTrio does not name the chosen oligo kit. Those terminal arms remain inferred."
 RNA,RP=illumina_branch("scTrio-seq RNA","cytoplasmic cDNA",inferred_adapters=True)
 DNA,DP=rrbs.final_library(),rrbs.SEQ_PRIMERS
 FINAL_LIBRARIES=(("Transcriptome library",RNA,RP,"Cytoplasmic RNA-derived library.","Illumina primers on the RNA branch."),("Genome and methylome library",DNA,DP,"One scRRBS library supports both copy-number and methylation inference.","Illumina primers on the DNA branch."))
@@ -37,8 +35,7 @@ def _workflow():
     w.react("Digest nuclear DNA with MspI",[Row(chunks=[("C^CGG → fragments with two-base 5′-CG restriction overhangs","me",False)])],name="MspI fragments",note="MspI enriches CpG-containing fragments.")
     tailed=_tailed_fragment()
     w.react("Fill recessed ends and add 3′ dA",dA_tailed_scene(tailed).rows(),name="dA-tailed RRBS fragments",note="End fill removes the original CG overhang before dA-tailing.")
-    adapter=ThreePrimeOverhangAdapter("premethylated TruSeq ligating stem","GCTCTTCCGATCT","GATCGGAAGAGC")
-    geometry=cohesive_ligation_geometry(tailed,adapter,statement="scTrio-seq follows scRRBS: the premethylated TruSeq fork carries a 3′-T complementary to the filled fragment's 3′-dA.")
+    geometry=AdapterLigationGeometry.unavailable("Neither the defining paper nor the inherited scRRBS source prints the ligation-facing DNA adapter oligos or exact end geometry.")
     product=ligation_product_scene(DNA,"bisulfite-converted insert",label="scTrio-seq DNA library")
     w.ligate_adapter("Ligate premethylated adapters",geometry,product.rows(),name="adapter-ligated RRBS library",note="Bisulfite conversion and PCR follow ligation.")
     w.react("Bisulfite convert and amplify",[Row(chunks=[("scRRBS library → methylation calls + copy-number bins","r2",False)])],name="final DNA library",note="Both DNA measurements derive from this one library.")
@@ -96,12 +93,11 @@ def protocol_graph():
     tailed=_tailed_fragment()
     da=g.product("da_tailed","3-prime-dA-tailed reduced-representation fragments",MaterialKind.MOLECULAR,state=tailed)
     g.react("da_tail","Add one 3-prime dA to repaired fragments",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(da,))
-    adapter_model=ThreePrimeOverhangAdapter("premethylated TruSeq ligating stem","GCTCTTCCGATCT","GATCGGAAGAGC")
-    geometry=cohesive_ligation_geometry(tailed,adapter_model,statement="scTrio-seq follows scRRBS: the premethylated TruSeq fork carries a 3-prime dT complementary to the filled fragment's 3-prime dA.")
-    dna_adapter=g.input("dna_adapter","premethylated indexed TruSeq forked adapter",MaterialKind.ADAPTER,state=rrbs.adapter_scene())
+    geometry=AdapterLigationGeometry.unavailable("Neither the defining paper nor the inherited scRRBS source prints the ligation-facing DNA adapter oligos or exact end geometry.")
+    dna_adapter=g.input("dna_adapter","inferred canonical premethylated indexed TruSeq illustration",MaterialKind.ADAPTER,state=rrbs.adapter_scene(),inferred=True)
     ligase=g.input("dna_ligase","adapter DNA ligase",MaterialKind.CATALYST)
     dna_adapted=g.product("dna_adapted","premethylated-adapter-ligated RRBS fragments",MaterialKind.MOLECULAR,state=DNA)
-    g.react("ligate_dna","Ligate premethylated dT-overhang adapters",StepKind.LIGATION,((da,InputRole.TEMPLATE),(dna_adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(dna_adapted,),geometry=geometry)
+    g.react("ligate_dna","INFERRED — ligate compatible premethylated indexed adapters",StepKind.LIGATION,((da,InputRole.TEMPLATE),(dna_adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(dna_adapted,),geometry=geometry)
     bisulfite=g.input("bisulfite","bisulfite-conversion condition",MaterialKind.CONDITION)
     converted=g.product("converted","bisulfite-converted RRBS library templates",MaterialKind.MOLECULAR,state=DNA)
     g.react("bisulfite_convert","Bisulfite-convert the adapter-ligated DNA",StepKind.CHEMICAL_CONVERSION,((dna_adapted,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))

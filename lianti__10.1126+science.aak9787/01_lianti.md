@@ -91,7 +91,7 @@ order is:
 | Segment | Length | Identity |
 |---|---|---|
 | `CTGTCTCTTATACACATCT` | 19 | reverse complement of the mosaic end (`nextera.ME_RC`) 🟡 |
-| `NNNN…` | 🔴 unknown (drawn as 10) | the unpublished spacer 🔴 |
+| `NNNN…` | 🔴 unknown (drawn as 10) | the unverified spacer 🔴 |
 | `TAATACGACTCACTATA` | 17 | T7 promoter (class III consensus, −17 to −1) 🟡 |
 | `GGG` | 3 | T7 +1 to +3; first transcribed bases 🟡 |
 | `AGATGTGTATAAGAGACAG` | 19 | mosaic end (ME), 3′ end = the transferred end 🟡 |
@@ -109,9 +109,7 @@ order is:
 
 ### Library prep — 🔴 unestablished
 
-The paper ends at "ready for DNA library preparation and next generation sequencing". No
-kit, adapter, primer, cycle count, read length or index set is named, and the supplement
-is unavailable. The model therefore uses an **unspecified indexed Illumina adapter** with
+The paper ends at "ready for DNA library preparation and next generation sequencing". The available main article names no kit, adapter, primer, cycle count, read length or index set, and the supplement is unavailable. The model therefore uses an **unspecified indexed Illumina adapter** with
 `AdapterLigationGeometry.unavailable(...)`, a library PCR with `PCRGeometry.unavailable(...)`,
 and a library whose every adapter-derived base is inferred. Ligation-based prep (rather
 than tagmentation) is the model's one structural assumption, on the ground that tagmenting
@@ -137,11 +135,11 @@ details are in the supplement we could not fetch. 🔴
 5. **In vitro transcription, overnight** 🟢. Both ends have a promoter pointing inward, so
    both strands of the fragment are transcribed. Computed transcript (5'→3', 🟡):
    `GGG` · ME · <insert> · ME-rc · `CCC` · promoter reverse complement · spacer reverse
-   complement (unpublished) · ME — 22 nt before the insert. What happens where the two
+   complement (unverified) · ME — 22 nt before the insert. What happens where the two
    convergent transcription events meet is not addressed by the paper 🔴.
 6. **Self-primed reverse transcription** 🟢 ("capable of self-priming on the 3' end").
    Computed mechanism 🟡: the transcript's 3'-terminal ME pairs with its internal ME-rc
-   copy (the same 19-bp stem as the transposon, now in RNA, with the unpublished
+   copy (the same 19-bp stem as the transposon, now in RNA, with the unverified
    spacer/promoter interval as the turn), and the 3' OH primes RT back across the insert
    to the transcript's 5' end. First strand
    (after RNA removal): rc(insert) · `CTGTCTCTTATACACATCT` · `CCC`.
@@ -150,7 +148,7 @@ details are in the supplement we could not fetch. 🔴
    double-stranded LIANTI amplicon: `<UMI> · GGG · ME · <insert>`, with the far end bare
    genomic sequence (the other Tn5 insertion point). Yield ~20 ng per cell 🟢.
 9. **Library prep**: 🔴 the paper says only "ready for DNA library preparation and next
-   generation sequencing". No kit, adapter, primer or cycle count is named. The model
+   generation sequencing". No kit, adapter, primer or cycle count is named in the available main article. The model
    draws end repair → dA-tailing → ligation of an *unspecified indexed Illumina adapter*
    (ligation geometry `unavailable`) → PCR (geometry `unavailable`).
 
@@ -174,7 +172,7 @@ Orientation 2 (UMI on the P7 side):
 
 ## 5. Read layout / sequencing
 
-All 🟡 — consequences of the assumed shell, not published facts. 🔴 No read length,
+All 🟡 — consequences of the assumed shell, not source-verified read-layout facts. 🔴 No read length,
 index width or sequencer is given anywhere we hold.
 
 - Read 1 (TruSeq Read 1 primer): in orientation 1, UMI + `GGG` + 19-nt ME before the
@@ -198,8 +196,7 @@ index width or sequencer is given anywhere we hold.
 | Transposon spacer, UMI width, i7 width | not given 🔴 | placeholders |
 | Library prep, PCR primers, cycles, sequencer, read lengths | not given 🔴 | unavailable geometries, inferred shell |
 
-Conditions (buffers, times, temperatures, enzyme brands) are all in the unavailable
-supplement 🔴; nothing in the model depends on them.
+Detailed conditions may be in the unavailable supplement 🔴; the available main article does not establish them, and nothing in the model depends on them.
 
 ## 7. Open questions
 

@@ -6,6 +6,8 @@ Kishi et al., *Nature Methods* (2022),
 ## Sources read
 
 - 🟢 Defining open-access article and Methods (PMCID: PMC9636025).
+- 🟢 Published Supplementary Information (MOESM1, especially its oligo table) and
+  reporting summary (MOESM2, visually inspected because its PDF has no text layer).
 - 🟢 Authors' complete Light-Seq protocol and oligo table,
   [doi:10.17504/protocols.io.x54v9jno4g3e/v1](https://doi.org/10.17504/protocols.io.x54v9jno4g3e/v1).
 - 🟢 Authors' deposited analysis code, especially `ExtractTwoBarcodes.py` and
@@ -39,6 +41,12 @@ product therefore carries GATC–transcript–P-domain–ROI–UMI–GATE on one
 GATE primers amplify that product; a small qPCR aliquot determines the endpoint cycle.
 
 ## Nextera endpoint and reads
+
+🟡 The authors' protocols.io v1 resource list (PDF text line 105) names Nextera DNA
+kit FC-121-1030, but its tagmentation procedure (lines 2580–2582) explicitly uses
+Nextera XT FC-131-1096, as does the published paper's Methods (JATS line 244).
+The model uses XT because the procedure and defining article agree. Whether the
+resource-list entry describes an alternate version remains unresolved.
 
 🟢 Nextera XT tagmentation fragments the Light-Seq amplicon. Indexing PCR is asymmetric:
 an ordinary Next.N7XX primer amplifies the tagmented end, while S5XX.GATE replaces an

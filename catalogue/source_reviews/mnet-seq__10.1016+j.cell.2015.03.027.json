@@ -1,0 +1,97 @@
+{
+  "dir": "mnet-seq__10.1016+j.cell.2015.03.027",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Nojima et al Cell 2015 DOI:10.1016/j.cell.2015.03.027; j.cell.2015.03.027_PMC4410947.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 141-153 and 199-215",
+        "finding": "mNET-seq method explicitly says libraries made per TruSeq Small RNA prep kit manual; distinct chromatin RNA control uses NEBNext Ultra Directional RNA kit."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 199-215",
+        "finding": "Paper describes mNET RNA recovery and preparation; exact library adapter is delegated to TruSeq small RNA kit."
+      }
+    },
+    {
+      "id": "extended_methods",
+      "role": "supplement",
+      "locator": "j.cell.2015.03.027_supp_mmc2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 2275 and 2525; supplementary method context",
+        "finding": "Extended Experimental Procedures repeat TruSeq Small RNA library kit identity for mNET-seq."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original mmc2 PDF extracted text lines 2273-2276 and 2522-2526",
+        "finding": "Extended methods specify 35–100-nt RNA selection and TruSeq Small RNA kit; no exact historical kit adapter sequence is stated in these passages."
+      }
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "j.cell.2015.03.027_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Header and oligo keyword scan",
+        "finding": "Additional supplement present; sequence relevance not fully excluded."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original j.cell.2015.03.027_supp_mmc1.pdf.txt entire 76-line single-page Table S1; CLIP factor, orientation and TSS-peak-position headings; oligo/primer/adapter keyword scan; source-bundle scraper run",
+        "finding": "This source is Table S1 of CPA-factor CLIP peak positions relative to TSS, without library chemistry or oligo fields. It is an analysis result table, subject to first-reader agreement before the grouped source is excluded."
+      }
+    },
+    {
+      "id": "truseq_guide",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq Small RNA Library Preparation Kit manual, historical 2015 revision",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article expressly delegates library preparation to this manual; exact kit revision and its bases not checked.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "JATS lines 199-215; supplementary mmc2 lines 2275/2525",
+      "finding": "Followed article into extended method; Illumina kit manual required by article remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 199-215; mmc2 extended methods lines 2273-2276, 2522-2526",
+      "finding": "Followed paper to extended methods and named TruSeq Small RNA kit. Historical kit guide and its adapter variant remain inaccessible."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Which historical TruSeq Small RNA adapter/index variant was used remains unresolved pending original kit manual",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

@@ -1,0 +1,214 @@
+{
+  "dir": "10x-chromium-single-cell-3-ge-v3",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "cg000183",
+      "role": "defining",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt appendix lines 4814–5070",
+        "finding": "Original 10x Rev A user guide contains oligo sequence appendix; modified TSO at line 4906 and gel bead/final architecture at 4946–5030. A formal scg: source route now records this manufacturer PDF in the target bundle."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "CG000183 Rev A appendix, extracted lines 4850–4945",
+        "finding": "Independently checked 3-prime v3 GEM bead primer, 16-base cell barcode, 12-base UMI, poly(dT), TSO, and early cDNA amplification product in vendor guide."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original CG000183 Rev A PDF text lines4900–5008, Appendix pp54–55, independently read after complete v3 source-bundle oligo scraper",
+          "finding": "Verified exact template-switch oligo, both cDNA amplification primers and both sample-index primers. The adapter oligo list ends CAGTCA while its ligation product ends CAGTCAC. The model now uses printed primer geometry and exposes this source discrepancy; primer omission was a repository limitation rather than confirmed absence from the guide."
+        }
+      ]
+    },
+    {
+      "id": "cg000201",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v3/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt lines 82–125, 253–277, 311–345",
+        "finding": "Official CG000201 Rev A explicitly compares CG00052 v2 with CG000183 v3: 737,000 versus 3.5 million gel-bead barcode diversity, 10 versus 12 UMI bases, 67°C versus 63°C cDNA PCR annealing, and v2 26/8/98 versus v3 28/8/91 run. It identifies v3 kit PN-1000075/1000092 and Chip B PN-1000073/1000074. Diversity is not a printed member whitelist."
+      },
+      "discovered_from": "cg000183",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read official 10x CG000201 Rev A PDF original in this protocol bundle: v2/v3 reagent/gel bead comparison lines 82–125, read configurations lines 253–277, catalog numbers lines 311–345; scraper run on technical note source",
+        "finding": "The manufacturer compares v2 737,000 gel-bead barcode diversity/10-base UMI with v3 3.5 million/12-base UMI, and prints 26/8/98 versus 28/8/91-cycle configurations. The technical note gives diversity counts, not complete barcode member sequences or a lot-specific bead map."
+      }
+    },
+    {
+      "id": "cellranger_inclusion_guide",
+      "role": "linked_material",
+      "locator": "https://www.10xgenomics.com/support/software/cell-ranger/7.2/algorithms-overview/cr-gex-algorithm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "https://www.10xgenomics.com/support/software/cell-ranger/7.2/algorithms-overview/cr-gex-algorithm section 10x Barcode correction, browser text lines 135–143 (local scoped fetch HTTP 429)",
+        "finding": "Manufacturer Cell Ranger 7.2 guide explicitly says assay-specific barcode inclusion-list files contain about 737,000 v2 and about 3 million v3/v3.1 barcodes; correction uses the inclusion list. It does not print member sequences or map them to individual physical beads."
+      },
+      "reason": "Read official web rendering; scoped local fetch returned HTTP 429, so exact page text is documented by URL and section.",
+      "discovered_from": "cg000201",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official 10x Cell Ranger v7.2 Gene Expression Algorithm web page, Barcode correction lines 143–151, reached from the manufacturer support site",
+        "finding": "The manufacturer says chemistry-specific inclusion-list files contain roughly 737,000 v2 or roughly 3 million v3/v3.1 barcodes and explains correction against a known list. This software count is distinct from the CG000201 gel-bead diversity statement; the page does not expose member bases or physical bead allocation."
+      }
+    },
+    {
+      "id": "scg_mirror_3m",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/scg_3M-february-2018.txt.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/scg_3M-february-2018.txt.gz streamed lines 1–6794880; MANIFEST.tsv identifies Teichlab scg mirror",
+        "finding": "The cached file named 3M-february-2018 contains 6,794,880 newline-delimited 16-base sequences (first AAACCCAAGAAACACT; last TTTGTTGTCTTTGTCG). This is a secondary mirror and its member-file identity or bead-lot relation has not been verified against an original 10x file. The line count is not interchangeable with manufacturer statements of about 3 million inclusion-list members or 3.5 million gel-bead diversity."
+      },
+      "discovered_from": "cellranger_inclusion_guide",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Teichlab mirror scg_3M-february-2018.txt.gz local copy, streamed 6,794,880 lines; searched official 10XGenomics/cellranger GitHub and its issue #255 for original member file",
+        "finding": "The mirror contains 6,794,880 lines of 16-base strings, but the searched current official repository does not expose this named file; an issue in the official repository also reports the file missing. The mirror is secondary and cannot establish original 10x member provenance or 2019 bead-lot mapping. Keep this gap blocked."
+      }
+    },
+    {
+      "id": "cg00053_cell_preparation",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Excluded from fixed-oligo/read-layout omission targets: this guide prepares the input cells and does not define the subsequent assay-specific cDNA construct. Source facts about cell preparation remain available in the original.",
+      "discovered_from": "cg000183",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG00053 Rev C introduction p.iv; Tips §§1.1–1.7 pp.2–4; General/Limited Sample Preparation §§2–3 pp.6–10; Counting/QC §4 pp.12–16",
+        "finding": "Read original guide after source scraper. It governs cell suspension quality, washing/resuspension, counting and viability before entry to the 10x assay. It hands the prepared cells to the assay-specific protocol. Linked sample-specific demonstrated methods, cell counter manuals, LIVE/DEAD stain manuals and ImageJ/Fiji concern optional input preparation/counting rather than construction of this barcode-bearing cDNA library."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG00053 Rev C introduction p.iv, Tips§1.1–1.7, limited preparation§3.2 and counting/viability§4; original PDF/text hash checked across all three bundles; full bundle scrapers",
+        "finding": "Independently read original input-cell handling and counting scope. The guide hands prepared cells to the assay protocol. Counter/stain manuals and ImageJ/Fiji links support viability/counting rather than barcode-bearing cDNA architecture; their exclusion from fixed-oligo claims is warranted. No missing-library-oligo inference is based on these optional workflows."
+      }
+    },
+    {
+      "id": "cg000126_sample_preparation",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The document is explicitly a counting/sample-loading flowchart before library chemistry. Excluded from fixed-library-oligo omission targets; partly blank rendering is recorded rather than treated as missing published information.",
+      "discovered_from": "cg000183",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "CG000126 Rev A single rendered page: title, whole visible counting/loading flowchart, lower-left key points and footnotes; pdftoppm and pdftocairo renderings; extraction has no text layer",
+        "finding": "Original PDF is image-only. Rendered page shows filtering, repeated cell counts, stock concentration/viability and transfer into assay Master Mix. Some boxes have blank text in both local renderers, so no operational claim is taken from those boxes. Footnotes point to CG00053, CG000093 dead-cell removal and assay user guides. These are input-cell preparation references; no claim of missing oligos is based on this rendering."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG000126 Rev A single page rendered with pdftoppm and viewed at1800px; whole visible flowchart, legend and footnotes; identical PDF MD5 6517f5f53ee723782636c8dc8ce0a5e9 across three bundles",
+        "finding": "Independently inspected image-only original. It concerns viable single-cell suspension, straining/counting and transfer into assay mix; footnotes reference sample-preparation CG00053/93 and assay guides. Several boxes render blank, so no operation is inferred from those boxes. Visible original scope justifies excluding it from fixed adapter/primer absence claims."
+      }
+    },
+    {
+      "id": "chromium_i7_index_map",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/10x_chromium-shared-sample-indexes-plate.json",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000183",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original 10x JSON: all 96 well records (SI-GA-A1 through SI-GA-H12), four eight-base strings each; source MANIFEST.tsv",
+        "finding": "Read the manufacturer map structure and all well members, validated lengths. SI-GA-A1 is GGTTTACT/CTAAACGG/TCGGCGTC/AACCGTAA. This resolves the per-well index-member scope for the Chromium i7 plate named by the source guides; a model N8 denotes one member of the four-member well mixture. No outgoing chemistry links in this data file."
+      },
+      "pass_2": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original vendor shared-sample-index JSON entire96-record structure, all384 sequence strings validated as8-ntACGT; A1 and H12 independently inspected; byte-identical JSON MD5 33753f66e9e450b5045960ec477ad8a7 in v2/v3 bundles",
+        "finding": "Manufacturer map assigns four8-base members per SI-GA well. A1=GGTTTACT/CTAAACGG/TCGGCGTC/AACCGTAA; H12=GACAGCAT/TTTGTACA/AGGCCGTG/CCATATGC. Original v3 guide sample-index section lines4347–4351 identifies same SI-GA four-member mixtures. JSON has no further chemistry links; it specifies index members rather than bead barcodes."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Manufacturer guide introductions, appendices, and referenced guide numbers; source MANIFEST.tsv ",
+      "finding": "Added a reproducible scg: route for the original 10x CG000183 Rev A PDF in this target bundle. Barcode whitelist or kit-internal reagent data require a separate manufacturer source."
+    },
+    "pass_2": {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "locations": "Independent original guide references: CG000183 source preparation links1184–1185 and sample-index section4347–4351; CG00053 original text; image-only CG000126 rendering; vendor i7 JSON; complete bundle scraper",
+      "finding": "Rechecked concrete linked scope independently. Relevant assay/read-layout/index sources and optional input-preparation/QC sources have explicit located checks. Optional cell-count/stain/image-analysis workflows and Genome-specific QC references do not supply the fixed RNA-library oligos claimed by this page. Source list does not justify undisclosed barcode-member or physical bead-lot claims, and the page makes no accepted absence claim. All newly added source inclusions and exclusions now have two independent original checks."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Manufacturer original guide cross-references; source MANIFEST.tsv; printed sample-index kit identities",
+        "finding": "Enumerated explicit guide references and original index-map scope in new checklist rows. Existing source-level independent passes are preserved. Additional listed documents remain routine retrieval/reading work, rather than evidence of absence. Generic internal reagent formulation and physical bead-lot allocation are not required claims of these protocol pages."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Manufacturer guide reference sections and newly fetched source originals; per-source checklist locations",
+        "finding": "Followed every newly enumerated guide/map route. Relevant sequencing/base-composition/index-map information is recorded and source-led read variants displayed. Sample-preparation/instrument references and their optional example-method/software/manual links are explicitly scoped out from fixed-library-oligo claims based on the originals. Independent second review of these new inclusions/exclusions remains required."
+      },
+      {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original 10x CG000183 Rev A appendix lines 4850–4945 and source MANIFEST; GEM bead and TSO architecture",
+        "finding": "Read the source-defined v3 oligo architecture. The guide does not supply a complete cell-barcode whitelist in the inspected appendix; any whitelist-specific missing claim remains blocked pending identification of its manufacturer source."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "The former unavailable cDNA/index or V(D)J enrichment primer statements are resolved by the printed manufacturer sequence appendices.",
+      "disposition": "resolved",
+      "evidence": "Source-specific original oligos are available. The remaining variable barcode/index symbols do not assert that member sequences are unpublished. No physical-lot assignment or generic internal reagent formulation is claimed by these schematic pages. New source checklist rows still require independent second checks before the overall review is complete."
+    }
+  ],
+  "conclusion": "Completed the scoped source-omission audit: defining manufacturer architecture and relevant linked original guides/index maps checked independently twice, including input/QC exclusions. Source-led oligo and read-layout corrections are applied; no confirmed-missing information claim is accepted. Historical revision/physical bead-lot assignments are not inferred from later guides or secondary whitelist mirrors.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "CG000183 Rev A Appendix pp.54–55, extracted lines 4871–5030",
+      "finding": "Independently read printed bead, modified TSO, both cDNA primers, both adapter strands and both index-primer architectures after running the full bundle scraper and the source-only scraper. Both PCR primer pairs are published. Corrected local model to exact PCR geometry and explicit primer states, copied TSO bases and post-switch product; the prior unavailable-primer wording was a repository error. Adapter input is printed as 32 bases ending CAGTCA while the same page ligation product ends CAGTCAC; the public page now states both source values and the primer-derived final-library resolution."
+    }
+  ],
+  "adapter_discrepancy_inheritance_check": {
+    "reviewer": "audit_tenx_closeout",
+    "date": "2026-10-16",
+    "locations": "Repository Python/Markdown search for tenx_v3, CG000183, INDEX1_PRIMER[:-1] and literal32-base adapter; inspected tenx_csp.protocol_graph, tenx_crispr.protocol_graph, zipseq.protocol_graph, oak chem.protocol_graph and their library constructors/source authorities.",
+    "affected_page": "10x-chromium-single-cell-3-ge-v3/10x-3prime-v3.html",
+    "finding": "Only this page constructs the source-specific32-base CG000183 input adapter and its pre-index ligation product. No other protocol imports tenx_v3. Cell Surface Protein (CG000185) and direct CRISPR capture (CG000184) shown branches install the Read2 end through tag copying/PCR rather than this adapter ligation. ZipSeq and OAK cite CG000183 for v3 bead/endpoint context but currently show final-library shells, not the disputed adapter input. Canonical final-library terminalC is compatible with either32/33-base input after index PCR and does not inherit the source disagreement by itself. No additional page notice added."
+  }
+}

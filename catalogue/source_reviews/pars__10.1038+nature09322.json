@@ -1,0 +1,91 @@
+{
+  "dir": "pars__10.1038+nature09322",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/pars__10.1038+nature09322/nature09322_PMC3847670.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS introduction/Methods lines 44, 72–80; scraper run",
+        "finding": "RNase V1/S1 cleavage generates 5′ ends; paper links modified SOLiD Small RNA Expression Kit preparation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC3847670 JATS lines 72–80; local scraper",
+        "finding": "V1/S1 nuclease branch uses modified SOLiD small RNA kit. Article alone does not identify Mix A oligo bases."
+      }
+    },
+    {
+      "id": "springer_supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/pars__10.1038+nature09322/nature09322_41586_2010_BFnature09322_MOESM294_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods lines 90–140; scraper run",
+        "finding": "50–200 nt fragments, Adapter Mix A first 5′ then 3′ after phosphatase, ArrayScript RT, 18–20 PCR cycles and SOLiD sequencing are printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM294 Supplementary Methods PDF text lines 90–140; local scraper",
+        "finding": "50–200 nt selection; Adapter Mix A 5′ ligation, Antarctic phosphatase, Mix A 3′ ligation, ArrayScript RT and 18–20 PCR cycles. Mix A names are printed but not their exact bases here."
+      }
+    },
+    {
+      "id": "solid_kit_manual",
+      "role": "linked_material",
+      "locator": "_data/sources/pars__10.1038+nature09322/cms_054973.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "SOLiD Small RNA Expression Kit original manual opening lines 1–30 and Adapter Mix A usage around 433–480; scraper run",
+        "finding": "Historical 2009 vendor manual is relevant to exact adapter/primer identities; kit usage read, full oligo disclosure still to verify."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official SOLiD Small RNA Expression Kit guide cms_054973.pdf.txt lines 433–480; local scraper",
+        "finding": "Vendor guide confirms Mix A/B use and adapter orientation; it cannot by itself identify which of the paper’s unspecified Mix A index variants was used."
+      },
+      "discovered_from": "springer_supp_methods"
+    },
+    {
+      "id": "springer_ppt_supps",
+      "role": "supplement",
+      "locator": "MOESM290–293 ESM PPT files in local PARS bundle",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Raw slides downloaded, but extracted text twins are short placeholders; images and any embedded chemistry remain unchecked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PARS supplementary Methods lines 90–140 and cited SOLiD kit manual",
+      "finding": "Followed vendor kit name into historical manual. Supplemental slide images and full kit sequence disclosure still need detailed check."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 72–80, MOESM294 lines 90–140, SOLiD guide lines 433–480",
+      "finding": "Read cited vendor manual. Other publisher PPT supplements still need visual review before source exclusion or missing claim acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Reaction order source-located; linked vendor and image supplements leave missing sequence claims blocked."
+}

@@ -84,6 +84,7 @@ def steps() -> str:
 {panel([strand_row(repaired), *annotation_rows(repaired)], cls="small", caption="Every repaired RNA fragment receives a poly(A) tail; its exact length is not specified.")}
 
 <h3>(2) Barcode and reverse-transcribe each poly(A)-tailed fragment</h3>
+{info('VASA-plate well barcodes are published as a 384-entry, 8-base barcode-to-cell-ID mapping in <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176588">GEO GSE176588</a> (GSM5369495_bc2cellID_vasaplate.tsv.gz), as directed by Supplementary Table 14. The bracketed oligo still reflects unresolved capture-arm bases from the cited predecessor.')}
 {panel(capture_scene("plate").rows(), cls="small", caption="INFERRED — VASA-plate uses a cited CEL-seq2/SORT-seq capture oligo whose sequence is not printed in the VASA-seq paper.")}
 {panel(capture_scene("drop").rows(), cls="small", caption="INFERRED — VASA-drop uses a cited inDrop v3 bead oligo whose sequence is not printed in the VASA-seq paper.")}
 

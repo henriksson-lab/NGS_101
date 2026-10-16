@@ -1,0 +1,96 @@
+{
+  "dir": "sccool-seq__10.1038+cr.2017.82",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/cr.2017.82; cr.2017.82_PMC5539349.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 900-918",
+        "finding": "Prints both PBAT nonamer primers at lines 907-914; lines 915-916 name Illumina Forward PE1.0 and NEB indexed reverse primer without bases or selected index."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5539349 JATS lines 145-155 and 193",
+        "finding": "Original article describes GpC methyltransferase marking and PBAT-style bisulfite library construction, with detailed protocol supplement."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "supplement",
+      "locator": "cr.2017.82_supp_cr201782x22.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 45-70 and 102-122",
+        "finding": "Step-by-step COOL-seq procedure uses named scBS-seq random primers and amplification reagents; no complete endpoint index primer sequence in inspected text."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "cr201782x22.pdf.txt lines 45-70 and 102-122",
+        "finding": "Original detailed protocol gives primer operations and names NEB Universal PCR Primer and pre-indexed PCR Index Primer at lines 114-115, without printing their bases."
+      }
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "cr.2017.82_supp_cr201782x1-x21, figures S1-S18 and Tables S1-S3",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result figures/data tables have no oligo synthesis list by header and text scan.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "all extracted headers and oligo-word scan; x19-21 table headers",
+        "finding": "These are result figures and data tables, not primer lists."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Publisher x1–x21 supplement headings and primer/oligo search",
+        "finding": "Additional original figures/tables were inventoried; NEB indexed terminal kit document still needed for exact primer bases."
+      }
+    },
+    {
+      "id": "neb_index",
+      "role": "vendor",
+      "locator": "NEB indexed reverse primer and Illumina PE1.0 named at article lines 915-916",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Specific NEB kit/index and vendor primer table not identified from the article.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "article Methods 900-918 and detailed supplement x22",
+      "finding": "Methods points to Illumina/NEB commercial PCR primers; exact product/index route not followed to a vendor original."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC article and detailed x22 protocol, especially lines 114-115; source manifest",
+      "finding": "Followed detailed supplement to named NEB primers; specific NEB index member/guide is not local."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete endpoint PCR primer sequences are unavailable",
+      "disposition": "blocked",
+      "evidence": "The paper prints only reagent names at lines 915-916; vendor source and independent review are pending."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

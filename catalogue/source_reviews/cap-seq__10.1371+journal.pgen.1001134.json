@@ -1,0 +1,115 @@
+{
+  "dir": "cap-seq__10.1371+journal.pgen.1001134",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC2944787, local PMC2944787_PMC2944787.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 218 and 226; reference 57 lines 682-686",
+        "finding": "CAP-seq uses Solexa adaptors before enrichment and delegates CAP/MAP/ChIP library preparation to Skene et al. 2010, DOI 10.1016/j.molcel.2010.01.030."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC2944787 original JATS Methods lines 218,224-226 and reference 57",
+        "finding": "CAP DNA was ligated to Solexa adapters following predecessor MAP paper; original CAP article does not print adapter bases in these Methods."
+      }
+    },
+    {
+      "id": "predecessor",
+      "role": "predecessor",
+      "locator": "Skene et al. 2010, PMC4338610, local PMC4338610_PMC4338610.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 119-123",
+        "finding": "Predecessor says detailed Solexa protocols are in its Supplemental Data, which is not present in this bundle."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC4338610 JATS lines 119-123",
+        "finding": "The cited MAP paper delegates detailed Solexa library protocol to its Supplemental Data; no adapter bases in inspected Methods."
+      }
+    },
+    {
+      "id": "predecessor_supp",
+      "role": "linked_material",
+      "locator": "Skene et al. 2010 Supplemental Data / Solexa library protocol",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor JATS line 121 points to Supplemental Data; not obtained locally.",
+      "discovered_from": "predecessor"
+    },
+    {
+      "id": "supplements",
+      "role": "supplement",
+      "locator": "PMC2944787 pgen.1001134.s001–s010 original supplements",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "All extracted PMC2944787 supplement text files searched for Solexa, adapter, library preparation, oligo and primer; s010.xls.txt lines 7-9 concern sequencing lanes",
+        "finding": "Defining supplement package is present, but no extra molecular adapter recipe appears in the extracted text; library method remains delegated to predecessor Supplemental Data."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC2944787 supplementary s001–s010 extracted text: s001/s002 CGI datasets, s003–s009 figure files, s010 sample/analysis table; searched all for Solexa, adapter, primer, oligo, ligation and library preparation; source-bundle oligo scraper rerun",
+        "finding": "The defining supplement package is data tables and figures; no original Solexa adapter or primer recipe appears in the extracted text. The only scraper sequence hit is from an unrelated newer CAP-seq preprint cached in the same bundle and is not evidence for this 2010 method. The cited predecessor Supplemental Data remains needed."
+      }
+    },
+    {
+      "id": "unrelated_capseq_preprint",
+      "role": "other",
+      "locator": "_data/sources/cap-seq__10.1371+journal.pgen.1001134/2024.09.10.612220_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "A different method with the same short name: 2024/2025 Li et al. single-cell long-read microbiome CAP-seq, not Illingworth 2010 CXXC affinity CAP-seq. This file is present in an older cached source bundle and must not support the 2010 model.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Cached preprint title and authors extracted lines 1–30; catalogue row for CAP-seq (long-read microbiome), DOI 10.1101/2024.09.10.612220",
+        "finding": "The cached preprint is a distinct long-read microbiome protocol sharing only the CAP-seq short name; excluded from 2010 CXXC protocol evidence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original cached bioRxiv v3 PDF text lines 1–7 and 51–68 (title, authors, keywords and abstract); 2010 defining PMC2944787 JATS lines 1–20 (title/authors); scraper run on CAP-seq source bundle",
+        "finding": "Independently confirmed the 2025 v3 Li et al. preprint DOI 10.1101/2024.09.10.612220 describes hydrogel-encapsulated single-microbe long-read genomics and microbiome profiling. Illingworth et al. 2010 DOI 10.1371/journal.pgen.1001134 concerns CXXC affinity CAP-seq for CpG islands/promoters. The shared short name does not make the Li preprint chemistry evidence for the Illingworth protocol."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC2944787 JATS 218,226, reference 57; PMC4338610 JATS 119-123",
+      "finding": "Followed reference 57 to original predecessor article; its cited Supplemental Data is absent."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "CAP JATS Methods/reference 57 and predecessor Methods/Supplemental Data pointer",
+      "finding": "Followed explicit library-prep citation to MAP source; predecessor supplement is needed and still unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "CAP-seq sequencing adapter bases and exact primer sites are unavailable.",
+      "disposition": "blocked",
+      "evidence": "Two independent reads of the 2010 paper, its supplements, and the cited MAP predecessor article find no exact adapter bases there. The predecessor's own Supplemental Data is unavailable and could contain them."
+    }
+  ],
+  "conclusion": "Both reads locate a predecessor supplement controlling the library-prep detail. Missing adapter-bases claim remains blocked."
+}

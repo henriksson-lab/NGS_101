@@ -12,10 +12,14 @@
 
 ## Published oligos
 
-🟢 The published article's Supplementary Table 1 (PMC10188359, MOESM2; also the linked
-preprint's `media-2.xlsx`) gives the complete P5_i5 and P7_i7 pA–Tn5 adapter
+🟢 The published article points to Supplementary Table 1 (PMC10188359, MOESM2),
+and the linked preprint's `media-2.xlsx` gives the P5_i5 and P7_i7 pA–Tn5 adapter
 families and the i5 and i7 amplification-primer families, with their eight-base
-barcodes and experiment assignments. The prose of the preprint specifies the common
+barcodes and experiment assignments. The source manifest records the published
+MOESM2 workbook and the preprint `media-2.xlsx` as byte-identical (MD5
+`5cd0f4d7b6de26836d8c04dac29ecb93`); the local `media-2.xlsx` therefore
+also supplies the published table.
+The prose of the preprint specifies the common
 reverse mosaic-end oligo as 5′-[phos]CTGTCTCTTATACACATCT-3′ (methods,
 “Conjugates for MulTI-Tag”). This is the phosphorylated annealing partner for the
 loaded adapters.

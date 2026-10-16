@@ -1,0 +1,116 @@
+{
+  "dir": "shape-map__10.1038+nmeth.3029",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_PMC4259394.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Online Methods lines 513–542; scraper hits source-verified",
+        "finding": "Prints RT primer, targeted PCR flanks, random N5 and index placeholder; separate fragmented-cDNA route described."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Siegfried 2014 original PDF Online Methods lines 513–542",
+        "finding": "Targeted SHAPE-MaP uses gene-specific RT primer, first PCR primers with N5 and Illumina arms, then indexed second PCR; exact representative sequences are printed."
+      }
+    },
+    {
+      "id": "pmc_supp1",
+      "role": "supplement",
+      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary methods table headings and source text; scraper run on bundle",
+        "finding": "Available primary supplement; first pass inspected headings and primer search only."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "NIHMS606325 supplement-1 DOC text Supplementary Figures 1–15 headings and legends",
+        "finding": "Figures describe analysis pipeline, structures and primer-design rationale; source does not add a single universal ordering oligo table in inspected legends."
+      }
+    },
+    {
+      "id": "pmc_supp2",
+      "role": "supplement",
+      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Short supplementary PDF headings",
+        "finding": "Available supplementary figure/table; no claim of exhaustive absence."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "NIHMS606325 supplement-2 PDF first pages and Supplementary Tables 1–3 headings",
+        "finding": "This supplement reports structure-region tables and related analysis, not the principal RT/PCR oligo definitions."
+      }
+    },
+    {
+      "id": "springer_supp",
+      "role": "supplement",
+      "locator": "Springer MOESM231–237 files in _data/sources/shape-map__10.1038+nmeth.3029/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM231/232/234/235/237 first headers and ZIP inventories",
+        "finding": "Figure, reactivity data, folding/model pipeline files screened; deeper relevance check remains open."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM231 first heading/figure text; MOESM232,234,235,237 extracted headers; MOESM233,235,236,237 ZIP central directory",
+        "finding": "Publisher files are figure text, RNA structure/reactivity data and ShapeMapper/folding code. No separately printed complete library oligo table was found in the inspected headers and inventories."
+      }
+    },
+    {
+      "id": "truseq_original",
+      "role": "linked_material",
+      "locator": "Historical Illumina TruSeq adapter source for fragmented-cDNA SHAPE-MaP route",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Paper names TruSeq adapter; original era-specific kit sequence source not inspected.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining paper Online Methods 513–542 checked; multiple supplement and TruSeq linked documents require deeper or independent review.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Online Methods PDF lines 513–542; PMC supplement headings/tables; Springer MOESM231–237 headers and ZIP inventories",
+      "finding": "Checked original and available supplements. Historical Illumina source for fragmented-cDNA branch remains unavailable relevant; missing-information conclusions remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact endpoint for each alternative targeted or fragmented-cDNA branch",
+      "evidence": "Defining paper Online Methods 513–542 checked; multiple supplement and TruSeq linked documents require deeper or independent review.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open."
+}

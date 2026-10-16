@@ -1,0 +1,185 @@
+{
+  "dir": "surecell-3-wta-for-ddseq",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "illumina_guide",
+      "role": "defining",
+      "locator": "Illumina SureCell WTA 3p Library Prep Reference Guide 1000000021452 v01, surecell-wta3-library-prep-reference-guide-1000000021452-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Custom Read 1 primer lines 374 and 2652-2806; barcoded beads lines 727 and 992",
+        "finding": "Describes workflow, barcoded beads and supplied custom sequencing primer by role, without their full bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Illumina 1000000021452 v01 local PDF text lines 164–194 (product and workflow), 291–301 (index demultiplexing), 374–375 (supplied custom Read 1 primer), 727–728 (barcoded beads/UMI), 2652–2689 (SP, N7xx, linked Custom Primer Guides), 2745–2758 (run setup); full bundle oligo scraper run before reading",
+        "finding": "Defining vendor original specifies ddSEQ droplets, barcoded/UMI beads, tagmentation, named TPP1/N7xx reagents and supplied custom SP for Read 1. It does not print these proprietary oligo bases in inspected workflow/sequencing sections. It names five instrument Custom Primer Guides, which must be tracked separately."
+      }
+    },
+    {
+      "id": "illumina_checklist",
+      "role": "supplement",
+      "locator": "Illumina library prep checklist 1000000021454 v00",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Complete checklist and kit inventory",
+        "finding": "Condenses the kit steps; no independent bead oligo sequence table."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Illumina 1000000021454 v00 complete checklist, local text lines 6–130 (barcode mix) and 322–523 (tagmentation, TPP1, sample indexes); scraper run on full source bundle",
+        "finding": "Kit checklist explicitly names 3-prime Barcode Mix, tagmentation reagents, TPP1 and one DNA Adapter/index choice per sample well; no ordered bead, TPP1 or SP oligo sequence table is printed there."
+      }
+    },
+    {
+      "id": "instrument_custom_primers",
+      "role": "linked_material",
+      "locator": "Illumina instrument Custom Primers Guides cited in vendor guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original guide names five instrument guides. MiSeq v01 and later NextSeq v03 were first-read online and listed separately; NovaSeq, HiSeq and MiniSeq remain unchecked. Local MiSeq/NextSeq PDF fetches failed DNS.",
+      "discovered_from": "illumina_guide",
+      "pass_2": null
+    },
+    {
+      "id": "biorad_successor",
+      "role": "linked_material",
+      "locator": "Bio-Rad ddSEQ 3p guide scg_10000167449.pdf.txt and bead structures XLSX",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Bead structures table and MANIFEST version identification",
+        "finding": "Later ddSEQ bead architecture is a different kit, so it cannot establish original SureCell oligo bases."
+      },
+      "discovered_from": "illumina_guide",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Bio-Rad ddSEQ 3-prime kit original guide scg_10000167449.pdf.txt lines 329–355, 1043–1062 (dual poly-T/deconvolution oligos), 4735–4774 (dual-index 54/8/8/68 sequencing); source MANIFEST row for scg_10000167449.pdf. Separately inspected scg_Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx.txt sheet Beads lines 1–40 and MANIFEST provenance; scraper run on full bundle",
+        "finding": "Later Bio-Rad kit introduces deconvolution oligos and a dual-index layout, distinct from Illumina SureCell. Its guide does not license transfer of its bead bases or cycles to the earlier kit. The bead-structures XLSX is hosted in the scg repository and its authority as a Bio-Rad original is not established by its filename, so it cannot verify SureCell bases."
+      }
+    },
+    {
+      "id": "miseq_custom_primers",
+      "role": "linked_material",
+      "locator": "Official Illumina MiSeq System Custom Primers Guide 15041638 v01, https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/miseq/miseq-system-custom-primers-guide-15041638-01.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official web PDF pp. 2–5, rendered lines 32–81 (reservoirs 18–20, sample-sheet setup and dilution/loading); revision history lines 84–98; local reproducible route in extra_sources.tsv failed DNS",
+        "finding": "Instrument procedure explains how a supplied custom Read 1 primer is loaded on MiSeq. No SureCell SP bases or kit-specific oligo table appear in the inspected guide. This is an instrument-loading source, not a molecular sequence source."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official MiSeq System Custom Primers Guide 15041638 v01, complete guide pp1–8; procedure pp3–5, revision p6 (browser extracted lines 0–129)",
+        "finding": "Independently read the instrument guide. It describes cartridge reservoirs, sample-sheet settings and primer loading, but prints no SureCell custom Read 1 primer bases or bead oligo."
+      }
+    },
+    {
+      "id": "nextseq_custom_primers",
+      "role": "linked_material",
+      "locator": "Official Illumina NextSeq 500/550 Custom Primers Guide 15057456 v03, https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/nextseq/nextseq-500-550-custom-primers-guide-15057456-03.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official web PDF pp. 2–5, rendered lines 36–40, 52–69, 99–136 (custom-primer reservoir and run setup); revision history lines 141–160 identifies v03 as March 2020; local reproducible route in extra_sources.tsv failed DNS",
+        "finding": "Later NextSeq revision describes custom-primer reservoir 7 for Read 1 and run setup. It does not print SureCell SP bases; as a 2020 revision, it is not direct evidence for the original SureCell instrument procedure."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official NextSeq 500/550 Custom Primers Guide 15057456 v03, cover and procedure pp1–5; browser extracted lines 0–55 and 99–160",
+        "finding": "Independently verified this later 2020 instrument guide covers custom-primer reservoir and run setup, including Read 1, but does not disclose SureCell-specific primer or bead sequences. Its revision date prevents treating it as the original kit procedure."
+      }
+    },
+    {
+      "id": "pbmc_demonstrated",
+      "role": "linked_material",
+      "locator": "Illumina SureCell WTA 3-prime PBMC demonstrated protocol 1000000044179 v00, local PDF text",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "PBMC specimen handling variant and scaled tagmentation; no new bead, TPP1 or SP bases beyond defining kit guide.",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Local PDF text lines 107–136, 239–244, 283–318; scraper run on complete source bundle",
+        "finding": "PBMC-specific variant repeats supplied custom Read 1 primer role and kit reagents, without an ordering table for proprietary oligos in inspected introduction/preparation sections."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina PBMC demonstrated protocol text lines 107–136, 283–318, 582–628 and 794–824; full text searched for primer/oligo/barcode/bead after source-bundle scraper",
+        "finding": "This specimen-handling variant names barcoded beads and the supplied custom Read 1 primer but prints no oligo or primer sequence; it cannot identify the SureCell bead or SP bases."
+      }
+    },
+    {
+      "id": "nuclei_demonstrated",
+      "role": "linked_material",
+      "locator": "Illumina SureCell WTA 3-prime nuclei demonstrated protocol 1000000044178 v00, local PDF text",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Nuclei input variant; no new bead, TPP1 or SP bases beyond defining kit guide.",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Local PDF text lines 114–141, 249–254, 285–323; scraper run on complete source bundle",
+        "finding": "Nuclei-specific variant repeats custom Read 1 primer role and kit reagent names, without a proprietary oligo ordering table in inspected introduction/preparation sections."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina nuclei demonstrated protocol text lines 114–141, 285–323, 894–939 and 1129–1157; full text searched for primer/oligo/barcode/bead after source-bundle scraper",
+        "finding": "This nuclei-input variant names the same barcoded bead mix and supplied custom Read 1 primer by role, but gives no proprietary oligo or primer bases."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Illumina guide introduction, kit inventory, and sequencing section; repository source-note inventory lines 26-47",
+      "finding": "Inventory includes Illumina checklist, PBMC/nuclei demonstrated protocols and later Bio-Rad guide. Instrument Custom Primers Guides are absent."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Illumina SureCell v01 guide lines 164–194, 2652–2689, 2745–2758; kit checklist lines 6–130, 322–523; Bio-Rad successor original guide lines 1043–1062, 4735–4774; official MiSeq Custom Primers Guide 15041638 v01 web PDF pages 2–5; official NextSeq 500/550 Guide 15057456 v03 web PDF pages 2–5",
+      "finding": "Followed two of five instrument Custom Primer Guides to official Illumina originals: MiSeq v01 gives loading/sample-sheet procedure and NextSeq v03 gives reservoir/compatibility procedure; neither identifies SureCell SP bases. The latter is a 2020 revision, not proof of the original run setup. NovaSeq, HiSeq and MiniSeq guides remain unchecked. Later Bio-Rad ddSEQ kit is a distinct dual-index/deconvolution workflow. Keep exact SureCell bead/TPP1/SP sequence claim blocked."
+    },
+    "followup_root": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Official MiSeq Custom Primers Guide 15041638 v01 pp1–8; official NextSeq 500/550 Guide 15057456 v03 pp1–5; Illumina PBMC demonstrated protocol lines 107–136, 283–318, 582–628, 794–824; nuclei demonstrated protocol lines 114–141, 285–323, 894–939, 1129–1157",
+      "finding": "The two instrument guides and both specimen variants now have independent second checks. They describe loading or specimen handling and name the supplied proprietary oligos, but do not print their bases. Other instrument guides and kit documents remain open, so no absence is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SureCell proprietary bead oligo and custom Read 1 primer bases",
+      "disposition": "blocked",
+      "evidence": "Vendor guide names the components; instrument guides remain unchecked."
+    }
+  ],
+  "conclusion": "Two independent readers checked the defining Illumina guide, kit checklist, later Bio-Rad kit, two official instrument Custom Primer Guides and both specimen-handling variants. Other instrument guides and historical kit-specific sequences remain unresolved. Exact SureCell bead, TPP1 and SP bases remain blocked; the page uses inferred placeholders."
+}

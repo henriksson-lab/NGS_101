@@ -1,0 +1,237 @@
+{
+  "dir": "imargi__10.1073+pnas.1819788116",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_PMC6386723.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 197–209; scraper returned zero hits",
+        "finding": "Nuclear AluI digestion, RNA 3′ dephosphorylation, DNA dA-tailing, adenylated linker RNA ligation and DNA ligation are described. The paper expressly reuses the previous MARGI linker sequence and subsequent library construction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PNAS JATS lines 195–207 and 211–213; original PDF Methods matched; scraper run on defining bundle",
+        "finding": "AluI genomic digestion and RNase I RNA fragmentation precede RNA 3-prime dephosphorylation, Klenow dA-tailing, 5-prime adenylated linker RNA ligation, DNA proximity ligation, reverse transcription, circularization and BamHI relinearization. Read 1 is RNA and Read 2 DNA, paired-end 100 cycles. Lines 203 and 207 inherit the linker and later construction from MARGI; no linker oligo bases printed here."
+      }
+    },
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/472019_472019-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BioRxiv v3 472019_472019-1.pdf.txt lines 1–18, 217–700, especially validation Fig. S6 lines 594–596; scraper run on bundle",
+        "finding": "Eight-page preprint supplement contains results figures and EML4-ALK/GAPDH assay-control primer pairs; no library linker oligo table or construction procedure."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v3 supplemental 472019_472019-1.pdf.txt lines 10–30, Fig. S1–S7 headings/captions lines 217,294,437,550,563,594–598,700–703; bundle scraper run before reading",
+        "finding": "Eight-page preprint supplement consists of seven result/validation figures. Fig. S6 gives two EML4–ALK and two GAPDH Northern/qPCR validation primers, distinct from linker or library primers. It has no iMARGI linker recipe or downstream library procedure."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/472019_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BioRxiv v3 472019_v3.full.pdf.txt lines 105–107, 2071–2103; scraper run on bundle",
+        "finding": "Author preprint Methods describes the same AluI/RNase I digestion, 3-prime dephosphorylation, dA-tailing and two ligations, and again inherits linker sequence and downstream library construction from MARGI. It adds no exact linker bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v3 472019_v3.full.pdf.txt lines 105–107 and 2071–2104; bundle scraper run before reading",
+        "finding": "Preprint says in situ versus bead-supported MARGI ligation, then specifies AluI/RNase I cleavage, RNA 3-prime dephosphorylation, Klenow dA tail, adenylated linker RNA ligation and DNA proximity ligation. Lines 2089–2090 and 2099–2103 explicitly inherit MARGI linker and post-ligation library steps; no exact linker bases printed in this main preprint."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_supp_pnas.1819788116.sapp.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published PNAS SI p.1 contents and extracted lines 222–850, especially Fig. S8 lines 741–743; scraper run on bundle",
+        "finding": "Published SI is results figures/tables; the four printed EML4-ALK/GAPDH primers are validation assay oligos, not iMARGI library oligos. No linker recipe in this supplement."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original published PNAS SI pnas.1819788116_supp_pnas.1819788116.sapp.pdf.txt inventory lines 10–30; figure captions S1–S9 lines 222,345,352,430,576,691,707,741–745,850–853; Table S1 lines 860–875; scraper run before reading",
+        "finding": "Eleven-page published SI adds two result figures and a read-count table versus the preprint supplement. Fig. S8 prints EML4–ALK/GAPDH validation primers only. No library linker or construction recipe appears in inspected figure/table content."
+      }
+    },
+    {
+      "id": "margi_original",
+      "role": "linked_material",
+      "locator": "Sridhar et al. original MARGI method DOI 10.1016/j.cub.2017.01.011, author manuscript at https://escholarship.org/content/qt6n25v57s/qt6n25v57s_noSplash_d3f7822de620f0c80d1eefae889cdc3e.pdf; iMARGI reference 10 mistakenly cites erratum DOI 10.1016/j.cub.2017.01.068",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original author manuscript web PDF pp. 1–3 lines 59–97 and Fig. 1 caption pp. 9–10 lines 313–325; original article explicitly points to separate Supplemental Experimental Procedures",
+        "finding": "Original MARGI uses 5-prime adenylated linker top with 10-base single-stranded RNA-ligation tail, one-base 3-prime T for ligation to genomic 3-prime A, a central BamHI site, and circle/relinearization to place RNA in Read 1 and DNA in Read 2. Main original does not print ordered linker bases; linked Document S1 does."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Sridhar et al. 2017 accepted author manuscript PDF via eScholarship, main text web lines 59–97 and Fig. 1 description; ran full iMARGI source-bundle primer scraper before reading the linked original supplement",
+        "finding": "Original MARGI main text gives RNA 3′ ligation to an adenylated NN linker, genomic 3′ A to linker 3′ T ligation, central BamHI phasing after circularization, and Read 1 RNA / Read 2 DNA order. It points to the separate original Supplemental Experimental Procedures for ordered oligos; that Document S1 is now recovered and double-read."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_PMC7314528.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Wu et al. 2019 Nature Protocols JATS lines 277–295; scraper rerun, source lines read",
+        "finding": "Detailed protocol prints top and bottom bivalent-linker strands with phosphorylation, NN, phosphorothioate and internal biotin, plus BamHI cut oligo with 3′ inverted dT and NEBNext PCR primer pair. This directly supports the present iMARGI ordering strings, while original MARGI inheritance still needs independent check."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Wu et al. 2019 Nature Protocols original JATS lines 101–107, 273–297, 395–397, 673–727, 935–1030, 1101–1159, 1393; scraper run on protocol bundle",
+        "finding": "Prints modified top/bottom linker, inverted-dT BamHI cut oligo, and NEBNext PCR pair; describes DNA dA-tailing and sticky-end ligation, exonuclease removal of incomplete products, pull-down, RT, CircLigase circle and BamHI split. Printed top/bottom sequences pair for 47 bases and leave top 3-prime T. Stock recipe says dilute ATP for reagent labeled dATP (395–397), conflicting with dATP in reaction table (673–685) and PNAS Methods (203)."
+      }
+    },
+    {
+      "id": "protocol_reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_41596_2019_229_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher original is a reporting summary of statistics, data and analysis code, not library chemistry.",
+      "discovered_from": "detailed_protocol",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary lines 1–55, including data/code fields 32–53",
+        "finding": "Records analysis pipeline and SRA, with no wet-lab oligo or reaction procedure."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Research Reporting Summary s41596-019-0229-4_41596_2019_229_MOESM1_ESM.pdf.txt lines 1–60 and 72–110; detailed-protocol bundle scraper run before reading",
+        "finding": "Original is a reporting form for statistics, code, datasets and study design. It points to analysis code and SRA, without wet-lab linker/primer bases or reaction procedure; exclusion from iMARGI library chemistry is supported."
+      }
+    },
+    {
+      "id": "margi_document_s1",
+      "role": "linked_material",
+      "locator": "Sridhar et al. 2017 original MARGI Document S1 Supplemental Experimental Procedures, https://ars.els-cdn.com/content/image/1-s2.0-S0960982217300118-mmc1.pdf; local 1-s2.0-S0960982217300118-mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Elsevier Document S1 lines 178–185, 195–245, 256–325; full iMARGI bundle scraper rerun after source fetch, oligo hits lines 212–215 and 312",
+        "finding": "Original MARGI supplement prints top `5’Phos–NNAGATCGGAAGAGCGTCGTGTAGGGAGGATCCGTTCAGACGTGTGCTCTTCCGA/BiodT/CT` and bottom 5-prime phosphorylated linker (lines 204–215), then adenylates/anneals it before T4 RNA ligase 2 truncated KQ and T4 DNA ligase. It prints dA tail (182–185), biotin cleanup (256–269), RT (280–289), strand separation (290–298), CircLigase/BamHI cut oligo (299–318), and NEBNext E7335 PCR (320–325). Unlike later iMARGI detailed protocol line 277, original top has no printed `C*` phosphorothioate notation; same base order. Independent second original read pending."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Elsevier Document S1 PDF extracted lines 178–185, 195–245, 256–325, including linker top/bottom lines 212–215 and Cut_oligo line 312; ran full iMARGI source-bundle scraper first; compared with original 2019 iMARGI Nature Protocols JATS lines 273–297 after running scraper on its bundle",
+        "finding": "Document S1 prints top linker 5′Phos–NN...TCCGA/BiodT/CT without a phosphorothioate C* mark, bottom 5′-phosphorylated linker, 3′ A tail and linker 3′ T geometry, RNA ligase 2 truncated KQ, proximity DNA ligase, biotin selection, reverse transcription, CircLigase/BamHI and inverted-dT Cut_oligo. The later 2019 iMARGI detailed protocol explicitly prints ...TCC*GA/iBiodT/CT and defines C* as phosphorothioated; base order is shared, modification differs."
+      },
+      "discovered_from": "margi_original"
+    },
+    {
+      "id": "neb_e7335_manual",
+      "role": "vendor",
+      "locator": "NEB original E7335/E7500/E7710/E7730 manual v8.0_6/24, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7335.pdf?rev=4bf1622b342b4d73a2b01443068ed2c5 (shell fetch of equivalent manual route is blocked by DNS; browser original PDF readable)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "detailed_protocol",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original NEB PDF pp. 1, 4–5, 13 / browser lines 0–34, 110–150, 665–691; full iMARGI local source-bundle oligo scraper run before reading",
+        "finding": "Current manufacturer manual identifies E7335S as a kit containing universal PCR primer and index primers 1–12. It prints full member-specific index primer sequences, while the iMARGI author protocol specifies only a 6-bp barcode slot and no chosen member. Revision history dates the full primer table to v4.0 January 2018 and says its adapter DNA sequence was corrected then; v8.0 is June 2024 and cannot alone establish the experiment’s historical member or lot."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7335/E7500/E7710/E7730 v8.0_6/24 original PDF pp. 1, 3–5, 9 and 13 (browser lines 0–34, 101–115, 138–245, 526–562, 665–691), independently read after full local iMARGI source-bundle oligo scraper; compared iMARGI Nature Protocols JATS lines 287–297 and NEB official E7335 product page product/manual sections.",
+        "finding": "E7335S/L Set 1 contains the universal PCR primer and twelve distinct six-base index primers. The manual prints the full indexed strands, final phosphorothioate-linked T, universal primer and adaptor, but iMARGI authors give only [6 bp barcode] and no index number. Revision history dates v4.0 adapter-sequence correction to 1/18, v5.0 index-table adjustments to 4/18, and v7.0 adapter/primer-table updates to 6/22; the 2024 v8 table cannot prove the exact 2019 lot/member or unchanged historical bases. Official current product page exposes only the combined current manual; a contemporaneous 2018/2019 manual was not located."
+      }
+    },
+    {
+      "id": "neb_e7335_historical_manual",
+      "role": "vendor",
+      "locator": "Historical original NEB E7335S Set 1 manual v5.0 (4/18) or a contemporaneous 2018–2019 revision; current official product page https://www.neb.com/en-us/products/e7335-nebnext-multiplex-oligos-for-illumina-index-primers-set-1 links only v8.0, whose revision history documents the older versions.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Searched NEB official product/manual links and indexed web for v4.0/v5.0 E7335 manuals; no original historical PDF located. v8.0 records later index-table changes and cannot alone establish 2019 primer member bases.",
+      "discovered_from": "neb_e7335_manual",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining PNAS JATS lines 203, 207 and ref.10; detailed protocol JATS lines 101–107, 273–297, 1101–1159; MARGI PMC5319903 original search-indexed Fig.1, direct page CAPTCHA; bundle manifests for preprint/published SI and Nature Protocols reporting summary",
+      "finding": "Followed explicit MARGI predecessor and later author protocol. Later protocol resolves linker sequences and most reaction order. Correct MARGI original full text/supplement still unavailable locally; search-indexed Fig.1 supports T/A overhang but cannot substitute for two-pass original check. Preprint and published SI were read as result/validation materials, not assumed oligo-negative from scraper alone."
+    },
+    "followup": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint main lines 2071–2104; published SI lines 10–30,741–745,860–875; preprint SI lines 10–30,594–598; Nature reporting summary lines 1–60,72–110; original MARGI main web PDF lines 59–97,313–325; original Document S1 lines 178–325",
+      "finding": "Independently completed second pass of four pending iMARGI rows, including not-relevant reporting summary. Recovered/read original MARGI main and detailed Document S1 through publisher URL; both have first pass pending an independent second review. The original MARGI linker top lacks the later iMARGI protocol C* modification mark; exact modification choice in the 2019 iMARGI experiment remains uncertain."
+    },
+    "followup_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Sridhar 2017 author original main text web lines 59–97; Elsevier Document S1 local lines 178–325; iMARGI 2019 Nature Protocols original JATS lines 273–297; bundle and detailed protocol primer scrapers run",
+      "finding": "Independently followed MARGI predecessor from iMARGI main paper to its original main article and complete supplemental protocol. Its unstarred linker differs in modification annotation from the 2019 iMARGI detailed version; later version is authority for iMARGI model. No relevant linked source in this reviewed chain remains unfollowed."
+    },
+    "followup_3": {
+      "reviewer": "scrica_second",
+      "date": "2026-10-16",
+      "locations": "Official NEB E7335 v8 manual pp. 1, 3–5, 9, 13; official E7335 product page product/manual listings and targeted indexed search for v4/v5 original manual.",
+      "finding": "Second read confirms the 12-member E7335 Set 1 family and no selected member in the iMARGI author protocol. Current manufacturer manual traces 2018, 2020, 2022 and 2024 changes; a contemporaneous original manual was not located. The historical manual is therefore a separately listed unavailable relevant source and exact selected index remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact E7335 sample-index primer member used in the 2019 iMARGI experiments is unreported in all linked originals",
+      "disposition": "blocked",
+      "evidence": "Two independent reads of the iMARGI detailed author protocol and the current original NEB E7335 manual establish a six-base indexed primer family with twelve Set 1 members, but the experiment does not identify its selected member. The current v8.0 manual records index-table changes in 2018 and 2022. A contemporaneous 2018–2019 NEB manual was not located, so exact historical member bases and the claimed absence across all linked originals cannot be accepted."
+    }
+  ],
+  "conclusion": "Defining, detailed author, MARGI predecessor and current E7335 vendor originals have two independent reads. The E7335 vendor original resolves the available twelve-member index family and universal PCR primer, while the author protocol retains only a six-base sample-index slot. The historical 2018–2019 NEB manual is unavailable; v8 revision history notes later index-table edits, and no selected index member or lot is stated. The source checklist and linked-information disposition remain blocked, and no missing-information claim is accepted."
+}

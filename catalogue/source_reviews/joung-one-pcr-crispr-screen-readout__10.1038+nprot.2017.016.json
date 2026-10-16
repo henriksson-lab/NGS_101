@@ -1,0 +1,70 @@
+{
+  "dir": "joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original PMC5526071 XML text lines 230-235 and Table 3 lines 2159-2204; scraper hits on the same table",
+        "finding": "The Methods expressly point to Table 3 for NGS library primers. Table 3 publishes all ten staggered NGS-Lib-Fwd primers and eight indexed NGS-Lib-KO-Rev plus eight NGS-Lib-SAM-Rev primers; these sequences are available from the defining article. Table 4 separately gives indel-analysis primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original PMC5526071 JATS lines 858-879, 1114-1126 and Table 3 lines 2159-2214",
+        "finding": "Step 32 uses all ten staggered NGS-Lib-Fwd primers plus one indexed KO-Rev or SAM-Rev per sample; Step 58 applies that PCR to harvested screening genomic DNA. Table 3 publishes the full ten-forward/eight-KO-reverse/eight-SAM-reverse families. Scraper hits were checked against the original table."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Joung 2017 Supplementary Data 1-4 Python scripts described in original JATS lines 1588-1604",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary code files, including count_spacers.py for read interpretation, were not fetched; original JATS descriptions were checked but script content was not.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/fengzhanglab/Screening_Protocols_manuscript",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author script repository cited in original JATS lines 1592-1604 but not inspected.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Tried DOI and pmccloud:PMC5526071 routes; both produced no readable original. Scraper on empty bundle returned zero hits, which is not evidence of absence."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 610, 910, 1126, 1588-1604; Table 3 lines 2159-2214",
+      "finding": "Followed the Methods into Table 3 and identified Supplementary Data 1-4 plus author code repository. Script contents and sample-specific index choices are still unchecked, so linked-information result is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Joung one-PCR screening primer sequences are published in Table 3; the particular primer/index selections for each screening sample remain to be traced",
+      "disposition": "blocked",
+      "evidence": "Both independent readers verified the full Table 3 primer families in original author manuscript. Sample-specific index selection and linked scripts remain unchecked."
+    }
+  ],
+  "conclusion": "Two independent readers verified Table 3 primer sequences from the original. Supplementary code and sample-specific index assignments remain blocked."
+}

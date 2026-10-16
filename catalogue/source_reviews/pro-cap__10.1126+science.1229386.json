@@ -1,0 +1,150 @@
+{
+  "dir": "pro-cap__10.1126+science.1229386",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "kwak_article_jats",
+      "role": "defining",
+      "locator": "_data/sources/pro-cap__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Kwak 2013 author-manuscript JATS lines 19, 35, 47–49 and References lines 88–108; source-bundle scraper run",
+        "finding": "Main paper identifies PRO-cap as PRO-seq-derived capped-end assay but defers molecular procedure to supplement. No original oligo bases in main JATS."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Kwak 2013 author-manuscript JATS opening through Supplementary Material link, especially lines 19, 35, 47–49 and cited references 88–108; source-bundle scraper run",
+        "finding": "Main article establishes PRO-cap as capped-end derivative of PRO-seq and delegates library preparation to supplement. It does not print original standard adapter/primer bases."
+      }
+    },
+    {
+      "id": "kwak_supp_author_mirror",
+      "role": "supplement",
+      "locator": "_data/sources/pro-cap__10.1126+science.1229386/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted Science supplement lines 112–147; scraper modified-oligo hits at 122, 135–140 inspected against source",
+        "finding": "PRO-cap omits PRO-seq RNA fragmentation, ligates standard Illumina 3-prime RNA adapter first, enriches biotin RNA again, applies Antarctic phosphatase before TAP, then ligates standard 5-prime RNA adapter, performs third enrichment, RT and PCR. Printed reverse PRO-seq adapters are expressly for another branch and must not be copied to PRO-cap. It names but does not print the original PRO-cap standard adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted Science supplement extracted lines 105–148, especially run-on 105–111, first pull 112–120, 3-prime ligation 121–124, second pull 129–130, AP/TAP 130–134, 5-prime ligation/third pull 135–142, RT/PCR 143–148; scraper modified-oligo hits verified",
+        "finding": "Original PRO-cap uses four biotin-NTPs together, omits PRO-seq fragmentation, and has three streptavidin enrichments: after run-on, after 3-prime adapter ligation, and after 5-prime adapter ligation. Antarctic phosphatase precedes TAP; PNK is expressly omitted for PRO-cap. Standard Illumina 3-prime/5-prime adapters and RT/PCR primers are named but not sequenced; adjacent reverse PRO-seq oligos are for a separate branch. Current graph has all three pulls and the correct order. Exact original ligating-end geometry remains unresolved."
+      }
+    },
+    {
+      "id": "kwak_pmc_supp_gate",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3974810/bin/NIHMS563579-supplement-supplement.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC serving gate; author-hosted original supplement has been read but this copy could not be independently compared byte for byte."
+    },
+    {
+      "id": "maher_2016_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/pro-cap__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Later author detailed PRO-seq/PRO-cap protocol JATS lines 162–190, 1569, 1648–1706, 1903 and Table 1 lines 2875–2905; scraper hits checked in source",
+        "finding": "Confirms 3-prime adapter before cap enzymology and 5-prime adapter after it. Table 1 prints RA3, RA5, RTP, RP1 and indexed RPI-n for its later implementation; the 2013 paper does not establish exact identity of every later oligo in the original experiment."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Later author PRO-seq/PRO-cap original PMC5502525 JATS lines 162–192, PRO-cap branch 1648–1706, oligo Table 1 lines 2875–2902; source scraper hits checked against table",
+        "finding": "Later protocol confirms adapter-first and three affinity pulls, and prints RA3, RA5, RTP, RP1 and indexed RPI family for its own implementation. It adds a 5-prime-phosphate-dependent exonuclease before alkaline phosphatase (lines 182–188, 1648–1651), absent from the 2013 supplement; the 2013 page correctly omits that later branch. The later table does not prove exact bases/modifications for the original 2013 lot."
+      }
+    },
+    {
+      "id": "core_2008_predecessor",
+      "role": "predecessor",
+      "locator": "_data/sources/gro-cap__10.1038+ng.3142/594009_9144e1ea58ad4573871ec024827290f3.pdf.txt (Core 2008 original author-hosted Science supplement)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Core et al. 2008 author-hosted supplementary PDF extracted lines 381–410; scraper run on its local GRO-cap source bundle",
+        "finding": "Core GRO-seq enriches BrU-labelled RNA with antibody beads, repairs hydrolysis ends, and ligates 5-prime adapter before 3-prime adapter, with re-enrichment after each. It is a conceptual predecessor but does not establish PRO-cap 2013 streptavidin chemistry, cap branch, or exact standard Illumina oligo version."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Core 2008 author-hosted Science supplement lines 381–410, after source-bundle scraper run",
+        "finding": "GRO-seq precedent uses BrUTP/anti-BrU purification and base hydrolysis, then TAP/PNK end repair with 5-prime adapter before 3-prime. This differs from the 2013 PRO-cap 3-prime-first cap-preserving branch and cannot establish original PRO-cap adapters."
+      }
+    },
+    {
+      "id": "historical_illumina_small_rna_guide",
+      "role": "vendor",
+      "locator": "Original 2013 supplement calls standard Illumina RNA adapters and RT/PCR primers; exact historical guide and product revision not identified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact 2013 adapter product, ligating-end modifications, and index set have not been tied to a historical vendor manual or reagent lot."
+    },
+    {
+      "id": "illumina_truseq_small_rna_sequence_table",
+      "role": "vendor",
+      "locator": "_data/sources/gro-cap__10.1038+ng.3142/illumina_TruSeq-SmallRNA.htm.txt (official Illumina sequence table mirrored in GRO-cap source bundle)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq Small RNA sequence table extracted lines 138–192; scraper run on its local GRO-cap source bundle",
+        "finding": "Official table prints RA3/RA5, RTP, RP1 and six-base index-primer family matching the later author PRO-cap Table 1 fixed sequences. Page has no historical release date or direct 2013 Kwak product/lot linkage, so it cannot yet prove exact original adapter identity or ligating-end modifications."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq Small RNA sequence table in cached HTML lines 138–192; scraper hits at lines 152, 176, 184, 192 checked against original table",
+        "finding": "RA3/RA5/RTP/RP1 and six-base index-primer family are printed, matching later author PRO-cap Table 1 at base level. Table lacks 2013 kit revision and does not prove which products were used in the original 2013 experiment."
+      },
+      "discovered_from": "historical_illumina_small_rna_guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Kwak original JATS Supplementary Material line 47; author-hosted original supplementary Methods lines 112–147; cited Core 2008 in References; later author protocol PMC5502525 Table 1",
+      "finding": "Followed original supplementary-material link through author-hosted mirror and the later author protocol. Inspected every scraper hit in the original context and separated reverse PRO-seq adapters from PRO-cap. The 2008 predecessor and historical Illumina vendor guide still need source checks; thus original exact adapter geometry cannot be accepted as missing."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Kwak original JATS supplement pointer and original author-hosted PDF lines 105–148; later Maher author protocol JATS lines 162–192, 1648–1706, 2875–2902; Core 2008 original supplement lines 381–410; official Illumina TruSeq sequence table lines 138–192; independent Core 2008 supplement lines 381–410 and official Illumina sequence table lines 138–192",
+      "finding": "Independently followed the original supplement and later detailed method. The original has three streptavidin pulls and uses all four biotin-NTPs, while later method adds an exonuclease before AP. Newly inspected Core 2008 predecessor and current official Illumina table are recorded as first-pass leads only; Core is a different GRO-seq branch and current vendor table lacks 2013 kit provenance. Exact original adapters remain blocked until a matching historical guide and independent second reads of linked sources. Independently rechecked newly added Core 2008 and official Illumina sequence-table leads; the GRO-seq branch differs and the present vendor sequence table lacks a 2013 revision match."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact 2013 PRO-cap standard adapter and index oligos are confirmed absent from all original and linked relevant sources",
+      "disposition": "blocked",
+      "evidence": "The original supplement names standard Illumina adapters but does not print bases; linked historical vendor and cited predecessor remain unreviewed."
+    },
+    {
+      "claim": "The reverse PRO-seq adapters printed next to the PRO-cap instructions are PRO-cap reagents",
+      "disposition": "resolved",
+      "evidence": "Original supplement lines 121–140 explicitly assigns standard Illumina RNA adapters to PRO-cap instead."
+    }
+  ],
+  "conclusion": "Original three-pull reaction order, four-biotin-NTP run-on and cap branch are checked twice; standard 2013 adapter and index bases remain blocked pending historical vendor/version evidence and independent linked-source review."
+}

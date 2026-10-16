@@ -13,6 +13,7 @@ from rna_end_readout import (StopReadout, BaseConversionReadout, SelectiveCleava
 SHAPE_A_T = il.P5 + il.TRUSEQ_READ1
 
 SHAPE_A_B = "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG"
+SHAPE_PE_READ2 = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
 
 SHAPE_HANDLE_FEATURE = feature("shape_treatment_handle", "feature_barcode", "whitelist",
                                whitelist="RRRY treated / YYYR control handle families")
@@ -41,14 +42,18 @@ SUMMARY = 'SHAPE chemistry acylates flexible riboses, reverse transcriptase stop
 CAVEAT = 'The original SHAPE-Seq protocol assays designed RNA pools in vitro; later in-cell and transcriptome-wide SHAPE methods use different capture architectures.'
 FINAL_LIBRARY = SHAPE_FINAL_LIBRARY
 FINAL_CAPTION = 'Source-exact v1 adapter arms flank a target-specific RT product. The first paired read begins with the four-base treatment handle; the opposite read locates the SHAPE-dependent RT stop.'
-SEQ_PRIMERS = ()
+SEQ_PRIMERS = (
+    sp.TRUSEQ['R1'],
+    sp.custom('Read 2', 'Illumina PE Read 2', SHAPE_PE_READ2,
+              'Illumina 11 January 2011 adapter and sequencing-primer letter, p. 6'),
+)
 READ_LENGTHS = {'Read 1': 50, 'Read 2': 50}
 SEQUENCING_INTRO = ''
 SEQUENCING_ENDING = 'The defining method used 2×50-cycle paired-end sequencing on a Genome Analyzer IIx.'
-SEQUENCING_UNAVAILABLE = 'The original supplement prints both adapter molecules and PCR-primer construction, but does not name a separate immutable oligo for the historical Genome Analyzer IIx paired-end sequencing-primer reagent.'
+SEQUENCING_UNAVAILABLE = ''
 
 def oligos():
-    return (f'A_adapter_t / PE_forward — 5′-{SHAPE_A_T}-3′', f'A_adapter_b — 5′-/5Phos/{SHAPE_A_B}/3SpC3/-3′', 'treated RT primer pattern — 5′-[A_adapter_t]-RRRY-[target-specific RT primer]-3′', 'control RT primer pattern — 5′-[A_adapter_t]-YYYR-[target-specific RT primer]-3′')
+    return (f'A_adapter_t / PE_forward — 5′-{SHAPE_A_T}-3′', f'A_adapter_b — 5′-{SHAPE_A_B}/3SpC3/-3′ (5′ phosphorylation is inferred for ligation, not printed in the SHAPE-Seq SI)', 'treated RT primer pattern — 5′-[A_adapter_t]-RRRY-[target-specific RT primer]-3′', 'control RT primer pattern — 5′-[A_adapter_t]-YYYR-[target-specific RT primer]-3′')
 
 def workflow() -> Workflow:
     return chain(molecule("barcoded in-vitro RNA pool", (role("RNA-specific 3-prime DNA barcode"),

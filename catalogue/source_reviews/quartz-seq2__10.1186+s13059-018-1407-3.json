@@ -1,0 +1,119 @@
+{
+  "dir": "quartz-seq2__10.1186+s13059-018-1407-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt lines 72–78, 226–256, 318",
+        "finding": "Methods specify 14/15-base cell barcode, 8-base UMI and T24 RT primer architecture, adaptor construction, custom Read1 and cite Additional file 4 for primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PMC5845169 JATS lines 226–256, cell-barcode design, library preparation, sequencing",
+        "finding": "Independently checked that the main article delegates exact v3.1/v3.2 RT and Y-adapter primer sequences to Additional file 5 Table S4, describes barcode lengths 14/15, and places cell indexing during RT before pooled cDNA amplification and Y-adapter library construction."
+      }
+    },
+    {
+      "id": "primer_table",
+      "role": "supplement",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt sheets at lines 1, 389 and 1929–1945",
+        "finding": "Workbook has 384/1536 RT primer members and a Quartz-Seq2 oligo DNA sheet; lines 1929–1945 print tagging, rYshape P5/P7, P5-gMac and custom Read1 oligos. The core oligos are published."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Additional file 5 Table S4 XLSX extracted lines 1–10, 389–397, 1929–1945",
+        "finding": "Independently inspected v3.1 and v3.2 individual RT-primer rows, representative 14- and 15-base cell barcodes, Y-adapter strands, modified P5-gMac/TPC2 and custom Read1DropQuartz. Published conflict: v3.2 sheet heading says SeqLv15mer, its next line says 14 mer; actual eMDRT0001 barcode and article Methods are 15 bases. Public page and note now document this discrepancy."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original MOESM1 supplementary PDF extracted lines 1–90, Supplemental Note RT primer and byproduct synthesis; pooling section",
+        "finding": "Independently checked that Quartz-Seq2 replaced original Quartz-Seq Exo I cleanup with column purification after first-strand barcoding and used shorter 73-mer v3.1 RT primers to control byproducts. It states barcoded first-strand cDNA are pooled and purified before amplification; exact oligos are in Table S4 separately."
+      },
+      "reason": "Supplemental method figures are present; only the primer-development discussion at lines 47–69 has been read.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Quartz-Seq PMC4054835 JATS lines 80–98 and 245–255; original Quartz-Seq2 MOESM1 Supplemental Note lines 47–69",
+        "finding": "Independently compared the inherited poly(A)-tailing WTA: Quartz-Seq digests leftover RT primer with Exonuclease I, adds a poly(A) tail by TdT, synthesizes second strand with tagging primer and uses suppression PCR. Quartz-Seq2 changes to pooled barcoded first-strand cDNA and column purification instead of Exo I; no assumption of identical cleanup was imported."
+      },
+      "reason": "Earlier Quartz-Seq original is local and has a primer table; exact reused chemistry not yet compared.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "dropseq_primer",
+      "role": "linked_material",
+      "locator": "_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt; _data/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "supp_methods",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Quartz2 MOESM1 lines 61–69; Macosko 2015 original Fig. 1 lines 407–419; inventor lab Drop-seq v3.1 lines 117–150",
+        "finding": "Quartz2 supplementary development note says its short v3.1 RT primer was designed from Drop-seq bead RT-primer length. The original Drop-seq paper and inventor lab protocol print SeqB bead primer handle, 12-base barcode, 8-base UMI and T30 architecture. This supports design ancestry, not identity of Quartz2 barcode members."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Macosko 2015 Drop-seq PMC4481139 JATS Fig.1 lines 405–423; inventor lab Drop-seq v3.1 PDF extracted lines 117–150; oligo scraper run on both source bundles",
+        "finding": "Independently verified bead primer has common PCR handle, 12-base cell barcode, 8-base UMI and 30-base oligo(dT), with exact SeqB layout in inventor protocol. Quartz-Seq2 technical note cites Drop-seq to justify a short RT primer; it does not adopt Drop-seq barcodes or bead partitioning, so no exact sequence identity is inferred."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Source Methods, source bundle MANIFEST.tsv, and cited/supplement list",
+      "finding": "Paper names earlier Quartz-Seq and Drop-seq methods and Additional file 4 primer table; original author primer workbook and Quartz predecessor are local."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original Quartz-Seq2 PMC5845169 JATS Methods lines 226–256; MOESM1 supplementary note lines 47–90; MOESM5 Table S4 lines 389–397 and 1929–1945; original Quartz-Seq PMC4054835 JATS lines 80–98",
+      "finding": "Followed the defining article to its exact oligo workbook and technical-development note, and compared the inherited Quartz-Seq WTA. Found the documented 14/15-mer heading discrepancy and the changed first-strand cleanup. Drop-seq-inspired primer design remains a cited chemistry link requiring its own two-pass review, so the record remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Core primer family and barcode tables exist; exact experimental variants and inherited details need full source comparison.",
+      "disposition": "blocked",
+      "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
+    }
+  ],
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+}

@@ -6,7 +6,8 @@ DEFINITION = Definition(
         "Marchal et al., Nature Protocols (2018)",
         "BrdU-labelled nascent DNA is separated into early- and late-S populations, adapter-ligated, immunoprecipitated and sequenced as two quantitative fractions.",
         (role("BrdU-enriched genomic fragment"),),
-        "Ordinary Illumina genomic reads measure coverage in separate early- and late-S libraries; replication timing is their normalized log2 ratio.", True)
+        "Ordinary Illumina genomic reads measure coverage in separate early- and late-S libraries; replication timing is their normalized log2 ratio.", True,
+        "The published Supplementary Data 1 prints the NEBNext adaptor with 5′ phosphate, internal deoxyU and a terminal phosphorothioate bond, plus the i5/i7 index-primer families. Their source-printed sequences are shown below; exact annealed adaptor-end geometry is still under review.")
 
 
 def _replication_graph(key: str, definition, final: Construct,
@@ -17,7 +18,7 @@ def _replication_graph(key: str, definition, final: Construct,
     reviewed: list[str] = []
     plan = SequencingPlan(final, tuple(primers), tuple(p.role for p in primers))
     adapter_geometry = AdapterLigationGeometry.unavailable(
-        "The protocol identifies the supported Illumina library preparation but does not print one immutable adapter-end reagent.")
+        "Supplementary Data 1 prints the NEBNext adaptor oligo and index-primer families, but the annealed ligation-end geometry has not yet been checked from the original source.")
 
     def finish_short_read_branch(prefix: str, template, label: str, *, wga: bool) -> None:
         current = template
@@ -82,8 +83,9 @@ def _replication_graph(key: str, definition, final: Construct,
                     StepKind.TAILING,
                     ((repaired, InputRole.TEMPLATE),
                      (tailing, InputRole.CATALYST)), (tailed,))
-        adapters = graph.input(prefix + "_adapters", label + " Illumina adapters",
-                               MaterialKind.ADAPTER, inferred=True)
+        adapters = graph.input(prefix + "_adapters", label + " NEBNext adaptor printed in Supplementary Data 1",
+                               MaterialKind.ADAPTER,
+                               source="Marchal et al. Supplementary Data 1; doi:10.1038/nprot.2017.148")
         ligase = graph.input(prefix + "_adapter_ligase", label + " DNA ligase",
                              MaterialKind.CATALYST)
         adapted = graph.product(prefix + "_adapted", label + " adapter-ligated DNA",
@@ -235,11 +237,15 @@ def workflow():
 d = DEFINITION
 if d.standard_truseq:
     from batch_ngs import truseq_library
-    FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(list(d.final_parts), d.title + " final library", dual_index=False)
+    FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(list(d.final_parts), d.title + " final library", dual_index=True)
 else:
     FINAL_LIBRARY = Construct([role("Illumina-compatible left end"), *d.final_parts, role("Illumina-compatible right end")], name=d.title + " final library")
     SEQ_PRIMERS = ()
-OLIGOS = ()
+OLIGOS = (
+    "<b>NEBNext Adaptor for Illumina (Supplementary Data 1)</b> — 5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC/ideoxyU/ACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′ (*: terminal phosphorothioate linkage)",
+    "<b>BrdU-IP adaptor qPCR primers (Supplementary Methods)</b> — F 5′-ACACTCTTTCCCTACACGACGC-3′; R 5′-GACTGGAGTTCAGACGTGTGC-3′",
+    "<b>Re-amplification primers (Supplementary Data 2)</b> — TS-Oligo 1 5′-AATGATACGGCGACCACCGAGA-3′; TS-Oligo 2 5′-CAAGCAGAAGACGGCATACGAG-3′",
+)
 SPEC = SimpleNamespace(
     TITLE=d.title, NOTES="01_el_repli_seq.html",
     SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',

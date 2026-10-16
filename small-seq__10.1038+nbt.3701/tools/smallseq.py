@@ -100,11 +100,9 @@ MASK_58S = ("ATCGGCAAGCGACGCTCAGA"
             "AGGAACCCGGGGC"
             "CGCAAGTGCGTTCGAAGTGTCGATGAT")      # 76 nt
 MASK_58S_MODS = "3'-biotin, to block extension"
-# [yellow] what it must be annealing to. The paper says only that it "targets the 3' end
-# of the rRNA molecule" and "binds to the 3' end of the highly abundant 5.8S rRNA"; it
-# never prints the rRNA. Checking this base-by-base needs a reference sequence, which is
-# data and therefore does not live in this repo (README, "Data policy"). Recorded so the
-# next person can BLAST it rather than retype it.
+# [yellow] reverse-complement query for the source-printed mask. This is not an
+# independently matched reference rRNA: a source-owned reference and its coordinates
+# still need validation before this binding view can establish the biological target.
 MASK_58S_TARGET = revcomp(MASK_58S)
 RRNA_58S_NT = 156           # [yellow] textbook length of mature human 5.8S; NOT in the paper
 
@@ -264,15 +262,13 @@ READ1_SITE = RA5_HANDLE
 SEQ_PRIMERS = [
     sp.custom("Read 1", "TruSeq Small RNA read-1 site (RA5) -- required by the construct",
               READ1_SITE, "derived: [green] \"Sequencing starts from the UMI\"",
-              "The paper names no sequencing primer. Any usable one is a suffix of P5 + RA5 "
-              "ending on RA5's last base; the vendor Small RNA read-1 primer is not yet in "
-              "lib/ to check against."),
+              "Derived binding-site query ending immediately before the UMI, as required by "
+              "the detailed protocol. This is not an identification of the loaded instrument oligo."),
     sp.custom("Read 1", "RP1 re-used as read-1 primer (counter-example)", RP1,
               "Reagent setup, p. 2414",
-              "Matches, but stops 5 nt short of RA5's 3' end, so read 1 would start CGATC "
-              "instead of on the UMI -- contradicting the paper. Not what was used."),
-    sp.mismatching(sp.TRUSEQ["R1"], "no TruSeq DNA adapter in this library; a run loaded "
-                                    "only with it reads nothing"),
+              "Matches, but stops 5 nt short of RA5's 3' end; immediate extension would start CGATC "
+              "before the UMI. This binding comparison does not identify an instrument run recipe."),
+    sp.mismatching(sp.TRUSEQ["R1"], "no exact canonical TruSeq DNA Read 1 binding site on this modeled library"),
     sp.custom("Index 1 (i7)", "TruSeq Index 1 (13-nt 3′ annealing site)",
               sp.TRUSEQ["I1"].seq, sp.TRUSEQ["I1"].source,
               "Small-seq's 12-nt SRX common tail and the next RA3 base pair with "
@@ -371,7 +367,7 @@ def protocol_graph():
         library=final,primers=(SEQ_PRIMERS[0], SEQ_PRIMERS[3]),
         acquired_roles=("Read 1", "Index 1 (i7)"),
         read_lengths={"Read 1":READ_LEN, "Index 1 (i7)":SRX_INDEX_NT},
-        limitation="The detailed protocol establishes the SRX index read; it does not print the distinct TruSeq Small RNA Read 1 sequencing-primer oligo."))
+        limitation="The model establishes the SRX index geometry and the UMI-first Read 1 entry site; it does not identify the loaded instrument Read 1 oligo."))
     graph.declare_reviewed_scope(("single_cell_rna","rrna_mask","mask_rrna","ra3","rnl2",
       "ligate_3p","rtp","deadenylase","deadenylate","lambda_exonuclease",
       "digest_free_adapter","ra5","rnl1","ligate_5p","reverse_transcriptase",

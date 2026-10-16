@@ -12,7 +12,10 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ""
+CAVEAT = ('The linked preprint Table 1 prints the PDT-specific EF147 and EF91 '
+          'primers, and Table 2 prints nanobody readout tags. This role-level diagram '
+          'does not yet place those source-known segments; the exact versioned Chromium '
+          'ATAC bead and indexing oligos remain to be checked.')
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
@@ -36,7 +39,8 @@ def workflow():
 
 
 def oligos():
-    return ()
+    return ('EF147 PDT PCR — 5′-AATGATACGGCGACCACCGAGA-3′',
+            'EF91 PDT PCR — 5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGgataccgcggtgtattattgc-3′')
 
 
 def protocol_graph() -> ProtocolGraph:

@@ -1,0 +1,174 @@
+{
+  "dir": "smart-seq3xpress__10.1038+s41587-022-01311-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hagemann-Jensen et al Nature Biotechnology 2022 doi:10.1038/s41587-022-01311-4; PMC9546772 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 30-48 and 74-88",
+        "finding": "Original contrasts Smart-seq3xpress improved TSO and reduced-volume tagmentation; details delegate to author protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC9546772 JATS opening and Methods lines 30-48, 74-88",
+        "finding": "Original article frames miniaturized Smart-seq3xpress and points to author protocol for ordering details."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "linked_material",
+      "locator": "protocols.io Smart-seq3xpress bwh4pb8w; local PDF.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo/TSO lines 80-152 and tagmentation/index lines 1019-1160",
+        "finding": "Prints custom oligos; recommends 10-bp custom Nextera index pairs or 8-bp alternatives and references attached barcode/order XLS."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author protocols.io Smart-seq3xpress PDF text lines 60-155 and 1155-1183",
+        "finding": "Original author protocol prints biotinylated dT30VN and modified TSO, but explicitly refers to linked 384set_Nextera_BC_order.xls for full index pairs; workbook is unavailable."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supplements",
+      "role": "supplement",
+      "locator": "PMC/Springer MOESM1 and MOESM2 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Headers, TSO and oligo keyword scan",
+        "finding": "Additional original supplements present but exact index-order member not established by checked sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Supplementary Note full text, especially lines 84\u2013119 on TSO spacer and 166\u2013174 on index PCR; MOESM2 all 3 original scanned pages independently OCR-inspected",
+        "finding": "Independently read both supplements and ran scraper. MOESM1 explicitly says the improved xpress TSO adds two degenerate W bases between UMI and rGrGrG (lines 101\u2013106) to reduce strand invasion while preserving PCR-primer competition, and discusses index PCR optimization without naming experiment-specific i5/i7 members. MOESM2 is a Nature Reporting Summary and has no ordered oligo or index assignment. The paper/protocol TSO is already modeled; no new index member can be asserted from these supplements."
+      }
+    },
+    {
+      "id": "index_sheet",
+      "role": "linked_material",
+      "locator": "384set_Nextera_BC_order.xls; original author protocol integer51484, DOI yxmvmk1yng3p/v1 public API guidelines.entityMap[2].data; https://content.protocols.io/files/gh7u2zw6.xls; local gh7u2zw6.xls.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original historical API protocol51484: id/doi/uri and guidelines.entityMap[2].data original_name, source and guid9C5F7340342A11EEAFD10A58A9FEAC02; gh7u2zw6.xls.txt lines1\u2013386 UD_i5_indices and387\u2013772 UD_i7_indices, every well/name/full oligo inspected; original PMC9546772 JATS Methods lines88\u201398",
+        "finding": "Recovered source workbook has384complete i5 and384complete i7 ordered primers, all ten-base indexes with P5+i5+s5 or P7+i7+s7. A1 examples are TTGGTACGCG and ATAGGCGCTC. Original v1 and later117877 API refer to identical workbook URL; no later-version substitution. Paper independently specifies10-base dual indexes. Corrected local endpoint/PCR/renderer to source10base geometry, with A1/A1 explicitly illustrative, not an experimental assignment. Old8base endpoint was repository model inheritance, not publication error."
+      },
+      "pass_2": null,
+      "discovered_from": "author_protocol"
+    },
+    {
+      "id": "index_design_paper",
+      "role": "linked_material",
+      "discovered_from": "author_protocol",
+      "locator": "Costello et al2018 doi:10.1186/s12864-018-4703-0; PMC5941783, Additional files1\u20133. Repeatable doi row in catalogue/extra_sources.tsv; local DOI bundle doi_10.1186+s12864-018-4703-0 (also fetched into each protocol bundle).",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+        "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "pcr_cycle_plot_attachment",
+      "role": "linked_material",
+      "discovered_from": "author_protocol",
+      "locator": "https://content.protocols.io/files/gh7e2zw6.pdf; protocolsio_attachment_gh7e2zw6.pdf; PDF title PBMC_PCRcycles_statsv2",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original one-page PCR-cycle QC scatterplot; relevant to amplification performance, does not identify index bases or experimental cell-to-index assignments.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original single page rendered visually and extracted text after bundle oligo scrape; all21facets:10/12/14/15/16/17/18 PCRcycles by exon%,UMI-read%,gene counts versusreadpairs",
+        "finding": "QC plot contains only numerical performance axes/point distributions, no oligos, order table or cell-to-index assignment. Excluded from recovering exact selected indexes; source original opened, not excluded by filename."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "preprint_version",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "doi:10.1101/2021.07.10.451889v1; original2021.07.10.451889_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original preprint Methods228\u2013290 RT/TSO and334\u2013369 librarypreparation/sequencing; data/codeavailability542\u2013546; fullbundle scraper rerun before reading",
+        "finding": "Preprint already specifies10base dual customNextera indexes. It predates improvedWW TSO: originalMethods prints N8rGrGrG, while final2022paper and authorv1protocol explicitly introduceWW. Page represents finalpublishedimprovedTSO, not preprint chemistry. Data/code link is zUMIs processing software, not an oligo order roster; no index-assignment source identified there. This is a version difference, not a demonstrated publication error."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Read original JATS and author protocol; linked index XLS is absent; no categorical absence claim."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original JATS Methods; author protocol PDF primer table and line 155; local MANIFEST.tsv",
+      "finding": "Author protocol explicitly names 384set_Nextera_BC_order.xls for index allocation; it is absent. Article and author protocol print core oligos, so a blanket oligo-absence claim is incorrect."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Assignment of a particular source-known index pair to a published cell is not established by the recovered order workbook",
+      "disposition": "blocked",
+      "evidence": "Available full ordered primers and10base window are established; local page uses explicit illustrative A1/A1. No absence claim is accepted. Independent review of newly recovered workbook/link scope remains pending."
+    }
+  ],
+  "conclusion": "Source-positive custom index recovery corrects local endpoint to10base dual indexes. Newly recovered source and link rows await independent pass; no confirmed-missing claim accepted.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Full original-source bundle scrape before source reading; /tmp/smart3_scraper_new.txt or /tmp/smart3x_scraper_final.txt (reading aid only)",
+      "finding": "Scraper run on all current originals, including recovered workbook, supplements and article HTML. Relevant observations below verified directly in original source text, not inferred from scraper hit counts."
+    },
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Original51484 API guidelines attachment entity and all document/link entities; original PDF p3 and Methods read/index sections",
+      "finding": "Followed actual attachment metadata rather than treating printed workbook filename as inaccessible. Public API unauthed returns can_view/can_download true, exactv1doi and original workbook. Identified additional PCR-cycle plot, opened original page, excluded from index sequence/assignment scope. The author GitHub Smart-seq3xpress main tree contains README/LICENSE/spinnerfiles, not an index-order roster. MGI branch exists in original Methods and is now explicitly outside Illumina endpoint schematic, not a claim of missing source information."
+    },
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+      "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
+    },
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Costello2018 Supplementary Table2 complete sheet, Supplementary design-guidance DOCX references and main JATS availability/method references",
+      "finding": "Linked-information disposition: Table2 links Illumina adapter-sequence letter1000000002694-02 for generic adapter/primer architecture, not a Smart3 ordered index member or cell assignment. Its base transcription is not used to assert a Smart3 selected pair; the recovered xpress complete ordered primers supply their own source bases. Guidance references Levenshtein/mFold/IDT computational-design tools, not protocol-specific oligo order records. Main gnomAD/restricted dataset links are performance/contamination data from Costello study and not Smart3 source assignments; excluded from selected Smart3/xpress pair recovery. No raw reads or physical vendor lot records are required by the schematic claims."
+    }
+  ]
+}

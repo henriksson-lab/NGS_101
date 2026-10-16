@@ -7,10 +7,20 @@ from protocol_graph import InputRole
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
 from protocol_graph import StepKind
-from rna_library_operations import finish_rt_pcr
+from rna_library_operations import finish_pcr
+from adapter_ligation import AdapterLigationGeometry
+from circular import CircularizationGeometry
 from rna_library_operations import molecule
 
-DEFINITION = Definition("PARIS — psoralen analysis of RNA interactions and structures", "10.1016/j.cell.2016.04.028", "Lu et al., Cell (2016)", "AMT photocrosslinking, two-dimensional gel enrichment and proximity ligation preserve the two partners of an RNA duplex in one chimera.", "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"), "The detailed PARIS protocol publishes the complete custom P6 sequencing primer and all adapter, RT and PCR oligos. Its circular-cDNA junction still needs to be represented before primer placement can be computed rather than stated by role.", "RNA", "The exact oligos were not absent: Lu et al.'s detailed PARIS protocol prints them, including modifications and the 24-member RT-index list. The current diagram retains a role-level final construct until the circular-cDNA library geometry is reconstructed.")
+DEFINITION = Definition(
+    "PARIS — psoralen analysis of RNA interactions and structures", "10.1016/j.cell.2016.04.028",
+    "Lu et al., Cell (2016)",
+    "AMT photocrosslinking, two-dimensional gel enrichment and proximity ligation preserve the two partners of an RNA duplex in one chimera.",
+    "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"),
+    "The original 2016 supplement distinguishes HeLa random-hexamer RT from HEK293/mES adapter-primed RT, which inherits Flynn 2016 icSHAPE library preparation. The circular-cDNA junction still needs molecular reconstruction before primer placement can be computed.",
+    "RNA",
+    "The original 2016 Extended Experimental Procedures specify two library routes. The graph follows the HEK293/mES adapter-ligation route inherited from Flynn 2016; the separate HeLa random-hexamer primer is shown below. The additionally labelled 2018 oligos document a later implementation with different RT-primer random/index tracts. Exact circular-cDNA geometry is not yet reconstructed."
+)
 
 
 from protocol_specs import psoralen_workflow
@@ -22,7 +32,11 @@ def _source_workflow():
 
 SPEC = get('paris', definition=DEFINITION,
            workflow_fn=_source_workflow,
-           oligos_fn=paris_oligos,
+           oligos_fn=lambda: (
+               '<b>2016 HeLa random-hexamer RT primer</b> — 5′-/5phos/DDDNNXXXXNNNNNNTACCCTTCGCTTCACACACAAG/iSp18/GGATCC/iSp18/TACTGAACCGCNNNNNN-3′ (D = A/G/T; XXXX = four-base sample barcode; first N6 = duplicate tag; terminal N6 = RNA priming)',
+               '<b>2016 HEK293/mES inherited RT-primer-1 example</b> — 5′-/5phos/DDDNNAACCNNNNAGATCGGAAGAGCGTCGTGGA/iSp18/GGATCC/iSp18/TACTGAACCGC-3′ (Flynn 2016 icSHAPE reagent list; AACC is its printed example index)',
+               '<b>Later implementation: Lu 2018 oligos</b> — these are version-labelled comparison reagents, not an assertion that the 2016 RT primers were identical.',
+               *paris_oligos()),
            sequencing_unavailable='The custom sequencing-primer bases are published; exact placement remains unresolved only because the circular-cDNA junction is not yet represented.')
 
 
@@ -77,8 +91,30 @@ def _local_graph(d, final, primers, *, reagent: str,
     reviewed = ["rna", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
                 "selector", "select_duplexes", "proximity_ligase", "proximity_ligation",
                 "photoreversal", "photoreverse"]
-    finish_rt_pcr(graph, "library", reversed_chimera, final, primers, d.sequencing,
-                   reviewed, label=d.title)
+    adapter = graph.input("rna_adapter", "2016 HEK293/mES barcoded RNA-library adapter", MaterialKind.ADAPTER)
+    adapter_ligase = graph.input("adapter_ligase", "RNA adapter ligase", MaterialKind.CATALYST)
+    tagged = graph.product("tagged_rna", "adapter-tagged PARIS RNA chimera", MaterialKind.MOLECULAR,
+                           state=molecule("adapter-tagged chimera", ("RNA chimera", "RNA library adapter")))
+    graph.react("ligate_adapter", "Ligate the RNA-library adapter (2016 HEK293/mES route)", StepKind.LIGATION,
+                ((reversed_chimera, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                 (adapter_ligase, InputRole.CATALYST)), (tagged,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The original supplement inherits Flynn 2016 step 26 onward; adapter chemistry is source-located, but this graph has not reconstructed the ligation-end Scene."))
+    rt_primer = graph.input("library_rt_primer", "Flynn 2016 adapter-annealing RT-primer-1", MaterialKind.OLIGO)
+    rt = graph.input("library_rt_enzyme", "reverse transcriptase", MaterialKind.CATALYST)
+    cdna = graph.product("library_cdna", "PARIS first-strand cDNA", MaterialKind.MOLECULAR,
+                         state=molecule("PARIS cDNA", ("RT primer and chimera cDNA",)))
+    graph.react("library_rt", "Reverse-transcribe the adapter-tagged RNA", StepKind.REVERSE_TRANSCRIPTION,
+                ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (cdna,))
+    circle_ligase = graph.input("circle_ligase", "CircLigase II", MaterialKind.CATALYST)
+    circle = graph.product("cdna_circle", "circularized PARIS cDNA", MaterialKind.MOLECULAR, state=cdna.state)
+    graph.react("circularize_cdna", "Circularize the cDNA before library PCR", StepKind.CIRCULARIZATION,
+                ((cdna, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
+                geometry=CircularizationGeometry.known("single-strand intramolecular ligation",
+                    statement="Inherited Flynn 2016 icSHAPE step 58 circularizes purified cDNA with CircLigase II; exact circular junction is not yet reconstructed in this model."))
+    reviewed.extend(("rna_adapter", "adapter_ligase", "ligate_adapter", "library_rt_primer",
+                     "library_rt_enzyme", "library_rt", "circle_ligase", "circularize_cdna"))
+    finish_pcr(graph, "library", circle, final, primers, d.sequencing, reviewed, label=d.title)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

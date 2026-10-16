@@ -1,0 +1,83 @@
+{
+  "dir": "scrcat-seq__10.1038+s41467-020-18976-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Original PMC7555861 JATS s41467-020-18976-7_PMC7555861.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article lines 65-70 and 213; scraper run on bundle",
+        "finding": "Original specifies tagged full-length cDNA during RT/template switching, Smart-seq2-based amplification, Tn5 fragmentation and targeted end PCR. Supplementary Table 7 pertains validation cloning primers, not necessarily core library oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC7555861 JATS lines 65-70 and 211-213; scraper on local source bundle",
+        "finding": "Tagged full-length cDNA uses Smart-seq2-style front end. Table 7 is novel-gene validation cloning PCR primers, not direct evidence of core library oligos."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Original publisher MOESM1 supplementary PDF in local bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PDF extracted around lines 3087-3133; scraper hits inspected",
+        "finding": "Supplementary Table 7 is explicitly validation cloning primers. Main supplementary PDF is present, but other chemistry sections and exact run primer mapping require further review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF extracted lines 487-500 and 3087-3133; scraper on local source bundle",
+        "finding": "Supplement contains comparisons to Smart-seq2 and Table 7 labeled cloning primers. I did not find a core library oligo table in these checked sections; remaining MOESM files not independently inventoried."
+      }
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "Smart-seq2 original and detailed method cited as reference 21 in scRCAT main article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact inherited TSO/ISPCR and custom tag variant not cross-checked on this pass."
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "Original MOESM2-5 publisher supplement files in bundle",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Tables/plots include bulky result files; exact chemistry relevance not yet classified source by source."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 65-70, 213; MOESM1 Table 7 at 3087-3133; manifest",
+      "finding": "Identified inherited Smart-seq2 chemistry and separated validation Table 7 from core library claims; full supplement classification remains open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Core scRCAT-seq end-tag primer identities are confirmed absent",
+      "disposition": "blocked",
+      "evidence": "Main article and supplements are available but full chemistry sections and Smart-seq2 predecessor not yet checked twice."
+    }
+  ],
+  "conclusion": "Main article and supplements are available but full chemistry sections and Smart-seq2 predecessor not yet checked twice."
+}

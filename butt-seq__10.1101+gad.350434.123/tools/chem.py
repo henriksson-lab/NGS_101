@@ -1,14 +1,16 @@
 """Butt-seq source oligos, blocked TGIRT starters and reaction graph."""
 import re
 
-from chemdraw import Scene, Segment, feature, oligo, revcomp
+from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp
 import illumina as il
-from pcr import PCRGeometry
+import nextera as nx
+import seqprimers as sp
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (AnnotationSlot, DetailView, InputRole, MaterialKind,
                             ProtocolGraph, SequencingPlan, SourceClaim,
                             SourceDiscrepancy, StepKind)
-from protocol_model import molecule, role, role_library
-from extended_protocols import Definition, UMI, SAMPLE
+from protocol_model import molecule, role
+from extended_protocols import Definition, UMI
 
 # Main article, Materials and Methods, and Supplemental_Primers.xlsx, TGIRT Primers.
 SCR2_RNA = "rArArGrArUrCrGrGrArArGrArGrCrArCrArCrGrUrCrUrGrArArCrUrCrCrArGrUrCrArC/3SpC3/"
@@ -62,31 +64,64 @@ def second_starter():
     return starter_scene(R1ME_RNA, R1ME_DNA_CORE, "R1MER")
 
 DEFINITION = Definition('Butt-seq', '10.1101/gad.350434.123', 'Yu and Rosbash, Genes & Development (2023)', 'TGIRT template switching captures native nascent-RNA 3′ termini without RNA fragmentation, followed by second-strand synthesis and indexed PCR.', 'The terminal insert base reports the nascent RNA 3′ end; a separate UMI read supports molecule deduplication.', '01_butt_seq.html')
-PAYLOAD = (UMI, role("nascent-RNA terminal insert"))
-
 TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
 CAVEAT = ("The starter drawings show the A-ended member of each source-published "
           "A/T/C/G equimolar DNA pool. Both RNA donors have a 3′ /3SpC3/ blocker; "
-          "the 3′ DNA base remains a one-nucleotide overhang.")
-FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
-SEQ_PRIMERS = ()
-FINAL_CAPTION = DEFINITION.endpoint
-SEQUENCING_INTRO = DEFINITION.endpoint
-READ_LENGTHS = None
-SEQUENCING_ENDING = (
-    "The author analysis pipeline expects three FASTQ files: R1 is Read 1, "
-    "R2 carries the eight-cycle UMI, and R3 is the biological Read 2. Its README "
-    "instructs changing the second RunInfo.xml read from indexed to non-indexed "
-    "before demultiplexing. <a href=\"https://github.com/albertdyu/BuTTSeq\">"
-    "Author analysis pipeline</a>. Exact sequencing-primer landing sites remain "
-    "unplaced in this role-level construct.")
-SEQUENCING_UNAVAILABLE = ("The source publishes the starter and PCR oligos, but this "
-                          "role-level final state does not yet establish the complete "
-                          "post-PCR sequence or exact sequencing-primer landing sites.")
+          "the 3′ DNA base remains a one-nucleotide overhang. The final duplex "
+          "places source-published handles and an example Ad1.60 i5 index; insert "
+          "sequence and the two overhang bases vary by molecule. Primer identities "
+          "are sequence-compatible standard Illumina entries, not instrument oligos "
+          "individually named by the paper.")
 
+
+def _known_library_parts():
+    """P5-facing strand implied by the two source-printed starters and PCR primers."""
+    donor = SCR2_DNA_CORE[len(il.P7) + 8:]
+    if (not SCR2_DNA_CORE.startswith(il.P7 + "N" * 8)
+            or donor != revcomp(_rna_bases(SCR2_RNA))
+            or R1ME_DNA_CORE != nx.S5 + nx.ME
+            or AD1_60[:len(il.P5)] != il.P5
+            or AD1_60[len(il.P5) + 8:] != (nx.S5 + nx.ME)[:24]
+            or SCP7 != il.P7[:len(SCP7)]):
+        raise ValueError("Butt-seq source oligos no longer support the inferred library ends")
+    return [Segment("Nextera S5", nx.S5, "s5"),
+            Segment("mosaic end", nx.ME, "me"),
+            Segment("second-starter 3′ overhang", "N", placeholder=True, length_bp=1),
+            role("nascent-RNA insert"),
+            Segment("first-starter 3′ overhang", "N", placeholder=True, length_bp=1),
+            Segment("SCR2 read-2-side donor complement", revcomp(donor), "r2"),
+            Segment("8-base UMI complement", "N" * 8, "umi", placeholder=True,
+                    feature=feature("butt_seq.umi", "umi", "random")),
+            Segment("P7 complement", revcomp(il.P7), "p7")]
+
+
+def pre_pcr_library():
+    return Construct(_known_library_parts(), "Butt-seq second-strand PCR template")
+
+
+def final_library():
+    index = AD1_60[len(il.P5):len(il.P5) + 8]
+    return Construct([Segment("P5", il.P5, "p5"),
+                      Segment("Ad1.60 i5 index", index, "i5",
+                              feature=feature("butt_seq.i5", "sample_index", "whitelist",
+                                              whitelist="Butt Supplemental_Primers.xlsx v2_Ad1 panel"))]
+                     + _known_library_parts(), TITLE + " final library (Ad1.60 example)")
+
+
+FINAL_LIBRARY = final_library()
+SEQ_PRIMERS = (sp.NEXTERA["R1"], sp.TRUSEQ["I1"],
+               sp.NEXTERA["I2"], sp.TRUSEQ["R2"])
+FINAL_CAPTION = DEFINITION.endpoint
+SEQUENCING_INTRO = ("The first index acquisition is an eight-cycle UMI read, output "
+                   "as FASTQ R2 after the author changes RunInfo.xml to non-indexed. "
+                   "The second index acquisition reads the Ad1 i5 sample index. "
+                   "Biological Read 1 and Read 2 are FASTQ R1 and R3, respectively. "
+                   "The table places standard primer sequences on the constructed "
+                   "duplex; the paper does not name the physical instrument oligos.")
+READ_LENGTHS = {"Index 1 (i7)": 8, "Index 2 (i5)": 8}
 def oligos():
     rows = []
     for name, sequence in (("SCR2R_RNA, 3′ blocked", SCR2_RNA),
@@ -138,7 +173,17 @@ def protocol_graph() -> ProtocolGraph:
                 ((first, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
                 (exo_cleaned, primer_fragments))
     graph.discard(primer_fragments, "unused starters are partially digested before second-strand synthesis")
-    alkali = graph.input("alkali", "NaOH followed by HCl neutralization", MaterialKind.CONDITION)
+    alkali = graph.input("alkali", "1 N NaOH followed by 1 N HCl neutralization", MaterialKind.CONDITION)
+    graph.annotate(SourceDiscrepancy(
+        "alkali", "Preprint and published alkaline-hydrolysis concentrations differ",
+        (SourceClaim("bioRxiv v1 10.1101/2023.03.04.531084, library-prep Methods lines 522–523",
+                     "3 µL of 1.3 M NaOH followed by 3 µL of 1.3 M HCl."),
+         SourceClaim("Published article PMC10270195 Materials and Methods, RNA-removal paragraph; "
+                     "Supplemental_Detailed_Protocol.docx lines 289–301",
+                     "3 µL of 1 M (1 N) NaOH followed by 3 µL of 1 M (1 N) HCl.")),
+        "Use the published article and detailed-protocol 1 N reagents.",
+        "The published article and its practical protocol agree on 1 N for both reagents.",
+        "The sources do not say whether the earlier 1.3 M condition was tested or changed during revision."))
     dna_only = graph.product("rna_removed", "first-strand cDNA after alkaline RNA removal",
                              MaterialKind.MOLECULAR, state=first.state)
     removed_rna = graph.product("removed_rna", "hydrolyzed RNA and dissociated TGIRT",
@@ -168,8 +213,7 @@ def protocol_graph() -> ProtocolGraph:
     double = graph.product(
         "double_stranded", "double-stranded Butt-seq product",
         MaterialKind.MOLECULAR,
-        state=molecule("double-stranded Butt-seq product", (
-            UMI, role("nascent-RNA insert"))))
+        state=pre_pcr_library())
     graph.react("second_strand", "Second TGIRT template switch and strand synthesis",
                 StepKind.TEMPLATE_SWITCHING,
                 ((dna_only, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
@@ -187,10 +231,12 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("library_pcr", "PCR-amplify and index", StepKind.PCR,
                 ((double, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (amplified,), geometry=PCRGeometry.unavailable(
-                    final,
-                    reason="The primer oligos are published, but the complete pre-PCR duplex "
-                           "and terminal overhang choice are not yet represented at base level."))
+                (amplified,), geometry=PCRGeometry.exact(
+                    double.state, PCRPrimer("v2_Ad1.60", AD1_60, anneal_nt=24),
+                    PCRPrimer("SCP7", SCP7),
+                    statement="Primer binding is derived from the published workbook; "
+                              "Ad1.60 is one member of the 25-member index panel, and "
+                              "both one-base TGIRT overhangs vary by molecule."))
     size_rule = graph.input("size_selection", "Butt-seq library-size selection rule",
                             MaterialKind.SELECTION)
     library = graph.product("sequencing_library", "size-selected Butt-seq library",
@@ -202,6 +248,21 @@ def protocol_graph() -> ProtocolGraph:
                 (library, rejected))
     graph.discard(rejected, "falls outside the selected nascent-RNA library size")
     graph.sequence(library, SequencingPlan(limitation=d.endpoint))
+    graph.annotate(SourceDiscrepancy(
+        "sequencing_library", "First Read 2 base depends on an unreported run primer",
+        (SourceClaim("Yu and Rosbash 2023, Results paragraph beginning 'To analyze transcriptional dynamics'",
+                     "The first sequenced Read 2 base should reflect the last nascent-RNA base."),
+         SourceClaim("Supplemental_Primers.xlsx SCR2_DNA family and Illumina Adapter Sequences "
+                     "#1000000002694 TruSeq Read 2 sequencing primer",
+                     "The SCR2 donor is 35 bases; the standard TruSeq Read 2 primer pairs "
+                     "with 34 bases and would read a fixed T before the variable overhang.")),
+        "Show the standard-primer-compatible landing and its fixed-T first base.",
+        "The starter sequence is source-printed and the 34-base canonical primer is "
+        "sequence-compatible with the constructed library.",
+        "The paper does not identify the physical Read 2 oligo or provide Primers.xml. "
+        "A 35-base custom primer could skip the fixed T; the reported first-base "
+        "interpretation cannot be confirmed from the available run records.",
+        slot=AnnotationSlot.SEQUENCING))
     reviewed.extend(("pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr",
                      "size_selection", "select_size", "sequencing_library"))
     graph.declare_reviewed_scope(reviewed, source)

@@ -32,7 +32,7 @@ TITLE="scSPRITE — cell and spatial-complex barcoding"
 NOTES="01_scsprite.html"
 SOURCE='Defining preprint: <a href="https://doi.org/10.1101/2020.08.11.242081">Arrastia et al. (2020)</a>; detailed published method: <a href="https://doi.org/10.1038/s41587-021-00998-1"><i>Nature Biotechnology</i> (2022)</a>.'
 SUMMARY="Three split-pool ligations barcode intact nuclei; after selecting individual nuclei and fragmenting chromatin, three more rounds extend the same molecules with a spatial-cluster barcode."
-CAVEAT="The first three tag parts identify the cell and participate again in the full six-part spatial-cluster identifier. The data model records both overlapping composite meanings explicitly."
+CAVEAT="The first three tag parts identify the cell and participate again in the full six-part spatial-cluster identifier. The original SPRITE Supplementary Table S5 prints the DPM, Odd, Even and Terminal oligo families; the scSPRITE authors' read parser lists all 96 Y barcode strings, which match the older Terminal Bottom barcodes. The complete scSPRITE Y-even ligation oligo and PCR primer pair remain unresolved, so the displayed final construct is a tag-order model rather than source-proven end geometry."
 TAGS,IDENTIFIERS=single_cell_barcode()
 FINAL_LIBRARY,SEQ_PRIMERS=final_library(TAGS,"scSPRITE library")
 for x in IDENTIFIERS: x.bind(FINAL_LIBRARY)

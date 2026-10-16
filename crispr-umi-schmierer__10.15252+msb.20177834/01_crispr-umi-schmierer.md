@@ -54,6 +54,18 @@ more cells.
 
 Built from **lentiGuide-Puro (Addgene #52963)** by
 
+🟢 The Schmierer lab later deposited an [empty guide-library backbone as Addgene
+#196709](https://www.addgene.org/196709/) under the name `lentiGuide-Puro.3xBsmBI`.
+The official record cites this 2017 paper, names #52963 as its parent, and lists a
+verified full sequence map. A [later original study's Guide library construction
+method](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3003297)
+explicitly identifies `pLenti-Puro-AU-flip-3xBsmBI` as Addgene #196709 and clones
+its guide/RSL insert into that backbone. That later insert has a 10-nt RSL, so it
+does not replace the 2017 six-nt insert. The full Addgene map requires login;
+without reading its bases, exact identity with the reconstruction below is 🟡
+unverified. The 2017 peer-review discussion that the vector was not deposited
+describes its availability then, before this later deposit.
+
 > "replacing the sequence `gttttagagctagaaatagcaagttaaaa……TTTTTT` with
 > `gtttAagagctagaaatagcaagttTaaa……TTTTTTcgtctct` to create an AU-flip (Chen *et al*, 2013)
 > and an additional BsmBI site downstream of the tracrRNA."
@@ -66,8 +78,10 @@ AU-flip    GTTTAAGAGCTAGAAATAGCAAGTTTAAAT...
                ^                    ^
 ```
 
-🟡 It removes a `TTTT` stretch that Pol III can read as a terminator, and restores base
-pairing in the lower stem — the same motivation as the F+E scaffold, by a smaller edit.
+🟢 [Chen *et al.* 2013](https://doi.org/10.1016/j.cell.2013.12.001), Results and
+Figure 1C, describe the A–U pair flip as removing a putative four-U U6 Pol III
+terminator. Their separate sgRNA(E) hairpin extension and combined F+E design are
+not the same as the AU-flip edit printed by Schmierer.
 
 > 🔴 **Consequence worth stating loudly:** `GTTTTAGAGCTAGAAATAGCAAG` — the diagnostic head of
 > the original scaffold, and the annealing site of several published primers and probes — is
@@ -100,6 +114,24 @@ the Illumina site, double-stranded with outer primers, and cloned by **Gibson as
 
 **Library** 🟢: 2,325 genes, **23,279 guides**, 101 non-targeting controls; guide sequences
 taken from Wang *et al.* 2014; synthesised on CustomArray.
+
+### Source-table identity check
+
+The paper's 23,279-guide count is the number of distinct 20-nt sequences in
+[EV2, the original guide CSV](https://pmc-oa-opendata.s3.amazonaws.com/PMC5658704.1/MSB-13-945-s002.csv).
+EV2 has 23,332 rows and distinct guide IDs, 53 more than its distinct-sequence count;
+this is not a publication error. [EV3, the original GMT archive](https://pmc-oa-opendata.s3.amazonaws.com/PMC5658704.1/MSB-13-945-s003.zip)
+has 2,335 gene-set rows and 23,332 guide-ID memberships. Its contents are byte-identical
+to the preprint's `114355-3.tsv`.
+
+⚠ **Published source discrepancy:** EV2 uses `NKX2-1_10` while EV3 uses
+`NKX2-1-10`, and the same underscore-to-hyphen change appears for 10 other
+`NKX2`, `NKX3`, and `NKX6` guide IDs ending in `10`. All other 23,321 IDs
+match. EV2 is the sequence-bearing table, so use its underscore IDs when
+looking up guide bases. The page uses the 23,279 distinct-sequence count and
+draws a generic guide; it stores no individual guide IDs. It remains unclear whether EV3's
+hyphen spelling was intentional or a table-generation error; we do not silently
+rewrite either original file.
 
 ## 5. Why this changes the readout ✅
 

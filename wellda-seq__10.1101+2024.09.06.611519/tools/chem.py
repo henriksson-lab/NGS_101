@@ -12,7 +12,10 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ""
+CAVEAT = ('The source prints both custom ATAC Tn5 adapters and well-indexed ATAC/DNA '
+          'primer tables (preprint Methods, “Tn5 transposome assembly”; Supplementary '
+          'Tables 5–6). This role-level diagram has not yet mapped a selected well barcode '
+          'or the versioned commercial DNA transposome onto an exact final molecule.')
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
@@ -36,7 +39,9 @@ def workflow():
 
 
 def oligos():
-    return ()
+    return ('DEpi_ME_t1 — 5′-GCCTCCCTCGCGCCATAGATGTGTATAAGAGACAG-3′',
+            'DEpi_ME_t2 — 5′-CTTGCCAGCCCGCTCAGAGATGTGTATAAGAGACAG-3′',
+            'ME reverse — 5′-/5Phos/CTGTCTCTTATACACATCT-3′')
 
 
 def protocol_graph() -> ProtocolGraph:

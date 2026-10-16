@@ -1,0 +1,93 @@
+{
+  "dir": "crispr-mip__10.1101+2024.03.28.587082",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "CRISPR-MIP bioRxiv DOI:10.1101/2024.03.28.587082; 2024.03.28.587082_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 81-132, 395-476",
+        "finding": "Original preprint describes MIP hybridization, circularization and UMI deduplication, and explicitly directs all probes/primers to Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 methods lines 445-522 and Table S2 reference; read Fig. 1C text lines 120-130",
+        "finding": "Author preprint places all CRISPR-MIP probes and primers in Table S2; 13-nt UMI and PCR P5/P7 appendage described."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "2024.03.28.587082_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "XLSX extracted text sheet headings around lines 1531 and 2296",
+        "finding": "Workbook contains experimental count/analysis sheets, including MIP dedup test and MLE; no library oligo assertion based on this file."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "media-1.xlsx.txt sheet PCR_test header and first data rows",
+        "finding": "This workbook is a PCR test/result table, not the primer source. Its inclusion as oligo evidence would be wrong."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "supp_table_2",
+      "role": "supplement",
+      "locator": "2024.03.28.587082_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "XLSX extracted text lines 1-10; MIP_probe_1–3 each have 13 consecutive N bases in lines 3-5",
+        "finding": "Table S2 has 5′-phosphorylated MIP_probe_1 onward and PCR primer sequences, including N13 UMI. Initial pass_1 transcription said N12; corrected after independent source check identified N13."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "media-2.xlsx.txt sheet primers & probes lines 1-23; scraper hits MIP_probe_1 and CRISPR_PCR2-F0",
+        "finding": "Original Table S2 gives nine 5-prime phosphorylated MIP probe variants with N13 UMI and index variations, plus P5/P7 primer family. The pass_1 statement N12 is a transcription error: counting the printed NNNNNNNNNNNNN gives N13, matching the current protocol model."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "lenticrispr_vector",
+      "role": "linked_material",
+      "locator": "lentiCRISPRv2 vector original map/source cited by preprint",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original vector map/source required for genomic probe-arm placement is not yet obtained.",
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Preprint lines 81-132, 395-476; Table S2 lines 1-10; scraper reviewed",
+      "finding": "Followed preprint into original probe table and checked modifications. Vector source remains needed to validate genomic-target arm placement."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint methods line 445 Table S2 pointer and actual media-2 oligo workbook",
+      "finding": "Followed explicit original Table S2 reference. Underlying lentiCRISPRv2 vector source remains unavailable."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+}

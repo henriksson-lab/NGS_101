@@ -1,0 +1,333 @@
+{
+  "dir": "methyl-hic__10.1038+s41592-019-0502-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "li_2019_article",
+      "role": "defining",
+      "locator": "doi:10.1038/s41592-019-0502-z; s41592-019-0502-z_PMC6765429.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Methods lines 79–93, especially Methyl-HiC line 81, single-cell line 85, and WGBS line 89",
+        "finding": "Bulk branch ligates adapters on captured contact DNA before bisulfite conversion, but names no adapter kit or sequence. The explicit cytosine-methylated TruSeq adapter belongs to the separate WGBS control paragraph and cannot be assigned to bulk Methyl-HiC."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC6765429 JATS lines 79-93, especially full Methods paragraphs 81, 85, 89",
+        "finding": "Bulk says adapter ligation on captured contact DNA before bisulfite, without kit/strand/index identity. Separate WGBS control paragraph alone specifies a cytosine-methylated Illumina TruSeq adapter. Single-cell branch instead uses P5L random priming and Swift Adaptase. These cannot be conflated."
+      }
+    },
+    {
+      "id": "li_2019_springer_protocol",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_41592_2019_502_MOESM1_ESM.pdf.txt, original Springer Supplementary Protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Reagent list lines 185–211, oligo table 212–258, in situ Hi-C 260–361, bulk branch 363–635, especially indexed adapter 593–622",
+        "finding": "Names TruSeq PCR Primers and an indexed 'Illuminar Adapter' for bulk on-bead ligation but does not print its strands, kit generation, index member, or ligation-ready end. Printed P5L/P7L oligos belong to the separately headed single-cell branch. Primer scraper run on the full source bundle and its six family hits checked against the oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM1 lines 185-211, 212-258, 269-370, 373-395 and 593-649; ran scrape_primers.py on bulk source bundle",
+        "finding": "Bulk on-bead ligation is a 3 µL line labelled “Illuminar Adapter Original” at 625-627, after indexed-sample split lines 604-606; exact strands/end geometry/selected index absent. Reagent list names TruSeq PCR primers at 208. P5L/P7L printed primer families at 212-258 serve the later single-cell branch, not bulk."
+      }
+    },
+    {
+      "id": "pmc_protocol_copy",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-5.pdf.txt, PMC copy of author protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Oligo table lines 59–105 and bulk methods corresponding to Springer MOESM1 lines 363–635; scraper family hits lines 60, 66 and 83",
+        "finding": "Second copy of the same author protocol, not independent source confirmation. Its printed random/P5L/P7L families are for scMethyl-HiC; bulk indexed adapter sequence remains unprinted."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-5 oligo table lines 59-105, bulk adapter-ligation section corresponding to Springer MOESM1 lines 593-635",
+        "finding": "Author-copy protocol repeats single-cell primer table and bulk generic indexed-adapter step; second copy does not identify a selected bulk adapter."
+      }
+    },
+    {
+      "id": "nature_reporting_summary",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_41592_2019_502_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Reporting summary contains no bulk adapter or oligo details; its brief method at lines 159–164 concerns the single-cell branch.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Reporting summary lines 1–55 and 145–180",
+        "finding": "Reporting summary points to analysis software and briefly describes single-cell sorting; no bulk adapter family or sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2 lines 1-20 and 151-180, especially 159-164",
+        "finding": "Flow cytometry reporting summary briefly describes the single-cell branch only; no bulk adapter or oligo details."
+      }
+    },
+    {
+      "id": "pmc_supp_1_figures",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure captions and results, no bulk adapter inventory.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Supplementary Figure captions, lines 1–62",
+        "finding": "The captions discuss results and workflow broadly; no ligated oligo strands, indexed member or kit designation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-1 lines 1-62, including figure 1 workflow caption and figure 5 single-cell caption",
+        "finding": "Figure captions give broad workflows and result comparisons, not bulk ligation oligo bases or selected index."
+      }
+    },
+    {
+      "id": "pmc_supp_2_loops",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Genome-contact coordinate results, not reagent methods.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "5K_loops sheet header and first coordinate rows",
+        "finding": "No oligo or adapter column in the contact-loop result table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-2 5K_loops sheet lines 1-12",
+        "finding": "Genome loop coordinate and metric result rows, not a reagent table."
+      }
+    },
+    {
+      "id": "pmc_supp_3_cells",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Per-cell read and methylation metrics, not reagent methods.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Supplementary_Table_2 header and first rows",
+        "finding": "Metrics table lacks oligo and adapter identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-3 Supplementary_Table_2 sheet lines 1-12",
+        "finding": "Per-cell contact and methylation metrics, no adapter/primer columns."
+      }
+    },
+    {
+      "id": "pmc_supp_4_compartments",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Compartment-coordinate results, not reagent methods.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Compartment_A_to_B sheet header and first coordinate rows",
+        "finding": "Genomic intervals only; no reagent oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-4 compartment sheet headers and coordinate rows 1-12, 44, 104",
+        "finding": "Compartment interval results, not library construction chemistry."
+      }
+    },
+    {
+      "id": "pmc_supp_6_notes",
+      "role": "supplement",
+      "locator": "s41592-019-0502-z_supp_NIHMS1532780-supplement-6.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Inventory of published background datasets, not library construction.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Published datasets list lines 1–57",
+        "finding": "No bulk indexed adapter or ligation geometry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC supplement-6 lines 1-57",
+        "finding": "Published-dataset inventory; no bulk adapter designation."
+      }
+    },
+    {
+      "id": "rao_2014_hic",
+      "role": "predecessor",
+      "locator": "Rao et al. 2014 doi:10.1016/j.cell.2014.11.021; local in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Local protocol lines 1–14, 227–265",
+        "finding": "The linked Hi-C procedure uses an Illumina indexed adapter on beads and asks the operator to record sample-index combination, but does not give the member sequence or end geometry. It says this copy transcribes Rao with deviations; it is predecessor context, not a direct Li bulk reagent record."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Rao 2014 original PMC5635824 JATS lines 90 and 241; local Hi-C_Protocol.pdf.txt lines 1-14 and 227-261",
+        "finding": "Rao original accessible article describes biotin proximity ligation and Illumina sequencing, without adapter identity in checked JATS methods. The local Hi-C_Protocol PDF is explicitly an independent transcription with deviations, so its “Illumina indexed adapter” line 236-237 is not original Rao source evidence."
+      }
+    },
+    {
+      "id": "illumina_truseq_guide",
+      "role": "linked_material",
+      "discovered_from": "li_2019_springer_protocol",
+      "locator": "Illumina 2012 TruSeq DNA Sample Preparation Guide 15026486_C; https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseqdna/TruSeq_DNA_SamplePrep_Guide_15026486_C.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Official guide adapter sequence tables, PDF extracted lines 1071–1147",
+        "finding": "Guide prints distinct TruSeq indexed adapter options, including LT single-index and HT dual-index formats. Li's bulk procedure never specifies the kit variant or chosen index, so no single guide member can be assigned to its library."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official Illumina TruSeq DNA Sample Preparation Guide 15026486 Rev C (2012), PDF lines 1071-1147",
+        "finding": "Guide lists LT six-base single-index AD series and HT eight-base D701-D712/D501-D508 dual-index options. Coincidence with Li single-cell primer index labels does not identify the bulk ligated member or prove its kit generation."
+      }
+    },
+    {
+      "id": "zymo_d5005_guide",
+      "role": "linked_material",
+      "discovered_from": "li_2019_article",
+      "locator": "Zymo EZ DNA Methylation-Gold D5005 manual; https://files.zymoresearch.com/protocols/_d5005_d5006_ez_dna_methylation-goldga_o_kit.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Bisulfite-conversion reagent guide, no evidence identifying the ligated sequencing adapter.",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Official manual title and reagent/procedure scope; available copy is a later revision",
+        "finding": "Confirms D5005 belongs to the named conversion kit family, but cannot resolve the bulk indexed-adapter strands or selected member; no historical adapter sequence is claimed from it."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official Zymo EZ DNA Methylation-Gold manual version 2.1.5 PDF lines 0-27 and 28-48",
+        "finding": "Manual identifies D5005 as bisulfite conversion kit, not a sequencing-adapter source; later revision cannot determine Li bulk ligated strands."
+      }
+    },
+    {
+      "id": "rao_2014_extended_original",
+      "role": "linked_material",
+      "discovered_from": "rao_2014_hic",
+      "locator": "Rao et al. 2014 Cell Extended Experimental Procedures I.a.1, original supplementary methods to doi:10.1016/j.cell.2014.11.021; Rao-3D-map-human-genome-cell-2014-extended.pdf.txt in the in-situ-hi-c source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-bulk-methyl-review",
+        "date": "2026-10-15",
+        "locations": "Original Rao extended PDF text lines 6628–6632 and 6768–6784; Stanford-hosted full article with Extended Experimental Procedures",
+        "finding": "Original method step 54 says only 'Illumina indexed adapter' and instructs recording the chosen sample-index combination. It does not print the adapter member or ligation-ready strands in the inspected in situ Hi-C section. Step 60 names Illumina primers without their bases. This agrees with the ENCODE transcription on the relevant point."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original Rao extended PDF I.a.1 heading lines 6632-6634 and Steps 43-60 lines 6755-6784",
+        "finding": "Independently read original in situ Hi-C steps: A-tailing precedes bead-bound ligation; step 54 adds 3 µL of an Illumina indexed adapter and says record sample-index combination; step 60 amplifies with Illumina primers/protocol (Illumina, 2007). Neither line selects adapter member or prints its bases or end structure. The generic Rao predecessor therefore does not establish Li bulk Methyl-HiC adapter identity."
+      }
+    },
+    {
+      "id": "illumina_2007_chip_candidate",
+      "role": "linked_material",
+      "discovered_from": "illumina_2007_protocol",
+      "locator": "Official Illumina Preparing Samples for ChIP Sequencing of DNA, Part 11257047 Rev A (© 2007), https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/cluster_station/11257047_ChIP_Sample_Prep.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original official 2007 document offers an unindexed adapter mix, while the Rao predecessor explicitly uses an indexed adapter. It is a plausible period document but not evidence for Rao or Li bulk adapter identity.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Official Illumina original PDF cover/© 2007 and pp. 3–4, 8–9, 12; web PDF text lines 0–37, 70–99, 166–187 and 231–251",
+        "finding": "Original guide uses Illumina Adapter Oligo Mix part 1000521 and PCR Primer 1.1/2.1 parts 1000537/1000538, with no indexing reagent. Rao step 54 requires an indexed adapter, so this candidate cannot identify its ligated strands."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Official Illumina 11257047 Rev A original PDF cover and pp. 4–5 (reagent list), 9 (adapter ligation), 12 (PCR); web lines 0–53, 79–99, 166–187, 231–259; Rao 2014 original Extended Experimental Procedures steps 54/60, local lines 6774–6784",
+        "finding": "Independent read confirms 2007 guide supplies Adapter Oligo Mix part 1000521 plus PCR Primer 1.1 and 2.1 parts 1000537/1000538; no indexed adapter or chosen barcode is identified. Rao step 54 explicitly calls for an indexed Illumina adapter; its “Illumina, 2007” citation occurs at step 60 for amplification. This candidate can contextualize the historical PCR procedure, but it does not determine Rao or Li bulk adapter strands/index."
+      }
+    },
+    {
+      "id": "illumina_2007_protocol",
+      "role": "linked_material",
+      "discovered_from": "rao_2014_extended_original",
+      "locator": "Rao et al. 2014 Extended Experimental Procedures I.a.1 step 60 cites “Illumina, 2007” without a document number; exact indexed-adapter protocol not identified.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact 2007 Illumina reference is underspecified. A separate period ChIP guide was recovered, but it has a nonindexed Adapter Oligo Mix and cannot establish Rao’s cited indexed-adapter protocol or Li’s selected bulk kit.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Rao Extended Experimental Procedures step 54/60; official Illumina 2007 ChIP Sample Prep 11257047 Rev A PDF pp. 3–4, 9, 12; targeted vendor search for indexed-adapter 2007 protocol; original Methyl-HiC source-bundle oligo scraper",
+        "finding": "Rao says indexed adapter but cites Illumina 2007 without title or identifier. Official period ChIP guide is nonindexed and cannot be the specific indexed source. No matching exact indexed guide recovered."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Preparing Samples for ChIP Sequencing of DNA Part 11257047 Rev A original PDF pp. 4–5 (kit parts), 9 (adapter), 12 (PCR); web lines 79–99, 166–187, 231–259; original Rao 2014 Extended Experimental Procedures I.a.1 steps 54, 60 local text lines 6774–6784; Methyl-HiC source-bundle oligo scraper run first",
+        "finding": "Rao step 54 explicitly ligates an indexed Illumina adapter, whereas the candidate 2007 guide names generic Adapter Oligo Mix and PCR Primer 1.1/2.1 without an index. Rao step 60 cites “Illumina, 2007” only for amplification, so the candidate is period-matched for PCR practice but cannot establish the indexed adapter identity or Li bulk selected kit."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root-bulk-methyl-review",
+      "date": "2026-10-15",
+      "locations": "Li article Methods 79–93; MOESM1 lines 185–211, 260 and 593–635; Rao linked protocol lines 1–14 and 227–265; official Illumina TruSeq guide adapter tables",
+      "finding": "Followed the named Rao in situ Hi-C predecessor through its original Extended Experimental Procedures, plus Illumina TruSeq PCR-primer family and Zymo conversion kit. The original Rao method names a generic indexed adapter and multiple Illumina adapter families remain possible; Li's chosen bulk member and independent check of the newly recovered original remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Li JATS Methods lines 79-93; Springer MOESM1 lines 185-211, 269-370 and 593-649; Rao original JATS lines 90 and 241; independent Hi-C transcription lines 1-14, 227-261; official Illumina guide Rev C lines 1071-1147; Zymo D5005 guide title/version",
+      "finding": "Followed the cited Hi-C predecessor and independently read original Rao Extended Experimental Procedures step 54 and step 60, as well as the transcription, 2012 Illumina adapter alternatives and Zymo conversion manual. Li bulk still gives no chosen adapter member. Rao cites an Illumina 2007 protocol that has not been identified or checked. Independent additional pass inspected the original official 2007 ChIP guide and Rao steps 54/60. Rao cites 2007 Illumina for PCR, while its indexed ligation adapter remains unidentified; the candidate guide uses an unindexed adapter mix. Exact Li bulk adapter source coverage remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact bulk Methyl-HiC ligated adapter strands, end geometry and selected index member are unavailable",
+      "disposition": "blocked",
+      "evidence": "Two independent readings of Li article and Springer/PMC protocol found only a generic indexed Illumina adapter in bulk, while the cytosine-methylated TruSeq adapter statement belongs to a separate WGBS control. Two readers checked original Rao Extended Experimental Procedures and also found only a generic indexed adapter. The version-matched Illumina 2007 protocol cited by Rao remains unexamined."
+    },
+    {
+      "claim": "The single-cell P5L and P7L primers are missing from the source",
+      "disposition": "resolved",
+      "evidence": "Original Springer MOESM1 lines 212–258 prints them, but they belong to separately documented scMethyl-HiC, not bulk Methyl-HiC."
+    }
+  ],
+  "conclusion": "Two independent readers checked the official 2007 ChIP guide candidate and found that its unindexed adapter mix cannot identify Rao’s indexed adapter or Li’s bulk selected kit. The precise 2007 reference remains unresolved. Exact strands, geometry and index remain blocked."
+}

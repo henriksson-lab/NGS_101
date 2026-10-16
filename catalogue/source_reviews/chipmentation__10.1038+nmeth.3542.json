@@ -1,0 +1,178 @@
+{
+  "dir": "chipmentation__10.1038+nmeth.3542",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Schmidl et al Nat Methods 2015 doi:10.1038/nmeth.3542 PMC4589892",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_PMC4589892.xml.txt lines 64-76,128; scraper zero in named bundle",
+        "finding": "Online Methods name Nextera Tag DNA Enzyme and custom Nextera PCR primers from Buenrostro 2013; ChIPmentation tags bead-bound immunoprecipitated chromatin."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS nmeth.3542_PMC4589892.xml.txt lines 58-80",
+        "finding": "Methods contrast standard ChIP-seq, purified ChIP DNA tagmentation, and tagmentation on immunoprecipitated bead-bound chromatin; PCR amplification is downstream."
+      }
+    },
+    {
+      "id": "supp_fig",
+      "role": "supplement",
+      "locator": "Published Supplementary Figure file NIHMS64423 supplement-1 / publisher MOESM629",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-1.pdf.txt lines 1-34",
+        "finding": "Workflow schematic and library-size comparisons, no separate oligo table in inspected opening pages."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM629 text lines 1-34",
+        "finding": "Supplementary figures compare workflow and output; they are not an oligo table."
+      },
+      "reason": "Figures rather than oligo synthesis list."
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "NIHMS64423 supplement-2 detailed ChIP variants",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-2.pdf.txt lines 1-25 and ChIP version headings; scraper zero",
+        "finding": "Detailed immunoprecipitation variants before Tn5; no new library adapter primer table in inspected sections."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS64423 supplement-2 PDF text pp. 1–2, heading and complete ChIP versions 1–3",
+        "finding": "Source gives three pre-tagmentation chromatin IP branches: fixation, lysis/sonication, antibodies, bead washes, proteinase/crosslink reversal and DNA cleanup. It prints no Tn5-loaded mosaic-end strands or library PCR oligos; those remain in linked ATAC/vendor sources."
+      }
+    },
+    {
+      "id": "supp_source_csv",
+      "role": "supplement",
+      "locator": "Publisher MOESM628 source-data CSV",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level values include Tn5 dose/time and sequencing metrics, but no loaded-transposome strands or oligo identities.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_41592_2015_BFnmeth3542_MOESM628_ESM.csv header and first rows",
+        "finding": "Figure/panel/fragment_length normalized read counts, no oligo columns."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM628 CSV header and 1,733 data rows; parsed Figure 1 panels b,c,e,g,h,I and variable columns",
+        "finding": "Figure-level numerical data include fragment lengths, normalized counts, Tn5 dose/time labels, mapping and overlap measures. No adapter, transposome-loading or oligo-sequence column. It informs optimization results but not the missing loaded-Tn5 strands."
+      }
+    },
+    {
+      "id": "supp_tab1",
+      "role": "supplement",
+      "locator": "NIHMS64423 SupTab1 / publisher MOESM631",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab1.xlsx.txt first rows",
+        "finding": "Protocol comparison, not primer list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM631/SupTab1 workbook header and first rows",
+        "finding": "Sequencing summary fields include read type/length and sample metadata, not transposome synthesis."
+      },
+      "reason": "Comparative methods overview."
+    },
+    {
+      "id": "supp_tab2",
+      "role": "supplement",
+      "locator": "NIHMS64423 SupTab2 workbook",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab2.xlsx.txt header and rows 1-7; scraper zero",
+        "finding": "Sequencing Summary table records library run metrics and read lengths, no oligo ordering sequences."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS64423 SupTab2 XLSX extracted sheet Sequencing Summary lines 1–89; header and all 87 rows",
+        "finding": "Sequencing summary lists run metrics rather than oligos. Among ChIPmentation rows, 44 are single-read 50 cycles and 9 paired-end 100 cycles; therefore the public page should describe both read configurations, not imply every run was paired-end. No loaded-Tn5 strand identity is printed."
+      },
+      "reason": "Run layout and metrics are informative for sequencing presentation, but do not identify loaded-Tn5 strands or oligo sequences."
+    },
+    {
+      "id": "buenrostro2013",
+      "role": "predecessor",
+      "locator": "Buenrostro et al 2013 ATAC-seq doi:10.1038/nmeth.2688 Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
+        "finding": "Cited original gives Ad1 universal and Ad2 indexed primer family; no novel ChIPmentation-only ordering oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Buenrostro 2013 publisher MOESM200 lines 1-101",
+        "finding": "Cited ATAC source publishes custom Ad1_noMX and indexed Ad2 PCR oligos, distinct from loaded commercial Tn5 strands."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_kit",
+      "role": "linked_material",
+      "locator": "Historical Illumina Nextera DNA Sample Prep Kit Tagment DNA Enzyme",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Vendor transposome adapter composition not independently checked.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published Methods, supplement figures/tables, cited ATAC-seq Table 1 and Nextera vendor kit identity.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "ChIPmentation JATS lines 58-80; original supplementary figure and sequencing summary; Buenrostro MOESM200 lines 1-101",
+      "finding": "ATAC predecessor supplies PCR oligos, but commercial Tn5 kit details remain a relevant unavailable source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical kit-loaded Tn5 mosaic-end strands",
+      "evidence": "PCR primer family is printed in cited ATAC source; commercial transposome guide unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent reads now cover all accessible article, supplement and ATAC predecessor rows. Original Nextera DNA Sample Prep Kit transposome documentation remains unavailable, so the historical loaded mosaic-end strand identity is blocked rather than confirmed absent."
+}

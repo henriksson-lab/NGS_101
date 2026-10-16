@@ -1,0 +1,84 @@
+{
+  "dir": "alkaniline-seq__10.1002+anie.201810946",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "author_paper",
+      "role": "defining",
+      "locator": "Marchand2018.pdf.txt, author-hosted 2018 paper",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Library preparation and Methods",
+        "finding": "Paper gives chemistry; full 2018 kit identity unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 176-195 and 440-450",
+        "finding": "The paper describes 5-prime adapter ligation and sequencing library preparation but does not print the kit oligo sequences."
+      }
+    },
+    {
+      "id": "current_neb_manual",
+      "role": "vendor",
+      "locator": "NEBNext Small RNA manual E7300/E7330, current v9.0_07/25",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Adapter/primer tables",
+        "finding": "Current guide prints adapter, RT, PCR and example index oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local NEB manual text lines 950-1056 and 1083-1188",
+        "finding": "The current manual prints index-primer and RT-primer tables. Its 2025 revision cannot establish which 2018 kit version or index the authors used."
+      }
+    },
+    {
+      "id": "wiley_supplement",
+      "role": "supplement",
+      "locator": "Wiley supporting information for DOI 10.1002/anie.201810946",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement returned 403; not locally available."
+    },
+    {
+      "id": "historic_kit_guide",
+      "role": "linked_material",
+      "locator": "2018 NEBNext Small RNA kit revision used by Marchand et al.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "author_paper",
+      "reason": "Historical vendor revision unavailable; current manual may differ."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Paper Methods and current kit manual",
+      "finding": "Wiley supplement and historical kit revision unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Paper Methods and local NEB manual",
+      "finding": "Independently checked paper and current guide; original Wiley supplement and historical reagent revision not available."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The original 2018 kit adapter and exact read placement can be inferred from current guide.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

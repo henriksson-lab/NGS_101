@@ -1,0 +1,116 @@
+{
+  "dir": "strand-seq__10.1038+nmeth.2206",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/strand-seq__10.1038+nmeth.2206/nmeth.2206_PMC3580294.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Online Methods lines 108–126, especially 122 and 126",
+        "finding": "Methods print custom indexed PCR and sequencing primers, seven Ns versus stated hexamer, and A-tail/PE adapter ligation. Fragment preparation also names MNase at line 120; paper explicitly end-repairs/A-tails before adapter ligation, correcting the former unavailable-geometry model."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Falconer JATS nmeth.2206_PMC3580294.xml.txt lines 120–126; bundle scraper run, with index-primer and index-read hits at lines 122/126",
+        "finding": "Online Methods specify MNase fragmentation, fragment end repair and dA tailing, ligation of Illumina PE adapters, BrdU/Hoechst/UV nicking and PCR using PE1.0 plus indexed primer. The printed custom primer contains seven consecutive N bases, but the same sentence calls assigned indices fault-tolerant hexamers; sequencing paragraph specifies a seven-base third read. Source does not explicitly explain the seventh cycle. The page correctly reports the conflict and flags six-variable-plus-one-fixed as a model inference."
+      }
+    },
+    {
+      "id": "springer_figures",
+      "role": "supplement",
+      "locator": "_data/sources/strand-seq__10.1038+nmeth.2206/nmeth.2206_41592_2012_BFnmeth2206_MOESM304_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figures headings and figure text; scraper run over bundle",
+        "finding": "Figure supplement does not present a library oligo table; exact scope needs second reader."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher original Supplementary Figures/Tables PDF nmeth.2206_41592_2012_BFnmeth2206_MOESM304_ESM.pdf.txt lines 1–47, 286–300, 617–645 and 822 onward; bundle scraper run",
+        "finding": "Supplementary Fig. 2 discusses fragment-size products including adapter/primer contribution, while Supplementary Tables 1–2 concern mis-oriented genomic regions and Watson/Crick inheritance. This publisher file does not print oligo sequences or individual fault-tolerant hexamer assignments in its inspected captions/tables."
+      }
+    },
+    {
+      "id": "springer_data",
+      "role": "supplement",
+      "locator": "_data/sources/strand-seq__10.1038+nmeth.2206/nmeth.2206_41592_2012_BFnmeth2206_MOESM305_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data File table heading and library data; scraper run over bundle",
+        "finding": "Library/sample metadata; no individual barcode assignments located on this first pass."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher original Supplementary Data PDF nmeth.2206_41592_2012_BFnmeth2206_MOESM305_ESM.pdf.txt lines 1–25 and representative library block headers at 1361–1370, 1898–1910, 5935 onward; checked document for barcode/hexamer/primer terms after bundle scraper",
+        "finding": "The data file lists library identifiers, cell input/treatment and genomic coverage/read metrics. Its Index=WGS/Strand-Seq labels are library identifiers, not printed nucleotide barcode assignments; search of extracted file found no hexamer or adapter/primer table."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC3580294 NIHMS51847-supplement-SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC download gate; may duplicate Springer files but not verified."
+    },
+    {
+      "id": "historical_illumina",
+      "role": "linked_material",
+      "locator": "Illumina Oligonucleotide Sequences for Paired End (PE) DNA (obsolete), Document 1000000002694 v22, https://support-docs.illumina.com/SHARE/AdapterSequences/Content/OligoSeqsPairedEndDNA.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina adapter-sequences page, section Oligonucleotide Sequences for Paired End (PE) DNA: PE Adapters, PE PCR Primer 1.0/2.0, PE Read 1/2 Sequencing Primer.",
+        "finding": "Official obsolete PE adapter oligos print phosphorylated GATCGGAAGAGCGGTTCAGCAGGAATGCCGAG and opposite ACACTCTTTCCCTACACGACGCTCTTCCGATCT with terminal 3-prime T; PE 1.0 and read primers also printed. Establishes adapter dT end together with Falconer A-tailed fragment."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Illumina obsolete paired-end DNA oligonucleotide table https://support-docs.illumina.com/SHARE/AdapterSequences/Content/OligoSeqsPairedEndDNA.htm web lines 3–27, document version lines 29–30; compared to Falconer JATS lines 122/126",
+        "finding": "Illumina prints the two PE adapter oligos including 5′ phosphorylated GATCGGAAGAGCGGTTCAGCAGGAATGCCGAG and opposite ACACTCTTTCCCTACACGACGCTCTTCCGATCT with terminal 3′ T, plus PE1.0, PE2.0 and read primers. With Falconer dA-tailed fragments, the source-backed adapter 3′-dT / fragment 3′-dA cohesive geometry is supported. Illumina standard PE2.0 contains no sample index and cannot resolve Falconer seven-N/hexamer discrepancy."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Paper methods lines 122/126; two Springer supplements screened; PMC supplement and historical Illumina oligo document unresolved. Official Illumina Oligonucleotide Sequences for Paired End (PE) DNA page was read and its adapter/primer table checked.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Falconer original Online Methods JATS lines 120–126; publisher Supplementary Figures/Tables PDF lines 1–47, 286–300 and 617–645; Supplementary Data PDF library headers; official Illumina PE oligo table web lines 3–30; local MANIFEST.tsv",
+      "finding": "Independently followed the named historical Illumina adapter/primer source and inspected both accessible publisher supplements. The separate PMC SI file remains gated and could not be proven a duplicate, and no individual cell barcode assignments were found in sources actually read. The published seven-N versus hexamer inconsistency remains explicitly unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Individual fault-tolerant hexamer assignments",
+      "evidence": "Falconer Online Methods line 122 prints seven Ns but names a hexamer; line 126 gives seven index cycles. Official Illumina obsolete PE adapter sequence and paper A-tailing resolve the adapter junction, but individual cell barcode assignments remain blocked pending original SI.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open."
+}

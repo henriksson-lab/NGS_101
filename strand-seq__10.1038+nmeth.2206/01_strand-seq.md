@@ -24,11 +24,14 @@ the retained templates map in chromosome-scale orientation patterns.
 
 ## 4. Historical library architecture
 
-🟢 The Online Methods specify Illumina PE adapters, PE 1.0, a custom P7/index/PE2 PCR
-primer, paired 76-nt reads, and the custom index-read primer sequence. The barcode is
-called a fault-tolerant hexamer even though the displayed degenerate run has seven Ns;
-the seven-cycle index read therefore contains the six barcode bases plus the adjacent
-fixed P7′ base. 🟡 The standard PE adapter and Read 1/Read 2 primer bases are matched to
-Illumina's authoritative obsolete paired-end oligo table, rather than to modern TruSeq.
-🔴 The defining paper does not give the particular hexamer assigned to each of its 66
-libraries or the ligation substrate's end-preparation geometry.
+🟢 The Online Methods specify fragment end repair, A tailing, Illumina PE adapter
+ligation, PE 1.0, a custom P7/index/PE2 PCR primer, paired 76-nt reads, and the custom
+index-read primer sequence. In “DNA template strand library construction” the barcode
+is called a fault-tolerant **hexamer** although the printed PCR primer has **seven Ns**;
+“Illumina sequencing” specifies a **seven-base** index read. 🟡 The model uses six variable
+index bases plus one adjacent fixed base, but the paper does not explicitly resolve the
+seven-N printing. The standard PE adapter and Read 1/Read 2 primer bases are matched to
+[Illumina's obsolete paired-end oligo table](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/OligoSeqsPairedEndDNA.htm), rather than to modern TruSeq.
+The PE adapter's 3′ dT end pairs with the source-described A-tailed fragment. 🔴 The
+particular hexamer assigned to each of the 66 libraries has not been verified from the
+linked supplementary material.

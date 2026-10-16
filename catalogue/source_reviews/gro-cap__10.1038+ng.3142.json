@@ -1,0 +1,192 @@
+{
+  "dir": "gro-cap__10.1038+ng.3142",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "core_article",
+      "role": "defining",
+      "locator": "Core and Martins et al. Nature Genetics 2014 doi:10.1038/ng.3142; ng.3142_PMC4254663.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS Methods lines 534-544; parallel PDF lines 625-634; supplementary reference list lines 888-896",
+        "finding": "Article says GRO-cap follows Kruesi et al. 2013; the TruSeq Small RNA adapter statement belongs to the separate PRO-seq library sentence. Existing repository note incorrectly transferred it to GRO-cap, now corrected."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "local JATS ng.3142_PMC4254663.xml.txt lines 536-543; local article PDF lines 625-634",
+        "finding": "Core et al. 2014 says its K562 and GM12878 GRO-cap libraries were made precisely as Kruesi et al. 2013. The immediately following TruSeq Small RNA adapters clause is attached to PRO-seq, not GRO-cap; Kruesi must be read to establish the GRO-cap adapters."
+      }
+    },
+    {
+      "id": "springer_supp",
+      "role": "supplement",
+      "locator": "ng.3142_41588_2014_BFng3142_MOESM77_ESM.pdf.txt; PMC NIHMS635899-supplement-1.pdf is its alternate publisher/PMC supplement copy",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary figure captions beginning lines 1-30; text scan for adapters/oligos",
+        "finding": "This supplement is figures and results, not an oligo specification for GRO-cap."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "publisher MOESM77 PDF text title/figure headings and adapter/oligo search",
+        "finding": "The publisher supplement comprises results and figure descriptions; no GRO-cap oligo table identified in the inspected text."
+      }
+    },
+    {
+      "id": "springer_supp_bed_results",
+      "role": "supplement",
+      "locator": "ng.3142_41588_2014_BFng3142_MOESM78_ESM.zip and its extracted tss_*.bed files in the GRO-cap source manifest",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "GRO-cap transcription-start-site coordinate results, not reagent methods or oligo sequences.",
+      "pass_1": {
+        "reviewer": "root-grocap-followup",
+        "date": "2026-10-15",
+        "locations": "Source manifest MOESM78 ZIP contents: tss_SS, tss_SU, tss_US, tss_UU, tss_all and tss_paired BED names; inspected BED coordinate headers and first rows",
+        "finding": "The archive contains GRO-cap TSS genomic-coordinate tables for cell lines and strand classes. These are analysis results, not the adapter or RT/PCR reagent inventory."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "GRO-cap source MANIFEST.tsv rows 9-31 listing MOESM78 ZIP and extracted BED members; original tss_all_k562.bed lines 1-10",
+        "finding": "The extracted files are six-column genomic BED records (chromosome, start, end, class, score, strand) for GRO-cap TSS calls; the archive enumerates K562/GM12878 and strand/class variants. They contain results coordinates, not adapter or oligo reagents, so excluding them from the missing-oligo claim is supported."
+      }
+    },
+    {
+      "id": "kruesi_2013",
+      "role": "linked_material",
+      "locator": "Kruesi et al. eLife 2013 doi:10.7554/eLife.00808, original PDF https://cdn.elifesciences.org/elife-articles/00808/pdf/elife00808.pdf; reference 21 expressly inherited for GRO-cap",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-grocap-followup",
+        "date": "2026-10-15",
+        "locations": "Original eLife PDF Methods pages 21–23, web-extracted lines 906–965, especially 932–965; run-on method lines 864–931",
+        "finding": "Kruesi prints GRO-cap's 3-prime TruSeq RA3 (part 15013207) ligation after first BrU capture, Terminator exonuclease and Antarctic phosphatase exclusion, TAP/control split, and then 5-prime TruSeq RA5 (part 15013205) ligation. Its preceding GRO-seq section prints RP1 and RPI PCR oligos. GRO-cap reverse transcription/amplification is delegated to Core 2008. The original PDF was subsequently fetched into the source bundle."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "local elife00808.pdf.txt lines 1135-1161 (GRO-seq contrast), 1163-1203 (GRO-cap); original PDF Methods pp. 22-23",
+        "finding": "The explicit GRO-cap method ligates RA3 (part 15013207) to the 3-prime RNA after first BrU enrichment, repeats BrU capture, applies Terminator exonuclease and Antarctic phosphatase, splits TAP+/TAP−, ligates RA5 (part 15013205) to TAP+ 5-prime RNA, then captures BrU a third time. GRO-cap RT/PCR are delegated to Core 2008; GRO-seq circular RT primer on prior page is a different branch."
+      },
+      "discovered_from": "core_article"
+    },
+    {
+      "id": "illumina_truseq_small_rna",
+      "role": "linked_material",
+      "locator": "Official Illumina TruSeq Small RNA adapter sequences, https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-grocap-followup",
+        "date": "2026-10-15",
+        "locations": "Official Illumina page sections RNA 5-prime Adapter (RA5), RNA 3-prime Adapter (RA3), RNA RT Primer, RNA PCR Primer RP1, RNA PCR Index Primers; current page revision 22",
+        "finding": "Prints RA5 as RNA GUUCAGAGUUCUACAGUCCGACGAUC and RA3 as TGGAATTCTCGGGTGCCAAGG, alongside RTP, RP1 and indexed RPI family. Kruesi names RA3/RA5 parts but does not print their bases; current guide supports named kit sequences while historical revision equivalence remains a scope caveat."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "local illumina_TruSeq-SmallRNA.htm.txt lines 144-192; official Illumina web page sections RNA 3-prime Adapter, RNA 5-prime Adapter, RTP, RP1, RPI",
+        "finding": "Official v22 table prints RA3 TGGAATTCTCGGGTGCCAAGG and RA5 GUUCAGAGUUCUACAGUCCGACGAUC, RTP and RP1, and 48 six-base RPI members. This supports named kit identities but does not prove the exact 2013 kit revision or selected 2014 library index."
+      },
+      "discovered_from": "kruesi_2013"
+    },
+    {
+      "id": "core_2008_groseq",
+      "role": "linked_material",
+      "locator": "Core, Waterfall and Lis, Science 2008 doi:10.1126/science.1162228; local science.1162228_PMC2833333.xml.txt; cited by Kruesi 2013 for final RT/PCR",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-grocap-followup",
+        "date": "2026-10-15",
+        "locations": "Original Core 2008 JATS text lines 24–30, 104 and 166; followed its Supporting Online Material DC1 pointer",
+        "finding": "Main article introduces GRO-seq and explicitly places Materials and Methods in its Supporting Online Material. It does not itself print the final RT primer or selected index; the original supplement is checked separately below."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "local Core 2008 JATS article and supplement pointer; original Science SOM PDF text lines 683-710",
+        "finding": "Main article sends detailed methods to Science Supporting Online Material. The original SOM PDF gives Small RNA Isolation Kit RT primer, SuperScript III RT at 44/52 C, RNase digestion, 15-cycle Phusion PCR with kit primers, and PAGE purification. This identifies inherited operations but not the selected later GRO-cap RPI index."
+      },
+      "discovered_from": "kruesi_2013"
+    },
+    {
+      "id": "core_2008_som",
+      "role": "linked_material",
+      "locator": "Core et al. 2008 original Science Supporting Online Material, DOI 10.1126/science.1162228/DC1; 594009_9144e1ea58ad4573871ec024827290f3.pdf.txt (original PDF mirror)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "core_2008_groseq",
+      "pass_1": {
+        "reviewer": "root-grocap-followup",
+        "date": "2026-10-15",
+        "locations": "Original Science SOM mirrored PDF text lines 683–710, especially adapter ligation 691–696 and RT/PCR/PAGE 699–710; oligo scraper run on the full GRO-cap source bundle",
+        "finding": "The original Core 2008 supplement names Illumina Small RNA kit 5-prime and 3-prime adapter oligos, an Illumina kit RT primer, SuperScript III at 44 then 52 C, RNase cocktail/H treatment, 15 Phusion PCR cycles with Illumina kit primers and gel selection above 90 nt. No selected later GRO-cap index member is specified there."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "local original Science SOM PDF text lines 683-710, especially 699-710; cover/front matter lines 1-20",
+        "finding": "Original Science Supporting Online Material contains the inherited RT/PCR details: Illumina Small RNA Isolation Kit RT primer, SuperScript III 44/52 C, RNase cocktail and H, 15 Phusion cycles with kit PCR primers, PAGE purification above 90 nt. The SOM is mirrored but keeps original Science DOI/header; local PMC supplement endpoint was gated."
+      }
+    },
+    {
+      "id": "illumina_rev_c_2011",
+      "role": "linked_material",
+      "discovered_from": "kruesi_2013",
+      "locator": "_data/sources/gro-cap__10.1038+ng.3142/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt; Illumina part 15004197 Rev C (2011), original guide mirrored at https://www.bu.edu/iscf/files/2011/05/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Rev C local original guide lines 451–455 and 505–509 (RA3/RA5 part numbers), 795–796 and 918 (ligation), 983–1010 (RTP/RP1/RPI), 1643–1760 (Table 7 indexes); compared with Kruesi original local lines 1166 and 1196; source-bundle scraper rerun",
+        "finding": "This contemporary Illumina guide assigns RA3 part #15013207 and RA5 #15013205, exactly the component part numbers named in Kruesi 2013. It supplies the RPI1–48 six-base index family and confirms indexing during PCR, but does not print complete RA3/RA5 oligo strands or identify which RPI member was used for Core 2014 GRO-cap samples. Exact lot/revision continuity to the current sequence table is not proven."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq Small RNA Sample Prep Guide part 15004197 Rev C (2011) extracted lines 443–455, 500–509, 980–1006, 1643–1765 (Table 7); compared to existing Kruesi 2013 review locations 1163–1203",
+        "finding": "Independent read confirms RA3 component part #15013207 and RA5 #15013205, the two parts named in independently reviewed Kruesi 2013 methods. The guide instructs one of RPI1–RPI48 per library during PCR and Table 7 prints their six-base index values. Rev C does not print full RA3/RA5 oligo sequences or select a Core 2014 GRO-cap RPI member. Matching part numbers supports kit-component identity, but the current web sequence table alone cannot prove unchanged 2011 oligo bases or an experiment-specific index."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root-grocap-followup",
+      "date": "2026-10-15",
+      "locations": "Core JATS Methods lines 534–544 and cited reference 21; Kruesi original PDF pages 21–23 lines 864–965; official Illumina TruSeq Small RNA sequence page",
+      "finding": "Followed Core's explicit Kruesi reference to the original PDF and recovered RA3/RA5 identities and GRO-cap reaction order; followed its named adapter parts to official Illumina sequences. Followed Kruesi's RT/PCR delegation through the Core 2008 main article to the original Science SOM mirror. The selected 2014 RPI member and historical kit revision are still unresolved."
+    },
+    "pass_2": {
+      "reviewer": "source-review-independent-d-e",
+      "date": "2026-10-15",
+      "locations": "Core 2014 JATS lines 536-543; Kruesi 2013 original PDF local text lines 1135-1203; Core 2008 Science SOM original PDF mirror local text lines 683-710; Illumina official v22 sequence table local lines 144-192",
+      "finding": "Independently followed Core 2014 to Kruesi 2013, then its RT/PCR delegation to original Core 2008 SOM and its named TruSeq adapters to official Illumina sequence table. The particular 2014 index and historical kit revision are not established; source scope cannot support a confirmed-missing claim yet."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "GRO-cap RA3 and RA5 adapter identity and bases are missing",
+      "disposition": "resolved",
+      "evidence": "Kruesi's original Methods identifies RA3 and RA5 by name and part number; the official Illumina TruSeq Small RNA page prints both sequences."
+    },
+    {
+      "claim": "The particular GRO-cap RPI index member and exact historical adapter-sequence revision remain unresolved",
+      "disposition": "blocked",
+      "evidence": "Kruesi 2013 names RA3/RA5 part numbers; Illumina Rev C (2011) confirms the same part numbers and lists RPI1–48 six-mers, but neither specifies Core 2014 sample index choices nor publishes full RA3/RA5 strands. Current Illumina sequence table prints those strands without proving identical historical lot composition. Rev C has two located independent source passes; the sample-specific assignment and lot-specific full strands remain unverified."
+    }
+  ],
+  "conclusion": "Two independent passes recovered GRO-cap RA3/RA5 identities, corrected reaction order, and Core 2008 inherited RT/PCR operations. A newly located 2011 Illumina guide independently corroborates the historical RA3/RA5 part numbers and RPI family in two independent source checks; selected 2014 index and exact adapter-sequence revision remain unresolved. No missing-information claim is accepted."
+}

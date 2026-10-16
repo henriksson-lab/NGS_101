@@ -11,7 +11,9 @@ Zentner et al., *Nature Communications* (2015),
   sequence and controls.
 - 🟢 Orsi et al., *Mapping regulatory factors by immunoprecipitation from native
   chromatin* (PMCID: PMC4410783), Basic Protocol 3, for the exact paired-end adapter
-  and enrichment-primer oligos used by the cited Henikoff laboratory library workflow.
+  and enrichment-primer oligos in a separately documented Henikoff-laboratory
+  low-input library variant. The defining ChEC paper does not assign a concrete
+  sample-index member to each published library.
 - 🟢 GEO series GSE67453, including GSM1647311, for the extraction, size-selection and
   25-base paired-end run metadata of the defining data set.
 

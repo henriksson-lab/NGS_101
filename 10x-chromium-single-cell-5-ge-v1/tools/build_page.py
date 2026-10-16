@@ -18,6 +18,6 @@ def render():
       '<h3>(3) Fragment, end-repair, A-tail, and ligate the Read 2 adapter</h3>'+panel(V.adapter_scene().rows(),cls="small",caption="The short strand forms a 12-bp stem and leaves a 3'-T ligation overhang."),
       '<h3>(4) Select the bead end by sample-index PCR</h3>'+panel([*Scene.duplex(list(lib),label="library").rows(),*annotation_rows(lib)],cls="small",caption="Final single-index v1 Gene Expression library, P5 to P7'."),
       PrimerBindingSection("library", "Library sequencing", "Sequencing",
-          'Read 1 reports the 16-base cell barcode and 10-base UMI; i7 identifies the sample; Read 2 sequences the transcript-facing fragment.').render(graph),'</div>'])
+          'CG000109 Rev D Figure 2 recommends a 26-cycle Read 1 (16-base cell barcode and 10-base UMI), 8-cycle i7, and 98-cycle Read 2 for this v1 5-prime Gene Expression library. Read 2 sequences the transcript-facing fragment.').render(graph),'</div>'])
 def main(): OUT.write_text(render(),encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 if __name__=="__main__": main()

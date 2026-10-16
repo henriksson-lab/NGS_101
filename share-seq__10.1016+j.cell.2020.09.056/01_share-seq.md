@@ -23,3 +23,7 @@ SHARE-seq jointly profiles accessible chromatin and RNA in fixed single cells us
 ## 4. Evidence boundary
 
 🟢 The defining paper and protocol specify the constant arms, linkers, modifications and 96 barcode values per round. The public page draws the exact constant geometry and modifications. 🟡 It uses structured 8-nt barcode placeholders rather than embedding all 288 well-specific values in every reaction state.
+
+## Source-version discrepancy
+
+🟢 The June 2020 [author preprint](https://doi.org/10.1101/2020.06.17.156943), Methods section (1), PDF text lines 718–725, describes an incoming **3′ overhang** and names the **round 2 linker** for the round 1 plate. The published [Cell paper](https://doi.org/10.1016/j.cell.2020.09.056), STAR Methods “Preparing oligonucleotides for ligations” (JATS line 213), instead describes a **5′ overhang** and the **round 1 linker** for that plate. 🟢 Published Supplementary Table S1, “bulk oligos” rows 3–5, prints separate round 1, 2 and 3 linkers. The model uses those published oligos and the final paper's round assignment. 🟡 Whether the preprint meant a different physical intermediate or contained wording errors cannot be determined from that text alone.

@@ -155,7 +155,8 @@ def final_library(protocol: str) -> Construct:
         raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
     con = Construct([
         _seg("P5", il.P5, "p5"),
-        _seg("TruSeq Read 1, non-overlap", il.TRUSEQ_READ1[4:], "r1"),
+        _seg("TruSeq Read 1, non-overlap", il.TRUSEQ_READ1[4:], "r1",
+             inferred=(protocol == "MARS-seq")),
         *middle,
         _seg("TruSeq Read 2 reverse complement", revcomp(il.TRUSEQ_READ2), "r2"),
         _seg("P7 reverse complement", il.P7_RC, "p7"),

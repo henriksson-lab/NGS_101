@@ -16,10 +16,15 @@ from . import register
 def url_filename(url: str) -> str:
     parsed = urllib.parse.urlparse(url)
     path = parsed.path
+    # Addgene has many distinct /<plasmid>/sequences/ pages. Preserve the ID so
+    # two linked plasmids do not silently share one cached sequences.html file.
+    parts = path.strip("/").split("/")
+    if parsed.netloc.lower() in {"addgene.org", "www.addgene.org"} and len(parts) == 2 and parts[0].isdigit() and parts[1] == "sequences":
+        return f"addgene-{parts[0]}-sequences.html"
     name = urllib.parse.unquote(path.rstrip("/").rsplit("/", 1)[-1]) or "index.html"
     if "." not in name:
         requested = dict(urllib.parse.parse_qsl(parsed.query)).get("format", "").lower()
-        suffix = requested if requested in {"csv", "docx", "pdf", "tsv", "xlsx"} else "html"
+        suffix = requested if requested in {"csv", "docx", "pdf", "tsv", "xlsx", "xml"} else "html"
         name += "." + suffix
     return name
 

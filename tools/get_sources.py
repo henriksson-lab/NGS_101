@@ -11,7 +11,8 @@ directly), fetch whatever is legitimately reachable without a login or a browser
               supplements from the PMC Cloud bucket (tools/fetchers/pmc_cloud.py); else
               Europe PMC full text + supplementary zip; else the PMC article page
   bioRxiv     the full-text PDF and every supplementary file of the latest version
-              (DOIs 10.1101/YYYY.MM.DD.NNNNNN or 10.1101/NNNNNN; other 10.1101/ DOIs are
+              (DOIs 10.1101/YYYY.MM.DD.NNNNNN, 10.64898/YYYY.MM.DD.NNNNNN or
+              10.1101/NNNNNN; other 10.1101/ DOIs are
               Cold Spring Harbor journals -- Genome Research, Genes & Dev -- and go the
               journal route)
   linked      a preprint's published version and a journal paper's preprint (Crossref
@@ -64,7 +65,8 @@ EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
 SCG_CACHE = ROOT / "catalogue" / "tools" / ".cache"
 MAX_LINKED_PROTOCOLS = 6
 
-BIORXIV_DOI = re.compile(r"^10\.1101/(?:\d{4}\.\d{2}\.\d{2}\.\d{5,6}|\d{6})(?:v\d+)?$")
+BIORXIV_DOI = re.compile(r"^10\.(?:1101|64898)/\d{4}\.\d{2}\.\d{2}\.\d{5,6}(?:v\d+)?$"
+                         r"|^10\.1101/\d{6}(?:v\d+)?$")
 
 
 # ---------------------------------------------------------------------- routing
@@ -72,7 +74,8 @@ BIORXIV_DOI = re.compile(r"^10\.1101/(?:\d{4}\.\d{2}\.\d{2}\.\d{5,6}|\d{6})(?:v\
 def doi_kind(doi: str) -> str:
     """'biorxiv' | 'protocolsio' | 'researchsquare' | 'journal'. Offline, by pattern:
     10.1101/ is Cold Spring Harbor's prefix, shared by bioRxiv/medRxiv (dated or 6-digit
-    suffixes) and its journals (gr., gad., rna., lm., pdb., cshperspect...)."""
+    suffixes) and its journals (gr., gad., rna., lm., pdb., cshperspect...). Newer
+    bioRxiv preprints use 10.64898/ with a dated suffix."""
     d = doi.strip().lower()
     if BIORXIV_DOI.match(d):
         return "biorxiv"
@@ -267,19 +270,19 @@ def preprint_by_title(doi: str, title: str, year: str = "") -> str:
     rel = get_json("https://api.crossref.org/works?rows=5&filter=relation.type:is-preprint-of,"
                    f"relation.object:{urllib.parse.quote(doi)}")
     for it in rel.get("message", {}).get("items", []):
-        if it.get("DOI", "").startswith("10.1101/"):
+        if doi_kind(it.get("DOI", "")) == "biorxiv":
             return it["DOI"]
     words = " ".join(re.findall(r"[A-Za-z0-9]+", title)[:10])
     y = int(year) if year.isdigit() else 0
     ok_year = (lambda py: not y or not py or y - 2 <= py <= y)
     rec = epmc_record(f'SRC:PPR AND TITLE:"{words}"')
-    if (rec.get("doi", "").startswith("10.1101/") and _similar(title, rec.get("title", ""))
+    if (doi_kind(rec.get("doi", "")) == "biorxiv" and _similar(title, rec.get("title", ""))
             and ok_year(int(rec.get("pubYear") or 0))):
         return rec["doi"]
     res = get_json("https://api.crossref.org/works?rows=5&filter=type:posted-content"
                    f"&query.title={urllib.parse.quote(title)}")
     for it in res.get("message", {}).get("items", []):
-        if (it.get("DOI", "").startswith("10.1101/")
+        if (doi_kind(it.get("DOI", "")) == "biorxiv"
                 and _similar(title, (it.get("title") or [""])[0]) and ok_year(_year(it))):
             return it["DOI"]
     return ""
@@ -315,7 +318,11 @@ def paper(job: Job, doi: str, title: str = "", year: str = "", pmcid: str = "",
                       "Research Square is behind Cloudflare: fetch by hand")
         return
     if kind == "biorxiv":
-        _, pub = biorxiv(folder, tag, doi)
+        got_full_text, pub = biorxiv(folder, tag, doi)
+        if got_full_text:
+            # A dated DOI once routed through the journal fallback may have left
+            # this obsolete manual row in an existing source manifest.
+            folder.rows.pop(f"(manual) {tag} full text", None)
         for d in (published_of(doi, pub) if link else []):
             say(f"    published version {d}")
             paper(job, d, link=False)

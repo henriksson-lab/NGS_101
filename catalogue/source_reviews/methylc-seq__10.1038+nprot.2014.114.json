@@ -1,0 +1,90 @@
+{
+  "dir": "methylc-seq__10.1038+nprot.2014.114",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Urich et al Nat Protoc 2015 doi:10.1038/nprot.2014.114 PMC4465251",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/methylc-seq__10.1038+nprot.2014.114/nprot.2014.114_PMC4465251.xml.txt lines 292-364,750; scraper zero",
+        "finding": "Original specifies methylated NEXTflex Bisulfite-Seq Barcodes–12 cat 511912, end repair/dA ligation, bisulfite then low-cycle PCR. No selected barcode well."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS nprot.2014.114_PMC4465251.xml.txt lines 92,292-364",
+        "finding": "Reagent list specifies NEXTflex Bisulfite-Seq Barcodes–12 cat 511912. Workflow ligates methylated adapter before bisulfite and uses kit PCR primer mix for four cycles."
+      }
+    },
+    {
+      "id": "vendor_511911",
+      "role": "linked_material",
+      "locator": "Bioo Scientific NEXTflex Bisulfite-Seq Barcodes–6 cat 511911 official vendor PDF mirror, https://search.cosmobio.co.jp/cosmo_search_p/search_gate2/docs/BIO_/511911.20120924.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Vendor PDF pages 2,8,25; web lines 47-59,231-255,727-759",
+        "finding": "Appendix A prints primer flanks and six indexed adapter endpoint strands; this is 511911, not defining 511912 12-set, so only partial family evidence. No local PDF for scraper."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Bioo Scientific official 511911 PDF via CosmoBio mirror pp.1,25-26; web lines 47-60, 727-759, 788-791",
+        "finding": "Historical 6-barcode kit guide states adapters are supplied as duplex and prints both adapter strands for six indexed members plus two PCR primers. It explicitly lists 511912 as separate 12-member product, so 511911 cannot identify the chosen 511912 barcode."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vendor_511912",
+      "role": "linked_material",
+      "locator": "Bioo Scientific NEXTflex Bisulfite-Seq Barcodes–12 cat 511912 historical manual",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact 12-set manual/ordering sheet not obtained; 6-set appendix cannot establish complete 12-set or which barcode was used.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_guide",
+      "role": "linked_material",
+      "locator": "Illumina Adapter Sequences doc 1000000002694 cited by protocol note",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Official guide not locally cached or independently read in this pass.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Urich protocol reagent/ligation/PCR lines; historical Bioo manual appendix and separate 511912 identity.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Urich JATS lines 92,292-364; Bioo 511911 manual web lines 47-60,727-759,788-791; 511912 and Illumina original remain unavailable",
+      "finding": "Followed kit reference to 511911 as a related product, checked its full sequence appendix and confirmed it does not substitute for original 511912 twelve-set selection."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete cat 511912 methylated ligation adapter duplex and chosen index",
+      "evidence": "Only six-set vendor manual inspected; 12-set source and sample barcode selection unresolved.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+}

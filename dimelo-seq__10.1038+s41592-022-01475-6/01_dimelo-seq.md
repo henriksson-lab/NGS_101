@@ -10,8 +10,9 @@ native chromosomal DNA, then reads those marks on unamplified long molecules.
 - 🟢 Altemose et al. 2022, DOI
   [10.1038/s41592-022-01475-6](https://doi.org/10.1038/s41592-022-01475-6), full article
   (PMC9189060).
-- 🟢 Altemose et al. 2024 detailed protocol, DOI `10.1038/s41596-023-00969-3`, full text
-  (PMC11674881), used only to confirm the physical reaction order.
+- 🔴 Maslan et al. 2024 detailed protocol, DOI
+  `10.1038/s41596-024-01032-9` (PMC11674881): identified but its full text
+  has not been read in this audit. The earlier DOI listed here was incorrect.
 
 ## 3. Molecular order
 
@@ -23,7 +24,7 @@ and sequenced without PCR by a modification-sensitive long-read platform.
 
 🟢 Exogenous m6A reports target proximity while endogenous CpG methylation is retained on
 the same molecule. The defining paper demonstrates Nanopore readout. 🔴 Kit-specific
-motor-adapter bases are proprietary/version-dependent, so the page states pore entry
+motor-adapter bases are not established by the sources checked so far; the page states pore entry
 without inventing a primer or sequence.
 🟢 The defining paper names different nanopore library reagents by experiment: SQK-LSK109
 with EXP-NBD104/114 native barcodes for optimization and CENP-A experiments, and

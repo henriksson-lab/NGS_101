@@ -1,0 +1,89 @@
+{
+  "dir": "4c-seq__10.1016+j.ymeth.2019.07.014",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Methods 170 (2020) author-hosted published PDF pp. 17–21; extracted lines 67–105 (two-digest/two-ligation topology), 210–218 (index pooling), 372–437 (§3.4 first-round primer tails); original PDF page 4 / journal p.20 Table 1 visually inspected",
+        "finding": "Published paper is available at author institution. First PCR uses outward viewpoint primers with fixed 5′ tails and optional 0–5-nt spacer on reading primer. Table 1 image prints complete fixed universal forward and a six-base-index reverse family; exact genomic primer portions and index are chosen per viewpoint/sample."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author-hosted Methods 170 PDF text lines 67–105, 210–218, 370–440; rendered PDF page 4, Table 1 rows 2ndRound Universal_fw and rv_index1–27",
+        "finding": "Independent read confirms two digestion/ligation rounds, then viewpoint inverse PCR with fixed 5-prime tails and a second universal PCR. Table 1 visually prints fixed P5/Read 1 forward and P7/index/Read 2 reverse family. Sample-specific genomic primer segment and one six-base index must be chosen; the scraper misses most image table rows."
+      }
+    },
+    {
+      "id": "viewpoint_examples",
+      "role": "linked_material",
+      "locator": "_data/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Same published PDF pp. 20–21 Table 1 (visual) and extracted lines 938–954 Table 3 example viewpoint file",
+        "finding": "Table 1 supplies a concrete indexed reverse primer panel. Table 3 gives mESC Sox2 and Mccc1 viewpoint primer examples, confirming that genomic read-start sequence varies with selected viewpoint; these are examples, not a universal primer assignment."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same original PDF rendered page 4 Table 1 and text lines 932–954 Table 3",
+        "finding": "Table 1 contains 24 named reverse index rows 1–16, 18–23, 25, 27 plus universal forward; Table 3 lists mESC Sox2/Mccc1 example viewpoint fields. These do not identify a universal genomic viewpoint sequence or one index for every sample."
+      }
+    },
+    {
+      "id": "illumina_pooling_guide",
+      "role": "linked_material",
+      "locator": "https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/Content/TruSeqPoolingGuidelines.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Official page read through web; get_sources classified short HTML as no article content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "4C paper extracted lines 210–218 cites Illumina Index Adapters Pooling Guide; official current guide 1000000041074 v17 TruSeq Kits section lines 3–14 in web rendering",
+        "finding": "Current manufacturer guide confirms compatibility/pooling context for ligation-based TruSeq indexes but cannot choose the six-base index for a particular 4C sample or prove an historical 2020 pooling recommendation. Scoped local fetch rejected its short HTML body, so review uses official web rendering."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Index Adapters Pooling Guide URL, TruSeq Kits web page lines 3–14; 4C original text lines 210–218",
+        "finding": "Current document 1000000041074 v17 gives TruSeq index compatibility and a pooling context. It is a later guide and does not establish 2020 advice revision or which original Table 1 six-mer was used in a particular sample."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "4C published PDF §2.5 and §3.4 lines 210–218/372–437, PDF p.4 Table 1, Table 3 lines 938–954; official Illumina pooling web guide v17 TruSeq Kits",
+      "finding": "Followed the paper to viewpoint-primer examples and the Illumina pooling guide. Fixed sequencing arms and indexed reverse family are printed; a chosen viewpoint and sample index are necessary to instantiate a particular library. Historical pooling guide revision remains unverified."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "4C paper PDF page 4 Table 1, §2.5/§3.4 text lines 210–218 and 370–440, Table 3 text lines 932–954; official Illumina guide v17 lines 3–14",
+      "finding": "Independently followed the source to its viewpoint examples and current Illumina pooling guide. All generic primer arms and indexed reverse family are printed. Actual viewpoint and sample index choices remain experiment-specific; historical guide revision cannot be inferred from the current web page."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "A particular 4C library cannot have its viewpoint genomic primer and sample index filled without the experiment choices; the published universal Illumina arms and primer family are available.",
+      "disposition": "blocked",
+      "evidence": "Two independent source reads of the original PDF/Table 1 and current Illumina pooling guide. Specific viewpoint and sample index choices are experiment-dependent; historical pooling revision remains unresolved."
+    }
+  ],
+  "conclusion": "Two independent reads of original 4C paper including visual Table 1 and linked current Illumina guide establish generic primer arms and indexed family. A chosen viewpoint/index and historical pooling revision remain blocked; no absence accepted."
+}

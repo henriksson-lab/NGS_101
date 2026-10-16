@@ -5,17 +5,18 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from batch_ngs import seg
 from chemdraw import Construct, Row, feature, feature_rows, revcomp, strand_row
-from dumbbell import (smrtbell_circuit, smrtbell_hairpin_geometry,
+from dumbbell import (Dumbbell, dumbbell_rows, smrtbell_circuit,
                       smrtbell_sequencing_plan)
+from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
-from rna_special import isoseq_smrtbell, template_switch_scene
+from rna_special import template_switch_scene
 
 TITLE = "PacBio Iso-Seq v2 — SMRTbell prep kit 3.0"
 NOTES = "01_isoseq.html"
-SOURCE = 'Commercial protocol: PacBio <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-%E2%80%93-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf">Preparing Kinnex-compatible cDNA using Iso-Seq express 2.0 kit, 102-396-000 Rev10</a>; <a href="https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-primers/IsoSeq_v2_primers_12.fasta">official primer FASTA</a>.'
+SOURCE = 'Commercial protocol: PacBio <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-%E2%80%93-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf">Preparing Kinnex-compatible cDNA using Iso-Seq express 2.0 kit, 102-396-000 Rev10</a>; <a href="https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-primers/IsoSeq_v2_primers_12.fasta">official primer FASTA</a>; <a href="https://www.pacb.com/wp-content/uploads/Iso-Seq-library-preparation-using-SMRTbell-prep-kit-3.0-training.pdf">SMRTbell 3.0 training overview</a>.'
 SUMMARY = "Template-switch reverse transcription captures full-length poly(A) transcripts, cDNA is amplified, repaired and A-tailed, then hairpin adapters close both ends into a SMRTbell for circular-consensus sequencing."
-CAVEAT = "The RT primer mix, TSO 2.0, SMRTbell adapter, and sequencing-primer bases remain proprietary. PacBio does publish the complete bc01–bc12 PCR primers and opposite cDNA amplification primer; those exact sequences and binding sites are shown."
+CAVEAT = "The cDNA guide describes Iso-Seq express 2.0, while the linked PacBio training overview identifies the downstream SMRTbell prep kit 3.0 repair, A-tailing, and adapter ligation. The kit-specific guide is inaccessible; the hairpin adapter overhang, full adapter sequence, RT primer mix, TSO 2.0, and sequencing-primer bases remain unverified. PacBio does publish the complete bc01–bc12 PCR primers and opposite cDNA amplification primer; those exact sequences and binding sites are shown."
 ISOSEQ_5P_PREFIX = "CTACACGACGCTCTTCCGATCT"
 ISOSEQ_5P_SUFFIX = "GCAATGAAGTCGCAGGGTTGGG"
 ISOSEQ_BARCODES = (
@@ -41,16 +42,18 @@ INSERT = Construct([
     seg("poly(A/T) boundary", "X"*12, placeholder=True),
     seg("cDNA amplification-primer reverse complement", revcomp(ISOSEQ_3P), "r2"),
 ], name="barcoded full-length Iso-Seq cDNA")
-SMRTBELL, SMRTBELL_ROWS = isoseq_smrtbell(INSERT)
+SMRTBELL = Dumbbell(INSERT, "N" * 18, "N" * 18, name="Iso-Seq SMRTbell",
+                    insert_overhang="", adapter_overhang="")
+SMRTBELL_ROWS = dumbbell_rows(SMRTBELL)
 FINAL_LIBRARY = smrtbell_circuit(SMRTBELL)
 SEQ_PRIMERS = ()
-SEQUENCING_ENDING = "The SMRTbell sequencing primer anneals within the proprietary hairpin adapter. A bound polymerase repeatedly traverses forward cDNA, the opposite hairpin, reverse-complement cDNA and the starting hairpin; those passes form one circular-consensus (HiFi) read."
+SEQUENCING_ENDING = "The SMRTbell sequencing primer anneals within the hairpin adapter whose bases remain unverified. A bound polymerase repeatedly traverses forward cDNA, the opposite hairpin, reverse-complement cDNA and the starting hairpin; those passes form one circular-consensus (HiFi) read."
 SEQUENCING_UNAVAILABLE = ("The procedure names the PacBio sequencing primer and hairpin "
-                          "adapter but does not disclose their current bases.")
+                          "adapter but does not print their bases in the inspected guide; the specific SMRTbell prep guide remains unchecked.")
 FINAL_CAPTION = "The full-length cDNA is closed by two hairpins for repeated polymerase passes."
-HAIRPIN_END = smrtbell_hairpin_geometry(
-    SMRTBELL,
-    statement="SMRTbell prep kit 3.0 ligates T-overhang hairpins to dA-tailed cDNA.")
+HAIRPIN_END = AdapterLigationGeometry.unavailable(
+    "PacBio identifies SMRTbell 3.0 repair, A-tailing and hairpin-adapter ligation, "
+    "but the kit-specific guide and adapter terminal sequence remain inaccessible.")
 
 
 def oligos():
@@ -71,7 +74,7 @@ def sections():
          [strand_row(INSERT), *feature_rows(INSERT, prefix_width=4),
           Row(chunks=[("PCR → damage repair → end repair → dA tailing", None, False)])],
          "The required bc01–12 primer installs the sample index during cDNA PCR. Repair and A-tailing make both duplex ends adapter-compatible."),
-        ("Ligate hairpins to make the SMRTbell", SMRTBELL_ROWS, "Each ** boundary is a hairpin-adapter ligation. The Dumbbell constructor rejects missing ends or incompatible A:T overhangs."),
+        ("Ligate hairpins to make the SMRTbell", SMRTBELL_ROWS, "INFERRED — each ** boundary is a hairpin-adapter ligation; the exact ligating overhang is unresolved. The closed topology is checked, but its junction bases are not established."),
         ("Polymerase repeatedly traverses the insert", [Row(chunks=[("primer → insert forward → hairpin → insert reverse complement → hairpin ↻", "r1", False)])], "Multiple passes over the same full-length cDNA molecule yield the circular-consensus sequence."),
     ]
 
@@ -80,7 +83,7 @@ def protocol_graph():
     g = ProtocolGraph(TITLE, authority=SOURCE)
     rna = g.input("rna", "poly(A) RNA", MaterialKind.MOLECULAR, primary=True)
     rt_primer = g.input("rt_primer", "Iso-Seq RT primer mix", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (current primer bases proprietary)")
+                        inferred=True, source=SOURCE + " (current primer bases not verified in inspected sources)")
     rt = g.input("rt", "template-switching reverse transcriptase", MaterialKind.CATALYST)
     first = g.product("first", "first-strand full-length cDNA", MaterialKind.MOLECULAR)
     g.react("reverse_transcribe", "Reverse-transcribe poly(A) RNA",
@@ -88,7 +91,7 @@ def protocol_graph():
             ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
              (rt, InputRole.CATALYST)), (first,))
     tso = g.input("tso", "Iso-Seq template-switch oligo", MaterialKind.OLIGO,
-                  inferred=True, source=SOURCE + " (current oligo bases proprietary)")
+                  inferred=True, source=SOURCE + " (current oligo bases not verified in inspected sources)")
     full = g.product("full", "full-length cDNA with terminal PCR handles",
                      MaterialKind.MOLECULAR)
     g.react("template_switch", "Capture the completed cDNA end by template switching",
@@ -122,13 +125,13 @@ def protocol_graph():
                        MaterialKind.MOLECULAR)
     g.react("end_prep", "Repair and dA-tail amplified cDNA", StepKind.END_REPAIR,
             ((amplified, InputRole.TEMPLATE), (end_mix, InputRole.CATALYST)), (tailed,))
-    hairpins = g.input("hairpins", "T-overhang SMRTbell hairpin adapters",
+    hairpins = g.input("hairpins", "SMRTbell hairpin adapters; ligating end unresolved",
                        MaterialKind.ADAPTER, inferred=True,
-                       source=SOURCE + " (adapter bases proprietary)")
+                       source=SOURCE + " (adapter bases not verified in inspected sources)")
     ligase = g.input("ligase", "SMRTbell ligase", MaterialKind.CATALYST)
     library = g.product("library", "closed full-length Iso-Seq SMRTbell library",
                         MaterialKind.LIBRARY, state=tuple(SMRTBELL_ROWS), inferred=True,
-                        source=SOURCE + " (hairpin bases proprietary)")
+                        source=SOURCE + " (hairpin bases not verified in inspected sources)")
     g.react("ligate", "Ligate hairpins to both cDNA ends", StepKind.LIGATION,
             ((tailed, InputRole.TEMPLATE), (hairpins, InputRole.STRUCTURAL),
              (ligase, InputRole.CATALYST)), (library,), geometry=HAIRPIN_END)

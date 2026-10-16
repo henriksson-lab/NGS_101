@@ -1,0 +1,87 @@
+{
+  "dir": "ch-atac-seq__10.1016+j.devcel.2024.01.015",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "Zhang et al Developmental Cell 2024 doi:10.1016/j.devcel.2024.01.015 main article/STAR Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Journal full text and STAR Methods are subscription-only in MANIFEST; no open preprint was obtained.",
+      "pass_2": null
+    },
+    {
+      "id": "original_oligos",
+      "role": "supplement",
+      "locator": "CH-ATAC-seq published Supplementary Table 1 mirrored as scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Common primers sheet lines 1-10; 384 first barcode primer rows from line 11; scraper hit line 11",
+        "finding": "Publisher-format table prints 5-prime phosphorylated ME, phosphorothioate Tn5 barcode primer family, 768 hybridization primers and MGI P7 indexes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt lines 1-17, 397-400 and 1167-1170",
+        "finding": "Publisher original supplementary workbook mirrored by scg: common primers, 384 phosphorothioate Tn5 barcode primers, hybridization oligos and MGI P7 index family are printed."
+      }
+    },
+    {
+      "id": "ch_rna",
+      "role": "linked_material",
+      "locator": "Ye et al CH-RNA-seq Nat Commun 2022 doi:10.1038/s41467-022-31879-z PMC9307617",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "CH-RNA original article Methods and related oligo table heading",
+        "finding": "Sibling assay supports shared combinatorial hybridization chemistry, but not ATAC-specific cycle counts."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-022-31879-z_PMC9307617.xml.txt lines 111-125; related_CH-RNA-seq_MOESM4_ESM.xlsx.txt lines 1-10",
+        "finding": "Earlier CH-RNA method and its oligo table share HY and block-tail naming but are a different RNA assay; do not infer CH-ATAC reaction order from them."
+      },
+      "discovered_from": "original_oligos"
+    },
+    {
+      "id": "research_square",
+      "role": "linked_material",
+      "locator": "Research Square preprint doi:10.21203/rs.3.rs-960203/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Research Square download blocked by Cloudflare; source version and Methods unreviewed.",
+      "pass_2": null,
+      "discovered_from": "main"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Cell Press-style original oligo workbook and sibling CH-RNA source; main/preprint manifest",
+      "finding": "Followed oligo supplement and shared-chemistry predecessor. STAR Methods and preprint unavailable; no CH-ATAC cycle absence accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CH-ATAC publisher Table S1 mirror lines 1-17, 397-400, 1167-1170; CH-RNA original JATS lines 111-125 and Table S1 lines 1-10; main/Research Square manifest",
+      "finding": "Original supplementary oligos were verified and RNA predecessor compared, but CH-ATAC main STAR Methods and related preprint remain unavailable. Reaction order cannot be certified from the table alone."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "CH-ATAC-specific sequencing cycle counts and full reaction order",
+      "disposition": "blocked",
+      "evidence": "STAR Methods not available; sibling CH-RNA cannot establish ATAC-specific details."
+    }
+  ],
+  "conclusion": "Two readers verified CH-ATAC published oligo table and CH-RNA predecessor. Main CH-ATAC Methods and its preprint are unavailable; reaction detail remains blocked."
+}

@@ -1,0 +1,181 @@
+{
+  "dir": "spatial-cut-tag__10.1126+science.abg7216",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/2021.03.11.434985_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Deng 2021 bioRxiv v1 PDF text lines 54–75, 215–226, 528–675, independently read after the complete local source-bundle oligo scrape",
+        "finding": "The preprint describes antibody-tethered pA–Tn5, Mg2+ activation, ligation linker insertion, 50 A and 50 perpendicular B spatial barcodes and PCR. Appended supplementary material is figure captions and references, not an oligo table or full bench recipe. Its data-availability section links the historical hsrChST-seq GitHub URL, checked separately."
+      },
+      "pass_2": {
+        "reviewer": "spatial_cut_tag_second",
+        "date": "2026-10-16",
+        "locations": "Deng 2021 bioRxiv v1 PDF text lines 54–71, 225–226, 239–241 and 528–675 (including Supplementary Fig. S1 and figure captions)",
+        "finding": "The preprint independently establishes antibody/secondary-antibody tethering of pA–Tn5, Mg2+ activation, ligation-linker insertion, sequential 50-member A and B spatial barcode ligations, and PCR. Its appended Supplementary Materials contain figure captions and references, not an ordered oligo table or full reaction recipe. Data availability links the old hsrChST-seq GitHub repository; that link was checked separately."
+      },
+      "discovered_from": "source_5"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The 2024 MOESM1 PDF contains only Supplementary Figure 1, a spatial data analysis figure, and has no protocol chemistry or oligo table; MOESM2 is the separate ordered-oligo workbook.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Farzad 2024 MOESM1 PDF, complete two-page extracted text and Supplementary Figure 1 caption, read independently after full source-bundle oligo scrape",
+        "finding": "This supplement consists only of mouse olfactory bulb gene-score mapping panels A–F. It is not a chemistry source; the separate MOESM2 workbook supplies ordered oligos."
+      },
+      "pass_2": {
+        "reviewer": "spatial_cut_tag_second",
+        "date": "2026-10-16",
+        "locations": "Farzad 2024 MOESM1 PDF pages 1–2, complete extracted text and visual inspection of Supplementary Figure 1 panels A–F",
+        "finding": "This file reports gene-score spatial mapping in mouse olfactory bulb (images A–F); it supplies no molecular construct, reagent, or read-layout detail. The chemistry oligos are instead in MOESM2 Supplementary Tables 1–3."
+      }
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 Supplementary Tables lines 1–35",
+        "finding": "Original 2024 workbook prints Tn5MErev and adapter/primer sequences; successor version must be distinguished from 2021."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Farzad 2024 Supplementary workbook Table 1 rows 1-13 and Table 3 opening rows",
+        "finding": "CUT&Tag table prints /5Phos/ Tn5MErev and Tn5ME-A, Tn5ME-B, two ligation linkers, custom Read 1 and N501/N701–N705; Table 2 is a separate ATAC primer set and Table 3 starts two spatial barcode families."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "linked_material",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 detailed protocol lines 136–150, 232–248, 424–442",
+        "finding": "Linked successor details array barcoding and names adapter/primer supplementary tables."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Farzad 2024 detailed JATS lines 136-150 and 232-248",
+        "finding": "Detailed successor protocol states in situ pA–Tn5 transfer, perpendicular A/B microfluidic barcode ligation and linker geometry; its own supplement supplies ordered oligos."
+      },
+      "discovered_from": "source_5"
+    },
+    {
+      "id": "source_5",
+      "role": "defining",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/science.abg7216_PMC7612972.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Main article lines 42–76",
+        "finding": "Main manuscript gives overview but delegates detailed oligos to unavailable 2021 Supplementary Material."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Deng 2022 original Science JATS lines 42-76 and Supplementary Material references",
+        "finding": "Published article establishes antibody-tethered spatial CUT&Tag and two-direction tissue barcoding; detailed ordered oligos are delegated to supplemental material not present in this bundle."
+      }
+    },
+    {
+      "id": "manual_6",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13651751/bin/NIHMS2146605-supplement-Supplementary_Data.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_5",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_7",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13651751/bin/NIHMS2146605-supplement-Supplementary_Information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "discovered_from": "source_5",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_8",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7612972/bin/EMS145971-supplement-Supplementary_Material.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate",
+      "discovered_from": "source_5",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "linked_2021_code",
+      "role": "linked_material",
+      "locator": "https://github.com/dyxmvp/hsrChST-seq",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The 2021 preprint's Data and materials availability section links this raw-read processing repository. The original URL was checked by browser search and direct open but did not resolve; the later spatial-CUT-Tag repository is available and is separately cited in the notes. The original repository may have been renamed, but equivalence has not been established.",
+      "discovered_from": "source_1",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Deng 2021 bioRxiv Data and materials availability, PDF text lines 221–226; direct GitHub URL and exact repository-name web search on 2026-10-16",
+        "finding": "The preprint links this repository for sequencing analysis, but the stated URL could not be opened and an exact-name search did not locate the same repository. A later spatial-CUT-Tag repository exists, but equivalence of its contents is unproved."
+      },
+      "pass_2": {
+        "reviewer": "spatial_cut_tag_second",
+        "date": "2026-10-16",
+        "locations": "Deng 2021 bioRxiv Data and materials availability, PDF text lines 225–226; direct GitHub URL and exact-URL browser search checked 2026-10-16",
+        "finding": "The preprint names this code repository, but it was not accessible at its stated URL. The separately available spatial-CUT-Tag repository gives later raw-read orientation and is not proof of the older repository's contents."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods and the located publisher oligo tables listed in the independent second-pass source rows",
+      "finding": "Chemistry-relevant linked supplements, historical predecessors or vendor sources remain unread/unavailable in this checklist. This review remains blocked until those are resolved and two independent located passes cover each relevant source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent passes now cover the original 2021 preprint, the 2024 supplementary figure, and the preprint-linked historical code URL. The 2024 figure is not an oligo source; its separate workbook is. The original 2022 supplementary DOCX and historical processing repository remain unavailable, so no missing-information claim is accepted."
+}

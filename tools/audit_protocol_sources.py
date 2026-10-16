@@ -11,6 +11,7 @@ import argparse
 import csv
 import json
 from collections import Counter
+from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,8 +71,8 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
         ids.add(source.get("id", ""))
         if source.get("role") not in ROLES:
             issues.append(label + ": unknown source role")
-        if source.get("availability") not in {"read", "unavailable"}:
-            issues.append(label + ": availability must be read or unavailable")
+        if source.get("availability") not in {"available", "read", "unavailable"}:
+            issues.append(label + ": availability must be available, read or unavailable")
         if source.get("relevance") not in {"relevant", "not_relevant"}:
             issues.append(label + ": relevance must be relevant or not_relevant")
         if source.get("role") == "linked_material" and not source.get("discovered_from"):
@@ -82,9 +83,10 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
             issues.append(label + ": excluded source needs a reason")
         if status in {"reviewed", "accepted_missing"}:
             if source.get("relevance") == "relevant" and source.get("availability") != "read":
-                issues.append(label + ": relevant source unavailable; review is blocked")
+                issues.append(label + ": relevant source is unread or unavailable; review is incomplete")
             _two_passes(source, label, issues)
-    if sources and not any(s.get("role") == "defining" for s in sources if isinstance(s, dict)):
+    required_roles = {"defining"} if known.get(name, {}).get("doi") else {"defining", "vendor"}
+    if sources and not any(s.get("role") in required_roles for s in sources if isinstance(s, dict)):
         issues.append(name + ": checklist lacks a defining article or vendor source")
     links = review.get("linked_information")
     if not isinstance(links, dict) or links.get("result") not in {
@@ -121,9 +123,15 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
             issues.append(name + ": acceptance needs conclusion and public checklist marker")
         else:
             page = ROOT / review["public_page"]
-            if not page.is_file() or review["public_checklist_marker"] not in page.read_text(
-                    encoding="utf-8", errors="replace"):
+            page_text = page.read_text(encoding="utf-8", errors="replace") if page.is_file() else ""
+            if review["public_checklist_marker"] not in page_text:
                 issues.append(name + ": public page does not display the source checklist")
+            for source in sources:
+                if isinstance(source, dict) and source.get("id") and (
+                        f'data-source-id="{escape(source["id"], quote=True)}"' not in page_text):
+                    issues.append(name + ": public page omits source " + source["id"])
+            if f'data-linked-disposition="{escape(links.get("result", ""), quote=True)}"' not in page_text:
+                issues.append(name + ": public page omits linked-information disposition")
     return issues
 
 

@@ -1,0 +1,171 @@
+{
+  "dir": "rage-seq__10.1038+s41467-019-11049-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_PMC6635368.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 163–180",
+        "finding": "10x 3′ v2 amplified cDNA is PCR-amplified with printed TSO and R1 primers, then captured twice by Roche–NimbleGen and prepared with ONT SQK-LSK108 or LSK308."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 163–180",
+        "finding": "Independently confirms 10x 3-prime v2 full-length cDNA, TSO/R1 amplification, Roche NimbleGen double capture, and ONT LSK108 with one LSK308 sample; vendor-specific reagents remain linked blockers."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_supp_41467_2019_11049_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workflow figure and VDJ examples, lines 1–145",
+        "finding": "Supplemental figures depict 10x/capture/long-read branch; apparent long nucleotide strings in VDJ figures are biological results, not ordering primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF opening workflow figure and legends, lines 1–145",
+        "finding": "Shows GEM barcoding, capture and long-read flow; no complete vendor adapter sequence in inspected figure captions."
+      }
+    },
+    {
+      "id": "peer_review",
+      "role": "supplement",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_supp_41467_2019_11049_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening reviewer-comment heading and letters",
+        "finding": "Peer-review correspondence, not chemistry inventory."
+      },
+      "reason": "Peer-review correspondence.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 peer-review file lines 1–30, 130–145 and terminology scan",
+        "finding": "Discusses target-capture yield and PCR bias qualitatively, but does not print a reagent recipe or oligo bases."
+      }
+    },
+    {
+      "id": "supp_index",
+      "role": "supplement",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_supp_41467_2019_11049_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening Description of Additional Supplementary Files",
+        "finding": "Index of result data file, no reagent recipe."
+      },
+      "reason": "Result-file index.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM3 Description of Additional Files lines 1–5",
+        "finding": "Index only identifies Supplementary Data 1 as assigned V(D)J chains."
+      }
+    },
+    {
+      "id": "supp_data",
+      "role": "supplement",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_supp_41467_2019_11049_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Summary shared clones sheet opening rows",
+        "finding": "Clonotype results, not capture probes or primers."
+      },
+      "reason": "Biological result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Summary shared clones sheet lines 1–5",
+        "finding": "Clone outcome table, not molecular construction."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/rage-seq__10.1038+s41467-019-11049-4/s41467-019-11049-4_supp_41467_2019_11049_MOESM5_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary opening page",
+        "finding": "Study reporting form rather than reagent sequence list."
+      },
+      "reason": "Reporting summary.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM5 Reporting Summary lines 1–12",
+        "finding": "Journal reporting form, not oligo or reaction instructions."
+      }
+    },
+    {
+      "id": "tenx_v2",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell 3′ v2 guide cited JATS lines 163–165",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Underlying bead/cDNA chemistry guide not yet checked."
+    },
+    {
+      "id": "seqcap",
+      "role": "vendor",
+      "locator": "Roche–NimbleGen SeqCap RNA Choice custom capture pool cited JATS lines 167–175",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Individual custom probe pool not located."
+    },
+    {
+      "id": "ont_kit",
+      "role": "vendor",
+      "locator": "ONT SQK-LSK108 and SQK-LSK308 protocols cited JATS lines 177–179",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit manuals and adapter details not yet read."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS Methods lines 163–180; supplement headings",
+      "finding": "Source links 10x v2, Roche SeqCap, and two ONT library kits. Their historical guides/probe files remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "JATS Methods lines 163–180",
+      "finding": "Original names 10x 3-prime v2, Roche SeqCap EZ guides and ONT LSK108/308 manuals; those remain unreviewed. Status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Individual target-capture probes and historical nanopore adapter structures are absent",
+      "disposition": "blocked",
+      "evidence": "Only TSO/R1 capture PCR primers are source-positive; vendor and custom-probe evidence remains blocked."
+    }
+  ],
+  "conclusion": "Only TSO/R1 capture PCR primers are source-positive; vendor and custom-probe evidence remains blocked."
+}

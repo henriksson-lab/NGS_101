@@ -44,7 +44,7 @@ def dropseq_library() -> str:
     frag, lib = C.guide_bearing_cdna_fragment(), C.final_library()
     return f'''<h2>Drop-seq library</h2>
 <h3>(4) Capture the polyadenylated reporter on a barcoded bead</h3>
-{info("CROP-seq uses Drop-seq: bead oligo-dT reverse transcription, template switching, SMART PCR, Nextera XT tagmentation, then selective P5-SMART + N70x enrichment.")}
+{info("CROP-seq uses Drop-seq: bead oligo-dT reverse transcription, template switching, SMART PCR, Nextera XT tagmentation, then selective P5-SMART + N70x enrichment. The " + C.DROPSEQ_BEAD_SOURCE + " prints the bead primer family as 5′-Bead–Linker–TTTTTTT–AAGCAGTGGTATCAACGCAGAGTAC–J12–N8–T30-3′ (J12: cell barcode; N8: UMI). CROP-seq does not identify its bead batch's exact barcode members.")}
 {one_strand(frag, "Representative bead-end cDNA whose random Tn5 cut leaves the guide within Read 2 reach. The cDNA is antisense; sequencing reports the guide in its original sense.")}
 <h3>(5) Select the bead end and add flow-cell adapters</h3>
 {panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small", caption="Final guide-bearing CROP-seq library. Cell barcode and UMI are on Read 1; guide identity is in Read 2.")}

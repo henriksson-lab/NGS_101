@@ -1,0 +1,103 @@
+{
+  "dir": "artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC5902022, local nprot.2017.066_PMC5902022.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods and materials",
+        "finding": "Names KAPA Hyper, SureSelectXT2 and ONT kits."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "XML lines 149, 221-223 and 459-465",
+        "finding": "Illumina library: KAPA Hyper prep with substituted SureSelectXT2 indexing adapters; no oligo bases printed in these passages."
+      }
+    },
+    {
+      "id": "publisher_supp",
+      "role": "supplement",
+      "locator": "nprot.2017.066 publisher MOESM1 supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary material",
+        "finding": "Primer pools read; terminal kit oligos not resolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local MOESM1 extracted text, oligo scraper and primer pool sections",
+        "finding": "Supplement concerns amplicon primer scheme; no independent validation of kit oligos."
+      }
+    },
+    {
+      "id": "kapa_guide",
+      "role": "linked_material",
+      "locator": "KAPA Hyper Prep original guide, cat. 07962363001",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Named in paper XML lines 221,459; guide unavailable locally."
+    },
+    {
+      "id": "agilent_guide",
+      "role": "linked_material",
+      "locator": "SureSelectXT2 indexing adapters guide, cat. G9622A",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Named in paper XML lines 223,461; guide unavailable locally."
+    },
+    {
+      "id": "ont_guide",
+      "role": "linked_material",
+      "locator": "ONT SQK-NSK007/SQK-LSK208 original kit instructions",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Named in paper XML line 149; guide unavailable locally."
+    },
+    {
+      "id": "artic_site",
+      "role": "linked_material",
+      "locator": "ARTIC protocol site cited by manuscript",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "reason": "Manual/unavailable locally; chemistry-relevant versioned primer scheme not checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Methods citations and materials",
+      "finding": "Vendor finishing guides and ARTIC site are linked but unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "XML lines 149, 221-223,459-465 and manifest",
+      "finding": "Independently found named vendor guides; not in source bundle."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical indexing-adapter, finishing-primer and ONT kit oligos are not published.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

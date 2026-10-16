@@ -1,0 +1,114 @@
+{
+  "dir": "dripc-seq__10.1016+j.molcel.2016.05.032",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1016/j.molcel.2016.05.032; j.molcel.2016.05.032_PMC4955522.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "DRIPc methods around lines 132-141",
+        "finding": "Uses inherited DRIP isolation, DNase, poly(T)/random-hexamer RT, dUTP second strand, UDG strand selection."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article XML lines 133-145",
+        "finding": "Original DRIPc method delegates DRIP to Ginno et al. and supplementary experimental procedures; method describes DNase, mixed poly(T)/random-hexamer RT, dUTP second strand and UDG selection, not exact indexed adapter."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "NIHMS800865-supplement-1.pdf; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "NIHMS800865-supplement-2.xlsx; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "detailed",
+      "role": "detailed_protocol",
+      "locator": "PMC6615061_PMC6615061.xml.txt, later DRIPc-seq protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Oligonucleotide/adapter section lines 615-630",
+        "finding": "Later detailed protocol names TruSeq Single indexes and prints P5/P7 amplification primers; it links an official Illumina adapter sequence PDF."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "later protocol XML lines 613-624 and 2317-2323",
+        "finding": "Later detailed protocol identifies TruSeq Single indexes, prints P5/P7 PCR primers, and gives two adapter reference strings in a bioinformatics example. Example strings do not establish which index was used in the 2016 experiment."
+      }
+    },
+    {
+      "id": "illumina",
+      "role": "linked_material",
+      "locator": "https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/experiment-design/illumina-adapter-sequences-1000000002694-07.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official PDF not yet locally acquired/read.",
+      "discovered_from": "detailed",
+      "pass_2": null
+    },
+    {
+      "id": "ginno",
+      "role": "predecessor",
+      "locator": "Ginno et al. 2012 DRIP-seq DOI 10.1016/j.molcel.2012.01.017",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Defining article Methods inheritance",
+        "finding": "Inherited DRIP original reviewed in separate bundle; its methods supplements gated."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Ginno et al. 2012 DRIP-seq JATS PMC3319272 lines 74–75 and 110–115; defining DRIPc JATS PMC4955522 lines 53, 55, 61–63; primer scraper on both local source bundles",
+        "finding": "Ginno original establishes gentle nucleic-acid extraction, HindIII/EcoRI/BsrGI/XbaI/SspI restriction fragmentation, optional RNase H control, S9.6 capture without denaturation, then post-pulldown sonication/size selection and Illumina barcoded-adapter ligation. It says qPCR primers available upon request and gives no adapter bases or sample barcode member. DRIPc inherits S9.6 hybrid capture but adds DNase I destruction of DNA and RT of retained RNA before a strand-specific RNA-seq library; the 2012 DNA adapter does not establish the later DRIPc RNA-library adapter."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Defining paper supplement links, inherited Ginno DRIP, later detailed protocol link to Illumina official adapter guide.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "DRIPc P5/P7 PCR primer sequences",
+      "disposition": "resolved",
+      "evidence": "Later detailed protocol PMC6615061 lines 621-627 prints both primers; source-backed omission resolved."
+    },
+    {
+      "claim": "Selected TruSeq indexed adapter exact end geometry",
+      "disposition": "blocked",
+      "evidence": "Later protocol names adapter family; selected index and original supplement/vendor geometry not yet checked."
+    }
+  ],
+  "conclusion": "Later detailed protocol resolves P5/P7 primer bases, while adapter choice remains pending. Independent pass 2 pending; no missing claim accepted."
+}

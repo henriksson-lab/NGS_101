@@ -1,0 +1,187 @@
+{
+  "dir": "tsa-seq__10.1083+jcb.201807108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_PMC6219710.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods TSA labeling and library construction lines 246–264",
+        "finding": "HRP tyramide-biotin labels DNA by proximity; after pulldown, KAPA HyperPrep end repair/dA/adapter ligation/PCR yields six-base indexed libraries."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC6219710 JATS library Methods lines 252–260; scraper",
+        "finding": "Biotinylated DNA pulldown is followed by KAPA Hyper Prep blunt end repair, A-tailing, indexed-adapter ligation and six-base indexing."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_sm.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplemental material opening Figures S1–S3",
+        "finding": "Supplement describes microscopy and TSA-seq performance, without adapter-ordering identity in inspected captions."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JCB supplemental PDF, Figures S1–S5 captions lines 4–96; Table S1 experiment conditions lines 97–583; Table S2 BAC FISH probes lines 584–784; closing Table S3/S4 descriptions lines 785–786; scraper on full TSA source bundle",
+        "finding": "The full supplement records microscopy/genome-map validation, TSA experiment conditions including PCR-cycle counts, BAC FISH probes, and result-table descriptions. It gives no ordered sequencing adapter, six-base index choice, or adapter supplier."
+      }
+    },
+    {
+      "id": "table_s3",
+      "role": "supplement",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheet rep1 opening columns",
+        "finding": "Table S3 is gene/TSA decile and expression-result data, not library oligos."
+      },
+      "reason": "Result table, not synthesis or library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JCB Table S3 workbook opening sheet and column headings; scraper",
+        "finding": "Expression/TSA decile result data, not a protocol adapter or primer source."
+      }
+    },
+    {
+      "id": "table_s4",
+      "role": "supplement",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "cell line data opening columns",
+        "finding": "Table S4 lists public datasets used in analysis, not library oligos."
+      },
+      "reason": "Analysis dataset listing, not synthesis or library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JCB Table S4 workbook opening sheet and column headings; scraper",
+        "finding": "Public dataset inventory, not a library chemistry source."
+      }
+    },
+    {
+      "id": "kapa_manual",
+      "role": "vendor",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/03_KAPA_Hyper_Prep_Kit_KR0961-TDSv2.15_final_24_rxn_Reddy_GGR.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "reagent table and adapter-ligation instructions",
+        "finding": "Technical sheet describes HyperPrep chemistry but does not supply or identify an indexed adapter sequence; adapter choice is external."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official KAPA Hyper Prep technical sheet lines 102, 147–154 and adapter section; scraper",
+        "finding": "Kit supplies end repair/A tail/ligation chemistry but requires externally supplied adapters; it cannot determine which six-base indexed adapter TSA-seq authors chose."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/307892_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "preprint Methods TSA and library sections",
+        "finding": "Earlier author version available; full version comparison remains pending."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF Methods “Library preparation and high-throughput DNA sequencing” lines 752–772; distinct DamID adaptor paragraph lines 779–782; comparison with published JATS Methods lines 252–260; scraper on full bundle",
+        "finding": "TSA-seq libraries use KAPA Hyper Prep, blunt-end repair, 3′ dA tail, indexed adaptors with 6-nt barcodes, 8–16 PCR cycles and HiSeq reads. This author version does not name or sequence the ordered TSA adapter or select a six-base index. The nearby DamID adaptor passage describes a separate assay, not TSA-seq."
+      }
+    },
+    {
+      "id": "jcb_201807108_supp_jcb_201807108_tabless3ands4_zip",
+      "role": "supplement",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Inspected source header/contents describe assay result or metadata rather than library chemistry; second reader must confirm full-source exclusion.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JCB TablesS3andS4 ZIP member listing, matched to separately extracted Table S3/S4 workbook headers",
+        "finding": "ZIP contains the two already inspected result/data workbooks, with no separate methods supplement member."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ZIP member inventory: JCB_201807108_TableS3.xlsx and TableS4.xlsx",
+        "finding": "Archive packages only Tables S3/S4, already listed and reviewed separately; no hidden method or oligo member."
+      }
+    },
+    {
+      "id": "preprint_supp_data",
+      "role": "supplement",
+      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/307892_307892-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Both sheets list external analysis datasets and genome annotation resources, not TSA-seq library chemistry.",
+      "discovered_from": "preprint",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete bioRxiv supplement text twin, both sheets lines 1–42; full TSA source bundle scraper run before inspection",
+        "finding": "The first sheet inventories external ChIP-seq, DNase-seq, Repli-seq, RNA-seq, GRO-seq, DamID and Hi-C data; the second lists reference genome and annotation files. Neither provides TSA-seq adapter or index sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv supplement XLSX text twin, complete “cell line data” sheet lines 1–36 and “generic annotation data” sheet lines 37–42; scraper on full bundle",
+        "finding": "The two sheets inventory ENCODE and other public ChIP-seq, DNase-seq, Repli-seq, RNA-seq, GRO-seq, DamID and Hi-C datasets plus reference annotations; no TSA adapter or index source."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original library Methods around lines 246–264; published supplement S3/S4 headers; KAPA technical sheet",
+      "finding": "Six-base index length is reported but adapter supplier/sequence is not established; preprint and second pass still require review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published article JATS Methods lines 252–260; full JCB supplemental PDF Figures S1–S5 and Tables S1–S4; bioRxiv v1 Methods lines 752–772 and original supplement sheets lines 1–42; KAPA Hyper Prep technical sheet adapter section",
+      "finding": "Followed the published supplement, author preprint and its spreadsheet, and named KAPA kit manual. The KAPA kit supplies reaction chemistry but requires an external adapter; neither article version nor these supplements identifies its supplier, oligo bases, or selected six-base barcode. The preprint spreadsheet has now received two independent exclusion checks."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The ordered TSA-seq indexed adapter oligo, its supplier, and the selected six-base index remain unidentified",
+      "disposition": "blocked",
+      "evidence": "Both article versions report only indexed adapters with six-base barcodes. The KAPA kit manual explicitly excludes adapters. The publisher supplement contains experimental conditions and result data, and two independent checks find that the preprint supplement lists analysis datasets."
+    }
+  ],
+  "conclusion": "TSA-seq source-printed end repair, dA tailing, indexed-adapter ligation and PCR are represented. Exact ordered adapter and selected six-base index remain unresolved; no absence claim is accepted because their source identity is still unknown."
+}

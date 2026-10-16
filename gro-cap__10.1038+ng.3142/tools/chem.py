@@ -10,7 +10,7 @@ KRUESI = 'Kruesi et al., eLife 2013, doi:10.7554/eLife.00808, Methods pp. 22–2
 ILLUMINA = 'Illumina TruSeq Small RNA adapter sequences, document 1000000002694 v22'
 RA3 = TRUSEQ_SMALL_RNA_RA3
 RA5 = TRUSEQ_SMALL_RNA_RA5
-DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's current guide prints the named RA3 and RA5 bases, but equivalence to the 2013 kit revision and the exact selected index remain unverified.")
+DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's 2011 guide corroborates Kruesi's RA3 and RA5 part numbers, while its current sequence table prints their bases. Exact 2013 reagent-sequence continuity and the selected 2014 index remain unverified.")
 
 FINAL_LIBRARY = role_library(DEFINITION.title + " final library", (role("assay-derived cDNA"),),
                              indexed=True, platform="Illumina-compatible")
@@ -31,7 +31,7 @@ def _ligate_named_adapter(graph, prefix, template, position, sequence, reviewed)
     end = '5-prime' if position == '3-prime' else '3-prime'
     geometry = reported_adapter_end(
         label, kind='single-strand', polarity=end, terminal_sequence=sequence,
-        statement=f'{KRUESI} names {label} and its ligation position; {ILLUMINA} prints this sequence. Historical kit revision is not independently confirmed.')
+        statement=f'{KRUESI} names {label} and its ligation position; Illumina Rev C (2011) corroborates the component part number; {ILLUMINA} prints this sequence. Exact 2013 reagent-sequence continuity is unverified.')
     if position == '3-prime':
         parts = (role('protected capped 5-prime end'), role('nascent RNA body'),
                  Segment('RA3', sequence, inferred=True))

@@ -1,0 +1,236 @@
+{
+  "dir": "splash__10.1016+j.molcel.2016.04.028",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "aw_2016",
+      "role": "defining",
+      "locator": "Aw et al. 2016 Molecular Cell article DOI 10.1016/j.molcel.2016.04.028",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original Cell PDF and ScienceDirect article return403; OpenAlex locations list only Cell PDF, and author A-star page is JS verification gated. Supplement recovered separately; main article remains uninspected."
+    },
+    {
+      "id": "aw_2016_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc1.pdf FigureS2F/G p3 visually rendered / text269–305, caption2330–2334; SupplementalExperimentalProcedures p17 / text2715–2743; supplement/table inventory2690–2697 and reference/software links2840–2858",
+        "finding": "Same17-base adapter and96ntRT primer with2×iSp18 as laterJoVE. FigureS2F positively labels cDNA5′P and showsNaOH RNA hydrolysis, ssDNA circularization andPCR; source also specifies2×150PE. This resolves original2016 oligo correspondence and terminal phosphate support; exact circle-to-read coordinates remain undeclared model data. Followed additionalTablesS3–S7 through original publisher XLSX routes; linkedSeqPrep/Bbmap are computational processing, not additional library oligos. Main remains inaccessible."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc1 p3 FigS2F rendered independently; text2715–2743 printed adapter/RTprimer and2330–2334 library caption; independent full source-bundle oligo scraper",
+        "finding": "Original schematic explicitly marks the first-strand cDNA5primeP before circularization, and caption specifies circle thenPCR and2x150 reads. Printed17ntadapter and long2xiSp18 RTprimer agree with laterJoVE transcriptions. Corrects repository claims that2016supplement/RT5primegroup were unavailable; does not prove the modelled circle-to-read transition."
+      },
+      "discovered_from": "aw_2016"
+    },
+    {
+      "id": "aw_2017_jove_pdf",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/55255.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Aw et al. JoVE detailed protocol extracted text lines 179–295 and Materials references lines 619–713; scraper found no custom oligo strings in this local text",
+        "finding": "Detailed source gives end repair, proximity ligation, adapter ligation, RT, cDNA circularization, PCR and paired-end sequencing order, but extracted PDF text names oligos without printing their bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JoVE downloadable PDF extracted text newline lines 179–295, 619–625, 707–713",
+        "finding": "Author protocol independently describes end repair, proximity ligation, 3′ adapter ligation, RT, CircLigase cDNA circularization and PCR. PDF text names RT and PCR primers but omits the separate Materials table with their bases."
+      }
+    },
+    {
+      "id": "aw_2017_jove_materials",
+      "role": "linked_material",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen.html.txt (original https://www.jove.com/t/55255/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official JoVE original HTML Materials table, extracted text lines 1217–1224; scraper source hits lines 1220 and 1224, verified against original HTML lines 223–225",
+        "finding": "The original Materials table prints 5rAppCTGTAGGCACCATCAAT/3ddC, the full RT primer with two /iSp18/ spacers, and names NEB E7335L Primers Set 1. These facts were omitted from the PDF extraction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official JoVE original HTML Materials table, extracted text lines 920 and 1217–1224; original HTML table near lines 223–225",
+        "finding": "Read original Materials rows: activated adapter 5rAppCTGTAGGCACCATCAAT/3ddC, full RT primer with two /iSp18/, and NEB E7335L Primers Set 1. This resolves custom oligos for 2017 detailed protocol; 2016 original still unavailable."
+      },
+      "discovered_from": "aw_2017_jove_pdf"
+    },
+    {
+      "id": "neb_e7335",
+      "role": "vendor",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original NEB manual lines 127–130, 278–320, 448–536; scraper source lines 127 and 288–316",
+        "finding": "NEB manual prints adapter, universal and indexed PCR-primer families. JoVE original HTML Materials table names E7335L; the selected index within that set remains unspecified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NEB official manual Rev 8.0_6/24 cover lines 1–7, Set 1 contents lines 21–32, adapter lines 128–130, indexed primers lines 278–320",
+        "finding": "Current vendor manual prints E7335 Set 1 universal and index primer family including terminal phosphorothioate; author JoVE Materials names E7335L. June 2024 revision cannot by itself prove exact 2017 primer lot or selected index."
+      }
+    },
+    {
+      "id": "aw_2016_table_s3",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "TableS3: Gene-pair/region interaction output table, not molecular library recipe or oligo table.",
+      "discovered_from": "aw_2016_supplement",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Sheet1 heading/columns and first interaction rows, text1–10",
+        "finding": "Gene-pair/region interaction output table, not molecular library recipe or oligo table."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc2 Sheet1 heading/columns and initialrows; sole-sheet inventory",
+        "finding": "Human/human andhuman/yeast interaction results; biological interaction outputs are not synthesized library adapters. Independent exclusion from library-construction oligo scope."
+      }
+    },
+    {
+      "id": "aw_2016_table_s4",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "TableS4: Human snoRNA target-site coordinates/read counts, not library primer specification.",
+      "discovered_from": "aw_2016_supplement",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Sheet1 heading/columns and first snoRNA targets, text1–10",
+        "finding": "Human snoRNA target-site coordinates/read counts, not library primer specification."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc3 full3sheet inventory, Sheet1 heading/columns and initialrows",
+        "finding": "snoRNA target-site result table; coordinates/targets do not prescribe library adapter identities."
+      }
+    },
+    {
+      "id": "aw_2016_table_s5",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "TableS5: Yeast snoRNA target-site coordinates/read counts, not library primer specification.",
+      "discovered_from": "aw_2016_supplement",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Sheet1 heading/columns and first snoRNA targets, text1–10",
+        "finding": "Yeast snoRNA target-site coordinates/read counts, not library primer specification."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc4 full3sheet inventory, Sheet1 heading/columns and initialrows",
+        "finding": "Yeast snoRNA target-site results, excluded from library oligo synthesis scope based on original schema."
+      }
+    },
+    {
+      "id": "aw_2016_table_s6",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "TableS6: GO/module enrichment output, not library oligo or reaction specification.",
+      "discovered_from": "aw_2016_supplement",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original ModularEnrichment_Lcl sheet lines1–10; Sheet1 heading lines153–160 and representative ES/RA GO rows",
+        "finding": "GO/module enrichment output, not library oligo or reaction specification."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc5 bothsheet inventory and headings/initialrows",
+        "finding": "GO modular enrichment and cell-state result summaries, not library oligos or reaction recipes."
+      }
+    },
+    {
+      "id": "aw_2016_table_s7",
+      "role": "supplement",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "TableS7: 5′biotin probes forRNA pull-down validation and target-specific qPCR primer pairs. Source title explicitly says validation/Figure6; these are not SPLASH adapter/RT or sequencing primers. Figure6 validation is separate from modeled genome-wide library.",
+      "discovered_from": "aw_2016_supplement",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Sheet1 all75lines; full expanded-bundle scraper verified against printed5Biosg probe modifications",
+        "finding": "5′biotin probes forRNA pull-down validation and target-specific qPCR primer pairs. Source title explicitly says validation/Figure6; these are not SPLASH adapter/RT or sequencing primers. Figure6 validation is separate from modeled genome-wide library."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original mmc6 TableS7 all75lines including5Biosg probes and allqPCRprimers; independent full-bundle scraper",
+        "finding": "Source does contain many exact modified oligos. Header and gene/position assignments identify validation capture probes andqPCRprimers, not SPLASH library RT/PCR adapters. Exclusion is role-specific; cannot call this source devoid of oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "2016 DOI manifest; JoVE Methods and extracted Materials pointers; official JoVE web search lead; NEB E7335 manual",
+      "finding": "Followed detailed author protocol to its original online Materials table and source-named NEB E7335L manual. Original 2016 supplement remains inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JoVE PDF steps lines 179–295; official JoVE HTML Materials lines 920, 1217–1224; NEB Rev 8.0 cover and E7335 Set 1 table",
+      "finding": "Independently followed 2017 JoVE protocol to its official Materials table and named E7335L kit, with original adapter/RT strings verified and scraper rerun. Original 2016 Molecular Cell paper/supplement still unavailable, vendor guide is a 2024 revision, and read geometry remains unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact SPLASH original-2016 oligo applicability and final circle-derived read geometry are established from original sources",
+      "disposition": "blocked",
+      "evidence": "Original2016 supplement now read once: same adapter/RT bases, two spacers and5′P cDNA diagram. Exact circle-to-read model derivation and inaccessible defining main remain open; no source absence accepted."
+    }
+  ],
+  "conclusion": "New original2016 supplement and all five workbooks independently checked. Source-known RT5primeP/circle architecture now shown, stale source-unavailability claims corrected. Defining main article remains concretely access-blocked; exact circle-to-read molecular construction remains a model gap, not confirmed publication absence.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Crossref-confirmed PII S1097276516301046 yields validated original publisher mmc1.pdf; explicit original Cell article PDF remains403. This resolves original supplemental-file acquisition, not main-article reading or full audit."
+  },
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original2016 supplement and all5original XLSX attachments; Cell/ScienceDirect/OpenAlex/authorA-star retrieval routes",
+      "finding": "Followed supplementTablesS3–S7 to originals via repeatable extra_sources rows. Full expanded bundle scraper102hits/4files; source-positiveadapter/RT/5′P updates applied. Cellmain403, ScienceDirect403, authorfacultyJS gate; originalmain stillblocked. Other sources and original tables need independent checks; no missing claim accepted."
+    }
+  ]
+}

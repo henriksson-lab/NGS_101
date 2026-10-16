@@ -1,0 +1,99 @@
+{
+  "dir": "safe-seqs__10.1073+pnas.1105422108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Article lines 1278–1286, 1648–1658",
+        "finding": "Article describes endogenous sheared-end UIDs and exogenous 12/14-N forward-primer UIDs; Materials and Methods explicitly defer custom adapters and PCR primer bases/modifications to Table S4."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PNAS article lines 1278–1286 and Methods lines 1648–1658",
+        "finding": "Two branches: endogenous sheared-end UID and exogenous 12–14-N forward-primer UID. Exogenous assignment uses two PCR cycles, exonuclease removal and protected universal amplification primers; SI Table S4 is needed for exact oligos."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3111315/bin/1105422108_pnas.201105422SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PNAS SI with Table S4 is relevant and currently gated by PMC; ordered oligos not verified."
+    },
+    {
+      "id": "pnassupp_facsimile",
+      "role": "supplement",
+      "discovered_from": "original",
+      "locator": "US Patent Trial and Appeal Board exhibit 1049, https://ptacts.uspto.gov/ptacts/public-informations/petitions/1549805/download-documents?artifactId=kofo6g92QN3i2XDa55gLrZUDekd75G4UPgP6LPFbcqDOjexY8FWVqaI ; 16-page facsimile of Kinde et al. PNAS 2011 article and original ten-page SI",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original-facsimile SI pages 1–3 (PDF pages 6–8, web text lines 704–804), Table S4 pages 9–10 (PDF pages 14–15, web text lines 1249–1257); source-bundle oligo scraper run before reading, 0 local hits",
+        "finding": "The exhibit reproduces the original PNAS supplement, including SI Materials and Methods and Table S4. Methods specify a custom non-grafting adapter for inverse PCR, twelve indexed forward primers for pooling, and two-cycle 12/14-N UID assignment followed by Exonuclease I and protected universal amplification primers. Table S4 is present in the page images, but its sequence cells did not survive web text extraction and the PDF could not be fetched locally (curl DNS error 6); exact bases and modifications remain untranscribed and unverified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "US PTAB exhibit 1049 original-facsimile PDF web rendering, 16 pages, Table S4 on SI pp.9–10 / PDF pp.15–16; browser search-index excerpts for artifactIds kofo6g92QN3i2XDa55gLrZUDekd75G4UPgP6LPFbcqDOjexY8FWVqaI and T9HDX9rGq3-EVbAZmUF2DZFGwwYaGkqo4lsjt9vKfgbZDoGDioHCQ-s; source-bundle scraper returned 0 local files",
+        "finding": "Independently verified that exhibit 1049 reproduces original SI Table S4 and that indexed facsimile excerpts expose primer/adapter rows, 12–14 N UID assignment primers, library PCR primers, explicit sequencing/index primers and terminal * phosphorothioate notation. The two indexed artifact excerpts disagree on several bases (for example CTNNB1 library rev-3 and mitochondrial forward-index rows). Direct PDF returned HTTP 403 and browser screenshots failed; image cells could not be independently read at base resolution. Exact sequences must remain untranscribed and the missing claim blocked, not accepted."
+      }
+    },
+    {
+      "id": "si_index",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3111315/bin/supp_108_23_9530__index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher SI index is gated; linked-information inventory incomplete."
+    },
+    {
+      "id": "capture_predecessor",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/nmeth.1343",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article Methods cite prior capture procedure (ref. 44); source not yet checked.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Article lines 1650–1655, 1676",
+      "finding": "Original article points to SI Table S4 for exact custom oligos; SI remains gated, and cited capture method remains unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published PNAS text 1278–1286 and 1648–1658; supplement links",
+      "finding": "PNAS SI Table S4 and capture predecessor remain inaccessible; exact adapter/primer bases cannot be deemed absent."
+    },
+    "followup_root": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Article supplement hrefs in original PMC HTML; US PTAB original-facsimile exhibit 1049 SI pages 1–3 and Table S4 pages 9–10; Nature Methods DOI 10.1038/nmeth.1343 abstract/PMC search view",
+      "finding": "Followed the paper’s SI link to a facsimile of the original supplement. SI narrative is readable and Table S4 pages are present, but image-only cells remain unread and the publisher/PMC download gate persists. The cited Herman capture paper was located at Nature Methods/PMC but its full methods and supplement still require source reading. No absence claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The Safe-SeqS ordered primer and adapter sequences are confirmed unavailable",
+      "disposition": "blocked",
+      "evidence": "The original SI with Table S4 is linked by the article and a facsimile is located, but its table cells could not yet be read or independently checked. The PMC publisher attachment and index remain gated; the capture predecessor has not been fully examined."
+    }
+  ],
+  "conclusion": "Two independent readers located SI Table S4 in original-facsimile exhibits; indexed text confirms published primer/adapter rows, but conflicting extracted bases and inaccessible page images prevent reliable transcription. Publisher SI and cited capture predecessor remain blocked; exact oligos are not confirmed absent."
+}

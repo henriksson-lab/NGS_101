@@ -1,0 +1,199 @@
+{
+  "dir": "dsciatac-seq__10.1038+s41587-019-0147-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1038/s41587-019-0147-6; dsciatac source bundle s41587-019-0147-6_PMC10299900.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 163-175",
+        "finding": "Paper points to Bio-Rad SureCell User Guide #10000106678; 118/8/40 cycles, kit custom R1 primer; dsci branch prints indexed Tn5 assembly and refers Table 6."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article XML lines 163-175",
+        "finding": "Article delegates droplet workflow to Bio-Rad guide #10000106678 and separately defines the indexed-Tn5 dsci branch."
+      }
+    },
+    {
+      "id": "table6",
+      "role": "supplement",
+      "locator": "dsciatac source bundle MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Bead structure sheet lines 1-8; dsciATAC Table 6 lines 8-114",
+        "finding": "Original table prints 96 indexed Tn5 adapters and complementary ME; bead structure sheet has blank Linker sequence cell."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "publisher MOESM8 workbook lines 1-10 and 108-115",
+        "finding": "Original table prints 96 indexed Tn5 oligos, ME complement with 5-prime phosphate and 3-prime ddC, and a bead structure with blank linker cell."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "dsciatac source bundle MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Methods and figure legends",
+        "finding": "Original supplement inspected for droplet chemistry; vendor guide holds operational detail."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Lareau 2019 MOESM1 PDF extracted text lines 1–46, 88–101, 128–149; source-bundle scraper",
+        "finding": "The PDF is Supplementary Figures 1–9 followed by bead-merging computational analysis, not a complete chemistry methods supplement. Figure S6 covers indexed Tn5 species mixing; Figure S1d and note lines 139–146 explain cleaved bead oligos priming fragments and bead-barcode rewriting. No exact Tn5 index-to-well or bead-primer sequence is established there."
+      }
+    },
+    {
+      "id": "guide",
+      "role": "linked_material",
+      "locator": "Bio-Rad SureCell ATAC-Seq Library Prep Kit User Guide 10000106678; dsciatac source bundle biorad_10000106678.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Guide sequencing section around lines 1131 and 3260+",
+        "finding": "Official guide names supplied custom Read 1 primer and run lengths but sequence not found in checked text; current version may differ from 2019."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "Bio-Rad guide lines 1131-1134, 3320-3341, 3440-3470",
+        "finding": "Guide names custom Read 1 primer catalog 16005986 and cycle layout but does not print sequence in inspected primer and sequencing sections."
+      }
+    },
+    {
+      "id": "biorad_japanese_guide",
+      "role": "linked_material",
+      "discovered_from": "guide",
+      "locator": "Bio-Rad Japanese SureCell ATAC-Seq Library Preparation Kit manual M12173L, https://www.bio-rad.com/sites/default/files/2021-12/M12173L_ATAC-Seq%20Manual.pdf; copyright 2019, hosted path 2021-12; exact issue date unclear",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Official Bio-Rad Japanese PDF pp. 5, 33–34; web text lines 114–118, 995–1035; searched entire indexed PDF for catalog 16005986 and oligo/base sequence; original article and source-bundle scraper checked first",
+        "finding": "Kit contents and sequencing section name supplied custom Read 1 primer 16005986 (50 µM), single-index paired-end layout 118/8/40. No primer bases are printed. This is useful manufacturer corroboration but is not the 2018 Rev A guide used at publication."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Original Bio-Rad M12173L Japanese PDF, copyright line p. 2 (PDF page index 1/web line 34), kit component table p. 5 (web lines 101-118), sequencing section pp. 33-34 (web lines 995-1035); searched indexed PDF for catalog 16005986 and inspected primer table and read-parameter table; both source-bundle oligo scrapers and shared-paper bundle scraper run first.",
+        "finding": "The vendor names ATAC Sequencing Primer 16005986 in kit contents, then ddSEQ Sequencing Primer 16005986 as the supplied custom Read 1 primer at 50 µM. Its run table specifies R1 118, i7 8, i5 0, R2 40. Neither these sections nor another catalog-number occurrence prints nucleotide bases. The PDF says copyright 2019, while its hosted path is 2021-12; its precise issue date relative to the 2019 article is not established. It cannot prove the 2018 Ver A guide content."
+      }
+    },
+    {
+      "id": "biorad_2018_rev_a",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "Bio-Rad SureCell ATAC-Seq Library Preparation Kit User Guide 10000106678 Ver A (2018) cited by Rebboah et al. Genome Biology 2021 reference 45; historical revision at same mutable Bio-Rad URL as current guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Current Bio-Rad URL serves a 2024 Version 1.0.1/Ver E edition. Historical 2018 Ver A original was not found at a stable vendor URL; Wayback exact-URL attempt was inaccessible. A secondary paper citation identifies the revision but does not provide its content.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Current official guide revision-history text lines 48–110; original 2019 JATS linked guide 10000106678; Rebboah et al. 2021 Genome Biology reference 45 naming 2018 Ver A; attempted Wayback 2019 snapshot of original Bio-Rad PDF URL (web reader inaccessible)",
+        "finding": "The linked guide number existed as Ver A in 2018 according to later reference, while the fetched official PDF is a 2024 replacement. Historical original remains unavailable; current and Japanese versions cannot establish whether the 2018 insert printed primer bases or altered them."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Defining paper PMC JATS Methods lines 153-167 cite guide 10000106678; current official Bio-Rad 10000106678.pdf revision-history text lines 45-110, sequencing lines 3324-3342; independent web searches for exact 10000106678 Ver A/2018; attempted Wayback 2019 exact-PDF URL and CDX listing (both reader inaccessible); Rebboah et al. Genome Biology 2021 bibliographic reference to 2018 Ver A.",
+        "finding": "The article cites the guide number; the presently hosted file is a 2024 replacement whose revision history reaches only Ver B (March 2023), so it is not the 2018 Ver A original. A later paper bibliographically identifies 2018 Ver A but gives no primer sequence or guide content. Independent archive/search attempts did not recover the historical PDF. Its contents, including whether it printed primer bases, remain unresolved; keep relevant missing claim blocked."
+      }
+    },
+    {
+      "id": "kit_primer",
+      "role": "vendor",
+      "locator": "Bio-Rad ATAC Sequencing Primer, catalog 16005986, named in original Lareau 2019 article JATS Methods line 167 and official guide 10000106678 text lines 3324–3337; reagent-specific base sequence or 2018 kit insert not recovered.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The exact reagent is identified as catalog 16005986. Current Bio-Rad guide and earlier Japanese guide supply product identity and use but no bases; original-era 2018 Rev A guide and reagent-specific sequence disclosure remain unrecovered.",
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Defining article PMC JATS Methods lines 163-167 (custom kit R1 primer, 118/8/40); current official Bio-Rad guide text lines 3324-3342 (16005986, 50 µM); original Bio-Rad Japanese PDF kit table p. 5 and sequencing pp. 33-34 (web lines 117, 995-1035); exact-catalog web search; source-bundle scrapers run before reading originals.",
+        "finding": "The defining article requires an unnamed kit-supplied custom R1 primer. Both official vendor guides identify catalog 16005986 and its use/concentration; neither discloses its nucleotide sequence. The exact-primer search found other studies and a safety document repeating the catalog identity, not an original base disclosure. The 2018 Ver A guide and reagent insert remain unavailable. The sequence shown in the repo note from an upstream drawing cannot be promoted to source-established bases."
+      },
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Lareau 2019 JATS lines 155–172, local Bio-Rad guide 10000106678 Version 1.0.1 revision history lines 48–110 and sequencing lines 3324–3337/3440–3460, official Japanese Bio-Rad guide M12173L pp. 5, 33–34 (web PDF lines 114–118, 995–1035), Bio-Rad reagent SDS ATAC Sequencing Primer 16005986 p. 84 (web lines 2521–2526); source-bundle oligo scraper run before article reading",
+        "finding": "Original paper requires a kit-supplied custom R1 primer. Manufacturer guide identifies it as 16005986, 50 µM; Japanese guide independently names same catalog and 118/8/40 read layout. Reagent SDS identifies 16005986 but supplies chemical safety composition, not nucleotide bases. No checked original prints the primer sequence."
+      }
+    },
+    {
+      "id": "scrna_bead_mirror",
+      "role": "linked_material",
+      "locator": "scg_Bio-Rad_ddSEQ_3p_scRNA_bead_structures.xlsx.txt; extra_sources.tsv scg:data/ddSEQ_3pRNA route",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Vendor bead structure is for ddSEQ 3-prime scRNA, a different assay; shared platform name cannot establish ATAC bead linker or primer chemistry.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Workbook Beads sheet lines 1-4; oligo scraper hit source_kind and manifest_what",
+        "finding": "Workbook has poly-T and scRNA UMI chemistry. Excluded from ATAC molecular claims."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "mirrored scRNA bead workbook lines 1-6",
+        "finding": "Workbook is ddSEQ 3-prime scRNA with a poly-T capture tail, so its sequence is not evidence for ATAC bead linker or custom primer."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Paper Methods explicitly links Bio-Rad guide 10000106678; its current official PDF fetched and checked. MOESM8 original table available under dsciATAC source bundle; dscATAC lacks duplicate bundle.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": {
+      "reviewer": "audit_sci_hic",
+      "date": "2026-10-16",
+      "locations": "Defining paper PMC JATS Methods lines 153-167; official Bio-Rad current guide 10000106678 revision history and sequencing chapter; Japanese Bio-Rad M12173L PDF kit table p. 5 and sequencing pp. 33-34; independent 2018 Ver A search and Wayback exact-PDF/CDX attempts.",
+      "finding": "Followed the paper-linked Bio-Rad guide number to the currently served 2024 edition and traced its custom R1 reagent 16005986 to the Japanese original. These originals corroborate catalog identity, concentration and 118/8/40 read layout but do not print bases. The publication-era 2018 Ver A and reagent-specific base disclosure remain unavailable, so the primer-base absence claim is blocked. The Japanese PDF copyright is 2019; its issue date relative to the paper is unclear."
+    },
+    "followup_2026_10_16": {
+      "reviewer": "audit_vendor_links",
+      "date": "2026-10-16",
+      "locations": "2019 defining JATS lines 155–172; current vendor guide sequencing section and revision history; Bio-Rad Japanese guide pp. 5, 33–34; Bio-Rad reagent SDS p. 84; attempted 2018 Rev A archive",
+      "finding": "Followed the linked manufacturer guide to the specific ATAC Sequencing Primer catalog 16005986 and earlier Japanese guide. Both identify use, not sequence. The mutable URL no longer serves the original 2018 Rev A edition, and reagent SDS has no base listing. Keep exact primer and bead linker claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "96 indexed Tn5 adapter oligos",
+      "disposition": "resolved",
+      "evidence": "Printed in original Supplementary Table 6; missing claim resolved."
+    },
+    {
+      "claim": "Custom kit Read 1 primer and bead linker bases",
+      "disposition": "blocked",
+      "evidence": "Paper and available guide name the primer; table bead linker cell is blank. Historical kit insert or sequence disclosure remains unchecked."
+    }
+  ],
+  "conclusion": "Source-backed Tn5 table remains resolved. Bio-Rad custom Read 1 reagent is identified as catalog 16005986 in current and earlier vendor guides, but no checked original prints its bases. The 2018 Ver A guide and any reagent sequence disclosure remain unrecovered; bead linker cell is blank in the source table. Review stays in progress and no missing-information claim is accepted."
+}

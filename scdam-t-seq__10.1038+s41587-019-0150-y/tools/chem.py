@@ -16,6 +16,11 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-019-0150-y">
 SUMMARY = ("One well-specific CEL-seq2 primer labels transcript cDNA while a different "
            "well-specific forked adapter labels DpnI-cut Dam-methylated DNA. Both carry "
            "T7 promoters, so the two branches are pooled and linearly amplified together.")
+CAVEAT = ("<b>Adapter branch shown:</b> the six-base fork and split 8-nt barcode below "
+          "are the example in Markodimitraki et al. 2020, Supplementary Table 2. "
+          "Rooijers et al. 2019, Methods ‘DamID adapters’ and Supplementary Table 2, "
+          "also describe a four-base-fork adapter for other cells; the Dam-RING1B "
+          "mESC branch uses a six-base fork. These are distinct published variants.")
 
 T7 = "GCCGGTAATACGACTCACTATAGGG"
 RA5 = "AGTTCTACAGTCCGACGATC"

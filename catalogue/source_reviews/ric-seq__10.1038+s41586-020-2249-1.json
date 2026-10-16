@@ -1,0 +1,307 @@
+{
+  "dir": "ric-seq__10.1038+s41586-020-2249-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41586-020-2249-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "2020 Nature article full Methods inaccessible through fetcher and browser redirect; must read before accepted audit."
+    },
+    {
+      "id": "fig_source",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figure 1 gel/source-data captions lines 1–172",
+        "finding": "Gel and blot source data, not oligo ordering."
+      },
+      "reason": "Original figure source data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM1 opening figure-source pages and captions lines 1–30",
+        "finding": "Gel/source-data panels, no ordered adapter chemistry in inspected opening."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary opening and sections",
+        "finding": "Study reporting form, no adapter sequence table."
+      },
+      "reason": "Reporting summary.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 Reporting Summary lines 1–12",
+        "finding": "Journal reporting form."
+      }
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Note opening discussion",
+        "finding": "Discusses comparative RNA structure/interaction assays; no original 2020 library adapter identity established in opening section."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM3 Supplementary Note opening section",
+        "finding": "Supplementary note discusses comparisons and interpretation rather than the defining 2020 ligation method."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM4_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of library mapping results, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Supplementary Table 1 lines 1–12",
+        "finding": "Read mapping outcome table."
+      }
+    },
+    {
+      "id": "supp_table_2",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of subcellular RNA enrichment, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM5 Supplementary Table 2 lines 1–5",
+        "finding": "RNA enrichment across cellular fractions."
+      }
+    },
+    {
+      "id": "supp_table_3",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM6_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Table 3 PDF text lines 1–63",
+        "finding": "Correction after independent review: although this is a comparison table, it explicitly records RIC-seq ligation as in situ (lines 32–36) and paired-end sequencing (lines 58–62); it is relevant corroboration of reaction and read layout."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM6 Supplementary Table 3 lines 1–110",
+        "finding": "Comparison table directly states RIC-seq ligation is in situ and read layout is paired-end. It is relevant to reaction/read claims even though it supplies no adapter bases. Earlier not_relevant classification should be revisited."
+      }
+    },
+    {
+      "id": "supp_table_4",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM7_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of RNA interaction counts, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM7 Supplementary Table 4 lines 1–12",
+        "finding": "RNA interaction count summary."
+      }
+    },
+    {
+      "id": "supp_table_5",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of target transcripts, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM8 Supplementary Table 5 lines 1–5",
+        "finding": "MALAT1/NEAT1/CCAT1 target intervals."
+      }
+    },
+    {
+      "id": "supp_table_6",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of RNA domain calls, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM9 Supplementary Table 6 lines 1–5",
+        "finding": "RNA topological domain results."
+      }
+    },
+    {
+      "id": "supp_table_7",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of hub RNA results, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM10 Supplementary Table 7 lines 1–5",
+        "finding": "Hub RNA results."
+      }
+    },
+    {
+      "id": "supp_table_8",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary table heading and first rows",
+        "finding": "Table of enhancer–promoter interaction results, not synthesis oligos."
+      },
+      "reason": "Biological/analysis results table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM11 Supplementary Table 8 lines 1–5",
+        "finding": "Enhancer-promoter interaction results."
+      }
+    },
+    {
+      "id": "supp_table_9_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 9 lines 248–262",
+        "finding": "Original 2020 supplement prints full PE1.0 and twelve indexed P7 PCR primers with variable index lengths."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM12 Supplementary Table 9 lines 248–262",
+        "finding": "Prints Illumina PE1.0 and twelve indexed P7 primers, but does not establish the original 2020 internal RNA adapter structure."
+      }
+    },
+    {
+      "id": "later_2024",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/PMC11245969_PMC11245969.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "2024 STAR Protocols JATS lines 82–108, 318–329, 1216–1446",
+        "finding": "Later same-family method describes pCp-biotin capture, strand-specific cDNA, annealed PEI adapter oligos and PCR primers; table attributes these oligos to Cao et al. 2021 protocol, so 2024 adapter identity is not direct evidence for 2020 paper."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 STAR Protocols JATS lines 82–108, 318–329",
+        "finding": "Later protocol prints phosphorylated PEI adapter A and adapter B attributed to Cao et al. 2021; it cannot be silently assigned to the inaccessible 2020 defining method."
+      }
+    },
+    {
+      "id": "cao_2021",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41596-021-00524-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "2021 detailed RIC-seq protocol cited by 2024 table; full original not checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "2020 Table 9 lines 248–262; 2024 STAR Protocols JATS 82–108, 318–329, 1216–1446; remaining supplement headings",
+      "finding": "Original 2020 PCR oligos are source-positive, but adapter identities currently come from a later attributed protocol. Full 2020 article and 2021 detailed protocol remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "2020 Table 9 lines 248–262; 2024 STAR Protocols JATS lines 82–108, 318–329",
+      "finding": "2024 successor cites Cao 2021 for internal adapter, but 2020 defining article and Cao 2021 full protocol remain inaccessible; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The 2020 RIC-seq ligation adapter exact strands are established",
+      "disposition": "blocked",
+      "evidence": "2020 index primers are verified; precise adapter attribution remains blocked by full original and 2021 protocol."
+    }
+  ],
+  "conclusion": "2020 index primers are verified; precise adapter attribution remains blocked by full original and 2021 protocol.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Detailed2021 original protocol DOI route still reports unavailable fulltext and discovers no publisher supplements. Explicit defining2020 Nature PDF returns HTML instead of PDF. Existing supplementary originals remain source-positive; both main protocol sources remain uninspected."
+  }
+}

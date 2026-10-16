@@ -1,0 +1,93 @@
+{
+  "dir": "dnbseq-library-circularization",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "circle_guide",
+      "role": "defining",
+      "locator": "_data/sources/dnbseq-library-circularization/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Manual 7.0 product overview pp. 1-2 and circularization procedure.",
+        "finding": "Original MGI guide describes dual-barcode ssDNA circularization with Dual Barcode Splint Buffer and DNA Rapid Ligase, then digestion; no splint oligo bases in guide."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MGIEasy Dual Barcode Circularization Kit manual v7 PDF pp. 1-2, text lines 202-220; circularization section lines 653-716",
+        "finding": "Original manual requires upstream MGI UDB/Duplex UMI or dual-barcode standard library and uses splint/ligation to form ssCir; it does not establish a single upstream adapter member for all workflows."
+      }
+    },
+    {
+      "id": "adapter_guide",
+      "role": "vendor",
+      "locator": "MGI DNBSEQ Dual Barcode Adapter & Barcode Sequences v3.0, original PDF mirrored at https://device.report/m/0bf4e14e4bd592ecce9e4104d29a9f43cb0d3603c3396fe7f998417332f90fea.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PDF pp. 1-4, version history p. 3, index table pp. 5-8.",
+        "finding": "Manufacturer PDF p. 4 prints forward/reverse adapter trimming sequences and pp. 5-8 UDB index members for MGIEasy UDB/UMI prep set. Applies to this family only, not every input compatible with circularization kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MGI authored DNBSEQ Dual Barcode Adapter & Barcode Sequences v3.0 PDF pp. 1-5, web text lines 7-85",
+        "finding": "Independently read original MGI authored guide mirrored at device.report: p.4 prints forward/reverse trimming arms; p.5 onward prints paired UDB barcode sequences. It names a separate Sequencing Primer Reference Guide; categorical claim all adapter bases proprietary is false."
+      }
+    },
+    {
+      "id": "adapter_official",
+      "role": "other",
+      "locator": "https://en.mgi-tech.com/Uploads/Temp/file/20240530/66583952cae5b.pdf",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Manufacturer origin URL returned HTTP 503; identical original manufacturer PDF read through mirror."
+    },
+    {
+      "id": "primer_ref",
+      "role": "linked_material",
+      "locator": "DNBSEQ Platform Sequencing Primer Reference Guide, named by adapter guide p. 4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named manufacturer sequencing-primer guide not yet obtained or matched to kit version.",
+      "discovered_from": "adapter_guide"
+    },
+    {
+      "id": "fast_fs",
+      "role": "linked_material",
+      "locator": "MGIEasy Fast FS Library Prep Set User Manual 2.0, named by current protocol page",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original upstream library-prep source not in DNB bundle and kit applicability needs checking.",
+      "discovered_from": "circle_guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Dual Barcode Circularization Manual 7.0 pp. 1-2 and adapter guide v3.0 pp. 1-8",
+      "finding": "Followed manual reference to DNBSEQ platform adapter documentation; adapter guide in turn names separate sequencing-primer reference."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MGI manual 7.0 product overview; MGI adapter guide pp. 1-5 and linked guide names",
+      "finding": "Read mirrored MGI original; source specifies barcode/trim arms but not full circularization splint or run primer. Official MGI URL and named primer reference guide remain inaccessible."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "All MGI adapter/splint/primer bases are proprietary",
+      "disposition": "blocked",
+      "evidence": "Blanket adapter absence is false for MGIEasy UDB/UMI family: manufacturer guide prints trimming arms and index table. Complete splint/primer species and kit-specific input still unresolved."
+    }
+  ],
+  "conclusion": "Manufacturer adapter/index subsets recovered; exact circle splint and sequencing primer guide remain blocked."
+}

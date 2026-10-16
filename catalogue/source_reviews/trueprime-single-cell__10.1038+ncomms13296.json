@@ -1,0 +1,193 @@
+{
+  "dir": "trueprime-single-cell__10.1038+ncomms13296",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/trueprime__10.1038+ncomms13296/ncomms13296_PMC5141293.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5141293 JATS Methods “Whole genome amplification”, “Single-cell WGA”, and “Sequencing” paragraphs (local text lines 148–158)",
+        "finding": "Purified DNA receives Buffer D for 3 min; intact cells instead receive L2 for 10 min on ice and Buffer N, then identical 42.5 µl mix for 3 or 6 h at 30 °C. Sequencing Methods names Covaris and NEBNext without kit revision."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC5141293 JATS Methods lines 139–156 and reaction scheme around line 696",
+        "finding": "TthPrimPol synthesizes primers de novo for phi29 displacement amplification; WGA uses 3-hour 30C incubation, single-cell variant 3/6 hours, and post-WGA Covaris fragmentation plus unspecified NEBNext sequencing-library prep."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/trueprime__10.1038+ncomms13296/ncomms13296_supp_ncomms13296-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figures and Table 1, primer/reaction comparisons",
+        "finding": "Relevant for assessing TruePrime versus primer-based WGA; no source-backed synthetic TruePrime primer identified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original ncomms13296-s1.pdf.txt headings lines 1–22, Supplementary Figures 1–8 and Table 1 around lines 278–310",
+        "finding": "Supplement is reaction characterization, including random-primer controls and sequence/coverage comparisons; it does not transform primase-mediated TruePrime into a synthetic random-primer method."
+      }
+    },
+    {
+      "id": "peer_review",
+      "role": "supplement",
+      "locator": "_data/sources/trueprime__10.1038+ncomms13296/ncomms13296_supp_ncomms13296-s2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reviewer comments and author response lines 1–30, 47–65, 230–279, 371–404",
+        "finding": "Peer review asks about 7–9 nt de novo TthPrimPol primers and detailed WGA conditions; author response confirms endogenous primase products rather than an added synthetic random oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Nature Communications peer-review PDF lines 1–16, 39–72, 94–130",
+        "finding": "Reviewers specifically question scarcity of proprietary TruePrime reaction detail, separate pulse/chase versus single-cell one-step reactions, and short de novo 7–9-nt primers. Peer review adds no source-confirmed sequencing adapter bases."
+      }
+    },
+    {
+      "id": "sygnis_v2_handbook",
+      "role": "vendor",
+      "locator": "https://www.pacificscience.co.th/userfiles2/fckeditor/121912/file/Sygnis-TruePrime-Single-Cell-WGA-Handbook(1).pdf (SYGNIS-authored version 2.0 mirror)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "SYGNIS version 2.0 Handbook pp. 10–12, PDF text lines 136–205, especially B.2–B.4",
+        "finding": "Buffer L2 is freshly made from DTT and L1; p.11 instructs 5 min at room temperature plus 1 min at 95 °C, unlike paper 10 min on ice. Amplification mix and optional 6 h match. Exact revision used in the paper remains unknown."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original SYGNIS-authored TruePrime Single Cell WGA Kit v2 PDF pp. 10–12, browser lines 136–205, independently read after local TruePrime source-bundle oligo scraper",
+        "finding": "The manual specifies 2.5 µl cell suspension plus 2.5 µl freshly mixed L2 (DTT and L1), 5 min room temperature plus 1 min at 95 °C, then 2.5 µl Buffer N. Its 42.5 µl TthPrimPol/phi29 mix runs 3 h at 30 °C with optional 6 h. Picher's 2016 paper instead describes 10 min on ice for lysis; this later kit revision does not establish the conditions actually used in the study."
+      }
+    },
+    {
+      "id": "nebnext_library_guide",
+      "role": "vendor",
+      "locator": "Picher 2016 Sequencing Methods: “library preparation using NebNext (NEB)”; no catalogue number or guide linked",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The source does not name a kit generation or selected index member, so a version-matched vendor document cannot yet be identified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "sygnis_v2_launch",
+      "role": "vendor",
+      "locator": "_data/sources/trueprime-single-cell__10.1038+ncomms13296/b6944fd3-d5aa-471d-a00c-5203ce0835df_en.html.txt (SYGNIS 11 July 2016 press release)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trueprime_family",
+        "date": "2026-10-16",
+        "locations": "Original SYGNIS press release extracted text lines 679–755, especially 743–749",
+        "finding": "SYGNIS announced global launch of Single Cell Kit V2 on 11 July 2016 and explicitly calls it a successor to the earlier kit. The release does not identify which version produced Picher’s published experimental data."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Original SYGNIS 11 July 2016 V2 launch notice, extracted lines 679 and 725–755, after full single-cell bundle scraper.",
+        "finding": "The manufacturer calls V2 a successor with improved sensitivity. Launch date lies before Picher publication but after its submission; neither date establishes which version produced the reported single-cell data. V2’s 5 min room-temperature plus 1 min 95 °C lysis must not replace Picher’s 10 min on ice."
+      }
+    },
+    {
+      "id": "dean_2001_mda",
+      "role": "predecessor",
+      "locator": "_data/sources/trueprime-single-cell__10.1038+ncomms13296/PMC311129.html.txt (Dean et al., Genome Research 2001, DOI 10.1101/gr.180501; Picher ref. 46)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trueprime_family",
+        "date": "2026-10-16",
+        "locations": "Original Dean 2001 PMC HTML text lines 1103–1124, 1145–1149, 1169–1175, 1182–1194",
+        "finding": "Predecessor establishes phi29 strand-displacement RCA with synthetic random hexamers, including 3′ thiophosphate-protected variants; its 34-nt single-primer M13 control and random primers belong to Dean’s experiments, not Picher TruePrime."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Original Dean et al. 2001 PMC source, local lines 1103–1155 and 1182–1195, after full TruePrime source-bundle scraper.",
+        "finding": "The phi29 MDA predecessor uses random hexamers, including protected variants, and a 34-nt M13 control primer. Those oligos are Dean-specific and cannot be assigned to the Picher TruePrime amplification mechanism."
+      }
+    },
+    {
+      "id": "sra_srp085855",
+      "role": "linked_material",
+      "discovered_from": "original",
+      "locator": "Paper Data availability accession SRP085855; original ENA study https://www.ebi.ac.uk/ena/browser/api/xml/SRP085855 and original experiments SRX2134246/4247/4248/4251; local _data/sources/trueprime-single-cell__10.1038+ncomms13296/filereport.tsv and matching *.xml files",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original ENA SRP085855 study XML and four original SRX experiment XMLs, plus local filereport.tsv rows 1–5; full local source-bundle oligo scraper rerun after fetch.",
+        "finding": "Study describes a HEK293 single-cell MDA comparison. TruePrime run SRX2134246/SRR4159313 is labelled WGA, GENOMIC, MDA and its design says amplified with TruePrime; other experiments are random-primer MDA, MALBAC and unamplified controls. All have paired Illumina HiSeq 2500 layout. No XML contains a library-construction protocol, NEBNext kit identity or adapter sequence."
+      },
+      "pass_2": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Independently read original ENA study XML for SRP085855 and original experiment XMLs SRX2134246, SRX2134247, SRX2134248, SRX2134251, plus both local filereport.tsv files after full source-bundle scraper.",
+        "finding": "Confirmed study PRJNA341815, four WGA libraries TP/R/M/NA and TruePrime design label; all experiment records are paired HiSeq 2500 metadata. Neither study nor experiments name NEB, NEBNext, adapter/oligo or any LIBRARY_CONSTRUCTION_PROTOCOL. Metadata cannot resolve the downstream kit or junction."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "trueprime_family",
+      "date": "2026-10-16",
+      "locations": "Picher Methods Whole genome amplification, Single-cell WGA and Sequencing; references 45–46; both Nature supplements; original vendor WGA/Single Cell handbook and SYGNIS V2 announcement as applicable; original Dean 2001 article; Data availability line 204, SRP085855 linked accession",
+      "finding": "Followed protocol-specific branches, supplements, vendor kit documents and the cited phi29 predecessor. Dean’s synthetic primers and Picher’s GTCC assay template are not TruePrime amplification oligos. Kit revision and NEBNext guide selection remain unverified; source checklist records these limits. The SRA accession is relevant metadata and remains to be checked."
+    },
+    "pass_2": null,
+    "additional_passes": [
+      {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Independently traced Picher 2016 original Methods and Data availability, original supplements/reviewer response, successor vendor handbook/launch notice and Dean 2001 predecessor; both full source-bundle scrapers run first.",
+        "finding": "Confirmed two separate purified-DNA and intact-cell branches, successor V2 chemistry cannot be retroactively assigned to the 2016 study, and Dean random primers are predecessor-only. SRA SRP085855 and exact NEBNext library kit remain uninspected and block absence acceptance."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Paper-linked SRP085855 accession followed to original ENA run table, study and four experiment XMLs.",
+        "finding": "The original metadata distinguishes TruePrime and comparators but supplies no downstream library-construction protocol."
+      },
+      {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Independent original ENA study and all four linked experiment XMLs, plus run tables.",
+        "finding": "Confirmed no NEBNext or adapter identity in linked accession metadata; relevant kit documentation remains to be located."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "The 2016 single-cell experiment used the version 2.0 SYGNIS lysis schedule",
+      "disposition": "blocked",
+      "evidence": "Picher Methods reports L2 for 10 min on ice; the version 2.0 handbook instead gives 5 min at room temperature and 1 min at 95 °C; experimental kit revision is not identified."
+    },
+    {
+      "claim": "The downstream NEBNext adapter and selected index oligos are known for the single-cell experiment",
+      "disposition": "blocked",
+      "evidence": "Picher Sequencing Methods names NEBNext without kit revision or oligos."
+    }
+  ],
+  "conclusion": "Two independent readers checked the original Picher methods, supplements, vendor/predecessor sources and SRA SRP085855 metadata. The original purified-DNA and single-cell branches remain distinct; later V2 lysis and predecessor random primers are not assigned to the study. ENA confirms TruePrime WGA runs but supplies no library-construction protocol. Exact downstream NEBNext kit and adapter identity remain unresolved, so no absence is accepted."
+}

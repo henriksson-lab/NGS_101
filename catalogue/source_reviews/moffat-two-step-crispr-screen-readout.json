@@ -1,0 +1,48 @@
+{
+  "dir": "moffat-two-step-crispr-screen-readout",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "lab_protocol",
+      "role": "defining",
+      "locator": "_data/sources/moffat-two-step-crispr-screen-readout/moffat_lab_crispr_screen_protocol_v2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author lab protocol v2 PDF text lines 869-940 (Table 1), 962 onward (Table 2), and 1057-1077 (sequencing); scraper hits on both primer tables",
+        "finding": "Table 1 prints LCV2 PCR1 forward and reverse and PCR2 indexed D501-F to D506-F and D701-R etc. Table 2 prints pLCKO2 PCR1 and S-series indexed PCR2 primer families. Sequencing section specifies 21 dark cycles then Read 1 and dual 8-cycle indexes. Thus PCR and index oligos are source-published, although exact per-sample index assignments are not fixed by this generic protocol."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original author PDF revision 2019-07-23, lines 631-660, 766-858, Table 1 lines 865-940, Table 2 lines 962-1030, run settings lines 1041-1065",
+        "finding": "Read the two-PCR recipe and original tables after scraper review. LCV2 Table 1 prints the PCR1 primer pair and D501–D506/D701 etc indexed PCR2 families; Table 2 has a distinct pLCKO2 reverse primer and S-series indexes. Run uses 21 dark cycles, 26 Read 1 cycles and two 8-cycle index reads."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "none_found",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Author lab protocol PDF text lines 631-660, 865-1065 and 1090-1122; local MANIFEST.tsv; oligo scraper on recovered PDF",
+      "finding": "The original author PDF was recovered and its two-step library section, primer Tables 1/2, run layout, and references were checked. Tables 1/2 fully specify the two vector-backbone primer families and offered index members. The one-step PCR cited at line 642 is an alternative workflow, not a required source for this two-step claim; analysis references at the end do not specify additional library chemistry."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original PDF lines 631-660, 766-1065 and references 1090-1122",
+      "finding": "The original author protocol itself prints every oligo and run setting needed for the LCV2 two-PCR variant. It mentions a one-step alternative, outside this page scope; no linked chemistry document is required for this variant."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Moffat two-step PCR readout oligos and index primer members are published in author lab protocol Tables 1 and 2; sample-specific index choices remain unspecified",
+      "disposition": "resolved",
+      "evidence": "Two independent original-PDF readings locate the LCV2 and pLCKO2 primer families in Tables 1 and 2; the page chooses source-listed D501/D701 as an example, with sample-specific choices intentionally variable."
+    }
+  ],
+  "conclusion": "Two independent readers verified the published PCR1/PCR2 primer families, representative index members, and read layout in the author PDF. The LCV2 two-PCR page uses source-listed D501/D701."
+}

@@ -1,0 +1,301 @@
+{
+  "dir": "spatial-atac-seq__10.1101+2021.06.06.447244",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "deng_preprint",
+      "role": "defining",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/2021.06.06.447244_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Methods lines 400-460, Tn5 oligos lines 448-452, supplementary sequence tables near lines 1160-1500; scraper verified relevant hits",
+        "finding": "Defines in-tissue Tn5, orthogonal A/B microfluidic ligation, Tn5ME adapter oligos and barcode families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint Methods lines 446\u2013462 and appended oligo/barcode tables lines 1150\u20131500",
+        "finding": "Preprint explicitly prints phosphorylated Tn5MErev and Tn5ME-A CATCGGCGTACGACT...; appended tables give exact linkers and A/B barcodes."
+      }
+    },
+    {
+      "id": "deng_published",
+      "role": "defining",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_PMC9452302.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 187-233, especially transposome Tn5ME-A/B at line 215, supplementary pointers 217-219 and 287",
+        "finding": "Published assay and PCR order, barcode ligation, source table pointers and readout. JATS line 215 prints Spatial-ATAC-specific /5Phos/CATCGGCGTACGACTAGATGTGTATAAGAGACAG loading oligo; this must not be replaced with later CUT&Tag Table 1 oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 213\u2013235; Tn5ME-A line 215",
+        "finding": "The published assay ligates A then perpendicular B in tissue. Its Tn5ME-A is /5Phos/CATCGGCGTACGACTAGATGTGTATAAGAGACAG, matching preprint and distinct from the 2024 CUT&Tag Table 1 oligo."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary figure captions and table legends through line 251",
+        "finding": "Figure and table legends link spatial ligation schematic and supplementary oligo tables; no conflicting adapter sequence found."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary PDF lines 90\u2013100, 106\u2013196, 246\u2013253",
+        "finding": "Supplementary Figures 1\u201312 are mainly outcome/quality plots; captions at lines 246\u2013253 explicitly route oligos/barcodes to Supplementary Table 3."
+      }
+    },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all three original PDF pages using pdftoppm",
+        "finding": "Nature Research reporting summary with data/software, cell lines, animals and human participants, no molecular recipe."
+      },
+      "reason": "Reporting form, not chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original three-page PDF visually inspected at 55 dpi; pages 1\u20133",
+        "finding": "Nature reporting summary covers statistics, datasets, cell lines, animals and ethics; it does not supply molecular construction details."
+      }
+    },
+    {
+      "id": "diff_expression",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Sheet E13 Mouse embryo header and first gene rows",
+        "finding": "Differential-expression results, not library construction."
+      },
+      "reason": "Expression result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Workbook E13 Mouse embryo sheet lines 1\u20135 and table headers",
+        "finding": "Gene, Log2FC, FDR and cluster columns are differential expression/score results, not oligo specifications."
+      }
+    },
+    {
+      "id": "cell_annotations",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Sheet2 cell subclass header and first rows",
+        "finding": "Cell annotation glossary."
+      },
+      "reason": "Annotation table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Workbook Sheet2 lines 1\u20138",
+        "finding": "Cell subclass/description glossary, not chemistry."
+      }
+    },
+    {
+      "id": "original_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "DNA oligos sheet lines 1-17; DNA barcode sequences sheet lines 18 onward; scraper candidate inventory",
+        "finding": "Prints phosphorylated Tn5 ME, both ligation linkers, modified New-P5-SMART, indexed Ad2 and custom Read1 primer plus spatial barcode families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM5 DNA oligos lines 1\u201317 and DNA barcode sequences lines 18\u201335",
+        "finding": "Prints Tn5MErev, linkers, modified P5-SMART, indexed Ad2, custom Read1 and barcode A family; original Tn5ME-A appears in JATS Method line 215."
+      }
+    },
+    {
+      "id": "reagent_list",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Sheet1 Chemicals and reagents heading and initial rows",
+        "finding": "Reagent catalogue source for spatial ligation; no further oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM6 Sheet1 lines 1\u201328",
+        "finding": "Chemical/vendor catalogue for fixed-tissue transposition and ligation; no additional oligo bases in this sheet."
+      }
+    },
+    {
+      "id": "published_data",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Published data sheet header and first resources",
+        "finding": "External analysis datasets, not additional construction sources."
+      },
+      "reason": "Comparative published datasets.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM7 Published data sheet lines 1\u201313",
+        "finding": "Source lists comparative datasets/platforms; no library chemistry."
+      }
+    },
+    {
+      "id": "peer_review",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM8_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original peer-review file lines 80-84, 511-516 and 1108-1114",
+        "finding": "Reviewer asked how spatial barcodes join Tn5 ends; author response clarifies A/B barcodes with linkers are successively ligated to the 5\u2032 end of the Tn5 oligo and says detailed Methods were added."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Peer-review PDF lines 80\u201384, 511\u2013516 and 1108\u20131114",
+        "finding": "Chemistry-relevant: reviewer asked how barcodes join Tn5, and authors clarify that A and B with linkers ligate successively to the 5\u2032 end of the Tn5 oligo; authors say Methods were expanded."
+      }
+    },
+    {
+      "id": "farzad_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Detailed Nat Protocols JATS lines 64-76, 140-160, 348-442",
+        "finding": "Shared spatial ATAC/CUT&Tag detailed procedure specifies Tn5 targeting, directional channel barcoding and PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 Nat Protocols JATS lines 136\u2013152, 348\u2013365 and 424\u2013444",
+        "finding": "Later detailed protocol covers both spatial ATAC and CUT&Tag; reagent sections differ. ATAC chemistry should be read with its Table 2, not CUT&Tag Table 1."
+      }
+    },
+    {
+      "id": "farzad_supp_figure",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplementary mouse olfactory bulb validation figure, not the chemistry or oligo table.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original supplement opening and Supplementary Fig. 1 caption lines 1-36",
+        "finding": "H&E, H3K27me3 and CSS spatial analysis; no additional adapter, barcode or primer construction details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 supplement PDF lines 1\u201337",
+        "finding": "Single validation figure for mouse olfactory bulb spatial signals, not oligo/reaction specification."
+      }
+    },
+    {
+      "id": "farzad_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 CUT&Tag lines 1-14 and Table 2 Spatial-ATAC lines 15-31; barcode families from line 32; scraper hits checked against rows",
+        "finding": "Table 1 is CUT&Tag and prints its distinct Tn5ME-A. Table 2 provides spatial-ATAC linkers, custom read primer and indexed primer family; neither supersedes Deng 2022 Spatial-ATAC Tn5ME-A in published Methods line 215."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2024 workbook Supplementary Table 1 lines 1\u201314, Table 2 lines 15\u201330 and Table 3 from line 31",
+        "finding": "Table 1 has CUT&Tag-specific Tn5ME-A /5Phos/TCGTCGGC..., Table 2 has ATAC P5-SMART/Ad2, and Table 3 has spatial barcodes. The two Tn5ME-A sequences must not be conflated."
+      }
+    },
+    {
+      "id": "authors_code",
+      "role": "linked_material",
+      "locator": "https://github.com/dyxmvp/Spatial_ATAC-seq README and Data_preprocessing/BC_process.py",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "README lines 198-217 and raw BC_process.py: seq_start=99, bc2=0:8, bc1=38:46",
+        "finding": "Author code establishes raw Read1 B first then A, raw Read2 genome; parser extracts B 0:8 and A 38:46 and starts genomic Read1 at base 100."
+      },
+      "discovered_from": "deng_published",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README lines 198\u2013217 and raw Data_preprocessing/BC_process.py lines 18\u201332",
+        "finding": "README assigns raw Read1 to barcode A/B plus genome and Read2 to opposite genome. Parser slices B at 0:8, A at 38:46 and genome from base offset 99, then writes BC2+BC1 barcode output."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Published JATS Methods lines 187-233, source table pointers 217-219; detailed protocol JATS lines 64-76 and 348-442; author code README/raw parser",
+      "finding": "Followed defining paper to published version, all eight unique publisher supplements including chemistry-relevant peer-review response, detailed 2024 author protocol with CUT&Tag/ATAC tables separated, and linked raw-read parser. No inaccessible relevant source identified."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original preprint/published methods, all eight publisher supplement rows, 2024 detailed protocol and its table-specific oligos, author GitHub README/raw parser",
+      "finding": "Linked sources checked independently. Original adapter and barcode sequences are published; 2024 CUT&Tag and ATAC oligo tables describe distinct Tn5ME-A inputs."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Spatial barcode and adapter sequences are missing",
+      "disposition": "resolved",
+      "evidence": "Published Supplementary Table 3 (MOESM5), detailed protocol oligo workbook and author code print linker, primer and A/B barcode families and raw-read placement."
+    }
+  ],
+  "conclusion": "Two independent readers checked the preprint, published article, each unique publisher supplement, detailed follow-up and author code. The claimed missing adapter and barcode information is resolved by original source tables and code; no missing-information assertion is accepted."
+}

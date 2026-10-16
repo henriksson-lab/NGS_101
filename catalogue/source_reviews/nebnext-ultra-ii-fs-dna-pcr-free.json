@@ -1,0 +1,79 @@
+{
+  "dir": "nebnext-ultra-ii-fs-dna-pcr-free",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "manual_cited",
+      "role": "defining",
+      "locator": "NEB E7430/E7435 manual v3.0 September 2025, cited by protocol note",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No cited E7430/E7435 original in source bundle.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_web",
+      "role": "linked_material",
+      "locator": "NEB E7430/E7435 manual v2.0 June 2025, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7430_e7435.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual_cited",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official web PDF pages 0-3, kit contents, ligation and sequencing notes",
+        "finding": "Prior revision names separate UDI-UMI adapter sets; differs from cited v3.0. No local PDF for scraper."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7430/E7435 v2.0_6/25 PDF web lines 0-49, 66-105",
+        "finding": "Manual specifies fragmentation/end prep and ligation of separately purchased E7395/E7874/E7876/E7878 UDI-UMI adaptors; prints Read 1/2 trim motifs and explicitly has no PCR."
+      }
+    },
+    {
+      "id": "udi_manual_web",
+      "role": "linked_material",
+      "locator": "NEB UDI-UMI adaptor sets E7395/E7874/E7876/E7878 manual v4.0 June 2026, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7395_e7874_e7876_e7878.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual_web",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official web PDF pages 0-2, adaptor set/index/read layout",
+        "finding": "Current separate adaptor guide gives index/UMI dimensions and index tables, but complete current synthesis adaptor sequence unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7395/E7874/E7876/E7878 v4.0_6/26 PDF web lines 0-53, 949-967",
+        "finding": "Dedicated adaptor kit manual says 96 8-base dual-index adaptors per set, 12-base UMI, i7 20 cycles with UMI and i5 8 cycles; kit chosen/well still variable."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Cited current manual, obtainable older official revision, and separately linked UDI-UMI guide.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "E7430/E7435 v2.0_6/25 web lines 0-49, 66-105; E7395/E7874/E7876/E7878 v4.0_6/26 web lines 0-53, 949-967; cited v3.0_9/25 manifest",
+      "finding": "Followed original kit guide to original UDI-UMI adaptor guide and recovered index/UMI read architecture; cited September 2025 v3 manual remains unavailable for historical comparison."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact full-length UDI-UMI synthesis adapter for the cited v3.0 workflow",
+      "disposition": "blocked",
+      "evidence": "Cited revision absent; older and newer web revisions do not establish it."
+    }
+  ],
+  "conclusion": "Two readers checked available official kit and adaptor manuals, including 12-nt UMI and i7/i5 read lengths. The specific cited September 2025 kit revision remains unavailable; historical-variant claims stay blocked."
+}

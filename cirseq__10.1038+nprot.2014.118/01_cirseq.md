@@ -8,4 +8,11 @@
 - 🟢 Adapter-ligated molecules of 450–600 bases contain 135 adapter bases and at least 300 bases of tandem-repeat insert.
 - 🟢 The described run used single-end 300-cycle MiSeq sequencing. Consensus uses repeated copies inside one read, without a barcode.
 
+The named FC-121-4001 kit is the Illumina TruSeq Nano DNA LT Set A kit, which has twelve
+six-base index choices ([Illumina guide, kit contents and index table](https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseqnanodna/truseq-nano-dna-library-prep-guide-15041110-d.pdf),
+pp. 28–29, 34). This 2015 revision postdates the 2014 paper; its revision history traces
+the kit guide to May 2013. The protocol does not assign a particular Set A member or
+specify index cycles for the reported run. An adapter Read 2 landing site does not
+establish that a paired Read 2 was acquired.
+
 Mapping the consensus to a known reference resolves the RNA circle's 3′→5′ ligation junction.

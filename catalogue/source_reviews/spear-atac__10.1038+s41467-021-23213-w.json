@@ -1,0 +1,84 @@
+{
+  "dir": "spear-atac__10.1038+s41467-021-23213-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Original PMC8137922 JATS s41467-021-23213-w_PMC8137922.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article lines 46-50, 205; scraper run on complete source bundle",
+        "finding": "Article specifies preintegrated Nextera R1/R2 around sgRNA spacer, 10x ATAC GEM primer and spiked sgRNA-backbone reverse oligo; links Supplementary Figures/Notes and Addgene pSP618 sequence MW852482."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC8137922 JATS lines 46-50 and 205; scraper on local source bundle",
+        "finding": "Spear inserts Nextera R1/R2 around sgRNA spacer and article links plasmid pSP618 GenBank MW852482; plasmid still not read."
+      }
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "Original MOESM1 supplementary PDF in bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Note 1 extracted lines 2355-2380 and Note 2 lines 2658-2712",
+        "finding": "Original supplementary protocol prints oSP737, oSP652, sgRNA-specific cloning primer, oSP1594 P5, indexed PCR primer and names custom Read1 oMCB1672."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM1 PDF Supplementary Note 1 lines 2350-2380 and Note 3 lines 2670-2712; scraper on local bundle",
+        "finding": "Supplementary Notes give cloning and targeted sgRNA enrichment recipes with named oligos; all other note-linked plasmid/vendor material remains open."
+      }
+    },
+    {
+      "id": "plasmid",
+      "role": "linked_material",
+      "locator": "Addgene pSP618 and GenBank MW852482, linked at original article line 205",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Versioned plasmid sequence not independently examined for spacer-context junctions.",
+      "discovered_from": "published"
+    },
+    {
+      "id": "tenx",
+      "role": "vendor",
+      "locator": "Original 10x Single Cell ATAC kit guide generation used by Spear-ATAC",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact historical guide and bead member set not independently matched/read."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 46-50, 205; MOESM1 Notes 1-2 at 2355-2380 and 2658-2712",
+      "finding": "Followed original to supplementary cloning/enrichment protocol and identified Addgene/GenBank and 10x inherited material; latter links still unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full exact Spear-ATAC oligo and run-primer architecture is absent from original sources",
+      "disposition": "blocked",
+      "evidence": "Supplement prints multiple custom oligos; remaining plasmid and 10x guide materials need independent inspection."
+    }
+  ],
+  "conclusion": "Supplement prints multiple custom oligos; remaining plasmid and 10x guide materials need independent inspection."
+}

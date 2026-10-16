@@ -1,6 +1,7 @@
 """Individual sparse pages for SPLiT-seq and microSPLiT."""
 from __future__ import annotations
 import sys
+import html
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
@@ -16,15 +17,20 @@ def seg(n,t,g=None,**kw): return Segment(n,t,g,**kw)
 
 def render_page(protocol, *, graph_factory=None):
     doi,author,year=PAPERS[protocol]; micro=protocol=="microSPLiT"
+    if micro:
+        # Keep the published adapter transcription in the microSPLiT module.
+        from microsplit_graph import BC_0243_CORE, BC_0243_TOP, BC_0244_BOTTOM
     notes=("01_split-seq.html" if not micro else
            "../split-seq__10.1126+science.aam8999/01_split-seq.html")
     caveat=("Supplementary Table S12 supplies the barcoding oligos, splints, blocking "
             "strands and PCR primers. The downstream library and primer-binding geometry "
             "has not yet been reconstructed in this model from that table."
             if not micro else
-            "The authors' Supplementary Table S3 supplies the barcoding oligos, adapter "
-            "duplex, cDNA-amplification primers and terminal indexed PCR pair. TSBC07 is "
-            "used as the representative sublibrary index below.")
+            "A mirrored copy of the authors' 2021 Supplementary Table S3 supplies the "
+            "barcoding oligos, adapter duplex and terminal indexed PCR pair. The later 2024 "
+            "protocol supplies BC_0062/BC_0108 cDNA-amplification primers. The original "
+            "publisher Table S3 attachment remains inaccessible for byte comparison. "
+            "TSBC07 is the representative sublibrary index below.")
     oligos=[oligo("round-1 oligo-dT primer",S.round1(protocol),mods="/5Phos/")]
     if not micro:
         oligos += [oligo("round-2 barcode oligo",S.round2(),mods="/5Phos/"),
@@ -46,6 +52,10 @@ def render_page(protocol, *, graph_factory=None):
                                                        seg("","rGrG+G",placeholder=True)]),
                    oligo("BC_0062 cDNA PCR",[seg("",S.MICRO_PREAMP_FWD)]),
                    oligo("BC_0108 cDNA PCR",[seg("",S.MICRO_PREAMP_REV)]),
+                   oligo("BC_0243 adapter top — terminal C*T phosphorothioate",
+                         [seg("",BC_0243_TOP)]),
+                   oligo("BC_0244 adapter bottom, written 5′ to 3′",
+                         [seg("",BC_0244_BOTTOM)]),
                    oligo("BC_0027 library PCR",[seg("",S.MICRO_LIBRARY_FWD)]),
                    oligo("BC_0076 / TSBC07 library PCR",[seg("",S.MICRO_LIBRARY_REV)])]
     b1=S.barcoded_first_strand(protocol,1); b2=S.barcoded_first_strand(protocol,2)
@@ -64,6 +74,15 @@ def render_page(protocol, *, graph_factory=None):
       f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',
       info(f'Defining source: <a href="https://doi.org/{doi}">{author}, <i>Science</i> ({year})</a>.'),
       f'<div class="caveat"><b>Sequence boundary.</b> {caveat}</div>',
+      (f'<div class="caveat"><b>Source-version difference.</b> The mirrored 2021 '
+       f'<i>Science</i> Table S3, General Oligonucleotides row BC_0243, prints '
+       f'<code>{html.escape(BC_0243_CORE + "*T")}</code> and labels the asterisk '
+       f'“phosphorothioated base.” The 2019 bioRxiv v2 Auxiliary Table line 14 and '
+       f'2024 <i>Nature Protocols</i> Table 3 line 121 print the same bases as '
+       f'<code>{html.escape(BC_0243_TOP)}</code> without the mark. This model uses the '
+       f'2021 Table S3 terminal C*T modification. Whether the difference reflects a '
+       f'version change or omitted notation is unresolved; the official 2021 publisher '
+       f'attachment has not been compared byte for byte.</div>' if micro else ''),
       f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',
       '<h2>Reaction workflow</h2>',protocol_graph_panels(graph,cls="long"),
       (sp.diagram(final,S.MICRO_SEQ_PRIMERS) if micro else

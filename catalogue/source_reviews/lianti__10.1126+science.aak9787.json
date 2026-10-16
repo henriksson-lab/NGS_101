@@ -1,0 +1,64 @@
+{
+  "dir": "lianti__10.1126+science.aak9787",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/lianti__10.1126+science.aak9787/science.aak9787_PMC5538131.xml.txt:46-52,76-80",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 46-52,76-80",
+        "finding": "Authors describe custom T7-containing transposon, Tn5 insertion, linear RNA amplification, and possible barcodes; article points to author supplement for full methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5538131 JATS lines 48-52 and figure legend 506",
+        "finding": "Original paper describes Tn5 transposon with 19-bp binding site and T7 promoter loop, gap extension, IVT and RT; it does not print the complete LIANTI transposon sequence in those passages."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5538131/bin/NIHMS883352-supplement-Supplementary.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original author supplementary DOCX manual due PMC download gate; primary detailed oligo source unavailable."
+    },
+    {
+      "id": "upstream",
+      "role": "other",
+      "locator": "_data/sources/lianti__10.1126+science.aak9787/upstream_LIANTI.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "scg_lib_structs schematic is secondary reconstruction, not an original source for molecular sequences.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "upstream_LIANTI.html.txt oligo scraper hits at lines 21-43; MANIFEST.tsv what column",
+        "finding": "All 15 scraper oligo hits arise from the secondary upstream schematic. This row is not evidence for original oligo bases; primary supplementary DOCX is gated."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC5538131 supplementary link and MANIFEST.tsv",
+      "finding": "Original Supplementary.docx is manual/gated; cannot verify upstream schematic transposon/adapter claims from it."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact LIANTI transposon and amplification primer bases/lengths",
+      "disposition": "blocked",
+      "evidence": "Main article has reaction architecture but detailed original Supplementary DOCX inaccessible; upstream schematic cannot verify source absence."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

@@ -1,0 +1,239 @@
+{
+  "dir": "easysci__10.1038+s41588-023-01572-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1038/s41588-023-01572-y; s41588-023-01572-y_PMC10703679.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods and supplementary references",
+        "finding": "EasySci-RNA indexed RT/ligation/tagmentation workflow and linked published supplemental primer workbook."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article XML lines 77-93 and supplementary-material links",
+        "finding": "Article states indexed oligo-dT and random-hexamer RT, separate RNA and ATAC workflows, and paired-end sequencing; linked detailed protocols and tables are relevant to read geometry."
+      }
+    },
+    {
+      "id": "methods",
+      "role": "supplement",
+      "locator": "s41588-023-01572-y_supp_41588_2023_1572_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol methods and primer table references",
+        "finding": "Original detailed protocol identifies oligo workbook for exact RT and ligation families."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "published supplement protocol lines 26-49",
+        "finding": "Detailed RNA workflow lists ligation primer annealing, RT, ligation, second-strand synthesis and subsequent steps; must be read with oligo table for molecular layout."
+      }
+    },
+    {
+      "id": "table",
+      "role": "supplement",
+      "locator": "s41588-023-01572-y_supp_41588_2023_1572_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Tables 16-19, near lines 103049, 103439, 103826, 104213",
+        "finding": "Published full RT short-dT, random-N RT, ligation and P7 oligo families with modifications."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "published workbook sheet starts at lines 103049, 103244, 103439, 103826",
+        "finding": "Original Supplementary Tables 16-19 contain RT and ligation/P7 oligo families; exact sequences are available in published workbook."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "s41588-023-01572-y_supp_41588_2023_1572_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Visually inspected all three original pages. It is a Nature Portfolio reporting form about statistics, data, software and experimental systems; it prints no oligo, molecular reaction, cycle recipe or primer identity. Its author-code and GEO links are inventoried as separate rows.",
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 original PDF rendered visually at 110 dpi, pages 1–3; source-bundle oligo scraper run before inspection",
+        "finding": "Page 1 Software and code identifies https://github.com/JunyueCaoLab/EasySci; page 2 Data identifies GEO GSE212606. Page 3 covers material/system reporting. This is a reporting summary, not a molecular procedure or instrument read-cycle table. Its two linked resources were followed separately."
+      },
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM2 PDF, visually rendered and inspected pages 1–3; source-bundle oligo scraper run first",
+        "finding": "Page 1 names the author EasySci analysis GitHub; page 2 names GEO GSE212606. The three-page form has no protocol sequence or run-cycle detail; it points to potentially relevant linked sources."
+      }
+    },
+    {
+      "id": "preprint_oligos",
+      "role": "linked_material",
+      "locator": "2022.09.28.509825_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Workbook oligo sheets lines 1+",
+        "finding": "Author preprint workbook repeats EasySci-RNA oligo families; published table is primary."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "author preprint workbook lines 1-8 and sheet headers",
+        "finding": "Preprint oligo table gives 5-prime phosphorylated indexed RT-short-dT oligos and separate random-N family; published table is the authoritative revision."
+      }
+    },
+    {
+      "id": "preprint_rna",
+      "role": "linked_material",
+      "locator": "2022.09.28.509825_media-7.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "RNA protocol methods",
+        "finding": "Author preprint detailed RNA protocol checked for reaction order."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv media-7 DOCX text lines 1–23, 46–85, 167–174, 256–357; preprint media-2 oligo workbook cross-reference; full source-bundle scraper run",
+        "finding": "Author RNA protocol explicitly sequences RT with indexed short-dT or random-N primers, pool/redistribute, barcoded ligation, second-strand synthesis, then Tn5 tagmentation and PCR. Its materials print the RT, ligation, phosphorothioate/3ddC adapter, P5 and indexed P7 scaffolds; the full family is the separate media-2 workbook. This confirms the RNA branch and source-printed modifications."
+      }
+    },
+    {
+      "id": "preprint_atac",
+      "role": "linked_material",
+      "locator": "2022.09.28.509825_media-3.xlsx and media-4.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Different assay branch.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "ATAC workbook/protocol headers",
+        "finding": "Distinct EasySci-ATAC branch; oligo set not imported into EasySci-RNA."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv media-3 workbook Tn5_oligos sheet lines 1–25 and ligation/P7 sheet headers; media-4 DOCX text lines 1–35 and 75–95; full source-bundle scraper run",
+        "finding": "Distinct EasySci-ATAC protocol begins with loaded barcoded N5/N7 Tn5 and tagmentation, then ligation and PCR. The workbook prints N5/N7/MEr oligo families. These are ATAC-specific source materials and do not define EasySci-RNA RT/barcoded cDNA geometry, so exclusion from the RNA oligo claim is supported."
+      }
+    },
+    {
+      "id": "author_pipeline_readme",
+      "role": "linked_material",
+      "locator": "Original author repository https://github.com/JunyueCaoLab/EasySci README.md, linked in publisher MOESM2 reporting summary p.1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "reporting",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README web lines 201–229 and 245–261, after source-bundle oligo scraper; raw README fetch route listed in catalogue/extra_sources.tsv (sandbox DNS blocked)",
+        "finding": "The current author pipeline assigns demultiplexed R1 to Read 1, R2 to P5 barcode, R3 to Read 2 and I1 to P7 index. It states P5 barcode is added by ligation, and later links a Zenodo archive for the publication-era pipeline. Current code is not itself proof of the exact published run cycle lengths."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Author GitHub https://github.com/JunyueCaoLab/EasySci README web lines 201–228 and 245–261; independent original bioRxiv media-6 README lines 3–16",
+        "finding": "Current author README says P7 alone is used for initial demultiplexing because ligated P5 occurs in every P5–P7 combination. With --use-bases-mask Y*,I*,Y*,Y*, output files are R1=Read 1, R2=P5 barcode, R3=Read 2, I1=P7 barcode. It calls this an updated pipeline and points to publication-era Zenodo. Earlier author ZIP README independently gives same four roles; neither README alone specifies original run-cycle lengths."
+      }
+    },
+    {
+      "id": "original_pipeline_archive",
+      "role": "linked_material",
+      "locator": "Author original 2023 EasySci_RNA_pipeline.zip at https://zenodo.org/records/8395492/files/EasySci_RNA_pipeline.zip?download=1 (DOI 10.5281/zenodo.8395492)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "author_pipeline_readme",
+      "reason": "Zenodo record and archive listing are accessible, but original archive contents have not yet been retrieved or inspected in this audit.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README lines 204–206 links Zenodo record; Zenodo original record lines 0–33 lists EasySci_RNA_pipeline.zip, 330.2 kB; web download returned Unicode decoding error",
+        "finding": "The publication-era RNA processing archive exists and is relevant to barcode/read parsing. Its contents remain unchecked, so the current README cannot settle original run layout alone."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Zenodo original record https://zenodo.org/records/8395492 lines 18–32, preview /preview/EasySci_RNA_pipeline.zip lines 0–108, direct /files/EasySci_RNA_pipeline.zip?download=1; local bioRxiv media-6.zip MD5 9132730a6bb3f6b389a8eb0d68edd2ac",
+        "finding": "Zenodo confirms original publication-era RNA archive and directory listing with README.txt, EasySci_main.sh, barcode_extraction.py and barcode lists. Its ZIP MD5 5dcbe839cbf342a904a7544ab0bb3a9f differs from local bioRxiv media-6 archive. Direct original ZIP fetch returned a Unicode decoding error via web; archive contents were not inspected, so relevant source remains unavailable."
+      }
+    },
+    {
+      "id": "geo_metadata",
+      "role": "linked_material",
+      "locator": "NCBI GEO GSE212606, linked in original MOESM2 reporting summary p.2: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212606",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "reporting",
+      "reason": "Original GEO page returned browser challenge; raw-run metadata/read lengths not inspected.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM2 p.2 direct GSE212606 link; attempted NCBI GEO accession page via web; challenge returned",
+        "finding": "GEO record may identify published run layout and is relevant to read-geometry claim. Search result identifies the series but is not a substitute for examining original run metadata."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "MOESM2 original reporting PDF p.2; direct NCBI GEO https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212606 and view=full; search result for same accession",
+        "finding": "Reporting form points to GSE212606. Direct NCBI GEO page returned a browser/reCAPTCHA challenge and view=full was inaccessible. Search index confirms series exists but cannot verify original FASTQ or instrument read layout; relevant metadata remains unavailable."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Published supplement MOESM1 links primer workbook MOESM3; author preprint media-2 and media-7 cross-checked. MOESM2 role needs visual check.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS and MOESM1/MOESM3 source rows already independently read; original author preprint media-7 RNA protocol and media-3/4 distinct ATAC protocol checked here; MOESM2 reporting PDF still unavailable",
+      "finding": "RNA preprint provides independent reaction-order and modified-primer context; the ATAC documents are a separate assay branch. Published MOESM3 remains the definitive RNA oligo source. MOESM2 still needs visual inspection, so source coverage and exact read geometry remain blocked. An independent further pass inspected MOESM2 visually, followed its GitHub/GEO links and the GitHub-to-Zenodo link; original Zenodo archive and GEO read metadata remain inaccessible."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "MOESM2 visually inspected pp.1–3; followed author GitHub README and Zenodo archive link; attempted linked GEO accession",
+      "finding": "Reporting form itself has no chemistry detail, but links analysis code and GEO. Current author README gives R1/R2/R3/I1 file roles; original Zenodo RNA archive and GEO run metadata remain uninspected, so exact published read layout stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "RT, ligation and P7 primer oligos",
+      "disposition": "resolved",
+      "evidence": "Published Supplementary Tables 16-19 explicitly list these, so missing oligo claim is resolved."
+    },
+    {
+      "claim": "Exact sequencer primer placement / construct read geometry",
+      "disposition": "blocked",
+      "evidence": "Published primer workbook and author README support separate P5-barcode and P7-index read roles. Publication-era Zenodo processing archive and GEO run metadata remain uninspected, and exact primer positions/cycle counts are not established."
+    }
+  ],
+  "conclusion": "Published RNA oligo families and author RNA reaction order have two independent checks; author ATAC materials are verified as a distinct branch. MOESM2 was independently inspected and its GitHub/GEO links followed. Current and preprint pipeline READMEs agree on R1/Read1, R2/P5 barcode, R3/Read2, I1/P7 barcode, but the distinct publication-era Zenodo archive and GEO metadata remain inaccessible, so exact original read-cycle geometry stays blocked. No missing claim accepted."
+}

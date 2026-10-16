@@ -19,7 +19,7 @@ SOURCE = 'Commercial protocol: Oxford Nanopore <a href="https://nanoporetech.com
 SUMMARY = "Strand-switch reverse transcription adds a UMI and terminal handles, PCR selects and amplifies full-length cDNA while adding rapid-attachment tags, and a motor-loaded Rapid Adapter prepares one cDNA strand for nanopore sequencing."
 CAVEAT = ("ONT publishes CRTA, RTP, SSPII, both cDNA primers and the Rapid Adapter "
           "sequence. The complete motor-bearing Rapid Adapter assembly and its "
-          "attachment chemistry remain undisclosed.")
+          "attachment chemistry have not been verified from the inspected vendor documents.")
 PCR_TEMPLATE = Construct([
     Segment("cDNA primer forward", CDNA_PRIMER_FORWARD, "r1"),
     Segment("full-length cDNA", "X" * 36, placeholder=True),
@@ -40,7 +40,7 @@ FINAL_LIBRARY = Construct([
 ], name="SQK-PCS114 adapted cDNA")
 AMPLIFIED_CDNA = Construct(list(FINAL_LIBRARY)[1:], name="SQK-PCS114 amplified cDNA")
 FINAL_CAPTION = ("The PCR product has the two published cDNA Primer-defined ends and "
-                 "published SSPII UMI pattern. The bracketed motor assembly remains undisclosed.")
+                 "published SSPII UMI pattern. The bracketed motor assembly remains unverified pending a component-level source.")
 SEQ_PRIMERS = ()
 SEQUENCING_MECHANISM = "nanopore_motor"
 MOTOR_ADAPTER_NAME = "Rapid Adapter"
@@ -93,10 +93,10 @@ def protocol_graph():
             (amplified,), geometry=PCR_GEOMETRY)
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + f" (published RA strand {RAPID_ADAPTER}; motor assembly undisclosed)")
+                    source=SOURCE + f" (published RA strand {RAPID_ADAPTER}; motor assembly unverified in inspected sources)")
     library = g.product("library", "motor-adapted amplified-cDNA library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
+                        source=SOURCE + " (complete motor-bearing assembly unverified in inspected sources)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
             ((amplified, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)), (library,))

@@ -32,6 +32,9 @@ def oligos() -> str:
                                    S.seg("SMART handle", S.rt.SMART_HANDLE, "tso"),
                                    S.seg("AC", S.BEAD_SUFFIX)],
               three="-*A*C-3'"),
+        oligo("Custom Read 1 primer", [S.seg("spacer", S.P5_SPACER),
+                                        S.seg("SMART handle", S.rt.SMART_HANDLE, "tso"),
+                                        S.seg("AC", S.BEAD_SUFFIX)]),
         oligo("N7xx library-PCR primer", [S.seg("P7", S.il.P7, "p7"),
                                            S.seg("i7", "N" * 8, "cbc", placeholder=True),
                                            S.seg("s7", nx.S7, "s7")]),
@@ -64,8 +67,9 @@ def main() -> None:
     graph = S.protocol_graph()
     page = assemble_page(graph, [head("Seq-Well S3 library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>Seq-Well S3 &mdash; randomly primed second-strand capture</h1>',
-        info('Defining source: <a href="https://doi.org/10.1016/j.immuni.2020.09.015">Hughes et al., <i>Immunity</i> (2020)</a>.'),
-        AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
+        info('Defining source: <a href="https://doi.org/10.1016/j.immuni.2020.09.015">Hughes et al., <i>Immunity</i> (2020)</a>. The <a href="https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf">author Seq-Well S3 Master Protocol</a> (June 2019, pp. 18–24 and 39) prints the bead and custom Read 1 oligos and the Exonuclease I → NaOH → second-strand sequence. The paper names an N700 index family but not a selected index member; the final library therefore shows eight variable index bases.'),
+        AnnotationSlot.INTRO, oligos(), construction(graph), AnnotationSlot.AFTER_WORKFLOW,
+        sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

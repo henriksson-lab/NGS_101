@@ -151,7 +151,7 @@ def protocol_graph():
                 (vendor_tailed,))
     adapter=graph.input("adapter","Vazyme universal Illumina adapter",
                         MaterialKind.ADAPTER,inferred=True,
-                        source=SOURCE+" (adapter oligos undisclosed)")
+                        source=SOURCE+" (vendor adapter oligos not yet verified)")
     ligase=graph.input("adapter_ligase","vendor adapter ligase",MaterialKind.CATALYST,
                        inferred=True,source=SOURCE+" (commercial implementation)")
     adapted=graph.product("adapted","vendor-adapted barcoded cDNA fragments",
@@ -164,10 +164,10 @@ def protocol_graph():
                 geometry=AdapterLigationGeometry.unavailable(
                     "The paper names the Vazyme kit but does not print its adapter oligos or terminal geometry."))
     index_f=graph.input("index_forward","vendor PCR forward primer",MaterialKind.OLIGO,
-                        inferred=True,source=SOURCE+" (kit oligo undisclosed)")
+                        inferred=True,source=SOURCE+" (vendor primer oligos not yet verified)")
     index_r=graph.input("index_reverse","vendor indexed PCR reverse primer",
                         MaterialKind.OLIGO,inferred=True,
-                        source=SOURCE+" (kit oligo undisclosed)")
+                        source=SOURCE+" (vendor primer oligos not yet verified)")
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY,inferred=True,
                           source=SOURCE+" (outer adapter arms inferred)")
@@ -175,7 +175,7 @@ def protocol_graph():
                 ((adapted,InputRole.TEMPLATE),(index_f,InputRole.STRUCTURAL),
                  (index_r,InputRole.STRUCTURAL),(pre_pol,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The complete vendor PCR oligos are undisclosed."))
+                    FINAL_LIBRARY,reason="The complete vendor PCR oligos have not yet been verified from a Vazyme manual."))
     graph.sequence(library,SequencingPlan(
         library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS))
     graph.declare_reviewed_scope((

@@ -1,0 +1,154 @@
+{
+  "dir": "tuc-seq__10.1002+anie.201707465",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "riml_2017_publisher_record",
+      "role": "defining",
+      "locator": "https://onlinelibrary.wiley.com/doi/10.1002/anie.201707465",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher page title, abstract, and Supporting Information listing, web lines 15–18, 173–188; scraper run on available TUC-seq source bundle",
+        "finding": "Abstract establishes OsO4-mediated 4sU-to-C recoding and detection of pulse-labelled mRNA for seven selected mammalian genes, plus endogenous tRNA 4sU. It does not print library construction, primers, adapters, indices, or read layout. The page lists a 2.3 MB supplementary PDF. Full article was not accessible through the source fetcher."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Wiley International Edition indexed original publisher abstract and Supporting Information listing, independent search; PubMed 28817234",
+        "finding": "Publisher abstract independently establishes OsO4-mediated 4sU-to-C conversion and seven selected mammalian mRNAs, and lists a 2.3 MB supplement. The available record does not describe exact library prep, primers, or sequencing architecture."
+      }
+    },
+    {
+      "id": "riml_2017_full_text",
+      "role": "other",
+      "locator": "https://doi.org/10.1002/anie.201707465",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Only publisher abstract and metadata accessible; source fetcher records no open full text. Main article may contain further library-method or linked-source detail."
+    },
+    {
+      "id": "international_supplement",
+      "role": "supplement",
+      "locator": "https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201707465&file=anie201707465-sup-0001-misc_information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original International Edition 2.3 MB supplementary-information PDF listed by the publisher; source fetch returned HTTP 403. It may contain exact targeted primer and library methods."
+    },
+    {
+      "id": "german_supplement",
+      "role": "supplement",
+      "locator": "https://onlinelibrary.wiley.com/doi/suppl/10.1002/ange.201707465/supinfo/ange201707465-sup-0001-misc_information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original German Edition supplementary-information route in extra_sources.tsv returned HTTP 403. Cannot verify whether its contents match the International Edition file."
+    },
+    {
+      "id": "lusser_2019_chapter_preview",
+      "role": "linked_material",
+      "locator": "https://link.springer.com/protocol/10.1007/978-1-4939-9822-7_10",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Springer chapter page lines 11–47, 133–137 and 153–154",
+        "finding": "Same-author later detailed TUC-seq protocol; preview confirms 4sU labelling, OsO4-mediated 4sU-to-C conversion and sequencing, but does not expose Materials/Methods or oligos. Publisher flags a correction published in 2024; relevance of correction to library chemistry is unexamined."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Springer protocol page title, first-online/date, abstract lines 11–47, correction pointer lines 133–137",
+        "finding": "Same-author follow-up is a 2019 detailed protocol but the available preview contains no recipe or oligo strings. It explicitly links a 2024 correction; procedural chapter content remains gated."
+      },
+      "discovered_from": "riml_2017_publisher_record"
+    },
+    {
+      "id": "lusser_2019_chapter_full",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1007/978-1-4939-9822-7_10",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Official Springer preview labels the procedural text subscription content; get_sources.py records no open full text. Later detailed protocol may clarify amplicon or RNA-seq branch, but neither is verified here.",
+      "discovered_from": "lusser_2019_chapter_preview"
+    },
+    {
+      "id": "lusser_2024_correction",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1007/978-1-4939-9822-7_27",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Official Springer chapter page lines 41–42 and 133–137 links a 2024 correction; its content and relevance to library chemistry have not yet been inspected.",
+      "discovered_from": "lusser_2019_chapter_preview"
+    },
+    {
+      "id": "tuc_dual_article",
+      "role": "other",
+      "locator": "_data/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_PMC7186826.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later original JATS lines 127–128, 165, 173 and references 462–470; scraper run on full local bundle",
+        "finding": "Later same-author TUC-seq DUAL explicitly cites 2017 TUC-seq and says CcnE1/p21 were previously used in it. Its own experiment uses cDNA and targeted PCR amplicon sequencing, including CcnD1/CcnE1/CcnT1/p21. This establishes a later implementation, not the original 2017 assembly."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7186826 JATS introduction and later amplicon experiment, extracted lines 127–128 and 165–177",
+        "finding": "The same authors describe original TUC-seq as direct 4sU-to-C detection and their later DUAL experiment as targeted amplicon sequencing of CcnE1/p21 and others. This is later evidence, not proof of the 2017 library ends."
+      },
+      "discovered_from": "riml_2017_publisher_record"
+    },
+    {
+      "id": "tuc_dual_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_supp_ANIE-59-6881-s001.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later supplement section 1.12 extracted lines 440–447; Supporting Table 2 lines 621–680; tRNA primer extension line 373; scraper run on source bundle",
+        "finding": "Later DUAL method uses GoScript plus random hexamers, gene-specific PCR with barcode overhangs, gel purification, and Eurofins library preparation of pooled amplicons for Illumina PE150. Table 2 prints gene-specific primers without barcode overhangs; the Alexa647 tRNA primer is for primer extension. These scraper hits belong to later DUAL, not proven original TUC-seq oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7186826 supplementary PDF section 1.12 extracted lines 440–447, Table 2 lines 621–680, primer extension line 373; source oligo scraper rerun",
+        "finding": "The later DUAL workflow uses random-hexamer RT, gene-specific PCR with barcode overhangs, pooled amplicons sent for Eurofins library prep and PE150 sequencing. Its Table 2 primers and fluorescent tRNA extension primer are not established as the 2017 TUC-seq oligos."
+      },
+      "discovered_from": "tuc_dual_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "2017 publisher abstract/SI listing; local MANIFEST.tsv manual rows; later Springer chapter preview and correction link; 2020 DUAL article/supplement and cited original DOI",
+      "finding": "Followed accessible publisher records and later same-author open article/supplement. Original full article and both publisher supplements were inaccessible, as was the later chapter procedure. Its 2024 correction remains unread, so linked protocol information is incomplete."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Wiley original publisher abstract and SI listing; Springer same-author chapter preview and correction link; later same-author TUC DUAL PMC article and full supplement; local source manifest and oligo scraper",
+      "finding": "Independent check confirms seven-gene original use and shows later amplicon chemistry cannot be transferred to the 2017 graph. The original full article and both supplements, detailed chapter, and correction remain inaccessible; no absent-oligo or adapter claim can be accepted."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent checks of every readable source and its links support 4sU-to-C recoding and selected-gene readout, but not a concrete 2017 library assembly. Original full text and supplements and later detailed chapter remain inaccessible, so exact oligo and read-layout claims stay blocked."
+}

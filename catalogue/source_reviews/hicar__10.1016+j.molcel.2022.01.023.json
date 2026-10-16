@@ -1,0 +1,116 @@
+{
+  "dir": "hicar__10.1016+j.molcel.2022.01.023",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/hicar__10.1016+j.molcel.2022.01.023/j.molcel.2022.01.023_PMC8934281.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Detailed HiCAR protocol Steps 1–5 lines 196–216",
+        "finding": "Original uses HiCAR7 Tn5, CviQI/splint in situ ligation, gap repair, NlaIII digestion, dilute circularization, then PmeI digest before Q5 inverse PCR; graph/page PmeI omission corrected."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC8934281 JATS detailed Methods lines 196–216; scraper",
+        "finding": "Tn5 tagmentation precedes CviQI plus TruseqR1 in-situ ligation, reverse crosslink, gap repair, NlaIII digestion and circularization, then PmeI digest before inverse PCR with Nextera-pcr-i7-10-L/NEB i501."
+      }
+    },
+    {
+      "id": "original_table_s1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Table S1 and figures are behind PMC download gate; exact source-version oligo strings still need direct comparison."
+    },
+    {
+      "id": "expanded_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/hicar__10.1016+j.molcel.2022.01.023/PMC10575683_PMC10575683.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 1 lines 1388–1445 and first digest sections lines 390–430",
+        "finding": "Later author protocol prints HiCAR7-i0 family, TruseqR1 and PCR primers; it substitutes MseI in first restriction digest, so it cannot silently overwrite 2022 CviQI boundary."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later same-author PMC10575683 JATS Table 1 lines 1388–1445 and Tn5 loading lines 398–422; scraper",
+        "finding": "Later detailed protocol prints HiCAR7-i0/iN, Tn5MErev, TruseqR1 and PCR oligos. Its first digestion uses MseI, a source-version difference from the defining 2022 CviQI method."
+      }
+    },
+    {
+      "id": "original_supp_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original HiCAR supplementary workbook is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "original_supp_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original HiCAR supplementary workbook is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "original_supp_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original HiCAR supplementary workbook is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "original_supp_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-6.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original HiCAR supplementary workbook is behind PMC download gate; molecular-method relevance has not been checked."
+    },
+    {
+      "id": "original_supp_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8934281/bin/NIHMS1778216-supplement-7.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original HiCAR supplementary workbook is behind PMC download gate; molecular-method relevance has not been checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original 2022 Methods Steps 1–5 lines 196–216; later 2023 protocol Table 1 and MseI step",
+      "finding": "The newly recovered PmeI step is modeled. Original Table S1 remains gated; later version gives representative oligos with a changed first digest."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original HiCAR detailed protocol lines 196–216 and successor Table 1 lines 1388–1445",
+      "finding": "Followed detailed successor with explicit CviQI/MseI version distinction; defining article Table S1 and other original supplements remain inaccessible."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "HiCAR original table and exact variant bases are fully verified",
+      "disposition": "blocked",
+      "evidence": "Original supplement is unavailable; source-version equivalence and second independent pass remain blocked."
+    }
+  ],
+  "conclusion": "Original supplement is unavailable; source-version equivalence and second independent pass remain blocked."
+}

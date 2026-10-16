@@ -1,0 +1,102 @@
+{
+  "dir": "structure-seq2__10.1093+nar+gkx533",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_PMC5737731.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 75–105; scraper run",
+        "finding": "RT primer/biotin variant, 5′-phosphorylated hairpin donor line 95, TruSeq PCR primer family line 101 and sequencing method are explicit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5737731 JATS Methods lines 75–105; local scraper",
+        "finding": "RT uses a random-hexamer primer with TruSeq tail; hairpin adapter is ligated by T4 ligase and replaces predecessor Circligase. Original Methods print forward/reverse TruSeq PCR family at line 101 and single-end 150 MiSeq run."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File006.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figures S1–S6 lines 26–82; scraper run",
+        "finding": "Figures discuss RT-primer/hairpin donor ligation artifacts and 6–8 nt barcodes, but are not a separate full oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figures PDF text lines 26–82; local scraper",
+        "finding": "Figure S1 specifies library architecture and its adapter/RT-primer relationship; later inspected captions are figures, with no separate complete oligo table in this span."
+      }
+    },
+    {
+      "id": "supp_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File007.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet headings and library variation rows; scraper run",
+        "finding": "Table S1 tracks 15 library variations and read metrics; chemistry relevance of each variant remains to audit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S1 XLSX text sheet headings and variation rows; local scraper",
+        "finding": "Workbook tabulates experimental variations, not an oligonucleotide inventory in inspected rows."
+      }
+    },
+    {
+      "id": "structure_seq_predecessor",
+      "role": "linked_material",
+      "locator": "doi:10.1038/nature12756",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Paper cites original Structure-seq; full predecessor chemistry not checked in this pass.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "detailed_predecessor",
+      "role": "linked_material",
+      "locator": "doi:10.1038/nprot.2015.064",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Paper cites detailed original Structure-seq protocol; not retrieved in this pass.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS Methods lines 75–105 and reference list for Structure-seq predecessors",
+      "finding": "Followed supplement figures and variant workbook; two cited original detailed predecessor sources remain unavailable, so linked information is blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 75–105 and supplement S1 lines 26–82; predecessor DOI citations checked against local source inventory",
+      "finding": "Original is source-positive for hairpin/primer family; original Structure-seq and detailed predecessor documents remain unavailable, so inherited exact chemistry is not cleared."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original Structure-seq2 bases located; predecessor inheritance and second pass pending."
+}

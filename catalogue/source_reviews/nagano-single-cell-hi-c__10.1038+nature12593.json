@@ -1,0 +1,103 @@
+{
+  "dir": "nagano-single-cell-hi-c__10.1038+nature12593",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Nagano et al Nature 2013 DOI:10.1038/nature12593; PMC3869051 full-text JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PMC3869051 full text, Methods and Supplementary Information links",
+        "finding": "Original article states bulk in-nucleus contact ligation followed by single-nucleus isolation, and links detailed supplementary information."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC3869051 JATS Methods and explicit Supplementary Information pointer near article line 62",
+        "finding": "Article outlines single-cell Hi-C and directs detailed molecular method to supplement."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Publisher nature12593-s1.pdf; local nature12593-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 15-65, 90-165",
+        "finding": "Original supplement prints the full 12-member 3-bp inline-tag paired adapters, terminal phosphate and phosphorothioate notation, both PCR primers, and BglII/AluI/fill/ligation order."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nature12593-s1.pdf.txt lines 90-144; scraper hits lines 94-98",
+        "finding": "Original supplement prints twelve adapter pairs; F has terminal phosphorothioate, R has 5-prime phosphate. Exact primer list follows. No adapter-end absence can be asserted from this source."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_data",
+      "role": "linked_material",
+      "locator": "Nagano et al Nature 2013 original publisher Supplementary Data Table 1, 41586_2013_BFnature12593_MOESM98_ESM.xlsx; local .xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher workbook 41586_2013_BFnature12593_MOESM98_ESM.xlsx.txt, entire one-sheet header and body lines 1–1405 after source-bundle oligo scraper; searched all rows for adapter/primer/ligation terms",
+        "finding": "The sole ensemble_domains sheet contains genomic-coordinate results and H3K4me3, gene-density and lamin B1 columns. It contains no chemistry or oligo fields. The 2026-10-15 inventory-only check did not establish this; this is a fresh source-body reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "41586_2013_BFnature12593_MOESM98_ESM.xlsx.txt, sheet ensemble_domains lines 1-1405 (header line 2; final chromosome X rows at lines 1401-1405)",
+        "finding": "Read the original publisher workbook body: one ensemble_domains sheet with chromosome/start/end, H3K4me3 peak density, gene density and ESC lamin B1 columns. Its rows are domain-result data, without adapter, primer, reagent or reaction instructions. The earlier pass_1 only inventoried this file and did not inspect its body."
+      },
+      "reason": "Original workbook is a genomic-domain result table, not a library-preparation, construct, or oligo source. First pass was inventory-only; independent full-body classification is still needed before exclusion satisfies the two-reader gate.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "linked_material",
+      "locator": "Nagano et al Nature Protocols 2015 DOI:10.1038/nprot.2015.127; full original article facsimile text at https://www.researchgate.net/publication/283511744_Single-cell_Hi-C_for_genome-wide_detection_of_chromatin_interactions_that_occur_simultaneously_in_a_single_cell",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nagano 2015 Nature Protocols author-posted facsimile at ResearchGate, Table 1 lines 891–945, Materials lines 980–1015, Procedure lines 1351–1459, after source-bundle oligo scraper",
+        "finding": "Independently read all tagged F/R adapter pairs and untagged pair, including 5′-phosphate R and terminal phosphorothioate F; matched-strand annealing; AluI digestion, dA tailing and bead-bound ligation. The three-base tag begins each read before TCT. The earlier citation-only inventory was not a source-content check."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original 2015 Nature Protocols facsimile, Table 1 at ResearchGate HTML lines 891-945; Materials adapter annealing lines 980-1015; Procedure steps 54-70 at lines 1396-1523; library barcode discussion lines 400-424 and step 61 lines 1436-1463",
+        "finding": "Read the full original article facsimile. Table 1 prints the same 12 3-bp tagged F/R adapter pairs plus untagged pair, with terminal phosphorothioate on F and 5-prime phosphate on R. Materials anneals matched F/R strands; Procedure A-tails AluI fragments, ligates selected adapter on beads, and then amplifies. Step 61 says inline tag occupies first three bases of each read followed by TCT; no separate index read is specified. This supports existing schematic scope, but the earlier pass_1 only noted a citation and did not independently read the article."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "2013 article and supplement source checklist; publisher Supplementary Data workbook entire ensemble_domains sheet lines 1–1405; 2015 detailed protocol original facsimile Table 1 and Procedure lines 891–1015, 1351–1459",
+      "finding": "Independently followed the remaining source links. The linked workbook is genomic-domain result data; the linked detailed protocol confirms the complete adapter family and reaction order."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "2013 article-linked publisher Supplementary Data workbook sheet ensemble_domains lines 1-1405; 2015 Nature Protocols full original facsimile Table 1 and Procedure steps 54-70 (ResearchGate HTML lines 891-945, 1396-1523)",
+      "finding": "Followed both previously unresolved links. Original workbook contains genomic-domain results only; original 2015 detailed protocol confirms printed adapter family, annealing, A-tailing, ligation and PCR. A separate reader has since checked both original bodies."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent original-source checks cover the 2013 article and methods supplement, its result-data workbook, and the linked 2015 detailed protocol. The original sources print the adapter family and reaction order; no missing adapter or primer claim is accepted."
+}

@@ -1,0 +1,81 @@
+{
+  "dir": "micro-c__10.1016+j.cell.2015.05.048",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hsieh et al Cell 2015 DOI:10.1016/j.cell.2015.05.048; j.cell.2015.05.048_PMC4509605.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 116-132",
+        "finding": "Article describes end repair, biotin incorporation, proximity ligation, A-tailing and Illumina adaptor ligation without exact adaptor variant."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 116-128",
+        "finding": "Paper describes MNase, proximity ligation, end preparation, A-tailing, Illumina adapter ligation, and streptavidin capture. Exact adapter variant requires unavailable detailed methods or vendor document."
+      }
+    },
+    {
+      "id": "detailed_methods",
+      "role": "supplement",
+      "locator": "NIHMS694804-supplement-1.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original detailed supplement is PMC gated/manual in MANIFEST.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "NIHMS694804 supplementary files 2-15 including XLSX tables and figures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Cell supplements are all manual in MANIFEST; chemistry-bearing contents uninspected.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_adapter",
+      "role": "linked_material",
+      "locator": "Illumina paired-end adaptor/primer guide for exact chosen variant",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article only names Illumina adaptors and paired-end primers; source supplement and exact vendor variant unresolved.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Defining JATS library preparation lines 116-132; MANIFEST manual supplement rows",
+      "finding": "Followed article supplement references into MANIFEST; detailed Cell supplement and vendor variant unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 116-128; source MANIFEST detailed-methods DOCX row",
+      "finding": "Followed paper method to its supplement listing. Detailed method attachment and exact Illumina adapter variant remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact Micro-C Illumina adapter variant and primer bases unresolved",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

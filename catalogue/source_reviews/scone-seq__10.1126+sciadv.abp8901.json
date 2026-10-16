@@ -1,0 +1,85 @@
+{
+  "dir": "scone-seq__10.1126+sciadv.abp8901",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 211–229; Supplementary Materials lines 279–293",
+        "finding": "The original names One-Tn5/P5-Tn5 and Mosaic annealing; Tn5 tags DNA while reverse transcription and preamplification retain RNA. It points to Supplementary Text and Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS 211–229, supplementary links 279–293",
+        "finding": "Original methods establish DNA barcoded One-Tn5 tagmentation, RT, terminal dC tailing, second-strand synthesis, simultaneous preamplification, later P5-Tn5 and custom index-primer library preparation; direct Table S2 citation. Links a Bio-protocol procedure."
+      }
+    },
+    {
+      "id": "supp_methods_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385_supplementary_sciadv.abp8901_sm.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Text lines 25–55; Table S2 lines 382–543",
+        "finding": "Table S2 prints modified biotin RT and adapter oligos and multiple indexing/custom sequencing primers; assay branch details appear in Supplementary Text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Text lines 25–38 and Table S2 lines 382–457; oligo scraper hits checked",
+        "finding": "Supplement explicitly describes MATQ-derived RT priming, added Read 2 barcode and second Tn5 Read 1; Table S2 prints biotin One-Tn5, P5-Tn5, phosphorylated Mosaic, three biotin RT variants and adapter/amplification oligos."
+      }
+    },
+    {
+      "id": "matq_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nmeth.4145",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary Text says RT primer design adapts MATQ-seq; original and supplement require independent check.",
+      "discovered_from": "supp_methods_oligos"
+    },
+    {
+      "id": "bio_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://bio-protocol.org/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article links a Bio-protocol record without resolved specific protocol URL; not yet verified.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Methods lines 211–229 and Supplementary Text lines 25–55; Table S2 lines 382–543",
+      "finding": "The paper links MATQ-seq and a Bio-protocol page; exact inherited RT-primer geometry must be compared, although local Table S2 is source-positive."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 211–229, 279–293; Supplementary Text 25–38 and Table S2 382–457",
+      "finding": "Followed explicit Table S2 and identified MATQ chemistry predecessor and Bio-protocol link; the latter two remain unavailable here. Article also links analysis code, which is not a wetlab oligo source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "scONE-seq modified adapter and index oligos are undisclosed",
+      "disposition": "blocked",
+      "evidence": "Original supplementary Table S2 provides them; predecessor/detailed-protocol coverage and second pass remain open."
+    }
+  ],
+  "conclusion": "Original supplementary Table S2 provides them; predecessor/detailed-protocol coverage and second pass remain open."
+}

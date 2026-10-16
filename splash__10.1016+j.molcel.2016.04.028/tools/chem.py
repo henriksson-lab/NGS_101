@@ -15,9 +15,9 @@ DEFINITION = Definition(
     "10.1016/j.molcel.2016.04.028", "Aw et al., Molecular Cell (2016)",
     "Biotinylated psoralen photocrosslinks RNA duplexes for streptavidin selection, proximity ligation and sequencing.",
     "custom", ("RNA A-derived cDNA", "RNA B-derived cDNA"),
-    "The detailed protocol specifies paired-end 150-base sequencing. Its activated 3-prime adapter and 96-nt RT/circularization primer are published; it names NEB E7335L for library PCR, but exact circle-to-amplicon and read-primer geometry remain unresolved.",
+    "The authors' 2017 JoVE protocol specifies paired-end 150-base sequencing. Its official Materials table prints the activated 3-prime adapter and 96-nt RT/circularization primer, and names NEB E7335L for library PCR. Exact circle-to-amplicon and read-primer geometry remain unresolved.",
     "RNA",
-    "The exact adapter and RT primer were not absent: the author protocol prints both, including the 5rApp, 3ddC and two internal iSp18 modifications. It names the NEB E7335L PCR primer kit without printing its oligo sequences.",
+    "The official 2017 JoVE Materials table prints the custom adapter and RT primer, including 5rApp, 3ddC and two internal iSp18 modifications, and names the NEB E7335L PCR primer kit. The available NEB manual is revision 8.0 (June 2024), so its printed primer family is a later kit reference, not proof of the 2017 lot's selected index. Full circle-derived read geometry is unresolved. The recovered 2016 Molecular Cell supplement (Figure S2F and Supplemental Experimental Procedures) independently prints the same adapter and two-spacer RT primer, labels the cDNA 5′-phosphate, and shows circularization/PCR. Its 3′ adapter string does not annotate the activation/blocking groups supplied by the later author protocol. The original main article remains inaccessible; base-resolved circle-to-amplicon/read geometry is still a model gap.",
 )
 
 # Workflow reagent, workflow selection, graph reagent and graph selection.
@@ -25,8 +25,9 @@ PSORALEN = ("biotinylated psoralen",
             "streptavidin selects biotin-psoralen RNA duplexes",
             "biotinylated psoralen", "streptavidin capture")
 
-# The author materials list names NEB E7335L; the NEB manual prints these
-# source-exact Set 1 primer bases with a phosphorothioate bond to terminal T.
+# The author materials list names NEB E7335L; the available NEB Rev 8.0
+# manual prints these Set 1 primer bases with a phosphorothioate bond to
+# terminal T. Historical 2017 lot identity remains unverified.
 # The reaction's exact circle-derived PCR template remains unavailable.
 NEB_SET1_SOURCE = "https://www.neb.com/en/-/media/nebus/files/manuals/manuale7335_e7500_-e7710_e7730.pdf"
 
@@ -160,15 +161,16 @@ def protocol_graph():
                                 MaterialKind.CATALYST)
     circle = graph.product("circular_cdna", "circularized SPLASH cDNA",
                            MaterialKind.MOLECULAR,
-                           source="Aw et al. JoVE 2017 section 7; terminal phosphorylation not stated")
+                           source="Aw et al. Molecular Cell 2016 Figure S2F; first-strand cDNA is labelled 5′P")
     graph.react("circularize_cdna", "Circularize single-stranded cDNA",
                 StepKind.CIRCULARIZATION,
                 ((cdna, InputRole.TEMPLATE),
                  (circle_ligase, InputRole.CATALYST)), (circle,),
                 geometry=CircularizationGeometry.known(
                     "single-strand intramolecular ligation",
-                    statement="JoVE section 7 and Table 6 use CircLigase II on first-strand "
-                              "cDNA; the source does not state the RT primer's 5′ end group."))
+                    statement="Aw et al. 2016 original Figure S2F labels first-strand cDNA 5′P and shows its circularization; "
+                              "the 2017 detailed protocol section 7/Table 6 names CircLigase II. "
+                              "A base-resolved circular junction is not assembled in this model."))
     reviewed = ["rna", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
                 "selector", "select_duplexes", "end_phosphatase", "repair_three_prime",
                 "end_kinase", "phosphorylate_five_prime", "proximity_ligase",

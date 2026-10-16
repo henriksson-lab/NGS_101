@@ -12,9 +12,15 @@ Slide-seqV2 captures tissue RNA on a monolayer of spatially decoded 10-µm beads
 
 ## 3. Key oligo as printed
 
-🟢 Chemgenes bead: `5'-TTTTTTTTCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJNNNNNNNNT30`.
+🟢 The Online Methods print three bead-capture oligos (lines 93–107):
 
-The paper defines `J` as split-pool barcode bases, `N` as mixed UMI bases and `T30` as capture oligo-dT. Fifteen J positions are synthesized; fourteen are used for spatial matching.
+| Bead preparation | 5′→3′ oligo as printed |
+|---|---|
+| Chemgenes | `TTTTTTTTCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJNNNNNNNNT30` |
+| In-house vs1 | `TTT_PC_GCCGGTAATACGACTCACTATAGGGCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJTCNNNNNNNNT25` |
+| In-house vs2 | `TTT_PC_GCCGGTAATACGACTCACTATAGGGCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJNNNNNNNVVT30` |
+
+The paper defines `PC` as a photocleavable linker, `J` as split-pool barcode bases, `N` as mixed UMI bases, and `V` as A/C/G. Fifteen J positions are synthesized; fourteen are used for spatial matching. The schematic selects the Chemgenes version, but displays only its barcode–UMI–oligo-dT core inside a normalized final Illumina duplex; the full bead oligo above is the source transcription.
 
 🟢 Table 6 library-preparation oligos, 5′→3′ as printed (spaces caused by PDF line wrapping removed):
 
@@ -47,4 +53,4 @@ The paper defines `J` as split-pool barcode bases, `N` as mixed UMI bases and `T
 
 ## 5. Evidence boundary
 
-🟢 The bead sequence, TSO, second-strand and preamplification primers, hybrid P5 primer, and puck-decoding oligos are printed in the paper and Table 6. 🟡 The schematic normalizes the final platform arms to canonical Illumina roles so sequencing-primer placement can be computed; it does not claim that normalization as another published oligo. The N700 kit index varies by sample and is not one fixed oligo.
+🟢 The three bead sequences, TSO, second-strand and preamplification primers, hybrid P5 primer, and puck-decoding oligos are printed in the paper and Table 6. 🟡 The schematic normalizes the final platform arms to canonical Illumina roles so sequencing-primer placement can be computed; it does not claim that normalization as another published oligo. The N700 kit index varies by sample and is not one fixed oligo. The publisher Table 6 is available, but the PMC-hosted Sup_info and Sup_Tab_3/4/5 attachments were gated at this review; source-review completeness remains open.

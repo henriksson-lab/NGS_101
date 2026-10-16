@@ -1,0 +1,106 @@
+{
+  "dir": "scget-seq__10.1038+s41587-021-01031-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41587-021-01031-1; Nature Biotechnology article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full journal text unavailable in MANIFEST.tsv; the bundle contains supplementary files but no full article text.",
+      "pass_2": null
+    },
+    {
+      "id": "supp_table_10",
+      "role": "supplement",
+      "locator": "s41587-021-01031-1_41587_2021_1031_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 7-15",
+        "finding": "Prints Tn5/HME-A oligo members with full bases; line 8 gives Tn5ME-A.1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM10 original workbook Sheet1 rows 1-15",
+        "finding": "Original sheet prints Tn5ME-A and TnHME-A barcoded mosaic-end oligos and TnH construct protein sequences. It does not substitute for inaccessible defining Methods."
+      }
+    },
+    {
+      "id": "supp_report_and_code",
+      "role": "supplement",
+      "locator": "MOESM1 and MOESM11, publisher supplemental PDFs",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "MOESM1 is a reporting summary; MOESM11 analysis pseudocode prints the eight inline barcode strings and maps them to TnH versus Tn5, which is relevant to read-layout validation but not reagent-primer synthesis.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 visual page 1 checked by independent audit_s_z reviewer; MOESM11 text header and lines 1-70 checked locally",
+        "finding": "Reporting summary and code, not primer or bead-reagent source."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole scGET source-bundle oligo scraper run first (51 hits across 6 files); visually inspected original MOESM1 Reporting Summary PDF all four pages (image-only; p.1 software and methods categories, p.2 data/deposition and study-design categories, pp.3-4 ChIP/reagent reporting); read original MOESM11 Supplementary Code extracted text lines 1-90 and section headings through line 445, especially TagDust Step 1 lines 19-29, whitelist Step 2 lines 31-46 and TnH/Tn5 merge Step 4 lines 71-88; compared barcode strings to original MOESM10 workbook Sheet1 rows 8-15.; followed TagDust SourceForge landing page (web lines 43-72) and author scatACC GitHub root (web lines 129-185), while author UMI-tools GitHub root returned cache miss.",
+        "finding": "MOESM1 is a reporting summary, not a chemistry protocol; it links study data/software but no reagent oligos. MOESM11 is analysis pseudocode and is relevant to read interpretation: TagDust lists eight 8-nt inline barcodes, and Step 4 assigns TAAGGCGA/GCTACGCT/AGGCTCCG/CTGCGCAT to TnH and CGTACTAG/TCCTGAGC/TCATGAGC/CCTGAGAT to ordinary Tn5, matching MOESM10 adapter oligos. Its S:AGATATATATAAGGAGACAG is a filtering motif, not evidence for a supplied primer. TagDust and scatACC landing pages describe computation, not chemistry; author UMI-tools page could not be opened. These links cannot resolve proprietary 10x reagent bases. Defining article and kit guide remain unavailable; no absence claim accepted."
+      }
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "MOESM2-MOESM9 and MOESM12 publisher data supplements",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Construct/analysis data rather than bead-oligo manufacturing tables.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "headers, sheet titles and oligo scan; MOESM2 constructs, MOESM3-9 results tables, MOESM12 matrix",
+        "finding": "No 10x bead or SI-PCR reagent table identified by header scan."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Publisher MOESM2–MOESM9 and MOESM12 sheet headings",
+        "finding": "Available files are construct/result tables; no complete original Methods retrieved."
+      }
+    },
+    {
+      "id": "tenx_kit",
+      "role": "vendor",
+      "locator": "10x Genomics kit and bead/primer source implicated by protocol",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact kit guide/revision not identified from accessible original Methods.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "supplementary table 10 and article/kit availability in MANIFEST.tsv",
+      "finding": "Tn5 table recovered; defining article and versioned 10x guide not accessible, so linked information cannot be exhausted."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MOESM10 workbook rows 1-15; MANIFEST.tsv and visual MOESM1 Reporting Summary",
+      "finding": "Defining Nature Biotechnology article remains unavailable. MOESM1 is reporting summary, MOESM11 analysis pseudocode; neither is a missing chemistry method."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete 10x gel-bead and SI-PCR oligos are proprietary/unavailable",
+      "disposition": "blocked",
+      "evidence": "Published assay Tn5 members occur in Table 10, while defining Methods and 10x guide remain unexamined here."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

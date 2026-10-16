@@ -12,7 +12,15 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ""
+CAVEAT = ('Published Supplementary Table S1 prints SINE Alu/LINE-1 primers and '
+          'indexed stagger families. This role-level diagram does not yet select '
+          'one well-specific member or map the inherited Smart-seq2 and NEBNext '
+          'oligos onto the final libraries. The earlier preprint media-1 Table S1 '
+          'prints first-generation Sine.Alu_F as AAAAATATAAAAAATTAGTTGGG '
+          '(without the 5′ partial-adapter arm), whereas the published MOESM2 '
+          'Table S1 prints CTACACGACGCTCTTCCGATCTAAAAATATAAAAAATTAGTTGGG. '
+          'This page uses the published row; whether the difference was a design '
+          'change or a table correction is unresolved.')
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
@@ -36,7 +44,10 @@ def workflow():
 
 
 def oligos():
-    return ()
+    return ('Sine.Alu_F — 5′-CTACACGACGCTCTTCCGATCTAAAAATATAAAAAATTAGTTGGG-3′',
+            'Sine.Alu_R — 5′-CAGACGTGTGCTCTTCCGATCTNNNNNNNNCCCAAACTAAAATACAATAAC-3′',
+            'LINE.L1_F — 5′-CTACACGACGCTCTTCCGATCTTTTTGAGTTAGGTGTGGGATATA-3′',
+            'LINE.L1_R — 5′-TGCTGAACCGCTCTTCCGATCTNNNNNNNNAAAATCAAAAAATTCCCTTTC-3′')
 
 
 def protocol_graph() -> ProtocolGraph:

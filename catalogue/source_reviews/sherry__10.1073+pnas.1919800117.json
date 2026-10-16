@@ -1,0 +1,108 @@
+{
+  "dir": "sherry__10.1073+pnas.1919800117",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Di et al PNAS 2020 doi:10.1073/pnas.1919800117 PMC7022195",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC7022195 lines 97-117,165-181",
+        "finding": "RNA/cDNA hybrid is directly tagmented with author-loaded Tn5, then gap-extended and PCR-amplified. Paper points to SI Materials and Methods."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7022195 JATS Results lines 95-118 and Methods lines 165-181",
+        "finding": "The article identifies RT with d(T)30VN, direct Tn5 tagmentation of the RNA/DNA hybrid, gap repair and indexed PCR; it distinguishes tests of Tn5 ligation to RNA and DNA ends."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Original PNAS SI pnas.1919800117.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original SI PDF text lines 85-107, 130-152; scraper preprint corroboration",
+        "finding": "Explicitly prints poly(T)30VN and ME, Adaptor A/B sequences; rCrArG or rG substitutions at adaptor 3′ ends in experimental variants."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Published PNAS SI extracted lines 84-110 and 130-152; checked oligo hits from scraper against the source lines",
+        "finding": "SI states modified Smart-seq2 RT omits ISPCR tail and TSO in standard SHERRY. It prints 19-base ME, Adaptor A/B and identifies ribonucleotide-modified terminal variants."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "Di et al bioRxiv 843474 v2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author preprint 843474_v2.full.pdf.txt lines 2458-2470 (mutagenesis primers) and 2689-2733 (ME/Adaptor A/B and rCrArG/rG variants)",
+        "finding": "Author preprint independently corroborates published SI ME and Adaptor A/B sequences and 3′-RNA substituted variants at lines 2689-2733; distinct Tn5-mutagenesis primers at lines 2458-2470 are not library adapters."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author preprint 843474_v2.full.pdf.txt lines 2652-2730, independently located RNA/DNA hybrid and adaptor assembly paragraphs",
+        "finding": "Preprint corroborates standard RT without TSO and gives the ME, Adaptor A/B and rCrArG/rG adapter variants. Prior pass_1 line pointer 2458-2470 instead reaches mutagenesis primers and should be corrected."
+      }
+    },
+    {
+      "id": "picelli2014",
+      "role": "predecessor",
+      "locator": "Picelli et al 2014 Tn5 preparation method cited at paper ref41",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Article cites purification/loading precedent; original not yet read for exact loading geometry.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "Smart-seq2 reverse-transcription protocol cited in SI",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "SI says mRNA/cDNA hybrid generation adapts Smart-seq2 and removes ISPCR from RT primer; prior original not read for remaining inherited steps.",
+      "discovered_from": "supplement"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PNAS JATS lines 165-181; SI lines 85-107,130-152; cited Picelli/Smart-seq2 references",
+      "finding": "Published SI directly supplies ME and A/B strands, including RNA-modified test variants. Predecessor loading/RT sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked defining source Methods/SI citations, supplement inventory and named vendor/predecessor sources in the checklist",
+      "finding": "Original available sources corroborate the chemistry, but checklist-linked original vendor or predecessor material remains unavailable or unread; linked-information closure is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact indexed PCR primer member",
+      "disposition": "blocked",
+      "evidence": "SI names Vazyme indexed common primers; chosen index and vendor primer syntheses not established."
+    }
+  ],
+  "conclusion": "First located pass only; transposome and RT predecessors still need checking."
+}

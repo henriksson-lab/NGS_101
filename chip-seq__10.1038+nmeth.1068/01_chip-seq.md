@@ -10,7 +10,8 @@ sequencing library.
 
 - 🟢 Robertson et al. 2007, DOI [10.1038/nmeth.1068](https://doi.org/10.1038/nmeth.1068),
   the defining genome-wide ChIP sequencing report.
-- 🟢 Park 2009 protocol/review, DOI `10.1038/nprot.2009.12`, complete text
+- 🟢 Schmidt et al. 2009, *Methods* 48:240–248,
+  DOI [`10.1016/j.ymeth.2009.03.001`](https://doi.org/10.1016/j.ymeth.2009.03.001)
   (PMC4052679), for the explicit end-repair, dA and adapter-ligation sequence.
 
 ## 3. Molecular order

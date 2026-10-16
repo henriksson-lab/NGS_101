@@ -234,13 +234,28 @@ dimers but never remove them — which is exactly what the paper reports.
 
 ## 8. Unresolved
 
-1. 🔴 **The Read 1 sequencing primer is never named.** See
-   [`02_sequencing_primer.md`](02_sequencing_primer.md) — this is the one that matters.
-2. 🔴 **The mask's rRNA target is never printed.** Its reverse complement is recorded in
-   §3; verifying it needs a reference sequence, which is data.
+1. 🟡 **The loaded Read 1 oligo is not identified in the current declaration.**
+   The page uses a derived entry-site query. Manufacturer instructions and cited
+   linked sources are still being checked; no source-absence conclusion is accepted.
+   See [`02_sequencing_primer.md`](02_sequencing_primer.md).
+2. 🟡 **The mask's genomic target is not independently verified here.** Its reverse
+   complement is recorded in §3; checking the target requires a reference sequence.
+   This is a model verification gap, not a confirmed missing-source claim.
 3. 🔴 **Why RTP's 3'-terminal base is a ribonucleotide (rA)** is stated but not explained.
    🟡 A 3'-rA is a plausible RNase-H2 / cleavable handle, but the paper does not say so and
    nothing downstream uses it.
 4. 🟡 **5.8S is taken as 156 nt** to do the size arithmetic. The paper does not give a
    length. 150–160 all land inside the published 270–290 bp window, so nothing in §6
    depends on the exact figure.
+
+## Source recovery and version scope (2026-10-16)
+
+The recovered original 2016 Online Methods uses six-base RPI indexes and 43- or
+51-base single reads. This schematic models the later 2018 detailed protocol,
+whose Reagent setup and Supplementary Table 1 specify eight-base SRX indexes and
+whose Step 38 recommends at least 51 bases. These are published versions, not a
+publication discrepancy. The full 2018 original was already present as an ignored
+manual PDF; earlier audit statements that it was unavailable were repository
+source-discovery errors. Its oligos and reaction order have now been read in the
+source bundle. Instrument-specific loaded-primer identity remains outside the
+model evidence; no unpublished-information claim is accepted.

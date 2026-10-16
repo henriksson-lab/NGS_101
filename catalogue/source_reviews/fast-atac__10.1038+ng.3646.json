@@ -1,0 +1,350 @@
+{
+  "dir": "fast-atac__10.1038+ng.3646",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_PMC5042844.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Fast-ATAC sequencing section lines 194–198",
+        "finding": "Defining method tagmented 5,000 blood cells with digitonin and TDE1 in one tube and inherited ATAC PCR/read architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5042844 JATS Fast-ATAC sequencing lines 194–198; scraper",
+        "finding": "Digitonin-assisted Tn5 tagmentation in blood cells inherits the original ATAC amplification chemistry; original article does not print a distinct new adapter."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM38_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figure 1 opening lines 1–18",
+        "finding": "Figure S1 validates the Fast-ATAC insert/mitochondrial fraction and TSS enrichment compared with original ATAC; no ordering oligo in inspected legend."
+      },
+      "reason": "Inspected figure caption compares fragment profile, mitochondrial fraction and accessibility enrichment; no oligo list in this caption.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM38 Supplementary Fig. 1 text lines 1–18; scraper",
+        "finding": "Inspected figure caption compares fragment profile, mitochondrial fraction and accessibility enrichment; no oligo list in this caption."
+      }
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "supplement opening and Fast-ATAC sections",
+        "finding": "Supplementary note and figure material was available; any protocol-specific oligo detail outside inspected sections remains to be checked."
+      },
+      "reason": "All three Supplementary Notes concern computational TF accessibility, disease enrichment, and regulatory heterogeneity. The entire 141-line document contains no library-preparation method or oligo table; it does not settle Fast-ATAC adapter/index identity.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS804249 supplement-1.pdf.txt lines 1-141, including Supplementary Notes 1-3 at lines 3, 77 and 110; full-text search for primer/adapter/tagmentation; scraper on Fast-ATAC bundle",
+        "finding": "All three Supplementary Notes concern computational TF accessibility, disease enrichment, and regulatory heterogeneity. The entire 141-line document contains no library-preparation method or oligo table; it does not settle Fast-ATAC adapter/index identity."
+      }
+    },
+    {
+      "id": "motif_logo_zip",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM46_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory 46 members; extracted 1-CTCF and 2-CEBPB text openings",
+        "finding": "Archive contains 46 TF motif-logo PDFs named by transcription factor; representative files are JASPAR logos, not synthesis oligos."
+      },
+      "reason": "TF motif-logo archive reports analysis results rather than protocol reagents.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM46 ZIP central directory, all 46 names; independently extracted 1-CTCF.pdf, 23-NHLH1.pdf and 46-MECOM.pdf and read their PDF text; Fast-ATAC source-bundle oligo scraper",
+        "finding": "Every archive member is named for a transcription factor. Three dispersed representative PDFs are 2016 JASPAR sequence-logo plots with MA identifiers, bits and motif positions, not wet-lab oligo orders or library reaction instructions. This supports classifying this archive as analysis output."
+      }
+    },
+    {
+      "id": "buenrostro_2015",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PCR setup lines 119–125",
+        "finding": "Earlier ATAC workflow names Custom Nextera Primer 1/2 and refers the complete base list to the 2013 defining article."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original predecessor PMC4374986 Methods lines 119–125; scraper",
+        "finding": "Uses Custom Nextera Primer 1 and barcode-containing Primer 2, with exact bases delegated."
+      }
+    },
+    {
+      "id": "buenrostro_2013_supp",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "opening Ad1_noMX and Ad2.1 primer lines 1–8",
+        "finding": "Original ATAC supplement prints the inherited Ad1_noMX and Ad2 indexed primer family."
+      },
+      "discovered_from": "buenrostro_2015",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original predecessor MOESM200 PDF opening Ad1_noMX and Ad2 indexed series lines 1–80; scraper",
+        "finding": "Full inherited amplification primer family appears in the 2013 source."
+      }
+    },
+    {
+      "id": "buenrostro_2015_single_cell",
+      "role": "linked_material",
+      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Corces 2016 JATS line 196 reference 23; Buenrostro 2015 PMC4685948 JATS line 49 and Supplementary Tables link line 155",
+        "finding": "Corces cites this single-cell ATAC work specifically for modified primers; the article describes cell-identifying barcoded primers, and its linked MOESM36 workbook contains the dual-index v2 families."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fast-ATAC original PMC5042844 JATS Online Methods line 196 (modified primers23; NextSeq 76×8×8×76), Buenrostro 2015 original PMC4685948 JATS main text line 49 and Supplementary Tables link line 155; oligo scraper run on both original source bundles before reading",
+        "finding": "Independently confirmed Corces cites Buenrostro 2015 specifically for modified primers; the original scATAC paper describes cell-identifying barcoded PCR primers and links its supplementary oligo workbook. This supports investigating dual-index candidates, but does not identify which exact member Fast-ATAC loaded."
+      }
+    },
+    {
+      "id": "buenrostro_2015_single_cell_supp",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "buenrostro_2015_single_cell",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S2 / MOESM36 workbook Sheet1 lines 1–6, 97–101 and full 92-member Ad1 / 96-member Ad2 barcode families; source-bundle oligo scraper",
+        "finding": "v2_Ad1.1 prints P5/TAGATCGC/S5/10-base mosaic prefix and v2_Ad2.1 prints P7/TCGCCTTA/S7/7-base mosaic prefix. Source labels Ad1 i5 and Ad2 i7. Exact sample-selected member is not identified by this table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nature 2015 MOESM36 Supplementary Tables workbook Sheet1 extracted lines 1–6 and 97–105, plus family rows in between; predecessor bundle oligo scraper run first",
+        "finding": "Independently read v2_Ad1 P5/i5 family and v2_Ad2 P7/i7 family with two distinct 8-base barcode sets and their nonindexed Nextera-core controls. The table establishes dual-index primer design available in the cited method, but no Fast-ATAC sample-specific member or barcode pair."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm39_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM39_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Donor/read metrics, no adapter sequences in inspected sheet header.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM39 workbook, Normal Donor Samples Sequenced sheet header",
+        "finding": "Donor/read metrics, no adapter sequences in inspected sheet header."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 141 extracted lines total",
+        "finding": "Donor/read metrics workbook, not adapter sequences."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm40_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM40_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Peak coordinate/signature matrix result data, not adapter chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM40 workbook CIBERSORT Signature Matrix sheet header",
+        "finding": "Peak coordinate/signature matrix result data, not adapter chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 776 extracted lines total",
+        "finding": "CIBERSORT peak-coordinate and signature matrix, not library chemistry."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm41_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM41_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Transcription factor motif identifiers, not library oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM41 workbook TF_Identifiers sheet header",
+        "finding": "Transcription factor motif identifiers, not library oligos."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 79 extracted lines total",
+        "finding": "JASPAR transcription-factor motif identifiers, not library oligos."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm42_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM42_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Motif correlation results, not adapter chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM42 workbook HemeTF_to_CIS-BP-TF Correlation sheet header",
+        "finding": "Motif correlation results, not adapter chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 97 extracted lines total",
+        "finding": "Motif correlation matrix, not library oligos."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm43_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM43_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Clinical metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM43 workbook Patient Clinical Follow up sheet header",
+        "finding": "Clinical metadata, not library chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 715 extracted lines total",
+        "finding": "Patient clinical follow-up, not library chemistry."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm44_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM44_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Enhancer scores, not library oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM44 workbook AML Enhancer Cytometry sheet header",
+        "finding": "Enhancer scores, not library oligos."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 34 extracted lines total",
+        "finding": "AML enhancer score table, not library oligos."
+      }
+    },
+    {
+      "id": "ng_3646_41588_2016_bfng3646_moesm45_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM45_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This is a perturbation shRNA sequence table, not the Fast-ATAC library adapter/primer family. It is source-positive sequence content with a different role.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM45 workbook shRNA Sequences sheet header and first rows",
+        "finding": "This is a perturbation shRNA sequence table, not the Fast-ATAC library adapter/primer family. It is source-positive sequence content with a different role."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "shRNA Sequences sheet lines 1–6; original perturbation oligos distinguished from sequencing adapters",
+        "finding": "Contains non-target and HOXA9 shRNA perturbation sequences; these are not Fast-ATAC library adapters."
+      }
+    },
+    {
+      "id": "ng_3646_supp_nihms804249_supplement_2_doc",
+      "role": "supplement",
+      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-2.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-2 DOC text lines 1–63, Supplementary Figures 1–14",
+        "finding": "Figure captions and assay comparisons, without library adapter sequences or reaction steps."
+      },
+      "reason": "Figure captions and assay comparisons, without library adapter sequences or reaction steps.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-2 DOC text lines 1–64, Supplementary Figures 1–14 captions",
+        "finding": "Figures document insert-size/QC and cell sorting or downstream comparisons; no primer list or adapter chemistry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Fast-ATAC article Methods 194–198; linked 2015→2013 ATAC source chain; motif archive inventory",
+      "finding": "The sample-prep variant is source-specific but primers are inherited; many result-table supplements still require classification."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Fast-ATAC JATS lines 194–198, original ATAC predecessors PMC4374986 and MOESM200 oligo list",
+      "finding": "Original ATAC primer sources followed. Other original Fast-ATAC supplements need inventory before missing claims can close."
+    },
+    "correction": "Third review followed the defining article reference 23 to the 2015 single-cell ATAC paper and its original dual-index primer workbook. Independent second review of these newly added rows is pending.",
+    "resolution": "Corces 2016 Online Methods reference 23 was followed to Buenrostro 2015 original and its MOESM36 dual-index primer workbook. Both newly added sources now have independent root and review_fast_hybrid checks. Previously listed supplements and older ATAC sources each have two earlier reads. No linked primer source remains unchecked in this source chain."
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact Fast-ATAC sample-specific i5 and i7 index members are not identified",
+      "disposition": "blocked",
+      "evidence": "Defining article JATS Online Methods line 196 reports dual-index NextSeq 76×8×8×76 and cites 2015 modified primers; MOESM36 lists the v2 Ad1/Ad2 families, independently checked twice, but does not assign a barcode pair to any Fast-ATAC sample. The present source checklist does not establish a complete sample-to-index mapping."
+    }
+  ],
+  "conclusion": "Corrected prior repository transcription: Fast-ATAC used dual-index NextSeq 76×8×8×76 and the cited 2015 v2 Ad1/Ad2 primer families, not the previously drawn single-index 50-bp HiSeq construct. The exact sample-to-index assignments remain unresolved; no absence claim is accepted."
+}

@@ -71,7 +71,7 @@ def pem_library() -> tuple[Construct, tuple]:
 
 def workflow():
     return chain(molecule("repaired genomic DNA from edited cells", (role("bait locus joined to germline, indel, deletion, inversion or translocation partner"),)), (
-        ("Sonicate genomic DNA to 300–700 bp",
+        ("Sonicate genomic DNA to 0.3–2 kb",
          molecule("randomly sheared repair products", (role("bait-primer site"), role("repair junction and prey DNA"), role("random shear end"))),
          "The bait-side primer site is fixed; the other end may contain local repair sequence or a genome-wide translocation partner."),
         ("Perform one extension from a 5-prime-biotinylated bait primer",
@@ -131,9 +131,9 @@ def protocol_graph():
                       state=molecule("repaired genomic DNA", (role("bait locus and repair junction"),)),
                       primary=True)
     shear = graph.input("shear_condition", "sonication condition", MaterialKind.CONDITION)
-    fragments = graph.product("fragments", "300–700-bp repair products",
+    fragments = graph.product("fragments", "0.3–2-kb repair products",
                               MaterialKind.MOLECULAR, state=dna.state)
-    graph.react("sonicate", "Sonicate repaired genomic DNA", StepKind.FRAGMENTATION,
+    graph.react("sonicate", "Sonicate repaired genomic DNA to 0.3–2 kb", StepKind.FRAGMENTATION,
                 ((dna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
     bait = graph.input("bait_primer", "5-prime-biotinylated bait primer", MaterialKind.OLIGO)
     extension_enzyme = graph.input("extension_enzyme", "single-extension polymerase",

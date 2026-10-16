@@ -1,0 +1,161 @@
+{
+  "dir": "crispr-sciatac__10.1038+s41587-021-00902-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Pierce et al. Nat Methods 2021 doi:10.1038/s41587-021-00902-x; PMC8516442",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC8516442 JATS lines 132-156",
+        "finding": "Defines TnY MEDS A/B, matching barcoded RT primers, gRNA PCR1/PCR2 and ATAC PCR. Points to Supplementary Table 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Pierce et al. 2021 PMC8516442 JATS Methods lines 132–156 and citations lines 296–310; source-bundle scraper",
+        "finding": "Methods explicitly anneal MEDS A from T5 tagmentation oligo+pMENT and MEDS B from each barcoded T7 oligo+pMENT, match RT-primer barcode to MEDS B by plate orientation, then amplify ATAC and gRNA in separate PCR paths. The original cites Datlinger CROP-seq for its guide vector, Rubin Perturb-ATAC as comparator and Cusanovich 2015 sci-ATAC for combinatorial indexing."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF supplementary methods/figures",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 28-65",
+        "finding": "Supp. Fig. 1 explains ATAC/gRNA readout and table inventory; not itself the full oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF text lines 28–65 and Supplementary Fig. 1 caption; source-bundle scraper",
+        "finding": "MOESM1 lists Supplementary Table 2 as oligonucleotide inventory and Supplementary Fig. 1 describes matching BC1/BC2/BC3 across ATAC and gRNA libraries plus staggered P5 gRNA primers. It is a schematic and table pointer; bases reside in MOESM4 workbook."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Original Springer MOESM4 XLSX, sheets Common oligos and oligo tables",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM4.xlsx.txt lines 1-100; sheets Common oligos and barcoded T7/RT families",
+        "finding": "Original workbook prints common tagmentation, PCR and sequencing oligos and barcode families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 XLSX text Common oligos lines 1–18; Barcoded T7 tagment ATAC lines 19–116; RTi sgRNA 117–214; P7i ATAC 215–360; P5i ATAC 361–458; P5i sgRNA 459–556; P7i sgRNA 557–702; Guide RNAs 703–1045; scraper on bundle",
+        "finding": "Workbook supplies pMENT with 5-prime phosphorylation, T5/T7 tagmentation oligos, common staggered gRNA PCR2 primers, custom ATAC sequencing primers and barcoded primer families for both ATAC and gRNA. Its distinct sheet families substantiate three matched cell-barcode stages. It does not by itself prove which variant members each experimental library used."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "sciatac_predecessor",
+      "role": "predecessor",
+      "locator": "Datlinger et al. CROP-seq doi:10.1038/nmeth.4177, original cached PMC5334791 JATS; guide-vector predecessor cited as ref. 2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Datlinger CROP-seq PMC5334791 JATS lines 82–121, 214–220 and source title; original JATS oligo scraper; Pierce CRISPR-sciATAC reference list ref.2",
+        "finding": "Independently confirmed this is the CROP-seq guide-vector predecessor: a gRNA cassette is placed so a polyadenylated Pol II transcript includes the guide sequence and is detectable by scRNA-seq. It does not define the split-pool sci-ATAC adapter chemistry; the previous row identity was incorrect."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original cached PMC5334791 JATS title/authors lines 1–45, CROP-seq vector text lines 95–121; defining CRISPR-sciATAC JATS references 2 and 7, lines 262–310",
+        "finding": "The cached nmeth.4177 source is Datlinger et al. CROP-seq, which supplies the guide-vector design (polyadenylated Pol II transcript carrying gRNA), not Cusanovich sci-ATAC chemistry. The prior source label/finding misidentified the paper. This row needs a fresh independent first pass under its corrected identity."
+      },
+      "discovered_from": "paper",
+      "reason": "Audit correction: previous pass_1 misidentified nmeth.4177 as sci-ATAC. Independent renewed first and second reads establish Datlinger CROP-seq guide-vector predecessor."
+    },
+    {
+      "id": "sciatac2018",
+      "role": "linked_material",
+      "locator": "Rubin et al. Perturb-ATAC doi:10.1016/j.cell.2018.11.022, original cached PMC6329648 JATS; linked comparison method cited as ref. 6",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Rubin Perturb-ATAC PMC6329648 JATS title/abstract lines 66–74 and method comparison around lines 84–100, 144–150; original JATS oligo scraper; Pierce reference list ref.6",
+        "finding": "Independently confirmed this is Rubin et al. Perturb-ATAC, a distinct CRISPR perturbation plus single-cell ATAC comparator with guide detection. It is not the cited split-pool sci-ATAC chemistry source; the previous row identity was incorrect."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original cached PMC6329648 JATS title/authors lines 1–45, Perturb-ATAC library Results 90–100; defining CRISPR-sciATAC JATS reference 6 lines 296–302",
+        "finding": "The cached Cell 2018.11.022 source is Rubin et al. Perturb-ATAC, a microfluidic ATAC/gRNA comparator, not Lareau sci-ATAC. It does not establish the combinatorial-indexing adapters used by CRISPR-sciATAC. The prior source label/finding misidentified the paper; a fresh first pass is required."
+      },
+      "discovered_from": "paper",
+      "reason": "Audit correction: previous pass_1 misidentified j.cell.2018.11.022 as sci-ATAC. Independent renewed first and second reads establish Rubin Perturb-ATAC comparison method."
+    },
+    {
+      "id": "pmc_oligo_copies",
+      "role": "supplement",
+      "locator": "PMC NIHMS1743004 supplementary table copies",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "PMC downloads gated, including Tables 5/6; Springer MOESM workbooks available but copy equivalence not fully checked."
+    },
+    {
+      "id": "cusanovich_2015_sciatac",
+      "role": "predecessor",
+      "discovered_from": "paper",
+      "locator": "Cusanovich et al. sci-ATAC-seq doi:10.1126/science.aab1601; original cached _data/sources/sci-atac-seq-family__10.1126+science.aab1601/science.aab1601_PMC4836442.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Cusanovich PMC4836442 JATS lines 37–47 and Fig.1 description line 251; source-bundle and specific original JATS oligo scraper; Pierce reference list ref.7",
+        "finding": "Independently confirmed the true sci-ATAC predecessor: indexed transposase complexes barcode nuclei across 96 first-round wells, nuclei are pooled/sorted into a second 96-well plate, and indexed PCR adds the second barcode. It supplies the architecture, not Pierce CRISPR-sciATAC-specific oligo member choices."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Cusanovich 2015 PMC4836442 JATS title and Methods lines 41–45; original source-bundle scraper; defining Pierce 2021 JATS ref. 7 lines 304–310",
+        "finding": "Cusanovich original establishes the actual inherited two-stage sci-ATAC architecture: indexed transposase complexes barcode nuclei in the first 96 wells, then pooled nuclei are sorted to a second 96-well plate and PCR introduces a second index. CRISPR-sciATAC adds matched gRNA RT/PCR branch and its own printed oligo members; predecessor does not identify Pierce experiment-specific members."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 132-156; Springer MOESM1 28-65; MOESM4 Common oligos sheet; inherited sci-ATAC source inventory",
+      "finding": "Followed published Table 2 pointer to publisher oligo workbook and traced sci-ATAC predecessors. PMC copy equivalence and branch-specific variants remain to check."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Pierce original JATS Methods 132–156 and refs 2,6,7 lines 262–310; Springer MOESM1 Fig. S1/Table 2 pointer; MOESM4 sheet inventory lines 1–1046; Datlinger CROP-seq PMC5334791; Rubin Perturb-ATAC PMC6329648; Cusanovich sci-ATAC PMC4836442; source bundle/manifest including invalid PMC supplementary copies",
+      "finding": "Followed source titles and DOI references rather than old checklist labels. CROP-seq supplies guide-vector logic, Perturb-ATAC is comparison, Cusanovich 2015 supplies sci-ATAC split-pool architecture. Pierce original workbook prints extensive exact oligos. PMC duplicate tables 5/6 remain inaccessible/invalid locally, and the three corrected linked-source rows lack a separate first pass, so no complete absence claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete CRISPR-sciATAC ATAC and gRNA oligo inventory",
+      "disposition": "blocked",
+      "evidence": "Publisher oligo workbook includes many exact bases; some PMC copies and variant mapping remain open."
+    }
+  ],
+  "conclusion": "Independent readers verified Pierce original methods, supplement and publisher oligo workbook, and corrected three linked-source identities: Datlinger CROP-seq guide-vector predecessor, Rubin Perturb-ATAC comparator, and Cusanovich 2015 true sci-ATAC predecessor. Inaccessible PMC supplement copies and experiment-specific variant mapping remain open; no missing-information claim is accepted."
+}

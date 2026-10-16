@@ -9,7 +9,8 @@ once, next to the original, and everything downstream reads the .txt:
     python3 tools/doctext.py paper.pdf supp.docx            # -> paper.pdf.txt, supp.docx.txt
     python3 tools/doctext.py paper.pdf --stdout             # print instead of writing
 
-Formats: .pdf (poppler's pdftotext, reading order), .docx (paragraphs; table cells
+Formats: .pdf (poppler's pdftotext, reading order; filled XFA form datasets when
+the PDF only shows a "Please wait" page), .docx (paragraphs; table cells
 tab-separated), .xlsx (every sheet, tab-separated, under '## sheet <name>'), .html/.htm
 (tags stripped, block elements become line breaks), .xml (JATS full text from PMC /
 Europe PMC / eLife: tags stripped, paragraphs/titles/table rows on their own lines, cells
@@ -27,6 +28,8 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import xml.etree.ElementTree as ET
+import zlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -88,6 +91,48 @@ def _legacy(path: Path) -> str | None:
         return _read(out)
 
 
+def xfa_text(raw: bytes) -> str | None:
+    """Read filled Adobe LiveCycle form data from Flate-compressed PDF streams.
+
+    Ordinary PDF text extraction often sees only the static "Please wait" page. XFA
+    may hold both a blank form template and a later filled dataset, so select the
+    dataset with the most nonempty field text. This reads data only; form scripts and
+    presentation markup are not executed.
+    """
+    datasets: list[tuple[int, str]] = []
+    for match in re.finditer(rb"\b\d+\s+\d+\s+obj\s*<<(.*?)>>\s*stream\r?\n", raw, re.S):
+        end = raw.find(b"endstream", match.end())
+        if end < 0:
+            continue
+        body = raw[match.end():end].rstrip(b"\r\n")
+        try:
+            decoded = zlib.decompress(body) if b"/FlateDecode" in match.group(1) else body
+        except zlib.error:
+            continue
+        if b"datasets" not in decoded[:256] or b"xfa-data" not in decoded[:256]:
+            continue
+        try:
+            tree = ET.fromstring(decoded)
+        except ET.ParseError:
+            continue
+        fields: list[str] = []
+
+        def walk(node: ET.Element, path: tuple[str, ...]) -> None:
+            tag = node.tag.rsplit("}", 1)[-1]
+            if tag not in {"datasets", "data", "form"}:
+                path += (tag,)
+            if len(node) == 0 and node.text and node.text.strip():
+                value = node.text.strip().replace("\r", "\n")
+                fields.append("/".join(path) + ": " + value)
+            for child in node:
+                walk(child, path)
+
+        walk(tree, ())
+        if fields:
+            datasets.append((sum(len(f) for f in fields), "\n".join(fields) + "\n"))
+    return max(datasets)[1] if datasets else None
+
+
 def read(path: Path) -> str | None:
     """Text of a document (None if unreadable). Extends scrape_primers.read with XML and
     the legacy Office formats."""
@@ -97,6 +142,11 @@ def read(path: Path) -> str | None:
     if ext in LEGACY_EXT:
         return _legacy(path)
     text = _read(path)
+    if ext == ".pdf" and (text is None or len(text.strip()) < 100
+                          or text.lstrip().startswith("Please wait...")):
+        xfa = xfa_text(path.read_bytes())
+        if xfa is not None:
+            return xfa
     if text is not None and ext == ".pdf" and len(text.strip()) < 100:
         print(f"warning {path}: no text layer (image-only PDF?) -- needs OCR or reading the "
               f"rendered pages", file=sys.stderr)

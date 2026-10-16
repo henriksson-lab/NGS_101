@@ -26,7 +26,7 @@ def oligos() -> str:
     return ("<h2>Key oligos</h2>"
             "<p><info>INFERRED throughout. The paper prints no oligo: the mosaic ends are "
             "the canonical Tn5 ME, the promoter the canonical T7 class III promoter, the "
-            "spacer between them an unpublished placeholder of unknown length, and the UMI "
+            "spacer between them an unverified placeholder of unknown length, and the UMI "
             "width a drawing choice. No library-prep adapter is shown because the paper "
             "names no kit.</info></p>"
             f"<seq>{''.join(rows)}</seq>")
@@ -70,13 +70,13 @@ def self_primed_rt() -> str:
 {L.transcript_topology().folded_panel(
     "INFERRED — nucleotide-resolved reconstruction of the self-priming described by "
     "the paper. The RNA 3′ mosaic end folds onto its complementary internal copy; "
-    "N denotes the unpublished genomic sequence. The 5′ RNA body remains a straight "
+    "N denotes the unverified genomic sequence. The 5′ RNA body remains a straight "
     "tail, and the unpaired promoter/spacer interval is the flexible turn.")}
 <h3>(5) Remove RNA and synthesize the second strand with the UMI primer</h3>
 {panel(Scene.duplex(list(amp)).rows(), cls="small",
        caption="INFERRED — LIANTI amplicon orientation. The paper establishes that the "
                "second-strand primer carries a unique molecular barcode; its width and "
-               "bases are not published.")}"""
+               "bases are not verified from the available main article.")}"""
 
 
 def final_library() -> str:
@@ -104,8 +104,8 @@ def render() -> str:
         'oligo, and its Supplementary Materials and Methods is behind the PMC download gate. '
         'Every dotted base is therefore inferred: the canonical Tn5 mosaic end and T7 promoter '
         'stand in for parts the paper names by role, the transposon spacer, UMI and index are '
-        'placeholders of unpublished length, and no library-prep kit, adapter geometry, primer '
-        'or read length is established.</div>',
+        'placeholders of unverified length. The defining supplementary DOCX remains inaccessible, '
+        'so library-prep kit, adapter geometry, primer and read length are unresolved here.</div>',
         oligos(), '<h2>Library construction</h2>',
         protocol_graph_panels(L.protocol_graph(),cls="long"),
         sp.section(L.final_library(), L.SEQ_PRIMERS,

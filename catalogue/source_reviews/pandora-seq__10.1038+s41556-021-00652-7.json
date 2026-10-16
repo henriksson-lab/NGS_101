@@ -1,0 +1,96 @@
+{
+  "dir": "pandora-seq__10.1038+s41556-021-00652-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_PMC8236090.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 309–331; scraper run on bundle",
+        "finding": "AlkB and T4PNK treatments precede NEBNext E7330S library prep. Line 319 Takara 3′ adapter is for a ligatability assay, distinct from line 331 sequencing library."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC8236090 JATS Methods lines 309–331; local bundle oligo scraper",
+        "finding": "Sequencing branch deblocks with AlkB/T4PNK, ligates a 3′ RNA adapter, anneals RT primer, ligates 5′ adapter, performs RT and 11–22 PCR cycles with NEBNext E7330S. Takara rApp adapter in line 319 is for a separate ligatability assay, not automatically the sequencing adapter."
+      }
+    },
+    {
+      "id": "springer_supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Opening lines 1–15 and Supplementary Fig. 1–3 headings; scraper run",
+        "finding": "Large figure supplement; no separate library-oligo table located in inspected opening and figure headings. Review remainder before exclusion."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM1 PDF text Supplementary Figs 1–3 headings and captions, lines 1–357; local bundle scraper",
+        "finding": "Inspected captions/plots concern read mapping and treatments; this sampled part does not print a distinct sequencing oligo. Remaining supplement extent has not been cleared for absence."
+      }
+    },
+    {
+      "id": "springer_supp_moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 3-page PDF rendered and visually inspected, pp.1–3; extracted text has no usable method text",
+        "finding": "This is a Nature Research Reporting Summary: p.1 statistics/software/data, p.2 study design/antibodies/cell lines, p.3 animals. It is not an oligo or library-prep methods supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM2 PDF pages 1–3 visually inspected",
+        "finding": "All three pages are a Nature Research reporting summary, not a molecular methods or oligo source."
+      },
+      "reason": "Visually inspected all three pages: Nature Research reporting summary, without protocol chemistry or oligo sequences; independent pass_1 still required."
+    },
+    {
+      "id": "neb_e7330_manual",
+      "role": "linked_material",
+      "locator": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale7300_e7330_e7560_e7580.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NEB manual local mirror in SF4SU bundle, lines 4, 946–1070; E7330 heading and sequences; scraper run",
+        "finding": "Official manual covers exact E7330S kit named by Methods and prints 3′/5′ SR adapters, RT primer, PCR primers and modifications. Current manual revision is later than study."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7300/E7330/E7560/E7580 manual local SF4SU mirror, lines 946–1070; scraper",
+        "finding": "Later vendor manual prints the kit adapter/primer architecture and index families, but does not prove which exact kit revision or index was used in the 2021 paper."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Paper Methods lines 317–331 and linked NEB E7330S manual lines 946–1070",
+      "finding": "Followed vendor kit identity, separated assay Takara adapter from sequencing-library NEB kit; remaining Springer supplements and historical kit-revision comparison require review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "conclusion": "First pass located paper and current vendor sequences. Further supplement inspection and independent reader required; no missing claim accepted."
+}

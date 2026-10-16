@@ -1,0 +1,240 @@
+{
+  "dir": "eccite-seq__10.1038+s41592-019-0392-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_PMC6557128.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 90–126 and supplement pointers",
+        "finding": "Original explains protein, hashtag, sgRNA and TCR tag readouts."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC6557128 JATS XML text lines 70, 84, 94–114, especially protocol modifications and separate libraries at 102–114; local source-bundle oligo scraper",
+        "finding": "Independently read the defining Methods. Antibody tags and hashtags use distinct handles; guide scaffold RT primer, three additive primers, 0.6× SPRI separation, separate ADT/hashtag/guide PCR and 26/8/39 or 26/8/91 run recipes are explicit. The article points to Supplementary Tables 3–5 for actual antibody/hashtag barcode assignments and to the inherited 10x V(D)J instructions."
+      }
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_41592_2019_392_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Oligonucleotide sequences lines 380–415; scraper verifies hits 389,396,401,406,409",
+        "finding": "Original supplement prints modified protein/hashtag tag examples, sg_RT_v4 and additive PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 March 2019 PDF text lines 1–68, 100–126, 180–235, 383–448; local oligo scraper hit lines 389, 396, 401, 406–429",
+        "finding": "Independently read the seven-page author protocol. It separates cDNA from short tags, then hashtags, protein tags and guide tags by distinct indexed PCR primers. Exact modified SI-PCR and additive oligos, guide RT primer, indexed examples and TCR γ/δ primers are printed. Lines 385 and 392 call examples 12-nt barcodes while their strings show eight x placeholders; this does not establish the ordered conjugate barcode length."
+      }
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "Springer MOESM1/2 in _data/sources/eccite-seq__10.1038+s41592-019-0392-0/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF p.11, extracted lines 219–387 (Supplementary Table 3); pp.12–13, lines 389–460 (Supplementary Tables 4–5); original MOESM2 reporting summary lines 33–43 and 123–128. Table 3 was also read visually on PDF p.11 after scraper review.",
+        "finding": "Table 3 lists 52 antibody–oligo conjugate barcodes: 49 are 15 nt, while the final three are 12 nt (CD29 human AATAGCGGAGCC, CD46 human GCCAATTGCACT, CD29 mouse CGAAGACCAAGA; lines 385–387). Table 4 gives seven 12-nt mouse hashtags; Table 5 gives six 12-nt human hashtags, with human 4–6 reusing mouse E–G barcode strings. MOESM2 is a reporting summary; it explicitly points to Tables 3–5 for antibodies and lists analysis software, but gives no additional construct sequence. The earlier heading-only characterization of MOESM1 as result-only was wrong."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF text Supplementary Tables 1–5: sgRNA rows 76–218; Table 3 antibody/barcode columns 219–387; Tables 4–5 hashtag/barcode columns 389–460. MOESM2 Reporting Summary lines 33–43 and 123–128. Source-bundle oligo scraper reviewed.",
+        "finding": "MOESM1 is chemistry-relevant, correcting the earlier heading-only characterization. Its ordered conjugate barcodes comprise 49 15-base and three 12-base antibody tags in Table 3, plus 12-base mouse and human hashtags in Tables 4–5. The last three 12-base Table 3 barcodes are AATAGCGGAGCC, GCCAATTGCACT and CGAAGACCAAGA; mouse Hashtag_A is AGGACCATCCAA. MOESM2 is a reporting summary and points back to Tables 3–5, with no additional oligo recipe."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC6557128 NIHMS1030123-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC download gated; Springer MOESM3 likely parallel but not proven."
+    },
+    {
+      "id": "chromium_guide",
+      "role": "linked_material",
+      "locator": "10x Chromium 5-prime gene expression/TCR guide for inherited chemistry",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Underlying commercial 10x 5-prime kit revision not established in this pass.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "cite_seq_predecessor",
+      "role": "predecessor",
+      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt and original Springer MOESM1/MOESM3; DOI 10.1038/nmeth.4380",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 82–108; MOESM1 lines 1–12, 171–349; MOESM3 lines 70–138 and 403–444; source-bundle oligo scraper",
+        "finding": "CITE-seq uses disulfide-linked streptavidin/biotin and poly(A)-tailed 3-prime ADTs with 6-base original barcode examples; it supplies a concept and handle but not the ECCITE 5-prime capture recipe."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original CITE JATS Online Methods lines 82–115 and oligo lines 96–108; MOESM3 original oligo table lines 421–444; source-bundle oligo scraper",
+        "finding": "Independently found 5-prime-amine 3-prime-poly(A) ADTs, streptavidin/biotin disulfide conjugation and 6-base CITE barcodes. These are not copied into ECCITE final constructs."
+      }
+    },
+    {
+      "id": "cell_hashing_predecessor",
+      "role": "predecessor",
+      "locator": "https://link.springer.com/article/10.1186/s13059-018-1603-1 (Cell Hashing original Methods and Oligonucleotide sequences)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Cell Hashing Results paragraphs on 12-bp HTOs and separate ADT/HTO handles; Methods antibody-oligo conjugates and oligonucleotide sequence sections",
+        "finding": "Original Cell Hashing uses covalent iEDDA antibody-oligo conjugation, 12-base hashtags and separate HTO/ADT amplification handles; its 10x 3-prime capture is a predecessor, not ECCITE 5-prime geometry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher original Results lines 95–113; Methods lines 188–205; Oligonucleotide sequences lines 206–225",
+        "finding": "Independently confirmed iEDDA click conjugation, distinct handles, 12-base HTOs and the exact precursor HTO/additive primers. Its 10x 3-prime v2 recipe must not be imported wholesale into ECCITE."
+      }
+    },
+    {
+      "id": "eccite_protocol_exchange",
+      "role": "detailed_protocol",
+      "locator": "https://assets-eu.researchsquare.com/files/nprot-7393/v1/aba43311-4688-4965-aa26-c3dc4818e6e3.pdf (DOI 10.1038/protex.2019.025; local checked copy /tmp/eccite_protex_2019_025.pdf.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original author Protocol Exchange PDF pp. 2–4, 2019-05-22 version; oligo sequences, 10x modifications, tag purification and modality PCR",
+        "finding": "Author update reiterates MOESM3 tag oligos and describes 0.6x SPRI short-tag selection and separate ADT/HTO/guide PCR. It is distinct source/version, and retains the 12nt caption with eight x characters."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author PDF extracted text lines 30–49 and 75–128; oligo scraper on original PDF text",
+        "finding": "Independently found protein and hashtag 5-prime-amine examples, exact additive primers, guide scaffold RT primer, 0.6x fractionation, ADT/HTO/guide PCR and inherited 10x V(D)J; caption discrepancy persists."
+      }
+    },
+    {
+      "id": "cg000109_technical_note",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-5-ge/CG000109_AssayConfiguration_VDJ_RevD.pdf.txt (10x CG000109 Rev D original technical note; identical vendor PDF mirrored by scg)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG000109 Rev D technical note pp. 1–3 and Table 1/2; scraper on source bundle; PDF metadata 2018-01-10",
+        "finding": "Early 5-prime V(D)J assay note gives 22-nt partial R1, 16-base cell barcode, 10-base UMI, 13-base switch and soluble poly(dT) RT. It explicitly points to full CG000086 guide; precise ECCITE kit revision remains unproven."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original vendor PDF extracted lines 1–113 and assay Table 1/2; source-bundle scraper",
+        "finding": "Independently confirmed early 10x 5-prime bead architecture, GEX versus V(D)J layout, and the reference to CG000086. It constrains the inherited chemistry without establishing ECCITE kit version."
+      }
+    },
+    {
+      "id": "cg000086_rev_summaries",
+      "role": "vendor",
+      "locator": "Official 10x CG000086 Rev F-to-G (July 2018) and Rev G-to-H (September 2018) PDF revision summaries in catalogue/extra_sources.tsv",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000109_technical_note",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000086 Rev F-to-G and Rev G-to-H one-page revision summaries, dated July and September 2018",
+        "finding": "Vendor summaries document historical revisions; Rev G-to-H mentions an oligo appendix change. They do not reproduce the full guide or determine which ECCITE kit revision was used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official vendor Rev F-to-G and Rev G-to-H one-page PDF summaries, title and change-table lines",
+        "finding": "Independently confirmed revision chronology and the Rev H oligo appendix change; cannot substitute either summary for the full CG000086 user guide."
+      }
+    },
+    {
+      "id": "cg000086_full_guide",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell V(D)J Reagent Kits User Guide CG000086, contemporaneous 2018 Rev G/H; cited by CG000109 Rev D",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "cg000109_technical_note",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Contemporaneous full guide was not retrieved; official revision summaries and early CG000109 technical note cannot establish its complete protocol or ECCITE kit revision."
+    },
+    {
+      "id": "cell_hashing_supplements",
+      "role": "supplement",
+      "locator": "Original Cell Hashing Genome Biology additional files 1–3 and linked cite-seq.com conjugation protocol",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "cell_hashing_predecessor",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Additional files and historical site protocol have not had independent two-pass original-source review; live cite-seq.com currently redirects away from author content."
+    },
+    {
+      "id": "van_buggenum_iedda",
+      "role": "predecessor",
+      "locator": "van Buggenum et al., Scientific Reports 2016, DOI 10.1038/srep22675, linked by Cell Hashing for iEDDA conjugation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "cell_hashing_predecessor",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Linked iEDDA method was identified but has not had independent original-source review."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original methods and Springer MOESM3 original oligo table read; 10x guide revision and PMC supplement unresolved.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article JATS lines 70, 94–114 and references to CITE-seq, Cell Hashing, 10x V(D)J, cite-seq.com and Nature Protocol Exchange; MOESM1 Tables 3–5, MOESM3 pp. 1–7; source bundle manifest",
+      "finding": "Followed defining article links into MOESM1–3, original CITE-seq and Cell Hashing, author Protocol Exchange, 10x CG000109 and vendor revision summaries. Remaining linked material is itemized in the checklist, especially full CG000086, Cell Hashing supplemental/conjugation details and van Buggenum; PMC attachment identity is unresolved. Coverage stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact choice and full family of ECCITE tag oligos and inherited 10x base structure",
+      "evidence": "Defining paper and three Springer supplements plus linked predecessors, author protocol, early 10x note and revision summaries reviewed independently. Full CG000086, PMC attachment identity and linked Cell Hashing/iedDA details remain unresolved.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "The defining article, three Springer supplements, original CITE-seq and Cell Hashing predecessors, author Protocol Exchange update, early 10x CG000109 note and two revision summaries now have two located reads. MOESM1 exposes 49 15-base and three 12-base antibody barcodes plus 12-base hashtags; the page shows these and the MOESM3 eight-x/12nt discrepancy. Full historical CG000086 guide, PMC attachment identity and linked Cell Hashing/conjugation materials remain unresolved. No absence claim is accepted."
+}

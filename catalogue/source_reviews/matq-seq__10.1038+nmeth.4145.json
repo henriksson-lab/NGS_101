@@ -1,0 +1,361 @@
+{
+  "dir": "matq-seq__10.1038+nmeth.4145",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Sheng et al., Nature Methods 14, 267–270 (2017), DOI:10.1038/nmeth.4145; author-uploaded original facsimile https://www.researchgate.net/publication/312482780_Effective_detection_of_variation_in_single-cell_transcriptomes_using_MATQ-seq",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original article facsimile, Online Methods browser lines 1286–1404 and 1475–1485; local MATQ source-bundle oligo scraper run before reading",
+        "finding": "The original names optional Exonuclease I, Covaris 200-bp shearing, NEBNext End Repair Module, Klenow exo-minus dA tailing, T4 Quick Ligase with Illumina TruSeq adapters, KAPA HiFi/TruSeq PCR primer, and a NextSeq 500 2×75 midoutput kit. It does not specify the selected TruSeq adapter/index oligo. Its 2×75 kit conflicts with Supplementary Fig. 21 caption’s 85×2 read calculation."
+      },
+      "pass_2": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original Nature Methods facsimile, main text lines 75–118; Online Methods lines 1232–1404 and 1479–1493 in ResearchGate text rendering; local bundle scraper run before reading",
+        "finding": "Independently verified original article and its linked Protocol Exchange source. Online Methods names the TruSeq adapter family, end repair, dA tailing, T4 Quick Ligase, KAPA library PCR and NextSeq 500 150-cycle kit. Lines 1479–1485 explicitly call the run 2×75, whereas original Supplementary Fig. 21 says 85×2. No specific TruSeq adapter/index member is assigned."
+      }
+    },
+    {
+      "id": "protocol",
+      "role": "supplement",
+      "locator": "Springer MOESM227 MATQ-seq protocol PDF; nmeth.4145_41592_2017_BFnmeth4145_MOESM227_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 1-25, 84-145, especially 134-143 primer table",
+        "finding": "Protocol explicitly prints six GAT-family primer sequences; scraper detects GAT27dT and other patterns. It names IDT synthesis."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MOESM227 protocol PDF extracted text lines 84-95 and 135-143",
+        "finding": "Detailed original protocol gives GAT27dT, GAT27 5N3G, GAT27 5N3T, GAT21 6N3G, GAT27 PCR, and 3NGAT24 primer entries."
+      }
+    },
+    {
+      "id": "figures",
+      "role": "supplement",
+      "locator": "Springer MOESM220 PDF; local .pdf.txt twin",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Header, captions and oligo keyword scan",
+        "finding": "Supplementary figures, not the primer table; chemistry relevance not fully excluded."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MOESM220 PDF extracted text lines 1-15 and figure-caption search",
+        "finding": "This file is supplemental figures, not a replacement for the detailed MOESM227 primer table."
+      }
+    },
+    {
+      "id": "moesm217",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM217 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM217_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 278 extracted lines; sheets b–e at 1, 104, 112, 125; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Coverage percentiles, detection counts, expression curves and ratio summaries; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; Four sheets b–e: coverage percentiles, gene-detection counts, expression curves and gene-ratio summary; all 278 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM217: Four sheets b–e: coverage percentiles, gene-detection counts, expression curves and gene-ratio summary; all 278 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm218",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM218 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM218_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 76 extracted lines; z_score sheet at 1 and Variance sheet at 51; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "PCA sample scores and variance; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; z_score and Variance sheets: sample principal-component scores/variance; all 76 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM218: z_score and Variance sheets: sample principal-component scores/variance; all 76 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm219",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM219 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM219_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "87,034 extracted lines; sheets a–e at 1, 57,824, 64,006, 71,687 and 79,361; all sheet headings and full text keyword scan; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Expression mean, standard deviation, skewness and Fano-factor distributions; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; Five a–e sheets: mean, standard deviation, skewness and Fano-factor numeric distributions across 87,034 lines; checked every sheet header and searched all text for oligo/reagent terms. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM219: Five a–e sheets: mean, standard deviation, skewness and Fano-factor numeric distributions across 87,034 lines; checked every sheet header and searched all text for oligo/reagent terms. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm221",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM221 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM221_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 94 extracted lines; Sheet1 header at line 2; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "ERCC spike-in concentrations and sample count table; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; One ERCC Mix 1 concentration/read-count sheet; all 94 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM221: One ERCC Mix 1 concentration/read-count sheet; all 94 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm222",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM222 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM222_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 1,010 extracted lines; Exon_based_genes sheet at line 1; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Exon-based Ensembl gene identifiers; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; One Exon_based_genes identifier list; 1,010 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM222: One Exon_based_genes identifier list; 1,010 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm223",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM223 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM223_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 1,127 extracted lines; Intron_based_genes sheet at line 1; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Intron-based Ensembl gene identifiers; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; One Intron_based_genes identifier list; 1,127 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM223: One Intron_based_genes identifier list; 1,127 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm224",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM224 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM224_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 146 extracted lines; Sheet1 Category/Term/Count/PValue header at line 2; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Transcription-factor binding-site enrichment results; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; One transcription-factor binding-site enrichment table with Category/Term/Count/PValue columns; 146 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM224: One transcription-factor binding-site enrichment table with Category/Term/Count/PValue columns; 146 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm225",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM225 XLSX; local nmeth.4145_41592_2017_BFnmeth4145_MOESM225_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Expression or analysis result table, not a molecular reagent, oligo or reaction-method source.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "all 177 extracted lines; Sheet1 Category/Term/Count/PValue header at line 2; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Transcription-factor binding-site enrichment results; no oligo, reagent or reaction definition."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text, sheet headings and contents; One transcription-factor binding-site enrichment table with Category/Term/Count/PValue columns; 177 text lines. Whole-bundle oligo scraper run before source reading.",
+        "finding": "Independently classified MOESM225: One transcription-factor binding-site enrichment table with Category/Term/Count/PValue columns; 177 text lines. This file does not define MATQ-seq chemistry; earlier source pass only inventoried the file."
+      }
+    },
+    {
+      "id": "moesm226",
+      "role": "supplement",
+      "locator": "Original Springer nmeth.4145 MOESM226 ZIP MATLAB_scripts; local nmeth.4145_41592_2017_BFnmeth4145_MOESM226_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Analysis scripts and sample statistics, not wet-lab oligo or reaction instructions.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Original ZIP member list: 109 non-macOS files (6 MATLAB .m, 95 .txt, 1 figure, 6 .dat and one extensionless); inspected all 6 script bodies and sample .stats header; original publisher file/text twin; oligo scraper run before reading",
+        "finding": "Analysis scripts, expression/barcode statistics and sample outputs. The barcode-named .m file imports expression counts; none of the scripts specifies an oligo, reagent or wet-lab reaction."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM226 ZIP member list: 109 non-macOS files, including expression_ratio_hist/KS scripts and matq_stats sample outputs; searched member names for primer/adapter/oligo/reagent/protocol after bundle scraper",
+        "finding": "The archive contains MATLAB analysis scripts, figures and per-sample statistics. No member is a reagent/oligo list or wet-lab protocol. Earlier first pass only inventoried the archive."
+      }
+    },
+    {
+      "id": "author_protocol_preprint",
+      "role": "detailed_protocol",
+      "locator": "Zong and Sheng 2017 MATQ-seq protocol DOI 10.1038/protex.2016.088; author PDF https://assets-eu.researchsquare.com/files/nprot-5393/v1/28b3d217-d642-4bd3-9d40-ef48395614e6.pdf?c=1631825197",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author PDF pp. 1–3, browser lines 0–50; local MATQ source-bundle oligo scraper run before reading",
+        "finding": "Author protocol gives RT cycling, T4 polymerase primer digestion, RNase H/I, TdT dC tailing, GAT21 second strand, DeepVent PCR and 3NGAT24 conversion, with all six primer sequences at lines 43–47. It agrees at the reaction/primer level with the publisher MOESM227 supplement but does not identify a final Illumina kit/adapter variant."
+      },
+      "pass_2": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Original author protocol PDF, pp. 1–3, browser lines 0–50; bibliographic header lines 1–10, procedure and primer inventory lines 17–47, attachment pointer lines 48–50",
+        "finding": "Independently verified author/date/DOI and that this detailed protocol contains six named primer sequences and reagent information for cDNA generation. It ends before the final TruSeq library build and advertises a linked supplement0.docx whose contents have not been inspected."
+      }
+    },
+    {
+      "id": "vendor_kit",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq adapter and PCR-primer official sequence guide; selected adapter/index variant not identified by defining Online Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The defining article names the TruSeq family but no adapter/index variant or SKU. Family-level vendor sequences cannot establish the loaded member.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_preprint_supplement0",
+      "role": "linked_material",
+      "locator": "Zong and Sheng MATQ-seq author protocol preprint DOI 10.1038/protex.2016.088, PDF p. 3 \"supplement0.docx\" attachment; source URL not resolved",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The author protocol explicitly links this attachment, but a stable download URL and its contents have not been located; it may contain chemistry or adapter information.",
+      "discovered_from": "author_protocol_preprint",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Author preprint PDF p. 3, browser lines 48–50; search for exact attachment and nprot-5393 preprint",
+        "finding": "Attachment existence verified, but original DOCX contents inaccessible. No absence claim can rely on it."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "illumina_adapter_sequences_2015",
+      "role": "vendor",
+      "locator": "Illumina Adapter Sequences, document 1000000002694 v00, October 2015; original PDF mirrored by UC Davis https://dnatech.ucdavis.edu/sites/g/files/dgvnsk15531/files/inline-files/illumina-adapter-sequences_1000000002694-00.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "nextera_illumina",
+        "date": "2026-10-16",
+        "locations": "Original manufacturer PDF pp. 15–18, TruSeq HT and TruSeq LT/v1/v2 sections; MATQ whole-bundle oligo scraper run first; defining article Online Methods lines 1369–1404 compared",
+        "finding": "Contemporary Illumina guide lists distinct TruSeq HT dual-index D501–D508/D701–D712 and TruSeq LT/v1/v2 six-base single-index universal/indexed adapter families. Sheng names only TruSeq adapters and TruSeq PCR primer, with no kit/catalog/index designation, so this guide cannot identify the selected family/member or i5 read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina PDF v00 cover pp. 1–2; TruSeq HT p. 15 lines 405–436; TruSeq LT/v1/v2 pp. 16–17 lines 449–507; original MATQ article Online Methods lines 1369–1404; MATQ bundle oligo scraper run before article/source reading",
+        "finding": "Independently verified October 2015 manufacturer original contains separate HT dual-index and LT single-index adapter lists with differing i5/i7 layouts. The article identifies only the TruSeq family, so no source selects an exact index, kit variant or whether an i5 read was used."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Springer protocol lines 1-145 and MANIFEST original article entry",
+      "finding": "Read detailed protocol and inventoried Springer supplements; defining article and any named vendor kit manual remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "MOESM227 original PDF lines 84-95, 135-143; MOESM220 header; source MANIFEST",
+      "finding": "Followed detailed protocol into explicit primer table. Defining article and kit-specific documentation remain unavailable."
+    },
+    "followup_2026_10_16": {
+      "reviewer": "root",
+      "locations": "Original article Online Methods lines 1286–1404, 1475–1485; MOESM220 Supplementary Fig. 21 lines 312–319; MOESM217–226 individual contents; author protocol preprint pp. 1–3",
+      "finding": "Recovered full defining article through author-uploaded facsimile and followed its downstream library construction. Corrected adapter family, end preparation, ligase, PCR mix and run length. Supplementary Fig. 21 conflicts with the article on read length. Selected adapter/index member remains unresolved; preprint-linked supplement awaits independent review."
+    },
+    "independent_2026_10_16": {
+      "reviewer": "shape_cirseq",
+      "date": "2026-10-16",
+      "locations": "Original article Online Methods lines 1232–1404 and 1479–1493; each publisher MOESM217–226 original body or archive; author preprint pp. 1–3",
+      "finding": "Followed article to the author protocol and all available publisher supplements. Workbook/archive files are quantitative analysis, not wet-lab reagent inventories. Original article resolves TruSeq family and run configuration but not selected index. Preprint supplement0.docx remains inaccessible, so linked-information result remains blocked."
+    },
+    "vendor_followup_2026_10_16": {
+      "reviewers": [
+        "nextera_illumina",
+        "root"
+      ],
+      "locations": "Illumina Adapter Sequences 1000000002694 v00, HT and LT sections pp. 15–17, checked against defining Online Methods 1369–1404",
+      "finding": "Followed vendor family information back to article naming. Multiple contemporary TruSeq choices remain compatible; no selected adapter/index member or i5 run configuration is identified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact selected TruSeq adapter/index oligo and ligation-ready geometry remain unresolved",
+      "disposition": "blocked",
+      "evidence": "The original Online Methods name TruSeq adapters and a TruSeq PCR primer but do not give selected adapter/index member or ordered bases. The contemporary Illumina v00 guide lists distinct HT dual-index and LT single-index families; no source selects between them. The detailed protocol and preprint stop before final library prep, and the preprint-linked supplement0.docx remains unavailable. No confirmed-absent claim is made."
+    }
+  ],
+  "conclusion": "Original defining article establishes TruSeq adapter family, end repair, dA tailing, T4 Quick Ligase, KAPA PCR and 2×75 NextSeq run. Its 2×75 statement conflicts with Supplementary Fig. 21’s 85×2 caption, disclosed on the page. Contemporary Illumina guide cannot select HT versus LT or exact adapter/index member; the preprint-linked supplement remains unavailable, so the missing claim is blocked."
+}

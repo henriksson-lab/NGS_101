@@ -265,8 +265,8 @@ Barcode orientation 🟡 (computed):
 
 ## 5. Sequencing
 
-**The CH-ATAC cycle counts are not published** 🔴 — the STAR Methods are the only place
-they would appear. What *is* established: all three primers are the standard Nextera ones,
+**The CH-ATAC cycle counts remain unverified** 🔴 — the defining STAR Methods and
+linked preprint have not been read. What *is* established: all three primers are the standard Nextera ones,
 located on the modelled library by `seqprimers.verify` (the build fails if any fails to
 land) 🟡 *(computed)*; the index read is 10 cycles because the i7 is 10 nt 🟡 *(computed)*;
 and Read 1 must exceed 62 cycles to reach genomic DNA 🟡 *(computed)*. The paired-100
@@ -292,8 +292,8 @@ for the sibling protocol — CH-RNA-seq states verbatim 🟢
 CH-RNA-seq's `11 to 33` is the same 10-nt HY barcode followed by the same 23-nt shared
 handle, so that window transfers to CH-ATAC by construction 🟡. The **second** window
 (44–62, over the Tn5 barcode and the mosaic end) is CH-ATAC-only and is computed, not
-published 🔴 — CH-RNA-seq has no Tn5 barcode at that position. The CH-ATAC cycle numbers
-are not published 🔴.
+verified for CH-ATAC 🔴 — CH-RNA-seq has no Tn5 barcode at that position. The CH-ATAC cycle numbers
+remain unresolved until its original Methods are checked 🔴.
 
 ## 6. Open questions
 

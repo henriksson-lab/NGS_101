@@ -1,0 +1,112 @@
+{
+  "dir": "yeast-telotag__10.1101+gr.275868.121",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Sholes et al Genome Res 2022 doi:10.1101/gr.275868.121 PMC8997346",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "doi_10.1101+gr.275868.121/gr.275868.121_PMC8997346.xml.txt lines 61-67,187-205",
+        "finding": "Methods describe TdT poly(A), TeloTag annealing, gap fill, ligation and ONT EXP-NBD104/SQK-LSK109; line 189 incorrectly points to Table S6 for primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "doi_10.1101+gr.275868.121/gr.275868.121_PMC8997346.xml.txt lines 61-67, 185-203; original JATS read and source-bundle scraper run",
+        "finding": "Final Methods specify TdT+dATP tail, five-primer TeloTag mix, Sulfolobus Pol IV fill, T4 ligase seal, Short Read Eliminator XS >10-kb selection and ONT EXP-NBD104/SQK-LSK109; line 189 points to S6 for primers, but published supplement S6 is plasmids."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "Genome Research Supplemental Material PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "doi_10.1101+gr.275868.121/gr.275868.121_supp_supp_gr.275868.121_Supplemental_Material.pdf.txt lines 598-729; scraper lines 679-707",
+        "finding": "Table S5 lines 679-709 prints five TeloTag primers; Table S6 lines 711-729 lists plasmids. Published Methods table-number discrepancy is on page."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "doi_10.1101+gr.275868.121/gr.275868.121_supp_supp_gr.275868.121_Supplemental_Material.pdf.txt lines 676-729; original table rows checked after scraper",
+        "finding": "Supplementary Table S5 lines 679-709 prints five TeloTag primer variants with common core and poly(T) region; S6 lines 711-729 lists plasmids. This confirms the final Methods table-number discrepancy already displayed on page."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 2021.06.07.447263 v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "doi_10.1101+gr.275868.121/2021.06.07.447263_v1.full.pdf.txt methods and supplement references",
+        "finding": "Earlier author version; published supplement governs primer identities."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "doi_10.1101+gr.275868.121/2021.06.07.447263_v1.full.pdf.txt lines 850-874; author preprint Methods independently read",
+        "finding": "Preprint shares TdT/Pol IV/ligase sequence of steps but says Short Read Eliminator XS retains >5-kb molecules at lines 872-874, versus final article >10 kb at line 193. Source-version difference added to page and note; final version used."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "ont_kit",
+      "role": "linked_material",
+      "locator": "ONT EXP-NBD104 and SQK-LSK109 historical kit guides",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical manufacturer manuals and proprietary motor/barcode oligo sequences not cached.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "tdt_guide",
+      "role": "linked_material",
+      "locator": "Terminal transferase and Sulfolobus Pol IV vendor documents",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Enzymatic reagent manuals not cached; tail length remains heterogeneous rather than a specified fixed oligo.",
+      "pass_2": null,
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original Genome Res Methods lines 187-205, Supplemental Tables S5/S6, author preprint and ONT kit references",
+      "finding": "Verified primer table-number discrepancy and corrected public page; ONT historical kit identities remain inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Final JATS lines 61-67, 185-203, supplement S5/S6 lines 676-729 and author preprint Methods lines 850-874",
+      "finding": "Followed original supplementary primer table and author preprint; S6/S5 misreference and 5-kb/10-kb source-version difference documented publicly. Historical ONT kit and enzyme guides remain unavailable; exact motor/barcode oligos and TdT tail length stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "EXP-NBD104/SQK-LSK109 motor adapter and barcode oligo sequences",
+      "disposition": "blocked",
+      "evidence": "Paper names kits without bases; historical ONT guides absent."
+    },
+    {
+      "claim": "Exact enzymatic poly(A) tail length",
+      "disposition": "blocked",
+      "evidence": "TdT synthesis creates a distribution; no per-molecule exact length in article or supplement."
+    }
+  ],
+  "conclusion": "Two independent readings of final article, published supplement and author preprint. ONT reagent oligos and per-molecule TdT tail length remain blocked; both published discrepancies displayed on page."
+}

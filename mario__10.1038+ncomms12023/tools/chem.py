@@ -10,7 +10,16 @@ from protocol_graph import StepKind
 from rna_library_operations import finish_rt_pcr
 from rna_library_operations import molecule
 
-DEFINITION = Definition("MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023", "Nguyen et al., Nature Communications (2016)", "UV-crosslinked RNPs receive a selectable biotinylated RNA linker that joins two RNAs co-bound by one protein.", "truseq", ("UMI", "RNA A cDNA", "MARIO linker", "RNA B cDNA"), "Standard paired-end Illumina reads traverse the two RNA-derived arms and linker. The paper publishes the full PE1/PE2 primers, three inline sample-barcode/UMI RT primers, and every custom linker/adapter oligo.", "RNA", "The original Methods section has a complete source-exact oligo list. Three RT-primer variants differ in their four-base sample barcode and random-barcode length; all three are shown.")
+DEFINITION = Definition(
+    "MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023",
+    "Nguyen et al., Nature Communications (2016)",
+    "UV-crosslinked RNPs receive a selectable biotinylated RNA linker that joins two RNAs co-bound by one protein.",
+    "truseq", ("UMI", "RNA A cDNA", "MARIO linker", "RNA B cDNA"),
+    "Standard paired-end Illumina reads traverse the two RNA-derived arms and linker. The paper publishes the full PE1/PE2 primers, three inline sample-barcode/UMI RT primers, and every custom linker/adapter oligo.",
+    "RNA",
+    "<b>Published discrepancy:</b> the original Methods, ‘Reverse transcription’, describes a generic <code>/5Phos/NNXXXXNNNN…</code> primer with six random bases, and Supplementary Fig. 1 calls the inline barcode 10 nt. The explicit ES-1 oligo in ‘Oligonucleotides used’ is <code>/5Phos/NNAGGTNNN…</code> with five random bases plus a four-base sample index; ES-2 and ES-indirect have six random bases. The model uses the printed ES-1 oligo. Whether that shorter ES-1 oligo was ordered as printed remains uncertain. "
+    "<b>Published enzyme conflict:</b> Methods, ‘Proximity ligation’, requires removal of RNA 3′ phosphates but lists T4 PNK (3′-phosphatase minus) in that reaction. The earlier linker-ligation section distinguishes this variant from phosphatase-active PNK, and <a href='https://www.neb.com/en-us/products/m0236-t4-polynucleotide-kinase-3-phosphatase-minus'>NEB describes the named variant as lacking 3′ phosphatase activity</a>. The schematic follows the stated 3′-OH/proximity-ligation outcome; the enzyme actually used for this dephosphorylation is unresolved."
+)
 
 
 from protocol_specs import workflow

@@ -1,0 +1,179 @@
+{
+  "dir": "single-stranded-ancient-dna__10.1038+nprot.2013.038",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Gansauge and Meyer Nat Protoc 2013 doi:10.1038/nprot.2013.038",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher full article paywall; MANIFEST manual row."
+    },
+    {
+      "id": "supp_fig1",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM473 Supplementary Figure 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM473_ESM.pdf.txt lines 1-8",
+        "finding": "Caption explains P5 adapter five-base deletion and primer roles; diagram bases not reliably extracted as text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM473_ESM.pdf.txt lines 1-8",
+        "finding": "Original Supplementary Fig. 1 says single-stranded library P5 adaptor deletes five bases relative to regular TruSeq library; figure itself is graphical."
+      }
+    },
+    {
+      "id": "supp_fig2",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM474 Supplementary Figure 2",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM474_ESM.pdf.txt lines 1-12",
+        "finding": "Library characterization, no ordering oligos in caption."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM474_ESM.pdf.txt lines 1-8",
+        "finding": "Original Supplementary Fig. 2 is characterization of libraries with/without uracil removal, not an oligo table."
+      },
+      "reason": "Fragment metrics and damage plots, not primer construction."
+    },
+    {
+      "id": "supp_fig3",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM475 Supplementary Figure 3",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM475_ESM.pdf.txt first page",
+        "finding": "Figure, no extracted chemistry table in first-page text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM475_ESM.pdf.txt lines 1-13",
+        "finding": "Original Supplementary Fig. 3 is a graphical gel/ladder image; extracted text has lane numbers and size markers only."
+      },
+      "reason": "Experimental characterization figure, not an oligo table."
+    },
+    {
+      "id": "supp_fig4",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM476 Supplementary Figure 4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM476_ESM.pdf.txt lines 1-8",
+        "finding": "Indexing-cycle qPCR curve, not sequence source."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM476_ESM.pdf.txt lines 1-8",
+        "finding": "Original Supplementary Fig. 4 discusses qPCR amplification plots and cycle selection, no base inventory."
+      },
+      "reason": "Amplification QC graph."
+    },
+    {
+      "id": "supp_fig5",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM477 Supplementary Figure 5",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM477_ESM.pdf.txt lines 1-8",
+        "finding": "Thermomixer settings, no oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM477_ESM.pdf.txt lines 1-8",
+        "finding": "Original Supplementary Fig. 5 records cooling-thermomixer settings, no oligos."
+      },
+      "reason": "Instrument program table."
+    },
+    {
+      "id": "supp_table2",
+      "role": "supplement",
+      "locator": "2013 publisher MOESM478 Supplementary Table 2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM478_ESM.pdf.txt lines 1-12,123-130,308 onward; scraper P5 family line 224",
+        "finding": "Prints indexed P5/P7 primer families; no single fixed index pair."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2013.038_41596_2013_BFnprot2013038_MOESM478_ESM.pdf.txt lines 1-10, 224-264, 329-347",
+        "finding": "Original Table 2 prints indexed P5 and P7 primer sequences; P7 list is attributed to cited reference 21."
+      }
+    },
+    {
+      "id": "corrigendum",
+      "role": "linked_material",
+      "locator": "Nature Protocols correction of 15 May 2013 for CL78 5-prime phosphate",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher article page redirects to inaccessible IdP; correction text only in search excerpt and later author source.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "gansauge2017",
+      "role": "linked_material",
+      "locator": "Gansauge et al 2017 supplementary Table 2, pure.mpg.de author file",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Linked author 2017 PDF not fetched in this pass; prior notes quote CL9/CL53/CL73 but cannot count as original reading.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining article MANIFEST, all six publisher supplements, correction and linked 2017 author material.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original MOESM473-478 figure legends and primer table, particularly MOESM473 lines 1-8 and MOESM478 lines 1-10, 224-264, 329-347; main/corrigendum/Gansauge 2017 manifest",
+      "finding": "Read six original supplements and index table. Defining 2013 main Nature Protocols methods, corrigendum and 2017 follow-on remain unavailable, so full reaction/base claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Defining Table 1 oligo corrections and full original CL set",
+      "evidence": "Original full text and correction not directly read in this pass despite accessible supplementary primer family.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original supplements print P5/P7 index primer families and describe five-base P5 deletion; defining main Methods, corrigendum and later protocol remain unavailable."
+}

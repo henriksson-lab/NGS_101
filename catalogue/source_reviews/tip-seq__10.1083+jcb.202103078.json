@@ -1,0 +1,164 @@
+{
+  "dir": "tip-seq__10.1083+jcb.202103078",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_PMC8600797.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 157–169 and downstream library sections",
+        "finding": "The article says ME-T7 oligos anneal to ME-rev, pA–Tn5 tags chromatin, and cites Lake/Kaya-Okur for transposome ancestry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC JATS Methods extracted lines 157–169 and 203–211; oligo scraper run on local original bundle",
+        "finding": "Independently confirmed ME-T7/ME-rev transposome, T7 amplification, second strand and indexed PCR; article explicitly points to Table S1 oligos and Table S2 demultiplexing setup."
+      }
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheet 01 lines 1–20 and following index families",
+        "finding": "Table S1 prints bulk/single-cell ME-T7, phosphorylated ME-rev, second-strand, sequencing and indexed PCR primer families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement Table S1 sheet 01 rows 1–20 and index family following; oligo scraper run on local original bundle",
+        "finding": "Source prints ME-T7-bulk, /5Phos/ME-rev, second-strand and sequencing primers; sciTIP has distinct indexed families."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/2021.03.17.435909_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods sections for TIP library and barcoding",
+        "finding": "Earlier manuscript is local; exact preprint-to-publication sequence differences remain to be compared."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint PDF text Methods and sciTIP sections, T7 promoter and combinatorial indexing headings; oligo scraper run on local original bundle",
+        "finding": "Earlier manuscript confirms T7 promoter transposition and indexed sciTIP branch; inspected text did not replace the published Table S1 ordering oligos."
+      }
+    },
+    {
+      "id": "cut_tag_protocol",
+      "role": "predecessor",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/protocolsio_bench-top-cut-amptag-bcuhiwt6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "oligo/reagent sections lines 135–213",
+        "finding": "Detailed CUT&Tag protocol establishes the inherited transposition context; specific TIP T7 additions are in Table S1."
+      },
+      "discovered_from": "article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local protocols.io bench-top CUT&Tag PDF text lines 130–136; oligo scraper run on local original bundle",
+        "finding": "The predecessor lists mosaic end reverse and ME Adapter A/B; TIP adds its own T7 promoter before the mosaic end."
+      }
+    },
+    {
+      "id": "lake_ths",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nbt.4038",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article Table S1 says sciTIP oligos adapt Lake et al. THS-seq; original adaptation should be checked.",
+      "discovered_from": "oligo_table"
+    },
+    {
+      "id": "kaya_okur",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41467-019-09982-5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article Methods cite pA–Tn5 preparation; original source has not been reviewed here.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "jcb_202103078_supp_jcb_202103078_tables2_docx_txt",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS2.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Table S2 DOCX text opening setup and FASTQ output sections; oligo scraper run on source bundle",
+        "finding": "Source gives 51/8/29/51 run setup; 29-cycle index 2 contains r5, spacer and i5; it instructs bcl2fastq header handling. This is important read-layout evidence absent from Table S1."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplemental Table 2 lines 2–35",
+        "finding": "RunInfo specifies 51/8/29/51 cycles; the 29-cycle index-2-derived file carries r5, spacer and i5 information. Relevant read layout must be reconciled with page."
+      }
+    },
+    {
+      "id": "jcb_202103078_supp_jcb_202103078_review_history_pdf_txt",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_review_history.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JCB review-history PDF title and opening reviewer correspondence; oligo scraper run on source bundle",
+        "finding": "Peer-review commentary about assay performance in inspected portion; no oligo ordering sequence established there. Full review history still needs second reviewer assessment."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Peer-review commentary about assay performance in inspected portion; no oligo ordering sequence established there. Full review history still needs second reviewer assessment. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Review-history title and opening reviewer correspondence lines 1–30; closing correspondence lines 590–614",
+        "finding": "The checked sections concern assay performance and reviewer exchange, not ordering oligos. Full correspondence has not been audited for exclusion."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Article Methods lines 157–169; Supplementary Table S1 lines 1–20",
+      "finding": "The table resolves TIP-specific custom oligos; the transposase and THS ancestors are identified and require two-reader source checks."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked article, Table S1, earlier preprint and CUT&Tag ancestor; Table S2 is locally present and inspected. THS and Kaya-Okur originals still need source-level independent reads."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "TIP-seq custom primers are unavailable",
+      "disposition": "blocked",
+      "evidence": "Table S1 is source-positive; ancestry and selected barcode member remain to be verified."
+    }
+  ],
+  "conclusion": "Table S1 is source-positive; ancestry and selected barcode member remain to be verified."
+}

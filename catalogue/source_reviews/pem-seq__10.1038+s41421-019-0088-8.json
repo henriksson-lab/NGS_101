@@ -1,0 +1,169 @@
+{
+  "dir": "pem-seq__10.1038+s41421-019-0088-8",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_PMC6434046.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Fig. 1 and Methods lines 57–61, 131–153",
+        "finding": "Biotin bait primer extension is followed by bridge-adapter ligation, nested PCR and index/tag PCR; the article points to Supplementary Methods/oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC6434046 JATS Fig. 1 caption line 59 and Methods lines 131–163; scraper",
+        "finding": "One round of biotin bait-primer extension precedes bridge ligation on beads and I5/I7 nested PCR. The article does not itself print all adapter bases."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original JATS Methods → Primer extension lines131–163, analysis lines175–181 and data availability line211; full source-bundle scraper",
+          "finding": "The defining source states sonicated DNA 0.3–2 kb and 2×150-bp HiSeq readout. Corrected model/page 300–700-bp description, which belongs to later STAR implementation rather than the defining 2019 source. Data availability directly links SuperQ."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original s41421-019-0088-8_PMC6434046.xml.txt Methods Primer extension line133, after full PEM source-bundle oligo scrape",
+          "finding": "Independently confirmed that original PEM-seq starts from sonicated genomic DNA of 0.3–2 kb. The prior 300–700-bp graph label was a repository modeling error, corrected to the original range."
+        }
+      ]
+    },
+    {
+      "id": "supp_methods_table",
+      "role": "supplement",
+      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_supp_41421_2019_88_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table S11 lines 7075–7505",
+        "finding": "Source prints bridge strands with 5′ phosphate/3′ amino blocks, RAG1/MYC locus primers, I5-R1–R4 and I7-B01 series; four-base sample index parse is source-supported."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 Supplementary Table S11 lines 7112–~7505; scraper",
+        "finding": "Table S11 prints bridge upper/lower oligos, 5′ phosphate and 3′ block notation, bait primers, I5-Nested variants and I7-B primer series. Random molecular barcode is in the bridge adapter; index variants are explicit."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original MOESM1 PDF text TableS11 lines7080–7190 and 7370–7510; source-bundle scraper",
+          "finding": "Independently read BA-up phosphate/amino-block notation, BA-lower amino block, P5/P7 tagging and indexed I7 oligos plus locus-specific indexed nested variants. Positive table evidence resolves the old blanket unpublished-oligos claim."
+        }
+      ]
+    },
+    {
+      "id": "star_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "stepwise protocol Methods and Table 2 description lines 590–750",
+        "finding": "Authors’ later 2022 STAR Protocols original repeats primer extension, bridge ligation and PCR workflow; Table 2 sequences are graphical in PDF rather than JATS extraction."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later same-author STAR Protocols PMC9019705 JATS lines 123–129, 845–855; scraper",
+        "finding": "Successor procedure specifies bait and nested primers, bridge adapter with 14-base random molecular barcode, and annealing/ligation quantities; later publication is corroboration, not proof of the 2019 revision."
+      }
+    },
+    {
+      "id": "star_table2_visual",
+      "role": "supplement",
+      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF physical page 11, rendered visually at 180 dpi, Table 2 rows I5-Nested-1–4 and bridge adapter",
+        "finding": "The table colors the inline I5 four-mers AGCG/GCCT/AGGA/TCAG red and bridge random tract orange; it confirms the source-note feature boundaries."
+      },
+      "discovered_from": "star_protocol",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author STAR Protocols PDF PMC9019705 physical page 11, Table 2 rendered at 1600 px; source-bundle primer scraper",
+        "finding": "Visual Table 2 colors four inline I5-Nested primer four-mers AGCG, GCCT, AGGA and TCAG red; bridge-adapter upper random tract orange; I7-Index 12 member windows blue. This confirms the Table 2 sequence segmentation independently. It does not identify any patient/sample-specific member allocation."
+      }
+    },
+    {
+      "id": "superq",
+      "role": "linked_material",
+      "locator": "https://github.com/liumz93/superQ README sections Samples demltiplex and Running superQ",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "https://github.com/liumz93/superQ README sections Samples demltiplex and Running superQ",
+        "finding": "Original author repository README explicitly lists sample indexes AGCG/GCCT/AGGA/TCAG and RAG1A bait example primer AGGATCTCACCCGGAACAGC with adapter anchor CCACGCGTGCTCTACA. This independently corroborates four-base inline-index parsing. Remaining linked code files and processing repository not yet inspected."
+      }
+    },
+    {
+      "id": "lam_htgts_predecessor",
+      "role": "predecessor",
+      "locator": "Frock et al. 2015 doi:10.1038/nbt.3101 (PMC4320661), original reference9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "Original paper states PEM-seq modifies LAM-HTGTS and adapts its analysis; source identity recorded, original not yet read in this pass."
+    },
+    {
+      "id": "star_linked_resources",
+      "role": "linked_material",
+      "locator": "STAR JATS lines569,695,1113,1169,1175: Covaris pn_010252.pdf; Beckman A63880/B23317 pages; Illumina bcl2fastq2-v2-20-software-guide-15051736-03.pdf; https://github.com/liumz93/PEM-Q",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "star_protocol",
+      "reason": "Later protocol directly links these fragmentation, size-selection and read-processing resources; links identified but not yet opened and reviewed independently."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Fig. 1/Methods, Supplementary Table S11, 2022 author STAR Protocols Table 2",
+      "finding": "Both original and linked author protocol print library oligo families. Site-specific bait choices vary; independent second reading remains."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Fig. 1/Methods and MOESM1 Table S11; later STAR Protocols lines 123–129 and 845–855",
+      "finding": "Followed detailed author successor and original supplement; figure-only colored Table 2 feature boundaries require independent visual comparison before closing review."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original JATS line211; author SuperQ README sample metadata; later STAR JATS direct resource links",
+        "finding": "Opened original author SuperQ README, which corroborates the inline I5 barcode boundary. Added direct predecessor and later protocol resource links; full linked code/document scope still needs review and independent check."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "PEM-seq bridge, nested and index oligos are unpublished",
+      "disposition": "resolved",
+      "evidence": "Original Supplementary TableS11 prints the bridge, nested and index families; prior independent table checks and present rereading agree. The page represents a labelled RAG1A/B I5-R1/I7-B01 example, without claiming historical sample allocation."
+    }
+  ],
+  "conclusion": "Blanket unpublished-oligo claim is resolved by original TableS11. Corrected defining-source sonication range. Full source audit remains in progress for newly enumerated author-code, predecessor and later-protocol resource links; no missing information accepted."
+}

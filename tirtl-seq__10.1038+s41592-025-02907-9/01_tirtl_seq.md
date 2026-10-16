@@ -15,3 +15,18 @@
 🟢 The main article methods (`s41592-025-02907-9_PMC12791010.xml.txt`, line 218) also specify commercial random hexamer and oligo(dT) RT primers. Their synthesized sequences or oligo(dT) length are not printed and are not members of the 880-oligo PCR panel.
 
 🟡 The schematic currently depicts the primer, plate barcode and well UDI **roles**; it does not encode all 880 panel members as segments or derive primer-binding and read-cycle spans from a selected panel row. The panel is exact for the published implementation, while target choice and index combinations can vary. No bases were inferred from raw reads because Supplementary Data 1 supplies the sequences directly.
+
+## One cell per well
+
+🟢 The defining paper's Methods describe FACS sorting one live CD3-positive T cell into
+each 384-well lysis/RT reaction (original JATS line 204), followed by TIRTL-seq.
+🟡 For that experiment, chain co-occurrence within a well gives pairing directly;
+the pooled-cell implementation infers pairing from clonotype overlap across
+replicate wells. The one-cell experiment changes input and interpretation while
+using the published library chemistry, so it shares this chemistry page.
+
+🟡 In the published reviewer response (MOESM2 text lines 709–722), the authors
+suggest adding gene-specific primers during PCR I to phenotype or genotype a
+single sorted cell. They do not give a tested primer panel or construct for that
+extension. It is a proposed extension, not part of the one-cell TCR assay modeled
+here.

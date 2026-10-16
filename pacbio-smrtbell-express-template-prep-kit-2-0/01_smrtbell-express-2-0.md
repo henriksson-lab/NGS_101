@@ -3,7 +3,7 @@
 ## 1. What it is
 
 PacBio's historical large-insert kit repairs mechanically sheared genomic DNA, removes
-single-stranded overhangs, dA-tails both duplex ends, and ligates a T-overhang hairpin to
+single-stranded overhangs, dA-tails both duplex ends, and ligates a hairpin adapter to
 each end. The product is a covalently closed SMRTbell: one continuous strand folded into
 a dumbbell so a polymerase can read both insert strands repeatedly.
 
@@ -13,6 +13,7 @@ Template Preparation Kit 2.0,” procedure **101-693-800 Version 01 (January 201
 ## 2. Sources read
 
 - 🟢 PacBio procedure 101-693-800 Version 01, archived with the publication supplement linked in the manifest.
+- 🟢 PacBio customer training PN 101-742-500 Version 01 (February 2019), [large-insert library preparation](https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf), PDF pp. 7 and 9.
 - 🟢 PacBio product note, “SMRTbell express template prep 2.0 for large-insert libraries.”
 - 🟢 Travers *et al.*, *Nucleic Acids Research* (2010), doi:[10.1093/nar/gkq543](https://doi.org/10.1093/nar/gkq543), for the published closed SMRTbell topology.
 
@@ -26,16 +27,22 @@ repair follows for 30 min at 37 °C. End Prep Mix acts for 10 min at 20 °C and 
 ## 4. Close the SMRTbell
 
 🟢 Overhang Adapter v3, Ligation Mix, Ligation Additive and Ligation Enhancer act for
-60 min at 20 °C. The adapter's 3′ dT overhang pairs with each insert dA before sealing.
+60 min at 20 °C. The procedure names Overhang Adapter v3 without printing its ends.
+The contemporaneous PacBio training document identifies a **T overhang** on this
+adapter (PDF p. 7) and explicitly describes **A/T ligation** rather than blunt
+ligation (PDF p. 9). The kit procedure's dA-tailed insert therefore pairs with the
+reported adapter T end. The terminal strand polarity follows from the paired dA/dT
+ends; the training slides do not draw a base-resolved adapter duplex.
 After bead purification, nuclease removes linear or incompletely ligated molecules.
 
 🟡 The shared `Dumbbell` constructor guarantees the topology: insert strand 1 → right
 hairpin → reverse complement of the insert → left hairpin → origin. The second insert
 strand and repeated polymerase circuit are derived rather than transcribed twice.
 
-🔴 PacBio does not publish the Overhang Adapter v3 or sequencing-primer bases. The
-schematic shows the known hairpin, dT:dA junctions and primer sites without inventing
-sequence or borrowing current-kit oligos.
+🔴 The inspected sources do not disclose the complete Overhang Adapter v3 body or
+sequencing-primer bases. The schematic shows the source-reported terminal T and known
+hairpin topology without inventing the proprietary body sequence or borrowing
+current-kit oligos.
 
 ## 5. Sequencing
 

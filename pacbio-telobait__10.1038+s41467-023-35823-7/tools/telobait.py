@@ -27,7 +27,7 @@ INSERT=Construct([Segment("subtelomere","X"*30,placeholder=True),
 SMRTBELL=Dumbbell(INSERT,"N"*16,"N"*16,name="telobait SMRTbell")
 SOURCE='Tham et al., Nature Communications (2023), doi:10.1038/s41467-023-35823-7'
 
-def panels(): return [("Trim subtelomeric DNA with RsaI and HinfI",[Row(chunks=[(f"subtelomere -- {RSAI.name}/{HINFI.name} cuts -- telomere -- native 3′ overhang",None,False)])],"Neither enzyme cuts the canonical TTAGGG repeat; the telomere end remains intact."),("Anneal and ligate one of six phased, barcoded 3′-biotin telobaits",TELOBAIT.annealed_scene(END),"The six ends cover all repeat phases. ** marks the terminal ligation; displayed F01 is one of the published barcoded sets."),("Capture on streptavidin, wash, and release with EcoRI",[Row(chunks=[("3′ biotin -> streptavidin capture -> wash -> EcoRI release",None,False)])],"The EcoRI site built into the telobait releases enriched telomere fragments."),("Build a PacBio HiFi SMRTbell",[*dumbbell_rows(SMRTBELL),strand_row(INSERT),*feature_rows(INSERT,prefix_width=4)],"Hairpins close the selected fragment; the eight-base telobait sample index remains inside the insert. ** marks each sealed insert–adapter junction.")]
+def panels(): return [("Restriction digest and terminal ligation in one incubation",[Row(chunks=[(f"subtelomere -- {RSAI.name}/{HINFI.name} cuts -- telomere -- native 3′ overhang",None,False)])],"RsaI, HinfI, phased telobaits and T4 ligase are co-incubated overnight; neither enzyme cuts canonical TTAGGG repeats."),("Anneal and ligate one of six phased, barcoded 3′-biotin telobaits",TELOBAIT.annealed_scene(END),"The six ends cover all repeat phases. ** marks the terminal ligation; displayed F01 is one of the published barcoded sets."),("Capture, fill the gap, and release with EcoRI",[Row(chunks=[("3′ biotin -> streptavidin capture -> T4 polymerase gap fill -> EcoRI release",None,False)])],"Gap filling happens on the captured molecules before EcoRI releases the enriched fragments."),("Build a PacBio HiFi SMRTbell",[*dumbbell_rows(SMRTBELL),strand_row(INSERT),*feature_rows(INSERT,prefix_width=4)],"Hairpins close the selected fragment; the eight-base telobait sample index remains inside the insert. ** marks each sealed insert–adapter junction.")]
 
 
 def protocol_graph():
@@ -40,7 +40,7 @@ def protocol_graph():
                           MaterialKind.MOLECULAR,state=END.scene())
     restriction_waste=graph.product("restriction_waste","distal restriction fragments",
                                     MaterialKind.WASTE)
-    graph.react("trim_genome","Trim subtelomeric DNA without cutting TTAGGG repeats",
+    graph.react("trim_genome","Digest with RsaI/HinfI during terminal telobait ligation",
                 StepKind.DIGESTION,
                 ((dna,InputRole.TEMPLATE),(restriction_enzymes,InputRole.CATALYST)),
                 (trimmed,restriction_waste))
@@ -58,25 +58,25 @@ def protocol_graph():
                 StepKind.LIGATION,
                 ((trimmed,InputRole.TEMPLATE),(bait,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(tagged,),geometry=terminal_geometry)
-    polymerase=graph.input("fill_polymerase","T4 DNA polymerase",MaterialKind.CATALYST)
-    filled=graph.product("gap_filled","gap-filled telobait-tagged chromosome ends",
-                         MaterialKind.MOLECULAR,state=tagged.state)
-    graph.react("gap_fill","Fill the telobait–chromosome gap",StepKind.EXTENSION,
-                ((tagged,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
     streptavidin=graph.input("streptavidin","streptavidin capture matrix",
                             MaterialKind.SELECTION)
     captured=graph.product("captured","streptavidin-captured telobait molecules",
-                           MaterialKind.MOLECULAR,state=filled.state)
+                           MaterialKind.MOLECULAR,state=tagged.state)
     uncaptured=graph.product("uncaptured","untagged genomic fragments",MaterialKind.WASTE)
     graph.react("capture","Capture 3-prime-biotin telobait molecules",StepKind.AFFINITY_CAPTURE,
-                ((filled,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                ((tagged,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
                 (captured,uncaptured))
     graph.discard(uncaptured,"does not carry the biotinylated telobait")
+    polymerase=graph.input("fill_polymerase","T4 DNA polymerase",MaterialKind.CATALYST)
+    filled=graph.product("gap_filled","gap-filled captured telobait molecules",
+                         MaterialKind.MOLECULAR,state=captured.state)
+    graph.react("gap_fill","Fill the captured telobait–chromosome gap",StepKind.EXTENSION,
+                ((captured,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
     ecori=graph.input("ecori","EcoRI",MaterialKind.CATALYST)
     released=graph.product("released","EcoRI-released enriched telomere fragments",
                            MaterialKind.MOLECULAR,state=INSERT)
     graph.react("release","Release captured telomere fragments with EcoRI",StepKind.DIGESTION,
-                ((captured,InputRole.TEMPLATE),(ecori,InputRole.CATALYST)),(released,))
+                ((filled,InputRole.TEMPLATE),(ecori,InputRole.CATALYST)),(released,))
     end_mix=graph.input("end_mix","PacBio damage-repair, end-repair and dA-tailing mix",
                         MaterialKind.CATALYST)
     end_product=repair_and_dA_tail(INSERT,inferred=True)

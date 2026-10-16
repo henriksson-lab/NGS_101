@@ -13,7 +13,10 @@ TITLE="CRISPR CIRCLE-seq — in-vitro off-target cleavage"
 NOTES="01_crispr-circle-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/nmeth.4278">Tsai et al., <i>Nature Methods</i> (2017)</a>.'
 SUMMARY="Random genomic fragments are converted to covalently closed circles and residual linear DNA is destroyed; Cas9–guide cleavage alone re-creates ends that can accept sequencing adapters."
-CAVEAT="This CIRCLE-seq profiles CRISPR cleavage in vitro. It is unrelated to eccDNA Circle-Seq, which enriches naturally circular DNA and amplifies it with phi29."
+CAVEAT=("This CIRCLE-seq profiles CRISPR cleavage in vitro. It is unrelated to eccDNA Circle-Seq, which enriches naturally circular DNA and amplifies it with phi29. "
+        "<b>Published adapter discrepancy:</b> Tsai et al. Supplementary Protocol, step 21, prints the named NEBNext E7601A adapter as 64 nt with <code>ACACTCTTTCCTACACGACG</code>. "
+        "The <a href=\"https://www.neb.com/en/-/media/nebus/files/manuals/manuale7600.pdf\">NEB E7600 Set 1 manual, Adaptor Overview p. 3</a> prints E7601A as 65 nt with <code>ACACTCTTTCCCTACACGACG</code>. "
+        "The model uses the 65-nt vendor sequence because the paper names that product; NEB's manual revision history (p. 14) records an adapter-sequence correction in November 2017, after this paper, so the exact historical kit lot remains unverified. The extra C lies in the loop, outside the paired stem.")
 STEM_LOOP="CGGTGGACCGATGATCUATCGGTCCACCGT"
 LINEAR=Construct([Segment("genomic fragment","X"*48,placeholder=True),Segment("USER-opened stem-loop scar","N"*8,placeholder=True)],name="circularization substrate")
 CIRCLE=circularize_ssdna(LINEAR,five_prime_phosphate=True)
@@ -103,15 +106,13 @@ def protocol_graph():
  g.react("ligate_library","Ligate USER hairpin sequencing adapters",StepKind.LIGATION,((cut_tailed,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),(lib_ligase,InputRole.CATALYST)),(ligated,),geometry=library_adapter_geometry())
  f=g.input("pcr_forward","library PCR forward primer",MaterialKind.OLIGO);r=g.input("pcr_reverse","library PCR reverse primer",MaterialKind.OLIGO);pol=g.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
  library=g.product("sequencing_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
- g.react("library_pcr","Open and PCR-amplify the paired-end library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The supplementary protocol names the NEBNext Multiplex Oligos dual-index kit by catalogue number and does not print its i5/i7 primer bases."))
+ g.react("library_pcr","Open and PCR-amplify the paired-end library",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The supplementary protocol does not identify the selected i5/i7 primer pair. The named NEB kit manual prints the primer families, but no specific pair can be assigned to this library."))
  g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
  reviewed=("genomic_dna","shearing","shear","repair_mix","end_repair","tailing_polymerase","datp","da_tail","stem_loop","stem_ligase","ligate_stem","user_enzyme","open_stem","circle_ligase","circularize","exonuclease","digest_linear","guide_rna","cas9","cas9_cut","post_cut_tailing","post_cut_datp","tail_cut","library_adapters","library_ligase","ligate_library","pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","sequencing_library")
  g.declare_reviewed_scope(reviewed,SOURCE);return g.require_publishable()
 
-# Source erratum, not a silence: the supplementary protocol does print this adaptor, as
-# "NEBNext Adaptor for Illumina (#E7601A)", but its transcription is 64 nt where the real
-# oligo is 65 -- "ACACTCTTTCC[C]TACACGACG" loses one C at position 43. lib/illumina.py
-# keeps the correct NEB E7780-manual form, so a verbatim match against this paper fails
-# for the right sequence. The dropped base is in the loop, not the 12-nt stem, so Scene
-# pairing cannot catch it either.
-SOURCE_OLIGO_EXCEPTIONS={"library_adapters":"Source erratum: the defining supplementary protocol prints NEBNext #E7601A one base short (64 nt, missing the third C of ACACTCTTTCCC at position 43); the correct 65-nt form is transcribed in lib/illumina.py from the NEB E7780 manual."}
+# The supplementary protocol prints #E7601A as 64 nt, whereas the later NEB manual prints
+# 65 nt and records a November 2017 sequence correction. lib/illumina.py holds that later
+# vendor form. The oligo physically used in the study is unverified. The differing C is in
+# the loop, not the 12-nt stem, so Scene pairing cannot settle this source conflict.
+SOURCE_OLIGO_EXCEPTIONS={"library_adapters":"Printed-source conflict: the defining supplementary protocol gives NEBNext #E7601A as 64 nt (one fewer C in ACACTCTTTCCC), while the later NEB E7600 Set 1 manual gives 65 nt and records a November 2017 sequence correction. The model uses the later vendor form; the study's physical kit lot is unverified."}

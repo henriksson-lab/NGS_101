@@ -25,4 +25,5 @@ where the ten `N` bases are the library index.
 
 🟡 The paper does not print the paired commercial 10x 5′ primer/bead construct or the
 complete Mission Bio Tapestri sequencing shell. The exact custom oligos and target-panel
-primers are therefore separated from those genuinely unavailable commercial endpoints.
+primers are shown separately. Historical vendor guides and the authors' linked code
+still need a second source check before those commercial endpoints can be called absent.

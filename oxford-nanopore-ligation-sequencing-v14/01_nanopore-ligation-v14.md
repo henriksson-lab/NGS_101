@@ -46,9 +46,13 @@ duplex and controls translocation of one intact strand. This is direct sequencin
 is no conventional sequencing primer.
 
 🟢 Flow Cell Tether is mixed into the flow-cell priming solution and concentrates library
-at the membrane. 🔴 The vendor does not establish a covalent tether-to-library bond.
+at the membrane. The inspected SQK-LSK114 protocol, chemistry document and sensing
+explanation do not specify a covalent tether-to-library bond, so none is drawn.
 
 🔴 The complete Y-shaped leader sequence, current motor identity, attachment chemistry,
-full tether structure and definitive strand polarity are not disclosed. The page therefore
-shows a named proprietary leader/motor feature and does not invent bases or a covalent
-tether segment.
+full tether structure and definitive strand polarity remain unverified in this source
+audit. The older sensing explanation describes motor-on-leader strand capture but is
+not a version-specific molecular inventory for SQK-LSK114. The page therefore shows
+a named unresolved leader/motor feature and does not invent bases or a covalent
+tether segment. An independent source check of that explanation and its links remains
+open before any absence claim can be accepted.

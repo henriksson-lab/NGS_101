@@ -1,0 +1,99 @@
+{
+  "dir": "insight__10.1126+sciadv.abe5054",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "wu2021",
+      "role": "defining",
+      "locator": "_data/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 151-265, 369-410, 418-424",
+        "finding": "Table 2 prints P8 NASBA primers, modified molecular beacons/capture oligos, barcoded P8 primers, P5/P7 PCR and custom sequencing primer. NASBA sample barcodes enter in stage 1; pooled stage 2 uses PCR adapters."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7880595 JATS Table 2 lines 231-267 and methods lines 151-156, 369-410, 418-424; scraper run on source bundle",
+        "finding": "Independently confirmed exact P8 NASBA and 5N barcoded primers, 2′-O-methyl toehold beacon with terminal propyl, biotin/FAM capture probes, P5/P7 indexing and custom T7-containing read primer. Stage 1 NASBA adds sample barcode pairs; stage 2 PCR adds sequencing arms."
+      }
+    },
+    {
+      "id": "supplement_zip",
+      "role": "supplement",
+      "locator": "_data/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595_supplementary.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ZIP member listing: abe5054-F1 to F5 JPG/GIF images",
+        "finding": "Fetched archive contains image figures only; the separate DC1 methods/tables supplement referenced in JATS line 422 is absent."
+      },
+      "reason": "Image-only figure package does not contain additional oligo tables.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC supplementary ZIP member listing abe5054-F1 to F5 JPG/GIF; inspected with unzip -Z1",
+        "finding": "Archive is figure images only, not the referenced DC1 methods supplement or an oligo table."
+      }
+    },
+    {
+      "id": "science_dc1",
+      "role": "supplement",
+      "locator": "http://advances.sciencemag.org/cgi/content/full/7/7/eabe5054/DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original JATS links Science Advances DC1; attempted publisher PDF endpoint returned 403, absent from local bundle."
+    },
+    {
+      "id": "protocolsio",
+      "role": "detailed_protocol",
+      "locator": "https://www.protocols.io/view/insight-a-population-scale-covid-19-testing-strate-bjrikm4e",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original JATS links protocols.io bjrikm4e; web page redirects to v2 and requires JavaScript; no protocol content could be read."
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/suochenqu/INSIGHT",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official linked GitHub README/root tree read online; identifies code/hamming.py for barcode generation and data/barcode_hopping, but subtree/raw file fetches failed cache/DNS, so exact generated members remain unverified.",
+      "discovered_from": "wu2021",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author GitHub repository README/root tree online lines 149-172; attempted code and data subtrees",
+        "finding": "Repository README says code/hamming.py generates barcodes by Hamming distance and lists barcode-hopping data. Root inventory is relevant, but code/data contents could not be fetched, so member identities and experimental use cannot be verified."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 151-265, 369-410, 418-424; supplementary archive member listing",
+      "finding": "The main article has Table 2 and identifies DC1, a protocols.io bench protocol and author barcode code; the fetched zip has image figures only and these sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 418-424; Science DC1 403; protocols.io page redirects to JS gate; GitHub README/root lines 149-172",
+      "finding": "Independently followed all named links. DC1 and detailed bench protocol remain inaccessible; author code root confirms barcode generator but code/data files were not readable. No absence conclusion accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any extra barcode family, oligo modifications or stage details in DC1/protocols.io remain unverified",
+      "disposition": "blocked",
+      "evidence": "The defining article is source-positive for its main oligos; linked detailed sources are blocked."
+    }
+  ],
+  "conclusion": "The defining article is source-positive for its main oligos; linked detailed sources are blocked."
+}

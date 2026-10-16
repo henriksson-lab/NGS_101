@@ -1,0 +1,128 @@
+{
+  "dir": "hires__10.1126+science.adg3797",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1126/science.adg3797",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Science defining full text absent; DOI route still manual in MANIFEST.tsv."
+    },
+    {
+      "id": "science_supplement",
+      "role": "supplement",
+      "locator": "Science adg3797 supplementary methods and tables linked from defining article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher supplement not obtained; the article-specific variant inventory cannot be checked."
+    },
+    {
+      "id": "author_bioprotocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/hires__10.1126+science.adg3797/bio-protocol4886.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Materials lines 128–147; Procedure D–H lines 440–700; Data analysis lines 732–750",
+        "finding": "Prints GAT5-RT, GAT5-7N, GAT5, RNA-P7 verbatim; in-situ RT then MboI digest, T4 proximity ligation, single-nucleus mixed amplification, TruePrep tagmentation, RNA-P7 PCR, per-well i5 then i7 indexing and PE150 sequencing. Links author pre-processing code and names Vazyme TD501 and Illumina UD indexes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bio-protocol4886.pdf.txt lines 136–147 (reagents/oligos), 447–486 (RT, MboI and proximity ligation), 614–700 (TruePrep tagmentation, RNA-P7, sequential i5/i7 and PE150), 730–740 (linked workflow); source-bundle scraper run",
+        "finding": "Four GAT5-family/RNA-P7 oligos are printed. RT precedes MboI digestion and T4 ligation; sorted nuclei are preamplified and TruePrep tagged, then RNA-P7 and i5/i7 are added in two PCR stages. No per-well index assignment or loaded TruePrep adapter oligo is printed in these sections."
+      }
+    },
+    {
+      "id": "author_pipeline",
+      "role": "linked_material",
+      "locator": "_data/sources/hires__10.1126+science.adg3797/498941193bdb879c68ebb5d11f1157270ffcaf66.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Pinned archive member HiRES_preprocess_pipeline/rules/HiRES_split.rules lines 1–37; root README and zip member inventory",
+        "finding": "Author pipeline receives paired R1/R2 FASTQs; cutadapt -G XGGTTGAGGTAGTATTGCGCAATG with overlap 20 classifies RNA vs DNA pairs, and second RNA filter seeks N8 + poly(T). It verifies computational read-class split, not exact TruePrep adapter or chosen index bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Pinned author ZIP HiRES_preprocess_pipeline/rules/HiRES_split.rules lines 1–40, README.md; read directly from original archive",
+        "finding": "Pipeline takes raw R1/R2, classifies RNA with cutadapt -G XGGTTGAGGTAGTATTGCGCAATG (overlap 20), then retains an N8/poly(T) motif for RNA reads. It corroborates sequence-class detection, not physical tagmentation-end geometry or index-well identity."
+      },
+      "discovered_from": "author_bioprotocol"
+    },
+    {
+      "id": "trueprep_v2",
+      "role": "linked_material",
+      "locator": "_data/sources/hires__10.1126+science.adg3797/TD501_TD502_TD503_TruePrep_DNA_Library_Prep_Kit_V2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Manual lines 145–178 and 295–311",
+        "finding": "Vendor original says TTE Mix holds two adapter species at equal molar ratio and gives complete standard finished-library P5/i5/Read1/insert/Read2/i7/P7 architecture with 8-base indexes. It does not spell out the two loaded adapter oligos or prove the HiRES RNA-P7-specific junction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "TD501_TD502_TD503_TruePrep_DNA_Library_Prep_Kit_V2.pdf.txt lines 142–178 and 295–306",
+        "finding": "Vendor manual identifies two equimolar loaded adapter species and prints standard finished-library P5/i5/Read1/insert/Read2/i7/P7 architecture with 8-base index placeholders. The manual does not give the loaded oligos as individual synthesized sequences or specify the HiRES RNA-P7 junction."
+      },
+      "discovered_from": "author_bioprotocol"
+    },
+    {
+      "id": "illumina_ud_indexes",
+      "role": "linked_material",
+      "locator": "_data/sources/hires__10.1126+science.adg3797/illumina_Illumina-UDIndexes.htm.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina UD Indexes adapter-arm section lines 185–205 and Set A index table beginning line 205",
+        "finding": "Official reference prints i7 and i5 adapter arms and index-well list. The HiRES author protocol names sets A–D but not exact well assignments; current online version can differ from historical plate sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "illumina_Illumina-UDIndexes.htm.txt lines 183–226 and Set A table that follows; compared with author Bio-protocol lines 141 and 641–667",
+        "finding": "Official current Illumina reference gives i7/i5 adapter arms and named index members, but the author protocol gives only catalogue numbers and per-well i5/i7 additions. No source-matched well map or historical version match is proven."
+      },
+      "discovered_from": "author_bioprotocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Bio-protocol Materials lines 128–147, Procedure lines 590–700, Data analysis 732–750; author GitHub pinned README and HiRES_split.rules; local Science MANIFEST.tsv",
+      "finding": "Followed linked author pipeline, TruePrep TD501 manual and official Illumina UD index reference. These establish read splitting and a standard finished TruePrep shell; loaded transposome oligos, exact HiRES RNA-P7 junction and per-well index selection remain unresolved. Science full text and supplement remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author Bio-protocol lines 136–147, 614–700 and 730–740; pinned GitHub ZIP HiRES_split.rules lines 1–40; Vazyme manual lines 142–178 and 295–306; Illumina UD Indexes arms/table lines 183 onward; Science MANIFEST.tsv",
+      "finding": "Independently followed the author-linked pipeline and kit/index documentation. Four author oligos and a generic finished-library shell are source-positive. Science defining article/supplement, exact loaded transposome oligos, HiRES-specific RNA-P7 junction and per-well index selections remain unavailable or unassigned; no absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact TruePrep terminal oligos and selected per-well i5/i7 members",
+      "disposition": "blocked",
+      "evidence": "Bio-protocol and TD501 manual establish four HiRES primers and the standard finished TruePrep shell; loaded adapter oligos, source-specific junction and exact selected i5/i7 wells remain open. Defining Science full text/supplement unavailable."
+    }
+  ],
+  "conclusion": "Two independent passes cover the readable detailed protocol, author pipeline and kit/index references. Defining Science article/supplement and exact HiRES adapter/index choices remain blocked; no missing claim accepted."
+}

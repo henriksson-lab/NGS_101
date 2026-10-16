@@ -6,8 +6,14 @@ doi:[10.1038/s41467-018-07115-y](https://doi.org/10.1038/s41467-018-07115-y).
 The detailed source record was originally written jointly with Plate_scATAC-seq and is
 retained as provenance in the
 [combined research note](../plate-scatac-seq__10.1038+s41467-018-07771-0/01_plate-scatac-seq.md#3b-step-by-step-pi-atac-differences).
-Pi-ATAC’s barcoding-primer sequences are not published in the available paper or
-supplements; the schematic marks their reconstructed library regions as inferred.
+The checked Pi-ATAC article and supplements do not give a well-to-primer map;
+the schematic marks its reconstructed library regions as inferred. The recovered
+MOESM12 LiveCycle PDF is a reporting summary, not a primer table. Its filled form
+field `Maincontent/General/FlowCytometry/MethodologicalDetails/sampleprep` says
+the cells were fixed in 1% formaldehyde for 10 minutes, quenched with 0.125 M
+glycine for 5 minutes, permeabilized, stained, tagmented in bulk for 30 minutes,
+quenched with 40 mM EDTA and index sorted. This was read from the original XFA
+data with `tools/doctext.py`; it does not settle the indexed oligo assignments.
 
 The authors' public [Pi-ATAC protocol](https://www.protocols.io/view/pi-atac-q6gdzbw.pdf)
 (doi:10.17504/protocols.io.q6gdzbw, 24 October 2018), pp. 6 and 10, was also

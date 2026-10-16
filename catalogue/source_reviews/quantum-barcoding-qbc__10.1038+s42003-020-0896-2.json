@@ -1,0 +1,54 @@
+{
+  "dir": "quantum-barcoding-qbc__10.1038+s42003-020-0896-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Roy et al., Communications Biology 2020 DOI 10.1038/s42003-020-0896-2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original full article not present in local source bundle.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "Roy et al. 2020 Supplementary Data containing SC3/SC2/SCN/SC1 oligos and Splint6",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary sequence tables mentioned in existing protocol note are not cached.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "nebnext_index",
+      "role": "vendor",
+      "locator": "NEBNext indexed primer guide named by Roy et al. supplement",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact vendor revision/member unresolved until defining supplement inspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Cached source inventory, existing protocol note and extra_sources.tsv route list only",
+      "finding": "No original from this protocol was available for an identifiable first reading; no source row has pass_1. All molecular claims await original source inspection and an independent second reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "QBC four-round splint and index oligo transcription",
+      "disposition": "blocked",
+      "evidence": "Relevant source files and independent second pass remain outstanding."
+    }
+  ],
+  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+}

@@ -1,0 +1,259 @@
+{
+  "dir": "oak__10.1038+s41467-024-53227-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_PMC11499997.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Main text lines 92–116 and Methods lines 190–207; scraper hit line 190",
+        "finding": "OAK combines droplet mRNA capture on poly-dT beads with combinatorial indexing and first-strand release; exact plate/bead sequence accounting depends on supplements."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11499997 JATS Results Fig. 1 lines 92–116; Methods OAK scRNA lines 190–202 and paired snRNA/ATAC lines 203–207; source-bundle oligo scraper hits 190, 242, 246",
+        "finding": "Independently confirmed exact RNA TSO, aliquot-i5, partial-P5 and library-i7 primer examples, RNA run 28/10/8/90, ATAC run 50/8/24/49. Multiome nuclei are transposed before GEM partitioning, unlike the current graph. Defining source delegates 10x v3 and Multiome kit architecture to vendor guides."
+      }
+    },
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extended Data Figure 1 original preprint media-1 PDF extracted text lines 1–412, especially schematic labels 335–396",
+        "finding": "Contains a workflow schematic distinguishing droplet Index1, aliquot Index2 and ATAC fragment labels. The extracted figure supports branch identity but does not print full oligo sequences; diagram geometry needs visual second review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 2024 bioRxiv Extended Data Fig. 1 media-1 PDF text lines 335–396 and first page rendered visually at 1200 px, panel k",
+        "finding": "Independently inspected the image: RNA and ATAC fragments receive droplet Index1, then unpacking and aliquot Index2; the panel supplies roles, not barcode bases or primer sequences. It does not by itself establish the order of pre-GEM ATAC transposition."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-2.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extended Data Figure 2 original preprint media-2 PDF extracted text lines 1–305, heading and all keyword hits",
+        "finding": "Plots TSS enrichment and fragment metrics; no primer, adapter, barcode-sequence or reaction-order text appears in extracted labels. Visual second review still needed before exclusion."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Extended Data Fig. 2 media-2 PDF extracted lines 1–305 and visually rendered first page panels a–g",
+        "finding": "All panels show gene/read counts, fragment length, TSS enrichment, retinal cell clusters and peak annotations. No reaction or oligo architecture; excluded from chemistry source claims."
+      },
+      "discovered_from": "paper",
+      "reason": "Rendered extended-data result plots contain no chemistry architecture or sequence."
+    },
+    {
+      "id": "source_3",
+      "role": "linked_material",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-3.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extended Data Figure 3 original preprint media-3 PDF extracted text lines 1–211, lineage-abundance labels 112–173",
+        "finding": "Lineage recovery and abundance plots, with no oligo or library recipe in extracted labels. Visual second review still needed before exclusion."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Extended Data Fig. 3 media-3 PDF extracted lines 1–211 and visually rendered first page panels a–f",
+        "finding": "All panels show lineage abundance, survival, sub-library recovery and gene-set scores. No reaction or oligo architecture; excluded from chemistry source claims."
+      },
+      "discovered_from": "paper",
+      "reason": "Rendered lineage result plots contain no chemistry architecture or sequence."
+    },
+    {
+      "id": "source_4",
+      "role": "linked_material",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v1 full PDF, posted 2024-01-24, Methods around lines 890–969 and source-bundle oligo scraper hits 903, 905, 960, 962",
+        "finding": "Preprint prints TSO recognition, aliquot i5, partial P5 and library i7 example oligos and 28/10/8/90 RNA cycles; it agrees on those examples with the published Methods. A distinct source/version and comparison boundary."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v1 full PDF Methods lines 890–969, 1321–1333; scraper hits at 903, 905, 960, 962, 1321–1333",
+        "finding": "Independently verified same example TSO recognition, aliquot i5, partial P5 and library i7 oligos as published; additional lineage branch primers are also printed. It distinguishes the earlier preprint and does not fill the proprietary reagent/version boundary."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 Supplementary Figure 1 PDF extracted lines 336–396 schematic and caption 493–507; source-bundle scraper",
+        "finding": "Supplementary Fig. 1 has Index1/Index2 and ATAC fragment schematic and caption explicitly fixes/transposes nuclei before droplet barcoding; this exposes the old graph ordering error."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original published MOESM1 Supplementary Fig. 1 caption PDF text lines 495–507; schematic text lines 336–396",
+        "finding": "Independently confirmed Supplementary Fig. 1n explicitly says fixed nuclei are transposed to ATAC fragments before droplet generation, then first indexing in droplets and second indexing in aliquot PCR. No separate base-resolved oligo table."
+      }
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM2 Reporting Summary pp. 1–5; text lines 1–240, especially replication 100–140; source-bundle scraper",
+        "finding": "Reporting summary gives experimental replication and analysis disclosure, not an oligo design or library-preparation recipe in the inspected material."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original published MOESM2 Nature Reporting Summary text lines 1–240, including study replication lines 110–132",
+        "finding": "Independently inspected the reporting summary. It documents replication, data access and sample descriptions; no primer sequence, adapter geometry or detailed library recipe. Excluded from chemistry claims."
+      },
+      "reason": "Nature Reporting Summary records study design and resources, not the oligo/reaction recipe."
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 Peer Review File, extracted lines 1–80, 390–432 and 710–728 plus full chemistry-keyword inventory",
+        "finding": "Peer review and author responses clarify Index1 droplet and Index2 aliquot collision logic; it does not supply a new primer table. It is relevant to interpreting the construct and source chronology."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original published MOESM3 peer-review PDF text lines 1–80, 710–756, 1100–1130",
+        "finding": "Independently checked review discussion of droplet/aliquot collisions, pre-GEM transposition scale and antibody-hashing order. Authors clarify antibody staining precedes methanol fixation at lines 1115–1126. No new synthesis-ready oligo table, but source is relevant to branch order."
+      }
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 workbook text sheet headers at lines 1–407775 (33 Fig/SupFig sheets), first rows and full-term scan for primer/oligo/adapter/ligation/tagmentation/reverse transcriptase",
+        "finding": "All sheet names are figure source-data matrices; no reagent or oligo table in the searched extracted text. Large result tables have incidental sequence-like strings, so scraper hits must not be treated as primer evidence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original published MOESM4 extracted workbook all 33 sheet header lines 1–407775, first row of each sheet, sample rows; scraper hits traced to Fig/SupFig matrices",
+        "finding": "Independently inventoried all 33 sheets: Fig1, Fig3 and Supplementary Fig1–3 source data, with headers such as cell_bc, read_count, nUMI, atac fragments and gene scores. No chemistry oligo or reagent table. Scraper apparent poly(A) strings are data identifiers and not oligos."
+      },
+      "reason": "Figure source-data matrices only; apparent scraper hits are data identifiers, not primer rows."
+    },
+    {
+      "id": "historical_10x_revisions",
+      "role": "linked_material",
+      "locator": "Exact 10x Chromium 3-prime v3 PN-1000095/PN-1000079 and Multiome kit document revisions or bead lots used for OAK experiments",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Authors name 10x kits and workflow but do not identify exact vendor guide revision or bead lot; local official CG000183 Rev A and CG000338 Rev F establish generic architectures but not their historical OAK reagent versions.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "cg000183_reva",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000183 Rev A appendix lines 4870–4906 and library lines 4917–5015; scraper run on original guide",
+        "finding": "Vendor original prints 3-prime v3 gel-bead poly(dT) primer with 16-base cell barcode and 12-base UMI, modified TSO, GEX adapter duplex, and final library architecture. It is an applicable v3 chemistry guide, but authors do not cite its exact revision or prove every OAK kit lot used it."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG000183 Rev A user guide Appendix extracted lines 4870–4915 and final layout 4946–5015; source-bundle oligo scraper hits 4906, 4946, 5015",
+        "finding": "Independently verified the v3 gel-bead 16-base cell barcode, 12-base UMI and T30/poly(dT) architecture plus final 3-prime GEX shell. It supports generic OAK RNA chemistry, not the exact lot/revision used in OAK."
+      }
+    },
+    {
+      "id": "cg000338_revf",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000338 Rev F appendix lines 5802–5855; scraper run on original guide",
+        "finding": "Vendor original prints Multiome GEX 16-base cell barcode/12-base UMI poly(dT) bead and distinct ATAC bead/library arms. Thus generic kit oligo architecture is published; the paper does not prove exact vendor revision or OAK-specific custom i5/indexed variants from this appendix."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG000338 Rev F guide Appendix extracted lines 5790–5860, including RNA bead, ATAC bead and GEX/ATAC final library layouts; bundle scraper of official guide",
+        "finding": "Independently found 16-base Multiome droplet barcode, 12-base RNA UMI, ATAC barcode/spacer architecture and separate final shells. OAK custom aliquot indexing changes the sample-index role; Rev F remains a comparator pending OAK kit revision proof."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Follow-up independent read of defining JATS Methods lines 190–207, original preprint and media-1/2/3, MOESM1–4; local official 10x CG000183 Rev A appendix 4870–5015 and CG000338 Rev F appendix 5802–5855",
+      "finding": "Earlier pass left vendor source inventory open. Follow-up checked all preprint/published supplements, including visual extended-data figures and all 33 workbook sheets, and read two applicable 10x original guides. Generic 3-prime v3 and Multiome bead/library architectures are printed; exact OAK kit revision/lot and all custom index variants remain unestablished."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods lines 190–207 and PN-1000095/PN-1000079/Multiome references; original preprint and all listed supplements; original 10x CG000183 Rev A Appendix lines 4870–5015 and CG000338 Rev F Appendix lines 5790–5860",
+      "finding": "Followed paper and preprint to all listed supplementary files and two original 10x guides. Generic bead and library architecture is published, including 12-base RNA UMI; exact OAK kit revisions/lots and full custom primer family remain unverified, so linked-information coverage remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Defining paper, preprint, all eight linked original source files and two 10x guide comparators now have independent located reads. Generic 10x bead/library architecture and example OAK RNA primers are source-positive. Exact OAK kit revisions/lots and full custom primer family remain unverified; no absence conclusion is accepted.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent reads cover the defining paper, eight preprint/publisher source files and original 10x CG000183 Rev A and CG000338 Rev F guides. The graph now puts Multiome transposition before GEM formation, uses 12-base RNA UMIs, and separates RNA-only from paired Multiome branches. Exact historical OAK 10x kit revisions/lots and full custom primer family remain unresolved, so no missing claim is accepted."
+}

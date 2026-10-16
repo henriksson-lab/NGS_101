@@ -293,7 +293,7 @@ SPEC = SimpleNamespace(
     SEQ_PRIMERS=SEQ_PRIMERS, FINAL_CAPTION=d.sequencing,
     SEQUENCING_INTRO=d.sequencing, READ_LENGTHS=None,
     SEQUENCING_ENDING=d.sequencing,
-    SEQUENCING_UNAVAILABLE=("The defining protocol uses locus-specific or custom primer sequence that cannot be represented by one universal binding sequence."
+    SEQUENCING_UNAVAILABLE=("The source prints the fixed Illumina Read 1 arm in Table 1. This generic model leaves the chosen viewpoint PCR primer and index unspecified, so it does not draw a base-level primer landing for a particular library."
                             if not SEQ_PRIMERS else ""),
     workflow=workflow, oligos=lambda: OLIGOS,
 )

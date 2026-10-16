@@ -1,0 +1,276 @@
+{
+  "dir": "tri-c__10.1038+s41588-018-0253-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "oudelaar_article_jats",
+      "role": "defining",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud JATS lines 81, 169–179 and Methods reference 41 lines 565–573; scraper run on complete Tri-C source bundle",
+        "finding": "Original prints NlaIII 3C reaction, ~450 bp sonication, TruSeq/NEBNext adapter installation, seven-cycle indexing PCR, double viewpoint capture with 2.9 nM biotinylated probes, and MiSeq 250 bp or NextSeq 150 bp paired-end reads. It cites Davies 2015 NG Capture-C for prior library chemistry but does not print Tri-C adapter or sample-index bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS Tri-C Experimental Procedure lines 169–179 and ref 49, plus Methods ref 41 lines 565–573",
+        "finding": "NlaIII 3C, 450-bp sonication, NEBNext/TruSeq adapter step, seven-cycle indexing PCR, two capture rounds and paired-end sequencing verified. Ref 49 directly links the original 2018 Tri-C detailed protocol; this was missing from pass 1."
+      }
+    },
+    {
+      "id": "oudelaar_article_pdf",
+      "role": "defining",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud author-manuscript PDF Methods Tri-C experimental-procedure section, checked against JATS lines 169–179",
+        "finding": "PDF is a second format of the same original manuscript, not an independent source. Reaction and sequencing details agree with JATS; no distinct adapter/base-level table found."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author manuscript PDF Methods Tri-C experimental procedure; cross-checked JATS lines 169–179",
+        "finding": "Same manuscript in another format. No independent oligo table or adapter duplex sequence; detailed Protocol Exchange reference points beyond this PDF."
+      }
+    },
+    {
+      "id": "publisher_supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer ESM Supplementary Table 5 lines 707–749; Table 7 lines 875–888; oligo scraper hits at 881 and 885 verified",
+        "finding": "Table 5 gives four 120-bp capture-oligo genomic coordinates and viewpoint restriction-fragment lengths, but not printed probe base strings. Table 7 prints R2 forward and α-globin promoter reverse primers specifically for C-Trap Nanopore validation, not Tri-C capture or library PCR."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher ESM Supplementary Table 5 lines 707–749 and Table 7 lines 875–888",
+        "finding": "Four genomic capture coordinates with 120-bp probe length, no literal probe bases. Printed R2 and alpha-globin primers expressly serve C-Trap validation, not the Tri-C sequencing library."
+      }
+    },
+    {
+      "id": "publisher_reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer reporting summary lines 1–20, 41–47, 78–111, 125 onward",
+        "finding": "Reporting form summarizes study design and analysis; mentions trimmed adapter reads but supplies no oligo, kit version, end geometry or reaction-order addition. Excluded from base-level claims."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher reporting summary lines 1–20 and 78–111",
+        "finding": "Administrative study-design and analysis reporting; no chemistry reagent, oligo, or adapter structure. Exclusion confirmed."
+      },
+      "reason": "Administrative reporting checklist, not a chemistry protocol."
+    },
+    {
+      "id": "pmc_supp_item_list",
+      "role": "supplement",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-1.doc.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud DOC lines 2–16",
+        "finding": "Supplementary-items cover sheet inventories ten figures and eight tables; no molecular recipe."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC DOC lines 1–27",
+        "finding": "Inventory of supplementary figures and tables only; no molecular recipe. Exclusion confirmed."
+      },
+      "reason": "Cover inventory only."
+    },
+    {
+      "id": "pmc_supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-2.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud DOCX Supplementary Figures 1–10 captions, opening Figure 1 onward and Tri-C Figure 4/5 descriptions",
+        "finding": "Figure captions corroborate small viewpoint restriction fragments and multiple ligation junctions but do not print adapter, index or capture-probe bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC DOCX Supplementary Figure captions, especially Figure 4 at lines 24–26",
+        "finding": "Tri-C/C-Trap assay distinction and multiway junction interpretation are supported, but captions do not print adapter or capture-oligo bases."
+      }
+    },
+    {
+      "id": "pmc_supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-3.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud PDF Supplementary Tables 5 and 7, Table 7 scraper hits lines 729 and 733; compared with publisher ESM tables",
+        "finding": "PMC table file reproduces viewpoint capture-probe coordinates and C-Trap validation primers; does not supply an additional Tri-C capture oligo base string or adapter-end geometry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC supplement PDF Table 5 lines 550–600 and Table 7 lines 710–740",
+        "finding": "Reproduces the publisher table coordinates and C-Trap primers. No added Tri-C capture probe base strings or adapter-end geometry."
+      }
+    },
+    {
+      "id": "oudelaar_preprint",
+      "role": "other",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/307405_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 Methods lines 450–474, Supplementary Table 3 lines 1248–1275, Supplementary Table 5 lines 1418–1431; scraper hits 1427/1431 verified",
+        "finding": "Preprint describes same NlaIII/450-bp/double-capture design. It calls table numbers 3 and 5 where published ESM uses 5 and 7. The two printed PCR primers belong to C-Trap validation; preprint leaves capture-probe bases as genomic coordinates."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 Methods lines 450–474, Supplementary Table 3 and Table 5 lines 1418–1433",
+        "finding": "Same workflow at coarse level; C-Trap primers are correctly labeled. It describes a 13-fmol capture-probe pool, while the published paper gives 2.9 nM total and the author detailed protocol 2.9 nM per probe; amount and concentration are not directly comparable."
+      }
+    },
+    {
+      "id": "davies_2015_ng_capture_c",
+      "role": "predecessor",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Tri-C original cites Davies 2015 as Methods ref 41; predecessor original supplement lines 76–100 and 203–208; scraper run on predecessor bundle",
+        "finding": "Predecessor specifies end repair, dA tailing, TruSeq indexed adapters with NEBNext reagents, Herculase II PCR, and biotinylated capture oligos. It gives several kit catalogue alternatives and does not prove the exact Tri-C kit lot/index pair or ligation-ready adapter geometry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Cited Davies 2015 original supplement lines 76–100 and 203–208",
+        "finding": "End repair and dA-tailing before TruSeq-indexed adapter ligation, with NEBNext kit family alternatives; this predecessor cannot establish which index or adapter duplex was used for Tri-C."
+      }
+    },
+    {
+      "id": "downes_2022_capture_c",
+      "role": "detailed_protocol",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613269/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Later author Capture-C protocol PMC7613269, original article lines 168–175, 235–237, 471–498, 978–979",
+        "finding": "Later protocol explicitly describes Tri-C as gentler shearing to retain multiple junctions, one central ~120-bp ssDNA oligo on a short NlaIII fragment, and long paired reads. It is later corroboration, not proof of the exact 2018 adapter/index lot."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Later author Capture-C PMC7613269 lines 168–175, 235–237, 471–498 and 978–979",
+        "finding": "Corroborates long-fragment Tri-C and single central roughly 120-bp ssDNA capture probe, and directly cites a detailed Tri-C Protocol Exchange method. Later workflow is not evidence of the original selected adapter/index."
+      }
+    },
+    {
+      "id": "historical_nebnext_truseq_guides",
+      "role": "vendor",
+      "locator": "Original study names NEBNext DNA Library Prep reagents plus Illumina TruSeq adapters (2018); exact guide revisions not identified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "The cited original and predecessor identify reagent families but no unique historical guide revision or selected index pair; original vendor-end geometry remains unverified."
+    },
+    {
+      "id": "protex_2018_v1",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/305eb587-1929-4194-ae08-2f671e6ca7b6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Protocol Exchange v1 DOI 10.1038/protex.2018.113, materials p2 extracted lines 49–52; methods pp5–6 lines 134–205; capture p7 lines 222–257; source-bundle oligo scraper rerun",
+        "finding": "Materials list NEBNext E6040S/L plus E7500/E7335 indexed oligos, but sonication/library-prep heading calls E7370. The actual procedure specifies end repair, dA tailing, adapter ligation then USER treatment (3 µl, 37°C 15 min), Herculase II PCR. Capture working pool is 2.9 nM per oligo, unlike defining article 2.9 nM total. The stock recipe says 10 nmol in 3.46 µl yields 2.9 µM, while arithmetic yields ~2.9 mM. It names reagent families but no adapter/probe or selected index bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Protocol Exchange PDF v1 p2 lines 49–52; p5 lines 134–149; pp6–7 lines 184–202 and 224–238",
+        "finding": "Verified E6040/E7500/E7335 materials against the conflicting E7370 method heading, ligation followed by USER at 37°C, and 2.9 nM per-oligo capture recipe. The printed 10 nmol ÷ 3.46 µl gives about 2.9 mM, not the printed 2.9 µM. No adapter duplex, capture-probe bases, or selected index pair printed."
+      },
+      "discovered_from": "oudelaar_article_jats"
+    },
+    {
+      "id": "protex_2019_v2",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/4775ee2d-6cce-43f0-bc35-b2c0f1eb2bf9.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author Protocol Exchange revision v2 DOI 10.21203/rs.2.1650/v2, materials p3 lines 69–75; kit-choice methods p9 lines 222–235; ligation/USER p12 lines 319–325; capture p14 lines 383–389; source-bundle scraper rerun",
+        "finding": "Revision consistently identifies E6040S/L as the described method and presents E7645 Ultra II only as a lower-input later option. It retains ligation then USER treatment and 2.9 nM per oligo working pool, with explicit 12-oligo example total 34.8 nM. It repeats the stock-concentration arithmetic error, 10 nmol in 3.46 µl called 2.9 µM instead of ~2.9 mM. Exact 2018 kit lot, selected index pair, adapter duplex and capture-probe bases are not printed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author revision PDF v2 p3 lines 69–75, p9 lines 222–235, p12 lines 319–325, p14 lines 383–389",
+        "finding": "Verified E6040 as the described procedure, E7645 as an optional later low-input variant, ligation–USER order, and 2.9 nM per-oligo working concentration. The 10 nmol/3.46 µl stock arithmetic error persists. Specific 2018 selected indices and adapter duplex bases remain unverified."
+      },
+      "discovered_from": "protex_2018_v1"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Tri-C original JATS Methods lines 169–179 and cited Davies 2015 ref 41 lines 565–573; publisher/PMC supplementary files; bioRxiv v1; later Downes 2022 PMC7613269 sections on Tri-C design/procedure; cited Protocol Exchange v1 p2, pp5–7 and revised v2 p3, pp9–14",
+      "finding": "Followed defining source to publisher/PMC supplement variants, preprint and cited NG Capture-C predecessor. Later author Capture-C protocol corroborates Tri-C-specific capture geometry at a coarse level. Original C-Trap validation primers are distinct from Tri-C library/capture oligos. Historical reagent guide/version and exact selected index pair remain unresolved. Original-author detailed method specifies the reaction order and kit families but contains a v1 E6040/E7370 heading conflict, a total-vs-per-oligo capture concentration conflict with the original article, and a repeated stock-dilution arithmetic error."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods and ref 49; publisher and PMC supplement variants; bioRxiv v1; Davies 2015 original supplement; later Downes 2022 PMC article; Protocol Exchange v1 original p2, pp5–7; v2 original pp3, 9, 12, 14",
+      "finding": "Followed the defining article to its directly cited 2018 Tri-C Protocol Exchange method, then the 2019 revision; fetched both for separate checklist rows. Confirmed C-Trap primers are a separate assay. Historical NEBNext guide and selected sample indices remain unresolved. Independently inspected both full author Protocol Exchange versions. Verified kit-name and concentration discrepancies; the original selected index pair and adapter geometry remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The Tri-C capture oligonucleotide sequences and exact adapter-end/index bases are confirmed absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "Original Supplementary Table 5 gives four 120-bp probe coordinates but no bases. The directly cited 2018 Protocol Exchange method and 2019 revision identify E6040/E7500/E7335 kit families and reaction order, yet selected index pair, probe bases and adapter duplex geometry remain unverified; source concentrations also conflict."
+    },
+    {
+      "claim": "The two PCR primers in the supplementary tables are Tri-C library primers",
+      "disposition": "resolved",
+      "evidence": "Published Supplementary Table 7 explicitly labels them C-Trap Nanopore validation primers; the preprint calls that table 5."
+    }
+  ],
+  "conclusion": "The source-positive Tri-C reaction order and kit families are now identified, with original-author source discrepancies shown on the page. Exact selected index pair, capture-probe bases and adapter-end geometry remain blocked."
+}

@@ -95,8 +95,8 @@ E3V6NEXT, bulk version (no well barcode):
 
 (The PDF typesets the counts as `N 10 T 30 VN` and `N 16 T 30 VN`; the spaces are
 subscript formatting, not bases.) The i7 side is the stock Nextera XT N7xx primer; its
-sequence is not printed in the SCRB-seq supplement but is drawn in Fig. S1. Table S2 lists
-**two sets of 384 6-nt well barcodes** (set 2 is headed "D3"; set 1 is headed "D2 and D2", read here as D1/D2 🟡 — evidently a typo in the table header).
+full sequence is not printed in the SCRB-seq supplement, but its architecture is drawn in Fig. S1 (lines 276–289). The [current Illumina Nextera sequence table](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/Nextera_Illumina-Sequences.htm), lines 181–205 of the local text, prints the generic Index 1 PCR primer as `CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG`, matching the modeled P7–i7–s7 family. The original Illumina [Nextera XT Guide Rev C (October 2012)](https://hahana.soest.hawaii.edu/cmoreserver/summercourse/2015/documents/Metagenomics_06-22/nextera_xt_sample_preparation_guide_15031942_c.pdf), local text lines 385–392 and 2173–2274, lists N701–N712 with their eight-base i7 values. Neither source identifies which N7xx well SCRB used, and the current sequence table cannot by itself prove identity with a particular 2014 kit lot. Table S2 lists
+**two sets of 384 6-nt well barcodes** (set 2 is headed "D3"; set 1 is printed "D2 and D2", although Methods lines 43–46 distinguish D1/D2 from D3). The model does not select a set; "D1/D2" is a likely reading of the first heading, not a corrected published value 🟡.
 
 ### mcSCRB-seq — 🟢 verbatim from protocols.io V.1 (`protocolsio_mcscrb-seq-nrkdd4w.pdf`)
 
@@ -131,8 +131,8 @@ as "template-switching oligo (IDT)"; the protocols.io table is the only place th
   starts with `ACAC`, so the two overlap by 4 nt. It is base-for-base identical to
   `illumina.NEBNEXT_UNIVERSAL_PRIMER` / `TRUSEQ_P5_FULL`; what is special is the four
   phosphorothioates on the last 5 bases.
-- **N7XX = `illumina.P7` + i7 (8 nt) + `nextera.S7`** (47 nt) — the standard Nextera i7
-  primer.
+- **N7XX = `illumina.P7` + i7 (8 nt) + `nextera.S7`** (47 nt) — the generic Nextera i7
+  primer family printed in the current Illumina table; the 2012 guide lists available N701–N712 eight-base indexes, while the well selected by SCRB remains unspecified.
 - Fig. S1's full-length cDNA ends, on the top strand, with
   `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` = revcomp(TRUSEQ_READ1) =
   `illumina.INDEX2_PRIMER_RC` — i.e. the oligo-dT handle, copied.

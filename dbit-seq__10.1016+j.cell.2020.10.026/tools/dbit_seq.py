@@ -24,8 +24,11 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1016/j.cell.2020.10.026"
 SUMMARY = ("Two perpendicular 50-channel microfluidic flows install an 8-nt A barcode "
            "during reverse transcription and ligate an 8-nt B barcode plus UMI at each "
            "channel intersection, creating up to 2,500 addressable tissue pixels.")
-CAVEAT = ("The exact A and B whitelist entries vary by channel. The page uses published "
-          "A-1 and B-1 to show the source-disclosed splinted ligation geometry.")
+CAVEAT = ("The exact A and B whitelist entries vary by channel. This page uses A-1 and "
+          "B-1 printed in the authors' 2021 STAR Protocols Table S2 to show the splinted "
+          "ligation geometry. The defining 2020 Cell article points to its own Table S2; "
+          "that original workbook has not yet been recovered here, so exact 2020/2021 "
+          "oligo-table identity remains under source review.")
 
 BARCODE_A = feature("spatial_barcode_a", "spatial_barcode", "whitelist",
                     group="spatial_barcode", part="flow A",
@@ -200,9 +203,9 @@ def protocol_graph():
                 ((tissue,InputRole.TEMPLATE),(a_oligo_input,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(a_cdna,))
     b_oligo_input=graph.input("b_oligo","biotinylated Barcode B oligo",
-                              MaterialKind.ADAPTER)
+                              MaterialKind.ADAPTER,state=tuple(b_oligo()))
     splint=graph.input("ligation_splint","universal B-A ligation splint",
-                       MaterialKind.ADAPTER,state=tuple(ligation_ready_scene().rows()))
+                       MaterialKind.ADAPTER,state=(Segment("universal ligation linker",LIGATION_SPLINT),))
     ligase=graph.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
     sealed=graph.product("sealed","sealed B-A spatial barcode junction",
                          MaterialKind.MOLECULAR,state=tuple(ligation_scene().rows()))
@@ -221,6 +224,7 @@ def protocol_graph():
                 (recovered,unrecovered))
     graph.discard(unrecovered,"material without the biotinylated Barcode B oligo is washed away")
     tso=graph.input("tso","template-switch oligo: "+TEMPLATE_SWITCH_PRIMER,MaterialKind.OLIGO,
+                    state=(Segment("template-switch oligo",PRIMER_2+"GAATGGG"),),
                     source=SOURCE+" (STAR Protocols Supplementary Table S2)")
     switched=graph.product("switched","template-switched spatially barcoded cDNA",
                            MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
@@ -228,8 +232,10 @@ def protocol_graph():
                 StepKind.TEMPLATE_SWITCHING,
                 ((recovered,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(switched,))
-    p1=graph.input("primer1","Primer 1 at the Barcode B handle",MaterialKind.OLIGO)
-    p2=graph.input("primer2","Primer 2 at the template-switch handle",MaterialKind.OLIGO)
+    p1=graph.input("primer1","Primer 1 at the Barcode B handle",MaterialKind.OLIGO,
+                   state=(Segment("Primer 1",B_PCR_HANDLE),))
+    p2=graph.input("primer2","Primer 2 at the template-switch handle",MaterialKind.OLIGO,
+                   state=(Segment("Primer 2",PRIMER_2),))
     preamp_pol=graph.input("preamp_polymerase","cDNA preamplification polymerase",
                            MaterialKind.CATALYST)
     amplified=graph.product("amplified","amplified spatially barcoded cDNA",

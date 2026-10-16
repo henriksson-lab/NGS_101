@@ -10,7 +10,7 @@ import seqprimers as sp
 from rna_end_readout import (StopReadout, BaseConversionReadout, SelectiveCleavageReadout,
                              _finish_pcr, _apply_linear_step)
 
-PSEUDO_ADAPTER = Segment("preadenylated 3-prime adapter", "TGGAATTCTCGGGTGCCAAGG", "r2")
+PSEUDO_ADAPTER = Segment("3-prime adapter; 5-prime chemistry unresolved", "TGGAATTCTCGGGTGCCAAGG", "r2")
 
 PSEUDO_RT = Segment("Pseudo-seq RT primer", "GATCGTCGGACTGTAGAACTCTGAACCTGTCGGTGGTCGCCGTATCATTCACTCAGCCTTGGCACCCGAGAATTCCA", "r2")
 
@@ -24,7 +24,7 @@ TITLE = 'Pseudo-seq — transcriptome-wide pseudouridine mapping'
 NOTES = '01_pseudo_seq.html'
 SOURCE = 'Carlile et al., Nature (2014); <a href="https://doi.org/10.1038/nature13802">doi:10.1038/nature13802</a>.'
 SUMMARY = 'Persistent Ψ–CMC adducts stop reverse transcriptase; enriched cDNA termini relative to a mock-treated control locate pseudouridines.'
-CAVEAT = ''
+CAVEAT = ("<b>Published adapter discrepancy.</b> Carlile et al., Methods, ‘Pseudo-seq Library Preparation’ (PMC4224642, paragraph on 3′ ligation) call the adapter pre-adenylated, but print its IDT sequence as <code>/5Phos/TGGAATTCTCGGGTGCCAAGG/3ddC/</code>. A 5′ phosphate and a 5′ adenylate are different states. This page follows the printed base sequence and modification string while depicting ligation as described; whether the ordered or reacted adapter was adenylated remains unresolved.")
 FINAL_LIBRARY = Construct((role('P5'), role('stop-defined RNA cDNA'), role('sample index', tag='cbc', length_bp=6, molecular_feature=feature('sample_index', 'sample_index', 'unknown')), role('P7')), name='Pseudo-seq library')
 FINAL_CAPTION = 'PCR product from circularized, stop-defined cDNA.'
 SEQ_PRIMERS = ()
@@ -42,9 +42,9 @@ def workflow() -> Workflow:
         ("Derivatize RNA with CMC and reverse U/G adducts",
          molecule("CMC-treated RNA", (role("RNA"), role("persistent Ψ–CMC adduct"))),
          f"{readout.control} distinguishes Ψ-dependent stops from background."),
-        ("Repair ends, size-select, and ligate the preadenylated 3′ adapter",
+        ("Repair ends, size-select, and ligate the reported 3′ adapter",
          molecule("adapter-ligated RNA", (role("CMC-treated RNA fragment"), PSEUDO_ADAPTER),
-                  junctions=(("CMC-treated RNA fragment", "preadenylated 3-prime adapter", "RNA ligation"),)),
+                  junctions=(("CMC-treated RNA fragment", "3-prime adapter; 5-prime chemistry unresolved", "RNA ligation"),)),
          "CIP/PNK treatment precedes selection of 80–140-nt RNA fragments."),
         ("Reverse-transcribe until AMV RT stops one nucleotide 3′ of Ψ–CMC",
          molecule("truncated cDNA", (PSEUDO_RT, role("cDNA ending at Ψ-dependent stop"))),
@@ -59,7 +59,7 @@ PCR_GEOMETRY = None
 ACQUIRED_ROLES = ()
 READ_USES = None
 
-RECIPE = (('cmc', 'Derivatize pseudouridine with persistent CMC', StepKind.CHEMICAL_CONVERSION), ('repair', 'Repair RNA fragment ends', StepKind.END_REPAIR), ('ligate', 'Ligate the preadenylated 3-prime adapter', StepKind.LIGATION), ('rt', 'Reverse-transcribe to the pseudouridine-dependent stop', StepKind.REVERSE_TRANSCRIPTION), ('circle', 'Circularize the stop-defined cDNA', StepKind.CIRCULARIZATION))
+RECIPE = (('cmc', 'Derivatize pseudouridine with persistent CMC', StepKind.CHEMICAL_CONVERSION), ('repair', 'Repair RNA fragment ends', StepKind.END_REPAIR), ('ligate', 'Ligate the reported 3-prime adapter; 5-prime chemistry unresolved', StepKind.LIGATION), ('rt', 'Reverse-transcribe to the pseudouridine-dependent stop', StepKind.REVERSE_TRANSCRIPTION), ('circle', 'Circularize the stop-defined cDNA', StepKind.CIRCULARIZATION))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)

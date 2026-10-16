@@ -1,0 +1,65 @@
+{
+  "dir": "cello-seq__10.1038+s41587-021-01093-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "CELLO-seq Nature Biotechnology DOI 10.1038/s41587-021-01093-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MANIFEST.tsv full text manual; no article on disk."
+    },
+    {
+      "id": "supp_table5",
+      "role": "supplement",
+      "locator": "EMS134943 Supplementary Table 5 workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary_Table_5.xlsx.txt lines 1-13 and oligo scraper hits",
+        "finding": "Original Table S5 explicitly prints Illumina i7/i5, Tn5 mosaic-end, oligo-dT, TSO RNA and splint oligos. It does not identify ONT motor-adapter bases in these rows; defining article remains inaccessible."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "EMS134943 original Supplementary Table 5 workbook lines 1-13",
+        "finding": "Original table prints Illumina i7/i5 primers, modified Tn5 ME, oligo-dT, TSO with rG modifications, and splint-ligation species. It does not identify ONT motor adapter bases in these rows."
+      }
+    },
+    {
+      "id": "ont_guide",
+      "role": "linked_material",
+      "locator": "ONT motor/adapter kit original documentation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact kit version and link cannot be checked from missing paper; no ONT original guide in bundle.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MANIFEST.tsv and Supplementary Table 5 extracted workbook",
+      "finding": "Only one source table available; original article and kit reference are missing."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Supplementary Table 5 full oligo list and original article manual row",
+      "finding": "Original author oligos present; defining full text and ONT kit documentation remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "ONT motor-adapter bases are proprietary or unprinted.",
+      "disposition": "blocked",
+      "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
+    }
+  ],
+  "conclusion": "Author oligos are published, but defining article and ONT adapter specification unavailable."
+}

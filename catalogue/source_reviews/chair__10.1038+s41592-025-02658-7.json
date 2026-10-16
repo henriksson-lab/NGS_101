@@ -1,0 +1,96 @@
+{
+  "dir": "chair__10.1038+s41592-025-02658-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC12955729, local s41592-025-02658-7_PMC12955729.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS line 179; barcode workflow line 79",
+        "finding": "Methods print bridge-linker strands exactly, including /5Phos/ and internal /iBIOdT/; 10x Multiome kit 1000283 is named."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC12955729 original JATS lines 175-181 and supplement references",
+        "finding": "ChAIR Methods delegate detail to supplementary information and use 10x Multiome chemistry."
+      }
+    },
+    {
+      "id": "publisher_tables",
+      "role": "supplement",
+      "locator": "Springer MOESM10–13 original tables",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM10, 12 and 13 sheet headings and first rows",
+        "finding": "These available publisher tables contain cell mapping, class counts and cell data, not the bridge or Multiome oligos."
+      },
+      "reason": "MOESM10, 12 and 13 are cell-type/spatial results tables, not primer or chemistry tables; the chemistry-relevant supplemental package remains separately listed as unavailable NIHMS rows.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM10, MOESM12, MOESM13 original workbooks sheet headings and first rows",
+        "finding": "These locally available workbooks are numerical/annotation tables, not an oligo table; missing NIHMS supplements remain relevant."
+      }
+    },
+    {
+      "id": "multiome_guide",
+      "role": "linked_material",
+      "locator": "10x CG000338 Multiome User Guide Rev G, in 10x multiome source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Guide text reagent lists lines 333-357 and 455",
+        "finding": "Original vendor guide is available separately and names component oligos; does not print their bases in these lists."
+      },
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "10x CG000338 Rev G Appendix pp. 80-81 lines 5887-5940",
+        "finding": "Guide actually prints both Multiome gel-bead structures and ATAC/GEX final-library shells, though internal bridge reagent is unresolved."
+      }
+    },
+    {
+      "id": "nihms_supps",
+      "role": "supplement",
+      "locator": "PMC NIHMS2124900 Supplement Tables 1–5 and Supplement/Figures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Manual rows in ChAIR MANIFEST.tsv; possible overlap with Springer tables not fully reconciled."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "JATS 79,179; guide CG000338 reagent lists; MANIFEST.tsv",
+      "finding": "Followed named 10x kit guide in separate local bundle; unresolved NIHMS supplementary rows and kit component sequences remain."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "ChAIR JATS supplementary link and original Multiome guide Appendix",
+      "finding": "Followed named 10x chemistry to CG000338. Rev G sequence appendix resolves broad absence of commercial final adapter/index shell, but ChAIR supplements remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Commercial Multiome adapter/index oligos are absent from all relevant originals.",
+      "disposition": "blocked",
+      "evidence": "The blanket absence claim is false for Multiome bead/final-library constant shells, printed in CG000338 Appendix pp. 80-81. ChAIR-specific missing details remain blocked by inaccessible NIHMS supplements."
+    }
+  ],
+  "conclusion": "Multiome guide supplies published bead and final-library structures; original ChAIR NIHMS supplements remain blocked."
+}

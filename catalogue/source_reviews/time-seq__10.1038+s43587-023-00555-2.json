@@ -1,0 +1,265 @@
+{
+  "dir": "time-seq__10.1038+s43587-023-00555-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/PMC11332592_PMC11332592.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods and custom-primer discussion lines 189–205",
+        "finding": "TIME-seq uses Tn5 tagmentation, hybrid capture, custom indexed primers and sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC11332592 JATS lines 115–117 and Methods around lines 189–205",
+        "finding": "Original describes short bisulfite-resistant barcoded Tn5 adapters, pooled methylated end repair, bait capture, bisulfite conversion and indexed PCR. It points to supplementary tables for exact adapters and baits."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/2021.10.25.465725_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint Methods and supplementary-material pointers",
+        "finding": "Earlier author version; published supplement governs final oligo list."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v3 PDF Methods and supplementary table references",
+        "finding": "Preprint supports the tagmentation/capture/bisulfite order but is an earlier version; published supplement governs exact oligo members."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods, 171 extracted lines",
+        "finding": "Detailed tagmentation, PCR, hybridization/capture and sequencing workflow."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1_ESM.pdf.txt Supplementary Methods headings and reaction details through line 171",
+        "finding": "Published methods detail bait generation and pooled library chemistry beyond the main article; no missing claim accepted from first-pass scan."
+      }
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 5 sheets, lines 1–108 and HybBaits from 105",
+        "finding": "Publishes methylated Tn5 adaptor, TS301–TS364 barcode family, blocking oligos, indexed PCR and custom sequencing primers; generic missing-oligo claim false."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM7 Table 5 sheets: TIME-Seq TN5 Adaptors lines 1–75, Hyb Blocking Oligos 76–80, Indexed PCR Primers 81–99, Sequencing Primers 100–104, HybBaits 105 onward",
+        "finding": "Table 5 prints /5Phos/ Tn5 reverse, methylated /iMe-dC/ adaptor A, indexed adapter B with 5-base barcodes, blocking/PCR/sequencing primers, and extensive target-set-specific HybBait sequences. These are source-positive chemistry; no blanket missing oligo claim is supported."
+      }
+    },
+    {
+      "id": "supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Nature Portfolio reporting summary gives statistics, code, sample and study-design disclosures; no oligo or reaction recipe.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PDF visually inspected pp. 1–3; text extraction blank",
+        "finding": "Nature Portfolio reporting summary gives statistics, code, sample and study-design disclosures; no oligo or reaction recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF visually inspected all 3 pages",
+        "finding": "This is Nature Portfolio Reporting Summary: statistics/data, study design and human participants; no chemistry/oligo table."
+      }
+    },
+    {
+      "id": "supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 1 cost workbook lines 1–31",
+        "finding": "Reagent list includes barcoded TIME-Seq transposase, hybridization and cleanup; no base strings. Relevant to material inventory."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM3 XLSX Table 3 lines 1–31",
+        "finding": "Cost/reagent list names barcoded TIME-seq transposase, methylated end-repair dNTPs, capture reagents and polymerases; chemistry context, but not adapter base strings."
+      }
+    },
+    {
+      "id": "supp_4",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 2 capture-probe overview lines 1–7",
+        "finding": "Lists capture probe target sets, target counts and SP6/T7 IVT promoters; target-specific bait bases are in Table 5."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM4 XLSX Table 4 lines 1–7",
+        "finding": "Capture-probe designs with target, number/size of bait regions and SP6/T7 IVT promoter assignments, but no individual bait sequence."
+      }
+    },
+    {
+      "id": "supp_5",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 3 sequencing-cost workbook lines 1–18",
+        "finding": "Lists MiSeq/NextSeq/NovaSeq kit-cycle and cost estimates across experiments, with no primer/oligo bases or library reaction recipe. Initial read considered the cycle counts relevant to read-length context; independent review narrowed this row to not_relevant for chemistry/oligo absence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM5 XLSX Table 5-like cost sheet lines 1–18",
+        "finding": "Sequencing-kit run fraction/cost calculation, not TIME-seq chemistry; should be excluded from a missing-oligo claim."
+      },
+      "reason": "Original sheet is only sequencing-run cost estimates, without chemistry or oligo information."
+    },
+    {
+      "id": "supp_6",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Cost/computational table, no additional oligo or reaction chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 4 cost-comparison workbook lines 1–26",
+        "finding": "Cost/computational table, no additional oligo or reaction chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM6 XLSX cost_comparison2 header and first rows",
+        "finding": "Cross-method cost comparison only; no molecular reagent sequence."
+      }
+    },
+    {
+      "id": "supp_8",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Clock coefficients/target CpG positions, no oligo ordering or wet-lab step.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 6 clock-data workbook lines 1–2078",
+        "finding": "Clock coefficients/target CpG positions, no oligo ordering or wet-lab step."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM8 XLSX clock coefficient sheet header and first rows",
+        "finding": "Age-clock CpG positions and fitted coefficients, downstream data only."
+      }
+    },
+    {
+      "id": "supp_9",
+      "role": "supplement",
+      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure metrics and sequencing counts, no library oligo or reaction recipe.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure-source-data workbook lines 1–4196",
+        "finding": "Figure metrics and sequencing counts, no library oligo or reaction recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM9 XLSX figure source-data headings/first rows",
+        "finding": "Figure result data, not sequencing-library reagent chemistry."
+      }
+    },
+    {
+      "id": "pmc_manuscript_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11332592/bin/NIHMS2011027-supplement-Supplementary_Note__Detailed_Supplementary_Methods.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "Original NIH manuscript JATS lines 313–317 links Supplementary Note: Detailed Supplementary Methods; the PMC route is gated in MANIFEST.tsv and direct browser open failed. Publisher MOESM1 (methods) or MOESM3 (cost Table 1) appears to correspond, but byte/version equivalence has not been independently verified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_manuscript_table1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11332592/bin/NIHMS2011027-supplement-Supplementary_Table_1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "Original NIH manuscript JATS lines 313–317 links Supplementary Table 1; the PMC route is gated in MANIFEST.tsv and direct browser open failed. Publisher MOESM1 (methods) or MOESM3 (cost Table 1) appears to correspond, but byte/version equivalence has not been independently verified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods lines 189–205, original publisher Supplementary Methods and Table 5, seven other publisher supplement files",
+      "finding": "Publisher Table 5 resolves the oligo families. Remaining publisher files need individual relevance checks."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining article links and every locally recovered supplement/author workbook listed in source checklist",
+      "finding": "Independently inspected recovered supplements including chemistry-relevant oligo and protocol sources; any still-unavailable relevant source remains a blocker to confirmed absence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "TIME-seq Tn5 adapter or sequencing primer sequences are absent",
+      "disposition": "resolved",
+      "evidence": "The publisher original Supplementary Table 5 (MOESM7) prints methylated/phosphorylated Tn5 adaptors, TS301–TS364 barcode family, indexed PCR and custom sequencing primers; both reviewers located these in the same source. A blanket absence claim is false."
+    }
+  ],
+  "conclusion": "The claimed missing TIME-seq Tn5/primer sequences are resolved by publisher Table 5. Review remains blocked on two PMC manuscript adjunct links (methods and Table 1) whose equivalence to the publisher versions is not yet independently established; no absence is accepted."
+}

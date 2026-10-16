@@ -1,0 +1,313 @@
+{
+  "dir": "paris__10.1016+j.cell.2016.04.028",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "lu_2016",
+      "role": "defining",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/j.cell.2016.04.028_PMC5029792.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS lines 74–78, 144, 206",
+        "finding": "Original article gives crosslink, S1/RNase III digestion, 2D gel, proximity ligation, 254 nm reversal and barcoded-adapter library order; it directs library details to the unavailable Extended Experimental Procedures."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original 2016 JATS lines 74–78 and 144",
+        "finding": "Original defines AMT crosslink, RNase digestion, 2D gel duplex purification, ligation, photoreversal and barcoded-adapter library order, then explicitly defers library detail to Extended Experimental Procedures."
+      }
+    },
+    {
+      "id": "lu_2016_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original publisher mmc1 Extended Experimental Procedures lines22–110, especially PARIS Step3 lines80–110; full bundle oligo scraper",
+        "finding": "2016 source explicitly separates HeLa random-hexamer RT primer (DDDNN + four-base index + N6 + TACC… body + two iSp18 + 3primeN6) from HEK293/mES adapter-ligation route inherited from Flynn2016step26. Added source-printed original primers and version boundary to page; main graph now includes adapter ligation and inherited cDNA circularization. Spitale2015 is directly cited for HeLa barcode ordering. Original NextSeq and >40-nt inserts are explicit."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Cell mmc1.pdf.txt Supplemental Experimental Procedures lines80–118, independently read after complete PARIS source-bundle oligo scraper",
+        "finding": "Verified HeLa barcoded random-hexamer RT-primer architecture and modification/spacer notation. HEK293/mES instead ligates adapters before RT, explicitly inheriting Flynn2016 step26. The original primer contains a four-base barcode window and differs from later2018 oligos; later variant cannot silently stand for original2016. Spitale2015 barcode order and Flynn2016 are actual linked chemistry sources."
+      },
+      "acquisition": {
+        "date": "2026-10-16",
+        "reviewer": "audit_rna_contacts_closeout",
+        "route": "Publisher ars.els-cdn.com with published PII confirmed by Crossref",
+        "files": [
+          "1-s2.0-S0092867416304226-mmc1.pdf",
+          "1-s2.0-S0092867416304226-mmc2.xlsx",
+          "1-s2.0-S0092867416304226-mmc3.xlsx",
+          "1-s2.0-S0092867416304226-mmc4.xlsx",
+          "1-s2.0-S0092867416304226-mmc5.xlsx",
+          "1-s2.0-S0092867416304226-mmc6.xlsx",
+          "1-s2.0-S0092867416304226-mmc7.xlsx"
+        ]
+      }
+    },
+    {
+      "id": "lu_2018_jats",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/PMC5821472_PMC5821472.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS lines 127–139 and 251; oligo scraper hit original lines 129–139",
+        "finding": "The later author protocol prints the modified /5rApp/ adapter, /5phos/ RT primer with /iSp18/, P3/P6/Solexa and custom sequencing primers, and says library preparation was adapted from icSHAPE."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2018 author JATS lines 43, 127–139, 251",
+        "finding": "Later author protocol says library preparation was optimized after 2016 and adapted from icSHAPE; §2.2 prints /5rApp/ adapter, /5phos/ RT primer with two /iSp18/, 24 six-base indexes, P3/P6 and custom P6 sequencing primer."
+      }
+    },
+    {
+      "id": "lu_2018_pdf",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/201804_Protocol_Methods_Mol_Biol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author PDF §2.2 lines 153–189 and protocol sections lines 643–715; scraper source lines 155–188",
+        "finding": "The PDF independently renders the 2018 modified adapter, indexed RT primer, tall and Solexa primers, and RT/circularization/PCR reaction order."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2018 author PDF newline lines 152–185 and 639–706",
+        "finding": "Original PDF independently prints modified oligos and detailed adapter ligation, RT, cDNA circularization and qPCR library steps. These are later-version evidence, not proof of exact 2016 reagent identities."
+      }
+    },
+    {
+      "id": "icshape_predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt; doi:10.1038/nprot.2016.011",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Flynn2016 JATS reagent lines140–164; step26 lines534–558; cDNA circularization/PCR steps58–61 lines728–780; full original icSHAPE bundle scraper",
+        "finding": "Original prints adenylated RNA linker (biotin-blocked and ddC-blocked variants), DDDNNAACCNNNN… RT-primer-1 with two spacers and adapter-annealing arm, then circularization with CircLigaseII before PCR. PARIS original directly inherits step26 onward for HEK293/mES. 2018 RT random/index tracts differ, so later oligos are not silently assigned to2016."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original Flynn2016 JATS reagent140–164; ligationStep26 text534–558; CircLigaseII/qPCR steps58–61 text728–780; independent full original bundle oligo scrape",
+        "finding": "Original supplies both 3primeblocked RNA linker alternatives, phosphorylated DDDNNAACCNNNN…RT-primer with two iSp18 spacers, CircLigaseII closure beforeqPCR. PARIS2016 explicitly inherits step26 onward for HEK293/mES; this does not equate later2018 random/index tracts with original2016."
+      },
+      "discovered_from": "lu_2018_jats"
+    },
+    {
+      "id": "lu_2016_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains sequencing counts and mapping/duplex-group summary; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 10 total extracted lines",
+        "finding": "Header and example rows identify sequencing counts and mapping/duplex-group summary. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: sequencing counts and mapping/duplex-group summary. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "lu_2016_table_2",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains duplex-group coordinates, RNA consensus sequences and structural/conservation scores; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 16567 total extracted lines",
+        "finding": "Header and example rows identify duplex-group coordinates, RNA consensus sequences and structural/conservation scores. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: duplex-group coordinates, RNA consensus sequences and structural/conservation scores. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "lu_2016_table_3",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains ultraconserved element gene/coordinate/species assignments; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 38 total extracted lines",
+        "finding": "Header and example rows identify ultraconserved element gene/coordinate/species assignments. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: ultraconserved element gene/coordinate/species assignments. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "lu_2016_table_4",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains paired RNA interaction coordinates and group/sample comparisons; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 3588 total extracted lines",
+        "finding": "Header and example rows identify paired RNA interaction coordinates and group/sample comparisons. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: paired RNA interaction coordinates and group/sample comparisons. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "lu_2016_table_5",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains alternative duplex group coordinates, structures, overlap fractions and samples; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 3093 total extracted lines",
+        "finding": "Header and example rows identify alternative duplex group coordinates, structures, overlap fractions and samples. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: alternative duplex group coordinates, structures, overlap fractions and samples. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "lu_2016_table_6",
+      "role": "supplement",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc7.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This workbook contains XIST duplex group coordinates, consensus RNA and structural/conservation scores; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook Sheet1 exported text lines1–4; sole-sheet inventory checked; 141 total extracted lines",
+        "finding": "Header and example rows identify XIST duplex group coordinates, consensus RNA and structural/conservation scores. Full bundle scraper reviewed; RNA sequence hits describe biological duplex outputs and do not establish adapter or primer ordering. Independent scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Complete single-sheet inventory and original exported first4rows; full PARIS bundle oligo scraper independently reviewed",
+        "finding": "Independently checked table schema/sample rows: XIST duplex group coordinates, consensus RNA and structural/conservation scores. No library reagent-table schema or synthesis sequences: exclusion applies to library-construction scope, not a claim that the workbook contains no biological sequences."
+      }
+    },
+    {
+      "id": "spitale2015_barcodes",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_PMC4376618.xml.txt; original article PDF and supplementary package",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "lu_2016_supplement",
+      "pass_1": {
+        "reviewer": "root_original_source_read",
+        "date": "2026-10-16",
+        "locations": "OriginalMethods JATS164–170, supplementary DOCX/table descriptions; original PDF560–564; full bundle scraper",
+        "finding": "Original prints the AACC-bearing modified RTprimer and 1x100HiSeq2500 route. It links author icSHAPE software; complete historical barcode-order list is not established by this scoped reading and remains under linked-source inspection, not accepted absent."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original nature14263_PMC4376618.xml.txt Methods lines152–170 and data-access line224; independent PDF text561–564 and616–635; supplementary DOCX Table1/2 descriptions and original MOESM27/28 workbook headers/first rows; full PARIS and Spitale source-bundle oligo scrapers",
+        "finding": "Independently confirms /5phos/DDDNNAACCNNNN-AGATCGGAAGAGCGTCGTGAT, two iSp18 spacers separated by GGATCC, terminal TACTGAACCGC and the 1×100 HiSeq2500 route. AACC is a positively printed four-base example; a complete historical ordering list is not established by this scoped reading. Supplementary Tables1/2 are RBP motif and miRNA-seed VTD results, not synthesis-order tables. Four publisher PPT files are Figure1–4 slide versions by their extracted titles; their image content was not separately inspected in this pass, so no image-based absence claim is made. Followed the article link to historical author software separately; Flynn2016 CGTCGTGGA and Spitale2015 CGTCGTGAT are retained as distinct source declarations."
+      }
+    },
+    {
+      "id": "spitale2015_author_software_2015",
+      "role": "linked_material",
+      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/gh_README.md; gh_configure.html; gh_splitFastq.pl; https://github.com/qczhang/icSHAPE/tree/175bd97170287d8a34901c85e4e85eaf38754271 (2015-10-01 revision)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "spitale2015_barcodes",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Historical README lines1–115 (installation, trimming and optional library split103–110); configure lines1–94 (LEADINGTRIM13 at30); splitFastq.pl option help lines19–37 and init mapping logic lines123–153; original manifest URLs verified",
+        "finding": "README directs optional barcode splitting through caller-supplied barcode:library mappings. splitFastq requires -l mapping and -b position:length, with example5:4; it parses and passes those caller values to splitByBarcode. Configuration sets leading trim13, compatible with the printed Spitale DDDNN + AACC + N4 scaffold; this does not prove use of that trim for the distinct PARIS HeLa N6 scaffold. These files establish processing conventions, not a complete synthesis-order/member list. No confirmed-absence conclusion is accepted; the called splitByBarcode implementation and additional historical repository files were not inspected in this pass."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Historical2015commit175bd971… original gh_README.md103–110, gh_configure.html.txt25–31, gh_splitFastq.pl123–153; repository API inventory",
+        "finding": "Original code independently requires caller-provided BARCODE:LIBRARY mappings and position:length, with5:4 example; configuration setsLEADINGTRIM13. This confirms software input conventions, not a synthesis-order index list or equivalence with distinct PARISHeLaN6 scaffold. Untested historical source files/image decks remain outside this scoped check; no absence accepted."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original 2016 JATS line 206; 2018 protocol JATS line 251; source manifest and scraper hits",
+      "finding": "Followed to the 2018 author protocol and its modified oligos; original 2016 Extended Experimental Procedures and linked icSHAPE preparation remain to retrieve."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "2016 JATS line 144; 2018 JATS lines 43, 127–139, 251; original 2018 PDF lines 152–185, 639–706",
+      "finding": "Followed to detailed 2018 author protocol and checked its exact oligos. 2016 original supplement is unavailable and 2018 explicitly says optimization occurred; icSHAPE inherited library chemistry not independently reviewed here. Missing claim remains blocked."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original mmc1 PARISStep3; direct Flynn2016 and Spitale2015 citations; sole-sheet schema inventories for all six original workbooks",
+        "finding": "Followed Flynn2016 original library chemistry and added the explicit Spitale2015 barcode-ordering source. Excluded workbook data by original schema, with independent exclusion check pending. Software and raw-data links do not determine the printed library oligos or resolve their version identity."
+      },
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "PARIS original mmc1 Step3 lines92–121; Spitale2015 original Methods152–170 and author-code link224; historical author README/configure/splitFastq; original supplementary table descriptions and headers",
+        "finding": "Freshly followed the explicit PARIS four-base barcode-order citation to Spitale2015, then its author icSHAPE software link at a recorded2015 revision. Original PARIS separately points to Flynn2016 step26 for HEK293/mES and to icSHAPE collapse/split software; their synthesis facts must remain source-specific. Spitale AACC example and user-configured split parameters are positive evidence, while a complete historical ordering list is not established here. Remaining image-only PPT content and uninspected historical repository files are not excluded by this scoped check. Existing independent Flynn and PARIS supplemental-table checks are retained; this additional reading does not certify the entire linked inventory complete."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "2018 detailed-protocol oligos are exactly the oligos of the original 2016 PARIS implementation",
+      "disposition": "resolved",
+      "evidence": "Recovered original mmc1 positively describes two2016 library routes with different RT primers. The page now labels2016 HeLa, inherited2016 HEK293/mES and later2018 oligos separately. Universal equivalence to2018 is not supported; this is a resolved version-boundary correction, not a missing-sequence acceptance."
+    }
+  ],
+  "conclusion": "Original PARIS2016 and inherited Flynn2016 library variants remain distinct from the later2018 workflow. Spitale2015 original has two located source passes; its AACC example is established without asserting an exhaustive barcode order. Historical author README/configure/splitFastq have one located reading, with independent check and further linked-file scope pending. No source absence is accepted."
+}

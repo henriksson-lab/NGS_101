@@ -1,0 +1,172 @@
+{
+  "dir": "drop-scchip-seq__10.1038+s41588-019-0424-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/Droplet-Screening-Nature-Genetics-Paper.pdf.txt (published Nature Genetics article hosted by author company; scoped extra_sources route)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted published Nature Genetics PDF text Methods lines 1869–1892 (96³ ligation beads), 1906–1929 (droplet fusion/nucleosome ChIP), 1933–1951 (PacI, T7 IVT, RT/PCR, 50+100 cycles with four R2 dark), 1964–1981 (barcode processing); bundle scraper rerun before reading",
+        "finding": "Independently confirmed SEQ1/SEQ2 bead ligation and three 96-way split-pool rounds, photo release and ChIP, then PacI digestion, T7 IVT, SEQ4 RT and SEQ5 PCR. Article assigns 50 genomic R1 and 100 barcode R2 cycles, with initial four R2 dark. It reverses workbook table references: article calls SEQ1/2/4/5 Table 4 while workbook Table 5 prints them; article cites Table 5 for barcode structure while workbook Table 4 prints barcode plate oligos. Exact PacI processed junction is not settled."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted published PDF Methods bead synthesis lines 1869–1890, droplet ligation/ChIP lines 1893–1930, library construction lines 1933–1951, barcode decoding lines 1964–1981; full-bundle scraper run before reading",
+        "finding": "Methods establish three 96-way ligation rounds, SEQ1/SEQ2 bead flanks, PacI digestion, T7 IVT, SEQ4 RT, SEQ5 PCR, 50-nt genomic R1 and 100-nt barcode-side R2 with four initial dark cycles. They cite SEQ1/2/4/5 as Supplementary Table 4 although source workbook places them in Table 5; barcode structure citation to Table 5 is reversed. In-house PacI junction base fate is not fully specified by inspected Methods."
+      },
+      "reason": "Author-hosted defining article independently read; published table-reference discrepancy is documented on protocol page."
+    },
+    {
+      "id": "si_figures",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 43-66",
+        "finding": "Supplementary figure describes three split-pool ligation barcode rounds, four-base overhangs, photocleavable bead site and 5′ C3/3′ inverted-ddT blockers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF text Supplementary Figure 3 caption lines 43–66 and Figure 4 caption lines 68–80; scraper on complete bundle",
+        "finding": "Three split-pool duplex barcode rounds with four-base cohesive ends, photocleavable bead flank, SEQ3 blockers, and P7–Read2–76-bp barcode–12-bp linker–genomic insert–Read1–P5 final architecture are described. Figure 4 assigns 50 genomic R1 and 100 barcode-side R2 cycles; exact PacI junction residues are not fully inferable from caption."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "si_links",
+      "role": "supplement",
+      "locator": "Original Springer MOESM2 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM2.pdf.txt lines 259-263",
+        "finding": "Supplementary listing explicitly links GSE117309_BarcodeLibrary_scChIPseq.fasta.gz for experimental barcode sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM2 reporting summary PDF text supplementary-files listing lines 259–263; GEO GSE117309 series linked file listing",
+        "finding": "The source explicitly names GSE117309_BarcodeLibrary_scChIPseq.fasta.gz as barcode sequences used in experiments; this exact file was fetched and inspected, and must be tracked separately from publisher workbook synthesis oligos."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "si_data",
+      "role": "supplement",
+      "locator": "Original Springer MOESM3 XLS workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Correction after independent reread: original Springer MOESM3 XLS extracted sheet inventory lines 1,125,1708,2992,3677,4172,4750; Table 4 top/bottom A/B/C oligo rows 4173–4749; Table 5 SEQ1–5 and PCR rows 4750–4763; scraper rerun on complete bundle",
+        "finding": "My earlier heading-only description as a numerical/results workbook was incomplete. The earlier sheets are numerical results, but Table 4 supplies three 96-member 5′-phosphorylated top/bottom barcode duplex families and Table 5 supplies photocleavable SEQ1, SEQ2, blocked SEQ3, SEQ4 RT and indexed SEQ5 PCR oligos. These source-printed bases/modifications support the existing model; they do not by themselves resolve exact PacI junction residue fate."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 workbook text: sheet inventory lines 1,125,1708,2992,3677,4172,4750; Table 4 phospho Top/Bottom oligo rows 4174–4749; Table 5 SEQ1–5 lines 4750–4762; full-bundle scraper hits verified",
+        "finding": "First three sheets plus Tables 2/3 contain results, but Table 4 prints the three 96-member phosphorylated top/bottom barcode duplex families, and Table 5 prints modified bead-flank/stop oligos, random RT primer, full forward PCR and indexed reverse PCR oligo. This source establishes most named bases and modifications; the earlier first-pass “numerical/results workbook” scope is incomplete and needs its reviewer correction."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "geo_barcodes",
+      "role": "linked_material",
+      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/GSE117309_BarcodeLibrary_scChIPseq.fasta.gz (NCBI GEO GSE117309 supplementary file; scoped extra_sources route)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original NCBI GEO GSE117309_BarcodeLibrary_scChIPseq.fasta.gz: streamed all records, inspected >BC1, >BC97, >BC193 and tail records; compared variable segments of >BC1 with MOESM3 Table 4 A01 bottom-strand cores at lines 4270, 4462, 4654; bundle scraper run",
+        "finding": "FASTA has 884,736 records (96³), each 80 nt. Segment cardinalities by 20-nt block are 96/96/96/1; the fixed final block is ACAGATATCCACAGATATCC. The first three >BC1 blocks match the read-oriented reverse round-3/2/1 A01 barcode cores. File is a read-processing whitelist with fixed flank, not an 80-base variable synthesis oligo or a source of modification chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original GEO FASTA gzip headers >BC1, >BC97, >BC193, >BC289; streamed every record to tally 884,736 80-nt sequences, per-20-nt segment cardinalities 96/96/96/1; compared >BC1 variable segments with reverse complements of original MOESM3 Table 4 A01 paired cores",
+        "finding": "The GEO FASTA has 96³ entries. Each 80-mer contains three 20-nt variable segments (96 values each) in reverse round-3/2/1 core orientation, followed by invariant 20-mer ACAGATATCCACAGATATCC. Thus this is a read-processing whitelist plus fixed flank, not 80 variable barcode bases or an ordering file; it corroborates Table 4 identities but does not establish PacI junction chemistry."
+      },
+      "discovered_from": "si_links",
+      "reason": "Recovered original GEO FASTA; independent first-reader check pending."
+    },
+    {
+      "id": "video_pairing",
+      "role": "supplement",
+      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM4_ESM.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Droplet reinjection and pairing video shows fluidic droplet operation rather than oligo synthesis or library junction bases.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 MP4, ffprobe duration about five seconds and independently viewed original frames at 0, 2 and 4 seconds after source-bundle scraper; supplementary video title",
+        "finding": "Frames show microfluidic channel and moving droplets for droplet reinjection/pairing; no text, oligo table, sequence or molecular junction drawing. Exclusion from base-level chemistry claims is supported for this video."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4_ESM.mp4, ffprobe video duration and 2-second video frame; publisher supplement title",
+        "finding": "Droplet reinjection and pairing microscopy only in inspected frame, no base-level molecular sequence or chemistry. Full-video exclusion awaits independent reader."
+      }
+    },
+    {
+      "id": "video_fusion",
+      "role": "supplement",
+      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM5_ESM.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Droplet fusion video shows fluidic droplet operation rather than oligo synthesis or library junction bases.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM5 MP4, ffprobe duration about five seconds and independently viewed original frames at 0, 2 and 4 seconds after source-bundle scraper; supplementary video title",
+        "finding": "Frames show microfluidic channel and moving droplets for droplet fusion; no text, oligo table, sequence or molecular junction drawing. Exclusion from base-level chemistry claims is supported for this video."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM5_ESM.mp4, ffprobe video duration and 2-second video frame; publisher supplement title",
+        "finding": "Droplet fusion microscopy only in inspected frame, no base-level molecular sequence or chemistry. Full-video exclusion awaits independent reader."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original article Methods 1869–1981; Springer MOESM1 Figure 3/4 captions 43–80, MOESM2 reporting-summary link 259–263, MOESM3 Tables 4/5 lines 4172–4763; NCBI GEO original complete barcode FASTA record/segment tally; MOESM4/5 video frames at 0, 2, 4 seconds; bundle scraper rerun",
+      "finding": "Corrected my earlier partial inventory: Table 4/5 contain complete plate and common oligo families, and linked GEO FASTA contains the 96³ processed read strings. Defining original confirms reaction order and a published reversed table citation. Videos were checked and excluded as sequence evidence. Exact base-by-base PacI junction fate remains unverified despite source-positive oligos; no absence is accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Author-hosted original article Methods lines 1869–1981; Springer MOESM1 Figure 3/4 captions, MOESM2 supplementary-file list, MOESM3 Tables 4/5; GEO GSE117309 linked FASTA >BC1 and complete record tally; MOESM4/5 sampled frames",
+      "finding": "Followed supplementary table and GEO barcode link. Source-positive Table 4/5 and GEO whitelist resolve the supposed missing barcode family, but exact PacI junction bases are still unverified. Defining article/GEO/video rows newly recovered and need an independent first-reader pass; no absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact PacI processing junction in the completed bead-barcode library remains unverified",
+      "disposition": "blocked",
+      "evidence": "Supplementary Figure 4 fixes 76-bp barcode and 12-bp linker dimensions; Table 4/5 print input oligos and GEO supplies barcode combinations. Their precise residue fate at the PacI processing junction still needs reconstruction from full defining Methods and independent source checks."
+    }
+  ],
+  "conclusion": "The original workbook prints full synthesis oligo families and common primers; GEO supplies 884,736 barcode combinations. The author-hosted defining paper is recovered and discloses 4 initial dark R2 cycles and misnumbered supplementary-table citations, now stated on page. Exact PacI junction remains blocked pending independent checks."
+}

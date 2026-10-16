@@ -9,8 +9,9 @@ Kasinathan et al., *Nature Methods* (2014),
 - 🟢 Orsi et al., *Mapping regulatory factors by immunoprecipitation from native
   chromatin*, Current Protocols (2015),
   [doi:10.1002/0471142727.mb2131s110](https://doi.org/10.1002/0471142727.mb2131s110),
-  PMCID: PMC4410783. This is the authors' stepwise ORGANIC procedure and publishes the
-  exact short-insert library oligos.
+  PMCID: PMC4410783. This later same-author stepwise ORGANIC procedure publishes a
+  concrete short-insert library oligo implementation. It was **not** cited by the 2014 article.
+- 🔴 The defining article cites Henikoff et al. (2011), [doi:10.1073/pnas.1110731108](https://doi.org/10.1073/pnas.1110731108), reference 19, for its modified library preparation. The predecessor original (PMCID: PMC3215028) and linked 4.3-MB Supporting Information remain unavailable for full independent checking in the current source bundle. Its search-indexed abstract and Results describe short-fragment paired-end library preparation but are not a substitute for reading the Methods and supplement.
 
 ## Protocol boundary
 
@@ -37,7 +38,7 @@ the factor, and the factor–DNA complex is selected afterward by immunoprecipit
 
 ## Exact library oligos
 
-The authors' detailed procedure publishes:
+The later 2015 same-author ORGANIC procedure publishes this implementation:
 
 - Universal Adapter:
   `5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`
@@ -48,10 +49,14 @@ The authors' detailed procedure publishes:
 
 🟢 `*` is a terminal phosphorothioate linkage, `/5Phos/` is the indexed adapter's 5′
 phosphate, and `NNNNNN` is the six-base i7 sample index. The construct is single-indexed.
+🟡 The 2014 article's Supplementary Fig. 1c names TruSeq adapter ligation, but does not
+print the oligo bases or identify which six-base index was used for each sample. The
+2011 library predecessor cited by that article still needs its own source check before
+these later exact arms can be attributed to the 2014 experiments.
 
 ## Why paired ends matter
 
-🟢 The defining work used 25-cycle paired-end HiSeq 2500 sequencing. Each pair reconstructs
+🟢 The defining work used 25-cycle paired-end HiSeq 2000 sequencing. Each pair reconstructs
 the complete MNase-bounded fragment. Analyses that collapse mates into independent read
 starts lose the distinction between compact transcription-factor footprints, co-occupied
 sites and nucleosome-sized fragments. The method paper therefore treats fragment length

@@ -1,0 +1,98 @@
+{
+  "dir": "split-seq__10.1126+science.aam8999",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "science_article",
+      "role": "defining",
+      "locator": "Rosenberg et al Science 2018, science.aam8999_PMC7643870.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 68-72 four-round workflow; line 128 supplementary-material pointer",
+        "finding": "Describes four rounds of split-pool barcoding, but detailed published oligo tables are separately linked."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Rosenberg et al. Science 2018 JATS lines 68–72, 124–128, 284 and 452; source manifest manual supplement entries",
+        "finding": "The paper explicitly describes RT-primed first barcode, two in-cell ligation rounds, and a fourth barcode during PCR. It sends materials and methods to its published supplement and references Table S12; published chemistry/oligo detail is not in main text."
+      }
+    },
+    {
+      "id": "science_supp",
+      "role": "supplement",
+      "locator": "Published Science NIHMS1581077 Supp_Combined.pdf and Tables S4-S7, Table_1, Table_S12",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "All relevant published supplements listed as manual in MANIFEST because PMC download gate prevents local originals.",
+      "discovered_from": "science_article",
+      "pass_2": null
+    },
+    {
+      "id": "biorxiv_methods",
+      "role": "linked_material",
+      "locator": "Author bioRxiv preprint 10.1101/105163 v1, 105163_105163-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Detailed methods lines 13-130",
+        "finding": "Gives reverse transcription, ligation, split-pool barcoding and library construction for earlier author version."
+      },
+      "discovered_from": "science_article",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv supplement 105163_105163-1.pdf.txt lines 11–15, 40–79, 80–105, 123–150 and later tagmentation section; source-bundle scraper run",
+        "finding": "Earlier author version details 5′-phosphorylated RT primer BC_0055, three rounds of split-pool splinted ligation/blocking, biotin capture, TSO BC_0127 and subsequent PCR. It explicitly points to its own Table S1 for oligo bases. These details cannot certify the later published Table S12 version."
+      }
+    },
+    {
+      "id": "biorxiv_oligos",
+      "role": "linked_material",
+      "locator": "Author bioRxiv supplementary oligo table 105163_105163-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo sheet lines 1-25 and round-2 oligos from line 123",
+        "finding": "Prints /5Phos/ RT primer, modified TSO and phospho ligation oligos for the preprint version."
+      },
+      "discovered_from": "biorxiv_methods",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv oligo workbook 105163_105163-2.xlsx.txt General Oligonucleotides lines 1–22; round-1 lines 23–120, round-2 lines 121–218, round-3 lines 219–316; scraper family scan",
+        "finding": "Preprint workbook supplies modified BC_0055 /5Phos/ RT primer, BC_0127 rGrG+G TSO, universal linker/blocking oligos, Nextera PCR primers and 96 barcoded members in each ligation round. Round-3 members carry /5Biosg/ and N10 UMI. This establishes the preprint sequence family only; the published Science supplement remains unavailable."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Science JATS supplementary pointer line 128 and bioRxiv author preprint/supplement manifest rows",
+      "finding": "Followed author preprint and oligo workbook. Published Science supplement remains unavailable, so version identity cannot be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Science JATS lines 128–144 and 284; MANIFEST manual rows for NIHMS1581077 Supp_Combined.pdf, Table S12 and additional tables; author bioRxiv supplement methods lines 11–15 and oligo workbook lines 1–316",
+      "finding": "Independently followed the paper’s published supplementary pointers and the earlier bioRxiv supplement/Table S1. The published Science supplemental originals still failed validation/download (manual or invalid HTML), so matching the preprint oligo strings to the published implementation remains blocked. Upstream schematic files were excluded as evidence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Whether published SPLiT-seq uses precisely the preprint oligo versions and conditions",
+      "disposition": "blocked",
+      "evidence": "Published Science supplement remains gated; preprint bases cannot alone certify published version."
+    }
+  ],
+  "conclusion": "Two independent readings of the available main article and earlier author preprint/workbook establish their respective workflows and preprint oligo families. Published Science supplemental methods and Table S12 remain inaccessible, so version identity and any missing-information claim remain blocked."
+}

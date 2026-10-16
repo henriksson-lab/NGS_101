@@ -1,0 +1,127 @@
+{
+  "dir": "flash-seq__10.1038+s41587-022-01312-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hahaut et al Nature Biotechnology 2022 doi:10.1038/s41587-022-01312-3; PMC9546769 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 51-91",
+        "finding": "Original explains SS2-derived RT-PCR, Nextera tagmentation and optional FS-UMI with CTAAC spacer; variant-specific oligos must stay distinct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC9546769 JATS/paper text lines 52-88",
+        "finding": "Original article describes SS2-derived workflow, optional FS-LA branch and Nextera tagmentation; detailed oligos are in author protocols."
+      }
+    },
+    {
+      "id": "fs_protocol",
+      "role": "linked_material",
+      "locator": "protocols.io FLASH-seq standard kxygxzkrwv8j; local PDF.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Reagents lines 90-100, TSO lines 140-150, index options lines 213-330",
+        "finding": "Author standard protocol prints FS TSO and multiple complete Nextera v2 i5/i7 primer members; exact selected well pair is variable."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author protocols.io FLASH-seq v4 PDF text lines 90-100, 139-153 and 213-228",
+        "finding": "Reagent list names Nextera XT/index v2 kits; original protocol prints modified FS oligos and independent N7xx/S5xx primer family table."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "fs_umi_protocol",
+      "role": "linked_material",
+      "locator": "protocols.io FLASH-seq UMI bp2l619rdvqe; local PDF.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo heading and TSO/index keyword sections",
+        "finding": "Separate FS-UMI branch protocol available; this pass did not fully reconcile its product with standard FS page."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author FS-UMI protocols.io PDF title and oligo heading",
+        "finding": "Distinct UMI protocol exists; inspected source identity and oligo heading, but full UMI branch reconciliation remains pending."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "other_author_protocol",
+      "role": "linked_material",
+      "locator": "protocols.io FLASH-seq low amplification yxmvmnod5g3p; local PDF.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol title/reagent list and oligo keyword scan",
+        "finding": "Additional published low-amplification branch; not necessarily identical to standard FLASH-seq construct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author low-amplification protocols.io PDF title and reagent list",
+        "finding": "This is a separately titled FS-LA branch, not proof of exact standard FS library choices."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supplements",
+      "role": "supplement",
+      "locator": "Springer MOESM1/MOESM2 PDF and MOESM3 XLSX, plus bioRxiv media 1/2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Source inventory, headings, oligo keyword scan",
+        "finding": "Original supplement bundle present; exact plate index assignments not established by available selected rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 extracted lines 58–115 overview and 3272–3417 FS-UMI TSO comparison; MOESM2 all 4 scanned pages independently OCR-inspected; MOESM3 workbook sheets lines 1–174, especially 135–164 FS-UMI cost rows; bioRxiv media-1 full Low-Amplification guidelines and media-2 Extended Information opening plus oligo-dT optimization lines 119–134",
+        "finding": "Independently inspected all five files. MOESM1 figure labels an FS-UMI-TSO with N7/rGrGrG and compares TSO/oligo-dT choices, but the graphic is not an ordered full oligo list. MOESM2 is a four-page Nature Reporting Summary without primer assignments. MOESM3 contains timing/cost tables, including a priced TSO-UMI and enrichment primers but no full sequence or per-well index map. BioRxiv media-1 gives Low-Amplification handling and media-2 optimization data; neither establishes exact FS-UMI construct or index assignments."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Followed original article to three author protocols and supplements; public primer options exist, but experiment-specific plate map and branch choice remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original FLASH article Methods and author standard/UMI/LA protocol methods; local MANIFEST.tsv",
+      "finding": "Checked author protocol links and their accessible reaction/oligo tables. The supplement and actual run-specific index plate selection remain to be reconciled, so source chain is still incomplete."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Per-well FLASH-seq index assignments and separate FS-UMI construct remain unresolved",
+      "disposition": "blocked",
+      "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
+    }
+  ],
+  "conclusion": "First-pass source review; independent second pass and listed linked originals pending."
+}

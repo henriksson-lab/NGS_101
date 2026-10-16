@@ -1,0 +1,85 @@
+{
+  "dir": "wellda-seq__10.1101+2024.09.06.611519",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 829–836 and library-preparation section",
+        "finding": "Two Tn5 sets are used; the ATAC transposome uses explicit DEpi_ME_t1/t2 and 5′-phosphorylated ME-reverse oligos, while the DNA transposome is Illumina product 20034198."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint Methods PDF text lines 820–842 and procedure 829 onward; oligo scraper run on local original bundle",
+        "finding": "Independently located the phosphorylated ME reverse oligo and Illumina 20034198 as the distinct second DNA Tn5; the ATAC transposome is assembled from author oligos."
+      }
+    },
+    {
+      "id": "preprint_supp",
+      "role": "supplement",
+      "locator": "_data/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Extended Data Fig. 1 and Supplementary Tables 5–6, especially lines 3404–3407 and table sections following",
+        "finding": "Supplement prints ATAC/DNA library stages and indexed barcode primer tables; exact well choices remain variable."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement PDF text table of contents lines 17–18 and Tables 5/6 headings lines 3384–3410 and 3868 onward; oligo scraper run on local original bundle",
+        "finding": "ATAC and DNA barcode primer tables are source-positive; their well-dependent choices cannot be reduced to one universal index."
+      }
+    },
+    {
+      "id": "published_version",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11418942/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-linked open article cited by note; methods and any publication-version supplements need independent comparison.",
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "illumina_tn5",
+      "role": "vendor",
+      "locator": "https://www.illumina.com/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Paper names product 20034198 for DNA Tn5; its versioned oligo geometry has not been verified.",
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint Methods lines 829–836; supplement Extended Data Fig. 1, Supplementary Tables 5–6",
+      "finding": "Published preprint gives explicit ATAC transposon and well-indexed primer families; published-version and commercial DNA Tn5 sources remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked preprint Methods and barcode tables independently; published PMC route remains gated and Illumina 20034198 reagent composition not located in a versioned vendor document."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "wellDA-seq adapters and barcode primers are unpublished",
+      "disposition": "blocked",
+      "evidence": "The source-positive preprint/supplement contradicts broad absence; exact well assignment and vendor DNA Tn5 require linked-source checks."
+    }
+  ],
+  "conclusion": "The source-positive preprint/supplement contradicts broad absence; exact well assignment and vendor DNA Tn5 require linked-source checks."
+}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -29,6 +30,8 @@ def preamble() -> str:
 <h1>ASTAR-seq &mdash; chromatin accessibility and transcriptome from one cell</h1>
 {info('Defining source: <a href="https://doi.org/10.1101/829960">Xing et al., 2019</a>.')}
 {info('Tagment genomic DNA first, then reverse-transcribe RNA in the same Fluidigm C1 chamber. Biotin separates the two products before their final library reactions.')}
+{info(f'Source-version discrepancy: the original <a href="https://www.biorxiv.org/content/10.1101/829960v1">bioRxiv v1 supplement</a>, Supplementary Experimental Procedures lines 1603–1615, prints {A.HARVEST_UL_PREPRINT:g} µL C1 Harvest Reagent per cell and mixes {A.HARVEST_UL_PREPRINT:g} µL sample with {A.HARVEST_UL_PREPRINT:g} µL beads. The indexed text of the later <a href="https://genome.cshlp.org/content/suppl/2020/07/22/gr.257840.119.DC1/Supplemental_Material.pdf">Genome Research Supplemental Methods</a>, Part 1 on-IFC procedure, prints approximately {A.HARVEST_UL_PUBLISHED:g} µL harvest per cell. This page follows the later published value provisionally; the full publisher PDF could not be inspected, so any downstream bead-volume change is unresolved.')}
+{info('The preprint Supplementary Experimental Procedures lines 1618–1655 confirm heat elution and later PCR cycles. Which cDNA strand leaves the beads after heating remains inferred.')}
 '''
 
 
@@ -115,8 +118,8 @@ def cdna_pcr_scene() -> Scene:
 def separated_scene() -> Scene:
     con = A.c1_cdna()
     sc = Scene()
-    sc.strand("released strand", complement_segments(list(con)), label="RNA-side cDNA")
-    sc.note("released strand", "heat releases the non-biotinylated strand; biotinylated strands remain bead-bound")
+    sc.strand("released strand", [replace(s, inferred=True) for s in complement_segments(list(con))], label="RNA-side cDNA")
+    sc.note("released strand", "INFERRED: this strand-specific heat-release model requires the full off-IFC Methods PDF")
     return sc
 
 
@@ -142,7 +145,7 @@ def steps() -> str:
 {panel(cdna_pcr_scene().rows(), caption="The single C1 handle primer amplifies between the two terminal handle copies. ATAC fragments lack this handle and are not amplified.")}
 
 <h3>(4) Streptavidin separates the modalities</h3>
-{panel(separated_scene().rows(), cls="small", caption="Supernatant: tagmented ATAC-DNA. Beads: cDNA; heating releases its non-biotinylated strand for further amplification.")}
+{panel(separated_scene().rows(), cls="small", caption="INFERRED — the preprint supplement, lines 1618–1621, confirms cDNA elution in water at 90 °C for 10 min. It does not identify the released strand, so the drawn non-biotinylated strand remains a provisional molecular interpretation. The full later publisher off-IFC Methods could not be checked.")}
 
 <h3>(5a) ATAC-DNA: gap-fill and index PCR</h3>
 {final_panel(atac, "One s5/s7 ATAC product after PCR with a per-cell v2_Ad1.N / v2_Ad2.N index pair.")}

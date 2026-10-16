@@ -1,0 +1,119 @@
+{
+  "dir": "ramda-seq__10.1038+s41467-018-02866-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hayashi et al Nat Commun 2018 doi:10.1038/s41467-018-02866-0 PMC5809388",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC5809388 lines 176-184, 192-202",
+        "finding": "RT-RamDA uses first- and second-strand not-so-random primer sets and Nextera XT for sequencing library. Article points to Supplementary Data 3 for NSR sequences."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC5809388 JATS Methods lines 176-202, especially Not-so-random primers and Sequencing library preparation",
+        "finding": "Independently confirmed 408 first-strand NSR hexamers, complementary second-strand NSRs, RT-RamDA amplification, modified T4 gp32 handling and Nextera XT library preparation. Article delegates exact NSR members to Supplementary Data 3."
+      }
+    },
+    {
+      "id": "nsr_table",
+      "role": "supplement",
+      "locator": "Original Supplementary Data 3 MOESM6 workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM6_ESM.xlsx.txt lines 1-15 and 400-420",
+        "finding": "Workbook lists mouse NSR hexamer family; first sheet begins 1st_MmNSR_1 AAAGCA. This is chemistry relevant."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM6 Supplementary Data 3 workbook sheet Mouse NSR, first-strand rows 1-16 and 399-408 and second-strand rows 1-13; checked scraper hits against rows",
+        "finding": "The workbook prints 408 first-strand mouse NSR hexamers and matching second-strand hexamers; these members are source-known."
+      }
+    },
+    {
+      "id": "main_supp",
+      "role": "supplement",
+      "locator": "Original MOESM1 supplementary information",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1_ESM.pdf.txt first pages and method headings",
+        "finding": "Additional RamDA workflow details and figures are in this supplement."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 Supplementary Note 1, extracted first 35 lines",
+        "finding": "Supplement explains the molecular role of RNase H-minus RT, DNase I cDNA nicking and T4 gp32 during strand displacement; it is a detailed chemistry source, not only performance data."
+      }
+    },
+    {
+      "id": "other_supps",
+      "role": "supplement",
+      "locator": "MOESM2-9 other original supplement/data files",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "qPCR oligo table and some data checked; all files not fully classified, and MOESM3 extraction blank.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nsr_predecessor",
+      "role": "predecessor",
+      "locator": "Prior NSR design reports cited as refs21/22",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original lines 176-178 explicitly inherit NSR design from refs21/22; predecessors not yet read.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_xt",
+      "role": "linked_material",
+      "locator": "Illumina Nextera XT DNA Library Prep",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact selected index member and kit oligo strands not verified.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 176-202; MOESM6 NSR table; linked refs21/22 and Nextera XT",
+      "finding": "NSR families are published in data workbook; inherited NSR designs and vendor index chemistry remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked the available original Methods, supplement inventory and cited predecessor/vendor routes recorded in the checklist",
+      "finding": "Available originals were checked, but relevant historical supplements, vendor manuals or molecular predecessors still require reading; linked-information closure remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Chosen Nextera XT index pair and exact vendor strands",
+      "disposition": "blocked",
+      "evidence": "Paper names kit without identifying one experiment-specific pair; linked guide not reviewed."
+    }
+  ],
+  "conclusion": "First located pass only; linked predecessors and kit remain blocked."
+}

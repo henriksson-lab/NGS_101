@@ -13,9 +13,10 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPl
 TITLE = "Human NET-seq — nascent RNA 3′ ends"
 NOTES = "01_human-net-seq.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1016/j.cell.2015.03.010">Mayer et al., <i>Cell</i> (2015)</a>; '
+          '<a href="https://www.cecerelab.com/_files/ugd/594009_59c7fec32bcc42cf8c824804675fe319.pdf">original Extended Experimental Procedures</a>; '
           '<a href="https://doi.org/10.1038/nprot.2016.086">detailed protocol</a>.')
-SUMMARY = ("Ligate a pre-adenylated, six-base-barcoded DNA linker to nascent RNA 3′ ends, reverse-transcribe, circularize the cDNA, deplete abundant mature-RNA products, and amplify for single-read sequencing.")
-CAVEAT = ("The protocol names a commercial Illumina Index forward primer without printing its sequence; that outer PCR arm is shown as a role token. The custom read-primer site and molecule-facing geometry are exact.")
+SUMMARY = ("Ligate a pre-adenylated, six-base-barcoded DNA linker to nascent RNA 3′ ends, fragment and select the linked RNA, reverse-transcribe, circularize the cDNA, deplete abundant mature-RNA products, and amplify for single-read sequencing.")
+CAVEAT = ("The 2015 Extended Experimental Procedures print the N6 linker, modified RT primer and custom read primer. The detailed protocol names a commercial Illumina Index forward primer without its sequence; that outer PCR arm is a role token. The 2015 source describes depletion of 19 abundant RNAs, whereas the 2016 protocol lists twenty oligos. The original Table S1 remains unavailable, so the model does not assign the later full probe list to the 2015 experiment.")
 
 LINKER = "N" * 6 + "CTGTAGGCACCATCAAT"
 RT_PRIMER_5 = "ATCTCGTATGCCGTCTTCTGCTTG"
@@ -75,7 +76,7 @@ def sections():
     sc.labels("top")
     return [
         ("Capture the nascent 3′ end", sc.rows(), "A 5′ pre-adenylated DNA linker with N6 and a blocked 3′ ddC is ligated to the RNA 3′-OH. ** marks the ligation."),
-        ("Reverse-transcribe and circularize", [Row(chunks=[("linker-primed cDNA → gel select 85–160 nt → CircLigase closes 5′-phosphate to 3′-OH", None, False)]), *CIRCLE.rows("CircLigase closure")], "Circularization juxtaposes the primer-derived arms so one PCR can recover the RNA-derived insert."),
+        ("Fragment, reverse-transcribe and circularize", [Row(chunks=[("partially hydrolyze linked RNA → gel select 35–100 nt RNA → RT → gel select 85–160 nt cDNA → CircLigase closes 5′-phosphate to 3′-OH", None, False)]), *CIRCLE.rows("CircLigase closure")], "Fragmentation follows linker ligation, preserving the native nascent-RNA 3′ end next to the N6 barcode."),
         ("Deplete and amplify", [Row(chunks=[("biotinylated depletion oligos remove abundant mature-RNA cDNAs → 6–12 cycle indexed PCR", None, False)])], "The minimal productive PCR cycle count is used; the informative product is about 150 nt."),
     ]
 
@@ -96,13 +97,25 @@ def protocol_graph():
                 StepKind.LIGATION,
                 ((rna,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(linked,),geometry=geometry)
+    alkali=graph.input("alkaline_hydrolysis","partial alkaline hydrolysis",MaterialKind.CONDITION)
+    fragmented=graph.product("fragmented_rna","fragmented linker-bearing RNA",MaterialKind.MOLECULAR)
+    graph.react("fragment_rna","Partially hydrolyze linker-ligated RNA",StepKind.FRAGMENTATION,
+                ((linked,InputRole.TEMPLATE),(alkali,InputRole.CONDITION)),(fragmented,))
+    rna_size_rule=graph.input("rna_size_rule","35-to-100-nt RNA gel-selection rule",
+                              MaterialKind.SELECTION)
+    selected_rna=graph.product("selected_rna","35-to-100-nt linker-bearing RNA",MaterialKind.MOLECULAR)
+    rejected_rna=graph.product("rejected_rna_sizes","off-size RNA fragments",MaterialKind.WASTE)
+    graph.react("select_rna","Gel-select linker-bearing RNA fragments",StepKind.SELECTION,
+                ((fragmented,InputRole.TEMPLATE),(rna_size_rule,InputRole.SELECTION)),
+                (selected_rna,rejected_rna))
+    graph.discard(rejected_rna,"RNA outside the 35-to-100-nt interval is excised away")
     rt_primer=graph.input("rt_primer","published NET-seq reverse-transcription primer",
                           MaterialKind.OLIGO)
     rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
     cdna=graph.product("cdna","linker-primed first-strand cDNA",MaterialKind.MOLECULAR,
                        state=CIRCLE.linear)
     graph.react("reverse_transcribe","Copy linker-ligated nascent RNA",StepKind.REVERSE_TRANSCRIPTION,
-                ((linked,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                ((selected_rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
     size_rule=graph.input("size_rule","85-to-160-nt gel-selection rule",
                           MaterialKind.SELECTION)
@@ -149,7 +162,8 @@ def protocol_graph():
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
                                           primers=tuple(SEQ_PRIMERS)))
     graph.declare_reviewed_scope((
-        "nascent_rna","linker","linker_ligase","ligate_linker","rt_primer",
+        "nascent_rna","linker","linker_ligase","ligate_linker",
+        "alkaline_hydrolysis","fragment_rna","rna_size_rule","select_rna","rt_primer",
         "reverse_transcriptase","reverse_transcribe","size_rule","size_select",
         "circligase","circularize","depletion_oligos","deplete","index_forward",
         "reverse_primer","pcr_polymerase","library_pcr","library"),SOURCE)

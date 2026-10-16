@@ -18,6 +18,9 @@ from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
 
 TITLE = "CROP-seq — pooled CRISPR screening with single-cell RNA readout"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.4177">Datlinger et al., <i>Nature Methods</i> (2017)</a>.'
+DROPSEQ_BEAD_SOURCE = ('<a href="https://mccarrolllab.org/wp-content/uploads/2015/05/'
+                       'Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf">Macosko and Goldman, '
+                       'Drop-seq lab protocol v3.1 (2015), primer table</a>')
 
 GUIDE_FEATURE = feature("guide", "guide_barcode", "unknown")
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "random")
@@ -139,7 +142,7 @@ def protocol_graph():
                 StepKind.TRANSCRIPTION,
                 ((provirus, InputRole.TEMPLATE), (pol2, InputRole.CATALYST)), (reporter,))
     bead_oligo = graph.input("bead_oligo", "Drop-seq bead oligo-dT with cell barcode and UMI",
-                             MaterialKind.OLIGO)
+                             MaterialKind.OLIGO, source=DROPSEQ_BEAD_SOURCE)
     rt = graph.input("reverse_transcriptase", "template-switching reverse transcriptase",
                      MaterialKind.CATALYST)
     cdna = graph.product("barcoded_cdna", "cell-barcoded reporter cDNA",

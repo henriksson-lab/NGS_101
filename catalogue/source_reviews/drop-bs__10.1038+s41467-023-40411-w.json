@@ -1,0 +1,111 @@
+{
+  "dir": "drop-bs__10.1038+s41467-023-40411-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Zhang et al. Nat Commun 2023 doi:10.1038/s41467-023-40411-w; PMC10400590",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC10400590 JATS lines 189-219",
+        "finding": "Describes ChemGenes barcode bead chemistry, blocked 19-nt complement, droplet bisulfite conversion, random priming and indexed PCR; points to Supplementary Fig. 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC10400590 JATS title/byline lines 3-23; Methods lines 189-219 (bead design, fusion, bisulfite, random priming, two PCR stages)",
+        "finding": "Defining article is Zhang et al., not Liu or Fu. ChemGenes custom lot L142464-1 bead has photocleavable linker, common PCR arm, 15-base A/T/G cell barcode and ligation site; a 19-base 3′-blocked complement is annealed. UV release and ligation precede droplet bisulfite; Klenow random priming, P5/P7 pre-PCR and N5XX/Ad2.XX index PCR follow. Exact oligos are delegated to Supplementary Fig. 1."
+      },
+      "reason": "Audit-trail source identity correction: previous locator called the defining DOI Liu et al.; original JATS title/byline lines 3-23 identify Zhang Qiang as first author."
+    },
+    {
+      "id": "supp_fig_1",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF Supplementary Figure 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 40-149",
+        "finding": "Figure supplies bead architecture, blocked complement, random primer, transposon and indexing primer structures with 3SpC3 modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF text lines 1-120, especially lines 7-27, 48-120; scraper on defining JATS and this supplement",
+        "finding": "Prints bead oligo with D15 barcode and ligation end, 3′-/3SpC3/ blocked 5′-/5Phos/ complement, S5-ME-N9 random primer, P5 and P7 pre-PCR primers, and N5XX/Ad2.XX index-primer families. Specific i5/i7 members are placeholders. The figure includes bisulfite-converted strands using U/V symbols, not a complete vendor lot specification."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv doi:10.1101/2023.05.26.542421 v1 and media-1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2023.05.26.542421_v1.full.pdf.txt Methods; media-1.pdf.txt corresponding Supplementary Figure 1",
+        "finding": "Earlier author version and supplement corroborate bead and library construction."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v1 PDF text lines 1475-1589 (bead design through library PCR), media-1.pdf.txt lines 1-120 Supplementary Fig. 1; scraper on both",
+        "finding": "Earlier author preprint independently corroborates 15-base A/T/G ChemGenes bead barcode, 19-base 3′-blocked complement, UV ligation before bisulfite, N9 random primer and two PCR stages. Its media-1 figure prints corresponding sequence architecture and index placeholders, not the custom bead lot synthesis certificate."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "chemgenes_bead",
+      "role": "vendor",
+      "locator": "ChemGenes custom bead LOT L142464-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "Custom LOT named in Methods; no lot-level synthesis certificate or complete vendor specification in source bundle."
+    },
+    {
+      "id": "other_datasets",
+      "role": "supplement",
+      "locator": "Original Springer MOESM2-17 datasets and numerical workbooks",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "Some are bisulfite data/results; chemistry relevance and blank extractions not fully classified."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 189-219; publisher MOESM1 lines 40-149; author preprint source inventory",
+      "finding": "Followed the paper into its bead/primer schematic. Custom bead provenance remains a linked vendor gap."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Zhang PMC10400590 JATS Methods lines 189-219; Springer MOESM1 Fig. 1; author bioRxiv v1 Methods/media-1 and source bundle MANIFEST",
+      "finding": "Followed the defining article to its original supplementary oligo figure and author preprint. ChemGenes custom LOT L142464-1 complete specification is not among readable originals; other data supplements still need source-by-source relevance review. Therefore absence remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete bead-linked oligo construction and all index members",
+      "disposition": "blocked",
+      "evidence": "Supplementary Fig. 1 reveals multiple base-level structures, but vendor lot data and other files need further review."
+    }
+  ],
+  "conclusion": "Two independent passes now locate the defining article, main sequence schematic and earlier author version; corrected first-author identity. Custom ChemGenes lot documentation and other unreviewed sources still block any confirmed missing claim."
+}

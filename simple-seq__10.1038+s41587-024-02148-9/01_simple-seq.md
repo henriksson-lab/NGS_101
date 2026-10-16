@@ -10,10 +10,13 @@ Defining paper: Bai et al., *Nature Biotechnology* (2024), DOI
   modifications. Sheets `Supplementary_Table1_2` through `_1_4` print the first,
   second and third rounds of cell-barcoding oligos. The workbook is retrievable from
   the article's Supplementary information and through `tools/get_sources.py`.
-- 🟡 The publisher's supplementary PDF is image-only in the available text extraction,
-  and the main Methods article was not openly available in the source intake. The
-  reaction order and placement of every oligo therefore still require visual/source
-  review before a base-by-base schematic is built.
+- 🟢 The publisher's supplementary PDF is a three-page reporting summary; visual
+  inspection shows it contains no chemistry protocol. The publisher workbook also
+  contains model oligos with 5mC/5hmC controls in `Supplementary_Table1_5` and DNA
+  integrity qPCR primers in `_1_6`, separate from the library-building rows below.
+- 🟡 The main Methods article is subscription-only in this source intake. The
+  reaction order and placement of every oligo still require original Methods review
+  before a base-by-base schematic is built.
 
 The exact named oligos in Supplementary Table 1 are `Linker-R01`
 `CTCGAATGCCTCAAGCACGTGGAT`, `Linker-R02`

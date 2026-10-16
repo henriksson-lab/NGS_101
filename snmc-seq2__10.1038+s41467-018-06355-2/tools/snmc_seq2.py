@@ -15,8 +15,8 @@ NOTES = "01_snmc-seq2.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41467-018-06355-2">Luo et al., <i>Nature Communications</i> (2018)</a>.'
 SUMMARY = "Bisulfite-converted nuclear DNA is copied with one of eight indexed random primers, completed by Adaptase, and amplified with unique dual indexes."
 CAVEAT = ("The defining supplement prints the random-primer and 768 dual-index primer "
-          "pairs. That sequence is exact below. The bases added by the proprietary "
-          "Adaptase reaction are not printed, so only that short region remains inferred.")
+          "pairs. Those sequences are exact below. The bases added by Adaptase have not "
+          "been verified from its original vendor guide, so that region remains inferred.")
 INLINE = snmc2_core.INLINE
 P5_INDEX_1 = snmc2_core.P5_INDEX_1
 P7_INDEX_1 = snmc2_core.P7_INDEX_1
@@ -45,7 +45,7 @@ def sections():
         ], "Eight source-printed random primers barcode plate quadrants before pooling."),
         ("INFERRED — Adaptase completion; exact indexed PCR", [
             Row(chunks=[("random-primer product → Adaptase tail → P5/i5 + P7/i7 PCR", None, False)])
-        ], "The representative PCR pair is source-exact; only the proprietary Adaptase-added bases are unknown."),
+        ], "The representative PCR pair is source-exact; only the unchecked Adaptase-added bases are unknown."),
     ]
 
 
@@ -71,10 +71,10 @@ def protocol_graph():
     polymerase=g.input("strand_polymerase","random-primer extension polymerase",MaterialKind.CATALYST)
     primed=g.product("primed","inline-cell-barcoded random-primer products",MaterialKind.MOLECULAR,state=sections()[1][1])
     g.react("random_prime","Copy converted DNA with an indexed H9 random primer",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(primed,))
-    adaptase=g.input("adaptase","proprietary Adaptase adapter-completion reagent",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (added bases not disclosed)")
+    adaptase=g.input("adaptase","Adaptase adapter-completion reagent",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (added bases unverified in checked sources)")
     adaptase_enzyme=g.input("adaptase_enzyme","Adaptase completion enzyme",MaterialKind.CATALYST)
-    adapted=g.product("adapted","Adaptase-completed dual-index PCR template",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (Adaptase-added bases not disclosed)")
-    g.react("adaptase_complete","Add the proprietary Adaptase completion end",StepKind.ADAPTER_ATTACHMENT,((primed,InputRole.TEMPLATE),(adaptase,InputRole.STRUCTURAL),(adaptase_enzyme,InputRole.CATALYST)),(adapted,))
+    adapted=g.product("adapted","Adaptase-completed dual-index PCR template",MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,source=SOURCE+" (Adaptase-added bases unverified in checked sources)")
+    g.react("adaptase_complete","Add the unchecked Adaptase completion end",StepKind.ADAPTER_ATTACHMENT,((primed,InputRole.TEMPLATE),(adaptase,InputRole.STRUCTURAL),(adaptase_enzyme,InputRole.CATALYST)),(adapted,))
     reviewed=["nucleus","bisulfite","bisulfite_convert","random_primer","strand_polymerase","random_prime","adaptase","adaptase_enzyme","adaptase_complete"]
     pcr_geometry = snmc2_core.representative_pcr_geometry(FINAL_LIBRARY)
     finish_pcr_branch(g,"final",adapted,FINAL_LIBRARY,SEQ_PRIMERS,reviewed,

@@ -1,0 +1,126 @@
+{
+  "dir": "indrop-v2__10.1038+nprot.2016.154",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "main",
+      "role": "defining",
+      "locator": "Zilionis et al Nature Protocols 2017 doi:10.1038/nprot.2016.154 full article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Main Nature Protocols text is paywalled in source manifest; supplementary procedure is available.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2016.154_41596_2017_BFnprot2016154_MOESM454_ESM.pdf.txt lines 1-55",
+        "finding": "Original Supplementary Methods include AMPure cleanup and denaturing gel QC; line 45 specifies UV photo-release of bead primers, but not the full main protocol."
+      }
+    },
+    {
+      "id": "supp_method",
+      "role": "supplement",
+      "locator": "Springer MOESM454_ESM.pdf.txt Supplementary Protocol",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol lines 1-55, photocleavable primer release line 45",
+        "finding": "Original supplemental procedure explains bead handling and light-release but is shorter than inaccessible main protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2016.154_41596_2017_BFnprot2016154_MOESM455_ESM.xlsx.txt lines 1-37",
+        "finding": "Publisher workbook gives Acrydite/PC-spacer bead seed, BA19, PE2-N6, 24 indexed PE1 PCR variants and custom Read 1, index and Read 2 primers."
+      }
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Springer MOESM455_ESM.xlsx.txt, oligos_except_barcodes",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Rows 1-10; scraper hits at lines 3 and 5",
+        "finding": "Prints Acrydite/PC-spacer bead primer, PE2-N6, P5/P7 primers and fluorescent QC probes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nprot.2016.154_41596_2017_BFnprot2016154_MOESM460_ESM_gel_barcode1_list.txt and _gel_barcode2_list.txt lines 1-5; README.txt lines 1-35",
+        "finding": "Two original barcode text lists are present and begin AAACAAAC versus AAACAAAC; README describes the processing pipeline rather than bead assembly."
+      }
+    },
+    {
+      "id": "barcode_lists",
+      "role": "supplement",
+      "locator": "Springer MOESM460 gel_barcode1_list.txt, gel_barcode2_list.txt and README",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "README line 15-29 and two barcode lists",
+        "finding": "Published barcode lists provide observed first/second bead barcode words, distinct from oligo assembly steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM460 README lines 1–39 and both complete gel_barcode1_list and gel_barcode2_list files; independently counted and inspected their entries",
+        "finding": "README describes downstream barcode histogram, splitting, quantification and aggregation, not gel-bead oligo synthesis. Barcode1 list has 384 unique words of 8–11 bases; barcode2 has 384 unique 8-base words. These are published matching vocabularies, not full modified bead oligos, selected run-specific assignments, or ligation/RT geometry. The gated main protocol still blocks those reaction details."
+      }
+    },
+    {
+      "id": "indrop_v1",
+      "role": "linked_material",
+      "locator": "Klein et al Cell 2015 doi:10.1016/j.cell.2015.04.044 inDrop v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Predecessor title and source manifest",
+        "finding": "Earlier inDrop version cannot automatically establish v2 reaction conditions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "indrop-v1 source bundle j.cell.2015.04.044_PMC4441768.xml.txt lines 67-69 and 475-477; v1 supplement remains manual",
+        "finding": "Predecessor describes photo-releasable hydrogel primers and combinatorial barcoding, but cannot certify v2-specific synthesis or reactions."
+      },
+      "discovered_from": "main"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nature Protocols manifest, MOESM454 procedure, MOESM455 oligos and MOESM460 barcode lists",
+      "finding": "Followed supplement set and earlier version relation. Defining main article remains unavailable, so complete protocol absence is blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Nature Protocols source manifest; MOESM454 lines 1-55, MOESM455 lines 1-37, MOESM460 barcode lists lines 1-5 and inDrop v1 original",
+      "finding": "Checked original supplements and predecessor. Main Nature Protocols article remains unavailable, so v2-only reaction detail is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any v2 reaction details exclusive to paywalled main Nature Protocols article",
+      "disposition": "blocked",
+      "evidence": "Oligo supplement and short supplemental procedure do not replace the inaccessible main protocol."
+    }
+  ],
+  "conclusion": "First original-source reading only. Linked-source coverage and an independent second reading are required before any absence can be accepted.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Harvard ICCB original PDF search lead tested: www.iccb.med.harvard.edu has TLS hostname mismatch (curl60); correctly certified non-www hostname returns403. Certificate verification not disabled. Original remains unavailable via these routes."
+  }
+}

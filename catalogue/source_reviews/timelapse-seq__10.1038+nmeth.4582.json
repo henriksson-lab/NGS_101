@@ -1,0 +1,349 @@
+{
+  "dir": "timelapse-seq__10.1038+nmeth.4582",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "schofield_jats",
+      "role": "defining",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 28–36, Online Methods RNA library preparation around lines 74–104; scraper run on source bundle",
+        "finding": "Separates targeted RT-PCR with gene-specific amplicons from transcriptome-wide SMARTer Stranded Total RNA-Seq Pico Input after 4sU oxidation/TFEA recoding. No standalone adapter ligation is established for the transcriptome-wide branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 74–92 (Online Methods) and 166 (supplementary note copied into XML)",
+        "finding": "Targeted assay uses gene-specific RT/PCR and TruSeq Index adapters; transcriptome-wide assay enters SMARTer Pico after chemical recoding with no separate adapter ligation. Supplementary note records K562 100 µM 4sU, contrary to Supplementary Protocol 100 mM."
+      }
+    },
+    {
+      "id": "schofield_pdf",
+      "role": "defining",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author-manuscript PDF Online Methods targeted and transcriptome-wide library sections, checked against JATS",
+        "finding": "Same article in PDF format; no additional library oligo list beyond the supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PDF extracted lines 358–408 targeted assay, 427–466 transcriptome-wide library prep",
+        "finding": "PDF repeats targeted TruSeq Index adapter step and transcriptome-wide 10-ng total-RNA SMARTer Pico kit entry; does not give the kit oligo bases."
+      }
+    },
+    {
+      "id": "springer_supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Figures S1 onward and captions, especially S4/S5 targeted validation",
+        "finding": "Figures document oxidation/recoding and targeted validation, but do not specify one universal transcriptome-wide adapter sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1 extracted lines 40–46 primer extension, 74–83 Supplementary Fig. S5 and 88–95 Fig. S6",
+        "finding": "Figures distinguish biochemical IVT/RT assay and targeted Actb/Gapdh/MYC validation; no kit adapter sequence or extra transcriptome-wide ligation."
+      }
+    },
+    {
+      "id": "springer_reporting",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original reporting summary opening and Life Sciences reporting sections",
+        "finding": "Administrative study-design form, no molecular recipe or oligo identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM2 extracted lines 1–12 and reporting-form section headings",
+        "finding": "Life Sciences Reporting Summary is study reporting, not an oligo or library-construction protocol; exclusion agrees."
+      },
+      "reason": "Administrative reporting form."
+    },
+    {
+      "id": "springer_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Protocol materials and steps lines 1–96; scraper rerun",
+        "finding": "Gives 4sU pulse, RNA oxidation with TFEA/NaIO4, cleanup, then SMARTer Stranded Total RNA-Seq Pico Input kit at line 95. No separate RNA-adapter ligation before kit entry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM3 extracted lines 25, 33–40, 59–96",
+        "finding": "Step 2 prints 100 mM final 4sU for four-hour K562 pulse; step 25 enters SMARTer Pico after oxidation, RNAClean and reduction, with no standalone adapter ligation. Conflicts with original Supplementary Note 100 µM."
+      }
+    },
+    {
+      "id": "springer_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX text Table S1a/b lines 1–25; scraper hits 4–25 checked",
+        "finding": "Lists IVT/fluorescent biochemical controls and twelve targeted Actb/Gapdh/MYC RT-PCR primer pairs with universal tails/NNNNN, plus amplification primers. These are not universal transcriptome-wide SMARTer kit oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Table S1a lines 2–10, S1b lines 11–25, S1c from line 26; scraper hits checked against table",
+        "finding": "S1a is IVT/NotI assay, S1b prints 12 targeted Actb/Gapdh/MYC primer pairs and amplification primers, S1c is qPCR. These do not define transcriptome-wide SMARTer adapter/RT oligo sequences."
+      }
+    },
+    {
+      "id": "springer_table_s2",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX text Table S2_K562 transcript opening and columns",
+        "finding": "Transcript count/half-life data rather than molecular method; excluded from base-level claims."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM5 opening: Table S2_K562 worksheet header transcript, theta_n1, theta_n2, half_life_rep1/2",
+        "finding": "Half-life estimates and count-like transcript data; no chemistry recipe. Exclusion agrees."
+      },
+      "reason": "Quantitative output workbook, not protocol or oligo source."
+    },
+    {
+      "id": "pmc_supp_note",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC Supplementary Note opening, TimeLapse-seq experiment-parameter discussion",
+        "finding": "Experimental design and chemistry caveats; no exact SMARTer kit oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-1 extracted lines 1–33 and 48–60",
+        "finding": "Source says K562 four-hour pulse succeeded with 100 µM 4sU, reports 10 µM–1 mM successful range, and discusses mutation readout; no kit oligo list."
+      }
+    },
+    {
+      "id": "pmc_supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-2.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC Supplementary Figures DOCX text opening and S4/S5 captions; doctext explicitly run despite 18 MB source",
+        "finding": "Duplicates figure-branch evidence for recoding/targeted validation; no extra universal transcriptome-wide adapter sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-2 DOCX text lines 12–25, especially Fig. S3–S6 captions",
+        "finding": "Independent PMC copy corroborates IVT primer-extension and targeted Fig. S5; no transcriptome-wide SMARTer oligo list."
+      }
+    },
+    {
+      "id": "pmc_supp_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-3.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC Supplementary Protocol materials and reaction steps, compared with Springer MOESM3",
+        "finding": "Same recoding and SMARTer kit entry; no separate adapter ligation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-3 extracted lines 20–33, 58–93",
+        "finding": "PMC copy repeats K562 100 mM protocol entry and direct SMARTer Pico entry after recoding and cleanup; no separate ligation."
+      }
+    },
+    {
+      "id": "pmc_supp_reporting",
+      "role": "supplement",
+      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-4.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC reporting summary opening",
+        "finding": "Same administrative form as publisher MOESM2; excluded from chemistry claims."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS supplement-4 extracted lines 1–12 and report title",
+        "finding": "Duplicate administrative reporting form, no molecular recipe; exclusion agrees."
+      },
+      "reason": "Administrative reporting form."
+    },
+    {
+      "id": "smarter_pico_2016_guide",
+      "role": "vendor",
+      "locator": "Takara Bio SMARTer Stranded Total RNA-Seq Kit - Pico Input Mammalian User Manual, cat. 635005–635007, version (112216), 21-page original via https://manuals.plus/m/fa0d970016b83cb070dba8c79d0f92b6efcf3bab7ff2ce4ba5361703a491b5dd.pdf ; extra_sources.tsv route, local fetch curl error 6",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Cover p.1/lines 13–18; introduction p.3/lines 53–65; Figure 1/2 pp.4–5/lines 86–128; component table p.6/lines 132–167; indexing table p.7/lines 215–239; ZapR/PCR2 pp.15–16/lines 543–581",
+        "finding": "Same original-generation kit name and 250 pg–10 ng input range; N6 random priming and LNA template switching; PCR1 adds Illumina adapters and i5/i7 indexes without ligation; ZapR/R-Probes deplete ribosomal cDNA; PCR2 enriches survivors. Index membership F1–F8 and R1–R12 is printed, but study index choices are unstated; SMART Pico Oligos/TSO mix bases are proprietary."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Cover p.1 lines 13–18; introduction p.3 lines 53–78; workflow figures pp.4–5 lines 86–128; component table p.6 lines 132–167",
+        "finding": "Independently read the original-generation 2016 Takara manual through its PDF rendering. It specifies N6 random priming, LNA template switching, PCR1 addition of dual-index Illumina adapters, ZapR/R-Probe ribosomal-cDNA depletion, and PCR2 without adapter ligation. It explicitly labels SMART Pico Oligos and TSO Mix as proprietary sequences. It does not identify the revision or sample indexes used by the TimeLapse-seq study."
+      },
+      "reason": "An original-generation November 2016 guide predates the 2018 paper, but the paper does not cite a manual revision or catalogue number. Local mirror fetch failed DNS; original PDF was read through web rendering. Its oligo mixes are marked proprietary."
+    },
+    {
+      "id": "duffy_2015_article",
+      "role": "predecessor",
+      "locator": "Duffy et al., Mol Cell 2015 doi:10.1016/j.molcel.2015.07.023, original author manuscript https://stacks.cdc.gov/view/cdc/36272/cdc_36272_DS1.pdf (CDC Stacks); extra_sources.tsv route",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original PDF pp.1–3 chemical mechanism and pp.6–7 Experimental Procedures, especially original PDF text lines 270–293; source oligo scraper run on original PDF text (11 hits)",
+        "finding": "MTS-biotin forms a reversible mixed disulfide with s4U. Original enrichment uses MTSEA biotin-XX, streptavidin capture, high-salt washes and DTT elution; this is the cited predecessor for the TT-TimeLapse K562 enriched fraction, not a source of SMARTer kit RT/TSO bases. TimeLapse changes washes, uses 55°C TE treatment, then RNAclean and reduction before kit entry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original CDC Stacks author-manuscript PDF pp.1–3 and 6–7, PDF text lines 7–15, 112–130, 270–302; ran oligo scraper on TimeLapse source bundle before source reading",
+        "finding": "MTS-biotin reacts with s4U as a reversible mixed disulfide. Experimental Procedures specify MTSEA biotin-XX, streptavidin microbeads, two high-salt washes and DTT elution. This predecessor supplies enrichment chemistry, not TimeLapse downstream SMARTer primer bases."
+      }
+    },
+    {
+      "id": "duffy_2015_supp_figures",
+      "role": "supplement",
+      "locator": "Duffy et al. original NIHMS711602-supplement-1.pdf via https://stacks.cdc.gov/view/cdc/36272/cdc_36272_DS2.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF pp.1–10, especially Fig. S1 chemical structures and captions, Figure S3 and Table S3 legend (browser-rendered text lines 493–574)",
+        "finding": "Shows MTS-biotin/s4U chemistry and identifies Table S3 oligos as Duffy controls/spikes/qPCR primers. It does not identify TimeLapse SMARTer kit oligos. Figure caption refers to a separate Detailed Protocol whose accessible location still requires checking."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original CDC Stacks NIHMS711602 supplement-1 PDF pp.3–6, especially Figure S1 and Table S3 legend at PDF text lines 569–575, after source oligo scraper on TimeLapse bundle",
+        "finding": "Figure S1 supports the MTS/s4U enrichment mechanism; Table S3 describes synthetic RNA spikes and qPCR primers for Duffy controls. It is not a source for TimeLapse SMARTer kit oligos. The figure caption explicitly mentions another Detailed Protocol that still needs retrieval."
+      }
+    },
+    {
+      "id": "duffy_2015_supp_tables",
+      "role": "supplement",
+      "locator": "Duffy et al. CDC Stacks original NIHMS711602-supplement-2/3/4.xlsx linked at https://stacks.cdc.gov/view/cdc/36272 (CDC Stacks Supporting Files)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "CDC listing exposes three original workbooks, but browser opens returned Internal Error and direct download attempts failed transient DNS; their oligo content, especially Table S3, has not been inspected.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "CDC Stacks Supporting Files list original supplement-2/3/4.xlsx; browser click attempts for all three; original supplementary PDF Table S3 legend",
+        "finding": "Original workbooks remain uninspected, so they cannot support a confirmed absence claim; Table S3 is said to include Duffy spike and qPCR sequences, likely separate from TimeLapse kit oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently checked CDC Stacks Supporting Files inventory lines 118–134 and attempted direct links for supplement-2/3/4.xlsx (cdc_36272_DS3/DS4/DS5.xlsx); browser fetch returned cache-miss or HTTP error",
+        "finding": "The original workbooks are linked but inaccessible in this environment. The supplement PDF Table S3 legend says one contains spike and qPCR oligos, but its actual rows have not been read. Missing-information claim remains blocked."
+      }
+    },
+    {
+      "id": "duffy_2015_detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "Duffy et al. 2015 Experimental Procedures p.6, “Detailed Protocol included in the Supplemental Material”; supplementary Fig. S1 caption refers to “Modeling expected yields” section of Detailed Protocol. CDC Stacks record https://stacks.cdc.gov/view/cdc/36272 lists one figure PDF and three XLSX workbooks, with no separately titled protocol.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Explicitly linked by the original predecessor but not identified among available CDC Stacks files; three workbook downloads are also inaccessible, so a copy embedded there cannot yet be excluded.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Duffy original manuscript PDF p.6 lines 246–255; original supplementary figure PDF p.4 caption lines 514–523; CDC Stacks Supporting Files inventory",
+        "finding": "Original source points to a Detailed Protocol, but no separately named protocol was found in accessible CDC supporting-file list; relevant because it may refine enrichment chemistry, and no missing-information assertion can be accepted without it."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read Duffy original p.6 and supplementary Figure S1 caption; compared CDC Stacks Supporting Files list",
+        "finding": "Both originals refer to a Detailed Protocol. CDC listing exposes figure PDF and three workbook files but no separately titled protocol; workbooks remain inaccessible and protocol location unresolved. Claim stays blocked."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Online Methods, original Springer and PMC supplements (figures, protocol, tables, reports), SMARTer kit named in original supplementary protocol line 25/95",
+      "finding": "Checked every original supplement type and ran source oligo scraper after converting the large PMC DOCX. Table S1b oligos belong to targeted validation; transcriptome-wide chemistry enters a SMARTer kit after recoding. Historical kit revision and exact oligos remain unverified."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS Online Methods lines 74–92; publisher MOESM1–5 and PMC supplement-1–4 rows; Table S1a/b/c; 2016 kit guide pp.1,3–7,15–16",
+      "finding": "Original linked supplements were checked independently. Table S1b pertains to targeted assay only. The named kit link led to a 2016 original-generation manual with ligation-free dual-index workflow and barcode members, but exact RT/TSO bases and study-specific indexes remain unresolved; historical revision match needs a second reader."
+    },
+    "followup_2026_10_16_review_slide_crispr": {
+      "reviewer": "review_slide_crispr",
+      "locations": "Defining JATS line 92 reference 9; Duffy original CDC PDF pp.2,6–7; Duffy supplemental figures PDF Table S3 legend; CDC Stacks supporting-file inventory",
+      "finding": "The K562 TT-TimeLapse variant follows Duffy MTS-biotin enrichment with explicit changes to washes, warm TE treatment, RNAclean cleanup and post-recoding reduction. The Duffy paper does not define SMARTer kit RT/TSO bases; original linked workbooks and a possible distinct detailed protocol still require retrieval."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The transcriptome-wide TimeLapse-seq adapter and index oligo sequences are confirmed absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "Original paper and 2016 original-generation SMARTer Pico guide establish kit name, ligation-free dual-index workflow and available index-barcode members, but kit RT/TSO oligo bases are proprietary and the exact guide revision and sample indexes used by this study remain unverified independently."
+    },
+    {
+      "claim": "Transcriptome-wide TimeLapse-seq includes a separate RNA-adapter ligation before SMARTer kit reverse transcription",
+      "disposition": "resolved",
+      "evidence": "Defining Online Methods and original Supplementary Protocol direct the recoded RNA into the SMARTer Stranded Total RNA-Seq Pico kit; the invented standalone ligation was removed from the page graph."
+    }
+  ],
+  "conclusion": "Originals, supplements, and an original-generation 2016 kit manual independently cross-checked; published K562 100 mM-versus-100 µM discrepancy exposed on page. The manual establishes ligation-free workflow and index family but does not print proprietary RT/TSO bases or identify the study-specific revision and indexes. The TT-TimeLapse K562 branch cites Duffy et al. 2015 MTS-biotin enrichment; that predecessor original and figure supplement were checked, while linked workbooks and any distinct detailed protocol still need retrieval and second review."
+}

@@ -61,12 +61,17 @@ def render(m) -> str:
         if plan is not None:
             library = plan.library
             primers = plan.primers
-        if not primers:
-            raise ValueError(f"{m.TITLE}: {heading} has no declared sequencing primers")
+        specs = getattr(m, "READ_SPECS", {}).get(heading, ())
+        limitations = getattr(m, "SEQUENCING_UNAVAILABLE", {})
+        limitation = (plan.limitation if plan is not None else "") or (
+            limitations.get(heading, "") if isinstance(limitations, dict) else limitations)
+        if not primers and not (limitation and specs):
+            raise ValueError(f"{m.TITLE}: {heading} needs sequencing primers or a limitation and source-declared reads")
         parts.extend([f'<h2>{heading}</h2>',
                       panel(duplex_rows(library, label="library"),
-                            cls="long", caption=caption),
-                      sp.section(library, primers, intro=intro,
+                            cls="long", caption=caption)])
+        if primers:
+            parts.append(sp.section(library, primers, intro=intro,
                                  required_roles=(plan.acquired_roles if plan is not None and
                                                  plan.acquired_roles else tuple(p.role for p in primers)),
                                  read_lengths=(plan.read_lengths if plan is not None and
@@ -75,6 +80,10 @@ def render(m) -> str:
                                  read_uses=(plan.read_uses if plan is not None and
                                             plan.read_uses else
                                             getattr(m, "READ_USES", {}).get(heading)),
-                                 show_read_content=getattr(m, "SHOW_READ_CONTENT", True))])
+                                 show_read_content=not specs and getattr(m, "SHOW_READ_CONTENT", True)))
+        if limitation:
+            parts.append(sp.unavailable_diagram(library, limitation))
+        if specs:
+            parts.append(sp.read_spec_table(specs))
     parts.append('</div>')
     return "\n".join(parts)

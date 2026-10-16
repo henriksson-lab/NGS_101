@@ -16,11 +16,16 @@ TITLE = "TT-seq — transient transcriptome sequencing"
 NOTES = "01_tt-seq.html"
 SOURCE = ('Defining paper: <a href="https://doi.org/10.1126/science.aad9841">'
           'Schwalb et al., <i>Science</i> (2016)</a>.')
+CAPTURE_SOURCE = ('4sU capture method cited by the defining supplement: '
+                  '<a href="https://doi.org/10.1261/rna.1136108">'
+                  'Dölken et al., <i>RNA</i> (2008)</a>.')
 SUMMARY = ("A five-minute 4-thiouridine pulse marks newly made RNA. Fragmenting RNA before "
            "thiol capture makes only the newly synthesized pieces recoverable for sequencing.")
 CAVEAT = ("The paper names the NuGEN Ovation Human Blood RNA-seq kit but does not print its "
           "adapter oligos. The Illumina-compatible library below is therefore an inferred "
-          "run geometry; the TT-seq label, fragmentation and capture steps are source-defined.")
+          "run geometry. The supplement delegates 4sU purification to "
+          '<a href="https://doi.org/10.1261/rna.1136108">Dölken et al. (2008)</a>, '
+          "which specifies EZ-Link Biotin-HPDP, streptavidin capture and DTT release.")
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5", inferred=True),
@@ -54,9 +59,9 @@ def sections():
             Row(chunks=[("long labelled RNA -- BioRuptor 30 s ON / 30 s OFF --> shorter labelled RNA pieces", None, False)]),
         ], "Fragmentation precedes labelled-RNA purification; that ordering is the distinguishing TT-seq step."),
         ("Biotinylate and capture labelled pieces", [
-            Row(chunks=[("RNA—4sU  + thiol-reactive biotin  ->  RNA—4sU—biotin", "umi", False)]),
+            Row(chunks=[("RNA—4sU  + EZ-Link Biotin-HPDP  ->  RNA—4sU—biotin", "umi", False)]),
             Row(chunks=[("RNA—4sU—biotin  -> streptavidin capture -> DTT elution", None, False)]),
-        ], "Only fragments carrying a pulse-labelled thiol are enriched; unlabeled RNA is washed away."),
+        ], "The cited Dölken method names the reagent and release chemistry; unlabeled RNA is washed away."),
         ("INFERRED — convert captured RNA to the sequencing library", [
             Row(chunks=[("DNase treatment -> strand-specific NuGEN Ovation library preparation -> paired-end library", None, True)]),
         ], "The defining supplement delegates this construct-changing step to the commercial kit."),
@@ -82,8 +87,8 @@ def protocol_graph():
     graph.react("fragment","Fragment RNA before selection",StepKind.FRAGMENTATION,
                 ((labelled,InputRole.TEMPLATE),(sonication,InputRole.CONDITION)),
                 (fragmented,))
-    biotin=graph.input("biotin_reagent","thiol-reactive biotinylation condition",
-                       MaterialKind.CONDITION)
+    biotin=graph.input("biotin_reagent","EZ-Link Biotin-HPDP",
+                       MaterialKind.CONDITION,source=CAPTURE_SOURCE)
     biotinylated=graph.product("biotinylated","biotinylated 4sU-containing RNA pieces",
                                MaterialKind.MOLECULAR)
     graph.react("biotinylate","Covalently biotinylate 4sU thiols",
@@ -92,15 +97,21 @@ def protocol_graph():
                 (biotinylated,))
     streptavidin=graph.input("streptavidin","streptavidin selection reagent",
                             MaterialKind.SELECTION)
-    captured=graph.product("captured","captured newly synthesized RNA fragments",
+    captured=graph.product("captured","streptavidin-bound newly synthesized RNA fragments",
                            MaterialKind.MOLECULAR)
     unlabelled=graph.product("unlabelled","unlabelled RNA fragments",MaterialKind.WASTE)
     graph.react("capture","Capture biotinylated RNA fragments",StepKind.AFFINITY_CAPTURE,
                 ((biotinylated,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
                 (captured,unlabelled))
     graph.discard(unlabelled,"unlabelled RNA is removed by streptavidin washing")
+    dtt=graph.input("dtt","DTT elution reagent",MaterialKind.CONDITION,
+                    source=CAPTURE_SOURCE)
+    eluted=graph.product("eluted","released 4sU-labelled RNA fragments",
+                         MaterialKind.MOLECULAR)
+    graph.react("release","Release captured RNA with DTT",StepKind.CHEMICAL_CONVERSION,
+                ((captured,InputRole.TEMPLATE),(dtt,InputRole.CONDITION)),(eluted,))
     rt_primer=graph.input("rt_primer","NuGEN strand-specific RT primer",MaterialKind.OLIGO,
-                          inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+                          inferred=True,source=SOURCE+" (kit oligo unverified in checked sources)")
     rt=graph.input("reverse_transcriptase","NuGEN reverse transcriptase",
                    MaterialKind.CATALYST)
     cdna=graph.product("cdna","strand-specific cDNA from captured RNA",
@@ -108,11 +119,11 @@ def protocol_graph():
                        source=SOURCE+" (commercial kit construct)")
     graph.react("reverse_transcribe","Convert captured RNA to strand-specific cDNA",
                 StepKind.REVERSE_TRANSCRIPTION,
-                ((captured,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                ((eluted,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
     adapter=graph.input("adapter","NuGEN Illumina-compatible library adapter",
                         MaterialKind.ADAPTER,inferred=True,
-                        source=SOURCE+" (commercial kit adapter undisclosed)")
+                        source=SOURCE+" (kit adapter unverified in checked sources)")
     adapted=graph.product("adapted","adapter-completed TT-seq cDNA",
                           MaterialKind.MOLECULAR,inferred=True,
                           source=SOURCE+" (commercial kit construct)")
@@ -120,9 +131,9 @@ def protocol_graph():
                 StepKind.ADAPTER_ATTACHMENT,
                 ((cdna,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL)),(adapted,))
     fwd=graph.input("pcr_forward","NuGEN PCR forward primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+                    inferred=True,source=SOURCE+" (kit oligo unverified in checked sources)")
     rev=graph.input("pcr_reverse","NuGEN indexed PCR reverse primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (commercial kit oligo undisclosed)")
+                    inferred=True,source=SOURCE+" (kit oligo unverified in checked sources)")
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY,inferred=True,
@@ -137,6 +148,7 @@ def protocol_graph():
     graph.declare_reviewed_scope((
         "cells","s4u","rna_polymerase","pulse_label","fragmentation_condition",
         "fragment","biotin_reagent","biotinylate","streptavidin","capture",
+        "dtt","release",
         "rt_primer","reverse_transcriptase","reverse_transcribe","adapter",
         "attach_adapter","pcr_forward","pcr_reverse","pcr_polymerase",
         "library_pcr","library"),SOURCE)

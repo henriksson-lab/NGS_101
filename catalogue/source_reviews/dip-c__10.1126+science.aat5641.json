@@ -1,0 +1,64 @@
+{
+  "dir": "dip-c__10.1126+science.aat5641",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/dip-c__10.1126+science.aat5641/science.aat5641_PMC6360088.xml.txt:39-81",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS main text 39-81 and supplement link 81.",
+        "finding": "Original accessible author manuscript describes META amplification and points to Supplementary Materials; it does not contain the complete oligo table in article body."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC6360088 JATS lines 39-81 and Supplementary Material line 81",
+        "finding": "Original main text describes Dip-C single-cell contact recovery and haplotype reconstruction, but fine library oligos reside in linked All supplement. Scraper on locally available article bundle found zero oligos."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6360088/bin/NIHMS1005600-supplement-All.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original detailed Supplementary Materials PDF is manual due PMC download gate; key read-end oligo evidence may be there."
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "Original NIHMS1005600 Supplementary S1/S2 XLSX at PMC6360088",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author supplement workbooks are manual in MANIFEST and their content is uninspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "JATS supplement pointer and all three manual rows",
+      "finding": "Original supplementary PDF and workbooks identified; cannot infer absent bases without them."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "JATS Supplementary Material line 81 and MANIFEST NIHMS1005600 supplement rows",
+      "finding": "Original All PDF and S1/S2 XLSX remain gated/manual; no source-backed absence conclusion."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "39-base transposon-derived read-start sequence and full outer adapter",
+      "disposition": "blocked",
+      "evidence": "Accessible article describes META at role level; original Supplementary Methods and tables remain inaccessible."
+    }
+  ],
+  "conclusion": "Original author supplementary files unavailable; no source absence accepted."
+}

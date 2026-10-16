@@ -1,12 +1,14 @@
 """Molecular model for Drop-seq.
 
-Provenance.  The Drop-seq paper (Macosko et al., Cell 2015) prints no oligo: its
-Experimental Procedures defer every sequence to Table S6, which sits behind the PMC
-download gate.  What the paper does establish 🟢 is the bead itself: beads carrying a
+Provenance.  The available main article (Macosko et al., Cell 2015) defers its exact
+oligos to Table S6/Extended Procedures, which remain behind the PMC download gate.
+The main article establishes beads carrying a
 constant PCR handle, a 12-base split-and-pool cell barcode, an 8-base UMI and a T30
 capture tail, synthesized by ChemGenes.
 
-The bases below come from the **Seq-Well paper's own Supplementary Table 1**
+The later inventor-lab Drop-seq protocol v3.1 (Macosko and Goldman, 28 Dec 2015,
+required-primer table p. 3) prints these bases and explicitly maps each primer name to
+Macosko et al. 2015. The **Seq-Well paper's own Supplementary Table 1**
 (Gierahn et al., Nat Methods 14:395, Springer ESM `41592_2017_BFnmeth4179_MOESM237`),
 which prints the complete oligo set for the *same* ChemGenes bead, cat. no.
 MACOSKO-2011-10, described there as "as described in Macosko et al. Cell 2015":
@@ -17,7 +19,8 @@ MACOSKO-2011-10, described there as "as described in Macosko et al. Cell 2015":
     4. New P5-SMART PCR Hybrid  P5 + GCCTGTCCGCGG + SMART handle + *A*C
     5. Custom Read 1 Primer     GCCTGTCCGCGG + SMART handle + AC
 
-That transfer from the later paper to this one is an **inference**, so every segment it
+Transfer from the later inventor-lab protocol and Seq-Well table to the original Cell
+experiment remains an **inference** until Table S6 is checked, so every segment it
 supplies is created with `inferred=True` and the page draws it dotted.  The `SMART handle`
 itself is the canonical `rt.SMART_HANDLE`; P5, P7, s7 and the mosaic end are canonical
 `illumina` / `nextera` constants.
@@ -53,14 +56,14 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def inferred(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    """Seq-Well Supplementary Table 1 base, carried over to Drop-seq by inference."""
+    """Later inventor-lab/Seq-Well base, assigned to original Drop-seq by inference."""
     kw.setdefault("feature", FEATURES.get(name))
     return Segment(name=name, top=top, tag=tag, inferred=True, **kw)
 
 
 LINKER="T"*7
 SPACER="GCCTGTCCGCGG"
-BEAD_CONSTANT="AC"      # Seq-Well Supplementary Table 1, row 1
+BEAD_CONSTANT="AC"      # inventor-lab v3.1 p. 3; Seq-Well Supplementary Table 1
 
 
 def bead_primer() -> list[Segment]:
@@ -120,8 +123,8 @@ def selected_tagmented_strand(insert_nt: int=34) -> Construct:
 
 def seq_primers():
     return (sp.custom("Read 1","Drop-seq custom Read 1",custom_r1(),
-                      "published in Seq-Well Supplementary Table 1 for the same ChemGenes "
-                      "bead; Drop-seq Table S6 unavailable"),
+                      "printed in inventor-lab Drop-seq v3.1 p. 3 and Seq-Well Table 1 "
+                      "for the same bead family; original Cell Table S6 unavailable"),
             sp.NEXTERA["I1"],sp.NEXTERA["R2"])
 
 
@@ -151,9 +154,10 @@ def read1_layout() -> list[tuple[str,str]]:
 
 def protocol_graph() -> ProtocolGraph:
     source=("Defining source: https://doi.org/10.1016/j.cell.2015.05.002; the exact bases "
-            "are those printed in Seq-Well Supplementary Table 1 (doi:10.1038/nmeth.4179) "
-            "for the same ChemGenes MACOSKO-2011-10 bead, carried over by inference "
-            "because Drop-seq Table S6 is unavailable")
+            "are printed in the later Macosko/Goldman inventor-lab Drop-seq protocol v3.1 "
+            "required-primer table (28 Dec 2015) and corroborated by Seq-Well Table 1 "
+            "(doi:10.1038/nmeth.4179); assignment to the original Cell experiment remains "
+            "inferred because its Table S6 is unavailable")
     graph=ProtocolGraph("Drop-seq",authority=source)
     cells=graph.input("cells","single-cell suspension",MaterialKind.BIOLOGICAL,primary=True)
     beads=graph.input("barcoded_beads","barcoded capture beads",MaterialKind.ADAPTER,
@@ -164,7 +168,7 @@ def protocol_graph() -> ProtocolGraph:
                            source=source)
     empty=graph.product("empty_droplets","unproductive cell/bead loading outcomes",
                         MaterialKind.WASTE)
-    graph.react("partition_capture","INFERRED — Co-encapsulate cells and barcoded beads (bead bases from the Seq-Well oligo table)",StepKind.PARTITION,
+    graph.react("partition_capture","INFERRED — Co-encapsulate cells and barcoded beads (bead bases from the later inventor-lab primer table)",StepKind.PARTITION,
                 ((cells,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
                  (droplets,InputRole.CONDITION)),(captured,empty))
     graph.discard(empty,"droplets without a productive cell-bead pairing do not yield library")
@@ -224,7 +228,7 @@ def protocol_graph() -> ProtocolGraph:
                     selected,PCRPrimer("P5-SMART",p5_sequence,
                                        anneal_nt=len(rt.SMART_HANDLE)+len(BEAD_CONSTANT)),
                     PCRPrimer("indexed N7",il.P7+"N"*8+nx.S7,anneal_nt=len(nx.S7)),
-                    statement="The two PCR primers are the ones Seq-Well Supplementary Table 1 prints for this bead; their transfer to Drop-seq is inferred because Drop-seq Table S6 is unavailable."))
+                    statement="The primer family is printed by the inventor-lab Drop-seq v3.1 table and Seq-Well Supplementary Table 1; its assignment to the original Cell experiment remains inferred until Table S6 is read."))
     graph.sequence(library,SequencingPlan(
         library=final,primers=seq_primers(),acquired_roles=tuple(READ_LENGTHS),
         read_lengths=READ_LENGTHS,

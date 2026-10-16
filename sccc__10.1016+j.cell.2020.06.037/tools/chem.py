@@ -1,3 +1,5 @@
+from pcr import PCRGeometry
+from adapter_ligation import AdapterLigationGeometry
 from types import SimpleNamespace
 from protocol_model import chain, role_library
 from multimodal_protocols import CELL, CircularizationGeometry, Definition, InputRole, MaterialKind, ProtocolGraph, SAMPLE, StepKind, UMI, _finish_pcr, molecule, role, role_library
@@ -43,15 +45,31 @@ def _sccc_graph(d, final):
                 "reverse_transcriptase", "reverse_transcribe", "split_branches"]
     expression_final = role_library("scCC expression-library roles",
                                     (CELL, UMI, role("transcript cDNA")), index=SAMPLE)
-    _finish_pcr(graph, "expression", expression, expression_final,
+    tso = graph.input("expression_tso", "10x_TSO added back only to expression aliquot", MaterialKind.OLIGO)
+    expression_rt = graph.input("expression_rt", "expression-branch reverse transcriptase", MaterialKind.CATALYST)
+    switched = graph.product("expression_switched", "TSO-completed expression cDNA", MaterialKind.MOLECULAR, state=expression.state)
+    graph.react("restore_expression_tso", "Add back TSO and complete expression-branch RT", StepKind.TEMPLATE_SWITCHING,
+                ((expression, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
+                 (expression_rt, InputRole.CATALYST)), (switched,))
+    reviewed.extend(("expression_tso", "expression_rt", "restore_expression_tso"))
+    _finish_pcr(graph, "expression", switched, expression_final,
                 "Expression branch: droplet transcriptome reads linked by cell barcode.",
                 reviewed, label="scCC expression")
+    junction_forward = graph.input("srt_enrich_forward", "Bio_Illumina_Seq1_scCC_10X_3xPT", MaterialKind.OLIGO)
+    junction_reverse = graph.input("srt_enrich_reverse", "Bio_Long_PB_LTR_3xPT", MaterialKind.OLIGO)
+    junction_polymerase = graph.input("srt_enrich_polymerase", "SRT-enrichment PCR polymerase", MaterialKind.CATALYST)
+    amplicon = graph.product("junction_amplicon", "phosphorylated internally biotinylated SRT amplicons", MaterialKind.MOLECULAR, state=junction.state)
+    graph.react("amplify_junction", "Amplify the SRT junction with phosphorylated biotinylated primers", StepKind.PCR,
+                ((junction, InputRole.TEMPLATE), (junction_forward, InputRole.STRUCTURAL),
+                 (junction_reverse, InputRole.STRUCTURAL), (junction_polymerase, InputRole.CATALYST)), (amplicon,),
+                geometry=PCRGeometry.unavailable(final, reason="Original Table S4 publishes both primers; their source-exact cDNA binding geometry has not yet been assembled in this graph."))
+    reviewed.extend(("srt_enrich_forward", "srt_enrich_reverse", "srt_enrich_polymerase", "amplify_junction"))
     circle_ligase = graph.input("circle_ligase", "SRT amplicon circularization ligase",
                                 MaterialKind.CATALYST)
     circle = graph.product("circle", "circular SRT amplicon", MaterialKind.MOLECULAR,
-                           state=junction.state)
+                           state=amplicon.state)
     graph.react("circularize", "Circularize the SRT amplicon", StepKind.CIRCULARIZATION,
-                ((junction, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
+                ((amplicon, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
                 geometry=CircularizationGeometry.known(
                     "double-strand intramolecular ligation",
                     statement="The SRT branch circularizes its amplicon before exonuclease selection."))
@@ -80,7 +98,22 @@ def _sccc_graph(d, final):
     graph.discard(uncaptured, "does not carry the selected SRT junction")
     reviewed.extend(("circle_ligase", "circularize", "exonuclease", "remove_linear",
                      "shear_condition", "shear", "capture_probe", "capture_junction"))
-    _finish_pcr(graph, "junction", captured, final, d.endpoint, reviewed,
+    endrepair = graph.input("end_repair_enzyme", "end-repair enzyme mixture", MaterialKind.CATALYST)
+    repaired = graph.product("repaired_junction", "end-repaired captured junction fragments", MaterialKind.MOLECULAR, state=captured.state)
+    graph.react("end_repair", "End-repair captured junction fragments on beads", StepKind.END_REPAIR,
+                ((captured, InputRole.TEMPLATE), (endrepair, InputRole.CATALYST)), (repaired,))
+    tailase = graph.input("tailing_enzyme", "A-tailing enzyme mixture", MaterialKind.CATALYST)
+    tailed = graph.product("tailed_junction", "A-tailed captured junction fragments", MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("a_tail", "A-tail the captured junction fragments", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tailase, InputRole.CATALYST)), (tailed,))
+    adapters = graph.input("custom_adapters", "preannealed scCC P5/P7 adapters", MaterialKind.ADAPTER)
+    ligase = graph.input("adapter_ligase", "adapter ligase", MaterialKind.CATALYST)
+    tagged = graph.product("adapter_tagged_junction", "custom-adapter-tagged junction fragments", MaterialKind.MOLECULAR, state=tailed.state)
+    graph.react("ligate_custom_adapters", "Ligate the custom scCC P5/P7 adapters", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (tagged,),
+                geometry=AdapterLigationGeometry.unavailable("Original Table S4 prints the custom adapters and the Methods specify annealing; this graph has not yet assembled the adapter-end Scene."))
+    reviewed.extend(("end_repair_enzyme", "end_repair", "tailing_enzyme", "a_tail", "custom_adapters", "adapter_ligase", "ligate_custom_adapters"))
+    _finish_pcr(graph, "junction", tagged, final, d.endpoint, reviewed,
                 label="scCC insertion junction")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
@@ -136,14 +169,14 @@ SPEC = SimpleNamespace(
     SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>; '
             f'author <a href="{AUTHOR_PROTOCOL}">single-cell calling-cards library protocol</a>.'),
     SUMMARY=d.summary,
-    CAVEAT="The author library protocol publishes the junction primers and custom adapter oligos below. Their exact landing sites are not yet assembled in this role-level library model.",
+    CAVEAT="The final Cell Table S4 and author library protocol publish the junction primers and custom adapter oligos below. Their exact landing sites are not yet assembled in this role-level library model.",
     FINAL_LIBRARY=FINAL_LIBRARY,
     SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint,
     SEQUENCING_INTRO=d.endpoint,
     READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE="The author library protocol prints custom PCR and sequencing oligos, but their binding sites are not yet assembled in this role-level library model; index members vary by library.",
+    SEQUENCING_UNAVAILABLE="Final Cell Table S4 prints custom PCR and sequencing oligos, but their binding sites are not yet assembled in this role-level library model; index members vary by library.",
     workflow=_sccc,
     oligos=lambda: OLIGOS,
 )

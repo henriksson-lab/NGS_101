@@ -1,0 +1,95 @@
+{
+  "dir": "bd-rhapsody__10.1038+s41592-018-0255-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC6677388, s41592-018-0255-0_PMC6677388.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods and supplementary references",
+        "finding": "Describes platform barcode/read roles."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 418-445, single-cell gene-expression methods",
+        "finding": "Original platform paper states the BD Rhapsody WTA workflow and pipeline, without printing the component oligo bases in these Methods lines."
+      }
+    },
+    {
+      "id": "bd_wta_guide",
+      "role": "vendor",
+      "locator": "BD Rhapsody Whole Transcriptome Analysis Alpha Protocol, local upstream_data_GMX_BD-Rhapsody-WTA-alpha-Protocol_UG_EN.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "WTA step tables",
+        "finding": "Names Universal Oligo and library PCR primers without sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 580,803,811,837",
+        "finding": "Guide names Universal Oligo, Library Forward Primer and four Library Reverse Primer variants; these are reagent names, no base strings there."
+      }
+    },
+    {
+      "id": "paper_supp",
+      "role": "supplement",
+      "locator": "PMC6677388 Supplementary Figures/Tables, local NIHMS1511424 files",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary oligo/context tables",
+        "finding": "Platform supplement inspected."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Local supplementary figure and table text, scraper hits",
+        "finding": "No vendor primer sequences established by the checked supplement hits."
+      }
+    },
+    {
+      "id": "other_bd_guides",
+      "role": "linked_material",
+      "locator": "BD kit component and sequencing-primer original guides",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "bd_wta_guide",
+      "reason": "Broader vendor component documentation not inventoried; exact absence cannot be accepted."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Paper supplements and BD guide",
+      "finding": "Original WTA guide found; further BD component material unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "BD WTA guide lines 580,803-837 and JATS supplement inventory",
+      "finding": "Guide is an original mirrored vendor PDF despite upstream filename; kit components remain unverified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "BD bead, Universal Oligo and library primer bases are proprietary or unpublished.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

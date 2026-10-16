@@ -1,0 +1,445 @@
+{
+  "dir": "hdst__10.1038+s41592-019-0548-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "vickovic_2019_article",
+      "role": "defining",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS Online Methods lines 119-145; article Results lines 95-101; source oligo scraper run on full bundle",
+        "finding": "Bead production specifies 15/14/15-base barcode pools, 14/16-base printed ligated bridges and a 5-base UMI; Sequence preprocessing specifies Read 1 mask 1-15, 31-45, 61-76 and UMI 77-82. These published values conflict. Exact pool/decoder members are described as proprietary; cDNA is cleaved by USER and processed using Jemt et al."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC6765407 JATS Online Methods Bead production line 121, Array decoding 125, Library preparation 141 and Sequence preprocessing 145; full-bundle oligo scraper",
+        "finding": "Source prints 15/14/15 barcode pools, a 5-base UMI and 14/16-base ligated bridges GACTTGTCTAGAGC and TGATGCCACACTACTC. It separately masks Read 1 at 1–15, 31–45, 61–76 and UMI 77–82: 15/15/16 plus 6, a real internal discrepancy. USER releases barcoded cDNA and Jemt et al. supplies later library workflow; individual barcode/decoder members are described as proprietary."
+      }
+    },
+    {
+      "id": "vickovic_2019_pdf",
+      "role": "other",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author article PDF Methods around extracted lines 270-310, compared with JATS Methods lines 119-145",
+        "finding": "PDF is an alternate rendering of the same original paper, not a second independent source. It repeats precursor and printed bridge strings."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original article PDF text lines 270–280 and 376–382; compared directly to JATS lines 121/145; scraper",
+        "finding": "Alternate rendering repeats 14/16 bridge bases and 5-base UMI, plus the 77–82 UMI extraction. It adds no independent source or resolution to the conflict."
+      },
+      "reason": "Duplicate rendering of the defining article; retained to check PDF transcription."
+    },
+    {
+      "id": "vickovic_2019_preprint",
+      "role": "other",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/563338_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "BioRxiv v2 extracted Methods lines 218-245; scraper hits 218 and 235",
+        "finding": "Author preprint repeats precursor and both ligated bridge sequences, but is an earlier version of the published work. The published Methods control the final model."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 PDF text lines 216–235 and 302–319; scraper",
+        "finding": "Preprint prints the same ligated bridge bases, but its Bead production says 7-base UMI (lines 232–235), unlike final published 5-base UMI. Its own preprocessing also selects 77–82, six bases. This creates a third source value; final model follows the later published synthesis passage."
+      },
+      "discovered_from": "vickovic_2019_article"
+    },
+    {
+      "id": "supplementary_figures",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-1.docx.txt; Springer MOESM1 PDF text",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary figure captions, DOCX first 75 lines and Springer MOESM1 PDF first 90 lines; scraper run on all",
+        "finding": "Figure captions describe array fabrication and decoding; the inspected extracted text provides no additional printed bead-pool member sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF lines 27–45 and NIHMS DOCX caption lines 3–5; scraper",
+        "finding": "Supplementary Fig. 1 is chemistry-relevant: depicts the three split-and-pool ligation rounds and 65×211×211 decoder design. Captions and extracted text do not print individual oligo members, but should not be excluded as irrelevant."
+      }
+    },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_41592_2019_548_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Nature reporting summary headings and sample preparation sections, extracted lines 1-65",
+        "finding": "Reporting form identifies assay design and sample processing without a new oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM2 PDF text lines 1–65; scraper",
+        "finding": "Nature reporting form gives sample and assay reporting fields, not a base-level oligo or reaction recipe."
+      },
+      "reason": "Reporting form, not detailed chemistry or oligo table."
+    },
+    {
+      "id": "supplement_2_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 2 header and first rows; no reagent columns; full-bundle oligo scraper run",
+        "finding": "This is a smFISH capture-efficiency comparison with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-2 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify smFISH versus HDST capture-efficiency values, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_3_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 3 header and first rows; gene statistics; full-bundle oligo scraper run",
+        "finding": "This is a mouse olfactory-bulb differential-expression result with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-3 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify mouse olfactory-bulb differential-expression genes, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_4_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-4.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook shared-string header Gene, Cell type, Mean expression and first gene rows; full-bundle oligo scraper run",
+        "finding": "This is a cell-type mean expression reference with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-4 workbook first sheet/header and first rows; XLSX sharedStrings.xml first termsfull-bundle scraper checked for hits",
+        "finding": "Inspected headers identify cell-type mean-expression reference, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_5_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 5 header and first coordinate rows; full-bundle oligo scraper run",
+        "finding": "This is a mouse olfactory-bulb cell-type assignments with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-5 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify mouse olfactory-bulb cell-type assignment coordinates, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_6_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-6.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet Suptable11 shared-string headers x, y, Cell type, bin, Posterior probability; full-bundle oligo scraper run",
+        "finding": "This is a mouse olfactory-bulb posterior cell assignments with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-6 workbook first sheet/header and first rows; XLSX sharedStrings.xml first termsfull-bundle scraper checked for hits",
+        "finding": "Inspected headers identify mouse olfactory-bulb posterior cell assignments, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_7_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-7.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook Sheet1 shared-string headers pvals, pvalsadj and gene names; full-bundle oligo scraper run",
+        "finding": "This is a gene significance/result table with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-7 workbook first sheet/header and first rows; XLSX sharedStrings.xml first termsfull-bundle scraper checked for hits",
+        "finding": "Inspected headers identify gene significance p-values, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_8_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-8.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 8 header Gene, contig, start, end and first rows; full-bundle oligo scraper run",
+        "finding": "This is a nuclear-segment marker genes with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-8 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify nuclear-segment marker gene intervals, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_9_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-9.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 9 workbook sheet names and first result rows; scraper false hits are gene names SCARNA10 etc.; full-bundle oligo scraper run",
+        "finding": "This is a cell-type mean-expression matrices with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-9 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify cell-type mean-expression matrices, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_10_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-10.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 10 header and first result rows; full-bundle oligo scraper run",
+        "finding": "This is a breast-cancer differential-expression result with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-10 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify breast-cancer differential-expression genes, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_11_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-11.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 11 header and first result rows; full-bundle oligo scraper run",
+        "finding": "This is a breast-cancer morphological-layer result with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-11 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify breast-cancer morphological-layer differential-expression genes, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_12_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-12.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet Suptable11 shared-string headers x, y, Cell type, bin and Posterior probability; full-bundle oligo scraper run",
+        "finding": "This is a breast-cancer posterior cell assignments with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-12 workbook first sheet/header and first rows; XLSX sharedStrings.xml first termsfull-bundle scraper checked for hits",
+        "finding": "Inspected headers identify breast-cancer posterior cell assignments, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_13_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-13.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 13 header and first result rows; full-bundle oligo scraper run",
+        "finding": "This is a breast-cancer differential-expression result with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-13 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify breast-cancer assigned-cell-type differential-expression genes, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "supplement_14_results",
+      "role": "supplement",
+      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-14.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 header Subarray_ID, Total_positions and first rows; full-bundle oligo scraper run",
+        "finding": "This is a array decoding and redundancy statistics with results/coordinates rather than bead-oligo or library-primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-14 workbook first sheet/header and first rows; doctext workbook text; full-bundle scraper checked for hits",
+        "finding": "Inspected headers identify array decoding and redundancy statistics, not an oligo ordering table. Supplement 9 scraper SCARNA hits are gene symbols, not synthesized primers. Independent full-source exclusion is limited to the inspected workbook structure/headers."
+      },
+      "reason": "Result workbook; no chemistry-relevant reagent/oligo table in inspected headers or scraper hits."
+    },
+    {
+      "id": "jemt_2016_st_library",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+srep37137/srep37137_PMC5111054.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Jemt 2016 PMC5111054 JATS Results lines 49–53, Methods line 89 and Fig. 1 caption lines 308–310; Jemt source bundle scraper",
+        "finding": "After USER release, cited predecessor performs second-strand synthesis, end repair, T7 in-vitro transcription, RNA-adapter ligation, another cDNA synthesis and indexing PCR. Its Methods explicitly delegate the oligo sequences to Ståhl et al. 2016 Science supplementary information. No exact HDST final junction is established by Jemt alone."
+      },
+      "discovered_from": "vickovic_2019_article"
+    },
+    {
+      "id": "jemt_2016_supp",
+      "role": "linked_material",
+      "locator": "_data/sources/doi_10.1038+srep37137/srep37137_supp_srep37137-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original Jemt supplement is Magnatrix robot setup/import guide; it does not give library oligos or additional reaction chemistry. Independent first pass remains pending.",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Jemt srep37137-s1 PDF text lines 1–60, headings and setup instructions; Jemt bundle scraper",
+        "finding": "Supplement describes Magnatrix robot setup/import, not oligonucleotide sequences or molecular reaction changes."
+      },
+      "discovered_from": "jemt_2016_st_library"
+    },
+    {
+      "id": "stahl_2016_original_supp",
+      "role": "predecessor",
+      "locator": "Ståhl et al. 2016 Science doi:10.1126/science.aaf2403 supplementary information",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Jemt 2016 Methods line 89 explicitly delegates exact spatial-transcriptomics oligo sequences to this original supplement. Targeted DOI fetch returned publisher manual gate; supplemental file remains unavailable.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "jemt_2016_st_library"
+    },
+    {
+      "id": "illumina_bead_panel",
+      "role": "vendor",
+      "locator": "Illumina Big Bird HDST barcode/decoder panel; no public ordering document located",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Methods say barcode and decoder members were proprietary Illumina product-line material; no independent vendor panel document has been recovered.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "vickovic_2019_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original Methods lines 121, 141 and 145; all 14 local supplement workbooks/figure/reporting sources inspected by headers plus complete bundle oligo scraper; bioRxiv v2; cited Jemt 2016 and Illumina provenance pointers",
+      "finding": "Followed the article to its preprint and local supplements. The published bridge sequences resolve the prior missing-bridge claim, while the article itself has a 5-versus-6-base UMI and barcode-span conflict. Jemt predecessor and Illumina panel remain uninspected, and no independent second pass is yet recorded."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original HDST JATS lines 121/141/145, bioRxiv v2 lines 216–235/302–319; all 14 supplement workbook headers; Jemt PMC5111054 lines 49–53/89/308–310; Jemt supplement headings; targeted Ståhl DOI fetch",
+      "finding": "Followed Jemt to the original automated ST workflow and then its explicit Ståhl 2016 supplementary-oligo citation. Jemt confirms second strand/end repair → IVT → RNA-adapter ligation → RT → index PCR; Ståhl SI remains gated. Three source values for UMI length are now disclosed: published synthesis 5, preprint synthesis 7, both read masks 6. Illumina barcode/decoder panel and exact final adapter junction remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The HDST ligated bridge sequences are unavailable",
+      "disposition": "resolved",
+      "evidence": "Original published Online Methods, Bead production line 121, prints Bridge1Bridge2 GACTTGTCTAGAGC and Bridge3Bridge4 TGATGCCACACTACTC; page and physical model now use them."
+    },
+    {
+      "claim": "The individual Illumina barcode and decoder panel members are unavailable",
+      "disposition": "blocked",
+      "evidence": "The paper labels them proprietary, but the vendor panel material has not been recovered and no second independent review is yet complete."
+    }
+  ],
+  "conclusion": "Independent pass confirms printed bridges and 5-versus-6-base final-paper discrepancy, plus a 7-base preprint UMI value. Jemt resolves reaction order but delegates oligos to gated Ståhl 2016 SI; Illumina panel is unrecovered. No missing-information claim accepted."
+}

@@ -1,0 +1,127 @@
+{
+  "dir": "microbe-seq__10.1126+science.abm1483",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Zheng et al Science 2022 DOI:10.1126/science.abm1483",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published Science version marked manual in MANIFEST; original revision supplement not present.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Zheng et al bioRxiv 2020 DOI:10.1101/2020.12.14.422699; 2020.12.14.422699_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 135-156",
+        "finding": "Preprint describes four droplet mergers, Nextera tagmentation and hydrogel barcode beads; linked supplementary methods/tables."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original bioRxiv main PDF extracted text lines 135-156",
+        "finding": "Preprint describes droplets, Nextera fragmentation and bead barcode priming; publication-specific details remain unchecked."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "preprint_methods",
+      "role": "supplement",
+      "locator": "2020.12.14.422699_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 54-67, 106-111",
+        "finding": "Methods print photocleavable acrydite bead chemistry and two split-pool oligo extension rounds."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original media-1 PDF extracted text lines 54-67 and 106-111",
+        "finding": "Supplement describes bead split-pool oligos, 96-by-384 barcode diversity and 45-bp Read 1 barcode read plus 8-bp index read."
+      }
+    },
+    {
+      "id": "preprint_oligos",
+      "role": "supplement",
+      "locator": "2020.12.14.422699_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Table S6 starts lines 217-225; barcode oligo families",
+        "finding": "Preprint Table S6 prints Barcode 1 and 2 oligo families. Scraper detects their bases; not evidence of later published revision."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original media-3 XLSX extracted text lines 217-225 and 316 onward",
+        "finding": "Preprint Table S6 contains barcode1 and barcode2 oligo families; candidate sequences exist in an original preprint supplement."
+      }
+    },
+    {
+      "id": "preprint_other",
+      "role": "supplement",
+      "locator": "2020.12.14.422699_media-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Header and oligo search",
+        "finding": "Additional preprint supplement available; chemistry relevance not excluded."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original media-2 PDF extracted text lines 1-30 and oligo search",
+        "finding": "File contains figure panels; no adapter or oligo table found in inspected text. This is not proof of absence elsewhere."
+      }
+    },
+    {
+      "id": "nextera",
+      "role": "linked_material",
+      "locator": "Illumina Nextera kit/adaptor vendor guide; exact kit variant to identify",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Preprint refers to Nextera by name but full vendor manual and exact variant not checked.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint main text lines 135-156 and media-1 lines 54-67; Table S6 lines 217-225",
+      "finding": "Followed preprint-linked Table S6 and bead method; published Science article/supplement and vendor Nextera guide remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "bioRxiv main lines 135-156; media-1 lines 54-67, 106-111; media-3 Table S6 lines 217-225",
+      "finding": "Followed preprint into bead oligo Table S6 and read layout. Published Science article and kit guide have not been accessed; preprint does not establish published sequence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Published 2022 hydrogel bead and sequencing adapter identities need comparison with available 2020 preprint oligo table",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

@@ -1,0 +1,130 @@
+{
+  "dir": "last-seq__10.1186+s13059-023-03025-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Li et al. Genome Biol 2023 doi:10.1186/s13059-023-03025-5; PMC10413806",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC10413806 JATS lines 147-167, 234-236",
+        "finding": "Hairpin/rU-dT primer assembly, RNase H/Klenow promoter attachment, T7 IVT and aRNA library PCR; paper points to Additional files 1 and 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC10413806 JATS lines 145-169 and 230-240; source-bundle oligo scraper checked against original",
+        "finding": "Independently verified 80 selected six-base cell barcode labels, E. coli DNA ligation of hairpin and 5-prime-phosphorylated rU-dT/ddC module, RNase H plus Klenow exo-minus promoter attachment, T7 IVT, then random-primed RT and P5/P7 PCR. Article explicitly identifies Additional files 1-3; file 3 is peer review history."
+      }
+    },
+    {
+      "id": "additional_file_1",
+      "role": "supplement",
+      "locator": "Original Additional file 1 MOESM1 DOCX",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.docx.txt lines 1-90",
+        "finding": "Supplementary figure captions include LAST primer and final library diagrams."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 DOCX text lines 3-22, especially Fig S3 caption line 9 and Fig S8 caption line 22",
+        "finding": "Independently checked figure captions. Fig S3 specifies hairpin/rU-dT annealing, nick ligation and PAGE purification; Fig S8 describes final library schematic and size distribution. No separate base-level oligo list appears in extracted captions; Table S3 in Additional file 2 is the sequence source."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "additional_file_2",
+      "role": "supplement",
+      "locator": "Original Additional file 2 MOESM2 XLSX, Tables S1-S5",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM2.xlsx.txt lines 7-24, 35-121, especially 117-121",
+        "finding": "Table S3 prints cellular barcode/UMI hairpin primer family, /5Phos/ rU-dT tail ending /3ddC/, P5/P7 and index primer families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 XLSX extracted Table S2 lines 7-30 and Table S3 lines 35-132; scraper hits lines 37-67, 118-132; BC5 and BC7 lines 48 and 50",
+        "finding": "Independently checked 80 labeled hairpin members with eight-base UMI and six-base cellular barcode, /5Phos/ rU19-dT7 tail ending /3ddC/, RandomRT N6, P5/P7 and indexed NEBNext1-12/Universal primers. Table S3 assigns identical CAGGAA six-mers to BC5 and BC7 (lines 48,50), so its 80 labels contain only 79 unique printed barcode sequences; model uses distinct BC2 as representative. Table S2 oligos are synthetic assay controls, not substitute capture hairpins."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nebnext_index",
+      "role": "vendor",
+      "locator": "NEBNext Multiplex Oligos for Illumina manual/version used by authors",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "additional_file_2",
+      "reason": "Table S3 names NEBNext oligos but the exact product/manual revision was not established this pass."
+    },
+    {
+      "id": "additional_file_3",
+      "role": "supplement",
+      "locator": "Original Additional file 3 MOESM3 DOCX, _data/sources/last-seq__10.1186+s13059-023-03025-5/s13059-023-03025-5_supp_13059_2023_3025_MOESM3_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Peer-review history and author responses; chemistry details are repeated commentary, not an independent oligo protocol or table.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 DOCX text lines 1-75, 180-195 and final response; keyword search for oligo, primer, adapter, library, sequence",
+        "finding": "Additional file 3 is the editorial peer-review history and author replies. It discusses the rationale and controls, with no additional synthesis-ready LAST-seq primer family beyond published article and Additional file 2."
+      }
+    },
+    {
+      "id": "nebnext_2024_manual",
+      "role": "linked_material",
+      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nebnext_index",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official NEBNext Multiplex Oligos manual version 8.0_6/24 lines 1-6; Index 1 primer lines 165-176; Universal primer lines 283-293; scraper on original manual",
+        "finding": "Current official E7335/E7500/E7710/E7730 manual prints Index 1 CGTGAT and Universal primer matching LAST Table S3 NEBNext1 and Universal bases and terminal phosphorothioate. Its June 2024 revision postdates the 2023 paper; exact kit and version used by authors are still unestablished."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 153-167, 234-236; Additional file 2 Table S3 lines 35-132",
+      "finding": "Followed the paper to its published oligo workbook. Named NEBNext product/version needs an independent vendor-source check."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Article JATS lines 145-169, 230-240; Additional file 1 lines 3-22; Additional file 2 Table S3 lines 35-132; Additional file 3 peer-review history lines 1-75; NEB manual v8.0_6/24 lines 1-6,165-176,283-293",
+      "finding": "Followed all three article-linked additional files. File 3 is peer-review history with no separate oligo table. A later official NEB manual matches the printed primer family but cannot identify the 2023 author kit revision. Supplier/version provenance remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any assertion that LAST-seq hairpin, rU tail or index primer bases are absent",
+      "disposition": "blocked",
+      "evidence": "Additional file 2 contains these oligos; remaining vendor-specific interpretation is open."
+    }
+  ],
+  "conclusion": "Independent second readings confirm the published LAST hairpin, rU-dT tail, random RT and index oligos. Additional file 3 is peer-review history. A later NEB manual agrees with Table S3 but historical kit/version remains unresolved; a first independent read of file 3 and the NEB manual is also pending. BC5/BC7 barcode collision is source-printed and now disclosed on the page."
+}

@@ -1,0 +1,97 @@
+{
+  "dir": "mcscrb-seq__10.1038+s41467-018-05347-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "nature_article",
+      "role": "defining",
+      "locator": "Bagnoli et al Nat Commun 2018, s41467-018-05347-6_PMC6062574.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods and protocol citation near article lines 41-65",
+        "finding": "Article defines PEG crowding and SCRB modifications; points to a detailed linked protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Nat Commun JATS s41467-018-05347-6_PMC6062574.xml.txt lines 41-55, 61, 135-153, 199 and 387; whole mcSCRB source-bundle primer scraper run before reading",
+        "finding": "Paper confirms E3V6NEXT in lysis, 7.5% PEG during RT/template switching, pooling before Exo I cleanup, Terra/SINGV6 preamplification, Nextera XT tagmentation and P5NEXTPT5 3-prime enrichment. Methods specify Read 1 16 cycles (six-base cell barcode plus ten-base UMI), optional i7 eight cycles, Read 2 50 cycles. It points to the detailed author protocols.io source; article bibliography cites an earlier protocol DOI variant (nrkdd4w), while cached V.2 identifies itself as p9kdr4w."
+      }
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Authors mcSCRB-seq protocol V.2, protocolsio_mcscrb-seq-protocol-5qpvo4d7g4o1.pdf.txt; doi:10.17504/protocols.io.p9kdr4w",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Primer table lines 82-163; workflow lines 262-275 and 550-834",
+        "finding": "Prints E3V6NEXT, E5V6NEXT, SINGV6, P5NEXTPT5 and i7 oligo architecture; refers to an attached cell-barcode text file."
+      },
+      "discovered_from": "nature_article",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io V.2 PDF lines 1-9, 62-67, 82-163, 262-275, 753-834, 995-1028, 1053-1056; whole source-bundle primer scraper run before reading",
+        "finding": "The oligo table directly prints biotin E3V6NEXT with [BC6][UMI10][T30]VN, unblocked E5V6NEXT with rGrGrG, biotin SINGV6, phosphorothioate-marked P5NEXTPT5 and N7xx family with [i7]. Tagmentation is followed by P5NEXTPT5/N7xx enrichment. Run table is R1 16, I1 8, I2 0, R2 50. PDF explicitly lists a separate 44-KB mcSCRBseq_oligodT attachment (lines 62-67) and says its cell barcode sequences are in that text file (line 163); pdfdetach reports zero embedded files, and the attachment is absent from the local manifest."
+      }
+    },
+    {
+      "id": "barcode_attachment",
+      "role": "linked_material",
+      "locator": "mcSCRB-seq protocol V.2 attached mcSCRBseq_oligodT.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Protocol PDF line 163 names an attached cell-barcode text file; no copy appears in the local source bundle.",
+      "discovered_from": "protocolsio",
+      "pass_2": null
+    },
+    {
+      "id": "nature_supp",
+      "role": "supplement",
+      "locator": "Nat Commun 2018 MOESM1 and MOESM2 PDFs",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary figure/table headings and methods references",
+        "finding": "Supplemental results document protocol comparisons; exact oligo table is in linked protocols.io procedure."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Nat Commun MOESM1 PDF text lines 1-5, 309-325, 3204-3264, 3418-3426, 3546-3552; MOESM2 PDF text lines 1-38, 161-174; whole source-bundle primer scraper run before reading",
+        "finding": "MOESM1 contains optimization figures and Supplementary Table 2 comparing SCRB vs mcSCRB conditions (0.2 uM oligo-dT, 7.5% PEG, unblocked TSO), plus cost/workflow tables; it does not print the six-base cell-barcode whitelist in inspected source. MOESM2 is peer-review correspondence, including PCR-cycle discussion, not an oligo ordering table. These do not substitute for the distinct protocols.io attachment."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nat Commun methods, protocols.io primer table and attachment reference at line 163",
+      "finding": "Followed paper to author protocols.io V.2. Attachment with full cell barcodes is unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original article JATS lines 139-153, 199, 387; original author protocols.io V.2 lines 1-9, 62-67, 82-163 and 1003-1056; MOESM1 Table 2 lines 3204-3264; pdfdetach -list on local protocols.io PDF",
+      "finding": "Independently followed article to author V.2 stepwise protocol and both publisher supplementary PDFs. Protocol supplies exact oligo architecture and read roles but points to a separate 44-KB barcode attachment not contained in the PDF or fetched manifest; full barcode-member whitelist remains blocked. Article bibliography cites nrkdd4w, while linked cached V.2 says p9kdr4w, a version distinction rather than a sequence conflict."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full cell-barcode whitelist from author attachment",
+      "disposition": "blocked",
+      "evidence": "Protocol refers to an attachment; the attachment has not been obtained."
+    }
+  ],
+  "conclusion": "First original-source reading only; a different reviewer must independently check the sources, source links, and any claimed absence."
+}

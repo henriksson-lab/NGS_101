@@ -1,0 +1,208 @@
+{
+  "dir": "scsprite__10.1101+2020.08.11.242081",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/2020.08.11.242081_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods overview lines 108–132; scraper rerun",
+        "finding": "Preprint distinguishes three rounds of in-nucleus cell barcoding from later spatial-complex barcoding, but no oligo hit was returned by scraper."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF text lines 110–120, 490–545, 642–655",
+        "finding": "Three in-nuclei barcode rounds DPM/Odd/Even mark cells, then bead spatial tag rounds; six-tag read order printed as DPM–Odd–Even–Odd–Even–Y-even."
+      }
+    },
+    {
+      "id": "published",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/PMC11588347_PMC11588347.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Results/method overview lines 57–65",
+        "finding": "Published successor describes cellular barcode and spatial barcode phases; supplementary method and barcode sequences require further read."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published PMC11588347 JATS lines 169–188",
+        "finding": "Published Methods describes in-nuclei cell barcoding before sonication and NHS bead coupling, then repeated spatial split-pool tag ligation; cell and spatial barcodes remain distinct layers."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "supp_notes",
+      "role": "supplement",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/s41587-021-00998-1_41587_2021_998_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 1 PDF lines 1–115, Supplementary Notes 1–5",
+        "finding": "Notes discuss contact analyses, structural heterogeneity and author roles; no ordering oligos or reaction geometry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF Supplemental Notes 1–5 opening text lines 1–100",
+        "finding": "Supplementary notes discuss analyses/heterogeneity/author roles; no oligo table in inspected notes."
+      },
+      "reason": "Notes discuss contact analyses, structural heterogeneity and author roles; no ordering oligos or reaction geometry."
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/s41587-021-00998-1_41587_2021_998_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Both original Additional file 2 PDF pages visually inspected; extracted text blank",
+        "finding": "Nature Research statistical/data/cell-line reporting summary only, with no molecular method or oligo."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF, visually inspected pages 1–2 because text extraction empty",
+        "finding": "Nature Research Reporting Summary only; no chemistry oligo/reaction content."
+      },
+      "reason": "Nature Research statistical/data/cell-line reporting summary only, with no molecular method or oligo."
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/s41587-021-00998-1_41587_2021_998_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Additional file 3 workbook sheet headings and first rows, ST1–ST3",
+        "finding": "Three sheets report chromosome-territory, A/B, and TAD metric tables; no oligo or reaction columns."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM3 workbook headers for ST1, ST2 and ST3 at text lines 1, 175, 402",
+        "finding": "Chromosome-territory, A/B and TAD metric tables; no oligo columns in inspected headers."
+      },
+      "reason": "Three sheets report chromosome-territory, A/B, and TAD metric tables; no oligo or reaction columns."
+    },
+    {
+      "id": "sprite_predecessor",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/j.cell.2018.05.024_PMC6548320.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "SPRITE 2018 original JATS Methods lines 960–1009; oligo scraper previously rerun on original bundle",
+        "finding": "Predecessor explicitly gives DPM → Odd → Even → Odd → Terminal split-pool tag ligation order and barcoded terminal tags. scSPRITE adds in-nucleus cell barcoding before spatial barcode rounds; precursor alone cannot define every scSPRITE well barcode member."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original SPRITE PMC6548320 JATS Methods lines 960–1010, article Table S5 description lines 2335–2346",
+        "finding": "SPRITE predecessor establishes bead-bound DPM→Odd→Even→Odd→Terminal split-pool chemistry and original adaptor table S5; scSPRITE adapts this with separate in-nucleus cell-barcode rounds. The original Table S5 itself remains unavailable in the SPRITE review."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "sprite_original_table_s5",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/caltech_mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "sprite_predecessor",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author CaltechAUTHORS record xrfk6-20h25 attached mmc5.xlsx; extracted Sheet1 lines 1–868, columns PlateName/Name/Barcode/Entire Sequence",
+        "finding": "The original 2018 SPRITE Supplementary Table S5 is now recovered. It prints 96 members each for Terminal Top/Bottom, DPM Top/Bottom, Even Top/Bottom, indexed primers and Odd Top/Bottom, plus RPM strands. This establishes predecessor oligo identities, not scSPRITE-specific terminal assembly."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author Caltech mmc5.xlsx extracted Sheet1 lines 1–868: Terminal Bottom lines 99–194; DPM Top lines 291–386; Even Bottom lines 483–578; Odd Bottom lines 771–866; indexed primer family lines 675–770",
+        "finding": "Independently read full original 2018 Table S5 and checked all 96 members of relevant families. It prints full precursor strands and primer family. Every Table S5 Terminal Bottom barcode matches an author scSPRITE parser Y value. Full original SPRITE precursor strands do not by themselves establish scSPRITE Y-even ligation-end geometry or the pair selected for scSPRITE library PCR."
+      }
+    },
+    {
+      "id": "scsprite_author_parser_config",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/author_config_dpm6_y-stag_scSPRITE.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS line 401 links author GitHub; scSPRITE/misc/config_dpm6_y-stag_scSPRITE.txt lines 1–387, especially header, EVEN 4–99, ODD 100–195, Y 196–291, DPM 292–387; compared all 96 Y strings against original Table S5 Terminal_Bottom rows 99–194",
+        "finding": "Author parser declares READ2 Y|SPACER|EVEN|SPACER|ODD|SPACER|EVEN|SPACER|ODD|SPACER|DPM and 96 read strings per tag family. All 96 Y values exactly equal original SPRITE Table S5 Terminal_Bottom barcode values. These are observed read matching strings, not full ordered Y-even ligation oligos; adapter geometry remains unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author parser config lines 1–387: READ2 header lines 1–2; EVEN lines 4–99; ODD 100–195; Y 196–291; DPM 292–387; compared with original SPRITE Table S5 Sheet1 as above",
+        "finding": "Independently parsed all 96 values per family. Y matches Terminal Bottom barcode values in order (96/96). ODD matches Odd Bottom barcode with its first base removed in order (96/96). EVEN matches the full set of Even Bottom barcodes with first base removed (96/96), but rows are differently ordered (24/96 row-wise). DPM equals reverse complement of each DPM Top 8-mer followed by TT (96/96 in order). These are read-matching strings, not proof of the scSPRITE-specific ordered oligos, ligation geometry or selected PCR pair."
+      }
+    },
+    {
+      "id": "scsprite_author_parser_config2",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/author_config_dpm6_y-stag_scSPRITE2.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "scsprite_author_parser_config",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author scSPRITE/misc/config_dpm6_y-stag_scSPRITE2.txt lines 1–386; diff against first config header and DPM lines 291–386",
+        "finding": "Alternate parser retains the same 96 Y, Odd and Even read strings, but its DPM motif adds constant TCATGTCTTCCGATCT before each 10-base DPM string. The author repository contains two read-parsing choices; no source identifies which one applied to every published library, so exact raw read offsets remain unresolved."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author alternate scSPRITE2 parser config lines 1–386, compared line-by-line with original author scSPRITE parser config lines 1–387; both files inspected in full",
+        "finding": "Independent comparison finds all 96 Y, EVEN and ODD strings identical in order across configs. Every scSPRITE2 DPM string is exactly the 17-base constant TCATGTCTTCCGATCT plus its same-index 10-base DPM string from the first config (96/96). The alternate header omits the blank READ1 line and keeps the same READ2 tag order. These are alternative parser matching patterns; neither identifies which parser applied to each published library or establishes a complete ordered Y-even ligation adapter or selected PCR pair."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS line 401 author code; CaltechAUTHORS SPRITE original record xrfk6-20h25 mmc5.xlsx; scSPRITE config file lines 1–387",
+      "finding": "Followed original SPRITE Table S5 and scSPRITE author parser. Exact Y read barcode family is available and matches predecessor Terminal Bottom strings, but full scSPRITE Y-even oligo and PCR primer pair remain unresolved. New source rows await independent second reader. An adjacent alternate parser adds a 17-base prefix to DPM read matching; exact raw read offsets cannot be fixed from these configs alone."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original SPRITE Caltech Table S5 Sheet1 lines 1–868; scSPRITE author parser config lines 1–387; scSPRITE published article JATS cited-code link line 401",
+      "finding": "Followed author-linked parser and original SPRITE Table S5 and verified all 96 Y, ODD, EVEN and DPM read-string relationships. Both sources are now read twice. Neither specifies the full scSPRITE Y-even ordering oligo/ligation-end geometry or uniquely identifies the scSPRITE library PCR primer pair."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original SPRITE Table S5 and scSPRITE author parser have two independent readings. Their 96-member Y, ODD, EVEN and DPM read-string relationships are verified, but a read parser and predecessor order table do not establish the full scSPRITE Y-even ligation oligo/end geometry or selected library PCR pair. These claims remain blocked."
+}

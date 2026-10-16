@@ -1,0 +1,76 @@
+{
+  "dir": "ace-seq__10.1038+nbt.4204",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC6453757, local nbt.4204_PMC6453757.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS Methods, library preparation",
+        "finding": "Names Swift Accel Methyl-NGS kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "XML line 118, ACE-Seq library preparation",
+        "finding": "States Swift Accel Methyl-NGS after A3A deamination; does not print kit oligos."
+      }
+    },
+    {
+      "id": "supplement_1",
+      "role": "supplement",
+      "locator": "NIHMS979615 supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol 2, library construction",
+        "finding": "Names Accel-NGS Methyl-Seq and indexing kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 1323-1324 and 1441-1450",
+        "finding": "Names Swift Accel-NGS Methyl-Seq 30024 and indexing kit 36024 and directs following vendor procedure."
+      }
+    },
+    {
+      "id": "swift_guide",
+      "role": "linked_material",
+      "locator": "Swift Biosciences Accel-NGS Methyl-Seq kit 30024 and indexing kit 36024 original guides",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supplement_1",
+      "reason": "Named in supplement; original vendor guides unavailable locally."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "JATS supplementary links and protocol 2",
+      "finding": "Found named Swift kit guides, not obtained."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "XML 118 and supplement-1 lines 1323-1450",
+      "finding": "Confirmed named vendor kits; their original guides are absent."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact adapter and sequencing-primer oligos are unpublished in checked scope.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

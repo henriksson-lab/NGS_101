@@ -1,0 +1,125 @@
+{
+  "dir": "scito-seq__10.1038+s41592-021-01222-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41592-021-01222-3; s41592-021-01222-3_PMC8643207.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 191-195 and 211-215",
+        "finding": "Methods define 20-bp antibody handle, 34-bp TruSeq Read2, 10-bp compound barcode, 22-bp capture region; no universal concrete handle/barcode set at these locations."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC8643207 JATS lines 191-215",
+        "finding": "Original Methods cover antibody-DNA staining pools and droplet feature-barcode readout; exact 10x kit oligos not printed in inspected passage."
+      }
+    },
+    {
+      "id": "publisher_supp_1",
+      "role": "supplement",
+      "locator": "s41592-021-01222-3_41592_2021_1222_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "supplementary information table headings and sequence-word scan",
+        "finding": "Lists antibody panels and analyses; no universal oligo synthesis table found by text scan."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 supplementary table headings and primer/oligo search",
+        "finding": "Original supplementary PDF was inspected for chemistry sequences; no additional complete 10x feature-barcode primer established."
+      }
+    },
+    {
+      "id": "publisher_supp_2",
+      "role": "supplement",
+      "locator": "s41592-021-01222-3_41592_2021_1222_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "MOESM2 is Nature Research Reporting Summary, visually confirmed by independent audit_s_z reviewer; its extracted text twin is blank.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF visually inspected all physical pages 1–3 at 900-pixel render; page 1 Nature Research Reporting Summary heading/statistics/code, page 2 study design/antibodies, page 3 flow-cytometry methods; text twin blank; source-bundle scraper run",
+        "finding": "The entire three-page file is a reporting summary, with study-design and flow-cytometry disclosure fields but no oligo, adapter or library-construction table. Not relevant to a sequence-absence claim."
+      },
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2 visual page 1 confirmed by audit_s_z; local text extraction is three bytes",
+        "finding": "Reporting summary, not an oligo table."
+      }
+    },
+    {
+      "id": "author_preprint",
+      "role": "other",
+      "locator": "2020.03.27.012633_v1.full.pdf.txt and 2020.03.27.012633_media-1.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "preprint Fig. 1 legend lines 299-303; supplement lines 190-205",
+        "finding": "Preprint repeats secondary oligo architecture; supplement gives titration protocol but no concrete universal handle set in inspected text."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Author preprint 2020.03.27.012633 v1 and media-1.docx.txt lines 190-205",
+        "finding": "Preprint supplement discusses oligonucleotide conjugated antibody titration; it does not resolve the versioned 10x Feature Barcoding oligos."
+      }
+    },
+    {
+      "id": "tenx_feature",
+      "role": "vendor",
+      "locator": "10x Genomics 3-prime v3 Feature Barcoding kit referenced by paper",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Specific commercial kit oligo guide not present locally.",
+      "pass_2": null
+    },
+    {
+      "id": "authors_repository",
+      "role": "linked_material",
+      "locator": "yelabucsf/SCITO-seq analysis repository cited in prior source ledger",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Repository sequence files not checked in this pass.",
+      "discovered_from": "paper",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "paper Methods 191-195, preprint Fig. 1, publisher/preprint supplement text and prior ledger GitHub route",
+      "finding": "Found 10x kit and authors repository as chemistry-relevant linked routes; both need checking."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC Methods and preprint supplement; visually checked MOESM2 Reporting Summary; source manifest",
+      "finding": "MOESM2 is a reporting summary, not a missing chemistry table. 10x Feature Barcoding guide and cited author analysis repository remain unavailable/unreviewed."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "No universal SCITO handle/barcode bases are published",
+      "disposition": "blocked",
+      "evidence": "Architecture is printed in Methods lines 191-195; authors repository, image-only supplement and vendor kit remain unverified."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

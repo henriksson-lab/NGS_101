@@ -1,0 +1,214 @@
+{
+  "dir": "bacdrop__10.1016+j.cell.2023.01.002",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "ma2023",
+      "role": "defining",
+      "locator": "Ma et al. Cell 2023 doi:10.1016/j.cell.2023.01.002; j.cell.2023.01.002_PMC10014032.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC JATS extracted lines 77-99 and 175-215 (STAR Methods), 280-355 (supplement inventory), 1010-1023 (Key Resources oligos); primer scraper run on bundle and hits followed to original lines",
+        "finding": "Figure 1B gives 13-nt plate barcode, 8-nt UMI and 6-nt random tract. STAR Methods tail pooled cellular cDNA before droplet loading. Key Resources gives SMRT_dT, SMRT_PCR and P5 partial bases. Table S1 contains 384 RT primers but its supplement is inaccessible in this bundle."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC10014032 JATS lines 183-215 (STAR Methods), 1016-1023 (Key Resources), 280-355 (supplement inventory); scraper hits checked at 1018-1022",
+        "finding": "Independently confirmed 384 first-round RT primers are delegated to Table S1, while original Key Resources prints SMRT_dT, SMRT_PCR and P5 partial oligos. The method uses 10x PN-1000176 and Nextera XT; local supplement files are absent."
+      }
+    },
+    {
+      "id": "pmc_supp_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-1.pdf; PMC original supplement 1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-2.pdf; PMC original supplement 2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-3.pdf; PMC original supplement 3",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-4.pdf; PMC original supplement 4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-5.pdf; PMC original supplement 5",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-6.pdf; PMC original supplement 6",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-7.xlsx; PMC original supplement 7 (Table S1, 384 RT primers)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-8.xlsx; PMC original supplement 8 (Table S2, strains and oligos)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-9.xlsx; PMC original supplement 9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-10.xlsx; PMC original supplement 10",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-11.xlsx; PMC original supplement 11",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-12.docx; PMC original supplement 12",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_13",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-13.docx; PMC original supplement 13",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "pmc_supp_14",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/10014032/bin/NIHMS1869349-supplement-14.xlsx; PMC original supplement 14",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary download gate in MANIFEST.tsv; no original content checked. Treat chemistry relevance as unresolved until read."
+    },
+    {
+      "id": "tenx_cg000209",
+      "role": "vendor",
+      "locator": "10x Genomics CG000209 Rev G, PN-1000176 user guide; https://cdn.10xgenomics.com/image/upload/v1666737555/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official PDF cover p. 0 PN-1000176 and Appendix p. 51, lines 1706-1725 of online extraction",
+        "finding": "The guide prints exact PN-2000210 gel-bead primer constant arms and a variable 16-base barcode position. The version-matched whitelist of possible barcode members was not inspected in this pass."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official CG000209 Rev G online PDF cover p.1 lines 0-12, kit PN-2000210 p.6 lines 115-122, Appendix p.52 lines 1695-1725",
+        "finding": "Independently confirmed kit identity and printed gel-bead P5/16-nt barcode/partial Read 1N architecture, plus sample index PCR primer arms. The particular 16-base barcode membership requires whitelist/version check."
+      }
+    },
+    {
+      "id": "nextera_xt_guide",
+      "role": "vendor",
+      "locator": "Illumina Nextera XT DNA Library Preparation Kit FC-131-1096 and N7** index primer FC-131-2001, named in STAR Methods lines 211-215",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-matched original guide has not been fetched/read for the final library PCR."
+    },
+    {
+      "id": "neb_rrna_guide",
+      "role": "vendor",
+      "locator": "NEBNext Bacterial rRNA Depletion Kit E7850, named in STAR Methods lines 183-186",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original kit guide has not been fetched/read for probe and RNase H chemistry."
+    },
+    {
+      "id": "tenx_atac_whitelist",
+      "role": "linked_material",
+      "discovered_from": "tenx_cg000209",
+      "locator": "10x Genomics Cell Ranger ATAC v1/v1.1 737K-cratac-v1 barcode whitelist for PN-2000210 kit family; software distribution/official data",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-matched official whitelist and its relationship to the exact BacDrop kit batch have not yet been inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article STAR Methods lines 183-215; supplement list lines 280-355; Key Resources lines 1010-1082; followed PN-1000176 to official 10x CG000209 Rev G Appendix p. 51",
+      "finding": "Enumerated fourteen original PMC supplements, including primer Tables S1/S2, and the named 10x, Illumina and NEB kit guides. The 10x guide is read; its version-matched software barcode whitelist, supplements, and two other vendor guides remain unread."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original PMC article STAR Methods lines 183-215 and supplement inventory 280-355; official CG000209 Rev G cover and appendix lines 1695-1725",
+      "finding": "Followed the named 10x PN-1000176 guide and confirmed its versioned gel-bead architecture. Original Table S1/S2 supplements, historical Illumina/NEB manuals and 10x whitelist remain unavailable or unread; linked closure blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The 384 well-specific RT primer members are absent",
+      "disposition": "blocked",
+      "evidence": "Original article explicitly points to Table S1 (supplement 7); PMC original is gated, so absence cannot be accepted."
+    },
+    {
+      "claim": "The 10x gel-bead primer sequence is undisclosed",
+      "disposition": "resolved",
+      "evidence": "Official 10x CG000209 Rev G Appendix p. 51 prints the PN-2000210 constant arms and 16-base barcode position; only individual barcode member assignment remains unresolved."
+    },
+    {
+      "claim": "The possible 16-base 10x bead barcode members are unavailable",
+      "disposition": "blocked",
+      "evidence": "Official CG000209 Rev G gives the variable position, and Cell Ranger ATAC whitelist sources appear to exist. The version-matched original whitelist has not yet been inspected; do not call these bases proprietary or unpublished."
+    }
+  ],
+  "conclusion": "First pass corrected diagram order and lengths and recovered official bead-primer constant arms. Original supplementary Table S1 and linked whitelist/vendor material remain blocked; no missing-information claim is accepted."
+}

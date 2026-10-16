@@ -1,0 +1,92 @@
+{
+  "dir": "simple-seq__10.1038+s41587-024-02148-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "bai2024",
+      "role": "defining",
+      "locator": "Bai et al., Nature Biotechnology doi:10.1038/s41587-024-02148-9, https://www.nature.com/articles/s41587-024-02148-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher page exposes abstract and links, but the detailed Methods/full article are behind subscription access; source manifest has a manual row. Abstract alone cannot verify reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher page abstract lines 38-43, source/data/code links lines 116-122",
+        "finding": "The available abstract describes joint 5mC/5hmC recording but lacks the molecular step order. It links a code repository and data accession, not an open full Methods copy."
+      }
+    },
+    {
+      "id": "publisher_reporting_summary",
+      "role": "supplement",
+      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM1_ESM.pdf in _data/sources/simple-seq__10.1038+s41587-024-02148-9/",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Nature Portfolio reporting summary, not a supplementary chemistry protocol.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all three original PDF pages with pdftoppm; pages 1-3 are reporting summary, data/software and cell-line forms",
+        "finding": "No molecular methods or oligo sequence table in this PDF; previous source note wrongly described it merely as an unreadable image-only supplement."
+      }
+    },
+    {
+      "id": "publisher_tables",
+      "role": "supplement",
+      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM2_ESM.xlsx.txt in _data/sources/simple-seq__10.1038+s41587-024-02148-9/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary_Table1_1 lines 1-13; _1_2 through _1_4 lines 14-226; model controls _1_5 lines 227-242; qPCR controls _1_6 lines 243-247; remaining sheet headings from line 248; scraper hits verified in workbook rows",
+        "finding": "Prints linker/blocker/pMENTs/bridge adapter, modified caC indicator, final PCR primers, 96-well barcode families, model methylated/hydroxymethylated controls, and DNA integrity primers. Later sheets are sample/analysis tables; the workbook does not by itself establish complete reaction order."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM2 XLSX extracted Supplementary_Table1_1 rows 1-13, _1_2 rows 14-29, _1_3 rows 30-49, _1_4 rows 130-151; scraper hits verified at those rows",
+        "finding": "Independently confirmed modified /5Phos/ pMENTs /ddC/, NH2 bridge adapter, /caC/ P7 indicator, fixed PCR arms and plate barcode families. Table supplies oligos but not complete reaction order."
+      }
+    },
+    {
+      "id": "authors_code",
+      "role": "linked_material",
+      "discovered_from": "bai2024",
+      "locator": "https://github.com/cxzhu/SIMPLE-seq, linked as code availability from publisher article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked repository has not yet been inspected for reagent definitions, read layouts or protocol details."
+    },
+    {
+      "id": "predecessor_chemistry",
+      "role": "predecessor",
+      "locator": "TAPS and hmC-CATCH primary chemistry methods are candidate predecessors for the 5mC and 5hmC conversions; precise citations in Bai et al. full Methods remain inaccessible",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact predecessor citations and inherited reaction details cannot be confirmed from the paywalled main Methods; follow-up needed."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Publisher abstract/data/code links lines 38-43 and 116-122; supplementary workbook Table1_1 through Table1_6; visually checked reporting summary",
+      "finding": "Followed available publisher links to the original supplementary files and classified them. Main Methods, linked authors' code and exact predecessor chemistry sources remain unchecked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SIMPLE-seq oligo sequences are missing",
+      "disposition": "resolved",
+      "evidence": "Publisher Supplementary_Table1_1 through _1_6 prints construction, barcode, methylated control and qPCR oligos with modifications; the research note records the main library ones."
+    },
+    {
+      "claim": "The full molecular step order is unavailable",
+      "disposition": "blocked",
+      "evidence": "Defining Methods are paywalled; the oligo workbook and abstract do not establish complete reaction order. Linked code and predecessor methods remain to inspect."
+    }
+  ],
+  "conclusion": "First pass read the original workbook and visually excluded the reporting summary; the defining Methods and linked material remain blocked. A second independent original-source pass is required."
+}

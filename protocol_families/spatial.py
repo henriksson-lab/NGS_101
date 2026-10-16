@@ -238,6 +238,8 @@ HDST_PRECURSOR_WRITTEN = (
     "/AmC6/UUUUUGACTCGTAATACGACTCACTATAGGGACACGACGCTCTTCCGATCT-"
     "Spatial_barcode_Pool1-Bridge1"
 )
+HDST_BRIDGE12 = "GACTTGTCTAGAGC"
+HDST_BRIDGE34 = "TGATGCCACACTACTC"
 
 
 def hdst_library():
@@ -250,12 +252,11 @@ def hdst_library():
     umi = feature("hdst.umi", "umi", "random")
     insert = [
         seg("spatial barcode pool 1", "B" * 15, "cbc", placeholder=True, feature=bc1),
-        seg("bridge 1", "X" * 15, placeholder=True, inferred=True, length_bp=15),
-        seg("spatial barcode pool 2", "C" * 15, "cbc", placeholder=True, feature=bc2),
-        seg("bridge 2", "X" * 15, placeholder=True, inferred=True, length_bp=15),
+        seg("ligated bridge 1+2", HDST_BRIDGE12),
+        seg("spatial barcode pool 2", "C" * 14, "cbc", placeholder=True, feature=bc2),
+        seg("ligated bridge 3+4", HDST_BRIDGE34),
         seg("spatial barcode pool 3", "D" * 15, "cbc", placeholder=True, feature=bc3),
-        seg("terminal spacer", "X", placeholder=True, inferred=True, length_bp=1),
-        seg("UMI", "U" * 6, "umi", placeholder=True, feature=umi),
+        seg("UMI", "U" * 5, "umi", placeholder=True, feature=umi),
         role("transcript cDNA"),
     ]
     lib, all_primers = truseq_library(insert, "representative HDST sequencing library",

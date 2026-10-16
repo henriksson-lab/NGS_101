@@ -14,11 +14,12 @@ CHEC_P5_PCR = "AATGATACGGCGACCACCGAG"
 
 CHEC_P7_PCR = "CAAGCAGAAGACGGCATACGAG"
 
-HENIKOFF_DA_LIGATION = reported_adapter_end(
+ORSI_DA_LIGATION = reported_adapter_end(
     "phosphorothioate-protected TruSeq adapter", kind="cohesive",
     polarity="3-prime", terminal_sequence="T",
-    statement=("The cited Henikoff low-input procedure publishes the protected TruSeq "
-               "adapter and its terminal dT/dA ligation compatibility."))
+    statement=("The separate Orsi stepwise library procedure prints protected TruSeq "
+               "adapters and a dA-tailed insert ligation workflow; terminal dT/dA "
+               "compatibility follows from those printed bases."))
 
 
 def chec_library():
@@ -68,9 +69,9 @@ def oligos():
 FINAL_LIBRARY, SEQ_PRIMERS = chec_library()
 TITLE = 'ChEC-seq — calcium-triggered chromatin endogenous cleavage sequencing'
 NOTES = '01_chec_seq.html'
-SOURCE = '<a href="https://doi.org/10.1038/ncomms9733">Zentner et al., Nature Communications (2015)</a>; library oligos from the cited Henikoff laboratory low-input paired-end protocol.'
+SOURCE = '<a href="https://doi.org/10.1038/ncomms9733">Zentner et al., Nature Communications (2015)</a>; the exact displayed library oligos come from the Henikoff laboratory’s separate <a href="https://doi.org/10.1002/0471142727.mb2131s110">Orsi et al. stepwise protocol (2015)</a>.'
 SUMMARY = 'A protein of interest is genetically fused to MNase. Digitonin admits calcium into living yeast, activating cleavage beside occupied binding sites; short two-cut fragments are selected and converted into a paired-end Illumina library.'
-CAVEAT = 'ChEC-seq reports calcium-triggered cleavage by a mobile protein–MNase fusion, not an antibody-captured footprint. A free nuclear MNase control and early kinetic samples are essential because slower cleavage contains accessibility, enzyme-bias and transient-collision signal.'
+CAVEAT = 'ChEC-seq reports calcium-triggered cleavage by a mobile protein–MNase fusion, not an antibody-captured footprint. A free nuclear MNase control and early kinetic samples are essential because slower cleavage contains accessibility, enzyme-bias and transient-collision signal. The exact oligo strings shown here come from a separate same-laboratory Orsi procedure; the defining ChEC article does not itself print a sample-index assignment.'
 FINAL_CAPTION = 'The selected insert is bounded by two MNase-created ends near a protein-binding event. End repair and dA-tailing erase the original overhang geometry but retain both genomic boundary coordinates; the historical construct has one six-base i7 index and no i5 index.'
 READ_LENGTHS = {'Read 1': 25, 'Index 1 (i7)': 6, 'Read 2': 25}
 SEQUENCING_INTRO = 'The defining data set used 25-base paired-end reads. Standard TruSeq Read 1 and Read 2 primers approach the short ChEC insert from opposite ends, and the six-cycle Index 1 read identifies the sample.'
@@ -149,6 +150,7 @@ def protocol_graph() -> ProtocolGraph:
     _finish_henikoff_library(
         graph, "chec", selected, "ChEC", final, primers, source, reviewed,
         {"Read 1": 25, "Index 1 (i7)": 6, "Read 2": 25},
-        HENIKOFF_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR)
+        ORSI_DA_LIGATION, CHEC_P5_PCR, CHEC_P7_PCR,
+        "Orsi et al. (2015), Basic Protocol 3, prints both enrichment-primer sequences for this separately documented low-input library variant.")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

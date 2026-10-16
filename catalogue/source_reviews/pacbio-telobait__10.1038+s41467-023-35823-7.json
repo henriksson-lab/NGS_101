@@ -1,0 +1,98 @@
+{
+  "dir": "pacbio-telobait__10.1038+s41467-023-35823-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Tham et al., Nat Commun 2023, doi:10.1038/s41467-023-35823-7",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
+        "finding": "Line 224 co-incubates RsaI/HinfI, phased telobaits and ligase overnight, captures on streptavidin, then gap-fills before EcoRI release; original page/model order corrected."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
+        "finding": "Defining Methods say six reverse telomeric offsets and 3-prime biotin/5-prime phosphate forward telobaits are synthesized from Supplementary Data 2; PacBio HiFi after capture."
+      }
+    },
+    {
+      "id": "supp_data_2",
+      "role": "supplement",
+      "locator": "Tham et al. Supplementary Data 2 oligo workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt sheets Set 1-12 and Set 13-24, lines 1-100; scraper F010 at line 66",
+        "finding": "Full /5Phos/ and /3Bio/ forward baits and six reverse phase variants per barcode are printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt lines 1-12 and 66-73",
+        "finding": "Original author table prints F01-F48 phospho/biotin oligos and six R reverse offsets per set; no need to infer telobait bases."
+      }
+    },
+    {
+      "id": "supp_data_1",
+      "role": "supplement",
+      "locator": "Tham et al. Supplementary Data 1 sequencing/workflow data",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Run/sample data rather than library chemistry or primer identities.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt sheet titles and first rows",
+        "finding": "Run and sample data; not an oligo ordering sheet."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt lines 1-6",
+        "finding": "Supplementary Data 1 is a ZMW/results sheet, not adapter sequence source."
+      }
+    },
+    {
+      "id": "pacbio_kit",
+      "role": "linked_material",
+      "locator": "PacBio SMRTbell Express Template Prep Kit 2.0 historical guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical vendor kit guide not present in source bundle.",
+      "discovered_from": "article",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods line 224 and Supplementary Data 1-2 inventory; PacBio kit named there.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Methods lines 218-228; Supplementary Data 2 lines 1-12, 66-73; Supplementary Data 1 sheet ZMW lines 1-6",
+      "finding": "Verified telobait synthesis against original oligo table; PacBio HiFi kit details remain a distinct unavailable vendor source, so no missing kit claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "PacBio SMRTbell hairpin oligo and sequencing-primer binding-site bases",
+      "disposition": "blocked",
+      "evidence": "Article names SMRTbell Express Template Prep Kit 2.0; historical guide unavailable."
+    }
+  ],
+  "conclusion": "Telobait oligos are source-backed in Supplementary Data 2; PacBio kit internals remain blocked on absent vendor original."
+}

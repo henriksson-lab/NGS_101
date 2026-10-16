@@ -18,12 +18,14 @@ The fresh ends are dA-tailed, ligated to a USER-openable hairpin adapter, opened
 amplified and sequenced 2×150.
 
 🟢 The post-cleavage adapter is named in the supplementary protocol as NEBNext Adaptor for
-Illumina (#E7601A) and printed there in full. 🟡 Its printed transcription is 64 nt where
-the ordered oligo is 65: `ACACTCTTTCC`**`C`**`TACACGACG` loses one C at position 43. The
-page therefore draws the correct 65-base form, transcribed in `lib/illumina.py` from the
-NEB E7780 manual, and `SOURCE_OLIGO_EXCEPTIONS` in `tools/crispr_circle.py` records why a
-verbatim match against this paper fails for the right sequence. The dropped base falls in
-the loop rather than the 12-base stem, so duplex-pairing checks cannot catch it.
+Illumina (#E7601A) and printed there in full. 🟡 The paper prints 64 nt, with
+`ACACTCTTTCCTACACGACG`; the later NEB E7600 Set 1 manual prints 65 nt, with
+`ACACTCTTTCCCTACACGACG`. The model uses the later NEB sequence in `lib/illumina.py`
+because the paper names that product. NEB's manual revision history records a correction
+to the adapter sequence in November 2017, after this paper, so the physical oligo used
+in the study remains unverified. `SOURCE_OLIGO_EXCEPTIONS` in `tools/crispr_circle.py`
+records why the model cannot match the paper's printed oligo. The differing base falls
+in the loop rather than the 12-base stem, so duplex-pairing checks cannot resolve it.
 
 🟢 The paper names the NEBNext Multiplex Oligos dual-index kit by catalogue number only,
 so the i5/i7 primer bases come from the NEB kit rather than from this paper.

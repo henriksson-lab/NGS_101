@@ -1,0 +1,81 @@
+{
+  "dir": "tgirt-seq__10.1261+rna.054809.115",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Qin et al RNA 2016 doi:10.1261/rna.054809.115 PMC4691826; original PDF mirror https://pdfs.semanticscholar.org/3c81/f7fd61b44875447ca4d789d2ac9738a30f6b.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Qin article PDF web lines 135-160,223-232,1182-1200; local bundle empty and scraper zero",
+        "finding": "R2 RNA with 3SpC3 anneals to R2R DNA leaving equimolar single-nt 3′ overhang; TGIRT template switches to target RNA. After RT, 5′ App/3SpC3 R1R DNA is ligated to cDNA and PCR adds P5/P7 and barcode."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original RNA journal PDF https://rnajournal.cshlp.org/content/22/1/111.full.pdf, page 2 lines 143-149 and 225-233; page 3 lines 257-273; Methods page 13 lines 1202-1219",
+        "finding": "Independently confirmed R2 RNA/R2R DNA starter duplex with 1-nt 3′ overhang and 3′ blocked RNA, TGIRT template switching, 5′ adenylated/3′ blocked R1R DNA ligated to cDNA, then P5/P7 PCR. The paper distinguishes this from an older CircLigase route and delegates exact oligo strings to Supplemental Fig. S1."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Original RNA journal Supplemental Fig. S1 and tables",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Main paper explicitly refers to Supplemental Fig S1 for base-level adapter and primer architecture; local source bundle has no supplement and publisher route blocked.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "prior_circligase",
+      "role": "predecessor",
+      "locator": "Katibah/Shen/Zheng earlier TGIRT small-RNA/CircLigase methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Paper contrasts current ligation method with earlier circle method; predecessors not yet read for inherited primer synthesis.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "ligase_manual",
+      "role": "linked_material",
+      "locator": "NEB Thermostable 5′ AppDNA/RNA Ligase original guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original article names enzyme; relevant for 5′ App/3′ block end chemistry and geometry.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Qin PDF web lines 223-232,1182-1200; local MANIFEST manual; Supplemental Fig S1 and NEB ligase named",
+      "finding": "Recovered original full article through an independently indexed PDF mirror, but not its supplementary oligo table; its linked ligase and predecessor methods remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original RNA journal PDF page 3 lines 257-273 and page 18 lines 1601-1605, checked named older CircLigase method and supplemental link",
+      "finding": "The published article links Supplemental Fig. S1 for exact oligos and an older CircLigase predecessor; both need original-source inspection before a missing-base claim. The current main-paper chemistry is independently verified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact original R2/R2R/R1R and PCR primer strands",
+      "disposition": "blocked",
+      "evidence": "Main article specifies roles/modifications, but referenced Supplemental Fig S1 and oligo table have not been inspected."
+    }
+  ],
+  "conclusion": "Original article first pass read online; supplementary chemistry remains blocked."
+}

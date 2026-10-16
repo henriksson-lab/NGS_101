@@ -27,7 +27,14 @@ TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
 DEFINITION = Definition("oxBS-seq — oxidative bisulfite sequencing",
         "10.1126/science.1220671", "Booth et al., Science (2012)",
         "Potassium perruthenate converts 5hmC to 5fC before bisulfite, so 5hmC and unmodified C read as T while 5mC alone reads as C.",
-        ("oxidative-bisulfite-converted insert",), "TruSeq reads interrogate the converted insert; an i7 read identifies the library.", "01_oxbs_seq.html", truseq=True)
+        ("oxidative-bisulfite-converted insert",), "TruSeq reads interrogate the converted insert; an i7 read identifies the library.", "01_oxbs_seq.html", truseq=True,
+        caveat=("Library implementation: the sonication/TruSeq shell shown here follows the authors’ "
+                "<a href='https://doi.org/10.1038/nprot.2013.115'>2013 detailed protocol</a>; "
+                "the defining 2012 Science study demonstrates an oxRRBS branch. Its original supplementary "
+                "library details remain under review. <b>Published caption discrepancy:</b> 2013 Supplementary "
+                "Fig. 1b describes DNA made with d5fCTP and 5fC conversion, but one clause names 5hmC "
+                "as that substrate. The model uses 5fC → U, supported by the surrounding caption and "
+                "main protocol. The inconsistent clause is an apparent caption error; its intended wording is unresolved."))
 
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
     [seg(DEFINITION.payload[0], "X" * 34, placeholder=True)],
@@ -70,7 +77,7 @@ def _conversion_graph(definition, final: Construct, primers: tuple) -> ProtocolG
     reverse = graph.input('library_reverse_primer', 'indexed library PCR reverse primer', MaterialKind.OLIGO, inferred=not bool(primers))
     polymerase = graph.input('library_polymerase', 'library amplification polymerase', MaterialKind.CATALYST)
     library = graph.product('sequencing_library', definition.title + ' sequencing library', MaterialKind.LIBRARY, state=final, inferred=not bool(primers))
-    graph.react('library_pcr', 'Index and amplify the sequencing library', StepKind.PCR, ((conversion_input, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,), geometry=PCRGeometry.unavailable(conversion_input.state if isinstance(conversion_input.state, Construct) else final, reason='The source identifies the library PCR but does not print one immutable selected primer pair.'))
+    graph.react('library_pcr', 'Index and amplify the sequencing library', StepKind.PCR, ((conversion_input, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,), geometry=PCRGeometry.unavailable(conversion_input.state if isinstance(conversion_input.state, Construct) else final, reason='The selected library-kit PCR primer pair and index member have not been declared from verified source evidence in this model. Published control-DNA primers are a separate reagent set.'))
     plan = SequencingPlan(final, tuple(primers), tuple((p.role for p in primers))) if primers else SequencingPlan(limitation=definition.caveat or definition.sequencing)
     graph.sequence(library, plan)
     reviewed.extend(('library_forward_primer', 'library_reverse_primer', 'library_polymerase', 'library_pcr', 'sequencing_library'))

@@ -2,8 +2,9 @@
 
 ## Sources read
 
-- 🟢 Angermueller et al. 2016, DOI `10.1038/nmeth.3728`, PMC full text and supplementary protocol.
-- 🟢 SMART-seq2 and scBS-seq defining papers and supplements for the two downstream branches.
+- 🟢 Angermueller et al. 2016, DOI `10.1038/nmeth.3728`, PMC full text and Supplementary Fig. 3e caption (Springer `MOESM608` and PMC `NIHMS66375-supplement-1`).
+- 🟢 SMART-seq2 and Smallwood scBS-seq (`10.1038/nmeth.3035`, PMC4117646) defining articles; the Smallwood binary Word supplement remains unread.
+- 🟢 Macaulay G&T-seq (`10.1038/nmeth.3370`) is the cited RNA-separation predecessor. Its original publisher PDF, uploaded by an author, was read at Online Methods p. 4–5. The separate S1 supplement remains unread.
 
 ## Construct path
 
@@ -17,20 +18,29 @@ hexamers**. The original scBS-seq oligo1/oligo2 use N9; those N9 regions must no
 inherited into scM&T. The DNA branch now models N6 on each primer, while retaining the
 source-printed scBS-seq handles.
 
-## The TSO linker is inherited, not published here — 🟡
+🟢 Angermueller Supplementary Fig. 3e says many **sequenced DNA fragments** are
+concatemers of the primer used in first-strand synthesis, reducing genomic alignment.
+The graph includes this observed off-product at the DNA PCR output, with an explicit
+discard reason referring to genomic alignment. 🟡 Its placement at PCR is a bookkeeping
+point for the final sequenced product: the source does not establish the exact stage or
+molecular junction at which the concatemers formed, so no bases are drawn for them.
+
+## The TSO linker is inherited from G&T-seq — 🟡
 
 🟢 Angermueller et al. 2016 print **no oligo sequence at all** for the RNA branch. The
 Online Methods say only that cells were "processed using the G&T-seq protocol⁷, but
 following physical separation of mRNA and genomic DNA from single cells, the DNA was
 eluted into 10 μl of H₂O" (ref. 7 = Macaulay et al., *Nature Methods* 12:519–522, 2015).
-Searching the whole fetched bundle — `nmeth.3728_PMC4770512.pdf/.xml`, the author-
-manuscript supplements `NIHMS66375-supplement-1..6` and the Springer ESM files
-`MOESM593…MOESM614` — returns no `AAGCAGTGG…` hit and no mention of a template-switch
-oligo. The reference list has no Picelli entry: the Smart-seq2 inheritance is two hops
-away, through G&T-seq.
+The original G&T-seq publisher PDF by Macaulay et al. 2015, Online Methods p. 4,
+prints the RNA-capture oligo as
+`5′-biotin-triethyleneglycol-AAGCAGTGGTATCAACGCAGAGTACT30VN-3′` (lines 569–576),
+the TSO as `5′-AAGCAGTGGTATCAACGCAGAGTACrGrG+G-3′` (lines 591–600), and
+the cDNA PCR primer as `5′-AAGCAGTGGTATCAACGCAGAGT-3′` (lines 604–611).
+Its four bead washes are pooled with the genomic-DNA supernatant (lines 580–590).
+The scM&T paper delegates this branch to G&T-seq and does not repeat its sequences.
 
-🟡 So the TSO is an **inherited inference**. It would be one even at one hop, because
-SMART-seq2 has two published linkers between the 23-nt handle and the G tail:
+🟢 The G&T predecessor establishes the **`AC`** linker for its own TSO. The
+Smart-seq2 source family has two published linker forms:
 
 | Linker | Where | TSO as printed |
 |---|---|---|
@@ -41,15 +51,12 @@ Supplementary Table 2 is internally consistent about this: in the copy fetched i
 bundle (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
 `rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
 
-🟡 **The model assumes the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER` — because that is the
-protocol as practised and the constant four SMART-seq2 derivatives share. Nothing in
-scM&T-seq chooses between the two, so the schematic now draws the **whole linker** dotted,
-with all three required signals: a preamble caveat naming both forms, an `INFERRED — …`
-caption on the template-switch step, and `<inf>` around `ACAT` in the oligo list and the
-drawn cDNA states. `tools/chem.py:_tso_linker_inferred` applies the mark to the state
-itself and raises if the shared segment is ever renamed, so the uncertainty cannot be lost
-by a caller.
+🟡 **The model uses G&T-seq's printed `AC` form** for scM&T because Angermueller
+explicitly delegates the RNA preparation to that protocol. Since Angermueller does
+not itself print the TSO, the model retains the inherited-inference marking: a
+preamble caveat with both published forms, an `INFERRED — …` template-switch
+caption, and `<inf>` around `AC` in the oligo list and the drawn cDNA state.
 
-🔴 What would settle it: the 2014 *Nature Protocols* Smart-seq2 paper and the G&T-seq
-paper (Macaulay 2015) are not in this bundle. If G&T-seq prints a TSO, that is the form
-scM&T-seq actually inherited, and this page could go green.
+🔴 The G&T S1 supplement and historical Nextera XT guide still need review before
+the linked-source checklist can be closed. The direct scM&T source does not verify
+whether its laboratory used any undocumented TSO change from the cited G&T method.

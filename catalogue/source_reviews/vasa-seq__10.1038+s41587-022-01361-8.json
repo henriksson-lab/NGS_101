@@ -1,0 +1,190 @@
+{
+  "dir": "vasa-seq__10.1038+s41587-022-01361-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Salmen et al Nature Biotechnology 2022 doi:10.1038/s41587-022-01361-8 PMC9750877",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41587-022-01361-8_PMC9750877.html.txt Methods lines 1506-1760",
+        "finding": "Article describes VASA-plate and VASA-drop branches, with different inherited oligo provenance."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS lines 270–290, 364–390, 496–512",
+        "finding": "VASA distinguishes plate and drop; Table S14 identifies predecessors and Table S12 new oligos."
+      }
+    },
+    {
+      "id": "table_s12",
+      "role": "supplement",
+      "locator": "Springer MOESM13_ESM.xlsx.txt, Supplementary Table 12",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo workbook first rows and RA3/RTP/index-primer rows",
+        "finding": "Prints study-specific RA3/RTP and 92 dual-index VASA-drop primers plus rRNA depletion probes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM13 workbook lines 200–291",
+        "finding": "Original source prints VASA-drop dual i5/i7 primer families."
+      }
+    },
+    {
+      "id": "table_s14",
+      "role": "supplement",
+      "locator": "Springer MOESM15_ESM.xlsx.txt, Supplementary Table 14",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligonucleotide provenance lines 79-87",
+        "finding": "Authors identify source publications separately for VASA-plate RA3/RTP and VASA-drop bead barcoding."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM15 workbook lines 79–87",
+        "finding": "Original source points to GSE176588 for plate indexes, Briggs 2018 for drop v3 bead scheme, Hashimshony 2012 for plate RTP/RA3."
+      }
+    },
+    {
+      "id": "indrop_predecessor",
+      "role": "linked_material",
+      "locator": "Zilionis et al 2017 doi:10.1038/nprot.2016.154 inDrop v2 supplementary oligo table",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Sibling source bundle MOESM455 lines 1-10",
+        "finding": "The inDrop predecessor table is locally available and prints bead synthesis oligos; version matching to VASA-drop remains to be checked."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "nprot.2016.154 MOESM455 original oligo table",
+        "finding": "v2 bead anchor printed but v3 scheme cannot be transferred without Briggs supplement."
+      },
+      "discovered_from": "table_s14"
+    },
+    {
+      "id": "briggs_v3",
+      "role": "linked_material",
+      "locator": "Briggs et al 2018 doi:10.1126/science.aar5780, inDrop v3 bead barcoding",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Main JATS is local but original detailed bead supplement remains PMC-gated.",
+      "pass_2": null,
+      "discovered_from": "table_s14"
+    },
+    {
+      "id": "celseq_plate",
+      "role": "linked_material",
+      "locator": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/j.cels.2016.09.002_supp_mmc9.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Muraro SORT-seq original is local; actual VASA plate barcode mapping is a separate GEO source.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Muraro 2016 original supplement, extracted lines 170–176 and 906–916, independently read; oligo scraper rerun",
+        "finding": "SORT-seq uses 384-well CEL-Seq2-derived RT primers with polyT24, 4-base UMI and 8-base cell barcode, but gives no VASA-specific well assignments."
+      },
+      "discovered_from": "table_s14",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Muraro 2016 original supp_mmc9 lines 170–176 and 906–916",
+        "finding": "SORT-seq uses CEL-Seq2 RT primers with polyT24 and random molecular identifier; this source does not list VASA plate well assignments."
+      }
+    },
+    {
+      "id": "celseq2_original",
+      "role": "linked_material",
+      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original CEL-Seq2 primer table; VASA plate assignment still requires GEO.",
+      "discovered_from": "celseq_plate",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
+        "finding": "Supplement lines 29–51 print randomhexRT and 96 barcoded RT primer members."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "CEL-Seq2 original supplementary DOCX, extracted lines 29–51, independently read; oligo scraper rerun",
+        "finding": "This precursor gives randomhexRT and CEL-Seq2 RT primer construction plus example numbered primers. Its codes do not alone assign VASA plate wells."
+      }
+    },
+    {
+      "id": "hashimshony2012",
+      "role": "linked_material",
+      "locator": "Hashimshony et al. 2012 doi:10.1016/j.celrep.2012.08.003 original RTP and RA3",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "VASA Table S14 attributes plate RTP/RA3 here; source fetch found no open full text.",
+      "discovered_from": "table_s14",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "geo_plate_barcodes",
+      "role": "linked_material",
+      "locator": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original GSE176588 barcode file fetched from NCBI GEO.",
+      "discovered_from": "table_s14",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
+        "finding": "File has exactly 384 unique eight-base barcodes mapped to IDs 001–384, CGTCTAAT/001 to CTCTGTCT/384. Scraper default length omitted these; read directly."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "GEO GSM5369495 barcode TSV, complete 384-row inspection by direct parsing, independently read",
+        "finding": "Exactly 384 unique eight-base barcode strings map one-to-one to well IDs 001–384, from CGTCTAAT/001 to CTCTGTCT/384. This resolves the plate mapping in the GEO source; it does not resolve remaining VASA source gaps."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "VASA article Methods, Table S12 ordered oligos and Table S14 provenance rows 79-87",
+      "finding": "Followed authors’ source map and checked local inDrop v2 table. Briggs v3 and CEL-seq branch originals remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original MOESM15 Table S14 lines 79–87; Muraro supplement; NCBI GEO GSE176588 filelist and 384-row mapping",
+      "finding": "Followed table to exact VASA-plate GEO barcode mapping and Muraro SORT-seq source. Hashimshony 2012 RTP/RA3 and Briggs 2018 v3 supplement remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Inherited VASA-drop v3 bead and VASA-plate RTP/RA3 identities remain open; exact 384 plate barcodes are published in GEO, and drop index primers in Table S12.",
+      "disposition": "blocked",
+      "evidence": "Authors point to predecessor protocols; the exact inherited branches still need original-source comparison."
+    }
+  ],
+  "conclusion": "VASA-plate GEO mapping recovered with 384 exact barcodes. Published drop indexes are in Table S12. Inherited 2012 plate adapters and 2018 v3 bead scheme need original source review."
+}

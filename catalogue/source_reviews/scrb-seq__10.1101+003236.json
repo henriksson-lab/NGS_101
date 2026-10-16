@@ -1,0 +1,166 @@
+{
+  "dir": "scrb-seq__10.1101+003236",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "biorxiv_article",
+      "role": "defining",
+      "locator": "Soumillon et al bioRxiv 2014, 003236 v1 main PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods and links to Supplementary Information",
+        "finding": "Defines SCRB-seq and points to the original Supplementary Methods and Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "003236_v1.full.pdf.txt lines 55–63 and 252 onward",
+        "finding": "Defining preprint identifies SCRB-seq and delegates detailed chemistry/barcodes to Supplementary Methods and Tables."
+      }
+    },
+    {
+      "id": "biorxiv_supp",
+      "role": "supplement",
+      "locator": "Original bioRxiv Supplementary Information 003236-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Methods lines 39-78; Table S2 lines 1496 onward",
+        "finding": "Prints E5V6NEXT with iso-dC/iso-dG and rGrGrG, E3V6NEXT with 5Biosg and BC6/N10/T30/VN, SINGV6 and P5NEXTPT5; Table S2 lists barcode sets."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "003236-1.pdf.txt lines 43–75 and 1513–1520 onward",
+        "finding": "Original supplement prints E5V6NEXT with iso-dC/iso-dG and rGrGrG, biotin E3V6NEXT BC6/N10/T30/VN, SINGV6, P5NEXTPT5 phosphorothioates, and two 384-plex barcode sets in Table S2."
+      }
+    },
+    {
+      "id": "biorxiv_tables",
+      "role": "supplement",
+      "locator": "Original bioRxiv 003236-2.xlsx.txt through 003236-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Workbook sheets and headings; oligo-bearing tables compared with 003236-1 Table S2",
+        "finding": "Supplementary workbooks belong to the original preprint; chemistry sequence claims are grounded in Supplementary Methods/Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "003236-2/3/4/5.xlsx.txt first three lines and ## sheet headings at lines 1, 16387–19994",
+        "finding": "These four workbooks contain PCA weights, GSEA and gene rankings for differentiation analyses, not primer tables. The oligo-bearing Table S2 is embedded in 003236-1.pdf.txt. Treat these workbooks as non-chemistry adjuncts."
+      },
+      "reason": "Original workbooks 2–5 are PCA/GSEA/gene-ranking result data; the chemistry oligo table is Table S2 in the separate original 003236-1.pdf supplement. Both existing independent passes inspected headings."
+    },
+    {
+      "id": "mc_scrb_successor",
+      "role": "linked_material",
+      "locator": "Bagnoli et al 2018 mcSCRB-seq and linked protocols.io procedure",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Compared named E3V6NEXT and E5V6NEXT variants in successor",
+        "finding": "Successor uses related constructs but does not prove original SCRB kit-index choice."
+      },
+      "discovered_from": "biorxiv_supp",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-018-05347-6_PMC6062574.xml.txt lines 139–149; protocolsio_mcscrb-seq-nrkdd4w.pdf.txt lines 1–82 and primer section 82–146",
+        "finding": "Later mcSCRB-seq retains named E3V6NEXT/E5V6NEXT/P5NEXTPT5 roles but modifies RT with crowding and publishes its own procedure; successor does not assign the original preprint’s two Table S2 barcode sets to every sample."
+      }
+    },
+    {
+      "id": "illumina_nextera_sequences",
+      "role": "linked_material",
+      "discovered_from": "biorxiv_supp",
+      "locator": "_data/sources/scrb-seq-mcscrb-seq__10.1101+003236/illumina_Nextera_Illumina-Sequences.htm.txt (official Illumina current Nextera sequence table)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Manufacturer sequence table for the Nextera XT tagmentation and PCR family named by original SCRB supplement; current page is version context, not proof of the exact 2014 lot/index selection.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Illumina source text lines 137–165 and 181–207; SCRB original 003236-1.pdf.txt lines 60–74",
+        "finding": "Read current official Nextera transposase adapters and i7/i5 PCR primer architectures. Original SCRB supplement says Nextera XT is used except the i5 primer is replaced by P5NEXTPT5; it gives no specific N7xx well. The current table corroborates the generic i7 arm but does not prove a selected 2014 index or kit lot."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Nextera sequence-table text lines 137–145, 181–205; original SCRB bioRxiv supplement 003236-1.pdf.txt lines 43–70 and Fig. S1 lines 276–289; scraper run on SCRB source bundle",
+        "finding": "Independently read the vendor table: transposase Read 2 arm starts GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG and Index 1 PCR primer is CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG. This supports the generic P7–i7–s7 modeled family and SCRB Fig. S1 architecture. The current table neither names an SCRB N7xx well nor establishes the exact 2014 kit revision."
+      }
+    },
+    {
+      "id": "illumina_nextera_xt_2012_rev_c",
+      "role": "linked_material",
+      "discovered_from": "biorxiv_supp",
+      "locator": "_data/sources/scrb-seq__10.1101+003236/nextera_xt_sample_preparation_guide_15031942_c.pdf.txt (original Illumina Guide Rev C, October 2012, university mirror)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Manufacturer guide predates SCRB and documents contemporary Nextera XT index primer families; it does not establish the actual N7xx well or a 2014 lot sequence.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Rev C PDF text lines 53–57 (revision/date), 385–392 and 463–470 (kit primer inventory), 1207–1240 (PCR/index 1 primers), 2173–2274 (eight-base N701–N712 i7 table); SCRB supplement lines 63–70 and 276–289; scraper rerun after guide fetch",
+        "finding": "The 2012 guide names N701–N712 for the 96-sample Index Kit and N701–N706 for the 24-sample kit; Index 1 i7 is eight bases adjacent to P7, and table lists N701 TAAGGCGA through N712 GTAGAGGA. SCRB substitutes P5NEXTPT5 for the standard i5 primer and prints only generic [i7] in Fig. S1. The original selected N7xx well remains unidentified."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Illumina Nextera XT Sample Preparation Guide 15031942 Rev C October 2012 text lines 48–60, 380–395, 455–475, 1195–1248, 2165–2285; original SCRB supplement 003236-1.pdf.txt lines 58–74; ran scrape_primers on complete SCRB source bundle and checked guide/source hits.",
+        "finding": "Independently confirmed the original 2012 guide provides N701–N712 i7 index inventory and exact eight-base values adjacent to P7, with six-index 24-sample and twelve-index 96-sample kits. SCRB replaces only the i5 primer with P5NEXTPT5 and leaves the i7 primer/member generic in its Methods and Fig. S1. The guide establishes a contemporary candidate family but neither identifies the SCRB-selected N7xx well nor proves the exact kit lot/revision used."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original supplement Methods references and Table S2; successor version comparison in combined note",
+      "finding": "Original supplementary article and workbooks present. mcSCRB successor followed for version distinction."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "003236_v1.full.pdf.txt lines 55–63; 003236-1.pdf.txt lines 43–75 and 1513 onward; workbooks 2–5 headers; 2018 successor JATS lines 139–149; current official Nextera sequence table lines 181–205; original Illumina Nextera XT Rev C (2012) guide lines 53–57, 385–392, 1207–1240, 2173–2274",
+      "finding": "Followed the original supplement to the current manufacturer sequence table and a recovered original 2012 Nextera XT guide. Current table confirms the generic P7–[i7]–s7 PCR primer architecture; the 2012 guide prints the historical N701–N712 eight-base family, but SCRB does not name a selected N7xx well. Historical guide has my first reading only; exact 2014 product/lot equivalence remains blocked."
+    },
+    "followup": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original 003236-1.pdf.txt lines 43–75 and Table S2 from line 1496; current official Illumina Nextera sequence table lines 181–207",
+      "finding": "The original source publishes both barcode sets; an unspecified sample has no protocol-wide selected well barcode. The newly added linked Nextera sequence-table row has only my first pass, so linked-source version comparison remains blocked."
+    },
+    "followup_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "2012 Illumina Nextera XT original Rev C guide lines 48–60, 380–395, 455–475, 1195–1248, 2165–2285; SCRB original supplement lines 58–74; full source bundle primer scraper",
+      "finding": "Independently second-read the recovered historical guide. It supplies the N701–N712 candidate family but no SCRB well assignment; linked-source review is now complete for this row. Exact 2014 kit lot and selected i7 remain unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original SCRB-seq six-base well-barcode family",
+      "disposition": "resolved",
+      "evidence": "003236-1.pdf.txt Table S2, extracted lines 1496 onward, prints two 384-well sets; Methods lines 43–46 distinguish D1/D2 from D3. The table set-1 heading is duplicated “D2 and D2”; page discloses this source discrepancy and model uses a six-base placeholder."
+    },
+    {
+      "claim": "Specific Nextera N7xx well/index used by the original SCRB-seq experiments and exact 2014 kit-lot primer identity",
+      "disposition": "blocked",
+      "evidence": "SCRB Supplementary Methods lines 63–70 replace the i5 primer and Fig. S1 lines 276–289 show generic [i7]. Current official sequence table lines 181–205 and original 2012 Illumina guide lines 2173–2274 define family architecture and N701–N712 candidates, but neither chooses the SCRB experiment well. Two independent readers checked the 2012 guide; neither it nor SCRB identifies the selected well."
+    }
+  ],
+  "conclusion": "Original SCRB preprint, supplements, current official Nextera sequence table and recovered 2012 Illumina guide have two independent located reads. Table S2 publishes both six-base well-barcode sets; the guide lists N701–N712 i7 candidates. No original source selects the experiment-specific N7xx well or proves the 2014 kit lot/revision, so that narrow claim remains blocked."
+}

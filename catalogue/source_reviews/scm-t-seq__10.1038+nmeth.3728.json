@@ -1,0 +1,142 @@
+{
+  "dir": "scm-t-seq__10.1038+nmeth.3728",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Angermueller et al. Nat Methods 2016 doi:10.1038/nmeth.3728; PMC4770512",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4770512 JATS lines 80-88",
+        "finding": "Methods state G&T physical DNA/RNA split, Smallwood scBS-seq with modifications, RNA Nextera XT and 125-bp paired-end run."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Angermueller 2016 PMC4770512 JATS lines 61-66, 80-88, 166 and refs 3/7",
+        "finding": "Methods specify G&T physical split, scBS bisulfite modifications (N6, no first-strand biotin capture), RNA Nextera XT at one-fifth volume and paired-end 125-bp sequencing; ref 3 is Smallwood nmeth.3035 and ref 7 is Macaulay nmeth.3370."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "Original nmeth.3728 Springer/PMC supplements",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "NIHMS66375 supplement-1.doc.txt lines 1-100; MOESM608 PDF inspected for supplementary figure/table headings",
+        "finding": "Checked available source sections; no oligo absence inferred from data tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3728 Springer MOESM608 PDF text Supplementary Fig. 1-4 captions, especially Fig. 3e; PMC NIHMS66375 supplement-1.doc.txt lines 1-17",
+        "finding": "Supplementary Fig. 1 diagrams physical split; Fig. 3e says a large proportion of sequenced DNA fragments are concatemers of the primer used in first-strand synthesis, limiting alignment. Exact concatemer assembly is not given. Other figures here are QC/results."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "gtseq",
+      "role": "predecessor",
+      "locator": "Macaulay et al. 2015 G&T-seq doi:10.1038/nmeth.3370; original publisher PDF including Online Methods, coauthor-uploaded at https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original seven-page publisher PDF, Online Methods p. 4, web lines 569–611, and p. 5 lines 621–625; defining scM&T JATS Methods citation",
+        "finding": "Independently read the coauthor-uploaded original publisher PDF. It prints the 5′-biotin-triethyleneglycol-AAGCAGTGGTATCAACGCAGAGTACT30VN-3′ bead capture primer, magnetic physical DNA/RNA split and four gDNA-pooling washes, on-bead reverse transcription with TSO AAGCAGTGGTATCAACGCAGAGTACrGrG+G (AC before modified G tail), and PCR primer AAGCAGTGGTATCAACGCAGAGT. The separate DNA branch uses MDA or PicoPlex; libraries use Nextera XT by vendor instructions. The AC TSO form differs from the scM&T model's prior ACAT inference and requires correction."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original coauthor-uploaded publisher PDF, Online Methods p. 4 web lines 569–611 and p. 5 lines 621–625; scM&T JATS Methods line 84",
+        "finding": "Independently read original G&T Online Methods. The bead oligo has 5′ biotin-triethyleneglycol and T30VN; magnetic capture partitions poly(A) RNA from genomic DNA, with four bead washes pooled into the DNA fraction. On-bead RT uses TSO AAGCAGTGGTATCAACGCAGAGTACrGrG+G, with AC before the modified G tail, and PCR primer AAGCAGTGGTATCAACGCAGAGT. This source disfavors the prior scM&T ACAT TSO inference. Nextera XT preparation is delegated to manufacturer instructions."
+      },
+      "discovered_from": "paper",
+      "reason": "Prior checklist misidentified PMC4117646/nmeth.3035 as G&T; that article is Smallwood scBS-seq. Correct G&T original is nmeth.3370. Its original paper is now readable; the CaltechAUTHORS supplement is tracked separately."
+    },
+    {
+      "id": "gtseq_supplement",
+      "role": "predecessor",
+      "locator": "Macaulay et al. 2015 G&T-seq original Supplementary Text and Figures, CaltechAUTHORS https://authors.library.caltech.edu/records/9f5m8-s4p41/files/nmeth.3370-S1.pdf?download=1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "gtseq",
+      "reason": "Author repository lists the original 18.2 MB S1 PDF with MD5 4b32bc429cb4e17ca253fec7d0e30b12, but browser delivery redirects to an expiring object URL and the supplement has not been independently read."
+    },
+    {
+      "id": "scbsseq",
+      "role": "predecessor",
+      "locator": "Smallwood et al. 2014 scBS-seq doi:10.1038/nmeth.3035; PMC4117646",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Smallwood PMC4117646 JATS XML text lines 70–72 and 94–102, especially Single-Cell Library Preparation line 102; original Springer MOESM643 Supplementary Fig. 1–3 captions lines 1–33; local scBS source bundle scraper",
+        "finding": "Independently read the original scBS paper and figure captions. It uses five rounds of Klenow exo-minus priming with 5′-biotinylated oligo1-N9, streptavidin capture and alkali washes, then oligo2-N9 extension and PE1/indexed iPCRTag PCR. Its Supplementary Fig. 2 reports spurious poly-T reads. The scM&T methods explicitly modify this predecessor by using N6 and omitting first-strand capture; the scBS source cannot establish the scM&T-specific junction on its own."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Smallwood PMC4117646 JATS lines 75-115, specifically Single-Cell Library Preparation; nmeth.3035 Springer MOESM643 PDF text Supplementary Figs. 1-3 captions",
+        "finding": "Original scBS Methods print biotinylated oligo1-N9, oligo2-N9, repeated first-strand priming, streptavidin capture, PE1 and indexed iPCRTag. Angermueller explicitly changes to N6 and omits first-strand capture. Previous pass_1 cited nmeth.2639/PMC3959825, which is Picelli Smart-seq2, so it cannot count as a scBS source pass."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_xt",
+      "role": "vendor",
+      "locator": "Historical Illumina Nextera XT kit guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "Original explicitly says per manufacturer instruction, one-fifth volume; period-specific guide not located in this bundle."
+    },
+    {
+      "id": "scbs_full_methods",
+      "role": "supplement",
+      "locator": "Smallwood PMC4117646 source bundle NIHMS59406-supplement-1.doc (18 MB local binary Word file), plus original JATS and Springer MOESM643 PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "scbsseq",
+      "reason": "Binary Word supplement exists locally but lacks a readable text twin; LibreOffice text conversion failed in sandbox. Original JATS Methods and Springer figure-caption PDF were read independently, but this supplement remains unreviewed."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original scM&T JATS 80-88; G&T and Smallwood original source inventory; scM&T supplements",
+      "finding": "Traced both inherited branches to their original papers. The historical Nextera XT guide and one Smallwood source copy remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Angermueller JATS refs 3/7 and Methods lines 80-88; Smallwood PMC4117646 Methods; G&T original publisher PDF Online Methods p. 4–5 web lines 569–625; CaltechAUTHORS S1 attachment list",
+      "finding": "Traced scBS predecessor correctly and found the G&T DOI swap in the earlier checklist. Subsequently read G&T Online Methods and identified its AC TSO and modified biotin capture primer, correcting the scM&T model. G&T S1, the period Nextera XT guide and Smallwood binary supplementary Word document remain unread; linked chemistry cannot yet be declared complete."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full branch-specific sequence/reagent details",
+      "disposition": "blocked",
+      "evidence": "Inherited G&T and scBS chemistry plus vendor kit must be resolved before any missing claim is accepted."
+    }
+  ],
+  "conclusion": "Independent defining-paper and source-supplement passes found an observed first-strand primer concatemer off-product and corrected swapped predecessor citations. Two independent readings of G&T original Online Methods establish the AC TSO and modified bead capture primer used to correct the scM&T model; two readings of the scBS original establish that branch. G&T S1, Smallwood's binary supplement and the historical Nextera XT guide remain unread, so no missing-information claim is accepted."
+}

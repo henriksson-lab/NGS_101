@@ -1,0 +1,92 @@
+{
+  "dir": "digenome-seq__10.1038+nmeth.3284",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/nmeth.3284",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Defining 2015 Nature Methods article full text not in source bundle; PMC4772022 is a later multiplex Digenome-seq study, not defining article."
+    },
+    {
+      "id": "defining_supp",
+      "role": "supplement",
+      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/41592_2015_BFnmeth3284_MOESM426_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer supplement lines 1–110 and 5877 Table 4 primer heading; scraper run",
+        "finding": "Supplement contains figures and validation primer tables; no authority to infer exact WGS adapter kit from it alone."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 2015 Springer MOESM426 PDF text opening lines 1–110 and Table 4 heading near 5877; local scraper",
+        "finding": "Original supplement contains figures/validation and primer-related table heading; inspected locations do not prove full original WGS adapter identities absent."
+      }
+    },
+    {
+      "id": "later_multiplex",
+      "role": "linked_material",
+      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/PMC4772022_PMC4772022.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Title/DOI opening and Methods line 136; scraper run",
+        "finding": "This is 2016 multiplex successor doi:10.1101/gr.199588.115; Methods names TruSeq DNA library prep for its 400–500 bp WGS library, not proof of original Digenome recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same-author successor PMC4772022 JATS title and Methods line 136; local scraper",
+        "finding": "2016 multiplex successor describes Covaris and TruSeq DNA WGS preparation. It is related but cannot retroactively establish exact 2015 original kit/index variant."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_truseq_manual",
+      "role": "linked_material",
+      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Manual title and kit/revision opening; scraper run",
+        "finding": "Current TruSeq DNA PCR-free guide may help generic architecture but version/kit identity for defining article not established."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq DNA PCR-free workflow reference 1000000039279-00 PDF title/revision opening; local scraper",
+        "finding": "This later generic manual is only a possible kit comparison; original 2015 paper has not established this specific variant."
+      },
+      "discovered_from": "later_multiplex"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining Springer supplement opening/Table 4, later PMC4772022 title and Methods line 136",
+      "finding": "Separated 2015 defining Digenome from 2016 multiplex successor; current Illumina guide not assumed to be original kit."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original supplement MOESM426 opening and Table 4 heading; 2016 same-author JATS Methods line 136; current Illumina manual title/revision",
+      "finding": "Cited successor and kit guide inspected with version distinction. Defining article and later detailed 2020 Nature Protocols chapter remain gated, so original adapter claims stay blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Defining paper unavailable and linked vendor applicability uncertain; all original missing claims blocked."
+}

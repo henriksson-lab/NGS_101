@@ -36,6 +36,7 @@ Fetched by `tools/get_sources.py` into
 | `s41587-022-01361-8_PMC9750877.html(.txt)` | paper, full text (PMC) | **all methods** (lines 1506–1760 of the `.txt`), read lengths, barcode lengths |
 | `…_41587_2022_1361_MOESM13_ESM.xlsx(.txt)` | Supplementary Table 12, "oligonucleotides not found in cited publications" | **RA3, RTP, 46 + 46 VASA-drop index primers, 195 rRNA-depletion probes** |
 | `…_41587_2022_1361_MOESM15_ESM.xlsx(.txt)` | Supplementary Table 14, reagents and equipment | which oligo comes from which publication; enzymes and kits |
+| `GSM5369495_bc2cellID_vasaplate.tsv.gz(.txt)` | Original NCBI GEO GSE176588 VASA-plate barcode-to-cell-ID mapping | **384 unique 8-base plate barcodes**, IDs 001–384; the scraper's default length omits these, so read the table directly |
 | `…_41587_2022_1361_MOESM2_ESM.xlsx(.txt)` | Supplementary Table 1 | encapsulation / picoinjection efficiencies (86 %, 98 %) — not chemistry |
 | `…_41587_2022_1361_MOESM14_ESM.xlsx(.txt)` | Supplementary Table 13 | cost per cell — not chemistry |
 | `upstream_VASA-seq.html(.txt)` | scg_lib_structs "VASA-seq" page | **inspiration only, not a source** — nothing in this note or the model is cited from, or verified against, it |
@@ -49,15 +50,17 @@ only authority used for the regions the paper does not print:
 
 | Oligo | Source the authors name | On disk? |
 |---|---|---|
-| inDrop v3 polyacrylamide bead barcoding | Briggs et al. 2018, doi:10.1126/science.aar5780 | 🔴 no |
-| inDrop bead barcoding reagents (and the IVT sequence) | Zilionis et al. 2017, doi:10.1038/nprot.2016.154 | 🔴 no |
-| Cel-seq2 primers for VASA-plate | Muraro et al. 2016, doi:10.1016/j.cels.2016.09.002 — "Indexes used available at GSE176588" | 🔴 no |
+| inDrop v3 polyacrylamide bead barcoding | Briggs et al. 2018, doi:10.1126/science.aar5780 | Main article local; original detailed supplement gated 🔴 |
+| inDrop bead barcoding reagents (and the IVT sequence) | Zilionis et al. 2017, doi:10.1038/nprot.2016.154 | Original oligo supplement local; main protocol gated 🟡 |
+| Cel-seq2 primers for VASA-plate | Muraro et al. 2016, doi:10.1016/j.cels.2016.09.002 — "Indexes used available at GSE176588" | Muraro supplement and **384 exact GEO indexes now local** 🟢; full plate capture oligo still unresolved |
 | RA3 and RTP **for VASA-plate** | Hashimshony et al. 2012, doi:10.1016/j.celrep.2012.08.003 | 🔴 no (but see `../cel-seq__10.1016+j.celrep.2012.08.003/01_cel-seq.md`, which traces the same CEL-seq arms to Illumina's TruSeq Small RNA adapter document) |
 | RA3, RTP and the 92 dual-index PCR primers **for VASA-drop** | "This study", Table S12 | 🟢 yes — `…MOESM13_ESM.xlsx.txt` |
 
-All four missing publications are now requested in `catalogue/extra_sources.tsv`. Until
-they are on disk, every region they would supply is 🔴 and drawn as a bracketed inferred
-placeholder by `tools/vasa.py`; **nothing is filled in from a reconstruction.**
+The GEO index mapping and two predecessor supplements were recovered after the initial
+note. The 384 plate barcode members are published; `tools/vasa.py` still draws an
+inferred placeholder for the unverified full capture arm. Briggs's v3 bead supplement
+and the original Hashimshony 2012 plate adapter source remain unavailable. No
+unverified predecessor bases are filled in from a reconstruction.
 
 ---
 

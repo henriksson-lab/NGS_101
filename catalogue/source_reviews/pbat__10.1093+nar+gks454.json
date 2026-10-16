@@ -1,0 +1,78 @@
+{
+  "dir": "pbat__10.1093+nar+gks454",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Miura et al Nucleic Acids Res 2012 doi:10.1093/nar/gks454 PMC3458524",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml.txt lines 50-52,88-90,164; PDF scraper BioPEA2N4 at line 155",
+        "finding": "Main Methods print biotin-N4 first primer, PE-reverse-N4 second primer and Primer-3; demonstration is PCR-free and unindexed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS nar_gks454_PMC3458524.xml.txt lines 36-60,88-90,164",
+        "finding": "Methods print BioPEA2N4 5′ biotin random primer and explain post-bisulfite extension/second-adapter stage. GAIIx is named as sequencer."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "Original NAR Supplementary Data File006 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/pbat__10.1093+nar+gks454/nar_gks454_supp_supp_gks454_nar-02274-met-k-2011-File006.pdf.txt lines 1-35 and Supplementary Figure S3; scraper run",
+        "finding": "Supplement describes controls and plausible opposite-strand products, plus locus qPCR primers. It does not turn qPCR primers into required library steps."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original NAR File006 PDF text lines 1-35,115-125",
+        "finding": "Supplementary data discuss conversion controls, qPCR primer sequences and undesired C-poor products; no instrument kit revision is identified there."
+      }
+    },
+    {
+      "id": "illumina_ga",
+      "role": "linked_material",
+      "locator": "Illumina GAIIx sequencing kit/primer documentation named by original",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical instrument primer guide not cached; not needed for paper-printed core PBAT oligos.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Methods and supplement route, historical Illumina GAIIx kit mention.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Miura JATS lines 36-60,90,164; File006 lines 1-35; historical GAIIx sequencing kit guide unavailable",
+      "finding": "Original and supplement identify PBAT library-side primers, but not a traceable historical instrument-primer kit revision."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact historical GAIIx sequencing-primer kit revision",
+      "evidence": "Original gives library primer motifs, but instrument kit guide not independently checked.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+}

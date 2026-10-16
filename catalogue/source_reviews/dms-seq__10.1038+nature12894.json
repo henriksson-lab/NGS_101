@@ -1,0 +1,103 @@
+{
+  "dir": "dms-seq__10.1038+nature12894",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/dms-seq__10.1038+nature12894/nature12894_PMC3966492.xml.txt:50-56,281-289",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS Library Generation lines 50-56; cited ref 32 lines 281-289.",
+        "finding": "Original Methods print 5-rApp/3-ddC cloning linker and state modified Ingolia 2012 ribosome-profiling library workflow, CircLigase then adapter PCR; no own PCR primer order printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC3966492 JATS lines 50-56",
+        "finding": "Original library-generation paragraph prints /5rApp/CTGTAGGCACCATCAAT/3ddC/ linker and delegates modified downstream steps to ribosome-profiling protocol 32. It says adapters introduced by 8-10 PCR cycles."
+      }
+    },
+    {
+      "id": "individual_supp",
+      "role": "supplement",
+      "locator": "_data/sources/dms-seq__10.1038+nature12894/nature12894_41586_2014_BFnature12894_MOESM26-29_ESM.ppt.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM26-29 headings and scraper results.",
+        "finding": "Individual Nature source supplements are present (slide/figure material); primer table not in inspected slide text."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Nature MOESM26-29 PPT text titles/first six lines each",
+        "finding": "The four extracted PPTs are figure slides about DMS measurements, not detailed oligo tables; full Europe PMC supplementary zip remains unavailable."
+      }
+    },
+    {
+      "id": "supp_zip",
+      "role": "supplement",
+      "locator": "Europe PMC PMC3966492 supplementaryFiles ZIP",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Manifest notes ZIP holds no files; individually fetched publisher MOESM26-29 sources are present."
+    },
+    {
+      "id": "ingolia",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+nprot.2012.086/nprot.2012.086_PMC3535016.xml.txt:194-208",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Mahat/Ingolia original Table/reagent list lines 194-208.",
+        "finding": "Cited 2012 Ingolia protocol prints blocked RT primer with SpC18, forward P5 PCR and indexed reverse PCR family. DMS paper says modified protocol, so reagent transfer needs validation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original 2012 Nature Protocols PMC3535016 JATS lines 194-208",
+        "finding": "Linked ribosome-profiling protocol prints forward PCR and indexed reverse-primer families. DMS-seq paper calls its implementation modified; those primer sequences cannot automatically be asserted as the selected DMS primer set."
+      }
+    },
+    {
+      "id": "illumina_run",
+      "role": "linked_material",
+      "locator": "Illumina HiSeq 2000 sequencing primer/kit protocol for DMS-seq run",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Paper names HiSeq 2000 but does not specify exact run reagent revision; original guide not checked.",
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "JATS ref 32 and locally cached PMC3535016 original",
+      "finding": "Followed named ribosome-profiling method to original protocol and inspected oligo list; did not assume unchanged primer use."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "DMS JATS library paragraph and ref 32; predecessor oligo list; supplement inventory",
+      "finding": "Followed cited original ribosome-profiling protocol and inspected slide supplements; DMS-specific modification and historical Illumina primer choice unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "DMS-specific PCR and sequencing-primer oligos",
+      "disposition": "blocked",
+      "evidence": "Defining paper prints linker but delegates modified workflow to Ingolia 2012, whose primer family is published. Which modifications DMS used and run primer remain unresolved."
+    }
+  ],
+  "conclusion": "Linked predecessor oligos recovered; DMS-specific usage and run kit remain blocked."
+}

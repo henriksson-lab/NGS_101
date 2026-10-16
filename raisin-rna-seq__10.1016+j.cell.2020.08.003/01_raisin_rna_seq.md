@@ -3,7 +3,7 @@
 ## Sources read
 
 - 🟢 Drokhlyansky *et al.*, “The human and mouse enteric nervous system at single cell resolution,” *Cell* (2020), DOI `10.1016/j.cell.2020.08.003`, PMCID `PMC8358727` (defining paper and STAR Methods).
-- 🟢 Picelli *et al.*, SMART-seq2, DOI `10.1038/nmeth.2639` (the library method explicitly named by the defining paper).
+- 🟢 Shekhar *et al.*, *Cell* (2016), DOI `10.1016/j.cell.2016.07.054`, is the plate-library procedure explicitly cited by the defining paper's STAR Methods. Picelli *et al.*, SMART-seq2, DOI `10.1038/nmeth.2639`, is the earlier chemistry family; it is not the procedure directly cited at this point.
 
 ## Molecular interpretation
 

@@ -1,0 +1,118 @@
+{
+  "dir": "ovation-rna-seq-v2__10.1093+nar+gkr547",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JATS Introduction line 26, Methods cDNA synthesis 54–56, library prep 58–62, references 8/9 at 224–234; bundle scraper",
+        "finding": "Random-hexamer/poly-T chimeric priming, RNase H SPIA and displacement are described; amplified cDNA entered a separately purchased NEB platform-specific bar-coded adapter library kit. Exact kit/oligos not named. The scraper found no source oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original PMC3185437 JATS cDNA synthesis lines 54–56, library preparation lines 58–64, cited predecessor refs 8–9; full source-bundle oligo scraper run before read (0 hits).",
+        "finding": "Independent original read: Ovation path uses random-hexamer/poly-T chimeric first-strand primers, RNA-templated second strand, RNase H-driven SPIA primer extension and displacement. The resulting cDNA is separately blunt-end repaired, dA-tailed for Illumina, ligated to platform-specific bar-coded adapters from unspecified NEB kits, then amplified 15 cycles. No exact SPIA or NEB kit primer/index bases are printed in these sections."
+      }
+    },
+    {
+      "id": "paper_pdf",
+      "role": "other",
+      "locator": "_data/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Same article as paper JATS, not an independent protocol version.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PDF duplicate of defining JATS, methods/library headings and sequence search",
+        "finding": "No separate source-version sequence table in available publisher PDF; JATS has clearer line locators."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original PMC3185437 article PDF extracted text lines 217–235 (cDNA/SPIA) and 236–267 (cDNA library preparation), compared to JATS lines 56 and 60 after source-bundle scraper.",
+        "finding": "This is the same Tariq et al. article as the JATS, not an independent method. It confirms the chemistry order and unspecified NEB adapter source; no separate oligo table or kit member appears in those sections."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3185437.1/supp_gkr547_Sup_Mat_Transcriptome_analysis_R2_SPI_clean.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC Cloud route returned invalid Office data; original supplementary material not inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "tecan_v2_guide",
+      "role": "vendor",
+      "locator": "https://api-prod.shop.tecan.com/medias/User-Guide-Ovation-RNA-Seq-System-V2-7102.pdf?attachment=true",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Versioned NuGEN/Tecan user guide route is listed in extra_sources.tsv but was not cached before downloads paused.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "kurn_spia",
+      "role": "predecessor",
+      "locator": "Kurn et al., Clin Chem 2005 DOI 10.1373/clinchem.2005.053694",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original paper explicitly cites this SPIA chemistry predecessor (ref. 8); source not cached.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "dafforn_spia",
+      "role": "predecessor",
+      "locator": "Dafforn et al., Biotechniques 2004 DOI 10.2144/04375PF01",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original paper cites this linear mRNA amplification predecessor (ref. 9); source not cached.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "neb_library",
+      "role": "vendor",
+      "locator": "Unspecified New England Biolabs platform-specific bar-coded library kit named in Tariq et al. Methods line 60",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Paper does not identify exact kit version, adapter/index member or manual; a matching historical guide has not been located.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article JATS Methods and references 8–9; source manifest and scoped Tecan guide route",
+      "finding": "Read original article and enumerated its vendor guide, supplementary DOCX, SPIA predecessors and unspecified NEB downstream kit. Relevant linked sources unavailable, so original-sequence absence cannot be confirmed."
+    },
+    "pass_2": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 56,60 and refs 8–9 followed to checklist; same-article PDF lines 217–267 checked; PMC supplementary DOCX, Tecan V2 guide, Kurn and Dafforn SPIA predecessors, and historical NEB adapter kit remain unavailable in listed source routes.",
+      "finding": "All linked-source leads in checklist considered. The duplicate PDF adds no independent chemistry; unavailable relevant original supplement/vendor/predecessor sources block exact-primer and adapter absence claims."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Chimeric SPIA primer bases and exact NEB adapter/index oligos are absent from accessible sources",
+      "disposition": "blocked",
+      "evidence": "Relevant source files and independent second pass remain outstanding."
+    }
+  ],
+  "conclusion": "Defining JATS and duplicate PDF each have two readers. Original describes SPIA and unspecified NEB downstream bar-coded adapter preparation, but the relevant supplement, V2 vendor guide, predecessors and exact NEB kit remain unavailable; no exact-oligo absence claim accepted."
+}

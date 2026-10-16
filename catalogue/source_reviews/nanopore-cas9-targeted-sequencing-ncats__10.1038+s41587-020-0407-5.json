@@ -1,0 +1,108 @@
+{
+  "dir": "nanopore-cas9-targeted-sequencing-ncats__10.1038+s41587-020-0407-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Gilpatrick et al Nat Biotechnol 2020 doi:10.1038/s41587-020-0407-5 PMC7145730",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC7145730 lines 102-116",
+        "finding": "Pooled crRNA/tracrRNA directs Cas9 cuts; starting DNA is CIP dephosphorylated, Cas9 target ends receive Taq dA tail, ONT LSK109 adapter is ligated with Quick Ligase."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC7145730 JATS Methods lines 102-124, Cas9 RNP assembly and cleavage/library preparation",
+        "finding": "The protocol first dephosphorylates free DNA ends, then cleaves with Cas9 RNPs, A-tails newly created ends and ligates ONT LSK109 adapters. This supports strand-specific enrichment but does not disclose LSK109 adapter bases."
+      }
+    },
+    {
+      "id": "guide_table",
+      "role": "supplement",
+      "locator": "Original NIHMS1548342 Supplementary Table 1 workbook",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Sup_Tab1.xlsx.txt rows 2-8; scraper same",
+        "finding": "Locus-specific crRNA spacer sequences and target positions are published; they must not be confused with ONT adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC Supplementary Table 1 workbook rows 2-10; independently checked guide sequences against scraper hits",
+        "finding": "The workbook prints target locus, guide name, guide RNA spacer sequence and genomic target coordinates for named locus panels."
+      }
+    },
+    {
+      "id": "other_tables",
+      "role": "supplement",
+      "locator": "NIHMS1548342 Supplementary Tables 2-8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Tables 2-8 present experiment configurations/results; not all fully inspected for linked chemistry in this pass.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "Author protocols.io Cas9 enrichment for nanopore sequencing doi:10.17504/protocols.io.68ihhue",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original protocolsio_cas9-enrichment-for-nanoporesequencing-68ihhue.pdf.txt lines 130-151 (QuickCIP dephosphorylation), 163-177 (Cas9 cleavage and A-tailing), 185-209 (LSK109 adapter ligation)",
+        "finding": "Author protocol supports CIP→Cas9→dA→LSK109 ligation order and reagent identity."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io v2 PDF pages 1-7, extracted lines 1-32, 130-170 and 185-209",
+        "finding": "Author protocol separately specifies QuickCIP dephosphorylation, Cas9 cleavage and A-tailing, then LSK109 adapter ligation with LNB and NEB T4 ligase. It does not print the vendor adapter strands."
+      }
+    },
+    {
+      "id": "lsk109",
+      "role": "vendor",
+      "locator": "Oxford Nanopore Ligation Sequencing Kit SQK-LSK109 historical guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original names kit but no local guide/adapter oligo sequence available.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 102-116; original Sup_Tab1 guide table; author protocols.io; historical LSK109 kit",
+      "finding": "Published guide table supplies target-specific crRNAs, and author protocol traces reaction order. ONT adapter source and full other supplementary data remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked the available original Methods, supplement inventory and cited predecessor/vendor routes recorded in the checklist",
+      "finding": "Available originals were checked, but relevant historical supplements, vendor manuals or molecular predecessors still require reading; linked-information closure remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SQK-LSK109 adapter strands and motor attachment",
+      "disposition": "blocked",
+      "evidence": "Original/author protocol name reagent without full vendor synthesis; historical guide unavailable."
+    }
+  ],
+  "conclusion": "First located pass only; ONT source and remainder of supplements blocked."
+}

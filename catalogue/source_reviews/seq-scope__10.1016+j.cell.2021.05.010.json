@@ -1,0 +1,231 @@
+{
+  "dir": "seq-scope__10.1016+j.cell.2021.05.010",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/seq-scope__10.1016+j.cell.2021.05.010/j.cell.2021.05.010_PMC8238917.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 213–281",
+        "finding": "Prints HDMI-DraI and HDMI32-DraI seeds, Read1-DraI, Read2-conjugated random N9 second-strand primer, and both phosphorothioate-protected PCR primer rounds."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 213–281",
+        "finding": "Prints HDMI-DraI/HDMI32-DraI seed constructs, Read1-DraI and second-strand and PCR oligos; published supplements remain inaccessible."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "_data/sources/seq-scope__10.1016+j.cell.2021.05.010/2021.01.25.427807_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 603–757",
+        "finding": "Author preprint repeats DraI seed, custom first-read, second-strand and PCR oligos; paper version should govern final transcription."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv preprint Methods lines 603–757",
+        "finding": "Independently checked seed, imaging and library methods as alternate version; published supplement inventory cannot be inferred from this preprint."
+      }
+    },
+    {
+      "id": "published_supp_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-8.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-9.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-10.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-11.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "published_supp_12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8238917/bin/NIHMS1704034-supplement-12.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; supplement not yet read or ruled out."
+    },
+    {
+      "id": "preprint_data_1",
+      "role": "supplement",
+      "locator": "_data/sources/seq-scope__10.1016+j.cell.2021.05.010/2021.01.25.427807_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook opening sheet heading and first rows",
+        "finding": "Differential expression or figure marker-gene data, not seed/primer inventory."
+      },
+      "reason": "Biological analysis table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-1 Normal 10 um sheet lines 1–5",
+        "finding": "Cluster marker-gene differential-expression table, no library construct information."
+      }
+    },
+    {
+      "id": "preprint_data_2",
+      "role": "supplement",
+      "locator": "_data/sources/seq-scope__10.1016+j.cell.2021.05.010/2021.01.25.427807_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook opening sheet heading and first rows",
+        "finding": "Differential expression or figure marker-gene data, not seed/primer inventory."
+      },
+      "reason": "Biological analysis table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-2 10 um Original sheet lines 1–5",
+        "finding": "Expression and cell-layer table, not library chemistry."
+      }
+    },
+    {
+      "id": "preprint_data_3",
+      "role": "supplement",
+      "locator": "_data/sources/seq-scope__10.1016+j.cell.2021.05.010/2021.01.25.427807_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook opening sheet heading and first rows",
+        "finding": "Differential expression or figure marker-gene data, not seed/primer inventory."
+      },
+      "reason": "Biological analysis table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-3 sheets Fig 3/S3/S5 and Fig 4 lines 1–8",
+        "finding": "Lists marker genes for figures, not oligos or assembly reactions."
+      }
+    },
+    {
+      "id": "later_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11014489/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Later author protocol for Seq-Scope flow-cell handling is linked by method lineage but not yet checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 213–281; preprint Methods 603–757; local workbook headings",
+      "finding": "Article and preprint were compared for molecular oligos. Twelve linked publisher supplements and later detailed author protocol remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS Methods lines 213–281; preprint Methods lines 603–757; published supplement fetch manifest",
+      "finding": "Both article versions read, but publisher supplement files return access gate and later detailed protocol is open; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "All HDMI, strand-synthesis, and index choices have been checked in linked supplements",
+      "disposition": "blocked",
+      "evidence": "Main article is sequence-positive, but publisher supplements and later detailed methods are unreviewed."
+    }
+  ],
+  "conclusion": "Main article is sequence-positive, but publisher supplements and later detailed methods are unreviewed."
+}

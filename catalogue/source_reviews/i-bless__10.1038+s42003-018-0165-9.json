@@ -1,0 +1,106 @@
+{
+  "dir": "i-bless__10.1038+s42003-018-0165-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/article.xml.txt:71,131,135",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods lines 131,135; introduction line 71",
+        "finding": "Identical proximal/distal BLESS adapters are named and ThruPLEX DNA-seq kit is used for final sequencing library; study does not identify specific index tube."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "article.xml.txt lines 71, 131 and 135",
+        "finding": "Original article describes proximal biotinylated and distal adapters and says terminal libraries used ThruPLEX DNA-seq Kit; no index tube is identified there."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/supplement.pdf.txt:217-239",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table 4 lines 217-239",
+        "finding": "Modified PCR primers and proximal/distal adapter strands are printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "supplement.pdf.txt lines 217-239, Supplementary Table 4",
+        "finding": "Table prints phosphorylated proximal and distal adapter oligos, internal biotin modification and PCR primer entries."
+      }
+    },
+    {
+      "id": "thruplex2016",
+      "role": "vendor",
+      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/ThruPLEX-DNA-seq-Kit-Manual-QAM-108-003-updated-9_16_16.pdf.txt:1763-1766,1905",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Dual-index discussion lines 1763-1766 and sequence/index table near line 1905",
+        "finding": "Contemporaneous kit has 8nt i7/i5 dual indexes; guide does not identify the sample-specific index tube in the study."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "QAM-108-003 2016 kit guide text lines 1432-1441, 1764 and 1805",
+        "finding": "Guide explicitly says index reagents contain 8-nt Sanger or TruSeq HT indexes; selected tube/well is not known from i-BLESS article."
+      }
+    },
+    {
+      "id": "bless",
+      "role": "predecessor",
+      "locator": "_data/sources/bless__10.1038+nmeth.2408/ (see BLESS original article and supplement)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "i-BLESS article Methods line 131 and Table 4 comparison with BLESS tag sequences",
+        "finding": "Study explicitly states adapter identity with original BLESS; original BLESS source was previously read for BLESS pass 1; exact predecessor bundle locator needs recheck for this review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "BLESS PMC3651036 JATS lines 131-139; original supplement-5 primer table",
+        "finding": "BLESS predecessor defines related proximal-linker chemistry. i-BLESS specific adapter sequences must come from its own Supplementary Table 4."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Methods line 131; Supplementary Table 4; 2016 kit-manual cross-reference",
+      "finding": "Followed named original BLESS chemistry and contemporaneous ThruPLEX kit guide."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "i-BLESS article Methods 131,135; Table 4; 2016 ThruPLEX guide; BLESS original",
+      "finding": "Followed named ThruPLEX kit and BLESS predecessor. Original 2016 guide is local, but study-specific index tube is not stated."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Selected ThruPLEX index tube and complete final kit adapter structure",
+      "disposition": "blocked",
+      "evidence": "Original i-BLESS Methods and Table 4 give BLESS tags; 2016 ThruPLEX guide gives possible index architecture but no study sample choice. Independent second check pending."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

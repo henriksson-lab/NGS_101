@@ -22,6 +22,23 @@ TSO_PRIMER = "/5’BIOSG/AAGCAGTGGTATCAACGCAGAGT"
 TSO = "AAGCTGGTATCAACGCAGAGTGAATrG+GrG"
 TRUSEQ_LIB_P5 = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 POLONY_SEQUENCING_PRIMER = "TTCCATCATTGTTCCCGGGTTCCTCATTCTC"
+BA_PLUS = "AATGATACGGCGACCACCGAGAUCTACAC"
+BA_MINUS = "CAAGCAGAAGACGGCATACGAGAT"
+PS_BA_PLUS = "/5PS/TTTTTTTTTTAATGATACGGCGACCACCGAGAUCTACAC"
+PS_BA_MINUS = "/5PS/TTTTTTTTTTCAAGCAGAAGACGGCATACGAGAT"
+CY5_PROBE = "/5Cy5/CTTGCGCTAGTCCGGCAACCTCGGTGG"
+NEXTERA_INDEX_PRIMER = "CAAGCAGAAGACGGCATACGAGAT[INDEX]GTCTCGTGGGCTCGG"
+POLONY_TEMPLATE = (
+    "AATGATACGGCGACCACCGAGATCTACAC"
+    "TGCGGCCGCTAATACGACTCACTATAGGGATCT"
+    "NNNNNNNNNNNNNNNNNNNNNNNN"
+    "AGAGAATGAGGAACCCGGGAACAATGATGGAA"
+    "TTTTTTTTTTTTTTTTTTT"
+    "TCGA"
+    "ACCACCGAGGTTGCCGGACTAGCGCAAG"
+    "TACTTGTCCATTCCTGAAGAAATATTATATTTATACAACTTACCCATAGAATCCTATTTACTAGGAAAGGAAAAGCCTCCTATTTATAAAAATTGGATAGAGCTTTCTCAACAACAGTGGAATATCAATGATAGAACAATTGCCGATTTATTAGATGGGGTCTTAATAATACCATCGA"
+    "TCTCGTATGCCGTCTTCTGCTTG"
+)
 
 
 SPATIAL = feature("pixel_seq.spatial", "spatial_barcode", "random",
@@ -276,10 +293,17 @@ def _protocol_graph(final, primers) -> ProtocolGraph:
 
 def oligos():
     return (
+        f"Published polony seed template (24 random barcode bases) — {inline_sequence(POLONY_TEMPLATE, 'Pixel-seq polony template')}",
+        f"Bridge-amplification BA(+), as written — {BA_PLUS}",
+        f"Bridge-amplification BA(−), as written — {BA_MINUS}",
+        f"Gel-grafted PS-BA(+), as written — {PS_BA_PLUS}",
+        f"Gel-grafted PS-BA(−), as written — {PS_BA_MINUS}",
+        f"Polony Cy5 probe, as written — {CY5_PROBE}",
         f"UMI primer — {inline_sequence(UMI_PRIMER, 'Pixel-seq UMI primer')}",
         f"Template-switching oligo, as written — {TSO}",
         f"Biotinylated TSO primer, as written — {TSO_PRIMER}",
         f"TruSeq library P5 primer — {inline_sequence(TRUSEQ_LIB_P5, 'TruSeq libP5')}",
+        f"Nextera index primer, as written — {NEXTERA_INDEX_PRIMER}",
         f"Polony sequencing primer — {inline_sequence(POLONY_SEQUENCING_PRIMER, 'polony sequencing primer')}",
     )
 

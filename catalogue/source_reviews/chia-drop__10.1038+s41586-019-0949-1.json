@@ -1,0 +1,85 @@
+{
+  "dir": "chia-drop__10.1038+s41586-019-0949-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC7001875, local s41586-019-0949-1_PMC7001875.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS line 64 and supplement inventory",
+        "finding": "Article describes GEM-specific barcoded oligonucleotides but not their base sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC7001875 original JATS Methods and supplement inventory",
+        "finding": "Original article names commercial Chromium Genome v2/MultiPlex reagents and supplemental method source."
+      }
+    },
+    {
+      "id": "methods_supp",
+      "role": "supplement",
+      "locator": "Nature MOESM1 Supplementary Methods PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 216-224",
+        "finding": "Names Chromium Genome v2 Library & Gel Bead Kit PN-120258 and Chromium Multiplex Kit PN-120262; readout is 600-bp selected index-PCR library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1 original Supplementary Methods PDF text lines 216-227, 952",
+        "finding": "Authors specify Chromium Genome v2 Library & Gel Bead Kit PN-120258, Multiplex Kit PN-120262, and example GEMcode read; not full proprietary oligos."
+      }
+    },
+    {
+      "id": "10x_genome_v2_guide",
+      "role": "linked_material",
+      "locator": "10x Chromium Genome v2 Library & Gel Bead Kit PN-120258 original guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Explicitly named in Supplementary Methods lines 216-223; absent locally.",
+      "discovered_from": "methods_supp"
+    },
+    {
+      "id": "10x_multiplex_guide",
+      "role": "linked_material",
+      "locator": "10x Chromium Multiplex Kit PN-120262 original guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Explicitly named in Supplementary Methods line 223; absent locally.",
+      "discovered_from": "methods_supp"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article JATS 64, supplement MOESM1 216-224",
+      "finding": "Followed supplement names and part numbers; original 10x Genome v2 and Multiplex guides not in bundle."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Author MOESM1 Methods lines 216-227 and kit part numbers",
+      "finding": "Followed precise commercial kit identifiers; original kit-era guides still unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Discontinued Chromium Genome v2 barcoded oligo and terminal adapter bases are unpublished.",
+      "disposition": "blocked",
+      "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
+    }
+  ],
+  "conclusion": "Original author methods read independently; commercial Genome v2/Multiplex kit guides unavailable, so oligo absence remains blocked."
+}

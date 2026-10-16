@@ -1,0 +1,111 @@
+{
+  "dir": "scgestalt__10.1038+s41596-018-0058-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41596-018-0058-x; s41596-018-0058-x_PMC6279253.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 251-273 and 389-393",
+        "finding": "Primary protocol reagent table prints lineage PCR and final PCR architecture, including R1-PCRix placeholder and R2-PCR full bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC6279253 JATS lines 239-273 and 389-393",
+        "finding": "Original protocol prints sgRNA and lineage-recovery oligos, inDrops GP6/PE1Sa/GP12/PE1Sb and PCRix/R2 PCR, with variable index slot."
+      }
+    },
+    {
+      "id": "supp_table_2",
+      "role": "supplement",
+      "locator": "s41596-018-0058-x_41596_2018_58_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 91-110",
+        "finding": "Prints exact indexed R1-PCR variants, including ix1 at lines 96-98."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 Supplementary Table 2 text lines 88-112",
+        "finding": "Original table prints inDrops library multiplexing R1-PCR-ix primer family; example members checked directly."
+      }
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "MOESM2-MOESM8; reporting summary, analysis workbook, movie and code/data archive",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Analysis files and reporting data; the oligo table is MOESM1.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "MOESM2 reporting-summary references, MOESM3 data-table header, MOESM5-8 code/data headers",
+        "finding": "These files document analysis and results, not primary capture or final primer synthesis."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2–MOESM8 titles, code/data inventory and source scraper results",
+        "finding": "Supplement package contains reporting/data/code files; no source-backed exact inDrops bead chemistry was established from these inspected headings."
+      }
+    },
+    {
+      "id": "indrops_v3",
+      "role": "predecessor",
+      "locator": "inDrops V3 capture chemistry referred to in primary protocol and MOESM2 GitHub link",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Capture-oligo primary source/version was not located in this pass.",
+      "pass_2": null
+    },
+    {
+      "id": "github_indrops",
+      "role": "linked_material",
+      "locator": "https://github.com/indrops/ (MOESM2 line 43)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked repository not checked for version-specific capture oligo in this pass.",
+      "discovered_from": "other_supp",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "primary protocol lines 251-273; MOESM2 line 43 linked repositories",
+      "finding": "Supplementary final PCR oligo family checked; linked inDrops repository and versioned capture source remain unexamined."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC protocol oligo table and Supplementary Table 2; MOESM2 GitHub reference",
+      "finding": "Original lineage oligos are printed; separate inDrops V3 chemistry documentation and GitHub link remain unchecked/unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact final indexed R1-PCR primer was unavailable",
+      "disposition": "resolved",
+      "evidence": "Original Supplementary Table 2 lines 91-110 prints complete indexed members."
+    },
+    {
+      "claim": "inDrops V3 capture oligo and exact final read placement remain unresolved",
+      "disposition": "blocked",
+      "evidence": "The versioned inDrops source and linked GitHub repository need independent follow-up."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

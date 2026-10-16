@@ -18,7 +18,7 @@ The sequenced material is human genomic DNA around a bait double-strand break, q
 ## Construct logic
 
 1. 🟢 Cells are allowed to repair a recurrent bait DSB. Genomic DNA therefore already contains germline/perfect-rejoin, insertion, deletion, inversion, and translocation outcomes before library preparation.
-2. 🟢 Extracted DNA is sonicated to 300–700 bp. A 5′-biotinylated locus primer then makes one extension product from each recoverable template. The single extension avoids the 80-cycle linear amplification used by LAM-HTGTS.
+2. 🟢 Extracted DNA is sonicated to 0.3–2 kb. A 5′-biotinylated locus primer then makes one extension product from each recoverable template. The single extension avoids the 80-cycle linear amplification used by LAM-HTGTS.
 3. 🟢 Free biotin primer is removed, strands are denatured, and biotinylated extension products are immobilized on streptavidin beads.
 4. 🟢 A 5′-phosphorylated bridge upper strand is ligated to the free 3′ end. Both bridge strands carry 3′ C7 amino blocks. The upper strand contains the pattern `NNNNTNNNANNNTNNNN`: fourteen random bases separated by fixed T/A/T bases.
 5. 🟢 On-bead nested PCR uses a bait-side I5 primer and an I7-series bridge-side primer. The inline sample barcode is the **four** bases between the Read 1 tail and the locus-specific nested primer: `AGCG` (I5-R1), `GCCT` (R2), `AGGA` (R3), `TCAG` (R4). For the RAG1A/B example the nested primer is therefore `AGGATCTCACCCGGAACAGC` (20 nt), and the oligo reads `ACTCTTTCCCTACACGACGCTCTTCCGATCT` + `AGCG` + `AGGATCTCACCCGGAACAGC`. I7-B01 carries the six-base index `CGTGAT` in the ordering oligo; its reverse complement is present on the displayed library strand.
@@ -71,3 +71,7 @@ The page shows the RAG1A/B bait with I5-R1 and I7-B01. Supplementary Table S11 p
 Read 1 enters from the nested bait primer and covers the known bait sequence before reaching the repair junction. Read 2 enters from the bridge side and encounters the structured random molecular barcode. The model records the four random tracts as parts of one RMB group, excluding the fixed T/A/T separators from the 14-base UMI length.
 
 PEM-seq quantifies outcomes recovered from the chosen bait side. A repair product that deletes either required primer-binding site is not recoverable, and translocation abundance also reflects three-dimensional contact probability; the library should not be read as a direct frequency measurement for every off-target locus.
+
+## Source audit correction (2026-10-16)
+
+🟢 The defining 2019 article, Methods → Primer extension, specifies sonicated genomic DNA of **0.3–2 kb**. The previous 300–700-bp description was a repository transcription error and has been corrected in the page workflow and graph. The subsequent 2022 STAR Protocols procedure is a separately dated implementation.

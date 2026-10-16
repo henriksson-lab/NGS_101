@@ -11,7 +11,7 @@ An in situ RNA-hybridization assay that uses adjacent double-Z target probes and
 - 🟢 The defining paper states 20 amplifier sites per preamplifier and 20 label-probe sites per amplifier: 400 labels per double-Z pair and a theoretical 8,000 per 20-pair target set.
 - 🟢 [US7709198B2](https://patents.google.com/patent/US7709198B2/en), the core double-Z patent assigned to Advanced Cell Diagnostics, gives exact human GAPD probe examples in Tables 1–2 and an example preamplifier as SEQ ID NO:1. In its double-Z pair, each probe contains a target-binding region, a five-thymidine spacer and one 14-nt tail; the two tails together pair to the terminal 28 bases of the preamplifier.
 - 🟡 The patent is direct evidence for a working double-Z sequence implementation, but not evidence that current commercial RNAscope products retain those exact universal sequences.
-- 🔴 The exact oligo pools and amplification-tree sequences in current commercial kits remain undisclosed. The schematic therefore uses patent bases only in a separately labelled historical example and does not assign them to current products.
+- 🔴 The exact oligo pools and amplification-tree sequences in current commercial kits have not been established by this review. The article calls its own target-probe and amplification-tree sequences proprietary; its five supplements and linked vendor material still need independent checks. The schematic uses patent bases only in a separately labelled historical example and does not assign them to current products.
 
 ## 3. Molecular path
 

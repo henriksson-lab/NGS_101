@@ -1,0 +1,226 @@
+{
+  "dir": "omni-atac__10.1038+nmeth.4396",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Online Methods/Omni-ATAC sections lines 128–183",
+        "finding": "Omni changes nuclei lysis, wash and Tn5 reaction while inheriting original ATAC primer architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5623106 JATS Online Methods Omni-ATAC section, lines ~300–350; scraper",
+        "finding": "Protocol modifies nuclei lysis/wash and transposition conditions while using inherited Ad1/Ad2 amplification."
+      }
+    },
+    {
+      "id": "supp_protocol_1",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Protocol 1 lines 70–106, 130–180",
+        "finding": "Protocol specifies NP40/Tween20/digitonin nuclei preparation, PBS-containing TDE1 reaction and Ad1/Ad2 amplification by name, without their bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer Supplementary Protocol 1 PDF lines 70–106, 130–140; scraper",
+        "finding": "Detailed protocol names Ad1 and Ad2 in PCR setup, while their base strings are supplied by the predecessor ATAC supplement."
+      }
+    },
+    {
+      "id": "supp_protocol_2",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "opening lines 1–20",
+        "finding": "Supplementary Protocol 2 is nuclei isolation from frozen tissues; no adapter ordering sequence is in inspected opening."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer Supplementary Protocol 2 PDF opening lines 1–20; scraper",
+        "finding": "This document covers frozen-tissue nuclei isolation; no adapter design is in its opening protocol steps."
+      }
+    },
+    {
+      "id": "buenrostro_2015",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PCR setup lines 119–125",
+        "finding": "Current Protocols protocol uses Custom Nextera Primer 1/2 and explicitly delegates the complete primer list to Buenrostro et al."
+      },
+      "discovered_from": "supp_protocol_1",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original predecessor Current Protocols PMC4374986 JATS lines 119–125; scraper",
+        "finding": "PCR uses Custom Nextera Primers 1 and 2, with the second barcode-containing; full base list is delegated to 2013 supplement."
+      }
+    },
+    {
+      "id": "buenrostro_2013_supp",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "supplement opening lines 1–8 and Ad2 indexed series lines 5–80",
+        "finding": "The original ATAC Supplementary Methods print Ad1_noMX and indexed Ad2 primer family, including Ad2.1_TAAGGCGA; this is the actual base-level ancestor."
+      },
+      "discovered_from": "buenrostro_2015",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 2013 Nature Methods MOESM200 PDF text lines 1–80; scraper",
+        "finding": "Ad1_noMX and indexed Ad2 family are printed; these are source-positive ancestral bases for the named Omni PCR primers."
+      }
+    },
+    {
+      "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm1_esm_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM1 PDF text Supplementary Figures 1–9, lines 3–241",
+        "finding": "Extended figure captions compare library metrics and transposase input; no primer/adapter sequence or new construct assembly detail."
+      },
+      "reason": "Extended figure captions compare library metrics and transposase input; no primer/adapter sequence or new construct assembly detail.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 Supplementary Figures 1–9 captions, extracted text lines 1–272",
+        "finding": "Captions show quality-control comparisons, nuclei treatments and assay outputs; the examined supplement contains no primer or adapter sequence table."
+      }
+    },
+    {
+      "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm2_esm_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 PDF text lines 1–158",
+        "finding": "Life Sciences Reporting Summary, no base-level oligo or reaction detail."
+      },
+      "reason": "Life Sciences Reporting Summary, no base-level oligo or reaction detail.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 reporting and review PDF text lines 1–166",
+        "finding": "Reporting forms and submission records; no molecular construction or oligo sequences."
+      }
+    },
+    {
+      "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm5_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 workbook Sheet1 heading",
+        "finding": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 252 extracted lines total",
+        "finding": "Deep-sequencing Figure 1 metrics table; no ordering oligos in the inspected headings."
+      }
+    },
+    {
+      "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm6_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Clinical brain donor metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 workbook Supplementary Table 2 heading",
+        "finding": "Clinical brain donor metadata, not library chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 5 extracted lines total",
+        "finding": "Brain-donor clinical characteristics, not library chemistry."
+      }
+    },
+    {
+      "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm7_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "GWAS enrichment result data, not library oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM7 workbook Sheet1 heading",
+        "finding": "GWAS enrichment result data, not library oligos."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 92 extracted lines total",
+        "finding": "GWAS enrichment statistics, not library chemistry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Omni Supplementary Protocol 1 and Buenrostro 2015→2013 delegated source chain",
+      "finding": "Omni-specific sample prep is documented; original 2013 ATAC supplement supplies the inherited primer bases. Remaining local supplementary tables await classification."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Omni original and two detailed supplements; Buenrostro 2015 Methods lines 119–125 and 2013 oligo list lines 1–80",
+      "finding": "Followed source-cited predecessor for Ad1/Ad2 bases. Other original Springer supplements remain to be excluded independently."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Omni-ATAC Ad1/Ad2 primer bases are not source available",
+      "disposition": "blocked",
+      "evidence": "Original ATAC 2013 supplement prints the families; exact sample index and independent review remain open."
+    }
+  ],
+  "conclusion": "Original ATAC 2013 supplement prints the families; exact sample index and independent review remain open."
+}

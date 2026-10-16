@@ -5,20 +5,24 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Row, Segment, annotation_rows, revcomp, strand_row
-from adapter_ligation import reported_adapter_end
-from dumbbell import Dumbbell, dumbbell_rows, smrtbell_sequencing_plan
+from dumbbell import (Dumbbell, dumbbell_rows, smrtbell_hairpin_geometry,
+                      smrtbell_sequencing_plan)
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 
 TITLE = "PacBio SMRTbell Express Template Prep Kit 2.0"
 NOTES = "01_smrtbell-express-2-0.html"
 SOURCE = ('Commercial defining source: PacBio procedure <b>101-693-800 Version 01</b>, '
-          '“Preparing gDNA Libraries Using the SMRTbell Express Template Preparation Kit 2.0.”')
+          '“Preparing gDNA Libraries Using the SMRTbell Express Template Preparation Kit 2.0”; '
+          '<a href="https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf">'
+          'PacBio training PN 101-742-500 Version 01</a>, pp. 7 and 9.')
 SUMMARY = ("Remove overhangs and repair sheared long DNA, dA-tail it, then ligate a "
-           "T-overhang hairpin to both ends to make a closed template for repeated "
+           "hairpin adapter to both ends to make a closed template for repeated "
            "polymerase passes.")
-CAVEAT = ("Overhang Adapter v3 and sequencing-primer bases are proprietary. The hairpin "
-          "segments below encode their disclosed topology, not invented sequence.")
+CAVEAT = ("PacBio's February 2019 training document identifies a T overhang on Overhang "
+          "Adapter v3 and A/T ligation. The hairpin body, complete adapter sequence and "
+          "sequencing-primer bases remain unverified in the inspected sources; the "
+          "hairpin segments encode closed topology with placeholder bases and length.")
 
 INSERT = Construct([Segment("long genomic insert", "X" * 48, placeholder=True)],
                    name="10 kb to >30 kb insert")
@@ -42,15 +46,17 @@ SEQUENCING_ENDING = ("A proprietary PacBio sequencing primer anneals within eith
 SEQUENCING_UNAVAILABLE = ("The kit guide names its sequencing primer but does not print "
                           "the primer or Overhang Adapter v3 nucleotide sequence.")
 FINAL_CAPTION = ("The ds insert plus two hairpins is one covalently closed path. ** marks "
-                 "the four sealed insert–adapter junctions; hairpin bases are proprietary.")
+                 "the four sealed insert–adapter junctions; hairpin bases and drawn "
+                 "length are schematic placeholders, while the ligating T is source-reported.")
 OVERHANG_REMOVAL = (37, 15)
 DAMAGE_REPAIR = (37, 30)
 END_PREP_PROGRAM = ((20, 10), (65, 30))
 LIGATION = (20, 60)
-HAIRPIN_END = reported_adapter_end(
-    "Overhang Adapter v3 hairpin", kind="cohesive", polarity="3-prime",
-    terminal_sequence="T",
-    statement="The PacBio procedure specifies T-overhang hairpins for dA-tailed inserts.")
+HAIRPIN_END = smrtbell_hairpin_geometry(
+    SMRTBELL, statement="PacBio training PN 101-742-500 v01 p. 7 states that Overhang "
+    "Adapter v3 has a T overhang; p. 9 specifies A/T ligation. Procedure 101-693-800 "
+    "v01 specifies dA-tailed insert ends. The 3-prime pairing follows from these ends; "
+    "the proprietary hairpin body remains unspecified.")
 
 
 def final_rows():
@@ -68,7 +74,9 @@ def sections():
         ("End-repair and dA-tail", dA_tailed_scene(END_PREP).rows(),
          "End Prep Mix: 20 °C for 10 min, then 65 °C for 30 min."),
         ("Ligate Overhang Adapter v3 hairpins", dumbbell_rows(SMRTBELL),
-         "T-overhang hairpins pair with both insert dA ends and are sealed for 60 min at 20 °C."),
+         "Overhang Adapter v3 is ligated for 60 min at 20 °C. PacBio training "
+         "PN 101-742-500 v01 pp. 7, 9 identifies the T overhang and A/T ligation; "
+         "the full hairpin sequence remains undisclosed."),
         ("Remove molecules with free ends", dumbbell_rows(SMRTBELL),
          "Bead cleanup and nuclease treatment enrich completely closed SMRTbells."),
         ("Anneal sequencing primer and bind polymerase", primer_path,
@@ -87,9 +95,9 @@ def protocol_graph():
     g.react("end_prep", "Remove overhangs, repair damage and dA-tail",
             StepKind.END_REPAIR,
             ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (tailed,))
-    hairpins = g.input("hairpins", "T-overhang Overhang Adapter v3 hairpins",
+    hairpins = g.input("hairpins", "Overhang Adapter v3 hairpins",
                        MaterialKind.ADAPTER, inferred=True,
-                       source=SOURCE + " (adapter bases proprietary)")
+                       source=SOURCE + " (T overhang known; body bases proprietary)")
     ligase = g.input("ligase", "SMRTbell ligase", MaterialKind.CATALYST)
     closed = g.product("closed", "closed SMRTbell molecules", MaterialKind.MOLECULAR,
                        state=FINAL_LIBRARY, inferred=True,

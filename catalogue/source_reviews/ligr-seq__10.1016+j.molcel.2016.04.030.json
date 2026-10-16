@@ -1,0 +1,139 @@
+{
+  "dir": "ligr-seq__10.1016+j.molcel.2016.04.030",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "sharma_2016",
+      "role": "defining",
+      "locator": "_data/sources/ligr-seq__10.1016+j.molcel.2016.04.030/Sterne-Weiler_MolCell_2016.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Coauthor-hosted original article pp1–16 and appended Supplemental Experimental Procedures lines 798–875, oligo list lines 1064–1134; scraper source lines 1086–1132",
+        "finding": "Original and complete supplement print crosslink, S1, CircLigase, RNase R, photoreversal, SMARTer kit library order and validation oligos, but not proprietary kit N6/SMART oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Coauthor original with supplement newline lines 798–852, 1085–1132",
+        "finding": "Supplement gives AMT, S1 digestion, CircLigase, RNase R, photoreversal and SMARTer kit library steps. Later oligo list concerns validation assays; it does not spell kit N6/SMART oligos or selected indexed PCR primer."
+      }
+    },
+    {
+      "id": "clontech_components",
+      "role": "vendor",
+      "locator": "_data/sources/ligr-seq__10.1016+j.molcel.2016.04.030/634836-634837-634838-634839-080213.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original two-page Product Components List lines 1–20 and 66–93",
+        "finding": "Identifies kit components only, explicitly points to a separate User Manual, and prints no kit oligo sequences or index values."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2013 Product Components List lines 1–20 and 66–93",
+        "finding": "This is two-page component inventory, not a User Manual. It names SMARTer components and Illumina Indexing Primer Set, points to separate full manual and gives no base sequences."
+      }
+    },
+    {
+      "id": "clontech_manual_2014",
+      "role": "vendor",
+      "locator": "https://doczz.net/doc/6546668/smarter%C2%AE-stranded-rna-seq-kit-user-manual (Clontech 050714 transcript)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Mirrored original 2014 manual §II pp6–9 and §V, online transcript inspected; exact source corroboration with downloadable original remains open",
+        "finding": "2014 Clontech manual marks SMARTer and N6 kit oligos proprietary and prints PCR/index family descriptions. Mirror is a rendering of the vendor original; exact selected LIGR index is not given."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Clontech 050714 original manual mirrored at doczz.net lines 155–216, 221–317, 609–665",
+        "finding": "2014 manual specifically marks SMARTer Stranded Oligonucleotide and SMARTer Stranded N6 Primer proprietary; publishes 12 six-base indexing barcode values for non-HT kit, but does not print full kit oligos or say which index LIGR used."
+      }
+    },
+    {
+      "id": "clontech_manual_2019",
+      "role": "vendor",
+      "locator": "https://device.report/m/c0ff6388dea6e8d67588083504d1235a055e10d7ff8298fc88a00a076eb2f892 (Takara 2019 revision)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Mirrored Takara revision §II pp4–9, online transcript inspected",
+        "finding": "Later revision likewise labels N6 and SMART oligos proprietary; revision is contextual and is not evidence of the 2016 kit lot."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Takara 102319 original manual mirrored at device.report lines 95–101, 154–250, 267–324, 396–450",
+        "finding": "Later same-family manual confirms named SMARTer/N6 components proprietary, prints non-HT 12-index barcode table and separate HT two-index family; cannot infer 2016 study lot or selected index from later revision."
+      }
+    },
+    {
+      "id": "aligater_repository",
+      "role": "linked_material",
+      "locator": "https://github.com/timbitz/Aligater",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Repository README Overview, Usage/Alignment and Detection, File Formats, web lines 231–443. Article supplement Analysis of LIGR-Seq data lines 860–878 links repository.",
+        "finding": "Author repository README describes computational analysis and external genome/transcriptome databases. Repository code/configuration was not retrieved in this pass and could still identify trimming or index conventions; no absence inferred from README."
+      },
+      "discovered_from": "sharma_2016"
+    },
+    {
+      "id": "aligater_configuration",
+      "role": "linked_material",
+      "locator": "https://github.com/timbitz/Aligater/tree/master/bin",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author README is available but bin directory fetch failed; original code/configuration for trim conventions and possible kit hints remains uninspected.",
+      "discovered_from": "aligater_repository"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original supplement lines 838–846 identifies exact kit; Product Components List points to User Manual; mirrored original 2014 and later 2019 manual",
+      "finding": "Followed kit citation to component list and two user-manual transcripts. Need second independent original-source read and vendor revision/kit selection check before accepting absence."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Sharma supplement lines 837–852; 2013 components list lines 1–20, 66–93; 2014 manual pp. 6–7 / web lines 155–317; 2019 manual web lines 154–250, 267–324",
+      "finding": "Original Sharma supplement lines 838–852 names SMARTer Stranded RNA-Seq kit generically, without a Clontech catalogue number, revision, selected index or lot. I followed the 2013 component list to independent online transcripts of the 2014 and 2019 manuals. They label SMARTer/N6 oligos proprietary and print an index family, but the exact LIGR kit generation and index member cannot be assigned; original vendor PDF fetches remain HTTP 403."
+    },
+    "followup": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Coauthor original supplemental procedures lines 798–878; linked timbitz/Aligater README Overview and Usage.",
+      "finding": "Followed explicit software link to author repository. README read; code directory fetch failed, so relevant configuration/trimming inspection and independent second check remain pending. Generic SMARTer kit identity and vendor original remain unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact proprietary SMARTer N6 and template-switching oligo bases are undisclosed in sources governing LIGR-seq",
+      "disposition": "blocked",
+      "evidence": "The article says SMARTer Stranded RNA-Seq kit but not a catalogue number. Mirrored 2014 manual pp. 6–8 and 2019 manual identify SMARTer Stranded Oligonucleotide and N6 Primer as proprietary; original vendor PDF and exact kit revision remain unverified."
+    },
+    {
+      "claim": "LIGR-seq used a specific indexed PCR primer sequence",
+      "disposition": "blocked",
+      "evidence": "Sharma supplement lines 838–852 says reverse primer includes a barcode but identifies no member. The 2014 manual prints 12 six-base barcode values; LIGR sample-to-index assignment is not in the inspected paper or mirror."
+    }
+  ],
+  "conclusion": "Two readers inspected the article, component list and manual transcripts, but the paper only names a generic SMARTer kit. Original vendor PDF and exact kit generation/selected index remain unverified; both missing claims stay blocked."
+}

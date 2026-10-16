@@ -1,0 +1,108 @@
+{
+  "dir": "r2c2__10.1073+pnas.1806447115",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Volden et al PNAS 2018 doi:10.1073/pnas.1806447115 PMC6166824",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS PMC6166824 lines 147-171",
+        "finding": "Indexed cDNA amplified by Tn5Prime, ~200-bp lambda splint creates Gibson circle, Phi29 random-hexamer rolling circle amplification, then ONT 1D/RAD4 library prep."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC6166824 JATS Methods lines 147-173, including splint generation, Gibson circularization, exonuclease cleanup, Phi29 rolling-circle amplification and ONT kit use",
+        "finding": "The paper defines a 200-bp Lambda-derived splint with ends matching cDNA, circularization by NEBuilder, removal of linear DNA, Phi29 RCA, T7 endonuclease and ONT sequencing. SIRV and B-cell indexing are separate use cases."
+      }
+    },
+    {
+      "id": "preprint_oligos",
+      "role": "supplement",
+      "locator": "Author bioRxiv preprint 338020 v1 supplemental oligo list (published PNAS Supplement Table S3)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author preprint 338020_v1.full.pdf.txt lines 849-881; scraper lines 822-841",
+        "finding": "Preprint gives /5Me-isodC/ oligo-dT, RNA-base-modified TSO1–8, ISPCR, indexed Nextera A PCR primer, and two lambda splint PCR primers. Published PNAS supplement labels corresponding table S3."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv 338020 v1 PDF extracted oligo section around lines 822-881; cross-checked against published PNAS Table S3",
+        "finding": "Author preprint supports the modified RT oligo, RNA-ending TSOs, 8-base indexing primer and Lambda splint primers; published PNAS SI provides the stronger original source for these bases."
+      }
+    },
+    {
+      "id": "pnas_supp",
+      "role": "supplement",
+      "locator": "PNAS pnas.1806447115.sapp.pdf original supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PNAS pnas.1806447115.sapp.pdf.txt lines 307-392, published Table S3; scraper on source bundle",
+        "finding": "Published Supplement Table S3 prints orderable /5Me-isodC/ oligo-dT, eight RNA-base-modified TSOs, ISPCR, indexed Nextera A PCR primer and lambda splint primers. PDF extraction interleaves TSO suffixes, so each row requires careful source layout checking."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Published PNAS pnas.1806447115.sapp.pdf.txt Table S3 lines 307-392; checked modifications and sequence names against scraper hits",
+        "finding": "Original published table prints /5Me-isodC/ oligo-dT, eight RNA-modified TSO variants, ISPCR/Nextera-A primer family with an 8-base index, and Lambda_F_ISPCR/Lambda_R_NextA splint primers."
+      }
+    },
+    {
+      "id": "tn5prime",
+      "role": "predecessor",
+      "locator": "Tn5Prime single-cell cDNA method cited by Volden",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "cDNA construction and indexing inherit Tn5Prime; original predecessor source not independently read.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "ont_1d_rad4",
+      "role": "vendor",
+      "locator": "Historical ONT 1D and RAD4 kit guides",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original lines 169-171 uses different historical kits; motor-adapter strands and loading chemistry not independently obtained.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original PNAS JATS lines 147-171; published Supplement Table S3 lines 307-392; author preprint Table S1 lines 849-881; historical ONT kits",
+      "finding": "Published/preprint source provides cDNA and splint PCR oligos with modifications; ONT adapter and Tn5Prime predecessor remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked the available original Methods, supplement inventory and cited predecessor/vendor routes recorded in the checklist",
+      "finding": "Available originals were checked, but relevant historical supplements, vendor manuals or molecular predecessors still require reading; linked-information closure remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical ONT motor-adapter sequence and selected variant",
+      "disposition": "blocked",
+      "evidence": "Original uses 1D or RAD4 branch without kit molecular manual; base-level adapter remains blocked."
+    }
+  ],
+  "conclusion": "First located pass only; historical vendor and predecessor chemistry remain blocked."
+}

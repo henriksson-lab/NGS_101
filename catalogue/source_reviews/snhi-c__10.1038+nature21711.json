@@ -1,0 +1,76 @@
+{
+  "dir": "snhi-c__10.1038+nature21711",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Flyamer et al. 2017 PMC5639698 JATS/PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5639698 article",
+        "finding": "Outer kit and primer bases not printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC5639698 full text and supplement link",
+        "finding": "Methods delegate detailed library preparation to supplementary guide."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "NIHMS852755 supplementary information, supp_info.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Methods lines 152–156",
+        "finding": "Names Illumina indexed adapter and primers, not bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary Methods lines 150–158; scraper",
+        "finding": "Confirmed adaptor and PCR primer roles, 13 cycles, but no bases; own-bundle scraper found no oligo hits."
+      }
+    },
+    {
+      "id": "illumina_2007",
+      "role": "linked_material",
+      "locator": "Illumina sequencing library protocol (Illumina, 2007), cited in NIHMS852755 line 157",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No title/version or original file identified in local bundle.",
+      "discovered_from": "supp_methods"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original article/supplement chain",
+      "finding": "No linked vendor original recorded in first pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "NIHMS852755 line 157",
+      "finding": "Found explicit Illumina 2007 protocol reference; original remains unidentified/unread."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Indexed adapter and sequencing primer bases absent",
+      "disposition": "blocked",
+      "evidence": "Original supplementary guide points to an unexamined Illumina 2007 protocol."
+    }
+  ],
+  "conclusion": "Second pass found an unreviewed vendor protocol link; no missing claim accepted."
+}

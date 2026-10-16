@@ -1,0 +1,95 @@
+{
+  "dir": "oxford-nanopore-rapid-sequencing-v14",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/rapid-sequencing-sqk-rad114.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Vendor rapid guide kit contents lines 274–278, workflow 383–499",
+        "finding": "SQK-RAD114 guide names Fragmentation Mix and Rapid Adapter, reaction order and short incubation."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official SQK-RAD114 HTML lines 270–280, 383–499",
+        "finding": "FRA tagmentation precedes RA/ADB attachment; 30°C/80°C incubation, kit reagents and volumes given; no FRA tag or RA oligo bases printed."
+      }
+    },
+    {
+      "id": "chem_doc",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Rapid workflow section around lines 607–738 and 1044–1060; scraper run over both HTML twins",
+        "finding": "Technical document states transposase-mediated fragmentation/tagging, but complete FRA tag and motor complex not established."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official chemistry technical document lines 381–418, 2120–2128",
+        "finding": "SQK-RAD114 transposase simultaneously fragments/tags gDNA; RA attaches enzyme-free afterward; reagent glossary identifies FRA/RA and motor on RA but not component sequences."
+      },
+      "discovered_from": "protocol",
+      "additional_passes": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Official chemistry technical document extracted lines 378–418, 2060–2088 and 2119–2128; full Rapid V14 source-bundle oligo scraper run before reading.",
+          "finding": "The technical document prints Rapid Adapter (RA) top strand 5′-CCTGTACTTCGTTCAGTTACGTATTGCT-3′ in its Adapter sequences section. It separately says FRA tags DNA in transposase fragmentation, RA attaches without enzyme after transposition, and a motor is loaded on RA. It does not print the FRA-installed tag or complete motor-loaded RA assembly/end attachment geometry. Existing page/model correctly include the published RA strand; the review conclusion understated that source-positive fact."
+        }
+      ]
+    },
+    {
+      "id": "component_oligos",
+      "role": "linked_material",
+      "locator": "ONT SQK-RAD114 Fragmentation Mix installed tag and complete motor-loaded Rapid Adapter assembly/end-attachment geometry; the RA top strand alone is printed in the official chemistry technical document, adapter sequences section.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "The official chemistry technical document prints the RA top strand but not the FRA-installed tag, complete motor-loaded RA assembly, or exact attachment-end geometry. No component-level original for those residual details has been obtained; absence cannot be declared.",
+      "discovered_from": "chem_doc"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Current official protocol and chemistry document read; component-level source still absent.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Official SQK-RAD114 HTML lines 270–280, 383–499; Official chemistry technical document lines 381–418, 2120–2128",
+      "finding": "Read listed originals and followed identified linked sources in checklist; unavailable relevant source rows remain blocked."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Followed official SQK-RAD114 protocol chemistry-document link; inspected chemistry technical document rapid workflow lines 378–418, adapter sequences lines 2060–2088, reagent glossary lines 2119–2128.",
+        "finding": "The linked technical document supplies RA top-strand bases and mechanism outline, but no FRA tag or complete RA motor assembly. Other kit-family sequences in that document are not assigned to SQK-RAD114. Component-level source remains unlocated, so linked information stays blocked."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "FRA-installed tag, complete RA motor complex and exact attachment chemistry",
+      "evidence": "Official rapid protocol and chemistry technical document have two located source reads. The chemistry document prints RA top-strand bases, but the FRA tag, motor-loaded complex and exact end geometry are not established by the inspected originals. Component-level relevant source remains unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two located independent reads cover the official SQK-RAD114 protocol and chemistry technical document. The latter publishes the Rapid Adapter top strand used in the existing model; FRA-installed tag, full motor-loaded assembly and attachment-end geometry remain blocked by unavailable component-level source. No absence is accepted."
+}

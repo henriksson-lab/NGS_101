@@ -14,7 +14,10 @@ TITLE="Slide-seqV2"
 NOTES="01_slide-seqv2.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41587-020-0739-1">Stickels et al., <i>Nature Biotechnology</i> (2021)</a>.'
 SUMMARY="A lawn of randomly positioned 10-µm beads captures tissue mRNA. Each bead carries a 15-base split-pool barcode that is decoded in situ, an 8-base UMI and oligo-dT; template switching plus second-strand synthesis increases recovery before Nextera library preparation."
-CAVEAT="The paper prints alternative bead versions. This schematic follows the published Chemgenes bead architecture and shows its split-pool barcode as a role-preserving placeholder rather than selecting one random barcode sequence."
+CAVEAT="The Methods print Chemgenes and two custom bead-oligo versions. This schematic represents the Chemgenes barcode–UMI–oligo-dT core; the full bead oligo is listed below. Its final duplex uses normalized Illumina arms and a variable transcript insert, so it is not a literal transcription of one sequenced molecule."
+BEAD_CHEMGENES="TTTTTTTTCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJNNNNNNNNT30"
+BEAD_CUSTOM_V1="TTT_PC_GCCGGTAATACGACTCACTATAGGGCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJJTCNNNNNNNNT25"
+BEAD_CUSTOM_V2="TTT_PC_GCCGGTAATACGACTCACTATAGGGCTACACGACGCTCTTCCGATCTJJJJJJJJTCTTCAGCGTTCCCGAGAJJJJJJNNNNNNNVVT30"
 TSO="AAGCAGTGGTATCAACGCAGAGTGAATrG+GrG"
 SECOND_STRAND="AAGCAGTGGTATCAACGCAGAGTGANNNGGNNNB"
 TRUSEQ_PCR="CTACACGACGCTCTTCCGATCT"
@@ -27,7 +30,7 @@ LIB, PRIMERS=truseq_library([
     seg("bead barcode", "J"*15, "cbc", placeholder=True, feature=SPATIAL),
     seg("bead constant", "TCTTCAGCGTTCCCGAGA"),
     seg("UMI", "N"*8, "umi", placeholder=True, feature=UMI_FEATURE),
-    seg("poly(dT) junction", "T"*12, placeholder=True),
+    seg("poly(dT) junction", "T"*30, placeholder=True),
     seg("captured cDNA", "X"*36, placeholder=True)],
     "Slide-seqV2 library", dual_index=False)
 FINAL_LIBRARIES=(("Final Slide-seqV2 library",LIB,PRIMERS,
@@ -36,6 +39,9 @@ FINAL_LIBRARIES=(("Final Slide-seqV2 library",LIB,PRIMERS,
 
 def oligos():
     return [
+        "<b>Chemgenes bead capture oligo</b> — 5′-"+BEAD_CHEMGENES+"-3′ (J: split-pool barcode; N: UMI)",
+        "<b>Custom bead capture oligo vs1</b> — 5′-"+BEAD_CUSTOM_V1+"-3′ (PC: photocleavable linker)",
+        "<b>Custom bead capture oligo vs2</b> — 5′-"+BEAD_CUSTOM_V2+"-3′ (V: A/C/G)",
         "<b>Template-switch oligo</b> — 5′-"+TSO+"-3′",
         "<b>Second-strand dN-SMRT oligo</b> — 5′-"+SECOND_STRAND+"-3′",
         "<b>TruSeq PCR handle</b> — 5′-"+TRUSEQ_PCR+"-3′",

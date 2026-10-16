@@ -1,9 +1,8 @@
 """Bounded chemistry shared by ATAC-seq sample-preparation variants.
 
-Omni-ATAC and Fast-ATAC differ before and during transposition, but both hand the
-same TDE1-tagged molecule to the original Buenrostro single-index amplification.
-Keeping that boundary here prevents sample-preparation variants from drifting into
-different library geometries.
+Omni-ATAC and Fast-ATAC differ before and during transposition. The latter
+used the later dual-index amplification, so the shared workflow takes that
+choice from each protocol's source-backed declaration.
 """
 from __future__ import annotations
 
@@ -42,6 +41,7 @@ class AtacVariant:
     cleanup_note: str
     sequencing_intro: str
     read_lengths: dict[str, int] | None
+    dual_index: bool = False
 
 
 def library(name: str):
@@ -52,6 +52,8 @@ def library(name: str):
 
 
 def workflow(spec: AtacVariant):
+    index_description = "eight-base i7 index"
+    left_arm = "P5/i5/S5/ME" if spec.dual_index else "P5/S5/ME"
     return chain(molecule("fresh cells", (role("intact cells with nuclear and mitochondrial DNA"),)), (
         (spec.first_step,
          molecule(spec.first_state, (role("permeabilized nuclei"), role("accessible chromatin"))),
@@ -65,13 +67,14 @@ def workflow(spec: AtacVariant):
                         ("accessible genomic DNA", "S7 plus mosaic-end transferred strand", "Tn5 strand transfer"))),
          spec.transposition_note + " S5/S7 is the amplifiable end combination; S5/S5 and S7/S7 products lack one flow-cell arm."),
         ("Purify, gap-fill and pre-amplify for five cycles",
-         molecule("single-index ATAC library", (
-             role("P5 and S5/left mosaic end"), role("accessible genomic insert"),
-             role("right mosaic end/S7, eight-base i7 and P7"))),
+         molecule("indexed ATAC library", (
+             role("P5 and " + ("i5/" if spec.dual_index else "") + "S5/left mosaic end"),
+             role("accessible genomic insert"),
+             role("right mosaic end/S7, " + index_description + " and P7"))),
          spec.cleanup_note),
         ("Use aliquot qPCR to choose only the necessary extra cycles",
          molecule("amplified, complexity-preserving ATAC library", (
-             role("P5/S5/ME"), role("accessible genomic insert"), role("ME/S7/i7/P7"))),
+             role(left_arm), role("accessible genomic insert"), role("ME/S7/i7/P7"))),
          "The fluorescence threshold is used to avoid a fixed over-amplification programme; the completed molecule is ready for paired-end size-aware analysis."),
     ))
 

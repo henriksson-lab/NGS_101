@@ -1,20 +1,14 @@
-# Ribo-seq — ribosome profiling
+# Ribo-seq — original 2009 poly(A)-tail workflow
 
-## 1. What it is
+## Sources and version boundary
 
-Ribo-seq converts nuclease-protected ribosome footprints into a sequencing library whose mapped positions report translating ribosomes.
+- 🟢 Ingolia et al., *Science* (2009), [doi:10.1126/science.1168978](https://doi.org/10.1126/science.1168978), Results and Figure 1: ribosome-protected RNA footprints are converted into a sequencing library by a strategy selected to avoid RNA-ligase bias.
+- 🟢 Ingolia et al., *Nature Protocols* (2012), [doi:10.1038/nprot.2012.086](https://doi.org/10.1038/nprot.2012.086), “Linker ligation” (local JATS lines 98–104): the authors explicitly say their earlier method added a poly(A) tail to each RNA, then describe replacing that step with optimized ligation of a preadenylated linker. They also changed RT and PCR primer sequences so the later library could use standard Illumina primers and an optional six-nucleotide index.
+- 🟢 The 2012 protocol prints `/5rApp/CTGTAGGCACCATCAAT/3ddC/`, a modified long RT primer, and indexed PCR primers (local JATS lines 188–208). These are **2012-version oligos**, not verified 2009 oligos.
+- 🔴 The original 2009 supplementary methods, `NIHMS131482-supplement-MS_131482_Supplementary_Data.pdf`, are linked by the article but currently inaccessible through the local source route. Its exact oligos, junctions and run layout remain unverified. The source review checklist keeps this missing-information claim blocked.
 
-## 2. Sources and evidence
+## Molecular path represented here
 
-- 🟢 Ingolia NT et al. *Genome-wide analysis in vivo of translation with nucleotide resolution using ribosome profiling.* Science (2009). [doi:10.1126/science.1168978](https://doi.org/10.1126/science.1168978).
-- 🟢 Ingolia NT et al. *The ribosome profiling strategy for monitoring translation in vivo by deep sequencing of ribosome-protected mRNA fragments.* Nature Protocols (2012). [doi:10.1038/nprot.2012.086](https://doi.org/10.1038/nprot.2012.086).
-- 🟢 The detailed protocol specifies RNase digestion, monosome recovery, footprint size selection, 3′ adapter ligation, reverse transcription, cDNA circularization and indexed PCR.
-- 🟢 Its linker is `/5rApp/CTGTAGGCACCATCAAT/3ddC/`. The long RT primer is `5′-(Phos)-AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGC-(SpC18)-CACTCA-(SpC18)-TTCAGACGTGTGCTCTTCCGATCTATTGATGGTGCCTACAG`.
-- 🟢 The forward library PCR primer is `AATGATACGGCGACCACCGAGATCTACAC`; the reverse series is `CAAGCAGAAGACGGCATACGAGAT NNNNNN GTGACTGGAGTTCAGACGTGTGCTCTTCCG`.
-- 🟢 Step 65 calls for the standard Illumina genomic Read 1 and indexing primers. This is single-end sequencing with one six-base i7 index and no i5 read.
+The 2009 branch starts with nuclease protection, monosome/size selection, 3′ poly(A) tailing, reverse transcription and DNA library preparation. The graph shows the poly(A)-derived junction as a role, without inventing a tail length or oligo bases. Primer landing and final sequencing arms remain role-level pending the original supplement.
 
-## 3. Molecular path
-
-The defining selection happens before library construction: RNA outside the ribosome is digested. Circularization of first-strand cDNA supplies the second PCR boundary without a second RNA-adapter ligation.
-
-The final linear amplicon stores the shared `ACAC` at the P5/Read 1 boundary only once. Its sample-index identity varies, but its six-base width and single-index physical position are published.
+The 2012 article is a linked successor and a retrospective source for the tailing distinction. Its preadenylated linker, six-base sample index and standard-Illumina read sites are intentionally absent from the 2009 graph. This corrects an earlier repository model that placed the 2012 chemistry under the 2009 DOI; it is not a discrepancy within either publication.

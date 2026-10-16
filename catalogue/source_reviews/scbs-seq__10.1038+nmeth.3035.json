@@ -1,0 +1,208 @@
+{
+  "dir": "scbs-seq__10.1038+nmeth.3035",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Smallwood et al Nat Methods 2014 doi:10.1038/nmeth.3035 PMC4117646",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nmeth.3035_PMC4117646.xml.txt lines 98-110; scraper line 102",
+        "finding": "Prints biotinylated oligo1, oligo2, PE1.0, five rounds random priming and names indexed iPCRTag reverse primer without bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nmeth.3035_PMC4117646.xml.txt lines 98-110; source-bundle scraper run and hits checked in original Online Methods",
+        "finding": "Original Online Methods prints biotin-oligo1 and oligo2 N9 primers, PE1.0 sequence, five random-prime extensions, Exo I, streptavidin capture, second strand, indexed iPCRTag citation to Quail ref 20 and 100-bp paired-end run."
+      }
+    },
+    {
+      "id": "suppfigs",
+      "role": "supplement",
+      "locator": "Published 41592_2014_BFnmeth3035_MOESM643_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nmeth.3035_41592_2014_BFnmeth3035_MOESM643_ESM.pdf.txt lines 1-58",
+        "finding": "Figure legends and quality control; no indexed iPCRTag reverse bases."
+      },
+      "reason": "Quality-control figures do not specify primers.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nmeth.3035_41592_2014_BFnmeth3035_MOESM643_ESM.pdf.txt lines 1-58",
+        "finding": "Figures 1–6 report library QC, spurious poly-T molecules, saturation and methylation concordance; these inspected legends give no library oligo table."
+      }
+    },
+    {
+      "id": "supptables",
+      "role": "supplement",
+      "locator": "Published MOESM644/645 Supplementary Tables 1/2",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nmeth.3035_41592_2014_BFnmeth3035_MOESM644_ESM.xlsx.txt first rows and MOESM645...xlsx.txt first rows",
+        "finding": "Cell/sample and genomic results tables; not the indexed iPCRTag sequence."
+      },
+      "reason": "Result metadata and genomic annotations, not library oligo table.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nmeth.3035_41592_2014_BFnmeth3035_MOESM644_ESM.xlsx.txt lines 1-9 and MOESM645_ESM.xlsx.txt lines 1-9",
+        "finding": "Published Smallwood Supplementary Tables 1/2 are sample/library metrics and genomic-region coverage, not an oligo table; they do not identify which Quail iPCRTag member each cell used."
+      }
+    },
+    {
+      "id": "quail2012",
+      "role": "linked_material",
+      "locator": "Quail et al Nat Methods 2012 doi:10.1038/nmeth.1814 published Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nmeth.1814_41592_2012_BFnmeth1814_MOESM37_ESM.pdf.txt lines 179-226 and 228-412; original table checked after scraper",
+        "finding": "Quail Supplementary Table 1 gives PE adapter, dedicated index-read primer, PE1.0 and 24 indexed iPCRTag primers; star is explicitly phosphorothioate at line 182. The first index member AACGTGAT and its full primer are printed at lines 220-226. Smallwood does not map individual cells to members."
+      },
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "doi_10.1038+nmeth.1814/nmeth.1814_41592_2012_BFnmeth1814_MOESM37_ESM.pdf.txt lines 179-226, family through line 412; scraper lines 188,193,226",
+        "finding": "Published original table prints dedicated index read primer, PE1.0 and 24 iPCRtagT1–T24 members with terminal phosphorothioate linkage; T1 is a representative, not proof of which member Smallwood used."
+      }
+    },
+    {
+      "id": "clark2017",
+      "role": "linked_material",
+      "locator": "Clark et al Nat Protoc 2017 doi:10.1038/nprot.2016.187",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nprot.2016.187_41596_2017_BFnprot2016187_MOESM358_ESM.pdf.txt first pages",
+        "finding": "Later detailed protocol supplement is cached, but full protocol article remains unavailable."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nprot.2016.187_41596_2017_BFnprot2016187_MOESM358_ESM.pdf.txt lines 1-45",
+        "finding": "Later Clark supplement prints the first several of 48 indexed iPCRTag primers and terminal phosphorothioate marks. It corroborates primer family composition but not the exact Smallwood sample-to-index assignment; full later protocol remains unavailable. Historical note that the full later protocol was unavailable is superseded by the separate clark2017_article row, now independently read."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "illumina_doc",
+      "role": "linked_material",
+      "locator": "Illumina Adapter Sequences guide v14 mirrored from vendor PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "scg_illumina-adapter-sequences-1000000002694-14.pdf.txt guide overview",
+        "finding": "General adapter design is not identity proof of the indexed iPCRTag set chosen in 2014."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "scg_illumina-adapter-sequences-1000000002694-14.pdf.txt lines 110-153; verified MANIFEST identifies original vendor PDF mirror",
+        "finding": "Official Illumina sequence guide lists modern kit adapter/read primer families; Smallwood-specific iPCRTag family is better grounded in cited Quail original, so vendor table is supporting sequence context, not direct evidence of sample index choice."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "clark2017_article",
+      "role": "linked_material",
+      "locator": "Clark et al. 2017 Nature Protocols doi:10.1038/nprot.2016.187, full original article mirrored at https://www.researchgate.net/publication/313547641_Genome-wide_base-resolution_mapping_of_DNA_methylation_in_single_cells_using_single-cell_bisulfite_sequencing_scBS-seq",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Full article web rendering lines 145–159, 756–779, 1217–1234, 1275–1279 and 1603–1623",
+        "finding": "Later original protocol is fully readable in author-paper mirror. It explicitly says this is an optimized method after Smallwood, prints generic eight-X iPCRTag primer and dedicated index read primer in Table 2, directs to its own Supplementary Table 1 for index values, and gives final PCR recipe. It does not map Smallwood 2014 cells to primer members."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded full Nature Protocols 2017 original at ResearchGate, rendered lines 145–158 (version scope), 271–316 and 329–348 (N6, Exo I, SPRI vs original N9/streptavidin), 756–770 (iPCRTag eight-base index and optional alternatives), 1217–1234 (Table 2 oligos and * phosphorothioate), 1275–1279 (Supplementary Table 1 index values), 1603–1623 (final PCR)",
+        "finding": "This is a later optimized version. Its Table 2 prints N6 preamp/adapter-2 primers, an eight-base-window iPCRTag, PE1.0 terminal C*T, and dedicated index-read primer. Its text contrasts N6 with original Smallwood N9 and SPRI with original streptavidin capture. The 2017 48-member table does not assign Quail members to Smallwood 2014 samples."
+      }
+    },
+    {
+      "id": "smallwood_geo",
+      "role": "linked_material",
+      "locator": "Official NCBI GEO GSE56879 family SOFT: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE56nnn/GSE56879/soft/GSE56879_family.soft.gz (Smallwood original JATS line 132)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "GSE56879_family.soft, series lines 1–112 and sample records lines 113–2605; representative GSM1370522 lines 114–154, especially library protocol 129 and title 114; repeated library protocol across sample records",
+        "finding": "Official 9-KB GEO family SOFT downloaded and decompressed. Each sample gives a sample title and repeats the original generic indexed-iPCRTag library protocol, but does not record the selected eight-base index member for that sample. The linked sample supplementary files are processed CpG and coverage tables, not an index allocation table."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official GSE56879_family.soft.txt series lines 1–112, including supplementary-file inventory 93–99; sample GSM1370522 lines 113–160 (generic library protocol 129, SRA link 152 and methylation output 153); all sample records 113–2605 checked for index/barcode fields; terminal sample protocol/data-processing lines 2536–2544",
+        "finding": "GEO repeats the original 2014 N9 oligos and generic indexed iPCRTag primer across sample records; sample titles and processed CpG/coverage files give no eight-base member assignment. Data processing clips nine bases from both paired reads, then maps in single-end mode; this does not change the acquisition as paired-end. Series ZIP is described as R source code for statistical analysis, and RAW.tar is sequencing data, neither an ordered-primer list in the inspected metadata."
+      }
+    },
+    {
+      "id": "miura_pbat",
+      "role": "linked_material",
+      "locator": "Smallwood 2014 GEO sample extract protocol and Clark 2017 original Development of the protocol cite Miura et al. 2012 PBAT, doi:10.1093/nar/gks454; local _data/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Miura 2012 PMC JATS converted text lines 34–47 (bisulfite purification, N4 first strand, purification/capture, second strand) and 88 (workflow summary); scraper run on local PBAT bundle",
+        "finding": "Predecessor gives PureLink-column/desulfonation bisulfite cleanup and N4 random primers with streptavidin capture. It establishes ancestry and cited cleanup, but its N4 oligos and later steps do not replace Smallwood 2014 N9 chemistry or assign Smallwood iPCRTag indexes."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Miura 2012 original PMC3458524 JATS converted text lines 34–52 and 82–88; local PBAT bundle scraper run before reading",
+        "finding": "Verified bisulfite treatment and column cleanup, biotinylated N4 first-strand primer, streptavidin purification, and N4 second-strand primer in the predecessor. This is ancestry for PBAT handling; its N4 oligos cannot replace the defining Smallwood N9 oligos or specify Smallwood's selected iPCRTag indexes."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Smallwood Methods line 102 and reference 20; Quail 2012 original Supplementary Table 1 lines 179-412; Clark 2017 supplement and Illumina guide inventory",
+      "finding": "Followed cited Quail original table in separate DOI bundle and confirmed indexed primer family. Exact Smallwood member assignment remains unlocated; later Clark full article remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Smallwood Online Methods lines 100–110; Quail original Supplementary Table 1 lines 179–412; Clark full 2017 original rendered lines 145–158, 271–316, 756–770, 1217–1234, 1275–1279; Clark supplementary indexed-primer table lines 1–45; official GSE56879 family SOFT series 1–112 and sample records 113–2605; Illumina guide lines 110–153",
+      "finding": "Correction after newly recovered sources: followed Quail original iPCRTag table, Clark full optimized protocol and supplementary primer table, Illumina context, and official GEO family metadata. Clark 2017 uses N6/SPRI rather than Smallwood 2014 N9/streptavidin. GEO repeats only a generic indexed-iPCRTag recipe per sample and has no member allocation. Its linked statistics ZIP and processed methylation files are not library-primer inventories by GEO metadata; exact 2014 sample-to-member identity remains blocked. Miura 2012 PBAT predecessor has now received an independent second read for its cited bisulfite cleanup and N4 chemistry."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact iPCRTag index member used for each Smallwood library",
+      "disposition": "blocked",
+      "evidence": "Smallwood Methods names indexed iPCRTag but no sample-to-member mapping was located; Quail table establishes family, not chosen member."
+    }
+  ],
+  "conclusion": "Smallwood original and supplements, cited Quail iPCRTag table, later Clark full article/supplement, official GEO family SOFT, and Miura PBAT predecessor now have two independent located reads. The 2017 optimization is not the 2014 chemistry: it changes N9 to N6 and replaces streptavidin capture with SPRI. GEO confirms N9 and generic indexed-iPCRTag workflow but no per-sample member allocation. Exact Smallwood cell-to-index assignment remains blocked; the model uses a variable eight-base member."
+}

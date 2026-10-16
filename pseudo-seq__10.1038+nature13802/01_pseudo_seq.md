@@ -24,6 +24,13 @@ sample index are retained as written.
 | PCR forward | `AATGATACGGCGACCACCGA` | 🟢 Methods |
 | PCR reverse | `CAAGCAGAAGACGGCATACGAGATXXXXXXGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA` | 🟢 Methods; `X` is a variable sample index |
 
+**Published adapter discrepancy.** The same Methods paragraph calls the 3′
+adapter “pre-adenylated” but writes its ordered form with `/5Phos/`. A 5′
+phosphate and a 5′ adenylate are distinct chemical states. The model uses the
+printed bases and modification string and follows the described ligation step;
+the source does not establish whether the ordered or reacted adapter carried an
+adenylate.
+
 🟡 The paper reports an Illumina HiSeq 2000 run and no separate custom
 sequencing-primer oligo. Its PCR primers and adapter establish the library
 chemistry, but the current role-level final construct does not yet compute an

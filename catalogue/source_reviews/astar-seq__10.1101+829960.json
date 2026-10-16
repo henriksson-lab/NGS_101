@@ -1,0 +1,280 @@
+{
+  "dir": "astar-seq__10.1101+829960",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "published_paper",
+      "role": "defining",
+      "locator": "ASTAR-seq Genome Research 2020 DOI:10.1101/gr.257840.119; gr.257840.119_PMC7397874.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS Methods lines 158-214, supplement link lines 228-238",
+        "finding": "Published article cites supplemental chemistry methods and has separate RNA and ATAC sequencing branches."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC7397874 JATS ASTAR overview lines 82-87 and Methods around 162; supplement references",
+        "finding": "Published paper combines ATAC tagmentation and RNA template switching on Fluidigm C1 and points to Supplemental Table 5 and workflow worksheets."
+      }
+    },
+    {
+      "id": "published_methods",
+      "role": "supplement",
+      "locator": "gr.257840.119_supp_supp_gr.257840.119_Supplemental_Material_.docx.txt (published inventory only; not detailed Methods PDF)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "DOCX extracted text lines 1-32; full word/document.xml has only 3,706 text characters; corrected 2026-10-16 after source identity check",
+        "finding": "Correction to original P1: publisher DOCX is only an inventory. It names Supplemental Methods and Table 5, but does not contain the detailed Methods body or reaction recipes. The earlier statement that detailed method sections were inspected was wrong."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplemental_Material_.docx.txt lines 26-32 supplement inventory",
+        "finding": "Supplementary material identifies Table 5 as primer list and C1 scripts/worksheets as procedure evidence."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "published_oligos",
+      "role": "supplement",
+      "locator": "gr.257840.119_supp_supp_gr.257840.119_Supplemental_Table_5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "XLSX extracted text lines 1-36",
+        "finding": "Published Table 5 gives biotinylated C1-P2-T31, all-RNA TSO, ATAC adapters and custom barcode oligo families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplemental_Table_5.xlsx.txt Primers sheet lines 1-25; scraper hits lines 4 and 6",
+        "finding": "Original published oligo table prints 5BiosG C1-P2-T31/PCR-2, all-RNA rN TSO, ATAC arms and indexed custom adapters."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "published_worksheet",
+      "role": "supplement",
+      "locator": "gr.257840.119_supp_supp_gr.257840.119_Supplemental_Codes_Protocol_Worksheet_ASTAR.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 1-170",
+        "finding": "Author worksheet gives procedural barcode stages; original PDF available for chemistry cross-check."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol_Worksheet_ASTAR.pdf.txt lines 53-149 and 211 onward",
+        "finding": "Worksheet explicitly sequences C1 preparation, lysis/ATAC and RNA branch steps."
+      },
+      "discovered_from": "published_methods"
+    },
+    {
+      "id": "published_cellload",
+      "role": "supplement",
+      "locator": "gr.257840.119_supp_supp_gr.257840.119_Supplemental_Codes_Protocol_Worksheet_ASTAR-Cell_Load.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published gr.257840.119 Supplemental_Codes_Protocol_Worksheet_ASTAR-Cell_Load.pdf.txt lines 1-72; scraper run on worksheet",
+        "finding": "Fluidigm C1 cell-load sheet lists 1861x (5-10 µm), 1862x (10-17 µm), 1863x (17-25 µm) chip choices, estimated runs 15/30/27 minutes, preloading and wash inlets. It contains process settings but no oligo or adapter sequence; the ASTAR chemistry worksheet is a separate source row."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "ASTAR-Cell_Load.pdf.txt lines 1–35 and 36–73",
+        "finding": "Fluidigm C1 cell-load worksheet supplies 1861x/1862x/1863x chip choices, timings and inlet names; no oligo sequence or molecular assembly. Source is locally readable."
+      },
+      "discovered_from": "published_methods"
+    },
+    {
+      "id": "published_tables_1_4",
+      "role": "supplement",
+      "locator": "gr.257840.119_supp_supp_gr.257840.119_Supplemental_Table_1-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published Supplemental_Material_.docx.txt lines 19–28; published Supplemental_Table_1/2/3/4.xlsx.txt sheet headings at lines 1,140,279; 1,196,391,586; 1,388,775,1162; 1,484,967,1450 respectively",
+        "finding": "Read original published workbook sheet headings and representative rows. Tables 1–4 list ATAC/RNA library QC, correlations, motifs, genes and analysis, while original supplement explicitly names Table 5 as the ASTAR primer list."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Published Supplemental Table 1-4 workbook first sheet headers and Supplemental_Material_.docx.txt lines 19-28",
+        "finding": "Published Tables 1-4 are library QC, expression/accessibility summaries and analysis results; Table 5 is the primer list."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "bioRxiv DOI:10.1101/829960; 829960_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv 829960_v1.full.pdf.txt Results lines 142-158 and Methods lines 414-415; scraper run on main preprint",
+        "finding": "Preprint describes C1 capture, Tn5 before RT, biotinylated cDNA and streptavidin separation from ATAC DNA. It notes the RT-before-tagmentation prototype failed because Tn5 attacked cDNA. Its main-text Methods defer full reaction detail to supplementary information, so no oligo absence follows from the preprint body."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "829960_v1.full.pdf.txt lines 142–157 and 414–415",
+        "finding": "Preprint outlines initial Tn5 tagmentation followed by RNA branch and explicitly defers full methods to supplementary information; no sequence absence can be inferred from the main article alone."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "preprint_oligos",
+      "role": "linked_material",
+      "locator": "829960_media-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "XLSX extracted text lines 1-36",
+        "finding": "Preprint Table 5 lists C1 primers, TSO and custom barcodes; published table checked separately."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv 829960_media-5.xlsx.txt Primers sheet first rows",
+        "finding": "Earlier author preprint table carries related C1 primers; published Table 5 is the authority for final page."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "other_preprint_supp",
+      "role": "linked_material",
+      "locator": "829960_media-1/2/3/4.xlsx.txt and media-6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "829960_media-1/2/3/4.xlsx.txt sheet headings and first rows; 829960_media-6.pdf.txt first page; preprint main PDF lines 414–415",
+        "finding": "Preprint media 1–4 are ATAC/RNA QC and analysis workbooks; media 6 is an ASTAR workflow schematic, with no printed oligo table in its first page. The preprint defers methods to supplements and media 5 carries primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "829960_media-1/2/3/4.xlsx.txt first sheet headings; media-6.pdf.txt first figure caption",
+        "finding": "Preprint media-1 through media-4 are ASTAR ATAC/RNA QC and analysis sheets; media-6 is a schematic figure, while media-5 is the primer workbook. This check covered headers and the first figure, not every result cell."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "analysis_code",
+      "role": "linked_material",
+      "locator": "Published Supplemental_Codes archive, including mapping and analysis scripts",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Supplemental_Codes archive: Mapping.txt lines 1-15; Gene_quantification.txt lines 1-16, Processing_ATAC_For_chromVAR.txt lines 1-20, Cicero.txt lines 1-20, and headings/keyword scan across all ten bioinformatics text scripts; MANIFEST source inventory",
+        "finding": "Analysis scripts cover STAR mapping of separate RNA and ATAC FASTQs, gene quantification, chromVAR, Cicero, pseudotime and clustering. No synthetic oligo or ordered reagent sequence appears in the ten scripts. The archive also contains two separate C1 worksheets; chemistry and cell-loading worksheets are tracked in their own source rows. Mapping script confirms separate paired-read ATAC and RNA input paths, but does not establish sequencing-cycle lengths."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplemental_Codes_Mapping.txt lines 1–15; MANIFEST.tsv lines 13–25 enumerating ten bioinformatics .txt scripts and two ASTAR worksheets",
+        "finding": "Mapped code inventory: mapping script distinguishes RNA and ATAC FASTQ paths; zip also contains analysis scripts and two C1 worksheets. I read Mapping.txt and the file inventory, but did not individually audit every analysis script; relevance to molecular oligo identities remains unverified."
+      },
+      "discovered_from": "published_methods"
+    },
+    {
+      "id": "published_detailed_methods_pdf",
+      "role": "supplement",
+      "locator": "Genome Research 2020 ASTAR original Supplemental_Material.pdf, https://genome.cshlp.org/content/suppl/2020/07/22/gr.257840.119.DC1/Supplemental_Material.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The exact Genome Research Supplemental_Material.pdf is search-indexed (including ASTAR Part 1 and Part 2 headings), but publisher PDF and supplement landing page returned HTTP 403 through the web tool on 2026-10-16; direct sandbox retrieval failed DNS resolution. The PMC JATS lists a supplementary index HTML and a similarly named Supplemental_Material_.docx inventory, not this PDF body; PMC index HTML was inaccessible through the web tool. A search excerpt is insufficient to read the full published recipe or resolve version differences.",
+      "pass_1": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Genome Research PDF and supplement landing URLs; PMC JATS supplementary links; PMC supplementary index URL; original local DOCX inventory",
+        "finding": "Confirmed the detailed PDF is a separate, relevant original by publisher search index and article references. Direct PDF and landing page yielded 403, PMC index could not be accessed, and the downloaded DOCX only inventories supplements. Full published Methods could not be read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplemental_Material.pdf and DC1 landing, alternate early-content supplemental path, PMC article and instance/bin path independently attempted after ASTAR source-bundle oligo scraper",
+        "finding": "Publisher PDF/landing returned HTTP 403; PMC paths returned challenge/inaccessible responses. Original detailed methods body remains unread, so published recipe/version differences cannot be resolved."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "preprint_methods",
+      "role": "linked_material",
+      "locator": "Author bioRxiv v1 Supplementary Experimental Procedures, 829960_media-6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv media-6 PDF text lines 1513-1669, especially ASTAR METHOD lines 1562-1665; whole ASTAR source-bundle scraper run before reading",
+        "finding": "Preprint supplement contains full experimental procedure, missed by earlier reviews that inspected only first-page figures. It prints 5.5 µL C1 harvest per cell (1603-1605), 5.5 µL sample + 5.5 µL beads (1612-1615), 90 C 10-min cDNA elution (1618-1621), nine then eleven cDNA PCR cycles (1622-1628), and 22 each for RNA and ATAC index PCR (1643-1645,1653-1655). Publisher PDF search-index excerpt instead prints about 3.5 µL harvest; full publisher PDF remains inaccessible, so version difference needs qualification."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original bioRxiv v1 media-6 PDF extracted text lines 1513-1669, especially ASTAR METHOD 1562-1665; ran full ASTAR bundle primer scraper before reading",
+        "finding": "Preprint supplementary experimental procedures explicitly give 5.5 µL C1 harvest per cell and 5.5 µL sample plus 5.5 µL beads; 90 °C 10 min water elution, 9+11 cDNA amplification cycles, 22 RNA index-PCR cycles and 22 ATAC index-PCR cycles. Published Genome Research Supplemental Material search-index excerpt independently shows approximately 3.5 µL harvest, a version discrepancy; its directly inaccessible PDF still blocks full published-method review."
+      },
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Published JATS Methods and supplement links; published methods lines 16-34; Table 5 lines 1-36; ASTAR worksheet; preprint Table 5; scraper reviewed",
+      "finding": "Followed published article to its methods, published oligo table and worksheet, and compared available preprint oligo table. Other linked worksheets/tables/code need review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Published JATS supplement inventory; published Table 5 and C1 worksheet; preprint oligo workbook",
+      "finding": "Followed the published supplemental sequence list and worksheet. Several other results workbooks/code files are not independently re-read."
+    },
+    "followup": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 158,162,228-240; inventory DOCX lines 1-32 and full XML text; indexed publisher Supplemental_Material.pdf excerpt titled ASTAR Part 1 on-IFC Procedures; MANIFEST manual publisher URL; original preprint media-6 PDF lines 1513-1669",
+      "finding": "Recovered/read full original preprint Supplementary Experimental Procedures embedded after figures in media-6 PDF; now independently double-read. Most detailed recipes and cycle counts in note are source-backed by the preprint; it gives 5.5 µL C1 harvest while partial indexed publisher PDF gives approximately 3.5 µL. Publisher full Methods remains inaccessible for complete version comparison."
+    },
+    "followup_2": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Publisher Supplemental_Material.pdf, supplement landing page, PMC supplementary index, JATS attachment inventory",
+      "finding": "Attempted to follow the published Methods through publisher and PMC routes; only a partial search-index excerpt is visible. No complete published-version source check or resolution of preprint/published harvest-volume difference is possible yet."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Publisher Supplemental_Material.pdf and DC1 landing, alternate early-content supplemental path, PMC article and instance/bin path independently attempted after ASTAR source-bundle oligo scraper",
+      "finding": "Independently retried the linked original named in published_detailed_methods_pdf; it remains inaccessible, so linked-information disposition stays blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Published article, oligo table, worksheets and full bioRxiv Supplementary Experimental Procedures have independent reviews. The later publisher detailed Supplemental Methods PDF remains inaccessible for full reading. Its indexed Part 1 excerpt and the preprint disagree on C1 harvest volume (approximately 3.5 versus 5.5 µL); downstream published off-IFC changes and missing-information claims remain blocked."
+}

@@ -10,7 +10,15 @@ from protocol_graph import StepKind
 from rna_library_operations import finish_rt_pcr
 from rna_library_operations import molecule
 
-DEFINITION = Definition("LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030", "Sharma et al., Molecular Cell (2016)", "AMT-crosslinked RNA duplexes survive RNase R enrichment and are proximity-ligated before cDNA library construction.", "truseq", ("5-prime random barcode", "RNA A-derived cDNA", "RNA B-derived cDNA"), "The study analyzed single-end, strand-specific reads after trimming a 5-prime random barcode. The SMARTer kit supplies standard Illumina/TruSeq-compatible endpoints, so the standard sequencing-primer sites are derived centrally; the proprietary internal priming sequences remain unknown.", "RNA", "The defining paper and its complete supplement were checked. They identify the SMARTer Stranded RNA-Seq kit and reaction roles but do not print its N6, SMART, or PCR-primer sequences. The contemporary Clontech manual explicitly marks those component sequences proprietary, while identifying its Illumina-compatible endpoint and index families.")
+DEFINITION = Definition(
+    "LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030",
+    "Sharma et al., Molecular Cell (2016)",
+    "AMT-crosslinked RNA duplexes survive RNase R enrichment and are proximity-ligated before cDNA library construction.",
+    "truseq", ("5-prime random barcode", "RNA A-derived cDNA", "RNA B-derived cDNA"),
+    "The study analyzed single-end, strand-specific reads after trimming a 5-prime random barcode. The cited SMARTer kit is described as Illumina-compatible; this page infers standard sequencing-primer endpoints, while the exact kit priming junctions and selected index remain unverified.",
+    "RNA",
+    "The article supplement names a SMARTer Stranded RNA-Seq kit generically and describes reaction roles, without giving a catalogue number, kit revision, selected index, or RT/template-switching primer bases. The 2013 Clontech file is only a product components list. An online transcript of the 2014 Clontech User Manual (revision 050714, pp. 6–8) labels its SMARTer oligo and N6 primer proprietary and prints twelve six-base index values, but its original vendor PDF is not available in the source bundle. The study's exact kit generation and selected index remain unverified."
+)
 
 
 from protocol_specs import psoralen_workflow

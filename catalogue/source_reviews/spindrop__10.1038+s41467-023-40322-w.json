@@ -1,0 +1,445 @@
+{
+  "dir": "spindrop__10.1038+s41467-023-40322-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_PMC10409775.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods inDrop bead and picoinjection sections",
+        "finding": "Article describes barcoded inDrop v3 microgels, UV release and picoinjected RT; exact capture-oligo bases are delegated to inherited bead method."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC JATS introduction/results and Methods inDrop bead/picoinjection sections, references around 562 and 792; oligo scraper run on local original bundle",
+        "finding": "The study retains inDrop beads/oligonucleotide scheme but separates lysis and reverse transcription by heat treatment and picoinjection; exact bead oligo derives from cited ancestors."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/2023.01.12.523500_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 1081–1139 and sequencing section",
+        "finding": "Preprint describes inDrop barcoding and droplet handling; version comparison and exact bead oligos remain open."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint PDF text lines 1081–1138; oligo scraper run on local original bundle",
+        "finding": "Explicitly says barcoded beads were made under inDrop protocol with inDrop v3 oligo scheme; UV releases barcodes, then RT mix is picoinjected."
+      }
+    },
+    {
+      "id": "supp_fabrication",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "MOESM3 PDF opening lines 1–21 and reviewer comments lines 22–60",
+        "finding": "The file is headed Peer Review File and contains referee comments on droplet sorting and picoinjection. It does not provide the bead ordering oligo in inspected section."
+      },
+      "reason": "This file is the publisher peer-review history, not a molecular methods supplement.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM3 Peer Review File opening lines 1–60; oligo scraper run on local original bundle",
+        "finding": "Independent check confirms this is peer-review correspondence about device sorting/picoinjection, not a bead ordering or adapter-oligo table in the inspected section."
+      }
+    },
+    {
+      "id": "zilionis_indrop",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2016.154",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original explicitly cites inDrop preparation protocol; versioned bead oligos not independently checked in this pass.",
+      "discovered_from": "published_article"
+    },
+    {
+      "id": "briggs_v3",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aar5780",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original cites Briggs for inDrop v3 barcoding; exact correspondence to spinDrop beads remains to be checked.",
+      "discovered_from": "published_article"
+    },
+    {
+      "id": "s41467_023_40322_w_41467_2023_40322_moesm15_esm_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_41467_2023_40322_MOESM15_ESM.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM15 first DXF records: SECTION/HEADER/$ACADVER/$DWGCODEPAGE; file scope is CAD drawing; oligo scraper run on source bundle",
+        "finding": "Microfluidic device CAD source, not a nucleic-acid sequence table."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Microfluidic device CAD source, not a nucleic-acid sequence table. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "DXF SECTION/HEADER opening and CAD records at end of extracted file",
+        "finding": "CAD device drawing records, no molecular sequence table in inspected file structure."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm11_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM11 Sheet1 all eight rows; oligo scraper run on source bundle",
+        "finding": "Sequencing/run summary metadata across lymphoid, HEK293T, mouse brain and 5EU datasets; no oligo ordering table."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Sequencing/run summary metadata across lymphoid, HEK293T, mouse brain and 5EU datasets; no oligo ordering table. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 all eight rows, lines 1–7",
+        "finding": "Sequencing run/count summary; no ordering oligos."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm12_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM12 FADS fabrication proto sheet, all 16 lines; oligo scraper run on source bundle",
+        "finding": "Device layer and resist fabrication recipe, not library chemistry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Device layer and resist fabrication recipe, not library chemistry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "FADS fabrication proto sheet all rows, lines 1–15",
+        "finding": "Microfluidic fabrication layers and resist settings, not library chemistry."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm13_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM13 Picoinjector fabrication sheet, all 16 lines; oligo scraper run on source bundle",
+        "finding": "Picoinjector microfluidic layer recipe, not capture oligos."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Picoinjector microfluidic layer recipe, not capture oligos. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Picoinjector fabrication sheet all rows, lines 1–15",
+        "finding": "Microfluidic fabrication recipe, not oligos."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm14_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM14_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM14 cost sheet, all 17 lines; oligo scraper run on source bundle",
+        "finding": "Equipment price list, not nucleic-acid library chemistry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Equipment price list, not nucleic-acid library chemistry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cost sheet all rows, lines 1–16",
+        "finding": "Instrument cost inventory, not nucleic-acid chemistry."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm18_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM18_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM18 Figure_2a through Figure_3d sheet inventory and first rows; oligo scraper run on source bundle",
+        "finding": "Numeric figure source data, voltage/cell count and other plotted measurements; no oligo section in inspected sheet headings."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Numeric figure source data, voltage/cell count and other plotted measurements; no oligo section in inspected sheet headings. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure_2a–Figure_5h sheet headings and representative opening/terminal rows, lines 1–262251",
+        "finding": "Plotted numerical source data; checked sheets do not constitute a reagent list."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM1 Supplementary Figure 1 caption PDF text lines 1–65; oligo scraper run on source bundle",
+        "finding": "Microfluidic device/sorting/picoinjection schematics; may inform process boundary, but inspected caption does not print bead oligo."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figure 1 caption lines 50–65; remaining figure caption headings lines 66–206",
+        "finding": "Device geometry and RT-mix picoinjection are described; relevant workflow context without printed bead oligo in inspected captions."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm2_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 opening page reporting form and extracted policy sections; oligo scraper run on source bundle",
+        "finding": "Nature reporting summary, not a molecular protocol supplement."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Nature reporting summary, not a molecular protocol supplement. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting summary extracted lines 1–82",
+        "finding": "Reporting policy form, not a protocol method in the extracted text."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm4_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM4_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM4 lines 1–49 movie title and description inventory; oligo scraper run on source bundle",
+        "finding": "Descriptions of droplet videos; no library oligos."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Descriptions of droplet videos; no library oligos. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Movie descriptions and Supplementary Data inventory lines 1–50",
+        "finding": "Descriptions of device videos and dataset files, not oligo sequences."
+      }
+    },
+    {
+      "id": "s41467_023_40322_w_supp_41467_2023_40322_moesm5_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM5 Sheet1 all seven lines; oligo scraper run on source bundle",
+        "finding": "Droplet occupancy/cell viability counts, not nucleic-acid construction."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Droplet occupancy/cell viability counts, not nucleic-acid construction. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 all six lines",
+        "finding": "Droplet occupancy/cell viability data, not library construction."
+      }
+    },
+    {
+      "id": "supp_moesm10",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM10_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM10 CSV equipment cost header and first records; 71 rows; oligo scraper run on source bundle",
+        "finding": "Equipment cost table, not oligo/RT chemistry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Equipment cost table, not oligo/RT chemistry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CSV header and first data row",
+        "finding": "Equipment costs, not library chemistry."
+      }
+    },
+    {
+      "id": "supp_moesm16",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM16_ESM.avi",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM16 binary file magic RIFF AVI and MANIFEST type; oligo scraper run on source bundle",
+        "finding": "Supplementary video, not a sequence/chemistry document."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Supplementary video, not a sequence/chemistry document. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Binary header RIFF/AVI; supplementary video file type",
+        "finding": "Video container, not a textual source for oligo ordering."
+      }
+    },
+    {
+      "id": "supp_moesm17",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM17_ESM.avi",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM17 binary file magic RIFF AVI and MANIFEST type; oligo scraper run on source bundle",
+        "finding": "Supplementary video, not a sequence/chemistry document."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Supplementary video, not a sequence/chemistry document. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Binary header RIFF/AVI; supplementary video file type",
+        "finding": "Video container, not a textual source for oligo ordering."
+      }
+    },
+    {
+      "id": "supp_moesm6",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM6_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM6 CSV header p_val/avg_log2FC/pct/biotype/name and first rows; oligo scraper run on source bundle",
+        "finding": "Differential-expression result table, not chemistry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Differential-expression result table, not chemistry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CSV header and first data row",
+        "finding": "Differential expression results, not protocol oligos."
+      }
+    },
+    {
+      "id": "supp_moesm7",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM7_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM7 CSV header p_val/avg_log2FC/pct/biotype and first rows; oligo scraper run on source bundle",
+        "finding": "Differential-expression result table, not chemistry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Differential-expression result table, not chemistry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CSV header and first data row",
+        "finding": "Differential expression results, not protocol oligos."
+      }
+    },
+    {
+      "id": "supp_moesm8",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM8_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM8 CSV header dynamical gene/library and first rows; oligo scraper run on source bundle",
+        "finding": "RNA-velocity gene result table, not oligo ordering."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns RNA-velocity gene result table, not oligo ordering. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CSV header and first data row",
+        "finding": "RNA velocity result table, not ordering oligos."
+      }
+    },
+    {
+      "id": "supp_moesm9",
+      "role": "supplement",
+      "locator": "_data/sources/spindrop__10.1038+s41467-023-40322-w/s41467-023-40322-w_supp_41467_2023_40322_MOESM9_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM9 CSV header drivers/corr_indrop/corr_nascent and first rows; oligo scraper run on source bundle",
+        "finding": "Correlation/statistical results, not a molecular library method."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Correlation/statistical results, not a molecular library method. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CSV header and first data row",
+        "finding": "Correlation result table, not library chemistry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published article Methods and preprint lines 1081–1139; source references 28–29",
+      "finding": "The exact bead source is linked to Zilionis/Briggs; source-version comparison and supplement disposition remain incomplete."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked published article, preprint, review file and available supplement file headers/types. Original inDrop bead-making and inDrop v3 sources remain unread; these could define exact capture oligo."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "spinDrop bead capture and index oligos are unpublished",
+      "disposition": "blocked",
+      "evidence": "Defining article gives a v3 inherited workflow but prior bead methods and exact implementation are not yet resolved."
+    }
+  ],
+  "conclusion": "Defining article gives a v3 inherited workflow but prior bead methods and exact implementation are not yet resolved."
+}

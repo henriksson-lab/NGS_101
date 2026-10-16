@@ -1,0 +1,225 @@
+{
+  "dir": "multi-tag__10.1038+s41587-022-01522-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/s41587-022-01522-9_PMC10188359.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 107–119",
+        "finding": "Methods specify 5′-amine antibody–adapter conjugation, 5′-phosphorylated Tn5MErev, sequential i5-target then i7 transposomes and single-cell indexing."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC JATS Methods extracted lines 107–119; oligo scraper run on local original bundle",
+        "finding": "Independently read Tn5MErev 5-prime phosphate, amine-conjugated i5 adapters, sequential target-specific i5 transposition, and terminal i7 transposition."
+      }
+    },
+    {
+      "id": "published_table",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 README and P5_i5/P7_i7 sheets, lines 1–15",
+        "finding": "Preprint workbook prints Tn5MErev plus target-coded P5_i5 and P7_i7 adapters; its published PMC duplicate should be compared before treating versions as identical."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Workbook README and P5_i5/P7_i7 sheets rows 1–15; MANIFEST.tsv duplicate MD5 rows 2–9; oligo scraper run on local original bundle",
+        "finding": "Tn5MErev and target-associated P5_i5/P7_i7 oligo families are printed. Manifest states published MOESM2 and preprint media-2 have identical MD5 5cd0f4d7b6de26836d8c04dac29ecb93, resolving the apparent version gap for this table."
+      }
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10188359.1/41587_2022_1522_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MANIFEST.tsv published PMC MOESM2 duplicate row and local media-2 workbook README, P5_i5/P7_i7 sheets; oligo scraper run on source bundle",
+        "finding": "Publisher MOESM2 has the same MD5 as readable media-2; sequence table is present and read. The row should point to the local duplicate rather than call the published version unavailable."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "MANIFEST.tsv duplicate MOESM2 row; local media-2.xlsx.txt README lines 1–3 and adapter sheets lines 4–35",
+        "finding": "Publisher MOESM2 checksum matches local preprint media-2. The local table prints phosphorylated Tn5MErev and P5_i5/P7_i7 adapter and index-primer families; this row is a source duplicate, not unavailable."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods sections Conjugates for MulTI-Tag and sequencing",
+        "finding": "Preprint explicitly names the common reverse ME and source-version comparison is still needed."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint PDF text lines 64–74 and 497–505; oligo scraper run on local original bundle",
+        "finding": "The preprint also describes target-coded i5 adapter conjugates, later i7 transposition and phosphorylated Tn5MErev; no incompatible oligo identity found in inspected sections."
+      }
+    },
+    {
+      "id": "cut_tag_protocol",
+      "role": "predecessor",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/protocolsio_bench-top-cut-amp-tag-kqdg34qdpl25.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "protocol introduction and reagent/adapter sections",
+        "finding": "Bench-top CUT&Tag is cited for the nucleus and transposition foundation; exact correspondence of its adapters to MulTI-Tag still requires comparison."
+      },
+      "discovered_from": "published_article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local protocols.io bench-top CUT&Tag PDF text lines 130–136; oligo scraper run on local original bundle",
+        "finding": "Ancestor prints ME reverse [PHO]CTGTCTCTTATACACATCT and standard ME adapter A/B; MulTI-Tag target-specific i5/i7 barcodes come from its own table."
+      }
+    },
+    {
+      "id": "2021_07_08_451691_media_1_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary figures PDF text opening pages and Supplementary Figure 1 caption; oligo scraper run on source bundle",
+        "finding": "Supplementary Figure 1 includes schematics of antibody-barcode/Tn5 association and sequential versus combined tagmentation; relevant geometry, but no ordering table in inspected figures."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Figure 1 caption lines 1–15 and Supplementary Figure 2 heading at lines 570–583",
+        "finding": "Figure 1 compares antibody/pA-Tn5 barcode association schemes and sequential tagmentation. This is relevant protocol geometry; inspected captions do not supply ordering oligos."
+      }
+    },
+    {
+      "id": "2021_07_08_451691_media_3_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-3 workbook README and Sequence file info sheet headings/first rows; oligo scraper run on source bundle",
+        "finding": "This is sequencing-file metadata and GEO associations, not oligo bases or reaction geometry."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns This is sequencing-file metadata and GEO associations, not oligo bases or reaction geometry. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "README/Sequence file info opening lines 1–12 and terminal records lines 123–127",
+        "finding": "Sequencing-file/sample metadata and GEO association, not an oligo ordering table in inspected sheet inventory."
+      }
+    },
+    {
+      "id": "2021_07_08_451691_media_4_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_media-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-4 workbook README, ENCODE peak sets, Peak calling statistics and MPM sheet headings/first rows; oligo scraper run on source bundle",
+        "finding": "Peak call and statistical result tables; no protocol oligo or reagent list in inspected sheet inventory."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Peak call and statistical result tables; no protocol oligo or reagent list in inspected sheet inventory. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "README, ENCODE peak sets, Peak calling statistics headings lines 1–31; MPM sample sheet headings through line 191227",
+        "finding": "Peak-call and sample analysis workbook; inspected headings disclose no molecular reagent/oligo list."
+      }
+    },
+    {
+      "id": "2021_07_08_451691_media_5_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/2021.07.08.451691_media-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint media-5 workbook README, Quantiles and std devs, test stats and conf. intervals sheets; oligo scraper run on source bundle",
+        "finding": "Statistical analysis results, not molecular construction."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns Statistical analysis results, not molecular construction. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "README and quantile/statistical sheet headings lines 1–8; terminal statistical rows lines 449–453",
+        "finding": "Numerical distribution and statistical test results, outside oligo/reaction scope."
+      }
+    },
+    {
+      "id": "s41587_022_01522_9_supp_41587_2022_1522_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/multi-tag__10.1038+s41587-022-01522-9/s41587-022-01522-9_supp_41587_2022_1522_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF visually inspected first page, pdfinfo reports seven pages; first page headed Nature Portfolio Reporting Summary; oligo scraper run on source bundle",
+        "finding": "This is the publisher reporting-summary form. Remaining image-only pages not yet visually inspected; exclusion is provisional pending both complete reads."
+      },
+      "reason": "Second reader inspected the located source and found this file concerns This is the publisher reporting-summary form. Remaining image-only pages not yet visually inspected; exclusion is provisional pending both complete reads. First-reader independent exclusion remains pending.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF, visually inspected all pages 1–7 at 75 dpi",
+        "finding": "Nature Portfolio reporting summary: statistics, software, dataset accession, study design, antibodies and analysis metadata. No molecular oligo table or detailed reaction recipe on any page."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published Methods lines 107–119; Supplementary Table 1 workbook rows 1–15",
+      "finding": "The primer table and linked CUT&Tag method are available; adapter families are source-positive, while full variant/source comparison is pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked published JATS, preprint, workbook, local CUT&Tag protocol and manifest MD5 deduplication. Supplementary figure PDF needs visual review; other result tables were inspected by type and first rows."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "MulTI-Tag adapter and primer bases are not published",
+      "disposition": "blocked",
+      "evidence": "Published Supplementary Table 1 gives sequences, but representative choices and predecessor inheritance require second-reader review."
+    }
+  ],
+  "conclusion": "Published Supplementary Table 1 gives sequences, but representative choices and predecessor inheritance require second-reader review."
+}

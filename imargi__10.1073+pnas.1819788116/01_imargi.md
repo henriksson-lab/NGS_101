@@ -4,6 +4,31 @@
 
 - 🟢 Yan et al. 2019, DOI `10.1073/pnas.1819788116`, PMC full text and supplement.
 - 🟢 Wu et al. 2019, DOI `10.1038/s41596-019-0229-4`, PMC detailed protocol, especially the “iMARGI linkers and library PCR primers” section and Fig. 1.
+- 🟢 Sridhar et al. 2017, DOI `10.1016/j.cub.2017.01.011`, original MARGI author manuscript and publisher Document S1 Supplemental Experimental Procedures (`1-s2.0-S0960982217300118-mmc1.pdf.txt`, lines 178–325). Two independent readers checked the original and linked supplement; the checklist is in `catalogue/source_reviews/`.
+
+## Published citation discrepancy
+
+🟢 Yan et al. 2019 reference 10 points to DOI `10.1016/j.cub.2017.01.068` for Sridhar et al.'s MARGI method. [PubMed's record for that DOI](https://pubmed.ncbi.nlm.nih.gov/28222283/) identifies it as an erratum to the [original method article](https://pmc.ncbi.nlm.nih.gov/articles/PMC5319903/), DOI `10.1016/j.cub.2017.01.011`. The model uses the iMARGI oligos printed by Wu et al. 2019. The recovered MARGI supplement prints the inherited linker bases and processing steps.
+
+🟢 **Linker modification varies across source versions.** Sridhar et al. 2017 original
+Document S1, lines 204–215, prints the top oligo ending
+`...TCCGA/BiodT/CT`, with no phosphorothioate `*` mark. Wu et al. 2019
+detailed iMARGI protocol, JATS lines 275–285, prints
+`...TCC*GA/iBiodT/CT` and explicitly defines `C*` as phosphorothioated C.
+The unmodified base order agrees. The model follows the later iMARGI-specific
+ordering string, including `C*`; the 2019 PNAS paper's “same linker sequence”
+statement does not resolve whether its actual linker included this modification.
+The two biotin spellings both denote internal biotin-dT, but direct identity of
+the ordered oligos is not established by the printed sources.
+
+🟢 Wu et al. 2019 detailed protocol, extracted JATS lines 395–397, labels a stock
+“10 mM dATP” but says to dilute **ATP** to prepare it. Its dA-tailing reaction
+table at lines 673–685 instead calls for **10 mM dATP**, and Yan et al. 2019
+Methods line 203 also specifies dATP for Klenow dA-tailing. The ATP wording in
+the stock recipe appears to be a publication error. The model uses a genomic
+3′-dA tail, supported by the reaction table and original paper; no numeric
+stock preparation is modeled. The actual reagent placed in the published
+experiment cannot be independently verified from these texts.
 
 ## Construct path
 
@@ -20,3 +45,11 @@
 - NEBNext index PCR: `5′-CAAGCAGAAGACGGCATACGAGAT[6 bp barcode]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-S-T-3′`, retaining the protocol's printed terminal `-S-T` notation.
 
 🟢 The top strand is 5′ adenylated after synthesis and annealed to the bottom strand. The bottom linker strand itself primes first-strand cDNA synthesis; the prior model's separate RT primer was unsupported and is removed. The cDNA is circularized, annealed to the cut oligo, and digested at the linker BamHI site. The split linker halves then serve as PCR landing sites. The run is paired-end 100 cycles. 🔴 The exact six-base sample-index member used in each library is not specified here; the source prints only a degenerate index slot. 🟡 The compact schematic still leaves the strand-resolved post-BamHI junction as a declared geometry limitation.
+
+🟢 The DNA-side ligation is a cohesive-end reaction, not an undisclosed end:
+the detailed iMARGI protocol lines 101–103 specifies dA-tailing and sticky-end
+ligation, and its printed linker strands at lines 273–285 pair for 47 bases,
+leaving a terminal 3′-T on the top strand. The original MARGI Fig. 1 text
+likewise says the linker 3′-T joins the DNA 3′-A tail. The model now draws
+these complementary one-base ends; it does not infer the downstream BamHI
+product junction from this ligation view.

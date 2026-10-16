@@ -1,4 +1,4 @@
-"""NEBNext Enzymatic Methyl-seq v2, E8015 manual v2.0 6/25."""
+"""NEBNext Enzymatic Methyl-seq v2, E8015 manual v2.0 7/26."""
 from __future__ import annotations
 import sys
 from pathlib import Path
@@ -8,10 +8,11 @@ from adapter_ligation import reported_adapter_end
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from nebnext import STANDARD_PRIMERS, indexed_library
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 TITLE="NEBNext Enzymatic Methyl-seq v2"
 NOTES="01_nebnext-em-seq-v2.html"
-SOURCE='Commercial protocol: <a href="https://www.neb.com/en-us/products/e8015-nebnext-enzymatic-methyl-seq-v2-kit">NEB E8015 manual v2.0 (June 2025)</a>.'
+SOURCE='Commercial protocol: <a href="https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf">NEB E8015 manual v2.0 (July 2026)</a>.'
 SUMMARY="Adapters are ligated before enzymatic conversion. TET2 and T4-BGT protect 5mC/5hmC; APOBEC converts unmodified C to U; Q5U then amplifies the converted library."
 OUTCOME={"C":"U","5mC":"C","5hmC":"C"}
 DNA=Construct([Segment("fragmented DNA", "X"*42, placeholder=True)], name="fragmented DNA")
@@ -56,5 +57,15 @@ def protocol_graph():
     library=g.product("library","PCR-completed EM-seq library",MaterialKind.LIBRARY,state=final_library())
     g.react("pcr","Amplify converted strands with Q5U",StepKind.PCR,((converted,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),(rev,InputRole.STRUCTURAL),(q5u,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(final_library(),reason="The manual does not disclose the complete kit primer sequences."))
     g.sequence(library,SequencingPlan(library=final_library(),primers=tuple(SEQ_PRIMERS),acquired_roles=REQUIRED_ROLES))
+    g.annotate(SourceDiscrepancy(
+        target="pcr", title="LV index kit identifiers in the E8015 manual",
+        claims=(
+            SourceClaim("E8015 v2.0_7/26, p. 2, Required Materials Not Included", "Names E3390 and E3392 among the compatible LV Unique Dual Index Primer Sets."),
+            SourceClaim("E8015 v2.0_7/26, p. 2, Fig. 1 caption", "Prints E3900 and E3902 for the first two primer sets."),
+            SourceClaim("NEB LV UDI manual, title and index tables", "Identifies the sold sets as E3390 and E3392.")),
+        model_choice="The graph refers to the actual E3390/E3392 primer kits, with the chosen well left unspecified.",
+        evidence="The E8015 required-materials list agrees with the dedicated LV UDI manual.",
+        uncertainty="NEB has not confirmed a correction to the E8015 Fig. 1 caption; the earlier June 2025 revision has not been independently obtained.",
+        slot=AnnotationSlot.INTRO))
     g.declare_reviewed_scope(["dna","endprep_mix","end_repair","da_tail","adapter","ligase","ligate","protection_enzymes","protect","apobec","deaminate","pcr_forward","pcr_reverse","q5u","pcr","library"],SOURCE)
     return g.require_publishable()

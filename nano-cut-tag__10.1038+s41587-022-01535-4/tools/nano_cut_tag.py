@@ -10,8 +10,8 @@ from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo, revcomp
 from pcr import PCRGeometry
 from tagmentation import loaded_tn5_adapter
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 from protocol_model import molecule, role
 
 TITLE = "nano-CUT&Tag — multimodal nanobody–Tn5 chromatin profiling"
@@ -20,16 +20,24 @@ SOURCE = '<a href="https://doi.org/10.1038/s41587-022-01535-4">Bartosovic et al.
 SUMMARY = ("Nanobody–Tn5 fusions first transfer a target-specific MeA adapter. Chromium "
            "linear amplification adds cell identity; a second MeB-only Tn5 installs the "
            "opposite end before PCR.")
-CAVEAT = ("The representative BcdA adapter and both Tn5 duplexes are exact. The 10x "
-          "gel-bead oligo and SI-PCR primers are proprietary, so that binding state is "
-          "explicitly unavailable rather than reconstructed.")
+CAVEAT = ("The target-specific adapters and Tn5 loading geometry are source-defined. "
+          "The linked 10x ATAC v1.1 guide prints gel-bead and SI-PCR oligo "
+          "scaffolds; the 16-nt cell barcode and 8-nt sample index vary.")
 
 OUTER = "TCCACGC"
 BARCODE_A = "TATAGCCT"
+BARCODE_B = "ATAGAGGC"
+BARCODE_C = "CCTATCCT"
 CONNECTOR = "GCGATCGAGGACGGC"
 ME_REV = nx.ME_RC
 CUSTOM_R1 = CONNECTOR + nx.ME
 CUSTOM_I2 = nx.ME_RC + revcomp(CONNECTOR)
+
+
+ATAC_GUIDE = "10x Chromium Next GEM Single Cell ATAC v1.1 guide CG000209 Rev G, Appendix A1"
+GEL_BEAD_FORWARD = il.P5 + "N" * 16 + nx.S5
+SI_PCR_FORWARD = "AATGATACGGCGACCACCGAGA"
+SI_PCR_REVERSE = "CAAGCAGAAGACGGCATACGAGAT" + "N" * 8 + "GTCTCGTGGGCTCGG"
 
 
 def modality_feature():
@@ -37,10 +45,14 @@ def modality_feature():
                    whitelist="Bartosovic et al. Supplementary Table 1")
 
 
-def mea_parts():
-    return [seg("S5", nx.S5, "s5"), seg("outer connector", OUTER),
-            seg("BcdA modality barcode", BARCODE_A, "cbc", feature=modality_feature()),
-            seg("inner connector", CONNECTOR), seg("MeA mosaic end", nx.ME, "me")]
+def mea_parts(barcode=BARCODE_A, name="A", stagger=0):
+    parts = [seg("S5", nx.S5, "s5"), seg("outer connector", OUTER),
+             seg(f"Bcd{name} modality barcode", barcode, "cbc",
+                 feature=modality_feature())]
+    if stagger:
+        parts.append(seg("sequencing stagger", "N" * stagger, placeholder=True))
+    return [*parts, seg("inner connector", CONNECTOR),
+            seg("MeA mosaic end", nx.ME, "me")]
 
 
 def meb_parts():
@@ -58,14 +70,14 @@ FIRST_TAGGED = Construct([*mea_parts(), seg("targeted genomic DNA", "X" * 38,
                          name="BcdA-tagged target fragment")
 
 PRE_PCR = Construct([
-    seg("10x gel-bead amplification handle", "H" * 18, placeholder=True, inferred=True),
+    seg("10x gel-bead P5", il.P5, "p5"),
     seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
         feature=feature("cell_barcode", "cell_barcode", "whitelist",
                         whitelist="10x Chromium ATAC whitelist")),
     *mea_parts(), seg("targeted genomic DNA", "X" * 38, placeholder=True),
     seg("MeB mosaic end reverse complement", nx.ME_RC, "me"),
     seg("S7 reverse complement", nx.S7_RC, "s7"),
-], name="twice-tagmented nano-CT molecule before proprietary PCR")
+], name="twice-tagmented nano-CT molecule before SI-PCR")
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
@@ -103,11 +115,28 @@ SHOW_READ_CONTENT = True
 
 
 def oligos():
-    yield oligo("Tn5_P5_MeA_BcdA_0N", mea_parts())
+    for name, barcode in (("A", BARCODE_A), ("B", BARCODE_B), ("C", BARCODE_C)):
+        for stagger in range(4):
+            yield oligo(f"Tn5_P5_MeA_Bcd{name}_{stagger}N",
+                        mea_parts(barcode, name, stagger))
     yield oligo("Tn5_P7_MeB", meb_parts())
     yield oligo("Tn5_Rev", [Segment("ME reverse", ME_REV, "me")], mods="/5Phos/")
     yield oligo("R1_seq", [seg("binding region", CUSTOM_R1, "r1")])
     yield oligo("I2_seq", [seg("binding region", CUSTOM_I2, "r2")])
+
+    yield oligo("10x gel-bead oligo (CG000209 A1)", [
+        seg("P5", il.P5, "p5"),
+        seg("10x cell barcode", "N" * 16, "cbc", placeholder=True,
+            feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                            whitelist="10x Chromium ATAC whitelist")),
+        seg("partial Read1N", nx.S5, "s5")])
+    yield oligo("10x SI-PCR forward (CG000209 A1)",
+                [seg("partial P5", SI_PCR_FORWARD, "p5")])
+    yield oligo("10x indexed PCR reverse (CG000209 A1)", [
+        seg("P7", il.P7, "p7"),
+        seg("sample index", "N" * 8, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
+        seg("partial Read2N", "GTCTCGTGGGCTCGG", "r2")])
 
 
 def workflow():
@@ -120,16 +149,15 @@ def workflow():
     w.react("Tagment antibody-proximal DNA and fill the staggered gap",
             Scene.duplex(list(FIRST_TAGGED), label="BcdA-tagged genomic template").rows(),
             name="BcdA-tagged genomic DNA")
-    linear = Construct([seg("10x gel-bead amplification handle", "H" * 18,
-                            placeholder=True, inferred=True),
+    linear = Construct([seg("10x gel-bead P5", il.P5, "p5"),
                         seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
                             feature=feature("cell_barcode", "cell_barcode", "whitelist",
                                             whitelist="10x Chromium ATAC whitelist")),
                         *list(FIRST_TAGGED)], name="cell-barcoded linear-amplification product")
-    w.react("INFERRED — linearly amplify in Chromium droplets",
+    w.react("Linearly amplify in Chromium droplets",
             Scene.duplex(list(linear), label="cell-barcoded copies").rows(),
             name="cell-barcoded linear products",
-            note="The paper establishes the product order, but the complete gel-bead oligo is not public.")
+            note="The 10x ATAC v1.1 guide Appendix A1 prints P5–N16–partial Read1N for the gel-bead oligo.")
     w.react("Anneal MeB to Tn5_Rev and load standard Tn5",
             loaded(meb_parts(), "MeB mosaic end", "MeB-only Tn5").rows(),
             name="MeB-only transposome")
@@ -138,7 +166,7 @@ def workflow():
             name="PCR-ready nano-CT molecule")
     geometry = PCRGeometry.unavailable(
         PRE_PCR,
-        reason="The source names 10x SI-PCR primer B and Single Index N Set A, but does not print their complete sequences.")
+        reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry.")
     w.pcr("Amplify with the 10x scATAC SI-PCR reagents", geometry,
           Scene.duplex(list(FINAL_LIBRARY), label="nano-CT sequencing library").rows(),
           name="nano-CT sequencing library")
@@ -187,8 +215,11 @@ def protocol_graph():
                  (gap_polymerase, InputRole.CATALYST)), (filled,))
     gel_bead = graph.input(
         "gel_bead_oligo", "10x scATAC gel-bead amplification oligo",
-        MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (complete proprietary oligo sequence unavailable)")
+        MaterialKind.OLIGO, state=Construct([seg("P5", il.P5, "p5"),
+            seg("10x cell barcode", "N" * 16, "cbc", placeholder=True,
+                feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                                whitelist="10x Chromium ATAC whitelist")),
+            seg("partial Read1N", nx.S5, "s5")]), source=ATAC_GUIDE)
     linear_polymerase = graph.input("linear_polymerase", "Chromium linear-amplification polymerase",
                                     MaterialKind.CATALYST)
     linear = graph.product(
@@ -197,7 +228,7 @@ def protocol_graph():
         state=molecule("cell-barcoded linear products", (
             role("10x cell barcode and amplification handle"),
             role("BcdA-coded MeA genomic fragment"))),
-        inferred=True, source=SOURCE + " (published order; complete gel-bead sequence unavailable)")
+        source=SOURCE + "; " + ATAC_GUIDE)
     graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
                 StepKind.EXTENSION,
                 ((filled, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
@@ -217,11 +248,9 @@ def protocol_graph():
                  (standard_tn5, InputRole.CATALYST)), (twice_tagged, second_waste))
     graph.discard(second_waste, "does not retain the MeA/MeB PCR-ready configuration")
     forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (complete primer sequence unavailable)")
+                          MaterialKind.OLIGO, source=ATAC_GUIDE)
     reverse = graph.input("si_pcr_reverse", "10x scATAC SI-PCR reverse primer",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (complete primer sequence unavailable)")
+                          MaterialKind.OLIGO, source=ATAC_GUIDE)
     polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", FINAL_LIBRARY.name,
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
@@ -231,7 +260,7 @@ def protocol_graph():
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
                     PRE_PCR,
-                    reason="The source names the 10x SI-PCR reagents but does not print their complete sequences."))
+                    reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry."))
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))
@@ -241,4 +270,15 @@ def protocol_graph():
         "gel_bead_oligo", "linear_polymerase", "linear_amplification", "loaded_meb",
         "standard_tn5", "meb_tagment", "si_pcr_forward", "si_pcr_reverse",
         "pcr_polymerase", "library_pcr", "sequencing_library"), SOURCE)
+    graph.annotate(SourceDiscrepancy(
+        target="loaded_mea", title="Corrected MeA barcode-adapter sequence",
+        claims=(
+            SourceClaim("Author protocols.io v2, materials table lines 123–138",
+                        "BcdA/B/C oligos omit CCACGC between S5 and each 8-base modality barcode."),
+            SourceClaim("Author protocols.io v2, correction lines 271–293; published Supplementary Table 1 rows 3–14",
+                        "BcdA/B/C oligos include CCACGC before the modality barcode.")),
+        model_choice="The drawn BcdA adapter includes CCACGC before TATAGCCT.",
+        evidence="The protocol labels the earlier strings erroneous, and the published oligo workbook prints the corrected family.",
+        uncertainty="The source does not establish whether any earlier experiment used the erroneous strings.",
+        slot=AnnotationSlot.BEFORE_WORKFLOW))
     return graph.require_publishable()

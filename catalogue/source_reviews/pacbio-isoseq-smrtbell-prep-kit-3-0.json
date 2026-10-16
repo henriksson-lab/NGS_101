@@ -1,0 +1,119 @@
+{
+  "dir": "pacbio-isoseq-smrtbell-prep-kit-3-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "current_guide",
+      "role": "defining",
+      "locator": "_data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/Procedure-checklist-_-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PacBio guide lines 260–268, 358–374, 416, 565, 589–602",
+        "finding": "Names RT primer mix and TSO 2.0 and cDNA amplification; their bases not printed in inspected passages."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PacBio 102-396-000 Rev10 cover/introduction lines 1–26, kit list lines 260–268 and 358–374, RT/TSO/PCR lines 416, 565, 589–602",
+        "finding": "This is the Iso-Seq express 2.0 cDNA front end and names SMRTbell prep 3.0 as a downstream choice. It does not define that kit’s hairpin ligation end or adapter bases."
+      }
+    },
+    {
+      "id": "primer_fasta",
+      "role": "linked_material",
+      "locator": "_data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/IsoSeq_v2_primers_12.fasta",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "FASTA lines 2–26; scraper run over bundle",
+        "finding": "Official bc01–bc12 and opposite PCR primer bases published."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official IsoSeq_v2_primers_12.fasta records bc01–bc12 lines 1–24 and IsoSeqX_3p lines 25–26",
+        "finding": "Exact 12 barcoded forward cDNA PCR primers and opposite amplification primer are printed; no RT mix, TSO, hairpin or sequencing primer sequence in this FASTA."
+      },
+      "discovered_from": "current_guide"
+    },
+    {
+      "id": "smrtbell3_guide",
+      "role": "linked_material",
+      "locator": "PacBio 102-396-000 Rev07 kit-specific Iso-Seq SMRTbell prep 3.0 PDF, https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-Iso-Seq-libraries-using-SMRTbell-prep-kit-3.0.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Official 2025 PDF is indexed by search but current official URL returns HTTP 404; full guide not available for two source readings.",
+      "discovered_from": "current_guide"
+    },
+    {
+      "id": "smrtbell3_amplicon",
+      "role": "linked_material",
+      "locator": "PacBio official amplicon guide 102-359-000 Rev08 (https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-multiplexed-amplicon-libraries-using-SMRTbell-prep-kit-3.0.pdf), web PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PacBio PDF 102-359-000 Rev08 pp. 1, 5, 7–9, web text lines 0–20, 116–127, 152–172, 217–243; independently read",
+        "finding": "Amplicon-specific kit 3.0 procedure identifies end-repair, A-tailing, SMRTbell adapter ligation, and nuclease treatment with named kit reagents. It is a distinct pre-indexed amplicon workflow and does not disclose hairpin or ligating-end bases in those sections, so cannot establish Iso-Seq exact junction."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Rev08 PDF web lines 0–34, 112–125, 152–169 and 217–243",
+        "finding": "This is a kit3 guide for pre-indexed amplicons, not Iso-Seq cDNA. It confirms generic repair/A-tailing then SMRTbell adapter ligation and nuclease cleanup, but inspected sections do not print ligating overhang or hairpin bases."
+      },
+      "discovered_from": "current_guide"
+    },
+    {
+      "id": "smrtbell3_training",
+      "role": "linked_material",
+      "locator": "PacBio official Iso-Seq SMRTbell prep kit 3.0 training PDF, https://www.pacb.com/wp-content/uploads/Iso-Seq-library-preparation-using-SMRTbell-prep-kit-3.0-training.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PacBio PDF PN 102-393-400 v01, pp. 5–6 and 11–13, web text lines 71–106 and 190–238; independently read",
+        "finding": "Overview explicitly names SPK 3.0 and barcoded adapter plate 3.0, with reverse transcription/template switching, cDNA amplification, DNA repair/A-tailing, adapter ligation and nuclease treatment. It does not print the adapter hairpin sequence or ligating terminal in the inspected workflow and points to separate procedure 102-396-000 for detail."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official PDF web text pages 5–6 and 11–13, especially lines 71–106 and 190–222",
+        "finding": "Training overview identifies kit 3.0 for Iso-Seq full-length cDNA and shows repair/A-tailing, SMRTbell adapter ligation and nuclease treatment. It does not print ligating terminal or full hairpin sequence in these sections."
+      },
+      "discovered_from": "current_guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Current Kinnex guide and official primer FASTA inspected; specific Iso-Seq/SMRTbell 3.0 guide remains unavailable; no proprietary absence confirmed.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Rev10 cDNA checklist lines 1–26, 260–268, 358–374, 416/565/589–602; official FASTA lines 1–26; PacBio kit3 training pages 5–6, 11–13; kit3 exact-guide URL HTTP 404; official 102-359-000 Rev08 amplicon PDF web lines 0–34, 112–125, 152–169, 217–243",
+      "finding": "Separated source versions: cDNA front end and official PCR primers verified, downstream repair/ligation order verified by official training, exact kit3 hairpin overhang and primer bases blocked by unavailable procedure. Related amplicon guide checked separately; it does not resolve Iso-Seq adapter-end geometry."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "RT primer mix, TSO 2.0, SMRTbell hairpin and sequencing primer base sequences",
+      "evidence": "Current Kinnex guide and official primer FASTA inspected; specific Iso-Seq/SMRTbell 3.0 guide remains unavailable; no proprietary absence confirmed.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent reads verify accessible cDNA and primer sources; official kit3 training has one located pass. Kit-specific original procedure remains inaccessible and ligation-end/undisclosed oligo claims are blocked."
+}

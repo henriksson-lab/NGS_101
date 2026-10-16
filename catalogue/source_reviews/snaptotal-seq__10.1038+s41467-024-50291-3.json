@@ -1,0 +1,83 @@
+{
+  "dir": "snaptotal-seq__10.1038+s41467-024-50291-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Original PMC11251146 JATS s41467-024-50291-3_PMC11251146.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article Methods lines 254-266; scraper run on bundle",
+        "finding": "Defines post-PCR cell-barcode placement to avoid both-end complementary barcode stem loop; describes Y-shape adapter ligation and explicitly prints forward and reverse PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC11251146 JATS Methods lines 254-266; scraper on local source bundle",
+        "finding": "Authors explain post-PCR cell barcode addition avoids complementary barcode stem loop; lines 258-266 print DSC, enrichment and final PCR primers and Y-adapter ligation order."
+      }
+    },
+    {
+      "id": "author_table",
+      "role": "supplement",
+      "locator": "Original author bioRxiv 2023.12.14.571592_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Scraper hit at extracted row 19038 Adapter-DSC; author supplement and original Methods cross-reference",
+        "finding": "Author workbook contains named Adapter-DSC oligo. The exact publication version and associated modification are not yet reconciled."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv 2023.12.14.571592_media-2.xlsx.txt rows 19034-19040; scraper on bundle",
+        "finding": "Adapter-DSC, GAT27, cell barcode primer, P5-index and Y-shape complementary oligo appear in author workbook. Version matching to final publication remains open."
+      }
+    },
+    {
+      "id": "publisher_supp",
+      "role": "supplement",
+      "locator": "Original publisher MOESM1-17 supplements in local bundle",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary figure/table set is large; exact reagent and read-layout tables not fully classified in this pass."
+    },
+    {
+      "id": "predecessor",
+      "role": "predecessor",
+      "locator": "VASA-seq and other total-RNA methods cited in defining article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Inherited molecular choices not individually checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods 254-266, author workbook row 19038, original supplement manifest",
+      "finding": "Found published PCR primers and an author adapter entry; original publisher supplementary set and predecessors still require review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SnapTotal-seq custom PCR primers and adapters are entirely undisclosed",
+      "disposition": "blocked",
+      "evidence": "Original Methods prints PCR primer strings; complete adapter/read architecture still requires supplement reconciliation."
+    }
+  ],
+  "conclusion": "Original Methods prints PCR primer strings; complete adapter/read architecture still requires supplement reconciliation."
+}

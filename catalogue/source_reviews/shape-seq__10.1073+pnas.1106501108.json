@@ -1,0 +1,164 @@
+{
+  "dir": "shape-seq__10.1073+pnas.1106501108",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 1266–1270, 1352–1365",
+        "finding": "Original describes SHAPE modification, RT stops and adapter ligation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC3131332 Methods on primer extension and adapter ligation, around lines 1266–1270 and 1352–1365",
+        "finding": "SHAPE-Seq detects RT stops after 1M7 modification; cDNA is ligated to a modified adapter by CircLigase and amplified for sequencing."
+      }
+    },
+    {
+      "id": "caltech_si",
+      "role": "supplement",
+      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_SI.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary primer/adapters lines 39–46",
+        "finding": "Author mirror of original SI prints A_adapter_t and A_adapter_b with modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Caltech SI PDF text lines 24–54; scraper verified A_adapter_t at line 39",
+        "finding": "SI prints A_adapter_t full sequence, RRRY/YYYR RT handle, A_adapter_b sequence with 3′ C3 block, CircLigase step and reaction conditions. Adapter bases are source-positive."
+      }
+    },
+    {
+      "id": "illumina_2011_pe_letter",
+      "role": "vendor",
+      "locator": "https://www.seqanswers.com/filedata/fetch?id=303482",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Illumina 11 Jan 2011 letter p. 6, PE Read 1/2 sequencing primers; browser PDF lines 193–204",
+        "finding": "Vendor-authored historical original lists PE Read 1 and PE Read 2 primer sequences. The PE Read 2 reverse complement exactly matches A_adapter_b bases 1–37; direct download is blocked (curl error 6), but browser PDF was read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "After running the full SHAPE-Seq source-bundle oligo scraper, independently read Illumina-authored 11 January 2011 adapter-sequence letter PDF title/date p.1 and paired-end oligo section p.6, browser PDF lines 184–204 (particularly PE Read 1/2 at 201–204). Compared PE Read 2 to original SHAPE-Seq SI A_adapter_b at local supplement line 39 by computed reverse complement.",
+        "finding": "The original Illumina letter prints the 37-base PE Read 2 sequencing primer. Its reverse complement matches the first 37 bases of the SI A_adapter_b exactly. This supports the modelled historical primer sequence, while the actual GAIIx run reagent lot/primer selection is not documented by the letter."
+      }
+    },
+    {
+      "id": "mortimer2009_rt",
+      "role": "predecessor",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4950915/ ; author PDF linked from https://weekslab.org/publications/ (https://webshare.oasis.unc.edu/weeksgroup/pdf-files/2009_sm_nprot.pdf)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "SHAPE-Seq SI p. 1, ref. 3; PMC4950915 browser is challenge page",
+        "finding": "Cited for RT primer-extension procedure, not instrument primer; original full text has not been inspected in this pass."
+      },
+      "pass_2": null,
+      "reason": "Cited original PMC full text returned a browser challenge; author-hosted PDF link was identified but browser fetch returned cache miss and command-line retrieval had DNS failure. Publisher page exposed preview/abstract and search index exposed excerpts, but no complete original-source read is recorded.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "kozarewa2009_manuscript",
+      "role": "predecessor",
+      "locator": "https://ftp.sanger.ac.uk/pub/users/zn1/ppt/richard/PCR-free_2009.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "finish_shape",
+        "date": "2026-10-16",
+        "locations": "Author-hosted original manuscript, Methods p. 5, browser PDF lines 254–262; Results p. 4 lines 204–218 and Figure 1 caption p. 7 lines 312–322; local extracted text lines 316–326",
+        "finding": "Kozarewa et al. used A_adapter_t and A_adapter_b, phosphorylated both oligos at the 5′ end before annealing, and referred the exact adapter sequences to Supplementary Methods. The Y-shaped no-PCR adapters include flow-cell and read-primer landing sites. Followed Supplementary Methods in the next checklist row."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "After independently running full SHAPE source-bundle oligo scraper, author-hosted original manuscript PDF lines 73–89 (library architecture), Methods lines 254–264 (adapter preparation and supplement link)",
+        "finding": "Original manuscript describes partially double-stranded no-PCR adapters and 5′ phosphorylation of HPLC-purified A_adapter_t and A_adapter_b with T4 PNK before annealing. It explicitly delegates sequence detail to Supplementary Methods, followed in the separate supplement row."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "kozarewa2009_supplement",
+      "role": "supplement",
+      "locator": "https://www.researchgate.net/publication/258927535_Amplification-free_Illumina_sequencing-library_preparationsupplementary_materialsment_2009",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "finish_shape",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original Kozarewa Supplementary Methods, browser text lines 645–684, especially Adapter sequences 665–684",
+        "finding": "The predecessor supplement prints A_adapter_t ending GATC*T (terminal phosphorothioate) and A_adapter_b beginning GATC; SHAPE-Seq SI instead prints its own A_adapter_b beginning AGATC and no RT-tail phosphorothioate mark. This is protocol-specific source difference, not a publication error. The surrounding supplement sections on DNA preparation/ligation and sequencing were inspected; read-alignment links at lines 716–725 are irrelevant to SHAPE molecular construct and were not followed. Supplement reference 1 Bentley 2008 (generic Illumina adapter/end repair) and reference 2 Quail 2008 (qPCR) are chemistry-adjacent and added below as linked-source rows; analysis-only SSAHA/Velvet links are irrelevant to the SHAPE molecular construct."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original supplement browser text lines 645–684, especially Adapter sequences lines 665–684; compared independently with defining SHAPE SI lines 39 and 46 after scraper",
+        "finding": "Supplement describes 8 µM adapter ligation at 20 °C for 15 min and prints A_adapter_t with terminal phosphorothioate GATC*T and A_adapter_b beginning GATC. SHAPE SI prints its own adapter_b beginning AGATC plus 3′ C3, and its RT-primer tail does not explicitly carry Kozarewa’s phosphorothioate. Predecessor modification must not be transferred to SHAPE without direct evidence. Independently classified SSAHA/ssaha_pileup/Velvet links at supplement lines 716–743 as analysis-only; Bentley and Quail original references at lines 747–752 remain to be read before the linked-source gate can close."
+      },
+      "discovered_from": "kozarewa2009_manuscript"
+    },
+    {
+      "id": "kozarewa_bentley2008",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nature07517",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Kozarewa supplement ref. 1 links Bentley et al. 2008 for standard Illumina adapter/end-repair context. Its original has not yet been inspected in this SHAPE audit; the directly printed SHAPE SI and Kozarewa supplement sequences do not depend on this source for transcription.",
+      "discovered_from": "kozarewa2009_supplement"
+    },
+    {
+      "id": "kozarewa_quail2008",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nmeth.1270",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Kozarewa supplement ref. 2 links Quail et al. 2008 for qPCR quantification and possibly standard Illumina chemistry. Its original has not yet been inspected in this SHAPE audit; it is not used to transcribe the SHAPE adapter.",
+      "discovered_from": "kozarewa2009_supplement"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining PNAS Methods and CaltechAUTHORS mirror of original SI, adapter rows lines 39–46",
+      "finding": "Recovered original SI despite PMC gate. Sequencing reagent/version and all relevant predecessor links still need second read. The independent second pass on the original paper and SI stands, but newly identified vendor and cited predecessor sources still need a second reader; the vendor letter resolves the sequence claim."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Independently followed defining Methods citations, checked listed local predecessors/vendor references and MANIFEST-linked supplements; independent Illumina 2011 original letter pp.1,6 PDF lines 184–204 and original SI A_adapter_b line 39, after rerunning SHAPE-seq bundle oligo scraper",
+      "finding": "Independently followed the original SI to the historical Illumina paired-end primer letter and verified the PE Read 2 sequence against A_adapter_b by reverse complement. Mortimer 2009 RT and Kozarewa 2009 adapter predecessors remain unavailable in their originals, so the linked-source gate remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact historical GAIIx paired-end sequencing primer sequences are unavailable",
+      "disposition": "resolved",
+      "evidence": "Illumina 11 January 2011 original letter, p. 6, prints PE Read 1 and PE Read 2; the latter reverse-complements to the first 37 bases of the SHAPE-Seq A_adapter_b in defining SI p. 1. The page and model now show this source-supported primer. Run-specific reagent lot remains unspecified and is not asserted missing."
+    }
+  ],
+  "conclusion": "Historical sequencing-primer sequence claim resolved by two independent reads of the original 2011 Illumina letter and defining SI pairing. Kozarewa 2009 original manuscript and author-uploaded supplement now have independent original-source reads; their adapter difference is recorded in the SHAPE-Seq note. Mortimer 2009 original RT protocol is still inaccessible for a full read, and Bentley/Quail originals linked by the Kozarewa supplement remain to be inspected, so linked-source review remains blocked. No residual absence claim accepted."
+}

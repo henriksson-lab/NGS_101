@@ -195,10 +195,13 @@ def render_page() -> str:
               f'Hashimshony et al., <i>{SOURCE[1]}</i> ({SOURCE[2]})</a>; '
               f'RP1/RPI1 bases: <a href="{VENDOR_SOURCE}">Illumina TruSeq Small RNA '
               'adapter sequences</a>, doc 1000000002694 v22.')
-    caveat = ("<div class='caveat'><b>Primer-source boundary.</b> The CEL-Seq2 author "
+    caveat = ("<div class='caveat'><b>Source and variant boundary.</b> The CEL-Seq2 author "
               "protocol calls for Illumina RP1 and an indexed RPIX but refers their "
-              "sequences to Illumina. The vendor table supplies the exact RP1/RPI1 "
-              "oligos. The transcript insert and cell UMI/barcode remain variable; "
+              "sequences to Illumina. The vendor table supplies the RP1/RPI family; "
+              "RPI1 is a representative member, not an identified index used in the "
+              "2016 experiments. This schematic follows the manual well workflow; "
+              "the paper also supplies a distinct Fluidigm C1 protocol in Additional file 6. "
+              "The transcript insert and cell UMI/barcode remain variable; "
               "sequencing-primer placement is not yet declared.</div>")
     pcr_oligos = ("<h2>Library PCR primers</h2><seq>" +
                   oligo("Illumina RP1", [Segment("RP1", RP1)]) +

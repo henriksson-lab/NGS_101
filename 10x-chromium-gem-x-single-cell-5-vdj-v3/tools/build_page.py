@@ -81,8 +81,10 @@ def render() -> str:
         workflow_panel(cdna, caption="cDNA amplification primer binding and product"),
         '<h3>(3) Enrich V(D)J with outer and inner constant-region pools</h3>',
         workflow_panel(nested, caption="Nested V(D)J PCR primer binding and products"),
-        info('The guide publishes every outer and inner reverse-primer sequence and places '
-             'the pools in constant regions, but does not identify the exact transcript '
+        info('The v3 guide names the v2-labelled enrichment mixes by part number; '
+             'the linked 10x CG000331 Rev E guide publishes their outer and inner '
+             'reverse-primer sequences. The guides place the pools in constant regions '
+             'but do not identify the exact transcript '
              'coordinate for each oligo. The shared forward primer lands exactly on the '
              'partial Read 1 handle. Individual pool sequences are retained in the research note.'),
         '<h3>(4) Fragment, end-repair, A-tail and ligate the Read 2 adaptor</h3>',

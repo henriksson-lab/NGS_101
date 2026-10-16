@@ -23,7 +23,8 @@ def protocol_graph() -> ProtocolGraph:
         graph, primary, rt_primer_label="MARS-seq2.0 RT1",
         rt_state=M.rt_scene(protocol),
         first_state=M.rt_scene(protocol),
-        duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol))
+        duplex_state=M.ds_cdna(protocol), arna_state=M.amplified_rna(protocol),
+        pool_before_second=True, exonuclease_when="before_pool")
     reviewed.insert(0, "mrna")
 
     fragmentation = graph.input("fragmentation_condition",

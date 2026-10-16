@@ -23,9 +23,9 @@ pool, so an unrestricted N9 representation would change the chemistry.
 🟢 Supplementary Table 2 supplies 768 paired P5/i5 and P7/i7 amplification-primer
 pairs. Pair 1 is shown base by base on the page: its P5 index is `ACGATCAGAC` and its
 P7 index, read from the library, is `CATTGCCTAT`. The 25-nt and 27-nt 3′ annealing
-regions land on the two final-library arms by computation. The proprietary Accel-NGS
-Adaptase-added bases are not printed, so only that short region remains explicitly
-inferred on the schematic.
+regions land on the two final-library arms by computation. The Accel-NGS Adaptase-added
+bases have not been verified from the checked sources; the original vendor guide remains
+to be read. That short region is explicitly inferred on the schematic.
 
 Sources read: the defining Nature Communications article, its Supplementary Methods
 (`s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf`), Supplementary Table 2

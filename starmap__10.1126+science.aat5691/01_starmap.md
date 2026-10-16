@@ -16,9 +16,11 @@
   polyacrylamide embedding, proteinase-K clearing, and six SEDAL cycles.
 - 🟢 In SEDAL an 11-nt partly degenerate reading probe and an 8-nt fluorescent
   decoding probe form a 19-bp ligated duplex only at a correct interrogation base.
-- 🟡 The schematic uses symbolic target arms and code bases because the defining
-  supplement available to this repository describes their design but does not expose
-  the per-gene sequence tables in machine-readable form.
+- 🟡 The schematic uses symbolic target arms and code bases while the original
+  Tables S1 and S2 are being recovered. The public manuscript supplement's contents
+  page and methods explicitly cite those sequence tables, but the available PDF copy
+  ends before the tables. The sequences are therefore unverified here, not established
+  as unpublished. A later STARmap-family table is a different panel and revision.
 - 🟢 A later STARmap-family protocol, doi:10.1038/s41596-025-01248-3, is retained as
   supporting evidence for the named SEDAL reagents, but its oligos are not presented
   as if they were the original 2018 panel.

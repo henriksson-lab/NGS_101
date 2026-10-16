@@ -1,0 +1,68 @@
+{
+  "dir": "truseq-dna-pcr-free",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "_data/sources/truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 59–62, 114–135, 254–265 and adapter/cleanup workflow",
+        "finding": "Official workflow fragments DNA, repairs and size-selects, adenylates 3′ ends, ligates adapters; PCR-free workflow omits library PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina TruSeq DNA PCR-Free guide 1000000039279-00 lines 114–135 and adapter ligation workflow; scraper",
+        "finding": "Kit workflows end-repair, size-select, dA-tail and ligate full-length indexed adapters without library PCR. Guide states index adapter components are purchased separately; a specific index family/well is not fixed by the core prep kit."
+      }
+    },
+    {
+      "id": "adapter_guide",
+      "role": "linked_material",
+      "locator": "_data/sources/truseq-dna-pcr-free/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "TruSeq DNA/RNA CD section lines 21090–21095; document heading and index tables",
+        "finding": "Current official adapter guide prints TruSeq adapter/index families; historical kit-to-index product mapping requires second review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Adapter Sequences v22 heading and TruSeq DNA/RNA CD Indexes lines 21090–21095; scraper",
+        "finding": "Guide prints CD dual-index adapter structure and example i7 sequence, with A-tail overhang shown. This is a current adapter family reference, not evidence that one exact index member was chosen by the core workflow."
+      },
+      "discovered_from": "guide"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official workflow guide references and Illumina adapter guide",
+      "finding": "Followed official adapter-sequence route. Version applicability and exact selected index product remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Illumina PCR-Free guide lines 114–135 and Illumina Adapter Sequences v22 CD-index section lines 21090–21095",
+      "finding": "Vendor workflow and separate index document read; model’s dual-index illustration is representative. Version/index member remains unspecified, so exact-choice claims stay blocked."
+    },
+    "followup": {
+      "reviewer": "nextera_illumina",
+      "date": "2026-10-16",
+      "locations": "Original TruSeq DNA PCR-Free Guide Appendix A Product Contents lines 1890–1940, Index Adapter Sequences lines 2480–2483; original Illumina Adapter Sequences v22 TruSeq DNA/RNA CD lines 21090–21160",
+      "finding": "Adjudicated prior version concern without altering the independent readers' findings: the v00 workflow guide explicitly lists TruSeq DNA Combinatorial Dual Indexes 20015949 as one compatible option, and the adapter document prints the CD arms used by the schematic. A particular plate/well is a run choice, not a chemistry omission."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent checks of the vendor workflow and its linked adapter document support the PCR-free reaction order and the representative TruSeq DNA CD adapter family. The guide also offers UD and single-index components; no run-specific index well is asserted or treated as missing chemistry."
+}

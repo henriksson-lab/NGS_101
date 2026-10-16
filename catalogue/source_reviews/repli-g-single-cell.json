@@ -1,0 +1,115 @@
+{
+  "dir": "repli-g-single-cell",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "qiagen_2012_handbook",
+      "role": "defining",
+      "locator": "_data/sources/repli-g-single-cell/EN-REPLI-g-Single-Cell-Handbook.pdf.txt; QIAGEN October 2012 original mirrored at https://www.ys-bio.cn/app/wp-content/uploads/2021/12/EN-REPLI-g-Single-Cell-Handbook.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original handbook title/kit content lines 1–180; Introduction and Principle lines 224–315; single-cell protocol lines 477–639; cited refs lines 1165–1195; whole-bundle oligo scraper (zero hits).",
+        "finding": "Named REPLI-g Single Cell Kit uses lysis/denaturation, neutralization, exonuclease-resistant primers and phi29 MDA, then 8 h at 30 C. It does not print primer bases, modification, or the word hexamer in the inspected handbook."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original QIAGEN October 2012 REPLI-g Single Cell Handbook PDF text title lines 1–6, Introduction/Principle lines 224–315, single-cell protocol lines 477–639, cited references lines 1165–1195; independently ran source-bundle oligo scraper before reading",
+        "finding": "The named kit uses an optimized Phi29 formulation with exonuclease-resistant primers for MDA; the handbook describes lysis/denaturation, neutralization and 30°C eight-hour isothermal amplification. It does not print primer bases. Its p.12 note explicitly reports roughly 40 µg high-molecular-weight DNA from primer-dimer extension in no-template controls, a source-known off-product now represented in the graph. The handbook cites Dean 2002 MDA and QIAGEN supplemental protocols."
+      }
+    },
+    {
+      "id": "qiagen_2024_handbook",
+      "role": "vendor",
+      "locator": "https://www.qiagen.com/en-US/resources/download/KitHandbook/hb-1306-003-hb-replig-singlecell-0424-ww",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Current QIAGEN 2024 handbook route redirects to a search SPA; get_sources rejects returned HTML. Original PDF not locally read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "qiagen_rg35_2014",
+      "role": "detailed_protocol",
+      "locator": "https://www.qiagen.com/en-US/resources/download/Protocols/rg35-nextera-ngs-library-preparation-from-dna-cdna-amplified-with-repli-g-kits",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "QIAGEN full PDF route redirects to a search SPA. Search-indexed original excerpts identify Aug 2014 RG35, named REPLI-g Single Cell cat. 150343/150345, 50-ng input and October 2012 Nextera DNA guide, but full original is uninspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "qiagen_rg35_2018",
+      "role": "linked_material",
+      "discovered_from": "qiagen_rg35_2014",
+      "locator": "https://www.qiagen.com/en-US/resources/download/Protocols/hb-2606-001-rg35-nextera-ngs-library-preparation-from-dna-cdna-amplified-with-repli-g-kits-1118-ww",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Indexed Nov 2018 opening explicitly replaces the named Single Cell kit with Advanced DNA Single Cell, WTA and WGA/WTA; full original is inaccessible, so version-specific exclusion remains provisional.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "illumina_nextera_2012",
+      "role": "linked_material",
+      "discovered_from": "qiagen_rg35_2014",
+      "locator": "Nextera DNA Sample Preparation Guide, Illumina part 15027987 Rev B, October 2012; historical vendor PDF URL https://support.illumina.com/content/dam/illumina-support/documents/myillumina/2a3297c5-8a34-4fc5-a148-3e16666fd65e/nextera_dna_sample_prep_guide_15027987_b.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "QIAGEN RG35 2014 indexed original cites this exact guide/version; historical vendor URL now returns 404 and original guide was not read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "dean_2002",
+      "role": "linked_material",
+      "discovered_from": "qiagen_2012_handbook",
+      "locator": "_data/sources/doi_10.1073+pnas.082089499/pnas.082089499_PMC122757.html.txt; Dean et al. 2002 PNAS 99:5261, DOI 10.1073/pnas.082089499",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC full-text HTML Methods extracted lines 1310–1355, especially DNA and Enzymes 1318–1324 and MDA reaction 1340–1355; predecessor bundle scraper run before reading.",
+        "finding": "Dean original prints a thiophosphate-modified degenerate random hexamer pattern 5′-NpNpNpNpsNpsN-3′ and uses exonuclease-resistant hexamers with phi29. This is the predecessor recipe, not proof of the commercial QIAGEN kit primer modification or exact formulation."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently ran oligo scraper on predecessor bundle, then read Dean et al. 2002 original PMC article pnas.082089499_PMC122757.html.txt Materials and Methods lines 1310–1358 plus genotyping-primer context lines 1438–1450",
+        "finding": "Original MDA study prints a generic thiophosphate-modified random hexamer pattern 5′-NpNpNpNpsNpsN-3′ and uses exonuclease-resistant hexamer with phi29 polymerase. Its distinct 18 h/30°C research reaction is not the QIAGEN 2012 kit protocol (8 h/30°C), and it does not prove the protected positions or concentration in the commercial kit. The named-kit primer remains unavailable from the handbook."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "QIAGEN 2012 handbook pp. 6–7, 12–14, cited references p. 25; QIAGEN RG35 Aug 2014/Nov 2018 indexed original headings and opening only; get_sources MANIFEST for failed current PDF routes. Dean 2002 predecessor original PMC Methods lines 1310–1355.",
+      "finding": "Followed handbook to predecessor MDA paper and QIAGEN NGS protocol. The 2014 RG35 version names the studied kit whereas 2018 does not. Full 2014/2024 QIAGEN and October 2012 Illumina linked originals remain inaccessible, so exact chemistry and Nextera kit details are blocked. Dean 2002 is now directly read and supplies a predecessor protected-hexamer pattern, not the QIAGEN kit oligo."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original 2012 handbook Introduction online-protocol pointer and references lines 1165–1195; checked currently listed 2014/2018 RG35 route identities and MANIFEST source availability",
+      "finding": "Followed the handbook references to the predecessor Dean 2002 DOI and the historical named-kit RG35 route. The 2014 RG35 version is the relevant named-kit route; the 2018 revision targets Advanced DNA. Full historical RG35, current handbook, linked Nextera guide and predecessor remain to be read, so linked-information remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact REPLI-g Single Cell primer bases, protection chemistry and formulation",
+      "disposition": "blocked",
+      "evidence": "Two independent reads of the 2012 QIAGEN handbook and Dean 2002 predecessor confirm that Dean prints a protected degenerate N6 pattern, not the commercial kit formulation. The current 2024 QIAGEN handbook remains inaccessible."
+    },
+    {
+      "claim": "Exact adapter/index architecture for the 2014 RG35 Nextera DNA branch",
+      "disposition": "blocked",
+      "evidence": "Full 2014 QIAGEN and cited October 2012 Illumina originals not yet available for two reads."
+    }
+  ],
+  "conclusion": "The 2012 named-kit handbook and Dean 2002 predecessor establish phi29 MDA and a historical protected N6 primer pattern, but not the commercial kit primer bases/modifications. The historical 2014 QIAGEN Nextera link is only partially indexed. Current handbook, full RG35 and linked Nextera originals remain blocked; no absence accepted."
+}

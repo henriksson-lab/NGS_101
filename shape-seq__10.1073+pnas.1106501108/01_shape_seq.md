@@ -24,17 +24,28 @@ It is the P5 arm followed by the Read 1 site and forms the 5′ tail of each RT 
 branch or `YYYR` for the solvent control—followed by a target-specific RT-primer sequence.
 There is therefore no single universal terminal RT-primer sequence to assert.
 
-🟢 The single-stranded ligation oligo `A_adapter_b` is
-`/5Phos/AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG/3SpC3/`.
-Its 5′ phosphate permits ligation to cDNA and its 3′ spacer prevents concatemerization.
+🟢 The single-stranded ligation oligo `A_adapter_b` is printed as
+`AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG`
+with a 3′ C3 spacer, which prevents concatemerization. 🟡 A 5′ phosphate is chemically
+required for ligation to the cDNA, but the SHAPE-Seq SI does not print that modification
+on this named oligo; it should not be presented as source-verbatim.
+
+🟢 The cited Kozarewa *et al.* adapter supplement prints its own `A_adapter_b`
+beginning `GATC`, while the SHAPE-Seq SI prints `AGATC`. The SHAPE-Seq model follows
+the defining SI's complete oligo, not the predecessor's adapter. Kozarewa's
+supplement also marks a terminal phosphorothioate on its `A_adapter_t`; the
+SHAPE-Seq SI does not mark one on its RT-primer tail.
 
 🟢 The defining experiment used 2×50 cycles on an Illumina Genome Analyzer IIx.
 Read 1 begins with the treatment handle and RNA-identity end; the paired read reports the
 SHAPE-dependent primer-extension stop from the opposite end.
 
-🔴 The supplement does not identify a separate, immutable ordering sequence for the
-historical GAIIx paired-end sequencing-primer reagent. The exact adapter landing regions are
-shown, but that instrument reagent is not silently replaced with a modern TruSeq primer.
+🟢 Illumina's [11 January 2011 adapter sequence letter](https://www.seqanswers.com/filedata/fetch?id=303482),
+p. 6, prints the paired-end Read 1 primer (the `A_adapter_t` Read 1 site) and Read 2
+primer `CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT`. The latter reverse-complements
+exactly to the first 37 bases of `A_adapter_b`. These are source-supported binding
+sites for the contemporary paired-end primer family; the paper does not state the
+specific reagent lot used for its sequencing run.
 
 ## Construct logic
 

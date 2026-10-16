@@ -1,0 +1,341 @@
+{
+  "dir": "scnmt-seq__10.1038+s41467-018-03149-4",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_PMC5823944.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods around lines 70–80, 136 and linked predecessor refs",
+        "finding": "Original combines GpC methyltransferase accessibility, scBS-seq methylome and Smart-seq2 transcriptome."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5823944 JATS lines 54–74 and 136–137",
+        "finding": "GpC methyltransferase M.CviPI precedes RNA/DNA partition; RNA uses bead capture and Smart-seq2; DNA uses scBS route with repeated 6NF priming, Exo I, second strand and PE1.0/iTAG PCR."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplement methods/primer headings; scraper run on bundle",
+        "finding": "Primary supplement present; chemistry-relevant oligos require second-pass comparison."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF text lines 1–130 and chemistry-term search",
+        "finding": "Supplement is figures/legends and analysis, with no independent protocol oligo table found in inspected sections; original JATS Methods supplies chemistry details."
+      }
+    },
+    {
+      "id": "smartseq2",
+      "role": "linked_material",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM299_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Smart-seq2 supplementary methods and related Table 2 workbook MOESM301 header",
+        "finding": "2013 predecessor Smart-seq2 supplement present; TSO variant table in MOESM301, not equivalent to 2014 protocol by assumption."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Picelli 2013 original MOESM299 PDF text lines 1–43 and figure/table listing",
+        "finding": "Smart-seq2 original supplement documents TSO experiment and refers to attached oligo tables; this PDF alone does not independently establish the exact scNMT oligo identity."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "scbsseq",
+      "role": "linked_material",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.3035_PMC4117646.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "scBS-seq original methods and oligos around lines 232–243; scraper verifies",
+        "finding": "Inherited methylome primer source available."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Smallwood 2014 original PMC4117646 PDF text lines 28–65, 230–250, 364–367",
+        "finding": "scBS predecessor uses post-bisulfite random priming and indexed PCR; original Methods prints PE1.0 and points to iPCRTag family, but scNMT-specific index member is not identified."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "smartseq2_2014_protocol",
+      "role": "linked_material",
+      "locator": "Picelli et al. 2014 Nature Protocols original author-uploaded full text: https://www.researchgate.net/publication/259566573_Full-length_RNA-seq_from_single_cells_using_Smart-seq2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original Nature Protocols 9:171–181 web-rendered lines 430–436, 763–789 and 1062–1075",
+        "finding": "Reagent Setup explicitly prints TSO AAGCAGTGGTATCAACGCAGAGTACATrGrG+G, oligo-dT30VN and ISPCR; Nextera XT enrichment uses N7xx and N5xx. This supports the 2014 ACAT option but does not establish which TSO Clark et al. used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original Picelli et al. 2014 Nature Protocols author-uploaded text at ResearchGate lines 763–790 (Reagent Setup) and 1023–1075 (Nextera XT steps), after scNMT-bundle oligo scraper",
+        "finding": "The 2014 protocol prints AAGCAGTGGTATCAACGCAGAGTACATrGrG+G TSO, oligo-dT30VN, and ISPCR primer. Nextera XT library PCR uses N7xx/N5xx primer families. Clark scNMT cites this inherited method but does not identify which TSO order or index wells it selected."
+      },
+      "reason": "Original author-uploaded protocol is readable via web; it is not yet in local source bundle. This establishes the 2014 variant but not Clark et al. choice between 2013 and 2014 citations.",
+      "discovered_from": "smartseq2"
+    },
+    {
+      "id": "author_preprint_v2",
+      "role": "other",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original author preprint version comparison; manuscript does not identify the exact inherited TSO or iTAG well.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 Methods lines 1154–1211; scraper run on whole source bundle",
+        "finding": "Preprint lists Smart-seq2 oligo-dT, Exiqon TSO and ISPCR by reagent name, plus scBS 6NF and iTAG by family; no exact scNMT TSO or selected iTAG member. Chemistry order agrees with published JATS."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original bioRxiv v2 138685_v2.full.pdf.txt Methods lines 1154–1211 and bibliography around 1387–1405; full scNMT source-bundle primer scraper run first",
+        "finding": "Preprint prints M.CviPI treatment, Smart-seq2 bead capture, Exiqon TSO and ISPCR by name, followed by Nextera XT; methylome uses 6NF and iTAG families with PE1.0. No exact Clark TSO sequence or chosen iTAG well is stated in the inspected Methods. The protocol explicitly inherits scM&T-seq and scBS-seq steps."
+      }
+    },
+    {
+      "id": "author_preprint_supp",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_138685-1.pdf.txt and 138685_138685-2/3/4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original preprint supplements are results figures, sequencing QC, molecular association tables and reference dataset inventory; no synthesis table in inspected sections.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 supplement-1 lines 1–18 and figure captions; XLSX supplement-2 sheets/headers lines 1–3, 79–81, 160–161; supplement-3 sheet headers lines 1,7,48; supplement-4 lines 1–3",
+        "finding": "Figures and data/QC tables do not provide an oligo order or sample-to-index mapping in inspected content."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently checked original 138685-1.pdf.txt all 110 lines; 138685-2.xlsx.txt sheet headers lines 1–3, 79–82, 160–162 and chemistry-term search across its 181 lines; 138685-3.xlsx.txt sheet headers lines 1–8 and chemistry-term search across 330 lines; 138685-4.xlsx.txt all 25 lines",
+        "finding": "Files contain figure legends, BS/RNA QC tables, association statistics and genomic annotation descriptions. No protocol oligo order or sample-to-index mapping occurs in these files; this excludes them only from the specific TSO/iTAG identity question."
+      }
+    },
+    {
+      "id": "scmtseq_2016_predecessor",
+      "role": "linked_material",
+      "locator": "Angermueller et al. 2016 scM&T-seq, doi:10.1038/nmeth.3728; _data/sources/scm-t-seq__10.1038+nmeth.3728/nmeth.3728_PMC4770512.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC4770512 JATS Online Methods lines 80–93 and article lines 61–67; ran scraper on scM&T-seq source bundle",
+        "finding": "The directly inherited scM&T-seq route physically separates RNA and DNA; its DNA arm uses scBS random-hexamer priming without first-strand biotin capture, and its RNA library uses one-fifth-volume Nextera XT. It does not name a TSO sequence or chosen iTAG well."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Angermueller et al. 2016 original PMC4770512 JATS nmeth.3728_PMC4770512.xml.txt lines 61-68 and Online Methods lines 80-98; original publisher MOESM608 PDF text lines 1-33; primer scraper run on article and MOESM608 before reading",
+        "finding": "Original Methods explicitly inherit G&T-seq physical poly(A) RNA/genomic DNA separation (line 84), then scBS-seq modified bisulfite libraries with 3-prime random hexamers on both strand-synthesis primers and no first-strand biotin capture (line 86); amplified cDNA becomes a one-fifth-volume Nextera XT RNA library (line 88). It prints neither an exact TSO nor an iTAG member. Its G&T and scBS citations are upstream chemistry links; G&T requires a separate checklist entry."
+      },
+      "discovered_from": "author_preprint_v2"
+    },
+    {
+      "id": "gtseq_2015_predecessor",
+      "role": "linked_material",
+      "locator": "Macaulay et al. 2015 G&T-seq Nat Methods doi:10.1038/nmeth.3370, author-uploaded original full PDF https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf; related 2016 author detailed protocol in _data/sources/g-t-seq__10.1038+nmeth.3370/",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "scmtseq_2016_predecessor",
+      "reason": "Angermueller scM&T-seq Online Methods line 84 explicitly inherits G&T physical RNA/DNA separation. The G&T original informs the separation and a candidate TSO family, but does not choose Clark scNMT-seq reagent.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Macaulay 2015 original author-uploaded Nat Methods PDF web-extracted lines 67-71, 554-605, 612-623; original 2016 author Nat Protoc PDF text lines 644-656; scraper run on local 2016 original before reading",
+        "finding": "2015 original uses 5-prime biotin-TEG oligo-dT30VN on streptavidin beads to separate poly(A) RNA from genomic DNA, then on-bead RT with TSO ending AGTACrGrG+G and ISPCR; Nextera XT prepares amplified cDNA/gDNA libraries. 2016 detailed successor prints TSO ending AGTACATrGrG+G, an extra AT. These are predecessor/implementation sequences, not evidence that scNMT ordered either exact TSO or chose any iTAG well."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read Macaulay 2015 author-uploaded original Nature Methods PDF Online Methods web lines 554–623 and main text 67–71; ran scraper on local G&T source bundle, then checked authors’ detailed 2016 Nature Protocols PDF text lines 644–656",
+        "finding": "The original physically separates poly(A) RNA using 5′ biotin-TEG oligo-dT30VN and transfers genomic DNA with wash supernatants. Its on-bead RT explicitly prints TSO ending AGTACrGrG+G, while the authors’ 2016 detailed successor prints AGTACATrGrG+G. These distinct predecessor variants do not identify the reagent Clark scNMT ordered; G&T does not specify a scNMT iTAG well."
+      }
+    },
+    {
+      "id": "publisher_moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher peer-review exchange; no evidence about exact scNMT TSO or iTAG selection.",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Original PDF text lines 1–53, including Editorial Note, reviewer comments and author response; searched exact chemistry terms throughout",
+        "finding": "This is an editorial peer-review exchange about interpretation and analysis. It gives no library oligo, primer selection, or chemical construct recipe."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF text lines 1–53, separately read after full scNMT source-bundle oligo scraper; exact chemistry-term search across document",
+        "finding": "The file is a prior editorial review/rebuttal exchange about interpretations; it contains no printed oligo, primer, index or construct recipe."
+      }
+    },
+    {
+      "id": "publisher_moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher supplement-file inventory; no evidence about exact scNMT TSO or iTAG selection.",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Original PDF text lines 1–10, all file descriptions",
+        "finding": "This file only describes the three additional data files: sequencing QC, cross-omic associations and genomic annotations. It identifies no additional protocol supplement."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 PDF text lines 1–12, complete file descriptions",
+        "finding": "The file indexes Supplementary Data 1 sequencing QC, Data 2 multi-omic associations and Data 3 annotations; it is a locator, not a chemistry protocol."
+      }
+    },
+    {
+      "id": "publisher_moesm4",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher Supplementary Data 1 sequencing metrics; no evidence about exact scNMT TSO or iTAG selection.",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet Supplementary Table 1 lines 1–292, header, first/last data rows and exact chemistry-term scan across every extracted row",
+        "finding": "This is per-cell bisulfite/RNA sequencing QC with lane/sample identifiers and mapping counts, not primer/TSO orders or a sample-to-iTAG oligo sequence table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 workbook text, Supplementary Table 1 header and sampled cell rows, lines 1–292; searched all 292 rows for TSO, iTAG, oligo, primer and barcode",
+        "finding": "Workbook reports cell/sample sequencing and alignment quality. It has no oligo order or sample-to-iTAG sequence columns."
+      }
+    },
+    {
+      "id": "publisher_moesm5",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher Supplementary Data 2 association statistics; no evidence about exact scNMT TSO or iTAG selection.",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Workbook 105,468 extracted rows; met-exp, acc-exp, met-acc sheet headers and columns; exact chemistry-term scan across all rows",
+        "finding": "Three sheets are locus/gene correlations of methylation, accessibility and expression. No oligo order, reaction recipe or barcode assignment column occurs in extracted rows."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 workbook text, all three sheet headings met-exp, acc-exp, met-acc and column headers; searched 105,468 rows for TSO, iTAG, oligo, primer, barcode, sequence",
+        "finding": "Workbook contains locus/gene methylation, accessibility and expression association statistics, not a reagent or sequence table."
+      }
+    },
+    {
+      "id": "publisher_moesm6",
+      "role": "supplement",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher Supplementary Data 3 genomic annotations; no evidence about exact scNMT TSO or iTAG selection.",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Workbook Sheet1 lines 1–21, all description and reference rows; exact chemistry-term scan",
+        "finding": "This is a list of genomic annotation classes and references. It has no protocol oligo or sample-index choice."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 workbook text, all 21 lines of Sheet1 and term scan",
+        "finding": "Workbook lists genomic annotation classes and literature references. No chemistry or oligo data are present."
+      }
+    },
+    {
+      "id": "smartseq2_2013_oligo_table",
+      "role": "linked_material",
+      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM301_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "smartseq2",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Original Picelli 2013 Supplementary Table 2 workbook, Sheet1 lines 1–16, including all TSO sequence/modification rows; scNMT source-bundle scraper run before reading",
+        "finding": "This is the predecessor TSO variant table. It prints AAGCAGTGGTATCAACGCAGAGTACATrGrGrG among several variants, while 2014 Smart-seq2 and 2015/2016 G&T documents differ at the AC/ACAT prefix. A predecessor variant cannot establish which Exiqon oligo Clark ordered."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Picelli 2013 Supplementary Table 2 workbook, Sheet1 all 16 lines, especially TSO variants at lines 4–16; scNMT bundle oligo scraper run first",
+        "finding": "The predecessor tests several modified TSOs. Both rGrGrG and C6 Amino rows use AAGCAGTGGTATCAACGCAGAGTACATrGrGrG; other variants differ. This does not identify which Exiqon TSO Clark used in scNMT."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article/supplement and 2013 Smart-seq2/scBS predecessors partly checked; 2014 detailed Smart-seq2 protocol and deep supplementary table inspection remain open.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC5823944 JATS lines 54–74 and 136–137; Published MOESM1 PDF text lines 1–130 and chemistry-term search; Picelli 2013 original MOESM299 PDF text lines 1–43 and figure/table listing; Smallwood 2014 original PMC4117646 PDF text lines 28–65, 230–250, 364–367; Original scNMT MOESM2 PDF opening reviewer-history section, MOESM3 PDF file-description list, MOESM4–6 workbook sheet headers and first rows; Picelli 2014 original author-uploaded Nature Protocols lines 763–790 and 1023–1075; Clark author bioRxiv v2 Methods 1154–1211 and supplements 138685-1–4; scM&T-seq original JATS Online Methods 80–93; Macaulay 2015 original Nature Methods Online Methods web lines 554–623 and authors’ 2016 detailed protocol PDF lines 644–656",
+      "finding": "Independently followed scM&T to its G&T predecessor and compared the original 2015 AC TSO with the 2016 ACAT detailed version, after source-bundle scraper. The predecessor variants do not identify Clark scNMT’s selected TSO or iTAG well; those claims remain blocked."
+    },
+    "followup_scmt_gt": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "scM&T 2016 JATS Online Methods lines 84-88; G&T 2015 author PDF Online Methods lines 569-605, 621-623; G&T 2016 detailed protocol lines 644-656",
+      "finding": "Independently followed scM&T citation upstream to G&T and scBS. scBS was already checklist-covered; new G&T first-read row records bead capture and the 2015/2016 TSO variant difference. None of these sources selects Clark scNMT-specific TSO or iTAG well. Independent second read of G&T row remains pending, so linked result stays blocked."
+    },
+    "followup_close_imargi_nano": {
+      "reviewer": "close_imargi_nano",
+      "date": "2026-10-16",
+      "locations": "Original publisher MOESM2–6 separately inspected; Smart-seq2 2013 MOESM301 oligo table all rows; original scNMT JATS Methods line 136; source-bundle oligo scraper run first",
+      "finding": "Split five distinct publisher attachments into separate checklist rows. Their complete extracted text contains no TSO/iTAG sequence or assignment. Picelli 2013 oligo table is a relevant linked source and requires an independent second pass; scNMT-specific Exiqon and iTAG choices remain unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact inherited transcriptome TSO and methylome adapter choices",
+      "evidence": "Defining article, supplements, Clark preprint, Smart-seq2 2013/2014, scBS-seq, scM&T-seq and G&T-seq originals now have two located readers. The cited G&T 2015 original prints an AC TSO, while the 2014 Smart-seq2 and 2016 detailed G&T protocols print ACAT; Clark names Exiqon TSO without identifying which ordered variant and names only an iTAG family. Selection remains unresolved and no absence is accepted.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "The publisher MOESM2–6 attachments and Picelli 2013 Supplementary Table 2 now each have two located independent original-source reads. The attachments do not provide Clark’s selected TSO or iTAG sequence; Picelli’s table documents multiple TSO variants and cannot select one for Clark. The defining paper, preprint and inherited Smart-seq2, scBS-seq, scM&T-seq and G&T-seq sources likewise have two passes. Clark’s Exiqon TSO variant and iTAG well remain unverified; no missing-information claim is accepted."
+}

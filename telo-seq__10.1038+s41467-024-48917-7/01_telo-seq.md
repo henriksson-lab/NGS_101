@@ -14,6 +14,8 @@ Telo-seq selectively places an Oxford Nanopore motor adapter at the native human
 
 🟢 Six 5′-phosphorylated telorettes share `AGCAATACGTAACTGAACGAAGT` and carry the six phases of an 18-nt telomere-complement arm. S1 is `ACTTCGTTCAGTTACGTATTGCTAGCAAT`.
 
+The published Supplementary Table 7 (`supp.pdf.txt`, lines 1780–1810) labels its third and fourth distinct telorette sequences both `T3`, then continues with `T5` and `T6`; there is no `T4` row. The Methods (`fulltext.xml.txt`, line 169) say six phased adapters. The model keeps the fourth printed sequence as the fourth member because it supplies a distinct phase; whether the authors intended the label `T4` is unconfirmed. 🟢 (printed labels and sequences) / 🟡 (ordinal assignment)
+
 1. 🟢 Telorettes anneal to the G-rich overhang and ligate to the C-rich chromosome strand.
 2. 🟢 EcoRV cuts genomic DNA at blunt sites.
 3. 🟢 Klenow exo− dA-tails those new internal blunt ends, reducing concatemer and wrong-end sequencing-adapter ligation.

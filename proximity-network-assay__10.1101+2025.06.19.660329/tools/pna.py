@@ -33,7 +33,7 @@ SUMMARY = (
     "ligated into a paired UMI–protein-ID sequencing molecule."
 )
 CAVEAT = (
-    "The paper and manual omit complete oligo molecules. Pixelator nevertheless publishes "
+    "The reviewed paper and manual establish the reaction order and index windows, while the exact kit oligo molecules are still under source review. Pixelator publishes "
     "the Proxiome v2 internal amplicon schema, both fixed linker-binding sequences and PID "
     "panels, so those regions are drawn base by base. The padlocks, conjugate oligos and "
     "complete PCR/flow-cell ends remain unresolved; patent examples are not assumed to be "
@@ -106,7 +106,7 @@ FINAL_CAPTION = (
     "One 133-nt internal amplicon records a link between a type-1 and a type-2 antibody "
     "node. Region order, lengths and both fixed linker-binding sequences come directly "
     "from Pixelator's Proxiome v2 assay definition. PCR/flow-cell ends remain role-labelled "
-    "because their complete primer molecules are not disclosed there."
+    "because this assay-definition file specifies the internal amplicon, not the physical primer ends."
 )
 EXTRA_MOLECULAR_STATES = ((
     "Paper dataset: Proxiome v1 internal amplicon",
@@ -251,7 +251,7 @@ def protocol_graph():
             ((released, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL),
              (pre_r, InputRole.STRUCTURAL), (pre_pol, InputRole.CATALYST)), (preamp,),
             geometry=PCRGeometry.unavailable(PREAMP_LIBRARY,
-                reason="Pixelgen names the pre-amplification primer mix but does not publish its bases."))
+                reason="Pixelgen names the pre-amplification primer mix; its bases have not yet been verified from an original source."))
 
     idx_f = g.input("index_f", "i5 indexing PCR primer", MaterialKind.OLIGO)
     idx_r = g.input("index_r", "i7 indexing PCR primer", MaterialKind.OLIGO)

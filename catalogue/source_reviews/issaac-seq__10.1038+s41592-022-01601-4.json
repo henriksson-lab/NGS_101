@@ -1,0 +1,234 @@
+{
+  "dir": "issaac-seq__10.1038+s41592-022-01601-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_paper",
+      "role": "defining",
+      "locator": "Xu et al. Nat Methods 2022 doi:10.1038/s41592-022-01601-4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Published defining article full text is marked manual; only author preprint and published supplements were locally readable."
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv doi:10.1101/2022.01.16.476488 v2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2022.01.16.476488_v2.full.pdf.txt lines 459-490",
+        "finding": "Author preprint describes S5/S7 transposome, oligo source and links a private protocols.io assembly protocol."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 original 2022.01.16.476488_v2.full.pdf.txt lines 459–490 (oligo source, S5/S7 transposome and private assembly link), 490–505 (tagmentation/RT); primer scraper run on article and source supplement before reading",
+        "finding": "Author preprint directs oligo identities to its Supplementary Table 2 (the published MOESM4 is byte-identical to the preprint workbook per MANIFEST), prints annealing of ME_S5/ME_S7 to ME_bottom and S5/S7 and S7/S7 transposome assembly, then a private protocols.io quality-control detail link. That linked private protocol is still inaccessible."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF Supplementary Notes and Protocols 1-2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 1-25, 757-900, 1697-1830",
+        "finding": "Published supplement contains plate and droplet stepwise protocols but its Tables 1/2 are benchmarking data, not the oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Supplementary Information text lines 1–25 (contents), 607–730 and 1108–1209 (droplet reagents, explicit 10x v1.1 CG000209 dependency/GEM procedure), 1697–1745 and 2268–2425 (plate reagents/Exo I); scraper run on this PDF text before reading",
+        "finding": "Original supplement contains distinct droplet and plate workflows and specifies 10x Chromium Next GEM Single Cell ATAC Gel Bead Kit v1.1 / CG000209 for the droplet branch. It also gives ME_bottom preparation, capture/RT, gap fill and Exo I steps. Its tables 1/2 are benchmark data; the oligos are in separate MOESM4."
+      },
+      "discovered_from": "published_paper"
+    },
+    {
+      "id": "published_oligos",
+      "role": "supplement",
+      "locator": "Original Springer MOESM4 XLSX Supplementary Table 4",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM4.xlsx.txt lines 10382-10412",
+        "finding": "Separate worksheet prints ME_S5/S7, heavily phosphorothioated and inverted-dT ME_bottom, biotin dT primers, P5/P7, plate/droplet index oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM4 workbook text Droplet_workflow oligos and Plate_workflow oligos lines 10382–10418; `scrape_primers.py --find CTGTCTCTTATACACATCT` matched workbook lines 10384/10401, including phosphorothioate and inverted-dT notation; checked further plate index-family rows",
+        "finding": "Original published oligo worksheet prints ME_S5/ME_S7 and modified ME_bottom (5-prime Phos, starred phosphorothioate bonds, terminal /iInvdT/), distinct biotin TruSeq R2/R1 UMI10-dT32VN capture primers, separate droplet RNA/ATAC P7 indexes, and plate N7001 onward/plate i5 families. The page examples follow the original table; no universally selected family member is established."
+      },
+      "discovered_from": "published_si"
+    },
+    {
+      "id": "private_protocol",
+      "role": "detailed_protocol",
+      "locator": "Author protocols.io private D62649C3B25011ECAC280A58A9FEAC02",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "author_preprint",
+      "reason": "Preprint explicitly links private Tn5 assembly/quality protocol; access not established."
+    },
+    {
+      "id": "10x_atac",
+      "role": "vendor",
+      "locator": "ISSAAC publisher MOESM1 lines 1108–1112, 1178–1241 cites 10x Chromium Next GEM Single Cell ATAC Reagent Kits v1.1 User Guide CG000209; official Rev G original mirrored in _data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher ISSAAC MOESM1 lines 1108–1112, 1178–1241 identifies kit/referenced guide; original 10x CG000209 Rev G Appendix A1 lines 3729–3827 prints gel-bead primer PN-2000210 and SI-PCR B/Index N scaffolds; scraper run on guide",
+        "finding": "Official same-kit v1.1 Rev G guide prints gel-bead 5-prime P5–N16 cell barcode–TCGTCGGCAGCGTC scaffold and ATAC sample-index PCR primers. This supports the droplet-branch barcode placement already described, but Rev G may postdate the ISSAAC run; exact used guide revision and selected barcode/index remain unverified."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original ISSAAC publisher MOESM1 lines 1108–1112 and 1178–1242, independently compared with official 10x CG000209 Rev G Appendix A1 lines 3729–3827 after running the oligo scraper on the guide",
+        "finding": "The linked 10x v1.1 guide prints Read 1N and Read 2N transposition oligos, a gel-bead primer with P5–N16 cell barcode–partial Read 1N, and Sample Index PCR B/Index N primer scaffolds. This supports the droplet barcode placement, while the guide revision used in the ISSAAC experiments and selected index/barcode members are not identified."
+      },
+      "discovered_from": "published_si"
+    },
+    {
+      "id": "preprint_supp_methods",
+      "role": "supplement",
+      "locator": "Author bioRxiv v2 media-1 Supplementary Information PDF; _data/sources/issaac-seq__10.1038+s41592-022-01601-4/2022.01.16.476488_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_preprint",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Information lines 1–5 contents, 595–610 droplet protocol start, 840–860 transposome assembly, 1783 onward plate protocol; scraper run on file",
+        "finding": "Author preprint supplement separately prints droplet and plate protocols and cites an oligo table; it is a versioned original methods source, not a replacement for published MOESM1/MOESM4."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 media-1 Supplementary Information text lines 1–5, 595–610, 839–855, 1076–1092 (droplet Protocol 1); 1782–1798, 2036–2053 (plate Protocol 2); compared publisher MOESM1 lines 850–866, 1087, 1793–1809, 2047. Ran oligo scraper on full ISSAAC bundle before reading.",
+        "finding": "Both versioned original supplements explicitly distinguish second transposomes: droplet Protocol 1 assembles and uses S5/S5 after RT, whereas plate Protocol 2 assembles and uses S7/S7. Publisher MOESM1 preserves that distinction. This corrects the former generalizing page summary/note; the exact graph remains the plate branch."
+      }
+    },
+    {
+      "id": "publisher_reporting",
+      "role": "supplement",
+      "locator": "Published MOESM2 3-page Nature Research Reporting Summary PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_si",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all three PDF pages; p.1 statistics/data, p.2 study design/materials, p.3 flow-cytometry sample prep",
+        "finding": "Publisher MOESM2 is a 3-page reporting summary; its flow cytometry preparation does not define library oligos or junctions."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF, visually inspected all three pages: p.1 statistics/software/data, p.2 study design/materials, p.3 flow-cytometry sample preparation. Text extraction is empty; inspected rendered pages.",
+        "finding": "Nature Reporting Summary contains study metadata and nuclei/flow-cytometry preparation, but no ISSAAC library oligo ordering, junction geometry, or index sequence. Exclusion is bounded to library chemistry."
+      },
+      "reason": "Reporting form and flow-cytometry/sample metadata, not library oligo ordering or reaction details."
+    },
+    {
+      "id": "publisher_peer_review",
+      "role": "supplement",
+      "locator": "Published MOESM3 peer-review history PDF text",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_si",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 text opening lines 1–30 and searched primer/oligo/adapter/sequence throughout; line 362 discusses hypothetical future bridge oligo",
+        "finding": "Peer-review file contains reviewer/editor discussion and a hypothetical extension with bridge oligo, not a performed ISSAAC library oligo or modified reagent."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 PDF text opening lines 1–35 and full-text search for oligo, primer, adapter, barcode, sequence, Tn5, library; lines 327–336 reviewer request for SHERRY Tn5 assembly/QC and 360–365 future bridge-oligo suggestion.",
+        "finding": "Peer-review exchange is relevant as provenance of the still-private Tn5 protocol request, but it does not print a performed ISSAAC oligo or reaction detail beyond the published methods. The antibody bridge oligo is explicitly a proposed future extension. It cannot resolve the inaccessible private assembly protocol."
+      },
+      "reason": "Peer-review exchange and study interpretation, not molecular ordering source."
+    },
+    {
+      "id": "publisher_fig_data_1",
+      "role": "supplement",
+      "locator": "Published MOESM5 ZIP containing Source_Data_Fig_1.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Quantitative cell-level figure source data, not a molecular reagent or oligo table.",
+      "discovered_from": "published_si",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Inspected original MOESM5 ZIP member list and CSV first two lines; header cell,nCounts,nFeatures,Method,Cell_line,Modality",
+        "finding": "Figure 1 source data tabulates cell-level counts/features and modality; no primer or oligo ordering fields in inspected header."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 ZIP member inventory: only Source_Data_Fig_1.csv; CSV header cell,nCounts,nFeatures,Method,Cell_line,Modality; inspected first records and row count (155799 data records).",
+        "finding": "Figure 1 source-data table contains observed cell IDs and quantitative count/feature/modality fields, not reagent, primer, or oligo ordering fields. Its barcode-like cell IDs are observed data, not a synthesis list."
+      }
+    },
+    {
+      "id": "publisher_fig_data_2",
+      "role": "supplement",
+      "locator": "Published MOESM6 ZIP containing Source_Data_Fig_2.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Quantitative cell-level figure source data, not a molecular reagent or oligo table.",
+      "discovered_from": "published_si",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Inspected original MOESM6 ZIP member list and CSV first two lines; header cell,nCounts,nFeatures,Method,Modality",
+        "finding": "Figure 2 source data tabulates cell-level counts/features and modality; no primer or oligo ordering fields in inspected header."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 ZIP member inventory: only Source_Data_Fig_2.csv; CSV header cell,nCounts,nFeatures,Method,Modality; inspected first records and row count (151975 data records).",
+        "finding": "Figure 2 source-data table contains observed cell IDs and quantitative count/feature/modality fields, not reagent, primer, or oligo ordering fields. Its barcode-like cell IDs are observed data, not a synthesis list."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author preprint lines 459-490; Springer MOESM1 757-900; Springer MOESM4 worksheet lines 10382-10412",
+      "finding": "Followed supplementary oligo lead into Table 4 rather than the benchmarking Table 2. Published main article and linked private Tn5 protocol remain inaccessible."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Author preprint lines 459–490; publisher MOESM1 lines 607–730, 1108–1209, 1697–1745; publisher MOESM4 oligo worksheets lines 10382–10418; official 10x CG000209 Rev G Appendix A1 lines 3729–3827; MOESM2–3 and MOESM5–6 inventories",
+      "finding": "Followed published oligos into separate MOESM4 and the named 10x v1.1 vendor guide, which prints the P5–N16–S5 gel-bead scaffold. Other publisher attachments are reporting/review/figure data, with first reads newly recorded. The main published article, private Tn5 protocol and exact historical vendor revision remain unavailable; no complete absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete plate/droplet oligo inventory and 10x bead internals",
+      "disposition": "blocked",
+      "evidence": "Publisher MOESM4 prints plate/droplet oligo families and 10x CG000209 Rev G prints the v1.1 bead scaffold, narrowing the gap. Exact historical kit revision, selected index/barcode members and details hidden in inaccessible private assembly protocol remain unresolved."
+    }
+  ],
+  "conclusion": "Independent checks now cover the author preprint supplement and every available publisher attachment; their detailed protocols establish distinct droplet S5/S5 and plate S7/S7 second transposomes, now stated on the page. MOESM2/3/5/6 are reporting, review, and quantitative figure data, with no library-oligo ordering table. Published main article, private Tn5 assembly protocol, exact historical 10x guide revision, and selected index/barcode members remain unresolved. No missing claim accepted."
+}

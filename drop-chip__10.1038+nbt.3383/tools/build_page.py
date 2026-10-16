@@ -63,7 +63,7 @@ def bcivi_and_boundary() -> str:
     final = D.inferred_final_library()
     ligated = ligation_product_scene(
         final, "left 11-nt constant", "right 3' A", label="adapter-ligated library",
-        adapter_group="same unpublished Illumina adapter")
+        adapter_group="same unresolved Illumina adapter")
     return f"""<h3>(4) BciVI removes the SC-PCR ends and leaves 3'-A overhangs</h3>
 {panel(scene.rows(), cls="long",
        caption="Type-IIS cutting retains, at each insert end, an 11-nt constant, the 8-nt "
@@ -94,8 +94,10 @@ def reads() -> str:
 {sp.unavailable_diagram(final, "the selected Illumina library-primer bases remain unresolved from the checked article and supplements")}
 {panel([strand_row(r1, prefix="Read 1  ", suffix=""),
         strand_row(r2, prefix="Read 2  ", suffix="")],
-       cls="small", caption="Published barcode coordinates. The sequencing run uses 11 "
-                            "initial dark cycles before collecting base calls.")}
+       cls="small", caption="Published barcode coordinates and Supplementary Fig. 2B read boundaries: "
+                            "collected Read 1 begins at the barcode after the 11-nt constant; "
+                            "Read 2 includes that constant before its barcode. The Methods states "
+                            "11 initial dark cycles but does not specify their per-read run setup.")}
 {table(("Read", "Published layout"), rows)}
 {sp.read_spec_table([
     sp.read_spec("Read 1", None, "8-nt cell barcode at cycles 1–8, TTAA, then genomic DNA", "extract_then_include"),
@@ -115,6 +117,21 @@ def render() -> str:
         'barcode adaptor, SC-PCR primers, restriction steps and read coordinates, but not '
         'the Illumina adaptor or library-primer sequences. Those outer final-library regions '
         'are dotted placeholders rather than a guessed TruSeq construct.</div>',
+        '<div class="caveat"><b>Published source discrepancies.</b> Fig. 3A calls the '
+        'barcode adaptors 64 bp, while Supplementary Table 2 lists 1,152 forward strands '
+        'of 60 nt; the model uses the listed sequences and cannot establish a four-base '
+        'extension. Online Methods calls the BciVI product a 5′-end A overhang, while '
+        'the cut geometry of the printed BciVI motif yields a 3′-A overhang in the model. '
+        'The intended published end orientation remains uncertain.</div>',
+        '<div class="caveat"><b>Published Supplementary Fig. 2A pairing discrepancy.</b> '
+        'In the original publisher PDF, page 2, the top green priming blocks are '
+        '<code>GGGGGACC</code> and <code>GGTGGGGG</code>, while both lower rows print '
+        '<code>GGGGGTGG</code> and <code>CCAGGGGG</code>. Those lower strings do not pair '
+        'with the top; their complements would be <code>CCCCCTGG</code> and '
+        '<code>CCACCCCC</code>. Supplementary Table 2 supplies the 1,152 forward '
+        'oligos with the top-strand constant, so this model uses a listed top strand '
+        'and computes its complement. The intended lower figure motifs remain uncertain. '
+        'Fig. 2B labels the outer ends only “Illumina adapter”, leaving those bases unresolved.</div>',
         oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         reads(), '</div>',
     ])

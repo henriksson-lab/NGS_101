@@ -1,0 +1,153 @@
+{
+  "dir": "uditas__10.1186+s12864-018-4561-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_PMC5861650.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS Table 2 lines 155–209 and Methods around 73–113; scraper run",
+        "finding": "Table prints UDiTaS Tn5 top i5/10N-UMI variants, phosphorylated ddC bottom strand, gene-specific and indexed PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5861650 JATS Methods lines 73–113 and Table 2 lines 155–209; local scraper",
+        "finding": "Table 2 identifies UDiTaS primers and adapter design; distinct AMP-seq comparison is not UDiTaS library geometry."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Defining JATS lines 73–113, 155–231, 235–259, 283–287, 451 and references 8–16; full source-bundle scraper",
+          "finding": "Tagmentation and two PCR rounds are explicit; paper Table 2 supplies custom adapters and guide-specific anchors. The article links author analysis code, and the supplement additionally links Tn5-expression and instrument originals; these links must be separately checked."
+        }
+      ]
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_supp_12864_2018_4561_MOESM2_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods adapter annealing opening; Appendix A lines 290–325 and AMP-seq appendix lines 356–425; scraper run",
+        "finding": "Detailed UDiTaS and comparison AMP-seq workflows with oligo tables and PCR rounds; AMP-seq is comparison, not UDiTaS branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 DOCX text Appendix A lines 290–325 and AMP-seq appendix lines 356–425; local scraper",
+        "finding": "Appendix A supplies UDiTaS adapter annealing and primer family. Later AMP-seq appendix is a comparison protocol and must not be silently imported into UDiTaS."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original MOESM2 DOCX text lines 20–60, 65–105, 275–325, 337–339, 443–474; full source-bundle scraper",
+          "finding": "Confirmed Tn5-A phosphorylated ddC bottom and N501–N508 top strands, eight-base i5 plus ten-base UMI index2 recipe, and i7 PCR series. The direct pTXB1-Tn5 Addgene/Picelli links and QC instrument manuals were omitted from the checklist."
+        }
+      ]
+    },
+    {
+      "id": "other_supp_figures",
+      "role": "supplement",
+      "locator": "MOESM1 and MOESM3–9 PPTX files in UDiTaS local source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 and MOESM3–9 PPTX ppt/slides/slide1.xml text, inspected individually; original bundle oligo scraper",
+        "finding": "MOESM1 is demultiplex/UMI/adapter trimming workflow; MOESM3 shows CEP290 guide and UDiTaS primer positions; MOESM4–9 are figures for correlation, loci and rearrangement data. No synthesized core-library oligo table in these slides; defining JATS lines 171–231 separately prints oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 and MOESM3–9 PPTX slide1.xml extracted text; MOESM1 analysis steps and MOESM3 Supplementary Figure 2 primer/guide positions; bundle scraper",
+        "finding": "MOESM3 Supplementary Figure 2 depicts UDiTaS primer and guide positioning, so the grouped figures are chemistry-relevant. MOESM1 is analysis workflow; MOESM4–9 inspected slide text is result plots. Image-only content remains to be visually checked before exclusion."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original MOESM3 PPTX media image1–image4.png extracted losslessly from ZIP and viewed individually",
+          "finding": "All four embedded IGV views show CEP290 guides and repair junctions, including base-level sequence in image4; these are not an ordering table. This closes only the MOESM3 raster inspection. Other PPTX image/vector contents still need visual inspection; attempted LibreOffice conversion returned exit1 and no PDF in this environment."
+        }
+      ]
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/editasmedicine/uditas README sections Overview, Usage",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "https://github.com/editasmedicine/uditas README sections Overview, Usage",
+        "finding": "Author README describes R1/R2/I1/I2 FASTQs and sample_info.csv with barcodes/guides. Chemistry-relevant sample metadata and code trimming constants still need opening; read README via primary GitHub page after downloader DNS failed."
+      }
+    },
+    {
+      "id": "tn5_predecessor",
+      "role": "predecessor",
+      "locator": "Picelli 2014 doi:10.1101/gr.177881.114 (PMC4248319); MOESM2 transposome assembly cites this source",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supp_protocol",
+      "reason": "Original enzyme-expression/tagmentation source identified in supplement; original article and linked material have not yet been read in this pass."
+    },
+    {
+      "id": "tn5_vector",
+      "role": "linked_material",
+      "locator": "https://www.addgene.org/60240/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supp_protocol",
+      "reason": "MOESM2 transposome assembly directly links pTXB1-Tn5 vector; resource not yet opened in this pass."
+    },
+    {
+      "id": "qc_manuals",
+      "role": "linked_material",
+      "locator": "MOESM2 lines443–474: Agilent G2938-90322_HighSensitivityDNA_QSG.pdf; Thermo Qubit_dsDNA_HS_Assay_UG.pdf; Sage Quick-Guide-BDF1510-marker-R22.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supp_protocol",
+      "reason": "Direct original instrument/manual links identified; their size-selection/QC scope and links need original-document review before exclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS Methods/Table 2 lines 73–113, 155–209 and Supplementary Methods Appendix A lines 290–325",
+      "finding": "Followed detailed protocol appendix. Additional original figure supplements still require review before excluding material."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Table 2 lines 155–209 and MOESM2 Appendix A lines 290–325",
+      "finding": "Defining source and detailed supplement read; other publisher figure supplements remain unreviewed for relevance, so missing claims remain blocked."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Defining JATS code/data link; MOESM2 transposome assembly and QC/size-selection sections",
+        "finding": "Followed author GitHub README; added omitted Picelli, Addgene60240 and three directly linked instrument manuals. Repository metadata and other embedded PPTX graphics remain unchecked; no absence accepted."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "Core UDiTaS oligos are source-located. Additional linked Tn5/QC sources, author code sample metadata and visual supplement review remain open; no missing-information claim is accepted."
+}

@@ -27,8 +27,32 @@ SOURCE = ('Commercial defining source: PacBio <a href="https://www.pacb.com/wp-c
 SUMMARY = ("Full-length cDNA is copied in eight parallel orientation-specific PCRs; the "
            "products assemble into ordered eight-insert arrays whose terminal adapters "
            "form nuclease-resistant SMRTbell templates for HiFi sequencing.")
-CAVEAT = ("Kinnex primer, segmentation-junction and terminal-adapter bases are proprietary. "
-          "Their experimentally specified order and topology are shown as named unknown DNA.")
+CAVEAT = ("PacBio's Kinnex index FASTA confirms the four six-base terminal-adapter barcodes. "
+          "The official MAS8 reference FASTA gives nine short segmentation motifs (A–H and Q), "
+          "and the SMRT Link guide prints the Iso-Seq v2 barcoded cDNA primer family. "
+          "These analysis references do not establish complete Kinnex PCR primer constructs, "
+          "ligation-junction geometry or terminal-adapter arms. Their order and topology remain "
+          "shown as named unknown DNA where the physical construct is unresolved.")
+
+KINNEX_TERMINAL_BARCODES = {"bcM0001": "ACAGTC", "bcM0002": "ATGACG",
+                            "bcM0003": "CACGTG", "bcM0004": "CATCGC"}
+ISOSEQ_V2_BC01_5P = "CTACACGACGCTCTTCCGATCTACTACACGCAATGAAGTCGCAGGGTTGGG"
+ISOSEQ_V2_3P = "AAGCAGTGGTATCAACGCAGAGTAC"
+
+# PacBio MAS-Seq Adapter v3 (MAS8) analysis reference, mas8_primers.fasta.
+# These are segmentation recognition motifs, not complete physical PCR oligos.
+MAS8_REFERENCE_MOTIFS = {
+    "A": "AGCTTACTTGTGAAGAT", "B": "ACTTGTAAGCTGTCTAT",
+    "C": "ACTCTGTCAGGTCCGAT", "D": "ACCTCCTCCTCCAGAAT",
+    "E": "AACCGGACACACTTAGT", "F": "AGAGTCCAATTCGCAGT",
+    "G": "AATCAAGGCTTAACGGT", "H": "ATGTTGAATCCTAGCGT",
+    "Q": "AGTAGCTGTGTGCA",
+}
+
+def oligos():
+    return [f"<b>Kinnex terminal-adapter barcode {name}</b> — 5′-{bases}-3′ "
+            "(barcode only; adapter body unresolved)"
+            for name, bases in KINNEX_TERMINAL_BARCODES.items()]
 
 ISOSEQ_INDEX = feature("isoseq_sample_index", "sample_index", "whitelist",
                        whitelist="PacBio Iso-Seq primer barcodes bc01–12")
@@ -45,8 +69,8 @@ ARRAY = SegmentedArray(INSERTS, JUNCTIONS,
                        role("right terminal adapter", 12, "r2"),
                        name="eight-insert Kinnex array")
 SMRTBELL = Dumbbell(ARRAY.core(), "N" * 18, "N" * 18,
-                    name="Kinnex array SMRTbell", insert_overhang="A",
-                    adapter_overhang="T")
+                    name="Kinnex array SMRTbell", insert_overhang="",
+                    adapter_overhang="")
 KINNEX_PCR_REACTIONS = 8
 ARRAY_FORMATION = (45, 60)
 DNA_REPAIR = (45, 30)
@@ -89,8 +113,8 @@ def protocol_graph():
     rna = graph.input("rna", "poly(A) RNA", MaterialKind.BIOLOGICAL,
                       primary=True)
     rt_primer = graph.input(
-        "rt_primer", "barcoded poly(A)-primed Iso-Seq RT primer", MaterialKind.OLIGO,
-        inferred=True, source=SOURCE + " (primer bases proprietary)")
+        "rt_primer", "poly(A)-primed Iso-Seq RT primer mix", MaterialKind.OLIGO,
+        inferred=True, source=SOURCE + " (primer bases unverified)")
     reverse_transcriptase = graph.input(
         "reverse_transcriptase", "template-switching reverse transcriptase",
         MaterialKind.CATALYST)
@@ -102,7 +126,7 @@ def protocol_graph():
                  (reverse_transcriptase, InputRole.CATALYST)), (first,))
     tso = graph.input(
         "tso", "Kinnex full-length-RNA template-switch oligo", MaterialKind.OLIGO,
-        inferred=True, source=SOURCE + " (oligo bases proprietary)")
+        inferred=True, source=SOURCE + " (oligo bases unverified)")
     full_length = graph.product(
         "full_length_cdna", "full-length cDNA with terminal PCR handles",
         MaterialKind.MOLECULAR)
@@ -111,23 +135,23 @@ def protocol_graph():
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (full_length,))
     isoseq_forward = graph.input(
-        "isoseq_forward", "Iso-Seq cDNA PCR forward primer", MaterialKind.OLIGO,
-        inferred=True, source=SOURCE + " (primer bases proprietary)")
+        "isoseq_forward", "barcoded Iso-Seq v2 cDNA PCR 5-prime primer",
+        MaterialKind.OLIGO, source="PacBio SMRT Link v13.1 user guide p. 101, Iso-Seq v2 primer FASTA example")
     isoseq_reverse = graph.input(
-        "isoseq_reverse", "barcoded Iso-Seq cDNA PCR reverse primer", MaterialKind.OLIGO,
-        inferred=True, source=SOURCE + " (primer bases proprietary)")
+        "isoseq_reverse", "Iso-Seq v2 cDNA PCR 3-prime primer",
+        MaterialKind.OLIGO, source="PacBio SMRT Link v13.1 user guide p. 101, Iso-Seq v2 primer FASTA example")
     polymerase = graph.input("pcr_polymerase", "Kinnex PCR polymerase",
                              MaterialKind.CATALYST)
     amplified = graph.product(
         "amplified_cdna", "barcoded full-length cDNA pool", MaterialKind.MOLECULAR,
-        state=INSERTS[0], inferred=True, source=SOURCE + " (terminal primer bases proprietary)")
+        state=INSERTS[0], inferred=True, source=SOURCE + " (selected barcode and completed cDNA ends not specified)")
     graph.react("isoseq_pcr", "Amplify and barcode full-length cDNA", StepKind.PCR,
                 ((full_length, InputRole.TEMPLATE),
                  (isoseq_forward, InputRole.STRUCTURAL),
                  (isoseq_reverse, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
-                    INSERTS[0], reason="The commercial kit does not disclose current Iso-Seq primer bases."))
+                    INSERTS[0], reason="The Iso-Seq v2 primer family is printed, but exact binding geometry on the unrevealed RT and TSO ends is not established."))
 
     aliquots = tuple(graph.product(
         f"aliquot_{i}", f"Kinnex orientation-{i} PCR aliquot",
@@ -138,11 +162,11 @@ def protocol_graph():
     segmentation_forward = graph.input(
         "segmentation_forward", "eight orientation-specific Kinnex forward primers",
         MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (segmentation-primer bases proprietary)")
+        source=SOURCE + " (segmentation-primer bases unverified)")
     segmentation_reverse = graph.input(
         "segmentation_reverse", "eight orientation-specific Kinnex reverse primers",
         MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (segmentation-primer bases proprietary)")
+        source=SOURCE + " (segmentation-primer bases unverified)")
     oriented = []
     reviewed = [
         "rna", "rt_primer", "reverse_transcriptase", "reverse_transcribe", "tso",
@@ -153,7 +177,7 @@ def protocol_graph():
         product = graph.product(
             f"oriented_{i}", f"orientation-specific Kinnex PCR product {i}",
             MaterialKind.MOLECULAR, state=INSERTS[i - 1], inferred=True,
-            source=SOURCE + " (segmentation-junction bases proprietary)")
+            source=SOURCE + " (segmentation-junction bases unverified)")
         step_id = f"orientation_pcr_{i}"
         graph.react(
             step_id, f"Install orientation-{i} segmentation ends by PCR", StepKind.PCR,
@@ -163,7 +187,7 @@ def protocol_graph():
              (polymerase, InputRole.CATALYST)), (product,),
             geometry=PCRGeometry.unavailable(
                 INSERTS[i - 1],
-                reason="The kit fixes the eight reaction identities but keeps their primer bases proprietary."))
+                reason="The kit fixes the eight reaction identities but keeps their primer bases unverified."))
         oriented.append(product)
         reviewed.append(step_id)
     pooled = graph.product("pooled_products", "equal-volume pool of eight oriented products",
@@ -176,21 +200,21 @@ def protocol_graph():
     assembly_components = graph.input(
         "assembly_components", "segmentation junctions and barcoded terminal adapters",
         MaterialKind.ADAPTER, inferred=True,
-        source=SOURCE + " (junction and terminal-adapter bases proprietary)")
+        source=SOURCE + " (junction and terminal-adapter bases unverified)")
     assembly_enzyme = graph.input("assembly_enzyme", "Kinnex array-formation enzyme",
                                   MaterialKind.CATALYST)
     ligase = graph.input("array_ligase", "Kinnex array ligase", MaterialKind.CATALYST)
     closed = graph.product(
         "closed_array", "closed ordered eight-insert Kinnex SMRTbell",
         MaterialKind.MOLECULAR, state=tuple(dumbbell_rows(SMRTBELL)), inferred=True,
-        source=SOURCE + " (junction and terminal-adapter bases proprietary)")
+        source=SOURCE + " (junction and terminal-adapter bases unverified)")
     graph.react(
         "assemble_array", "Assemble the ordered eight-insert array and close its termini",
         StepKind.LIGATION,
         ((pooled, InputRole.TEMPLATE), (assembly_components, InputRole.STRUCTURAL),
          (assembly_enzyme, InputRole.CATALYST), (ligase, InputRole.CATALYST)), (closed,),
         geometry=AdapterLigationGeometry.unavailable(
-            "The kit specifies array order and covalent closure but keeps segmentation-junction and terminal-adapter bases proprietary."))
+            "The kit specifies array order and covalent closure but keeps segmentation-junction and terminal-adapter bases unverified."))
     repair = graph.input("repair", "Kinnex DNA-repair mix", MaterialKind.CATALYST)
     repaired = graph.product("repaired", "repaired closed Kinnex arrays",
                              MaterialKind.MOLECULAR, state=tuple(dumbbell_rows(SMRTBELL)),
@@ -210,7 +234,7 @@ def protocol_graph():
     graph.discard(incomplete, "does not form a completely closed Kinnex SMRTbell")
     graph.sequence(library, smrtbell_sequencing_plan(
         SMRTBELL, smrtbell_circuit(SMRTBELL),
-        limitation="The Kinnex kit names the PacBio sequencing primer but keeps its terminal-adapter binding sequence proprietary."))
+        limitation="The Kinnex kit names the PacBio sequencing primer but does not print its terminal-adapter binding sequence in the checked guide."))
     reviewed.extend((
         "assembly_components", "assembly_enzyme", "array_ligase", "assemble_array",
         "repair", "repair_array", "nuclease", "remove_incomplete", "library"))

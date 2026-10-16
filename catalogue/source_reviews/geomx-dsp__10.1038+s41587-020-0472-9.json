@@ -1,0 +1,118 @@
+{
+  "dir": "geomx-dsp__10.1038+s41587-020-0472-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41587-020-0472-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Explicit Nature publisher HTML was fetched successfully, but downloaded page contains institutional-access/preview content rather than full Methods; generic DOI discovery limitation and publisher fulltext access barrier are distinct. Defining full text remains uninspected.",
+      "acquisition": {
+        "date": "2026-10-16",
+        "reviewer": "audit_rna_contacts_closeout",
+        "route": "Explicit https://www.nature.com/articles/s41587-020-0472-9",
+        "result": "Validated HTML landing/preview saved; not a recovered full article."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Abstract and Methods/NGS sections of bioRxiv v2 PDF",
+        "finding": "Author preprint describes photo-cleavable target oligos and NGS readout; published Methods equivalence is unverified."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv v2 PDF around lines 98–109, 128–157 and NGS Methods; scraper",
+        "finding": "Photocleavable oligo tags attached to protein/RNA probes are released from chosen ROIs and counted by nCounter or NGS; preprint does not print full panel member sequences in inspected Methods."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "springer_supp",
+      "role": "supplement",
+      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/MOESM1–6 files in MANIFEST.tsv",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1/2 PDF headings; MOESM3–6 XLSX sheet headers",
+        "finding": "MOESM3 is protein-probe inventory, MOESM4 RNA target/Unique Sequence ID inventory, MOESM5/6 specimens; no complete vendor probe oligo recovered from these inspected headings."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1/2 PDF headings and MOESM3–6 workbook first sheet headers; scraper on preprint",
+        "finding": "MOESM4 lists Unique Sequence ID and target gene/exon, but first rows do not print probe/tag bases; MOESM3 antibody validation, MOESM5 sample metadata and MOESM6 clinical metadata are distinct result sources."
+      }
+    },
+    {
+      "id": "preprint_supp",
+      "role": "supplement",
+      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_media-1/2.xlsx.txt and media-3–16.jpg",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "media-1/2 workbook headers and media-3–16 file types",
+        "finding": "The sampled XLSX headings are assay/result tables and the rest are figure images; no full molecular reagent specification established by this limited inventory."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "BioRxiv media-1/2 workbook headings and media-3–16 JPEG file inventory",
+        "finding": "Available preprint workbooks/images are result/figure material in inspected headers, not a base-level PCR/tag oligo ordering source."
+      },
+      "reason": "Inventory does not establish a missing chemistry claim; image content was not comprehensively transcribed."
+    },
+    {
+      "id": "vendor_guide",
+      "role": "linked_material",
+      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/MAN-10153-01-GeoMx-DSP-NGS-Readout-User-Manual.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 560–570 and 1599–1607",
+        "finding": "Official guide states tag RTS ID, UMI, SPR1/SPR2; Seq Code PCR adds P5/P7 and unique dual i5/i7; paired-end 27/27 and index 8/8. Figure 2 architecture needs visual review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NanoString MAN-10153-01 NGS readout guide lines 563–570 and 1599–1607; scraper",
+        "finding": "Vendor guide specifies RTS target ID, UMI, SPR1/SPR2 sites and PCR-added P5/P7 plus i5/i7. It establishes role order but not the proprietary probe/tag member sequences."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original MANIFEST, author preprint and vendor user guide references",
+      "finding": "Enumerated published article, preprint/adjuncts, and vendor NGS guide. Defining published Methods and Figure 2 base-level structure require more review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Author bioRxiv Methods, original Springer supplement headers, NanoString MAN-10153-01 lines 563–570",
+      "finding": "Followed vendor NGS guide and inspected source roles; defining journal article remains gated and exact panel members remain unresolved."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Vendor guide supplies read roles and cycles; full published article and exact probe chemistry remain blocked."
+}

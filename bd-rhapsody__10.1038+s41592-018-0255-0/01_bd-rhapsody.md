@@ -71,7 +71,7 @@ except possibly the figure DOCX):
 | Supplementary Tables 1, 2, 4 (PDF) | https://pmc.ncbi.nlm.nih.gov/articles/instance/6677388/bin/NIHMS1511424-supplement-Supplementary_Tables_1__2__4.pdf |
 | Supplementary Table 3 / Reporting Summary (PMC copies) | same `/bin/` directory |
 | Fan et al. 2015 (Science; Cloudflare/paywall) | https://doi.org/10.1126/science.1258367 |
-| BD's own bead-oligo bases and lengths, Universal Oligo, AbSeq Primer, Library Forward/Reverse primers and sequencing-primer sites | 🔴 not published by BD in any document we hold |
+| BD's own bead-oligo bases and lengths, Universal Oligo, AbSeq Primer, Library Forward/Reverse primers and sequencing-primer sites | 🔴 unresolved in the BD guides checked so far; additional relevant kit documents remain unavailable |
 
 ---
 
@@ -87,12 +87,11 @@ alpha protocol: leftover beads stored at 4 °C up to 3 months).
 
 The bead oligo carries, in order, a universal region, a cell label, a UMI and an oligo-dT
 tail 🟢 (instrument guide cartoon: "Univ: universal oligo; CL: cell label; UMI: Unique
-Molecular Identifier"). **Nothing more about it is published** 🔴: not its bases, not the
+Molecular Identifier"). **The checked guides do not resolve its bases or lengths** 🔴: not its bases, not the
 cell-label or UMI lengths, not whether the cell label is one block or several, and not the
 poly(T) length. The paper says only that each molecule is tagged "with a molecular index
 and cell label indicating its cell" 🟢. The model therefore draws `[UNIVERSAL OLIGO]`,
-`[CELL LABEL]` and `[UMI]` as symbolic placeholders, so the drawing claims no width BD has
-not published.
+`[CELL LABEL]` and `[UMI]` as symbolic placeholders, so the drawing does not assert an unverified width.
 
 | | Feature | Compare |
 |---|---|---|
@@ -118,7 +117,7 @@ difference from bead protocols that make full-length cDNA first.
 
 So BD's documented commercial WTA workflow is **not** necessarily what Yoon et al. ran.
 This note and the page follow the documented RPE route, and say so; the adaptor and
-primer sequences of the ligation route are unpublished 🔴.
+primer sequences of the ligation route remain unverified 🔴.
 
 ## 2. Oligos
 
@@ -132,10 +131,10 @@ Randomer   5' TCA GAC GTG TGC TCT TCC GAT CTNNNNNNNNN 3'
 (written with codon spaces in the source; 100 µM in 10 mM Tris, 0.1 mM EDTA pH 8.0; N
 hand-mixed 25 % each 🟢)
 
-**Everything else — 🔴 not published.** BD's documents name the PCR reagents without
+**Other ordered bases remain unverified in the checked guides 🔴.** BD's documents name the PCR reagents without
 giving a sequence: **"Universal Oligo"** and **"BD AbSeq Primer"** (RPE PCR), and
 **"Library Forward Primer"** and **"Library Reverse Primer (1–4)"** (index PCR) 🟢. The
-capture bead is supplied pre-made and its sequence is proprietary 🔴. No sequencing-primer
+capture bead is supplied pre-made; its exact sequence remains unverified 🔴. No sequencing-primer
 site is given 🔴, and BD names four indexed library reverse primers without printing an
 index 🔴.
 
@@ -153,7 +152,7 @@ that: `randomer` is the one graph input with a real sequence; `capture_beads`,
   + N₉ (32 nt). So every random-primed second strand begins with a partial TruSeq Read 2
   handle, and the library's Read 2 side is a TruSeq-style end. 🟡 *(computed)*
 - That is the **only** sequence relationship this protocol's sources support. The bead's
-  own handle, the Universal Oligo, the library primers and the index are unpublished 🔴,
+  own handle, the Universal Oligo, the library primers and the index remain unresolved in the checked guides 🔴,
   so no P5/Read 1 arm, linker arrangement, read length requirement or final-library
   length can be derived here. An earlier revision of this note derived all of those from
   the drawn page's reconstruction; those derivations are withdrawn.
@@ -194,7 +193,7 @@ BD WTA alpha protocol; conditions 🟢 unless marked. Strand bookkeeping 🟡.
 10. **RPE PCR**: 50 µL PCR MasterMix + 10 µL Universal Oligo + 10 µL BD AbSeq Primer +
     30 µL RPE product, split in two; 95 °C 3 min; **13 ×** (95 °C 30 s, 60 °C 1 min,
     72 °C 1 min); 72 °C 2 min. 1× SPRI. Expected broad 200–2,000 bp; quantify the
-    150–600 bp region. What the two unpublished primers add to each end, and therefore
+    150–600 bp region. What the two sequence-unresolved primers add to each end, and therefore
     where the amplicon boundaries fall, is 🔴; the model expresses this as
     `PCRGeometry.unavailable(...)` rather than drawing a boundary.
 11. **WTA Index PCR**: dilute to 2 nM (150–600 bp peak); 10 µL + Library Forward +
@@ -211,7 +210,7 @@ The library's **Read 2 side** is a TruSeq-style end built by the Randomer 🟡 *
 *(strand bookkeeping; because the top strand is cDNA, Read 2 reads the mRNA sense
 strand)*.
 
-Everything else is unpublished 🔴: the P5/Read 1 arm, the bead-derived barcode block
+The remaining base-level details are unresolved in the checked guides 🔴: the P5/Read 1 arm, the bead-derived barcode block
 (bases, lengths and the number of cell-label segments), the index, and therefore the total
 adapter length. The model draws this honestly —
 
@@ -231,7 +230,7 @@ source and are withdrawn.
   PhiX**; 10,000 / 50,000 / 100,000 reads per cell for shallow / moderate / deep.
 - 🟢 Paper: "Cell labels and molecular indices were identified" from the reads, i.e.
   Read 1 carries the cell label and UMI and Read 2 the cDNA. Which primer site each read
-  starts from is 🔴 — BD publishes no sequencing-primer sequence, so the page renders
+  starts from is 🔴 — the checked guides provide no sequencing-primer sequence, so the page renders
   `seqprimers.unavailable_diagram(...)` and declares the run layout rather than computing
   it.
 - 🔴 How many cycles the cell label and UMI occupy, and therefore where Read 1 runs into
@@ -243,9 +242,9 @@ source and are withdrawn.
 - 🔴 **What the paper actually ran**: its Methods describe ligation-based WTA
   (second strand, adaptor ligation, 22-cycle universal PCR, then random-priming PCR),
   which does not match BD's 12/2018 RPE alpha protocol. The adaptor and primer sequences
-  of that route are unpublished.
+  of that route remain unverified.
 - 🔴 The bead-oligo sequence itself — universal region, cell-label structure and length,
-  UMI length, poly(T) length, any anchor — is BD proprietary. Nothing we hold narrows it,
+  UMI length, poly(T) length, any anchor — remains unresolved in the checked guides. Other relevant BD kit documents have not been checked,
   and read-derived reconstructions are not evidence (see the preamble). The purpose of the
   "BD AbSeq Primer" in a WTA-only RPE PCR is also unexplained.
 - 🔴 "Universal Oligo" sequence: BD gives only the name (one tube, so either a single

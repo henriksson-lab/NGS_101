@@ -26,8 +26,12 @@ def render_page(protocol: str, *, graph=None) -> str:
     doi, journal, year = PAPERS[protocol]
     author = "Jaitin et al." if protocol == "MARS-seq" else "Keren-Shaul et al."
     exact = protocol == "MARS-seq2.0"
-    caveat = ("The 2014 author supplement publishes RT1, the ligation adapters and both "
-              "library-PCR primers; the final library below is assembled from those oligos."
+    caveat = ('The <a href="https://www.researchgate.net/publication/279842956_Jaitin-SM">'
+              'coauthor-uploaded original Supplementary Methods</a> gives the reaction '
+              "order: pool barcoded first-strand cDNA, remove free primers with Exo I, "
+              "then synthesize the second strand and perform IVT. The separate PMC "
+              "figure PDF remains unavailable. The library below uses the printed "
+              "Supplementary Table S7 oligos."
               if not exact else
               "The supplementary tables publish RT1 and pool-barcoded ligation adapters. "
               "The authors' detailed protocols.io procedure publishes RT2 and both "
@@ -95,6 +99,16 @@ def render_page(protocol: str, *, graph=None) -> str:
         (info('Author reagent setup: <a href="https://doi.org/10.17504/protocols.io.7hkhj4w">'
               'Keren-Shaul et al., protocols.io (2019), p. 29</a>.') if exact else ''),
         f'<div class="caveat"><b>Sequence boundary.</b> {caveat}</div>',
+        (info('Original-source sequence conflict: the '
+              '<a href="https://www.researchgate.net/publication/279842956_Jaitin-SM">'
+              'coauthor-uploaded Supplementary Methods</a> (lines 370–375) call RT2 '
+              'complementary to the ligated adapter, '
+              'while Supplementary Table S7 prints RT2 '
+              '<code>TCTAGCCTTCTCGCAGCACATC</code>. The reverse complement of the '
+              'printed adapter constant <code>AGATCGGAAGAGCGTCGTGTAG</code> is '
+              '<code>CTACACGACGCTCTTCCGATCT</code>; these strings have no contiguous '
+              '8-base match. The model retains the printed RT2 and adapter; its exact '
+              'landing cannot be verified from these printed sequences.') if not exact else ''),
         f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',
         '<h2>Library construction</h2>', protocol_graph_panels(graph),
         sp.diagram(final, M.SEQ_PRIMERS),

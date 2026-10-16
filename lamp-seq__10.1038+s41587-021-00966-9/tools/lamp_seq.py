@@ -102,7 +102,8 @@ def _lamp_graph(source: str) -> ProtocolGraph:
             ((lysate, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
              (bst, InputRole.CATALYST)), (lamp,))
 
-    dilution = g.input("dilution", "1:40,000 pre-PCR dilution", MaterialKind.CONDITION)
+    dilution = g.input("dilution", "1:100,000 pre-PCR dilution (1:1,000,000 in first PCR)",
+                       MaterialKind.CONDITION)
     pooled = g.product("pooled_lamp", "pooled and diluted barcoded LAMP products",
                        MaterialKind.MOLECULAR, state=lamp.state)
     g.react("pool_dilute", "Pool barcoded reactions and dilute before PCR",
@@ -120,7 +121,7 @@ def _lamp_graph(source: str) -> ProtocolGraph:
         PCRPrimer("PCR-N-fwd-10", LAMP_PCR_FWD, anneal_nt=len(LAMP_PCR_FWD_SITE)),
         PCRPrimer("PCR-N-rev-11", LAMP_PCR_REV, anneal_nt=len(LAMP_PCR_REV_SITE)),
         statement="Ludwig et al. Supplementary Data 1 publishes both target-tailed PCR primers.")
-    g.react("target_pcr", "Select one N-gene interval from the heterogeneous LAMP products",
+    g.react("target_pcr", "Select one N-gene interval by 18-cycle PCR",
             StepKind.PCR,
             ((pooled, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
              (pcr_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
@@ -135,7 +136,7 @@ def _lamp_graph(source: str) -> ProtocolGraph:
         PCRPrimer("Pool_fwd_1", LAMP_POOL_FWD, anneal_nt=len(il.TRUSEQ_READ1)),
         PCRPrimer("Pool_rev_1", LAMP_POOL_REV, anneal_nt=len(LAMP_PCR_REV_ARM)),
         statement="Supplementary Data 1 publishes 192 pairs of 10-nt pool-index primers; pair 1 is shown.")
-    g.react("index_pcr", "Install the 10-nt pool indexes and complete the Illumina ends",
+    g.react("index_pcr", "Install pool indexes by a second 18-cycle PCR",
             StepKind.PCR,
             ((preamp, InputRole.TEMPLATE), (pool_f, InputRole.STRUCTURAL),
              (pool_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
@@ -160,9 +161,10 @@ source = ('<a href="https://doi.org/10.1038/s41587-021-00966-9">'
 spec = SimpleNamespace(
     TITLE="LAMP-Seq — barcoded RT-LAMP with Illumina readout",
     NOTES="01_lamp-seq.html", SOURCE=source,
-    SUMMARY=("A sample-specific 10-nt barcode is embedded in the forward inner LAMP "
-             "primer. Saturated RT-LAMP reactions are pooled, strongly diluted, and "
-             "receive a second pair of 10-nt pool indexes during Illumina library PCR."),
+    SUMMARY=("This page follows the paper's two-PCR LAMP-Seq workflow. A sample-specific "
+             "10-nt barcode is embedded in the forward inner LAMP primer. Saturated "
+             "reactions are pooled, diluted 1:100,000, then receive two 10-nt pool "
+             "indexes in the second PCR."),
     CAVEAT=("LAMP produces a population of branched, stem-looped concatemers rather "
             "than one linear molecule. The page therefore shows the source-established "
             "primer and PCR-selected regions without inventing a single universal "

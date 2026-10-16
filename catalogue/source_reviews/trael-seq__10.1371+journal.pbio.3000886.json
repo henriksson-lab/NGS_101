@@ -1,0 +1,551 @@
+{
+  "dir": "trael-seq__10.1371+journal.pbio.3000886",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_PMC8021198.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 217–237; scraper hits around line 231",
+        "finding": "TdT ATP-tails 3′ DNA ends, preadenylated hairpin adaptor 1 ligates with T4 RNA Ligase 2 KQ, Bst extends, then adaptor 2 is ligated; two indexed adaptor-1 variants are printed in Methods."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud JATS text lines 201–249, 277–420; oligo scraper hits at 231/245/249",
+        "finding": "Methods print both modified TrAEL hairpins, the 5′ adenylation, TdT A tail, truncated RNA ligase 2 KQ, Bst extension, modified E7645 adapter-2 ligation, USER release, E7335 indexed PCR and MiSeq 50/NextSeq 75 single-end runs. S1 Fig caption gives reverse-complement read geometry and links inaccessible TIFF; S2 File provides further steps."
+      }
+    },
+    {
+      "id": "manual_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8021198/bin/pbio.3000886.s001.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original PMC8021198 JATS S1 Fig caption lines 277–285; attempted original PMC instance/bin pbio.3000886.s001.tif and PLOS article/file supplementary URL",
+        "finding": "JATS caption indicates a supplementary figure; the original TIFF was not returned by PMC or PLOS web routes and is not in the local source bundle. S1 is directly relevant to library construction/read processing; later figures concern result profiles. No absence claim is accepted from captions alone."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S1 Fig caption lines 277–285; original PMC instance/bin TIFF and PLOS article/file routes retried 2026-10-16",
+        "finding": "S1 Fig caption describes library construction and reverse-complement read-processing pipeline; original image may annotate geometry. Neither route returned the TIFF to this independent reader, and no local original image exists; caption cannot substitute for figure inspection. Retain unavailable."
+      },
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate"
+    },
+    {
+      "id": "manual_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8021198/bin/pbio.3000886.s002.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original PMC8021198 JATS S2 Fig caption lines 287–295; attempted original PMC instance/bin pbio.3000886.s002.tif and PLOS article/file supplementary URL",
+        "finding": "JATS caption indicates a supplementary figure; the original TIFF was not returned by PMC or PLOS web routes and is not in the local source bundle. S1 is directly relevant to library construction/read processing; later figures concern result profiles. No absence claim is accepted from captions alone."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S2 Fig caption lines 287–295; original PMC instance/bin TIFF and PLOS article/file routes retried 2026-10-16",
+        "finding": "S2 Fig caption concerns replication fork stalling profiles. Neither route returned the TIFF to this independent reader, and no local original image exists; caption cannot substitute for figure inspection. Retain unavailable."
+      },
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "manual_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8021198/bin/pbio.3000886.s003.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original PMC8021198 JATS S3 Fig caption lines 297–305; attempted original PMC instance/bin pbio.3000886.s003.tif and PLOS article/file supplementary URL",
+        "finding": "JATS caption indicates a supplementary figure; the original TIFF was not returned by PMC or PLOS web routes and is not in the local source bundle. S1 is directly relevant to library construction/read processing; later figures concern result profiles. No absence claim is accepted from captions alone."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S3 Fig caption lines 297–305; original PMC instance/bin TIFF and PLOS article/file routes retried 2026-10-16",
+        "finding": "S3 Fig caption concerns replication directionality profiles. Neither route returned the TIFF to this independent reader, and no local original image exists; caption cannot substitute for figure inspection. Retain unavailable."
+      },
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "manual_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8021198/bin/pbio.3000886.s004.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original PMC8021198 JATS S4 Fig caption lines 307–315; attempted original PMC instance/bin pbio.3000886.s004.tif and PLOS article/file supplementary URL",
+        "finding": "JATS caption indicates a supplementary figure; the original TIFF was not returned by PMC or PLOS web routes and is not in the local source bundle. S1 is directly relevant to library construction/read processing; later figures concern result profiles. No absence claim is accepted from captions alone."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S4 Fig caption lines 307–315; original PMC instance/bin TIFF and PLOS article/file routes retried 2026-10-16",
+        "finding": "S4 Fig caption concerns environment-dependent replication plots. Neither route returned the TIFF to this independent reader, and no local original image exists; caption cannot substitute for figure inspection. Retain unavailable."
+      },
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "manual_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8021198/bin/pbio.3000886.s005.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original PMC8021198 JATS S5 Fig caption lines 317–325; attempted original PMC instance/bin pbio.3000886.s005.tif and PLOS article/file supplementary URL",
+        "finding": "JATS caption indicates a supplementary figure; the original TIFF was not returned by PMC or PLOS web routes and is not in the local source bundle. S1 is directly relevant to library construction/read processing; later figures concern result profiles. No absence claim is accepted from captions alone."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S5 Fig caption lines 317–325; original PMC instance/bin TIFF and PLOS article/file routes retried 2026-10-16",
+        "finding": "S5 Fig caption concerns southern-blot interpretation of reversed forks. Neither route returned the TIFF to this independent reader, and no local original image exists; caption cannot substitute for figure inspection. Retain unavailable."
+      },
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence CC BY)"
+    },
+    {
+      "id": "source_6",
+      "role": "linked_material",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/2020.08.10.243931_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original 2020 bioRxiv v1 PDF text lines 578–610 (library preparation, adapter sequences, TdT/ligation), 665–683 (END-seq adapters); bundle oligo scraper checked first",
+        "finding": "Preprint prints the same two TrAEL hairpin oligos and 5-prime adenylation process. It differs in some reaction quantities from the final article, so final PLOS publication governs the model. Linked Houseley lab protocol website followed separately."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF text lines 578–610 and 665–683; oligo scraper hits 580, 588, 666",
+        "finding": "Preprint independently confirms modified adapter 1 and adapter 2 sequences and ligation order. Its older reaction quantities differ from final PLOS Methods, so final version controls transcription."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s006.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original supplementary S1 Table pbio.3000886.s006.xlsx.txt lines 1–12; final JATS S1 Table caption lines 327–332",
+        "finding": "Workbook lists yeast strains and genotypes, no protocol oligo or run-layout columns."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S1 Table XLSX text lines 1–12; final JATS S1 Table caption lines 327–332",
+        "finding": "Workbook headers are Name and Genotype and rows are yeast strains; no library-primer, molecular sequence, or sequencing layout column. Not relevant to missing oligos."
+      },
+      "reason": "Inspected original workbook: yeast strain/genotype table only."
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s007.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original supplementary S2 Table pbio.3000886.s007.xlsx.txt lines 1–49; final JATS S2 Table caption lines 335–340",
+        "finding": "Workbook lists sample names, GEO accessions, dependencies, figure references, total reads, mapped reads, and deduplicated counts. It identifies libraries and read depth but does not provide a primer sequence or per-run index selection."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S2 Table XLSX text lines 1–35; final JATS S2 Table caption lines 335–340",
+        "finding": "Workbook has sample name, GEO accession, dependencies, figure references and read counts. It inventories libraries but does not assign E7335 index primer numbers or print adapter/primer bases."
+      }
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s008.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original supplementary S1 File pbio.3000886.s008.pdf visually inspected page 1 (all centromere read-polarity profiles); extracted text lines 1–9; final JATS caption lines 343–348",
+        "finding": "One-page centromere signal plots; no oligo or reaction detail."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S1 File one-page PDF visually rendered from local file; final JATS S1 File caption lines 343–348",
+        "finding": "Independent visual read finds centromere read-polarity traces only; no protocol chemistry or oligo sequence."
+      },
+      "reason": "Inspected original PDF plot: centromere read-polarity results only."
+    },
+    {
+      "id": "source_10",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s009.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original supplementary S2 File pbio.3000886.s009.doc.txt lines 2–22, 28–54, 99–203, 219–256; defining JATS methods lines 201–231; bundle oligo scraper checked first",
+        "finding": "Detailed stepwise protocol and original full adapter 1/2 sequences. Confirms 5-prime adenylation, TdT A tail, truncated T4 RNA ligase 2 KQ, Bst fill, biotin/USER, NEBNext E7645 end prep and E7335 indexed PCR. Specific index-primer number is not recorded."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original detailed S2 File DOC text lines 99–112, 180–256; final article JATS Methods lines 201–229; oligo scraper hits 224/231",
+        "finding": "Detailed original supplies full modified adapters, preadenylation, TdT A-tail, KQ ligation, Bst fill, bead capture, E7645 end prep/adapter 2, USER release and NEBNext universal plus any index primer. It does not identify the selected E7335 index number for each sample."
+      }
+    },
+    {
+      "id": "source_11",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s010.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S1 Data entry, lines 359–365; local pbio.3000886.s010.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S1 Data caption lines 359–365; local original XLSB ZIP member inventory (36 entries, 9 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_12",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s011.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S2 Data entry, lines 367–373; local pbio.3000886.s011.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S2 Data caption lines 367–373; local original XLSB ZIP member inventory (42 entries, 10 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_13",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s012.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S3 Data entry, lines 375–381; local pbio.3000886.s012.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S3 Data caption lines 375–381; local original XLSB ZIP member inventory (50 entries, 13 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_14",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s013.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S4 Data entry, lines 383–389; local pbio.3000886.s013.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S4 Data caption lines 383–389; local original XLSB ZIP member inventory (12 entries, 1 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_15",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s014.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S5 Data entry, lines 391–397; local pbio.3000886.s014.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S5 Data caption lines 391–397; local original XLSB ZIP member inventory (12 entries, 1 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_16",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s015.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S6 Data entry, lines 399–405; local pbio.3000886.s015.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S6 Data caption lines 399–405; local original XLSB ZIP member inventory (13 entries, 1 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_17",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s016.xlsb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original final JATS supplementary-material S7 Data entry, lines 407–413; local pbio.3000886.s016.xlsb ZIP container inspected for workbook.bin and worksheet .bin members; attempted LibreOffice headless conversion of S1 Data",
+        "finding": "Original XLSB worksheet values could not be decoded. JATS labels the file underlying numerical data, but that label is not a substitute for original inspection; retain relevant/unavailable pending a working XLSB reader."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Final original JATS S7 Data caption lines 407–413; local original XLSB ZIP member inventory (40 entries, 10 sheet binaries)",
+        "finding": "Original workbook is a valid XLSB container, but worksheet cell contents could not be decoded with the available standard-library tools. Caption calls it underlying numerical data; content not inspected, so relevance and absence of oligos cannot be settled. Retain unavailable."
+      },
+      "reason": "Original XLSB file is on disk, but its worksheet cells could not be inspected in this environment: standard-library doctext has no XLSB decoder, LibreOffice headless conversion failed, and no XLSB reader is installed. JATS labels it underlying numerical data; contents remain unverified."
+    },
+    {
+      "id": "source_18",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s017.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original S1 Raw Images pbio.3000886.s017.pdf visually inspected page 1, extracted text lines 1–5; final JATS caption lines 415–420",
+        "finding": "Gel image includes adaptor-ligation and USER-cleavage test lanes; it supports physical reaction evidence but has no base-level oligo sequence or index selection."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S1 Raw Images PDF page 1 independently rendered; final JATS caption lines 415–420",
+        "finding": "Gel image labels lanes 10–12 as USER-adaptor cleavage tests and 1–3/7–9 as Fig. 1B lanes. It is reaction evidence, but no base string or chosen index is printed."
+      }
+    },
+    {
+      "id": "source_19",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s018.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original S1 peer-review-history pbio.3000886.s018.docx.txt lines 1–135 and 517–523, 574–605, 777–779",
+        "finding": "Authors clarify sequencing is single end from adapter 1 and antisense to the captured 3-prime DNA end; reviewer response explains 5-prime preadenylated adaptor. The history links to finalized Fig. S1B, whose TIFF remains unavailable."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S1 peer-review-history DOCX text lines 574–605 and 777–779; final JATS S1 Fig caption lines 277–285",
+        "finding": "Authors clarify single-end sequencing from adaptor 1 and read reverse-complement relation to original DNA 3′ end. They point to S1B, whose TIFF is unavailable; no sample-selected index number is stated in inspected exchange."
+      }
+    },
+    {
+      "id": "source_20",
+      "role": "supplement",
+      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s019.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original S2 peer-review-history pbio.3000886.s019.docx.txt lines 1–60",
+        "finding": "Editorial/late reviewer correspondence and figure-label corrections; no additional adapter, primer, or run-layout details."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original S2 peer-review-history DOCX text lines 1–60",
+        "finding": "Editorial exchanges and figure-label corrections; no additional chemistry, oligo or index-primer assignment."
+      },
+      "reason": "Inspected original correspondence: no chemistry or read-layout information."
+    },
+    {
+      "id": "nebnext_ultra_ii",
+      "role": "linked_material",
+      "locator": "NEBNext Ultra II DNA kit E7645S cited in Methods line 221",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original NEB E7645 manual, version 6.1_5/20, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7645.pdf, pages 1–4 (kit contents and end prep/ligation); defining PLOS JATS methods lines 221–227",
+        "finding": "Vendor manual confirms E7645 end prep enzyme mix, ligation master mix and Q5 master mix; multiplex oligos are explicitly external to E7645. The paper uses modified volumes and its own adapter 2, so kit defaults are not imported. Index primer sequence requires the separate E7335 manual."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original NEB manualE7645 PDF version 6.1_5/20 pp.1–4, web text lines 18–36 and 175–225; final JATS Methods lines 221–229",
+        "finding": "E7645 supplies end-prep mix, ligation mix/enhancer, and Q5 mix. Oligos are separately required materials; the paper uses its own adapter 2 and modified reaction volumes. NEB default adapter geometry must not be imported."
+      }
+    },
+    {
+      "id": "nebnext_e7335",
+      "role": "vendor",
+      "locator": "NEB original E7335/E7500/E7710/E7730 manual version 8.0_6/24 https://www.neb.com/en/-/media/nebus/files/manuals/manuale7335.pdf (earlier review locator manuale7500.pdf was inaccessible)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original NEB E7335/E7500/E7710/E7730 manual, version 8.0_6/24, pages 1 and 4–5, especially page 4 Index 1 primer table; original PLOS JATS methods lines 227–229 name E7335S",
+        "finding": "E7335 has Universal PCR Primer plus Index 1–12 primers, each with a six-base i7 index; no i5 index primer. Example Index 1 PCR primer is P7 + CGTGAT + GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT. This resolves an inherited page/model error that showed dual eight-base indexes. The publication still does not identify the chosen index number per library."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Original NEB manualE7335 PDF version 8.0_6/24 pp.1,5, web text lines 17–34 and 138–150; original PLOS JATS lines 227–229",
+        "finding": "E7335 set 1 includes universal PCR primer and index primers 1–12. The index-1 row shows a six-base i7 index within a P7 primer; no i5 index primer is in this set. This independently supports correcting a dual-index depiction but does not reveal which index was used for each paper library."
+      }
+    },
+    {
+      "id": "houseley_2022_protocol",
+      "role": "linked_material",
+      "locator": "https://www.babraham.ac.uk/sites/default/files/2022-03/TrAEL-seq.doc",
+      "availability": "unavailable",
+      "reason": "Author lab webpage links this updated but now obsolete DOC; web retrieval reported unsupported application/msword and local network has no DNS. The original document remains unread.",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original Houseley lab protocols page https://www.babraham.ac.uk/our-research/epigenetics/jon-houseley/protocols lines 86–103 and 152–156; attempted linked 2022-03 TrAEL-seq.doc",
+        "finding": "Author page identifies a July 2022 update of the original protocol and calls it obsolete; the DOC could not be inspected. It may contain historical procedure clarifications, so retains relevant/unavailable."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Author Houseley protocol page linked 2022-03 TrAEL-seq.doc; direct web retrieval attempted 2026-10-16",
+        "finding": "Exact linked DOC returned unsupported application/msword to web tool; no original document content was read. Its possible historical clarifications remain blocked."
+      }
+    },
+    {
+      "id": "houseley_2026_multiplexed",
+      "role": "linked_material",
+      "locator": "https://www.babraham.ac.uk/sites/default/files/2026-07/TrAEL-seq-with-multiplexing_0.doc",
+      "availability": "unavailable",
+      "reason": "Author lab webpage links July 2026 multiplexed variant DOC; web cache miss and local network DNS unavailable. Original unread.",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original Houseley lab protocols page lines 89–100; attempted 2026-07 TrAEL-seq-with-multiplexing_0.doc",
+        "finding": "Author page says July 2026 multiplexed v2.3 replaces the original lab protocol. It is a later distinct variant, not evidence for the 2021 library, but original must be checked before excluding possible linked clarifications."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Author Houseley protocol page linked 2026-07 multiplexed v2.3 DOC; direct web retrieval attempted 2026-10-16",
+        "finding": "Exact linked later DOC returned cache miss; its contents are unread. Author page calls it a replacement version, so do not import later chemistry into the original 2021 protocol."
+      }
+    },
+    {
+      "id": "houseley_2024_adenylation",
+      "role": "linked_material",
+      "locator": "https://www.babraham.ac.uk/sites/default/files/2024-11/Oligo-adenylation-and-purification.doc",
+      "availability": "unavailable",
+      "reason": "Author lab webpage links support DOC; web retrieval did not return document and local DNS unavailable.",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "trael_first_pass",
+        "date": "2026-10-16",
+        "locations": "Original Houseley lab protocols page lines 100–104; attempted 2024-11 Oligo-adenylation-and-purification.doc",
+        "finding": "Author support method may clarify preparation/purification of 5-prime adenylated hairpin; original was not inspectable."
+      },
+      "pass_2": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "locations": "Author Houseley protocol page linked 2024-11 Oligo-adenylation-and-purification.doc; direct web retrieval attempted 2026-10-16",
+        "finding": "Exact linked DOC returned unsupported/failed response to web tool; content not read. The original PLOS article itself prints the 5′ adenylation recipe, while later lab details remain unavailable."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "trael_first_pass",
+      "date": "2026-10-16",
+      "locations": "Defining JATS methods lines 201–231 and S2 File; Houseley lab original protocols webpage lines 86–104 and 152–156; NEB E7645 and E7335 original manuals",
+      "finding": "Followed linked detailed protocol, preprint, vendor kit guides and current author protocol index. Later author DOC files could not be retrieved, so linked-material review remains blocked."
+    },
+    "pass_2": {
+      "reviewer": "fisseq_ribo_recovery",
+      "locations": "Final JATS Methods and all supporting-information captions; S2 detailed protocol; bioRxiv v1; E7645 and E7335 original manuals; author Houseley linked DOC attempts; all local supplementary workbook/PDF/DOC files",
+      "finding": "Independent second pass covered every listed source or repeated the exact retrieval/decoding attempt. Inaccessible S1–S5 TIFFs, seven XLSB data workbooks, and three author DOC protocols remain relevant blockers. The paper and E7335 manual support single i7 indexing but do not give selected per-library index numbers."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact selected E7335 index-primer identity for each published library",
+      "evidence": "The defining paper and S2 File name NEB E7335 but no chosen index number; the vendor manual supplies a 12-primer six-base set. Linked author protocols and some supplements remain unread.",
+      "disposition": "blocked"
+    },
+    {
+      "claim": "Any further absent oligo, reagent, reaction or read-layout detail",
+      "evidence": "Both independent readers inspected every reachable original source or repeated the retrieval/decoding attempt. S1–S5 original TIFFs, seven XLSB workbook cell sets and three linked author DOCs remain unread and relevant.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent source passes now cover all 26 checklist entries. Readable originals and NEB E7335 establish single i7 indexing and the molecular workflow; exact selected index numbers remain blocked. Five original figure TIFFs, seven XLSB cell sets and three linked author DOCs are still unavailable, so no missing-information claim is accepted."
+}

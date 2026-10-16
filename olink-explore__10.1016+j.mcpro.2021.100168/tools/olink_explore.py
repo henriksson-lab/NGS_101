@@ -149,10 +149,11 @@ spec = SimpleNamespace(
     SUMMARY=("Matched antibody–oligo pairs co-bind a protein, hybridize in "
              "proximity and template polymerase extension. Two PCR stages retain "
              "the paired assay barcodes and add an inline sample index for counting."),
-    CAVEAT=("Olink publishes the 148-bp element order and run layout but not the "
-            "probe, assay-barcode, hybridization-arm, sample-index or PCR-primer "
-            "sequences. Only the standard Illumina end is rendered base by base; "
-            "the proprietary regions remain structured roles."),
+    CAVEAT=("Olink publishes the 148-bp element order and run layout. Complete "
+            "probe, assay-barcode, hybridization-arm, sample-index and PCR-primer "
+            "sequences remain unverified in the source audit. Only the standard "
+            "Illumina end is rendered base by base; the other regions remain "
+            "structured roles."),
     TOPOLOGY_PANELS=ProximityExtensionTopology().panels(),
     oligos=lambda: (), FINAL_LIBRARY=OLINK_LIBRARY,
     FINAL_CAPTION=("Published 148-bp architecture: the canonical overlapping P5 / "

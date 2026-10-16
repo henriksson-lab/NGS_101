@@ -1,0 +1,166 @@
+{
+  "dir": "sci-space__10.1126+science.abb9536",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "srivatsan_2021_article",
+      "role": "defining",
+      "locator": "_data/sources/sci-space__10.1126+science.abb9536/science.abb9536_PMC9118175.xml.txt; author PDF srivatsan_regier_scispace_2021.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 91-101, 135-139 and references 36-39; author PDF first two pages; scraper run on complete available source bundle",
+        "finding": "The article describes separate printed coordinate and slide-specific hashes, transfer to permeabilized tissue, imaging and sci-RNA-seq. It explicitly links three protocols.io guides for grid preparation, spatial transfer and two-level sci-RNA-seq. The author PDF is an alternate copy, not independent evidence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 91–101, 141–143, 169, and references 36–39 at 390–410; author PDF title and introduction lines 1–35; scraper rerun on local sci-Space bundle",
+        "finding": "Independent read confirms spatial grid hashes and separate slide-specific labeling before nuclei recovery and sci-RNA-seq; JATS directly lists three protocols.io DOIs and Cao 2017 predecessor. Author PDF repeats the article and is not independent evidence. Main article does not print the slide-specific oligo tail or individual hash panel."
+      }
+    },
+    {
+      "id": "published_supplementary_methods",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9118175/bin/NIHMS1801003-supplement-Supplemental_Material_and_Methods.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The 77.5 MB original methods and figures PDF is listed by PMC, but the source fetcher receives the PMC Preparing to download gate; its chemistry and oligo tables have not been inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "grid_preparation_protocol",
+      "role": "linked_material",
+      "discovered_from": "srivatsan_2021_article",
+      "locator": "doi:10.17504/protocols.io.bm64k9gw; protocolsio_creating-sci-space-grids-for-spatial-barcoding-5qpvoy58bg4o.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author protocol step 7.1, extracted lines 118-134; spotting instructions lines 143-170; scraper hit line 122",
+        "finding": "Prints 5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG[10bp-barcode sequence]-B followed by 32 As for both spot and sector hashes, with B=C/G/T. Step 7.1 points to an ordering workbook for the complete panel, which is not embedded in the fetched PDF."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io PDF step 7.1 at extracted lines 116–134 and spotting recipe at 142–159; scraper hit 122 checked against source",
+        "finding": "Prints a common GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG handle, 10-base barcode placeholder, B=C/G/T and 32-adenosine tail for spot and sector hash oligos. Explicitly points to all_plates_for_ordering.xlsx for ordered members; attachment not in fetched PDF."
+      }
+    },
+    {
+      "id": "grid_ordering_workbook",
+      "role": "linked_material",
+      "discovered_from": "grid_preparation_protocol",
+      "locator": "all_plates_for_ordering.xlsx, attachment named in grid-preparation protocol step 7.1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The author protocol names the attachment, but the fetched PDF and source manifest do not include it; the complete spot/sector barcode panel remains uninspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "spatial_transfer_protocol",
+      "role": "linked_material",
+      "discovered_from": "srivatsan_2021_article",
+      "locator": "doi:10.17504/protocols.io.btw5npg6; protocolsio_spatial-transfer-of-oligonucleotides-and-imaging-btw5npg6.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author protocol section 1.3 extracted lines 169-177; tissue transfer and imaging lines 270-335; cell recovery and fixation from line 337",
+        "finding": "Adds a slide-specific indexing oligo to cold lysis buffer and explicitly requires its sequence to differ from the grid. Describes tissue-grid juxtaposition, fluorescence imaging, nuclei recovery and fixation; no exact slide-oligo bases appear in the inspected text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io PDF section 1.3 lines 172–177, grid/tissue handling 270–335, recovery/fixation 337–345; scraper run",
+        "finding": "Uses 5 µL of 10 µM slide-specific indexing oligo per 495 µL lysis buffer and requires a sequence distinct from grid hashes. It gives neither its bases nor a poly(A) tail. Imaging and nuclei recovery order agree with article. Section-hash polyadenylation on the current note/page is not established by available readable text."
+      }
+    },
+    {
+      "id": "two_level_sci_rnaseq_protocol",
+      "role": "linked_material",
+      "discovered_from": "srivatsan_2021_article",
+      "locator": "doi:10.17504/protocols.io.bquamwse; protocolsio_single-cell-rna-sequencing-library-preparation-2-l-36wgq4n3kvk5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "RT-primer handling lines 285-335; second-strand and Tn5 steps 33-39, lines 450-515; PCR indexing and printed P5/P7 primers lines 576-602; scraper hits lines 592 and 601",
+        "finding": "Uses barcoded oligo(dT) RT primers, second-strand synthesis, n7-loaded or dual-loaded Tn5, and P5/P7 indexed PCR. The PDF prints full primer flanks around [i5]/[i7], but does not print the full RT-barcode or sample-index panels."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io PDF RT wells lines 285–305, second strand 450–480, Tn5 491–513, indexing PCR 576–602; scraper hits 592 and 601 checked",
+        "finding": "First round adds well-specific barcoded RT primer; second strand synthesis precedes n7-loaded in-house Tn5 or dual-loaded Illumina Tn5. P5 and P7 PCR flanks with [i5]/[i7] are printed. No full RT barcode panel or specific index members in inspected PDF."
+      }
+    },
+    {
+      "id": "cao_2017_predecessor",
+      "role": "predecessor",
+      "discovered_from": "srivatsan_2021_article",
+      "locator": "_data/sources/sci-rna-seq-family__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt; doi:10.1126/science.aam8940",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original defining JATS is now local and read for two-level indexing; its original supplementary chemistry and any variant-specific primer families remain to inspect.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Cao 2017 original JATS lines 84–88 and Fig. 1 caption 1028–1030; scraper run on sci-RNA-seq-family source bundle",
+        "finding": "Original predecessor establishes oligo(dT) RT molecular indexing followed by split-pool second indexing and figure read roles. It is relevant inherited architecture, but this first reading does not establish the exact 2021 sci-Space RT-barcode panel or slide-specific hash chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Cao 2017 Science JATS XML lines 84–89 and Fig. 1 caption; source-bundle scraper",
+        "finding": "Cao 2017 sci-RNA-seq uses barcode-bearing, well-specific oligo(dT) RT primers for the first index, then Tn5 and PCR primers adding the second well index; the paper also mentions an optional Tn5 third-index variant. This supports inherited split-pool RT architecture, but does not give sci-Space slide-specific hash chemistry or 2021 RT members."
+      }
+    },
+    {
+      "id": "cao_2017_original_supplement",
+      "role": "supplement",
+      "discovered_from": "cao_2017_predecessor",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5894354/bin/NIHMS956226-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The predecessor original supplementary PDF is a (manual) PMC gate entry in the sci-rna-seq-family source manifest; inherited primer details may reside there.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS references 36-39; all three linked author protocols and the grid protocol's ordering-workbook pointer; original source MANIFEST.tsv and source oligo scraper",
+      "finding": "Followed and read the three cited protocols; recovered the grid oligo structure and library PCR primer flanks. The grid ordering workbook, original 77.5 MB supplement and Cao predecessor sources are not yet available in the bundle, so absence claims remain blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "sci-Space original JATS refs 36–39 at 390–410; all three original author protocols.io PDFs (grid lines 116–134, transfer 172–177, library 285–305 and 491–602); source manifest; scraper on sci-Space and Cao predecessor bundles",
+      "finding": "Independently followed the three cited protocols and Cao predecessor original JATS. Grid structure and P5/P7 flanks are printed. The 77.5 MB published supplement and named ordering workbook remain inaccessible; slide-hash tail and individual panels cannot be verified. Cao original supplement has not had a second independent chemistry reading. Linked-information result remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The grid hash ordering structure is unavailable",
+      "disposition": "resolved",
+      "evidence": "The author-linked grid-preparation protocol step 7.1 prints the handle, 10-base barcode placeholder, B base and poly(A) tail; this is now in the note and public page."
+    },
+    {
+      "claim": "Individual grid/section hash and RT-barcode panel members are unavailable",
+      "disposition": "blocked",
+      "evidence": "The cited grid ordering workbook and original supplementary methods are inaccessible in the source bundle, and the linked sci-RNA-seq guide does not print complete panels. This is an unresolved source-access task, not an accepted absence."
+    }
+  ],
+  "conclusion": "Two independent readers verified the available sci-Space article and all three linked author protocols. A first located read of Cao 2017 predecessor is now recorded; its original supplement, sci-Space published supplement and named ordering workbook still need source review. In particular the available text does not establish the slide-specific hash tail. No missing claim is accepted."
+}

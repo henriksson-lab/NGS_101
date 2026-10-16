@@ -10,11 +10,11 @@ The sequenced material is human genomic DNA from fixed nuclei, captured at nativ
 
 - 🟢 Full author manuscript and Methods from PMC (`article.xml`, PMC Cloud package).
 - 🟢 Supplementary Figures and Supplementary Tables from the same package, read as text (`supplementary_figures.doc`, `supplementary_tables.pdf`).
-- 🟡 Main Fig. 1a and Supplementary Fig. 1c, which carry the oligo set, are **raster artwork**. Only their legends are text. The bases in this repository therefore rest on a human reading of an image that cannot be re-derived from anything on disk — see "Oligo provenance" below.
+- 🟢 The original authors’ [Protocol Exchange detailed method](https://doi.org/10.1038/protex.2016.52), PDF pp. 7–9 (`supplement_0.pdf.txt`, lines 568–648), prints the modified P5/P7/control strands, PCR primers, and six-base single-index design as text.
 
 ## Oligo provenance
 
-🟡 **The entire DSBCapture oligo set is image-only evidence.** `grep -oiE "[ACGT]{15,}"` over all three extracted `.txt` twins of the fetched sources returns nothing; the only bases in any of them are the two BLESS linker tags `TCGAGGTAGTA` and `TCGAGACGACG`, quoted in the article text when BLESS is described. `strings` over the raw `supplementary_figures.doc` finds no oligo either — the figure is an embedded image, not a drawn table. Supplementary Fig. 1c's legend confirms what the picture contains without repeating any of it: "Sequences of the modified P5, modified P7 and control modified P5 Illumina adapters as well as DSBCapture PCR primers (forward (PCR F) and reverse (PCR R)). AD identifies the Illumina adapter barcode sequence, three example reverse primers are shown; further primers can be created by substituting the barcode sequence."
+🟢 **The original detailed method resolves figure-only evidence.** The paper’s Fig. 1a and Supplementary Fig. 1c are raster artwork, but Lensing et al.’s Protocol Exchange method (doi:10.1038/protex.2016.52), PDF p. 8–9, prints the adapter duplexes, control strand and PCR primer family. Local extracted text lines 608–648 can be checked base by base. The method also states “single index, 6 bp” at line 574.
 
 🟢 **What the set is.** Every base of it is a canonical Illumina TruSeq part, and the duplexes and primers are internally consistent:
 
@@ -27,9 +27,7 @@ The sequenced material is human genomic DNA from fixed nuclei, captured at nativ
 | PCR F | a prefix of the modified P5 top strand | {{= 44 }} nt |
 | PCR R (AD006) | `illumina.P7` + `{{= revcomp("GCCAAT") }}` (reverse complement of TruSeq index AD006 `{{= "GCCAAT" }}`) + {{= 21 }} bases complementary to the modified P7 top strand | {{= len(illumina.P7) + 6 + 21 }} nt |
 
-🟡 **Consequence for this repository.** A transcription error is improbable: the set is self-consistent and matches published Illumina parts exactly. But for precisely that reason, a faithful transcription of the figure and a reconstruction assembled out of canonical constants are *indistinguishable* from the sources available here. `tools/chem.py` makes that explicit by deriving the set from `lib/illumina.py` and from each duplex's own top strand instead of retyping it, so no base can drift; `SOURCE_OLIGO_EXCEPTIONS` in the same module records, per graph material, that `tools/selftest_source_oligos.py` has no text to compare against. Nothing here is a second, independent witness to the figure. Converting this evidence from 🟡 to 🟢 requires a text source — see "Open questions".
-
-🔴 **Control modified P5 adapter.** Supplementary Fig. 1c also publishes a non-biotinylated *control* modified P5 adapter; Supplementary Fig. 1e uses it for the negative control lane "(C)", where no library is produced. It is not modelled as bases. The artwork is its only source, and no text states whether it differs from the biotinylated modified P5 by nothing but the omitted 5′ biotin, so writing it out would manufacture an identity the source does not assert. The schematic page lists it by name with that reason instead. It is a reagent of a control reaction, not of the library path, so it is not a graph material.
+🟢 **Control modified P5 adapter.** The detailed method prints the control strand without the 5′ biotin, otherwise base-identical to the modified P5 top strand, and shares the same phosphorylated complement (lines 612–617). This is a negative-control reagent; no product library is made on that branch.
 
 ## Molecular interpretation
 
@@ -37,7 +35,7 @@ The sequenced material is human genomic DNA from fixed nuclei, captured at nativ
 2. 🟢 Lambda exonuclease removes excess adapter before DNA extraction. The genomic DNA is then sonicated to 200–500 bp and biotin-positive fragments are captured on streptavidin beads.
 3. 🟢 The sonication-created distal end is blunt-ended, A-tailed and ligated to the modified P7 duplex. Thus P5 is uniquely attached to the native-break side and P7 to the later random end.
 4. 🟢 PCR F and PCR R complete the library in a single amplification ("amplified by PCR with PCR F and PCR R primers and NEB Next PCR mix for 15 cycles"). Supplementary Figure 1d states that the first sequencing primer "has complementarity to the P5 Illumina adapter and therefore sequencing is initiated from the P5 end", so the first sequenced base is the break site. (Main Figure 1d is the DSBCapture-vs-γH2AX comparison, not the flow-cell statement.)
-5. 🟡 The library is single-index. The Supplementary Fig. 1c legend establishes that PCR R carries an "Illumina adapter barcode sequence" and that further primers come from substituting it, but **no text anywhere states a barcode length, an index read or demultiplexing**. The six-base window in `tools/chem.py`, the `Index 1 (i7): 6` read length and the identity of the three drawn example primers are all measured from the Fig. 1c artwork. The schematic therefore shades the index window, captions the PCR step `INFERRED — …`, and leaves the index read's handling undetermined.
+5. 🟢 The original detailed method explicitly calls the library TruSeq single-index with a six-base index (`supplement_0.pdf.txt`, line 574), prints eight PCR R examples (lines 632–648), and describes barcode-based multiplexing. It does not specify the instrument’s separate Index 1 acquisition settings.
 6. 🟢 EcoRV pilot libraries were sequenced 2×50 bp on MiSeq; AID-DIvA and NHEK libraries were sequenced 2×75 bp on NextSeq 500. Only proximal Read 1 was retained for break mapping; paired-end data helped distinguish PCR duplicates and compare with BLESS.
 
 ## Sequence orientation
@@ -48,6 +46,5 @@ The figures draw duplex bottom strands left-to-right as 3′→5′. The orderin
 
 ## Open questions
 
-- 🔴 **The cited detailed protocol has no URL.** Both the Methods and the BLESS comparison section point to Protocol Exchange with a literal unfilled placeholder: "A detailed protocol can be found on the protocol exchange (Insert URL)" and "the step by step method on the protocol exchange (Insert URL)". The paper as published therefore cites a document it does not identify. No source on disk names the entry, and the DSBCapture URL that the article *does* give, `http://breakome.utmb.edu`, is cited for the BLESS method it was adapted from. A located Protocol Exchange entry is the single change that would convert the whole oligo set from figure artwork to text, so it is recorded as wanted in `ref/MANIFEST.md` rather than guessed at here.
-- 🔴 Whether the control modified P5 adapter is base-identical to the modified P5 adapter apart from the biotin.
-- 🟡 Whether the index is six bases and whether a separate index read was acquired (see interpretation step 5).
+- 🟢 The cited Protocol Exchange entry is now located: doi:10.1038/protex.2016.52; its original PDF is available via the source manifest and prints the complete oligo set.
+- 🔴 The source specifies a six-base single index but does not give the instrument’s separate index-read settings.

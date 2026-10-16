@@ -1,0 +1,96 @@
+{
+  "dir": "cutac__10.7554+eLife.63274",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/cutac__10.7554+eLife.63274/eLife.63274_v2.xml.txt:298-315,317",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS Methods lines 298-315 and data processing line 317.",
+        "finding": "Original eLife Methods specify pA(G)-Tn5 low-salt CUTAC, indexed P5/P7 PCR, and link two detailed protocols; also print adapter-trimming stem but no selected index."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife JATS lines 298-317",
+        "finding": "Article distinguishes in-house pA-Tn5 from Epicypher pAG-Tn5 and links protocols.io; post-tagmentation indexed P5/P7 primers are named but no member selected."
+      }
+    },
+    {
+      "id": "cutac_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/cutac__10.7554+eLife.63274/protocolsio_cut-amp-tag-direct-with-cutac-bmbfk2jn.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Protocol title/reagent sections and source inventory.",
+        "finding": "Author-linked detailed CUTAC options and PCR workflow are available as original protocol PDF."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "CUTAC protocols.io extracted PDF lines 138-147",
+        "finding": "Protocol says pA(G)-Tn5 loaded with 19-mer mosaic-end duplex adapters and custom i5/i7 primers; explicitly warns against Nextera or NEBNext primers."
+      }
+    },
+    {
+      "id": "patn5_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/cutac__10.7554+eLife.63274/protocolsio_3xflag-patn5-protein-purification-and-meds-loading-j8nlke4e5l5r.pdf.txt:911-1040",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original PDF extracted table lines 911-1040; pdftotext -layout table 585-624.",
+        "finding": "Original author-linked pA-Tn5 loading protocol lists phosphorylated Tn5MErev and Tn5ME-A/B adapter oligos, resolving broad claims that no loaded oligos are printed for in-house reagent."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "pATn5 protocols.io PDF table, pdftotext -layout lines 585-624; assembly 629-666",
+        "finding": "Read source table visually through layout extraction: Tn5MErev is phosphorylated; A/B top oligos and annealing are shown. Table extraction is fragmented, so this does not identify commercial Epicypher-loaded oligos or selected index."
+      }
+    },
+    {
+      "id": "commercial",
+      "role": "vendor",
+      "locator": "Epicypher pAG-Tn5 15-1117 as named in CUTAC JATS 298",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Commercial loaded reagent molecular sequence/version is not established by in-house pA-Tn5 protocol."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "JATS source links to protocols.io 8yrhxv6 and CUTAC direct",
+      "finding": "Both author-linked methods fetched and inspected; commercial Epicypher reagent needs separate validation."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "eLife JATS 298-315, protocols.io CUTAC 138-147 and pATn5 PDF oligo table",
+      "finding": "Followed both linked author protocols; commercial Epicypher enzyme/loaded-oligo documentation and selected index remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact loaded commercial pAG-Tn5 oligos and selected index",
+      "disposition": "blocked",
+      "evidence": "In-house pA-Tn5 oligos are printed in linked author protocol; whether commercial 15-1117 is identical and which indexes were used remain unresolved."
+    }
+  ],
+  "conclusion": "Defining article and linked author protocols read; commercial reagent identity remains blocked."
+}

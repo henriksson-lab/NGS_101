@@ -54,7 +54,9 @@ DEFINITION = Definition("TARGET-seq — targeted genotyping and transcriptomics"
 d = DEFINITION
 final, primers = target_genotype_library()
 reads = {'Read 1': 151, 'Read 2': 151}
-OLIGOS = ("<b>CS1-seq custom Read 1 primer</b> — 5′-A+CA+CTG+ACGACATGGTTCTACA-3′",
+OLIGOS = ("<b>Smart-seq+ TSO-LNA</b> — 5′-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3′ (2019 Key Resources, JATS line 479)",
+                   "<b>ISPCR</b> — 5′-AAGCAGTGGTATCAACGCAGAGT-3′ (2019 Key Resources, JATS line 481)",
+                   "<b>CS1-seq custom Read 1 primer</b> — 5′-A+CA+CTG+ACGACATGGTTCTACA-3′",
                    "<b>CS2-seq custom Read 2 primer</b> — 5′-T+AC+GGT+AGCAGAGACTTGGTCT-3′",
                    "The published ordering notation uses + before an LNA base; the model uses the corresponding unmodified binding sequences.")
 workflow_fn = target_workflow

@@ -1,0 +1,188 @@
+{
+  "dir": "epidamid__10.1016+j.molcel.2022.03.009",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "rang_article",
+      "role": "defining",
+      "locator": "Rang et al. 2022 Cell Mol Cell, PMC9153956 JATS under _data/sources/epidamid__10.1101+2021.10.26.465688/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC9153956.xml.txt lines 572-593 and 851-865; scraper run on the linked preprint-slug source bundle",
+        "finding": "Key Resources prints DamID AdRt, AdRb and AdR_PCR plus RandomhexRT and example RNA PCR/index oligos, including terminal phosphorothioates. Methods inherit scDam&T-seq from Markodimitraki 2020 and discuss barcode processing."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC9153956 XML lines 572-593, 851-865",
+        "finding": "Original Key Resources prints AdRt/AdRb/AdR_PCR, RandomhexRT and modified RNA PCR oligos. Methods explicitly inherit scDam&T-seq and CEL-Seq2; complete inherited variant remains unresolved."
+      }
+    },
+    {
+      "id": "rang_preprint",
+      "role": "supplement",
+      "locator": "2021.10.26.465688_v1.full.pdf.txt, EpiDamID preprint under preprint-slug bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods lines 4071-4099, 4128 and 4187-4190",
+        "finding": "Preprint gives single-cell sorting, barcoded CEL-Seq2 primer and DamID2 adapter additions; no complete fixed final library in these checked passages."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 PDF Methods around extracted lines 4068-4102 and 4184-4194",
+        "finding": "Preprint explicitly cites Markodimitraki 2020/Rooijers 2019 CEL-Seq2 primer and gives single-cell Dam&T-seq modification; it does not alone assign every final-library base."
+      }
+    },
+    {
+      "id": "rang_supplement",
+      "role": "supplement",
+      "locator": "j.molcel.2022.03.009_supp_mmc4.pdf.txt in linked preprint-slug bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "mmc4 lines 2207-2250 and 2998-3010",
+        "finding": "Full oligo table corroborates and line-wrap-rejoins the adapter and RNA PCR members; detailed single-cell workflow includes barcoded CEL-Seq2 primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "mmc4 PDF text lines 2200-2252 and 2994-3014",
+        "finding": "Supplement repeats the oligo resource table and details IVT/CEL-Seq2 processing; source-printed oligos exist, but exact inherited branch still needs predecessors."
+      }
+    },
+    {
+      "id": "mmc1_figures",
+      "role": "supplement",
+      "locator": "j.molcel.2022.03.009_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplemental information lines 1-25 and text scan for oligo/primer/adapter",
+        "finding": "Supplemental figures and captions; no reagent oligo table in extracted text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "mmc1 PDF text opening lines 1-30 and figure content",
+        "finding": "Supplemental figures/phenotypes, no oligo ordering table located in inspected figures."
+      },
+      "reason": "Supplemental figures and captions; no reagent oligo table in extracted text."
+    },
+    {
+      "id": "mmc2_constructs",
+      "role": "supplement",
+      "locator": "j.molcel.2022.03.009_supp_mmc2.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table S1 sheet header and rows 1-6",
+        "finding": "Targeting-domain constructs and passing-sample counts, not oligo chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "mmc2 workbook sheet S1 header and rows 1-6",
+        "finding": "Targeting-domain constructs and counts, no oligo table."
+      },
+      "reason": "Targeting-domain constructs and passing-sample counts, not oligo chemistry."
+    },
+    {
+      "id": "mmc3_metrics",
+      "role": "supplement",
+      "locator": "j.molcel.2022.03.009_supp_mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Columns sheet header and first rows 1-6",
+        "finding": "Per-cell metadata and sequencing metrics, not library primer sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "mmc3 workbook columns header and first rows",
+        "finding": "Per-cell metadata/sequencing metrics, no primer table."
+      },
+      "reason": "Per-cell metadata and sequencing metrics, not library primer sequences."
+    },
+    {
+      "id": "cel_seq2",
+      "role": "linked_material",
+      "locator": "Hashimshony et al. CEL-Seq2 2016 PMC4848782 JATS in _data/sources/cel-seq2__10.1186+s13059-016-0938-8/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4848782.xml.txt lines 69-75 and 169; parent protocol source table inspected",
+        "finding": "CEL-Seq2 explains abbreviated RT primer and second adapter installation, and points to a detailed primer protocol. This alone does not fix the exact inherited EpiDamID outer library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC4848782 XML lines 67-78 and 165-173",
+        "finding": "CEL-Seq2 article describes shortened RT primer and random-hexamer second-adapter route; it explicitly links detailed protocol and Table S2, so article alone cannot close inherited EpiDamID oligo scope."
+      },
+      "discovered_from": "rang_article"
+    },
+    {
+      "id": "scdam_t_2020",
+      "role": "linked_material",
+      "locator": "Markodimitraki et al. 2020 scDam&T-seq detailed protocol cited in Rang Methods line 853",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor not yet independently read for this pass.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "rang_article"
+    },
+    {
+      "id": "rooijers_2019",
+      "role": "linked_material",
+      "locator": "Rooijers et al. 2019 scDam&T-seq predecessor cited in preprint methods lines 4095-4099",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor not independently read in this pass.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "rang_preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Rang article Methods line 853 and Key Resources lines 572-593; CEL-Seq2 source lines 69-75,169; EpiDamID preprint lines 4095-4099 and 4187-4190",
+      "finding": "Followed CEL-Seq2 original locally; scDam&T-seq predecessor still needs inspection. Source bundle for defining DOI itself has only a manual row, but original article and mmc4 are under the linked bioRxiv slug. The preprint also cites Rooijers et al. 2019 for the barcoded CEL-Seq2 primer, so that predecessor is listed separately."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Rang PMC9153956 XML Methods lines 851-865; bioRxiv Methods 1015-1045; CEL-Seq2 PMC4848782 lines 165-173",
+      "finding": "Confirmed Rang explicitly inherits Markodimitraki 2020, Rooijers 2019 and CEL-Seq2. CEL-Seq2 itself points to a detailed primer protocol/Table S2; those predecessor details remain incompletely checked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact final sequencing-primer placement is unresolved",
+      "disposition": "blocked",
+      "evidence": "Authoritative oligos are published, but inherited scDam&T-seq branch and one complete indexed final construct require further tracing."
+    }
+  ],
+  "conclusion": "First pass found substantial published oligo detail; inherited chemistry and independent review remain open."
+}

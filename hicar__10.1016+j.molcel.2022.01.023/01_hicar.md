@@ -36,8 +36,11 @@ silently projected backward onto this page.
    room temperature to repair the staggered Tn5 gaps.
 4. 🟢 Digest with NlaIII for 1 h at 37 °C, purify, dilute DNA to 1 ng/µl and circularize
    by intramolecular T4 ligation for at least 2 h at room temperature.
-5. 🟢 Perform 12-cycle Q5 inverse PCR with the splint-side and mosaic-end-side primers.
-   This opens selected circles into the final linear flow-cell-compatible library.
+5. 🟢 Treat the purified circle pool with PmeI for 1 h at 37 °C, then perform
+   12-cycle Q5 inverse PCR with the splint-side and mosaic-end-side primers
+   (defining Methods, “Step 5. PmeI digestion and PCR”). The source does not
+   identify every PmeI cleavage product. PCR yields the final linear
+   flow-cell-compatible library.
 
 ## Reads
 

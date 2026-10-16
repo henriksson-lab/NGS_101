@@ -22,9 +22,12 @@ effectively uses limited sequence reads." *Genome Biology* 19:29 (2018).
 doi:[10.1186/s13059-018-1407-3](https://doi.org/10.1186/s13059-018-1407-3) · PMID 29523163 ·
 PMC5845169. Data: GEO GSE99866, DRA002954.
 
-Cited by upstream for the suppression-PCR idea (not fetched, not read): Plessy C *et al.*
-"Linking promoters to functional transcripts in small samples with nanoCAGE and CAGEscan."
-*Nat Methods* 7:528 (2010). doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470).
+The bundle also contains Plessy C *et al.*, "Linking promoters to functional transcripts
+in small samples with nanoCAGE and CAGEscan," *Nat Methods* 7:528 (2010),
+doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470). Its original JATS
+describes cap-dependent template switching and EcoP15I CAGE tags, so it is not the
+poly(A)-tailing WTA predecessor of Quartz-Seq. The defining Quartz-Seq article instead
+cites Kurimoto's 2006/2007 poly(A)-tailing work for that branch.
 
 Sources read (fetched by `tools/get_sources.py`, into
 `$CHEM_DATA/sources/quartz-seq-family__10.1186+gb-2013-14-4-r31/`, never committed):

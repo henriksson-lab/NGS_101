@@ -5,6 +5,33 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-16 — Protocol declarations own their chemistry
+
+**Decision.** Decouple shared protocol recipes across chemistries. Each protocol
+owns its oligos, assembled library, reaction choices, conditions, read layout,
+variant selection and evidence boundaries. Repeating a small declaration is
+preferable to inheriting a source-specific assumption implicitly. Reusing a
+canonical sequence does not establish that a protocol uses it; that assignment
+needs its own local source justification.
+
+Shared code may operate on explicitly supplied molecules, compute transformations,
+validate claims and render declarations. It must not choose a protocol's reagents,
+sequence handles or readout by default, or turn undeclared model data into a claim
+of published absence. Similarities between independently declared protocols can be
+identified by analyzing their graphs and molecular operations.
+
+**Why.** The source audit found a shared 10x endpoint recipe imposing a Nextera
+Read 1 handle on gene-expression libraries whose guide specifies TruSeq, and
+single-index geometry on variants using dual indexes. Such endpoints can be
+internally consistent and still contradict the protocol's original source.
+Sharing a recipe can therefore create an unintended extrapolation.
+
+**Migration.** Start with the four `tenx_rna` callers and inventory other shared
+chemistry recipes. Check each affected protocol against its own sources while
+moving source choices into its declaration. Retain neutral molecular operations
+and validators; a repository-wide migration remains open until its callers are
+reviewed.
+
 ## 2026-10-15 — Double-check sources before accepting missing information
 
 **Decision.** Audit every protocol, including pages with no visible uncertainty.

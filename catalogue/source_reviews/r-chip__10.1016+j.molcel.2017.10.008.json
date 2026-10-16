@@ -1,0 +1,84 @@
+{
+  "dir": "r-chip__10.1016+j.molcel.2017.10.008",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/r-chip__10.1016+j.molcel.2017.10.008/j.molcel.2017.10.008_PMC5957070.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 303–325",
+        "finding": "Original STAR Methods prints inverse-ddT-blocked N9 extension primer and indexed oNTI201 with oNTI200; also specifies groove workflow."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS STAR Methods lines 303–325",
+        "finding": "R-ChIP library uses inverse-ddT N9 primer, A-tailing and one-ended Illumina adapter ligation; cited adapter geometry and exact supplementary table remain open."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5957070/bin/NIHMS964699-supplement-Supplement.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplementary document currently blocked by PMC download gate."
+    },
+    {
+      "id": "later_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/r-chip__10.1016+j.molcel.2017.10.008/PMC6604627_PMC6604627.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS table lines 1443–1484",
+        "finding": "Detailed R-ChIP protocol lists N9, phosphorylated adapter strands and enrichment primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later detailed protocol JATS oligo table lines 1443–1484",
+        "finding": "Prints N9, phosphorylated adapter strands and enrichment primers for successor workflow; cannot silently equate all to original 2017 method."
+      }
+    },
+    {
+      "id": "gro_seq",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/ng.3142",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Core et al. 2014 is cited in original reference list (JATS lines 399–401); its relevance to the control GRO-seq assay and exact primer provenance remains to be checked.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 303–325; detailed protocol lines 1443–1484",
+      "finding": "Source-positive R-ChIP primer geometry is available, but original supplement and cited control method still need resolution."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS Methods 303–325; later detailed protocol oligo table 1443–1484",
+      "finding": "Original supplement and cited GRO-seq predecessor remain inaccessible; later adapter cannot be assigned uncritically to 2017 protocol."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The exact R-ChIP primer and adapter oligos are unavailable",
+      "disposition": "blocked",
+      "evidence": "Original and later protocol give multiple oligos; full original supplement remains inaccessible."
+    }
+  ],
+  "conclusion": "Original and later protocol give multiple oligos; full original supplement remains inaccessible."
+}

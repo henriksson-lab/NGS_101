@@ -10,7 +10,7 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
-def indexed_random_rt_scene(*, method: str, barcode_len: int = 8, umi_len: int = 8) -> Scene:
+def indexed_random_rt_scene(*, method: str, barcode_len: int = 13, umi_len: int = 8) -> Scene:
     """In-cell random-primed RT carrying a plate barcode and UMI."""
     rna = [seg("bacterial RNA", "X" * 34, placeholder=True)]
     primer = [
@@ -20,7 +20,7 @@ def indexed_random_rt_scene(*, method: str, barcode_len: int = 8, umi_len: int =
                             group=method + "_cell", part="plate well")),
         seg("UMI", "U" * umi_len, "umi", placeholder=True,
             feature=feature(method + "_umi", "umi", "random")),
-        seg("random primer", "N" * 8, placeholder=True),
+        seg("random primer", "N" * 6, placeholder=True),
     ]
     sc = Scene(); sc.strand("RNA", rna, label="fixed, permeabilized bacterium")
     sc.anneal("RT primer", primer, to="RNA", pair=("random primer", "bacterial RNA"),
@@ -56,7 +56,7 @@ TITLE="BacDrop — droplet bacterial single-cell RNA-seq"
 NOTES="01_bacdrop.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2023.01.002">Ma et al., <i>Cell</i> (2023)</a>.'
 SUMMARY="Fixed bacteria receive a plate-specific RT index, are pooled at several cells per 10x droplet, and acquire a second bead barcode after TdT poly(A)-tailing of cDNA."
-CAVEAT="The two-index cell identity is published, while commercial 10x bead sequence is represented by its molecular role."
+CAVEAT="The two-index cell identity and 10x bead primer's constant arms are published; individual bead barcode members and the full plate-indexed RT primer table remain unverified because the cited supplementary table is unavailable."
 FINAL_LIBRARY,SEQ_PRIMERS=bacterial_rna_library("bacdrop","BacDrop RNA library")
 FINAL_CAPTION="The plate barcode, droplet barcode and UMI remain physically linked to each bacterial cDNA insert."
 SEQUENCING_INTRO="Read cycles recover the two-part cell identity and UMI before transcript sequence."
@@ -68,6 +68,7 @@ def oligos():
   "<b>SMRT_dT second-strand primer</b> — 5′-AAGCAGTGGTATCAACGCAGAGTTTTTTTTTTTTTTTVN-3′",
   "<b>SMRT_PCR cDNA enrichment primer</b> — 5′-AAGCAGTGGTATCAACGCAGAGT-3′",
   "<b>Partial P5 cDNA/library primer</b> — 5′-AATGATACGGCGACCACCGAGA-3′",
+  '<b>10x PN-2000210 gel-bead oligo</b> — 5′-AATGATACGGCGACCACCGAGATCTACAC-[16-nt barcode]-TCGTCGGCAGCGTC-3′ (<a href="https://cdn.10xgenomics.com/image/upload/v1666737555/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf">CG000209 Rev G, Appendix p. 51</a>; the barcode member is a placeholder).',
  ]
 INITIAL_ROWS=(Row(chunks=[("fixed bacterial cells containing total RNA",None,False)]),)
 INITIAL_NAME="Fixed bacterial cells"
@@ -75,8 +76,9 @@ INITIAL_NAME="Fixed bacterial cells"
 def sections(): return [
  ("Fix, permeabilize and deplete abundant rRNA in cells",[Row(chunks=[("bacterium: RNA — rRNA probes/RNase H — DNase I cleanup",None,False)])],"Universal rRNA probes and RNase H reduce ribosomal molecules before indexing."),
  ("Install the first barcode by random-primed in-situ RT",indexed_random_rt_scene(method="bacdrop").rows(),"Each plate well contributes one RT barcode and each copied molecule receives a UMI."),
- ("Pool cells and partition several bacteria per 10x droplet",[Row(chunks=[("many plate indexes + one droplet bead barcode", "cbc",False)])],"Combinatorial plate and droplet indexes permit super-loading."),
- ("TdT-tail cDNA and transfer the droplet barcode",droplet_barcode_rows("bacdrop"),"A poly(A) tail substitutes for inefficient bacterial template switching; bead-primed second-strand synthesis transfers the second index."),
+ ("Pool cells and TdT-tail their cDNA",[Row(chunks=[("pooled plate-indexed cells → TdT poly(A) tails on cDNA",None,False)])],"The poly(A) tail is added in cells before droplet generation."),
+ ("Partition several bacteria per 10x droplet",[Row(chunks=[("many plate indexes + one droplet bead barcode", "cbc",False)])],"Combinatorial plate and droplet indexes permit super-loading."),
+ ("Transfer the droplet barcode",droplet_barcode_rows("bacdrop"),"The bead primer copies poly(A)-tailed cDNA during second-strand synthesis in droplets."),
  ("Enrich cDNA and complete the Illumina library",[Row(chunks=[("two-index cDNA → enrichment PCR → sequencing library",None,False)])],"The cell-associated cDNA is released and amplified after emulsion break."),
 ]
 
@@ -116,28 +118,28 @@ def protocol_graph():
  graph.react("pool_wells","Pool all plate-indexed cell groups",StepKind.POOL,
              ((indexed_a,InputRole.TEMPLATE),(indexed_b,InputRole.TEMPLATE)),(pooled,),
              changes_molecule=False)
+ tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
+ tailed=graph.product("tailed_cdna","poly(A)-tailed indexed cDNA in pooled cells",MaterialKind.MOLECULAR)
+ graph.react("tail_cdna","Add poly(A) tails to first-strand cDNA before droplet loading",StepKind.TAILING,
+             ((pooled,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
  droplets=graph.input("droplet_condition","10x droplet partitioning condition",MaterialKind.CONDITION)
  occupied=graph.product("occupied_droplets","droplets containing indexed bacteria and a bead",
                         MaterialKind.MOLECULAR)
  empty=graph.product("excluded_droplets","empty or unusable droplets",MaterialKind.WASTE)
  graph.react("partition","Partition pooled bacteria with barcode beads",StepKind.PARTITION,
-             ((pooled,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,empty),
+             ((tailed,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,empty),
              changes_molecule=False)
  graph.discard(empty,"empty and otherwise unusable droplets yield no retained cell library")
- tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
- tailed=graph.product("tailed_cdna","poly(A)-tailed indexed cDNA",MaterialKind.MOLECULAR)
- graph.react("tail_cdna","Add poly(A) tails to first-strand cDNA",StepKind.TAILING,
-             ((occupied,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
  bead_primer=graph.input("bead_primer","commercial droplet-barcode bead primer",
                          MaterialKind.OLIGO,inferred=True,
-                         source=SOURCE+" (commercial barcode bases proprietary)")
+                         source=SOURCE+"; 10x CG000209 Rev G, Appendix p. 51 (constant arms printed; barcode member unresolved)")
  extension_pol=graph.input("extension_polymerase","second-strand DNA polymerase",
                            MaterialKind.CATALYST)
  barcoded=graph.product("dual_barcoded_cdna","plate- and droplet-barcoded cDNA",
                         MaterialKind.MOLECULAR,state=tuple(droplet_barcode_rows("bacdrop")))
  graph.react("transfer_droplet_barcode","Prime the poly(A) tail and transfer the bead barcode",
              StepKind.EXTENSION,
-             ((tailed,InputRole.TEMPLATE),(bead_primer,InputRole.STRUCTURAL),
+             ((occupied,InputRole.TEMPLATE),(bead_primer,InputRole.STRUCTURAL),
               (extension_pol,InputRole.CATALYST)),(barcoded,))
  fwd=graph.input("pcr_forward","BacDrop library PCR forward primer",MaterialKind.OLIGO)
  rev=graph.input("pcr_reverse","BacDrop library PCR reverse primer",MaterialKind.OLIGO)
@@ -147,7 +149,7 @@ def protocol_graph():
              ((barcoded,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
               (rev,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
              geometry=PCRGeometry.unavailable(
-                 FINAL_LIBRARY,reason="The commercial bead sequence is proprietary."))
+                 FINAL_LIBRARY,reason="The source prints bead-primer constant arms, but the plate RT primer family and exact bead barcode member remain unresolved."))
  graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),
                                        read_lengths=READ_LENGTHS))
  graph.declare_reviewed_scope(("fixed_cells","permeabilizer","permeabilize","rrna_probes",

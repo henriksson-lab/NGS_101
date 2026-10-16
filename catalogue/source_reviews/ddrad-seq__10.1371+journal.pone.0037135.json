@@ -1,0 +1,131 @@
+{
+  "dir": "ddrad-seq__10.1371+journal.pone.0037135",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/ddrad-seq__10.1371+journal.pone.0037135/PMC3365034_PMC3365034.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 113–122 and supplement refs 144–161",
+        "finding": "Original specifies double restriction digest and asymmetric P1/P2 adapters."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "PMC3365034 JATS lines 113–124 and 144–161",
+        "finding": "Article describes two restriction cuts, asymmetric P1/P2 ligation, 48 barcode adapters and 12 PCR-added indices, and points to Sequences S1."
+      }
+    },
+    {
+      "id": "supp_s1",
+      "role": "supplement",
+      "locator": "_data/sources/ddrad-seq__10.1371+journal.pone.0037135/PMC3365034_supp_pone.0037135.s001.doc.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary methods around line 111; scraper verifies adapter sequences",
+        "finding": "S1 directly prints EcoRI/MspI adapter constructs and procedural details."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s001.doc.txt lines 80–113",
+        "finding": "Detailed protocol specifies pooling after ligation, optional P1/P1 removal, indexed PCR, and appendix directs reader to workbook; EcoRI and MspI yield AATT and CG 5-prime overhangs."
+      }
+    },
+    {
+      "id": "supp_s2",
+      "role": "supplement",
+      "locator": "_data/sources/ddrad-seq__10.1371+journal.pone.0037135/PMC3365034_supp_pone.0037135.s002.xls.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "First oligo rows lines 1–5, EcoRI/MspI families lines 50 and 101; scraper verifies",
+        "finding": "Workbook prints indexed EcoRI P1 and MspI P2 family."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s002.xls.txt sheet adapter_P1-EcoRI lines 1–49; adapter_P1-flex lines 150–200; adapter_P2-flex lines 201–204; PCR_primers begins 205",
+        "finding": "Workbook lists full P1 barcode families, phosphorylated partner strands, alternate cohesive-end families, P2 strands and PCR indexing primers; exact library index is experiment-specific."
+      }
+    },
+    {
+      "id": "supp_s3",
+      "role": "supplement",
+      "locator": "_data/sources/ddrad-seq__10.1371+journal.pone.0037135/PMC3365034_supp_pone.0037135.s003.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original s003.pdf.txt lines 1–65 and 124–164, especially Library Construction Summary lines 124–157",
+        "finding": "The original S3 supplements simulations with a protocol summary: anneal P1/P2, EcoRI/MspI digest, ligate, pool, size-select, then PCR; it also explains balanced inline barcode pools. It is relevant to reaction order but does not assign an index to each study specimen."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s003.pdf.txt lines 1–35 and 124–164",
+        "finding": "S3 includes restriction-fragment simulation and a genuine Library Construction Summary: anneal adapters, EcoRI/MspI digest, ligate, pool/size-select, PCR and barcode-base balance. It is relevant to reaction order even without a sequence table."
+      }
+    },
+    {
+      "id": "author_live_protocol",
+      "role": "linked_material",
+      "discovered_from": "supp_s1",
+      "locator": "https://docs.google.com/document/d/14LzChQSHRMghGaWL55EYsZ09Ve-3ncHIJzv6TLYvBcg/export?format=txt (bit.ly/ddRAD in defining article Protocol S1)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author Google document exported original text, BRIEF GLOSSARY, MATERIALS AND REAGENTS, ASSOCIATED ONLINE DOCUMENTS, PCR amplification, Appendix 1; 16,055-byte source",
+        "finding": "The author-maintained document confirms one P1 barcode pair per sample, a common P2 adapter, and one of twelve PCR2 index primers per pooled amplification. Its Appendix 1 links the same ddRAD oligo table; no specimen-to-index assignment is specified in the inspected protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author Google document text export lines 5–8, 18–29, 60, 80–89, 101–114, 119–129",
+        "finding": "Independently read author-maintained protocol and ran oligo scraper. It specifies one barcoded P1 adapter pair per sample, common P2 adapter, and one of twelve indexed PCR2 primers per pooled reaction. It explicitly refers to a separate ddRAD oligo table for the 48 five-base P1 barcodes and 12 six-base PCR2 indices; the document itself has only two example SbfI-conversion oligo strings at line 124. Neither this protocol nor the inspected Appendix 1 assigns a specific specimen to a particular barcode or PCR2 index."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Supporting Information lines 214–231; S1 lines 44–49 and 108–130; original author-maintained bit.ly/ddRAD export; S2 worksheet headings through line 219; S3 lines 124–164",
+      "finding": "Followed the article to all three original supplements and its live author-maintained protocol. Published 48 P1 barcodes and 12 PCR2 index alternatives cover the generic design; a chosen index for each individual experimental specimen is not assigned by these method sources. The newly located live protocol awaits a distinct second reader."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS lines 113–124 and supplement links; s001 appendix lines 107–113; s002 sheets 1–205; s003 lines 124–164",
+      "finding": "Followed all three supplements, including S3 procedural summary. P1/P2 family members are printed, but there is no evidence that a generic model corresponds to one experiment-specific index choice; claim remains blocked."
+    },
+    "followup": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 113–124; S2 worksheet headings/adapter_P1-EcoRI lines 1–98/PCR_primers lines 205–219; author protocol export lines 80–129",
+      "finding": "The two original independent passes and my rereading establish all generic barcode/index family alternatives. The absent specimen-by-specimen assignment is an experiment metadata question, not a missing protocol chemistry constant; the generic model labels its members as examples."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Protocol-level P1 barcode and PCR2 index family",
+      "disposition": "resolved",
+      "evidence": "Original Sequences S1 workbook sheets adapter_P1-EcoRI lines 1–98 and PCR_primers lines 205–219 publish the 48 P1 barcode pairs and 12 PCR2 primer alternatives. The author-maintained protocol assigns one P1 barcode per sample and one PCR2 index per pool. Its sample-by-sample ledger is a run-specific record, not a missing protocol recipe."
+    }
+  ],
+  "conclusion": "Defining article, all three publisher supplements, and the author-maintained detailed protocol have two located independent source checks. All generic adapter/barcode/index alternatives required for the modeled EcoRI/MspI method are published; GCATG and ATCACG are explicitly representative choices. No missing protocol-level chemistry is asserted."
+}

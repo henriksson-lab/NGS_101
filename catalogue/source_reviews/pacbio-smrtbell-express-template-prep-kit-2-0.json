@@ -1,0 +1,132 @@
+{
+  "dir": "pacbio-smrtbell-express-template-prep-kit-2-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "pacbio_2019",
+      "role": "defining",
+      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/1.html.txt (PacBio 101-693-800 Version 01 PDF content)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 228–305, 934–1017, 1342 onward; workflow Figure 1 on PDF p3",
+        "finding": "Guide specifies overhang removal, damage repair, End Prep A-tailing, Overhang Adapter v3 ligation and sequencing-primer annealing; does not print adapter terminal T, polarity or bases. Figure 1 supplies closed topology, not adapter-end sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PacBio 101-693-800 v01 PDF-derived text lines 842–889, 953–1015; scraper",
+        "finding": "Procedure removes single-strand overhangs, performs DNA damage repair, end repair/A-tailing at 20/65°C, then adds named Overhang Adapter v3 with ligation mix. It does not print an adapter-terminal T base or exact ligation-ready hairpin geometry; the guide alone does not establish adapter T; the later-located official contemporaneous training document does."
+      }
+    },
+    {
+      "id": "product_note",
+      "role": "linked_material",
+      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/product-note-smrtbell-express-template-prep-2-0-for-large-insert-libraries.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "kit/product overview and linked procedure",
+        "finding": "Product note confirms kit and large-insert scope; no base-level Overhang Adapter v3 sequence found in inspected summary."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PacBio Express 2.0 product note lines 520–521 and linked resources; scraper",
+        "finding": "Product note describes large-insert SMRTbell library and kit scope, but provides no adapter oligo or cohesive-end bases."
+      },
+      "discovered_from": "pacbio_2019"
+    },
+    {
+      "id": "travers_2010",
+      "role": "linked_material",
+      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/PMC2926623_PMC2926623.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 22–42",
+        "finding": "Predecessor Travers et al. establishes hairpin closed-circle SMRTbell topology and prints its own experimental hairpin oligos; these do not establish commercial Overhang Adapter v3 termini."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Travers 2010 PMC2926623 JATS abstract lines 22–30 and Methods line 42; scraper",
+        "finding": "Defines topologically circular insert with hairpin loops and older BsaI-based assembly. This predecessor does not establish Overhang Adapter v3 geometry for the 2019 kit."
+      },
+      "discovered_from": "pacbio_2019"
+    },
+    {
+      "id": "pacbio_training_2019",
+      "role": "linked_material",
+      "discovered_from": "pacbio_2019",
+      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf.txt; PacBio PN 101-742-500 Version 01 (February 2019), PDF pp. 7, 9; https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "original PacBio PDF pp. 7 and 9; extracted text lines 228–235 and 282–285; full local source-bundle oligo scraper run",
+        "finding": "Vendor explicitly identifies a T overhang on Overhang Adapter v3 and A/T ligation for this kit. The full adapter body, terminal strand drawing and primer bases are not shown in these sections; dA-tailed substrate is in procedure 101-693-800 v01."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original PacBio PN 101-742-500 v01 PDF pp. 7 and 9 visually inspected against extracted lines 219–235 and 282–289; p. 22–23 extracted lines 566–596; complete local bundle oligo scraper run first.",
+        "finding": "Independently verified vendor slide p. 7 explicitly says Overhang Adapter v3 contains a T overhang and p. 9 draws T-tailed hairpin ligating both dA-tailed insert ends by A/T ligation, reducing chimera and adapter dimer. Slide p. 22 names Sequencing Primer v4 and routes annealing/polymerase binding to SMRT Link Sample Setup; p. 23 routes later loading to a Sequel quick-reference card. Neither slide prints the full adapter body or primer bases. The contemporaneous Sample Setup original remains uninspected, so absence is unconfirmed."
+      }
+    },
+    {
+      "id": "smrt_link_sample_setup_v6",
+      "role": "linked_material",
+      "discovered_from": "pacbio_2019",
+      "locator": "PacBio 101-693-800 v01, Prepare for Sequencing, text lines 1342–1354; named SMRT Link v6 Sample Setup instructions (no stable original URL located)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The defining guide directs primer annealing and polymerase binding to Sample Setup; its contemporaneous original application instructions were not recovered, so primer-related absence is not confirmable.",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "PacBio procedure 101-693-800 v01 text lines 1342–1354; customer training PN 101-742-500 v01 PDF p. 22",
+        "finding": "Both originals direct primer annealing and polymerase binding to SMRT Link Sample Setup; the training slide supplies conditions but no base sequence. Application-specific original remains uninspected."
+      }
+    },
+    {
+      "id": "sequel_diffusion_qrc",
+      "role": "linked_material",
+      "discovered_from": "pacbio_training_2019",
+      "locator": "PacBio training PN 101-742-500 v01 PDF pp. 23 onward names “Diffusion Loading and Pre-Extension Recommendations for the Sequel System Quick Reference Card”; historical original URL not located",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "The cited quick reference concerns flow-cell loading and pre-extension after a SMRTbell library and polymerase complex have been prepared; it cannot establish the Overhang Adapter v3 end or primer sequence.",
+      "pass_1": {
+        "reviewer": "independent_vendor_audit",
+        "date": "2026-10-16",
+        "locations": "Original PacBio training PN 101-742-500 v01 PDF p. 23; procedure 101-693-800 v01 text lines 1342–1354",
+        "finding": "Both sources route downstream diffusion loading to the quick reference card. No unique historical QRC URL recovered; no claim about unprinted adapter bases rests on this guide."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PacBio 2019 procedure Figure 1, reagent tables; product note; Travers 2010 JATS",
+      "finding": "Followed historical closed-topology predecessor. No retrieved source prints commercial Overhang Adapter v3 terminal geometry; cannot confirm absence after only one pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "PacBio 101-693-800 v01 reaction tables 842–889/953–1015, product note and Travers 2010 original",
+      "finding": "Original procedure and product note were checked, but contemporaneous PacBio training PN 101-742-500 v01 was located afterward and resolves the adapter T/A-tail pairing. SMRT Link Sample Setup remains unavailable; independent second reading of training source and full linked inventory remain open."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent reads of PacBio 2019 customer training PN 101-742-500 v01 pp. 7 and 9 establish Overhang Adapter v3's T overhang and A/T ligation; the model and page reflect this paired end. The complete hairpin body and sequencing-primer bases remain unverified. Contemporaneous SMRT Link Sample Setup is named by both vendor originals but remains unavailable, so no absence claim is accepted."
+}

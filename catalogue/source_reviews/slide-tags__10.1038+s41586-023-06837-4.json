@@ -1,0 +1,573 @@
+{
+  "dir": "slide-tags__10.1038+s41586-023-06837-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; _data/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 218-244 and PDF text lines 1709-1718/1772-1801; PDF p. 10 checked; scraper run on published DOI bundle",
+        "finding": "The main article prints SLAC 5′-TTT_PC_zCCGG... whereas author Supplementary Methods 1.3 and preprint print 5′-TTT_PC_GCCGG... . It names both commercial branches and points to Supplementary Methods; the extra z is present in the published PDF, not just the JATS extraction."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 218-244, especially 224/236/242; published PDF extracted lines 1709-1718 and 1772-1801; visually inspected PDF p. 10",
+        "finding": "Main article PDF and JATS both print TTT_PC_zCCGG in SLAC oligo. It explicitly cites CG000317 for snRNA and CG000338 Rev F for Multiome. The z is a published discrepancy relative to supplement and preprint, not an extraction artefact."
+      }
+    },
+    {
+      "id": "author_preprint",
+      "role": "other",
+      "locator": "Russell et al. bioRxiv 2023 doi:10.1101/2023.04.01.535228; local 2023.04.01.535228_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Methods 1.3 at extracted lines 654-704, especially 685-698; scraper run on entire local source bundle",
+        "finding": "The preprint prints three modified photocleavable bead oligo architectures, a 10x FB1 extension and a splint. It describes synthesis and release, so fixed puck arms cannot be called wholly undisclosed. Preprint sequence alone does not resolve a reported extra character in the later published JATS."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local 2023.04.01.535228_v1.full.pdf.txt lines 654-704 and 730-778; scraper on named local source bundle",
+        "finding": "Preprint prints SLAC TTT_PC_GCCGG without z, direct TAGS and poly(A) variants, FB1 extension and splint. It names the same vendor guides and supports supplement sequence."
+      }
+    },
+    {
+      "id": "slide_tcr_protocol",
+      "role": "detailed_protocol",
+      "locator": "Local protocolsio_slide-tcr-seq-v3-ivt-n92ldp6w8l5b.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io PDF lines 79-101 and 1055-1070, 1278-1325",
+        "finding": "Linked Slide-TCR protocol prints PCR oligo table and extension/PCR recipe; it is a related downstream assay, not by itself proof of the Slide-tags puck oligo used in every branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local protocolsio_slide-tcr-seq-v3-ivt-n92ldp6w8l5b.pdf.txt lines 79-101, 1055-1070 and 1278-1325",
+        "finding": "Related downstream Slide-TCR assay has additional primer recipes; cannot establish every original Slide-tags branch."
+      }
+    },
+    {
+      "id": "published_supp_methods",
+      "role": "supplement",
+      "locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; _data/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 DOCX lines 63-89, especially 67, 85 and 89; scraper run on published DOI bundle",
+        "finding": "Supplementary Methods 1.3 prints no-z SLAC, direct-synthesis TAGS, poly(A) bead architectures, FB1 extension and splint. Section 1.5 cites CG000317 Rev C and CG000338 Rev F and prints custom Multiome PCR oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods extracted lines 63-77 and 85-89; scraper run on DOCX text",
+        "finding": "Section 1.3 prints no-z SLAC oligo, FB1 extension, splint, TAGS and poly(A) variants. Lines 85/89 identify exact commercial kit revisions and branch-specific PCR."
+      }
+    },
+    {
+      "id": "10x_cg000317_rev_c",
+      "role": "vendor",
+      "locator": "10x CG000317 Rev C, https://assets.ctfassets.net/an68im79xiti/5h2ArMSJZe0MFp4f23gJ1u/f36654916159ae8e9fe778ebf2cb8b67/CG000317_ChromiumNextGEMSingleCell3-v3.1_CellSurfaceProtein_RevC.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_supp_methods",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official CG000317 Rev C PDF Appendix pp. 71-72 (web text lines 2563-2599, 2624-2651)",
+        "finding": "Guide prints both v3.1 RNA and Feature Barcode gel-bead primer scaffolds, Capture Sequence 1, and their final library layouts; fixed arms are published, with variable N16/N12 and feature identifiers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PDF Appendix pp. 71-72, web text lines 2563-2599 and 2624-2651",
+        "finding": "Prints full fixed RNA and Feature Barcode gel-bead primer scaffolds, variable N16/N12, RT and Feature PCR primers, adapter and final libraries. Slide-tags puck capture suffix is reverse complement of published capture arm."
+      }
+    },
+    {
+      "id": "10x_cg000338_rev_f",
+      "role": "vendor",
+      "locator": "10x CG000338 Rev F, https://cdn.10xgenomics.com/image/upload/v1666737555/support-documents/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_supp_methods",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev F PDF Appendix p. 81 (web text lines 2585-2595)",
+        "finding": "Guide prints RNA and ATAC gel-bead arms plus finished ATAC/GEX libraries for exact kit revision cited in Slide-tags Supplementary Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PDF Appendix p. 81, web text lines 2585-2595",
+        "finding": "Prints Multiome RNA and ATAC gel-bead fixed arms, variable N16/N12 and finished ATAC/GEX library architecture."
+      }
+    },
+    {
+      "id": "published_supp_2",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM2, Nature reporting summary; research-design disclosures only; s41586-023-06837-4_supp_41586_2023_6837_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM2_ESM.pdf: entire short file; original publisher supplement inventory",
+        "finding": "Reporting summary questions identify study design and statistical reporting; no reagent sequences or reaction details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM2_ESM.pdf.txt, entire 191-line file",
+        "finding": "Nature reporting summary covers study design, sample size and statistical reporting; no adapter, barcode oligo or reaction order."
+      }
+    },
+    {
+      "id": "published_supp_3",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM3, Supplementary Figures 1–8; positioning pipeline and downstream biology; s41586-023-06837-4_supp_41586_2023_6837_MOESM3_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM3_ESM.pdf: header and representative rows; original publisher supplement inventory",
+        "finding": "Supplementary figure captions cover positioning pipeline, cell maps and gene expression; no oligo sequence or new wet-lab reaction is printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM3_ESM.pdf.txt, entire 46-line file",
+        "finding": "Supplementary Figures 1–8 captions describe positioning pipeline and biological results; inspected all 46 extracted caption lines; no source oligo or wet-lab reaction detail."
+      }
+    },
+    {
+      "id": "published_supp_4",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM4, Table 1 CA1 differential gene expression; s41586-023-06837-4_supp_41586_2023_6837_MOESM4_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM4_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV header and rows give gene-wise differential expression statistics only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM4_ESM.csv, header and representative first rows of 755-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_5",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM5, Table 2 spatial gene variation by cell type; s41586-023-06837-4_supp_41586_2023_6837_MOESM5_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM5_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give gene/cell-type expression intervals only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM5_ESM.csv, header and representative first rows of 177318-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_6",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM6, Table 3 Gene Ontology enrichment; s41586-023-06837-4_supp_41586_2023_6837_MOESM6_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM6_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give GO enrichment terms only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM6_ESM.csv, header and representative first rows of 11417-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_7",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM7, Table 4 replicate snRNA positioning statistics; s41586-023-06837-4_supp_41586_2023_6837_MOESM7_ESM.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM7_ESM.xlsx: entire short file; original publisher supplement inventory",
+        "finding": "Workbook Table S4 lists donors and nucleus positioning counts across replicate runs; no chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM7_ESM.xlsx.txt, entire 5-line file",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_8",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM8, Table 5 tonsil spatial gene results; s41586-023-06837-4_supp_41586_2023_6837_MOESM8_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM8_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give spatial gene effect estimates only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM8_ESM.csv, header and representative first rows of 26100-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_9",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM9, Table 6 spatial effect sizes; s41586-023-06837-4_supp_41586_2023_6837_MOESM9_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM9_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give gene effect size and variance only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM9_ESM.csv, header and representative first rows of 5068-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_10",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM10, Table 7 ligand–receptor predictions; s41586-023-06837-4_supp_41586_2023_6837_MOESM10_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM10_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give ligand–receptor prediction scores only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM10_ESM.csv, header and representative first rows of 5310-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_11",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM11, Table 8 germinal-centre receptor enrichment; s41586-023-06837-4_supp_41586_2023_6837_MOESM11_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM11_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV header and rows give receptor enrichment statistics only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM11_ESM.csv, entire 100-line file",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_12",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM12, Table 9 T-cell receptor sequence results; s41586-023-06837-4_supp_41586_2023_6837_MOESM12_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM12_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV header and rows give observed TCR alpha/beta calls, not TCR library reagents."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM12_ESM.csv, header and representative first rows of 1021-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_13",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM13, Table 10 differential expression in tumour CD8 cells; s41586-023-06837-4_supp_41586_2023_6837_MOESM13_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM13_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV header and rows give tumour CD8 differential expression statistics only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM13_ESM.csv, header and representative first rows of 280-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_14",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM14, Table 11 tumour cluster differential expression; s41586-023-06837-4_supp_41586_2023_6837_MOESM14_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM14_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give tumour cluster differential expression statistics only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM14_ESM.csv, header and representative first rows of 2467-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_15",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM15, Table 12 tumour expression/chromatin gene-score results; s41586-023-06837-4_supp_41586_2023_6837_MOESM15_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM15_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give expression/chromatin scores by gene only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM15_ESM.csv, header and representative first rows of 8505-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_16",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM16, Table 13 chromVAR motif correlations; s41586-023-06837-4_supp_41586_2023_6837_MOESM16_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM16_ESM.csv: header and representative rows; original publisher supplement inventory",
+        "finding": "CSV header and rows give chromVAR motif correlations only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM16_ESM.csv, header and representative first rows of 634-line result table",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "published_supp_17",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM17, Table 14 experiment metadata and bead design per run; s41586-023-06837-4_supp_41586_2023_6837_MOESM17_ESM.csv",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM17_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV specifies tissue, species, modality, bead design and array size for each experiment; distinguishes SLAC and TAGS use across runs."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM17_ESM.csv, entire 7-line file",
+        "finding": "Table 14 is chemistry-relevant metadata: each run lists modality and bead design; SLAC versus TAGS variants vary by sample. It gives no new base sequence."
+      }
+    },
+    {
+      "id": "published_supp_18",
+      "role": "supplement",
+      "locator": "Russell et al. published MOESM18, Table 15 melanoma cell-state marker genes; s41586-023-06837-4_supp_41586_2023_6837_MOESM18_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Inspected original file; result or reporting content, with no source fact for the protocol’s molecular construct, reagent sequence or reaction order.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM18_ESM.csv: entire short file; original publisher supplement inventory",
+        "finding": "CSV lists marker genes and cell-state labels only."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "s41586-023-06837-4_supp_41586_2023_6837_MOESM18_ESM.csv, entire 106-line file",
+        "finding": "Tabular gene, cell, receptor, motif or experiment-result data per table title and columns; no library oligo or reaction recipe in inspected file."
+      }
+    },
+    {
+      "id": "author_spatial_code",
+      "role": "other",
+      "locator": "https://github.com/broadchenf/Slide-tags (README, sb_processing.sh, cell_barcode_matcher.R, bead_matching.py, spatial_positioning.R)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README, sb_processing.sh lines 371-404, cell_barcode_matcher.R lines 693-737 and 849-900; bead_matching.py/spatial_positioning.R roles from README",
+        "finding": "Code identifies spatial-tag motif TCTTCAGCGTTCCCGAGA in read 2, takes 10x cell barcode from read-2 positions 1-16 and UMI 17-28, and concatenates spatial barcode pieces from read-1 positions 1-8 and 27-32. It supports read layout, not source oligo chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author raw cell_barcode_matcher.R lines 8–9, 29–49, 55–59, 132–164 and repository source inventory",
+        "finding": "R1_file_path is assigned to internal R2 (spatial), while R2_file_path is assigned to internal R1 (cell). The parser takes cell barcode positions 1–16 and UMI 17–28 from the latter input, and spatial pieces positions 1–8 and 27–32 from the former input, yielding a reconstructed 14-base puck ID. Parent pass_1 calling internal R2 the physical read 2 is ambiguous; file paths are the authority."
+      }
+    },
+    {
+      "id": "slideseqv2_predecessor",
+      "role": "predecessor",
+      "locator": "Stickels et al. Slide-seqV2 doi:10.1038/s41587-020-0739-1, PMC8606189 JATS; _data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published_article",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Slide-tags published JATS Methods line 224 cites ref 20 for array preparation; ref list CR20 identifies Slide-seqV2. Predecessor PMC8606189 JATS Methods extracted lines 95-112; scraper run on predecessor bundle.",
+        "finding": "Predecessor defines J as split-pool bead barcode bases shared by oligos on one bead, N as mixed random bases, PC as photocleavable linker; its two precursor SLAC oligos print TTT_PC_GCCGG without z and Methods describe bead synthesis. This does not establish complete later Slide-tags branch junctions."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Slide-seqV2 PMC8606189 JATS Online Methods extracted lines 95–119: Chemgenes and custom vs1/vs2 bead oligos, PC/J/N definitions, split-pool synthesis; predecessor source-bundle oligo scraper run before reading",
+        "finding": "Independently verified the precursor paper prints two custom photolabile bead oligos without the later Slide-tags z designation. It defines J as split-pool barcode bases shared within a bead, N as mixed bases, and PC as photocleavable linker. These predecessor facts support array-synthesis context but cannot prove Slide-tags branch-specific junction geometry."
+      }
+    },
+    {
+      "id": "publisher_correction",
+      "role": "linked_material",
+      "locator": "Russell et al. Publisher Correction doi:10.1038/s41586-023-06961-1, Nature 625 E11 (2024), https://www.nature.com/articles/s41586-023-06961-1",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published_article",
+      "reason": "Original publisher correction changes copyright licence only; it contains no chemistry, oligo or protocol amendment.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Nature correction original article, full one-page text, published 18 Dec 2023; original Slide-tags JATS related-article correction link.",
+        "finding": "Correction changes licence to CC BY 4.0 and says HTML/PDF updated for that error. It does not address the main-article SLAC z or any molecular claim."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nature one-page publisher correction PDF doi:10.1038/s41586-023-06961-1, PDF lines 0–34; original Slide-tags article correction link",
+        "finding": "Independently read entire publisher correction. Its sole correction changes the article licence to CC BY 4.0 and updates HTML/PDF accordingly; it supplies no reagent, oligo, molecular or read-layout amendment."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Published JATS Methods lines 218-244, publisher MOESM1-18 inventory, official CG000317 Rev C/CG000338 Rev F appendices, author GitHub README and FASTQ processing scripts",
+      "finding": "Followed article to original methods supplement, every listed publisher supplement, exact kit guides, preprint, author spatial parser, linked publisher correction, and array-synthesis predecessor reference 20. Predecessor defines J and prints a no-z SLAC precursor; correction concerns licence only."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Independently inventoried published MOESM2–18 originals and read file headers/full short files; author raw cell_barcode_matcher.R lines 8–164; original MOESM1 and exact 10x guide appendices already recorded above",
+      "finding": "All published supplements enumerated; only MOESM1 and run-metadata MOESM17 add protocol details. Author code resolves UMI12 and split 14-base puck barcode; fixed guide scaffolds are published. No remaining missing claim is accepted: exact puck chemistry mapping and branch-specific run layouts need reconciliation."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Slide-seqV2 original JATS Online Methods lines 95–119 and Nature correction original one-page PDF lines 0–34, after predecessor-bundle oligo scraper",
+      "finding": "Followed the newly listed predecessor and publisher correction independently. Predecessor defines bead barcode notation and precursor oligos; correction is licence-only. Neither resolves Slide-tags branch-specific chemistry/read layout."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Commercial 10x bead internals or complete Slide-tags variant mapping are absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "The exact named vendor guides publish fixed gel-bead arms and library scaffolds; published supplement prints full puck oligos. Variable barcode windows and complete branch mapping remain to audit across all supplemental files."
+    },
+    {
+      "claim": "The meaning of J positions in the printed puck oligos is undisclosed",
+      "disposition": "resolved",
+      "evidence": "The defining paper cites Slide-seqV2 ref 20 for bead array preparation. Its PMC8606189 Methods lines 99-107 define J as split-pool-synthesized bead barcode bases shared across oligos on the same bead; the public page now says so."
+    }
+  ],
+  "conclusion": "Two independent readers checked the original article, individually inventoried supplements, exact vendor guides, author parser, cited Slide-seqV2 predecessor and publisher correction. The predecessor resolves J notation and supports the no-z precursor; the correction changes only the licence. The public graph now keeps the 3′ and Multiome routes separate before Tn5 and GEM processing, with the Multiome tag endpoint explicitly limited. Complete branch-specific junction and 15-printed-versus-14-parser barcode reconciliation remains open, so missing assertions stay blocked."
+}

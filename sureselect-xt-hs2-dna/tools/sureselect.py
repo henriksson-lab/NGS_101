@@ -39,16 +39,16 @@ def sureselect_library():
         seg("right molecular barcode", "V" * 5, "umi", placeholder=True,
             feature=feature("molecular_barcode_right", "umi", "random",
                             group="molecular_barcode", part="right")),
-    ], "SureSelect XT HS2 captured library")
+    ], "SureSelect XT HS2 captured library", inferred_adapters=True)
 
 
 TITLE = "SureSelect XT HS2 DNA target enrichment"
 NOTES = "01_sureselect-xt-hs2.html"
 SOURCE = 'Agilent <a href="https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf">SureSelect XT HS2 DNA Kits, G9957-90000 B0 (2026)</a>.'
 SUMMARY = "A dual-indexed, optionally duplex-MBC-tagged Illumina library is pooled, hybridized to biotinylated RNA baits, recovered on streptavidin beads and amplified after capture."
-CAVEAT = "The current manual publishes the molecular-barcode length and index sequences but not every adaptor-oligo base. Kit-specific hidden sequence is represented by its role; no sequence is fabricated."
+CAVEAT = "The B0 guide publishes the five-base MBC read layout and 384 paired eight-base indexes, but not the full HS2 adaptor or indexing-primer arms. Canonical TruSeq arms in the final construct are inferred for orientation and primer landing, not established kit oligos; the actual selected index pair is also unknown."
 FINAL_LIBRARY, SEQ_PRIMERS = sureselect_library()
-FINAL_CAPTION = "Captured HS2 library in the MBC configuration. Each read begins with its five-base end tag; the two tags identify the original duplex family."
+FINAL_CAPTION = "INFERRED — canonical TruSeq arms place the source-known five-base end tags and eight-base index windows for orientation only; Agilent's exact arm sequences are unresolved."
 SEQUENCING_INTRO = "The manual specifies standard Illumina paired-end and dual-index primers with no custom sequencing primers."
 
 def workflow():
@@ -58,7 +58,7 @@ def workflow():
     w.react("End-repair and add 3′ dA",dA_tailed_scene(tailed).rows(),name="dA-tailed genomic DNA",note="The manual explicitly specifies the end-repair/dA-tailing step.")
     geometry=AdapterLigationGeometry.unavailable("Agilent's current SureSelect XT HS2 manual specifies HS2 adaptor ligation after dA-tailing but does not publish the adaptor oligo or its terminal bases; a complementary T is not fabricated here.")
     product=Scene.duplex(list(FINAL_LIBRARY),label="indexed HS2 library",unpaired=tuple(s.name+"'" for s in FINAL_LIBRARY if s.is_role_token()))
-    w.ligate_adapter("Ligate the HS2 adaptor",geometry,product.rows(),name="HS2 adapter-ligated library",note="Optional five-base MBCs sit beside both insert ends; pre-capture PCR completes the flow-cell arms.")
+    w.ligate_adapter("INFERRED — ligate the HS2 adaptor",geometry,product.rows(),name="HS2 adapter-ligated library",note="Optional five-base MBCs sit beside both insert ends; the exact adapter arms remain undisclosed.")
     w.react("Hybridize the target interval to a biotinylated bait",hybrid_capture_scene().rows(),name="bait-bound target library",note="Adaptor blockers suppress arm-to-arm hybridization.")
     w.react("Capture, wash and amplify",[
             Row(chunks=[("bait—library duplex + streptavidin bead → retained", None, False)]),

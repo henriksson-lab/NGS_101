@@ -11,7 +11,10 @@ Corces et al., *Nature Methods* (2017),
   by the Corces laboratory.
 - 🟢 Buenrostro et al., *Current Protocols in Molecular Biology* (2015),
   [doi:10.1002/0471142727.mb2129s109](https://doi.org/10.1002/0471142727.mb2129s109),
-  for the Ad1_noMX/Ad2 amplification oligos to which the Omni protocol delegates.
+  for the inherited ATAC amplification workflow. Its methods refer the complete primer
+  list to Buenrostro et al., *Nature Methods* (2013),
+  [doi:10.1038/nmeth.2688](https://doi.org/10.1038/nmeth.2688); that paper's
+  Supplementary Methods (MOESM200, opening lines) print Ad1_noMX and Ad2 members.
 
 ## What Omni changes
 

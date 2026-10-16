@@ -1,4 +1,9 @@
-"""Shared sequence model for the original indexed scRRBS chemistry."""
+"""Shared RRBS model with explicitly inferred canonical adapter arms.
+
+The scRRBS article names standard premethylated indexed Illumina adapters but
+does not print their exact oligos or selected index member.  Canonical TruSeq
+arms are therefore a conditional illustration in each inheriting protocol.
+"""
 from __future__ import annotations
 
 import illumina as il
@@ -20,14 +25,14 @@ def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
-def universal_segments(*, inferred: bool = False) -> list[Segment]:
+def universal_segments(*, inferred: bool = True) -> list[Segment]:
     return [
         _seg("P5", il.P5, "p5", inferred=inferred),
         _seg("Read 1 arm", il.TRUSEQ_READ1[4:], "r1", inferred=inferred),
     ]
 
 
-def indexed_segments(*, inferred: bool = False) -> list[Segment]:
+def indexed_segments(*, inferred: bool = True) -> list[Segment]:
     return [
         _seg("Index-primer / Read 2 arm", INDEXED_FIXED_5, "r2", inferred=inferred),
         _seg("i7 cell index", "N" * INDEX_NT, "cbc", placeholder=True,
@@ -39,15 +44,16 @@ def indexed_segments(*, inferred: bool = False) -> list[Segment]:
 def adapter_scene() -> Scene:
     stem_n = len(il.STEM)
     universal = [
-        _seg("universal fork", UNIVERSAL[:-(stem_n + 1)], "p5"),
-        _seg("universal stem", UNIVERSAL[-(stem_n + 1):-1], "r1"),
-        _seg("3' T", UNIVERSAL[-1], "r1"),
+        _seg("universal fork", UNIVERSAL[:-(stem_n + 1)], "p5", inferred=True),
+        _seg("universal stem", UNIVERSAL[-(stem_n + 1):-1], "r1", inferred=True),
+        _seg("3' T", UNIVERSAL[-1], "r1", inferred=True),
     ]
     indexed = [
-        _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2"),
-        _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2"),
-        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True, feature=CELL_INDEX),
-        _seg("P7'", il.P7_RC, "p7"),
+        _seg("indexed stem", INDEXED_FIXED_5[:stem_n], "r2", inferred=True),
+        _seg("indexed fork", INDEXED_FIXED_5[stem_n:], "r2", inferred=True),
+        _seg("i7", "N" * INDEX_NT, "cbc", placeholder=True, inferred=True,
+             feature=CELL_INDEX),
+        _seg("P7'", il.P7_RC, "p7", inferred=True),
     ]
     sc = Scene()
     sc.strand("universal", universal, label="universal")

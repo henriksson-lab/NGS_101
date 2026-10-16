@@ -1,0 +1,247 @@
+{
+  "dir": "ntt-seq__10.1038+s41587-022-01588-5",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "source_1",
+      "role": "linked_material",
+      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/2022.03.08.483436_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v1 original PDF Methods lines 607–634; bundle oligo scraper",
+        "finding": "Prints bridge oligo A with 9N/V-poly(T) and /3InvdT/, RPI-x indexed primer and P5 primer. Confirms bridge capture and PCR arms independently of published JATS."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 2022.03.08.483436_v1.full.pdf.txt lines 489–503 (Tn5 adapter loading), 592–638 (surface-protein variant, bridge oligo, ADT cleanup and P5/RPI-x, custom read layout); NTT bundle scraper run",
+        "finding": "The author preprint independently prints 3′-/3InvdT/ bridge oligo A with N9V/poly(T), separate P5 and RPI-x tag PCR primers and 38/8/60/60 run for the surface-protein variant. It also explicitly inherits 10x scATAC v1.1 and ASAP-seq; the exact chosen i7 member is not assigned. The chromatin MEDSA sequence family is in published Extended Data Table 2, not an absent preprint supplement."
+      },
+      "discovered_from": "source_4"
+    },
+    {
+      "id": "source_2",
+      "role": "linked_material",
+      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/protocolsio_bench-top-cut-amp-tag-kqdg34qdpl25.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Lines 120–136",
+        "finding": "Author-linked bench-top CUT&Tag protocol prints phosphorylated mosaic end and adapter A/B; relation to specific NTT batch needs checking."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author-linked bench-top CUT&Tag PDF lines 120-136",
+        "finding": "Lists 5′ phosphorylated 19-nt ME reverse and separate A/B Tn5 adapter tops; these establish the CUT&Tag predecessor reagent geometry, not which NTT batch-specific barcode was used."
+      },
+      "discovered_from": "source_4"
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_41587_2022_1588_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF: all three pages visually inspected; extracted text empty",
+        "finding": "Nature Research Reporting Summary only, reporting statistical methods, data/software and antibody/cell source declarations. It is not an oligo or reaction supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41587-022-01588-5_41587_2022_1588_MOESM1_ESM.pdf, all three image pages independently rendered and OCR-checked: p1 Statistics, p2 study design, p3 materials/data",
+        "finding": "All pages are Nature Portfolio Reporting Summary. They contain statistical and study metadata, not adapter/primer sequence tables or reaction instructions; exclusion for molecular missing claims is supported."
+      },
+      "reason": "All three pages visually confirmed as a Nature Research Reporting Summary."
+    },
+    {
+      "id": "source_4",
+      "role": "defining",
+      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_PMC10272075.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Main text Methods lines 98–144 and Extended Data Table 2 lines 282–304",
+        "finding": "Barcoded Tn5 adapters, bridge oligo and RPI/P5 primers and custom 38-8-60-60 read layout are published."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 98-144 and Extended Data Table 2 lines 282-304",
+        "finding": "Source lists six MEDSA 8-base modality barcodes, MEDSB, custom R1/i5 and 38-8-60-60 NextSeq layout; 10x ATAC v1.1 is the inherited GEM/indexing shell."
+      }
+    },
+    {
+      "id": "atac_v1_1_vendor_guide",
+      "role": "vendor",
+      "locator": "_data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official CG000209 Rev G Appendix A1 lines 3729–3829; primer scraper run on the guide",
+        "finding": "Guide prints gel-bead P5–N16–partial Read1N oligo, SI-PCR Primer B forward and indexed reverse scaffold, and complete final library architecture. N16 cell barcode and N8 sample index are variable windows; prior public absence claims were erroneous and have been corrected."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000209 Rev G Appendix A1 lines 3729-3829",
+        "finding": "Prints PN-2000210 gel-bead P5-N16-partial Read1N sequence, SI-PCR Primer B P5 and P7-N8-partial Read2N sequences, and complete library product. N16/N8 are variable windows. Rev G supports architecture but does not by itself identify the historical kit revision used by NTT."
+      },
+      "discovered_from": "source_4"
+    },
+    {
+      "id": "author_library_structure",
+      "role": "linked_material",
+      "discovered_from": "source_4",
+      "locator": "https://ntt-seq.com/html/nttseq_lib_struct (author NTT-seq resources site, scoped extra_sources route)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author page Adapter and primer sequences lines 3–24; Step-by-step library generation 25–59; Library sequencing 60–90",
+        "finding": "Prints barcoded MEDSA/MEDSB and 5′-phosphorylated ME bottom, both indexed PCR primer scaffolds, custom Read 1 GCGATCGAGGACGGCAGATGTGTATAAGAGACAG and custom Index 2 CTGTCTCTTATACACATCTGCCGTCCTCGATCGC, plus full chromatin-library duplex and sequencing directions. These agree with existing NTT chromatin model; author page does not model the separate optional antibody-tag molecule."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original NTT author resources page https://ntt-seq.com/html/nttseq_lib_struct lines 3–24 (MEDSA/B, phospho-ME bottom, P5/P7, custom Read 1 and Index 2), 25–59 (chromatin-library duplex and order), 60–90 (sequencing stages); local NTT bundle scraper run before reading",
+        "finding": "Author page prints the six-region chromatin library, barcoded MEDSA and standard MEDSB, /Phos/ ME bottom, custom Read 1 GCGATCGAGGACGGCAGATGTGTATAAGAGACAG and custom i5 CTGTCTCTTATACACATCTGCCGTCCTCGATCGC. This corroborates the NTT chromatin model but does not define the optional antibody-tag final product or selected sample-index member."
+      }
+    },
+    {
+      "id": "asap_bridge_predecessor",
+      "role": "predecessor",
+      "discovered_from": "source_4",
+      "locator": "_data/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; cited ASAP-seq DOI 10.1038/s41587-021-00927-2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original ASAP-seq JATS lines 122, 132, 234–236 and Extended Data bridge caption; ASAP source-bundle scraper run",
+        "finding": "ASAP-seq describes the blocked bridge as a template for TotalSeq-A tag extension and linear capture by 10x ATAC bead oligo; Methods prints the same N9V/poly(dT)/3InvdT bridge family as NTT. This supports the optional ADT branch but does not establish a selected antibody barcode or NTT-specific antibody-tag final molecule."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original ASAP-seq JATS s41587-021-00927-2_PMC8763625.xml.txt lines 122 (bridge mechanism and UBI), 234–240 (0.5 µl BOA, exact /3InvdT/ N9V/poly-T bridge, 40°C annealing, P5/RPI-x tag PCR); publisher MOESM1 text lines 245–263 (same oligos and index placeholder); scraper run on ASAP bundle",
+        "finding": "Original predecessor explicitly uses 3-prime-blocked BOA as template for TotalSeq-A extension, with N9V UBI then poly(dT); separate tag library PCR uses P5 and RPI-x. This corroborates NTT optional bridge mechanism, but no NTT-specific antibody barcode or complete final tag molecule follows from predecessor alone."
+      }
+    },
+    {
+      "id": "amini_2014_meds_predecessor",
+      "role": "predecessor",
+      "discovered_from": "source_4",
+      "locator": "_data/sources/10x-chromium-single-cell-atac/ng.3119_PMC4409979.xml.txt; Amini et al. Nat Genet 2014 DOI 10.1038/ng.3119 cited for barcoded adapters",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Amini JATS lines 56, 118–122 and its Supplementary Table 4 reference; source-bundle scraper run",
+        "finding": "Amini describes annealing each indexed Tn5 top to a common 5′-phosphorylated 19-bp ME complement and loading Tn5; NTT adapts this geometry with its own six printed 8-base target barcodes. Amini Supplementary Table 4 and any custom sequencing-primer mapping still need direct two-reader inspection."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Amini 2014 JATS ng.3119_PMC4409979.xml.txt lines 118–122 (20 indexed transposons, 1:1 anneal to common 5-prime-phosphorylated 19-bp ME complement and Tn5 loading); publisher MOESM2 workbook Oligonucleotide_Seuqneces rows 9–34 and Correction Notice rows 1–6; scraper run on 10x-chromium-single-cell-atac bundle",
+        "finding": "Amini original establishes indexed transferred-strand ME oligos annealed to common 5-prime-phosphorylated 19-bp complement; its corrected Supplementary Table 4 prints 8 P5 and 12 P7 oligos and primer sequences. It establishes geometry ancestry only: NTT has its own six printed MEDSA modality indexes. Correction notice says first five rows were missing from originally posted Amini supplement, corrected 20 May 2015."
+      }
+    },
+    {
+      "id": "cut_tag_pro_predecessor",
+      "role": "predecessor",
+      "discovered_from": "source_4",
+      "locator": "Zhang et al. scCUT&Tag-pro DOI 10.1038/s41587-022-01250-0; cited NTT JATS lines 60,457–464",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original chemistry-bearing predecessor for NTT optional surface-tag branch not cached in this protocol review; must inspect original and supplements before accepting absence."
+    },
+    {
+      "id": "totalseq_a_panel",
+      "role": "vendor",
+      "discovered_from": "source_4",
+      "locator": "BioLegend TotalSeq-A Human Universal Cocktail v1.0 PN-399907, named NTT JATS line 104",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Manufacturer tag panel and actual 173 tag member assignment were not inspected; relevant to full optional ADT branch, not the drawn chromatin-only molecule."
+    },
+    {
+      "id": "cuttag_bcuhiwt6",
+      "role": "predecessor",
+      "discovered_from": "source_4",
+      "locator": "https://doi.org/10.17504/protocols.io.bcuhiwt6 ; cited NTT JATS line 108; get_sources source MANIFEST.tsv has (manual) protocolsio_bcuhiwt6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Cited Kaya-Okur CUT&Tag detailed protocol did not resolve through source fetcher; may affect inherited targeting and tagmentation handling."
+    },
+    {
+      "id": "amini_2014_supp_table4",
+      "role": "linked_material",
+      "discovered_from": "amini_2014_meds_predecessor",
+      "locator": "Amini et al. 2014 published Supplementary Table 4, corrected original workbook _data/sources/10x-chromium-single-cell-atac/ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 workbook text lines 1–6 Correction Notice and Oligonucleotide_Seuqneces sheet lines 8–34; original JATS line 118 explicitly cites Supplementary Table 4; scraper run on full Amini bundle",
+        "finding": "Corrected original table prints 8 P5 i5 and 12 P7 i7 indexed transferred-strand transposon oligos, Read 1/2 and Index 1 primer, plus pMENTS /5Phos/CTGTCTCTTATACACATCT. Correction Notice says first five rows had been missing from initial online supplement and were restored 20 May 2015. This is relevant predecessor geometry, not NTT-specific MEDSA sequence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Corrected original Amini 2014 Supplementary Table 4 workbook lines 1–32, after source-bundle scraper; JATS Methods line 118",
+        "finding": "Independently verified the correction notice and all eight P5 plus twelve P7 transferred oligos, sequencing primers and phosphorylated pMENTS non-transferred strand. The table supports predecessor loading geometry but NTT's own published MEDSA sequences define its actual library."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located source rows above; scraper run on this source bundle",
+      "finding": "Relevant original/linked material remains unread or unavailable, and independent second pass is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining JATS Methods, located original supplementary oligo table, linked bench-top CUT&Tag where applicable, and official 10x CG000209 Rev G Appendix A1",
+      "finding": "The CG000209 guide resolves kit oligo scaffolds, but other relevant original/preprint/supplement rows remain without two located passes; linked information remains blocked. Follow-up: independently read original NTT author library-structure page, ASAP original bridge Methods, and Amini original plus corrected Supplementary Table 4. Table 4 has a first read as a separate linked attachment row; optional tag molecule and several cited sources remain unresolved."
+    },
+    "followup_audit_a_h": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published NTT JATS lines 98–108, 128–144, 310–316 and refs 11/18/27; author ntt-seq.com library-structure page lines 3–90; ASAP original JATS 122,234–236; Amini original JATS 118–122; local source manifests and scraper runs",
+      "finding": "The author resources site resolves custom chromatin sequencing primer/duplex detail. ASAP-seq and Amini predecessors were inspected for bridge and ME geometry. scCUT&Tag-pro and BioLegend TotalSeq-A panel remain unchecked for optional surface-protein branch, and selected i7 member remains unassigned. No missing claim accepted. The independently identified Kaya-Okur protocols.io.bcuhiwt6 detailed predecessor is also manual in the source manifest."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain. Official 10x CG000209 Rev G Appendix A1 resolves gel-bead and PCR scaffold absences.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent passes now cover the bioRxiv preprint and reporting summary. Author NTT structure page and ASAP/Amini predecessors add source-positive detail but await independent second checks; scCUT&Tag-pro and TotalSeq-A panel remain open. The public page now scopes its chromatin-only molecule and acknowledges the separate ADT product. No missing claim accepted."
+}

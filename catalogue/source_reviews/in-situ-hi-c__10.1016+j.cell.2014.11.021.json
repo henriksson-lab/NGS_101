@@ -1,0 +1,90 @@
+{
+  "dir": "in-situ-hi-c__10.1016+j.cell.2014.11.021",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/j.cell.2014.11.021_PMC5635824.xml.txt:269",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_i_r",
+        "date": "2026-10-15",
+        "locations": "Article Methods and supplementary link near line 269",
+        "finding": "Original JATS is available and points to a supplementary zipped protocol; defining methods alone do not settle exact oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5635824 JATS lines 90 and 241",
+        "finding": "Primary paper describes MboI/DpnII digestion, biotin fill-in, in-nucleus ligation and paired-end sequencing, and defers detailed conditions to extended procedures."
+      }
+    },
+    {
+      "id": "supp_zip",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5635824/bin/NIHMS649130-supplement-Zipped.zip",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; original zipped supplementary procedures not cached.",
+      "pass_1": {
+        "reviewer": "audit_i_r",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv manual row for NIHMS649130 supplement",
+        "finding": "Original supplementary ZIP unavailable."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv manual row; original JATS line 269",
+        "finding": "Original zipped supplement remains unavailable; do not infer sequence absence from transcription."
+      }
+    },
+    {
+      "id": "encode_transcription",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt:52-75,236-260",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_i_r",
+        "date": "2026-10-15",
+        "locations": "ENCODE transcription lines 52-75,260",
+        "finding": "Transcribed Rao procedure has MboI/fill-in/biotin/ligation and names Illumina primers/protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Hi-C_Protocol.pdf.txt lines 236-260",
+        "finding": "Detailed ENCODE transcription prescribes adapter ligation and 4-12 PCR cycles using Illumina primers/protocol (2007), without the exact primer sequence there."
+      }
+    },
+    {
+      "id": "illumina2007",
+      "role": "linked_material",
+      "locator": "Illumina (2007), Preparing Samples for Sequencing Genomic DNA, as cited in ENCODE transcription:260",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Period-specific original manual identity/version and contents not verified; a web mirror is only a lead.",
+      "discovered_from": "encode_transcription"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC article Extended Experimental Procedures link and local ENCODE transcription; MANIFEST.tsv",
+      "finding": "Original supplemental zip is gated and original 2007 Illumina protocol has not been obtained, so sequence absence cannot be accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact ligated indexed adapter and PCR primer bases",
+      "disposition": "blocked",
+      "evidence": "Original zipped Methods inaccessible and transcribed procedure delegates indexed adapter/primers to Illumina 2007 guide, not yet verified."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

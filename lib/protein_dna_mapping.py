@@ -13,7 +13,8 @@ def henikoff_single_index_library(name: str, payload):
 
 def _finish_henikoff_library(graph: ProtocolGraph, prefix: str, template, label: str,
                               final, primers, source: str, reviewed: list[str],
-                              read_lengths, adapter_geometry, p5_sequence: str, p7_sequence: str) -> None:
+                              read_lengths, adapter_geometry, p5_sequence: str, p7_sequence: str,
+                              primer_source_statement: str) -> None:
     """Published low-input end repair through paired-end library construction."""
     repair = graph.input(prefix + "_repair_enzymes", label + " end-repair enzymes",
                          MaterialKind.CATALYST)
@@ -60,7 +61,7 @@ def _finish_henikoff_library(graph: ProtocolGraph, prefix: str, template, label:
     geometry = PCRGeometry.exact(
         final, PCRPrimer("P5 enrichment primer", p5_sequence),
         PCRPrimer("P7 enrichment primer", p7_sequence),
-        statement="The cited Henikoff procedure publishes both enrichment-primer sequences.")
+        statement=primer_source_statement)
     graph.react(prefix + "_pcr", "PCR-enrich the " + label + " library", StepKind.PCR,
                 ((adapted, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),

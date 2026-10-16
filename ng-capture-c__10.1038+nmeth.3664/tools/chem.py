@@ -282,7 +282,9 @@ if d.standard_truseq:
 else:
     FINAL_LIBRARY = Construct([role("Illumina-compatible left end"), *d.final_parts, role("Illumina-compatible right end")], name=d.title + " final library")
     SEQ_PRIMERS = ()
-OLIGOS = ()
+OLIGOS = (
+    "<b>Published Hba-1 viewpoint capture example</b> — 5′-/5Biosg/GAT CCA TGG TAG CAC AGG GCA GCT AAG ATG CAA GTC TGA AGG AGG AGT CTG GCG AGC TGC TCC TGC AGT TCC CTG GAC CCA GAA GGA TGA GCT AGC AGA TTC ACT TGA GCC AAA GGA TTC-3′. The 120-base probe and 5′ biotin notation are from the original Supplementary Data workbook, ‘Oligonucleotide sequences’ sheet, row 94; capture probes vary by viewpoint.",
+)
 SPEC = SimpleNamespace(
     TITLE=d.title, NOTES="01_ng_capture_c.html",
     SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',

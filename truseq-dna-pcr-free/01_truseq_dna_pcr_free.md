@@ -22,6 +22,6 @@
 
 🟡 Because the adaptor is forked, the sealed molecule's two platform arms are unpaired beyond the 12-bp TruSeq stem until the flow cell copies them. The reagent's fork geometry is modelled in `lib/batch_ngs.py` (`FullLengthAdapter.scene()`), while the library construct keeps the project's linear one-top-strand convention used for every other ligation product.
 
-🟢 The guide lists single-index, combinatorial-dual-index and TruSeq unique-dual-index components. The schematic shows the current dual-index option.
+🟢 The guide lists separate single-index, combinatorial-dual-index and TruSeq unique-dual-index components (Appendix A, Product Contents). The schematic uses the documented TruSeq DNA combinatorial-dual-index adapter family; it does not represent the other two purchasable families.
 
-🟡 Index identities vary with the purchased adapter plate, so the model records i5 and i7 as sample-index features without inventing particular bases. Standard TruSeq Read 1, Index 1, Index 2 and Read 2 primer landing sites are computed from the canonical construct.
+🟡 The purchased adapter and its well determine the index identities. The model records i5 and i7 as sample-index features without inventing a sample-specific choice. Standard TruSeq Read 1, Index 1, Index 2 and Read 2 primer landing sites are computed from the canonical construct.

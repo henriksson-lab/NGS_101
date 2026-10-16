@@ -1,0 +1,146 @@
+{
+  "dir": "pore-c__10.1038+s41587-022-01289-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41587-022-01289-z",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher main article is absent from local bundle; only two Springer supplements are cached."
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Extracted PDF lines 1–25, 376–386, 1132–1141, 1337–1348 and 1442–1453: all five table headers inspected",
+        "finding": "Supplementary Tables 1–5 are sequencing/contact summary, genomic features, assembly continuity and transcription-factor result tables, not protocol chemistry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 PDF text Supplementary Table 1 and result-table headings, lines 1–1506",
+        "finding": "Eight-page numerical read/contact/mapping result tables; no oligo or library chemistry in inspected table headings and text."
+      },
+      "reason": "Supplementary Tables 1–5 are sequencing/contact summary, genomic features, assembly continuity and transcription-factor result tables, not protocol chemistry."
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PDF pp. 1–2 visually inspected as raster images; text extraction contains only two blank lines",
+        "finding": "Visual inspection of both PDF pages: Nature Research statistical, software, data and cell-line reporting summary, without reaction or oligo detail."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 PDF, visually inspected pages 1–2 because extracted text empty",
+        "finding": "Two-page Nature Research Reporting Summary with statistics, data/software and cell-line declarations; no reaction or oligo table."
+      },
+      "reason": "Visual inspection of both PDF pages: Nature Research statistical, software, data and cell-line reporting summary, without reaction or oligo detail."
+    },
+    {
+      "id": "preprint",
+      "role": "predecessor",
+      "locator": "https://www.biorxiv.org/content/10.1101/833590v1 (Ulahannan et al. 2019, cited by ONT info sheet)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "bioRxiv full text/PDF returns 403 and the DOI source fetcher found no API PDF; abstract alone is insufficient for molecular claims."
+    },
+    {
+      "id": "ont_extraction",
+      "role": "vendor",
+      "locator": "https://nanoporetech.com/document/extraction-method/restriction-pore-c (ONT RE-Pore-C extraction protocol v5, 2 March 2022)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original ONT HTML, Method Day 1 steps 26–44, Day 2 proximity ligation A/B and steps 6–8, Day 3 steps 1–22; Library preparation and Change log sections (web lines 243–408). Scraper run on local source bundle, zero oligos.",
+        "finding": "NlaIII is explicitly an example; the original describes heat/chemical enzyme inactivation, 16 C six-hour proximity ligation, proteinase K and DNA extraction. It stops at Pore-C DNA extract and delegates size selection and library preparation to its linked info sheet; it does not print adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ONT live original extraction protocol v5, Method Day 1 steps 37–44, Day 2 Proximity Ligation A/B and steps 6–8, Day 3 steps 1–22; Library preparation and Change log, web lines 271–408",
+        "finding": "Independently verified NlaIII is explicitly an example, digest at 37°C overnight, heat or chemical enzyme inactivation, T4 proximity ligation at 16°C for six hours, proteinase K digestion and DNA extraction. Page stops before library construction and sends readers to linked info sheet. No adapter bases printed."
+      }
+    },
+    {
+      "id": "ont_info_sheet",
+      "role": "vendor",
+      "locator": "https://nanoporetech.com/document/restriction-enzyme-pore-c (ONT RE-Pore-C info sheet, document version RPC_S1015_v1_revL_12Nov2019; online page contains later kit references)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original ONT HTML sections 1–4, especially Protocol overview, size selection, PCR amplification and sequencing-library guidance (web lines 163–259), and linked reference/kit list lines 307–324; local source scraper run, zero oligos.",
+        "finding": "Info sheet explicitly recommends 0.85X SPRI selection above 1 microgram but permits no selection at lower yield; native ligation library is preferred, with Rapid PCR Barcoding Kit as lower-yield alternative. Names SQK-LSK114 as a current recommendation and SQK-LSK109/110 as older alternatives. It cites Ulahannan 2019 and links the extraction protocol and kit manuals; it does not identify the kit used in Deshpande 2022."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ONT live original info sheet, sections 1–4 and 7, web lines 154–194, 233–253, 307–324",
+        "finding": "Independently verified 0.85X SPRI selection for >1 µg input, native ligation kit as preferred branch, lower-yield no-selection and Rapid PCR Barcoding alternatives. Current text names SQK-LSK114 and older SQK-LSK110/109, but does not identify Deshpande 2022 kit; cites Ulahannan 2019 predecessor and links extraction and kit guidance."
+      }
+    },
+    {
+      "id": "ont_lsk114",
+      "role": "vendor",
+      "locator": "_data/sources/oxford-nanopore-ligation-sequencing-v14/genomic-dna-by-ligation-sqk-lsk114.html.txt and chemistry-technical-document.html.txt (2025/2026 original vendor documents; later comparator only)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ONT V14 guide lines 619–703 and chemistry technical document lines 345, 2072–2123; scraper run on full local LSK114 source bundle, 30 hits checked for Ligation Adapter entry.",
+        "finding": "Later V14 originals specify repair/dA-tail, LA ligation, complementary dT and print a 27-base LA duplex sequence. Thus saying ONT adapter bases are universally proprietary is false. These 2025/2026 sources cannot establish the historical 2022 Pore-C kit or its exact adapter."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached ONT genomic-dna-by-ligation-sqk-lsk114.html.txt lines 619–703; chemistry-technical-document.html.txt lines 345–365 and 2072–2130; scraper on complete local V14 bundle",
+        "finding": "Independently verified later V14 guide uses LA plus Salt-T4 DNA ligase after end preparation. Chemistry document describes 5-prime-phosphorylated, 3-prime dA-tailed DNA ligated to complementary dT adapter, prints LA duplex 27-base strands and says motor loads onto ligation adapter. These 2025/2026 originals establish later-branch geometry only, not the adapter or enzyme used by the 2022 paper."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Published MOESM1/2 checklist; ONT extraction protocol links to info sheet; info sheet sections 4 and 7 link current and older ligation kits and Ulahannan 2019 preprint.",
+      "finding": "Followed original vendor extraction page to info sheet and checked later LSK114 kit and chemistry documents; listed cited preprint. The defining 2022 article and full 2019 preprint remain inaccessible; original Pore-C kit/revision is unresolved."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "ONT extraction protocol web lines 137–153, 271–408; linked info sheet web lines 154–194, 233–253, 307–324; cached V14 guide lines 619–703 and chemistry technical document lines 345–365, 2072–2130; published MOESM1/2 earlier independent review",
+      "finding": "Independently followed extraction protocol to info sheet, then to later SQK-LSK114 vendor kit/chemistry originals. Checked optional size selection/native versus PCR branches and later adapter/ligase geometry. Info sheet also cites Ulahannan 2019, whose full text remains inaccessible. Defining 2022 article remains unavailable, so kit revision and adapter in that experiment remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact adapter sequence and kit revision used by Deshpande 2022 Pore-C",
+      "disposition": "blocked",
+      "evidence": "Later SQK-LSK114 vendor documentation prints an adapter duplex, so universal proprietary/undisclosed claims are unsound. The original paper and preprint are not yet available for the historical kit identity and original-era kit guide has not been double-checked."
+    }
+  ],
+  "conclusion": "Published supplements and later ONT extraction, info-sheet, V14 kit and chemistry originals have two located independent readings. Later kit establishes an example dA/dT ligation, Salt-T4 ligase and published LA duplex, but original 2022 article and 2019 preprint are unavailable, leaving historical kit identity and adapter unresolved; no absence claim accepted."
+}

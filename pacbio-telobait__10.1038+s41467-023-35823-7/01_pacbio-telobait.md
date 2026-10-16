@@ -15,9 +15,9 @@ PacBio telobait sequencing ligates phased, barcoded and biotinylated baits to na
 
 ## 4. Reaction order
 
-1. 🟢 RsaI and HinfI trim the genome without cutting canonical TTAGGG repeats.
-2. 🟢 A six-phase telobait pool anneals and is ligated at native telomere overhangs; T4 DNA polymerase fills the gap.
-3. 🟢 Streptavidin capture and washing select tagged chromosome ends.
+1. 🟢 RsaI/HinfI, the six-phase telobait pool, and T4 DNA ligase incubate together overnight; restriction digestion and terminal ligation occur in the same reaction (full text, “Telomere enrichment using telobaits,” line 224).
+2. 🟢 Streptavidin capture and washing select tagged chromosome ends.
+3. 🟢 T4 DNA polymerase fills the telobait gap on the captured molecules.
 4. 🟢 EcoRI releases the selected fragments.
 5. 🟢 PacBio SMRTbell preparation converts them to closed HiFi templates.
 

@@ -1,0 +1,70 @@
+{
+  "dir": "malbac-dt__10.1101+2019.12.31.892190",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "Chen et al bioRxiv DOI:10.1101/2019.12.31.892190; 2019.12.31.892190.full.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original bioRxiv PDF is manual in MANIFEST and no article text is present locally.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "published_successor",
+      "role": "linked_material",
+      "locator": "Chapman et al. PNAS 2022 DOI:10.1073/pnas.2206938119, PMC9907105; linked successor of MALBAC-DT preprint",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Added pmccloud:PMC9907105 to catalogue/extra_sources.tsv and ran get_sources.py; PMC Cloud returned no files. DOI route reports publisher-only/manual, so article and SI remain unread.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "malbac_predecessor",
+      "role": "linked_material",
+      "locator": "Original MALBAC Zong et al Science 2012 DOI:10.1126/science.1229164",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original MALBAC article JATS lines 38-66; supplemental DOCX manual",
+        "finding": "Predecessor principle described, but exact MALBAC-DT adaptation cannot be inferred from it."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Zong et al original Science JATS lines 38-40, 65-68",
+        "finding": "MALBAC predecessor reports a common 27-mer plus 8 random bases and directs to an unavailable supplement; this does not establish MALBAC-DT details."
+      },
+      "discovered_from": "preprint"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MALBAC-DT MANIFEST and linked PNAS reference in 01_malbac_dt.md; MALBAC predecessor JATS",
+      "finding": "Identified linked PNAS successor DOI:10.1073/pnas.2206938119 and attempted both DOI and PMC Cloud fetch routes; neither returned original text. MALBAC predecessor JATS read, but MALBAC-DT original and published successor remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original MALBAC predecessor JATS lines 38-40, 65-68; source MANIFEST MALBAC-DT and PNAS rows",
+      "finding": "Checked cited predecessor; defining MALBAC-DT preprint and PNAS successor remain unavailable. Linked information is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "MALBAC-DT published primer and adapter identities cannot be audited until original preprint and PNAS successor are read",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

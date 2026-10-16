@@ -113,8 +113,13 @@ primers; whether the 8-nt indices are identical to that set was not checked. �
 
 ## 3. Step by step
 
-All on the C1 IFC unless stated; volumes and concentrations 🟢 from the Supplementary
-Information.
+All on the C1 IFC unless stated. The publisher's detailed
+`Supplemental_Material.pdf` is indexed with the Part 1 on-IFC procedure, but its
+direct URL was inaccessible during this audit. The cached similarly named DOCX is
+only an inventory, not the Methods body. The author bioRxiv supplement
+`829960_media-6.pdf.txt`, lines 1562–1665, contains the complete earlier recipe.
+Exact values below are sourced to that preprint unless a published-version value
+is stated. Full published off-IFC methods still need a direct check.
 
 1. **Capture** one cell per chamber (C1 IFC, custom "ASTAR" scripts, Supplementary File 1).
 2. **Lyse and tagment together**: 0.15 % NP-40, 1.5× Tagment DNA Buffer, 1.5× Nextera Tn5
@@ -133,15 +138,27 @@ Information.
 5. **On-chip cDNA PCR, 5 cycles** with biotinylated C1-P2-PCR-2 (Q5 Ultra II): 98 °C 3 min;
    5 × (98 °C 20 s, 58 °C 4 min, 68 °C 6 min); 72 °C 10 min. Every cDNA strand now has a
    5' biotin. The ATAC fragments are **not** amplified: no primer matches s5/s7. 🟡
-6. **Harvest** 5.5 µL per cell.
+6. **Harvest**: preprint Supplementary Experimental Procedures lines 1603–1605
+   print **5.5 µL** C1 Harvest Reagent per cell and lines 1612–1615 mix 5.5 µL
+   harvested sample with 5.5 µL washed streptavidin beads. The indexed text of
+   the publisher's later `Supplemental_Material.pdf`, Part 1 on-IFC procedure,
+   instead says **approximately 3.5 µL** C1 Harvest Reagent per cell. The current
+   model follows the later published value provisionally; the complete publisher
+   PDF could not be inspected, so whether the bead-mix volume also changed is open.
 
 Off chip:
 
-7. **Separate**: MyOne Streptavidin C1 beads, 20 min. **Supernatant = ATAC-DNA**;
-   beads = cDNA, eluted by heat (90 °C 10 min, water) — heat breaks the cDNA duplex and
-   releases the non-biotinylated strand; the biotin–streptavidin bond itself is not
-   broken at 90 °C in water, so the biotinylated strand is assumed to stay on the bead.
-   🟡 (inferred; the paper gives only the conditions)
+The preprint's original Supplementary Experimental Procedures lines 1606–1665
+support the cycle counts and handling quantities in steps 7–10. They are verified
+for the preprint version; the inaccessible later publisher PDF prevents a full
+check of whether those exact off-IFC conditions changed on publication.
+
+7. **Separate**: MyOne Streptavidin C1 beads retain biotinylated cDNA while the
+   supernatant contains ATAC-DNA. The preprint Methods lines 1618–1621 specify
+   elution of cDNA in water at 90 °C for 10 min. The model's assignment of the
+   released molecule specifically to the **non-biotinylated strand** remains 🟡
+   inferred: neither the preprint passage nor the accessible published main Methods
+   names which strand is recovered.
 8. **cDNA, second PCR**: C1-P2-PCR2 (now given without "Bio-"), 9 + 11 cycles, AMPure 1×.
 9. **RNA library**: standard C1 / Nextera XT on 0.15–0.2 ng/µL cDNA — tagment 55 °C 10 min,
    Nextera XT index PCR, 22 cycles. Only fragments with s5 at one end and s7 at the

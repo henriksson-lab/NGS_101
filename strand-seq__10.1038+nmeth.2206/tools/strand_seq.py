@@ -21,7 +21,7 @@ TITLE = "Strand-seq — parental template-strand sequencing"
 NOTES = "01_strand-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.2206">Falconer et al., <i>Nature Methods</i> (2012)</a>.'
 SUMMARY = "Cells replicate once in BrdU; after single-cell isolation, Hoechst/UV selectively nicks the BrdU-containing nascent strands so only the parental template strands amplify."
-CAVEAT = "The paper prints the custom indexed PCR primer and index-read primer and names Illumina PE adapters and PE&nbsp;1.0. The adapter and standard read-primer bases below come from Illumina’s authoritative obsolete paired-end oligo table."
+CAVEAT = ("Falconer et al. Online Methods, ‘DNA template strand library construction,’ prints seven N positions in the custom PCR primer but calls the assigned index a fault-tolerant hexamer; ‘Illumina sequencing’ specifies a seven-base index read. The model uses six variable bases and one adjacent fixed base, but the printed N run does not itself resolve that assignment. The paper names Illumina PE adapters and PE&nbsp;1.0; the adapter and standard read-primer bases below come from Illumina’s obsolete paired-end oligo table.")
 
 # Falconer Online Methods. The apparent seven-N run is explicitly described as a
 # fault-tolerant hexamer. The seven-cycle index read therefore continues into P7'.
@@ -48,6 +48,21 @@ def adapter_scene() -> Scene:
               label="PE adapter oligo", mod5="p", unpaired=("PE fork arm",))
     sc.mark("bottom", "3′ T", "ligation overhang")
     return sc
+
+
+def adapter_geometry() -> AdapterLigationGeometry:
+    adapter = adapter_scene()
+    adapter.ligation_end("bottom", "3′ T", kind="cohesive", polarity="3-prime",
+                         owner="adapter", text="adapter 3′ dT")
+    substrate = Scene()
+    substrate.strand("fragment", [seg("repaired DNA end", "X" * 18,
+                                     placeholder=True), seg("3′ dA", "A")],
+                     label="A-tailed fragment")
+    substrate.overhang("fragment", "3′ dA", polarity="3-prime",
+                       owner="substrate", text="fragment 3′ dA")
+    return AdapterLigationGeometry.known(
+        "cohesive", adapter, substrate,
+        statement="Falconer Online Methods specify fragment end repair and A tailing before Illumina PE adapter ligation; the obsolete Illumina paired-end oligo table prints the adapter 3′ dT.")
 
 
 def pe1_segments():
@@ -90,15 +105,15 @@ def final_library() -> Construct:
 
 FINAL_LIBRARY = final_library()
 FINAL_CAPTION = "PCR-completed, single-index historical paired-end library. The six-base i7 identifies the cell; there is no i5 index."
-SEQUENCING_INTRO = "Paired 76-nt reads used the obsolete Illumina PE primers. A third seven-cycle read used the printed custom primer to report the six-base barcode plus one adjacent fixed base."
+SEQUENCING_INTRO = "Paired 76-nt reads used the obsolete Illumina PE primers. A third seven-cycle read is reported. The model assigns six cycles to the barcode and one to an adjacent fixed base; see the source discrepancy above."
 
 
 def sections():
     return [
         ("Label nascent DNA during one S phase", strand_selection_rows()[:2],
          "Semiconservative replication leaves each chromatid with one parental template and one BrdU-containing newly synthesized strand."),
-        ("Ligate the historical Illumina PE adapter", adapter_scene().rows(),
-         "The 5′-phosphorylated PE oligo and Read 1 oligo form the adapter named by the defining paper; ligation precedes strand destruction."),
+        ("Repair, A-tail and ligate the historical Illumina PE adapter", adapter_geometry().rows(),
+         "The paper repairs and A-tails fragmented DNA before ligating PE adapters. The adapter's 3′ dT joins the fragment's 3′ dA overhang; ligation precedes strand destruction."),
         ("Destroy the nascent strand before PCR", strand_selection_rows()[2:],
          "Hoechst sensitization and UV nick BrdU DNA. PE 1.0 and the custom indexed primer then amplify only intact parental templates."),
     ]
@@ -117,6 +132,26 @@ def protocol_graph():
     graph.react("label_nascent","Replicate once in BrdU",StepKind.EXTENSION,
                 ((cells,InputRole.TEMPLATE),(brdu,InputRole.STRUCTURAL),
                  (replication,InputRole.CATALYST)),(replicated,))
+    fragmented=graph.product("fragmented","fragmented BrdU-labelled DNA",
+                             MaterialKind.MOLECULAR)
+    mnase=graph.input("mnase","micrococcal nuclease",MaterialKind.CATALYST)
+    graph.react("fragment_dna","Fragment genomic DNA",StepKind.FRAGMENTATION,
+                ((replicated,InputRole.TEMPLATE),(mnase,InputRole.CATALYST)),
+                (fragmented,))
+    repair_enzymes=graph.input("repair_enzymes","DNA end-repair enzymes",
+                               MaterialKind.CATALYST)
+    repaired=graph.product("repaired","end-repaired BrdU-labelled fragments",
+                           MaterialKind.MOLECULAR)
+    graph.react("end_repair","Repair fragment ends",StepKind.END_REPAIR,
+                ((fragmented,InputRole.TEMPLATE),(repair_enzymes,InputRole.CATALYST)),
+                (repaired,))
+    tailing_enzymes=graph.input("tailing_enzymes","DNA dA-tailing enzymes",
+                                MaterialKind.CATALYST)
+    tailed=graph.product("tailed","3′-dA-tailed BrdU-labelled fragments",
+                         MaterialKind.MOLECULAR)
+    graph.react("a_tail","A-tail fragment ends",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(tailing_enzymes,InputRole.CATALYST)),
+                (tailed,))
     adapter=graph.input("pe_adapter","historical Illumina PE adapter",
                         MaterialKind.ADAPTER,state=tuple(adapter_scene().rows()))
     ligase=graph.input("adapter_ligase","PE adapter ligase",MaterialKind.CATALYST)
@@ -124,10 +159,9 @@ def protocol_graph():
                           MaterialKind.MOLECULAR)
     graph.react("ligate_adapter","Ligate the historical Illumina PE adapter",
                 StepKind.LIGATION,
-                ((replicated,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+                ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(adapted,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The adapter's 3-prime dT is known, but the defining paper does not state the substrate end-preparation geometry."))
+                geometry=adapter_geometry())
     damage=graph.input("hoechst_uv","Hoechst and UV strand-destruction condition",
                        MaterialKind.CONDITION)
     parental=graph.product("parental_templates","intact parental template strands",
@@ -154,7 +188,8 @@ def protocol_graph():
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
                                           primers=tuple(SEQ_PRIMERS)))
     graph.declare_reviewed_scope((
-        "cells","brdu","replication_polymerase","label_nascent","pe_adapter",
+        "cells","brdu","replication_polymerase","label_nascent","mnase","fragment_dna",
+        "repair_enzymes","end_repair","tailing_enzymes","a_tail","pe_adapter",
         "adapter_ligase","ligate_adapter","hoechst_uv","destroy_nascent",
         "pe1_primer","indexed_primer","pcr_polymerase","library_pcr","library"),SOURCE)
     return graph.require_publishable()

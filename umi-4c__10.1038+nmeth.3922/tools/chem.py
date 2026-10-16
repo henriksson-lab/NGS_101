@@ -2,8 +2,9 @@
 from chemdraw import Segment, feature
 from conformation_replication_specs import _three_c
 from conformation_replication_specs import AdapterLigationGeometry, Circular4CTemplate, CircularizationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, da_tailed, inverse_pcr_product, molecule, multiway_contact, role, sp
-SAMPLE_INDEX = Segment("PCR sample index", "I" * 8, "cbc", placeholder=True,
+SAMPLE_INDEX = Segment("adapter sample index", "I" * 6, "cbc", placeholder=True,
                        feature=feature("sample_index", "sample_index", "unknown"))
+SUPPLEMENT = "https://doi.org/10.1038/nmeth.3922 (Supplementary Table 4)"
 
 ENDPOINT = Segment("random sonication endpoint identifier",
                    "[random shearing endpoint used as UMI]", "umi", placeholder=True,
@@ -17,7 +18,7 @@ DEFINITION = Definition(
         (role("nested viewpoint / Illumina end"), role("viewpoint"),
          role("contact reporter"), role("universal adapter end")),
         "Paired-end sequencing recovers the viewpoint/contact molecule and the random shearing endpoint used to collapse PCR duplicates.", False,
-        "The published ‘UMI’ is the genomic sonication endpoint, not a fixed-length random oligonucleotide; the exact locus-specific bait primers vary by experiment.")
+        "The published ‘UMI’ is the genomic sonication endpoint, not a fixed-length random oligonucleotide. Supplementary Table 4 prints both forked-adapter strands, a six-base adapter index window and example viewpoint primers; exact adapter-end pairing remains unresolved in this diagram.")
 
 
 def _conformation_graph(key: str, definition, final: Construct,
@@ -156,8 +157,8 @@ def _conformation_graph(key: str, definition, final: Construct,
         graph.react("da_tail", "Add one 3-prime dA to each end", StepKind.TAILING,
                     ((repaired, InputRole.TEMPLATE),
                      (tailing, InputRole.CATALYST)), (tailed,))
-        adapters = graph.input("illumina_adapters", "Illumina library adapters",
-                               MaterialKind.ADAPTER, inferred=True)
+        adapters = graph.input("illumina_adapters", "published forked Illumina adapter with six-base index",
+                               MaterialKind.ADAPTER, source=SUPPLEMENT)
         adapter_ligase = graph.input("adapter_ligase", "adapter DNA ligase",
                                      MaterialKind.CATALYST)
         adapted = graph.product("adapter_ligated_dna", "adapter-ligated 3C DNA",
@@ -168,7 +169,7 @@ def _conformation_graph(key: str, definition, final: Construct,
                      (adapters, InputRole.STRUCTURAL),
                      (adapter_ligase, InputRole.CATALYST)), (adapted,),
                     geometry=AdapterLigationGeometry.unavailable(
-                        "The defining protocol identifies its library kit or adapter role but does not print one immutable adapter-end reagent."))
+                        "Supplementary Table 4 prints both forked-adapter oligos; their annealed dA-tail ligation-end geometry has not yet been checked against the source figure."))
         reviewed.extend((
             "sonication", "sonicate", "end_repair_enzymes", "end_repair",
             "a_tailing_enzyme", "da_tail", "illumina_adapters", "adapter_ligase",
@@ -296,7 +297,12 @@ if d.standard_truseq:
 else:
     FINAL_LIBRARY = Construct([role("Illumina-compatible left end"), *d.final_parts, role("Illumina-compatible right end")], name=d.title + " final library")
     SEQ_PRIMERS = ()
-OLIGOS = ()
+OLIGOS = (
+    "<b>Forked adapter, strand 1 (Supplementary Table 4)</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′",
+    "<b>Forked adapter, strand 2 (Supplementary Table 4)</b> — 5′-(PO4)-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC(NNNNNN)ATCTCGTATGCCGTCTTCTGCTTG-3′ (N6: adapter index window)",
+    "<b>Universal Primer 2 (Supplementary Table 4)</b> — 5′-CAAGCAGAAGACGGCATACGA-3′",
+    "<b>G1p1 example viewpoint primers (Supplementary Table 4)</b> — upstream 5′-CATCCCCTCAACTCCACCTTAC-3′; downstream 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCTCTCAACTCCACCTTACCCACCAT-3′",
+)
 SPEC = SimpleNamespace(
     TITLE=d.title, NOTES="01_umi_4c.html",
     SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',

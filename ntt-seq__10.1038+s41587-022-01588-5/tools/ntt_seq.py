@@ -19,8 +19,12 @@ NOTES = "01_ntt-seq.html"
 SOURCE = '<a href="https://doi.org/10.1038/s41587-022-01588-5">Stuart et al., <i>Nature Biotechnology</i> (2023)</a>.'
 SUMMARY = ("Species-selective nanobody–Tn5 fusions transfer a target-specific MEDSA "
            "barcode and a MEDSB opposite end before Chromium ATAC adds cell identity.")
-CAVEAT = ("MEDSA_1/MEDSB and their Tn5 loading geometry are exact. The complete 10x "
-          "gel-bead and SI-PCR oligos are vendor-supplied and remain explicit unavailable regions.")
+CAVEAT = ("The target-specific adapters and Tn5 loading geometry are source-defined. "
+          "The linked 10x ATAC v1.1 guide prints gel-bead and SI-PCR oligo "
+          "scaffolds; the 16-nt cell barcode and 8-nt sample index vary. "
+          "This drawing follows the chromatin library. The published optional TotalSeq-A "
+          "surface-protein branch adds a blocked bridge oligo and makes a separate antibody-tag library "
+          "(Methods lines 110–112 and 128–136); its tag products are not represented by this molecule.")
 
 MEDSA_BARCODES = ("GGATTGCT", "GTAATGCA", "GTCAAGGA", "GTGAGCGT", "GTGTGACC", "TAAGGTGG")
 CONNECTOR = "GCGATCGAGGACGGC"
@@ -29,6 +33,12 @@ MEDSB = nx.S7 + nx.ME
 ME_REV = nx.ME_RC
 CUSTOM_R1 = CONNECTOR + nx.ME
 CUSTOM_I5 = nx.ME_RC + revcomp(CONNECTOR)
+
+
+ATAC_GUIDE = "10x Chromium Next GEM Single Cell ATAC v1.1 guide CG000209 Rev G, Appendix A1"
+GEL_BEAD_FORWARD = il.P5 + "N" * 16 + nx.S5
+SI_PCR_FORWARD = "AATGATACGGCGACCACCGAGA"
+SI_PCR_REVERSE = "CAAGCAGAAGACGGCATACGAGAT" + "N" * 8 + "GTCTCGTGGGCTCGG"
 
 
 def modality_feature():
@@ -60,12 +70,12 @@ TAGGED = Construct([
 ], name="MEDSA_1/MEDSB target-coded fragment")
 
 PRE_PCR = Construct([
-    seg("10x gel-bead amplification handle", "H" * 18, placeholder=True, inferred=True),
+    seg("10x gel-bead P5", il.P5, "p5"),
     seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
         feature=feature("cell_barcode", "cell_barcode", "whitelist",
                         whitelist="10x Chromium ATAC whitelist")),
     *list(TAGGED),
-], name="cell-barcoded NTT-seq molecule before proprietary PCR")
+], name="cell-barcoded NTT-seq molecule before SI-PCR")
 
 FINAL_LIBRARY = Construct([
     seg("P5", il.P5, "p5"),
@@ -107,6 +117,20 @@ def oligos():
     yield oligo("Custom R1", [seg("binding region", CUSTOM_R1, "r1")])
     yield oligo("Custom i5", [seg("binding region", CUSTOM_I5, "r2")])
 
+    yield oligo("10x gel-bead oligo (CG000209 A1)", [
+        seg("P5", il.P5, "p5"),
+        seg("10x cell barcode", "N" * 16, "cbc", placeholder=True,
+            feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                            whitelist="10x Chromium ATAC whitelist")),
+        seg("partial Read1N", nx.S5, "s5")])
+    yield oligo("10x SI-PCR forward (CG000209 A1)",
+                [seg("partial P5", SI_PCR_FORWARD, "p5")])
+    yield oligo("10x indexed PCR reverse (CG000209 A1)", [
+        seg("P7", il.P7, "p7"),
+        seg("sample index", "N" * 8, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
+        seg("partial Read2N", "GTCTCGTGGGCTCGG", "r2")])
+
 
 def workflow():
     start = Scene.duplex([seg("antibody-targeted chromatin", "X" * 38,
@@ -119,13 +143,13 @@ def workflow():
     w.react("Tagment target-proximal DNA and fill the staggered gaps",
             Scene.duplex(list(TAGGED), label="MEDSA_1/MEDSB target-coded fragment").rows(),
             name="target-coded chromatin fragments")
-    w.react("INFERRED — linearly amplify and barcode fragments in Chromium ATAC droplets",
+    w.react("Linearly amplify and barcode fragments in Chromium ATAC droplets",
             Scene.duplex(list(PRE_PCR), label="cell-barcoded NTT-seq copies").rows(),
             name="cell-barcoded linear products",
-            note="The paper specifies the 10x scATAC workflow, but the complete gel-bead oligo is not public.")
+            note="The 10x ATAC v1.1 guide Appendix A1 prints P5–N16–partial Read1N for the gel-bead oligo.")
     geometry = PCRGeometry.unavailable(
         PRE_PCR,
-        reason="The source follows the 10x scATAC kit but does not print the complete SI-PCR primer sequences.")
+        reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry.")
     w.pcr("PCR-complete the Chromium ATAC library", geometry,
           Scene.duplex(list(FINAL_LIBRARY), label="NTT-seq sequencing library").rows(),
           name="NTT-seq sequencing library")
@@ -175,23 +199,24 @@ def protocol_graph():
                 (filled,))
     gel_bead = graph.input(
         "gel_bead_oligo", "10x scATAC gel-bead amplification oligo",
-        MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (complete proprietary oligo sequence unavailable)")
+        MaterialKind.OLIGO, state=Construct([seg("P5", il.P5, "p5"),
+            seg("10x cell barcode", "N" * 16, "cbc", placeholder=True,
+                feature=feature("cell_barcode", "cell_barcode", "whitelist",
+                                whitelist="10x Chromium ATAC whitelist")),
+            seg("partial Read1N", nx.S5, "s5")]), source=ATAC_GUIDE)
     linear_polymerase = graph.input("linear_polymerase", "Chromium linear-amplification polymerase",
                                     MaterialKind.CATALYST)
     cell_barcoded = graph.product(
         "cell_barcoded", PRE_PCR.name, MaterialKind.MOLECULAR, state=PRE_PCR,
-        inferred=True, source=SOURCE + " (published order; complete gel-bead sequence unavailable)")
+        source=SOURCE + "; " + ATAC_GUIDE)
     graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
                 StepKind.EXTENSION,
                 ((filled, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
                  (linear_polymerase, InputRole.CATALYST)), (cell_barcoded,))
     forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (complete primer sequence unavailable)")
+                          MaterialKind.OLIGO, source=ATAC_GUIDE)
     reverse = graph.input("si_pcr_reverse", "10x scATAC SI-PCR reverse primer",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (complete primer sequence unavailable)")
+                          MaterialKind.OLIGO, source=ATAC_GUIDE)
     polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", FINAL_LIBRARY.name,
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
@@ -200,7 +225,7 @@ def protocol_graph():
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
                     PRE_PCR,
-                    reason="The source follows the 10x scATAC kit but does not print the complete SI-PCR primer sequences."))
+                    reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry."))
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))

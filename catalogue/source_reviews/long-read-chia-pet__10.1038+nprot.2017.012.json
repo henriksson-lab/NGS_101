@@ -1,0 +1,69 @@
+{
+  "dir": "long-read-chia-pet__10.1038+nprot.2017.012",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "_data/sources/long-read-chia-pet__10.1038+nprot.2017.012/PMC5537732_PMC5537732.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols reagent/oligo list around lines 212–224 and tagmentation methods around 533–599; scraper verifies linker-R at 222",
+        "finding": "Protocol prints modified bridge linker-F and linker-R and describes proximity ligation/tagmentation."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5537732 JATS lines 88–120, 190, 222, 533–613, 1178–1219",
+        "finding": "Bridge linker-F 5′-/5Phos/CGCGATATC/iBIOdT/TATCTGACT-3′ and R 5′-/5Phos/GTCAGATAAGATATCGCGT-3′ are printed; A-tailed chromatin ligated through T overhang bridge, then Nextera Tn5 tagmentation."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Nature Protocols 2017 doi:10.1038/nprot.2017.012 supplementary files/figures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Only JATS available in local bundle; external supplemental oligo/guide list not inventoried."
+    },
+    {
+      "id": "nextera_guide",
+      "role": "linked_material",
+      "locator": "Illumina/Nextera tagmentation adapter primer source for inherited step",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Kit/source-specific tagmentation oligos not checked.",
+      "discovered_from": "protocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original protocol oligos and methods read; supplemental and historical Nextera kit materials remain to check.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC5537732 JATS lines 88–120, 190, 222, 533–613, 1178–1219",
+      "finding": "Read listed originals and followed identified linked sources in checklist; unavailable relevant source rows remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete PCR/index primer and Nextera adapter identity for the original library",
+      "evidence": "Original protocol oligos and methods read; supplemental and historical Nextera kit materials remain to check.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open."
+}

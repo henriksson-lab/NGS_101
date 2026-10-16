@@ -20,7 +20,7 @@ from proximity_topology import ProximityExtensionTopology
 
 SUREPLEX_LIBRARY, SUREPLEX_PRIMERS = nextera_library([
     role("fragment of SurePlex-amplified genomic DNA")
-], "SurePlex / VeriSeq PGS library")
+], "SurePlex / VeriSeq PGS library", inferred_adapters=True)
 
 
 
@@ -34,20 +34,40 @@ def _sureplex_graph(source: str) -> ProtocolGraph:
                     state=molecule("released genomic DNA", (role("genomic DNA"),)))
     g.react("lyse", "Lyse the cell and release genomic DNA", StepKind.EXTRACTION,
             ((cell, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (dna,))
-    primers = g.input("preamp_primers", "proprietary SurePlex preamplification primers",
+    primers = g.input("preamp_primers", "SurePlex preamplification oligos, bases undisclosed in the inspected guide",
                       MaterialKind.OLIGO, inferred=True,
-                      source=source + " (primer sequences proprietary)")
-    enzyme = g.input("preamp_enzyme", "SurePlex preamplification enzyme",
-                     MaterialKind.CATALYST)
+                      source=source + " (pre-amplification formulation not disclosed)")
+    preamp_enzyme = g.input("preamp_enzyme", "SurePlex Pre-amp Enzyme",
+                           MaterialKind.CATALYST)
+    preamp = g.product("preamp_product", "SurePlex preamplification product",
+                       MaterialKind.MOLECULAR,
+                       state=molecule("SurePlex preamplification population", (
+                           role("genomic-derived DNA, primer junctions unresolved"),)))
+    g.react("preamp", "INFERRED — primer-mediated preamplification for 12 cycles",
+            StepKind.EXTENSION,
+            ((dna, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
+             (preamp_enzyme, InputRole.CATALYST)), (preamp,))
+    amplification_enzyme = g.input("amplification_enzyme", "SurePlex Amplification Enzyme",
+                                   MaterialKind.CATALYST)
     wga = g.product("wga_product", "SurePlex whole-genome amplification product",
                     MaterialKind.MOLECULAR,
                     state=molecule("SurePlex WGA population", (
-                        role("common preamplification handle"),
-                        role("sampled genomic tract"), role("displaced extension products"))))
-    g.react("wga", "Preamplify and exponentially amplify the single-cell genome",
+                        role("unresolved primer-derived end"),
+                        role("sampled genomic tract"), role("unresolved primer-derived end"))))
+    g.react("wga", "Amplify the preamplification product for 14 cycles",
             StepKind.EXTENSION,
-            ((dna, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
-             (enzyme, InputRole.CATALYST)), (wga,))
+            ((preamp, InputRole.TEMPLATE),
+             (amplification_enzyme, InputRole.CATALYST)), (wga,))
+    blank = g.input("no_cell_control", "parallel no-cell control with 1× PBS",
+                    MaterialKind.MOLECULAR)
+    artifact = g.product("no_cell_pcr_artifact", "possible no-cell-control PCR artifacts",
+                         MaterialKind.WASTE)
+    g.react("control_artifact", "MAGIC — possible no-template PCR artifacts; vendor gives no molecular structure",
+            StepKind.MAGIC,
+            ((blank, InputRole.TEMPLATE), (preamp_enzyme, InputRole.CATALYST),
+             (amplification_enzyme, InputRole.CATALYST)), (artifact,),
+            reason="Illumina Guidance Note 1000000138837 v00 describes possible PCR artifacts in no-cell controls but does not disclose their molecular origin or ends.")
+    g.discard(artifact, "no-cell-control artifact; reads may be unmapped and filtered")
     adapters = g.input("tn5_adapters", "VeriSeq PGS loaded adapter transposome",
                        MaterialKind.ADAPTER)
     tn5 = g.input("tn5", "VeriSeq PGS transposase", MaterialKind.CATALYST)
@@ -65,7 +85,7 @@ def _sureplex_graph(source: str) -> ProtocolGraph:
     polymerase = g.input("pcr_enzyme", "Nextera PCR Master Mix", MaterialKind.CATALYST)
     library = g.product("library", "dual-index single-read VeriSeq PGS library",
                         MaterialKind.LIBRARY, state=SUREPLEX_LIBRARY)
-    g.react("index_pcr", "Amplify the insert and add the selected indexes",
+    g.react("index_pcr", "INFERRED — complete the Nextera shell and add selected indexes",
             StepKind.PCR,
             ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
              (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
@@ -80,7 +100,9 @@ def _sureplex_graph(source: str) -> ProtocolGraph:
         {"Read 1": "include", "Index 1 (i7)": "demultiplex",
          "Index 2 (i5)": "demultiplex"}))
     g.declare_reviewed_scope((
-        "cell", "lysis_reagent", "lyse", "preamp_primers", "preamp_enzyme", "wga",
+        "cell", "lysis_reagent", "lyse", "preamp_primers", "preamp_enzyme", "preamp",
+        "preamp_product", "amplification_enzyme", "wga", "no_cell_control",
+        "control_artifact", "no_cell_pcr_artifact",
         "wga_product", "tn5_adapters", "tn5", "tagment", "p5_primer", "p7_primer",
         "pcr_enzyme", "index_pcr", "library"), source)
     return g.require_publishable()
@@ -104,9 +126,13 @@ spec = SimpleNamespace(
              "followed by whole-genome amplification. The named VeriSeq PGS workflow "
              "then tagmentates 1 ng of unpurified product and adds S5xx/N7xx indexes "
              "by limited-cycle PCR for single-read MiSeq sequencing."),
-    CAVEAT=("SurePlex preamplification-primer bases are proprietary. Its WGA is "
-            "therefore shown by established molecular roles; the subsequent "
-            "VeriSeq/Nextera library shell and sequencing-primer sites are explicit."),
+    CAVEAT=("The inspected SurePlex guide names Pre-amp Buffer and Enzyme but does not "
+            "print oligo bases or its reagent formulation. Primer junctions are therefore "
+            "unresolved. The VeriSeq guide names Nextera index families, and the current "
+            "Illumina sequence table supplies their standard arms; historical kit-specific "
+            "junctions and selected members are inferred in the final library. An official "
+            "guidance note reports possible PCR artifacts in a parallel no-cell control; "
+            "its molecular origin is unspecified and the graph marks this as a warning."),
     oligos=lambda: (), FINAL_LIBRARY=SUREPLEX_LIBRARY,
     FINAL_CAPTION=("Dual-index VeriSeq PGS library derived from SurePlex WGA DNA. "
                    "The official application acquires Read 1 and index reads, not Read 2."),

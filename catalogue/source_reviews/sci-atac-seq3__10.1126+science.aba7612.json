@@ -1,0 +1,87 @@
+{
+  "dir": "sci-atac-seq3__10.1126+science.aba7612",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Domcke et al Science 2020 doi:10.1126/science.aba7612 PMC7785298 JATS in sci-atac-seq-family source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "science.aba7612_PMC7785298.xml.txt lines 87-90 and 1035-1037",
+        "finding": "Third iteration adds two successive indexed ligations after bulk tagmentation, then indexed PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "science.aba7612_PMC7785298.xml.txt lines 87-90, 199-205",
+        "finding": "Article defines three-level sci-ATAC: uniform Tn5 tagmentation, two ligation barcodes, then PCR index; points to Table S7 and detailed linked methods."
+      }
+    },
+    {
+      "id": "table_s7",
+      "role": "supplement",
+      "locator": "Original author Table S7 mirrored as scg_aba7612_domcke_table-s7.xlsx.txt in family bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Legend and splint/seq primer sheet lines 1-12; N5/N7 and PCR sheets; scraper hit line 797",
+        "finding": "Prints 384 N5 and 384 N7 ligation oligos, 3ddC splints, 96 P5/P7 PCR oligos and custom sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "scg_aba7612_domcke_table-s7.xlsx.txt lines 1-16, 797-900",
+        "finding": "Author Table S7 mirrored as original workbook: legend inventories 384 N5 + 384 N7 ligation oligos, 96 P5 + 96 P7 PCR oligos, splints with /3ddC/ and custom sequencing primers. Values read directly from workbook, not upstream schematic."
+      }
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "Science 2020 NIHMS1652075 manuscript_supplementary.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original publisher/PMC supplement is gated in family MANIFEST; mirrored Table S7 is available but full method supplement not checked.",
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Domcke sci-ATAC-seq3 protocols.io doi:10.17504/protocols.io.be8mjhu6",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named detailed protocol not present in source bundle; reaction-condition comparison pending.",
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Science JATS 3-level design; author Table S7; supplement and protocols.io inventory",
+      "finding": "Followed original oligo table from author mirror, but full published supplement and linked bench protocol remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 87-90, 199-205; mirrored original author Table S7 legend and oligo sheets lines 1-16, 797-900; source manifest for Science supplement and protocols.io",
+      "finding": "Checked original article and author oligo table, including barcoded N5/N7 and splints. Detailed Science supplement and linked protocols.io procedure remain inaccessible, so full reaction details are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact full procedural conditions of sci-ATAC-seq3",
+      "disposition": "blocked",
+      "evidence": "Table S7 resolves oligos; the original detailed supplement and author protocol remain unavailable."
+    }
+  ],
+  "conclusion": "Two readers located the published sci-ATAC-seq3 oligo families in original Table S7, but detailed linked procedure sources remain unavailable; no missing reaction detail is accepted."
+}

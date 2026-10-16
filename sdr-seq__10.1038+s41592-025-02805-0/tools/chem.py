@@ -153,8 +153,12 @@ SPEC = SimpleNamespace(
     SUMMARY=d.summary, CAVEAT="", FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("The defining source establishes adapter and identifier roles, but the page does not promote panel-specific or supplementary oligo sequences into universal protocol constants."),
-    workflow=_sdr, oligos=lambda: (),
+    SEQUENCING_UNAVAILABLE=("Supplementary Tables 1 and 2 publish experiment-specific RT and library primers. The V1 proof-of-concept used a common R2N arm; later V2 experiments separate genomic and RNA libraries. The Tapestri bead oligo panel still requires vendor-version verification."),
+    workflow=_sdr, oligos=lambda: (
+        "<p>Published Supplementary Table 1, V1 RT_primer_1 (5′→3′): GTACTCGCAGTAGTCTCGCCTTA<umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTVN</p>",
+        "<p>Published Supplementary Table 2, V2 example genomic i7 Nextera_R2N_N701 (5′→3′): CAAGCAGAAGACGGCATACGAGAT<cbc>TCGCCTTA</cbc>GTCTCGTGGGCTCGG</p>",
+        "<p>Published Supplementary Table 2, V2 example RNA i7 Illumina_R2_N701 (5′→3′): CAAGCAGAAGACGGCATACGAGAT<cbc>TCGCCTTA</cbc>GTGACTGGAGTTCAGACGTGT</p>",
+    ),
 )
 SPEC.protocol_graph = protocol_graph
 globals().update(vars(SPEC))

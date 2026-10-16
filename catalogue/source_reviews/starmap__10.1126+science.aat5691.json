@@ -1,0 +1,164 @@
+{
+  "dir": "starmap__10.1126+science.aat5691",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "wang_article",
+      "role": "defining",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/science.aat5691_PMC6339868.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS methods and STARmap schematic around lines 90-143, article data/source links",
+        "finding": "Defines SNAIL and SEDAL chemistry and points to supplemental probe details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC6339868 JATS methods lines 90–143; oligo scraper on local original bundle",
+        "finding": "Paper establishes SNAIL paired primer/padlock amplification and SEDAL ligation readout; exact panel bases are delegated to supplemental tables."
+      }
+    },
+    {
+      "id": "wang_nsf_supp",
+      "role": "supplement",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/10063217.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "PDF extracted text lines 1061-1062, 1114-1127 and document end",
+        "finding": "Supplement contents and methods explicitly promise Tables S1/S2, but available PDF copy does not contain those tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NSF manuscript PDF text 10063217.html.txt lines 1061–1062, 1114–1127, 1386–1655 and last 25 lines; oligo scraper",
+        "finding": "Its table of contents explicitly cites Table S1 SNAIL probes and Table S2 SEDAL probes; recovered 34-page file ends after Fig. S18, with no table bodies. This is a missing source file, not evidence the authors omitted sequences."
+      }
+    },
+    {
+      "id": "wang_table_s1",
+      "role": "supplement",
+      "locator": "Wang et al. 2018 original Table S1 SNAIL probe sequences, cited in NSF manuscript supplement lines 1061-1062 and 1126-1127",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original table is cited by original methods but absent from recovered PDF and source bundle; must recover and inspect independently.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "wang_table_s2",
+      "role": "supplement",
+      "locator": "Wang et al. 2018 original Table S2 SEDAL probe sequences, cited in NSF manuscript supplement lines 1061-1062 and 1126-1127",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original table is cited by original methods but absent from recovered PDF and source bundle; must recover and inspect independently.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "family_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_PMC12648639.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Later protocol lines 294-296 and Tables around 1766-1860",
+        "finding": "Later STARmap-family version provides explicit modified probes, including tri-probe variants; these are not the 2018 original panel."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later 2025 STARmap-family original PMC12648639 JATS lines 294–296 and Table 2/4 headings in Methods",
+        "finding": "This successor supplies explicit modified probe examples and refers to STARmap primer/padlock and SEDAL table rows. It is a distinct revision and cannot substitute for 2018 original Table S1/S2."
+      }
+    },
+    {
+      "id": "family_supp_1",
+      "role": "supplement",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher supplement headings and all-source oligo scan",
+        "finding": "Later-family supplement inspected for source-version context; it does not substitute for the original 2018 tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2025 Springer MOESM1 PDF text opening lines 1–30 and remaining reporting-summary headings",
+        "finding": "The supplement is a Nature Portfolio reporting summary; no probe design or oligo table. Excluded only from molecular sequence claim."
+      },
+      "reason": "The 2025 MOESM1 is a Nature Portfolio reporting summary, not a probe or reaction supplement."
+    },
+    {
+      "id": "family_supp_2",
+      "role": "supplement",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM2_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher supplement headings and all-source oligo scan",
+        "finding": "Later-family supplement inspected for source-version context; it does not substitute for the original 2018 tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2025 Springer MOESM2 XLSX workbook.xml Table 1 and sheet1 first three rows, read via ZIP/XML",
+        "finding": "Supplementary Table 1 is a complete human transcriptome list of primer and padlock hybridization regions, with gene, Id, primer, Tm and padlock columns. It is later-family content, not 2018 original panel."
+      }
+    },
+    {
+      "id": "family_supp_3",
+      "role": "supplement",
+      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Publisher supplement headings and all-source oligo scan",
+        "finding": "Later-family supplement inspected for source-version context; it does not substitute for the original 2018 tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2025 Springer MOESM3 XLSX workbook.xml Table 2 and sheet1 first three rows, read via ZIP/XML",
+        "finding": "Supplementary Table 2 is a complete mouse transcriptome list of primer and padlock hybridization regions, with gene, Id, primer, Tm and padlock columns. It is later-family content, not 2018 original panel."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS and NSF manuscript supplement; explicit Table S1/S2 citations at manuscript lines 1061-1062 and 1126-1127; later family protocol JATS and all-source oligo scraper",
+      "finding": "Original table files are cited but absent from the recovered PDF. Later STARmap-family oligos are a different panel/revision. Original-panel exact bases cannot be marked missing or inferred from the later protocol."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "2018 original JATS; NSF manuscript supplement contents/methods/end; 2025 successor JATS and three supplements",
+      "finding": "Original supplementary text cites 2018 Tables S1/S2 but recovered file omits them. Later 2025 complete human/mouse probe region workbooks cannot establish the original 2018 probe panel. Missing claim remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original 2018 SNAIL and SEDAL probe sequences cannot be recovered from primary sources",
+      "disposition": "blocked",
+      "evidence": "The original supplementary PDF cites Tables S1/S2 but ends before them; exact files and independent second reader remain outstanding."
+    }
+  ],
+  "conclusion": "Original-panel sequence absence cannot be accepted until original Tables S1/S2 are located and checked twice."
+}

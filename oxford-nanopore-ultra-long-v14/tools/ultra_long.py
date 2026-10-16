@@ -20,7 +20,7 @@ SUMMARY = ("Diluted transposase chemistry introduces very few tags into uHMW DNA
            "molecules while minimizing mechanical breakage.")
 CAVEAT = ("ONT publishes the Rapid Adapter strand. Fragmentation-tag bases, the complete "
           "motor assembly, attachment chemistry and exact motor-bearing strand remain "
-          "undisclosed.")
+          "unresolved in the reviewed vendor documents.")
 
 TAGGED = Construct([
     role("fragmentation tag", "[fragmentation tag]", "me"),
@@ -60,7 +60,7 @@ def sections():
         ("Tagment with highly diluted Fragmentation Mix", single_strand_rows(TAGGED),
          "Mix 6 µl FRA with 244 µl dilution buffer, add to 750 µl DNA, then incubate 10 min at room temperature, 10 min at 75 °C and at least 10 min on ice."),
         ("Attach Rapid Adapter", final_rows(),
-         "Add 5 µl Rapid Adapter and incubate 30 min at room temperature; the proprietary attachment creates a motor-bearing pore-entry end."),
+         "Add 5 µl Rapid Adapter and incubate 30 min at room temperature; ONT describes enzyme-free attachment to the transposase tag, without resolving the exact junction."),
         ("Precipitate and elute without shearing", final_rows(),
          "Precipitation Buffer and a Precipitation Star recover the viscous library; elute overnight before loading."),
     ]
@@ -74,12 +74,12 @@ def protocol_graph():
                   primary=True)
     tags = g.input("tag_complex", "highly diluted Fragmentation Mix tagging complex",
                    MaterialKind.ADAPTER, inferred=True,
-                   source=SOURCE + " (fragmentation-tag bases proprietary)")
+                   source=SOURCE + " (fragmentation-tag bases unresolved)")
     transposase = g.input("transposase", "Fragmentation Mix transposase",
                           MaterialKind.CATALYST)
     tagged = g.product("tagged", "sparsely tagged uHMW DNA",
                        MaterialKind.MOLECULAR, state=TAGGED, inferred=True,
-                       source=SOURCE + " (tag bases proprietary)")
+                       source=SOURCE + " (tag bases unresolved)")
     off_products = g.product("off_products", "cut or unproductively tagged molecules",
                              MaterialKind.WASTE)
     g.react("tag", "Sparsely tagment ultra-long DNA", StepKind.TAGMENTATION,
@@ -88,10 +88,10 @@ def protocol_graph():
     g.discard(off_products, "does not preserve a sequenceable ultra-long tagged molecule")
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment undisclosed)")
+                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment unresolved)")
     adapted = g.product("adapted", "motor-adapted ultra-long library",
                         MaterialKind.MOLECULAR, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
+                        source=SOURCE + " (complete motor-bearing assembly unresolved)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
             ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)), (adapted,))
@@ -99,7 +99,7 @@ def protocol_graph():
                           MaterialKind.SELECTION)
     library = g.product("library", "recovered ultra-long Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
+                        source=SOURCE + " (complete motor-bearing assembly unresolved)")
     rejected = g.product("rejected", "unrecovered or sheared molecules",
                          MaterialKind.WASTE)
     g.react("recover", "Precipitate and recover motor-adapted molecules",

@@ -1,0 +1,160 @@
+{
+  "dir": "mim-trnaseq__10.1016+j.molcel.2021.01.028",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Behrens et al Molecular Cell 2021 DOI:10.1016/j.molcel.2021.01.028; j.molcel.2021.01.028_PMC8062790.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "STAR Methods lines 322, 390-410, 424-428",
+        "finding": "Article prints four modified 3-prime adapters with 5-prime phosphate and 3-prime ddC, TGIRT RT and circularization details; bases source-located."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS STAR Methods lines 390-410",
+        "finding": "Article describes I1–I4 modified adapters, reverse transcription and circularization; original supplement adds procedural detail."
+      }
+    },
+    {
+      "id": "methods_supp",
+      "role": "supplement",
+      "locator": "PMC Cloud mmc1 PDF; j.molcel.2021.01.028_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Header and oligo/reagent search",
+        "finding": "Supplement is available; long extraction includes methods/figures and needs second-pass review."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original mmc1 PDF extracted text lines 5945-6065",
+        "finding": "Detailed original protocol specifies preadenylated 3′ adapter ligation with truncated T4 RNA ligase 2 KQ, gel selection, TGIRT3 primer-dependent RT, RNA hydrolysis and cDNA circularization."
+      }
+    },
+    {
+      "id": "oligo_supp",
+      "role": "supplement",
+      "locator": "PMC Cloud mmc5 XLSX; j.molcel.2021.01.028_supp_mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Rows 1-10, I1 and related oligos",
+        "finding": "Independent supplement oligo table prints modified index oligos; scraper found I1 with /ddC/."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original mmc5 XLSX extracted text lines 1-12",
+        "finding": "Workbook prints I1–I4 modified adapters and template-switch/primer-dependent RT oligos, including phosphate, spacer and phosphorothioate markings."
+      }
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "PMC Cloud mmc2-4 XLSX and mmc6 PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "mmc2–4 contain expression, modification-site and readthrough result tables; mmc6 is a one-page cover, not a library-chemistry source.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "mmc2.xlsx.txt lines 1-3, 374; mmc3.xlsx.txt lines 1-5 and sheet headings 35,155,341; mmc4.xlsx.txt lines 1-4 and sheet headings 228,511,989; mmc6.pdf.txt lines 1-9; full-file adapter/oligo/primer/ligase/TGIRT keyword scan",
+        "finding": "Correction to my provisional 2026-10-15 classification: mmc2 is differential-expression results (Table S1); mmc3 predicts modification sites (Table S2); mmc4 gives misincorporation/readthrough results (Table S3); mmc6 is a one-page supplemental cover. These are not sources for library oligos or reaction order."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC Cloud mmc2.xlsx.txt lines 1–4 and second sheet at 374 (Table S1 differential expression); mmc3.xlsx.txt lines 1–5 and each species-sheet heading (Table S2 predicted modification sites); mmc4.xlsx.txt lines 1–5 and each species-sheet heading (Table S3 misincorporation/readthrough); mmc6.pdf.txt lines 1–9 (one-page supplemental cover); oligo/primer/adapter keyword search across these files; source-bundle scraper run",
+        "finding": "The inspected mmc2–4 workbooks are result/analysis matrices, and mmc6 is a one-page supplemental cover. No library reagent or oligo ordering fields were found in those inspected files. This supports excluding this grouped row from oligo sourcing, subject to the first reader revisiting its earlier provisional relevance classification."
+      }
+    },
+    {
+      "id": "tgirt_vendor",
+      "role": "linked_material",
+      "locator": "Historical InGex TGIRT-III (catalog TGIRT50) product/manual for the author's 2021 enzyme lot, named in original JATS lines 278 and 404",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original article prints the enzyme concentration and both manufacturer-recommended and low-salt buffer compositions, but the historical TGIRT50 vendor sheet/revision used by the authors has not been obtained. The available 2017 InGex small-RNA/CircLigase method is a different high-salt template-switching workflow and cannot establish this paper's low-salt primer-dependent branch. The public TGIRT50.pdf file at the InGex distributor is byte-identical (MD5 4ca4abd4a8e6ef898670ea8d2cac9051) to the already-reviewed TGIRT10.pdf high-salt Small RNA/CircLigase method; its TGIRT50 filename is not evidence of a distinct product sheet or the author lot.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "later_tgirt_protocol",
+      "role": "linked_material",
+      "locator": "https://fnkprddata.blob.core.windows.net/domestic/data/datasheet/IGX/TGIRT10.pdf, InGex TGIRT-III small-RNA/CircLigase method updated 2017-01-23; identical catalog-specific copy https://fnkprddata.blob.core.windows.net/domestic/data/datasheet/IGX/TGIRT50.pdf, local TGIRT50.pdf.txt, MD5 4ca4abd4a8e6ef898670ea8d2cac9051 for both PDFs",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This document's high-salt template-switching/CircLigase branch is a different reaction from mim-tRNAseq's 2021 low-salt primer-dependent RT branch. It cannot define the latter's exact conditions or the authors' historical TGIRT50 lot/revision.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "InGex PDF pp. 1-3, web text lines 25-55 and 74-100",
+        "finding": "The vendor protocol begins from a 41-nt blocked RNA/42-nt DNA starter duplex with a one-base overhang and 450 mM NaCl. The mim article's defining library route instead ligates a 3-prime tRNA adapter and uses a primer-dependent RT oligo in 75 mM KCl (JATS line 404). This later vendor method is excluded as evidence for mim's exact branch, pending independent exclusion read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original InGex TGIRT-III Small RNA/CircLigase protocol PDF pp. 1–3, web-extracted lines 25–55 and 74–110, and original Behrens 2021 JATS Results line 84 and Methods line 404; full local mim-tRNAseq source-bundle scraper run first.",
+        "finding": "The InGex small-RNA protocol starts TGIRT from a 41-nt RNA/42-nt DNA duplex with one-base DNA 3′ overhang in 450 mM NaCl and then circles cDNA. Behrens instead ligates a four-variant DNA adapter to tRNA and uses a primer-dependent RT oligo in 75 mM KCl at 42 °C; it also later circles cDNA, but that shared downstream step does not make the vendor starter duplex its source. The vendor source is excluded as evidence for the specific mim RT branch."
+      },
+      "discovered_from": "paper TGIRT reagent and vendor search",
+      "additional_passes": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original InGex TGIRT50.pdf pp. 1–3, extracted text lines 1–143; original TGIRT10.pdf; byte-for-byte MD5 comparison after full mim-tRNAseq source-bundle scraper.",
+          "finding": "TGIRT50.pdf and TGIRT10.pdf are identical 5-page InGex Small RNA/CircLigase instructions, dated 23 January 2017. The catalog-name file does not supply a separate TGIRT50 enzyme datasheet or the authors’ lot/revision. Its 41/42-nt blocked starter duplex and 450 mM NaCl remain a different initiation branch from Behrens’ primer-dependent low-salt RT."
+        },
+        {
+          "reviewer": "citeseq_second",
+          "date": "2026-10-16",
+          "locations": "Full mim-tRNAseq source-bundle scraper completed first (29 hits, including TGIRT50.pdf.txt lines 57–62). Independently read original InGex TGIRT50.pdf text lines 1–45, 49–65, 72–140 and original Behrens 2021 JATS Results lines 82–84 and STAR Methods lines 278, 390–410. Compared the two downloaded original PDFs using cmp and MD5: _data/sources/mim-trnaseq__10.1016+j.molcel.2021.01.028/TGIRT50.pdf and /tmp/TGIRT10.pdf, each 182799 bytes, MD5 4ca4abd4a8e6ef898670ea8d2cac9051.",
+          "finding": "The TGIRT50- and TGIRT10-named PDFs are byte-for-byte identical; both are the five-page InGex Small RNA/CircLigase protocol last updated 2017-01-23. That vendor method initiates with a blocked 41-nt RNA/42-nt DNA starter duplex with one-nucleotide DNA 3-prime overhang in 450 mM NaCl, then uses CircLigase II. The mim-tRNAseq defining workflow instead ligates a 5-prime-phosphorylated/3-prime-ddC DNA adapter to tRNA, anneals a distinct primer-dependent RT oligo, and uses 75 mM KCl at 42 C for its optimized branch; its cDNA is later circularized with CircLigase ssDNA ligase. The vendor PDF is an original method but cannot source the mim primer-dependent initiation or show which TGIRT50 enzyme lot/revision the authors used. Exclusion from evidence for mim-specific RT chemistry is warranted; the shared enzyme and later circularization do not imply the same reaction."
+        }
+      ]
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article STAR Methods lines 390-410 and mmc5 rows 1-10",
+      "finding": "Read article adapter chemistry and oligo table. On 2026-10-16 revisited mmc2-4 and mmc6 as result/cover files; historical InGex TGIRT50 manual remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 390-410; mmc1 detailed method lines 5945-6065; mmc5 oligo workbook lines 1-12",
+      "finding": "Followed paper to detailed supplemental ligation/RT protocol and modified oligo table; independently inspected other supplemental result/cover files. Historical TGIRT50 vendor guide remains unavailable, so linked coverage is blocked."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Followed original Behrens JATS lines 278, 404 to the TGIRT50 catalog filename and the distributor TGIRT50.pdf original; compared its entire PDF bytewise to TGIRT10.pdf and inspected vendor lines 1–140 against JATS lines 82–84, 390–410 after full source-bundle scraper.",
+        "finding": "The recovered catalog-named source is available but is not a distinct TGIRT50 sheet: it duplicates the high-salt Small RNA/CircLigase protocol. The author-lot/revision documentation remains unlocated, so linked-information result stays blocked and no missing detail is confirmed absent."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Any remaining unprinted library oligo or enzyme-dependent molecular detail needs source reconciliation; published adapters are not missing",
+      "disposition": "blocked",
+      "evidence": "Two independent reads cover the original article and all cached supplements; the historically applicable InGex TGIRT50 vendor document remains unavailable."
+    }
+  ],
+  "conclusion": "Two readers covered the original article, all cached supplements, and independently excluded the InGex small-RNA/CircLigase TGIRT protocol as a different RT-initiation branch. Historical InGex TGIRT50 product documentation for the authors’ enzyme lot remains unavailable, so enzyme-dependent claims are blocked; no absence is accepted. The recovered TGIRT50-named vendor PDF is byte-identical to the already excluded TGIRT10 Small RNA/CircLigase protocol; the product-specific historical sheet is still unlocated."
+}

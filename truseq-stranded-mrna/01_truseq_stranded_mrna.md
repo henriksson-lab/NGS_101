@@ -6,6 +6,8 @@
 
 🟢 Illumina, *Illumina Adapter Sequences*, document 1000000002694 v22, supplies the canonical TruSeq adapter and sequencing-primer sequences through `lib/illumina.py`.
 
+🟢 Illumina, *Index Adapters Pooling Guide*, document 1000000041074 v17, [TruSeq Kits](https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/Content/TruSeqPoolingGuidelines.htm), confirms compatible TruSeq RNA single-, combinatorial-dual- and unique-dual-index component families. This later guide does not identify a particular sample's adapter.
+
 ## Molecular workflow
 
 1. Poly-T magnetic beads select polyadenylated RNA twice. Divalent cations at elevated temperature fragment the selected RNA.

@@ -1,0 +1,52 @@
+{
+  "dir": "pseudo-seq__10.1038+nature13802",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4224642/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC web Methods lines 166–175; local bundle scraper run but empty",
+        "finding": "Methods prints CMC/CIP/PNK order, /5Phos/ 3′ adapter described as preadenylated, full spacer-bearing RT primer, CircLigase, PCR primers and six-X index window. The preadenylated-versus-/5Phos/ discrepancy is visible in the source."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC4224642 browser Methods lines 166–175; local source bundle scraper (no downloadable original)",
+        "finding": "Methods explicitly print 3′ preadenylated adapter /5Phos/TGGAATTCTCGGGTGCCAAGG/3ddC/, the iSp18-bearing RT primer and forward/barcoded reverse PCR primers, after CMC, CIP/PNK and size selection. These source-positive oligos should not be called missing."
+      }
+    },
+    {
+      "id": "original_supplements",
+      "role": "supplement",
+      "locator": "PMC4224642 supplementary tables and extended data links",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original linked supplementary files not present locally and not yet inspected individually."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PMC original Methods lines 166–175 and supplementary links listed below paper",
+      "finding": "Read original web Methods directly; local source routes failed. Supplementary files still need individual availability and relevance review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original PMC4224642 browser Methods lines 166–175 and supplement link list beginning near line 262",
+      "finding": "The defining Methods were read; supplementary files remain unverified here, so any absence claim stays blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Core library oligos are published. Adapter 5′ chemical-state discrepancy is documented on the page; supplement inventory and second reader pending."
+}

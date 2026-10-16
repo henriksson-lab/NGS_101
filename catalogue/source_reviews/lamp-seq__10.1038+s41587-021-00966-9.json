@@ -1,0 +1,161 @@
+{
+  "dir": "lamp-seq__10.1038+s41587-021-00966-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_PMC8678193.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JATS Results lines 177–181, commercial Methods 205–282, open-source Methods 330–360, code/data links 437–443; whole-bundle oligo scraper",
+        "finding": "Six-primer RT-LAMP, 10-nt FIP barcode, two 10-nt pool indexes. Commercial branch pools 1:100,000 then uses two 18-cycle PCRs; open-source branch pools 1:40,000 then uses one 25-cycle indexed PCR."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 177-181, 205-283, 329-361 and 437-443; complete source-bundle oligo scraper",
+        "finding": "Published article specifies a 10-base FIP barcode and two 10-base pool indexes. Commercial branch dilutes pooled LAMP 1:100,000 then adds another 1:10 in first 18-cycle PCR followed by 18-cycle index PCR. Open-source branch dilutes 1:40,000 and uses a single 25-cycle indexed PCR. Individual FIP/PCR oligos and LNA marks are printed in Methods."
+      }
+    },
+    {
+      "id": "springer_supp1",
+      "role": "supplement",
+      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. 1 opening and Supplementary Notes/figure/table headings across lines 1–3869; scraper",
+        "finding": "Includes LNA comparison and barcode-swapping/Bloom-filter analyses. No distinct oligo ordering table found; chemistry context is relevant."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 text lines 11-37 (LNA/dual-barcode figures), 43 onward (viral inactivation), 171-185 (clinical transfer and pooling), 208-222 (barcode model); bundle scraper",
+        "finding": "Supplement gives LNA comparison, proposed dual-barcode product orientations and clinical handling, then barcode-loss/Bloom-filter calculations. Figure 3 explicitly treats some barcode orientations as alternatives; it does not establish a different ordering oligo set."
+      }
+    },
+    {
+      "id": "springer_supp2",
+      "role": "supplement",
+      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original 3-page PDF is a Nature Research reporting summary.",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "All three pages visually inspected after PDF text extraction was empty",
+        "finding": "Nature Research reporting summary; methods/code/data checklist, not a primer or reaction source."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original three-page Springer MOESM2 PDF, visually inspected each page after empty text extraction",
+        "finding": "Nature Research Reporting Summary covers statistics, software/data and study design; no primer sequence or enzymatic reaction detail."
+      }
+    },
+    {
+      "id": "springer_supp3",
+      "role": "supplement",
+      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Primer List lines 1–38, N-FIP Tier-1 64–257, Tier-2 258–4099, Pool barcoding primers 4100 onward; whole-bundle scraper",
+        "finding": "Prints full six-primer target set, LNA F3/B3, 192 Tier-1 FIP barcodes, larger Tier-2 set and indexed pool primers. First pool pair is source-positive."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM3 extracted workbook: Primer List lines 1-38; Primer complementarity lines 39-63; Tier-1 lines 64-257; Tier-2 lines 258-4099; Pool barcoding primers lines 4100-4110; whole-bundle scraper",
+        "finding": "Prints SARS-CoV-2 N, ACTB and E primer families, LNA-modified F3/B3, PCR arms, 192 Tier-1 barcodes, 3840 Tier-2 barcodes, and 10-base pool-indexed primer pairs. Representative Pool_fwd_1/rev_1 are source-positive. Benchling link in Primer List remains inaccessible."
+      }
+    },
+    {
+      "id": "springer_supp4",
+      "role": "supplement",
+      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 XLSX text Panel 1C lines 1-2 and data rows 2-169, Panel 1E/1F/1G headings and first rows at lines 171/212/223; scraper rerun 2026-10-16",
+        "finding": "Correction to earlier result-only reading: Panel 1C header line 2 explicitly names the assay barcode LAMP-BC AGCTTACACT. The workbook otherwise contains read-count and barcode-performance results, not the full FIP primer recipe. This source is relevant to validation of that barcode; the earlier categorical exclusion was wrong."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 workbook sheet headers Panel 1C at lines 1-2, 1E/1F/1G at 171/212/223, 2C at 708 and 3A-3D at 772-1082; inspected first data rows",
+        "finding": "Workbook is primarily read-count and validation data, but Panel 1C header explicitly names LAMP-BC AGCTTACACT and panels 1F/1G report barcode behavior. It is relevant as a barcode-performance source, although it gives no new full primer recipe; previous exclusion was too broad."
+      }
+    },
+    {
+      "id": "broughton2020",
+      "role": "predecessor",
+      "locator": "Broughton et al., Nat Biotechnol 2020 DOI 10.1038/s41587-020-0513-4; cited paper ref. 15 and MOESM3 primer provenance",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited primer origin was identified, but defining predecessor text was not in the cached bundle.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "benchling_map",
+      "role": "linked_material",
+      "locator": "https://benchling.com/s/seq-TxH08XoA5pYGaepxwJrj",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MOESM3 Primer List line 38 links an interactive genome binding-site map, but its contents were not inspected.",
+      "discovered_from": "springer_supp3",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "barcode_code",
+      "role": "linked_material",
+      "locator": "https://github.com/feldman4/dna-barcodes",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "README and barcode_design.py were read online; assay-specific LAMP-seq subdirectory was not accessible and must be checked before closing linked-source coverage.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author GitHub feldman4/dna-barcodes root README web lines 181-200 and raw barcode_design.py web line 2; attempted LAMP-seq directory at https://github.com/feldman4/dna-barcodes/tree/master/LAMP-seq (GitHub error lines 153-156)",
+        "finding": "Root README says robust edit-distance barcode-set generation; barcode_design.py source filters GC, homopolymers and edit distance. The LAMP-seq subfolder is listed but GitHub page returned a loading error, so assay-specific barcode list/primer details in that folder are still unread."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official feldman4/dna-barcodes GitHub repository README lines 139-145, 181-200; raw barcode_design.py lines 2-3; LAMP-seq folder link attempted but unavailable",
+        "finding": "Repository README describes generation of barcode sets with minimum Levenshtein edit distance, and source code applies GC/homopolymer and edit-distance filters. This supports design logic but does not itself establish ordered LAMP-Seq primers or the assay-specific output list. Linked LAMP-seq folder was inaccessible."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Article JATS refs 15 and code/data availability lines 437–443; MOESM3 line 38",
+      "finding": "Followed original article and four unique publisher supplements. Broughton primer predecessor, Benchling map target and author barcode-design repository identified; the latter two were not independently inspected, so closure is blocked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS refs and code links lines 177/437-443; MOESM3 primer provenance and Benchling URL lines 1-38; five readable publisher files; official code README and barcode_design.py online",
+      "finding": "Original and four supplements independently read. Broughton 2020 primer-origin paper is behind publisher login in this pass, Benchling map cannot be opened, and assay-specific GitHub folder remains unread. Barcode-design code/README checked, but independent first pass on that row and linked-source closure remain outstanding."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Printed source supports primer and branch model; linked materials and second read remain open. No missing oligo claim is accepted."
+}

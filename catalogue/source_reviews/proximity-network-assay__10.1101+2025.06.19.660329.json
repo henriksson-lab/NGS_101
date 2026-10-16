@@ -1,0 +1,220 @@
+{
+  "dir": "proximity-network-assay__10.1101+2025.06.19.660329",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "karlsson_biorxiv_v3",
+      "role": "defining",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v3 Methods around lines 600-625; overview lines 108-127; source scraper run on bundle",
+        "finding": "Two antibody-oligo conjugate classes template padlock gap-fill/ligation and RCA. A linker hybridizes one node of each class and is gap-filled/ligated to create PID-UMI pairs; paper-era samples are UM001/Proxiome v1."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v3 PDF lines 108-127 and 599-619; source-bundle oligo scraper run",
+        "finding": "Original says type-1/type-2 antibody PID/UMI oligos template padlock gap-fill ligation, 10-minute RCA, then a linker joins one product of each type through another gap-fill ligation. A PCR followed by indexing PCR precedes NextSeq 2000 R1 44/R2 78. Methods delegate reagents to the Pixelgen kit and give no complete oligo strings."
+      }
+    },
+    {
+      "id": "pixelgen_um002_v2",
+      "role": "vendor",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/um002-user-manual-pixelgen-proxiome-kit-v2-cell-surface-v1.00.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official v2 manual Gap-fill 1 lines 783 onward, indexing PCR lines 2052-2152, sequencing setup 2320-2356, Table A6 lines 2778 onward",
+        "finding": "Documents current v2 kit reaction order, two PCR stages, PE44/78 plus dual 8-base indexes and seven printed index windows; complete kit oligo molecules were not found in the inspected pages or scraper hits."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "UM002 v2 manual lines 781-809, 1410-1444, 2050-2065, 2316-2354, 2778-2843",
+        "finding": "Official v2 guide separately lists padlock hybridization, first gap-fill, RCA, second gap-fill, pre-amplification and indexing PCR; it specifies PE44/78 with dual 8-base indexes and prints seven index pairs. Its named padlock, proximity and pre-amp reagents are supplied mixes rather than full printed oligo structures."
+      }
+    },
+    {
+      "id": "pixelator_v2_schema",
+      "role": "linked_material",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2.yaml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete pinned assay YAML; compared fixed linker sites and region lengths with page module",
+        "finding": "Machine-readable v2 insert has two 28-base UMIs, two 10-base PIDs, 28/14-base linker-binding sites and a 15-base UEI. It does not specify physical primer tails."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Complete local gh_proxiome-v2.yaml, lines 1-62",
+        "finding": "V2 machine-readable insert explicitly orders UMI1(28), PID1(10), LBS1(28), UEI(15), LBS2(14), PID2(10), UMI2(28). Fixed LBS sequences are printed; PCR primer tails and reagent oligo ends are outside this schema."
+      },
+      "discovered_from": "pixelgen_um002_v2"
+    },
+    {
+      "id": "pixelator_pid_panel",
+      "role": "linked_material",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2-immuno-155-v2.0.csv",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "CSV header and all protein/PID rows; scraper false-positive hits inspected at lines 15, 61, 78, 92, 142 and 151",
+        "finding": "Contains public 10-base PID whitelist for the current v2 Immuno 155 panel; identifiers are source-positive, while adjacency to protein names creates scraper false hits."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Pinned panel CSV header lines 1-8 and marker rows 9-12, 15, 61, 78, 92, 142, 151; inspected scraper hits",
+        "finding": "CSV gives protein-specific 10-base sequence_1 and sequence_2 PID values for the v2 panel. Longer scraper matches splice a PID to adjacent protein-name text and are not oligo molecules."
+      },
+      "discovered_from": "pixelator_v2_schema"
+    },
+    {
+      "id": "pixelgen_patent",
+      "role": "linked_material",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/en.html.txt; https://patents.google.com/patent/WO2025158200A1/en",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Patent method and sequence-listing reference lines 296 and 2499; claims/examples around lines 1094-1160 and 2509-2523",
+        "finding": "Related patent describes conjugate/padlock/RCA/linker topology and identifies a separate 5,398-byte ST.26 XML sequence listing. The patent exemplars have not been mapped to the commercial v2 oligo revision."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "WO2025158200A1 local HTML text lines 295-302, 1092-1160 and 2497-2523",
+        "finding": "Patent describes capture-agent conjugate, padlock/RCA, grid/linker gap-fill architecture and explicitly incorporates PIXL-010WO_SEQLIST.xml. Its alternative embodiments cannot be assigned to the commercial v2 reagents without the sequence listing and version mapping."
+      },
+      "discovered_from": "karlsson_biorxiv_v3"
+    },
+    {
+      "id": "paper_dataset_listing",
+      "role": "linked_material",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/pna-methods-paper.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author dataset page descriptions of UM001/v1 FASTQs and sample/panel releases; compared PNA note",
+        "finding": "Dataset page identifies paper-era UM001/Proxiome v1 read data, distinct from the currently modelled v2 assay; raw FASTQs are data and are not provenance for unsequenced oligo ends."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author dataset page text lines 27-55 and 67-99",
+        "finding": "Datasets page identifies original PBMC/Raji work as UM001 v1.00, CAR-T experiment as DP001 v1.01, and PE44/78 sequencing. FASTQ files are listed as read data, not reagent oligo disclosure. The DP001 spike-in manual is a further linked source."
+      },
+      "discovered_from": "karlsson_biorxiv_v3"
+    },
+    {
+      "id": "supplement_video",
+      "role": "supplement",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_media-1.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Visually inspected contact frames from 0-10-second video at approximately 2.5-second intervals",
+        "finding": "Shows a rotating single-cell network visualization with colored nodes and edges, not a chemistry diagram or oligo table."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original 10.04-second MP4, independently viewed frames at 0.5, 5 and 9 seconds with ffprobe/ffmpeg",
+        "finding": "Frames show changing views of a multicolour single-cell node-edge network, without a molecular recipe or oligo sequence."
+      },
+      "reason": "Visualization movie of reconstructed network, no molecular recipe."
+    },
+    {
+      "id": "patent_st26_xml",
+      "role": "linked_material",
+      "discovered_from": "pixelgen_patent",
+      "locator": "PIXL-010WO_SEQLIST.xml, described in WO2025158200A1 lines 296 and 2499",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Separate patent sequence-listing file is cited but not recovered in the source bundle; it may contain exemplary oligo segments and must be mapped to the v2 kit before use.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "paper_era_um001_manual",
+      "role": "vendor",
+      "discovered_from": "karlsson_biorxiv_v3",
+      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf.txt; https://www.pixelgen.com/wp-content/uploads/2025/12/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official UM001 v1.01 reagent list lines 87-126, sequencing Table 12 lines 2362-2415, index Table A6 lines 2916 onward; full-bundle oligo scraper",
+        "finding": "Historical v1.1 kit manual names supplied padlock/proximity oligos and PCR primers, specifies R1 44 / R2 78 / i7 8 / i5 8, and prints supplied index windows. It does not equate its formulation with current UM002 v2."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "UM001 v1.01 manual lines 280-322, 1378-1431, 1550-1612, 2360-2414 and 2916-2967",
+        "finding": "Official historical manual lists supplied padlock/proximity/pre-amp reagents, first and second gap-fill stages, minimum PE44/78 and dual 8-base indexes, and printed sample index pairs. It is a v1.01 manual, while original dataset page cites v1.00 and CAR spike-in DP001 v1.01; exact paper-run oligo molecules remain unverified."
+      }
+    },
+    {
+      "id": "car_spikein_dp001",
+      "role": "linked_material",
+      "discovered_from": "paper_dataset_listing",
+      "locator": "DP001: CAR Barcoded Antibody spike-in Proxiome kit (v1.01), cited by author dataset page lines 67-80",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited for the paper's CAR-T/Raji anti-FMC63 spike-in experiment, but the DP001 manual is not cached; its antibody-oligo details remain unchecked.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "fmc63_spikein_dp001_v100",
+      "role": "linked_material",
+      "discovered_from": "car_spikein_dp001",
+      "locator": "Pixelgen official historical manuals page https://www.pixelgen.com/user-manual-v1/ lines 34-40 links FMC63 Barcoded Antibody spike-in Proxiome Kit v1.00 at https://www.pixelgen.com/wp-content/uploads/2025/11/fmc63-barcoded-antibody-spike-in-proxiome-kit-v1.00.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The official historical manuals page indexes v1.00, while the paper dataset cites DP001 v1.01. Original PDF was not accessible in this pass; both source-version and antibody-oligo detail need checking.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original bioRxiv v3 PDF Methods, vendor UM002 manual sequencing and index table, pinned Pixelator v2 YAML and PID CSV, author dataset page, patent sequence-listing pointer, entire 10-second supplement video and full-bundle oligo scraper; newly recovered official UM001 v1.01 guide Table 12 and Appendix A6",
+      "finding": "Historical UM001 is now recovered and checked; original paper-era and current v2 kit versions remain distinct. Patent ST.26 XML and independent second pass remain outstanding."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Independent reads of defining preprint lines 108-127/599-619; UM001 lines 280-322/2360-2414/2916-2967; UM002 lines 781-809/2050-2065/2316-2354/2778-2843; pinned v2 YAML lines 1-62; PID CSV lines 1-12; author dataset page lines 27-80; patent lines 295-302/1092-1160/2497-2523; visual MP4 frames at 0.5, 5 and 9 seconds; source scraper; official Pixelgen historical-manual index lines 34-40",
+      "finding": "V1 and v2 sources agree on the broad assay and PE44/78 sequencing, but v2 schema/index identifiers are version-specific. Patent ST.26 listing and CAR spike-in DP001 manual remain unavailable relevant links; no complete-oligo absence claim can pass the gate. The official manual index links a v1.00 FMC63 spike-in guide, but its PDF was inaccessible and the paper cites v1.01."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete antibody-conjugate, padlock, linker and PCR oligo molecules are not published for the current v2 kit",
+      "disposition": "blocked",
+      "evidence": "The inspected preprint and UM002 guide establish roles and index windows; Pixelator publishes only the internal amplicon. The patent cites an unrecovered ST.26 sequence listing, and a second independent source check is pending."
+    }
+  ],
+  "conclusion": "Paper-era UM001 manual is now recovered and supports the same read lengths and original kit workflow; patent sequence listing and independent second pass still block any complete-oligo absence claim. The official Pixelgen index exposes a v1.00 FMC63 spike-in guide, but the paper cites DP001 v1.01 and neither guide was read."
+}

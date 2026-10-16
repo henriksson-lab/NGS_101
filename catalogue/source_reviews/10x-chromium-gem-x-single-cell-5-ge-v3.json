@@ -1,0 +1,261 @@
+{
+  "dir": "10x-chromium-gem-x-single-cell-5-ge-v3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "cg000733",
+      "role": "defining",
+      "locator": "10x Genomics CG000733 Rev A, Chromium GEM-X Single Cell 5-prime Reagent Kits v3 User Guide, official PDF (local 10x_CG000733_...RevA.pdf)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "pp. 9–19 (kit contents and stepwise objectives), 28 (sample index), 31–83 (Steps 1–5), 85–86 (sequencing), 99–100 (Oligonucleotide and Additional Sequences), pp. 11, 26, 29, 38, 94 for cited documents; original PDF p. 100 visually inspected because extracted text omits its image-based oligo table; exact PN-2000089 kit/table cross-check",
+        "finding": "Prints modified gel-bead TSO 5-prime CTACAC...-N16-N12-TTTCTTATATrGrGrG and complete dual-index GEX library; names Poly-dT RT Primer B (PN-2001110), cDNA PCR, end repair/A-tailing, adaptor ligation and sample index PCR. Original PDF p. 100 visually shows only V(D)J amplification 1/2 primer tables but no standalone GEX RT Primer B or adaptor oligo sequence. Traced named ancillary documents. CG000733 Rev A kit contents p. 9 explicitly lists cDNA Primers PN-2000089 (also used at Step 2.2 p. 48)."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG000733 Rev A pp. 15–19 (kit and chemistry overview), 77–81 (GEX library construction), 85–86 (sequencing), 99 appendix; original PDF p. 100 visually checked for image-only Additional Sequences",
+        "finding": "The bead TSO CTACACGACGCTCTTCCGATCT-N16-N12-TTTCTTATATrGrGrG and full final GEX library are printed. Poly-dT RT Primer B PN-2001110 and Ligation Mix PN-2001109 are named without standalone oligo/adapter geometry. The p. 100 image-only tables contain V(D)J amplification primers, not the GEX RT Primer B."
+      }
+    },
+    {
+      "id": "cg000109",
+      "role": "predecessor",
+      "locator": "10x Genomics CG000109 Rev D, Assay Scheme and Configuration of Chromium Single Cell V(D)J Libraries technical note, original vendor PDF mirrored under scg:data",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "pp. 3–4 and protocol-step oligo diagrams for GEM-RT, adaptor ligation and library; References p. 4",
+        "finding": "Earlier 5-prime bead TSO has N16 and N10 UMI, prints older Poly-dT RT Primer PN-2000007 and Read 2 adapter PN-220026; cites CG000086. Different kit generation; not proof of Poly-dT RT Primer B identity."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG000109 Rev D pp. 3–4, older assay-configuration diagrams and cited CG000086",
+        "finding": "Older 5-prime assay diagrams give N16/N10 bead chemistry, unlettered RT Primer PN-2000007 and older adapter PN-220026. These are predecessor chemistry and cannot prove the N16/N12 GEM-X v3 Primer B or Ligation Mix identity."
+      }
+    },
+    {
+      "id": "cg000086",
+      "role": "linked_material",
+      "locator": "10x Genomics CG000086 Rev K, Chromium Single Cell V(D)J Reagent Kits User Guide, official later-revision PDF cited by CG000109",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000109",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Appendix p. 76, Steps 1.5 and 3.1; revision/title",
+        "finding": "Prints older unlettered Poly-dT RT Primer and cDNA primer mix; gel-bead oligo is N16/N10. Does not name or sequence GEM-X v3 Poly-dT RT Primer B."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG000086 Rev K Appendix p. 76 onward, GEM-RT, cDNA amplification and adaptor diagrams",
+        "finding": "The prior V(D)J guide prints unlettered Poly-dT RT Primer, cDNA mix and older adaptor, all in N16/N10 chemistry. It does not identify the v3 Primer B PN-2001110 or current adaptor."
+      }
+    },
+    {
+      "id": "cg000748",
+      "role": "linked_material",
+      "locator": "10x CG000748 Rev B protocol planner, official XLSX in local source bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "cg000733",
+      "reason": "Reagent and workflow planning for multiple assay variants; no sequence or reaction-junction detail for the missing construct claims.",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Readme and Singleplex Overview sheets; document resources and reagents/equipment sheets",
+        "finding": "Planner lists workflow variants, ancillary reagents and equipment and points to CG000731/CG000733 and feature-barcoding guides. It explicitly excludes the 10x reagent kits and supplies no intermediate oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Readme lines 1–37, Singleplex Overview lines 38–57, Library Construction reagents/equipment lines 172–215 of official XLSX text",
+        "finding": "The planner specifies assay choice, third-party reagents, equipment and links to the appropriate guide. It explicitly excludes 10x kit contents and provides no intermediate oligo identity or ligation-end geometry."
+      }
+    },
+    {
+      "id": "cg00053",
+      "role": "linked_material",
+      "locator": "10x CG00053 Rev D Cell Preparation for Single Cell Protocols, official PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "cg000748",
+      "reason": "Biological input preparation only; the optional Feature Barcode branches are outside these gene-expression-only pages.",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Introduction, Contents, Getting Started, and sample-preparation/feature-specific sections",
+        "finding": "Cell handling, dissociation, cleanup and counting guidance; its feature-oligo labeling branches concern optional assays, not the two gene-expression library constructs."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG00053 Rev D pp. 2–3, introduction, sample-quality and handling paragraphs; contents and optional Feature Barcode section",
+        "finding": "The handbook concerns cell/nucleus preparation, suspension quality and optional surface-protein labeling. Its linked sample-prep branches do not define either GEX library junction or missing kit oligo."
+      }
+    },
+    {
+      "id": "cg000479",
+      "role": "linked_material",
+      "locator": "10x CG000479 Rev B Best Practices to Minimize Chip Clogs and Wetting Failures, official PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "cg000733",
+      "reason": "Chip operation troubleshooting, with no construct or oligo identity.",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "pp. 1–2, introduction and clog/wetting recommendations",
+        "finding": "Describes chip handling and GEM formation failure modes; no reagent oligo or library-junction sequence."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG000479 Rev B pp. 1–2, introduction and clog/wetting-failure recommendations",
+        "finding": "This technical note describes GEM chip clogs and wetting, with no primer, adaptor or read-layout disclosure for the GEX chemistry."
+      }
+    },
+    {
+      "id": "cg000396",
+      "role": "linked_material",
+      "locator": "10x CG000396 Rev M Chromium X Series Instrument User Guide, official later-revision PDF",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "cg000733",
+      "reason": "Instrument operation manual, not a molecular library-construction method.",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Table of Contents, Product Specifications, System Components, and System Operation",
+        "finding": "Instrument setup, chip operation and error handling; no protocol oligo or adapter sequence. Rev M postdates the defining 2024 guide."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "CG000396 Rev M pp. 3–6 and 13–16, contents, instrument introduction, components and operation",
+        "finding": "This later instrument manual covers Chromium X hardware, chip loading and operation, not kit reagent sequences or molecular junctions."
+      }
+    },
+    {
+      "id": "tt_index",
+      "role": "linked_material",
+      "locator": "10x Sample Index Sets for Single Cell 3-prime and Immune Profiling specification; official Dual_Index_Kit_TT_Set_A.csv, PN-1000215",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000733",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "Specification plate-assignment paragraph; CSV header and SI-TT-A1 to SI-TT-H12 rows",
+        "finding": "Official CSV prints exact paired 10-base i7 and i5 sequences per well, with both i5 sequencing workflows; e.g. SI-TT-A1 i7 GTAACATGCG and workflow-A i5 AGTGTTACCT. The guide itself gives only N10 and the plate name; source resolves the index table, not the RT or adapter reagent."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Official Dual_Index_Kit_TT_Set_A.csv, header and all SI-TT-A1 through SI-TT-H12 rows; defining guide sample-index and sequencing sections",
+        "finding": "Independently parsed 96 well rows. Each gives 10-base i7 plus 10-base i5 in workflows A and B; SI-TT-A1 is GTAACATGCG / AGTGTTACCT / AGGTAACACT. It resolves index-pair identity, but not kit RT, TSO or ligation oligos."
+      }
+    },
+    {
+      "id": "cg000331",
+      "role": "predecessor",
+      "locator": "10x Genomics CG000331 Rev E, Chromium Next GEM Single Cell 5-prime v2 (Dual Index) User Guide, official PDF; local CG000331_RevE_predecessor.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000109",
+      "pass_1": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Appendix pp. 72–74, GEM-RT, cDNA amplification and GEX adaptor ligation diagrams; exact PN-2000089 kit/table cross-check",
+        "finding": "The intermediate v2 guide prints unlettered Poly-dT RT Primer PN-2000007, cDNA primers PN-2000089 and adaptor PN-2000094 for N16/N10 chemistry. It does not establish v3 Primer B PN-2001110 or Ligation Mix PN-2001109; independent second pass needed. CG000331 Rev E Appendix p. 73 prints cDNA Primers PN-2000089 as forward 5′-CTACACGACGCTCTTCCGATCT-3′ and reverse 5′-AAGCAGTGGTATCAACGCAGAG-3′."
+      },
+      "pass_2": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "CG000331 Rev E original PDF Appendix pp. 72–74, GEM-RT, cDNA amplification and GEX adaptor ligation",
+        "finding": "Independently checked the Next GEM v2 guide. It prints the old unlettered Poly-dT RT Primer PN-2000007, cDNA primers PN-2000089, and GEX adaptor oligos PN-2000094. Its bead oligo has N16/N10 rather than GEM-X v3 N16/N12. The current CG000733 kit table also lists cDNA Primers PN-2000089, making that component traceable by exact reagent number, but current Poly-dT RT Primer B PN-2001110 and Ligation Mix PN-2001109 are different from predecessor reagent numbers."
+      }
+    },
+    {
+      "id": "cg000734",
+      "role": "linked_material",
+      "locator": "10x Genomics CG000734 Rev A, GEM-X Single Cell 5-prime v3 with Cell Surface Protein, official PDF; local CG000734_RevA_related.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000748",
+      "pass_1": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Kit contents p. 9 and Appendix p. 111, Oligonucleotide Sequences",
+        "finding": "Same GEM kit identifies Poly-dT RT Primer B and repeats GEX bead/final-library sequences but does not print standalone Primer B or GEX adaptor geometry. Optional surface-protein branch is separate; independent second read pending."
+      },
+      "pass_2": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "CG000734 Rev A original PDF kit-component table pp. 9–10, Step 5 GEX adaptor ligation, Oligonucleotide Sequences pp. 111–112",
+        "finding": "Independently checked same-kit Cell Surface Protein variant. It lists Poly-dT RT Primer B PN-2001110, cDNA Primers PN-2000089 and Ligation Mix PN-2001109. Appendix p. 111 repeats the v3 bead oligo and final GEX product but no standalone RT Primer B or ligation-reagent bases; p. 112 is the distinct cell-surface library. The shared cDNA-primer PN is traceable to CG000331, while the other two current reagent identities remain unsequenced here."
+      }
+    },
+    {
+      "id": "cg000735",
+      "role": "linked_material",
+      "locator": "10x Genomics CG000735 Rev A, GEM-X Single Cell 5-prime v3 with CRISPR, official PDF; local CG000735_RevA_related.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cg000748",
+      "pass_1": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Kit contents p. 9 and Appendix pp. 113–114, Oligonucleotide Sequences",
+        "finding": "Same GEM kit names Poly-dT RT Primer B and repeats GEX final product; appendix adds CRISPR-specific construct rather than standalone GEX Primer B or adaptor. Independent second read pending."
+      },
+      "pass_2": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "CG000735 Rev A original PDF kit-component table pp. 9–10, Step 5 GEX adaptor ligation, Oligonucleotide Sequences pp. 113–114",
+        "finding": "Independently checked same-kit CRISPR variant. It lists Poly-dT RT Primer B PN-2001110, cDNA Primers PN-2000089 and Ligation Mix PN-2001109. Appendix p. 113 repeats the bead oligo and final GEX product without standalone RT Primer B or GEX ligation-reagent sequence; p. 114 describes the distinct CRISPR library. The shared cDNA-primer PN is traceable to CG000331, but the other current reagent sequences remain unresolved here."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "gemx_first",
+      "date": "2026-10-16",
+      "locations": "CG000733 Rev A pp. 11, 26, 29, 38, 85–86, 94; CG000109 References and CG000086 Appendix; CG000748 Readme and Singleplex Overview; official TT Set A CSV",
+      "finding": "Followed CG000748, CG00053, CG000479 and CG000396 named by defining guide, plus predecessor CG000109 to CG000086 and official TT Set A index table. CG000748 links feature-barcoding/VDJ/multiplex variants; these do not define this gene-expression-only construct. Exact v3 RT Primer B identity is not established by predecessor documents. Independent linked-information pass remains open."
+    },
+    "pass_2": {
+      "reviewer": "gemx_second",
+      "date": "2026-10-16",
+      "locations": "CG000733 Rev A pp. 11, 26, 29, 38, 85–86, 94, 99–100; CG000109 and CG000086 appendices; CG000748 Readme/Singleplex Overview; CG00053, CG000479, CG000396; official TT Set A CSV; related CG000734/735 and predecessor CG000331",
+      "finding": "Independently followed the defining guide references, planner, predecessor citations and official index file. Visual inspection of image-only p. 100 found V(D)J primer tables only. Same-kit feature/CRISPR guides and v2 predecessor were independently first-read; their second pass and any further current-kit support disclosure remain open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact GEM-X 5-prime v3 Poly-dT RT Primer B bases and modifications are absent from the available official guide set.",
+      "disposition": "blocked",
+      "evidence": "CG000733 Rev A p. 99 prints bead TSO and product; visually checked p. 100 has V(D)J primers, not PN-2001110. CG000109, CG000086 and CG000331 identify older unlettered RT primer PN-2000007. Same-kit CG000734/735 also omit standalone Primer B in their appendices, pending second reader and remaining support-material scope."
+    },
+    {
+      "claim": "GEM-X 5-prime v3 cDNA-primer sequence is not directly reprinted in its guide, but the exact current primer catalog number is sequenced in the predecessor guide.",
+      "disposition": "resolved",
+      "evidence": "CG000733 Rev A kit contents p. 9 explicitly lists cDNA Primers PN-2000089 (also used at Step 2.2 p. 48). CG000331 Rev E Appendix p. 73 prints cDNA Primers PN-2000089 as forward 5′-CTACACGACGCTCTTCCGATCT-3′ and reverse 5′-AAGCAGTGGTATCAACGCAGAG-3′. This establishes a catalog-linked sequence, not an independent direct print of the v3 supplied oligos; retain a cross-guide qualification."
+    },
+    {
+      "claim": "Exact GEM-X 5-prime v3 ligation-mix oligos and physical adapter-end geometry remain unresolved.",
+      "disposition": "blocked",
+      "evidence": "CG000733 Rev A kit contents p. 9 names Ligation Mix PN-2001109; Appendix p. 99 and CG000734/735 appendices pp. 111/113 do not print the mix oligos or physical end geometry. Earlier CG000331 Rev E p. 74 names distinct Adaptor Oligos PN-2000094. The current mix cannot be assumed identical; additional support sources remain to check."
+    }
+  ],
+  "conclusion": "Both readers independently checked the defining guide, older vendor guides, linked planner/input/instrument material and official TT Set A CSV. The bead TSO, final product and index table are source-backed. Related same-kit CG000734/735 and intermediate predecessor CG000331 have only a first pass here; missing current-kit RT primer and adapter claims remain blocked. Both source passes also identify the same cDNA Primers PN-2000089 in the current kit and in a predecessor appendix that prints its primer bases; this is catalog-linked evidence, not a direct current-kit oligo table."
+}

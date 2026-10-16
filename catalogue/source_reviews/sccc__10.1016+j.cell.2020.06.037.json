@@ -1,0 +1,264 @@
+{
+  "dir": "sccc__10.1016+j.cell.2020.06.037",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1016/j.cell.2020.06.037; j.cell.2020.06.037_PMC7510185.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Results lines 80-110 and Methods references",
+        "finding": "Establishes scCC chemistry and links author protocols; final published supplement is not locally readable."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC7510185 JATS lines 80-110 and methods/data links",
+        "finding": "Primary paper explains self-reporting transposon and droplet cell barcode association; final Cell supplement is gated."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original JATS Methods lines220–234 and sequencing/analysis line300, kit key-resource rows1410–1414; full bundle scraper",
+          "finding": "Original describes TSO restoration to expression aliquot, exact enrichment primer names and PCR, NexteraMatePair circularization/linear-DNA removal and custom adapter replacement. StandardBP10/BP14 serveRead1/Index2; customRead2/Index1 and GGTTAA entry are explicit. Vendor kit source is chemistry-relevant; generic vendor tagmentation/adapters must not be imported into scCC."
+        }
+      ]
+    },
+    {
+      "id": "final_supp",
+      "role": "supplement",
+      "locator": "_data/sources/sccc__10.1016+j.cell.2020.06.037/1-s2.0-S009286742030814X-mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Cell mmc1.pdf.txt TableS4 rows10x_TSO through scCC_CustomIndex1, lines435–542, after full scCC bundle oligo scraper",
+        "finding": "Independently verified the source-printed TSO, both phosphorylated/biotinylated phosphorothioate enrichment primers, P5/P7 adapters, PCR primers and custom Read2/Index1 primers. These rows establish exact modifications and architectures already shown on the page; no absence is accepted."
+      },
+      "acquisition": {
+        "date": "2026-10-16",
+        "reviewer": "audit_rna_contacts_closeout",
+        "route": "Publisher ars.els-cdn.com with published PII confirmed by Crossref",
+        "files": [
+          "1-s2.0-S009286742030814X-mmc1.pdf",
+          "1-s2.0-S009286742030814X-mmc2.pdf"
+        ]
+      },
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original final publisher mmc1 TableS4 lines322–625, particularly junction primers lines443–455 and custom oligos lines511–539; full bundle scraper",
+        "finding": "Independently read all eight page scCC oligos with source5primePhos, iBiodT, phosphorothioates, index placeholder and customRead2/Index1. Final TableS4 matches the eight source-transcribed displayed author-protocol/preprint oligos. Table notes state customRead2 begins GGTTAA. TablesS1–3 are experimental/library/cell summaries rather than extra ordering oligos."
+      }
+    },
+    {
+      "id": "author_preprint",
+      "role": "other",
+      "locator": "538553_v2.full.pdf.txt; 538553_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "preprint Methods and media-1 Table S4, lines 815-900",
+        "finding": "Author preprint Table S4 prints modified capture primers, adapters, PCR and custom read/index primers; final Cell identity unconfirmed."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "538553_media-1.pdf.txt Supplementary Table 4, lines 807-1035; 538553_v2 full text",
+        "finding": "Author preprint supplement prints modified capture primers, scCC P5/P7 adapters, PCR primers and custom run primers; authoritative author protocol independently agrees on sequences."
+      }
+    },
+    {
+      "id": "authors_library_protocol",
+      "role": "linked_material",
+      "locator": "protocolsio_single-cell-calling-cards-library-preparation-e6nvw6zx9gmk.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "protocol title and preparation steps; oligo scraper scan",
+        "finding": "Author protocol followed; reinforces library workflow, but does not establish identity of gated final Cell supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "protocolsio_single-cell-calling-cards-library-preparation-e6nvw6zx9gmk.pdf.txt lines 89-121",
+        "finding": "Author protocols.io original lists biotinylated junction primers, custom P5/P7 adapters and PCR/run primer oligos. I added these printed oligos to scCC page; exact model landings remain open."
+      }
+    },
+    {
+      "id": "authors_related_protocols",
+      "role": "linked_material",
+      "locator": "five other authors’ protocols.io PDFs in the scCC bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "The quick-start scCC section and single-cell processing run-layout paragraphs directly describe readout; bulk preparation is separate molecular context and peak-calling/bulk processing downstream sections do not establish scCC adapter identity.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "QuickStart section7.78–7.79 lines1360–1405; SingleCellProcessing Step4–6 lines172–223; BulkPreparation Materials/primers lines63–95; bulkprocessing primer/index-demultiplex sections248–275; peakcalling title and analysis commands",
+        "finding": "QuickStart independently repeats BP10/BP14 and custom Read2/Index1, GGTTAA entry and GCGTCAAT circle-junction index. SingleCellProcessing explicitly26/50/8/8 cycles,16CBC+10UMI, GGTTAA trimming; it is relevant source evidence rather than an excluded software-only document. Bulk protocol uses distinct SMART/NexteraXT branch and is not imported into scCC. Peakcalling and WashU-browser link (article key-resource row1634) are downstream visualization/analysis; no molecule-loading chemistry is delegated to them."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original QuickStart7.78–7.79 pp25–26/text1355–1410; original SingleCellProcessingSteps4–6/text165–228; full source-bundle scraper independently rerun",
+        "finding": "Direct original source comparison confirms BP10/BP14 and customR2/I1; R1CBC16+UMI10, R2GGTTAA then genomicDNA, I2GCGTCAAT for circularized library, and26/50/8/8 acquisition. These processing protocols contain genuine readout evidence and must not be categorically excluded as software-only. Bulk and peak-calling original scope was previously checked separately; the seventh visualization original now has its own checked row."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "QuickStart section7.78–7.79 lines1360–1405; SingleCellProcessing Step4–6 lines172–223; BulkPreparation Materials/primers lines63–95; bulkprocessing primer/index-demultiplex sections248–275; peakcalling title and analysis commands",
+          "finding": "QuickStart independently repeats BP10/BP14 and custom Read2/Index1, GGTTAA entry and GCGTCAAT circle-junction index. SingleCellProcessing explicitly26/50/8/8 cycles,16CBC+10UMI, GGTTAA trimming; it is relevant source evidence rather than an excluded software-only document. Bulk protocol uses distinct SMART/NexteraXT branch and is not imported into scCC. Peakcalling and WashU-browser link (article key-resource row1634) are downstream visualization/analysis; no molecule-loading chemistry is delegated to them."
+        },
+        {
+          "reviewer": "source-review-i-r",
+          "date": "2026-10-15",
+          "locations": "titles and protocol text for bulk library prep, quick start and processing routes",
+          "finding": "Library and processing links were inventoried; data-processing-only protocols do not independently settle final oligo identity."
+        },
+        {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "Other local author protocols.io PDFs, titles and primer/adapter headings",
+          "finding": "Related bulk preparation and processing protocols were inventoried, but they do not replace gated final Cell supplementary package."
+        }
+      ]
+    },
+    {
+      "id": "final_methods_companion",
+      "role": "supplement",
+      "locator": "_data/sources/sccc__10.1016+j.cell.2020.06.037/1-s2.0-S009286742030814X-mmc2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original companion MethodsS1 lines183–199, Molecular biology of single cell calling cards",
+        "finding": "Explicitly specifies biotinylated/phosphorylated SRT-enrichment PCR before circle formation, then shearing and streptavidin capture, endrepair/A-tail/adapter ligation/finalPCR. Initial droplet RT omitsTSO; expression aliquot getsTSO added back. Corrected the graph to include omitted steps."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Cell mmc2.pdf.txt supplemental discussion lines180–192, independently read after complete scCC source-bundle oligo scraper",
+        "finding": "Original explains enrichment PCR with phosphorylated biotin primers before overnight circularization, then shearing, streptavidin capture, on-bead end repair/A-tailing/adapter ligation and final PCR. This independently supports restoration of those omitted stages; vendor-specific geometry remains a separate evidence scope."
+      }
+    },
+    {
+      "id": "matepair_original",
+      "role": "vendor",
+      "locator": "_data/sources/nextera-mate-pair/illumina_nextera-mate-pair-reference-guide-15035209-02.pdf.txt; Illumina15035209v02, January2016",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original guide title/version; RemoveLinearDNA lines1315–1354; EndRepair lines1598–1604; A-tailing lines1742–1747; full vendor bundle scraper",
+        "finding": "Confirms DNAexonuclease removal of linearDNA, on-bead endrepair and 3primeA addition before T-overhang adapter ligation. Generic kit tagmentation/adapters are outside inherited scCC substeps; scCC article supplies custom adapters. Independent vendor scope check remains."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_vendor_read",
+        "date": "2026-10-16",
+        "locations": "Original Illumina15035209v02 text1315–1354 (linearDNA removal),1598–1614 (on-bead endrepair),1742–1760 (on-bead A-tail/T-overhang rationale); complete original vendor bundle oligo scraper independently reviewed",
+        "finding": "Confirms linearDNA exonuclease depletion, removal of3primeoverhangs/filling5primeoverhangs on capturedDNA, then on-bead3primeA addition beforeT-overhang adapterligation. scCC inherits these downstream operations; generic MatePair tagmentation reagents do not establish its custom adapter sequence. No quantitative historical-revision equivalence is asserted."
+      }
+    },
+    {
+      "id": "chromium_v2_original",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original CG00052 Rev D title/kit PN-120267; extracted lines1094–1120,2318–2353,2637–2668; complete vendor-bundle oligo scraper finished",
+        "finding": "Independently confirmed R1 arm plus16-nt cell barcode plus10-nt UMI pluspoly(dT), RT Primer in original mix, GEM incubation and post-GEM cleanup. These support inherited basic first-strand chemistry. The exact historical revision used by scCC and numerical cleanup-volume equivalence are not established by this scoped read, so no publication discrepancy is asserted."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_vendor_read",
+        "date": "2026-10-16",
+        "locations": "Original CG00052RevD stepwise objectives1094–1127, RTmix2318–2356 and GEMincubation2637–2672; full vendor bundle scraper independently run",
+        "finding": "Independently confirms16-basecellbarcode/10-baseUMI/poly(dT) scaffold, RTPrimer310354 inGEMmix, thenpostGEMsilane cleanup. scCC modifies the standard reaction by withholdingTSO and addingit only to the expression aliquot, so standard vendorTSO workflow cannot override scCC primaryMethods. Exact historical guide revision remains unassigned rather than declared missing from publication."
+      }
+    },
+    {
+      "id": "authors_washu_visualization",
+      "role": "linked_material",
+      "locator": "_data/sources/sccc__10.1016+j.cell.2020.06.037/protocolsio_visualizing-calling-card-data-on-the-washu-epigeno-kxygxe7kkv8j.pdf.txt; doi:10.17504/protocols.io.bca8ishw",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "paper",
+      "reason": "Original procedure visualizes already processed CCF/BED/bedgraph data; no library preparation, reagent loading or readout chemistry is delegated to it.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Full original14-page protocol after complete scCC bundle scraper: Materials/BeforeStart p2; Introduction Steps1–3 p3; Steps4–17 pp3–14",
+        "finding": "Original prescribes htslib compression/indexing, public-server/JSON datahub or direct text upload, and track display/rollover controls. It links back to three already inventoried processing/peakcalling protocols. Sample URLs and browser option links concern processed track data/software; no chemistry-specific linked instruction is deferred there. Source exclusion is based on the original text, not its title."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original protocolsio bca8ishw PDF pp2–3 Introduction/Materials/steps1–4 and downstream display headings; original source scraper independently run",
+        "finding": "Original explicitly concerns CCF/bedgraph/BED files, htslib compression/indexing, datahub JSON and WashU display. Its back-links name the already checked bulk/single-cell processing and peak-calling protocols. This is a positive original-scope exclusion from library molecular construction, not exclusion based on a link label; no unexamined chemistry procedure is delegated here."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "locations": "Full scCC bundle scraper98hits/9files; original JATS Methods222–234, sequencing300 and keyresources1622–1634; finalTableS4; MethodsS1; author scCC LibraryPreparation steps and readout870–902; QuickStart1360–1405; SingleCellProcessing172–223; original MatePair15035209v02 and ChromiumCG00052RevD sections recorded in checklist",
+      "finding": "Revisited complete chemistry-specific link scope after original vendor reading. Final supplement recovered; original MatePair downstream operations and Chromium first-strand/cleanup now read. QuickStart and SingleCellProcessing supply positive primer/run-layout information; bulk SMART/NexteraXT branch is distinct. Analysis/peakcalling/browser/raw-data links do not supply delegated molecular steps. Exact historical Chromium guide revision remains unassigned and numerical equivalence is not asserted. Prior blocked reasons are acquisition history, not current source barriers. No missing claim accepted; independent updated link-scope confirmation remains."
+    },
+    "pass_2": {
+      "reviewer": "root_independent_original_read",
+      "date": "2026-10-16",
+      "locations": "Original article Methods/KeyResources1622–1634; finalTableS4 and MethodsS1; source-checked author LibraryPreparation/QuickStart/SingleCellProcessing; original seventh WashUvisualization PDFpp2–3; inherited MatePair15035209v02 andChromiumCG00052RevD checklist sections",
+      "finding": "Independently followed the linked library methods and readout instructions, including relevant sequence/cycle content in processing docs. All seven author-protocol links are now inventoried; the seventh display protocol is excluded by its original introduction/materials and only links back to known processing docs. Original final supplements and inherited vendor operations were inspected twice. Biological result/rawdata and browser/software documentation do not supply delegated oligo synthesis or missing reaction stages. Historic guide revision and unrepresented duplex geometry remain model qualifications, not accepted source absence."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Final publisherTableS4 and MethodsS1; original articleMethods; NexteraMatePair15035209v02 inherited linearDNA/endrepair/A-tail sections",
+        "finding": "Positive original final-source evidence resolves the page oligo provenance boundary. Followed inherited NexteraMatePair original for chemistry actually used. Chromium3primev2 original guide is identified but relevant first-strand/cleanup comparison remains open. Unrelated processing/raw-data resources do not resolve oligo identity."
+      },
+      {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Cell XML supplementary references and six author protocols.io PDFs listed in MANIFEST.tsv",
+        "finding": "Followed author protocols and preprint Table S4. Final Cell supplementary PDF remains gated."
+      },
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC author protocol link and local protocols.io original; author preprint supplement; MANIFEST.tsv",
+        "finding": "Followed author library protocol and preprint, verified oligo list; final Cell supplement remains inaccessible, so publication-version differences are unverified."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Author-preprint oligos exactly match final Cell implementation",
+      "disposition": "resolved",
+      "evidence": "Recovered final CellTableS4 independently prints all eight displayed scCC capture/PCR/adapter/sequencing oligos with the same bases and modifications as author-protocol/preprint transcriptions. No universal equivalence for unrelated bulk primers or every supplementary oligo is claimed."
+    }
+  ],
+  "conclusion": "Two independent original-source checks cover the defining article, final supplemental oligos/MethodsS1, author protocols including source-specific readout instructions and the previously omitted visualization protocol, and inherited vendor operation scope. Source-led missing-stage/oligo provenance corrections are implemented. No publication absence is accepted; exact molecular geometry not assembled by the model remains explicit."
+}

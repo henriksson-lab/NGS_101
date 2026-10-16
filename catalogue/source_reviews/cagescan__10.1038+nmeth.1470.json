@@ -1,0 +1,76 @@
+{
+  "dir": "cagescan__10.1038+nmeth.1470",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC2906222, nmeth.1470_PMC2906222.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods and supplement reference",
+        "finding": "Describes CAGEscan library and supplement table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 111-115 and 151",
+        "finding": "Article explains semi-suppressive PCR and paired-end CAGEscan adapter addition, with supplementary material linked; the exact run primers occur in its supplement."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "MOESM315_ESM.pdf.txt, CAGEscan original oligo table",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Lines 5135-5172",
+        "finding": "Lists eight oligos including both PE run primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 5153-5172",
+        "finding": "Table explicitly prints CAGEscan forward and reverse PCR primers and forward/reverse paired-end sequencing primers: TAGTCGAACTGAAGGTCTCCAGCA and CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT."
+      }
+    },
+    {
+      "id": "instrument_context",
+      "role": "linked_material",
+      "locator": "Historical instrument/run implementation for the printed paired-end primers",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supplement",
+      "reason": "Exact landings and run implementation not reconstructed from the original source."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Supplement table and article references",
+      "finding": "Two run primers are printed; model lacks exact geometry."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MOESM315 lines 5153-5172",
+      "finding": "Independent table reading confirms both custom run primer sequences; claimed sequence absence would be false. Remaining gap is model reconstruction."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact read placement is unresolved because source omits primer sequences.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

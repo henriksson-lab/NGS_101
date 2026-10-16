@@ -1,0 +1,93 @@
+{
+  "dir": "eccdna-circle-seq__10.1073+pnas.1508825112",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1073/pnas.1508825112; pnas.1508825112_PMC4475933.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 1267-1283",
+        "finding": "NotI and Plasmid-Safe digestion, phi29 RCA, sonication and Apollo 324 adapter/index addition; several validation PCR oligos printed, but no Apollo bases in checked methods."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article HTML lines 1260-1281",
+        "finding": "Methods specify exonuclease enrichment, phi29 RCA, sonication, Apollo 324 adapter and index addition, and give ACT1/qPCR/inverse PCR validation oligos; selected Apollo adapter/index bases are not printed in this section."
+      }
+    },
+    {
+      "id": "s1",
+      "role": "supplement",
+      "locator": "pnas.1508825112.sd01.xlsx; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "s2",
+      "role": "supplement",
+      "locator": "pnas.1508825112.sd02.xlsx; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "s3",
+      "role": "supplement",
+      "locator": "pnas.1508825112.sd03.xlsx; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "pnas.201508825SI.pdf; MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplement endpoint gated.",
+      "pass_2": null
+    },
+    {
+      "id": "apollo",
+      "role": "vendor",
+      "locator": "IntegenX Apollo 324 system adapters/barcode index labels, named in article Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical vendor guide not located in local source bundle.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Paper Methods cite four linked supplemental files and an Apollo 324 vendor workflow; all remain unavailable in local source bundle.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "PCR validation and inverse primers",
+      "disposition": "resolved",
+      "evidence": "Paper Methods lines 1273-1279 print them, but these are not sequencing library oligos."
+    },
+    {
+      "claim": "Apollo 324 adapter bases and selected six-base sample indexes",
+      "disposition": "blocked",
+      "evidence": "Named in Methods but original supplements and vendor guide unavailable."
+    }
+  ],
+  "conclusion": "Validation primers source-backed; sequencing adapter composition blocked by supplements/vendor. Independent pass 2 pending; no missing claim accepted."
+}

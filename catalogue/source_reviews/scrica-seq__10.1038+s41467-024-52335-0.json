@@ -1,0 +1,461 @@
+{
+  "dir": "scrica-seq__10.1038+s41467-024-52335-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_PMC11399327.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 154–188; scraper returned zero hits",
+        "finding": "scRICA-seq retrieves 10x Multiome cDNA, self-circularizes with linker primer, performs phi29 rolling-circle amplification and separate TSS/TES libraries while retaining ATAC material."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11399327 JATS text lines 66–76, Methods 151–192, Supplementary information links 252–260; full source-bundle oligo scraper run before article reading.",
+        "finding": "The article distinguishes low-throughput nuclear/cytoplasmic separation from 10x high-throughput Multiome, details cDNA circle/phi29/Tn5/TSS/TES construction, and points to Supplementary Data 2 for primer sequences. The low-throughput methods do not assign a 16-base barcode."
+      }
+    },
+    {
+      "id": "manual_1",
+      "role": "linked_material",
+      "locator": "https://assets-eu.researchsquare.com/files/rs-3640234/v1/ab0538bc-4ec8-4a30-b79a-01c4a841cd14.pdf?c=1726297603 (Research Square DOI:10.21203/rs.3.rs-3640234/v1)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Independently read Research Square v1 original PDF pp. 3–4 and 8–11 at https://assets-eu.researchsquare.com/files/rs-3640234/v1/ab0538bc-4ec8-4a30-b79a-01c4a841cd14.pdf?c=1726297603 (browser lines 71–97, 242–303, 319–359); p. 24 attachment list lines 598–602. Ran full local scRICA source-bundle oligo scraper before reading (119 top hits in two original publisher attachments).",
+        "finding": "Preprint separately describes low-throughput hand-picked-cell RT/cDNA circle/phi29 RCA/Tn5 route and high-throughput 10x Multiome route. Methods give separate TSS and TES PCR primer names, PE150 sequencing, low-throughput 12-base UMI anchor AACGCAGAGT+N12+AGTTAA, and high-throughput 16-base cell barcode plus 12-base UMI after CTTCCGATCT. It explicitly delegates primer sequences to Supplementary Table 1 and lists that workbook, a comparison table and Extended Data figures on p. 24; those linked attachments were not reachable. No exact missing-primer conclusion follows."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original Research Square v1 PDF pp. 8–10 Methods, web text lines 242–303; pp. 10–11 10x/read-processing lines 319–352; p. 24 supplement list lines 598–602. Full existing scRICA source-bundle oligo scraper run before reading.",
+        "finding": "Preprint methods independently describe RT, cDNA self-circle via NEBuilder, exonuclease cleanup, phi29 RCA, Tn5 fragmentation, separate TSS/TES PCR and retained long/short library fractions. Its 10x section explicitly uses Multiome and 16-base barcode plus 12-base UMI. It points to a separate Supplementary Table 1 of primer sequences and Extended Data figures, which remain unavailable; preprint itself is one reader only."
+      },
+      "reason": "Original preprint PDF read through indexed Research Square asset despite local DOI route DNS failure; its three listed original attachments remain unavailable.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM1 PDF pp. 2–4, visually inspected Supplementary Figs. 1–3; extracted legend lines 33–42.",
+        "finding": "Fig. 3 low-throughput molecular drawing labels N6 a 6bp cell barcode and N12 a 12bp UMI; Fig. 2 high-throughput drawing labels N16 a 16bp cell barcode. The variants use different primers. The low-throughput diagram supports the corrected six-base model."
+      },
+      "pass_2": {
+        "reviewer": "finish_shape",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM1 Supplementary Information PDF p. 3 Fig. 2 and p. 4 Fig. 3, independently rasterized and visually inspected after running the full source-bundle oligo scraper.",
+        "finding": "Fig. 2 labels high-throughput N16 a 16bp cell barcode; Fig. 3 labels low-throughput N6 a 6bp cell barcode. They depict distinct downstream primer paths, corroborating separate variant models."
+      }
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM2 peer review PDF, text lines 491–510 and chemistry-term scan across 760 lines.",
+        "finding": "Author response says 10x high-throughput and nuclear/cytoplasmic low-throughput use different adapter primers to accommodate 10x barcode sequences. Review exchange is relevant to separating variants, not an oligo ordering source."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 peer-review PDF lines 491–510, reread after full scRICA source-bundle primer scrape.",
+        "finding": "Reviewer #3 requested separate methods for nuclear/cytoplasmic and 10x branches; author response explicitly states 10x barcode accommodation required modified adapter primers. This supports variant separation, but gives no synthesis sequence."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM3 description PDF, lines 1–9.",
+        "finding": "The source map explicitly identifies Supplementary Data 2 as primer sequence information, Data 3 as reagents, and Data 1 as comparison of methods."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 Description of Additional Supplementary Files, complete 9-line text; full scRICA bundle scraped first.",
+        "finding": "The three linked workbooks are comparison, primer sequences, and reagents respectively. Followed Data 1–3 as source_5 through source_7, so an empty search in the article cannot support a missing-primer claim."
+      }
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM4 Data 1 workbook text, lines 1–17.",
+        "finding": "Comparison table gives platforms, cell counts and throughput for scRICA/scRCAT and predecessor methods; no synthesis oligo or read-layout bases."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 Supplementary Data 1, entire Sheet1 lines 1–15; full scRICA bundle scraped first.",
+        "finding": "This is a platform and throughput comparison of named methods, including low-throughput scRCAT-seq2 and 10x scRICA. It does not contain synthesis oligo bases or reaction order; original methods cited in the table are not independently imported into this branch without a chemistry link."
+      }
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM5 Data 2 workbook, entire 28-line Sheet1: low-throughput oligos lines 1–18, high-throughput 10x oligos lines 19–27, footnote line 28; full bundle scraper hits reviewed.",
+        "finding": "Low-throughput oligo(dT) row prints (N)6(N)12; footnote incorrectly calls (N)6 a 16bp cell barcode. The original low-throughput figure says 6bp; the high-throughput 10x figure says N16. Table also prints complete linker, Phi29, TSS/TES and terminal N8 primers, already displayed on page."
+      },
+      "pass_2": {
+        "reviewer": "finish_shape",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM5 Supplementary Data 2 Sheet1 lines 4–28; independently inspected all named low-throughput oligo rows after full source-bundle oligo scraper.",
+        "finding": "Oligo(dT) row prints (N)6(N)12, while footnote calls (N)6 a 16bp barcode. All 12 named low-throughput model primer constants matched the original rows after expanding N8 placeholders; oligo(dT) and TSO modifications also matched. Figure 3 confirms N6 means 6bp."
+      }
+    },
+    {
+      "id": "source_7",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM6 Data 3 workbook, all 22 text lines.",
+        "finding": "Lists physical reagents and vendors, including Maxima H Minus RT, NEBuilder assembly, Exonucleases I/III/lambda, phi29 polymerase and Hyperactive pG-Tn5. No oligo sequence table."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 Supplementary Data 3, entire Sheet1 lines 1–22; full scRICA bundle scraped first.",
+        "finding": "Reagent table identifies Maxima H Minus RT, NEBuilder, exonucleases, phi29 and pG-Tn5 with vendors/catalog numbers. It has no synthesis oligo row, but it is a direct source for enzyme choices."
+      }
+    },
+    {
+      "id": "source_8",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM7_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM7 Nature Portfolio Reporting Summary PDF pp. 1–4, visually inspected all image-only pages (text extraction is blank).",
+        "finding": "Page 1 links software pipeline github.com/huoyujinlab/scRCAT-seq2; p. 2 links GEO GSE251754 data but no synthesis oligos; pp. 3–4 are study-design/materials disclosures. Software link remains chemistry relevant for read processing; GEO data is not an oligo source."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM7 Reporting Summary PDF pp. 1–4, independently rasterized and visually inspected; full scRICA bundle scraped first.",
+        "finding": "P. 1 gives author pipeline https://github.com/huyoujinlab/scRCAT-seq2 and p. 2 gives GEO GSE251754. Pp. 3–4 are materials/study design, without oligos or read geometry. Followed pipeline in author_pipeline; GEO points to sequence data rather than an oligo ordering table."
+      }
+    },
+    {
+      "id": "source_9",
+      "role": "supplement",
+      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM8_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM8 Source Data workbook, extracted sheet inventory lines 1–239789; inspected Figure 2i sheet header at lines 456–457 and barcode rows 458–466 after full source-bundle oligo scraper.",
+        "finding": "The scraper hits at lines 458 onward are actual 16-base cell_barcode values for high-throughput retinal organoid scRCAT-seq2 cells, not oligo synthesis strands. They independently corroborate the high-throughput N16 branch and must not be transferred to the low-throughput N6 oligo. Other 28 figure-data sheets remain only header-screened."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original MOESM8 Source Data workbook: all 28 sheet names and column headers across lines 1–239790, Figure 2i lines 456–475, and full source-bundle scraper hits.",
+        "finding": "Sheets are figure measurement tables; Figure 2i contains observed 16-base cell_barcode values for retinal-organoid high-throughput scRCAT-seq2. Scraper hits there are sample identifiers, not primer synthesis sequences. The header scan found no primer or reaction-order sheet; individual numeric rows outside the barcode example were not read."
+      }
+    },
+    {
+      "id": "multiome_vendor",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt (official 10x CG000338 Rev F, Aug 2022); Rev B and Rev G also locally available",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "The 2024 paper does not identify the guide revision used by its experiment; independent second review remains needed.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original CG000338 Rev F Appendix Sequences lines 5800–5855 and sequencing overview lines 5022–5041; compared Rev B lines 5660–5712 and Rev G lines 5885–5940. Full source-bundle oligo scraper run before reading.",
+        "finding": "Official guide prints Multiome RNA gel-bead 5′-CTACACGACGCTCTTCCGATCT-N16-N12-poly(dT)VN-3′ and GEX library with 16-base barcode plus 12-base UMI. ATAC has a separate 16-base barcode library. Rev B/F/G corroborate this architecture, supporting the distinct high-throughput branch rather than a 16-base low-throughput oligo(dT) barcode."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000338 Rev B Appendix lines 5659–5712, Rev F lines 5800–5855 and Rev G lines 5885–5940; full 10x Multiome source-bundle scraper run first.",
+        "finding": "Three guide revisions independently print the RNA gel-bead 5′-CTACACGACGCTCTTCCGATCT-N16-N12-poly(dT)VN-3′ and separate ATAC N16 library. These corroborate the 10x high-throughput architecture but cannot identify which exact revision the 2024 experiment used."
+      }
+    },
+    {
+      "id": "scrcat_predecessor",
+      "role": "linked_material",
+      "locator": "Hu et al. 2020 scRCAT-seq original DOI:10.1038/s41467-020-18976-7, cited as ref. 10 at Jiang et al. 2024 JATS line 76",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "The original has one dedicated review; separate predecessor attachments are listed below and second checks remain open.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original PMC7555861 JATS lines 65–71, 113–125, Methods 145–169 and 217; full predecessor source-bundle oligo scraper run before reading.",
+        "finding": "Predecessor scRCAT-seq makes Smart-seq2 full-length cDNA with UMI-bearing end tags, directly tagmentates cDNA, and uses targeted PCR to capture TSS/TES ends. The low-throughput RT primer is printed as AAGCAGTGGTATCAACGCAGAGT-N8-[16-base cell barcode]-T30VN with PE150 and complete P5/P7 index primers. Circle assembly and phi29 RCA are new to scRCAT-seq2 in 2024; they cannot be inherited from the 2020 paper."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original Hu et al. 2020 PMC7555861 JATS lines 65–71, 113–119, 147–150, 163–171 and 211–217; full predecessor source-bundle scraper run first.",
+        "finding": "The 2020 predecessor primes single-cell RT with AAGCAGTGGTATCAACGCAGAGT-N8-[16-base cell barcode]-T30VN, amplifies cDNA, tagmentates with Nextera XT and selects end fragments with P5/P7 index primers for PE150. Its methods contain no 2024 cDNA circle or phi29 RCA, and its 10x section is a separate later high-throughput use."
+      }
+    },
+    {
+      "id": "author_pipeline",
+      "role": "linked_material",
+      "locator": "https://github.com/huyoujinlab/scRCAT-seq2 (linked in 2024 paper JATS line 300; MOESM7 Reporting Summary p. 1 uses a different huoyujinlab spelling that did not resolve)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Public README inspected; all code files and FASTQ validation, plus second independent review, remain open. Conflicting example lengths cannot establish a definitive high-throughput TES layout.",
+      "discovered_from": "source_8",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Author repository rendered README lines 197–200, 242–256, 306–330 at https://github.com/huyoujinlab/scRCAT-seq2; paper JATS line 300. Inspected top-level file list, but not all source files.",
+        "finding": "README assigns R1 to cDNA and R2 to barcode plus UMI. It shows fixed 10-base TSS/TES anchors and a STARsolo command with 16-base CB, 12-base UMI and 10x ARC whitelist for high-throughput data. Its TSS gzp example requests 28 bases while TES requests 18, inconsistent with that 16+12 STAR command; this example cannot establish TES high-throughput layout. Low-throughput paper STARsolo uses 6+12 separately."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original author GitHub README lines 242–314 and run_star.sh lines 271–293 (web-rendered); paper JATS line 300; full scRICA bundle scraper run first.",
+        "finding": "README explicitly assigns R1 cDNA and R2 cell barcode plus UMI. The TSS gzp example sets -u 28 and TES sets -u 18; run_star.sh nevertheless configures 16-base CB plus 12-base UMI for TES, so example processing remains internally inconsistent. Full source tree and raw FASTQ behavior were not independently reproduced; this row cannot establish TES layout alone."
+      }
+    },
+    {
+      "id": "scrcat_supp_info",
+      "role": "linked_material",
+      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "scrcat_predecessor",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Information file inventory pp. 1–2 and Supplementary Table 7 cloning primers, extracted lines 3087–3136; full predecessor source-bundle scraper run.",
+        "finding": "Nine figure legends and seven tables accompany the predecessor. Table 7 primers validate example genes by cloning and are distinct from scRCAT-seq2 library oligos. Full figure set and second read remain open."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original 2020 MOESM1 Supplementary Information: file inventory lines 17–19; all figure/table legend headings and chemistry terms scanned; Supplementary Table 7 lines 3087–3133; full predecessor bundle scraped first.",
+        "finding": "Nine figures and seven tables cover accuracy, efficiency, TSS/TES calling and validation. Table 7 oligos are cloning primers for novel genes, as the original caption states, not scRCAT-seq2 library inputs. No second oligo synthesis table was found in the located supplement sections; image panels beyond the legends were not fully reread."
+      }
+    },
+    {
+      "id": "scrcat_reporting_summary",
+      "role": "linked_material",
+      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Reporting form covers study design and software/data access, not synthesis chemistry or molecular read geometry; its software link was followed to the publisher archive.",
+      "discovered_from": "scrcat_predecessor",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original publisher Reporting Summary, all three rasterized pages visually inspected; its text extraction is blank.",
+        "finding": "Statistics, software/data availability, study design and biological materials; no reaction diagram, library oligos or molecular read layout. P. 1 links the prior author analysis pipeline; linked publisher software archive is listed separately."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original 2020 MOESM2 Reporting Summary, all three pages independently rasterized and visually inspected; full predecessor bundle scraped first.",
+        "finding": "P. 1 links predecessor analysis software and GEO data; pp. 2–3 disclose study design and materials. It contains no primer or adapter chemistry. Followed the software link through the separately listed publisher archive."
+      }
+    },
+    {
+      "id": "scrcat_software_description",
+      "role": "linked_material",
+      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "This source only identifies a downstream TSS/TES analysis package; its attached archive was followed and listed separately.",
+      "discovered_from": "scrcat_predecessor",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original publisher Description of Additional Supplementary Files, extracted lines 1–9.",
+        "finding": "Identifies Supplementary Software 1 as a TSS/TES analysis pipeline, not a synthesis source; followed its archive link and the later author repository link."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original 2020 MOESM3 Description of Additional Supplementary Files, complete 9-line text; full predecessor bundle scraped first.",
+        "finding": "Lists Supplementary Software 1 as TSS/TES data-analysis pipeline. This supports treating the linked archive as processing software, followed under scrcat_software_archive, rather than an oligo-ordering source."
+      }
+    },
+    {
+      "id": "scrcat_software_archive",
+      "role": "linked_material",
+      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM4_ESM_README.txt (from original Supplementary Software 1 ZIP)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Predecessor peak-classification software processes aligned reads and does not define scRCAT-seq2's cDNA circle, Tn5 or Multiome construct.",
+      "discovered_from": "scrcat_software_description",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Original archive README opening 90 lines and full file inventory in MANIFEST.tsv.",
+        "finding": "Describes post-alignment TSS/TES peak classification and links predecessor GitHub code; it provides neither scRCAT-seq2 circle/RCA chemistry nor Multiome oligos."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original 2020 MOESM4 Supplementary Software 1 archive README opening 90 lines and named archive inventory in MANIFEST.tsv; full predecessor bundle scraped first.",
+        "finding": "README describes post-alignment TSS/TES peak calls and random-forest classification; no synthesis reagent or molecular construct. It links older author code, but provides no 2024 circle/RCA or Multiome reaction details."
+      }
+    },
+    {
+      "id": "scrcat_source_data",
+      "role": "linked_material",
+      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "scrcat_predecessor",
+      "pass_1": {
+        "reviewer": "scrica_links",
+        "date": "2026-10-16",
+        "locations": "Publisher Source Data workbook beginning sheet inventory lines 1–2 and sampled scraper hits lines 34032–34036.",
+        "finding": "Numeric source-data sheets include 16-base observed cell barcodes in predecessor high-throughput analyses; these are identifiers, not synthesis oligos and cannot be transferred to 2024 low-throughput primer. Full workbook and second review remain open."
+      },
+      "pass_2": {
+        "reviewer": "scrica_second",
+        "date": "2026-10-16",
+        "locations": "Original 2020 MOESM5 Source Data workbook: all 61 figure-sheet names and adjacent headers across lines 1–99836, Fig. 4b lines 34029–34036; full predecessor bundle scraper hits.",
+        "finding": "The workbook gives figure measurements and cell identifiers. Fig. 4b has observed 16-base barcodes in predecessor high-throughput data; these are not synthesis oligo bases for the 2024 low-throughput branch. Individual numerical rows outside representative barcode hits were not exhaustively reviewed."
+      }
+    },
+    {
+      "id": "preprint_primers",
+      "role": "linked_material",
+      "locator": "Research Square v1 SupplementaryTable1TableofscRICAseqprimers.xlsx (linked by preprint PDF p. 24, line 600)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original primer table is directly relevant to source discrepancies and may differ from later MOESM5; Research Square record gives 403 and attachment URL is not exposed in indexed PDF.",
+      "discovered_from": "manual_1",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "preprint_comparison",
+      "role": "linked_material",
+      "locator": "Research Square v1 SupplementaryTable2ComparisonofscRICAseqandothermethods.xlsx (linked by preprint PDF p. 24, line 601)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original preprint comparison table could locate predecessor method links; attachment URL is not exposed and record returns 403.",
+      "discovered_from": "manual_1",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "preprint_extended_figures",
+      "role": "linked_material",
+      "locator": "Research Square v1 ExtendedDataFig.docx (linked by preprint PDF p. 24, line 602)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Preprint references Extended Data Fig. 1 for molecule construction; attachment URL is not exposed and record returns 403.",
+      "discovered_from": "manual_1",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "preprint_scrcat_pipeline",
+      "role": "linked_material",
+      "locator": "https://github.com/huyoujinlab/scRCAT-seq (linked in Research Square v1 preprint Methods p. 11, lines 357–360)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual_1",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Author GitHub repository root README lines 196–205 at https://github.com/huyoujinlab/scRCAT-seq; preprint PDF p. 11 lines 357–360.",
+        "finding": "Author README identifies this as the earlier scRCAT-seq project with data-processing scripts for TSS/TES peak calling and machine-learning correction. It is a computational predecessor, not a printed source for 2024 wet-lab oligo identities. Linked code files were not inspected; read-layout interpretation remains open."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently opened author GitHub repository root https://github.com/huyoujinlab/scRCAT-seq lines 139–145, 182–205 and attempted linked data_processing directory; cross-checked original scRICA preprint Methods p. 11 after full source-bundle oligo scraper.",
+        "finding": "Author repository calls itself scRCAT-seq and says data_processing contains preprocessing, TSS/TES peak calling, and machine-learning correction scripts. This establishes an analysis predecessor, not a wet-lab oligo sequence for scRICA. The nested directory returned a cache miss and remains uninspected, so read-layout implications are still blocked."
+      }
+    },
+    {
+      "id": "preprint_smartseq3_pipeline",
+      "role": "linked_material",
+      "locator": "https://github.com/sandberg-lab/Smart-seq3 (linked in Research Square v1 preprint Methods p. 11, lines 356–359)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original preprint invokes this code for downstream isoform reconstruction from aligned BAM; the linked repository describes analysis of another protocol and is not evidence for the scRICA wet-lab oligo or reagent sequence.",
+      "discovered_from": "manual_1",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original preprint PDF p. 11 lines 356–359; Sandberg-lab GitHub root README/about at https://github.com/sandberg-lab/Smart-seq3 lines 129–145.",
+        "finding": "Linked repository identifies itself as the Smart-seq3 code and analysis pipeline. The preprint cites it only for isoform reconstruction of zUMIs BAM files; no claim about scRICA molecular construction can be accepted or rejected from this repository."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently opened original linked Sandberg-lab/Smart-seq3 GitHub root https://github.com/sandberg-lab/Smart-seq3 lines 129–145; checked scRICA Research Square v1 Methods p. 11 after full source-bundle scraper.",
+        "finding": "The repository is explicitly the code and analysis pipeline for Smart-seq3. The scRICA preprint invokes it only for downstream isoform reconstruction from aligned BAM, so it cannot establish the scRICA wet-lab oligo or reaction and is excluded from that missing-information claim."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article methods and supplements, MOESM3 source map and MOESM7 Reporting Summary p. 1; compared linked 10x and predecessor references in JATS.",
+      "finding": "Followed original publisher supplement map to Data 2 and inspected all attachment types; discovered author scRCAT-seq2 software link in reporting summary. A separate reader then inspected the available 10x vendor guide, original scRCAT predecessor and attached software, and author README. Exact 10x revision, source-code/FASTQ interpretation, full predecessor supplements, second checks and Research Square remain open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Published MOESM5 primer table and Figure 3 resolve the low-throughput N6 sequence; official 10x guides support the separate N16/N12 branch. Independent second reads now cover the 10x vendor guide, 2020 predecessor and key attachments, and author pipeline examples. Two independent reads of the recovered Research Square preprint PDF describe both branches; its linked primer workbook and Extended Data figures remain inaccessible. Exact 10x revision and the author pipeline TES example conflict remain unresolved; no residual absence is accepted.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Second independent checks now cover the 10x Multiome guides, scRCAT predecessor and its linked publisher attachments, author README/run_star.sh, and the published scRICA supplements. The recovered Research Square v1 preprint adds detailed circle/RCA and TSS/TES methods, and points to a separate primer workbook and Extended Data figures whose links remain inaccessible. Its PDF now has two independent reads. The preprint-linked Smart-seq3 and earlier scRCAT repository roots now have independent source-scope checks; the scRCAT nested code remains inaccessible and its read-layout implications unresolved. Published low-throughput N6 versus high-throughput N16 is already corrected on the page; author TES processing examples remain internally inconsistent. Relevant unavailable preprint attachments keep all residual missing-information claims blocked."
+}

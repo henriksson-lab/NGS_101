@@ -1,0 +1,84 @@
+{
+  "dir": "illumina-16s-metagenomic-sequencing",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "vendor_guide",
+      "role": "defining",
+      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/illumina_16s-metagenomic-library-prep-guide-15044223-b.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Guide pp. 3–4 lines 110–133, index PCR around lines 392–465; scraper source hits verified",
+        "finding": "Official guide prints complete V3/V4 tailed primers and two-step PCR workflow."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Illumina guide part 15044223 Rev B pp.3–4, extracted lines 103–155; Index PCR p.10 lines 387–453; Dual Indexing Principle pp.23–24 lines 1238–1294; scraper run on guide",
+        "finding": "Independently verified full V3/V4 PCR1 tailed forward/reverse primers and generic Nextera overhangs. Index PCR uses FC-131-1001/1002 Nextera XT N7XX and S5XX primers. The guide itself prints all twelve N701–N712 i7 and eight S501–S508 i5 eight-base index values, with 24-sample kit subsets N701–N706/S501–S504. Thus index-family sequences are available in this defining original. It gives a plate arrangement for index tubes but no assignment of a particular pair to a specific experimental sample."
+      }
+    },
+    {
+      "id": "klindworth",
+      "role": "linked_material",
+      "locator": "Klindworth et al., Nucleic Acids Research 2013, doi:10.1093/nar/gks808; original _data/sources/illumina-16s-metagenomic-sequencing/PMC3592464_PMC3592464.xml.txt, cited by Illumina guide p.3",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 70–72 on supplementary evaluation sources, 82–88 experimental amplification/sequencing, especially line 84 primer pair; results lines 124–138 and 168–176; scraper run on original JATS",
+        "finding": "The original prints gene-specific S-D-Bact-0341-b-S-17 CCTACGGGNGGCWGCAG and S-D-Bact-0785-a-A-21 GACTACHVGGGTATCTAATCC in its tested pair. Illumina guide prepends its own Nextera tails to exactly these loci. Klindworth tested this pair on Roche/454 pyrotags, so its sequencing adapters and run setup are not the Illumina 16S library design. Its linked supplementary tables/FASTA evaluate primer coverage and taxa, not the Illumina kit index choice."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Klindworth et al. 2013 PMC3592464 JATS lines 70–72 and 82–88, especially primer-pair line 84 and sequencing line 86; original JATS/PDF primer scraper; compared Illumina guide Rev B lines 121–125",
+        "finding": "The original independently prints bacterial 16S S-D-Bact-0341-b-S-17 CCTACGGGNGGCWGCAG and S-D-Bact-0785-a-A-21 GACTACHVGGGTATCTAATCC, plus a separate 8F/907R pair. The tested amplicons were sequenced with Roche 454 FLX Titanium; Klindworth gives loci and coverage evaluation, not Illumina Nextera tails, N/S index primers, or a sample-to-index allocation. The Illumina guide adds those tails to this 341F/785R pair."
+      },
+      "discovered_from": "vendor_guide"
+    },
+    {
+      "id": "nextera_xt_index",
+      "role": "linked_material",
+      "locator": "Separate historical Nextera XT Index Kit FC-131-1001/1002 full primer/ordering document, beyond the index-value table already printed in Illumina 16S guide Rev B pp.23–24",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "The defining 16S guide itself prints the complete N701–N712 i7 and S501–S508 i5 eight-base index family (lines 1238–1294), so family values are not unavailable. The guide does not print full index-PCR primer oligos or a sample-to-index pair allocation; a separate matched kit document and experiment-specific sample sheet have not been checked.",
+      "discovered_from": "vendor_guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Guide pp.3–4 prints locus primer and adapter overhang bases; selected Nextera XT sample index unresolved pending kit sequence table.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Illumina guide p.3 Klindworth citation lines 113–125 and Nextera XT indexing sources lines 387–453, 1238–1294; original Klindworth JATS lines 70–72, 82–88 and 170–176; source bundle manifest",
+      "finding": "Followed cited Klindworth original and verified gene-specific 341F/785R pair; its Roche/454 library prep is not the Illumina adapter source. Found all N701–N712/S501–S508 index values inside the defining Illumina guide, resolving family availability. Separate version-matched Nextera full primer documentation and actual sample-to-index allocation remain unreviewed, so linked-information result stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "N701–N712 and S501–S508 index-family eight-base values",
+      "disposition": "resolved",
+      "evidence": "Official Illumina guide Rev B Dual Indexing Principle, extracted lines 1238–1294, prints all 12 i7 and 8 i5 eight-base members."
+    },
+    {
+      "claim": "Exact N7XX/S5XX index-primer pair assigned to an individual sample and full ordered index-PCR primer strands for this kit generation",
+      "disposition": "blocked",
+      "evidence": "Guide explains plate arrangement (lines 445–453) and family values (1238–1294), but no sample-specific pair or full primer strand is printed there. Separate historical kit source and sample sheet remain unchecked."
+    }
+  ],
+  "conclusion": "The defining Illumina guide has two independent readings. It prints complete V3/V4 tailed PCR1 primers and the full N701–N712/S501–S508 eight-base index families, resolving the old unavailable-family claim. The cited Klindworth primer paper has two independent located readings; it confirms the locus-specific primer pair but uses a distinct Roche/454 library workflow. Exact sample-to-index selection and full version-matched index PCR primer strands remain blocked pending separate kit/sample sources and independent Klindworth second pass."
+}

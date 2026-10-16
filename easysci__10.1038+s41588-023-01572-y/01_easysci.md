@@ -8,7 +8,7 @@
 
 ## Evidence boundary
 
-🟢 The authors' pipeline confirms separate P5 barcode and P7 index reads and merges matched random-hexamer and oligo(dT) products.
+🟢 The [authors' current analysis README](https://github.com/JunyueCaoLab/EasySci) labels demultiplexed files **R1 = genomic Read 1, R2 = P5 barcode, R3 = genomic Read 2, I1 = P7 barcode**. It demultiplexes on P7 alone, then retains the P5 barcode separately, and merges matched random-hexamer and oligo(dT) products. The README explicitly calls this an updated pipeline and links its [publication-era archive](https://zenodo.org/records/8395492). The original archive contents and [GEO GSE212606](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212606) run metadata remain uninspected here, so exact published read-cycle lengths remain open.
 
 ## Oligo source audit
 

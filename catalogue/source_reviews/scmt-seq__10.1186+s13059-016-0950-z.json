@@ -1,0 +1,72 @@
+{
+  "dir": "scmt-seq__10.1186+s13059-016-0950-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Original PMC4858893 JATS s13059-016-0950-z_PMC4858893.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article lines 90 and 211-220; scraper run on full bundle",
+        "finding": "Article separates cytosolic RNA for RNA-seq from same-cell nuclear DNA and constructs a modified single-cell RRBS branch with MspI, end repair/dA, adapter ligation, bisulfite conversion and two PCR rounds."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC4858893 JATS lines 213-220; scraper on original local source bundle",
+        "finding": "Cytosol RNA branch uses Smart-seq2 with SuperScript III and Nextera; nuclear DNA branch MspI\u2192end repair/dA\u2192adapter ligation\u2192bisulfite\u2192two PCR rounds. Cited predecessor adapter details remain unresolved."
+      }
+    },
+    {
+      "id": "rrbs_predecessor",
+      "role": "predecessor",
+      "locator": "Previously published single-cell RRBS method reference 19 in original Methods line 219; local nmeth.2639 article/supplements",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor files present in bundle but exact relevant adapter and bisulfite oligos not independently cross-mapped."
+    },
+    {
+      "id": "rna_predecessor",
+      "role": "predecessor",
+      "locator": "Cytosol RNA-seq detailed method cited by original Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor reagent identity and original oligos not yet independently traced."
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "Original PMC supplementary figure/table PDF MOESM1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Present locally but not yet fully inspected for molecular chemistry."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 90, 211-220 and source bundle manifest",
+      "finding": "Identified both RNA and scRRBS inherited chemistry; predecessor documents and supplementary details remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The scMT-seq RNA/RRBS adapters and primers are confirmed absent",
+      "disposition": "blocked",
+      "evidence": "Original explicitly inherits predecessor chemistry, which has not yet been independently read and reconciled."
+    }
+  ],
+  "conclusion": "Original explicitly inherits predecessor chemistry, which has not yet been independently read and reconciled."
+}

@@ -22,6 +22,8 @@ The synthesized probe is initially unmodified. 🟢 The pooled probes are 5′-p
 
 The extension arm supplies the polymerase 3′-OH. The ligation arm supplies the phosphorylated 5′ acceptor that closes the copied product.
 
+🟡 **Published reaction-volume discrepancy.** Hiatt et al. 2013, Methods “Capture and library construction” (`gr.147686.112_PMC3638140.xml.txt` line 147), says to add water “to 10 mL” while also stating a **20 µL** total gap-fill/ligation reaction. Those volumes cannot both apply to one reaction. The construct model does not use a reaction volume; the intended water amount has not been established.
+
 ## 4. Selection logic
 
 1. Both arms must bind the same genomic molecule in the correct orientation.

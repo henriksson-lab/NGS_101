@@ -1,12 +1,12 @@
-from nascent_protocols import make_spec, role_library
+from nascent_protocols import make_spec
 
-from nascent_protocols import Construct, Definition, FourSUReadout, InputRole, MaterialKind, ProtocolGraph, StepKind, finish_cdna, ligate_rna_adapter, molecule, role
-DEFINITION = Definition("TUC-seq — thiouridine-to-cytidine conversion sequencing", "10.1002/anie.201707465", "Riml et al., Angewandte Chemie (2017)", "Osmium-mediated chemistry converts incorporated 4sU into native cytidine, encoding newly transcribed RNA as U-to-C sequence changes.", "RNA-seq reads distinguish labelled molecules through U-to-C conversions created before reverse transcription.", "01_tuc_seq.html")
+from nascent_protocols import Construct, Definition, FourSUReadout, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, molecule, role
+DEFINITION = Definition("TUC-seq — thiouridine-to-cytidine conversion sequencing", "10.1002/anie.201707465", "Riml et al., Angewandte Chemie (2017)", "Osmium-mediated chemistry converts incorporated 4sU into native cytidine, encoding newly transcribed RNA as U-to-C sequence changes.", "Targeted reads of selected transcripts distinguish labelled molecules through U-to-C conversions; the original library-end chemistry has not been recovered.", "01_tuc_seq.html", "The 2017 supplement and full methods remain inaccessible. The later same-author TUC-seq DUAL supplement describes targeted RT and amplicon sequencing, but cannot establish the exact 2017 library construction.")
 
-FINAL_LIBRARY = role_library(DEFINITION.title + " final library", (role("assay-derived cDNA"),),
-                             indexed=True, platform="Illumina-compatible")
+FINAL_LIBRARY = Construct((role("unresolved left sequencing end"), role("target-derived cDNA"),
+                           role("unresolved right sequencing end")), name=DEFINITION.title + " library")
 globals().update(vars(make_spec(DEFINITION, FINAL_LIBRARY,
-    unavailable='The authoritative paper establishes the library roles and read direction, but does not expose one complete immutable sequencing-primer geometry; adapters are therefore shown by role.')))
+    unavailable='The accessible 2017 abstract establishes targeted sequencing but does not specify the library adapters, index, read primer, or read layout. The original supporting information is inaccessible.')))
 
 READOUT = FourSUReadout('osmium-tetroxide-mediated 4sU-to-cytidine conversion', 'U-to-C mismatch', False)
 
@@ -24,8 +24,13 @@ def four_su_graph(d: Definition, final: Construct) -> ProtocolGraph:
     selected = graph.product('recoded_rna', 'chemically recoded 4sU RNA', MaterialKind.MOLECULAR, state=cfg.product())
     graph.react('recode', 'Chemically recode 4sU before reverse transcription', StepKind.CHEMICAL_CONVERSION, ((labelled, InputRole.TEMPLATE), (chemistry, InputRole.CONDITION)), (selected,))
     reviewed.extend(('recoding_chemistry', 'recode'))
-    ligated = ligate_rna_adapter(graph, 'library_adapter', selected, 'directional library', reviewed)
-    finish_cdna(graph, 'library', ligated, final, d.endpoint, reviewed)
+    library = graph.product('library', 'target-derived sequencing library; assembly unresolved',
+                            MaterialKind.LIBRARY, state=final, inferred=True)
+    graph.react('library_preparation', 'Prepare target-derived sequencing library (details unresolved)',
+                StepKind.MAGIC, ((selected, InputRole.TEMPLATE),), (library,),
+                reason='The 2017 full methods and both publisher supplements are inaccessible. The later TUC-seq DUAL supplement describes random-hexamer RT, gene-specific PCR and vendor library preparation, but does not establish the original 2017 assembly or adapter ends.')
+    graph.sequence(library, SequencingPlan(limitation=d.endpoint))
+    reviewed.extend(('library_preparation', 'library'))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

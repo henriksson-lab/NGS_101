@@ -1,0 +1,114 @@
+{
+  "dir": "nano3p-seq__10.1038+s41592-022-01714-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "nano3p_original",
+      "role": "defining",
+      "locator": "Original Nature Methods doi:10.1038/s41592-022-01714-w; https://www.nature.com/articles/s41592-022-01714-w",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official article online Methods lines 262-265; scraper run on local bundle (zero because original is manifest manual)",
+        "finding": "Printed R_RNA with rN bases and /3SpC3/, /5Phos/ D_DNA, and CompA_DNA exact oligos. These preanneal, support TGIRT template switching, and CompA_DNA provides adapter-ligation geometry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Nature Methods article doi:10.1038/s41592-022-01714-w web Methods lines 262-270, Supplementary information lines 624-635; scraper on local bundle (original unavailable locally)",
+        "finding": "Article prints modified R_RNA /3SpC3/, /5Phos/ D_DNA and CompA_DNA, preannealing/TGIRT and ligation; cites ONT direct cDNA protocol and a separate Supplementary Protocol plus software with adapter sequences."
+      }
+    },
+    {
+      "id": "ont_dcb_9091",
+      "role": "vendor",
+      "locator": "ONT Direct cDNA Sequencing protocol DCB_9091_v109_revC_04Feb2019, explicitly cited at original Methods line 262",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical original ONT protocol revision not in bundle and not independently read."
+    },
+    {
+      "id": "ont_sqk_dcs109",
+      "role": "vendor",
+      "locator": "ONT SQK-DCS109 adapter motor/ligation kit named by Nano3P Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact supplied adapter composition and kit-specific guide not yet independently read."
+    },
+    {
+      "id": "published_supp_protocol",
+      "role": "supplement",
+      "locator": "Nature Methods Supplementary Information MOESM1 PDF, https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-022-01714-w/MediaObjects/41592_2022_1714_MOESM1_ESM.pdf; article web lines 624-627",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nano3p_original",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Local MOESM1 PDF text lines 75\u2013140 (reagents/oligos), 294\u2013322 (CompA A-overhang ligation substrate), 447\u2013459 (repeated oligos); scraper run on PDF and full fetched bundle",
+        "finding": "Supplementary Protocol prints custom /5Phos/ D_DNA, rN-blocked R_RNA and CompA_DNA. Section 5 explicitly says CompA yields a double-stranded cDNA end with an A overhang; the AMX adapter-side end is not printed in inspected sections."
+      }
+    },
+    {
+      "id": "published_supp_software",
+      "role": "supplement",
+      "locator": "Nature Methods Supplementary Software MOESM4 ZIP, https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-022-01714-w/MediaObjects/41592_2022_1714_MOESM4_ESM.zip; article web lines 632-634",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nano3p_original",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 ZIP member inventory (99 entries); README.md lines 209-216; R/get-custom-fp-ep.R lines 1-17; scanned R/ and README text for primer sequences",
+        "finding": "README gives front_primer TTTCTGTTGGTGCTGATATTGCTGCCATTACGGCCGG and end_primer ACTTGCCTGTCGCTCTATCTT as tail-analysis recognition inputs. Code reads these as optional parameters; they do not establish the physical AMX motor adapter geometry."
+      }
+    },
+    {
+      "id": "author_preprint_protocol",
+      "role": "detailed_protocol",
+      "locator": "Begik et al. 2021 bioRxiv supplementary media-2 DOCX, local 2021.09.22.461331_media-2.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nano3p_original",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author media-2 DOCX extracted lines 1\u201330 (oligos), 89\u2013115 (CompA anneal and AMX ligation); scraper on full fetched bundle",
+        "finding": "Preprint protocol independently prints same three custom oligos and explicitly calls the CompA product an A-overhang duplex. It gives AMX kit role and volumes but no adapter-side bases."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official original Nature Methods lines 262-265 and local MANIFEST.tsv",
+      "finding": "Original article fully prints three custom oligos and identifies the inherited historical ONT direct cDNA kit; the ONT originals remain to inspect."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
+      "finding": "Fetched published Supplementary Protocol, software ZIP and author preprint protocol. Both protocols establish cDNA-side A overhang; software lists tail-analysis recognition primers. Kit-specific AMX adapter end remains unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Nano3P custom R_RNA, D_DNA and CompA_DNA sequences are undisclosed",
+      "disposition": "resolved",
+      "evidence": "Official Nature Methods lines 262-265 print all three with modifications."
+    },
+    {
+      "claim": "The ONT kit-supplied adapter identity and exact geometry are absent from relevant original sources",
+      "disposition": "blocked",
+      "evidence": "Historical DCB_9091_v109_revC_04Feb2019 and SQK-DCS109 original kit documents have not been read twice."
+    }
+  ],
+  "conclusion": "Original Supplementary Protocol and Software now checked by second reader; first pass and ONT kit-specific source still outstanding. No missing sequence accepted."
+}

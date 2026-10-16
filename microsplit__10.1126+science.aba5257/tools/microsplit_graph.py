@@ -10,9 +10,32 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import splitseq as S
 from adapter_ligation import reported_adapter_end
-from chemdraw import Construct, Segment
+from chemdraw import Construct, Scene, Segment, revcomp
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+
+
+# Mirrored 2021 Science Table S3, sheet General Oligonucleotides, rows 15–16.
+# Table S3 prints C*T and describes * as a "phosphorothioated base".
+BC_0243_CORE = "ACACTCTTTCCCTACACGACGCTCTTCCGATC"
+BC_0243_TOP = BC_0243_CORE + "T"
+BC_0244_BOTTOM = "GATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+
+
+def published_adapter_scene() -> Scene:
+    if revcomp(BC_0244_BOTTOM) != BC_0243_CORE:
+        raise ValueError("published BC_0243/BC_0244 paired cores disagree")
+    sc = Scene()
+    sc.strand("BC_0243", [Segment("paired core", BC_0243_CORE),
+                           Segment("3′ T overhang", "T")],
+              label="BC_0243", mod3="terminal C*T; *phosphorothioated base (2021 Table S3 mirror)")
+    sc.anneal("BC_0244", [Segment("paired core, opposite strand", BC_0244_BOTTOM)],
+              to="BC_0243", pair=("paired core, opposite strand", "paired core"),
+              label="BC_0244")
+    sc.ligation_end("BC_0243", "3′ T overhang", kind="cohesive",
+                    polarity="3-prime", owner="adapter",
+                    text="published 3′ T adapter overhang")
+    return sc
 
 
 def protocol_graph() -> ProtocolGraph:
@@ -44,7 +67,8 @@ def protocol_graph() -> ProtocolGraph:
                 source=source + " (end repair/dA tail inferred from adapter compatibility)")
 
     adapter = graph.input("library_adapter", "pre-annealed BC_0243/BC_0244 adapter",
-                          MaterialKind.ADAPTER)
+                          MaterialKind.ADAPTER, state=published_adapter_scene(),
+                          source=source + " Table S3 mirror (terminal BC_0243 C*T mark)")
     library_ligase = graph.input("library_ligase", "WGS DNA ligase", MaterialKind.CATALYST)
     template = graph.product("adapter_ligated", "adapter-ligated barcoded cDNA fragments",
                              MaterialKind.MOLECULAR)
@@ -54,7 +78,7 @@ def protocol_graph() -> ProtocolGraph:
                 geometry=reported_adapter_end(
                     "BC_0243/BC_0244 adapter", kind="cohesive", polarity="3-prime",
                     terminal_sequence="T",
-                    statement="The microSPLiT oligo table and fragmentation method disclose a duplex adapter with a terminal 3′ T."))
+                    statement="The mirrored 2021 Table S3 discloses a duplex adapter with a terminal 3′ T and marks BC_0243 C*T as phosphorothioated; the original publisher attachment is gated."))
 
     forward = graph.input("pcr_forward", "library PCR forward primer", MaterialKind.OLIGO,
                           state=Construct([Segment("BC_0027", S.MICRO_LIBRARY_FWD)]),

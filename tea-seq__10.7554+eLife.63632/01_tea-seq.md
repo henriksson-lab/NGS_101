@@ -2,13 +2,63 @@
 
 Defining paper: Swanson et al., *eLife* (2021), [doi:10.7554/eLife.63632](https://doi.org/10.7554/eLife.63632).
 
-- 🟢 The manuscript Methods and Supplementary Table 5 were read. The TEA-seq
-  Methods explicitly use that table's `SI-PCR-Oligo` and `ADT-i7` primers
-  for the ADT library; the latter has a variable eight-base index and
-  terminal phosphorothioate bond (`...CC*A`).
-- 🟢 TEA-seq jointly measures transcripts, antibody-derived tags and chromatin accessibility with the 10x Single Cell Multiome platform.
-- 🟢 RNA, ADT and ATAC outputs are amplified separately while retaining a shared cell barcode.
-- 🟡 The Multiome gel-bead, TSO, adapter and TotalSeq-A antibody-barcode
-  families are vendor reagents whose full ordered bases are not printed in
-  this paper. They remain typed placeholders, distinct from the published
-  ADT PCR primers listed on the page.
+## Sources inspected
+
+The original article Methods (TEA-seq and sequencing), Supplementary file 5,
+10x CG000338 Rev A p.80, CG000373 Rev A pp.2–3 and the authors' detailed
+bench protocol step 80 were read after running the oligo scraper. Independent
+located checks and remaining source work are recorded in the source-review ledger.
+The detailed protocol and vendor sequencing note were followed from the paper's
+methods and sequencing instructions.
+
+## Construction and reaction order
+
+- 🟢 TEA-seq combines TotalSeq-A antibody tags with the Multiome workflow.
+  Tagmentation and GEM partitioning precede shared reverse transcription/barcoding,
+  cleanup and preamplification with added ADT-Rev-AMP. An aliquot enters ATAC indexing;
+  another enters cDNA/ADT amplification and size separation. GEX preparation then
+  includes fragmentation, end repair, A-tailing, adapter ligation and TT indexing.
+- 🟢 CG000338 Rev A p.80 prints distinct gel-bead scaffolds: partial TruSeq Read 1,
+  cell barcode N16, UMI N12 and T30VN for RNA; P5, cell barcode N16 and CGCGTCTG
+  for ATAC. It also prints the complete dual-index GEX and single-sample-index ATAC
+  products. Each is declared locally; a shared endpoint recipe previously assigned
+  inappropriate handles/index architecture. That was a repository modelling error.
+- 🟢 TEA Methods explicitly assign Supplementary file 5's SI-PCR-Oligo and ADT-i7
+  to ADT indexing, despite the workbook's ICICLE heading. Verbatim oligos:
+
+  - SI-PCR-Oligo: `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC`
+  - ADT-Rev-AMP: `CCTTGGCACCCGAGAATTCC`
+  - ADT-i7: `CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTGACTGGAGTTCCTTGGCACCCGAGAATTCC*A`
+
+  The asterisk is the printed terminal phosphorothioate bond. All three complete
+  primer base sequences are checked directly against the extracted original table.
+- 🟡 The ADT endpoint is derived from these primers and the printed bead scaffold;
+  it is distinct from the GEX dual-index and Nextera ATAC endpoints. Commercial
+  precursor duplexes, named primer mixtures and ligation-ready adapter geometry
+  have not all been assembled in this model. Those are model limitations, not
+  accepted claims of missing publication information.
+
+## Sequencing
+
+- 🟢 The raw joint run is R1/I1/I2/R2 = 50/10/16/90. The original article's masks
+  retain GEX 28/10/10/90, ATAC 50/8/16/50 and ADT 28/8/no I2/90.
+- 🟢 The author bench protocol step 80 explicitly identifies forward indexing.
+  CG000373 Rev A establishes that forward ATAC I2 enters from P5 and reads the
+  cell barcode directly. Reverse indexing traverses the eight-base spacer and
+  requires a different cycle recipe; it must not be silently substituted.
+- 🟡 Exact loaded ADT R2/I1 oligos have not been verified. The page shows the
+  source-declared reads with that limitation, without inventing primer sites or
+  feature-cycle coordinates. Selected TotalSeq-A and bead-barcode members remain
+  unassigned; source follow-up continues.
+
+## Apparent vendor-guide inconsistency
+
+CG000338 Rev A p.80 prints the GEX prefix before i5 as
+`AATGATACGGCGACCACCGAGATCT` (25 bases). CG000317 Rev E p.72 prints
+`AATGATACGGCGACCACCGAGATCTACAC` (29 bases), in both the TT forward primer
+and GEX product. Original page images confirm the difference. Both guides name
+TT kit PN-1000215 and plate PN-3000431, so an established reagent variant cannot
+be inferred. TEA's model retains its explicitly cited CG000338 Rev A layout;
+SEC-seq retains its separately identified CG000317 layout. Both public pages
+state the conflict. The physical prefix in the historical experiments remains
+unverified.

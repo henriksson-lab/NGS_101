@@ -1,0 +1,86 @@
+{
+  "dir": "yamat-seq__10.1093+nar+gkx005",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_PMC5605243.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 50–60; Results lines 82–90",
+        "finding": "Methods print the five Y-adapter strands with phospho, terminal ddC and RNA-base chemistry; TruSeq Small RNA kit is used for RTP/PCR. Original Results line 88 calls Y-3′-AD 3′-OH despite the Methods line 52 ordering oligo /3ddC/; public page discloses this conflict and models the printed blocked oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC JATS Methods lines 50–60 and Results lines 82–90; oligo scraper run on local original bundle",
+        "finding": "Independently confirmed all five Y-adapter strand sequences, /5phos/ and /3ddC/ on Y-3-prime adapter, and TruSeq Small RNA kit RTP/PCR. Results instead describes the Y-3-prime adapter as 3-prime OH; page correctly discloses the source conflict and follows ordered oligo Methods."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "_data/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_supp_gkx005_supp.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary figure legends S1–S3, PDF text lines 1–26",
+        "finding": "Supplement S3 prints antisense Northern blot probes for validation, separate from the library adapter and TruSeq RT/PCR oligos."
+      },
+      "reason": "Supplementary figures and Northern blot validation probes are assay controls, not YAMAT library preparation oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF text Supplementary Fig. S1–S3 legends lines 1–26; oligo scraper run on local original bundle",
+        "finding": "Supplement prints Northern-blot validation probes for four tRNAs; these are not Y-adapter or kit RTP/PCR ordering oligos."
+      }
+    },
+    {
+      "id": "illumina_adapter_sheet",
+      "role": "vendor",
+      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official sheet cited in protocol note prints RTP/RP1/index primer family; revision and exact selected index remain to be independently checked.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "pang_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1093/nar/gku945",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article introduction cites Pang two-step tRNA adapter ligation as a comparison; the original chemistry has not yet been independently checked.",
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 50–60 and Results lines 82–90; supplement local",
+      "finding": "Y-adapter oligos are source-positive; the specific TruSeq index and kit/run-primer source remain to be verified."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked original JATS Methods/Results and full supplementary legend; TruSeq Small RNA vendor primer/index sheet and Pang predecessor remain unreviewed."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "YaMAT-seq adapter oligos are unavailable",
+      "disposition": "blocked",
+      "evidence": "Defining paper prints all Y-adapter variants; exact sample index and sequencing primer site remain unresolved."
+    }
+  ],
+  "conclusion": "Defining paper prints all Y-adapter variants; exact sample index and sequencing primer site remain unresolved."
+}

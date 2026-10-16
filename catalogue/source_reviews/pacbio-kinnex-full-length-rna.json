@@ -1,0 +1,229 @@
+{
+  "dir": "pacbio-kinnex-full-length-rna",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "kit_guide",
+      "role": "defining",
+      "locator": "_data/sources/pacbio-kinnex-full-length-rna/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PacBio guide around pp. 16–17 lines 1170–1190 and Kinnex array steps; scraper run returned no sequence hits",
+        "finding": "Kit guide specifies eight array PCRs and four terminal adapter mixes, bc01–04."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PacBio 103-238-700 Rev09 PDF pp. 16–17, extracted lines 1160–1205 and subsequent array/nuclease sections",
+        "finding": "PCR-amplified cDNA segments are combined with Kinnex enzyme/ligase and one of four barcoded terminal adapters; full adapter oligo bases are not printed here."
+      }
+    },
+    {
+      "id": "tech_overview",
+      "role": "linked_material",
+      "locator": "PacBio Technical Overview Kinnex kits 103-343-700, https://www.pacb.com/wp-content/uploads/Technical-overview-Kinnex-kits-for-single-cell-RNA-full-length-RNA-and-16S-rRNA-sequencing.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 103-343-700 PDF, pp. 18–20 and 27 (web text lines 779–915 and 1159–1185), independently reread after second reviewer correction; prior pass inspected only p.49",
+        "finding": "Correction to initial pass: p.27 explicitly prints terminal adapter barcode six-mers bcM0001 ACAGTC, bcM0002 ATGACG, bcM0003 CACGTG, bcM0004 CATCGC. Both directional terminal adapters use the selected barcode. Full adapter arms/ligating terminal sequence remain unestablished from inspected overview; p.49 separately points to SMRT Link download."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 103-343-700 PDF web pp. 18–20 and 27, lines 779–915 and 1159–1185",
+        "finding": "Eight directional inserts form ordered arrays; terminal adapter pairs carry the same selected barcode. Page 27 prints bcM0001 ACAGTC, bcM0002 ATGACG, bcM0003 CACGTG, bcM0004 CATCGC. These barcode values are source-known despite full adapter sequences remaining undisclosed in inspected sections."
+      },
+      "discovered_from": "kit_guide"
+    },
+    {
+      "id": "smrt_link_fasta",
+      "role": "linked_material",
+      "locator": "PacBio Kinnex barcoded adapter indexes FASTA, linked from https://www.pacb.com/multiplexing/ to https://www.pacb.com/wp-content/uploads/Kinnex_barcoded_adapter_indexes.fasta_.zip; extracted _data/sources/pacbio-kinnex-full-length-rna/Kinnex_barcoded_adapter_indexes.fasta__Kinnex_barcoded_adapter_indexes.fasta",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "PacBio multiplexing.html.txt lines 676–704; linked archive extracted FASTA lines 1–8; full oligo scraper rerun after download (short 6-nt indexes below its hit threshold)",
+        "finding": "Official page maps the archive to Kinnex full-length RNA kit 103-072-000; extracted original prints bcM0001 ACAGTC, bcM0002 ATGACG, bcM0003 CACGTG, bcM0004 CATCGC, matching overview p.27. This is an index FASTA, not full terminal-adapter arms."
+      },
+      "pass_2": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original PacBio multiplexing.html.txt lines 588–595 and 676–704; original ZIP Kinnex_barcoded_adapter_indexes.fasta_.zip entry Kinnex_barcoded_adapter_indexes.fasta, extracted FASTA lines 1–8; independently inspected ZIP payload against extracted file after full bundle scraper",
+        "finding": "The PacBio resource page assigns bcM0001–bcM0004 to Kinnex kit 103-072-000; original FASTA gives ACAGTC, ATGACG, CACGTG, CATCGC exactly, matching the model and overview. The ZIP payload matches the cached extraction. The file is an index list of six-base cores, not complete terminal-adapter oligos; the kit checklist bc01–04 naming is compatible, but assignment of a particular core to a purchased tube is not independently specified by the file."
+      },
+      "reason": "Downloaded official public equivalent of the SMRT Link default index FASTA; a separate SMRT Link installation was not inspected.",
+      "discovered_from": "tech_overview"
+    },
+    {
+      "id": "isoseq_input",
+      "role": "linked_material",
+      "locator": "PacBio Iso-Seq express 2.0 cDNA guide and official primer FASTA in _data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official Kinnex-compatible Iso-Seq express 2.0 checklist extracted lines 260–268, 358–374, 416 and 589–602; official IsoSeq_v2_primers_12.fasta lines 1–26; oligo scraper on checklist returned zero hits, FASTA read directly",
+        "finding": "Checklist specifies RT mix, Express TSO 2.0, template switching, and barcoded cDNA amplification primer family. Companion FASTA prints twelve distinct 5′ barcoded cDNA primers and IsoSeqX_3p, so these input-PCR oligos are source-known. RT-mix primer/TSO 2.0 exact bases are not printed in inspected checklist."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Iso-Seq Rev10 cDNA checklist lines 260–268, 358–374, 416, 565, 589–602; IsoSeq_v2_primers_12.fasta lines 1–26",
+        "finding": "Input cDNA protocol uses template switching and publishes complete bc01–bc12 plus opposite cDNA PCR primers; RT mix/TSO 2.0 bases remain unresolved. This source predates Kinnex array assembly."
+      },
+      "discovered_from": "kit_guide"
+    },
+    {
+      "id": "mas8_reference",
+      "role": "linked_material",
+      "locator": "PacBio Kinnex full-length RNA public dataset REF-MAS_adapters/MAS-Seq_Adapter_v3/mas8_primers.fasta and MAS-Seq_Adapter_v3.barcodeset.xml, https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-MAS_adapters/MAS-Seq_Adapter_v3/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Local mas8_primers.fasta lines 1–18; adjacent BarcodeSet XML lines 1–12; full oligo scraper returned all nine FASTA records",
+        "finding": "MAS8 segmentation analysis reference has A–H 17-nt records and Q 14-nt. XML names the FASTA and says 9 records, 150 total bases. These are recognition motifs, not whole PCR primers or physical ligation junction specifications."
+      },
+      "pass_2": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original public dataset mas8_primers.fasta lines 1–18 and adjacent MAS-Seq_Adapter_v3.barcodeset.xml lines 1–16; SMRT Link v13.1 text lines 5574–5578 and 5655–5674; full Kinnex bundle scraper found all nine FASTA records",
+        "finding": "Original FASTA has A–H each 17 bases and Q 14 bases; XML names this FASTA as the MAS-Seq Adapter v3 (MAS8) BarcodeSet and records nine sequences totaling 150 bases, consistent with the files and model. SMRT Link uses these as ordered segmentation adapter recognition references. Its custom-FASTA example A–E has 16-base prefixes, so it cannot resolve physical primer or junction lengths. No physical strand/end geometry is derived from the reference motifs."
+      },
+      "discovered_from": "smrt_link_fasta"
+    },
+    {
+      "id": "smrt_link_guide",
+      "role": "linked_material",
+      "locator": "PacBio SMRT Link user guide v13.1, https://www.pacb.com/wp-content/uploads/SMRT-Link-User-Guide-v13.1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Local PDF text lines 5574–5680, pp.100–102; full oligo scraper run before reading and found primer family at lines 5593–5617 plus example A–E at 5666–5674",
+        "finding": "Guide identifies default MAS-Seq Adapter v3 (MAS8) segmentation reference and Iso-Seq v2 barcoded cDNA primer set. Prints all 12 barcoded 5-prime and opposite 3-prime primer sequences. Custom-FASTA example A–E has 16-nt prefixes, whereas public versioned MAS8 FASTA has 17-nt records; example does not establish physical junction length."
+      },
+      "pass_2": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original PacBio SMRT Link v13.1 PDF extracted pp.100–102, lines 5574–5585, 5591–5617, 5629–5635, 5655–5674; full Kinnex bundle scraper before reading",
+        "finding": "Independently confirms MAS-Seq Adapter v3 (MAS8) as default segmentation set and Iso-Seq v2 Barcoded cDNA Primers as default trimming primer set. Guide prints the twelve 5-prime cDNA primers and opposite 3-prime primer; model bc01 and 3-prime values match exact text. The custom segmentation example lists short 16-base A–E motifs, whereas versioned public FASTA lists 17-base A–H and 14-base Q; these are analysis-reference contexts, not proof of physical junction sequence/length."
+      },
+      "discovered_from": "tech_overview"
+    },
+    {
+      "id": "public_dataset_readme",
+      "role": "linked_material",
+      "locator": "PacBio Kinnex full-length RNA dataset README, https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/README.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "README.txt lines 1–31, 85–101 and 198–215; directory inventory REF-MAS_adapters and REF-primers",
+        "finding": "Official dataset states Kinnex full-length RNA kit library preparation and SMRT Link v13.0 analysis; public reference directories contain MAS8 motifs and Iso-Seq primer FASTA. Bulk BAM/FASTQ files were not downloaded because they are analysis outputs, not component specifications."
+      },
+      "pass_2": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original PacBio dataset README.txt lines 1–14, 79–110, 179–190; inspected public reference files named by the dataset and followed README reference [4] to official application note 102-326-591 Rev03",
+        "finding": "Dataset identifies Kinnex full-length RNA kit and SMRT Link v13.0 processing; segmented BAMs are analysis outputs, while reference directory contains MAS8 motifs and Iso-Seq primers. README links an official application note that confirms Iso-Seq express 2.0 input and 8-fold arrays but does not disclose physical oligo arms in its inspected library-workflow text. That linked note is added to the checklist for an independent second read."
+      },
+      "discovered_from": "smrt_link_guide"
+    },
+    {
+      "id": "multiplexing_resources",
+      "role": "linked_material",
+      "locator": "PacBio multiplexing page, https://www.pacb.com/multiplexing/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Local multiplexing.html.txt lines 585–595 and 676–704; followed Kinnex index archive link",
+        "finding": "Official page distinguishes library-level bcM indexes from cDNA-level bc01–bc12 and explains A–H concatenation identities are not sample indexes. Links the Kinnex index FASTA archive for kit 103-072-000."
+      },
+      "pass_2": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original PacBio multiplexing.html.txt lines 588–595 and 676–704; followed the link to the original index ZIP and compared its payload to four values in technical overview p.27",
+        "finding": "PacBio distinguishes library-level four Kinnex bcM adapter cores from cDNA-level Iso-Seq bc01–12; the A–H concatenation identities are explicitly not sample multiplexing indexes. The Kinnex kit 103-072-000 points to the official index archive. No full adapter arms or ligation-ready ends are printed in this page or archive."
+      },
+      "discovered_from": "tech_overview"
+    },
+    {
+      "id": "application_note",
+      "role": "linked_material",
+      "locator": "_data/sources/pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt; https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf; document 102-326-591 Rev03 Nov2024",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "public_dataset_readme",
+      "pass_1": {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Original PacBio application note pp.1–3, extracted lines 1–38, 70–89, 107–109, 114–149; visually inspected p.3 Figure 3 in original PDF; full Kinnex bundle scraper rerun after caching original PDF",
+        "finding": "The note identifies Iso-Seq express 2.0 full-length cDNA as Kinnex input, an 8-fold concatenated output, cDNA barcodes on 5-prime amplification, 12-plex at cDNA level, four-plex Kinnex terminal adapters, and nuclease removal of partial arrays. Figure 3 draws cDNA barcodes, named A–E array identities and terminal bc arms schematically but prints no exact bases or end polarity. This supports topology without defining complete physical oligos; independent second inspection remains pending."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PacBio Application Note 102-326-591 Rev03 Nov2024, PDF pp.1–3 and visually inspected p.3 Figure 3; extracted text lines 1–40, 70–110, 114–160. Full Kinnex source-bundle oligo scraper run before reading.",
+        "finding": "Independent read confirms Iso-Seq express 2.0 cDNA enters the Kinnex workflow; p.3 says 5-prime cDNA barcodes are added during amplification, 12-plex cDNA and four-plex terminal adapters, partial arrays removed by nuclease, complete arrays enriched by adapter ligation. Figure 3 depicts named A–E array units and terminal bc hairpins schematically; no full sequence, adapter-end polarity, or covalent junction is printed in the inspected figure/text."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Kit guide and official technical overview read; barcode source in SMRT Link not yet accessed, so no proprietary claim accepted.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Kit Rev09 pp.16–17; official 103-343-700 overview pp.18–20,27; linked Iso-Seq Rev10 guide and FASTA lines 1–26",
+      "finding": "Followed input-cDNA predecessor and technical overview; corrected published bcM barcode availability. SMRT Link FASTA and full Kinnex adapter/segmentation sequences remain blocked."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Official PacBio multiplexing link, extracted index archive, Kinnex MAS8 reference FASTA/XML, SMRT Link v13.1 pp.100–102, dataset README; followed official cDNA primer reference via existing Iso-Seq checklist",
+        "finding": "Original linked references resolve four bcM cores, nine MAS8 recognition motifs, and the Iso-Seq cDNA PCR primer family. Full physical adapter arms, Kinnex orientation-PCR primers and ligation geometry remain unresolved; independent second pass on these new files is pending."
+      },
+      {
+        "reviewer": "citeseq_second",
+        "date": "2026-10-16",
+        "locations": "Independently traced kit guide to PacBio technical overview, PacBio multiplexing page to index ZIP, SMRT Link v13.1 pp.100–102 to MAS8 reference FASTA/XML and Iso-Seq primer set, and Kinnex dataset README lines 179–190 to PacBio application note Rev03; all local originals read after full bundle scraper.",
+        "finding": "Official linked materials establish four terminal-adapter barcode cores, MAS8 analysis reference motifs, Iso-Seq cDNA PCR primer family and high-level array/nuclease topology. Application note is newly checked once and needs independent second read. Full physical orientation PCR oligos, terminal-adapter arms/end geometry, segmentation covalent junctions, and sequencing-primer binding bases are still unresolved. Linked information remains blocked; no missing claim accepted."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Followed official Kinnex dataset README reference [4] to original PacBio application note Rev03 and independently read pp.1–3, including visual inspection of p.3 Figure 3 after full bundle scraper.",
+        "finding": "The linked note corroborates topology and multiplexing but does not resolve complete Kinnex physical oligos. Other new PacBio reference files have independent P2; component-level sources remain open."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete Kinnex orientation-PCR primer constructs, physical segmentation junctions, terminal-adapter arms/end geometry and sequencing-primer binding site",
+      "evidence": "Kit guide and overview have two independent reads. Independent new-source P2 verifies the official Kinnex index ZIP, MAS8 FASTA/XML, SMRT Link guide, multiplexing page and public dataset README; they establish four bcM cores, nine analysis motifs and Iso-Seq cDNA PCR primers. The README-linked PacBio application note has one located read and corroborates topology but not physical oligo arms. These sources do not prove complete physical Kinnex assembly components or absence thereof.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent original-source reads now cover the kit guide, overview, Kinnex index FASTA, MAS8 FASTA/XML, SMRT Link guide, multiplexing resource, dataset README and linked application note. The model/page reproduce barcode cores, segmentation reference motifs and example Iso-Seq primers without treating analysis motifs as physical junctions. Full Kinnex orientation-PCR oligos, terminal-adapter arms/end geometry and sequencing-primer site remain unresolved by these sources; no missing-information claim is accepted."
+}

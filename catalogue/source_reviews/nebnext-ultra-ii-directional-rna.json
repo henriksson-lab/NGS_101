@@ -1,0 +1,59 @@
+{
+  "dir": "nebnext-ultra-ii-directional-rna",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "manual",
+      "role": "defining",
+      "locator": "NEB E7760/E7765 manual v7.0 April 2025",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/nebnext-ultra-ii-directional-rna/manuale7760_e7765.pdf.txt lines 65-66,134,222-234,565,714; scraper line 134",
+        "finding": "Manual prints trim motifs and reaction order but requires separately chosen oligo kit or user-supplied adapter/primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "manuale7760_e7765.pdf.txt lines 125-139 and 220-237",
+        "finding": "Original NEB manual prints TruSeq-like Read 1/2 trim motifs and names random first-strand primer mix, but separately selected adapter/index oligos are not defined here."
+      }
+    },
+    {
+      "id": "oligo_kit",
+      "role": "linked_material",
+      "locator": "NEBNext Oligo Kit selected for E7760/E7765 workflow",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Choice of separate oligo kit unspecified; corresponding kit-specific guide not cached.",
+      "discovered_from": "manual",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Vendor manual reagent table and adapter-ligation/PCR sections; separate oligo-kit requirement.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "manuale7760_e7765.pdf.txt lines 125-139 and 220-237; source checklist for separately purchased oligo kit",
+      "finding": "Read official manual and followed its separate oligo/index kit instruction; original chosen oligo/index kit document is unavailable, so absence remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "A single indexed adapter and primer synthesis sequence",
+      "disposition": "blocked",
+      "evidence": "Manual requires a separately chosen oligo kit; choice and guide unresolved."
+    }
+  ],
+  "conclusion": "Two readers checked the official kit manual and its printed read trim motifs. Separately selected oligo/index kit original is unavailable; member-specific details remain blocked."
+}

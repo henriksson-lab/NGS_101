@@ -1,0 +1,190 @@
+{
+  "dir": "dbit-seq__10.1016+j.cell.2020.10.026",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "liu_2020_article",
+      "role": "defining",
+      "locator": "Liu et al. 2020 Cell DOI 10.1016/j.cell.2020.10.026; PMC7736559 author-manuscript JATS in local source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "JATS extracted lines 96-106, 192-194, 216-224, 284-291, 408 and 819-881; ran scrape_primers.py on the local source bundle and checked the original methods rather than treating the scraper output as evidence",
+        "finding": "The 2020 article describes in-tissue RT through 50 A channels, perpendicular B barcode flow and splinted T4 ligation, cDNA recovery, template switch, PCR and tagmentation. STAR Methods point to original Table S2 for oligo sequences, but its values are in a separate workbook."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC7736559_PMC7736559.xml.txt lines 192-224, 284-291, 408 and 819-881; independently read original Methods after source-bundle scraper",
+        "finding": "2020 Cell STAR Methods describe A1-50 in-tissue RT, perpendicular B1-50 splinted T4 ligation, streptavidin cDNA capture, template switching and post-PCR tagmentation. JATS names its own Table S1 antibody oligos and Table S2 DNA oligos but does not inline their sequences."
+      }
+    },
+    {
+      "id": "liu_2020_table_s2",
+      "role": "supplement",
+      "locator": "PMC7736559 original Table S2, NIHMS1645400-supplement-10.xlsx, linked by defining article JATS lines 194 and 408; https://pmc.ncbi.nlm.nih.gov/articles/instance/7736559/bin/NIHMS1645400-supplement-10.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original 2020 oligo workbook is linked in PMC but its download returns the PMC 'Preparing to download' gate even with direct network access; the 2021 author protocol's Table S2 may be a republication but must be compared before identity is asserted."
+    },
+    {
+      "id": "liu_2020_table_s1",
+      "role": "supplement",
+      "locator": "PMC7736559 original Table S1 antibody-oligo sequences, referenced by defining article JATS lines 194 and 214; candidate NIHMS1645400-supplement-9.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original antibody-tag supplement is not in the 2020 local bundle; its direct PMC link returns the 'Preparing to download' gate. The later STAR Protocols table is available but not proof of 2020 identity."
+    },
+    {
+      "id": "liu_2019_preprint",
+      "role": "linked_material",
+      "discovered_from": "liu_2020_article",
+      "locator": "Liu et al. bioRxiv DOI 10.1101/788992, v2 original preprint PDF 788992_v2.full.pdf in local DBiT source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "Preprint PDF text lines 198-205, 742-747, 1095, 1571-1603 and 2055; ran scrape_primers.py on the PDF (no sequence hits)",
+        "finding": "The preprint explains A/B spatial barcoding and separately refers to an attached Excel Table S2 for exact DNA oligos. Its main PDF does not print the table's sequences; no claim of absence follows from the scraper's zero hits."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "788992_v2.full.pdf.txt lines 1094-1096 and 1571-1604; author v2 PDF read after scraper",
+        "finding": "Preprint likewise points to attached Tables S1 and S2 for antibody and spatial oligos. Main PDF describes chemistry but does not print those workbook values; zero scraper hits in the PDF are not evidence of missing sequences."
+      }
+    },
+    {
+      "id": "su_2021_protocol",
+      "role": "detailed_protocol",
+      "locator": "Su et al. 2021 STAR Protocols DOI 10.1016/j.xpro.2021.100532, PMC8132129 JATS and PDF in local source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "JATS lines 307-339, 415-491, 707-755, 931-939 and 1235-1237; linked protocol and Table S2 located from original methods",
+        "finding": "Author detailed procedure supplies reaction mixtures, in-tissue RT, splinted ligation, template switching and a separately published Table S2. It is the later 2021 implementation and may not establish all 2020 oligo identities."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC8132129_PMC8132129.xml.txt lines 307-339, 707-773, 773-807, 931-942 and 1081 onward",
+        "finding": "2021 STAR Protocols original gives later detailed A-channel RT, perpendicular B ligation, streptavidin capture, template switch and library construction; explicitly links its own Table S2. It may differ from 2020 and cannot prove identity of the inaccessible 2020 tables."
+      }
+    },
+    {
+      "id": "su_2021_table_s2",
+      "role": "supplement",
+      "locator": "PMC8132129_supp_mmc2.xlsx.txt, original 2021 STAR Protocols Table S2, all three sheets",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "PCR Oligos lines 1-15, Barcode A sheet lines 16-66, Barcode B sheet from line 67; scraper hits checked in the workbook at lines 3-17 and the A/B representative rows",
+        "finding": "Prints the ligation linker, modified template-switch oligo, Primer 1/2/3, indexed P5/P7 families and all channel barcodes. A-1 is 5′ phosphorylated; B-1 has a 5′ biotin. Direct sequence computation confirms the 30-nt splint equals reverse-complement A linker followed by reverse-complement B linker."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC8132129_supp_mmc2.xlsx.txt lines 1-20, 63-74 and barcode-family rows through B50; scraper hits checked in original workbook",
+        "finding": "Workbook prints 5-prime phosphorylated A oligos, 5-prime biotinylated B oligos, 10N UMI, 15-nt A/B ligation regions, 30-nt linker, modified TSO AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G and PCR/index primers. Independent reverse-complement computation: rc(AGGCCAGAGCATTCG)+rc(ATCCACGTGCTTGAG)=CGAATGCTCTGGCCTCTCAAGCACGTGGAT, exactly the printed linker."
+      }
+    },
+    {
+      "id": "su_2021_table_s1",
+      "role": "supplement",
+      "locator": "PMC8132129_supp_mmc1.xlsx.txt, 2021 STAR Protocols Table S1, TotalSeq antibody barcode sheet",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "Table S1 lines 1-24 and remaining antibody rows; scraper run on the source bundle",
+        "finding": "Lists antibody specificities, clones and 15-nt TotalSeq-A barcode sequences for the protein branch, but not the full manufacturer's conjugated oligo construction."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC8132129_supp_mmc1.xlsx.txt lines 1-24 and remaining antibody rows",
+        "finding": "2021 Table S1 lists TotalSeq-A antibody identities/clones and 15-nt protein barcode sequences, but not the entire manufacturer conjugated oligo architecture or proof that the 2020 Table S1 is identical."
+      }
+    },
+    {
+      "id": "su_2021_device_designs",
+      "role": "supplement",
+      "locator": "PMC8132129_supp_mmc4.zip, 2021 supplementary device CAD archive",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "ZIP central directory lists DWG microchannel drawings and LYZ clamp designs, no oligo or reaction table.",
+      "pass_1": {
+        "reviewer": "root-source-review",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory, all six member names and file types",
+        "finding": "Contains three microchannel CAD designs and three clamp/cap designs; useful for hardware geometry, not base-level library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PMC8132129_supp_mmc4.zip central-directory six names inspected with unzip -Z1",
+        "finding": "Contains three DWG chip designs and three LYZ clamp/cap designs; no oligo table or chemistry Methods. Exclusion is supported for base-level claims only."
+      }
+    },
+    {
+      "id": "su_2021_video",
+      "role": "supplement",
+      "locator": "PMC8132129 supplementary mmc3.mp4, >120 MB, manual row in source manifest",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Protocol video concerns device setup; no base sequence can be transcribed from it, but this exclusion still needs a second reader."
+    },
+    {
+      "id": "nextera_xt_guide",
+      "role": "vendor",
+      "locator": "Contemporaneous Illumina Nextera XT kit guide invoked for post-PCR tagmentation by the 2020 and 2021 methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The kit's version-specific loaded-end and index options have not yet been independently checked for this DBiT implementation."
+    },
+    {
+      "id": "totalseq_vendor",
+      "role": "vendor",
+      "locator": "BioLegend TotalSeq-A oligo-antibody specifications invoked by the protein branch and 2021 Table S1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Manufacturer's full tag architecture has not yet been checked against the 2020 and 2021 author protocol claims."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root-source-review",
+      "date": "2026-10-16",
+      "locations": "2020 JATS lines 194, 214, 408 and 881; linked bioRxiv v2 text lines 1095 and 2055; 2021 JATS lines 339 and 1235-1237; 2021 mmc1/mmc2 workbooks; local source manifest",
+      "finding": "Followed the defining article to its named Table S1/S2, linked bioRxiv preprint and later author detailed protocol. The preprint also points to a separate Excel oligo table; its PDF alone has no exact sequences. The 2021 versions and device archive were inspected; original 2020 workbooks and vendor Nextera XT/TotalSeq details remain to be obtained or independently checked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "2020 JATS Methods lines 192-224 and Table S2 pointer line 408; preprint table pointers lines 1094-1096, 1601-1604; 2021 JATS lines 707-807 and 931-942; 2021 mmc1/mmc2 rows and device ZIP central directory",
+      "finding": "Followed author preprint and 2021 detailed protocol with both oligo tables. Direct 2020 PMC supplement-9/10 URLs remain inaccessible through web fetch (download gate), so 2021-vs-2020 source identity is unverified. Historical Nextera XT and TotalSeq product documents also remain unreviewed."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact spatial-barcode, linker, template-switch and PCR oligo sequences are unavailable",
+      "disposition": "resolved",
+      "evidence": "The 2021 author STAR Protocols Table S2 prints those oligos and all barcode family members. Original 2020 Table S2 is linked but not yet compared, so version identity remains blocked."
+    },
+    {
+      "claim": "The 2021 Table S2 oligos and TotalSeq-A tag components exactly match the 2020 assay",
+      "disposition": "blocked",
+      "evidence": "The defining 2020 article points to its own Table S1/S2, which are not yet local; the 2021 author protocol supplies later tables, but exact source-version equality is unproven."
+    }
+  ],
+  "conclusion": "Independent second pass confirmed 2020 workflow and 2021 author oligos, with splint pairing checked. Exact 2020-vs-2021 table identity and vendor kit internals remain blocked by unavailable originals."
+}

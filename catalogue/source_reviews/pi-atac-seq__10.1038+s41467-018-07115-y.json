@@ -1,0 +1,181 @@
+{
+  "dir": "pi-atac-seq__10.1038+s41467-018-07115-y",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "chen_2018_article",
+      "role": "defining",
+      "locator": "doi:10.1038/s41467-018-07115-y; s41467-018-07115-y_PMC6214962.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Main article lines 162, 200, 202–210; author protocol link in Methods",
+        "finding": "Reports 96 × 90 adapter combinations and links a stepwise protocols.io method, but does not assign primer identities to wells."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Defining PMC JATS extracted lines 195-212, especially Pi-ATAC library preparation",
+        "finding": "Independently read single-cell PCR setup, index sorting and the linked stepwise protocol pointer. The article names barcoding primer use but gives no well-to-sequence assignment."
+      }
+    },
+    {
+      "id": "chen_2018_supplementary_figures",
+      "role": "supplement",
+      "locator": "41587_2018_7115_MOESM1_ESM.pdf.txt (supplementary figures)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Supplementary figure captions, especially Figure 1 on direct barcoding PCR",
+        "finding": "Describes the PCR workflow but gives no Ad1/Ad2 primer sequence or well-to-primer table; the scraper returned no original-source oligo hit."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Supplementary Figure 1 caption lines 1–25 and search for barcode/PCR/primer across full extracted figure-caption PDF; bundle scraper",
+        "finding": "Figure 1 discusses direct barcoding PCR, but figure captions do not print Ad1/Ad2 primer bases or well assignment. This supplement remains relevant for step order only."
+      }
+    },
+    {
+      "id": "chen_2018_other_supplements",
+      "role": "supplement",
+      "locator": "MOESM2–11 publisher supplements in Pi-ATAC source manifest (editorial and result materials); MOESM12 inventoried separately as unread XFA form",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "MOESM2–11 source headings and extracted content are editorial or motif/cluster result tables; MOESM12 excluded from this group pending form extraction.",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "MOESM2–12 extracted-file headings and oligo scrape",
+        "finding": "No primer-list supplement is identified among these files; MOESM12 is a dynamic PDF whose extracted text is not legible and needs independent source classification."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 editorial opening and no-primer search; MOESM3 file-description list; MOESM4–11 each workbook sheet header/first data rows; MOESM12 pdfinfo and text twin",
+        "finding": "MOESM2–11 contain peer review, file descriptions and motif/cluster/result tables without primer sequences. MOESM12 is a one-page Adobe LiveCycle XFA form whose extracted text is only a “Please wait” placeholder; it cannot be excluded until the actual form body is read."
+      }
+    },
+    {
+      "id": "chen_2018_preprint",
+      "role": "other",
+      "locator": "bioRxiv 10.1101/310359 v2; 310359_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Preprint methods around line 1553 and barcoding discussion around lines 293–374",
+        "finding": "Names barcoding PCR but no full primer sequences or 96 × 90 well assignment were found."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v2 PDF Methods lines 1545–1560 plus barcoding Results around 293–374; bundle scraper",
+        "finding": "Preprint describes index-sorted 96-well reverse crosslinking and 20-cycle barcoding PCR using 25 mM primer, but does not print actual per-well barcoding primer sequences in these passages."
+      }
+    },
+    {
+      "id": "authors_pi_atac_protocol",
+      "role": "linked_material",
+      "discovered_from": "chen_2018_article",
+      "locator": "doi:10.17504/protocols.io.q6gdzbw; protocolsio_pi-atac-bp2l6jokvqe5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Reagent list lines 135–146; PCR setup lines 354–358; complete original-protocol oligo scrape",
+        "finding": "Names Nextera kit FC-121-1030 and 25 µM Ad1/Ad2 stocks, but prints no primer bases or index-plate assignment; cites Buenrostro 2015 adapters."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Author protocols.io PDF reagent list extracted lines 135-146 and PCR setup lines 350-360",
+        "finding": "Independently confirmed the explicit Buenrostro scATAC adapter citation and per-well Ad1/Ad2 volumes and stock concentration; no Ad1/Ad2 base strings or plate assignment are printed in these sections."
+      }
+    },
+    {
+      "id": "buenrostro_2015_predecessor",
+      "role": "linked_material",
+      "discovered_from": "authors_pi_atac_protocol",
+      "locator": "doi:10.1038/nature14590; Supplementary Table 1 nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-1",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table 1 rows 3–4, 6–97 and 99–194; scraper family hits",
+        "finding": "Publishes unindexed Ad1/Ad2 and 92 indexed Ad1 plus 96 indexed Ad2 primers. It does not establish which 96 × 90 pairs Pi-ATAC assigned to wells."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-15",
+        "locations": "Buenrostro 2015 original Supplementary Table 1, extracted workbook rows 1-10 and Ad1/Ad2 family headings",
+        "finding": "Independently verified the source prints unindexed v2_Ad1_NoMX/v2_Ad2_NoMX and indexed v2_Ad1 members; this is a predecessor primer family, not a Pi-ATAC well map."
+      }
+    },
+    {
+      "id": "moesm12_xfa",
+      "role": "supplement",
+      "locator": "Original MOESM12 reporting-summary PDF; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/s41467-018-07115-y_supp_41467_2018_7115_MOESM12_ESM.pdf.txt (XFA datasets extracted by tools/doctext.py)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original PDF XFA filled dataset, extracted text lines 1-68; Maincontent/General/FlowCytometry/MethodologicalDetails/sampleprep at line 63, Maincontent/Universal/Software/analysisinfo lines 16-34; full field-name and sequence-term scan",
+        "finding": "Recovered the filled Adobe LiveCycle XFA dataset from compressed PDF streams. It is the Nature reporting summary: sampleprep reports 1% formaldehyde 10 min, 0.125 M glycine 5 min, ATAC lysis, antibody staining, 30-min bulk tagmentation, 40 mM EDTA quench and index sorting; analysisinfo covers read trimming/mapping. No Ad1/Ad2 sequence or 96 × 90 well map appears in the filled fields. Scraper rerun on extracted bundle after conversion."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM12 PDF, independently decompressed the Flate XFA streams (final filled dataset 11,638 bytes) after Pi-ATAC source-bundle oligo scraper; checked extracted fields at lines 14–27 and 39–68, especially sampleprep line 63",
+        "finding": "Independently read filled reporting summary: fixation/permeabilization, staining, 30-min bulk tagmentation, EDTA quench and index sorting are stated. No Ad1/Ad2 bases or plate assignment appear in its fields; this does not establish their absence from other relevant sources."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-1",
+      "date": "2026-10-15",
+      "locations": "Pi-ATAC article Methods line 200; author protocols.io PDF lines 135–146; Buenrostro original Supplementary Table 1",
+      "finding": "Followed the article's stepwise protocol and its explicit scATAC adapter citation through to the original predecessor oligo table; found related Ad1/Ad2 families but no Pi-ATAC well mapping."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-15",
+      "locations": "Article's protocols.io link; protocols.io reagent list naming Buenrostro; Buenrostro Supplementary Table 1",
+      "finding": "Independently followed both source links and verified the original indexed and unindexed adapter family. Other source supplements and any plate map still require review."
+    },
+    "followup": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "MOESM12 original PDF XFA filled dataset, extracted text lines 1-68",
+      "finding": "Previously unread supplement is now readable. It provides reporting-summary sample preparation and analysis fields, not primer sequence or well assignment. Independent second source check remains pending."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Original MOESM12 XFA reporting summary filled dataset, independently decoded and field-scanned",
+      "finding": "Second reader confirmed the formerly unreadable reporting summary and its linked data accession. Relevant source checklist elsewhere remains unresolved, so linked-information disposition stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "No linked original source prints Ad1/Ad2 primer sequences",
+      "disposition": "resolved",
+      "evidence": "Buenrostro 2015 Supplementary Table 1 publishes related indexed and unindexed Ad1/Ad2 families."
+    },
+    {
+      "claim": "The Pi-ATAC 96 × 90 well-to-primer assignments are unavailable",
+      "disposition": "blocked",
+      "evidence": "Published article, protocols.io protocol and Buenrostro 2015 primer table reviewed; MOESM12 filled XFA reporting summary now read in pass 1 but independent pass 2 remains pending. No checked original maps the 96 × 90 wells to specific oligos."
+    }
+  ],
+  "conclusion": "Two independent checks now cover the recovered MOESM12 Adobe XFA reporting summary in addition to the original article and available supplements. MOESM12 supplies sample-preparation conditions but no Ad1/Ad2 bases or plate map. Other relevant source gaps remain, so no missing-information claim is accepted."
+}

@@ -1,0 +1,90 @@
+{
+  "dir": "site-seq__10.1038+nmeth.4284",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/nmeth.4284",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Defining Nature Methods article full text is not in local source bundle."
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM94_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Detailed protocol oligo list lines 66–96, Adapter 1 lines 220–260, Adapter 2 lines 342–375; scraper run",
+        "finding": "Full adapter strands and modifications listed; repair/dA-tail, cleavage-end Adapter 1 then distal Adapter 2 reaction order given."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM94 detailed PDF lines 66–105, 220–260, 342–375; local scraper",
+        "finding": "Authors print modified adapter strands, indexed primers and dA-tail→Adapter 1→Adapter 2 reaction order. Full original article PDF mirror was attempted but returns HTTP 403."
+      }
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM93_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Table26 SITE-Seq Oligos lines 12–27; scraper run",
+        "finding": "AS1A/AS1B, AS2A–D, RF/RR and indexed IF/IR are printed with 5′ biotin, phosphate and phosphorothioate notation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM93 workbook Table26 SITE-Seq Oligos lines 12–27; local scraper",
+        "finding": "Oligo workbook corroborates source-print adapter/primer sequences and modifications; sequence absence would be false for these rows."
+      }
+    },
+    {
+      "id": "other_springer_supps",
+      "role": "supplement",
+      "locator": "MOESM85–92 and MOESM95 files in SITE-seq source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Local MOESM85–92 and MOESM95 extracted text first headings and first data rows; full-bundle oligo scraper",
+        "finding": "MOESM85 is figure captions, MOESM86–92 are motif/target-location/digestion/validation result tables, and MOESM95 is a sequencing-analysis Python script. No core adapter-prep recipe identified in these adjuncts; MOESM93 is separate sgRNA/adapter oligo table and MOESM94 is the detailed protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM85–92 and MOESM95 local PDF/XLSX/code text opening headings; bundle scraper",
+        "finding": "MOESM85 is result figure. MOESM86–92 are target/recovery/validation tables; MOESM90 Table20 contains guide and target sequence columns, so cannot dismiss all as irrelevant. MOESM95 is analysis code. No extra library adapter inventory in inspected headers; full rows not cleared for absence."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original Springer Supplementary Protocol lines 66–96, 220–260, 342–375 and Table26 lines 12–27",
+      "finding": "Printed library oligos and process are source-located; defining article and other supplements remain to inspect."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original MOESM94 lines 66–105 and MOESM93 Table26 lines 12–27; defining article mirror HTTP 403",
+      "finding": "Detailed protocol and oligo sheet read. Defining article and other supplements remain to be checked; missing claims remain blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Core detailed method and oligo table read, but unavailable defining article and second reader prevent acceptance of missing claims."
+}

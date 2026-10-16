@@ -78,16 +78,14 @@ def _stranded_mrna_graph(d, library, primers):
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((fragmented, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (first,))
-    second_primer = graph.input("second_strand_primer", "second-strand synthesis primer",
-                                MaterialKind.OLIGO)
     second_polymerase = graph.input("second_strand_polymerase", "RNase H / DNA polymerase I mix",
                                     MaterialKind.CATALYST)
     marked = graph.product("marked_duplex", "dUTP-marked cDNA duplex",
                            MaterialKind.MOLECULAR, state=first.state)
     graph.react("second_strand", "Synthesize the dUTP-marked second strand",
                 StepKind.EXTENSION,
-                ((first, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
-                 (second_polymerase, InputRole.CATALYST)), (marked,))
+                ((first, InputRole.TEMPLATE), (second_polymerase, InputRole.CATALYST)),
+                (marked,))
     repair = graph.input("repair_enzyme", "cDNA end-repair enzyme mix",
                          MaterialKind.CATALYST)
     repaired = graph.product("repaired", "blunt stranded-cDNA duplexes",
@@ -114,7 +112,7 @@ def _stranded_mrna_graph(d, library, primers):
                  (ligase, InputRole.CATALYST)), (adapted,), geometry=geometry)
     reviewed = ["rna", "polyt_beads", "select_polya", "fragmentation_condition", "fragment",
                 "rt_primer", "reverse_transcriptase", "reverse_transcribe",
-                "second_strand_primer", "second_strand_polymerase", "second_strand",
+                "second_strand_polymerase", "second_strand",
                 "repair_enzyme", "end_repair", "tailing_enzyme", "tail", "adapter",
                 "ligase", "ligate"]
     _finish_pcr(graph, "library", adapted, library, primers, d.sequencing_intro,

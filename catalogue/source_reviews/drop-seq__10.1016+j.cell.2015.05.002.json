@@ -1,0 +1,108 @@
+{
+  "dir": "drop-seq__10.1016+j.cell.2015.05.002",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "cell_article",
+      "role": "defining",
+      "locator": "Macosko et al Cell 2015, j.cell.2015.05.002_PMC4481139.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods line 180 and Figure 1 legend lines 410-416",
+        "finding": "Reports 12-base cell barcode, 8-base UMI and T30, and explicitly sends primer/condition details to Table S6 and Extended Experimental Procedures."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Macosko 2015 JATS _data/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt lines 180–190 (Experimental Procedures) and 410–428 (Figure 1 legend/read path); source-bundle scraper run",
+        "finding": "The available main article states ChemGenes split-pool bead synthesis, shared PCR handle, 12-base cell barcode, eight-base UMI and T30; Methods defer reaction conditions and primers to Extended Experimental Procedures and custom Nextera primers to Table S6. It states Nextera XT and NextSeq sequencing, but does not print the ordering oligos in the inspected main text."
+      }
+    },
+    {
+      "id": "cell_extended",
+      "role": "supplement",
+      "locator": "Cell 2015 NIHMS687993 supp_data_1.pdf Extended Experimental Procedures",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original methods supplement is manual in MANIFEST owing PMC download gate.",
+      "discovered_from": "cell_article",
+      "pass_2": null
+    },
+    {
+      "id": "cell_table_s6",
+      "role": "supplement",
+      "locator": "Cell 2015 Table S6 within original supplemental material",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article Methods explicitly cites Table S6 for custom Nextera primers; the original supplemental file is unavailable.",
+      "discovered_from": "cell_article",
+      "pass_2": null
+    },
+    {
+      "id": "seqwell_later",
+      "role": "linked_material",
+      "locator": "Gierahn et al Seq-Well 2017 supplementary Table 1, nmeth.4179 MOESM237",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Compared later method oligo table lines 265-300",
+        "finding": "Related downstream method prints its own oligos; these are not independent evidence for original Drop-seq primer bases."
+      },
+      "discovered_from": "cell_article",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Gierahn 2017 Seq-Well JATS nmeth.4179_PMC5376227.xml.txt lines 76, 92–96, and Springer MOESM237_ESM.pdf.txt Supplementary Table 1 lines 265–300; source-bundle scraper hits 270–289",
+        "finding": "Seq-Well explicitly compares with Drop-seq using the same mRNA capture beads and prints its own SeqB bead, TSO, SMART PCR, P5-SMART and custom Read 1 oligos. It corroborates a bead/oligo family but cannot alone assign every sequence to the earlier Macosko experiment."
+      }
+    },
+    {
+      "id": "inventor_lab_v31",
+      "role": "linked_material",
+      "locator": "Macosko and Goldman, Drop-seq lab protocol v3.1, 28 Dec 2015, https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf; cached original _data/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt (Drop-seq scoped fetch currently DNS-failed)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cell_article",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author original PDF text lines 99–150 (dated header, required primer table, names in Macosko et al.), 749–780 (Nextera XT and post-tagmentation PCR), 839–856 (20-base R1/50-base R2/eight-base index and custom R1 primer); scraper run on cached CROP-seq source bundle",
+        "finding": "Inventor-lab protocol v3.1 maps its primer names to Macosko et al. and prints SeqB bead, TSO, SMART PCR, P5-TSO hybrid and custom Read 1 strands. It uses Nextera N70X for tagmented-library PCR and specifies 20-base R1, 50-base R2 and optional eight-base I1. This is a later 2015 author protocol, not the gated original Cell Table S6; exact 2015 experiment identity remains unverified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Macosko/Goldman Drop-seq lab protocol v3.1 PDF text in CROP-seq source bundle: lines 1–29 (date and explicit later-optimization caveat), 106–151 (required primer table and Macosko-name column), 159–164 (beads used in original paper), 749–776 (Nextera XT and N70X/P5-TSO PCR), 841–847 (20-nt R1/50-nt R2/optional 8-nt index); scraper rerun on original PDF text",
+        "finding": "Independently verified SeqB bead strand with J12/N8/T30, TSO with rGrGrG, SMART PCR, modified P5-TSO hybrid, and custom Read 1 sequence. The authors label these primer names as those of Macosko et al. and state the same ChemGenes beads were used in the paper. They also explicitly warn that this updated December 2015 protocol does not precisely match the Cell experiment; its exact post-tagmentation recipe cannot substitute for gated original Extended Procedures/Table S6. The original Cell supplement remains a relevant blocker."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Cell JATS Methods line 180 and Fig. 1 legend lines 410-416; MANIFEST supplementary file inventory",
+      "finding": "Followed Cell internal Table S6/Extended Procedures references, but downloads are gated. Compared only genuine later Seq-Well original as a distinct method."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Macosko JATS Methods lines 180–190 and Fig. 1 legend lines 410–428; original supplement MANIFEST manual rows for NIHMS687993 supp_data_1.pdf/Table S6; Gierahn JATS line 76 and MOESM237 Table 1 lines 265–300; Macosko/Goldman inventor-lab v3.1 lines 99–150, 749–780, 839–856",
+      "finding": "Followed original article supplement citations; the Extended Procedures/Table S6 source remains gated. Independently checked the later same-bead Seq-Well oligo table and found a stronger author lab v3.1 primer table that explicitly maps names to Macosko et al. Its exact relationship to the original 2015 experiment needs an independent second read and original Table S6 comparison."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original Drop-seq bead PCR handle and custom Nextera oligo bases",
+      "disposition": "blocked",
+      "evidence": "The available Cell main article gives bead architecture and Nextera XT, but defers exact primers to inaccessible Extended Procedures/Table S6. A later Dec 2015 inventor-lab protocol prints and maps primer names to Macosko et al.; Seq-Well uses the same mRNA capture beads. Those sources narrow the likely oligo family but do not prove the original Table S6 strands or sample-specific N70X index."
+    }
+  ],
+  "conclusion": "Two independent readings cover the available Cell main article and later Seq-Well oligo table. The later Macosko/Goldman v3.1 original has one located reading. Original Extended Procedures/Table S6 remain unavailable; no primer-absence or exact historical identity claim is accepted."
+}

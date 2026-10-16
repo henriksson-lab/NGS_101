@@ -1,0 +1,242 @@
+{
+  "dir": "tirtl-seq__10.1038+s41592-025-02907-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_PMC12791010.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Results line 118; Methods lines 216–224",
+        "finding": "RT uses random hexamer plus oligo(dT); PCR I uses V and barcoded C segment primers with partial Nextera arms; PCR II adds well-specific dual indices and full adapters."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 214–226, especially 218–222",
+        "finding": "RT uses random hexamer and oligo(dT); PCR I mixes 88 V primers with barcoded C primers and partial Nextera arms; PCR II adds well-specific unique dual indexes and full adapters. This matches page logic."
+      }
+    },
+    {
+      "id": "supp_primers",
+      "role": "supplement",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM3_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheet starts lines 1, 91, 117, 503",
+        "finding": "Published workbook prints V/C PCR I primer families and i5/i7 PCR II UDI families. Representative P7_TRAV01-1 is explicit at line 3."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published workbook sheets Vmix_PCRI_forward lines 1–90, C_PCRI_reverse lines 91–116, i5_PCRII_forward lines 117–502, i7_PCRII_reverse from line 503",
+        "finding": "Printed source contains specific V/C primer families and 384-well i5/i7 dual-index members; A1 i5 TTGGTACGCG and i7 ATAGGCGCTC are examples, not globally fixed indexes."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "preprint opening and Methods primer references",
+        "finding": "Earlier bioRxiv version is present; source-version differences need comparison."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BioRxiv v2 PDF lines 854–893, RT and PCR I/II Methods",
+        "finding": "Earlier source has same two-PCR architecture and refers to supplemental complete primer sequences; no distinct missing molecular step found in Methods."
+      }
+    },
+    {
+      "id": "preprint_primers",
+      "role": "supplement",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_media-1.xls.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Vmix_PCRI_forward sheet lines 1–4",
+        "finding": "Preprint primer workbook also prints the V primer family; full version comparison remains pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BioRxiv media-1 workbook Vmix_PCRI_forward lines 1–10 and succeeding C/i5/i7 sheet headers",
+        "finding": "Preprint workbook contains the same classes of assay primer and dual-index families; compare exact member revision before collapsing versions."
+      }
+    },
+    {
+      "id": "manual_96well",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/protocolsio_tirtl-seq-96-well-kqdg3k6xpv25.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "cover lines 1–3",
+        "finding": "Version 2 of linked manual 96-well workflow is available; detailed oligo comparison remains pending."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "protocols.io v2 PDF lines 88–93 and 118–135",
+        "finding": "Manual repeats RT→V/C PCR I→well-index PCR II and explicitly links primer workbook TIRTL_seq_primers_v1.xls, newer TIRTL_reverse_UD_system.xlsx, and Smart-seq3xpress well-index primer predecessor. These extra linked files must be inventoried."
+      }
+    },
+    {
+      "id": "v_c_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/scitranslmed.aac5624",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article cites ref. 21 for V/C primer basis; DOI/oligo table must be independently verified.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local file readable visually; only first page independently inspected. Remaining pages and relevance pending.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02907-9_supp_41592_2025_2907_MOESM1_ESM.pdf.txt: PDF p1 visually inspected; text extraction blank; 5-page Reporting Summary",
+        "finding": "Local original PDF is available; page 1 is a Nature Reporting Summary (statistics, software), not a wet-lab sequence source. Remaining pages were not visually reviewed here; relevance remains open."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original image-only PDF, visually inspected pp. 1–5",
+        "finding": "Nature Portfolio Reporting Summary contains statistics, data/code, sample design, antibodies, cell lines and flow cytometry; it does not list TIRTL library primers. First reader inspected p. 1 only, so this source alone does not satisfy a two-pass absence gate."
+      }
+    },
+    {
+      "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm2_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02907-9_supp_41592_2025_2907_MOESM2_ESM.pdf.txt lines 1–17, 711–712",
+        "finding": "Local peer-review file includes RT random hexamer/oligo(dT) and gene-specific PCR I primer discussion at lines 711–712; chemistry-relevant response."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Peer-review PDF text lines 724–736 and 745–762",
+        "finding": "Authors say RT/lysis uses random hexamers and oligo(dT); extra gene-specific PCR I primers for phenotyping/genotyping one cell per well are a proposed extension, not established as part of the defined TIRTL assay. They identify FR3 V-primer placement and its short amplicon as limiting direct full-length TCR cloning."
+      }
+    },
+    {
+      "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm4_esm_xls_txt",
+      "role": "supplement",
+      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM4_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Paired TCR sequence and clinical/result table, not reagent or library-construction instructions; both readers inspected its columns and rows.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02907-9_supp_41592_2025_2907_MOESM4_ESM.xls.txt: line 1 ## sheet SI_Data2_Nature_methods",
+        "finding": "Local SI Data 2 workbook contains paired TCR calls and clinical/result fields, not library-construction oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "SI_Data2_Nature_methods workbook lines 1–10, header and all nine TCR records",
+        "finding": "Rows are TCR clone calls (V/J IDs, CDR3 nucleotide and peptide sequences, predicted epitopes and fold changes), not reagent primer oligos. CDR3 nucleotides are biological result sequences."
+      }
+    },
+    {
+      "id": "manual_primer_workbook",
+      "role": "linked_material",
+      "discovered_from": "manual_96well",
+      "locator": "TIRTL_seq_primers_v1.xls; named in original protocols.io 96-well manual v2 lines 124–135",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Manual v2 extracted lines 124–135",
+        "finding": "The manual explicitly names/links this additional primer source; no local copy in TIRTL source bundle, so exact version or member comparison remains open."
+      },
+      "pass_2": null,
+      "reason": "Named chemistry-relevant primer source not present in local source bundle and not independently obtained."
+    },
+    {
+      "id": "manual_ud_workbook",
+      "role": "linked_material",
+      "discovered_from": "manual_96well",
+      "locator": "TIRTL_reverse_UD_system.xlsx; named in original protocols.io 96-well manual v2 lines 124–135",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Manual v2 extracted lines 124–135",
+        "finding": "The manual explicitly names/links this additional primer source; no local copy in TIRTL source bundle, so exact version or member comparison remains open."
+      },
+      "pass_2": null,
+      "reason": "Named chemistry-relevant primer source not present in local source bundle and not independently obtained."
+    },
+    {
+      "id": "smartseq3xpress_index_predecessor",
+      "role": "linked_material",
+      "discovered_from": "manual_96well",
+      "locator": "https://www.protocols.io/view/smart-seq3xpress-yxmvmk1yng3p/v1; named in original protocols.io 96-well manual v2 lines 124–135",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Manual v2 extracted lines 124–135",
+        "finding": "The manual explicitly names/links this additional primer source; no local copy in TIRTL source bundle, so exact version or member comparison remains open."
+      },
+      "pass_2": null,
+      "reason": "Named chemistry-relevant primer source not present in local source bundle and not independently obtained."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Results line 118 and Methods lines 216–224; published primer workbook sheet starts 1, 91, 117, 503",
+      "finding": "The source links the prior V/C primer design and separate 96-well protocol; family-specific primers are published, but exact predecessor/version mapping needs review."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS 214–226; MOESM3 workbook sheets V/C/i5/i7; preprint Methods 854–893; linked protocols.io manual v2 lines 118–135",
+      "finding": "Independent reading confirms printed published primer families and reveals three extra linked primer/version sources in 96-well manual. Those sources remain unavailable and need another independent pass."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "TIRTL-seq V/C and indexing primers are undisclosed",
+      "disposition": "blocked",
+      "evidence": "Published Supplementary Data 1 contains them; predecessor and protocol versions still need two-reader review."
+    }
+  ],
+  "conclusion": "Published primer family and dual-index workflow independently checked. Linked 96-well manual names further primer workbooks and Smart-seq3xpress index predecessor not yet obtained; review remains blocked."
+}

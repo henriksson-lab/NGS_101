@@ -1,0 +1,83 @@
+{
+  "dir": "paired-seq__10.1038+s41594-019-0323-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "Original PMC7231560 JATS s41594-019-0323-x_PMC7231560.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original article lines 65-69; scraper run on full bundle",
+        "finding": "Original describes indexed Tn5 and matching barcoded RT in first wells, three split/pool ligations, TdT-assisted tailing and restriction split into DNA/RNA branches; cites Supplementary Tables 1 and 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC7231560 JATS lines 65-69; scraper on local source bundle",
+        "finding": "First wells pair indexed Tn5 adapter and corresponding barcoded RT primer; later split-pool ligations then separate DNA/RNA library branches."
+      }
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Publisher Supplementary Table 2; local scg_41594_2019_323_MOESM3_ESM.xlsx.txt, md5 identical to original Springer MOESM3 according to manifest",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher workbook extracted lines 1-18; manifest duplicate identity; scraper hits checked",
+        "finding": "Prints /5Phos/ eight first-round DNA and matched poly(T) RNA primer family members with exact well barcode inserts. This is an original publisher workbook mirrored under scg prefix, not the drawn upstream page."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original publisher Supplementary Table 2 mirrored locally as scg_41594_2019_323_MOESM3_ESM.xlsx.txt rows 1-15; scraper on bundle",
+        "finding": "Rows print eight /5Phos/ DNA_RE and matched RNA_RE poly(T) families with well-specific barcodes; source is actual publisher workbook, not schematic."
+      }
+    },
+    {
+      "id": "table1",
+      "role": "supplement",
+      "locator": "Original publisher Paired-seq Supplementary Table 1, MOESM2 XLSX local",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Present in bundle but not yet independently inspected for all detailed reagents and branches."
+    },
+    {
+      "id": "predecessor_tdt",
+      "role": "predecessor",
+      "locator": "TdT-assisted single-stranded DNA amplification method cited as reference 43 in original",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor exact oligo and restriction-end geometry not traced in this pass."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 65-69; original Table 2 workbook lines 1-18, manifest md5 row",
+      "finding": "Followed original to Table 2 and confirmed published barcode oligos; Table 1 and cited TdT method remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact Paired-seq first-round barcode oligos are unpublished",
+      "disposition": "blocked",
+      "evidence": "Original Supplementary Table 2 prints representative family members; full branch mapping awaits other original supplements and predecessor."
+    }
+  ],
+  "conclusion": "Original Supplementary Table 2 prints representative family members; full branch mapping awaits other original supplements and predecessor."
+}

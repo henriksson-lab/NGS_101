@@ -1,0 +1,208 @@
+{
+  "dir": "direct-seq__10.1186+s13059-020-02044-w",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining2020",
+      "role": "defining",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 45-94, 130-154, 170-176",
+        "finding": "The 8A8G guide-scaffold capture is poly(dT)-primed; 10x 3′ v3 cDNA is split after amplification and a nested guide library is added. Detailed Protocol Exchange and kit guide are named."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7278172 JATS lines 65-94, 130-154; full-bundle scraper run",
+        "finding": "Independently confirmed Tail-8A8G programmed scaffold poly(dT) capture, 10x 3′ v3 cDNA split after preamplification, separate gRNA library through nested tRNA_Read2/P5_read1 and P7 indexed PCR, and alternate 5′/C1 branches."
+      }
+    },
+    {
+      "id": "moesm1",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 1 opening heading and relevant table/figure sections",
+        "finding": "Supplementary figures depict scaffold insertion sites and 10x/C1 library branches."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplementary MOESM1 PDF Fig S3 legend lines 138-149",
+        "finding": "Original author figure legend details 10x 3′/5′ post-cDNA guide enrichment and C1/SMART-seq suggested TSO pooling; not a substitute for primer sequences."
+      }
+    },
+    {
+      "id": "moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 2 opening heading and relevant table/figure sections",
+        "finding": "Table S1 editing-efficiency results, not oligo recipe."
+      },
+      "reason": "Results or review correspondence, not reagent chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 extracted header and first 3 rows",
+        "finding": "Independently classified as Table S1 editing-efficiency results, not a library oligo source in inspected rows."
+      }
+    },
+    {
+      "id": "moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 3 opening heading and relevant table/figure sections",
+        "finding": "Table S2 lists scaffold, tRNA and guide cassette sequences including 8A8G capture."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplementary Table S2 extracted rows 1-12",
+        "finding": "Prints wild-type and variant guide-scaffold pieces including Tail-8A8G mixed A/G capture tract, tRNA and cassette parts; source positive for programmed insert."
+      }
+    },
+    {
+      "id": "moesm4",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 4 opening heading and relevant table/figure sections",
+        "finding": "Table S3 has spacer, RT and nested guide-index PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplementary Table S3 extracted header and gene rows 1-14 plus downstream primer section",
+        "finding": "Prints locus primers, guide spacers, and nested/index guide-library primer names; confirms article Methods primer references."
+      }
+    },
+    {
+      "id": "moesm5",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 5 opening heading and relevant table/figure sections",
+        "finding": "Table S4 sequencing metrics rather than reagent recipe."
+      },
+      "reason": "Results or review correspondence, not reagent chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 extracted header and first 3 rows",
+        "finding": "Independently classified as Table S4 sequencing statistics, not a library oligo source in inspected rows."
+      }
+    },
+    {
+      "id": "moesm6",
+      "role": "supplement",
+      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM6_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Additional file 6 opening heading and relevant table/figure sections",
+        "finding": "Peer-review history, not protocol ordering oligos."
+      },
+      "reason": "Results or review correspondence, not reagent chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 extracted header and first 3 rows",
+        "finding": "Independently classified as peer-review history, not a library oligo source in inspected rows."
+      }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.21203/rs.3.pex-952/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original JATS links Protocol Exchange DOI; DOI web endpoint inaccessible, and a protocols.io migration lead was found but detailed steps not yet read."
+    },
+    {
+      "id": "tenx_cg000184",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000184 Rev A Appendix Oligonucleotide Sequences lines 6215-6290",
+        "finding": "The paper-named guide prints Read1 handle CTACACGACGCTCTTCCGATCT, N16 cell barcode, N12 UMI and poly(dT)30 on gel beads, plus TSO and feature-capture branch; the model now uses the published handle."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original official 10x CG000184 Rev A vendor PDF local extracted Appendix lines 6215-6235",
+        "finding": "Independently confirmed 10x 3′ v3 CRISPR gel-bead Read1 arm CTACACGACGCTCTTCCGATCT, N16 cell barcode, N12 UMI and 30-T capture; paper explicitly names CG000184."
+      }
+    },
+    {
+      "id": "fluidigm_c1",
+      "role": "vendor",
+      "locator": "Fluidigm C1 / Takara SMART-seq v4 protocols named at JATS lines 70 and 84",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Alternative C1 library branch shell not yet independently checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "JATS lines 70, 130-154; Additional files 1-6",
+      "finding": "Followed supplementary table/figure pointers and enumerated detailed Protocol Exchange plus 10x and C1 vendor routes; these linked method sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 70, 130-154; MOESM1 Fig S3 legend 138-149; MOESM2-6 header/chemistry rows; 10x CG000184 Rev A Appendix 6215-6235; attempted Protocol Exchange DOI",
+      "finding": "Followed original tables and exact 10x vendor guide, resolving the 3′ v3 gel-bead handle and nested custom oligos. Historical detailed Protocol Exchange and Fluidigm/Takara C1 branches remain unchecked; absence blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The 10x 3′ v3 shell and alternate C1 branch are wholly unverified",
+      "disposition": "blocked",
+      "evidence": "Exact 10x CG000184 Rev A prints the 3′ v3 gel-bead scaffold; C1/SMART-seq branch and detailed protocol remain unreviewed."
+    }
+  ],
+  "conclusion": "The programmed 8A8G guide and nested PCR primers are source-positive; delegated vendor shells remain blocked.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132–144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
+      "finding": "Read original article scRNA-seq-on10x Methods and TableS3d source primers. Replaced generic Nextera endpoint with local TruSeq assembly consistent with CG000184 bead handle and P5_Read1. Local construction checks source PCR-primer footprints; a Nextera substitution is a failing regression. Removed duplicate copied capture tract after the primer-derivedpolyT30 in the representative guide cDNA."
+    }
+  ]
+}

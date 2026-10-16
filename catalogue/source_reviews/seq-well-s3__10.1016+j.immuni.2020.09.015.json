@@ -1,0 +1,159 @@
+{
+  "dir": "seq-well-s3__10.1016+j.immuni.2020.09.015",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hughes et al Immunity 2020 doi:10.1016/j.immuni.2020.09.015 PMC7562821 full text",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "j.immuni.2020.09.015_PMC7562821.html.txt lines 1434-1452 and oligo list near 1987-2020; scraper hits 1987/2017",
+        "finding": "STAR Methods print modified TSO and P5-SMART hybrid oligo; second-strand synthesis uses SMART-random primer."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "j.immuni.2020.09.015_PMC7562821.xml.txt lines 428–446, 597",
+        "finding": "Original article Key Resources table itself prints modified TSO, P5-SMART hybrid and custom Read1 oligos. Line 597 points to its extensive supplement and the lab website."
+      }
+    },
+    {
+      "id": "master_protocol",
+      "role": "supplement",
+      "locator": "Document S1 j.immuni.2020.09.015_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Second Strand Synthesis section lines 332-343 and Master Protocol reagent/read sections",
+        "finding": "Original supplemental protocol details random-octamer second strand and library PCR/read setup."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "j.immuni.2020.09.015_supp_mmc1.pdf.txt lines 4700–4735",
+        "finding": "Original Document S1 prints SeqB bead primer architecture, modified TSO, randomer, SMART PCR, P5 hybrid and custom Read1. Thus these are source-published sequences."
+      }
+    },
+    {
+      "id": "seqwell_predecessor",
+      "role": "linked_material",
+      "locator": "Gierahn et al 2017 Seq-Well original Supplementary Table 1, nmeth.4179 MOESM237",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original table 1 lines 265-300 in sibling Seq-Well source bundle",
+        "finding": "Predecessor publishes bead-primer architecture reused as comparison; S3 paper separately prints its changed primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "drop-seq-seq-well source bundle nmeth.4179 MOESM237 PDF text lines 270–295",
+        "finding": "2017 predecessor Supplementary Table 1 prints TSO and P5-SMART hybrid sequences that agree with the S3 supplement for these components."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "shalek_web",
+      "role": "linked_material",
+      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf (linked at https://shaleklab.com/resources/protocols/)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author-hosted Hughes Seq-Well S^3 Master Protocol PDF (2019), PDF p1 title / web lines 0–23, pp19–23 reaction steps / web lines 327–490, p24 read cycles / web lines 493–527, p39 sequence table / web lines 935–947",
+        "finding": "Independently opened the 39-page original-author S3 protocol linked by the live author index. It prints second-strand synthesis, Nextera XT steps, read layout (R1 20, R2 50–80 depending instrument), and full bead/TSO/randomer/PCR/custom R1 sequences. Earlier claim that the index lacked an S3 document was wrong; direct original PDF supplies these facts. This is a June 2019 author version; compare any conflicting detail with published Document S1 before transfer."
+      },
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author protocols index, Seq-Well entry → Download PDF; PDF title page lines 0–10, second-strand synthesis lines 327–346, Nextera XT lines 423–457, printed oligos lines 935–947",
+        "finding": "The current index really does link a 39-page author Seq-Well S^3 Master Protocol dated June 2019. It prints full S3 oligos and source reaction order. Prior pass_2 missed the S3 PDF behind the generic Seq-Well index entry; its exclusion is not valid. The PDF is a distinct author version requiring comparison with Document S1."
+      }
+    },
+    {
+      "id": "drake_2023_detailed_protocol",
+      "role": "linked_material",
+      "locator": "Drake et al., Methods in Molecular Biology 2584 (2023), doi:10.1007/978-1-0716-2756-3_3; original-author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "shalek_web",
+      "pass_1": {
+        "reviewer": "seqwell_discrepancy",
+        "date": "2026-10-16",
+        "locations": "Author PDF title/DOI p. 1 (browser lines 0–30); TE buffer definition p. 3 (lines 84–89), second-strand wash p. 27 (lines 648–659), Nextera library preparation p. 30 (lines 774–779), reference to Hughes 2020 p. 47 (lines 1397–1404); PubMed PMID 36495445. Full original Seq-Well S3 source-bundle oligo scraper run before reading; attempted later chapter DOI fetch and direct author-PDF download, but neither provided a local full-text file for a separate scraper pass.",
+        "finding": "This later author-written protocol uses 10 µL TD + 5 µL ATM, agreeing with 2020 STAR Methods rather than 2019 author/2020 Document S1 11/4. After NaOH it washes in TE-TW and then TE, rather than 1 M TE. It is a 2023 recipe and does not say which split was used in the 2020 experiments or explain the original discrepancy. The chapter links to Hughes 2020; the cited original, its supplement and author 2019 version are represented elsewhere in this checklist."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf, pp.26–27/browser lines 636–660 (second strand and TE-TW/TE wash), p.29/lines 774–793 (Nextera XT 10 µL TD + 5 µL ATM), pp.46–47/lines 1390–1525 (references); full local Seq-Well S3 source-bundle oligo scraper run first",
+        "finding": "Independent reading confirms the 2023 recipe washes NaOH-treated beads once with TE-TW and once with TE, then uses 10 µL Nextera TD Buffer and 5 µL ATM. The chapter identifies itself as a later step-by-step Seq-Well S3 protocol and cites the 2020 Hughes article. It does not say which recipe was used in the 2020 experiments or identify a correction. Chemistry-relevant predecessor links to Gierahn 2017 and Hughes 2020 are already separate twice-read checklist rows; other cited application/computation references do not supply adapter/TE/ATM provenance. Its reference 17 is the upstream scg_lib_structs drawing, explicitly excluded as independent source by repository policy."
+      }
+    },
+    {
+      "id": "nextera_xt_vendor",
+      "role": "vendor",
+      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official Illumina Adapter Sequences document 1000000002694 v22, Nextera section lines 256–281 (mosaic/end arms), 13318–13344 and 18520–18530 (N7xx members); Nextera XT guide Rev 07 lines 159–161 and 292–313; source-bundle scraper run before reading.",
+        "finding": "Official table lists N701 sample-sheet i7 TAAGGCGA and N7xx family, with standard Nextera arms. The Seq-Well S3 paper/author protocol name N700/N7xx but no selected member; previous final model hard-coded N701 without representative label. This current vendor document establishes family context, not the historical index tube or exact 2020 kit revision."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Illumina adapter sequences v22 PDF local text, Nextera Transposase Adapters/PCR Primers lines 256–281, Nextera DNA Indexes lines 13318–13344, N701 sample-sheet table lines 18520–18530; original Seq-Well S3 JATS Sequencing Library Preparation line 535",
+        "finding": "The official document identifies the N7xx family and maps N701 to TAAGGCGA in the sample sheet (its adapter strand is TCGCCTTA). Seq-Well S3 Methods specifies an N700 Index oligo family, not N701 or a sample-specific member. Thus a fixed TAAGGCGA library index would overstate the defining source; a variable eight-base index is the supported model."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Immunity article/Document S1 and live Shalek protocols index → generic Seq-Well entry → 39-page S^3 Master Protocol",
+      "finding": "The original article and Document S1 lead to the 2017 Seq-Well predecessor and author-hosted 2019 S3 Master Protocol; both are listed and independently read. The Nextera index family was checked in the official Illumina table. The original sources disagree on TE and tagmentation quantities, which remains a blocked discrepancy rather than an unvisited link."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Live Shalek protocol index to Hughes S3 PDF; PDF p1, pp19–24, p39 / web lines 0–23, 327–527, 935–947; published Document S1 oligo section previously read at lines 4700–4735",
+      "finding": "Independently followed the article to Document S1 and the live Shalek index to the 39-page author S3 PDF, and checked the cited predecessor and official Nextera index table. All links identified at that time had two source checks; the unresolved version disagreement is recorded separately."
+    },
+    "follow_up": {
+      "reviewer": "seqwell_discrepancy",
+      "date": "2026-10-16",
+      "locations": "Shalek author-hosted Drake et al. 2023 chapter DOI 10.1007/978-1-0716-2756-3_3, pp. 83, 86; checklist entry drake_2023_detailed_protocol",
+      "finding": "The later Drake 2023 author chapter now has two independent original-source reads. Its chemistry-relevant references to Gierahn 2017 and Hughes 2020 are already represented and twice read. The chapter also links scg_lib_structs as an illustration, which repository policy excludes as evidence. Its recipe agrees with 2020 STAR Methods for TD/ATM but offers no retrospective explanation; original discrepancy remains blocked.",
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Drake et al. 2023 author PDF pp.26–29/browser lines 636–660, 774–793; references pp.46–47/lines 1390–1525",
+        "finding": "Followed chemistry-relevant references to the already twice-read Gierahn 2017 and Hughes 2020 source rows. Disregarded upstream scg_lib_structs illustration as non-authoritative under repository policy. No linked correction or version explanation appears in this chapter."
+      }
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Whether the different published STAR Methods and detailed-protocol TE and Nextera quantities reflect intentional S3 recipe changes",
+      "disposition": "blocked",
+      "evidence": "The 2019 original-author S3 Master Protocol was independently read. Its p. 19 1xTE wash and p. 22 11 µL TD + 4 µL ATM agree with published Document S1 (mmc1 lines 3644, 3810), while 2020 STAR Methods JATS lines 491 and 509 print 1 M TE and 10 µL TD + 5 µL ATM. A later original-author 2023 chapter (doi:10.1007/978-1-0716-2756-3_3, pp. 83 and 86) independently prints TE-TW then TE after NaOH and 10 µL TD + 5 µL ATM. This later recipe does not identify which 2020 recipe was used or explicitly explain the discrepancy. The PubMed record PMID 33053333 has no linked erratum/correction, and targeted publisher/DOI searches did not locate one; this is not proof that none exists. The 2023 chapter has two independent original-source reads, but it does not resolve the historical version discrepancy."
+    }
+  ],
+  "conclusion": "The original paper, Document S1, 2019 author S3 Master Protocol and official Nextera family table have two located readings. The page displays the original recipe discrepancies. A later 2023 original-author protocol supports 10/5 TD/ATM as a later recipe and TE-TW then TE after NaOH, has two independent original-source reads but gives no retrospective version explanation. Its chemistry-relevant predecessor links were followed; the original discrepancy remains blocked. The paper names N700 but does not identify the selected index member, so the final model uses an eight-base placeholder. Historical kit revision and selected member remain unresolved; no absence claim is accepted."
+}

@@ -1,0 +1,149 @@
+{
+  "dir": "scdam-t-seq__10.1038+s41587-019-0150-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Rooijers et al. Nat Biotechnol 2019 doi:10.1038/s41587-019-0150-y; PMC6609448",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC6609448 JATS lines 99-113",
+        "finding": "DamID fork/T7/Illumina/UMI/barcode and CEL-Seq anchored RT architecture plus read1 layouts specified."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Rooijers 2019 PMC6609448 JATS lines 99–113, especially “DamID adapters”, “CEL-Seq primers”, and “Raw data preprocessing”; original source-bundle scraper",
+        "finding": "Methods specify DpnI digestion, adapter ligation, pooled T7 IVT and CEL-Seq2-derived RT; the DamID adapter paragraph distinguishes a four-base fork from a six-base Dam-RING1B mESC variant. CEL RT primer uses anchored poly(T), split 8-base barcode and 6-base UMI. Read 1 is 3-nt UMI+8-nt barcode+CA+gDNA on DamID or 6-nt UMI+8-nt barcode+unalignable sequence on RNA; Read 2 holds mRNA for RNA branch."
+      }
+    },
+    {
+      "id": "original_oligo_tables",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF Supplementary Tables 2-4",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 369-685, 1080-1100",
+        "finding": "Published tables print 48/96 DamID adapter top and bottom members and barcoded CEL-Seq primer families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Rooijers 2019 Springer MOESM1 PDF text lines 135–149, 369–481, 1080–1100; original source-bundle scraper",
+        "finding": "Published tables include barcoded DamID top/bottom strands and CEL-Seq primer families. Table 2 begins with 8-base barcoded top oligos, including shorter TGAT-start and six-base GGTGAT-start strands, and identifies a separate six-base-barcode Dam-RING1B mESC set. These are source-printed variants; exact experiment-to-member allocation is not established by this table alone."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 529388 v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "529388_v1.full.pdf.txt Methods and source supplement inventory",
+        "finding": "Author version provides independent provenance route for same chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv 529388 v1 PDF text title/version lines 1–25, DamID adapter Methods 2381–2408, read layout 2445–2456; original source-bundle scraper",
+        "finding": "Author preprint independently repeats the four-base-fork general adapter, six-base-fork Dam-RING1B variant, CEL RT architecture and branch-specific read layout. It is an earlier version of the same assay, not a substitute for the 2019 publisher tables."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "Rooijers et al. Nat Protocols 2020 doi:10.1038/s41596-020-0314-8; PMC7779467",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7779467 JATS lines 133-141, 276-291, 1145-1147",
+        "finding": "Detailed protocol prints example double-stranded DamID adapter and refers to CEL-Seq2 and adapter supplementary tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Markodimitraki 2020 PMC7779467 JATS lines 133–141, 276–291, 1145–1147; original source-bundle scraper",
+        "finding": "Later detailed protocol prints an example 384-well CEL primer with split 3+3 UMI, split 4+4 cell barcode and anchored poly(T), and describes a double-stranded six-base-fork DamID adapter. Its 384-member primer/adapter tables are specific to this later implementation; the predecessor CEL-Seq2 original uses six-base barcodes in its own assay."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "detailed_si",
+      "role": "supplement",
+      "locator": "Nat Protocols Springer MOESM1 and MOESM2 PDFs",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41596-020-0314-8 MOESM1/MOESM2 PDF source headings and tables",
+        "finding": "Locally available detailed-protocol supplements; full relationship to original oligo table still to compare."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Markodimitraki 2020 Springer MOESM1 PDF text lines 1–15, 303–320, 589–615, Tables 1–2 at 678–1100; MOESM2 PDF text lines 1–200; original source-bundle scraper",
+        "finding": "MOESM1 is an operational supplementary protocol with reaction and adapter geometry plus complete 384-member CEL primer Table 1 and DamID adapter Table 2. MOESM2 is the Nature reporting summary, not an oligo source. The six-base fork and split UMI/barcode in the model are supported by MOESM1; no unique 2019 experiment-to-384-member map was located."
+      },
+      "discovered_from": "detailed_protocol"
+    },
+    {
+      "id": "cel_seq2",
+      "role": "predecessor",
+      "locator": "Original Hashimshony et al. CEL-Seq2 JATS _data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_PMC4848782.xml.txt; cited predecessor DOI 10.1186/s13059-016-0938-8",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Hashimshony CEL-Seq2 PMC4848782 JATS lines 57–83 (Results and method changes); original CEL-Seq2 source-bundle primer scraper",
+        "finding": "Independently verified CEL-Seq2 retains barcoded oligo(dT) RT and IVT but shortens its own RT primer from 92 to 82 nt by reducing the cell barcode from eight to six bases despite adding a six-base UMI. scDam&T uses its own published split eight-base barcode and should not inherit the predecessor length."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original CEL-Seq2 PMC4848782 JATS lines 57, 69–79 and supplementary source inventory; primer scraper on CEL-Seq2 bundle",
+        "finding": "CEL-Seq2 introduced barcoded oligo(dT) RT with IVT amplification and optimized its own RT primer from 92 to 82 bases by shortening the barcode from eight to six bases. scDam&T-seq adapts this architecture but its own 2019 article and 2020 detailed protocol explicitly print split eight-base RNA barcodes. Predecessor does not establish scDam&T-seq member assignments."
+      },
+      "discovered_from": "paper",
+      "reason": "Original CEL-Seq2 predecessor now has two independent original-source reads; its own barcode length differs from the scDam&T implementation."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 99-113; MOESM1 Tables 2-4; Nat Protocols JATS 133-141, 276-291",
+      "finding": "Followed the published main article to its original oligo tables and later detailed protocol. CEL-Seq predecessor still needs direct source comparison."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Rooijers 2019 JATS Methods 99–113 and original MOESM1 Tables 1–4; author bioRxiv v1 Methods 2381–2456; Markodimitraki 2020 JATS 276–291 and MOESM1 Tables 1–2; CEL-Seq2 original JATS 57, 69–79; all four source bundles scraped",
+      "finding": "Followed the RNA predecessor and later detailed protocol independently. The original CEL-Seq2 uses a six-base barcode, while scDam&T-seq prints a distinct split eight-base RNA barcode. Published adapter variants have four- and six-base forks; the drawing selects the later six-base example. Complete later 384-member families are printed, but an original experiment-to-member mapping is not demonstrated; CEL predecessor row lacks a separate first pass."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any claim that barcoded DamID adapter or CEL-Seq primer family is unpublished",
+      "disposition": "blocked",
+      "evidence": "Original supplementary tables and later detailed protocol contain these families; precise run-specific member choice remains to map."
+    }
+  ],
+  "conclusion": "Two independent readers checked the 2019 article, original oligo tables, author preprint, 2020 detailed protocol and CEL-Seq2 predecessor. The page scopes its six-base-fork drawing to the later detailed example and distinguishes the original four-base-fork variant. Exact 2019 experiment-to-primer-member assignments remain unresolved; no absence claim is accepted."
+}

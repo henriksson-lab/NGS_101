@@ -1,0 +1,97 @@
+{
+  "dir": "scdnase-seq__10.1038+nature15740",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Jin et al Nature 2015 doi:10.1038/nature15740 PMC4697938 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nature15740_PMC4697938.xml.txt Methods lines 117-125 and citations",
+        "finding": "Pico-Seq uses DNase I fragments plus circular carrier DNA, then ligation and two PCR rounds; article defers kit bases to predecessor."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nature15740_PMC4697938.xml.txt lines 114-124",
+        "finding": "Original Pico-Seq Methods describe DNase I digestion, circular plasmid carrier, Illumina adapter ligation, indexed first PCR and P5/P7 second PCR, but reference a kit rather than print oligo bases."
+      }
+    },
+    {
+      "id": "supp_info",
+      "role": "supplement",
+      "locator": "Nature 2015 MOESM35_ESM.pdf.txt Supplementary Information",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Information repeat-design headings",
+        "finding": "Supplement describes replicate and QC design; no adapter sequence authority in inspected section."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nature15740_41586_2015_BFnature15740_MOESM35_ESM.pdf.txt lines 1-25",
+        "finding": "Original Supplementary Information discusses biological/technical repeats and downstream analysis; scraper found no oligo table."
+      }
+    },
+    {
+      "id": "hu2013",
+      "role": "linked_material",
+      "locator": "Hu et al Nat Immunol 2013 doi:10.1038/ni.2712 PMC3805781 original PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "doi_10.1038+ni.2712/ni.2712_PMC3805781.pdf.txt lines 648-650",
+        "finding": "Cited lab predecessor explicitly names Illumina Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "doi_10.1038+ni.2712/ni.2712_PMC3805781.pdf.txt lines 648-650",
+        "finding": "Cited earlier method uses Illumina Multiplexing Sample Prep Oligonucleotide Kit ref 1005709; it does not print exact library oligos. Scraper shRNA hits at line 623 are unrelated."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_kit",
+      "role": "linked_material",
+      "locator": "Illumina historical Multiplexing Sample Prep Oligonucleotide Kit ref. 1005709",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit manual/part-specific oligo structure is not in local source inventory; current adapter-sequence guide is not proof of exact 2013 kit version.",
+      "pass_2": null,
+      "discovered_from": "hu2013"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Pico-Seq Methods and Hu predecessor kit statement at PDF lines 648-650",
+      "finding": "Followed paper to named kit via lab predecessor. Historical vendor kit sequence document remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Pico-Seq JATS lines 114-124; MOESM35 lines 1-25; Hu 2013 PDF lines 648-650; source manifest for historical Illumina kit",
+      "finding": "Followed original kit citation to Hu predecessor; both invoke the historical Illumina kit without printing its oligos. Kit guide remains unavailable, blocking exact adapter/index bases."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact Pico-Seq kit adapter and index bases",
+      "disposition": "blocked",
+      "evidence": "Cited predecessor names kit 1005709, but part-specific vendor source has not been checked."
+    }
+  ],
+  "conclusion": "Two readers checked original paper, supplement and cited Hu method. Exact historical kit oligos remain blocked pending the Illumina 1005709 original guide."
+}

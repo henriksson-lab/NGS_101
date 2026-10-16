@@ -25,7 +25,7 @@ READ_LENGTHS = {'Read 1': 42, 'Index 1 (i7)': 8, 'Read 2': 50}
 READ_USES = {'Read 1': 'extract', 'Index 1 (i7)': 'demultiplex', 'Read 2': 'include'}
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
-oligos = lambda: ("<p>Bead oligo sequence 2 (representative): 5'- TTTTTTCTACACGACGCTCTTCCGATCT<cbc>JJJJJJJJ</cbc>TCTTCAGCGTTCCCGAGA<cbc>JJJJJJJ</cbc><umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'</p>", "<p>SMART PCR primer: 5'- AAGCAGTGGTATCAACGCAGAGT -3'</p>", "<p>TruSeq PCR handle primer: 5'- CTACACGACGCTCTTCCGATCT -3'</p>", "<p>TruSeq5 tagmentation PCR primer: 5'- AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'</p>")
+oligos = lambda: ("<p>Supplementary Methods bead oligo sequence 2 (representative; Linker–): 5'- TTTTTTTTCTACACGACGCTCTTCCGATCT<cbc>JJJJJJJJ</cbc>TCTTCAGCGTTCCCGAGA<cbc>JJJJJJJ</cbc><umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'</p>", "<p>SMART PCR primer: 5'- AAGCAGTGGTATCAACGCAGAGT -3'</p>", "<p>TruSeq PCR handle primer: 5'- CTACACGACGCTCTTCCGATCT -3'</p>", "<p>TruSeq5 tagmentation PCR primer: 5'- AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'</p>", "<p>Modified template-switch oligo from the same table: 5'- AAGCTGGTATCAACGCAGAGTGAATrG+GrG -3'</p>")
 FINAL_LIBRARY, SEQ_PRIMERS = slide_seq_library()
 _definition = SimpleNamespace(title=TITLE, doi='10.1126/science.aaw1219', citation='Rodriques et al., Science (2019)', endpoint="The barcode read identifies a bead's decoded position and its UMI; the paired insert read identifies the captured transcript.")
 

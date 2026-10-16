@@ -1,0 +1,302 @@
+{
+  "dir": "snmc2t-seq__10.1016+j.xgen.2022.100107",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "luo2022",
+      "role": "defining",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/j.xgen.2022.100107_PMC9004682.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 215-219, 460-485, 540-554",
+        "finding": "snmC2T core uses methyl-dCTP Smart-seq cDNA followed by bisulfite and inherited snmC-seq2 library finish; Key Resources prints dT30VN_4, N6_2, TSO_3, ISPCR23_2; snmCAT adds GpC marking."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 473-485, 540-554",
+        "finding": "Key Resources explicitly prints modified dT30VN_4, N6_2, TSO_3 and ISPCR23_2; reverse transcription and cDNA amplification are described, while bisulfite/library finish explicitly inherits snmC-seq2."
+      }
+    },
+    {
+      "id": "published_supp1",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/j.xgen.2022.100107_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplemental-information title and figure legends; original first pages",
+        "finding": "Supplemental figures concern methylome/transcriptome performance and method comparison, not a separate ordering table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published mmc1 PDF lines 1-20",
+        "finding": "Supplemental-information PDF begins with figure legends, not an oligo table in inspected opening."
+      }
+    },
+    {
+      "id": "published_supp9",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/j.xgen.2022.100107_supp_mmc9.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S8 heading and first marker-gene rows",
+        "finding": "Marker-gene results, not reagent oligos."
+      },
+      "reason": "Result workbook only.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published mmc9 workbook lines 1-5",
+        "finding": "Workbook heads Table S8 marker genes and contains gene/cluster results, not an oligo order form."
+      }
+    },
+    {
+      "id": "published_supp12",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/j.xgen.2022.100107_supp_mmc12.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Graphical abstract opening page",
+        "finding": "Article/graphical abstract duplicate, no new reagent details in inspected page."
+      },
+      "reason": "Duplicate graphical abstract, not a separate methods source.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published mmc12 PDF lines 1-8 and 470-485",
+        "finding": "File begins graphical abstract but continues as full article PDF; its Key Resources section repeats published oligo strings, correcting any impression that it is only an abstract."
+      }
+    },
+    {
+      "id": "preprint2019",
+      "role": "other",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original preprint opening Methods and source-version header",
+        "finding": "Earlier preprint describes joint methylome/transcriptome core; published JATS is used for exact oligo transcription."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2019 preprint PDF lines 993-1057 and 1106-1115",
+        "finding": "Preprint Methods independently prints brain-specific /5SpC3/ dT30VN_4, /5SpC3/ TSO_3 with rGrG+G and /5SpC3/ N6_2; bisulfite/library finish explicitly inherits snmC-seq2."
+      }
+    },
+    {
+      "id": "preprint_table1",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S1 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S1 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table2",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S2 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S2 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table3",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S3 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S3 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table4",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S4 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S4 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table5",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S5 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S5 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table6",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S6 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S6 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table7",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-7.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S7 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S7 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "preprint_table8",
+      "role": "supplement",
+      "locator": "_data/sources/snmc2t-seq__10.1101+2019.12.11.873398/2019.12.11.873398_media-8.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint supplementary Table S8 heading and first data rows",
+        "finding": "Metadata, cell labels or marker-gene results; no reagent oligo table in inspected headings."
+      },
+      "reason": "These eight preprint tables are assay results and sample metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Table S8 workbook lines 1-5",
+        "finding": "Header and first rows show metadata/results table, not oligo ordering; title inspected independently."
+      }
+    },
+    {
+      "id": "snmcseq2",
+      "role": "predecessor",
+      "locator": "Luo et al. snmC-seq2 original and supplementary primer tables cited in published JATS lines 554-558",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Required for inherited bisulfite library finish; not independently re-read in this batch."
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "Picelli et al. Smart-seq2 original cited in Key Resources/JATS line 205",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Methyl-dCTP cDNA branch inherits template-switch geometry; original not independently re-read here."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 205, 215-219, 460-485, 540-558; preprint supplementary table headings",
+      "finding": "Published source lists Smart-seq2 and snmC-seq2 as chemistry predecessors; local published/preprint supplements were identified and inspected at headings, but both predecessors need independent source read."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 473-485, 540-554; preprint PDF lines 1106-1115; preprint Tables S1-S8 headings",
+      "finding": "Originals and available result supplements checked. snmC-seq2 predecessor and Smart-seq2 cited chemistry are not independently inspected, so missing detail remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact inherited snmC-seq2 library finish and any unpublished Adaptase-added bases remain unresolved",
+      "disposition": "blocked",
+      "evidence": "Published Key Resources resolves four input oligos; inherited library finish and proprietary Adaptase need second-pass linked-source review."
+    }
+  ],
+  "conclusion": "Published Key Resources resolves four input oligos; inherited library finish and proprietary Adaptase need second-pass linked-source review."
+}

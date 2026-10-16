@@ -81,11 +81,16 @@ sequenced, before any biology.
 end, so no adapter can be ligated there. Written up once in
 <code>ref/concepts/small-rna-ligation.md</code>.""")}
 
-{caveat("""<b>The distinct TruSeq Small RNA Read 1 sequencing primer remains unnamed.</b>
-The detailed-protocol supplement does publish all 192 full <cbc>SRX</cbc> index primers;
-this page now uses SR001 as a representative and computes the complete indexed arm from
-it. Read 1's exact landing region follows from the molecule, but the source does not print
-the separate sequencing-primer oligo.""")}
+{info("""<b>Implementation shown: the 2018 detailed protocol.</b> Its Supplementary
+Table 1 supplies the 192 eight-base SRX index primers; SR001 is the representative here.
+The 2016 defining paper instead used six-base RPI indexes and 43- or 51-base single reads
+(Online Methods, library preparation). The 2018 protocol recommends at least 51 bases
+(Steps 37–38). These are published versions, not contradictory source values.""")}
+{caveat("""<b>Read 1 is represented by its derived entry site.</b> The displayed RA5
+binding span puts the first read base on the UMI, as specified by the detailed protocol.
+It does not identify the oligo loaded into an instrument. Instrument-specific primer
+instructions remain outside this model's established evidence; this is not a claim that
+they were unpublished.""")}
 """
 
 
@@ -500,91 +505,20 @@ def scene_read1() -> Scene:
 def sequencing() -> str:
     lib = sm.library()
     rows = scene_read1().rows()
-    quotes = [
-        ["Overview of the protocol",
-         "&ldquo;Finally, the libraries are pooled and purified, <b>ready for sequencing on "
-         "an Illumina sequencer such as a HiSeq or NextSeq platform</b>.&rdquo;"],
-        ["Experimental design",
-         "&ldquo;<b>Sequencing is performed using Illumina platforms.</b> We normally "
-         "sequence 1&ndash;2 million reads per cell.&rdquo;"],
-        ["Experimental design",
-         "&ldquo;<b>Sequencing starts from the UMI</b>, which is immediately followed by a "
-         "&lsquo;-CA-&rsquo; couple, which separates the UMI from the small RNA "
-         "sequences.&rdquo;"],
-        ["Equipment",
-         "&ldquo;Illumina DNA sequencer (e.g., HiSeq, MiSeq, NovaSeq, or NextSeq).&rdquo;"],
-        ["Step 37",
-         "&ldquo;Perform a pilot sequencing experiment with a pool of 48 samples, using a "
-         "MiSeq or a NextSeq instrument. &hellip; <b>Carry out sequencing according to the "
-         "manufacturer&rsquo;s protocol.</b>&rdquo;"],
-        ["Step 38",
-         "&ldquo;Perform sequencing for a <b>single read of 51 bp or longer</b>, depending "
-         "on the small RNA molecules of interest. Sequencing of 51 bp is enough to detect "
-         "miRNAs.&rdquo;"],
-        ["Reagent setup, SRX",
-         "&ldquo;SRX DNA index primers are <b>modified from standard Illumina TruSeq small "
-         "RNA index primers</b> to have barcodes of 8 bp for 192 samples. For sequence "
-         "information, see Supplementary Table 1.&rdquo;"],
-        ["Fig. 1 legend",
-         "&ldquo;Sequences required for Illumina cluster generation and sample indexing are "
-         "added through two rounds of PCR.&rdquo;"],
-    ]
-    answers = table(
-        ["Question", "Answer"],
-        [["Does the paper name a sequencing primer?",
-          "&#128308; <b>No.</b> The words &ldquo;sequencing primer&rdquo;, &ldquo;custom "
-          "primer&rdquo;, &ldquo;primer mix&rdquo;, &ldquo;Read 1&rdquo;, &ldquo;flow "
-          "cell&rdquo;, &ldquo;spike-in&rdquo; and &ldquo;PhiX&rdquo; occur <b>zero</b> "
-          "times in the article."],
-         ["Does it say a custom primer must be supplied?", "&#128308; <b>No.</b>"],
-         ["Does it say the standard instrument primers suffice?",
-          "&#128308; <b>No.</b> The closest it comes is &ldquo;ready for sequencing on an "
-          "Illumina sequencer such as a HiSeq or NextSeq platform&rdquo;, &ldquo;relies on "
-          "standard reagents and instruments&rdquo;, and &ldquo;Carry out sequencing "
-          "according to the manufacturer&rsquo;s protocol&rdquo;."],
-         ["Can a TruSeq <b>DNA</b> read-1 primer, or RP1 itself?",
-          "&#9989; <b>No</b> &mdash; computed in <i>Sequencing primers</i> below."],
-         ["Can a TruSeq <b>Small RNA</b> read-1 primer?",
-          "&#128993; <b>Yes</b>, on the structure: it anneals to the same 26-nt "
-          "<r1>RA5</r1> region and simply emits 10 extra bases &mdash; the "
-          "<umi>UMI</umi> + <tso>CA</tso> &mdash; before the insert, which is exactly what "
-          "the pipeline trims."],
-         ["Which primer did the authors actually use?",
-          "&#128308; <b>The distinct Read 1 oligo remains unknown.</b> Supplementary "
-          "Table 1 resolves the complete SRX family and index-read site, not the Read 1 "
-          "sequencing primer."]])
-    return ("<h2>Sequencing &mdash; and which primer reads this library</h2>\n"
-            + panel(rows, cls="long",
-                    caption="Read 1. Its 3' end is fixed by the construct: sequencing "
-                            "starts at the UMI, so the primer must reach the last base of "
-                            "RA5 and no further.")
-            + info(f"""<b>The construct fixes the primer's 3' end even though the paper
-            does not name it.</b> The <umi>UMI</umi> starts at offset
-            <b>{lib.offset("UMI")}</b>, immediately after P5 + RA5, so any usable read-1
-            primer is a <i>suffix of <p5>P5</p5>&nbsp;+&nbsp;<r1>RA5</r1></i> ending on
-            RA5's last base. Everything upstream of base {lib.offset("UMI") + 1} is those
-            two sequences and nothing else.""")
-            + caveat("""<b>There is no TruSeq DNA adapter anywhere in this library</b>
-            (computed in <i>Sequencing primers</i> below), so a run configured only with the
-            standard TruSeq DNA primers would yield nothing from it. That is true of any
-            TruSeq Small RNA library, not a Small-seq peculiarity &mdash; but the paper never
-            mentions it.""")
-            + "<h3>Everything the paper says about sequencing, verbatim</h3>\n"
-            + table(["Where", "What it says"], quotes)
-            + "<h3>The answer, stated precisely</h3>\n" + answers
-            + info(f"""<b>So:</b> Small-seq does not change the read-1 landing site relative
-            to a stock TruSeq Small RNA library &mdash; it only pushes the insert
-            {sm.TRIM_5P}&nbsp;nt further into the read. Whatever primer arrangement a
-            facility uses for TruSeq Small RNA libraries applies unchanged. The paper
-            supports the construct half of that claim and is silent on the Read 1 primer
-            half. The newly recovered Supplementary Table 1 does establish every SRX
-            primer and the eight bases reported by the index read.""")
-            + sp.section(lib, sm.SEQ_PRIMERS, intro=f"""Small-seq is a single-read,
-            single-indexed library. The TruSeq <i>DNA</i> set is listed because it is what a
-            stock run loads; each has no site, for the reason given. The read-1 entry is the
-            site the construct requires, not a vendor oligo &mdash; the TruSeq Small RNA
-            primers are not yet in <code>lib/</code>. Read 1 reports <umi>UMI</umi> +
-            <tso>CA</tso> before the insert, the {sm.TRIM_5P}&nbsp;nt the pipeline trims.""",
+    return ("<h2>Sequencing</h2>\n"
+            + panel(rows, cls="long", caption="Derived Read 1 entry site: the first called base is the UMI. The drawn RA5 span is a geometry query, not an identified loaded primer.")
+            + info(f"""The 2018 detailed protocol's adapter-ligation section places the
+            UMI before CA and the RNA insert. Steps 37–38 refer instrument operation to
+            the manufacturer's protocol and recommend a single read of at least
+            {sm.READ_LEN} bases. Supplementary Table 1 prints the complete SRX index
+            primers and the reported eight-base indexes. The binding calculations below
+            establish compatibility with the declared library; they do not establish which
+            sequencing-primer mixture the authors loaded.""")
+            + sp.section(lib, sm.SEQ_PRIMERS, intro=f"""Single-read, single-indexed
+            2018 implementation. The Read 1 entry is the derived RA5 site ending immediately
+            before the UMI. RP1 and the TruSeq DNA entries are binding comparisons.
+            Read 1 reports {sm.RA5_UMI_LEN} UMI bases and {len(sm.RA5_LINKER)} CA bases
+            before the insert.""",
             required_roles=("Read 1", "Index 1 (i7)"),
             content_primers=(sm.SEQ_PRIMERS[0], sm.SEQ_PRIMERS[3]),
             read_lengths={"Read 1": sm.READ_LEN,

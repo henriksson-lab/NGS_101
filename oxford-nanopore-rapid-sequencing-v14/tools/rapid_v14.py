@@ -24,7 +24,7 @@ SUMMARY = ("A transposase fragments high-molecular-weight genomic DNA while inst
            "ligase and presents one tagged strand to a nanopore.")
 CAVEAT = ("ONT publishes the Rapid Adapter strand. The transposase tag, complete "
           "motor-bearing assembly, attachment chemistry and exact motor-bearing strand "
-          "remain undisclosed.")
+          "have not been verified from the checked vendor documents.")
 TAGGED = Construct([role("left transposase tag", "[transposase tag]", "me"),
                     role("genomic DNA", "[genomic DNA fragment]"),
                     role("right transposase tag", "[transposase tag]", "me")],
@@ -83,12 +83,12 @@ def protocol_graph():
                   primary=True)
     tags = g.input("tag_complex", "Fragmentation Mix loaded tagging complex",
                    MaterialKind.ADAPTER, inferred=True,
-                   source=SOURCE + " (tag bases and loading structure proprietary)")
+                   source=SOURCE + " (tag bases and loading structure unverified)")
     transposase = g.input("transposase", "Fragmentation Mix transposase",
                           MaterialKind.CATALYST)
     tagged = g.product("tagged", "transposase-tagged genomic fragments",
                        MaterialKind.MOLECULAR, state=TAGGED, inferred=True,
-                       source=SOURCE + " (tag bases proprietary)")
+                       source=SOURCE + " (tag bases unverified)")
     off_products = g.product("off_products", "non-sequenceable tagmentation products",
                              MaterialKind.WASTE)
     g.react("tag", "Fragment and tag genomic DNA", StepKind.TAGMENTATION,
@@ -97,10 +97,10 @@ def protocol_graph():
     g.discard(off_products, "does not carry a productive Rapid Adapter attachment end")
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment undisclosed)")
+                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment unverified)")
     library = g.product("library", "motor-adapted Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
-                        source=SOURCE + " (complete motor-bearing assembly undisclosed)")
+                        source=SOURCE + " (complete motor-bearing assembly unverified)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
             ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)),

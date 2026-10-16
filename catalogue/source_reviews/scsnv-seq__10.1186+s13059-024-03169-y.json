@@ -1,0 +1,189 @@
+{
+  "dir": "scsnv-seq__10.1186+s13059-024-03169-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cooper2024",
+      "role": "defining",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_PMC10789043.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 73-109, 113-141 and 227",
+        "finding": "Describes 12N PuroR and 6N iBAR vector barcodes, 10x 5′HT custom RT spike-in/nested libraries and Mission Bio Tapestri genotyping; names Supplementary Table S2 and authors’ code repository."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC10789043 JATS Methods lines 113-141 and code link line 227",
+        "finding": "Independently read 12N puroR and 6N iBAR cloning, Chromium X 5′ HT direct guide and puro RT spike-ins, nested enrichment, and Tapestri custom amplicons. Supplementary Table S2 is explicitly cited for primers."
+      }
+    },
+    {
+      "id": "preprint2023",
+      "role": "other",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/2023.05.22.541777_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv manuscript Methods lines 256-303, including vector library cloning and single-cell DNA/RNA workflows",
+        "finding": "Earlier manuscript also names 12N PuroR, 6N iBAR, 10x 5′HT kit, Mission Bio Tapestri, custom RT spike-ins and nested barcode libraries; it points to Supplementary Table 2 and does not specify the commercial shells."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv PDF Methods lines 256-303",
+        "finding": "Earlier author version independently confirms 12N/6N vector barcodes, 5′ HT and Tapestri usage, direct guide/PuroR RT spikes, and points to Supplementary Table 2."
+      }
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_supp_13059_2024_3169_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. descriptions and Table S2 legend lines 487-490",
+        "finding": "Supplementary legends identify Table S2 as primer sequences for vector construction, single-cell barcode detection and JAK1 amplicon panel."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF legend lines 487-490",
+        "finding": "Table S2 is identified as construction, single-cell barcode detection and JAK1 amplicon primer list."
+      }
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_supp_13059_2024_3169_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Table S1 sheet header and first barcode-associated result rows",
+        "finding": "Per-cell genotyping results, not oligo recipe."
+      },
+      "reason": "Result workbook; its genomic target snippets are not library reagents.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S1 extracted rows 1-4",
+        "finding": "Header and first rows are per-cell genotype/barcode data, not a reagent oligo table; oligo-like genomic result fields should not be treated as primers."
+      }
+    },
+    {
+      "id": "supp3",
+      "role": "supplement",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_supp_13059_2024_3169_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Table S2 lines 1-24 and full scraper candidate inventory",
+        "finding": "Prints vector ultramer, 12N/6N cloning primers, oJR160 and RT_Puro_Singlecell, identical indexed i5longFwd copies and JAK1 Tapestri amplicon panel."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S2 extracted rows 1-24, verified against scraper hits",
+        "finding": "Workbook prints Ultramer_5UTR, 12N puroR and 6N iBAR cloning primers, guide/PuroR 10x RT spikes, indexed i5longFwd family and JAK1 amplicon pairs."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_supp_13059_2024_3169_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Table S3 sheet header and first sample rows",
+        "finding": "Sample descriptions/accessions, no reagent or oligo sequences."
+      },
+      "reason": "Sample metadata only.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Table S3 extracted rows 1-12",
+        "finding": "Workbook is sample/accession metadata, with 10x and guide library sample names but no molecular oligo specification."
+      }
+    },
+    {
+      "id": "supp5",
+      "role": "supplement",
+      "locator": "_data/sources/scsnv-seq__10.1186+s13059-024-03169-y/s13059-024-03169-y_supp_13059_2024_3169_MOESM5_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Review History heading and reviewer-response sections",
+        "finding": "Peer-review history rather than a protocol or oligo table."
+      },
+      "reason": "Review correspondence only.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM5 DOCX extracted lines 1-15",
+        "finding": "Document begins peer review history and reviewer comments, not a methods supplement."
+      }
+    },
+    {
+      "id": "tenx_5ht",
+      "role": "vendor",
+      "locator": "10x Genomics Chromium Single Cell 5′ HT kit guide used with Chromium X; exact revision not named in Cooper et al. Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit guide and full bead/primer architecture not yet read in this audit."
+    },
+    {
+      "id": "missionbio_tapestri",
+      "role": "vendor",
+      "locator": "Mission Bio Tapestri custom DNA panel and library-preparation manual, named by Cooper et al. Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact contemporaneous Tapestri shell/kit manual not yet identified and read."
+    },
+    {
+      "id": "authors_code",
+      "role": "linked_material",
+      "discovered_from": "cooper2024",
+      "locator": "https://github.com/MarioniLab/scSNV-seq linked by original article JATS line 227",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Repository exists and top-level contents were inspected; DNA/RNA subdirectories and versioned analysis files still need examination for chemistry or read-layout information."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 113-141 and 227; Supplementary Table S2; linked author repository top level",
+      "finding": "Followed article to its Table S2 and classified other supplementary workbooks, bioRxiv version and code link. Historical 10x/Mission Bio guides and code subdirectories remain to check."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Vector and custom transcript-capture oligos are missing",
+      "disposition": "resolved",
+      "evidence": "Original Supplementary Table S2 prints ultramer, 12N/6N primers, RT spike-ins, indexed i5longFwd family and JAK1 panel; existing note transcribes main ones."
+    },
+    {
+      "claim": "Full 10x 5′ HT and Tapestri sequencing shells are unavailable",
+      "disposition": "blocked",
+      "evidence": "The paper delegates to the vendors; historical kit guides and linked author code have not received two located checks."
+    }
+  ],
+  "conclusion": "First pass checked defining article, preprint and each supplement and ran the oligo scraper. Vendor originals, linked code and independent second pass remain open."
+}

@@ -1,0 +1,99 @@
+{
+  "dir": "microwell-seq__10.1016+j.cell.2018.02.001",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Han et al Cell 2018 DOI:10.1016/j.cell.2018.02.001",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining article full text is manual in MANIFEST and not locally present.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "oligo_table",
+      "role": "supplement",
+      "locator": "Cell supplementary table 2 original XLSX mirrored in scg data; upstream_1-s2.0-S0092867418301168-mmc1.xlsx.txt; MANIFEST md5 badabe6...",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 1-4, indexed bead seqA/seqB",
+        "finding": "Genuine Cell publisher supplement table, not scg schematic: prints complete bead oligo architecture, barcode placeholders and poly(T); original publisher URL/provenance needs independent verification."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Cell supplementary mmc1 XLSX extracted text lines 1-8; MANIFEST source description",
+        "finding": "Publisher-origin Table S2 includes indexed bead seqA/B, TSO LNA, TSO-PCR, P5 and Read 1 oligos; source is the original mirrored file, not the upstream drawing."
+      }
+    },
+    {
+      "id": "second_table",
+      "role": "supplement",
+      "locator": "Cell publisher supplementary XLSX mmc2, upstream_1-s2.0-S0092867418301168-mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Header and 45-line table inventory",
+        "finding": "Second genuine supplementary table available under local upstream filename; no sequence-absence inference."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Cell supplementary mmc2 XLSX extracted text lines 1-15",
+        "finding": "This workbook also starts with Table S2 library-construction oligonucleotides, including modified TSO and indexed sequencing oligos. It is chemistry-relevant."
+      }
+    },
+    {
+      "id": "scg_fasta",
+      "role": "linked_material",
+      "locator": "scg_adapters_Microwell-seq.fa",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Self-authored scg adapter FASTA is not an original source and is deliberately not used for evidence.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tn5_vendor",
+      "role": "linked_material",
+      "locator": "Original Tn5 adaptor/kit identity and vendor guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining article not available to establish exact Tn5 oligo/kit.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original supplement table 2 lines 1-4 and MANIFEST provenance; defining article manual row",
+      "finding": "Read mirrored genuine publisher table; original article and Tn5 documentation not accessible; scg drawn page/FASTA excluded as evidence."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original Cell mmc1/mmc2 workbook lines 1-15; MANIFEST publisher-source rows",
+      "finding": "Followed mirrored publisher supplement tables and verified oligo content. Defining article and Tn5 documentation are inaccessible; scg-authored FASTA is not original evidence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Bead linker chemistry and Tn5 adapter source/identity remain unresolved; original bead oligo architecture is printed in Cell supplement",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

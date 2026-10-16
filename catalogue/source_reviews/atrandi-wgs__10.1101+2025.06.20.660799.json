@@ -1,0 +1,85 @@
+{
+  "dir": "atrandi-wgs__10.1101+2025.06.20.660799",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "bioRxiv v2 2025.06.20.660799_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Methods and library overview",
+        "finding": "Describes SPC barcoding and debranching, but kit structures absent."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 282-318 and 884-890",
+        "finding": "Preprint describes combinatorial barcoding and WGA, but excerpt gives barcode role rather than oligo strands."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "bioRxiv media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary methods",
+        "finding": "Additional SPC and lysis details read."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 322-333 and 582-640",
+        "finding": "Supplement discusses modified workflow and Atrandi instruction contrast; no barcode cassette strands in inspected passages."
+      }
+    },
+    {
+      "id": "kit_protocol",
+      "role": "linked_material",
+      "locator": "Atrandi Single-Microbe DNA Barcoding Kit protocol v1.3",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "reason": "Claimed as checked by legacy audit but absent from local bundle; must obtain and verify."
+    },
+    {
+      "id": "sequencing_guide",
+      "role": "linked_material",
+      "locator": "Atrandi sequencing guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "reason": "Claimed as checked by legacy audit but absent from local bundle; must obtain and verify."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Preprint citations and kit references",
+      "finding": "Kit protocol and sequencing guide named but unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint and media-1, especially supplement lines 322-333",
+      "finding": "Vendor instructions are referenced and absent locally; cannot accept the legacy confirmed_missing status."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Barcode cassette, linker, Read 2 arm, polymerase and debranching enzyme are undisclosed.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

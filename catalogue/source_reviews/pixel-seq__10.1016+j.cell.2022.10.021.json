@@ -1,0 +1,145 @@
+{
+  "dir": "pixel-seq__10.1016+j.cell.2022.10.021",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "fu_2022_article",
+      "role": "defining",
+      "locator": "_data/sources/pixel-seq__10.1016+j.cell.2022.10.021/j.cell.2022.10.021_PMC9691594.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS Methods lines 181-244; resource table oligonucleotides lines 901-925; scraper run on full Pixel-seq bundle",
+        "finding": "Full polony seed template and BA(+/−), /5PS/ gel-grafted variants, Cy5 probe, UMI primer, TSO, PCR primers and Nextera index primer are printed. Methods establish USER stamp/copy processing, TaqI exposure and Nextera XT endpoint. The page and note now include previously omitted printed gel oligos and full seed template."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC9691594 JATS Methods lines 182–208, 222–242 and resource oligo table lines 901–925; Pixel bundle scraper; computed source template length 370",
+        "finding": "Authors print the entire 370-base polony seed with 24 random barcode bases, BA+/BA− and /5PS/ gel grafted primers, and seven-N UMI primer. Library section installs UMI by single extension then PCR, and Nextera XT tagmentation with TruSeq LibP5 and Nextera index primers. Page template length and modifications agree with original source."
+      }
+    },
+    {
+      "id": "pmc_supplement_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-1.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_supplement_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-2.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_supplement_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-3.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_supplement_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-4.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_supplement_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-5.tif",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "pmc_supplement_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/9691594/bin/NIHMS1846275-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement listed by PMC; direct source fetch returns the download gate. The file is uninspected, so its chemistry or oligo contribution is not excluded.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gu_2014_polony_method",
+      "role": "predecessor",
+      "discovered_from": "fu_2022_article",
+      "locator": "_data/sources/doi_10.1038+nature13761/nature13761_PMC4246050.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Gu 2014 PMC4246050 JATS lines 27–33 and linked MOESM26 original oligo workbook; predecessor bundle scraper",
+        "finding": "Gu immobilizes 5′ acrydite-modified barcode DNAs within polyacrylamide and uses two gel-anchored primers for bridge amplification of protein-barcode polonies. Pixel instead prints /5PS/ surface-grafted BA primers and 370-base RNA-capture template; Gu is conceptual polony predecessor, not proof of Pixel grafting/end chemistry."
+      }
+    },
+    {
+      "id": "gu_2014_supp_methods",
+      "role": "linked_material",
+      "locator": "Gu et al. 2014 doi:10.1038/nature13761 PMC supplementary information PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC Cloud fetch returned a download gate for original Gu supplementary methods; chemistry-relevant predecessor detail could remain there.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "gu_2014_polony_method"
+    },
+    {
+      "id": "nextera_xt_vendor_guide",
+      "role": "vendor",
+      "discovered_from": "fu_2022_article",
+      "locator": "Illumina Nextera XT DNA Library Prep kit FC-131-1024, cited in JATS Methods line 242 and resource table line 874",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Kit-specific index oligo choices and exact endpoint need verification against the relevant historical vendor guide; not yet read for this audit.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining original Methods lines 181-244 and resource table lines 901-925; six PMC supplement links in local MANIFEST.tsv; cited Gu 2014 and Illumina Nextera XT kit pointers",
+      "finding": "The original article itself prints the full major oligo set, so previous page omissions were corrected. Original supplements, prior gel method and kit-specific vendor guide remain uninspected; no missing-information claim is accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Pixel JATS Methods lines 182–242, resource table 901–925; Gu 2014 PMC4246050 JATS lines 27–33 and MOESM26 oligo sheet; source manifest for six unavailable Pixel supplements",
+      "finding": "Followed linked Gu original and distinguished embedded acrydite precursor polonies from Pixel /5PS/ surface gel. Pixel source prints seed/gel/UMI oligos. Pixel supplementary TIFF/PDF, Gu detailed SI and Nextera XT vendor guide remain inaccessible, so no missing claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The gel-grafted BA primer sequences and full polony seed template are unavailable",
+      "disposition": "resolved",
+      "evidence": "Original Cell JATS Methods lines 181-200 and reagent table lines 901-925 print them, including /5PS/ modifications and the U-containing BA(+). They are now on the public page."
+    }
+  ],
+  "conclusion": "Independent pass confirms 370-base source seed and /5PS/ gel oligos. Gu precursor uses different gel attachment; original Pixel supplements, Gu detailed SI and exact Nextera XT vendor guide remain blocked."
+}

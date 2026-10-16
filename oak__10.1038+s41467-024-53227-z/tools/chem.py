@@ -1,15 +1,22 @@
 """OAK overloading-and-unpacking combinatorial indexing."""
-from multibranch import illumina_branch
+from batch_ngs import seg, truseq_library
 from protocol_extensions import analyte_split, overload_then_unpack
-from chemdraw import Row
+from chemdraw import Construct, Row, feature
 from multimodal_spatial import (finish_pcr_branch, overload_carriers,
                                 recover_and_redistribute_carriers)
+import illumina as il
+import nextera as nx
+import seqprimers as sp
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 TITLE="OAK — overloading and unpacking droplet barcodes"
 NOTES="01_oak.html"
-SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-024-53227-z">Darmanis et al., <i>Nature Communications</i> (2024)</a>.'
+SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-024-53227-z">Wu et al., <i>Nature Communications</i> (2024)</a>.'
 SUMMARY="Fixed cells or nuclei are overloaded into Chromium droplets for in situ first-round barcoding, recovered intact and redistributed into aliquots for a second index; RNA, ATAC and antibody-tag branches can share the resulting cell identity."
-CAVEAT="The source prints example RNA aliquot and library PCR primers, listed below. The proprietary Chromium bead oligo, complete index families and Multiome kit oligos remain unavailable; the graph therefore leaves their reaction geometry unresolved."
+CAVEAT=("The paper prints example RNA aliquot and library PCR primers. Original 10x v3 "
+        "and Multiome guides print the generic 16-base bead barcodes, 12-base RNA UMIs "
+        "and final-library shells. The exact guide revisions and kit-specific oligos used "
+        "in OAK have not yet been established; the graph marks their transfer chemistry "
+        "and full primer families as unresolved.")
 RNA_TSO_PCR="AAGCAGTGGTATCAACGCAGAGT"
 RNA_ALIQUOT_I5="AATGATACGGCGACCACCGAGATCTACACAACGTGATACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 RNA_PARTIAL_P5="AATGATACGGCGACCACCGAGA"
@@ -21,11 +28,39 @@ def oligos():
                                    ("partial P5 library primer", RNA_PARTIAL_P5),
                                    ("example library i7 primer", RNA_LIBRARY_I7))]
 CELL_PARTS=(("droplet barcode",16),("aliquot index",8))
-RNA,RP=illumina_branch("OAK RNA","3-prime cDNA",cell_parts=CELL_PARTS,umi=10)
-ATAC,AP=illumina_branch("OAK ATAC","accessible genomic DNA",architecture="nextera",cell_parts=CELL_PARTS)
-FINAL_LIBRARIES=(("RNA library",RNA,RP,"Droplet and aliquot indexes jointly identify a cell's transcripts.","Illumina primers on the OAK RNA branch."),("ATAC library",ATAC,AP,"The matching two-round identity accompanies Multiome ATAC fragments.","Nextera primers on the OAK ATAC branch."))
+DROPLET=feature("droplet_barcode","cell_barcode","whitelist",whitelist="10x Chromium")
+ALIQUOT=feature("aliquot_index","cell_barcode","combinatorial",group="cell_barcode",part="aliquot index")
+UMI=feature("umi","umi","random")
+RNA,RP=truseq_library([
+    seg("droplet barcode","B"*16,"cbc",placeholder=True,feature=DROPLET),
+    seg("UMI","U"*12,"umi",placeholder=True,feature=UMI),
+    seg("poly(dT)VN","T"*30+"VN",placeholder=True),
+    seg("3-prime cDNA","X"*34,placeholder=True)],
+    "OAK RNA",i5_nt=8,i7_nt=10,i5_feature=ALIQUOT,i5_name="aliquot index (i5)")
+MULTI_RNA=Construct(RNA.segments,name="OAK Multiome RNA")
+ATAC=Construct([
+    seg("P5",il.P5,"p5"),
+    seg("droplet barcode","B"*16,"cbc",placeholder=True,feature=DROPLET),
+    seg("10x spacer","CGCGTCTG"),seg("S5",nx.S5,"s5"),
+    seg("left mosaic end",nx.ME,"me"),
+    seg("accessible genomic DNA","X"*34,placeholder=True),
+    seg("right mosaic end reverse complement",nx.ME_RC,"me"),
+    seg("S7 reverse complement",nx.S7_RC,"s7"),
+    seg("aliquot index (i7)","I"*8,"cbc",placeholder=True,feature=ALIQUOT),
+    seg("P7 reverse complement",il.P7_RC,"p7")],name="OAK Multiome ATAC")
+AP=tuple(sp.NEXTERA[k] for k in ("R1","I1","I2","R2"))
+_atac_sites=sp.verify(ATAC,AP,required_roles=tuple(p.role for p in AP))
+if _atac_sites:
+    raise ValueError("OAK Multiome ATAC: "+"; ".join(_atac_sites))
+FINAL_LIBRARIES=(("RNA-only library",RNA,RP,"The aliquot index is read in i5; droplet barcode and 12-base UMI follow Read 1.","Published OAK RNA run: 28/10/8/90 cycles (R1/i7/i5/R2)."),
+                 ("Multiome RNA library",MULTI_RNA,RP,"The same RNA read architecture follows prior bulk transposition of intact nuclei.","RNA and ATAC identities are carried by the same nucleus."),
+                 ("Multiome ATAC library",ATAC,AP,"The 16-base droplet barcode and 8-base aliquot index occupy separate ends.","Published OAK ATAC run: 50/8/24/49 cycles (R1/i7/i5/R2)."))
 def sections():
-    return [("Fix cells or nuclei so they survive droplet recovery",[Row(chunks=[("fixed intact cell/nucleus containing retained indexed molecules", None, False)])],"The cell itself becomes the carrier between indexing rounds."),("Overload Chromium droplets and perform first-round barcoding",overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],"Many cells use each droplet's bead barcode."),("Break droplets, mix cells and redistribute into aliquots",overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:],"Aliquot-specific PCR supplies the orthogonal secondary index."),("Separate configured modalities",analyte_split("RNA / antibody-tag library","ATAC library when Multiome is used"),"The demonstration supports RNA alone and joint RNA–ATAC; the cell identity is shared."),]
+    return [("Fix cells or nuclei so they survive droplet recovery",[Row(chunks=[("fixed intact cell/nucleus carrying RNA and chromatin", None, False)])],"The carrier remains intact across indexing rounds."),
+            ("Transpose chromatin before GEM formation for Multiome",[Row(chunks=[("fixed nucleus → bulk Tn5 transposition → tagged chromatin retained in nucleus", "me", False)])],"OAK Multiome Methods transpose nuclei at 37 °C before loading the transposed nuclei into Chromium."),
+            ("Overload Chromium droplets and perform first-round barcoding",overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],"RNA-only cells enter directly; Multiome nuclei enter after transposition."),
+            ("Break droplets, mix carriers and redistribute into aliquots",overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:],"Aliquot-specific PCR supplies the orthogonal secondary index."),
+            ("Separate configured modalities",analyte_split("RNA / antibody-tag library","ATAC library when Multiome is used"),"The demonstration supports RNA alone and joint RNA–ATAC; the cell identity is shared."),]
 
 
 def protocol_graph():
@@ -33,36 +68,80 @@ def protocol_graph():
     sample=g.input("sample","cells or nuclei for OAK",MaterialKind.BIOLOGICAL,primary=True)
     fixative=g.input("fixative","carrier-preserving fixation condition",MaterialKind.CONDITION)
     fixed=g.product("fixed","fixed cells or nuclei",MaterialKind.MOLECULAR,state=sections()[0][1])
-    g.react("fix","Fix cells or nuclei so they survive droplet recovery",StepKind.CROSS_LINKING,((sample,InputRole.TEMPLATE),(fixative,InputRole.CONDITION)),(fixed,))
+    g.react("fix","Fix carriers for the configured OAK branch",StepKind.MAGIC,
+            ((sample,InputRole.TEMPLATE),(fixative,InputRole.CONDITION)),(fixed,),
+            reason="RNA-only methanol fixation and Multiome formaldehyde fixation have different chemistry; this shared carrier state does not assert a single molecular transform.")
+    fixed_rna=g.product("fixed_rna","fixed RNA-only cells",MaterialKind.MOLECULAR,state=fixed.state)
+    fixed_multiome=g.product("fixed_multiome","fixed Multiome nuclei",MaterialKind.MOLECULAR,state=fixed.state)
+    g.react("choose_assay","Route fixed carriers to RNA-only or paired Multiome workflow",StepKind.SPLIT,
+            ((fixed,InputRole.TEMPLATE),),(fixed_rna,fixed_multiome),changes_molecule=False)
 
-    droplets,bead,overload_reviewed=overload_carriers(
-        g,fixed,prefix="droplet",
+    # RNA-only cells enter GEMs directly. Its source-known 3-prime v3 bead architecture
+    # is distinct from the still-unreconstructed kit-specific transfer geometry.
+    rna_droplets,rna_bead,rna_overload=overload_carriers(
+        g,fixed_rna,prefix="rna_droplet",
         state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],
-        bead_label="proprietary Chromium barcode bead oligos",inferred=True,
-        source=SOURCE+" (proprietary bead sequence not disclosed)")
-
+        bead_label="10x 3-prime v3 oligo(dT) barcode bead",
+        source=SOURCE+"; 10x CG000183 Rev A Appendix")
     rt=g.input("reverse_transcriptase","in-droplet reverse transcriptase",MaterialKind.CATALYST)
-    copied=g.product("copied","fixed carriers containing droplet-barcoded cDNA and chromatin",MaterialKind.MOLECULAR,state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],inferred=True,source=SOURCE+" (proprietary bead oligo structure not disclosed)")
-    g.react("reverse_transcribe","Transfer the droplet barcode during in-situ reverse transcription",StepKind.REVERSE_TRANSCRIPTION,((droplets,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(copied,))
-
-    transposome=g.input("transposome","Multiome ATAC transposome carrying the droplet identity route",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (proprietary loaded-adapter structure not disclosed)")
-    tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
-    tagged=g.product("tagged","fixed carriers containing droplet-barcoded cDNA and tagged chromatin",MaterialKind.MOLECULAR,state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],inferred=True,source=SOURCE+" (proprietary Multiome adapter structure not disclosed)")
-    tagment_waste=g.product("tagment_waste","non-library chromatin tagmentation products",MaterialKind.WASTE)
-    g.react("tagment","Tag chromatin for the configured Multiome ATAC branch",StepKind.TAGMENTATION,((copied,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,tagment_waste))
-    g.discard(tagment_waste,"does not retain a library-eligible heterologous ATAC fragment")
-
-    aliquoted,recovery_reviewed=recover_and_redistribute_carriers(
-        g,tagged,prefix="carrier",
+    rna_copied=g.product("rna_copied","fixed RNA-only cells retaining barcoded cDNA",MaterialKind.MOLECULAR,
+                         state=rna_droplets.state)
+    g.react("rna_reverse_transcribe","Copy RNA and add the GEM barcode",StepKind.REVERSE_TRANSCRIPTION,
+            ((rna_droplets,InputRole.TEMPLATE),(rna_bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(rna_copied,))
+    rna_aliquoted,rna_recovery=recover_and_redistribute_carriers(
+        g,rna_copied,prefix="rna_carrier",
         recovered_state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:],
         aliquoted_state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:])
+    rna=g.product("rna_template","RNA-only cDNA released from indexed aliquots",MaterialKind.MOLECULAR,
+                  state=RNA,inferred=True,source=SOURCE+" (finished duplex is a library view, not the released first strand)")
+    rna_heat=g.input("rna_heat","80 °C aliquot heating condition",MaterialKind.CONDITION)
+    g.react("rna_release","Heat aliquots to release first-strand cDNA",StepKind.THERMAL_TREATMENT,
+            ((rna_aliquoted,InputRole.TEMPLATE),(rna_heat,InputRole.CONDITION)),(rna,))
 
-    rna=g.product("rna_template","OAK RNA templates carrying the shared droplet identity",MaterialKind.MOLECULAR,state=RNA,inferred=True,source=SOURCE+" (terminal primer sequences not transcribed)")
-    atac=g.product("atac_template","OAK ATAC templates carrying the shared droplet identity",MaterialKind.MOLECULAR,state=ATAC,inferred=True,source=SOURCE+" (terminal primer sequences not transcribed)")
-    g.react("separate_modalities","Separate the configured RNA and ATAC molecular branches",StepKind.SPLIT,((aliquoted,InputRole.TEMPLATE),),(rna,atac),changes_molecule=False)
+    # OAK Multiome explicitly transposes fixed nuclei in bulk before GEM loading.
+    transposome=g.input("transposome","TDE1/ATAC Buffer B transposition reagents",MaterialKind.ADAPTER,
+                        inferred=True,source=SOURCE+" (loaded Tn5 adapter composition depends on the kit revision)")
+    tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tagged=g.product("tagged","fixed nuclei retaining tagged chromatin and RNA",MaterialKind.MOLECULAR,
+                     state=sections()[1][1],inferred=True,source=SOURCE+" (adapter loading not assembled base for base)")
+    tagment_waste=g.product("tagment_waste","non-library transposition products",MaterialKind.WASTE)
+    g.react("tagment","Transpose fixed nuclei before loading them into GEMs",StepKind.TAGMENTATION,
+            ((fixed_multiome,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),
+            (tagged,tagment_waste),source=SOURCE+" Methods, OAK paired snRNA-Seq and snATAC-Seq")
+    g.discard(tagment_waste,"does not retain a library-eligible tagged fragment")
+    multi_droplets,multi_bead,multi_overload=overload_carriers(
+        g,tagged,prefix="multiome_droplet",
+        state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[:1],
+        bead_label="10x Multiome RNA and ATAC barcode beads",
+        source=SOURCE+"; 10x CG000338 Rev F Appendix")
+    multi_barcoded=g.product("multi_barcoded","GEM-barcoded RNA and tagged chromatin in intact nuclei",
+                             MaterialKind.MOLECULAR,state=multi_droplets.state,inferred=True,
+                             source=SOURCE+" (kit-specific barcode transfer is not reconstructed)")
+    g.react("multiome_barcode","Barcode RNA and tagged chromatin inside Multiome GEMs",StepKind.MAGIC,
+            ((multi_droplets,InputRole.TEMPLATE),(multi_bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),
+            (multi_barcoded,),reason="The defining paper delegates the Multiome GEM barcoding chemistry to the 10x kit; its exact OAK-era reagent set is under source review.")
+    multi_aliquoted,multi_recovery=recover_and_redistribute_carriers(
+        g,multi_barcoded,prefix="multiome_carrier",
+        recovered_state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:],
+        aliquoted_state=overload_then_unpack(droplet_barcode=16,well_barcode=8)[1:])
+    multi_released=g.product("multi_released","cDNA and ATAC fragments released from indexed nuclei",
+                             MaterialKind.MOLECULAR,state=multi_aliquoted.state)
+    multi_heat=g.input("multiome_heat","80 °C aliquot heating condition",MaterialKind.CONDITION)
+    g.react("multiome_release","Heat aliquots to release first strands and ATAC fragments",
+            StepKind.THERMAL_TREATMENT,
+            ((multi_aliquoted,InputRole.TEMPLATE),(multi_heat,InputRole.CONDITION)),(multi_released,))
+    multi_rna=g.product("multiome_rna_template","paired Multiome RNA template",MaterialKind.MOLECULAR,
+                        state=MULTI_RNA,inferred=True,source=SOURCE+" (finished duplex is a library view)")
+    atac=g.product("atac_template","paired Multiome ATAC template",MaterialKind.MOLECULAR,
+                   state=ATAC,inferred=True,source=SOURCE+" (finished duplex is a library view)")
+    g.react("separate_modalities","Separate released Multiome RNA and ATAC products",StepKind.SPLIT,
+            ((multi_released,InputRole.TEMPLATE),),(multi_rna,atac),changes_molecule=False)
 
-    reviewed=["sample","fixative","fix",*overload_reviewed,"reverse_transcriptase","reverse_transcribe","transposome","tn5","tagment",*recovery_reviewed,"separate_modalities"]
-    finish_pcr_branch(g,"rna",rna,RNA,RP,reviewed,label="OAK RNA",inferred_primers=True,limitation="The proprietary Chromium and aliquot-index primer sequences are not disclosed on this page.")
-    finish_pcr_branch(g,"atac",atac,ATAC,AP,reviewed,label="OAK ATAC",inferred_primers=True,limitation="The proprietary Multiome and aliquot-index primer sequences are not disclosed on this page.")
+    reviewed=["sample","fixative","fix","choose_assay",*rna_overload,"reverse_transcriptase",
+              "rna_reverse_transcribe",*rna_recovery,"rna_heat","rna_release","transposome","tn5","tagment",
+              *multi_overload,"multiome_barcode",*multi_recovery,"multiome_heat","multiome_release","separate_modalities"]
+    finish_pcr_branch(g,"rna",rna,RNA,RP,reviewed,label="OAK RNA-only",limitation="The paper prints RNA primer examples but the graph does not yet assemble every intermediate PCR product.")
+    finish_pcr_branch(g,"multiome_rna",multi_rna,MULTI_RNA,RP,reviewed,label="OAK Multiome RNA",limitation="The paper delegates the complete Multiome kit primer set and its historical revision to 10x.")
+    finish_pcr_branch(g,"atac",atac,ATAC,AP,reviewed,label="OAK Multiome ATAC",limitation="The generic vendor ATAC shell is known, while OAK's exact kit revision and indexed-PCR primer family need separate reconstruction.")
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

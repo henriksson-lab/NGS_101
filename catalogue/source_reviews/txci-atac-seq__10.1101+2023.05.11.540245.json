@@ -1,0 +1,137 @@
+{
+  "dir": "txci-atac-seq__10.1101+2023.05.11.540245",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "bioRxiv 10.1101/2023.05.11.540245 v1 PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2023.05.11.540245_v1.full.pdf.txt Methods and supplementary tables at end",
+        "finding": "Author preprint specifies preindexed Tn5 then 10x ATAC-compatible droplet barcoding."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2023.05.11.540245_v1.full.pdf.txt lines 49-103, 138-145",
+        "finding": "Author preprint describes 96 Tn5 pre-index reactions followed by 10x droplet cell barcode, and sample-index variant."
+      }
+    },
+    {
+      "id": "published",
+      "role": "linked_material",
+      "locator": "Genome Biology 2023 doi:10.1186/s13059-023-03150-1 PMC10958877",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s13059-023-03150-1_PMC10958877.xml.txt Methods",
+        "finding": "Published account confirms 10x ATAC-compatible combinatorial indexing."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s13059-023-03150-1_PMC10958877.xml.txt lines 77-105 and 137-143",
+        "finding": "Published paper gives txci-ATAC rationale and methods, including barcode-swapping blocker comparison."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "table_s4_s8",
+      "role": "supplement",
+      "locator": "MOESM5_ESM.xlsx.txt Additional file 5, Tables S4-S8",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Table S4 lines 1-5, Table S5 first 10 rows, blocker near line 164; scraper hit line 164",
+        "finding": "Prints indexed Tn5-B, 5-prime phosphorylated ME reverse and 3-prime inverted-dT blocker; Table S5 lists 96 barcodes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s13059-023-03150-1_supp_13059_2023_3150_MOESM5_ESM.xlsx.txt lines 1-10 and 145-164",
+        "finding": "Original Tables S4-S8 print Tn5ME-A/B, phosphorylated MErev, well barcode list, P7 index primer family, SBS and blocker/decoy strands with modifications."
+      }
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Authors TEN 10x-compatible combinatorial indexing ATAC protocols.io c3urynv6",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "protocolsio_ten-10-x-compatible-combinatorial-indexing-atac-se-c3urynv6.pdf.txt reaction/program sections",
+        "finding": "Author procedure gives GEM and PCR thermocycler context for published table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "protocolsio_ten-10-x-compatible-combinatorial-indexing-atac-se-c3urynv6.pdf.txt lines 770-790 and 1146-1160",
+        "finding": "Author protocol instructs annealing each barcoded Tn5ME-B with Tn5MErev and custom i7 sample-index PCR; linked XLSX is not separately cached, but published paper table covers oligos."
+      },
+      "discovered_from": "published"
+    },
+    {
+      "id": "10x_revd",
+      "role": "linked_material",
+      "locator": "10x CG000209 Rev D Next GEM ATAC v1.1 guide cited by authors",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Only later CG000209 Rev G is cached; cited Rev D exact SI-PCR and barcode layout unverified.",
+      "pass_2": null,
+      "discovered_from": "published"
+    },
+    {
+      "id": "nucleus_protocol",
+      "role": "linked_material",
+      "locator": "Cited third-party protocols.io nucleus isolation protocol zu8f6zw PDF (Joshi/Misharin, 2019)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "protocolsio_single-nucleus-isolation-from-frozen-human-lung-ti-zu8f6zw.pdf.txt protocol sections",
+        "finding": "Cited third-party prep describes nucleus isolation, not adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "protocolsio_single-nucleus-isolation-from-frozen-human-lung-ti-zu8f6zw.pdf.txt lines 1-8 and procedure sections",
+        "finding": "Linked nucleus-isolation method concerns sample prep, not adapter sequences; checked title and procedure context."
+      },
+      "discovered_from": "published"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint/published Methods, published Tables S4-S8, author protocols.io and vendor revision inventory",
+      "finding": "Followed author oligo table and detailed procedure. Cited 10x Rev D remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 77-105, 137-143; original Tables S4-S8 lines 1-164; author protocols.io lines 770-790, 1146-1160; cited nucleus isolation title; Rev D guide inventory",
+      "finding": "Original paper and supplemental oligos are recoverable and author protocol followed. Exact historical 10x CG000209 Rev D guide remains unavailable, so vendor-specific attribution is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact CG000209 Rev D SI-PCR/gel-bead identity",
+      "disposition": "blocked",
+      "evidence": "Paper cites Rev D; available later Rev G cannot alone prove revision identity."
+    }
+  ],
+  "conclusion": "Two readers checked published barcoded Tn5, sample index and blocker oligos; historical 10x Rev D guide remains unavailable for vendor-specific claims."
+}

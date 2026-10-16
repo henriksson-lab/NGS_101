@@ -26,6 +26,6 @@ def protocol_graph() -> ProtocolGraph:
 def render():
     source=SOURCE
     title=TITLE
-    return render_page(title=title,notes="01_telo-seq.html",citation_html=source,panels=M.panels(),entry="telomere-side motor-loaded ONT adapter ---> C-rich strand read telomere-outward; no sequencing primer",graph=protocol_graph())
+    return render_page(title=title,notes="01_telo-seq.html",citation_html=source,panels=M.panels(),entry="telomere-side motor-loaded ONT adapter ---> C-rich strand read telomere-outward; no sequencing primer",caveat="Source discrepancy: Schmidt et al. Methods (JATS line 169) specify six phased telorette adapters, but Supplementary Table 7 (PDF lines 1780–1810) labels both the third and fourth distinct sequences T3 and has no T4 row. The model retains all six printed sequences in table order, treating the fourth sequence as the fourth phase; the intended fourth label has not been confirmed by the authors. The cited ONT AMII motor-adapter terminal bases remain unresolved.",graph=protocol_graph())
 def main(): OUT.write_text(render(),encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 if __name__=="__main__": main()

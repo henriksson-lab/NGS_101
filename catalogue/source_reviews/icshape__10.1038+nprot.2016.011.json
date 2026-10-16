@@ -1,0 +1,56 @@
+{
+  "dir": "icshape__10.1038+nprot.2016.011",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt:140-206,544-554,866-984",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Reagents lines 140-206, ligation line 554, read processing lines 866-984",
+        "finding": "Original JATS prints condition-specific 3-prime RNA linkers, RT-primer-1, P5/P3 PCR primers, and states RT stop is first read base after 13nt barcode."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4896316 JATS lines 164, 202-206, 554 and read-processing section",
+        "finding": "Primary protocol prints modified RT-primer-1 and both P5/P3 Solexa PCR primers. I added the two published PCR oligos to the page; exact physical sequencing-primer binding geometry is a separate model gap."
+      }
+    },
+    {
+      "id": "publisher_pdf",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nprot.2016.011",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "reason": "Publisher formatted PDF manual in manifest, but original full-text JATS Methods is locally available and contains chemistry and oligo list."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original JATS references/reagent list and read-trimming section",
+      "finding": "Checked reagent list and processing section for additional named adapters; no separate chemistry-relevant supplement located in local manifest."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC4896316 JATS reagent table lines 140-206 and local manifest",
+      "finding": "Original author manuscript provides chemistry and primer list. Publisher PDF is gated, so independent publisher-version comparison remains unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Read placement/adapter structures unresolved",
+      "disposition": "blocked",
+      "evidence": "Source prints all named reaction oligos and read offset; model needs a full source-to-construct comparison. Independent second check pending."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

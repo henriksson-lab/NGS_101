@@ -8,10 +8,10 @@
 > is that page is 🔴 *(upstream-only)*: it is not cited as a source, no sequence is taken
 > from it, and agreement with it is not verification. Nothing in `tools/marsseq.py` or
 > `tools/page_parts.py` depends on an upstream-only sequence. Note also that a filename
-> prefix is not provenance: `scg_jaitin-sm.pdf` is *Science*'s own supplementary PDF
-> (its page 1 is the publisher's cover sheet naming DOI 10.1126/science.1247651 and the
-> 14 February 2014 issue), reached through the scg_lib_structs repository mirror. It is
-> an ordinary publisher original and is cited as one.
+> prefix is not provenance: `scg_jaitin-sm.pdf` contains *Science*'s own cover sheet and
+> Tables S7–S9 (naming DOI 10.1126/science.1247651 and the 14 February 2014 issue),
+> reached through the scg_lib_structs repository mirror. It is an original table
+> extract, not the complete supplement.
 
 **MARS-seq** — Jaitin DA, Kenigsberg E, Keren-Shaul H, Elefant N, Paul F, Zaretsky I,
 Mildner A, Cohen N, Jung S, Tanay A, Amit I. "Massively parallel single-cell RNA-seq for
@@ -31,19 +31,21 @@ Sources read (fetched by `tools/get_sources.py`, into
 | File | What | Used for |
 |---|---|---|
 | `science.1247651_PMC4412462.html.txt` | 2014 author manuscript, main text only | three-level barcoding, 1536 cells/lane, 384-well FACS |
-| `scg_jaitin-sm.pdf.txt` | **Jaitin et al. 2014 *Science* Supplementary Material** — the publisher's own PDF (cover sheet: `www.sciencemag.org/content/343/6172/776/suppl/DC1`, DOI 10.1126/science.1247651), fetched via the scg_lib_structs repository mirror (`MANIFEST.tsv`: `scg_lib_structs repo file data/MARS-seq/jaitin-sm.pdf`) | Materials and Methods; **Tables S7–S8**: MARS-seq RT1, the 8 ligation adapters, the second RT primer and both library-PCR primers |
+| `scg_jaitin-sm.pdf.txt` | **Jaitin et al. 2014 *Science* Supplementary Material, two-page table extract** — the publisher's cover sheet and original Tables S7–S9, mirrored in scg_lib_structs (`MANIFEST.tsv`: `scg_lib_structs repo file data/MARS-seq/jaitin-sm.pdf`) | **Tables S7–S8**: MARS-seq RT1, the 8 ligation adapters, the second RT primer and both library-PCR primers. The file's cover sheet says it includes Methods and figures, but the local PDF itself has only two pages and does not contain them. |
+| [Coauthor-uploaded full 2014 Supplementary Material](https://www.researchgate.net/publication/279842956_Jaitin-SM) | Alexander Mildner's ResearchGate upload of the original Jaitin-SM.pdf; the 5.02 MB PDF download itself returned HTTP 403, but the page displays its full original text | Original Materials and Methods, source page lines 124–390: capture, RT, pooling, Exo I, second strand, IVT, zinc fragmentation, T4 RNA ligase I, RT2 and PCR. The page text and the separate two-page extract agree on the supplement's identity and table content. |
 | `s41596-019-0164-4_41596_2019_164_MOESM4_ESM.xlsx.txt` | MARS-seq2.0 Supplementary Table 1, sheet "MARS-seq2.0_RT1 primers" | **all 384 RT1 primers** |
 | `s41596-019-0164-4_41596_2019_164_MOESM5_ESM.xlsx.txt` | MARS-seq2.0 Supplementary Table 2, sheet "MARS-seq2.0_Ligation adapter" | **all 32 ligation adapters**, their read-out barcodes |
 | `s41596-019-0164-4_41596_2019_164_MOESM1_ESM.pdf.txt` | MARS-seq2.0 Supplementary Information (Supp. Figs 1–10, Manuals 1–3) | step names, QC, read-design syntax, FACS handling |
 | `s41596-019-0164-4_41596_2019_164_MOESM2_ESM.pdf.txt` | Reporting summary | batch sizes (192–384 cells) |
 | `s41596-019-0164-4_41596_2019_164_MOESM3_ESM.zip` | robot (Bravo `.vzp`) protocol files — listed, not opened | names of the liquid-handling steps |
+| [Keren-Shaul et al. MARS-seq2.0 author procedure](https://doi.org/10.17504/protocols.io.7hkhj4w) | original 54-page protocols.io PDF, fetched into the MARS-seq2.0 source bundle | reagent setup p. 29 prints RT2 and both enrichment primers; resolves their sequence identity for 2.0 |
 | `upstream_MARS-seq.html.txt` | scg_lib_structs MARS-seq page — **inspiration only, not a source** | orientation in the chemistry while reading the papers; no sequence and no claim on this page rests on it |
 
 Could **not** be fetched (get by hand and drop in the same directory):
 
 | What | URL | Why it matters |
 |---|---|---|
-| MARS-seq2.0 main text (procedure, reagents, Box/Table of primers) | https://www.nature.com/articles/s41596-019-0164-4 (paywalled) | every volume, temperature and enzyme; RT2 and PCR primer sequences; sequencing run parameters |
+| MARS-seq2.0 Nature Protocols main text | https://www.nature.com/articles/s41596-019-0164-4 (paywalled) | version-specific procedure and conditions not covered by the public author procedure; its RT2 and enrichment-primer sequences are available from protocols.io |
 
 So: 🟢 covers the 2014 MARS-seq oligos and methods as well as the MARS-seq2.0 barcoded
 oligos and QC/analysis supplement. The unavailable boundary is now the MARS-seq2.0 main
@@ -54,10 +56,11 @@ protocol, not the 2014 library structure.
 ## 1. What it is
 
 Single cells are **FACS-sorted** (optionally index-sorted, recording surface-marker
-intensities per well) into **384-well plates** that already hold a well-specific barcoded
-oligo-dT **RT1** primer (and, presumably, lysis buffer 🟡: not stated in the fetched text). After first-strand synthesis everything
-from one plate (or half-plate amplification batch) is **pooled** and processed as one
-tube: second strand, **T7 in-vitro transcription** (linear amplification), RNA
+intensities per well) into **384-well plates** with lysis solution and a well-specific
+barcoded oligo-dT **RT1** primer. The 2014 Methods pool first-strand products into
+24 intermediate wells, treat them with Exo I, and then pool 192-cell batches. The
+pooled material undergoes second-strand synthesis and **T7 in-vitro transcription**
+(linear amplification), RNA
 fragmentation, **ligation of a pool-barcoded adapter** to the RNA 3' end, a second RT
 (**RT2**), and PCR. 🟢 for the general flow (2014 main text; MARS-seq2.0 Supp. Fig. 5
 legend, which lists RT, second-strand synthesis, IVT, shearing, PCR in that order).
@@ -171,25 +174,20 @@ So the 2014 library-PCR pair is **published, not upstream**:
 `MARS1_RT2_PRINTED`, and the MARS-seq graph consumes them as exact `PCRGeometry` and RT2
 inputs. Table S7 is also the source of the sequence `illumina`-equality relations in §3.
 
-#### The one genuinely unsourced sequence — 🔴 (upstream-only)
+#### A version-specific RT2 found after checking the author protocol
 
 ```
-CTACACGACGCTCTTCCGATCT        claimed by scg_lib_structs as the MARS-seq2.0 "2nd RT primer"
+CTACACGACGCTCTTCCGATCT        MARS-seq2.0 "Second RT primer" (author protocols.io procedure)
 ```
 
-This is **not** what the authors print. Jaitin's Second RT primer is
-`TCTAGCCTTCTCGCAGCACATC`, which is unrelated to it, and the MARS-seq2.0 *Nature Protocols*
-main text — the only place a 2.0-specific RT2 could be stated — is paywalled and not
-fetched. `CTACACGACGCTCTTCCGATCT` happens to equal `revcomp(AGATCGGAAGAGCGTCGTGTAG)`, the
-reverse complement of the published ligation-adapter constant, and therefore also the 3′
-22 nt of `illumina.TRUSEQ_READ1` (🟡 computed, §3). That a primer *could* be designed this
-way is a derivation from published material; that MARS-seq2.0 *uses* it is an upstream
-claim and nothing more.
-
-It is therefore marked 🔴 and treated as non-evidence: no model constant holds it, and the
-MARS-seq2.0 graph declares its RT2 and both library-PCR primers as undisclosed
-(`page_parts.protocol_graph`, `inferred=True`, "RT2 sequence not disclosed"), with dotted
-outer arms on that page. It is kept in this note only to record what was rejected and why.
+The 2014 Table S7 instead prints `TCTAGCCTTCTCGCAGCACATC`. The later authors'
+[MARS-seq2.0 laboratory procedure](https://doi.org/10.17504/protocols.io.7hkhj4w),
+reagent setup p. 29, independently prints `CTACACGACGCTCTTCCGATCT` as **its** RT2.
+That sequence equals `revcomp(AGATCGGAAGAGCGTCGTGTAG)`, the reverse complement of the
+ligation-adapter constant, and the 3′ 22 nt of `illumina.TRUSEQ_READ1` (🟡 computed,
+§3). The 2.0 model holds the author-published RT2 and enrichment primers; the 2014
+model retains its distinct printed RT2, whose landing conflicts with the 2014 Methods'
+description of a primer complementary to the adapter.
 
 ## 3. How the oligos interlock — 🟡 (computed with `lib/`)
 
@@ -241,51 +239,47 @@ chemistry is therefore not established by this identity; the sequence
 
 ## 4. Step by step
 
-Reaction order from the step names and figure legends of the MARS-seq2.0 supplement and
-the Materials and Methods of the Jaitin 2014 *Science* Supplementary Material; conditions
-are 🔴 (MARS-seq2.0 main text not fetched) unless stated. Steps that could only be put in
-this order by reading the scg_lib_structs drawing are 🔴 *(upstream-only)* and are not
-asserted by the model.
+Reaction order from the [coauthor-uploaded 2014 Supplementary Methods](https://www.researchgate.net/publication/279842956_Jaitin-SM),
+cross-checked against the original 2014 article and the two-page primer-table extract.
+The full Methods are readable on that page even though its PDF download is blocked.
+The later MARS-seq2.0 notes below are identified separately.
 
-1. **Capture plates**: 384-well plates pre-loaded with one barcoded RT1 primer per well,
-   stored at −80 °C, thawed on ice and spun down before unsealing 🟢 (Supp. Manual 1); that
-   the wells also hold lysis buffer is not stated in the fetched sources 🟡 (inferred). **ERCC spike-in**
-   (mix 1) added per well — pipeline defaults 1.25e-05 dilution, 0.01 µL per well 🟢 (Supp.
-   Manual 2, amp_batches fields). Robot file "Cell capture plates preparation" 🟢 (zip).
-2. **Sort** one cell per well (100 µm nozzle, 384-well calibration every 5 plates, optional
-   index sort); keep **four wells empty** as background controls (e.g. O1, O2, P1, P2);
-   seal, freeze on dry ice, store −80 °C 🟢 (Supp. Manual 1).
+1. **Capture plates**: 384-well plates containing 2 µL hypotonic lysis solution, RNase
+   inhibitor and one barcoded RT1 primer per well 🟢 (2014 Methods, source page lines
+   124–172). The later 2.0 protocol's capture-plate robot settings are documented in
+   its own supplement.
+2. **Sort** one cell per well, leaving **two wells empty** per 384-well plate as no-cell
+   controls; spin, snap-freeze and store at −80 °C 🟢 (2014 Methods, source page lines
+   108–122). The later 2.0 protocol uses a different set of control wells.
 3. **RT1** in each well: RT1 anneals to poly(A) and is extended into first-strand cDNA,
-   writing well barcode + UMI onto every molecule. Robot file "RT mix addition" 🟢; a
-   "low-volume" RT was one of the 2.0 optimisations that lowered background (Supp. Fig. 2A
-   legend) 🟢. See [reverse transcription](../ref/concepts/reverse-transcription.md).
-4. **Exonuclease** to remove unused RT1 primer before pooling 🟡 (robot file "Exonuclease
-   mix addition" 🟢; the purpose is inferred: free barcoded primers carried into the pool
-   would mis-barcode other cells' RNA).
-5. **Pool** the wells of an amplification batch (192–384 cells 🟢, reporting summary), clean
-   up. Robot file "Pooling" 🟢.
-6. **Second strand**: RNase H + DNA polymerase I (Gubler–Hoffman style) 🔴
-   *(upstream-only; the enzyme identities are not in any fetched author source)*;
-   2.0 compared second-strand enzyme mixes for background: composition "A", "A" with
-   RNase H added, "A" without DNA polymerase, and composition "B" diluted 1:4 or 1:8
-   (Supp. Fig. 2B legend 🟢). The double-stranded
-   T7 promoter is now complete.
-7. **IVT** with T7 RNA polymerase: linear amplification, antisense aRNA
+   writing well barcode + UMI onto every molecule. Superscript III RT, 2 min at 42 °C,
+   50 min at 50 °C and 5 min at 85 °C 🟢 (2014 Methods, source page lines 174–252).
+   See [reverse transcription](../ref/concepts/reverse-transcription.md).
+4. **Pool** barcoded first-strand cDNA from the wells into 24 wells 🟢 (2014 Methods,
+   source page lines 254–267).
+5. **Exonuclease I** after the first pooling to remove RT primer leftovers, then SPRI
+   cleanup and final pooling 🟢 (2014 Methods, source page lines 269–305).
+6. **Second strand** on pooled cDNA with the NEB second-strand synthesis kit, 2.5 h at
+   16 °C 🟢 (2014 Methods, source page lines 311–315). The original Methods name the kit,
+   not its individual enzyme composition; RNase H and DNA polymerase I remain unverified.
+   The double-stranded T7 promoter is now complete.
+7. **IVT** with the NEB T7 High Yield kit overnight at 37 °C, followed by Turbo DNase I
+   template removal 🟢 (2014 Methods, source page lines 317–324). The linear amplification yields antisense aRNA
    `5'-GGGGCGACG…-<well bc>-<UMI>-U20-<antisense cDNA>-3'` 🟡 (computed from RT1; upstream
    draws it starting at `GG`, see §7).
-8. **Fragment** the aRNA (heat 🔴 *(upstream-only)*; "sheared at random positions" 🟢 Supp.
-   Fig. 5 legend). Only the **5' fragment of each aRNA** carries the well barcode / UMI
+8. **Fragment** the aRNA in Zn²⁺ fragmentation solution for 3 min at 70 °C 🟢 (2014
+   Methods, source page lines 326–331). Only the **5' fragment of each aRNA** carries the well barcode / UMI
    handle, so only it can be amplified by the P7_Rd2 primer later. 🟡
-9. **Ligate** a `lig_N5X4_ix<k>` adapter (one per pool) to the 3'-OH of the fragments with
-   **T4 RNA ligase 1** 🔴 *(upstream-only)*. Pool barcode now on the other end of the insert.
-10. **RT2** on the ligated adapter with the published **Second RT primer**
+9. **Ligate** a `lig_N5X4_ix<k>` adapter (one per pool) to fragmented RNA with **T4 RNA
+   ligase I**, 2 h at 22 °C 🟢 (2014 Methods, source page lines 333–368). Pool barcode
+   now sits on the other end of the insert.
+10. **RT2** on the ligated adapter with AffinityScript RT and the published **Second RT primer**
     `TCTAGCCTTCTCGCAGCACATC` 🟢 (Table S7); the product is
     `5'-<RT2 end>-<N3'>-<pool bc'>-<sense cDNA>-A20-<UMI'>-<well bc'>-AGATCGGAAGAGCACACGTCGCCCC-3'`
     🟡 (computed; the 3' end is the complement of the aRNA 5' end, so it ends in `CCCC`).
-    🔴 Which part of the ligated adapter that primer anneals to is not stated, and it is
-    not the adapter's own reverse complement (§3). For MARS-seq2.0 the RT2 sequence is not
-    published at all; the upstream page's `CTACACGACGCTCTTCCGATCT` is 🔴 *(upstream-only)*
-    and the 2.0 page declares RT2 undisclosed instead (§2.3).
+    🟢 Enzyme and timing from 2014 Methods, source page lines 370–377. 🔴 Which part of the ligated adapter that primer anneals to is not stated, and it is
+    not the adapter's own reverse complement (§3). MARS-seq2.0 uses the distinct RT2
+    published in its later author protocols.io procedure (§2.3).
 11. **PCR** with P5_Rd1_PCR `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`
     and P7_Rd2_PCR `CAAGCAGAAGACGGCATACGAGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` 🟢
     (both Table S7, verbatim); qPCR QC at three points —
@@ -343,39 +337,40 @@ silent, the row stays 🔴 and the model asserts nothing.
 | 32 adapters `lig_N5X4_ix1..32`, sequences listed | diffed against `MOESM5` | **identical** 🟢 |
 | MARS-seq2.0 plate barcode "9 bp" | `MOESM5` "Read" column: N5 + 4-nt barcode | agrees in length; only 4 nt are the barcode, 5 are random 🟢 |
 | MARS-seq1 UMI 4 bp and cell barcode 6 bp | 2014 Supplementary Table S7 | **agrees** 🟢 |
-| the second RT primer | Jaitin 2014 Table S7, row "Second RT primer" | `TCTAGCCTTCTCGCAGCACATC` 🟢. It is **not** `revcomp` of the ligation adapter, so the upstream page's `CTACACGACGCTCTTCCGATCT` is a different oligo and is 🔴 *(upstream-only)*. The model holds the published one (`MARS1_RT2_PRINTED`) and leaves the final construct to the two published PCR primers |
+| the second RT primer | Jaitin 2014 Table S7; Keren-Shaul et al. 2019 author protocols.io reagent setup p. 29 | 2014 prints `TCTAGCCTTCTCGCAGCACATC`; 2.0 prints the distinct `CTACACGACGCTCTTCCGATCT` 🟢. The latter is the adapter reverse complement; the 2014 printed oligo is not. Both models use their respective author-published sequence. |
 | aRNA drawn as `5'-GGCGACGUGUG…` | T7 +1 is the first G of `GGGG` in RT1 | upstream drops two G's; immaterial to the library 🟡 |
 | "the 5'-/acrydite/iSpPC/ is omitted for simplicity" | `MOESM4` RT1 has no modifications | appears to be a leftover from another page (inDrop); MARS-seq RT1 is unmodified as listed 🟡 |
 | "not sure what NNN between Partial Rd1 and plate barcode is" | `MOESM5` | in 2.0 it is N5 and the pipeline treats it as ignore (I); a UMI-like role is not stated 🔴 |
 | the library-PCR pair | Jaitin 2014 Table S7, rows "P5_Rd1 PCR forward" and "P7_Rd2 PCR reverse" | both printed verbatim 🟢 — `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT` and `CAAGCAGAAGACGGCATACGAGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`. They are the page's evidence; the identical strings on the upstream page are irrelevant to it |
-| a MARS-seq2.0-specific RT2 and PCR pair | MARS-seq2.0 supplements `MOESM1`–`MOESM5`; main text paywalled | **nothing**. The 2.0 page declares RT2 and both PCR primers undisclosed rather than importing the 2014 or upstream strings 🔴 |
+| a MARS-seq2.0-specific RT2 and PCR pair | Keren-Shaul et al. 2019 author protocols.io procedure, reagent setup p. 29 | RT2 and both P5-Read1/P7-Read2 enrichment primers are printed verbatim 🟢 and used by the 2.0 page. |
 
 ## 8. Open questions
 
-- 🔴 All conditions: lysis buffer, RT enzyme and volume, exonuclease, second-strand mix,
-  IVT time, fragmentation buffer/time, ligation, RT2, PCR cycles — in the paywalled
-  MARS-seq2.0 main text.
+- 🔴 Whether the inaccessible *Nature Protocols* main text differs from the authors'
+  public detailed protocols.io procedure in any version-specific condition or correction.
 - 🔴 What the 13-nt leader `CGATTGAGGCCGG` is for, and why the 3' anchor is a single `N`.
 - 🔴 Purpose of the N5 / N3 random bases next to the pool barcode (diversity for the first
   sequencing cycles? an extra UMI?). The pipeline ignores them.
-- 🔴 Whether MARS-seq2.0 keeps the 2014 RT2 and library-PCR primers, or uses different
-  ones. Only the paywalled *Nature Protocols* main text can answer this; the upstream
-  page's answer is not evidence (§2.3). Also 🔴 where the 2014 Second RT primer
+- 🔴 Why the 2014 Second RT primer differs from the 2.0 primer, and where the 2014 primer
   `TCTAGCCTTCTCGCAGCACATC` anneals on the ligated adapter — the supplement prints the
-  oligo but not its site.
+  oligo, while its Methods describe a primer complementary to the adapter.
 - 🟡 "Template switching errors" are a QC category (Supp. Fig. 6G) although the chemistry
   has no TSO: presumably RT1-primed chimeras; not defined in the fetched text.
 
 ## 9. How this note was made (tool evaluation)
 
 `tools/get_sources.py` got the PMC main text, all five Nature Protocols supplements and
-— through the `scg:` handler mirroring `data/MARS-seq/jaitin-sm.pdf` — **the 2014 *Science*
-Supplementary Material**, which an earlier revision of this note wrongly recorded as
-unfetchable. Only the *Nature Protocols* main text is still missing (paywall).
+— through the `scg:` handler mirroring `data/MARS-seq/jaitin-sm.pdf` — **a two-page extract
+of the 2014 *Science* Supplementary Material containing Tables S7–S9**. The 2014 Methods
+and figure pages are absent from that extract. Coauthor Alexander Mildner uploaded the
+full original supplement; its PDF download is blocked here, but its complete text is
+readable on ResearchGate and supplies the 2014 reaction order. The separate PMC figure
+PDF remains gated, as does the *Nature Protocols* main text.
 `tools/scrape_primers.py` found the RT1 and adapter tables; it labelled each RT1 hit with
 its barcode rather than a name, and reported no `lib/` sequence inside RT1 (the 20-nt
 partial TruSeq Read 2 is below its match length). The reaction order came from the
-supplementary figure legends and the 2014 Materials and Methods.
+coauthor-uploaded original 2014 Methods. Reading them exposed an ordering error in
+the shared graph: the paper pools first-strand cDNA before second-strand synthesis.
 
 One fetch caveat to know about: the bundle was written under the scg_lib_structs slug
 `mars-seq-mars-seq2-0__10.1126+science.1247651`, which combines the two protocols, so it

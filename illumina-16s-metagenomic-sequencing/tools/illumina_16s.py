@@ -15,7 +15,7 @@ TITLE="Illumina 16S metagenomic sequencing"
 NOTES="01_illumina-16s.html"
 SOURCE='Illumina <a href="https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/16s/16s-metagenomic-library-prep-guide-15044223-b.pdf">16S Metagenomic Sequencing Library Preparation, 15044223 B</a>.'
 SUMMARY="A V3–V4 locus PCR installs Nextera overhangs; a limited second PCR adds dual sample indexes and complete Illumina flow-cell arms."
-CAVEAT="The locus contains the guide's degenerate IUPAC positions; the schematic uses an explicit target placeholder rather than pretending one bacterial sequence represents the community."
+CAVEAT="The locus contains the guide's degenerate IUPAC positions, so the schematic uses a target placeholder. The guide prints the Nextera XT N701–N712 and S501–S508 index sequences, but does not assign one pair to a particular sample; the index segments therefore remain variable."
 FWD="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGCCTACGGGNGGCWGCAG"
 REV="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAGGACTACHVGGGTATCTAATCC"
 FWD_LOCUS="CCTACGGGNGGCWGCAG"
@@ -67,7 +67,7 @@ def protocol_graph():
     pol2=graph.input("pcr2_polymerase","index-PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
     graph.react("pcr2","Add dual indexes and flow-cell arms",StepKind.PCR,
-                ((product,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),(i7,InputRole.STRUCTURAL),(pol2,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="Index identity varies by sample; final sequencing-primer sites are checked on the completed library."))
+                ((product,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),(i7,InputRole.STRUCTURAL),(pol2,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The guide lists every N701–N712 and S501–S508 index sequence but does not select a sample pair; final sequencing-primer sites are checked on the completed library."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS)))
     graph.declare_reviewed_scope(["community_dna","v3_forward","v4_reverse","pcr1_polymerase","pcr1","i5_primer","i7_primer","pcr2_polymerase","pcr2","library"],SOURCE)
     return graph.require_publishable()

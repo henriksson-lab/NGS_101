@@ -154,7 +154,7 @@ def reported_adapter_end(name: str, *, kind: str, statement: str,
     if kind in ("cohesive", "splinted", "single-strand") and not terminal_sequence:
         raise ValueError(f"{kind} adapter end needs its reported terminal sequence")
     body = Segment(f"{name} body",
-                   body_sequence or "[adapter body not disclosed]",
+                   body_sequence or "[adapter body not declared in this model]",
                    placeholder=body_sequence is None)
     end = Segment(f"{name} ligating end", terminal_sequence or "[blunt end]",
                   placeholder=terminal_sequence is None)

@@ -1,0 +1,137 @@
+{
+  "dir": "quartz-seq__10.1186+gb-2013-14-4-r31",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt lines 220–250",
+        "finding": "Original article table prints WTA RT and tagging primers and TruSeq adapter/PCR oligos, including 5′ phosphate and phosphorothioate marks. The paper is a direct sequence source."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PMC4054835 JATS lines 220–250, Methods primer table",
+        "finding": "Independently checked published RT, tagging, suppression, TRSU, indexed TRSI and TPC primer strings and modifications. The primary paper provides the oligo table rather than withholding these sequences."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S1.PDF.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original additional file S1 PDF text lines 1-75, Figs S1-S4 captions; scraper on Quartz defining JATS and both original supplements",
+        "finding": "Supplementary Fig. S3 tests Exonuclease I removal of free RT primer, restricted 50-s TdT tailing, and suppression-PCR primer B; Fig. S4 describes short symmetric-ended byproducts folding into pan-like structures, with B selected over A/D. Figures print A/B/C/D primer strings and show suppression of byproducts. This is chemistry-relevant."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Supplementary PDF S1 lines 1–75, Figs S1–S4 captions",
+        "finding": "Independently checked source-backed Exonuclease I free RT-primer digestion, TdT reaction timing and suppression PCR primer choice B; figures describe byproduct prevention chemistry."
+      },
+      "reason": "Original supplemental methods present; full reaction-level comparison pending.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S2.DOCX.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original additional file S2 DOCX text lines 1-55, especially Library preparation for Quartz-Seq paragraph; scraper on source bundle",
+        "finding": "This is a technical-development note rather than an oligo table. It explicitly says aminated suppression-PCR primers were used for WTA and non-aminated primers increased WTA-adaptor contamination to 13.27 ± 0.13%; therefore it is chemistry-relevant, even though it does not list a separate full primer family."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Supplementary DOCX S2 lines 1–55 and citations",
+        "finding": "Independently inspected the additional technical-development note and references. It discusses reaction optimization, rather than a separate full oligo table; the article Methods table contains the principal primer strings."
+      },
+      "reason": "Original supplemental document present; chemistry relevance and transcription pending.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "non_predecessor_nanocage",
+      "role": "other",
+      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/nmeth.1470_PMC2906222.xml.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Plessy nmeth.1470 PMC2906222 JATS title/byline lines 1-30 and Methods around lines 100-118; original Quartz PMC4054835 JATS Introduction lines 68-75",
+        "finding": "Plessy paper is nanoCAGE/CAGEscan, using cap-dependent template switching and EcoP15I tagging. Quartz Introduction identifies its poly(A)-tailing WTA predecessor as Kurimoto, with Tang following a similar approach. The Plessy source is correctly excluded from the inherited Quartz WTA chemistry; an earlier upstream label was misleading."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Plessy nmeth.1470 PMC2906222 JATS lines 1–18 (title) and 100–118 (template switching, EcoP15I nanoCAGE/CAGEscan); original Quartz-Seq PMC4054835 JATS lines 70, 402 and 414 (Kurimoto predecessor references)",
+        "finding": "Independently rejected the earlier predecessor label: this local Plessy paper models cap-dependent template switching and EcoP15I CAGE tags, not Quartz poly(A)-tailing WTA. Source row remains as explicitly excluded evidence; actual Kurimoto predecessors need separate two-pass rows."
+      },
+      "reason": "The local nmeth.1470 file is Plessy 2010 nanoCAGE/CAGEscan, a cap-dependent template-switch method; Quartz-Seq derives its poly(A)-tailing WTA from Kurimoto 2006/2007 instead (original Quartz JATS lines 70, 402, 414). It is not the chemistry predecessor asserted by the earlier checklist label.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "kurimoto2006",
+      "role": "linked_material",
+      "locator": "_data/sources/tang-2009__10.1038+nmeth.1315/nar_gkl050_PMC1409679.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Quartz original JATS lines 68–72 and references 402–414; Kurimoto 2006 NAR JATS lines 48, 60–64",
+        "finding": "Quartz explicitly names Kurimoto 2006 poly(A)-tailing WTA as predecessor. Original Kurimoto specifies V1(dT)24 RT, Exo I cleanup, TdT dA tailing, V3(dT)24 second-strand priming and PCR. These are the inherited reaction class, unlike Plessy nanoCAGE."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Kurimoto 2006 NAR PMC1409679 JATS lines 48, 60–64; original PDF/supplement bundle scraper run",
+        "finding": "Independently verified V1(dT)24 reverse transcription, Exonuclease I digestion of remaining RT primer, TdT addition of dA tail, V3(dT)24 priming and subsequent PCR/gel cleanup. Quartz retains the poly(A)-tailing pattern but changes primer and suppression-amplification details; the detailed 2007 Nat Protoc remains a separate unavailable relevant source."
+      }
+    },
+    {
+      "id": "kurimoto2007",
+      "role": "linked_material",
+      "locator": "Kurimoto et al Nature Protocols 2007 doi:10.1038/nprot.2007.79",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Quartz original references this detailed same-author WTA protocol; it is not currently in local source bundle.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Source Methods, source bundle MANIFEST.tsv, and cited/supplement list",
+      "finding": "Original article plus supplemental methods and predecessor material are on disk, but only the main oligo table has had located review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "Sequence choices in the main table are published; open inheritance or reaction detail needs source comparison.",
+      "disposition": "blocked",
+      "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
+    }
+  ],
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+}

@@ -1,0 +1,180 @@
+{
+  "dir": "maester__10.1038+s41587-022-01210-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_PMC9288977.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 131–171; supplementary descriptions lines 250–262",
+        "finding": "Two enrichment branches: Seq-Well/Drop-seq uses biotinylated tiling primers and streptavidin capture; 10x v3 uses a different primer family and no biotin capture. PCR1, then PCR2 installs indexes and primer sites."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 131–171",
+        "finding": "Independently confirmed Seq-Well/Drop-seq has biotinylated mitochondrial tiling PCR1, streptavidin enrichment, then PCR2; 10x 3-prime v3 uses a different primer set and omits biotin enrichment. Source names both supplementary primer tables."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/2021.03.08.434450_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 PDF Methods lines 533–667",
+        "finding": "Preprint already distinguishes Seq-Well biotin capture from 10x no-biotin branch. Its 10x PCR1 primer is called XV-P5-i5-BCXX; published JATS Methods line 161 and Table 3 use GoT-P5-i5-BCXX. Model uses published primer table; versioned name difference warrants note, not a presumed publication error."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 PDF Methods lines 533–560, 605–616, 627–657; compared with published JATS line 161",
+        "finding": "The preprint preserves Seq-Well/Drop-seq biotin enrichment and 10x branch without it. Its 10x PCR1 names XV-P5-i5-BCXX (line 637), whereas published Methods call that barcoded primer GoT-P5-i5-BCXX; source versions differ in name, and the model follows the published table."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF, visually inspected pp. 2–3 (Supplementary Figs. 1–3)",
+        "finding": "Fig. 1 shows Seq-Well/Drop-seq SMART sequence at both cDNA ends with biotin enrichment, whereas 10x has asymmetric handles and no biotin capture; Figs. 2–3 draw the distinct two-PCR library products."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF pp. 2–3, figure headings and product labels",
+        "finding": "Supplementary figures distinguish the Seq-Well biotin enrichment and 10x asymmetric-handle pathways, supporting two branches; fine base-level geometry needs the tables."
+      }
+    },
+    {
+      "id": "supp_figures_2",
+      "role": "supplement",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Three-page Nature Research Reporting Summary, not a library chemistry or oligo supplement.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF p. 1, visual inspection; 3-page reporting form",
+        "finding": "Page 1 is a Nature Research Reporting Summary with statistics and software/code sections, not oligo ordering."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF, visually inspected pages 1–3",
+        "finding": "All three pages are Nature Research Reporting Summary forms covering statistics, data availability, participants/cell lines and flow cytometry; no library oligo or reaction specifications."
+      }
+    },
+    {
+      "id": "table1",
+      "role": "supplement",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table 1 sheet heading and rows 1–15",
+        "finding": "Mitochondrial variant annotation results, not ordering oligos."
+      },
+      "reason": "Variant result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM3 Table 1 heading and first variant rows",
+        "finding": "Mitochondrial variant results, not an oligo or reaction source."
+      }
+    },
+    {
+      "id": "table2_seqwell",
+      "role": "supplement",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Seq-Well sheet lines 1–18 and primer-family rows",
+        "finding": "Publishes SMART-AC with two phosphorothioates, biotinylated mtRNA tiling primers, and Seq-Well index/sequencing oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM4 Table 2 Seq-Well sheet lines 1–16",
+        "finding": "SMART-AC with terminal phosphorothioates, CR1P/SW-Ci5P, and /5Biosg/ mitochondrial tiling primers are printed."
+      }
+    },
+    {
+      "id": "table3_10x",
+      "role": "supplement",
+      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "10x sheet lines 1–20 and 78–135",
+        "finding": "Publishes a different 10x mtRNA tiling family, common handle, 24 i7 and 24 i5 index oligos, and optional full-length cDNA primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM5 Table 3 10x sheet lines 1–15, 78–90",
+        "finding": "Separate 10x targeting primer family, P5-generic, custom index primers, and indexed PCR oligos are printed."
+      }
+    },
+    {
+      "id": "seqwell_s3",
+      "role": "predecessor",
+      "locator": "Seq-Well S3 predecessor cited in defining article JATS lines 131–139",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor source not yet checked."
+    },
+    {
+      "id": "tenx_v3",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell 3′ v3 guide cited in JATS lines 133 and 155–171",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Underlying 10x cDNA shell not yet independently audited for this review."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 131–171, 250–262; Tables 1–3",
+      "finding": "Article links Seq-Well S3 and 10x v3 shells and describes distinct branches; table-linked reagents inspected, predecessor/vendor shells remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "JATS Methods lines 131–171 and 250–262; MOESM3–5 table headings",
+      "finding": "Source points to Seq-Well S3 and 10x 3-prime v3 methods. Both are relevant and unreviewed; linked-information status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Underlying Seq-Well and 10x v3 bead and read architecture is fully verified",
+      "disposition": "blocked",
+      "evidence": "Source-positive MAESTER primer families are available, but inherited cDNA shells and the image-only supplement remain unreviewed."
+    }
+  ],
+  "conclusion": "Source-positive MAESTER primer families are available, but inherited cDNA shells and the image-only supplement remain unreviewed."
+}

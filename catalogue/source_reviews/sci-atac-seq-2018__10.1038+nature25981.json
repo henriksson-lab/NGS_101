@@ -1,0 +1,101 @@
+{
+  "dir": "sci-atac-seq-2018__10.1038+nature25981",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Cusanovich et al Nature 2018 doi:10.1038/nature25981 PMC5866720 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "nature25981_PMC5866720.xml.txt Methods and supplement references",
+        "finding": "Improved two-level sci-ATAC uses tagmentation then indexed PCR after nuclei redistribution."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nature25981_PMC5866720.xml.txt lines 109-137",
+        "finding": "Online Methods describe 96 indexed Tn5 transposomes, nuclei pooling and sorting, indexed PCR using Table S12, then custom sequencing primers."
+      }
+    },
+    {
+      "id": "table_s12",
+      "role": "supplement",
+      "locator": "Original published Supplementary Table S12, nature25981_supp_NIHMS76153-supplement-Supplementary_tables_Table_S12.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "P5 Primers sheet lines 1-13, P7 primer sheet; scraper hits P5_1 line 5",
+        "finding": "Prints P5 and P7 indexed primer families, Tn5 oligos and sequencing primers for the 2018 version."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "nature25981_supp_NIHMS76153-supplement-Supplementary_tables_Table_S12.xlsx.txt lines 1-5, 101-105, 201-219",
+        "finding": "Original table prints 96 P5 and 96 P7 PCR primers, custom sequencing primers and indexed Tn5 transferred-strand families."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 166066 v1 full PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "166066_v1.full.pdf.txt methods and figure legends",
+        "finding": "Earlier author method version supplies context, but published Table S12 governs current oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "166066_v1.full.pdf.txt lines 70-111 and 432-445",
+        "finding": "Author preprint describes same two-level combinatorial ATAC workflow and does not supplant final published Table S12."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "sci2015",
+      "role": "linked_material",
+      "locator": "Cusanovich et al Science 2015 doi:10.1126/science.aab1601",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2015 article and gated supplement inventory in sibling bundle",
+        "finding": "The 2015 first version is distinct; its gated primer table cannot be filled with 2018 bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "science.aab1601_PMC4836442.xml.txt lines 41-47, 161-165; original supplement manual in MANIFEST",
+        "finding": "Predecessor explains first sci-ATAC indexing concept; its original primer table is unavailable and cannot certify 2018 details."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nature 2018 methods and original Table S12; author preprint and 2015 predecessor",
+      "finding": "Followed published oligo table and earlier versions; 2018-specific sequence claim is source-present."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "2018 original JATS lines 109-137; original Table S12 lines 1-219; author bioRxiv v1 lines 70-111; 2015 predecessor JATS lines 41-47 and manifest",
+      "finding": "Read final methods and original oligo table, compared author preprint and 2015 predecessor. 2018 oligo families are published in Table S12; 2015 supplement remains unavailable but is not needed to identify 2018 exact oligos."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent readers located 2018 Tn5, PCR and sequencing oligos in the original Table S12; no missing-information claim remains for the 2018 version. Earlier 2015 supplement is unavailable and not used to establish 2018 sequences."
+}

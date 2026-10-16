@@ -5,7 +5,8 @@ from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
 from protocol_families.spatial import (ident, SPATIAL_BEAD, UMI, CELL_A, CELL_B, HASH, SAMPLE,
     SECTION_HASH, SPACE_HASH, SPATIAL_A, SPATIAL_B, SPATIAL_A_ROUND, SPATIAL_B_ROUND,
-    _finish_pcr, _spatial_dna_libraries, _spatial_rows, hdst_library, slide_seq_library,
+    _finish_pcr, _spatial_dna_libraries, _spatial_rows, hdst_library, HDST_BRIDGE12,
+    HDST_BRIDGE34, slide_seq_library,
     sci_space_library)
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState, Scene, Workflow, duplex_rows
@@ -18,16 +19,25 @@ TITLE = 'HDST — High-Definition Spatial Transcriptomics'
 NOTES = '01_hdst.html'
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41592-019-0548-y">Vickovic et al., Nature Methods (2019)</a>.'
 SUMMARY = "A decoded array of 2-micrometre wells holds randomly placed beads bearing three-part spatial barcodes, UMIs and poly(dT); captured transcripts inherit the bead's imaged coordinate."
-CAVEAT = '<inf>Individual barcode pools and decoder sequences were proprietary. Their published lengths and Read 1 coordinates are preserved, while unavailable bridge bases and the compatible completed Illumina shell are marked inferred.</inf>'
-FINAL_CAPTION = 'Read 1 encodes the three barcode blocks and six-base UMI; Read 2 is transcript sequence. The representative construct marks unavailable proprietary bridge and barcode-panel bases.'
-SEQUENCING_INTRO = 'Read 1 encodes the three barcode blocks and six-base UMI; Read 2 is transcript sequence. The representative construct marks unavailable proprietary bridge and barcode-panel bases.'
+CAVEAT = ('<inf>Individual barcode pools and decoder sequences were proprietary; the completed Illumina shell is inferred.</inf> '
+          'Published Methods disagree: Bead production (JATS line 121) specifies 15/14/15-base barcode pools and a 5-base UMI, '
+          'while Sequence preprocessing (JATS line 145) extracts Read 1 bases 1–15, 31–45, 61–76 and 77–82 as 15/15/16-base barcodes and a 6-base UMI. '
+          'The authors’ bioRxiv v2 Bead production (PDF text lines 220–235) instead says a 7-base UMI; its preprocessing (lines 302–319) also selects bases 77–82. '
+          'The molecular drawing follows the final published synthesis recipe; both read masks are retained as written. '
+          'The offset between them remains unresolved.')
+FINAL_CAPTION = 'The physical assembly follows the Bead production Methods (15/14/15-base barcode pools, published bridges and 5-base UMI); the reported Read 1 mask uses different positions and a six-base UMI. Read 2 is transcript sequence.'
+SEQUENCING_INTRO = 'The paper reports Read 1 barcode and UMI positions 1–15, 31–45, 61–76 and 77–82, respectively. These coordinates conflict with the published synthesis lengths; the physical construct below follows the synthesis recipe.'
 READ_LENGTHS = None
 READ_USES = None
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
-oligos = lambda: ('Bead primer precursor, as written — /AmC6/UUUUUGACTCGTAATACGACTCACTATAGGGACACGACGCTCTTCCGATCT-Spatial_barcode_Pool1-Bridge1',)
+oligos = lambda: (
+    'Bead primer precursor, as written — /AmC6/UUUUUGACTCGTAATACGACTCACTATAGGGACACGACGCTCTTCCGATCT-Spatial_barcode_Pool1-Bridge1',
+    'Published ligated bridge 1+2 — ' + HDST_BRIDGE12,
+    'Published ligated bridge 3+4 — ' + HDST_BRIDGE34,
+)
 FINAL_LIBRARY, SEQ_PRIMERS = hdst_library()
-_definition = SimpleNamespace(title=TITLE, doi='10.1038/s41592-019-0548-y', citation='Vickovic et al., Nature Methods (2019)', endpoint='Read 1 encodes the three barcode blocks and six-base UMI; Read 2 is transcript sequence. The representative construct marks unavailable proprietary bridge and barcode-panel bases.')
+_definition = SimpleNamespace(title=TITLE, doi='10.1038/s41592-019-0548-y', citation='Vickovic et al., Nature Methods (2019)', endpoint=FINAL_CAPTION)
 
 
 def _hdst():
@@ -42,9 +52,9 @@ def _hdst():
         ("Split, ligate barcode pools 2 and 3, then append UMI and poly(dT) capture",
          molecule("completed bead capture oligo", (
              ident("barcode pool 1", "hdst.bc1", "spatial_barcode", length=15),
-             role("bridge 1"), ident("barcode pool 2", "hdst.bc2", "spatial_barcode", length=15),
-             role("bridge 2"), ident("barcode pool 3", "hdst.bc3", "spatial_barcode", length=15),
-             ident("six-base UMI", "hdst.umi", "umi", length=6, tag="umi"),
+             role("ligated bridge 1+2"), ident("barcode pool 2", "hdst.bc2", "spatial_barcode", length=14),
+             role("ligated bridge 3+4"), ident("barcode pool 3", "hdst.bc3", "spatial_barcode", length=15),
+             ident("five-base UMI", "hdst.umi", "umi", length=5, tag="umi"),
              role("poly(dT) capture"))),
          "The three split-and-pool rounds provide 65 × 211 × 211 combinations. Every oligo on one bead shares its three-part spatial identity but has an independent UMI."),
         ("Load beads randomly into 2-micrometre wells and decode each position",
@@ -54,13 +64,13 @@ def _hdst():
         ("Place, image and permeabilize tissue; reverse-transcribe captured poly(A) RNA",
          molecule("bead-bound spatial cDNA", (
              role("bead"), role("three-part spatial barcode"),
-             role("six-base UMI"), role("poly(dT)"), role("antisense transcript cDNA"))),
+             role("five-base UMI"), role("poly(dT)"), role("antisense transcript cDNA"))),
          "Superscript III extends the bead oligo overnight. Barcode, UMI and transcript information are now covalently linked in one first strand."),
         ("Digest tissue, release at the five-uracil site with USER and prepare RNA-seq library",
          molecule("paired-end HDST library", (
              role("Read 1 arm"), role("three barcode blocks and bridges"),
-             role("six-base UMI"), role("transcript insert"), role("Read 2 and indexed arm"))),
-         "The released cDNA follows the published Spatial Transcriptomics CEL-seq-like amplification and library workflow. Read 1 reports position and UMI; Read 2 reports transcript."),
+             role("five-base UMI"), role("transcript insert"), role("Read 2 and indexed arm"))),
+         "The cited Jemt et al. workflow performs second-strand synthesis, end repair, T7 in vitro transcription, RNA-adapter ligation, a second cDNA synthesis and indexing PCR. Its exact oligos are delegated to Ståhl et al. (2016); the HDST-specific final junction remains unresolved. Read 1 reports position and UMI; Read 2 reports transcript."),
     ))
 
 workflow = _hdst

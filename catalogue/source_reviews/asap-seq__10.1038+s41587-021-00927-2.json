@@ -1,0 +1,179 @@
+{
+  "dir": "asap-seq__10.1038+s41587-021-00927-2",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "mimitou2021",
+      "role": "defining",
+      "locator": "Mimitou et al. Nat Biotechnol 2021 doi:10.1038/s41587-021-00927-2; s41587-021-00927-2_PMC8763625.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS lines 114-128, 230-250; oligo scraper run on complete local bundle and hits verified in original text",
+        "finding": "ASAP couples scATAC with antibody tags through a 3′-blocked BOA or BOB bridge. Methods print both bridge oligos and index-primer examples, name scATAC kit versions v1/v1.1 and delegate details to supplement and vendor kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC8763625 JATS lines 114-124, 230-242 (ASAP) and 252-260 (DOGMA); original bundle primer scraper hits checked at line 234 and 256",
+        "finding": "Independently confirmed BOA/BOB 3′ inverted-dT bridges and cited 10x CG000168 Rev D/CG000209 Rev D for ASAP, and exact CG000338 Rev A plus ADT additive/SI-PCR/RPI-x for DOGMA."
+      }
+    },
+    {
+      "id": "publisher_protocol",
+      "role": "supplement",
+      "locator": "Original Springer s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ASAP protocol lines 15-269, particularly bridge and primer list lines 251-260; DOGMA related protocol starts line 270",
+        "finding": "Prints BOA and BOB with /3InvdT/, P7 RPI and D7xx examples, and additional tag library reagents; linked DOGMA variant has separate RNA branch."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF extracted lines 251-264 (ASAP oligos) and 576-583 (DOGMA oligos)",
+        "finding": "Independently verified BOA/BOB with /3InvdT/, RPI/D7xx examples, ADT/HTO additives with phosphorothioates and SI-PCR sequences in the authors’ detailed protocols."
+      }
+    },
+    {
+      "id": "publisher_barcode_workbook",
+      "role": "supplement",
+      "locator": "Original Springer s41587-021-00927-2_41587_2021_927_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Supplementary_1_Mixed species lines 1-4; Supplementary_1_TBNK lines 5-24; other antibody panels reviewed through scraper",
+        "finding": "Provides antigen-specific TotalSeq antibody tag barcodes, not complete bead oligos or all antibody-conjugate architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 XLSX extracted lines 1-24, sheets Supplementary_1_Mixed species and Supplementary_1_TBNK",
+        "finding": "Independently verified antigen-specific 15-base TotalSeq A/B tag barcode rows, e.g. CD29 and TBNK. Workbook does not establish complete antibody-linked strand architecture."
+      }
+    },
+    {
+      "id": "other_publisher_supplement",
+      "role": "supplement",
+      "locator": "Original Springer MOESM2_ESM.pdf, two-page Nature Research Reporting Summary in local source bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Reporting summary covering statistics, software, study design and antibody provenance; no oligo recipe.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF pages 1–2 visually re-inspected after second-reader correction (rendered page images); earlier figure-heading description was a file-identity error",
+        "finding": "Correction to first pass: this is the two-page Nature Research Reporting Summary, not supplementary figures. Page 1 covers statistics, software and data; page 2 covers study design, antibodies and cell-line provenance. It contains no oligo recipe. The previous no-oligo observation stands, but the original source type was misidentified."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM2 PDF, visually inspected both pages (extracted text only form feeds); p.1 Statistics/Software and code/Data, p.2 Life sciences study design/Antibodies",
+        "finding": "This file is a Nature Research Reporting Summary, not supplementary figures as previously labelled. It gives high-level reagent and validation provenance but no oligo strings or reaction recipe; exclusion from oligo source scope is supported with corrected file identity."
+      }
+    },
+    {
+      "id": "preprint_and_tables",
+      "role": "other",
+      "locator": "bioRxiv doi:10.1101/2020.09.08.286914 v1 and media-1 through media-5 workbooks in local source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Preprint methods and figures; media-1 antibody barcode rows, media-2/3 analysis tables, media-4 DOGMA measurements, media-5 crRNA rows",
+        "finding": "Preprint and media-1 give an earlier antibody panel; remaining workbooks are measurements or perturbation guides, not a substitute for historical vendor bead specifications."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF text near lines 19320-19341 and 19600-19625; media-1 workbook sheets mixed species/TBNK/intracellular/BM/PBMC/perturbation/Hashing, lines 1-30 and 542-551; media-2 Cluster_DF_mean, media-3 monocyte_heatmap, media-4 DOG_source_Tcell, media-5 crRNAs/Indel Primers sheets; bundle oligo scraper run",
+        "finding": "Preprint schematics identify TotalSeq-A poly(T) and TotalSeq-B Capture Sequence 1 bridge concepts. Media-1 prints antibody barcode identities and 15-base strings. Media-2/3/4 are assay result matrices; media-5 lists perturbation crRNAs and indel-PCR primers, not the core antibody-capture library adapters. The preprint does not identify a historical 10x guide revision or full TotalSeq conjugate molecules."
+      }
+    },
+    {
+      "id": "pmc_supplement_copy",
+      "role": "supplement",
+      "locator": "PMC original NIHMS1767668-supplement-ASAP_DOGMA_protocols.pdf and -ASAP_DOGMA_supp_tables.xlsx in MANIFEST.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC gated download; publisher originals appear parallel but copy equivalence unverified."
+    },
+    {
+      "id": "historical_10x_atac",
+      "role": "vendor",
+      "locator": "10x CG000168 Rev D (v1) and CG000209 Rev D (v1.1), specifically cited in ASAP Methods line 232; exact cited revisions unavailable",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official CG000209 Rev A predecessor is read separately; cited CG000168 Rev D and CG000209 Rev D still need direct comparison."
+    },
+    {
+      "id": "antibody_vendor",
+      "role": "vendor",
+      "locator": "BioLegend TotalSeq-A/B product oligo specifications linked by paper's reagent names",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Conjugate architecture has not been checked against original vendor specifications."
+    },
+    {
+      "id": "tenx_cg000209_reva",
+      "role": "vendor",
+      "locator": "Official 10x CG000209 Rev A (May 2019), Chromium Next GEM Single Cell ATAC v1.1, PN-1000176; https://assets.ctfassets.net/an68im79xiti/3SEbiWVegS8it73fsQNXr0/458c7ee408f249e1762233ef2f437c9e/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevA.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Rev A PDF cover lines 0-12, revision lines 50-55, gel bead PN-2000210 lines 110-116, Appendix p.49 lines 1577-1607",
+        "finding": "Printed PN-2000210 bead primer is P5–16-base barcode–partial Read1N, with exact constant arms, plus transposed and finished ATAC library architectures. Rev A is earlier than author-cited Rev D and requires version comparison."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000209 Rev A PDF online pp.1,3,6,49; indexed text lines 0-12, 50-55, 110-116 and Appendix lines 1577-1608",
+        "finding": "Original Rev A guide (May 2019) lists PN-2000210 ATAC gel beads and prints P5–N16–partial Read1N primer, tagmentation primers, sample-index PCR primers and final ATAC library shells. It is a version-specific source; the ASAP paper cites Rev D and v1/1.1, so Rev A cannot establish every author-run reagent revision."
+      },
+      "discovered_from": "mimitou2021"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Article JATS lines 230-250 and source manifest; publisher MOESM1 lines 15-269, MOESM3 antibody sheets",
+      "finding": "Followed the article to publisher protocol and barcode table, and classified the preprint/workbooks. PMC copies, cited historical 10x kit originals and BioLegend specifications remain to check."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 114-124, 230-242; publisher MOESM1 lines 251-264; MOESM3 lines 1-24; official CG000209 Rev A Appendix p.49 lines 1577-1607",
+      "finding": "Followed article into authors’ bridge and antibody barcode sources and a period-correct v1.1 10x guide. Exact cited Rev D manuals, antibody conjugate specifications and original PMC supplement copies remain unresolved. Source checklist remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "ASAP BOA/BOB bridge bases are missing",
+      "disposition": "resolved",
+      "evidence": "Main Methods line 234 and publisher protocol lines 251-260 print both sequences and 3′ block; existing note/page transcribe them."
+    },
+    {
+      "claim": "Exact scATAC gel-bead barcode members and cited v1/Rev D version details",
+      "disposition": "blocked",
+      "evidence": "Official CG000209 Rev A prints PN-2000210 constant arms and N16 position; cited CG000168 Rev D and CG000209 Rev D, and version-matched whitelist remain unchecked."
+    },
+    {
+      "claim": "Every antibody conjugate oligo is unspecified",
+      "disposition": "blocked",
+      "evidence": "MOESM3 has tag barcodes; complete vendor oligo specifications have not yet been checked."
+    }
+  ],
+  "conclusion": "Original article, detailed author protocol and antibody barcode workbook independently reread. Historical vendor architecture identified, while barcode membership, antibody conjugates and indicated unavailable sources keep missing claims blocked."
+}

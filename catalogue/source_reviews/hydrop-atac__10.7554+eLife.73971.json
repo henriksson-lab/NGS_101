@@ -1,0 +1,120 @@
+{
+  "dir": "hydrop-atac__10.7554+eLife.73971",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "De Rop et al eLife 2022 doi:10.7554/eLife.73971 PMC8993220",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife.73971_PMC8993220.xml.txt lines 160-176 and ATAC Methods",
+        "finding": "Published article describes dissolvable barcode beads and droplet ATAC library preparation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "eLife.73971_PMC8993220.xml.txt lines 160-176 and ATAC Methods",
+        "finding": "Defining original describes disulfide-crosslinked dissolvable barcode beads, split-pool synthesis and ATAC branch."
+      }
+    },
+    {
+      "id": "supp4",
+      "role": "supplement",
+      "locator": "eLife original Supplementary file 4 oligo list, eLife.73971_supp_elife-73971-supp4.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo sheets lines 32-40 and ATAC plate-3 entries; scraper HYi7 hit line 35",
+        "finding": "Prints Acrydite bead primer, split-pool oligos and indexed HYi7 oligo family with phosphorothioate ends."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "eLife.73971_supp_elife-73971-supp4.xlsx.txt lines 29-43 and 72-76",
+        "finding": "Original eLife oligo list prints modified /5Acryd//iThioMC6-D/ bead seed, 16 phosphorothioate i7 variants and ATAC i5 family."
+      }
+    },
+    {
+      "id": "supp1_2",
+      "role": "supplement",
+      "locator": "eLife original Supplementary files 1 and 2 DOCX",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "supp2 molecular description first ATAC reaction lines 1-20; supp1 bead sequence description",
+        "finding": "Author supplements diagram bead extension, capture and ATAC library architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "eLife.73971_supp_elife-73971-supp1.docx.txt lines 11-47; supp2.docx.txt lines 1-42",
+        "finding": "Original supp1 shows unbarcoded bead and final HyDrop-ATAC primer schematic; supp2 shows ATAC library progression."
+      }
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Authors HyDrop-ATAC v1.0 bench procedure protocols.io bxsbpnan",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "protocolsio_hydrop-atac-v1-0-bxsbpnan.pdf.txt index-PCR/read section near lines 1338-1415",
+        "finding": "Author procedure gives bulk index-PCR and read setup alongside published oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "protocolsio_hydrop-atac-v1-0-bxsbpnan.pdf.txt lines 1338-1350 and 1390-1415",
+        "finding": "Author bench protocol explicitly assigns i5 to sample demultiplexing and uses i7 read for cell barcode."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "bead_protocol",
+      "role": "linked_material",
+      "locator": "Authors HyDrop bead generation protocols.io PDF n92ld9np9g5b",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol title and bead synthesis sections",
+        "finding": "Linked author procedure covers bead polymerization and barcode extension."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "protocolsio_hydrop-bead-generation-amp-pcr-barcoding-v1-0-n92ld9np9g5b.pdf.txt lines 1-36, 787-842",
+        "finding": "Author bead-synthesis protocol describes dissolvable bead preparation and pre-barcoding acrydite QC; published oligo workbook supplies bases."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "eLife article, Supplementary 1/2/4, author HyDrop-ATAC and bead protocols.io PDFs",
+      "finding": "Followed original oligo and molecular-description supplements plus bench procedures. ATAC and RNA sister branches kept distinct."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining JATS lines 160-176; supp1 lines 11-47; supp2 lines 1-42; supp4 lines 29-76; author ATAC protocols.io lines 1338-1415; bead protocol lines 787-842",
+      "finding": "Independently checked original paper, molecular supplement, published oligo workbook and both author protocols. Bead primer and HyDrop-ATAC sample/cell index roles are source-backed."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two readers verified original paper, supplements and linked author protocols; no missing-information claim remains in this scoped HyDrop-ATAC review."
+}

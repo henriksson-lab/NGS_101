@@ -18,14 +18,24 @@ TITLE = 'sci-Space'
 NOTES = '01_sci_space.html'
 SOURCE = 'Defining source: <a href="https://doi.org/10.1126/science.abb9536">Srivatsan et al., Science (2021)</a>.'
 SUMMARY = 'Polyadenylated DNA hashes diffuse from a registered printed grid into permeabilized tissue nuclei; sci-RNA-seq then associates each grid identity with a single-nucleus transcriptome.'
-CAVEAT = 'The printed hash, section hash and transcript are separate molecules that are associated through shared nucleus indices; the final construct shows the spatial-hash branch, not a fictitious covalent fusion to a transcript.'
+CAVEAT = 'The printed hash, section hash and transcript are separate molecules that are associated through shared nucleus indices; the final construct shows the spatial-hash branch, not a fictitious covalent fusion to a transcript. The readable sources do not establish the section-hash tail sequence.'
 FINAL_CAPTION = 'Separate transcript, printed-grid-hash and section-hash molecules share the same combinatorial nucleus indices; the representative final construct below is a spatial-hash molecule.'
 SEQUENCING_INTRO = 'Separate transcript, printed-grid-hash and section-hash molecules share the same combinatorial nucleus indices; the representative final construct below is a spatial-hash molecule.'
 READ_LENGTHS = None
 READ_USES = None
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
-oligos = lambda: ()
+GRID_HASH_WRITTEN = ('GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
+                     '[10bp-barcode sequence]-B'
+                     'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+
+
+def oligos():
+    return (
+        'Spot/sector hash, 5′-' + GRID_HASH_WRITTEN + '-3′ '
+        '(B = C, G or T; grid-preparation protocol step 7.1). '
+        'The attached ordering workbook is listed by that protocol but is not in the fetched PDF.',
+    )
 FINAL_LIBRARY, SEQ_PRIMERS = sci_space_library()
 _definition = SimpleNamespace(title=TITLE, doi='10.1126/science.abb9536', citation='Srivatsan et al., Science (2021)', endpoint='Separate transcript, printed-grid-hash and section-hash molecules share the same combinatorial nucleus indices; the representative final construct below is a spatial-hash molecule.')
 
@@ -60,7 +70,7 @@ def _sci_space_graph(d, final, primers):
     graph = ProtocolGraph(d.title, authority=source)
     tissue = graph.input("tissue", "fresh-frozen tissue section containing intact nuclei",
                          MaterialKind.BIOLOGICAL, state=_sci_space().initial, primary=True)
-    section_hash = graph.input("section_hash", "polyadenylated section-hash oligo",
+    section_hash = graph.input("section_hash", "section-hash oligo (tail sequence unverified)",
                                MaterialKind.OLIGO)
     sectioned = graph.product("sectioned", "section-labelled tissue nuclei",
                               MaterialKind.MOLECULAR,

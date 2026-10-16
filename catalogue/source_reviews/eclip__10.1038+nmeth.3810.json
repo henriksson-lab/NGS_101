@@ -1,0 +1,846 @@
+{
+  "dir": "eclip__10.1038+nmeth.3810",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_PMC4887338.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods/workflow and supplement references; scraper run on full local bundle",
+        "finding": "Defining paper describes RNA and cDNA adapter ligations."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Van Nostrand 2016 JATS lines 65–73, Methods and supplementary references",
+        "finding": "Original states indexed 3′ RNA adapter ligation on beads, reverse transcription through crosslink, then 3′ ssDNA adapter with N5/N10; circular ligation is replaced."
+      }
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Protocol 1 lines 315–374",
+        "finding": "Directly prints RNA_X1A/B/X2A/B modifications, rand103Tr3, D501/D502/D701/D702; scraper verifies source hits."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Protocol 1 PDF primer section lines 315–374 and later steps",
+        "finding": "Lists RNA_A/B/C/D and X1/X2 5′-phosphorylated, 3′-blocked RNA adapters; AR17, 5′-phosphorylated rand103Tr3 and D5/D7 PCR primers."
+      }
+    },
+    {
+      "id": "encode_sop",
+      "role": "linked_material",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/eCLIP_SOP_v1.P_110915.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "SOP lines 183–232",
+        "finding": "Confirms modified adapters, AR17 and PCR family."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "ENCODE SOP v1.P PDF lines 183–232 and subsequent reaction instructions",
+        "finding": "Official SOP independently prints original and updated RNA barcode adapters, RiL19, AR17, rand103Tr3 and PCR D5/D7 oligos."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "pmc_supp1",
+      "role": "supplement",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-1.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary figure headings and method references",
+        "finding": "Source available; first pass sampled headers only; deeper review open."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS765516 supplement-1 DOCX extracted text, Supplementary Figures 1–15 headings/legends",
+        "finding": "Supplementary figure text describes library efficiency and analyses; no independent ordering oligo table in the inspected figure legends, unlike Supplementary Protocol 1."
+      }
+    },
+    {
+      "id": "supp_processing_protocol2",
+      "role": "supplement",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JATS Methods line 127 cites Supplementary Protocol 2 for adapter sequences; same NIHMS supplement-2 PDF text lines 1289–1306 and 1450–1485",
+        "finding": "Supplementary Protocol 2 is a second section within the same source PDF. It supplies Cutadapt read-trimming patterns, including NNNNNAGATCGGAAGAGCACACGTCTGAACTCCAGTCAC, several staggered adapter substrings and second-round double-ligation trims. These are computational motifs, not additional ordered wet-lab oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS765516 supplement-2 PDF text lines 1289–1307 (Protocol 2 title/software) and 1450–1485 (Cutadapt round 1/2 motifs), compared with ordered oligos at lines 323–354; source-bundle scraper run",
+        "finding": "Supplementary Protocol 2 is the processing section of the published supplement. It lists trimming and double-ligation search patterns, including N5+adapter sequence, rather than additional ordered oligos. Ordered modified RNA and DNA oligos appear in Protocol 1."
+      }
+    },
+    {
+      "id": "author_pipeline_barcodes",
+      "role": "linked_material",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/gh_yeolabbarcodes_20170101.fasta",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "supp_processing_protocol2",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author YeoLab/eCLIP example/inputs/yeolabbarcodes_20170101.fasta lines 17–24, compared with original Supplementary Protocol 1 PDF text lines 329–340",
+        "finding": "The pipeline reference gives X1A/X1B/X2A/X2B read barcode strings N5+CCTATAT/TGCTATT/TATACTT/ATCTTCT. Each seven-base suffix exactly reverse-complements the corresponding original seven-base RNA adapter inline barcode. This confirms read orientation and demultiplexing family, but does not assign one barcode or D5/D7 primer pair to a named published sample."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached author YeoLab/eCLIP yeolabbarcodes_20170101.fasta lines 17–24; compared to published NIHMS765516 supplement-2 PDF text lines 329–340 and 1410–1420",
+        "finding": "Author pipeline FASTA records X1A/X1B/X2A/X2B as N5+CCTATAT/TGCTATT/TATACTT/ATCTTCT. These suffixes are reverse complements of the four printed seven-base RNA-X inline barcode prefixes in Protocol 1. The FASTA is a read-demultiplexing reference, not an additional ordering oligo list or named-sample index assignment."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm181",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM181_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM181_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Fig. 1b\t\tInput Reads\tDiscarded (too short after adapter trimming)\tReads remaining after adapter trimming\tReads dicarded due t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM181_ESM.xlsx.txt lines 1–92, sheet Fig. 1; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Fig. 1 data rather than an oligo ordering table. Keyword screen returned 1 row(s) (line(s) [2]; line 2 refers to adapter-trimming read counts, not an oligo). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm182",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM182_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM182_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Fig. 2a\tFold-enrichment\t# of clusters in histones\t# of clusters total. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM182_ESM.xlsx.txt lines 1–2991, sheet Fig. 2; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Fig. 2 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm183",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM183_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM183_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Fig. 3a,b\t\t\t\t\t\t\t\t\tReplicate 1\t\t\tReplicate 2\t\t\tReplicate 3 (if repeated)\t\t\t\t\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM183_ESM.xlsx.txt lines 1–222, sheet Fig. 3; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Fig. 3 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm184",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM184_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM184_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Fig. 4A\t\tRBFOX2 eCLIP 293T (Rep1)\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM184_ESM.xlsx.txt lines 1–728, sheet Fig. 4; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Fig. 4 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm185",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM185_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM185_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 1a\tSee Supplementary Table 1 for individual dataset values. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM185_ESM.xlsx.txt lines 1–120, sheet Sup. 1; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 1 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm186",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM186_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM186_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 3d\t\t\tPCR cycles done\tLibrary yield (nM)\tElution volume (uL)\teCT. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM186_ESM.xlsx.txt lines 1–91, sheet Sup. 3; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 3 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm187",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM187_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM187_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 4a\t\t\tPCR cycles done\tLibrary yield (nM)\tElution volume (uL)\teCT. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM187_ESM.xlsx.txt lines 1–43, sheet Sup. 4; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 4 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm188",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM188_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM188_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 5a\t RBFOX2 motif single-nucleotide enrichment. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM188_ESM.xlsx.txt lines 1–792, sheet Sup. 5; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 5 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm189",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM189_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM189_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 6a\tCLIP dataset\tPeak chromosome\tCluster start\tCluster stop\tStrand\tCLIPper p-value . This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM189_ESM.xlsx.txt lines 1–76, sheet Sup. 6; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 6 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm190",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM190_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM190_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 7a - summary\teCLIP dataset\tRNase I condition\tHistone read #\tTotal usable read #\tHistone RPM\teCLIP fold-enrichment a. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM190_ESM.xlsx.txt lines 1–260, sheet Sup. 7; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 7 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm191",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM191_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM191_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 8a\t\t\t\t\t\tEnrichment compared to SMInput\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM191_ESM.xlsx.txt lines 1–22960, sheet Sup. 8; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 8 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm192",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM192_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM192_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 9a - see Sup. Fig. 12b,c for data (including two biological replicates). This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM192_ESM.xlsx.txt lines 1–50893, sheet Sup. 9; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 9 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm193",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM193_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM193_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 10c\tshRNA\tReplicate\tRBFOX2 total signal\tGAPDH total signal\tRBFOX2 / GAPDH ratio\tAverage in non-target control\tNorma. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM193_ESM.xlsx.txt lines 1–314, sheet Sup. 10; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 10 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm194",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM194_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM194_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 11a\t\t\t\t\tGAATG motif presence\t\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM194_ESM.xlsx.txt lines 1–39, sheet Sup. 11; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 11 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm195",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM195_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM195_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 12a - see Sup. Fig. 8b data. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM195_ESM.xlsx.txt lines 1–97942, sheet Sup. 12; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 12 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm196",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM196_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM196_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 13a\tRBP\tAntibody\tCell type\tSample\tCt of undiluted library\tCt of 1:10 diluted library. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM196_ESM.xlsx.txt lines 1–342, sheet Sup. 13; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 13 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm197",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM197_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM197_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 14a\t\t\t\t\t\tEnrichment compared to SMInput\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM197_ESM.xlsx.txt lines 1–57, sheet Sup. 14; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 14 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm198",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM198_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM198_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Sup. Fig. 15a,b\t\t\tRN7SK read density\t\t\t\t\t\t. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM198_ESM.xlsx.txt lines 1–1442, sheet Sup. 15; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sup. 15 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm199",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM199_ESM.pdf.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM199_ESM.pdf.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Supplementary Figure 1. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM199_ESM.pdf.txt first sheet/header and PDF oligo section lines 575–630; former grouped second pass",
+        "finding": "Second reader identified this as source-bearing Supplementary Protocol 1 PDF with published modified RNA adapters, DNA oligos, and reaction steps."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm200",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM200_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM200_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: # Supplementary Table 1 - Public CLIP-seq datasets used and general read q/c. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM200_ESM.xlsx.txt lines 1–282, sheet Sheet1; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sheet1 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "role": "supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "id": "publisher_moesm201",
+      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM201_ESM.xlsx.txt",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM201_ESM.xlsx.txt first header/sheet; former grouped inventory",
+        "finding": "Initial source inventory: Supplementary Table 2\tN.B.: data corresponding to ENCODE accession numbers can be accessed at https://www.encodeproject.org/E. This header-level pass does not establish absence of further chemistry information."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "nmeth.3810_41592_2016_BFnmeth3810_MOESM201_ESM.xlsx.txt lines 1–106, sheet Sheet1; read sheet title, column headers and first data rows; screened all extracted rows for oligo/adapter/primer/barcode/index/ligation/library terms after full source-bundle oligo scraper.",
+        "finding": "Original publisher workbook is quantitative Sheet1 data rather than an oligo ordering table. Keyword screen returned 0 row(s). This screen alone does not establish that every unlisted oligo is unpublished."
+      }
+    },
+    {
+      "id": "iclip_konig_2010",
+      "role": "linked_material",
+      "locator": "König et al. 2010 iCLIP original DOI:10.1038/nsmb.1838; original paper PDF https://file.biolab.si/papers/2010-Konig-NatStuctMolBiol.pdf; cited as ref. 6 in Van Nostrand et al. 2016",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original paper PDF pp. 1 and 8, Online Methods at https://file.biolab.si/papers/2010-Konig-NatStuctMolBiol.pdf (browser lines 49–68, 938–955); publisher article https://www.nature.com/articles/nsmb.1838 supplement inventory lines 267–271. Full local eCLIP bundle scraper run first; the separate König supplement could not be scraped or opened.",
+        "finding": "The 2010 iCLIP original describes 3′ RNA adapter ligation; RT oligo bearing two inversely oriented adapter regions, BamHI site, sample barcode and 3-nt random barcode; cDNA circularization, BamHI linearization and PCR. It explicitly delegates detailed oligos to Supplementary Methods, so the publisher supplement is separately listed and blocked. This chemistry is the predecessor eCLIP modifies, not an eCLIP sequence assignment."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read König et al. 2010 original article PDF pp. 1, 8, browser lines 34–48 and Online Methods 938–955; full local eCLIP source-bundle oligo scraper run before opening original",
+        "finding": "iCLIP captures truncated cDNA by a post-RT second-adapter route: RNA 3′ adapter, RT oligo with inversely oriented adapter arms around BamHI, two-base experiment barcode and three-base random molecular barcode, ss-cDNA circularization, BamHI linearization and PCR. The paper explicitly sends readers to Supplementary Methods for detailed oligos; that relevant supplement remains inaccessible. These predecessor constructs are not automatically eCLIP oligos."
+      }
+    },
+    {
+      "id": "iclip_konig_2010_supplement",
+      "role": "supplement",
+      "locator": "König et al. 2010 original Supplementary Text and Figures, including Supplementary Methods, linked from https://www.nature.com/articles/nsmb.1838; publisher file https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf; recovered original PDF: _data/sources/eclip__10.1038+nmeth.3810/PMC3000544_supp_NIHMS31547-supplement-1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "iclip_konig_2010",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF pp. 15–16, extracted text lines 2023–2145; full eCLIP bundle scraper rerun first (342 hits in 10 files).",
+        "finding": "Supplementary Methods print the L3 RNA linker 5′ phosphate-UGAGAUCGGAAGAGCGGTTCAG-3′ puromycin (line 2054), indexed RT primer family with NNN random bases and a two-base experiment code (2090–2111), cut primer and Illumina PCR primers (2115–2135). These are iCLIP predecessor sequences, not an automatic assignment to eCLIP."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original König 2010 Supplementary Methods PDF pp. 15–17, with pp. 15–16 visually inspected against extracted text lines 2050–2145; full current eCLIP source-bundle scraper run before reading.",
+        "finding": "The L3 RNA linker is 5′-phosphate-UGAGAUCGGAAGAGCGGTTCAG-3′-Puromycin; three 5′-phosphorylated RT primers add NNN random bases and CA/GA/TG replicate identifiers. The predecessor circularizes cDNA with CircLigase II, then linearizes at BamHI and PCR-amplifies. Its exact oligos and circularization do not establish eCLIP adapter identity."
+      }
+    },
+    {
+      "id": "rnatag_shishkin_2015",
+      "role": "linked_material",
+      "locator": "Shishkin et al. 2015 RNAtag-Seq original DOI:10.1038/nmeth.3313, PMCID PMC4712044; cited as ref. 7 for library-preparation improvements",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author manuscript at https://pmc.ncbi.nlm.nih.gov/articles/PMC4712044/ lines 194–200 and Online Methods 229–239, after full eCLIP source-bundle oligo scraper; original article supplement link located but supplement not yet read.",
+        "finding": "RNAtag-Seq ligates a second adapter to single-stranded cDNA after RNA degradation, then amplifies the two adapter constants. This is the chemistry improvement eCLIP cites. Its own Supplementary Protocol and barcode tables remain to be inspected before assigning any specific inherited bases."
+      },
+      "pass_2": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original Shishkin author manuscript https://pmc.ncbi.nlm.nih.gov/articles/PMC4712044/ lines 194–210, 229–260; original-author RNAtag protocol separately checklisted below.",
+        "finding": "Independently confirmed RNA barcode-adapter ligation and pooling, RT from the barcoded adapter constant, RNA degradation, ligation of a second adapter to single-stranded cDNA, then PCR. Online Methods lines 236–239 explicitly delegate exact barcode sequences and detailed recipe to the Supplementary Protocol and Table 2; these require their own original-source review. This chemistry is a predecessor, not an eCLIP oligo identity claim."
+      }
+    },
+    {
+      "id": "rnatag_shishkin_supplement",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original Supplementary Protocol and Supplementary Tables 1–2, linked from PMCID PMC4712044 Online Methods; CaltechAUTHORS author record https://authors.library.caltech.edu/records/83emc-s1f29 lists nmeth.3313-S1.pdf and nmeth.3313-S2.xlsx; recovered original S1: _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original-author Supplementary Protocol S1 PDF, extracted text lines 227–269 (RNA adapters), 323–360 (RT), 408–422 (cDNA adapter), 663–1020 (oligo order tables); full eCLIP bundle scraper rerun first.",
+        "finding": "S1 gives barcoded RNA 3′ adapters with 5′ phosphate and 3′ block, AR2 RT primer, and a second cDNA adapter with AGATCGGAAGAGCACACGTCTG constant plus end chemistry. It documents the RNAtag predecessor, not eCLIP identity; companion adapter inventory is separately checklisted."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Protocol S1 PDF pp. 4–5 and 8–11; extracted lines 227–269, 323–360, 408–422, 663–1045, inspected after full eCLIP scraper.",
+        "finding": "S1 requires 5′ phosphate and a 3′ ddC or C3 block on the barcoded first and 3Tr3 second adapters. It prints AR2 RT primer TACACGACGCTCTTCCGAT, the second-adapter constant AGATCGGAAGAGCACACGTCTG, and separate DNA/RNA barcode oligo tables. These are RNAtag-Seq predecessor details; eCLIP requires its own SOP for exact choices."
+      }
+    },
+    {
+      "id": "iclip_huppertz_2014",
+      "role": "linked_material",
+      "locator": "Huppertz et al. 2014 detailed iCLIP original DOI:10.1016/j.ymeth.2013.10.011, PMCID PMC3988997; cited as ref. 8; original author-institution PDF https://discovery.ucl.ac.uk/id/eprint/1415709/1/1-s2.0-S1046202313004143-main.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "UCL-hosted original article PDF pp. 1–3 (browser lines 47–95, 234–341), p. 8 (lines 914–923), p. 10 (lines 1123–1187); source-bundle oligo scraper run before reading.",
+        "finding": "Original detailed iCLIP paper prints pre-adenylated RNA adapter L3-App with terminal ddC, /5Phos/ RT primer family with barcode plus randomized bases, Cut_oligo, and PCR primers. Reaction proceeds through RNA 3′ ligation, RT truncation, cDNA circularization, BamHI linearization and PCR. These source-positive predecessor oligos are not, without explicit inheritance, exact eCLIP oligos. No separate supplementary attachment was identified on the UCL original record; independent second read and linked-material check remain open."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Independently read UCL-hosted original article PDF pp. 1–3, 8–11 at https://discovery.ucl.ac.uk/id/eprint/1415709/1/1-s2.0-S1046202313004143-main.pdf (browser lines 76–100, 227–236, 263–311, 909–923, 1172–1228), plus cited-reference list p. 13 lines 1410–1424; ran full local eCLIP source-bundle oligo scraper first.",
+        "finding": "Confirms pre-adenylated L3-App RNA adapter rAppAGATCGGAAGAGCGGTTCAG/ddC/, multiple /5Phos/ Rtclip barcode/random-base primers, RNA ligation followed by RT, cDNA circularization, BamHI opening and PCR. These are iCLIP predecessor constructs; eCLIP explicitly replaces circularization with ssDNA adapter ligation. The reference list names a König 2011 JoVE detailed protocol, added as a separate linked source."
+      }
+    },
+    {
+      "id": "iclip_konig_2011_jove",
+      "role": "linked_material",
+      "locator": "König et al. 2011 original detailed iCLIP JoVE protocol DOI:10.3791/2638, PMCID PMC3169244; original PDF https://rcastoragev2.blob.core.windows.net/ad18ee010a6cb24798bfcb7e36b3cee5/PMC3169244.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "iclip_huppertz_2014",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original JoVE 2011 PDF pp. 1–4, especially p. 4 §14 oligo table visually inspected from local PMC3169244.pdf; text extraction omits the table. Full local eCLIP source-bundle oligo scraper rerun before reading (342 hits across 10 files).",
+        "finding": "Same-team detailed iCLIP predecessor specifies 3′ L3 linker ligation, Rclip RT barcode primers, CircLigase II circularization, cut oligo/BamHI reopening and P5/P3 PCR. The original PDF p. 4 §14 visibly prints L3 `/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/`, 16 Rclip primers with X33 meaning 5′ phosphate, `Cut_oligo` GTTCAGGATCCACGACGCTCTTCAAAA (case stylized in PDF), and P5Solexa/P3Solexa PCR primers. This 2011 L3 end chemistry differs from the 2010 supplement’s phosphorylated RNA/puromycin linker, so the publications must not be silently conflated. None of these iCLIP predecessor sequences establish eCLIP adapter identity."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read König et al. 2011 original JoVE PDF pp. 2–4, browser lines 80–90, 123–129, 144–162, Fig. 1 caption 180–189; full local eCLIP source-bundle oligo scraper run before opening original; attempted publisher HTML and PDF screenshot for §14, both blocked; independently rendered local original PMC3169244.pdf p. 4 at 130 dpi and visually inspected §14 table",
+        "finding": "Detailed predecessor dephosphorylates RNA 3′ ends, ligates preadenylated L3, uses indexed Rclip RT primers, then CircLigase II, cut_oligo/BamHI and P5/P3 PCR. Visual inspection of §14 resolves the extracted-text gap: L3 /5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/, 16 X33 (5′ phosphate) Rclip barcode primers, Cut_oligo, P5Solexa and P3Solexa. The 2011 L3 end chemistry differs from the 2010 supplement’s 3′ puromycin RNA linker; neither assigns an eCLIP sequence."
+      }
+    },
+    {
+      "id": "rnatag_author_protocol",
+      "role": "linked_material",
+      "locator": "Original-author Guttman Lab RNAtag-Seq Experimental Protocol, March 2015, https://guttmanlab.caltech.edu/wp-content/uploads/2021/07/RNAtagSeq_protocol.pdf; cites Shishkin et al. DOI:10.1038/nmeth.3313 on p. 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original-author PDF pp. 1–6, 9–12 (browser lines 0–8, 146–207, 350–565); full eCLIP bundle oligo scraper run before reading.",
+        "finding": "Original-author protocol prints AR2 RT primer and the 3Tr3 5′-phosphorylated/3′-blocked cDNA adapter, a table of /5Phos/ RNA barcode adapters with /3SpC3/, enrichment primers, and an appendix with AR23s /5SpC3/ variant. It gives the single-stranded cDNA ligation recipe. This is a source-positive RNAtag recipe; it does not itself prove those exact strands were used in eCLIP, and it is not yet verified byte-for-byte against the publisher Supplementary Protocol."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Independently read March 2015 Guttman-lab original PDF pp. 1, 3–6 and 8–9 at https://guttmanlab.caltech.edu/wp-content/uploads/2021/07/RNAtagSeq_protocol.pdf (browser lines 0–8, 94–107, 149–207, 315–334); ran full local eCLIP source-bundle oligo scraper first.",
+        "finding": "Confirms ligation of 5′-phosphorylated/3′-blocked barcoded DNA oligos to RNA 3′ ends before pooling, AR2 RT primer, RNA degradation, and 3Tr3 cDNA-adapter ligation with PEG8000, DMSO and T4 RNA Ligase 1; ordering section prints /5Phos/3Tr3/3SpC3/ and 32 DNA barcoded oligos. The lab protocol describes RNAtag-Seq, not a source for eCLIP-specific identity or sample-index assignment."
+      }
+    },
+    {
+      "id": "gpratt_pipeline",
+      "role": "linked_material",
+      "locator": "https://github.com/gpratt/gatk/releases/tag/2.3.2 (author code link in defining JATS Code availability line 157)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original GitHub release metadata (https://github.com/gpratt/gatk/releases/tag/2.3.2 lines 173–208) was read: release titled encode 1.1, dated 16 Feb 2016, and described as runtime/genome updates. The linked tag tree is a fork of broadgsa/gatk; GitHub code-tree subpages failed to load, so actual eCLIP barcode/read-layout scripts remain uninspected.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Author-linked GitHub release page https://github.com/gpratt/gatk/releases/tag/2.3.2 lines 150–216 and tag root https://github.com/gpratt/gatk/tree/2.3.2 lines 129–269; defining article JATS Code availability line 157.",
+        "finding": "Release 2.3.2 is labelled encode 1.1 and says its changes concern pipeline runtime and TSCC-specific genomes. Visible tag root is a broadgsa/gatk fork with Java/Scala/R code; no wet-lab oligo or reaction source was shown at this level. Nested code was not inspected, so read-layout scripts remain unresolved and this source stays blocked."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "rnatag_shishkin_s3_adapter_inventory",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S3.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S3.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook sheet “vetted adapters”, rows 1–94 in extracted text; full eCLIP bundle scraper rerun first.",
+        "finding": "Supplementary Table 2 explicitly lists 32 DNA barcoded oligos and 54 RNA barcoded oligos, their barcode reads and pool frequencies. First DNA rows and RNA rows retain sequence and rN modification notation. This is a predecessor adapter inventory and cannot establish which exact adapter eCLIP used."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 2 workbook `nmeth.3313-S3.xlsx`, sheet `vetted adapters`, rows under 32 DNA and 54 RNA adapter headings, checked via workbook extraction after full bundle scraper.",
+        "finding": "The workbook enumerates validated first-adapter barcode oligos, their barcode/read sequences and pooled frequencies. DNA examples carry an initial A before the 8-base barcode and AGATCGGAAGAGCGTCGTGTA constant; RNA examples use rN notation and 3′ adapter constants. This inventory belongs to RNAtag-Seq and does not identify which eCLIP X1A or other adapter was used."
+      }
+    },
+    {
+      "id": "rnatag_shishkin_s2_results",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S2.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S2.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text headings and sheets, S2; full eCLIP bundle scraper rerun first.",
+        "finding": "This original attachment contains sequencing metrics rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 1 workbook `nmeth.3313-S2.xlsx`, Sheet1 title and metric columns inspected after full bundle scraper.",
+        "finding": "The attachment reports alignment, strand and rRNA sequencing metrics. It has no molecular ordering oligos, reaction end chemistry or eCLIP read-layout specification."
+      },
+      "reason": "This original attachment contains sequencing metrics rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+    },
+    {
+      "id": "rnatag_shishkin_s4_results",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S4.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S4.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text headings and sheets, S4; full eCLIP bundle scraper rerun first.",
+        "finding": "This original attachment contains sample correlations rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 3 workbook `nmeth.3313-S4.xlsx`, Ec and Sheet1 headings and contents inspected after full bundle scraper.",
+        "finding": "The attachment tabulates expression replicate correlations and sample barcode labels; it does not supply adapter strands or molecular reaction geometry."
+      },
+      "reason": "This original attachment contains sample correlations rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+    },
+    {
+      "id": "rnatag_shishkin_s6_results",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S6.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S6.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text headings and sheets, S6; full eCLIP bundle scraper rerun first.",
+        "finding": "This original attachment contains differentially expressed genes rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 5 workbook `nmeth.3313-S6.xlsx`, Sheet1 heading and gene-list columns inspected after full bundle scraper.",
+        "finding": "The attachment lists differentially expressed genes and supplies no adapter synthesis sequence, end chemistry or eCLIP protocol detail."
+      },
+      "reason": "This original attachment contains differentially expressed genes rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+    },
+    {
+      "id": "rnatag_shishkin_s7_results",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S7.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S7.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text headings and sheets, S7; full eCLIP bundle scraper rerun first.",
+        "finding": "This original attachment contains normalized expression rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 6 workbook `nmeth.3313-S7.xlsx`, Sheet1 heading and matrix columns inspected after full bundle scraper.",
+        "finding": "The attachment is a normalized-expression matrix. It contains no library oligo ordering sequence or molecular workflow step."
+      },
+      "reason": "This original attachment contains normalized expression rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+    },
+    {
+      "id": "rnatag_shishkin_s8_results",
+      "role": "supplement",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S8.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S8.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "rnatag_shishkin_2015",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original workbook extracted text headings and sheets, S8; full eCLIP bundle scraper rerun first.",
+        "finding": "This original attachment contains gene expression comparisons rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original author Supplementary Table 7 workbook `nmeth.3313-S8.xlsx`, Sheet1 heading and gene-list rows inspected after full bundle scraper.",
+        "finding": "The attachment compares differential expression in ciprofloxacin conditions. It does not provide adapter chemistry, oligo ordering sequence or eCLIP read layout."
+      },
+      "reason": "This original attachment contains gene expression comparisons rather than wet-lab oligo identities, end chemistry, reaction order or eCLIP read layout. It is linked material but does not resolve the molecular missing-information questions."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 71, 127, 157; NIHMS supplement-2 PDF Protocol 1 lines 315–374 and Protocol 2 lines 1289–1485; ENCODE v1.P SOP; author YeoLab/eCLIP barcode FASTA lines 17–24",
+      "finding": "Initial pass followed the eCLIP original protocol, ENCODE SOP and author barcode reference. It did not establish completion of the later identified iCLIP and RNAtag-Seq predecessor chain."
+    },
+    "pass_2": {
+      "reviewer": "eclip_second",
+      "date": "2026-10-16",
+      "locations": "Independently followed Van Nostrand original JATS ref. 6–8 and Code availability; opened König 2010 original Online Methods and publisher supplement inventory; Huppertz 2014 original PDF and its cited König 2011 JoVE protocol; Shishkin 2015 original plus Guttman-lab detailed protocol; checked Caltech author-record S1/S2 links and GitHub release/tag root.",
+      "finding": "Independent source tracing now covers original eCLIP methods and its König iCLIP, Huppertz iCLIP and Shishkin RNAtag chemistry predecessors. The recovered König 2010 Supplementary Methods, Shishkin S1/S3 and JoVE §14 visual oligo table each have two readings. The original author code-release nested files and preprint/publisher version details remain under review; no missing-information claim is accepted."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Van Nostrand 2016 JATS lines 65–73, Methods and supplementary references; original Supplementary Protocol 1 PDF primer section lines 315–374 and later steps; ENCODE SOP v1.P PDF lines 183–232 and subsequent reaction instructions; Springer MOESM181–201 extracted files: first sheet/header of each MOESM181–198 and 200–201; MOESM199 PDF oligo section around lines 580–607; original NIHMS765516 supplement-1 DOCX extracted text, Supplementary Figures 1–15 headings/legends; NIHMS Protocol 2 lines 1289–1307, 1450–1485; author FASTA lines 17–24 compared with Protocol 1 lines 329–340",
+        "finding": "Independent checks covered eCLIP protocol PDFs, ENCODE SOP, author barcode FASTA and publisher attachments. Later discovered chemistry predecessors and code link were not covered in this pass."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Renewed Van Nostrand 2016 JATS references 6–8 and Code availability line 157; independently read König 2010 PDF Online Methods 938–955 and König 2011 JoVE PDF §§5–14; inspected publisher supplement inventory and attempted JoVE sequence-table screenshot",
+        "finding": "The defining paper cites chemistry predecessors König 2010, Huppertz 2014 and Shishkin 2015, plus a code release. König main and JoVE methods describe the historical circle/BamHI route; their exact oligo supplements or table remain unavailable. The predecessor chain is not yet closed."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Recovered original König 2010 supplement PDF pp. 15–16, original Shishkin S1/S3, and visual original JoVE PDF p. 4 §14",
+        "finding": "The previously inaccessible predecessor oligo attachments and image-only JoVE table are now source-located and double-read. They identify distinct iCLIP/RNAtag chemistry versions, not eCLIP sequence identity. The author release source scope remains unresolved."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Any remaining unlisted eCLIP oligo family or assigned sample-specific index",
+      "evidence": "The defining eCLIP original, protocol PDF and ENCODE SOP print the principal RNA/cDNA adapters and D5/D7 primer families. All 20 original publisher figure/data workbooks were independently header-screened and then full-text keyword-screened after a complete source-bundle scraper. The defining paper also cites iCLIP and RNAtag-Seq chemistry predecessors whose original supplements have not yet been independently checked; a sample-specific D5/D7 assignment is not claimed absent.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "The defining eCLIP original and its own supplements establish the main adapter and PCR-primer families. Two independent readers now cover the relevant König 2010 supplement, Shishkin S1/S3 and original JoVE visual oligo table; these are predecessor methods and do not assign their sequences to eCLIP. The linked author code release still lacks a second nested-code inspection. No oligo or sample-index absence is accepted while linked-material review remains incomplete."
+}

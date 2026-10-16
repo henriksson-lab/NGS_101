@@ -25,7 +25,9 @@ Davies JOJ et al. *Multiplexed analysis of chromosome conformation at vastly imp
 
 🟢 Paired-end reads identify a viewpoint-containing sonication fragment and the reporter across its 3C ligation junction. The defining workflow does not use Hi-C-style biotin fill-in to select all ligation junctions.
 
-🟡 The schematic uses canonical Illumina-compatible primer sites. Capture oligo bases are viewpoint-specific and are therefore shown by role.
+🟢 The original Supplementary Data workbook (`nmeth3664_MOESM218_ESM.xlsx`, ‘Oligonucleotide sequences’ sheet, row 94) prints a 120-base Hba-1 viewpoint probe as 5′-`/5Biosg/GAT CCA TGG TAG CAC AGG GCA GCT AAG ATG CAA GTC TGA AGG AGG AGT CTG GCG AGC TGC TCC TGC AGT TCC CTG GAC CCA GAA GGA TGA GCT AGC AGA TTC ACT TGA GCC AAA GGA TTC`-3′. The workbook lists further viewpoint-specific probes and positions. The public page shows this one source-written example; the graph retains the capture-oligo role because each viewpoint uses a different sequence.
+
+🟡 The schematic uses canonical Illumina-compatible primer sites.
 
 ## 4. Boundary with related protocols
 

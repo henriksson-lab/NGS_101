@@ -30,7 +30,7 @@ SOURCE='<a href="https://doi.org/10.1038/s41586-021-04217-4">Zhao et al., <i>Nat
 SUMMARY="Histone-depleted tissue DNA is tagmented with custom ends directly on a spatially indexed bead array. Photocleaved bead barcodes ligate to nearby genomic fragments before PCR."
 CAVEAT="The two genomic read primers, bead-oligo architecture and both custom index primers are source-printed. This representative final-strand model does not yet resolve where the two index primers bind."
 FINAL_CAPTION="Representative captured genomic fragment with the two-block bead barcode and custom paired-end sequencing sites."
-SEQUENCING_INTRO="The source-printed custom Read 1 and Read 2 primers enter genomic DNA from opposite custom Tn5 ends."
+SEQUENCING_INTRO="The source-printed custom Read 1 and Read 2 primers enter genomic DNA from opposite custom Tn5 ends. Supplementary Methods §1.5 gives the slide-DNA-seq run as Read 1: 57 cycles, Read 2: 57 cycles, Index 1: 8 cycles and Index 2: 44 cycles; the separate bulk WGS control uses a different 40/40/8/8 recipe."
 SEQUENCING_UNAVAILABLE="i5/i7 sample indexes are added in PCR and both custom index primers are printed in Supplementary Table 1; their binding positions have not been reconstructed on this representative final strand."
 def oligos():
  yield oligo("Tn5 adapter 1",[Segment("custom handle + ME",T5,"me")],mods="5′ phosphate")

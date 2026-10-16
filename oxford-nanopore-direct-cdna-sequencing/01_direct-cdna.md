@@ -9,7 +9,7 @@ The historical SQK-DCS109 workflow makes strand-switched duplex cDNA without PCR
 - 🟢 Oxford Nanopore, *Chemistry Technical Document*, Direct cDNA Sequencing Kit section: https://nanoporetech.com/document/chemistry-technical-document
 - 🟢 The vendor describes RT primer annealing, strand-switch RT, RNA removal, second-strand synthesis, end repair/dA tailing and ligation of a dT-tailed sequencing adapter.
 - 🟢 The workflow is PCR-free and starts from substantially more poly(A) RNA than cDNA-PCR.
-- 🔴 Kit oligo, sequencing-adapter and motor sequences are proprietary.
+- 🔴 Kit oligo, sequencing-adapter and motor sequences have not been verified from the checked sources.
 - 🟢 SQK-DCS109 is historical rather than a current V14 kit; its status remains visible instead of conflating it with PCS114.
 
 ## 3. Molecular path

@@ -11,10 +11,17 @@ Defining source: Begik *et al.*, [10.1038/s41592-022-01714-w](https://doi.org/10
   `D_DNA`, and `CompA_DNA` oligos. TGIRT template-switches from the preannealed
   RNA/DNA starter duplex directly onto the native RNA 3′ end.
 - 🟢 After RNA digestion, `CompA_DNA` is annealed to the cDNA handle before
-  ligation of Oxford Nanopore Adapter Mix (AMX) from SQK-DCS109.
-- 🔴 The paper names the commercial AMX motor adapter but does not disclose its
-  full sequence. This is the remaining sequence limitation; it does not apply to the
-  three custom Nano3P-seq oligos.
+  ligation of Oxford Nanopore Adapter Mix (AMX) from SQK-DCS109. The published
+  Supplementary Protocol section 5 (extracted lines 294–322) explicitly says
+  this annealing produces a double-stranded cDNA end with an **A overhang**.
+- 🟢 The published Supplementary Protocol (MOESM1, oligo table at extracted lines
+  99–122) independently prints the three custom oligos, and its preannealing
+  instructions follow immediately. Supplementary Software (MOESM4 ZIP, `README.md`
+  lines 209–216) supplies custom front/end primer recognition sequences for tail
+  analysis; these are analysis parameters, not an established AMX motor-adapter sequence.
+- 🔴 The exact SQK-DCS109 AMX motor-adapter sequence and its complementary
+  ligating end remain unresolved pending review of the kit-specific ONT source.
+  The cDNA-side A overhang is published and does not share that uncertainty.
 
 ## Protocol boundary
 

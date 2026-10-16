@@ -1,0 +1,114 @@
+{
+  "dir": "slide-seq__10.1126+science.aaw1219",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "article Methods and supplementary references",
+        "finding": "Science article defines Slide-seq bead puck spatial transcriptomic readout and points to the detailed supplementary Materials and Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author-manuscript JATS lines 64–70 and supplementary reference 84, 137",
+        "finding": "Published article describes Drop-seq-like barcoded beads on puck, SOLiD in situ bead decoding and 3-prime barcoded RNA capture; full wetlab chemistry delegated to supporting materials."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/563395_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv original opening and Methods links",
+        "finding": "Original preprint is local and paired with full media-1 supplementary methods; differences with publication still need comparison."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original preprint PDF lines 60–73, cited Drop-seq and supplemental Methods pointer",
+        "finding": "Preprint agrees on bead puck and SOLiD spatial decoding and links detailed bead synthesis to Drop-seq; it does not itself print both bead constructs."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/563395_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods bead section lines 7–22; oligo table lines 569–592",
+        "finding": "Two bead-oligo designs are printed with photocleavable PCT, split-pool J barcode, N UMI and T30; table also prints modified TSO and PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint supplement bead Materials/Methods lines 7–22; oligo table lines 569–592; scraper hits checked",
+        "finding": "Prints two bead oligo versions with J split-pool barcode bases, N variable UMI bases, T30 and optional photocleavable T; later table prints TruSeq5, SMART PCR, handle and modified TSO. Preprint supplement cannot substitute for inaccessible published Science supplement without version check."
+      }
+    },
+    {
+      "id": "dropseq_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.cell.2015.05.002",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplement Materials and Methods line 10 explicitly says beads synthesized as in Drop-seq; inherited synthesis/chemistry requires independent check.",
+      "discovered_from": "supp_methods"
+    },
+    {
+      "id": "solid_chemistry",
+      "role": "vendor",
+      "locator": "SOLiD SR-75 sequencing oligo and buffers B/C/F, Thermo Fisher/Applied Biosystems version unspecified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Slide-seq supplement lines 51–67 uses SOLiD SR-75 sequencing oligo and buffers for bead decoding, but no versioned vendor source has yet been identified."
+    },
+    {
+      "id": "published_science_supplement",
+      "role": "supplement",
+      "locator": "https://science.sciencemag.org/content/sci/suppl/2019/03/27/363.6434.1463.DC1/aaw1219_Rodriques_SM.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Linked from original Broad Single Cell Portal SCP354 page as published Science supporting materials; get_sources returned HTTP 403, alternate science.org DOI/suppl endpoint also Cloudflare 403. Could differ from preprint table."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint supplement bead Methods lines 7–22 and oligo table lines 569–592",
+      "finding": "Published bead and primer sequences are available in the original supplement. Drop-seq bead construction and bead decoding predecessors remain unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS 64–70/84/137, preprint PDF 60–73, preprint supplement 7–22 and 569–592",
+      "finding": "Independent reading found preprint bead constructs and explicitly linked Drop-seq synthesis; published Science supplement, Drop-seq source and version-matched SOLiD chemistry remain inaccessible. No missing claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Slide-seq bead oligo and modified TSO sequences are unavailable",
+      "disposition": "blocked",
+      "evidence": "The supplementary Materials and Methods prints them; publication versus preprint and inherited bead chemistry need second-pass review."
+    }
+  ],
+  "conclusion": "The supplementary Materials and Methods prints them; publication versus preprint and inherited bead chemistry need second-pass review."
+}

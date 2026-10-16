@@ -13,7 +13,7 @@ Commercial defining source: Oxford Nanopore, “Ultra-Long DNA Sequencing Kit V1
 ## 2. Source read
 
 - 🟢 [Oxford Nanopore protocol ULK_9177_v114](https://nanoporetech.com/document/ultra-long-dna-sequencing-kit-sqk-ulk114), including extraction, tagmentation, Rapid Adapter attachment, precipitation cleanup and loading.
-- 🟢 Oxford Nanopore, *Chemistry Technical Document*, CHTD_500 v1 rev AV, section 15, publishes the Rapid Adapter strand.
+- 🟢 Oxford Nanopore, *Chemistry Technical Document*, CHTD_500 v1 rev AV, ultra-long kit description and reagent table (text lines 421–423 and 2124–2125), plus adapter table (lines 2081–2087).
 
 ## 3. Molecular workflow
 
@@ -28,11 +28,13 @@ of why the ultra-long workflow differs from ordinary rapid preparation.
 
 🟢 The published Rapid Adapter strand is `CCTGTACTTCGTTCAGTTACGTATTGCT`.
 
-🔴 The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
-exact motor-bearing strand remain undisclosed. Those regions remain role tokens.
+🟢 The technical document says the transposase fragments and tags DNA, then the
+motor-loaded Rapid Adapter attaches to those tags without an enzyme. 🔴 The tag bases,
+exact tag–adapter junction and complete motor-bearing assembly remain unresolved from
+the reviewed vendor documents. Those regions remain role tokens.
 
 ## 4. Sequencing entry
 
 🟢 No sequencing primer binds. A motor in the Rapid Adapter meters the attached strand
 through an R10.4.1 nanopore. The model marks the tag–adapter boundary as an attachment,
-not as a ligation, because no ligase is used in library construction.
+matching the vendor's enzyme-free description.

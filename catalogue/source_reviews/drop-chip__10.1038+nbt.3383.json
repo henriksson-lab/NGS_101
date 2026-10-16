@@ -1,0 +1,216 @@
+{
+  "dir": "drop-chip__10.1038+nbt.3383",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1038/nbt.3383; nbt.3383_PMC4636926.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 1325-1358",
+        "finding": "SC-PCR primers printed, 1152 barcodes placed in Supplementary Table 2; PacI/BciVI and final Illumina adapters/primers named without exact final reagent choice."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article HTML lines 1323-1353",
+        "finding": "Article prints both SC-PCR primers, cites Supplementary Table 2 for 1152 barcodes, describes PacI/BciVI adapter handling, and reports 2×60 reads with first 11 cycles dark. Exact selected Illumina adapter/index remains outside those lines."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "nbt.3383_41587_2015_BFnbt3383_MOESM11_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Figure 2A and methods near lines 518-560",
+        "finding": "Original adapter schematic/SC-PCR method checked."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "publisher supplement lines 518-540",
+        "finding": "Supplement explicitly identifies Supplementary Table 2 as the 1152 barcode adaptor sequence list and shows SC-PCR primer context."
+      }
+    },
+    {
+      "id": "supp_figure2_visual",
+      "role": "supplement",
+      "locator": "Rotem et al. 2015 original publisher Supplementary Information MOESM11 PDF page 2, Supplementary Fig. 2A/B, file nbt.3383_41587_2015_BFnbt3383_MOESM11_ESM.pdf; image is not in extracted .txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Original MOESM11 PDF page 2 rendered at 300 dpi, then Fig. 2A adapter block zoom at 600 dpi; Fig. 2B four post-library configurations; full source-bundle oligo scraper run before reading",
+        "finding": "Fig. 2A orientation-1 printed top is 5′-TTAA TTTCAATG GTATCC GGGGGACC TTAATTAA GGTGGGGG GGATAC GTAACTTT TTAA-3′. Both printed bottom green priming blocks are GGGGGTGG and CCAGGGGG, which mismatch top partners GGGGGACC and GGTGGGGG; required complements are CCCCCTGG and CCACCCCC. Orientation 2 repeats the mismatch. Published Table 2 forward strands support the top constant; model derives bottom by Watson–Crick complement. Fig. 2B retains GGGGGGGATAC and GTATCCGGGGGA constants, barcode alternatives and TTAA insert junctions; Read 1 starts at barcode after 11-nt constant, Read 2 includes 11-nt constant before barcode. Outer blocks only say Illumina adapter. Figure example TTTCAATG is not among 1,152 listed forward oligos. Dark-cycle per-read configuration and primer bases remain unresolved."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM11 PDF p.2 Supplementary Fig. 2A/B independently rendered at 200, 400, and 600 dpi after Drop-ChIP source-bundle oligo scraper; compared exact top and bottom green-block bases against Supplementary Table 2 top strand and computed complement",
+        "finding": "The figure top orientation-1 strand is TTAA|TTTCAATG|GTATCCGGGGGACCTTAATTAAGGTGGGGGGGATAC|GTAACTTT|TTAA, and model constructor reproduces it. The figure bottom is NOT its complement: under top GGGGGACC it prints GGGGGTGG (expected CCCCCTGG), and under top GGTGGGGG it prints CCAGGGGG (expected CCACCCCC); both orientations repeat this apparent figure error. Table 2 lists production top strands, while Scene derives their physically paired bottom. Fig. 2B supports inner read boundaries; outer Illumina adapter/primer bases remain unprinted and unresolved."
+      },
+      "discovered_from": "supp_methods"
+    },
+    {
+      "id": "supp_barcodes",
+      "role": "supplement",
+      "locator": "nbt.3383_41587_2015_BFnbt3383_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary Table 2 workbook barcode rows",
+        "finding": "Original 1152 barcode sequences present; upstream scg FASTA is not authoritative."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "publisher Supplementary Table 2 workbook lines 1-12 and 1150-1154",
+        "finding": "Workbook is the original IDT barcode adapter table; numbered full-length sequences run from barcode 1 through 1152. These are barcode adapters, not a proxy for the later Illumina adapter."
+      }
+    },
+    {
+      "id": "supp_clustering",
+      "role": "supplement",
+      "locator": "nbt.3383_41587_2015_BFnbt3383_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results data, not library oligo source.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Workbook header",
+        "finding": "Cell clustering/results table; not adapter chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM10 original workbook text lines 1-8; sole sheet mESmEFclusteringMatrix; adapter/oligo/primer/library keyword scan of entire sheet",
+        "finding": "Workbook columns are ES1, ES2, ES3 and MEF scores by ChIP signature (first row mES_H3K27me3_Encode). No oligo or library-chemistry fields; exclusion is supported."
+      }
+    },
+    {
+      "id": "supp_signatures",
+      "role": "supplement",
+      "locator": "nbt.3383_41587_2015_BFnbt3383_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Results metadata, not library oligo source.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Workbook header",
+        "finding": "Signature metadata, not adapter chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM13 original workbook text lines 1-8; sole sheet 91Worlds; adapter/oligo/primer/library keyword scan of entire sheet",
+        "finding": "Workbook columns identify signature name, cell line, epitope and UCSC/GEO accession/reference. These are reference ChIP signature annotations, not adapter or primer sequences; exclusion is supported."
+      }
+    },
+    {
+      "id": "supp_chip",
+      "role": "supplement",
+      "locator": "nbt.3383_41587_2015_BFnbt3383_MOESM14_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Device design files.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Archive member inventory",
+        "finding": "Microfluidic chip design, not molecular oligo chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM14 original ZIP member inventory and first-byte checks: 3PointMerger.dwg (100765 bytes), 96ParallelDropMaker.dwg (125897), CoFlowDropMaker.dwg (212085); all have AC1018 DWG headers",
+        "finding": "The three actual archive members are AutoCAD device layouts, matching the manuscript microfluidic merger/drop maker, not molecular sequence tables; exclusion is supported."
+      }
+    },
+    {
+      "id": "supp_movies",
+      "role": "supplement",
+      "locator": "nbt.3383 MOESM15/MOESM16 AVI; MANIFEST.tsv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Video of device, not sequence source.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Manifest file roles",
+        "finding": "Microfluidic operation movies; no sequence table."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM15 and MOESM16 AVI media, RIFF/Motion JPEG metadata; visually inspected frames at 0 and 10/11 seconds respectively; defining JATS Fig. 2 caption line 541 identifies them as droplet maker and merger movies",
+        "finding": "MOESM15 shows droplet generation in a microfluidic channel; MOESM16 shows droplets merging at the three-point junction. Frames contain imaging timestamps but no reagent or oligo table. Both are device-operation evidence, not library sequence sources; exclusion is supported."
+      }
+    },
+    {
+      "id": "illumina_reagents",
+      "role": "vendor",
+      "locator": "Rotem et al. 2015 original PMC JATS library preparation, lines 154–161; original article PDF text library preparation lines 641–657; article HTML text lines 1347–1355: only “Illumina adapters” and “Illumina Primers” after BciVI cleavage.",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The original source gives no catalog number, kit family, revision, strand sequence or selected index; a 2012 TruSeq guide and a 2007 ChIP guide are nonunique vendor candidates, not an identified Drop-ChIP reagent. Retrieval of a matching vendor document cannot be completed without a product identity.",
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Rotem 2015 PMC original HTML Online Methods lines 1345–1350; Supplementary Information MOESM11 SC-PCR table; Illumina official 11257047 ChIP guide pp. 4–5, 9, 12; vendor method overview https://emea.illumina.com/science/sequencing-method-explorer/kits-and-arrays/drop-chip.html",
+        "finding": "Rotem uses generic “Illumina adapters” diluted 1:150 and “Illumina Primers” after BciVI but gives no product number, revision, index or strand bases. Official 2007 guide names an Adapter Oligo Mix and PCR Primer 1.1/2.1; it is only one candidate. Current Illumina Drop-ChIP overview links TruSeq RNA Library Prep Kit v2 as a related product, not evidence that Rotem used that kit. Vendor identity and exact final bases remain unresolved."
+      },
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original source-bundle oligo scraper; Rotem PMC original HTML text lines 1347–1355 and JATS library preparation; official Illumina 2007 ChIP Sample Prep 11257047 Rev A, pp. 4, 9, 12; official 2012 TruSeq DNA guide indexed adapter table already inventoried in methyl-hic review; vendor search for “Drop-ChIP” plus named Illumina reagents and 2015 kit identifiers",
+        "finding": "The article uses generic “Illumina adapters” and “Illumina Primers”, with no vendor catalog or revision. The official 2007 ChIP guide supplies nonindexed Adapter Oligo Mix and PCR Primer 1.1/2.1, while later indexed kits offer multiple members. Neither is shown to be the Rotem reagent; no exact final bases can be inferred."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Paper Supplementary Figure 2 and Table 2 followed; final adapter/primer names point only to unspecified Illumina reagents.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining JATS lines 73-83, 154-161 and 181-185; original publisher MOESM10/MOESM13 workbooks, MOESM14 archive members, MOESM15/16 sampled original frames; source-bundle oligo scraper run",
+      "finding": "Independently checked every previously one-pass exclusion against original file content. The four files are analysis results or device media and cannot supply final adapter/index primer identities. The original JATS library preparation paragraph names only diluted Illumina adapters and Illumina primers, without a product name, version, or sequence. No version-matched vendor source can yet be selected, so linked-source coverage and final adapter/index claim remain blocked. Independent additional vendor check confirmed that the original supplies no Illumina product identity; a 2007 unindexed ChIP guide and Illumina’s current method overview are nonunique candidates. Final adapter/index source coverage remains blocked. A further visual audit of Supplementary Fig. 2A/B recovered image-only inner adapter and read-boundary information; an independent second visual check is pending."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "MOESM11 p.2 Fig. 2A/B at 600 dpi and MOESM12 original production-adapter workbook; independent source-bundle scraper and visual comparison",
+      "finding": "Two direct visual checks expose the nonpairing bottom green blocks in the published figure. Table 2 top strands and computed complements govern the model; exact outer Illumina oligos remain unresolved, so linked-source disposition stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "1152 barcode oligos and SC-PCR primers",
+      "disposition": "resolved",
+      "evidence": "Published original Table 2 and Methods print these; any categorical missing claim is resolved."
+    },
+    {
+      "claim": "Final selected Illumina adapter/index and amplification primer exact bases",
+      "disposition": "blocked",
+      "evidence": "Methods name generic Illumina adapters/primers; matching vendor chemistry not identified."
+    }
+  ],
+  "conclusion": "Two independent reads now cover the published inner adapter table and Supplementary Fig. 2 image, including four ligation orientations and read direction. Both readers confirmed that Fig. 2A's lower green priming blocks do not pair with its top strand; the public page prints the exact mismatch and the model uses Table 2 forward strands with computed complements. The outer Illumina adapter and library-primer identities remain unresolved because the paper does not select a vendor product or version. No missing-information claim is accepted while relevant identity evidence is unavailable."
+}

@@ -204,6 +204,14 @@ def main() -> None:
         '<div class="wrap" data-protocol-complete="true">',
         '<h1>Quartz-Seq2 &mdash; barcoded 3-prime single-cell RNA sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/s13059-018-1407-3">Sasagawa et al., <i>Genome Biology</i> (2018)</a>.'),
+        info('Published-source discrepancy: Additional file 5, Table S4, v3.2 sheet '
+             '(MOESM5 extracted lines 389–393) labels its heading “SeqLv15mer” but the '
+             'next line calls the same v3.2 barcodes “14 mer.” The printed eMDRT0001 '
+             'barcode <code>ATCAATCCTATCTGC</code> has 15 bases, as do the v3.2 '
+             'barcodes inspected in that sheet; the article Methods (cell-barcode design) '
+             'also specifies 15 nt for v3.2. This model uses 15 nt. The conflicting '
+             '“14 mer” line appears to be a table heading error; no correction notice '
+             'was found in the inspected sources.'),
         oligos(), construction, sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

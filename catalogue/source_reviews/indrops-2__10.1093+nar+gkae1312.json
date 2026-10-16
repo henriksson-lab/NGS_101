@@ -1,0 +1,162 @@
+{
+  "dir": "indrops-2__10.1093+nar+gkae1312",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_PMC11724362.xml.txt:197-263,277-279",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original JATS Methods/results and Supplementary Data lines 197-279",
+        "finding": "Original article defines IVT and TS branches, identifies Supplementary Protocols and Tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC11724362 JATS lines 101,105 and 109 onward",
+        "finding": "Original article distinguishes 10x comparator, legacy inDrops, IVT and template-switching branches; points to supplementary oligo tables and protocols."
+      }
+    },
+    {
+      "id": "tables",
+      "role": "supplement",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_gkae1312_Supplementary_Tables_Corrected.xlsx.txt:17-57",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Corrected original Supplementary Table S1 rows 17-57 and S2 beginning line 57",
+        "finding": "Table prints v1/IVT full bead primer, TS v2 bead primer, RNA-modified TSO, PE2-N6 and ligation/index oligos; S2 lists IVT barcoding primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Corrected Supplementary Tables workbook Sheet Summary and Table S1 rows 16-55",
+        "finding": "Original Table S1 prints IVT and TS branch RT primers, PE2-N6, PE1, PE2 indexes, TSO, and ligation oligos with modifications. These are available; no broad absence claim is supportable."
+      }
+    },
+    {
+      "id": "protocol1",
+      "role": "supplement",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Protocol 1 reagent/oligonucleotide table inventory",
+        "finding": "Original Supplementary Protocol 1 available. DNA oligonucleotide tables present in protocols 1-3; protocol 4 needs deeper branch-specific reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol 1 text lines 69 and 178-194",
+        "finding": "IVT-side protocol lists DNA oligonucleotides and RT/second-step RT primers."
+      }
+    },
+    {
+      "id": "protocol2",
+      "role": "supplement",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Protocol 2 reagent/oligonucleotide table inventory",
+        "finding": "Original Supplementary Protocol 2 available. DNA oligonucleotide tables present in protocols 1-3; protocol 4 needs deeper branch-specific reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol 2 text lines 34-39 and 136-159",
+        "finding": "TS-side protocol lists adapter ligation, RT primer and TSO oligos."
+      }
+    },
+    {
+      "id": "protocol3",
+      "role": "supplement",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_3.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Protocol 3 reagent/oligonucleotide table inventory",
+        "finding": "Original Supplementary Protocol 3 available. DNA oligonucleotide tables present in protocols 1-3; protocol 4 needs deeper branch-specific reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol 3 text lines 41,98-134",
+        "finding": "Bead synthesis protocol lists barcoding, cleanup and quality-control primers."
+      }
+    },
+    {
+      "id": "protocol4",
+      "role": "supplement",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_4.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Protocol 4 reagent/oligonucleotide table inventory",
+        "finding": "Original Supplementary Protocol 4 available. DNA oligonucleotide tables present in protocols 1-3; protocol 4 needs deeper branch-specific reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Protocol 4 text lines 1-25",
+        "finding": "This is methanol cell preservation/rehydration, not an oligo source; useful for workflow but no primer list."
+      }
+    },
+    {
+      "id": "biorxiv",
+      "role": "other",
+      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/2023.09.26.559493_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v2 extracted text and supplement references",
+        "finding": "Preprint is a related version; corrected published supplementary workbook is the authoritative oligo table."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached bioRxiv v2 2023.09.26.559493_v2.full.pdf.txt lines 456–514 (IVT branch) and 701–735 (TS branch), plus 3075–3099/3172–3184 (barcode synthesis/read parsing); source-bundle scraper run",
+        "finding": "Preprint is chemistry-relevant: it describes photo-released T7p–cell-barcode–UMI–poly(dT19) primers, RT→second strand→IVT and Zn2+ fragmentation for IVT branch, and distinct template-switching branch; it points to preprint Supplementary Tables S1/S7–S9. Corrected published supplemental tables take precedence for final oligo sequences, but this preprint should not be excluded from the source checklist."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original JATS supplementary link and corrected workbook/protocol inventory",
+      "finding": "Followed all four Supplementary Protocol PDFs and corrected author XLSX table from the source bundle."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC11724362 supplementary inventory, corrected Table S1 and Protocols 1-4",
+      "finding": "All four local original protocol PDFs and corrected workbook were inspected for oligo scope; independent model-to-oligo transcription guard remains separate."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact IVT/TS read construct and primer roles",
+      "disposition": "blocked",
+      "evidence": "The original corrected oligo table provides broad sequences; full branch-by-branch model comparison and independent second check remain."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

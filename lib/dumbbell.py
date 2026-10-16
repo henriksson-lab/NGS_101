@@ -17,7 +17,9 @@ class Dumbbell:
 
     ``left_adapter`` and ``right_adapter`` are each written in the direction encountered
     while traversing the closed strand: top insert -> right hairpin -> reverse-complement
-    insert -> left hairpin.  The resulting molecule has no free DNA ends.
+    insert -> left hairpin.  The resulting molecule has no free DNA ends. Set
+    ``junction_unavailable`` with empty overhangs when the closed topology is known
+    but the kit-specific ligating ends have not been established.
     """
     insert: Construct
     left_adapter: str
@@ -27,12 +29,15 @@ class Dumbbell:
     adapter_overhang: str = "T"
     left_stem_length: int = 0
     right_stem_length: int = 0
+    junction_unavailable: bool = False
 
     def __post_init__(self) -> None:
         if not len(self.insert):
             raise ValueError("a dumbbell needs a duplex insert")
         if not self.left_adapter or not self.right_adapter:
             raise ValueError("both insert ends need a hairpin adapter")
+        if self.junction_unavailable and (self.insert_overhang or self.adapter_overhang):
+            raise ValueError("unknown hairpin junction cannot declare an overhang")
         if bool(self.insert_overhang) != bool(self.adapter_overhang):
             raise ValueError("insert and hairpin must either both declare an overhang or neither")
         if self.insert_overhang and not bases_pair(self.insert_overhang,
@@ -81,6 +86,10 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
     start = top.visual.start
     end = top.visual.end
     def adapter_title(side: str, sequence: str) -> str:
+        if molecule.junction_unavailable:
+            return (f"{side} hairpin adapter; drawn body is a schematic placeholder "
+                    "with unavailable bases and length; insert–adapter junction "
+                    "chemistry unavailable")
         title = Segment(f"{side} hairpin adapter", sequence).hover_text()
         if molecule.adapter_overhang:
             return (title + f"; {molecule.adapter_overhang} overhang pairs with insert "
@@ -190,6 +199,8 @@ def smrtbell_hairpin_geometry(molecule: Dumbbell, *, statement: str
     the insert and adapter overhangs pair.  Rendering and graph validation can therefore
     share one source of truth for the ligating terminal base.
     """
+    if molecule.junction_unavailable:
+        return AdapterLigationGeometry.unavailable(statement)
     return reported_adapter_end(
         f"{molecule.name} hairpin", kind="cohesive", polarity="3-prime",
         terminal_sequence=molecule.adapter_overhang, statement=statement)

@@ -1,0 +1,154 @@
+{
+  "dir": "change-seq__10.1038+s41587-020-0555-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_PMC7652380.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CHANGE-seq Methods lines 168–180",
+        "finding": "Purified genomic DNA is tagmented/circularized, Cas9-cleaved in vitro and converted into indexed Illumina libraries; the detailed supplementary protocol carries the recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC7652380 JATS CHANGE-seq Methods lines 170–172; scraper",
+        "finding": "Article delegates tagmentation, circularization and Cas9 selection specifics to a detailed supplementary protocol."
+      }
+    },
+    {
+      "id": "supp_protocol",
+      "role": "supplement",
+      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "reagent list lines 65–75; steps 2–27 lines 100–490",
+        "finding": "oCRL225 is /5Phos/ACG/ideoxyU/AGATGTGTATAAGAGACAG and oCRL226 is /5Phos/CTGTCTCTTATACACATCTACGT (lines 102–105); USER/PNK make circularization ends before Cas9 selection and NEBNext adapter/indexing."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 detailed protocol lines 101–109, 167 and later USER/PNK recipe; scraper",
+        "finding": "Custom transposon oCRL225 is /5Phos/ACG/ideoxyU/AGATGTGTATAAGAGACAG and oCRL226 is /5Phos/CTGTCTCTTATACACATCTACGT. The deoxyU and phosphates are source-printed chemistry, not generic Nextera assumptions."
+      }
+    },
+    {
+      "id": "supp_info",
+      "role": "supplement",
+      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_supp_NIHMS1591991-supplement-SuppInfo.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "opening and GUIDE-seq/CHANGE-seq figure sections",
+        "finding": "This supplement contains assay figures and guide-validation information; whether it adds ordering oligos needs further inspection."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Supplementary Protocol PDF lines 25–50 reagent list; 80–114 custom oCRL225/226 annealing and transposome assembly; 329–411 A-tail/NEBNext adapter/USER/index PCR; 567–623 sequencing and table inventory",
+        "finding": "Independently read the full supplementary protocol, which is a detailed operational method, beyond the assay figures mentioned in pass_1. Lines 82–83 print both modified custom Tn5 oligos; lines 357–411 name NEBNext adapter, USER opening and Set 1 dual-index primers; line 567 specifies 150-bp paired-end and 8-bp dual-index reads. Supplementary Table 2 is a separate sgRNA/NGS-primer list. It does not state the selected commercial index pair for each tested sample."
+      }
+    },
+    {
+      "id": "nebnext_dual_index",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en/products/e7600-nebnext-multiplex-oligos-for-illumina-dual-index-primers-set-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original supplement names E7600S but does not print commercial index members; version-matched manual/source not independently read.",
+      "discovered_from": "supp_protocol"
+    },
+    {
+      "id": "nebnext_e7600_manual_2024",
+      "role": "vendor",
+      "locator": "_data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nebnext_dual_index",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official NEB manual #E7600S v6.0_6/24 text lines 80–87, 465–547, 585–695",
+        "finding": "Current NEBNext Ultra II manual prints the phosphorylated/dU adapter and i5/i7 index-primer families, including i501 and i701. This establishes a vendor product scaffold, but the 2024 revision alone does not identify the exact historical index pair used for the 2020 CHANGE-seq experiments."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "NEB manual #E7600S v6.0_6/24 lines 1–7, 80–87, 465–547, 585–695",
+        "finding": "Current official manual prints the /5Phos/ NEBNext hairpin adapter with dU and phosphorothioate and full i501–i508/i701–i712 PCR primers. It postdates the 2020 CHANGE-seq paper; a version-matched 2020 manual remains unverified."
+      }
+    },
+    {
+      "id": "41587_2020_555_moesm3_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM3 XLSX xl/sharedStrings.xml opening entries and workbook CHANGE-seq_Supp_Table_2 A1:D1167",
+        "finding": "Workbook contains target/sample, IVC primers, NGS primers and target guide sequences; those are validation/guide oligos, distinct from generic assay adapter oligos."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 workbook extracted text CHANGE-seq_Supp_Table_2 lines 1–150 and 256–432; remaining Table 2 through line 1158, subsequent sheet headings 1159 and 203204 onward",
+        "finding": "Supplementary Table 2 lists CRISPR target sites, in-vitro cleavage primer pairs at lines 114–138, GUIDE-seq NGS primers at lines 139–143, on/off-target NGS primer families, and rhAmpSeq primers. The later workbook sheets are result data. These primers are target/validation assay reagents, distinct from the generic CHANGE-seq adapter."
+      }
+    },
+    {
+      "id": "s41587_020_0555_7_41587_2020_555_moesm2_esm_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_41587_2020_555_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 PDF text lines 1–200, reporting summary headings",
+        "finding": "Nature reporting summary of statistics, software, reagents and study design; no sequence-level library architecture."
+      },
+      "reason": "Nature reporting summary of statistics, software, reagents and study design; no sequence-level library architecture.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 Reporting Summary PDF text lines 1–200, complete heading/term scan through line 665",
+        "finding": "Nature Research reporting form gives statistics, software and data statements, not a CHANGE-seq adapter or primer table."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Article CHANGE-seq Methods; Supplementary Protocol reagent list/steps 2–27",
+      "finding": "Custom Tn5 oligos are source-positive; exact NEBNext dual-index choice and supplementary figure/table classification remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 170–172 and MOESM1 lines 101–109/167",
+      "finding": "Defining detailed protocol checked; NEB dual-index kit variant and other original supplements remain unavailable or unreviewed, so exact final adapter/index absence is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "CHANGE-seq custom transposon or index sequences are absent",
+      "disposition": "blocked",
+      "evidence": "Custom Tn5 ends are printed, commercial index choice needs versioned vendor source and second reader."
+    }
+  ],
+  "conclusion": "Custom Tn5 ends are printed, commercial index choice needs versioned vendor source and second reader."
+}

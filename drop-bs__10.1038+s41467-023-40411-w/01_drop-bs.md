@@ -1,6 +1,6 @@
 # Drop-BS — source notes
 
-Defining paper: Fu et al., *Nature Communications* (2023), [doi:10.1038/s41467-023-40411-w](https://doi.org/10.1038/s41467-023-40411-w).
+Defining paper: Zhang et al., *Nature Communications* (2023), [doi:10.1038/s41467-023-40411-w](https://doi.org/10.1038/s41467-023-40411-w).
 
 - 🟢 PMC full text and supplementary protocol diagrams were read.
 - 🟢 MNase fragments DNA in single-nucleus droplets. Dielectrophoretic fusion pairs these with bead droplets containing end-repair/ligation reagents.

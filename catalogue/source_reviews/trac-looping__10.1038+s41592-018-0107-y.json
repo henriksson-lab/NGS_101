@@ -1,0 +1,90 @@
+{
+  "dir": "trac-looping__10.1038+s41592-018-0107-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Lai et al. Nat Methods 2018 doi:10.1038/s41592-018-0107-y; PMC7212307",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC7212307 JATS lines 143-159, 250-258",
+        "finding": "Methods specify Bio67F/67bpR transposome assembly, gap repair and circle formation; explicitly name oligo Supplementary Table 2 and a separate Table S3 primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC7212307 JATS text lines 143–159 (Bio67F/67bpR and ME3ddCTPtop/5NH2MEbottom annealing, transposome assembly, 9-bp gap repair, NlaIII/MluCI digestion, streptavidin capture, T7 ligation, TempliPhi RCA, N501/N701 PCR); 248–260 identifies separate Tables S1/S2/S3. Ran scraper on full source bundle before reading.",
+        "finding": "Original Methods confirm the reaction order, precise linker assembly pairs and selected N501/N701 PCR labels. The article explicitly identifies a distinct Table S3 primers attachment. That attachment remains inaccessible and cannot be assumed identical to publisher Supplementary Table 2."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "Original Springer MOESM1 PDF Supplementary Tables 1-2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM1.pdf.txt lines 573-650",
+        "finding": "Supplementary Table 2 prints 5-phosphorylated and 3-blocked ME oligos, Bio67F, pMENTS, i5/i7 and indexed PCR primer families."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM1 PDF text lines 573–644, Supplementary Table 2: modified ME3ddCTPtop/5NH2MEbottom, Bio67F/67bpR, N501–N504 and N701/N702/N703/N706/N709/N711 primer families, pMENTS/i5Top/i7Bottom; scraper hits checked against the table.",
+        "finding": "Publisher original directly prints linker modifications (/5phos/, /3ddCTP/, /5AmC6/, internal /iBiodT/), pMENTS and index-PCR family members. N501/N701 model examples agree with the printed rows after ignoring extraction whitespace in N701. This table is source-positive but does not prove the separately named PMC Table S3 contains no additional primers."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "pmc_table_s3",
+      "role": "supplement",
+      "locator": "PMC NIHMS1567840 Table_S3_primers.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "PMC retrieval gate; must compare with publisher table before declaring it redundant."
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "Springer MOESM2-7 and gated PMC Tables S1/S2",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper",
+      "reason": "Some available workbooks appear to hold PET analysis data, but all chemistry relevance has not been independently classified."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS 143-159, 250-258; publisher MOESM1 Table 2 lines 573-650; MANIFEST PMC Table S3 row",
+      "finding": "Followed published primer pointer to the Springer oligo table. PMC Table S3 is gated and may contain additional primers."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "PMC JATS lines 143–159, 248–260; publisher MOESM1 Table 2 lines 573–644; PMC Table S3 direct URL in MANIFEST returned inaccessible; publisher MOESM2–7 inventory shows reporting summary and result workbooks, but their full chemistry relevance still requires independent classification.",
+      "finding": "Followed the article Table S2 oligo lead to publisher MOESM1 and verified modified linkers and index examples. Separate PMC Table S3 remains gated. Other publisher supplements are present but not yet fully classified by two independent readers; no complete primer-inventory absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete TrAC-looping primer inventory",
+      "disposition": "blocked",
+      "evidence": "Springer Table 2 supplies many exact modified strands; separate Table S3 remains unavailable."
+    }
+  ],
+  "conclusion": "Two independent reads of the defining JATS and published MOESM1 establish the bivalent linker chemistry and several indexed PCR primer members. Separately named PMC Table S3 primers and full two-reader classification of other supplements remain outstanding. Complete primer inventory stays blocked; no missing claim accepted."
+}

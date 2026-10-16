@@ -10,11 +10,11 @@ Nothing here comes from the scg_lib_structs drawn page, which is inspiration onl
 consequences, all visible in the model:
 
 * the transposon's internal spacer between the mosaic end and the T7 promoter is an
-  unpublished placeholder -- neither its bases nor its length are established;
+  unverified placeholder -- neither its bases nor its length are established;
 * the mosaic ends are the canonical Tn5 ME (``nextera``) and the promoter the canonical
   T7 class III promoter plus its GGG start, both inferred identifications of parts the
   paper names only by role;
-* the UMI and index widths are drawing placeholders, not published lengths;
+* the UMI and index widths are drawing placeholders; the available main article does not give their lengths;
 * no library-prep kit is named by the paper, so the adapter is an unspecified indexed
   Illumina adapter with unavailable ligation geometry, the library PCR geometry is
   unavailable, and every adapter-derived base in the drawn library is inferred.
@@ -42,7 +42,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 # The paper gives the transposon's architecture, not its sequence.  The interval between
-# the mosaic end and the T7 promoter is unpublished in both bases and length: it is drawn
+# the mosaic end and the T7 promoter is unverified in both bases and length: it is drawn
 # as a placeholder of SPACER_NT positions purely so the loop has a drawable extent.
 SPACER_NT = 10
 SPACER = "N" * SPACER_NT
@@ -57,7 +57,7 @@ TRANSPOSON_TOPOLOGY = HairpinTopology(
     first_stem_start=0, second_stem_start=len(TRANSPOSON) - len(nx.ME),
     stem_length=len(nx.ME),
 )
-# Drawing widths for unpublished identifier lengths.  The paper establishes that the
+# Drawing widths for unverified identifier lengths.  The paper establishes that the
 # second-strand primer carries a unique molecular barcode and that the library was
 # indexed; neither width is published.
 UMI_NT = 8
@@ -67,12 +67,12 @@ I7_NT = 6
 def transposon_segments(*, inferred: bool = True) -> list[Segment]:
     """The single hairpin-forming transposon, written 5' to 3'.
 
-    Its total length is not published, because the spacer's is not.
+    Its total length remains unverified because the spacer length is not given in the available main article.
     """
     return [
         seg("ME reverse complement", nx.ME_RC, "me", inferred=inferred),
-        seg("unpublished spacer", SPACER, placeholder=True, inferred=inferred,
-            note="bases and length not published"),
+        seg("unverified spacer", SPACER, placeholder=True, inferred=inferred,
+            note="bases and length not verified from the available main article"),
         seg("T7 promoter", T7_PROMOTER, "t7", inferred=inferred),
         seg("T7 start", T7_START, "t7", inferred=inferred),
         seg("mosaic end", nx.ME, "me", inferred=inferred),
@@ -105,11 +105,11 @@ def gap_filled_fragment(insert_nt: int = 28) -> Construct:
         seg("T7 promoter, opposite",
             right[len(nx.ME) + len(T7_START):len(nx.ME) + len(T7_START) + len(T7_PROMOTER)],
             "t7", inferred=True),
-        seg("unpublished spacer, opposite",
+        seg("unverified spacer, opposite",
             right[len(nx.ME) + len(T7_START) + len(T7_PROMOTER):
                   len(nx.ME) + len(T7_START) + len(T7_PROMOTER) + len(SPACER)],
             placeholder=True, inferred=True,
-            note="bases and length not published"),
+            note="bases and length not verified from the available main article"),
         seg("mosaic end, opposite", right[-len(nx.ME):], "me", inferred=True),
     ], name="gap-filled LIANTI fragment")
     return lib
@@ -125,9 +125,9 @@ def transcript(insert_nt: int = 28) -> Construct:
         seg("self-primer site", nx.ME_RC, "me", inferred=True),
         seg("CCC", revcomp(T7_START), "t7", inferred=True),
         seg("promoter reverse complement", revcomp(T7_PROMOTER), "t7", inferred=True),
-        seg("unpublished spacer reverse complement", revcomp(SPACER),
+        seg("unverified spacer reverse complement", revcomp(SPACER),
             placeholder=True, inferred=True,
-            note="bases and length not published"),
+            note="bases and length not verified from the available main article"),
         seg("3' self-primer", nx.ME, "me", inferred=True),
     ], name="LIANTI RNA transcript")
 

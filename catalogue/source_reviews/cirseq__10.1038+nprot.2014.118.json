@@ -1,0 +1,102 @@
+{
+  "dir": "cirseq__10.1038+nprot.2014.118",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/cirseq__10.1038+nprot.2014.118/nprot.2014.118_PMC4418788.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Protocol overview and methods; adapter ligation steps",
+        "finding": "RNA fragments circularized, reverse transcribed to tandem repeats, then ligated into an indexed Illumina library."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4418788 JATS Overview lines 38–50, reagent line 134 and procedure lines 278 onward",
+        "finding": "CirSeq fragments viral RNA, phosphorylates and circularizes it, performs rolling-circle reverse transcription, then constructs an indexed Illumina library; reagent list names TruSeq indexed adapters and PCR primer cocktail FC-121-4001."
+      }
+    },
+    {
+      "id": "author_pdf",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cirseq__10.1038+nprot.2014.118/qt5tm0q8m0_noSplash_36e73c9d1f9d95ed1131a9aa75c12a23.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Procedure lines 109–130, 440–445 and 1044–1054",
+        "finding": "Author institutional PDF specifies TruSeq indexed adapter/primer kit and ligation order but does not assign a specific index member."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author manuscript PDF lines 109–130, 440–445 and 1044–1054",
+        "finding": "Author-hosted manuscript independently corroborates circle/RCA preparation and TruSeq completion; it does not print a selected commercial adapter oligo member."
+      }
+    },
+    {
+      "id": "acevedo2014_original",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nature12861",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Acevedo and Andino 2014 Nature Protocols ref. 7; Nature article lists a Supplementary Information PDF",
+        "finding": "Original CirSeq predecessor and its supplement may disclose adapter choices; search index confirms the supplement exists, but full primary text was inaccessible in this pass."
+      },
+      "pass_2": null,
+      "reason": "The linked original full text or supplement could not be downloaded into the source bundle and browser access was gated; original content remains uninspected.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "illumina_nano_guide",
+      "role": "vendor",
+      "locator": "https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseqnanodna/truseq-nano-dna-library-prep-guide-15041110-d.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "shape_cirseq",
+        "date": "2026-10-16",
+        "locations": "Illumina guide 15041110 rev. D, revision history p. 2, kit contents pp. 28–29, Set A index table p. 34; browser PDF lines 817–865 and 1050–1069",
+        "finding": "FC-121-4001 is TruSeq Nano DNA LT Set A, with twelve six-base index members. The available guide is a 2015 revision, after the 2014 article, though its revision history dates the initial guide to May 2013. It does not identify the member used by CirSeq."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original Illumina TruSeq Nano DNA Library Prep Reference Guide 15041110 Rev D PDF p.1 date June 2015; p.3 revision history initial release May 2013; pp.28–29 kit table FC-121-4001 and Set A reagent inventory (web lines 813–865); pp.33–34 indexed adapter sequence notes and Set A Table 12 (lines 1050–1069); full CirSeq source-bundle scraper run before vendor read (0 hits).",
+        "finding": "Independent vendor read: FC-121-4001 is LT Set A with 12 indexed adapter tubes AD002/004/005/006/007/012/013/014/015/016/018/019. Table 12 prints a six-cycle index plus a seventh adjacent base for each; guide explicitly says seventh base is excluded from Index Read. CirSeq original names kit but no chosen member. Guide revision postdates paper and cannot establish study-specific member."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS protocol and author institutional PDF procedure lines 109–130, 440–445, 1044–1054",
+      "finding": "Author copy resolves procedure; historical vendor kit/index member and linked predecessor chemistry still need audit. The named kit was traced to its vendor guide and the original CirSeq predecessor article; the latter has a supplement and remains inaccessible, so a confirmed missing claim is blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Independently followed defining Methods citations, checked listed local predecessors/vendor references and MANIFEST-linked supplements",
+      "finding": "The listed local chemistry-relevant links were inspected as recorded in source rows; unavailable original supplements or vendor documents still block any accepted missing-information claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact CirSeq selected TruSeq index member is confirmed unavailable",
+      "disposition": "blocked",
+      "evidence": "Original protocol names FC-121-4001 but does not assign a Set A member. The vendor guide enumerates twelve six-base possibilities. Original 2014 predecessor and supplement are still unavailable, and new sources await independent second check."
+    }
+  ],
+  "conclusion": "Original, author manuscript and Illumina Nano guide now have two reads. The guide identifies FC-121-4001 as LT Set A and its 12 possible six-cycle index tags, but the selected CirSeq member remains blocked because the original predecessor article/supplement is inaccessible."
+}

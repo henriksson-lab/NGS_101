@@ -1,0 +1,189 @@
+{
+  "dir": "plac-seq__10.1038+cr.2016.137",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/cr.2016.137_PMC5143423.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Article text lines 1161–1174; supplement links 1186–1219",
+        "finding": "Article Fig. 1A specifies MboI, biotin fill-in, in situ ligation, then ChIP and library preparation; Data S1 is linked for the detailed procedure."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC article Fig. 1A legend line 1169 and article lines 1161–1174",
+        "finding": "Confirms MboI digestion, biotin nucleotide fill-in, in-situ ligation before chromatin shearing and ChIP, then junction enrichment and paired-end library. Detailed Data S1 remains unavailable."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 798–954",
+        "finding": "Preprint Methods specify MboI, Klenow with biotin-14-dATP, in situ ligation, ChIP, then modified in situ Hi-C biotin pull-down and library construction."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv preprint Methods lines 798–954",
+        "finding": "Independent preprint methods give MboI, Klenow biotin-14-dATP fill-in, ligation and ChIP order; publisher supplements still need separate review."
+      }
+    },
+    {
+      "id": "preprint_figures",
+      "role": "supplement",
+      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figures 1–3 legends lines 1–26",
+        "finding": "Supplementary Figures 1–3 show validation, not an ordering oligo table."
+      },
+      "reason": "Figures and validation only.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv supplementary figure PDF lines 1–30",
+        "finding": "Figure captions assess sensitivity/reproducibility and compare contacts; no new molecular assembly detail."
+      }
+    },
+    {
+      "id": "preprint_table2",
+      "role": "supplement",
+      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 header and first rows lines 1–16",
+        "finding": "Workbook lists chromatin interaction genomic intervals and statistics."
+      },
+      "reason": "Interaction results, not library reagents.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-2 workbook Sheet1 lines 1–4",
+        "finding": "Chromatin interaction coordinates and enrichment statistics."
+      }
+    },
+    {
+      "id": "preprint_table3",
+      "role": "supplement",
+      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "H3k27ac sheet header and first rows lines 1–16",
+        "finding": "Workbook lists H3K27ac PLACE interaction intervals and counts."
+      },
+      "reason": "Interaction results, not library reagents.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-3 workbook H3k27ac_PLACE sheet lines 1–4",
+        "finding": "PLACE interaction result coordinates and statistics."
+      }
+    },
+    {
+      "id": "publisher_supp_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5143423/bin/cr2016137x1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement currently blocked by PMC download gate; cannot establish equivalence to preprint adjunct."
+    },
+    {
+      "id": "publisher_supp_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5143423/bin/cr2016137x2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement currently blocked by PMC download gate; cannot establish equivalence to preprint adjunct."
+    },
+    {
+      "id": "publisher_supp_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5143423/bin/cr2016137x3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement currently blocked by PMC download gate; cannot establish equivalence to preprint adjunct."
+    },
+    {
+      "id": "publisher_supp_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5143423/bin/cr2016137x4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement currently blocked by PMC download gate; cannot establish equivalence to preprint adjunct."
+    },
+    {
+      "id": "rao_insitu_hic",
+      "role": "linked_material",
+      "locator": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Rao in situ Hi-C detailed protocol lines 46–80",
+        "finding": "Cited predecessor uses MboI, Klenow with biotin-14-dATP/dCTP/dGTP/dTTP fill-in, then T4 DNA ligase. PLAC adds ChIP after this proximity ligation; predecessor does not establish PLAC-specific post-ChIP adapters."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Rao detailed Hi-C PDF lines 50–79",
+        "finding": "Original cited in situ Hi-C procedure uses MboI digestion, biotin-14-dATP/Klenow fill-in and T4 DNA ligase; PLAC-seq then adds ChIP, so Rao cannot establish its post-ChIP library adapters."
+      }
+    },
+    {
+      "id": "geo",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2295907",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original sample record describes adapter ligation but has not been independently re-opened in this pass.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint Methods lines 806–810, 942–954; original supplement links 1186–1219",
+      "finding": "Rao in situ Hi-C chemistry and four publisher supplements remain to be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published article Fig. 1A line 1169; preprint Methods 798–954; Rao in-situ Hi-C protocol 46–80",
+      "finding": "Rao predecessor read, but publisher Data S1 and supplements remain unavailable. Publication-specific adapter choices cannot be confirmed."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact ordered PLAC-seq Illumina adapter/index sequences are absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "The defining article and preprint establish steps, but publisher supplements and inherited in situ Hi-C method remain unresolved."
+    }
+  ],
+  "conclusion": "The defining article and preprint establish steps, but publisher supplements and inherited in situ Hi-C method remain unresolved."
+}

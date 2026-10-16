@@ -1,0 +1,193 @@
+{
+  "dir": "scsplat__10.1101+2021.10.14.464375",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods lines 540–565",
+        "finding": "Preprint describes bisulfite conversion, barcoded SSO strand synthesis, Exo I digestion, pooling, splinted adapter ligation and index PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv Methods lines 540–565",
+        "finding": "Preprint describes barcoded SSO strand synthesis and SPLAT adapter ligation before PCR."
+      }
+    },
+    {
+      "id": "published",
+      "role": "other",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_PMC8986790.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods line 131 and surrounding heading",
+        "finding": "Published Methods print ss1a and ss1b oligos but call the annealed pair ss1a/ss2b; exact reagent-name discrepancy is disclosed by existing public graph."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 129–135",
+        "finding": "Publishes reaction order and ss1a plus ss2b in narrative, then names ss1a plus ss1b in sequence parenthesis; discrepancy needs public disclosure."
+      }
+    },
+    {
+      "id": "published_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_supp_41598_2022_9798_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S1 lines 1–150",
+        "finding": "Publishes SSO_H barcoded primer family, ss1a random-N6 splint and ss1b phosphorylated complement; table names ss1b rather than ss2b."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Table S1 lines 10–38 and adapter rows",
+        "finding": "Prints SSO_H barcode family and adaptor oligos; supports the source-sequence side of the ss1b/ss2b discrepancy."
+      }
+    },
+    {
+      "id": "spl_at_predecessor",
+      "role": "predecessor",
+      "locator": "Original SPLAT method cited in published Methods line 131, reference 14",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact earlier SPLAT adapter geometry and naming not yet checked."
+    },
+    {
+      "id": "preprint_data_1",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-1 Sheet1 header and scSPLAT rows 19–23",
+        "finding": "Correction after independent review: result sheet also embeds Cell/pool-name/barcode values for scSPLAT, including TAGCTT, ACTTGA and GCCAAT. These corroborate observed inline barcodes but do not define the adapter oligo design."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-1 workbook Sheet1 lines 1–5 and barcode column",
+        "finding": "Per-cell result table has Cell/pool-name/barcode values such as TAGCTT, ACTTGA and GCCAAT; relevant corroboration for used six-base inline barcodes, though it does not define oligo geometry."
+      }
+    },
+    {
+      "id": "preprint_data_2",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet heading and first rows",
+        "finding": "Read alignment, cluster, differential methylation or GO result sheet, not ordering oligos."
+      },
+      "reason": "Biological result workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-2 Sheet1 lines 1–5",
+        "finding": "Per-cell cluster assignments, not protocol chemistry."
+      }
+    },
+    {
+      "id": "preprint_data_3",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet heading and first rows",
+        "finding": "Read alignment, cluster, differential methylation or GO result sheet, not ordering oligos."
+      },
+      "reason": "Biological result workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-3 Sheet1 lines 1–5",
+        "finding": "Differential methylation region coordinates and annotations."
+      }
+    },
+    {
+      "id": "preprint_data_4",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet heading and first rows",
+        "finding": "Read alignment, cluster, differential methylation or GO result sheet, not ordering oligos."
+      },
+      "reason": "Biological result workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-4 Cluster2_intersections lines 1–5",
+        "finding": "GO enrichment results."
+      }
+    },
+    {
+      "id": "preprint_data_5",
+      "role": "supplement",
+      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet heading and first rows",
+        "finding": "Read alignment, cluster, differential methylation or GO result sheet, not ordering oligos."
+      },
+      "reason": "Biological result workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-5 Sheet1 lines 1–5",
+        "finding": "Differential methylation marker overlaps."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint Methods 540–565; published Methods line 131; published Table S1 1–150",
+      "finding": "Compared version-specific adapter names and source-positive table; predecessor SPLAT adapter source remains unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 129–135; MOESM1 Table S1 lines 10–38; preprint Methods lines 540–565",
+      "finding": "Published/preprint material examined and the cited SPLAT predecessor remains unreviewed; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact SPLAT splint annealing partner is established",
+      "disposition": "blocked",
+      "evidence": "Published Methods names ss2b while Table S1 prints ss1b; earlier SPLAT source has not yet resolved the identity."
+    }
+  ],
+  "conclusion": "Published Methods names ss2b while Table S1 prints ss1b; earlier SPLAT source has not yet resolved the identity."
+}

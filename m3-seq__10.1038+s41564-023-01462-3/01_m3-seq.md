@@ -43,5 +43,6 @@ Rev G, shows the 16-base barcode between the P5 and Read 1N arms (guide pp. 63â€
 Appendix A). ðŸ”´ Which candidate a particular M3-seq cell received is determined from
 that experiment's reads; the paper's oligo table does not assign a fixed BC2 to a cell.
 The page therefore shows BC2 as a variable role token while retaining the source-known
-adapter arms and bridge geometry. The author analysis repository still needs its own
-source review.
+adapter arms and bridge geometry. The author repository lists a
+`metadata/737K-cratac-v1.reverse_complement.csv` file, but its body could not be
+retrieved during this audit; its members and orientation remain unchecked.

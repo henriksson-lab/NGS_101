@@ -123,7 +123,7 @@ def protocol_graph():
     graph.discard(unbound, "RNA not retained through anti-m6A immunopurification is washed away")
     adapter = graph.input("adapter_3p", "pre-adenylated 3′ RNA adapter",
                           MaterialKind.ADAPTER, inferred=True,
-                          source=SOURCE + " (compact page does not transcribe its terminal bases)")
+                          source=SOURCE + " (the 2017 detailed miCLIP protocol prints the L3 sequence; its exact use in every 2015 library is unverified)")
     ligase = graph.input("rna_ligase", "truncated RNA ligase", MaterialKind.CATALYST)
     ligated = graph.product("adapter_ligated", "3′-adapter-ligated crosslinked RNA",
                             MaterialKind.MOLECULAR)
@@ -132,7 +132,7 @@ def protocol_graph():
                 ((enriched, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The compact verified source record does not establish the adapter terminal bases."))
+                    "The 2017 detailed miCLIP protocol prints the L3 5′ rApp and 3′ ddC ends, but the 2015 article does not identify the adapter variant used in each library."))
     rt_primer = graph.input("rt_primer", "barcoded miCLIP reverse-transcription primer",
                             MaterialKind.OLIGO)
     rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)

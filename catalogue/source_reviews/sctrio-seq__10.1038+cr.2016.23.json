@@ -1,0 +1,149 @@
+{
+  "dir": "sctrio-seq__10.1038+cr.2016.23",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Hou et al. Cell Res 2016 doi:10.1038/cr.2016.23; PMC4783472",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC4783472 JATS lines 80-90, 152-166, 523-529",
+        "finding": "Physical cytoplasm/nucleus separation, inherited Tang scRNA and scRRBS, quality-control primers and supplementary figures/tables."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Hou 2016 PMC4783472 JATS Results lines 86–90 and Methods lines 152–166, plus cited-source lines and local bundle scraper",
+        "finding": "Independently verified physical cytoplasm/nucleus separation, Tang-inherited cytoplasmic RNA preparation, scRRBS-inherited MspI/bisulfite nuclear branch, NEBNext Ultra DNA Prep E7370 on sheared cDNA, and paired-end run. The paper prints QC primers but not final adapter/index oligos."
+      }
+    },
+    {
+      "id": "publisher_supplements",
+      "role": "supplement",
+      "locator": "Original cr201623x1-x13 files",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "cr201623x1.pdf.txt lines 1-80; cr201623x4.pdf.txt Methods/figure sections; manifest inventory",
+        "finding": "Available publisher supplement files include figures, but not all chemistry/relevance checked this pass."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All thirteen publisher supplementary text twins cr201623x1–x13 inspected by opening headings and searching primer/adapter/oligo/ligation/library-preparation terms; x1/x2 result-table headers, x3–x13 figure headings/captions; bundle scraper",
+        "finding": "This publisher set comprises sequencing/result tables S1/S2 and analytical figures S1–S11. The supplied text has no library oligo or reaction-method section. It cannot identify the separate NEBNext oligo kit or alter inherited Tang/scRRBS chemistry."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tang2009",
+      "role": "predecessor",
+      "locator": "Tang et al. Nat Methods 2009 doi:10.1038/nmeth.1315",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original full Tang 2009 Nature Methods author-mirror PDF (8 pages) browser lines 59–82, Figure 1 lines 115–149, Online Methods lines 651–685, predecessor citations lines 594–599; original Supplementary Table 9 local Tang source bundle MOESM306 XLS text lines 1–14; scraper run on Tang 2009 source bundle before reading",
+        "finding": "Tang 2009 original specifies UP1 poly(T) reverse transcription, exonuclease I removal of unused primer, TdT poly(A) tailing, UP2 second-strand synthesis, 20-cycle UP1/UP2 PCR, then 9-cycle 5′-amine blocked UP1/UP2 amplification. Original Table 9 prints UP1/UP2/NH2-UP1/NH2-UP2 and historical SOLiD P1/P2 adaptors/PCR primers. The amine prevents ligation of cDNA 5′ ends to SOLiD adapters after shearing. This supports inherited scTrio cDNA amplification but not its later NEBNext Illumina library endpoint or selected index."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Tang 2009 Nature Methods PDF mirrored at https://gene-quantification.eu/tang-et-al-solid-nature-methods-2009.pdf, Fig. 1 and Methods pp378, 383 (browser lines 115–149 and 650–679); original Supplementary Table 9 workbook local lines 1–14 after oligo scraper",
+        "finding": "The original gives UP1 RT, primer digestion, TdT poly(A) tailing, UP2 second strand, UP1/UP2 PCR and 5′-amine re-amplification. Its SOLiD P1/P2 endpoint is not the later scTrio NEBNext endpoint. The supplementary table prints UP1/UP2, amine modifications and SOLiD oligos. A separate first-reader check of the recovered full article remains needed."
+      },
+      "discovered_from": "paper",
+      "reason": "Original Tang 2009 full 8-page PDF independently read via browser mirror; local scoped fetch returned DNS error and direct curl returned only page 1, so complete Methods locations refer to browser original. Supplementary Table 9 is cached locally."
+    },
+    {
+      "id": "scrrbs",
+      "role": "predecessor",
+      "locator": "Guo et al. Genome Res 2013 scRRBS doi:10.1101/gr.161679.113; PMC3847781",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original PMC3847781 JATS Methods lines 90-114",
+        "finding": "Original scRRBS branch source locally available; exact inherited branch mapping still needs independent reading."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Guo 2013 PMC3847781 JATS Methods lines 103–105, after scTrio bundle scraper; scTrio Hou 2016 JATS line 154",
+        "finding": "Independently verified inherited MspI C^CGG digest, recessed-end fill and dA tail, premethylated indexed adapter ligation, bisulfite conversion and two PCR rounds. Guo calls the adapter 'Illumina standard premethylated indexed adaptors' without printing ligation-facing oligos or chosen index member."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "tang2010_detailed",
+      "role": "detailed_protocol",
+      "locator": "Tang et al. Nat Protoc 2010 doi:10.1038/nprot.2009.236; PMC3847604",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC3847604 JATS Methods lines 281–316, 338–436, 487–531, and oligo table 1399–1405; local source bundle scraper run before reading",
+        "finding": "Same-author detailed protocol specifies Exonuclease I primer removal, TdT poly(A) addition, UP2 second strand and 5′-amine blocked re-amplification. It helps resolve the inherited reaction order but retains its older sequencing endpoint."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Tang 2010 Nature Protocols JATS nprot.2009.236_PMC3847604.xml.txt lines 274–316 (Exonuclease I removal), 338–374 (TdT/poly(A)), 378–436 (UP2 second strand then UP1 PCR), 487–531 (amine-blocked AUP1/AUP2 reamplification and gel fraction), 1394–1409 (UP1/UP2/AUP1/AUP2 oligo table); scraper independently run on full Tang 2009/2010 source bundle",
+        "finding": "Same-author detailed predecessor has Exo I digestion of free UP1, TdT addition of poly(A), UP2-primed second strand, UP1/UP2 PCR and then 5-prime-amine AUP1/AUP2 reamplification. Its sequence table shows AUP1/AUP2 have the same base strings as UP1/UP2 with an NH2 modification; it explains amine blocking as avoiding ligation of cDNA fragment ends to the historical SOLiD adaptors. This supports inherited cDNA-amplification order, but not scTrio’s later Illumina endpoint."
+      },
+      "discovered_from": "tang2009"
+    },
+    {
+      "id": "nebnext_e7370_manual",
+      "role": "vendor",
+      "locator": "NEBNext Ultra DNA Library Prep Kit for Illumina E7370, official manual v9.1, https://www.neb.com/en/-/media/nebus/files/manuals/manuale7370.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7370 PDF cover and supplied-components pp1–5, adapter-ligation and PCR sections pp10–15 (browser lines 0–27, 67–78, 183–205)",
+        "finding": "The E7370 core kit uses separately sourced NEBNext oligo kits for adapter and index primers; this current 2023 manual cannot identify which oligo kit and index scTrio used in 2016."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official NEB E7370 manual local original manuale7370.pdf.txt cover lines 1–7 (Version 9.1_1/23), required-materials lines 17–62 (NEBNext Multiplex Oligos purchased separately), adapter ligation section and PCR options lines 425–503, truncated-adaptor note lines 582–583; primer scraper independently run on manual (zero sequence hits)",
+        "finding": "E7370 core kit provides end-prep, ligation and Q5 PCR reagents; adapter and index primers come from separately purchased NEBNext oligo kit. Manual distinguishes tube-supplied and plate-supplied primer options and explicitly defers valid barcode combinations to the corresponding oligo-kit manual. The 2023 revision is later than scTrio 2016 and cannot identify its selected oligo kit, adapter sequence or index member."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original scTrio JATS lines 80–90, 152–166; Guo scRRBS original JATS Methods lines 90–114; Tang 2009 full original Fig. 1/Online Methods browser lines 115–149, 651–685 and Table 9 local lines 1–14; Tang original cites Kurimoto 2006/2007 at browser lines 594–599",
+      "finding": "Followed Hou scTrio into Guo scRRBS and Tang 2009. Tang original confirms inherited UP1→Exo I→TdT→UP2→PCR→amine-blocked reamplification and explicitly separates its historical SOLiD endpoint from later scTrio NEBNext. The full original now has my independent first read; exact scTrio-selected NEBNext oligo kit/index and scRRBS adapter still lack sufficient source evidence."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Followed Hou 2016 citations into Tang 2009 full article and Supplementary Table 9, Guo 2013 scRRBS, Tang 2010 detailed protocol, all thirteen Hou supplement files, and NEB E7370 official manual; ran source-bundle oligo scrapers",
+      "finding": "Inherited oligos and reaction order were recovered; exact scTrio-selected NEBNext oligo kit/index and scRRBS premethylated adapter remain unsupported. The later E7370 manual cannot establish the historical kit selection. First-reader checks of newly recovered originals remain open."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full scTrio RNA and RRBS primer inventory",
+      "disposition": "blocked",
+      "evidence": "Tang UP1/UP2 and amine-blocked derivatives were recovered from the original 2009 supplementary table and the full article is browser-readable. Exact scTrio-selected NEBNext oligo kit/index and scRRBS premethylated adapter still require two complete source passes and historical kit evidence."
+    }
+  ],
+  "conclusion": "The defining paper, publisher supplement set, scRRBS predecessor, Tang 2009 original and Table 9, Tang 2010 detailed protocol, and later E7370 manual have independent source passes where recorded. Tang’s historical SOLiD adapter is not scTrio’s later Illumina adapter; exact NEBNext oligo kit/index and scRRBS premethylated adapter remain blocked."
+}

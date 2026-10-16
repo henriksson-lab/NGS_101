@@ -36,11 +36,12 @@ def sequencing()->str:
         intro=("Read 1 contains the ligation barcode, UMI and RT barcode; Read 2 "
                "contains transcript sequence. The two index reads identify the PCR well."),
         read_lengths=S.READ_LENGTHS,read_uses=S.READ_USES,show_read_content=True)
-        +info('The published adaptor set mixes 9- and 10-base ligation barcodes; a 9-base member shifts the following fields one cycle earlier.'))
+        +info('The published adaptor set mixes 9- and 10-base ligation barcodes; a 9-base member shifts the following fields one cycle earlier.')
+        +info('The <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE119945">GEO cell annotation</a> records each observed PCR-group label together with its ligation and RT barcodes. The exact P5/P7 primer pair represented by each numeric PCR-group label is still unverified.'))
 
 
 def main()->None:
-    page="\n".join([head("sci-RNA-seq3 library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>sci-RNA-seq3 &mdash; three-level combinatorial indexing of nuclei</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41586-019-0969-x">Cao et al., <i>Nature</i> (2019)</a>.'),oligos(),construction(),sequencing(),'</div>'])
+    page="\n".join([head("sci-RNA-seq3 library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>sci-RNA-seq3 &mdash; three-level combinatorial indexing of nuclei</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41586-019-0969-x">Cao et al., <i>Nature</i> (2019)</a>. The paper\'s Supplementary Table S11 and the <a href="https://github.com/JunyueC/sci-RNA-seq3_pipeline">author primer plate workbook</a> list the RT, ligation and PCR oligos; the author repository also maps RT barcodes to embryos.'),info('Source discrepancy: the 2019 Methods call the internal hairpin modification <code>/dideoxyU/</code>, whereas Supplementary Table S11 and the author primer workbook print <code>/ideoxyU/</code>. This page uses the table/workbook value, consistent with the subsequent USER cleavage. The intended chemical specification behind the Methods wording is not independently confirmed.'),oligos(),construction(),sequencing(),'</div>'])
     OUT.write_text(page,encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

@@ -1,0 +1,46 @@
+{
+  "dir": "airr-umi-5-race__10.1007+978-1-0716-2115-8_19",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "chapter",
+      "role": "defining",
+      "locator": "Methods in Molecular Biology DOI 10.1007/978-1-0716-2115-8_19",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MANIFEST.tsv contains only manual DOI row; no local original chapter. A complete primary-text pass is impossible."
+    },
+    {
+      "id": "vendor_assay",
+      "role": "linked_material",
+      "locator": "Vendor UMI 5-prime RACE assay documentation mentioned in existing page",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "chapter",
+      "reason": "Original vendor assay identity and guide cannot be verified until defining chapter is available."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "MANIFEST and page citations",
+      "finding": "Chapter absent; vendor reference cannot be verified."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Local MANIFEST and source directory",
+      "finding": "No article or supplement text present; cannot independently inventory its links."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SMART UMI, gene-specific PCR, and sequencing oligos are proprietary or unprinted.",
+      "disposition": "blocked",
+      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+    }
+  ],
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+}

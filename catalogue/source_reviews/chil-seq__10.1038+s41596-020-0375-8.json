@@ -1,0 +1,153 @@
+{
+  "dir": "chil-seq__10.1038+s41596-020-0375-8",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41596-020-0375-8",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full Nature Protocols article was not fetched; publisher page alone is insufficient for full Methods."
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods/oligos lines 196–255, 335–429",
+        "finding": "Prints ChIL probe/T7/Nextera components, MEDS-B transposome arms, Read2+N11 and Ad1/Ad2 PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Supplementary Methods and oligo table lines 196–255, 335–429",
+        "finding": "Prints ChIL probe, T7 and MEDS-B oligos and index primer design; defining Nature Protocols article and original ChIL remain inaccessible."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary opening and sections",
+        "finding": "Study reporting form; no ChIL reagent recipe."
+      },
+      "reason": "Reporting summary.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 Reporting Summary lines 1–12",
+        "finding": "Reporting form with statistics/metadata, not protocol oligos."
+      }
+    },
+    {
+      "id": "raw_figure",
+      "role": "supplement",
+      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Extracted Fig. 2b gel/blot labels",
+        "finding": "Figure source data rather than oligo list."
+      },
+      "reason": "Gel/blot source data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM3 Fig 2b labels lines 1–13",
+        "finding": "Gel/blot source image labels and size markers only."
+      }
+    },
+    {
+      "id": "figure3_data",
+      "role": "supplement",
+      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Fig.3b sheet heading and first rows",
+        "finding": "Pearson-correlation matrix, no synthesis reagents."
+      },
+      "reason": "Figure correlation data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Fig.3b sheet lines 1–5",
+        "finding": "Pearson correlation coefficients among ChIL samples."
+      }
+    },
+    {
+      "id": "figure4_data",
+      "role": "supplement",
+      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Fig.4c sheet heading and first rows",
+        "finding": "Pearson-correlation matrix, no synthesis reagents."
+      },
+      "reason": "Figure correlation data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM5 Fig.4c sheet lines 1–5",
+        "finding": "Pearson correlation coefficients, not reaction specification."
+      }
+    },
+    {
+      "id": "original_chil",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41556-018-0248-3",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor not yet independently read."
+    },
+    {
+      "id": "author_correction",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/s41596-023-00940-6",
+      "discovered_from": "supp_methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "2024 correction of Fig. 2c image; no oligo correction reported in indexed text; original correction still needs direct check."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Supplementary oligo table lines 196–255 and 335–429; other supplement headings",
+      "finding": "Detailed supplement supplies source-positive oligos; defining full paper and original ChIL-seq predecessor remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Nature Protocols article preview; MOESM1 Supplementary Methods lines 196–255 and 335–429",
+      "finding": "Supplement provides oligos, but defining full article, cited original ChIL and author correction are unavailable; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full ChIL reaction details and probe-ligation geometry are verified against defining Methods",
+      "disposition": "blocked",
+      "evidence": "Oligos are source-positive in supplementary methods; defining full article and predecessor are still blocked."
+    }
+  ],
+  "conclusion": "Oligos are source-positive in supplementary methods; defining full article and predecessor are still blocked."
+}

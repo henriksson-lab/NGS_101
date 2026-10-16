@@ -16,7 +16,9 @@ SUMMARY = "Immunoprecipitate crosslinked chromatin first, then let Tn5 fragment 
 CAVEAT = "The defining chemistry uses Nextera reagents; the final molecule is assembled from the repository’s canonical Nextera components."
 FINAL_LIBRARY, SEQ_PRIMERS = tagmented_library("ChIP-selected DNA")
 FINAL_CAPTION = "Indexed Nextera library whose insert was selected by chromatin immunoprecipitation before tagmentation."
-SEQUENCING_INTRO = "Paired reads enter the immunoprecipitated fragment at the two Tn5 insertion sites; sample indexes are installed during PCR."
+SEQUENCING_INTRO = ("Read primers can enter the immunoprecipitated fragment from either Tn5 insertion site; "
+                    "the published sequencing summary includes both single-read and paired-end runs. "
+                    "Sample indexes are installed during PCR.")
 
 def sections():
     return [

@@ -79,11 +79,15 @@ library and is intentionally separate from the main schematic.
 
 ## 7. Boundary of this page
 
-🔴 The CROP-seq Supplementary Protocol lists the TSO, SMART PCR, selective enrichment,
+🟢 The CROP-seq Supplementary Protocol lists the TSO, SMART PCR, selective enrichment,
 and custom Read 1 oligos, but refers to prepared Drop-seq beads rather than printing
-their full barcoded capture oligo. The molecular graph therefore records the bead oligo
-as a role. Recovering its exact ordered design requires auditing the cited Drop-seq
-bead source, including its barcode and UMI windows.
+their full barcoded capture oligo. The original inventor lab's [Drop-seq protocol v3.1](https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf),
+primer table on PDF p. 3 (extracted lines 117–150), prints the inherited SeqB bead family, summarized here as:
+`5′-Bead–Linker–TTTTTTTAAGCAGTGGTATCAACGCAGAGTAC-J12-N8-T30-3′`, where the
+12 `J` positions are the bead-specific cell barcode and the 8 `N` positions are a
+per-oligo UMI. It also prints the Drop-seq TSO, SMART PCR primer and custom Read 1
+primer. 🟡 CROP-seq does not identify which exact barcode members were present in
+the prepared bead batch; the graph therefore records the bead reagent as a family.
 
 This page documents original CROP-seq and its Drop-seq readout. Later dedicated guide-capture,
 10x Feature Barcode, and multi-perturbation chemistries are separate protocols.

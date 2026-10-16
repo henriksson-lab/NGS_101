@@ -1,0 +1,78 @@
+{
+  "dir": "duplex-sequencing__10.1073+pnas.1208715109",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Schmitt et al PNAS 2012 doi:10.1073/pnas.1208715109",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
+        "finding": "Original reports 12 nt tag at both ends and original adapter dA / fragment dT ligation; points to SI for bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
+        "finding": "Defining paper explains randomized duplex tag copied into adaptor and complementary-tag strand pairing; precise 2012 SI oligo table not in article."
+      }
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "PNAS SI Materials and Methods 1208715109_pnas.201208715SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC supplementary download gate and publisher route returned 403; MANIFEST manual row."
+    },
+    {
+      "id": "kennedy2014",
+      "role": "linked_material",
+      "locator": "Kennedy et al Nat Protoc 2014 doi:10.1038/nprot.2014.170",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
+        "finding": "Later redesign Table 3 prints MWS51/MWS55 and PCR primers; explicitly changes to adapter dT and fragment dA, so cannot backfill 2012 bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
+        "finding": "Later author detailed protocol prints MWS51/MWS55 duplex adapter, N12 tag, MWS13/MWS20/MWS21 PCR primers; successor cannot prove every 2012 oligo identity."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original paper SI pointer; 2014 author successor and its explicit chemistry change.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "2012 original HTML lines 1159-1172, 1238-1243; Kennedy 2014 original JATS lines 95-103, 1205-1222; original SI manifest",
+      "finding": "Followed paper to detailed successor, recovering adapter and PCR oligo family; original 2012 SI remains unavailable, so defining-version exact bases are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "2012 adapter and PCR oligo synthesis sequences",
+      "evidence": "The original SI is gated; the 2014 published redesign has reversed tail polarity.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Later author protocol publishes duplex adapter and PCR oligos; defining 2012 SI remains unavailable for version-specific verification."
+}

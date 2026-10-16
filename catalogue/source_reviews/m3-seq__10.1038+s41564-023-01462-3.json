@@ -1,0 +1,301 @@
+{
+  "dir": "m3-seq__10.1038+s41564-023-01462-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "McNulty et al 2023 DOI:10.1038/s41564-023-01462-3; s41564-023-01462-3_PMC10522482.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 50, 56, 132-190",
+        "finding": "Line 56 names Chromium Next GEM Single Cell ATAC for BC2 droplet ligation; separate round-one BC1 and UMI described."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS lines 56 and 150-192",
+        "finding": "Two indexing rounds are described: RT-derived BC1 and UMI then Chromium Next GEM scATAC BC2; methods identify ATAC v1.1 product 1000176 and oDS029 Nextera read-2 transposome."
+      }
+    },
+    {
+      "id": "published_oligo_table",
+      "role": "supplement",
+      "locator": "s41564-023-01462-3_supp_41564_2023_1462_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Rows 67-100, including oDS025/oDS027/oDS029-040",
+        "finding": "Published oligo bases and modifications are tabulated; no experiment-specific 10x bead assignment in this table. Scraper verified hits."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MOESM5 XLSX extracted text lines 83-101",
+        "finding": "Published Table S3 gives oDS025 3′ ddC, oDS029 5′ phosphate, and oDS033–oDS040 indexing oligos. Original rows read after scraper hit review."
+      }
+    },
+    {
+      "id": "published_supp1",
+      "role": "supplement",
+      "locator": "Springer MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1/MOESM2 headers and oligo search",
+        "finding": "Supporting methods/figures available; no claim of comprehensive absence drawn from this first pass."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MOESM1 extracted text lines 1-28",
+        "finding": "Supplementary table outline and figure notes; Table S3 directs to separate MOESM5 oligo workbook."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "published_supp2",
+      "role": "supplement",
+      "locator": "Springer MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1/MOESM2 headers and oligo search",
+        "finding": "Supporting methods/figures available; no claim of comprehensive absence drawn from this first pass."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MOESM2 extracted text line 1; original PDF inspected",
+        "finding": "File is an essentially blank extraction/form; no oligo claim can be resolved from this text alone."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "published_video1",
+      "role": "supplement",
+      "locator": "Springer MOESM3_ESM.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 MP4; 2-second frame and ffprobe; defining JATS lines 318–320; preprint media-1 lines 403–407",
+        "finding": "Visual read shows phase/green-fluorescence E. coli microscopy. Article caption identifies acid-stress recovery; the movie supplies phenotype evidence, no oligo or reagent recipe."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original MOESM3 video; ffprobe metadata and frame at 2 seconds; article JATS movie captions lines 318-324",
+        "finding": "Bacterial microscopy movie; no protocol sequence or reagent table."
+      },
+      "discovered_from": "paper",
+      "reason": "Original video is bacterial microscopy documenting phenotype, with no protocol oligonucleotide or reagent content."
+    },
+    {
+      "id": "published_video2",
+      "role": "supplement",
+      "locator": "Springer MOESM4_ESM.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 MP4; 2-second frame and ffprobe; defining JATS lines 322–324; preprint media-1 lines 408–412",
+        "finding": "Visual read shows phase/green-fluorescence E. coli microscopy. Article caption identifies acid exposure; the movie supplies phenotype evidence, no oligo or reagent recipe."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original MOESM4 video; ffprobe metadata and frame at 2 seconds; article JATS movie captions lines 318-324",
+        "finding": "Bacterial microscopy movie; no protocol sequence or reagent table."
+      },
+      "discovered_from": "paper",
+      "reason": "Original video is bacterial microscopy documenting phenotype, with no protocol oligonucleotide or reagent content."
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "McNulty et al bioRxiv DOI:10.1101/2022.09.21.508688; 2022.09.21.508688_v2.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2022.09.21.508688_v2.full.pdf.txt lines 63–82, 889–929, 1001–1030, 624–630",
+        "finding": "Original 2022 bioRxiv v2 describes random-primed RT plate BC1/UMI followed by 10x Next GEM scATAC droplet BC2 ligation; methods name 1000176, CG000209 Rev A, oDS025 bridge, and final 26/30/8/74 run layout. It points to supplemental oligos and author scripts."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Preprint main PDF extracted text, methods and supplement references",
+        "finding": "Preprint is a linked earlier version; supplement contains a separately published oligo table, so it was followed."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "preprint_supp_methods",
+      "role": "linked_material",
+      "locator": "2022.09.21.508688_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2022.09.21.508688_media-1.pdf.txt lines 393–412",
+        "finding": "Original preprint supplement captions Table S4 as oligonucleotides grouped by RT, rRNA depletion and general purpose; captions Movies S1/S2 as acid-stress microscopy. Followed oligos to media-2."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Preprint media-1 PDF extracted text lines 396-408",
+        "finding": "Supplement lists Table S4 oligonucleotides and two microscopy movies; followed Table S4 to media-2 workbook."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "preprint_supp_oligos",
+      "role": "linked_material",
+      "locator": "2022.09.21.508688_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2022.09.21.508688_media-2.xlsx.txt lines 64–101",
+        "finding": "Original preprint Table S4 standard oligo sheet prints oDS025 with /3ddC/, oDS029 with /5Phos/, oDS033–oDS040 P7 variants, and oBW128 with terminal rGrGrG. This is preprint evidence; published MOESM5 remains separate authority."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Preprint media-2 extracted text lines 64-86",
+        "finding": "Table S4 gives oDS025/oDS029 and indexed oligos with end modifications; preprint values must not be substituted for published supplement without comparison."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vendor_guide",
+      "role": "linked_material",
+      "locator": "10x CG000209 Chromium Next GEM Single Cell ATAC v1.1 Rev G; _data/sources/10x-chromium-single-cell-atac/10x_CG000209...RevG.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Guide lines 915-961, 3729-3811",
+        "finding": "Guide describes pool of approximately 750,000 16 nt barcodes and gel bead oligo architecture."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "10x CG000209 Rev G original PDF extracted text lines 915-961 and 3729-3744",
+        "finding": "Vendor guide describes barcoded gel beads and Read1N/Read2N sequences; it does not assign a particular barcode to an M3-seq cell."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "vendor_whitelist",
+      "role": "linked_material",
+      "locator": "10XGenomics/cellranger-atac official GitHub software tree, lib/python/barcodes/737K-cratac-v1.txt; https://github.com/10XGenomics/cellranger-atac",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official repository tree listing `737K-cratac-v1.txt`; official 10x ATAC documentation describes barcode whitelist",
+        "finding": "Candidate BC2 sequences are available in vendor software; exact sequence acquired by a given M3-seq cell is experiment-specific. Local scg mirror exists but was not used as original evidence."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv 10x ATAC mirror row; decompressed 737K-cratac-v1.txt.gz first four lines; official repository filename in vendor software tree",
+        "finding": "The vendor barcode whitelist gives candidate barcode sequences; which one a particular cell received remains experiment-specific."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "analysis_code",
+      "role": "linked_material",
+      "locator": "https://github.com/brwaang55/m3seq_scripts",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint main PDF lines 624–630 links author repository; live GitHub root tree lines 148–169, metadata tree lines 183–192, scripts tree lines 183–214 (read 2026-10-16)",
+        "finding": "Author repository contains analysis/demultiplexing scripts and a metadata directory listing 737K-cratac-v1.reverse_complement.csv. The linked CSV body was not obtained, so candidate barcode members and mapping from this repository remain unchecked."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Author GitHub repository main page and metadata/ directory inventory",
+        "finding": "Repository has M3 analysis scripts and metadata listing 737K-cratac-v1.reverse_complement.csv; file contents have not been obtained or inspected."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_barcode_csv",
+      "role": "linked_material",
+      "locator": "https://github.com/brwaang55/m3seq_scripts/blob/main/metadata/737K-cratac-v1.reverse_complement.csv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The author repository metadata tree lists this exact CSV, but its body could not be obtained on 2026-10-16: GitHub blob and raw.githubusercontent.com returned web cache misses; GitHub Contents API and jsDelivr were unavailable through the web tool; direct raw/API requests from the sandbox failed DNS resolution. Its candidate BC2 members and orientation remain unchecked. The official 10x whitelist is a separate readable source.",
+      "pass_1": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Author GitHub metadata tree lines 183-192; exact GitHub blob/raw/API URLs and jsDelivr mirror attempted 2026-10-16",
+        "finding": "Verified that the linked file exists by repository inventory, but no file body was retrievable. No sequence or orientation conclusion can be drawn from it."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author GitHub metadata tree https://github.com/brwaang55/m3seq_scripts/tree/main/metadata lines 183–192; independently attempted blob, raw.githubusercontent, GitHub raw, Contents API URLs after m3 source-bundle oligo scraper",
+        "finding": "Original author tree lists exact CSV, but every file-body route failed (web cache miss/inaccessible API); no BC2 member or orientation can be verified from filename alone."
+      },
+      "discovered_from": "analysis_code"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Paper JATS lines 50/56; published oligo supplement; vendor guide and official software tree",
+      "finding": "Followed the named 10x kit to its guide and vendor software whitelist; linked author code remains unchecked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Published JATS lines 56,150-192; Springer MOESM1-5; preprint main and media-1/media-2; 10x guide; vendor whitelist; author repository inventory",
+      "finding": "Followed paper to published and preprint supplements, vendor guide/whitelist and author repository. Author barcode CSV contents remain unexamined, so linked-information result remains blocked."
+    },
+    "followup": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Author GitHub metadata tree and exact author CSV retrieval routes; official 10x whitelist reviewed separately",
+      "finding": "Followed the repository link to its named barcode CSV and added a direct fetch route. All currently available routes failed before content retrieval; linked-information gate remains blocked."
+    },
+    "followup_2026_10_16_root": {
+      "reviewer": "root",
+      "locations": "Author GitHub metadata tree https://github.com/brwaang55/m3seq_scripts/tree/main/metadata lines 183–192; independently attempted blob, raw.githubusercontent, GitHub raw, Contents API URLs after m3 source-bundle oligo scraper",
+      "finding": "Independently retried the linked original named in author_barcode_csv; it remains inaccessible, so linked-information disposition stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact BC2 assigned to a specific cell is not established by paper alone; categorical claim that candidate 10x ATAC BC2 sequences are undisclosed is incorrect",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "Published and preprint sources have two checks, and the vendor ATAC barcode whitelist supplies candidate sequences. The author reverse-complemented barcode CSV is identified but inaccessible through attempted original and mirror routes; its body and experiment-specific BC2 assignment remain blocked."
+}

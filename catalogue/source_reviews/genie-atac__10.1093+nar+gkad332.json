@@ -1,0 +1,97 @@
+{
+  "dir": "genie-atac__10.1093+nar+gkad332",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "nar_article",
+      "role": "defining",
+      "locator": "GenIE-ATAC NAR 2023, nar_gkad332_PMC10287956.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 65-77 and 125-153",
+        "finding": "Prints modified MEDS-A/MEDS-REV and Tn5A oligos, explains nested locus-specific PCR, and says a second PCR adds Illumina indices by cited reference 31."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC10287956 XML Methods lines 65-79, 125-153",
+        "finding": "Author-loaded Tn5 MEDS-A and modified MEDS-REV are printed; nested Tn5A and locus primers described. Index addition refers to Kozarewa/Turner reference 31."
+      }
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "nar_gkad332_supp_gkad332_supplemental_files_Supplementary_Tables_1-4.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Sheets 1-2 lines 1-41",
+        "finding": "Locus-specific primer members, including rs12269414, are listed. Index pair chosen for a particular sample is not in checked table rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplementary Tables 1-4 workbook sheet 1 and 2 lines 1-41",
+        "finding": "Tables print biotinylated locus primers, nested primers and guide/HDR sequences; chosen sample index is not in these rows."
+      }
+    },
+    {
+      "id": "biorxiv",
+      "role": "supplement",
+      "locator": "2022.02.09.479775_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Preprint lines 387-388 and 497; scraper located MEDS-A, MEDS-REV and Tn5A",
+        "finding": "Earlier manuscript repeats the principal Tn5 adapter and nested-PCR handles; not independent evidence of index choice."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 PDF text lines 379-392 and 490-503",
+        "finding": "Preprint independently prints MEDS-A and pCTGTCTCTTATACACATCT/intT plus nested Tn5A; does not identify chosen index pair."
+      }
+    },
+    {
+      "id": "barcoding_31",
+      "role": "linked_material",
+      "locator": "Reference 31, Kozarewa and Turner 96-plex molecular barcoding for Illumina Genome Analyzer, cited from NAR line 153",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited barcoding scheme not independently read in this pass; exact selected primer pair unresolved.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "nar_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "NAR JATS lines 65-77,125-153 and citation 31; Supplementary Tables 1-4 sheets 1-2",
+      "finding": "Read original and table for GenIE-specific primers, identified cited indexing scheme but did not verify a particular chosen pair. Linked citation remains open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "NAR PMC10287956 Methods lines 125-153 and Supplementary Table 1; bioRxiv v1 lines 379-392",
+      "finding": "Confirmed reference 31 is the separately cited indexing/barcoding method; locus primer table does not state chosen sample index."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The terminal indexed MiSeq shell is inferred",
+      "disposition": "blocked",
+      "evidence": "The paper prints GenIE-specific oligos but identifies indexing as a second PCR following a cited scheme; the selected sample-specific pair is not fixed by checked source lines."
+    }
+  ],
+  "conclusion": "First pass confirms source oligos; indexing-citation inspection and independent reading pending."
+}

@@ -17,9 +17,12 @@ sample identifier is physically embedded between the F1c and F2 portions of FIP.
 The published open-source implementation uses LNA substitutions in F3 and B3 and
 a strand-displacing Bst polymerase at 65 °C for 80 minutes.
 
-🟢 Saturated reactions are pooled and diluted 1:40,000 before a one-step 25-cycle
-PCR. The dilution is part of the molecular protocol: insufficient dilution allowed
-new barcoded primers to relabel products from other wells.
+🟢 The paper gives two PCR branches. The two-stage branch shown on the page pools
+and dilutes LAMP products 1:100,000 before an 18-cycle target PCR, then uses
+another 18-cycle pool-index PCR. Adding 5 µl of diluted pool to the 50 µl first
+PCR makes the effective dilution 1:1,000,000. The open-source one-step branch
+instead dilutes 1:40,000 before a 25-cycle indexed PCR (effective 1:400,000).
+The dilution limits barcode swapping caused by relabelling across pooled wells.
 
 🟢 The PCR primers install two additional 10-nt pool identifiers together with P5,
 P7 and standard TruSeq sequencing arms. Supplementary Data 1 publishes every

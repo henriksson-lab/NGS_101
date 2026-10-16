@@ -175,6 +175,28 @@ def _hits(top: str, seq: str) -> list[tuple[str, int, int]]:
     return hits
 
 
+def _read_preview(lib: Construct, start: int, strand: str, n: int) -> str:
+    """Show known first bases, stopping at a schematic region of unknown bases."""
+    end = min(len(lib), start + n) if strand == "bottom" else max(0, start - n)
+    position = 0
+    unknown = False
+    for segment in lib:
+        after = position + len(segment)
+        if segment.is_role_token():
+            if strand == "bottom" and start <= position < end:
+                end, unknown = position, True
+                break
+            if strand == "top" and end < after <= start:
+                end, unknown = after, True
+                break
+        position = after
+    if strand == "bottom":
+        bases = lib.top()[start:end]
+    else:
+        bases = lib.bottom()[end:start][::-1]
+    return bases + ("…" if unknown else "")
+
+
 def locate_all(lib: Construct, p: SeqPrimer, n: int = 12,
                min_anneal: int = MIN_ANNEAL) -> list[Landing]:
     """Every best-length site of ``p`` on ``lib``.
@@ -199,10 +221,9 @@ def locate_all(lib: Construct, p: SeqPrimer, n: int = 12,
     out = []
     for strand, a, b in hits:
         if strand == "bottom":   # same sense as top: extends rightwards, reports top
-            reads, frm = top[b:b + n], _seg_at(lib, b)
+            reads, frm = _read_preview(lib, b, strand, n), _seg_at(lib, b)
         else:                    # anneals to top: extends leftwards, reports bottom 5'->3'
-            # from the drawn bottom strand, so placeholders stay stand-ins, not bases
-            reads, frm = lib.bottom()[max(0, a - n):a][::-1], _seg_at(lib, a - 1)
+            reads, frm = _read_preview(lib, a, strand, n), _seg_at(lib, a - 1)
         out.append(Landing(strand, a, b, _covers(lib, a, b), reads, frm, free5))
     return out
 
@@ -672,7 +693,8 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
             if hit.free5:
                 where += (f"; its 5'-terminal {hit.free5} nt are an unpaired flap "
                           "(harmless: extension starts at the paired 3' end)")
-            first = (f"<code>{html.escape(hit.reads)}</code>&hellip; "
+            continuation = "" if hit.reads.endswith("…") else "&hellip;"
+            first = (f"<code>{html.escape(hit.reads)}</code>{continuation} "
                      f"(from {html.escape(hit.reads_from)})")
         else:
             where = f"<b>no exact site</b> &mdash; {html.escape(p.expect_mismatch)}"

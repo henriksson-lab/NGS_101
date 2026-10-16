@@ -1,0 +1,645 @@
+{
+  "dir": "nebnext-low-bias-small-rna",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "manual",
+      "role": "defining",
+      "locator": "NEB E3420 manual v2.0 May 2026",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/nebnext-low-bias-small-rna/manuale3420.pdf.txt lines 66,210,883 and ligation/PCR sections; scraper line 883",
+        "finding": "Names LB 3′/5′ adapters and splint, prints trim motifs, and requires separate LV UDI primer set."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "manuale3420.pdf.txt lines 205-214 and 875-890",
+        "finding": "Original NEB manual requires separate LV UDI primer pairs and prints TruSeq-like trim motifs for reads; this does not reveal selected index member or proprietary ligation oligo sequences."
+      }
+    },
+    {
+      "id": "index_manual",
+      "role": "linked_material",
+      "locator": "NEBNext LV Unique Dual Index Primer Sets E3390/E3392/E3400/E3402/E3404/E3406/E3408",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official NEBNext LV Unique Dual Index Primers v1.0_11/24 manual online PDF pp. 1–5 and Tables 1.1–1.7, especially lines 17–59 and 99–130",
+        "finding": "Each premixed well contains an eight-base i5 and i7 pair, with expected index reads tabulated by well; E3390/E3392 are subsets of E3402 and should not be pooled with it. This establishes available index choices, not the well used for an individual E3420 preparation or full primer strand synthesis."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB LV UDI manual https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408.pdf, web lines 18-39, 141-197 and Tables 1.1–1.7",
+        "finding": "Manufacturer manual provides expected i5/i7 8-base index reads for each well and pooling rules. Exact selected well and full primer synthesis remain assay-specific."
+      }
+    },
+    {
+      "id": "official_product_page",
+      "role": "linked_material",
+      "discovered_from": "manual",
+      "locator": "https://www.neb.com/en/products/e3420-nebnext-low-bias-small-rna-library-prep-kit",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official NEB product page, Product Information and Figure 1 text lines 35–51; Kit Components lines 86–129; Related Products and Resources lines 130–152, read online",
+        "finding": "NEB describes the E3420 3-prime adapter, removal, simultaneous 5-prime ligation and 3-prime adapter modification, RT, size selection and UDI PCR. It links the Maguire et al. 2020 research predecessor but states commercial protocol enhancements followed; the product component table names LB adapters without oligo strands. It points to separate UDI products and current supplemental data."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official NEB E3420 product page, Product Information lines 29–51 and component section lines 86–129, read online",
+        "finding": "NEB states the kit was developed after Maguire et al. 2020 and has subsequent optimizations. The commercial workflow adds 3-prime adapter, removes excess, performs simultaneous 5-prime ligation and 3-prime adapter modification, RT, size selection and UDI PCR; it does not print full LB adapter/splint ordering strands. Research oligos cannot be treated as E3420 kit identities."
+      }
+    },
+    {
+      "id": "official_supplemental_data",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-ca/products-data/supplemental-data-e3420-nebnext-low-bias-small-rna-library-prep-kit",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official NEB supplemental data page lines 1–45 and remaining figure captions, read online",
+        "finding": "The linked supplemental page presents kit performance and input/size-selection results; the inspected text contains no kit adapter, randomized splint or UDI primer ordering strands. Its figures and any linked files still need an independent check before exclusion."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official NEB E3420 supplemental data page lines 1–50, all Figure 1 onward captions and links, read online",
+        "finding": "The supplemental page is a performance-data collection (yield, miRNA detection, input range, size selection) with plot images; no adapter/splint/primer ordering sequences or additional molecular steps. Relevant commercial chemistry remains in the kit manual and product page."
+      },
+      "reason": "Official E3420 supplemental page presents assay performance figures and input/size-selection results, with no kit adapter or splint ordering strands."
+    },
+    {
+      "id": "maguire_2020_original",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "Maguire, Lohman and Guan 2020 NAR doi:10.1093/nar/gkaa480, PMC7641310; original article and Supplementary Table S2 via scoped pmccloud route",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "_data/sources/nebnext-low-bias-small-rna/nar_gkaa480_PMC7641310.xml.txt lines 39–49 (Methods), 75–79 (library construction); supplementary_material.pdf.txt lines 210–271 and 331–338 (Supplementary Table S2 and legend); source-bundle scraper, hits at supplement lines 249,257,263",
+        "finding": "Maguire research workflow lists oligos 4–7 in Supplementary Table S2: 5′-phosphorylated DNA 3′ adapter, U-containing N6 3′ splint with /3InvdT/, all-RNA 5′ adapter and 5′ splint. Methods specify preadenylation, annealing and sequential 3′ then 5′ ligation. NEB calls this a predecessor with later kit enhancements; these research oligos do not establish E3420 kit identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Maguire original PMC7641310 JATS text lines 39–49 and 75–79; original Supplementary Table S2 PDF p. 2 visually inspected, oligo rows 4–7; bundle scraper run",
+        "finding": "Original research constructs use preadenylated /5Phos/ DNA 3-prime adapter, U-containing N6 3-prime splint with /3InvdT/, all-RNA 5-prime adapter and modified 5-prime splint. Methods prescribe 3-prime then 5-prime splinted ligation. NEB explicitly labels later E3420 kit as enhanced; no evidence establishes identical proprietary E3420 adapter strands."
+      }
+    },
+    {
+      "id": "rt_primer_faq",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-us/faqs/when-is-the-rt-primer-annealed-during-the-nebnext-low-bias-small-rna-library-prep-workflow-neb-e3420 (official NEB E3420 FAQ linked in product page FAQ section)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official NEB E3420 product page FAQ list lines 154–162; original NEB RT-primer FAQ lines 0–2; full local E3420 source-bundle oligo scraper run before reading",
+        "finding": "The FAQ explicitly states that there is no separate RT primer in the E3420 kit: the bottom strand of the 3-prime adapter is converted into the RT primer during 5-prime-adapter ligation. Corrected the graph by removing its invented RT-primer input and representing dual-ligated RNA before cDNA."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-us/faqs/when-is-the-rt-primer-annealed-during-the-nebnext-low-bias-small-rna-library-prep-workflow-neb-e3420 (official NEB E3420 FAQ linked in product page FAQ section), lines 0–2; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "No separate RT primer is supplied: the LB 3′ adaptor bottom strand becomes the RT primer during LB 5′ adaptor ligation. The corrected model agrees."
+      }
+    },
+    {
+      "id": "faq_te",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/what-is-the-formulation-provided-with-the-nebnext-low-bias-small-rna-library-prep-kit",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Elution buffer composition does not affect the constructed library sequence or any missing-information claim.",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB p. FAQ lines 0–4; full E3420 source-bundle oligo scraper run first",
+        "finding": "Gives only the 0.1X TE elution-buffer formulation (1 mM Tris-HCl pH 8, 0.1 mM EDTA); it supplies no oligo identity or molecular library step."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/what-is-the-formulation-provided-with-the-nebnext-low-bias-small-rna-library-prep-kit, lines 0–4; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Specifies 0.1X TE formulation; outside adapter synthesis geometry and correctly excluded from the missing-oligo claim."
+      }
+    },
+    {
+      "id": "faq_paired_end",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/are-libraries-generated-with-the-nebnext-low-bias-small-rna-library-prep-kit-compatible-with-paired-end-illumina-sequencing",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB FAQ lines 0–3; full E3420 source-bundle oligo scraper run first",
+        "finding": "Confirms paired-end reads are compatible but a 56-base single-end read is ordinarily sufficient because inserts are short."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/are-libraries-generated-with-the-nebnext-low-bias-small-rna-library-prep-kit-compatible-with-paired-end-illumina-sequencing, lines 0–3; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Paired-end sequencing is compatible; 56bp single-end is ordinarily sufficient. No full adapter oligo strand printed."
+      }
+    },
+    {
+      "id": "faq_trimming",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/what-are-the-sequences-needed-to-trim-the-nebnext-low-bias-small-rna-libraries",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB FAQ lines 0–7; full E3420 source-bundle oligo scraper run first",
+        "finding": "Prints Read 1 and Read 2 trimming motifs, matching E3420 manual p.11; these read-through motifs do not disclose the complete kit adaptor strands."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/what-are-the-sequences-needed-to-trim-the-nebnext-low-bias-small-rna-libraries, lines 0–7; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Prints Read1 trimming sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA and Read2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT, not complete LB adapter synthesis strands."
+      }
+    },
+    {
+      "id": "faq_custom_seq_primers",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/are-custom-sequencing-primers-needed-for-sequencing-nebnext-low-bias-small-rna-libraries",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB FAQ lines 0–4; full E3420 source-bundle oligo scraper run first",
+        "finding": "States no custom sequencing primer is needed; standard Illumina sequencing reagents are compatible."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/are-custom-sequencing-primers-needed-for-sequencing-nebnext-low-bias-small-rna-libraries, lines 0–4; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Standard Illumina sequencing reagents are used; no custom sequencing primer or full LB adapter oligo printed."
+      }
+    },
+    {
+      "id": "faq_rna_end_repair",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/what-should-i-do-if-my-rna-does-not-have-5-monophosphate-and-3-oh-ends-before-starting-the-nebnext-low-bias-small-rna-library-prep-workflow-neb-e3420",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB FAQ lines 0–3; full E3420 source-bundle oligo scraper run first",
+        "finding": "T4 PNK can convert 5-prime OH to 5-prime monophosphate and 3-prime phosphate to 3-prime OH before this kit; capped/pyrophosphate species need additional enzymes. This is optional input preparation, not a reagent included in E3420."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/what-should-i-do-if-my-rna-does-not-have-5-monophosphate-and-3-oh-ends-before-starting-the-nebnext-low-bias-small-rna-library-prep-workflow-neb-e3420, lines 0–3; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Optional upstream T4 PNK repairs 5′OH/3′P; caps and pyrophosphates require other enzymes. This does not disclose kit adapters."
+      }
+    },
+    {
+      "id": "faq_capture_scope",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/is-it-possible-to-prevent-abundant-unwanted-rnas-from-being-included-in-nebnext-low-bias-small-rna-libraries-neb-e3420",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page FAQ list lines 154–162, followed to original NEB FAQ lines 0–4; full E3420 source-bundle oligo scraper run first",
+        "finding": "States that all small RNAs under about 120 nt with 5-prime monophosphate and 3-prime OH are captured regardless of origin."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/faqs/is-it-possible-to-prevent-abundant-unwanted-rnas-from-being-included-in-nebnext-low-bias-small-rna-libraries-neb-e3420, lines 0–4; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Captures RNA shorter than about 120 nt with 5′P/3′OH regardless origin; no adapter strands printed."
+      }
+    },
+    {
+      "id": "multiplex_selection_chart",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/tools-and-resources/selection-charts/nebnext-multiplex-oligos-selection-chart",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official E3420 product page links; followed original NEB lines 18–45 after source-bundle scraper",
+        "finding": "Low-volume UDI Sets 1–5 are the primer strategy compatible with E3420; each well is a premixed unique i5/i7 pair. This chart distinguishes these from standard-volume and UMI-adapter products; it gives no E3420 kit adapter synthesis strands."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en-gb/tools-and-resources/selection-charts/nebnext-multiplex-oligos-selection-chart, lines 18–45; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Names LV Sets 1–5 and premixed 24/96-well unique i5/i7 pairs compatible with E3420; no adapter synthesis strands."
+      }
+    },
+    {
+      "id": "protocol_landing",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en/protocols/2025/06/27/where-can-i-find-protocols-for-use-with-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420?pdf=true",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Official NEB linked protocol overview PDF pp.1–2, browser lines 0–41; full E3420 source-bundle scraper run first",
+        "finding": "This vendor overview repeats the randomized-splint chemistry, input range and separate LV UDI sets, points to the E3420 manual and cites Maguire 2020 predecessor. No further oligo ordering strands are printed in the overview. Its linked upstream Monarch RNA isolation protocols prepare input RNA and are outside the E3420 library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "neb_second",
+        "date": "2026-10-16",
+        "locations": "Original NEB source https://www.neb.com/en/protocols/2025/06/27/where-can-i-find-protocols-for-use-with-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420?pdf=true, PDF lines 0–20 and 24–38; ran full E3420 source-bundle oligo scraper before reading.",
+        "finding": "Repeats randomized-splint workflow, Maguire predecessor and separate LV UDI kit. Linked Monarch RNA isolation is upstream of library construction and does not resolve LB adapter sequence."
+      }
+    },
+    {
+      "id": "neb_patent_adapter_design",
+      "role": "predecessor",
+      "locator": "https://patents.google.com/patent/EP3730628A1/en (NEB-assigned Polynucleotide adapter design for reduced bias; family includes US11390915B2)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://patents.google.com/patent/EP3730628A1/en (NEB-assigned Polynucleotide adapter design for reduced bias; family includes US11390915B2); Example 1 lines 559–575 and Example 7 lines 605–613",
+        "finding": "Original patent Example 1 lines 559–575 prints four predecessor oligo strands with /5App/, deoxyU, N6 splints and RNA 5′ adapter. Example 7 lines 605–613 prints an optional 2′-O-methylated 5′ splint variant; Examples 3–4 compare cleavage alternatives. Filing predates E3420 and neither patent nor vendor links establish those exact embodiments as commercial kit components."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB-assigned EP3730628A1 https://patents.google.com/patent/EP3730628A1/en, Examples 1–8 lines 559–625, especially Example 1 lines 567–575 and Example 7 lines 605–613; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Example 1 enumerates DNA 3′ adaptor SEQ IDs 1–2 with /5App/, dU and N6 overhang, and RNA 5′ adaptor/splint SEQ IDs 3–4; Example 7 offers a 2′-O-methyl N6 splint. These are tested patent embodiments, not identified E3420 kit components."
+      }
+    },
+    {
+      "id": "neb_launch_release",
+      "role": "vendor",
+      "locator": "https://www.prnewswire.com/news-releases/new-england-biolabs-launches-nebnext-low-bias-small-rna-library-prep-kit-presenting-a-new-method-for-capturing-the-true-diversity-of-rna-samples-302510457.html (original NEB-authored press release distributed by PR Newswire, 22 July 2025)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB-authored PR Newswire release lines 462–492, especially 480–483; source-bundle oligo scraper run first",
+        "finding": "NEB says commercial E3420 enhancements include a novel splint adaptor to diversify ligation interactions, and distinguishes its 2020 research method from the later kit. It gives no commercial oligo strands. It links both a 2012 ligation-bias study and Maguire 2020."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB-authored 22 July 2025 release https://www.prnewswire.com/news-releases/new-england-biolabs-launches-nebnext-low-bias-small-rna-library-prep-kit-presenting-a-new-method-for-capturing-the-true-diversity-of-rna-samples-302510457.html, lines 462–483; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "NEB attributes the commercial product to research leading from 2012 and 2020 and explicitly says later enhancements include a novel splint adaptor. The release does not state the kit strand sequences and does not license copying patent example oligos into E3420."
+      }
+    },
+    {
+      "id": "faq_total_rna",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/can-i-use-total-rna-as-input-into-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-or-do-i-need-to-isolate-or-enrich-specifically-for-small-rnas",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/can-i-use-total-rna-as-input-into-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-or-do-i-need-to-isolate-or-enrich-specifically-for-small-rnas; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–3 says total and enriched RNA are both permitted inputs. No adapter or splint strand details."
+      },
+      "reason": "Original FAQ lines 0–3 says total and enriched RNA are both permitted inputs. No adapter or splint strand details.",
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-gb/faqs/can-i-use-total-rna-as-input-into-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-or-do-i-need-to-isolate-or-enrich-specifically-for-small-rnas, lines 0–3; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Both total RNA and enriched small RNA are permissible inputs. No adapter, splint or primer identity is supplied."
+      }
+    },
+    {
+      "id": "faq_yield",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/what-are-typical-yields-for-a-nebnext-low-bias-small-rna-library-neb-e3420",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/what-are-typical-yields-for-a-nebnext-low-bias-small-rna-library-neb-e3420; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–2 gives expected post-PCR library yields by Section 8A/8B selection. No adapter or splint strand details."
+      },
+      "reason": "Original FAQ lines 0–2 gives expected post-PCR library yields by Section 8A/8B selection. No adapter or splint strand details.",
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/ja-jp/faqs/what-are-typical-yields-for-a-nebnext-low-bias-small-rna-library-neb-e3420, lines 0–3; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Reports 30–60 nM after Section 8A size selection versus 60–120 nM after Section 8B cleanup for a specified 1000-ng brain RNA example; no oligo information."
+      }
+    },
+    {
+      "id": "faq_isopropanol",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-us/faqs/how-important-is-the-volume-of-isopropanol-in-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-protocol",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Official FAQ concerns bead purification isopropanol volume and gives no library strand identity.",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-us/faqs/how-important-is-the-volume-of-isopropanol-in-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-protocol, lines 0–8; full local E3420 source-bundle oligo scraper run first; linked E3420 product page and manual already have separate checklist rows.",
+        "finding": "Original answer states that isopropanol addition in manual Section 6 is essential to bind small-RNA library cDNA to purification beads and recommends pre-wetting pipette tips. It gives no adapter, splint, or primer sequence; its only content link goes to the E3420 product page already checklisted."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-us/faqs/how-important-is-the-volume-of-isopropanol-in-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420-protocol, lines 0–3; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Isopropanol addition in manual Section 6 controls library cDNA binding to purification beads; no adapter, splint or primer identities. A working en-us original was found after the earlier inaccessible route."
+      }
+    },
+    {
+      "id": "faq_gel",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/can-i-do-a-gel-size-selection-on-the-final-libraries-generated-using-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/can-i-do-a-gel-size-selection-on-the-final-libraries-generated-using-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–3 allows optional 6% PAGE after Section 8B PCR cleanup; no adapter or splint strands."
+      },
+      "reason": "Original FAQ lines 0–3 allows optional 6% PAGE after Section 8B PCR cleanup; no adapter or splint strands.",
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-gb/faqs/can-i-do-a-gel-size-selection-on-the-final-libraries-generated-using-the-nebnext-low-bias-small-rna-library-prep-kit-neb-e3420, lines 0–3; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Optional 6% PAGE selection may follow Section 8B cleanup. It does not disclose ligation oligos or new molecular steps."
+      }
+    },
+    {
+      "id": "faq_rin",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/what-is-the-required-rin-for-total-rna-to-be-used-in-nebnext-low-bias-small-rna-library-neb-e3420-generation",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/what-is-the-required-rin-for-total-rna-to-be-used-in-nebnext-low-bias-small-rna-library-neb-e3420-generation; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–2 gives input RIN 2.2–10 and capture-end requirements; no adapter or splint strands."
+      },
+      "reason": "Original FAQ lines 0–2 gives input RIN 2.2–10 and capture-end requirements; no adapter or splint strands.",
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en/faqs/what-is-the-required-rin-for-total-rna-to-be-used-in-nebnext-low-bias-small-rna-library-neb-e3420-generation, lines 0–2; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Reports successful RIN about 2.2–10 and capture of <120-nt RNA with 5′P/3′OH ends in degraded input; no oligo identity."
+      }
+    },
+    {
+      "id": "faq_included_primers",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-us/faqs/does-the-kit-include-primers",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-us/faqs/does-the-kit-include-primers, lines 0–6; full local E3420 source-bundle oligo scraper run first. Followed FAQ's linked NEBNext Multiplex Oligos Selection Chart, with chart, LV UDI manual and product page separately checklisted.",
+        "finding": "Original answer explicitly says the E3420 kit does not include primers and points to separately purchased LV Unique Dual Index Primers, the multiplex-oligos selection chart and the LV primer manuals. It does not disclose kit adapter or splint synthesis strands or select an index well for a sample."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-us/faqs/does-the-kit-include-primers, lines 0–2; followed the linked multiplex-oligos chart already present in this checklist; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Explicitly says no index primers are included and directs users to separately purchased LV UDI primers and their manuals. This resolves inclusion, not adapter/splint bases or selection of a particular index well."
+      }
+    },
+    {
+      "id": "faq_riboseq",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/can-i-use-the-nebnext-low-bias-small-rna-library-prep-kit-to-make-ribo-seq-libraries",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/can-i-use-the-nebnext-low-bias-small-rna-library-prep-kit-to-make-ribo-seq-libraries; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–26 says randomized-splint adapter pools can be depleted by end-base bias, requiring compatible 5′P/3′OH RPF ends, and gives optional bead-selection changes. It does not print adapter or splint strands."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-us/faqs/can-i-use-the-nebnext-low-bias-small-rna-library-prep-kit-to-make-ribo-seq-libraries, lines 0–26; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Supports Ribo-seq with compatible 5′P/3′OH footprints, warns that strong end-base bias can deplete matching randomized splints, and offers optional bead changes. It confirms randomized splint pools but prints no oligo strands."
+      }
+    },
+    {
+      "id": "faq_removal_revision",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/why-were-the-recommendations-in-the-nebnext-low-bias-small-rna-library-prep-kit-manual-for-the-excess-adaptor-removal-step-changed",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/why-were-the-recommendations-in-the-nebnext-low-bias-small-rna-library-prep-kit-manual-for-the-excess-adaptor-removal-step-changed; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–3 says E3420 manual v2.0 shortens incubation for all inputs and dilutes removal enzyme for low inputs; no identity or sequence of adapter-removal enzyme or oligos is printed."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en-gb/faqs/why-were-the-recommendations-in-the-nebnext-low-bias-small-rna-library-prep-kit-manual-for-the-excess-adaptor-removal-step-changed, lines 0–3; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "NEB says manual v2.0 shortens removal incubation for all inputs and dilutes the enzyme for low inputs based on further testing. It does not name the removal enzyme or adapter strands. The existing page cites v2.0."
+      }
+    },
+    {
+      "id": "faq_enriched_definition",
+      "role": "linked_material",
+      "discovered_from": "official_product_page",
+      "locator": "https://www.neb.com/en-gb/faqs/when-should-i-follow-the-enriched-small-rna-recommendations-for-the-nebnext-low-bias-small-rna-library-prep-kit",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "https://www.neb.com/en-gb/faqs/when-should-i-follow-the-enriched-small-rna-recommendations-for-the-nebnext-low-bias-small-rna-library-prep-kit; original FAQ answer lines 0–26 as specified in finding; full source-bundle oligo scraper run first",
+        "finding": "Original FAQ lines 0–4 defines enriched RNA as mostly ligation-compatible <120-nt RNA; no adapter or splint synthesis strands."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB FAQ https://www.neb.com/en/faqs/when-should-i-follow-the-enriched-small-rna-recommendations-for-the-nebnext-low-bias-small-rna-library-prep-kit, lines 0–4; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "Defines enriched input by mass fraction of <120-nt ligation-compatible 5′P/3′OH molecules and examples. No E3420 strand identity."
+      }
+    },
+    {
+      "id": "zhuang_2012",
+      "role": "linked_material",
+      "discovered_from": "neb_launch_release",
+      "locator": "Zhuang et al., Structural bias in T4 RNA ligase-mediated 3′-adapter ligation, NAR 2012, doi:10.1093/nar/gkr1263, PMC3326334; original publisher PDF https://academic.oup.com/nar/article-pdf/40/7/e54/25334587/gkr1263.pdf; cited and linked by NEB 2025 launch release",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original NAR publisher PDF pp. 2–3 (browser lines 101–191) and pp. 10, 13 (lines 660–719, 886–910); full NEB source-bundle oligo scraper run before reading.",
+        "finding": "NEB-affiliated authors tested pre-adenylated 3′ DNA-adapter ligation to RNA with Rnl1 or Rnl2tr variants and found RNA–adapter cofolding contributes to bias. Their SR1-R is an experimental SR1 variant randomized at its first six 5′ bases; main text directs readers to Supplementary Table S1 for the exact strand. The source is a 2012 ligation-bias predecessor, not evidence of the 2025 E3420 commercial kit's adapter or splint synthesis sequence."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original NAR article PDF pp. 2–3 and 10–13; full NEB source-bundle oligo scraper run before inspecting original article and supplements.",
+        "finding": "The paper tests 5′-preadenylated, 3′-amino-blocked DNA adapters in T4 RNA ligase-mediated 3′ ligation. Its text says SR1-R randomizes six 5′ bases of SR1 and points to Supplementary Table S1. This is a 2012 experimental bias study, not the manufacturer’s 2025 E3420 oligo specification."
+      }
+    },
+    {
+      "id": "zhuang_2012_supp_tables",
+      "role": "supplement",
+      "discovered_from": "zhuang_2012",
+      "locator": "Original Zhuang 2012 Supplementary Tables 1–5, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File011.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File011.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Tables PDF p. 3 visually checked against extracted lines 18–25, 29–56, 76–92; other tables headed at lines 94, 181, 456, 884; full updated NEB source-bundle oligo scraper run after supplement retrieval before reading.",
+        "finding": "Table S1 explicitly prints experimental SR1 `rAppTCGTATGCCGTCTTCTGCTTG-NH2`, SR1-S `rAppTCGTATGCCGTCACGGCTCGA-NH2`, and randomized SR1-R `rAppNNNNNNCCGTCTTCTGCTTG-NH2`, plus other assay oligos. The rApp/NH2 notation identifies a pre-adenylated, 3′-blocked adapter family. Tables S2–S5 are miRNA structures, sequencing metrics, nucleotide frequencies and cofold structures. These 2012 experiment strands are not identified as components of commercial E3420."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Tables PDF p. 3, Table S1, visually inspected and compared to extracted lines 29–56; headings and contents of Tables S2–S5 inspected.",
+        "finding": "Table S1 prints SR1-R as rAppNNNNNNCCGTCTTCTGCTTG-NH2; fixed SR1 and SR1-S appear alongside. This establishes the experimental adapter sequences and modifications for Zhuang 2012 only. The remaining tables provide structure and sequencing results, without identifying the E3420 kit oligos."
+      }
+    },
+    {
+      "id": "zhuang_2012_supp_fig1",
+      "role": "supplement",
+      "discovered_from": "zhuang_2012",
+      "locator": "Original Zhuang 2012 Supplementary Figure S1, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File012.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File012.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original single-page Figure S1 depicts positional sequence entropy in experimental libraries and contains no adapter synthesis strands or kit identity.",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original Figure S1 PDF p. 1 visually checked, extracted text line 1; caption in original File011 PDF extracted lines 4–9; full updated NEB source-bundle oligo scraper run first.",
+        "finding": "Supplementary Figure S1 is a positional entropy graphic for sequenced random-region libraries, not an oligo recipe; the explanatory caption is in File011 lines 4–9."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original File012 Figure S1 PDF p. 1 visually inspected; caption in File011 p. 1; full NEB source-bundle scraper run first.",
+        "finding": "The figure plots positional entropy from the experimental libraries. It does not give an adapter synthesis sequence, reagent identity, or commercial E3420 composition."
+      }
+    },
+    {
+      "id": "zhuang_2012_supp_fig2",
+      "role": "supplement",
+      "discovered_from": "zhuang_2012",
+      "locator": "Original Zhuang 2012 Supplementary Figure S2, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File013.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File013.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original single-page Figure S2 depicts predicted RNA–adapter cofold class distributions, not adapter ordering sequences or E3420 commercial identities.",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original Figure S2 PDF p. 1 visually checked, extracted text lines 1–32; caption in original File011 PDF extracted lines 10–17; full updated NEB source-bundle oligo scraper run first.",
+        "finding": "Supplementary Figure S2 compares cofold class distributions for simulated/random RNA libraries with SR1; it adds no oligo strand beyond Table S1."
+      },
+      "pass_2": {
+        "reviewer": "eclip_second",
+        "date": "2026-10-16",
+        "locations": "Original File013 Figure S2 PDF p. 1 visually inspected; caption in File011 p. 1; full NEB source-bundle scraper run first.",
+        "finding": "The figure plots predicted RNA–adapter cofold classes. It contains no oligo ordering table or commercial E3420 identity."
+      }
+    },
+    {
+      "id": "neb_patent_adapter_ligated",
+      "role": "predecessor",
+      "locator": "NEB-assigned Guan/Maguire, Methods and Enzymatic Compositions for Forming Libraries of Adapter Ligated Nucleic Acid Molecules, US20220213539A1 https://patents.google.com/patent/US20220213539A1/en",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "neb_acceptance",
+        "date": "2026-10-16",
+        "locations": "Original patent Example 1 lines 588–615; Example 7 lines 645–663; Example 8 lines 664–674; full E3420 source-bundle oligo scraper run first",
+        "finding": "NEB-assigned later patent repeats example randomized-splint oligo strands and adds one-pot/enzymatic method embodiments; Example 1 adapter sequences mirror the predecessor patent rather than identify commercial E3420 v2.0 kit components. No E3420 product or kit lot identity appears. Commercial identity therefore remains unproven."
+      },
+      "pass_2": {
+        "reviewer": "neb_new_sources",
+        "date": "2026-10-16",
+        "locations": "Original NEB-assigned US20220213539A1 https://patents.google.com/patent/US20220213539A1/en, Examples 1 and 7–8 lines 588–621 and 645–674; full local E3420 source-bundle oligo scraper run before original-source reading",
+        "finding": "This later patent repeats the earlier experimental adapter SEQ IDs 1–4 and a methylated splint variant (SEQ ID 5), and describes optional enzyme/removal variants. No E3420 kit identifier or lot bridges the example strands to the commercial formulation."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "vendor_second",
+      "date": "2026-10-16",
+      "locations": "Official NEB E3420 product page FAQ links at lines 154–162 and original RT-primer FAQ lines 0–2, plus seven FAQ pages, official multiplex selection chart and protocol overview PDF; full source-bundle scraper run first.",
+      "finding": "Followed the chemistry-relevant original NEB links and added each to the checklist. The RT-primer FAQ resolved an invented external-primer graph input; other links bound read trimming, upstream end repair and index-kit choice."
+    },
+    "pass_2": {
+      "reviewer": "neb_second",
+      "date": "2026-10-16",
+      "locations": "Independently followed E3420 original vendor page to seven FAQ pages, multiplex selection chart and protocol overview PDF; original page and PDF sections recorded on each source row; full source-bundle scraper run first.",
+      "finding": "Confirmed bottom strand of LB 3′ adaptor is the RT primer; standard Illumina sequencing and run-specific LV UDI pairing. Linked Monarch RNA isolation is upstream of library construction. All identified relevant vendor links have individual original-source second checks; none prints complete commercial LB adapter/splint synthesis strands."
+    },
+    "followup": {
+      "reviewer": "neb_new_sources",
+      "date": "2026-10-16",
+      "locations": "Original NEB product page FAQ list lines 157–172; original NEB 2025 launch release lines 475–483; NEB-assigned EP3730628A1 and US20220213539A1 Examples 1, 7 and 8",
+      "finding": "The product page lists 16 FAQs, nine beyond the initial linked-information pass. All nine now have independent second reads except two that this reviewer newly opened and which need independent first reads. NEB launch release links Zhuang 2012 and Maguire 2020; Zhuang original and supplements could not be fetched, so link audit remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "LB adapter and splint synthesis sequences",
+      "disposition": "blocked",
+      "evidence": "Original E3420 manual, NEB product page, all 16 linked FAQs, predecessor research and two NEB-assigned patents were inspected. The patents print experimental adaptor/splint strands, while NEB’s 2025 launch release says commercial E3420 added a novel splint adaptor. No source yet establishes kit-specific ordering strands. Independent first checks remain absent for two formerly inaccessible FAQ originals, and original Zhuang 2012 plus its linked supplement have not been read twice; missing-information acceptance remains blocked."
+    },
+    {
+      "claim": "A fixed UDI primer/index pair",
+      "disposition": "resolved",
+      "evidence": "Official E3420 manual names separately purchased NEBNext LV UDI primer sets; the linked original index manual prints the i5/i7 pair for each well. A generic protocol has no fixed purchased kit/well, so no universal pair is missing."
+    }
+  ],
+  "conclusion": "Commercial E3420 LB adaptor/splint strand identity remains unresolved. Patent examples cannot be assigned to the kit because NEB describes later enhancements including a novel splint adaptor. Two newly opened FAQ originals still need independent first checks, and the release-linked 2012 study plus supplements require original-source review. No missing-information claim is accepted."
+}

@@ -1,0 +1,111 @@
+{
+  "dir": "select-seq__10.64898+2026.07.07.736965",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining_preprint",
+      "role": "defining",
+      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods SELECT-seq workflow lines 619–679, target amplicons lines 710–790, sequencing lines 801–813",
+        "finding": "Smart-seq3 V.3 RT/WTA is combined with SNP-selective phosphorothioate primers, Cas12a/crRNA fluorescence, then tagmentation and indexed PE150 sequencing. Methods explicitly refer to Supplementary Table 1 for primers/crRNAs/reporters."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 PDF SELECT-seq Methods extracted lines 619–679 and sequencing lines 801–813",
+        "finding": "Independently confirms Smart-seq3 v3 RT and WTA, SNP-specific phosphorothioate primers, Cas12a/crRNA and fluorescent reporter added to the PCR product, cleanup, tagmentation, index PCR, and Element Aviti PE150. It explicitly points to Supplementary Table 1 and predecessor protocol."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure S1 text/legend lines 1–75; Figures S2–S5 captions",
+        "finding": "Figure S1 compares unmodified and 1–3 phosphorothioate linkages at the allele-selective primer terminus; extracted captions give validation, but image panels need visual second pass."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF pp.1–5, Figure S1 gel and phosphorothioate schematic visually inspected; Figures S2–S5 image panels and legends visually inspected",
+        "finding": "Figure S1 varies terminal phosphorothioate count/position and allele nucleotide for specificity; later figures validate Cas12a fluorescence and transcriptome preservation. These figures do not supply per-well index assignments."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheets primers lines 1–107, crRNA 108–114, pegRNA 115–117, probes 118–124",
+        "finding": "The workbook publishes modified allele-specific primer families, NRF2 WT/T80K primers, full Cas12a crRNAs, pegRNA and labeled quenched reporter sequences. Broad claim of missing primer or guide bases is false."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv Supplementary Table 1 extracted sheets primers lines 1–107, crRNA 108–114, pegRNA 115–117, probes 118–124; scraper independently rerun",
+        "finding": "The workbook explicitly prints modified allele-specific primers including NRF2 WT/T80K, Cas12a direct-repeat plus spacer/full crRNAs, pegRNA and labeled/quenched reporter oligos. The broad unpublished-primer/guide claim is false."
+      }
+    },
+    {
+      "id": "smartseq3_v3",
+      "role": "predecessor",
+      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/protocolsio_smart-seq3-protocol-36wgq5rjxgk5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "cover lines 1–35; List of oligos lines 76–120",
+        "finding": "The cited Protocol V.3 includes 5′-biotin dT30VN, 5′-biotin N8/rGrGrG TSO, and phosphorothioate amplification primers inherited by SELECT-seq."
+      },
+      "discovered_from": "defining_preprint",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Cited original protocols.io Smart-seq3 V.3 PDF List of oligos extracted lines 76–120; source scraper independently rerun",
+        "finding": "Original predecessor specifies /5Biosg/ oligo-dT30VN, /5Biosg/ N8rGrGrG TSO, and phosphorothioate PCR primers. It says custom Nextera indexes are used but does not assign the SELECT study wells to index members."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Defining Methods lines 619–679 and PDF ref. 43; bioRxiv supplementary-material page DC1/DC2; linked Smart-seq3 V.3 cover and oligo list",
+      "finding": "Original, both supplements, and directly cited Smart-seq3 V.3 protocol were followed. Custom primers/crRNAs/reporters are published; exact per-well Nextera index choice remains unresolved."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining preprint Methods and cited Smart-seq3 V.3 protocol; both bioRxiv supplementary files, including visual inspection of all five figure pages and all four Table 1 sheets; oligo scraper",
+      "finding": "Followed each relevant source link independently. The original supplement resolves allele-specific primers, crRNAs, pegRNA and reporter modifications. The cited Smart-seq3 V.3 PDF resolves inherited dT/TSO/PCR primers. No inspected source assigns exact Nextera index members per SELECT-seq well."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SELECT-seq allele-specific primer, Cas12a crRNA and reporter bases are unpublished",
+      "disposition": "resolved",
+      "evidence": "Two independent reads of the original Supplementary Table 1 (primers, crRNA, pegRNA and probes sheets) show the exact modified sequences. Their omission from the earlier abstract-only note was a source-intake error."
+    },
+    {
+      "claim": "Exact selected Nextera index primer member for each SELECT-seq well is confirmed unavailable",
+      "disposition": "blocked",
+      "evidence": "The paper says tagmentation and index PCR follow Smart-seq3 V.3; the cited protocol allows custom Nextera indexes, but neither inspected source assigns a member to each study well."
+    }
+  ],
+  "conclusion": "Two independent checks of the original paper, both supplements, and cited Smart-seq3 V.3 protocol resolve the primer, crRNA, reporter and inherited RT/WTA oligos. Exact per-well Nextera index assignment remains unresolved; no absence claim is accepted."
+}

@@ -11,6 +11,7 @@ from the unfragmented 4sU-seq control in the same experiment.
 
 🟢 Schwalb et al., *TT-seq maps the human transient transcriptome*, *Science* (2016),
 DOI `10.1126/science.aad9841`.
+The original publisher PDF was read from the author-hosted copy listed in `ref/MANIFEST.md`.
 
 🟢 The defining paper's supplementary methods (`aad9841-Schwalb-SM.pdf`), retrieved from
 the supplementary-material mirror listed in `ref/MANIFEST.md`. The RNA-seq methods state:
@@ -18,6 +19,12 @@ the supplementary-material mirror listed in `ref/MANIFEST.md`. The RNA-seq metho
 240 ng/µl for one 30 s ON / 30 s OFF cycle; labelled-RNA purification; 2 U Turbo DNase; NuGEN
 Ovation Human Blood RNA-seq kit; HiSeq 1500. The processing section reports paired-end 50-base
 reads and an additional six-base barcode read.
+
+🟢 Dölken et al., *High-resolution gene expression profiling for simultaneous kinetic
+parameter analysis of RNA synthesis and decay*, *RNA* (2008), DOI
+`10.1261/rna.1136108`, the labelled-RNA purification method cited as reference 26 in
+the TT-seq supplement. Its original publisher PDF (Methods, p. 12) was read from the
+university-hosted copy listed in `ref/MANIFEST.md`.
 
 ## 3. Molecular state changes
 
@@ -29,9 +36,11 @@ therefore a fragment is selected only when it contains a pulse-labelled nucleoti
 the positional bias produced when an entire nascent transcript is captured through one labelled
 region.
 
-🟢 The supplement delegates labelled-RNA purification to its reference 26. The established
-4sU purification chemistry couples biotin to the thiol, binds streptavidin and elutes labelled RNA
-under reducing conditions; these operations are shown as selection chemistry, not as an adapter.
+🟢 The supplement delegates labelled-RNA purification to its reference 26. That method
+names EZ-Link Biotin-HPDP for 4sU thiol labelling, removes excess biotin reagent,
+captures labelled RNA on µMACS streptavidin columns, washes, then releases it with DTT.
+The model follows this inherited capture chemistry without assigning its 2008 reagent
+volumes to the 2016 experiment.
 
 🟢 Captured RNA is DNase-treated and passed to the strand-specific NuGEN kit.
 
@@ -48,5 +57,6 @@ single-index and paired-end run structure itself is directly reported.
 
 ## 5. Open evidence boundary
 
-The exact discontinued Ovation Human Blood RNA-seq adapter sequences remain undisclosed here.
-They must not be replaced with an unmarked modern TruSeq kit merely because both run on Illumina.
+The exact discontinued Ovation Human Blood RNA-seq adapter and index-primer sequences
+remain unresolved because its relevant original kit guide was unavailable in this audit.
+The inferred Illumina geometry is not an assertion about those historical kit oligos.

@@ -26,7 +26,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
     [seg("INFERRED — QuantSeq 3′-end cDNA", "X" * 42, placeholder=True, inferred=True)],
     "SLAM-seq QuantSeq library", dual_index=False, inferred_adapters=True)
 FINAL_CAPTION = ("INFERRED — a single-index Illumina-compatible QuantSeq endpoint. Within the cDNA insert, IAA-alkylated s4U is reported as C where the reference RNA has U.")
-SEQUENCING_INTRO = ("The inferred QuantSeq FWD adapter skeleton places standard TruSeq Read 1, Index 1 and Read 2 sites. The defining experiment used single-read sequencing; Read 1 is the informative 3′-end read.")
+SEQUENCING_INTRO = ("The inferred QuantSeq FWD adapter skeleton places standard TruSeq Read 1, Index 1 and Read 2 sites. The authors' detailed SLAMseq protocol recommends single-read 100 (SR100) sequencing on a HiSeq 2500; Read 1 is the informative 3′-end read.")
 
 def sections():
     return [

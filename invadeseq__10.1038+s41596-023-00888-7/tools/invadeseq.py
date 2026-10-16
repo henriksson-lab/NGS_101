@@ -16,9 +16,13 @@ SUMMARY = ("A bacterial 16S reverse-transcription primer is spiked into a 10x Ch
            "5′ single-cell reaction beside the ordinary poly(dT) primer. Host and bacterial "
            "cDNAs therefore inherit the same cell barcode; an aliquot is then amplified "
            "twice with nested 16S primers to make a separate bacterial library.")
-CAVEAT = ("The three INVADEseq primers are published exactly. The underlying 10x gel-bead "
-          "reagent is commercial: its published barcode, UMI and adapter roles are shown, "
-          "but undisclosed bead chemistry is not reconstructed.")
+CAVEAT = ("The three INVADEseq primers are published exactly. The cited 10x CG000086 "
+          "Rev J guide remains unverified; a later official Rev K guide prints the gel-bead "
+          "primer architecture. Exact reagent-revision equivalence and selected sample "
+          "index member remain unresolved. The protocol Materials list (lines 154–156) "
+          "identifies v2 reagent kit PN-1000263 and library kit PN-1000002, but Step 85 "
+          "(line 758) calls PN-1000002 a v2 kit. This page uses the Materials identities "
+          "for those two roles; which kit combination the Step 85 wording intended remains unclear.")
 
 RT_16S = "GGGTTGCGCTCGTTG"
 ENRICH_FORWARD = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC"

@@ -8,6 +8,11 @@ doi:10.1093/nar/gkx005. The PMC full text and supplement were read.
 - 🟢 Methods lines 52–60 publish all five Y-adapter oligos, their DNA/RNA composition,
   end modifications, Rnl2 annealing/ligation, TruSeq Small RNA RT-PCR and 100-nt
   single-read sequencing.
+- 🟡 **Source discrepancy:** Methods, “Y-shaped adapter design” (PMC JATS line 52),
+  prints Y-3′-AD as `5′-/5Phos/GTATCCAGTTGGAATTCTCGGGTGCCAAGG/3ddC/-3′`,
+  with a blocked 3′ end. Results, “Y-AD” description (line 88), calls the
+  same strand 3′-OH. The model follows the explicit ordered oligo `/3ddC/`;
+  the physical oligo used cannot be verified from these conflicting statements.
 - 🟢 Lines 80–88 establish deacylation, recognition of the mature-tRNA 5′-NCCA-3′
   overhang and sealing of both acceptor-stem nicks.
 - 🟢 The paper names the TruSeq Small RNA kit but does not reproduce its RT/PCR

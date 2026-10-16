@@ -1,0 +1,125 @@
+{
+  "dir": "saferseqs__10.1038+s41587-021-00900-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/PMC8627329_PMC8627329.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 105–130; qPCR primers line 121",
+        "finding": "Article Methods give library workflow and qPCR oligos, and point to supplementary oligo tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 116–130 and oligo references",
+        "finding": "Describes duplex strand recovery and nested target amplification; source points to Supplementary Table 7 for modified adapter/sequence oligos."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 310–333",
+        "finding": "Supplementary figures and Methods include barcode-processing tag GCCGTCGTTTTAT."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 supplementary Methods lines 310–333",
+        "finding": "Supplementary bioinformatic method requires constant tag GCCGTCGTTTTAT immediately after exogenous UID, corroborating adapter segment order; source includes methods as well as figures."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 85–92",
+        "finding": "Reporting form repeats barcode-processing text; not the source of reagent sequences."
+      },
+      "reason": "Reporting summary duplicates analysis description.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 Reporting Summary opening pages",
+        "finding": "Nature reporting/statistics form, not adapter construction."
+      }
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Table 5 lines 684–736; Table 7 lines 827–843",
+        "finding": "Table 5 gives target-specific GSP family; Table 7 gives modified N14 adapter, 5-prime adapter, nested PCR and custom sequencing primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher supplementary workbook Table 7 lines 829–843",
+        "finding": "Table prints /5Phos/ N14 adapter with phosphorothioate and /3SpC3/, second oligo with deoxyuridines and /33dT/, plus 5-prime adapter and strand-specific PCR/indexing primers. Table 5 contains target GSPs."
+      }
+    },
+    {
+      "id": "safe_seqs",
+      "role": "predecessor",
+      "locator": "_data/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Safe-SeqS PNAS article lines 1278–1286, 1648–1658",
+        "finding": "Predecessor uses endogenous fragment-end UIDs or exogenous 12–14-base random primer UID added by two PCR cycles; SaferSeqS later adapter-based duplex copying is a distinct construction."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Safe-SeqS original PNAS article text lines 1280–1286 and 1648–1658",
+        "finding": "Predecessor describes exogenous 12–14-N forward-primer UID assigned by two PCR cycles, exonuclease removal of free primers and later grafting primers; distinct from SaferSeqS duplex-adapter geometry."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Article JATS lines 105–130; workbook Table 7 lines 827–843",
+      "finding": "SaferSeqS original oligo table is available; Safe-SeqS predecessor and vendor platform details still need linked review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS Methods and Table 7 lines 829–843; original Safe-SeqS article 1278–1286",
+      "finding": "Original Safe-SeqS predecessor is locally read and distinct. SaferSeqS source-positive modified adapters are in Table 7; historical SI context still pending."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any SaferSeqS adapter or sequencing-primer bases needed by the published workflow are missing",
+      "disposition": "blocked",
+      "evidence": "Source-positive Table 7 resolves many sequences; full linked-source coverage remains pending."
+    }
+  ],
+  "conclusion": "Source-positive Table 7 resolves many sequences; full linked-source coverage remains pending."
+}

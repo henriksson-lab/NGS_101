@@ -1,0 +1,78 @@
+{
+  "dir": "fisseq__10.1126+science.1250212",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Lee et al Science 2014 DOI:10.1126/science.1250212; science.1250212_PMC4140943.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "JATS lines 95-125",
+        "finding": "Original report describes in situ RT, cDNA circularization, rolling-circle amplification and sequencing-by-ligation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4140943 JATS lines 95-100 and supplementary material lines 222-233",
+        "finding": "Original report describes in situ cDNA circularization and RCA and points to a separate Science supplement."
+      }
+    },
+    {
+      "id": "science_supp",
+      "role": "supplement",
+      "locator": "Science 2014 original supplement: PMC NIHMS574721-supplement-Supplementary_Material.docx (https://pmc.ncbi.nlm.nih.gov/articles/instance/4140943/bin/NIHMS574721-supplement-Supplementary_Material.docx); author-uploaded revised Science supplementary PDF https://www.researchgate.net/profile/Je-Lee-8/publication/267328937_1250212LeeSMrevision1/links/544af26a0cf2bcc9b1d4f309/1250212LeeSMrevision1.pdf; Science DC1 https://www.science.org/doi/suppl/10.1126/science.1250212/suppl_file/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC original attachment presents a download gate. ResearchGate lists the supplementary PDF under an author-uploaded 2014 resource, but web retrieval reports cache miss and sandbox shell has no DNS; Science DC1 is inaccessible via web. No original supplement text was inspected.",
+      "discovered_from": "paper",
+      "recovery_attempt": {
+        "reviewer": "fisseq_ribo_recovery",
+        "date": "2026-10-16",
+        "finding": "Independent locator search verified PMC and publisher entries; attempted the alternate author upload for FISSEQ. No supplement content was retrievable or read."
+      }
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "linked_material",
+      "locator": "Lee et al Nature Protocols 2015 PMC4327781.html.txt; DOI:10.1038/nprot.2014.191",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "HTML extracted text lines 1304-1324, 2035-2065",
+        "finding": "Original later protocol prints modified RCA primer and 5′-phosphorylated sequencing-primer family and full FISSEQ procedural conditions."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4327781.html.txt lines 1304-1324 and 2035-2065; scraper hits 2038 and 2041",
+        "finding": "Author Nature Protocols follow-up prints /5phos/ random-hexamer RT, two phosphorothioate RCA bases, and five offset /5phos/ sequencing primers."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Science JATS lines 95-125; Nature Protocols original lines 1304-1324, 2035-2065",
+      "finding": "Followed defining report to later author detailed protocol and checked scraper hits against its original primer list. Defining report supplement remains gated."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Science JATS supplementary-material pointer; author detailed protocol oligo section at 2035-2065",
+      "finding": "Followed original report to later author protocol; original Science supplement remains gated."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Accessible defining JATS and later author detailed protocol have two original-source reads. The 2014 Science supplement remains relevant and unread despite three exact locators; missing-information claims remain blocked."
+}

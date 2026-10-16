@@ -1,0 +1,183 @@
+{
+  "dir": "primeflow-rna-assay__10.1038+ncomms6641",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "porichis_2014_original",
+      "role": "defining",
+      "locator": "Porichis et al. 2014, DOI 10.1038/ncomms6641; original author-manuscript JATS ncomms6641_PMC4256720.xml.txt and PDF in local source bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS extracted lines 69, 75–81, 107–109, 137 and references in PDF text lines 738–750; ran scrape_primers.py on the refreshed whole source bundle",
+        "finding": "The original says the assay derives from QuantiGene ViewRNA, uses 2014 FlowRNA Types 1/4/6, and gives target-probe, preamplifier, amplifier and label-probe order. Methods link an exact historical Affymetrix manual and claim probe sequences are detailed in Supplementary Table 1; the table prints target regions rather than complete manufactured probe oligos. Reference 17 is a ViewRNA imaging-method review; reference 16 is a distinct RNAscope-derived flow assay."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original author-manuscript JATS ncomms6641_PMC4256720.xml.txt lines 69, 75–77, 107 and 137; references 16/17 at lines 277–285; original source-bundle scraper rerun after article fetch",
+        "finding": "The authors explicitly derive the assay from QuantiGene ViewRNA and cite an Affymetrix FlowRNA manual in Methods. Their 2014 implementation uses Types 1/4/6, ~20 adjacent target-probe pairs, 1:20 target probe incubation, then PreAmp→Amp→fluorescent Label Probe. Methods points to Supplementary Table 1 for probe sequences, requiring direct table inspection; it does not itself print tag, preamplifier, amplifier or label oligo bases. Ref.16 is a neighboring RNAscope flow assay and ref.17 is an imaging review."
+      }
+    },
+    {
+      "id": "porichis_2014_supplement",
+      "role": "supplement",
+      "locator": "Porichis et al. Supplementary Information, 41467_2014_BFncomms6641_MOESM1192_ESM.pdf; local .pdf.txt and original PDF page 7, Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PDF page 7 visually inspected; extracted text lines 745–781 and remaining Table 1 rows; source-oligo scraper hits followed to the PDF",
+        "finding": "The table is titled 'Sequence of probe sets used in this study' but its columns give target gene/accession, probe-binding coordinates and target RNA region bases. First IL-2 adjacent regions are 2–24 and 25–52. It does not show full probe oligos or universal bDNA tails. Supplementary Fig. 1 describes adaptation of QuantiGene ViewRNA to cells in suspension."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original supplement 41467_2014_BFncomms6641_MOESM1192_ESM.pdf.txt lines 16–56 (Fig. 1) and 745–781 onward (Table 1); source-bundle scraper hits at lines 775–781 checked against table heading/columns",
+        "finding": "Fig. 1 states the microscopy QuantiGene ViewRNA assay was adapted to suspension cells. Table 1 is titled as probe-set sequences, but the actual columns are target gene/accession, probe-binding-region coordinates and target-region bases: IL-2 positions 2–24 and 25–52 are the first adjacent example. The printed regions determine complementary target-binding arms, not the full manufactured probes or universal branch-binding tails."
+      }
+    },
+    {
+      "id": "thermo_2022_user_guide",
+      "role": "vendor",
+      "locator": "Thermo Fisher PrimeFlow RNA Assay Kit User Guide MAN0019788 Rev B.0, 22 February 2022; local MAN0019788_PrimeFlowRNAAssay_UG.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Guide title/revision lines 1–25; architecture lines 131–146; target-probe and amplification sections lines 395–403 and 782–861; scraper run on local bundle",
+        "finding": "A later commercial kit uses 20–40 adjacent probe pairs, preamplifier then amplifier then label-probe hybridizations, and 400 label sites per complete tree. Its Type 1/4/6/10 set differs from the original article's 2014 three-type implementation. Reviewed guide sections do not print nucleotide strings."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official MAN0019788_PrimeFlowRNAAssay_UG.pdf.txt lines 1–25, 131–146, 395–403 and 782–861; source-bundle scraper rerun after article and predecessor files arrived",
+        "finding": "The 2022 guide describes 20–40 adjacent probe pairs, then matched preamplifier, amplifier and fluorescent label molecules. It states 400 label binding sites per complete tree and four Type 1/4/6/10 detection systems. The inspected assay sections give reagent/order and theoretical capacity but no actual DNA oligo strings; the 2022 four-type product cannot be projected back onto the three-type 2014 experiment."
+      }
+    },
+    {
+      "id": "affymetrix_flowrna_2014_manual",
+      "role": "linked_material",
+      "discovered_from": "porichis_2014_original",
+      "locator": "QuantiGene FlowRNA Assay User Manual P/N 19221 Rev A, original Methods link http://media.ebioscience.com/data/pdf/literature/quantigene-flowrna-user-manual.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The exact original vendor URL no longer resolves; the linked PDF has not been independently recovered. A separate mirror row records the contents read online without treating mirror provenance as settled."
+    },
+    {
+      "id": "affymetrix_flowrna_manual_mirror",
+      "role": "other",
+      "locator": "Manualzilla HTML mirror of QuantiGene FlowRNA Assay User Manual P/N 19221 Rev A, https://manualzilla.com/doc/5725855/quantigene-flowrna-user-manual",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Mirrored manual heading/part number online lines 419–423, assay and probe-set architecture lines 497–540, dye and mixture list lines 553–570 and 683–705; original 2014 article identifies this manual by link",
+        "finding": "The mirror identifies P/N 19221 Rev A and describes a three-type FlowRNA kit with about 20 adjacent probe pairs, preamplifier→amplifier→label-probe cascade, 400 label sites per tree, and Type 1/4/6 channels matching the original article. No nucleotide strings appear in those inspected sections. Original-vendor PDF identity and full-document source verification remain unresolved."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Mirrored original Affymetrix P/N 19221 Rev A manual text at https://manualzilla.com/doc/5725855/quantigene-flowrna-user-manual, web lines 419–423, 497–540, 553–570, 602–613 and 683–705; its part number/title and 2014 Type 1/4/6 mapping cross-checked with Porichis Methods line 137",
+        "finding": "The mirror presents an Affymetrix-authored FlowRNA manual for suspension-cell flow cytometry: typical 20 paired probes, PreAmp→Amp→Label, 400 sites/tree, and separate Type 1/4/6 target-probe sets. It names LP1 Alexa647, LP4 Alexa488, LP6 Alexa750 and matching PreAmp/Amp mixes, agreeing with Porichis 2014. Its inspected architecture and reagent sections provide no nucleotide strings. The vendor-hosted PDF itself remains inaccessible, so mirror authenticity/completeness cannot substitute for it in the absence gate."
+      }
+    },
+    {
+      "id": "viewrna_ish_2011_manual",
+      "role": "predecessor",
+      "locator": "QuantiGene ViewRNA ISH Cell Assay manual P/N 18801 Rev A 110525, official Thermo Fisher PDF https://documents.thermofisher.com/TFS-Assets/LSG/manuals/QVC0001_UM18801-ViewRNA-ISH-Cell-Assay.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official manual local PDF text lines 308–335, 379, 505 and 528–529; scraper run on refreshed PrimeFlow bundle",
+        "finding": "The microscopy predecessor uses matched Type 1/4/6/10 probe, preamplifier, amplifier and label-probe systems and states 400 label sites per complete tree. Its dye assignments differ from the 2014 FlowRNA article, so the kit-specific labels are kept separate. The inspected manual sections do not disclose nucleotide strings."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official QuantiGene ViewRNA P/N 18801 Rev A PDF local QVC0001_UM18801-ViewRNA-ISH-Cell-Assay.pdf.txt lines 302–335, 379, 430–445, 505 and 528–529; bundle scraper run after manual fetch",
+        "finding": "The microscopy predecessor uses adjacent target-probe pairs, then PreAmplifier→Amplifier→fluorescent Label Probe, with a typical 20 pairs and 400 terminal sites/tree. It describes four types including optional Type 10, and separate target probe sets. Its dye/channel assignments are for the older microscopy kit, whereas Porichis 2014 FlowRNA uses LP1 Alexa647 and LP6 Alexa750; those are version-specific label choices. Relevant inspected manual sections do not print oligo bases."
+      }
+    },
+    {
+      "id": "itzkovitz_2011_review",
+      "role": "linked_material",
+      "discovered_from": "porichis_2014_original",
+      "locator": "Itzkovitz and van Oudenaarden 2011, DOI 10.1038/nmeth.1573, Porichis reference 17; author-hosted PDF https://www.hubrecht.eu/app/uploads/2017/11/2011-Itzkovitz-S-Nature-Methods.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Local original JATS nmeth.1573_PMC3158979.xml.txt, bDNA/ViewRNA section and reference listing at line 255; scraper run on refreshed bundle",
+        "finding": "The cited imaging review describes branched-DNA probe/signal architecture and cites Player et al. 2001 as its reference 38 for the in situ predecessor. It does not establish exact 2014 Affymetrix FlowRNA tail identities."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author-hosted original review PDF https://www.hubrecht.eu/app/uploads/2017/11/2011-Itzkovitz-S-Nature-Methods.pdf p.S15, web lines 284–290 and reference 38 lines 683–685; local JATS nmeth.1573_PMC3158979.xml.txt lines 67 and 255; refreshed source-bundle scraper run",
+        "finding": "The cited review identifies the QuantiGene ViewRNA four-level architecture and points to Player et al. 2001 as its bDNA predecessor (ref.38). It supplies no specific Affymetrix FlowRNA tag or amplification oligo bases. Player is chemistry-relevant linked material and remains a separate unavailable row."
+      }
+    },
+    {
+      "id": "player_2001_predecessor",
+      "role": "linked_material",
+      "discovered_from": "itzkovitz_2011_review",
+      "locator": "Player et al. 2001, DOI 10.1177/002215540104900507; Itzkovitz review reference 38, also tracked in RNAscope source audit",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full original is not yet in the PrimeFlow source bundle and needs checking as the bDNA chemistry predecessor; it cannot establish exact Affymetrix FlowRNA kit tails by inheritance."
+    },
+    {
+      "id": "hanley_2013_neighbor",
+      "role": "linked_material",
+      "discovered_from": "porichis_2014_original",
+      "locator": "Hanley et al. 2013, DOI 10.1371/journal.pone.0057002, Porichis reference 16; original PLOS article",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "The original adapts RNAscope, a distinct platform from Porichis's Affymetrix ViewRNA/FlowRNA chemistry, so its reagent sequences cannot establish those of PrimeFlow. It remains an explicitly reviewed cited neighbor.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Local PLOS original JATS journal.pone.0057002_PMC3575505.xml.txt lines 31 and 41–43; scraper run on refreshed bundle",
+        "finding": "Hanley explicitly says it adapts RNAscope for suspension-cell RNA flow cytometry. It is a cited alternative, not Porichis's direct Affymetrix ViewRNA predecessor."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PLOS author JATS journal.pone.0057002_PMC3575505.xml.txt lines 31, 41–43 and 94; original PLOS article web lines 133–157; source-bundle scraper rerun after Hanley original fetch",
+        "finding": "Hanley explicitly adapts the RNAscope platform to suspension-cell RNA flow cytometry and describes its Z-probe design. Porichis instead derives its chemistry from Affymetrix ViewRNA/QuantiGene. Hanley is a cited prior assay with different vendor probe chemistry, so it cannot establish Porichis/PrimeFlow exact universal tail or branch oligos; two-reader exclusion is supported."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Porichis original JATS lines 69, 107 and 137; reference list PDF lines 738–750; supplement Table 1 and local MANIFEST.tsv",
+      "finding": "Followed the original article's direct historical FlowRNA manual URL, QuantiGene ViewRNA predecessor statement, imaging review reference 17, and neighboring flow-RNA reference 16. The supplement and later commercial manual are read; historical kit manual provenance and linked predecessor originals remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Porichis original JATS lines 69, 107, 137 and refs.16–17; Affymetrix P/N 19221 mirrored manual web lines 419–423, 497–540 and 683–705; official ViewRNA P/N 18801 local text lines 302–335; Itzkovitz review local JATS lines 67/255; Hanley original JATS lines 31/41–43; local MANIFEST.tsv",
+      "finding": "Independently followed the article to its exact historical FlowRNA manual, microscopy ViewRNA predecessor, cited review and its Player 2001 reference, and neighboring Hanley flow assay. The available mirror and manuals confirm architecture but do not print branch oligo bases in inspected sections. The original vendor-hosted FlowRNA manual and Player original remain inaccessible; therefore the universal-tail/branch-sequence absence claim remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The universal probe tails, preamplifier, amplifier and fluorescent label-probe sequences are absent from all relevant sources",
+      "disposition": "blocked",
+      "evidence": "The original Supplementary Table 1 prints target regions rather than full manufactured probes, and the reviewed 2022 guide gives architecture rather than nucleotide sequences. The exact historical 2014 manual and ViewRNA predecessors have not completed the two-reader audit."
+    }
+  ],
+  "conclusion": "Original 2014 article, its source PDF supplement and the 2022 PrimeFlow guide were read; the article/table description and 2014/2022 probe-type differences are displayed on the page. No missing-information claim is accepted while linked historical documents remain under review."
+}

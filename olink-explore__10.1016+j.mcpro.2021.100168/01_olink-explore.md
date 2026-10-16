@@ -11,14 +11,12 @@ Defining source: Wik *et al.*, *Molecular & Cellular Proteomics* (2021),
 - 🟢 Olink patent family WO2021191442A1, whose worked protocol matches the
   defining paper's abundance-block, PCR1, PCR2 and panel-pooling workflow. Its
   sequence listing publishes the P5 and P7 adapter portions of the PCR primers.
-- 🟢 Olink's current public software/download page and preprocessing documentation.
-  These distribute proprietary `ngs2counts` software and panel-data archives, but do
-  not publish an oligo table or nucleotide dictionary. The download page also states
-  that the software requires a purchased licence and restricts relaying intermediate
-  BCL/FASTQ data.
-- 🟢 Public `combine-olink` example count files from CRUK Cambridge. They identify
-  assays symbolically (for example `FB200002` and `RB200002`) rather than disclosing
-  the corresponding bases.
+- 🟢 Two readers checked the linked Olink software landing page and current vendor
+  preprocessing guide. The software page itself says its contents are password
+  protected, so its archives remain inaccessible. The guide is NPX Map Preprocessing
+  v6.2.2 (2026-05-19); it covers `ngs2counts` and run handling without an oligo
+  table. The linked CRUK Cambridge `combine-olink` example files still need source
+  review. These later materials cannot prove the 2021 probe sequences absent.
 
 ## Molecular workflow
 
@@ -49,14 +47,17 @@ comes from Illumina's adapter documentation. The combined end is 58 nt. Together
 with the patent's 24-nt P7 adapter, the published 148-bp total leaves exactly 66 nt
 between Rd1SP and P7. This agrees with the published 66-cycle read, which starts at
 Rd1SP and covers the inline assay and sample identifiers. The individual lengths
-within those 66 nt remain undisclosed.
+within those 66 nt have not yet been verified from an original oligo table.
 
-🔴 Neither the paper nor the patent publishes the complete probe oligos, complete
-universal PCR primers, assay-barcode whitelist, hybridization arms or sample-index
-sequences. No raw-read accession is given in the paper. The public preprocessing
-material and third-party example counts do not fill that gap, so the schematic shows
-the proprietary regions by identity and order without inventing bases or individual
-lengths.
+🔴 The original article, its four supplements and the checked patent do not supply
+the complete probe oligos, universal PCR primers, assay-barcode whitelist,
+hybridization arms or sample-index sequences in the inspected sections. This is a
+provisional source gap: the software archive is password protected, the checked
+preprocessing guide is from 2026, and third-party example counts have not yet
+received an independent second source check.
+The schematic therefore shows these regions by identity and order without inventing
+bases or individual lengths. No raw-read accession was found in the article's data
+availability statement; this absence claim also remains under review.
 
 ## Additional public material checked
 

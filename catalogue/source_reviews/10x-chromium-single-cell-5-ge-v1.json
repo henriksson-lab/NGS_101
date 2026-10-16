@@ -1,0 +1,118 @@
+{
+  "dir": "10x-chromium-single-cell-5-ge-v1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "cg000109",
+      "role": "defining",
+      "locator": "10x CG000109 Rev D, CG000109_AssayConfiguration_VDJ_RevD.pdf.txt (vendor original)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Introduction and Figure 2 lines 10-48; Table 1/2 near lines 100-266",
+        "finding": "Gives v1 16-bp barcode, 10-bp UMI and specific gel-bead/RT oligos; cites CG000086 for full procedures."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original CG000109 Rev D PDF pp.1–2, including visually checked Fig. 2 on p.2; extracted PDF lines 19–30, 43–64, 498–526, 545–553, 581–620",
+        "finding": "Original Fig. 2 explicitly gives v1 5-prime GEX Read 1 26, i7 8, Read 2 98; text identifies CB16/UMI10 and Read 2 random internal fragment. Table 2B prints the bead TSO, poly(dT) RT, cDNA amplification, Read 2 adapter and single-index PCR constructs. Lines 60–64 cite CG000086 for full procedural detail."
+      }
+    },
+    {
+      "id": "cg000086",
+      "role": "linked_material",
+      "locator": "10x CG000086 Chromium Single Cell V(D)J Reagent Kits User Guide (cited by CG000109)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "CG000109 Rev D cites CG000086, but its contemporaneous full revision remains unlocated. Rev K is now cached/read as a later comparator; the official July 2018 F→G summary documents scope expansion to 5-prime GEX, preventing unqualified transfer.",
+      "discovered_from": "cg000109",
+      "pass_2": null
+    },
+    {
+      "id": "cg000086_revk",
+      "role": "other",
+      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt (official 10x later Rev K)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Later revision of the cited guide, used to compare kit scope only. Official July 2018 CG000086 Rev F→G revision summary explicitly added/reorganized 5-prime GEX workflow; Rev K cannot prove 2017 procedural values.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CG000086 Rev K PDF text lines 1–27, 127–259, 1327–1395, 6850–6895, 7070–7240; official CG000086 Rev F→G revision summary, July 2018, page 1",
+        "finding": "Read original 10x later guide: Rev K includes Chip A GEM RT with CB16/UMI10 TSO, 5-prime GEX library construction and oligo appendix; its kit revision is later than CG000109 Rev D. The vendor F→G summary says 5-prime GEX protocol was newly added/reorganized in July 2018, so transferring Rev K reaction conditions to 2017 is unsupported."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official CG000086 Rev K original PDF cover lines 1–42; 5-prime GEX overview lines 1315–1395; oligo appendix lines 6846–6910 and 7070–7240; searched guide references CG000166, CG00053, CG000126, CG000123. Ran scrape_primers on complete local source bundle and followed its oligo hits to the original appendix.",
+        "finding": "Independently confirmed Rev K is a 2019 5-prime V(D)J/GEX guide for PN-1000006/1000014, with 16-base cell barcode, 10-base UMI, rGrGrG TSO and published Read 2 adapter plus i7 family. It corroborates architecture but cannot establish the earlier 2017 v1 reaction conditions or chosen i7 member. Other referenced CG documents cover target enrichment, sample preparation and immune repertoire; they require their own checks if later invoked for molecular claims."
+      }
+    },
+    {
+      "id": "cg000733",
+      "role": "other",
+      "locator": "10x CG000733 Rev A, Chromium GEM-X 5p v3 vendor guide",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MANIFEST product/version entry; compared version label",
+        "finding": "Later GEM-X v3 guide is a different kit, and does not close v1 kit questions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original CG000733 Rev A PDF cover and p.100 visually; extracted PDF lines 1–16, 5260–5347, 5877–5892",
+        "finding": "Official GEM-X 5-prime v3 guide covers PN-1000699/0695, dual-index TT Set A, 16-base CB plus 12-base UMI, and N10 i5/i7 final library. Its Additional Sequences p.100 prints V(D)J enrichment primers, not full TT sample-index PCR primers. This 2024 version cannot establish 2017 v1 reaction conditions."
+      },
+      "reason": "Later generation comparator, discovered during earlier audit rather than cited by the 2017 defining guide."
+    },
+    {
+      "id": "cg000331_v2_comparator",
+      "role": "other",
+      "locator": "Official 10x CG000331 Rev E, _data/sources/10x-chromium-single-cell-5-ge/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Used only to distinguish v2 from v1/v3; not evidence for v1 reaction conditions.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original guide cover lines 1–21 and sequencing lines 6030–6144",
+        "finding": "Next GEM 5-prime v2 uses Dual Index Kit TT Set A; Read 1 26, i7 10, i5 10, Read 2 90. The old note falsely treated the v2 guide as unavailable."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original 10x CG000331 Rev E v2 user guide cover lines 1–21; library layout lines 6030–6052; run parameter table lines 6116–6145; source-bundle oligo scraper hit bead oligo lines 6787 and RT products lines 6813",
+        "finding": "Independently confirmed this is Next GEM 5-prime v2 dual-index chemistry with 16-base cell barcode, 10-base UMI, and 26/10/10/90 sequencing. It is a version comparator only and cannot supply the missing 2017 v1 reaction conditions."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "CG000109 lines 10-53 and reference CG000086; MANIFEST CG000733 row",
+      "finding": "Followed explicit CG000086 citation in CG000109; it is unavailable. Later v3 guide inspected only to exclude version conflation."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CG000109 lines 60–64, 491–492 and 620; CG000733 cover/pp.98–100; CG000331 Rev E cover and lines 6030–6144; source MANIFEST for all three original PDFs",
+      "finding": "Followed CG000109 to CG000086: the official Rev K full guide is now cached and independently read as a later version. The vendor July 2018 F→G revision summary says 5-prime GEX content was added/reorganized. Therefore Rev K does not resolve exact 2017 conditions; the contemporaneous revision remains unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact v1 kit components and reaction conditions from CG000086",
+      "disposition": "blocked",
+      "evidence": "CG000109 Rev D cites CG000086 for procedure. Rev K is read only as a later comparator, and official July 2018 F→G summary documents 5-prime GEX scope expansion; a contemporaneous guide remains unlocated."
+    }
+  ],
+  "conclusion": "CG000109 and later v2/v3 comparators have independent readings. CG000086 Rev K is newly available but later than the 2017 defining note; its 5-prime GEX content cannot establish 2017 v1 reaction conditions. Exact contemporaneous CG000086 remains blocked."
+}

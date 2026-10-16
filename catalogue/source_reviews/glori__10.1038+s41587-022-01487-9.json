@@ -1,0 +1,128 @@
+{
+  "dir": "glori__10.1038+s41587-022-01487-9",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "glori_article",
+      "role": "defining",
+      "locator": "GLORI Nature Biotechnology 2022 doi:10.1038/s41587-022-01487-9 full article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Local manifest has manual-only article; defining Methods not obtained or independently read.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "glori_figures",
+      "role": "supplement",
+      "locator": "Springer MOESM1 Supplementary Figures PDF in GLORI bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 lines 1-25 and 350-360",
+        "finding": "Supplementary figures include comparison of library preparation methods but do not provide a final-library PCR primer table in checked captions."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1 supplementary figures PDF text lines 1-32 and 350-365",
+        "finding": "Figures compare library preparations and results; inspected captions do not print final PCR primers."
+      }
+    },
+    {
+      "id": "glori_moesm2",
+      "role": "supplement",
+      "locator": "Springer MOESM2 PDF in local GLORI source bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Scanned Nature Reporting Summary; OCR of all three pages shows reporting/data/antibody information, not protocol chemistry.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer s41587-022-01487-9 MOESM2 PDF visually inspected all physical pages 1–3 at 800-pixel render; page 1 Reporting Summary/statistics/software, page 2 data and study-design disclosures, page 3 antibody validation and cell lines; bundle scraper run, blank text twin",
+        "finding": "MOESM2 is a three-page Nature Research Reporting Summary. It reports analysis software, sample design, antibodies and cell lines but no GLORI oligo, adapter, reagent sequence or library-construction table; exclusion from chemistry evidence is supported."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM2 original PDF pages 1-3 OCR, Nature Reporting Summary",
+        "finding": "Original is scanned three-page Nature Reporting Summary with data/antibody reporting, not the GLORI reagent-method supplement. It is locally readable via OCR; previous unavailable/relevant classification was wrong."
+      }
+    },
+    {
+      "id": "glori_spikeins",
+      "role": "supplement",
+      "locator": "Springer MOESM9 XLSX in GLORI bundle",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM9 Sheet1 rows 1-22; scraper run on full bundle",
+        "finding": "Table prints modified m6A RNA spike-ins, siRNAs and probes. These are control oligos, not final-library PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM9 XLSX Sheet1 rows 1-22",
+        "finding": "Original workbook prints m6A RNA spike-ins and siRNA/probes, not final library amplification primers."
+      }
+    },
+    {
+      "id": "glori_result_tables",
+      "role": "supplement",
+      "locator": "Springer MOESM3-MOESM8 XLSX in GLORI bundle",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Extracted first rows/sheet headers: MOESM3 Sheet1; MOESM4 siMETTL3; MOESM5 293T; MOESM6 siYTHDF2; MOESM7 Hypoxia; MOESM8 HS",
+        "finding": "These workbooks are m6A-site and treatment-result tables; inspected headers are genomic coordinates and methylation estimates, not library PCR primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM3-MOESM8 workbook headers and initial rows",
+        "finding": "These files are m6A sites/treatment outcome tables with genomic coordinates and methylation estimates, not oligo-reagent tables."
+      },
+      "reason": "Results workbooks of m6A sites and comparisons, not library chemistry."
+    },
+    {
+      "id": "glori_2024_protocol",
+      "role": "linked_material",
+      "locator": "GLORI Nature Protocols 2024 doi:10.1038/s41596-023-00937-1 and its Supplementary Table 1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Later detailed protocol cited in existing note/ledger is not in this local source bundle and was not independently read in this pass.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "glori_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Defining Nature Biotechnology manifest; Springer MOESM1 and MOESM3-MOESM9 inventory; cited later Nature Protocols DOI",
+      "finding": "Inspected all extracted supplement classes and their relevant oligo/control table; defining article and later detailed primer table are not available locally, so source linkage stays open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original MOESM1 figures, MOESM2 reporting summary and MOESM9 control oligo workbook",
+      "finding": "Checked local supplementary inventory, including rescoped MOESM2; defining Methods and later detailed GLORI protocol remain unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete final GLORI PCR oligos and exact read placement are unresolved",
+      "disposition": "blocked",
+      "evidence": "Current bundle lacks the defining article and later detailed protocol table. MOESM9 contains control spike-ins, not final library primers."
+    }
+  ],
+  "conclusion": "Blocked by unavailable defining article and later protocol; no absence accepted."
+}

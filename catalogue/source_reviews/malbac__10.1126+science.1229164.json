@@ -1,0 +1,70 @@
+{
+  "dir": "malbac__10.1126+science.1229164",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Zong et al Science 2012 DOI:10.1126/science.1229164; science.1229164_PMC3600412.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 38-66 and Fig 1 description around 270",
+        "finding": "Article describes 27-nt common handle plus 8-nt randomer and quasi-linear amplification; directs to supplementary data for detailed method."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 38-40 and 65-68",
+        "finding": "Original states 27-nt common primer plus 8 variable bases and points to supplementary data; the full primer sequence cannot be ruled absent while DOCX is unavailable."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "NIHMS445444-supplement-supplementary_data.docx, PMC article attachment",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "MANIFEST marks DOCX manual; attempted fetched file was HTML challenge, not a DOCX.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "library_kit",
+      "role": "linked_material",
+      "locator": "Downstream Illumina library-preparation kit documentation, if identified by source supplement",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identity cannot be resolved until original SOM is available; no kit documentation checked.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 38-66; MANIFEST supplementary DOCX entry",
+      "finding": "Original article links SOM, but SOM and possible vendor kit identity are unavailable; absence cannot be accepted."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original JATS lines 38-40, 65-68; source MANIFEST supplementary DOCX row",
+      "finding": "Followed article reference to supplementary data; attachment remains unavailable. Downstream kit identity cannot be resolved from inspected original text."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "MALBAC common-handle bases and downstream library adapter identity remain unresolved",
+      "disposition": "blocked",
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+    }
+  ],
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+}

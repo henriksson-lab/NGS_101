@@ -1,0 +1,179 @@
+{
+  "dir": "paiso-seq__10.1038+s41467-019-13228-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/s41467-019-13228-9_PMC6876564.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 142–153",
+        "finding": "Klenow exo− extends the native poly(A) end on a dU-interrupted template; USER removes dU sites, then Smart-seq2-like RT/TSO and PCR produce cDNA for PacBio SMRTbell."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "PMC6876564 original JATS lines 40, 54, 142–160; Methods End extension, SMRTbell library preparation and CCS processing",
+        "finding": "Original article explicitly defines 2dU BC3/Klenow exo− extension, USER cleavage, Smart-seq2-style RT/TSO, KAPA PCR, Pure PB size selection, then SMRTbell Template Prep Kit and Sequel. It does not name the exact SMRTbell kit version or hairpin ordering sequence. CCS demultiplexing matches 16-nt sample barcode plus first six TSO bases."
+      }
+    },
+    {
+      "id": "supp_oligo",
+      "role": "supplement",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/s41467-019-13228-9_supp_41467_2019_13228_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Supplementary Table 1 extracted lines 688–730; scraper source hits",
+        "finding": "TSO has rGrG+G modification and Table 1 prints RT/PCR primer strings plus 15 dU-interrupted barcode extension oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM1 Supplementary Table 1 extracted lines 688–730 and continuation; original PDF",
+        "finding": "Verbatim TSO AAGCAGTGGTATCAACGCAGAGTACATrGrG+G, RT primer AAGCAGTGGTATCAACGCAGAGTAC, PCR primer AAGCAGTGGTATCAACGCAGAGT, plus fifteen distinct 2dU-BC templates. The PDF line wrap splits some dU marks; source table, not scraper, controls the transcription."
+      }
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/s41467-019-13228-9_supp_41467_2019_13228_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM2 Reporting Summary PDF text lines 1–70",
+        "finding": "Reporting Summary describes software, accession IDs and figure source data; no library construction oligos, reactions or PacBio adapter chemistry. Reviewed the chemistry relevance rather than excluding on filename."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2 PDF extracted text lines 1–70, entire one-page Reporting Summary; bundle oligo scraper run",
+        "finding": "Independently read the reporting form. It covers statistical reporting, PacBio CCS/minimap2/TAPIS software, accession numbers and a note that Fig. 1b/4d source-data images accompany the paper. It has no construct, adapter, primer or reaction detail; exclusion is supported."
+      },
+      "reason": "Reporting Summary covers analysis/software/data access, not molecular library construction."
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/s41467-019-13228-9_supp_41467_2019_13228_MOESM3_ESM.pptx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "MOESM3 original source-data PPTX slide1/slide2 XML text and embedded gel image inventory",
+        "finding": "Two source-data slides show original agarose gels for Fig 1b and Fig 4d, ladder/sample labels only. No oligo sequences, reaction steps or PacBio adapter details."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 PPTX: ppt/slides/slide1.xml and slide2.xml text runs; ppt/media/image1.Tif, image2.Tif, image3.Tif visually inspected after conversion to PNG; bundle oligo scraper run",
+        "finding": "Slide 1 labels Fig. 1b agarose gel ladders and A0/A10/A30/A50/A70/A100 samples. Slide 2 labels Fig. 4d agarose gels and Btg4/Cnot7/Plat/ZP2/Dnmt1/Tle6/Cnot6l/Npm2. All three embedded images are gel photographs. No oligo table or SMRTbell chemistry; exclusion is supported."
+      },
+      "reason": "Figure source-data gels document assay results, not oligo or adapter chemistry."
+    },
+    {
+      "id": "smartseq2_predecessor",
+      "role": "linked_material",
+      "locator": "Picelli et al. 2014 Nature Protocols doi:10.1038/nprot.2014.006, original author-uploaded full article at https://www.researchgate.net/publication/259566573_Full-length_RNA-seq_from_single_cells_using_Smart-seq2",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nature Protocols article pp174–176, Reagent Setup lines 763–792 and Procedure lines 816–919 in author-uploaded full text",
+        "finding": "Original Smart-seq2 protocol prints ACAT-rGrG+G TSO, anchored oligo-dT30VN and 23-nt ISPCR, then describes SSII reverse transcription/template switching and KAPA preamplification. PAIso-seq instead prints its own RT primer without dT, its own TSO and PCR primer; inherited reaction mechanism does not imply that the Smart-seq2 oligo-dT is used in PAIso."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Picelli et al. original 2014 Nature Protocols author-uploaded full text at ResearchGate lines 280-305 (template-switch mechanism), 763-792 (TSO, anchored oligo-dT30VN, ISPCR), 816-919 (RT, template switching, KAPA preamplification); PAIso-seq original JATS PMC6876564 lines 40, 54, 144 and reference 9 lines 285-289; scraper run on local Smart-seq2 and PAIso-seq bundles before reading",
+        "finding": "Independently verified Picelli Smart-seq2 TSO 5-prime-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3-prime, anchored oligo-dT30VN and 23-nt ISPCR; it describes RT template switching by M-MLV and later KAPA PCR. PAIso-seq inherits this RT/template-switch principle but explicitly substitutes an end-extension/USER route and prints its own non-oligo-dT RT primer, TSO and PCR oligos in Supplementary Table 1. No Smart-seq2 oligo-dT strand should be transferred to PAIso-seq. Corrected checklist DOI from `nprot.2013.158` to the original article and PAIso reference 9 DOI `nprot.2014.006`."
+      }
+    },
+    {
+      "id": "smrtbell_kit",
+      "role": "linked_material",
+      "locator": "Paper Methods line 146 names PacBio SMRTbell Template Prep Kit without version; official PacBio 1.0 kit insert https://www.pacb.com/wp-content/uploads/2015/09/Insert-SMRTbell-Template-Prep-Kit-1.0.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Official 1.0 kit insert is a candidate contemporary kit, not identified as the exact version used by PAIso. It lists Blunt Adapter PN 100-348-100 but no adapter oligo sequence.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "PacBio SMRTbell Template Prep Kit 1.0 original insert, page 1 lines 0–39",
+        "finding": "Official kit insert describes library preparation and lists a Blunt Adapter, ligase, exonucleases and sequencing primer. It gives no hairpin sequence; PAIso Methods does not specify kit version. The 1.0 adapter cannot be identified as the exact PAIso material on this evidence."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official PacBio SMRTbell Template Prep Kit 1.0 insert PDF p1 lines 0–40; PAIso original JATS Methods line 146; also checked local Jan 2019 Express 2.0 guide 101-693-800 text lines 961–1020 as a different-kit comparator",
+        "finding": "The 1.0 vendor insert lists End Repair Mix, Ligase, Blunt Adapter 100-348-100 and Sequencing Primer v2 but no adapter bases or detailed ligation geometry. PAIso names SMRTbell Template Prep Kit without version; cannot identify its exact reagent from the 1.0 insert. Express 2.0 uses End-Repair/A-tailing and Overhang Adapter v3 in a large-insert workflow, showing why that later guide must not be substituted for the unnamed PAIso kit."
+      }
+    },
+    {
+      "id": "author_2022_detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "Liu et al. 2022 detailed PAIso-seq protocol doi:10.1038/s41596-022-00704-8; original author-uploaded full text https://www.researchgate.net/publication/361976122_Transcriptome-wide_measurement_of_polyA_tail_length_and_composition_at_subnanogram_total_RNA_sensitivity_by_PAIso-seq ; author PDF https://lulab.genetics.ac.cn/publications/2022/202306/P020230621527015176346.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "close_imargi_nano",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original full article web text Table 2 lines 912–1054, TSO discussion lines 1124–1154, Materials line 1562 and Procedure steps 29–30 lines 2659–2669; ran scraper on DOI source directory (empty because direct fetch DNS failed) and PAIso original bundle before reading",
+        "finding": "The later detailed protocol prints its own oligo table and specifically names SMRTbell template prep kit 1.0-SPv3 (PacBio 100-991-900). Its TSO is modified 5′-iCiGiC...ACATrGrG+G/NH2-C3-3′, whereas the 2019 defining Supplementary Table 1 prints unmodified 5′ handle ...ACATrGrG+G without those blocks. This is evidence for a later version, not proof of the 2019 experiment’s exact SMRTbell kit or adapter junction. The author protocol delegates SMRTbell construction to kit instructions and prints no hairpin bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read author-uploaded original 2022 Nature Protocols full text on ResearchGate, Table 2 web lines 912–1054, TSO mechanism lines 1124–1154, SMRTbell steps 29–30 lines 2659–2669; ran source-bundle oligo scraper first. Direct author-lab PDF attempted and returned 502.",
+        "finding": "The 2022 method explicitly prints a 5′ iCiGiC and 3′ /NH2-C3/ blocked TSO with rGrG+G, and specifies SMRTbell template prep kit 1.0-SPv3 for downstream library construction. These are later-version details; they do not identify the 2019 experiment’s kit revision or justify assigning the later TSO modifications to its original library."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "PAIso JATS lines 40,54,142–160 and Supplementary Table 1 lines 688–730; original Picelli 2014 Nature Protocols lines 763–919; official PacBio 1.0 insert p1 lines 0–39; MOESM2 full Reporting Summary and MOESM3 two slide XMLs",
+      "finding": "Independently followed the article to its own oligo table, cited Smart-seq2 protocol, kit family documentation and ancillary attachments. PAIso ordering strings are present; supplementary reporting and gel source data add no chemistry. Kit version and exact hairpin attachment remain unresolved, so completeness/absence claims stay blocked."
+    },
+    "followup_2022": {
+      "reviewer": "close_imargi_nano",
+      "date": "2026-10-16",
+      "locations": "Followed later author detailed protocol doi:10.1038/s41596-022-00704-8 to author-uploaded original Table 2 and PacBio materials/procedure; PAIso original Table 1 compared",
+      "finding": "The later 2022 author protocol has now been read independently by two reviewers. Its explicit 1.0-SPv3 kit and blocked TSO describe a later version and cannot retrospectively resolve the 2019 experiment. Exact original SMRTbell junction remains blocked.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Author-uploaded original 2022 Table 2, TSO discussion, Steps 29–30; local 2019 original source-bundle oligo scraper run first",
+        "finding": "Independently confirmed the later modified TSO and kit 1.0-SPv3; original 2019 kit revision and attachment bases are still unresolved."
+      }
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Defining article, oligo table, reporting attachment, source-data slides and linked Smart-seq2/vendor candidate were checked twice; the paper does not identify its kit version, so exact hairpin sequence and end geometry cannot be resolved.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent readings of the later detailed 2022 author protocol establish its versioned PacBio kit and additional TSO blocking modifications; these cannot be assigned to the 2019 defining experiment. Exact 2019 SMRTbell adapter and junction remain unresolved; no missing claim accepted."
+}

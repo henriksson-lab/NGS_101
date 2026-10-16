@@ -1,0 +1,485 @@
+{
+  "dir": "s3-atac__10.1038+s41587-021-00962-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Mulqueen et al Nat Biotechnol 2021 doi:10.1038/s41587-021-00962-z PMC8678206",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41587-021-00962-z_PMC8678206.xml.txt lines 66-98, 110-130 Methods; lines 244-252 table inventory",
+        "finding": "Describes symmetric single-adapter transposition and ATAC-specific nuclei preparation; cites formatted protocols.io."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41587-021-00962-z_PMC8678206.xml.txt lines 66, 110-128, 130-140; paper Methods and shared-chemistry summary independently read",
+        "finding": "Paper defines single-adapter ideoxyU transposition, uracil-intolerant gap fill, 3-prime inverted-dT LNA template switching and Q5U indexed PCR. ATAC branch uses isolated nuclei without fixation and 16–18 PCR cycles."
+      }
+    },
+    {
+      "id": "tables1to5",
+      "role": "supplement",
+      "locator": "Published Supplementary Tables 1–8, 41587_2021_962_MOESM6_ESM.xlsx; PMC duplicate checksum",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx.txt lines 1-240, Tables 1–5; scraper lines 7,131,176",
+        "finding": "Table 1 diagrams dU gap fill/switch; Tables 2–5 give Tn5, LNA switching oligo and i7/i5 primers. Table 5 title repeats i7 wording although rows are i5."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx.txt lines 1-34 and 120-240; source-file scraper run and exact layout/oligo rows inspected",
+        "finding": "Published Supplementary Table 1 draws pre-PCR/final molecular layout with /ideoxyU/ and /3InvdT/; Table 2 prints indexed transposon oligos; Tables 3–5 give adapter-switch and indexed PCR families. MANIFEST checksum matches PMC supplement duplicate; this is the controlling original."
+      }
+    },
+    {
+      "id": "protocol",
+      "role": "linked_material",
+      "locator": "Author protocols.io s3-ATAC stepwise procedure",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "protocolsio_s3-atac-36wgq5bnygk5.pdf.txt Methods, oligonucleotide references and switching/PCR sections",
+        "finding": "Follows same branch and refers to author oligo attachment and published tables."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "protocolsio_s3-atac-36wgq5bnygk5.pdf.txt lines 1393-1490",
+        "finding": "Stepwise author protocol confirms SDS followed separately by NPM, 72C gap fill, A14-LNA-ME linear adapter switching over ten cycles, Triton quench and indexed Q5U PCR; WGS protocol shares the switch but has distinct fixed/nucleosome-depleted input."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "author_oligos",
+      "role": "linked_material",
+      "locator": "Author s3_oligos.xlsx attachment mirrored in scg data",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s3-atac source scg_s3_oligos.xlsx.txt lines 1-35 and iTSM_sci-WG sheet",
+        "finding": "Mirrored author workbook matches the published Supplementary Table 1 layout, but published MOESM6 is primary for oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "scg_s3_oligos.xlsx.txt lines 1-35 and MANIFEST.tsv line 36; compared with published MOESM6 lines 1-35",
+        "finding": "This spreadsheet is labeled only as a scg_lib_structs repository file, with no established publisher/author provenance. It resembles the published table but is not independent authoritative evidence; model claims must use published MOESM6."
+      },
+      "discovered_from": "protocol",
+      "reason": "Unverified upstream spreadsheet copy; published MOESM6 is authoritative and supplies these oligos."
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/2021.01.11.425995_v1.full.pdf.txt; bioRxiv doi:10.1101/2021.01.11.425995 v1 (2021-01-12)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv v1 2021.01.11.425995_v1.full.pdf.txt lines 1–5 (identity/date), 41–59 (single-adapter dU stop and blocked LNA switch), 429–432 (indexed transposome), 459–465 (ATAC tagmentation), 475–491 (72°C NPM gap fill, ten LNA switch cycles and Q5U indexed PCR), 192–204 (sequencing claim); original publisher MOESM6 oligo workbook lines 1–35 for comparison; scraper run on preprint and publisher oligo table",
+        "finding": "Independently read original preprint. ATAC procedure has 96 indexed transposomes, 55°C 10-minute tagmentation, 72°C 10-minute NPM gap fill, A14-LNA-ME addition, ten 98/59/72°C switch cycles, then Q5U i7/i5 PCR. This agrees in order with the published article; the preprint lacks a base-level oligo table, so MOESM6 remains authoritative for sequences. No version-specific base difference was established from the checked preprint Methods."
+      },
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 PDF text lines 41-60 (symmetric dU/LNA mechanism), 193-204 (standard sequencing claim), 429-488 (ATAC sample preparation, NPM gap fill, A14-LNA-ME switch and Q5U PCR), compared with published PMC8678206 JATS lines 66-72 and 110-128",
+        "finding": "Original author preprint is now cached. It describes the same single-adapter Tn5/dU stop, blocked LNA template-switching oligo, ATAC nuclei path, 72 C NPM gap fill, ten switch cycles, and Q5U indexed PCR as the published article. No conflicting oligo bases or order were found in checked Methods; the preprint PDF has no independent oligo table, so the published MOESM6 workbook remains the base-level source."
+      }
+    },
+    {
+      "id": "supplementary_information_pmc",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_supp_NIHMS1707134-supplement-Supplementary_Information.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "PMC Cloud Supplementary Information PDF extracted lines 1–30 and 273–350; oligo scraper on this file",
+        "finding": "Contains figure panels and quantitative accessibility plots, not a library oligo list or bench reaction order. Distinct PDF from Springer MOESM1 by MD5."
+      },
+      "reason": "Figure supplement is results/quality visualization, not a molecular-method source.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "PMC Cloud Supplementary Information PDF extracted lines 1–30, 273–350 and figure titles throughout; targeted oligo scraper",
+        "finding": "Figure graphics and quantitative accessibility plots; no reaction instructions or oligo table in inspected text. Distinct source from Springer MOESM1."
+      }
+    },
+    {
+      "id": "publisher_moesm1",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM1 PDF extracted lines 1–45, 268–355 and chemistry-keyword search through 924 lines; individual-file oligo scraper",
+        "finding": "Supplementary figure panels compare accessibility and library yield; no oligo table or protocol step sequence located."
+      },
+      "reason": "Figure results, not the source of primer or reaction specifications.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM1 PDF extracted lines 1–45 and 270–355; targeted oligo scraper",
+        "finding": "Supplementary figure panels describe accessibility/yield comparisons, not an oligo inventory or bench protocol."
+      }
+    },
+    {
+      "id": "publisher_moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM2 Reporting Summary, visually inspected pages 1–3 after PDF text extraction returned blank",
+        "finding": "Nature Research reporting form covers statistics, cell lines and organisms; page 2 mentions barcode-based data exclusion but gives no synthesis oligo or library chemistry."
+      },
+      "reason": "Reporting checklist, not a protocol reagent source.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM2 original PDF, visually inspected all 3 pages after blank extraction",
+        "finding": "Nature Research Reporting Summary: statistics, software, datasets, study design and samples. Page 2 mentions barcode exclusions but supplies no barcode design or oligo sequences."
+      }
+    },
+    {
+      "id": "publisher_moesm3",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM3_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM3 ZIP central directory: single Supplementary_File_1_mm10.brain.peaks.bed member, 36,803,260 uncompressed bytes",
+        "finding": "A mouse-brain called-peaks BED interval table, not wet-lab chemistry."
+      },
+      "reason": "Genomic analysis coordinates, not primers or reaction steps.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM3 original ZIP central directory, only member Supplementary_File_1_mm10.brain.peaks.bed (36,803,260 bytes)",
+        "finding": "A BED table of mouse brain genomic peaks, not a wet-lab source."
+      }
+    },
+    {
+      "id": "publisher_moesm4",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM4 XLSX workbook metadata: Worksheet_Descriptors, Celltype_Assignment, hg38_onevrest/onevone, hg39_inhib_onevone, mm10_onevrest/onevone; Worksheet_Descriptors cells A1:B9 and Celltype_Assignment rows 1–11 decoded from original ZIP/XML",
+        "finding": "Workbook identifies itself as Supplementary File 2, differential accessibility in human/mouse s3-ATAC clusters, with cell-type assignments and peak statistics."
+      },
+      "reason": "Differential-accessibility result tables, not molecular-reagent inventory. Full 38 MB workbook was not converted to text; classification uses its own sheet descriptors, not a whole-sheet sequence search.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM4 original XLSX xl/workbook.xml and Worksheet_Descriptors rows 1–12 decoded from ZIP/XML",
+        "finding": "Supplementary File 2 explicitly describes differential accessibility and cluster assignments; remaining sheet names are genomic comparisons. No oligo or reaction column in descriptors."
+      }
+    },
+    {
+      "id": "publisher_moesm5",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM5_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM5 ZIP central directory, 25 members headed Supplementary File 1 - s3-GCC Compartments/ContactProbPlot and chromosome CompHeatmap PDFs",
+        "finding": "Archive holds s3-GCC compartment/contact-result plots, no ATAC/WGS oligo inventory in member names."
+      },
+      "reason": "GCC analysis plots; not source of ATAC/WGS library chemistry.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM5 original ZIP central directory, 25 members; ContactProbPlot and chromosome CompHeatmap members",
+        "finding": "Contains s3-GCC contact/compartment graphics, not an oligo or reaction protocol."
+      }
+    },
+    {
+      "id": "publisher_moesm7",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM7 workbook extracted text: SourceData_Fig2b–2i; extracted sheet starts lines 1, 689, 793, 57183, 59182, 63185, 66196, 119296; inspected sheet titles and headers",
+        "finding": "Species-call, read-count, insert-size, UMAP and peak-overlap source data; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM7 text twin sheet headers at lines 1–3, 690–692, 795–797, 57186–57188, 59186–59188, 63190–63192, 66202–66204, 119303–119305; targeted oligo scraper",
+        "finding": "SourceData_Fig2 sheets are species calls, read and insert counts, UMAP and peak overlap."
+      }
+    },
+    {
+      "id": "publisher_moesm8",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM8 workbook extracted text: SourceData_Fig3a/3c; extracted sheet starts lines 1, 327, 670; inspected sheet titles and headers",
+        "finding": "UMAP, topic-model and cell-type signature source data; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM8 text twin sheet headers at lines 1–3, 328–330 and 672–674; targeted oligo scraper",
+        "finding": "SourceData_Fig3 sheets are UMAP, topic-model scores and cell-type signatures."
+      }
+    },
+    {
+      "id": "publisher_moesm9",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM9 workbook extracted text: SourceData_Fig4c–4g; extracted sheet starts lines 1, 12, 3634, 4903, 6172; inspected sheet titles and headers",
+        "finding": "Chromosome-count, copy-number dispersion and unique-read source data; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM9 text twin sheet headers at lines 1–3, 13–15, 3636–3638, 4906–4908 and 6176–6178; targeted oligo scraper",
+        "finding": "SourceData_Fig4 sheets are chromosome counts, dispersion and unique-read results. Scraper sequence-like hits are cellIDs in rows 3638 and 4908, not ordered oligos."
+      }
+    },
+    {
+      "id": "publisher_moesm10",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM10 workbook extracted text: SourceData_Fig5b–5e; extracted sheet starts lines 1, 1270, 2924, 18473, 18655, 18871; inspected sheet titles and headers",
+        "finding": "Genomic-bin copy and chromosome-contact/plot coordinates; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM10 text twin sheet headers at lines 1–3, 1271–1273, 2926–2928, 18476–18478, 18659–18661 and 18876–18878; targeted oligo scraper",
+        "finding": "SourceData_Fig5 sheets are genomic-bin copy states, chromosome contacts and plot coordinates."
+      }
+    },
+    {
+      "id": "publisher_moesm11",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM11 workbook extracted text: SourceData_SupFig1c–1e; extracted sheet starts lines 1, 26, 34750; inspected sheet titles and headers",
+        "finding": "Peak/downsampling, UMAP and library-saturation source data; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM11 text twin sheet headers at lines 1–3, 27–29 and 34752–34754; targeted oligo scraper",
+        "finding": "SourceData_SupFig1 sheets are called peaks, UMAP and library saturation."
+      }
+    },
+    {
+      "id": "publisher_moesm12",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM12 workbook extracted text: SourceData_SuppFig2a; extracted sheet start line 1, headers clade/copy/gloc/contig/start/end; inspected sheet titles and headers",
+        "finding": "Clade copy-number and genomic-coordinate result table; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM12 text twin sheet header at lines 1–3; targeted oligo scraper",
+        "finding": "SourceData_SuppFig2a is clade copy state and genomic coordinate data."
+      }
+    },
+    {
+      "id": "publisher_moesm13",
+      "role": "supplement",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/s41587-021-00962-z_41587_2021_962_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM13 workbook extracted text: SourceData_SupFig3a/3c/3d; extracted sheet starts lines 1, 402, 618; inspected sheet titles and headers",
+        "finding": "Genomic-distance/contact-probability and plotted-point source data; no primer list or reaction-order columns in these inspected sheets."
+      },
+      "reason": "Figure source data rather than chemistry instructions; full large tables were not exhaustively sequence-scanned.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Springer MOESM13 text twin sheet headers at lines 1–3, 403–405 and 620–622; targeted oligo scraper",
+        "finding": "SourceData_SupFig3 sheets are genomic-distance/contact-probability and plot data."
+      }
+    },
+    {
+      "id": "sibling_s3_wgs",
+      "role": "linked_material",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/protocolsio_s3-wgs-q26g7bd63lwz.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io s3-WGS PDF lines 1–50, 137–160 and 747–860; individual-file oligo scraper",
+        "finding": "Author protocol is a fork of s3-ATAC; it names the shared s3_oligos.xlsx attachment and describes indexed Tn5 loading, so the shared oligo source and operation differences matter to this review."
+      },
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io s3-WGS PDF lines 1–8, 141–152 and 858–870; targeted oligo scraper",
+        "finding": "Author protocol explicitly forks s3-ATAC and names s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx for shared indexed-Tn5 loading."
+      }
+    },
+    {
+      "id": "sibling_s3_gcc",
+      "role": "linked_material",
+      "locator": "_data/sources/s3-atac__10.1038+s41587-021-00962-z/protocolsio_s3-gcc-kxygxeo2ov8j.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io s3-GCC PDF lines 1–52, 146–160 and 759–864; individual-file oligo scraper",
+        "finding": "Author s3-GCC protocol is forked from s3-WGS and names the same s3_oligos.xlsx attachment plus an Example_sciTn5_Oligos.xlsx file; its contact branch is different, but shared oligo provenance is chemistry-relevant."
+      },
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Original protocols.io s3-GCC PDF lines 1–8, 151–161 and 870–880; targeted oligo scraper",
+        "finding": "Author protocol forks s3-WGS and names both s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx; the GCC contact branch differs but oligo provenance is linked."
+      }
+    },
+    {
+      "id": "author_oligos_original",
+      "role": "linked_material",
+      "locator": "https://www.protocols.io/view/s3-atac-36wgq5bnygk5 (named attachment s3_oligos.xlsx; direct file URL unresolved)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original s3-ATAC protocols.io PDF Prepare oligoes and transposases section lines 139–151; local MANIFEST.tsv lists only scg_s3_oligos.xlsx as a scg_lib_structs mirror",
+        "finding": "The author PDF explicitly names an attached s3_oligos.xlsx workbook containing molecular layout and i5/i7 primer tabs. An independently retrieved protocols.io original attachment is not in the source bundle; the scg mirror alone cannot prove its contents."
+      },
+      "reason": "Original linked attachment has not been retrieved or independently authenticated; relevant source remains unavailable.",
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io PDF Prepare oligoes and transposases, ATAC lines 141–152 or WGS 141–152; local source MANIFEST.tsv and attempted direct protocols.io page",
+        "finding": "Original PDF names s3_oligos.xlsx with molecular layout and i5/i7 primer tabs. Only scg mirror is local; original attachment could not be fetched or inspected. Relevant source remains unavailable."
+      }
+    },
+    {
+      "id": "gcc_example_sci_tn5_original",
+      "role": "linked_material",
+      "locator": "https://www.protocols.io/view/s3-gcc-kxygxeo2ov8j (named attachment Example_sciTn5_Oligos.xlsx; direct file URL unresolved)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The linked s3-GCC original protocol names this Tn5-loading oligo workbook, but its original attachment is absent from the source bundle and anonymous PDF exports contain no public file annotation. Do not infer absence of sequence from failed access.",
+      "discovered_from": "sibling_s3_gcc",
+      "pass_1": {
+        "reviewer": "review_fast_hybrid",
+        "date": "2026-10-16",
+        "locations": "Original s3-GCC protocols.io PDF lines 856–864 (Mosaic End reverse-complement and Example_sciTn5_Oligos.xlsx reference); inspected PDF attachment URLs with fetchers.protocolsio.attachment_urls",
+        "finding": "GCC protocol points to an additional original Tn5 oligo workbook relevant to shared indexed transposome loading; the named attachment was not retrieved, and the PDF has no embedded content.protocols.io link."
+      },
+      "pass_2": {
+        "reviewer": "s3_second_pass",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io GCC PDF lines 870–880; ATAC/WGS PDFs lines 860–870; local source MANIFEST.tsv and attempted direct protocols.io page",
+        "finding": "The author protocols name Example_sciTn5_Oligos.xlsx for ME reverse-complement and Tn5 loading oligos. No original attachment is local or reachable from PDF/page. Relevant source remains unavailable."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Article Methods links to branch protocols.io; original Supplementary Tables 1–5; author attachment mirror; bioRxiv v1 PDF lines 41-60, 193-204, 429-488 (newly cached)",
+      "finding": "Followed ATAC stepwise protocol and primary publisher oligo tables. Table 5 header conflict was added to the public ATAC page. On 2026-10-16 I also read the cited bioRxiv v1: its ATAC switch/PCR order agrees with the published methods; an independent read of this newly cached version is pending."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 66, 110-140; MOESM6 lines 1-35; author protocols.io ATAC 1393-1490; protocols.io manuscript citation lines 22-26",
+      "finding": "Followed linked stepwise protocol; newly identified a cited bioRxiv preprint, still unavailable locally. The scg spreadsheet has unverified provenance and cannot substitute for published MOESM6."
+    },
+    "followup": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author bioRxiv v1 lines 41–59 and 429–491; publisher MOESM6 lines 1–35",
+      "finding": "The previously unavailable cited bioRxiv v1 is now local and has two independent located reads; it corroborates ATAC reaction order but does not supersede the publisher oligo table. Unverified scg spreadsheet remains excluded as authority."
+    },
+    "first_pass_update": "2026-10-16 review_fast_hybrid inventoried separately the original Springer MOESM1–5 and MOESM7–13, non-identical PMC Supplementary Information PDF, sibling author protocols, and the named but unretrieved protocols.io s3_oligos.xlsx attachment. Each new row needs an independent second check; the original attachment remains unavailable. The linked GCC protocol also names unavailable Example_sciTn5_Oligos.xlsx; it is a separate checklist row.",
+    "second_pass_update": "2026-10-16 s3_second_pass independently inspected all newly inventoried local original supplements and sibling author protocol PDFs, after targeted oligo scraping. Figure/data supplements are not oligo inventories. Both author-named oligo workbooks remain unavailable as independently sourced originals; scg mirror cannot establish their contents. Linked-information disposition remains blocked."
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent passes now cover the newly inventoried available originals. Published MOESM6 oligo table and branch protocols are source-positive; the independently sourced author s3_oligos.xlsx and Example_sciTn5_Oligos.xlsx attachments remain unavailable. No missing sequence claim is accepted."
+}

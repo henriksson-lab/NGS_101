@@ -30,7 +30,7 @@ def render_page(protocol, *, graph_factory=None):
       f'<h1>{protocol} &mdash; droplet-barcoded single-cell ATAC-seq</h1>',
       f'<p class="research-notes"><a href="{notes}">Research notes</a></p>',
       info('Defining source: <a href="https://doi.org/10.1038/s41587-019-0147-6">Lareau et al., <i>Nature Biotechnology</i> (2019)</a>.'),
-      '<div class="caveat"><b>Bead sequence boundary.</b> The paper publishes the bead barcode/constant/s5 portion but leaves its linker cell empty. Dotted 5\' sequence is an unpublished placeholder, not the upstream Bio-Rad reconstruction.</div>',
+      '<div class="caveat"><b>Bead and primer sequence boundary.</b> The paper publishes the bead barcode/constant/s5 portion but leaves its linker cell empty. Dotted 5\' sequence marks bases unresolved from the checked originals. Bio-Rad guides identify the custom Read 1 primer as catalog 16005986 but do not print its bases; the publication-era 2018 guide and reagent insert remain unavailable.</div>',
       f'<h2>Key oligos</h2><seq>{tn5}{bead}</seq>',
       '<h2>Reaction workflow</h2>',protocol_graph_panels(graph,cls="long"),
       '<h2>Molecular details</h2>',
@@ -48,5 +48,5 @@ def render_page(protocol, *, graph_factory=None):
               "extract_then_include"),
           sp.read_spec("Index 1 (i7)",8,"sample index","demultiplex"),
           sp.read_spec("Read 2",40,"genomic DNA from the s7 end","include")],
-          "Read roles and cycle counts are source-declared; custom primer sequences are unpublished."),
+          "Read roles and cycle counts are source-declared; custom primer bases remain unresolved from the checked originals, and the publication-era guide is unavailable."),
       '</div>'])

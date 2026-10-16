@@ -1,0 +1,76 @@
+{
+  "dir": "10x-chromium-single-cell-multiome-atac-gene-expression",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "guide_rev_g",
+      "role": "defining",
+      "locator": "10x CG000338 Chromium Next GEM Multiome ATAC + GEX User Guide Rev G, local 10x_CG000338_...RevG.pdf.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Reagent lists lines 333-357 and 455-455; sample-index sections 202-236",
+        "finding": "Original 10x guide names Template Switch Oligo, SI-PCR Primer B, cDNA Primers, and Adaptor Oligos as kit reagents, but these cited reagent lists do not print their bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "CG000338 Rev G Appendix pp. 80-81, extracted lines 5887-5940",
+        "finding": "The original Sequences appendix prints both gel-bead oligos and exact constant ATAC/GEX final-library layouts; reagent-list silence does not imply these are absent. Only distinct internal reagent identities may remain undisclosed."
+      }
+    },
+    {
+      "id": "guide_rev_b_f",
+      "role": "vendor",
+      "locator": "10x CG000338 Rev B and Rev F original PDFs, local guide extracts",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv Rev B/F entries and extracted reagent lists",
+        "finding": "Earlier original guide revisions are present; exact revision used in any given experiment remains context-dependent."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "CG000338 Rev B Appendix p. 80 lines 5659-5705; Rev F Appendix pp. 80-81 lines 5802-5848; visually checked Rev B PDF p. 80",
+        "finding": "Both earlier revisions print the same gel-bead and most final-library constant arms. Rev B GEX final-library line omits ACAC from P5, contrary to its own ATAC lines and Rev F/G. This discrepancy is now visible on protocol page."
+      }
+    },
+    {
+      "id": "bridge_oligo",
+      "role": "linked_material",
+      "locator": "10x internal bridge reagent formulation/sequence",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Guide names reagents but does not provide separate bridge reagent oligo specification; no original component disclosure found in bundle.",
+      "discovered_from": "guide_rev_g"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "CG000338 Rev G reagent lists; MANIFEST.tsv original revision rows",
+      "finding": "Original vendor guide revisions were examined; no separate bridge/component sequence source was found. Index kit CSVs exist but member selection varies."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Rev G sequences appendix and Rev B/F appendices; source bundle manifest",
+      "finding": "Revisions explicitly print final library architecture; separate proprietary bridge/reaction component specification remains unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Internal bridge and some reaction-mixture oligos are proprietary or unavailable.",
+      "disposition": "blocked",
+      "evidence": "The guide appendices establish both gel-bead oligos and both final-library constant shells. Only the separate internal bridge/reagent species remain unresolved; relevant component source is unavailable."
+    }
+  ],
+  "conclusion": "Independent review found the omitted Sequences appendix and a Rev B P5 discrepancy; page now displays latter. No proprietary-component absence accepted."
+}

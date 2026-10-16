@@ -1,0 +1,94 @@
+{
+  "dir": "scdamid__10.1016+j.cell.2015.08.040",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1016/j.cell.2015.08.040; j.cell.2015.08.040_PMC4583798.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 88-105 and 204-270",
+        "finding": "Describes conventional DamID reagent reuse; Figure S1E and Table S2 are identified as chemistry-relevant supplements."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC4583798 JATS lines 90-105,204 and 270",
+        "finding": "Original article says method uses conventional DamID reagents from Vogel 2007; linked Figure S1 and Table S2 are listed but gated. No exact adaptor sequence printed in inspected article text."
+      }
+    },
+    {
+      "id": "figure_s1",
+      "role": "supplement",
+      "locator": "NIHMS718969-supplement-1.pdf (Figure S1 and Extended Experimental Procedures)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplement download gate in MANIFEST.tsv.",
+      "pass_2": null
+    },
+    {
+      "id": "table_s2",
+      "role": "supplement",
+      "locator": "NIHMS718969-supplement-8.doc (Table S2 index primers)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplement download gate in MANIFEST.tsv.",
+      "pass_2": null
+    },
+    {
+      "id": "other_supp",
+      "role": "supplement",
+      "locator": "NIHMS718969-supplement-2 to -7, linked final-paper supplements",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Other supplement downloads are gated; relevance of their contents cannot yet be ruled out.",
+      "pass_2": null
+    },
+    {
+      "id": "vogel",
+      "role": "predecessor",
+      "locator": "Vogel et al. Nature Protocols 2007 doi:10.1038/nprot.2007.148, named by paper",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Route declared in catalogue/extra_sources.tsv but original not present in this source bundle.",
+      "pass_2": null
+    },
+    {
+      "id": "epidamid",
+      "role": "linked_material",
+      "locator": "EpiDamID 2022 PMCID PMC9153956 oligo table, declared in catalogue/extra_sources.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked oligo table not present in this local bundle for this pass.",
+      "discovered_from": "vogel",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "article XML Figure S1/Table S2 labels and conventional DamID citation; extra_sources.tsv predecessor routes",
+      "finding": "Found Figure S1, Table S2 and Vogel protocol source chain; original supplements and predecessor tables not read in this pass."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC JATS 204,270 and reference list; MANIFEST.tsv",
+      "finding": "Vogel 2007 predecessor and final author supplements remain unavailable. Scraper hits from upstream_scDamID.html.txt were excluded as secondary schematic evidence."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Paper-specific adaptor and indexed-primer bases are unavailable",
+      "disposition": "blocked",
+      "evidence": "Figure S1/Table S2 and predecessor routes are not locally readable, so only a bounded statement is supported."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

@@ -16,6 +16,7 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41586-022-05094-1"
 SUMMARY = ("Tn5 tags accessible chromatin in a fixed tissue section. Two perpendicular "
            "microfluidic ligations append 8-nt A and B barcodes whose ordered pair "
            "identifies a tissue pixel.")
+ATAC_TN5_ME_A = "/5Phos/CATCGGCGTACGACTAGATGTGTATAAGAGACAG"
 FINAL_LIBRARY, SEQ_PRIMERS = se.library("accessible genomic fragment")
 READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8}
 SHOW_READ_CONTENT = True
@@ -27,7 +28,9 @@ SEQUENCING_INTRO = ("Paired-end 150 sequencing was used. Raw Read 1 carries barc
 
 
 def oligos():
-    return se.oligos()
+    return (f"<b>Spatial-ATAC Tn5ME-A</b> — 5′-{ATAC_TN5_ME_A}-3′ "
+            "(Deng et al. 2022 Methods; distinct from the CUT&amp;Tag adapter in Farzad et al. Table 1)",
+            *se.oligos())
 
 
 def workflow():

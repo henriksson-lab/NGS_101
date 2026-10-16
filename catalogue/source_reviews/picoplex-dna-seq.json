@@ -1,0 +1,45 @@
+{
+  "dir": "picoplex-dna-seq",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "takara_manual",
+      "role": "defining",
+      "locator": "https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official QAM-106-002 manual is listed in extra_sources.tsv but no source bundle was cached before downloads paused.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "index_plate",
+      "role": "linked_material",
+      "locator": "QAM-106-002 Figure 4 i5/i7 well map and any named index-plate guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Potential source-positive index table is in the inaccessible defining manual.",
+      "discovered_from": "takara_manual",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Cached source inventory, existing protocol note and extra_sources.tsv route list only",
+      "finding": "No original from this protocol was available for an identifiable first reading; no source row has pass_1. All molecular claims await original source inspection and an independent second reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "PicoPLEX quasi-random priming and complete commercial amplification/index oligos",
+      "disposition": "blocked",
+      "evidence": "Relevant source files and independent second pass remain outstanding."
+    }
+  ],
+  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+}

@@ -1,0 +1,160 @@
+{
+  "dir": "ng-capture-c__10.1038+nmeth.3664",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_PMC4724891.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 43–61, Fig. 1 legend lines 320–328",
+        "finding": "Original article states two rounds of capture using single 120-base biotinylated oligos at each viewpoint fragment end, with no Hi-C biotin fill-in."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Results lines 49–59",
+        "finding": "Two sequential captures use single 120-base biotinylated oligos at restriction-fragment ends; no Hi-C biotin fill-in, and sequencing adapters precede capture."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 60–110",
+        "finding": "Methods list DpnII digest-control qPCR primers and Illumina TruSeq adapter kit, plus biotin-oligo capture and blocking reagents."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Methods lines 60–110",
+        "finding": "Methods name TruSeq adapter kit, DpnII control primers and biotin capture reagent steps; vendor adapter details remain linked."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher Supplementary Figure 1 caption lines 10–18",
+        "finding": "Figure 1a expressly specifies 120-bp capture oligos at restriction-fragment ends, including DpnII GATC, with 5′ biotin and no fill-in; later pages show validation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC Supplementary Figure 1 PDF text lines 10–18",
+        "finding": "Caption section a directly states capture oligos are 120 bp at desired restriction-fragment ends, so this source supports probe geometry and is relevant despite result figures on later pages."
+      }
+    },
+    {
+      "id": "supp_analysis",
+      "role": "supplement",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening page lines 1–10",
+        "finding": "Supplementary note is analytical discussion of 3C contact counts."
+      },
+      "reason": "Contact-analysis concepts, not reagent identities.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary analysis note lines 1–12",
+        "finding": "Statistical/analytical concepts for 3C and Capture-C data, not library chemistry."
+      }
+    },
+    {
+      "id": "publisher_supp_fig",
+      "role": "supplement",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM217_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher supplementary figure PDF lines 15–31, Supplementary Fig. 1 caption",
+        "finding": "Supplementary Fig. 1 caption specifies 120-base capture oligos designed at restriction-fragment ends, with comparative viewpoint design. Relevant capture geometry; further figure content remains for second reader."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher supplementary Figure 1 caption lines 15–23",
+        "finding": "120 bp 5-prime-biotinylated probes include DpnII GATC at each viewpoint-fragment end; this source explicitly says biotin fill-in is unnecessary and explains streptavidin capture geometry."
+      }
+    },
+    {
+      "id": "publisher_supp_oligos",
+      "role": "supplement",
+      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM218_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook Oligonucleotide sequences sheet lines 92–108",
+        "finding": "Supplementary Data Oligonucleotide sequences sheet prints 120-base /5Biosg/ capture probes with genomic positions; Hba-1 examples at lines 94–95."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher supplementary workbook Oligonucleotide sequences sheet lines 92–99",
+        "finding": "Prints genomic-positioned /5Biosg/ 120-base capture oligos for Hba and Tp53 viewpoints."
+      }
+    },
+    {
+      "id": "truseq_vendor",
+      "role": "vendor",
+      "locator": "https://www.illumina.com/products/by-type/sequencing-kits/library-prep-kits/truseq-dna.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Methods cite TruSeq indexed adapters and NEBNext reagents; historical kit-specific guide/index family not checked."
+    },
+    {
+      "id": "nimblegen_vendor",
+      "role": "vendor",
+      "locator": "https://sequencing.roche.com/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Methods cite NimbleGen HE blocking oligos and hybridization buffer; historical exact product/version remains unchecked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS 43–61; Methods supplement lines 60–110; publisher workbook lines 92–108",
+      "finding": "Viewpoint-specific capture probe sequences are recovered; historical adapter and blocking-oligo vendor versions remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS 49–59; PMC supplement-1 Fig.1 caption 10–18; publisher capture oligo workbook 92–99",
+      "finding": "Capture oligos source-positive. TruSeq adapter and Roche NimbleGen vendor manuals remain unreviewed; exact adapter geometry blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "NG Capture-C publication does not disclose viewpoint capture probe sequences",
+      "disposition": "blocked",
+      "evidence": "Publisher Supplementary Data workbook prints capture probe sequences and 5-prime biotin modification."
+    }
+  ],
+  "conclusion": "Publisher Supplementary Data workbook prints capture probe sequences and 5-prime biotin modification."
+}

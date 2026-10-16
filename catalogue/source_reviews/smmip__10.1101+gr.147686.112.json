@@ -1,0 +1,99 @@
+{
+  "dir": "smmip__10.1101+gr.147686.112",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 141\u2013163; scraper run on bundle",
+        "finding": "Original says 40-mer backbone = 28 fixed + N12 and assigns common sequences and index primers to Supplemental Table S9; gap-fill/ligation/exonuclease steps given."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 139–163; full source bundle scraped for oligos before reading",
+        "finding": "Independently verified the 40-nt backbone with N12, arm/gap dimensions, phosphorylation, circularization, exonuclease removal, PCR and read layout. The article explicitly sends common oligos, custom sequencing primers and sample indexes to Table S9. Its gap-fill recipe also prints water to 10 mL while calling the final reaction 20 µL; the page records this contradiction."
+      }
+    },
+    {
+      "id": "europepmc_zip",
+      "role": "supplement",
+      "locator": "_data/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140_supplementary.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory lists only 843fig/equ/tbl images",
+        "finding": "Europe PMC supplementary ZIP does not contain Table S9, so original table remains missing."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ZIP central directory independently listed with unzip -Z1: 18 files named 843fig, 843equ or 843tbl",
+        "finding": "Contains only rendered article figures, equations and tables 1–4, not Supplemental Table S9."
+      },
+      "reason": "Europe PMC supplementary ZIP does not contain Table S9, so original table remains missing."
+    },
+    {
+      "id": "successor_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/smmip__10.1101+gr.147686.112/978-1-4939-6442-0_6_PMC5484527.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Protocol oligos lines 362 and 402; scraper source hits verified",
+        "finding": "Later protocol prints MIP PCR/index and sequencing primers; does not establish original Table S9 backbone identity."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "JATS protocol lines 362, 394–402; scraper hits checked against these lines",
+        "finding": "The 2017 author protocol supplies complete universal PCR and sequencing primers and a different example amplicon; it does not print the 2013 panel's 28-nt backbone."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "table_s9",
+      "role": "supplement",
+      "locator": "https://genome.cshlp.org/content/suppl/2013/02/22/gr.147686.112.DC1 (Hiatt et al. 2013 Supplemental Table S9)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original explicitly assigns backbone/common PCR/sequencing bases to Table S9; absent from local original bundle; publisher supplement landing page returned 403 during review.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Methods lines 141\u2013163 and later protocol checked; original Table S9 absent, so no sequence absence accepted.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 139–163, local supplement ZIP directory, linked O'Roak 2017 JATS lines 362 and 394–402, publisher supplement landing URL",
+      "finding": "The linked author protocol answers PCR and run-primer sequence questions but not original probe backbone identity. Original Supplemental Table S9 is relevant and inaccessible, so no sequence absence is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact 28-base original invariant smMIP backbone and source index/primer family",
+      "evidence": "Original Methods lines 141\u2013163 and later protocol checked; original Table S9 absent, so no sequence absence accepted.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent passes checked accessible originals and linked material. Original Supplemental Table S9 remains inaccessible; the exact backbone and original oligo family cannot be declared absent."
+}

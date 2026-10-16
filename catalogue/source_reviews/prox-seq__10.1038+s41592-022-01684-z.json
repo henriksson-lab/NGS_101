@@ -1,0 +1,368 @@
+{
+  "dir": "prox-seq__10.1038+s41592-022-01684-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_PMC11289786.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 51–54 and Methods",
+        "finding": "Original describes 119-base ligated reporter, 20-base connector pairing, A/B protein barcodes, UMI and poly(A); directs readers to supplementary oligo tables."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Introduction/Methods lines 51–54 and supplementary pointers",
+        "finding": "Defines pairwise proximity ligation reporter with antibody-specific barcodes and connector; requires supplement for exact oligos."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF opening title and Methods sections",
+        "finding": "Supplementary information contains probe and library-preparation methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 supplementary Methods lines 260–375",
+        "finding": "Shows bead RT, cDNA/PLA SPRI separation, separate Drop/10x/plate library branches; 10x section names CG000315 Rev B and CG000317 Rev B and source-specific PCR primers."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF, visually checked pages 1–3",
+        "finding": "Three pages are Nature Research Reporting Summary: statistics, study design, data availability and flow cytometry, with no probe or library oligo table."
+      },
+      "reason": "Reporting summary, visually checked; not wet-lab oligo evidence.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF, visually inspected pages 1–3",
+        "finding": "All pages are a Nature Research Reporting Summary with statistics, data availability, study design and flow cytometry sections; no oligo sequence or molecular assembly."
+      }
+    },
+    {
+      "id": "supp_tables",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Workbook sheet starts lines 138–193; primer rows 140–166",
+        "finding": "Tables 7–10 give connector, bead oligos, probe and custom library/sequencing primers for distinct capture branches."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published supplementary workbook Tables 7–8 lines 138–166",
+        "finding": "Prints TSO_RNAhybrid with rGrGrG, Drop-seq and Smart-seq2 branch primers, modified adapter primers and custom read/index primers."
+      }
+    },
+    {
+      "id": "result_counts",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PLA data sheet header and first rows",
+        "finding": "PLA data workbook contains target-pair count matrix."
+      },
+      "reason": "Assay result counts, not oligo design.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published supplementary PLA data workbook lines 1–4",
+        "finding": "Protein-pair read-count matrix, not reagent or oligo recipe."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Preprint opening and supplement oligo headings",
+        "finding": "Earlier Prox-seq preprint exists; supplemental methods include original oligo tables."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 methods and supplementary-pointer sections",
+        "finding": "Earlier Prox-seq implementation is separately documented; use publisher supplement for later specific branch structure."
+      }
+    },
+    {
+      "id": "preprint_supp",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF lines 343–412",
+        "finding": "Earlier preprint supplement prints branch-specific primer and bead-oligo sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv media-1 PDF lines 343–412",
+        "finding": "Earlier supplement prints library primers and bead oligos for distinct branch designs."
+      }
+    },
+    {
+      "id": "later_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/PMC11715295_PMC11715295.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS lines 43–55, 589–733",
+        "finding": "Later detailed protocol gives click-conjugation and distinct Drop-seq, Smart-seq2 and 10x library branches."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later detailed protocol JATS lines 43–55 and 589–733",
+        "finding": "Successor expands antibody click conjugation and Drop/Smart-seq2/10x back ends; do not substitute later conditions for original 2022 publication."
+      }
+    },
+    {
+      "id": "10x_v3_1",
+      "role": "vendor",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevB.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000315 Rev B appendix lines 5174–5322",
+        "finding": "Exact cited GEX guide prints N16 cell barcode/N12 UMI gel-bead primer and fixed final 3-prime gene-expression library architecture."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CG000315 Rev B appendix lines 5174–5188 and 5297–5322",
+        "finding": "Version-matched 10x 3′ GEX guide prints gel-bead RT primer with N16 cell barcode, N12 UMI and poly(dT)VN, plus final indexed library arms. It does not establish Prox-specific reporter inserts."
+      }
+    },
+    {
+      "id": "preprint_counts",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Per-cell protein-pair counts, not reagent oligos.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PLA data (T cells) sheet header and first target-pair rows",
+        "finding": "Workbook tabulates CD3:CD3 and other protein pair counts across cells; no synthesis columns in inspected sheet."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "bioRxiv PLA data workbook lines 1–4",
+        "finding": "Earlier result count matrix, not molecular construction."
+      }
+    },
+    {
+      "id": "supp_big_data",
+      "role": "supplement",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM6_ESM.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 XLSX: workbook.xml lists Fig 1–6, Extended Fig 3–9 and Supp Fig 2–11; sheet1 rows 1–5 and sheet4 rows 1–5 parsed directly from workbook XML",
+        "finding": "Figure source-data workbook includes observed single-cell barcode values, tSNE coordinates and protein/PLA count matrices. Barcode values are data, not universal ordering oligos or a single sequencing-primer geometry. The 15-MB XLSX was inspected directly without making a large text copy."
+      },
+      "reason": "Source-data tables contain observed single-cell barcode values, tSNE coordinates, identities and expression matrices. These observed read values do not specify Prox-seq ordering oligos or library construction.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 XLSX workbook.xml sheet names Fig 1–6/Extended Fig 3–9/Supp Fig 2–11; sheet1 rows 1–5 and sheet4 rows 1–5 decoded against xl/sharedStrings.xml",
+        "finding": "Source-data tables contain observed single-cell barcode values, tSNE coordinates, identities and expression matrices. These observed read values do not specify Prox-seq ordering oligos or library construction."
+      }
+    },
+    {
+      "id": "10x_feature_rev_b",
+      "role": "vendor",
+      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/CG000317_ChromiumNextGEMSingleCell3-v3.1_CellSurfaceProtein_RevB.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "supp_methods",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000317 Rev B appendix lines 6095–6157 and 6295–6342",
+        "finding": "Exact cited feature-library guide prints gel-bead arms, Capture Sequence 1 and feature-library final shell; Prox-seq reporter-specific inserts still come from its own tables."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CG000317 Rev B appendix lines 6095–6110 and 6295–6341",
+        "finding": "Version-matched cell-surface feature guide prints same N16/N12 bead primer, Capture Sequence 1 and feature-library P5/i5/read/feature/i7/P7 shell; Prox-specific probe/connector identities come from its own tables."
+      }
+    },
+    {
+      "id": "publisher_moesm5",
+      "role": "supplement",
+      "locator": "Original Springer MOESM5 ESM CSV, _data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM5_ESM.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "original",
+      "reason": "Differential-expression result table; no chemistry, oligo or library-construction columns.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM5 CSV complete header and representative rows 1–5; 195-line file and original publisher supplement inventory.",
+        "finding": "Columns are p_val, avg_log2FC, pct.1, pct.2, p_val_adj, with gene identifiers and statistical values. This is a differential-expression results table, not a reagent or read-layout source."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM5 195-line CSV, full header and first/last result rows; whole Prox-seq source-bundle oligo scraper run before reading",
+        "finding": "Independently classified this file as differential-expression results: gene identifiers, p values, log fold change and expression fractions only. No oligo, reagent, reaction or sequencing layout column appears."
+      }
+    },
+    {
+      "id": "pmc_tables",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11289786/bin/NIHMS2007856-supplement-Supplementary_Tables.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "The author manuscript JATS links this separate PMC supplementary file. PMC download endpoint remains gated; the likely publisher MOESM3 but file identity not verified. The available publisher bundle may duplicate it, but identity has not been established.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material SD1–SD4 inventory and local MANIFEST.tsv manual rows; direct PMC endpoint attempted with browser tool for representative XLSX links.",
+        "finding": "Linked original file cannot be read at the PMC endpoint; publisher files may supply equivalent content but equivalence cannot be presumed without original comparison."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material link inventory and the specific PMC /instance/11289786/bin/ endpoint in this row; direct browser open attempted independently; Prox-seq source-bundle oligo scraper run before review",
+        "finding": "The JATS links this separate attachment, but its exact endpoint is inaccessible in the browser. No local original with verified identity to this attachment is available. The publisher-file equivalence remains unproven and the source cannot count as read."
+      }
+    },
+    {
+      "id": "pmc_info",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11289786/bin/NIHMS2007856-supplement-Supplementary_info.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "The author manuscript JATS links this separate PMC supplementary file. PMC download endpoint remains gated; the likely publisher MOESM1 but file identity not verified. The available publisher bundle may duplicate it, but identity has not been established.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material SD1–SD4 inventory and local MANIFEST.tsv manual rows; direct PMC endpoint attempted with browser tool for representative XLSX links.",
+        "finding": "Linked original file cannot be read at the PMC endpoint; publisher files may supply equivalent content but equivalence cannot be presumed without original comparison."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material link inventory and the specific PMC /instance/11289786/bin/ endpoint in this row; direct browser open attempted independently; Prox-seq source-bundle oligo scraper run before review",
+        "finding": "The JATS links this separate attachment, but its exact endpoint is inaccessible in the browser. No local original with verified identity to this attachment is available. The publisher-file equivalence remains unproven and the source cannot count as read."
+      }
+    },
+    {
+      "id": "pmc_data_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11289786/bin/NIHMS2007856-supplement-Supplementary_Data_1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "The author manuscript JATS links this separate PMC supplementary file. PMC download endpoint remains gated; the possibly publisher MOESM4 or another result workbook; identity not verified. The available publisher bundle may duplicate it, but identity has not been established.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material SD1–SD4 inventory and local MANIFEST.tsv manual rows; direct PMC endpoint attempted with browser tool for representative XLSX links.",
+        "finding": "Linked original file cannot be read at the PMC endpoint; publisher files may supply equivalent content but equivalence cannot be presumed without original comparison."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material link inventory and the specific PMC /instance/11289786/bin/ endpoint in this row; direct browser open attempted independently; Prox-seq source-bundle oligo scraper run before review",
+        "finding": "The JATS links this separate attachment, but its exact endpoint is inaccessible in the browser. No local original with verified identity to this attachment is available. The publisher-file equivalence remains unproven and the source cannot count as read."
+      }
+    },
+    {
+      "id": "pmc_data_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/11289786/bin/NIHMS2007856-supplement-Supplementary_Data_2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "The author manuscript JATS links this separate PMC supplementary file. PMC download endpoint remains gated; the possibly publisher source data; identity not verified. The available publisher bundle may duplicate it, but identity has not been established.",
+      "pass_1": {
+        "reviewer": "review_slide_crispr",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material SD1–SD4 inventory and local MANIFEST.tsv manual rows; direct PMC endpoint attempted with browser tool for representative XLSX links.",
+        "finding": "Linked original file cannot be read at the PMC endpoint; publisher files may supply equivalent content but equivalence cannot be presumed without original comparison."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC11289786 JATS supplementary-material link inventory and the specific PMC /instance/11289786/bin/ endpoint in this row; direct browser open attempted independently; Prox-seq source-bundle oligo scraper run before review",
+        "finding": "The JATS links this separate attachment, but its exact endpoint is inaccessible in the browser. No local original with verified identity to this attachment is available. The publisher-file equivalence remains unproven and the source cannot count as read."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS 51–54; later detailed protocol 43–55, 589–733",
+      "finding": "Branch-specific published oligo tables are available; 10x vendor shell and visual supplement/remaining linked files need review."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Published JATS methods and Tables 7–8 lines 138–166; later protocol methods",
+      "finding": "Both exact cited 10x CG000315 and CG000317 Rev B guides now read; branch-specific oligos are also printed in Prox-seq supplement. A large publisher dataset remains unavailable and custom reporter-to-shell mapping needs checking; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "One exact sequencing-primer geometry applies to all Prox-seq capture branches",
+      "disposition": "blocked",
+      "evidence": "Published branches differ; a universal geometry is unsupported, and linked-source review remains incomplete."
+    }
+  ],
+  "conclusion": "Published Drop-seq, 10x cDNA, 10x PLA and plate readout branches have distinct source-printed primer/cycle recipes, now stated on the page; there is no universal sequencing geometry. The original PMC author-manuscript links four supplementary files whose identity against the publisher bundle remains unverified, and one publisher result CSV was newly inventoried. Those unresolved links keep the missing-information audit blocked."
+}

@@ -1,0 +1,158 @@
+{
+  "dir": "find-seq__10.1038+s41596-024-01021-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_PMC11537836.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Materials lines 155–181",
+        "finding": "Materials Oligonucleotides publishes acrydite Smart-seq2/3 capture oligos, RNA-modified TSOs, phosphorothioate amplification primers and env/Ψ TaqMan sets."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published Nature Protocols JATS Oligonucleotides lines 155–181",
+        "finding": "Publishes acrydite Smart-seq2/3 capture oligos, RNA-modified TSOs, phosphorothioate amplification primer and TaqMan oligos. Earlier defining paper remains unreviewed."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PDF text lines 17–34, 299–304",
+        "finding": "Figures S1–S5 describe the microfluidic devices, tubing, sorting and agarose functionalization; later figures analyze signal and cDNA yield."
+      },
+      "reason": "Hardware and performance figures, not new oligo identities.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF text lines 17–34 and 299–304; all seven figure captions inspected",
+        "finding": "Figures S1–S5 document devices, tubing, sorting and agarose apparatus; S6–S7 show droplet fluorescence and cDNA yield. No oligo identities or library junctions."
+      }
+    },
+    {
+      "id": "supp_fig3_data",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure 3h sheet lines 1–8",
+        "finding": "Figure 3h workbook tabulates spike-in frequency and detection efficiency."
+      },
+      "reason": "Result data, not reagent chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM figure 3h workbook lines 1–5",
+        "finding": "Spike-rate/detection-efficiency plot data."
+      }
+    },
+    {
+      "id": "supp_fig4_data",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure 4b sheet lines 1–8",
+        "finding": "Figure 4b workbook tabulates fluorescence/qPCR standard curves."
+      },
+      "reason": "Result data, not oligo ordering.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM figure 4b workbook lines 1–5",
+        "finding": "TaqMan qPCR standards and Ct plot data, not library oligos."
+      }
+    },
+    {
+      "id": "device_dwg_2",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM2_ESM.dwg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."
+    },
+    {
+      "id": "device_dwg_3",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM3_ESM.dwg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."
+    },
+    {
+      "id": "device_dwg_4",
+      "role": "supplement",
+      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM4_ESM.dwg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."
+    },
+    {
+      "id": "defining_2023",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41586-022-05613-0",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "2023 FIND-seq predecessor cited in source note; article/supplements not independently inspected in this pass."
+    },
+    {
+      "id": "smartseq2",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/nprot.2014.006",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Inherited Smart-seq2 chemistry needs source-specific linked audit.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "smartseq3",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/s41587-020-0497-0",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Inherited Smart-seq3 chemistry needs source-specific linked audit.",
+      "discovered_from": "original"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS 155–181; supplementary figures and data headings",
+      "finding": "Oligos are published in original Materials; predecessor, Smart-seq inheritance and device files remain to be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Nature Protocols oligonucleotides 155–181; supplement inventory",
+      "finding": "Defining 2023 FIND-seq and Smart-seq2/3 predecessors plus device drawings remain unreviewed; source absence blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "FIND-seq selection and capture oligos are unavailable",
+      "disposition": "blocked",
+      "evidence": "The original lists demonstrated capture, RT, amplification and marker-detection oligos; linked coverage remains incomplete."
+    }
+  ],
+  "conclusion": "The original lists demonstrated capture, RT, amplification and marker-detection oligos; linked coverage remains incomplete."
+}

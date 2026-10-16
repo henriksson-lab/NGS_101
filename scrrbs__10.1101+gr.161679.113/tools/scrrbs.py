@@ -18,7 +18,7 @@ from rrbs import (CELL_INDEX, INDEXED_FIXED_5, INDEX_NT, MSPI_OVERHANG,
                   MSPI_SITE, SEQ_PRIMERS, UNIVERSAL, a_tailed_fragment_scene,
                   adapter_scene, digested_fragment_scene, final_library,
                   indexed_segments, universal_segments)
-from adapter_ligation import reported_adapter_end
+from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -42,20 +42,17 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.END_REPAIR,
                 ((digested, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)),
                 (prepared,))
-    adapters = graph.input("methylated_adapters", "premethylated indexed TruSeq adapters",
-                           MaterialKind.ADAPTER, state=adapter_scene())
+    adapters = graph.input("methylated_adapters", "canonical premethylated indexed TruSeq adapter illustration",
+                           MaterialKind.ADAPTER, state=adapter_scene(), inferred=True)
     ligase = graph.input("ligase", "DNA ligase", MaterialKind.CATALYST)
     ligated = graph.product("ligated_fragments", "adapter-ligated genomic fragments",
                             MaterialKind.MOLECULAR)
-    graph.react("adapter_ligation", "Ligate premethylated indexed Y-adapters",
+    graph.react("adapter_ligation", "INFERRED — ligate a compatible premethylated indexed Y-adapter",
                 StepKind.LIGATION,
                 ((prepared, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,),
-                geometry=reported_adapter_end(
-                    "premethylated TruSeq Y adapter", kind="cohesive",
-                    polarity="3-prime", terminal_sequence="T",
-                    substrate_scenes=(a_tailed_fragment_scene(),),
-                    statement="The standard premethylated TruSeq adapter presents one 3'-dT to each dA-tailed insert end."))
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The defining paper names standard premethylated indexed Illumina adapters, but does not print their ligation-facing oligos or exact end geometry."))
     bisulfite = graph.input("bisulfite", "bisulfite-conversion conditions",
                             MaterialKind.CONDITION)
     converted = graph.product("converted_library", "bisulfite-converted ligation products",
@@ -77,7 +74,7 @@ def protocol_graph() -> ProtocolGraph:
                 ((converted, InputRole.TEMPLATE), (qp1, InputRole.STRUCTURAL),
                  (qp2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The paper names no library PCR primer, and the converted pre-PCR intermediate is not represented base-for-base; only the canonical Illumina arms of the product are exact."))
+                    final, reason="The paper names no library PCR primer, and the converted pre-PCR intermediate is not represented base-for-base; the canonical Illumina arms of the illustrated product remain inferred for this protocol."))
     graph.sequence(library, SequencingPlan(
         library=final, primers=tuple(SEQ_PRIMERS),
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),

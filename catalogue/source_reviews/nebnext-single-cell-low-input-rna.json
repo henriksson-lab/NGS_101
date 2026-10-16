@@ -1,0 +1,59 @@
+{
+  "dir": "nebnext-single-cell-low-input-rna",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "manual",
+      "role": "defining",
+      "locator": "NEB E6420 manual Rev 6.0 January 2024",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/nebnext-single-cell-low-input-rna/manuale6420.pdf.txt lines 77,729,804-844,1840-1860; scraper line 1848",
+        "finding": "Oligo table prints RT primer, TSO including rGrGrG and cDNA PCR primer. Separate adapter/index kit remains unspecified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "manuale6420.pdf.txt lines 800-848, 1840-1864",
+        "finding": "Original NEB manual prints modified TSO ending rGrGrG, dT/V RT primer, cDNA PCR primer and read trim motifs. It explicitly says adapter/index oligos are purchased separately and points to chosen oligo kit manual."
+      }
+    },
+    {
+      "id": "oligo_kit",
+      "role": "linked_material",
+      "locator": "Separately chosen NEBNext adapter/index oligo kit in E6420 manual",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Specific oligo kit/index well unspecified and guide unavailable.",
+      "discovered_from": "manual",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Vendor manual Oligo Sequences appendix and separate kit references.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "manuale6420.pdf.txt lines 800-848 and 1840-1864; source checklist for separate NEBNext oligo kit",
+      "finding": "Original manual prints core cDNA oligos; separately selected adapter/index kit remains unavailable, so member-specific bases are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "A unique adapter/index/PCR-primer sequence for the generic kit",
+      "disposition": "blocked",
+      "evidence": "cDNA-stage oligos are published; separate indexed DNA library kit remains unselected."
+    }
+  ],
+  "conclusion": "Core NEB cDNA primers are published in E6420 manual and independently verified. Separate adapter/index kit original is unavailable; member-specific details remain blocked."
+}

@@ -1,0 +1,318 @@
+{
+  "dir": "dart-seq__10.1038+s41592-019-0570-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_PMC6884681.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Results lines 44–97; Online Methods lines 97–199",
+        "finding": "APOBEC1–YTH editing introduces C-to-U signal before ordinary RNA-seq. Methods specify NEBNext Ultra II Directional for standard input, NEBNext Single Cell/Low Input for 10–100 ng, NEBNext multiplex oligos, and optional PacBio Iso-Seq; experimental validation oligos are not the sequencing-library architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Results lines 44–97 and Methods lines 195–199",
+        "finding": "Defines APOBEC1-YTH fusion editing readout; states NEB Ultra II Directional RNA for 1 microgram, NEB Single Cell/Low Input for 10 or 100 ng, and PacBio Iso-Seq for another branch."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Protocol lines 1–47",
+        "finding": "Explicitly says multiple RNA-seq library preps are compatible, names the two NEBNext kits, and describes standard SR50 HiSeq workflow."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary protocol lines 1–16 and 36–47",
+        "finding": "Independently confirms two named NEB library options and says other RNA library methods are compatible; protocol does not itself print complete NEB adapter bases."
+      }
+    },
+    {
+      "id": "supp_doc",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-1.doc",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original 20-page NIHMS Word supplement, catdoc text extraction lines 3–556; Figure 2–15 captions; Figure 15 lines 539–556",
+        "finding": "Supplemental figures document DART-seq editing and validation; Figure 15 uses synthetic RNAs with varying m6A fractions. Extracted captions show no library adapter order or base strings. Embedded image panels have not been inspected, so chemistry relevance is retained pending independent visual review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original NIHMS supplement-1 DOC, independently extracted with catdoc; captions lines 3–556, especially lines 187–205, 329–334 and 539–556",
+        "finding": "Figures discuss DART editing validation, Sanger RT-PCR and synthetic m6A-spiked RNAs; extracted captions have no library oligo bases or reaction order. Embedded images could not be rendered by local LibreOffice attempt, so their relevance remains open and the missing claim blocked."
+      }
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplementary figure and result captions, not a library-preparation oligo or adapter source.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Supplementary Information PDF text lines 1–192; captions Figs. 1–7 and later figure headings",
+        "finding": "Figure captions describe fusion-protein controls and DART editing results; they do not supply RNA library adapter chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 PDF text lines 1–185, Supplementary Figs. 1–14 captions",
+        "finding": "Captions document APOBEC1-YTH binding/editing controls and analyses; inspected supplement does not state the RNA-library adapter or primer recipe."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Reporting Summary opening heading and form",
+        "finding": "Study reporting form, no assay library oligos."
+      },
+      "reason": "Reporting summary.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 Reporting Summary lines 1–12",
+        "finding": "Journal statistics/reporting form."
+      }
+    },
+    {
+      "id": "source_data",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Figure 4d sheet opening rows",
+        "finding": "MeRIP qPCR source data, not reagent recipe."
+      },
+      "reason": "Figure result data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM11 Figure 4d sheet lines 1–5",
+        "finding": "MeRIP RT-qPCR source data only."
+      }
+    },
+    {
+      "id": "sup_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 1 APOBEC1 alone sheet lines 1–5",
+        "finding": "Genomic C-to-U editing-site results."
+      }
+    },
+    {
+      "id": "sup_table_2",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 2 differential-expression sheet lines 1–5",
+        "finding": "Gene-level fold-change results."
+      }
+    },
+    {
+      "id": "sup_table_3",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 3 high-stringency sites sheet lines 1–5",
+        "finding": "Genomic C-to-U site results."
+      }
+    },
+    {
+      "id": "sup_table_4",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 4 METTL3 KD sheet lines 1–5",
+        "finding": "Genomic editing-site results."
+      }
+    },
+    {
+      "id": "sup_table_5",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab5.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 5 10ng input sheet lines 1–5",
+        "finding": "Editing-site results; input amount is in heading but no library oligo recipe."
+      }
+    },
+    {
+      "id": "sup_table_6",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 6 mRNAs sheet lines 1–5",
+        "finding": "Lists mRNA identifiers called by DART."
+      }
+    },
+    {
+      "id": "sup_table_7",
+      "role": "supplement",
+      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab7.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Opening workbook sheet heading and rows",
+        "finding": "Editing site, gene-expression, or method-comparison result table rather than sequencing-library primer inventory."
+      },
+      "reason": "Results workbook.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "PMC supplementary Table 7 CPT 5h sheet lines 1–5",
+        "finding": "Genomic C-to-U editing-site results."
+      }
+    },
+    {
+      "id": "neb_ultra2",
+      "role": "vendor",
+      "locator": "NEBNext Ultra II Directional RNA Library Prep Kit for Illumina cited JATS line 197",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited kit version/manual not checked."
+    },
+    {
+      "id": "neb_lowinput",
+      "role": "vendor",
+      "locator": "NEBNext Single Cell/Low Input RNA Library Prep Kit cited JATS line 197",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Alternate low-input kit manual not checked."
+    },
+    {
+      "id": "neb_indexes",
+      "role": "vendor",
+      "locator": "NEBNext Multiplex Oligos for Illumina cited JATS line 197",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact index reagent/version not checked."
+    },
+    {
+      "id": "pacbio_isoseq",
+      "role": "vendor",
+      "locator": "PacBio Iso-Seq system cited JATS line 197",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Optional long-read branch manual not checked."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 44–199; author Supplementary Protocol 1–47; data-table headings",
+      "finding": "DART edits RNA before library construction and delegates library oligos to named commercial kits. Those kit manuals and one unparsed supplement remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS Methods lines 195–199; author protocol lines 1–16 and 36–47; publisher MOESM1 captions",
+      "finding": "Source explicitly delegates branch library chemistry to NEB and PacBio kits; manuals and unparsed DOC are open; status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "One exact sequencing-library oligo set is dictated by DART-seq chemistry",
+      "disposition": "blocked",
+      "evidence": "Original permits several library preparation routes; exact vendor kit versions and supplements need review."
+    }
+  ],
+  "conclusion": "Original permits several library preparation routes; exact vendor kit versions and supplements need review."
+}

@@ -1,0 +1,78 @@
+{
+  "dir": "cropseq-multi__10.1101+2024.03.17.585235",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "_data/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_v2.full.pdf.txt:23-29,70-103",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Introduction 23-29 and guide design 70-103.",
+        "finding": "Original v2 preprint defines CROPseq-multi guide-array/guide capture branches and points to Supplementary Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v2 PDF lines 70-104, 842-855, 893-908 and Supplementary Table reference line 1731",
+        "finding": "Preprint explains recombination/dual guide logic and explicitly delegates direct-capture branch to 10x CG000735, then adds custom oRW1220/oRW1221 RT primers. Padlock/gap-fill/RCA branch is separate; exact read placement varies by selected panel."
+      }
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "_data/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_media-1.xlsx.txt:29-30",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Oligos sheet rows 29-30 and table headings.",
+        "finding": "Author workbook prints modified 5-prime capture RT primers oRW1220/1221 and additional primer/barcode rows; exact read placement remains a model-coverage question."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "bioRxiv media-1 XLSX oligos sheet lines 12-31",
+        "finding": "Read modified /5Biosg/ RT, /5Phos/ padlocks, dye-labelled SBS primers and custom 5-prime capture primers. Published variants require mapping to branch, not assuming one fixed read path."
+      }
+    },
+    {
+      "id": "tenx_cg000735",
+      "role": "linked_material",
+      "locator": "10x Genomics CG000735 Chromium GEM-X Single Cell 5-prime Reagent Kits v3 with Feature Barcode technology for CRISPR Screening",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Preprint Methods line 843 names guide; no local guide found under _data/sources and not read.",
+      "discovered_from": "preprint",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Preprint Supplementary Table 1 citation and workbook",
+      "finding": "Linked author workbook followed; target-panel/guide design variants still need mapping."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint Methods direct-capture lines 842-855 and oligo workbook sheet rows 12-31",
+      "finding": "Found previously unlisted chemistry link: CG000735 vendor guide for 10x GEM-X 5-prime CRISPR Feature Barcode; local source bundle lacks it. Review remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact read placement for variable target panels and barcodes",
+      "disposition": "blocked",
+      "evidence": "Original oligo workbook exists; variant-specific read mapping and an independent check remain."
+    }
+  ],
+  "conclusion": "Original preprint and oligo workbook available. No source-absence claim accepted after one pass."
+}

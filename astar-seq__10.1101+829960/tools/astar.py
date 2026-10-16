@@ -18,6 +18,7 @@ library after the separated cDNA is tagmented.
 from __future__ import annotations
 
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
@@ -50,6 +51,12 @@ C1_TSO_MOD = "all bases are ribonucleotides"
 ATAC_QPCR_S5 = nx.ADAPTOR_S5
 ATAC_QPCR_S7 = nx.ADAPTOR_S7
 INDEX_LEN = 8
+
+# C1 harvest volumes differ between the original preprint supplement and the
+# indexed later publisher supplement. The published value is provisional until
+# the full publisher PDF can be inspected directly.
+HARVEST_UL_PREPRINT = 5.5
+HARVEST_UL_PUBLISHED = 3.5
 
 
 def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -247,14 +254,18 @@ def protocol_graph():
                     statement="Canonical Nextera s5 and s7 entry sites establish the primer footprints; genomic insert bases vary."))
     graph.sequence(atac_lib,SequencingPlan(library=atac_final,primers=SEQ_PRIMERS,
         read_lengths={"Read 1":50,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":50}))
-    heat=graph.input("heat_release","heat strand-release condition",MaterialKind.CONDITION)
+    heat=graph.input("heat_release","water, 90 °C for 10 min (preprint)",MaterialKind.CONDITION)
+    released_state = Construct(
+        [replace(segment, inferred=True) for segment in c1_cdna()],
+        name="inferred released cDNA strand")
     released=graph.product("released_cdna","released non-biotinylated cDNA strand",
-                           MaterialKind.MOLECULAR,state=c1_cdna())
+                           MaterialKind.MOLECULAR,state=released_state,inferred=True)
     bound=graph.product("bound_cdna_waste","bead-bound biotinylated cDNA strands",
                         MaterialKind.WASTE)
-    graph.react("release_cdna","Heat-release the non-biotinylated cDNA strand",
+    graph.react("release_cdna","INFERRED — heat-release the non-biotinylated cDNA strand",
                 StepKind.STRAND_SEPARATION,
-                ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,bound))
+                ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,bound),
+                reason="Preprint Supplementary Experimental Procedures lines 1618-1621 confirm heat elution of cDNA, but do not identify the released strand; complete published off-IFC Methods could not be inspected.")
     graph.discard(bound,"biotinylated complementary strands remain bead-bound")
     rna_transposome=graph.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER,
                                  chemical_state=T5_T7_ENDS)

@@ -194,8 +194,8 @@ def protocol_graph() -> ProtocolGraph:
             limitation=("The three sequencing primers are the standard Nextera ones and "
                         "are located by computation on the modelled library, and the "
                         "10-cycle index read follows from the 10-nt i7. The paired "
-                        "100-cycle counts are not published for CH-ATAC-seq: the "
-                        "paywalled STAR Methods are the only place they would appear. "
+                        "100-cycle counts are unverified for CH-ATAC-seq because the "
+                        "defining STAR Methods and linked preprint remain unavailable. "
                         "The sibling CH-RNA-seq paper publishes 51 cycles of read 1 with "
                         "a dark reaction from 11 to 33 and 100 cycles of read 2, and "
                         "read 1 here must exceed 62 cycles to reach genomic DNA.")))

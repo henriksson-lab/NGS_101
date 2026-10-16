@@ -1,0 +1,272 @@
+{
+  "dir": "grid-seq__10.1038+nbt.3968",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_PMC5953555.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 1272–1282; Extended Data Fig. 1 text lines 1377–1384; scraper rerun",
+        "finding": "Article explicitly prints both bivalent linker strands with 5′ phosphate, RNA rN3 barcode, internal biotin-dT, pre-adenylation, T4 RNA Ligase 2 KQ, AluI DNA ligation and adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC5953555 HTML text lines 1157–1175",
+        "finding": "Bivalent biotin linker has preadenylated RNA end and double-stranded DNA end; RNA ligation/RT, free-linker removal, AluI DNA ligation, affinity purification, MmeI cut and adapter PCR are explicit."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_41587_2017_BFnbt3968_MOESM7_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Extended Data Fig. 1 legend lines 4–11",
+        "finding": "Figure legend describes linker architecture and preadenylation; no extra base-level oligo table in inspected legend."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM7 Extended Data Fig. 1 legend lines 1–14",
+        "finding": "Linker top is 5′ phosphorylated DNA; bottom combines DNA and RNA with biotinylated T; degenerate barcodes and dual MmeI sites; control ligase omissions. Figure legend does not itself print full sequence."
+      }
+    },
+    {
+      "id": "reporting",
+      "role": "supplement",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_41587_2017_BFnbt3968_MOESM8_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Lines 1–18, report title and scope",
+        "finding": "Nature life sciences reporting summary; chemistry relevance appears low but full exclusion awaits independent check."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM8 PDF opening reporting-summary pages",
+        "finding": "Reporting form, no chemistry oligo table in inspected summary."
+      }
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_41587_2017_BFnbt3968_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "All sheet headings and first rows, 5,075 extracted lines: Table 1 title and gene/RNA-DNA read columns",
+        "finding": "GRID-seq enriched-RNA result table; no chemical protocol or oligo ordering column in sheet headers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM9 workbook sheet MDA-MB-231 header and sample rows",
+        "finding": "Enriched-RNA genomic result table; no oligo/protocol fields in inspected header."
+      },
+      "reason": "GRID-seq enriched-RNA result table; no chemical protocol or oligo ordering column in sheet headers."
+    },
+    {
+      "id": "supp_table_2",
+      "role": "supplement",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_41587_2017_BFnbt3968_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Sheet1 heading and first rows, 19,078 extracted lines: Table 2 promoter-enhancer interaction columns",
+        "finding": "Promoter/enhancer interaction output; columns encode loci rather than laboratory oligo chemistry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM10 workbook Sheet1 header and sample rows",
+        "finding": "Promoter-enhancer interaction result table; no oligo/protocol fields in inspected header."
+      },
+      "reason": "Promoter/enhancer interaction output; columns encode loci rather than laboratory oligo chemistry."
+    },
+    {
+      "id": "supp_table_3",
+      "role": "supplement",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/nbt.3968_41587_2017_BFnbt3968_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Entire 139-line external-dataset list headings and rows",
+        "finding": "External data accessions for comparison analysis; no oligo/construct chemistry."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM11 workbook All external datasets header and sample rows",
+        "finding": "Comparison-data accession table; no oligo/protocol fields in inspected header."
+      },
+      "reason": "External data accessions for comparison analysis; no oligo/construct chemistry."
+    },
+    {
+      "id": "same_group_detailed_2019",
+      "role": "linked_material",
+      "locator": "_data/sources/grid-seq__10.1038+nbt.3968/PMC7721247_PMC7721247.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same-group Nature Protocols 2019 PMC7721247 JATS lines 76, 106–122, Table 1 lines 1775–1789, procedure step 151 lines 1420–1430",
+        "finding": "Detailed source reprints the complete L1/L2 linker, A1/A2 adapter and Primer1/2 sequences, and explicitly describes MmeI 2-base 3-prime ends plus adapter NN overhang. It confirms 100-base single-end sequencing through linker, but does not prescribe separate index cycles or an index primer for Primer1 five-base barcode."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached same-group Nature Protocols original PMC7721247 JATS lines 106–122 (chemistry), 1420–1430 (step 151 sequencing), 1775–1792 (Table 1 oligos); source-bundle scraper run",
+        "finding": "Table 1 independently confirms modified linker L1/L2, A1/A2 adapter and Primer1/2, including 5-base multiplexing index placeholder. Methods confirm MmeI 2-base 3′ overhang ligated to adapter NN 3′ end and 100-base single-end sequencing through linker. Inspected steps do not specify a separate index-primer or index-cycle recipe; leave that detail unverified."
+      },
+      "reason": "The 2019 Table 1 L1 string is one C shorter after /iBiodT/CACT than the 2017 Methods string; it fails full complementarity with L2 as printed in both sources. The model uses the 2017 pairing-compatible strand; exact use of the 2019 variant is uncertain."
+    },
+    {
+      "id": "same_group_2019_supp_figures",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41596-019-0172-4/MediaObjects/41596_2019_172_MOESM1_ESM.pdf",
+      "availability": "unavailable",
+      "reason": "Publisher/Europe PMC source endpoint not accessible from this workspace; source still needs original-file verification.",
+      "relevance": "relevant",
+      "discovered_from": "same_group_detailed_2019",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Protocols article Supplementary information/Change history; original correction preview; local source manifest manual archive row",
+        "finding": "Nature Protocols page labels this as Supplementary Figures 1–2; original PDF did not fetch through web cache or local network. It is likely analysis figures, but cannot be excluded without reading."
+      },
+      "pass_2": {
+        "reviewer": "grid_source_recovery",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols 2019 original publisher page Supplementary information links and integrated Supplementary Fig. 1–2 captions (publisher HTML lines 241–260); PMC7721247 original JATS supplementary-material SD1, xlink:href NIHMS1646310-supplement-Suppl__Figs.pdf; attempted publisher MOESM1 PDF link, PMC Cloud PMC7721247.1 attachment and PMC instance/bin attachment",
+        "finding": "The publisher captions describe chromatin-associated RNA identification and library reproducibility, but the figure PDF itself was inaccessible through web retrieval and local DNS. Captions cannot substitute for reading the original figure panels; keep relevant/unavailable and do not use it to confirm absent sequence or index details."
+      }
+    },
+    {
+      "id": "same_group_2019_reporting",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41596-019-0172-4/MediaObjects/41596_2019_172_MOESM2_ESM.pdf",
+      "availability": "unavailable",
+      "reason": "Publisher/Europe PMC source endpoint not accessible from this workspace; source still needs original-file verification.",
+      "relevance": "relevant",
+      "discovered_from": "same_group_detailed_2019",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Protocols article Supplementary information/Change history; original correction preview; local source manifest manual archive row",
+        "finding": "Nature Protocols page labels this Reporting Summary; original PDF did not fetch through web cache or local network. Relevance to index-read claim remains unverified."
+      },
+      "pass_2": {
+        "reviewer": "grid_source_recovery",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols 2019 original publisher page Supplementary information link Reporting Summary (publisher HTML lines 252–260); PMC7721247 original JATS supplementary-material SD3, xlink:href NIHMS1646310-supplement-3.pdf; attempted publisher MOESM2 PDF and PMC Cloud PMC7721247.1 attachment",
+        "finding": "The original reporting PDF could not be retrieved via publisher/web or local DNS. Its contents have not been independently checked for run layout; keep relevant/unavailable."
+      }
+    },
+    {
+      "id": "same_group_2019_software",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41596-019-0172-4/MediaObjects/41596_2019_172_MOESM3_ESM.zip",
+      "availability": "unavailable",
+      "reason": "Publisher/Europe PMC source endpoint not accessible from this workspace; source still needs original-file verification.",
+      "relevance": "relevant",
+      "discovered_from": "same_group_detailed_2019",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Protocols article Supplementary information/Change history; original correction preview; local source manifest manual archive row",
+        "finding": "Nature Protocols page labels this Supplementary Software, potentially containing index handling; original ZIP did not fetch through web cache or local network."
+      },
+      "pass_2": {
+        "reviewer": "grid_source_recovery",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols 2019 original publisher page Code availability and Supplementary Software link (publisher HTML lines 127–132, 252–260); PMC7721247 original JATS supplementary-material SD2, xlink:href NIHMS1646310-supplement-GRID-tools_software.zip; attempted publisher MOESM3 ZIP, PMC Cloud PMC7721247.1 ZIP and PMC instance/bin ZIP",
+        "finding": "The publisher says this is GridTools v1.1 and demo analysis software, but the original ZIP could not be retrieved via publisher/web or local DNS. It may clarify barcode processing; keep relevant/unavailable until inspected."
+      }
+    },
+    {
+      "id": "same_group_2019_correction",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/s41596-020-0308-6",
+      "availability": "unavailable",
+      "reason": "Publisher/Europe PMC source endpoint not accessible from this workspace; source still needs original-file verification.",
+      "relevance": "relevant",
+      "discovered_from": "same_group_detailed_2019",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Protocols article Supplementary information/Change history; original correction preview; local source manifest manual archive row",
+        "finding": "Nature Protocols original article links an Author Correction, published 14 February 2020. Its publisher page exposes only a paywalled preview. The original article page comment lists a DMSO-volume and T4-PNK unit correction, but full correction has not been read."
+      },
+      "pass_2": {
+        "reviewer": "grid_source_recovery",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols 2019 original article page Change history and publisher comment (HTML lines 133–137, 289–293); correction DOI publisher page https://www.nature.com/articles/s41596-020-0308-6 and PDF route (preview-only HTML lines 26–56, 174–191); PMC7721247 corrected original JATS Reagent Setup line 400",
+        "finding": "The publisher comment identifies two corrections: DSG 500 mM stock uses 306.5 µl DMSO and T4 PNK final-concentration unit at step 40 is U/l. The corrected author-manuscript JATS indeed prints 306.5 µl at Reagent Setup. The actual correction notice remains behind subscription preview, so its full scope is unverified; keep relevant/unavailable. Neither described correction resolves the five-base index-read recipe."
+      }
+    },
+    {
+      "id": "pmc_supplement_archive",
+      "role": "supplement",
+      "locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5953555/supplementaryFiles",
+      "availability": "unavailable",
+      "reason": "Publisher/Europe PMC source endpoint not accessible from this workspace; source still needs original-file verification.",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "close_cite_eclip",
+        "date": "2026-10-16",
+        "locations": "Publisher Nature Protocols article Supplementary information/Change history; original correction preview; local source manifest manual archive row",
+        "finding": "Europe PMC supplementary archive is manifest-listed as manual/unavailable; publisher MOESM7–11 originals and PMC duplicate workbook routes exist locally, but archive contents have not been compared byte-for-byte."
+      },
+      "pass_2": {
+        "reviewer": "grid_source_recovery",
+        "date": "2026-10-16",
+        "locations": "GRID-seq source-bundle MANIFEST.tsv manual Europe PMC supplementaryFiles row and invalid empty archive under _invalid/; PMC5953555 original JATS supplementary-material inventory; independently attempted https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5953555/supplementaryFiles (web internal error, local DNS unavailable); inspected publisher MOESM7–11 rows and three PMC Cloud duplicate workbook hashes in manifest",
+        "finding": "The Europe PMC ZIP did not yield an inspectable archive. Five publisher supplement files are present locally and three workbook entries have matching PMC Cloud MD5s, but this does not prove the Europe PMC archive contains no further files. Keep relevant/unavailable and missing-information claim blocked."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original 2017 JATS Methods around lines 1272–1295; linked same-group 2019 Nature Protocols PMC7721247 Table 1 and steps 121–151",
+      "finding": "Followed detailed protocol, which confirms linker, adapter end geometry, PCR oligos and single-end sequencing. It still does not locate a separate index sequencing primer/cycle recipe for the five-base Primer1 barcode. New detailed-source row awaits independent second reader; missing index detail remains blocked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC5953555 HTML text lines 1157–1175; Published MOESM7 Extended Data Fig. 1 legend lines 1–14; Published MOESM8 PDF opening reporting-summary pages; Published MOESM9 workbook sheet MDA-MB-231 header and sample rows; Published MOESM10 workbook Sheet1 header and sample rows; Published MOESM11 workbook All external datasets header and sample rows; same-group PMC7721247 JATS lines 106–122, 1420–1430, Table 1 lines 1775–1792",
+      "finding": "Inspected listed originals/supplements and source roles. Unavailable chemistry-relevant predecessor/original remains blocked. Independently followed same-group detailed method: source-positive linker/adapter/PCR strands and 100-base single-end read; separate five-base index-read recipe remains unlocated."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
+      "evidence": "Inspected source locations above; linked-source inventory incomplete.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Original and same-group detailed protocol have two independent located readings. The 2017 L1 bridge pairs fully with L2, whereas 2019 Table 1 prints L1 one C shorter; the model uses the 2017 value and the public page records both. Y adapter geometry and primary 100-base single-end read are source-positive; a separate five-base barcode index-read recipe remains unverified. The linked 2019 protocol also has three publisher supplements and a 2020 correction; these original files remain unavailable locally, so the index-read absence claim cannot pass the audit gate."
+}

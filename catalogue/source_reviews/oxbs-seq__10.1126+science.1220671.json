@@ -1,0 +1,180 @@
+{
+  "dir": "oxbs-seq__10.1126+science.1220671",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/22539555.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Babraham original Science PDF pp934–937; source text lines 110–145 (oxidation and controls),465–493 (oxRRBS experiment),735–765 (references and original SOM pointer).",
+        "finding": "Original distinguishes potassium-perruthenate oxidation, bisulfite conversion and paired RRBS/oxRRBS for hydroxymethylation inference. Synthetic 122-/135-nt controls are named; detailed control/primer sequences and library preparation are delegated to original SOM, not established absent by main article."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Recovered original Booth Science 2012 22539555.pdf.txt main paper lines24–167,472–489,700–764; full oxBS bundle oligo scraper run before reading; own supplementary pointer lines755–761",
+        "finding": "Independently read the original KRuO4 oxidation of 5hmC to 5fC followed by bisulfite conversion to U and subtraction against conventional bisulfite. Main article implements an RRBS branch and cites Meissner2008 for it; precise methods are delegated to its own Science1220671 DC1 supplement. The first extracted page includes a preceding unrelated article and its Science1218692 supplementary link, which is not an oxBS source. Recovered main text does not close the original supplement or exact library-primer scope."
+      }
+    },
+    {
+      "id": "original_som",
+      "role": "supplement",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.1220671/suppl_file/booth-som.revision.1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science SOM exact filename is explicitly linked by later Nature Protocols. Direct current Science supplementary URL returns HTTP403 even with working network. Original SOM not recovered."
+    },
+    {
+      "id": "detailed_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/PMC3919000_PMC3919000.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS abstract lines 43–57; Methods/reagents lines 131–153",
+        "finding": "Later second-generation Nat Protoc describes oxidation of 5hmC to 5fC, bisulfite conversion to U, matched BS control, and points to original Science SOM."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Later Nature Protocols JATS abstract lines 43–57 and reagents lines 131–153",
+        "finding": "Oxidation converts 5hmC to 5fC before bisulfite; matched BS/oxBS needed. It explicitly points to original Science SOM and its Table 2 oligos, both unavailable."
+      }
+    },
+    {
+      "id": "protocol_table2",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM16_ESM.pdf (rendered original page1; image-based table)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM16_ESM.pdf Supplementary Table2, visually read entire page1 at 2600-pixel render after full oxBS bundle scraper (zero text hits)",
+        "finding": "Image-based original prints eight control-DNA rows and seven primers: Q3/Q6/Q7/Q8, digestion forward DFP1, reverse DRP1 and post-bisulfite forward DFP2. Header defines 5 as 5-methylcytosine. Caption explains control DNA sequences are drawn without modifications; primer-incorporated 5mC and PCR-incorporated 5hmC distinguish conversion controls. These are control-DNA synthesis/readout oligos, not the genomic sequencing-library adapter pair. No oligo absence can be inferred from the empty text extraction."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM16 PDF p1, independently rendered at2200px and visually read after rerunning the entire bundle scraper. Both control-DNA table, seven-primer table and complete caption inspected.",
+        "finding": "Confirms seven sequencing-control DNAs plus digestion control, seven control synthesis/assay primers, methylcytosine5 notation and 5hmCTP PCR incorporation. Caption Cs/Gs wording is ambiguous for displayed strand; it must not create a guanine-conversion rule. These are control oligos, not selected genomic-library adapter primers. Image-based sequences are absent from extracted text; scraper zero hits does not establish source absence."
+      }
+    },
+    {
+      "id": "detailed_protocol_pdf",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/24008380.pdf.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Validated Babraham institutional PDF of later Nature Protocols original recovered; existing JATS readers remain recorded separately. Full PDF and linked Supplementary Table2 still require located inspection."
+    },
+    {
+      "id": "supp_figure1",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM11_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM11 PDF p1, complete figure/table and caption visually inspected after full bundle scraper; text twin read in full.",
+        "finding": "Original Sanger controls compare bisulfite conversion of synthetic5fC sources. Panelb caption uses d5fCTP and starts/ends with5fC but repeats5hmC mid-sentence; apparent published caption label error now public."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM11_ESM.pdf FigureS1 page1, whole rendered original caption and panels; visual read after full oxBS source-bundle scraper",
+        "finding": "Independently verified that heading and surrounding caption describe bisulfite conversion of5fC toU, including PCR-derived d5fCTP substrate. Panelb sentence instead repeats5hmC in both compared positions; the closing sentence again names5fC. This is an apparent published caption-label error, not support for assigning a different substrate. Exact intended comparative phrase remains uncertain and the public page now discloses it."
+      }
+    },
+    {
+      "id": "supp_figure2",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM12_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM12 PDF p1, complete figure/table and caption visually inspected after full bundle scraper; text twin read in full.",
+        "finding": "HPLC traces compare digested5hmC DNA before/after oxidation; caption identifies replacement by5fC peak. Positive chemical-control evidence, not library adapter sequences."
+      }
+    },
+    {
+      "id": "supp_figure3",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM13_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM13 PDF p1, complete figure/table and caption visually inspected after full bundle scraper; text twin read in full.",
+        "finding": "Images and caption distinguish oxidant stock, working solution and ethanol contamination; relevant to oxidant handling, no oligo table."
+      }
+    },
+    {
+      "id": "supp_figure4",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM14_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM14 PDF p1, complete figure/table and caption visually inspected after full bundle scraper; text twin read in full.",
+        "finding": "TapeStation traces compare TaqI-digested100mer control and mock control. Evidence for control assay, not genomic-library primers."
+      }
+    },
+    {
+      "id": "supp_table1",
+      "role": "supplement",
+      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM15_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM15 PDF p1, complete figure/table and caption visually inspected after full bundle scraper; text twin read in full.",
+        "finding": "Statistical coverage/Fisher-test numerical examples; no reagent sequence or construct-changing reaction detail."
+      },
+      "reason": "Statistical coverage/Fisher-test numerical examples; no reagent sequence or construct-changing reaction detail."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "2013 Nat Protoc JATS lines 43–57, 131–153",
+      "finding": "Later protocol cites original Science SOM and its own primer table; neither is locally accessible. Original source coverage is blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Later detailed protocol JATS 43–57, 131–153",
+      "finding": "Original Science article/SOM and later Supplementary Table 2 remain inaccessible, preventing full reaction and oligo audit."
+    },
+    "recovery_followup": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original Science article pp934–937, original SOM pointer at source lines755–765; Babraham institutional PDF and later protocol PDF recovered.",
+      "finding": "Recovered original article and later detailed protocol via author institution. Original SOM is explicitly identified and new repeatable publisher request added; later protocol supplement table still unresolved. Original main article does not supply complete control and library oligos."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original oxBS-seq adapter and control oligo identities are confirmed absent",
+      "disposition": "blocked",
+      "evidence": "Science original/SOM and detailed-protocol primer table are unexamined."
+    }
+  ],
+  "conclusion": "Main Science article and later Table2 recovered and independently read twice. Later control-DNA sequences are source-positive; exact genomic-library kit/index remains undeclared. Other recovered supplements have one located read; original Science SOM remainsHTTP403 and linked-source checks incomplete. No absence accepted."
+}

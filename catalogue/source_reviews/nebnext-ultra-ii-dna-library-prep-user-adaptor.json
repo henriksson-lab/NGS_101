@@ -1,0 +1,93 @@
+{
+  "dir": "nebnext-ultra-ii-dna-library-prep-user-adaptor",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "manual_main",
+      "role": "defining",
+      "locator": "NEB E7103/E7645 manual v7.0 Sep2022; manuale7103-e7645.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 12-41, 73-85",
+        "finding": "Vendor manual states user-supplied adapters/primers are permitted and gives reaction order plus adapter trimming information."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NEB E7103/E7645 manual lines 65-74, 183-216; scraper hits at 73-74",
+        "finding": "Main manual prints Read 1/2 trimming arms, adaptor ligation and USER cleavage, and directs user to separately purchased NEBNext oligo kits."
+      }
+    },
+    {
+      "id": "manual_7600",
+      "role": "linked_material",
+      "locator": "NEB E7600 Dual Index Primers Set 1 v6.0 Jun2024; manuale7600.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 54-89, 456 onward",
+        "finding": "Vendor prints hairpin adapter sequence and associated index primer sequences; describes U-containing loop opening."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NEB E7600 manual lines 23-40 and 83-90; scraper hits line 86",
+        "finding": "Set 1 manual prints the 5-prime phosphorylated hairpin adapter, internal dU and terminal phosphorothioate, and PCR index-primer family."
+      },
+      "discovered_from": "manual_main"
+    },
+    {
+      "id": "manual_7780",
+      "role": "linked_material",
+      "locator": "NEB E7780 Dual Index Primers Set 2; manuale7780.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 17-32, adapter and primer entries",
+        "finding": "Vendor document includes matching adapter family and second dual-index primer set."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "NEB E7780 manual lines 22-38 and adapter/primer section near line 85",
+        "finding": "Set 2 is a distinct index-primer set with the same NEBNext adaptor family; index identities must not be borrowed from Set 1."
+      },
+      "discovered_from": "manual_main"
+    },
+    {
+      "id": "third_party_faq",
+      "role": "linked_material",
+      "locator": "https://www.neb.com/faqs/2019/03/08/can-i-use-this-nebnext-kit-with-adaptors-and-primers-from-other-vendors-than-neb",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "FAQ explicitly linked in original manual but not yet checked.",
+      "discovered_from": "manual_main"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original E7103/E7645 lines 12-85; E7600 lines 54-89; E7780 lines 17-32; scraper reviewed",
+      "finding": "Followed main kit manual to both original NEB oligo-kit manuals; linked user-adapter FAQ remains unchecked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Main manual oligo-kit pointer lines 196-216; E7600/E7780 component and sequence sections",
+      "finding": "Followed NEB kit manual to both original oligo-set manuals. Third-party adaptor FAQ is still unavailable."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+}

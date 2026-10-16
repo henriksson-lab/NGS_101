@@ -1,0 +1,54 @@
+{
+  "dir": "trip__10.1038+nprot.2014.072",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Akhtar et al., Nature Protocols 2014 DOI 10.1038/nprot.2014.072",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining full article and Methods are absent from the local source bundle.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supp_table_1",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM451_ESM.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary Table 1 route listed in extra_sources.tsv, not cached; claimed 48 indexed primers cannot be independently verified.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supp_fig_3",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM450_ESM.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Supplementary Figure 3 route listed, not cached; final library/read layout unverified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Cached source inventory, existing protocol note and extra_sources.tsv route list only",
+      "finding": "No original from this protocol was available for an identifiable first reading; no source row has pass_1. All molecular claims await original source inspection and an independent second reader."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "TRIP 16-nt reporter barcode and claimed 48 indexed primer members/final library structure",
+      "disposition": "blocked",
+      "evidence": "Relevant source files and independent second pass remain outstanding."
+    }
+  ],
+  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+}

@@ -1,0 +1,93 @@
+{
+  "dir": "atac-seq__10.1038+nmeth.2688",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Buenrostro et al Nat Methods 2013 doi:10.1038/nmeth.2688 PMC3959825",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt Methods and supplementary references; scraper directory hit supplement",
+        "finding": "Original describes Tn5 tagmentation and indexed library PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS nmeth.2688_PMC3959825.xml.txt lines 73-81",
+        "finding": "Methods specify Illumina transposase and custom Nextera PCR primers; 500/5000-cell variations alter purification, not primer identity."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "Publisher MOESM200 Supplementary Data and Methods",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
+        "finding": "Table 1 prints universal Ad1 and indexed Ad2 primer sequences; no need to infer these from a successor."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM200 PDF text lines 1-101",
+        "finding": "Supplementary Table 1 prints Ad1_noMX plus Ad2.1–Ad2.24 indexed PCR primers explicitly."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC NIHMS554473 supplement route",
+      "availability": "unavailable",
+      "relevance": "not_relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM200 lines 1-101; PMC route listed as duplicate in checklist",
+        "finding": "Publisher original is the available supplementary oligo table, making separate gated PMC copy a duplicate for this claim."
+      },
+      "reason": "PMC duplicate download gate; publisher MOESM200 original supplement was read."
+    },
+    {
+      "id": "nextera",
+      "role": "linked_material",
+      "locator": "Illumina Nextera DNA Sample Prep kit named in original methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Historical kit guide not fetched; factory-loaded mosaic-end adapter geometry may need source verification.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article, publisher Supplementary Data/Methods and Nextera kit link.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 73-81 and publisher MOESM200 lines 1-101; historical Nextera kit guide unavailable",
+      "finding": "The paper and supplement establish PCR oligos but do not establish manufacturer-loaded Tn5 mosaic-end geometry; historical kit link remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical commercial Nextera transposome ligation-end identity",
+      "evidence": "Original provides PCR primer family; historical kit-specific transposome documentation not checked.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+}

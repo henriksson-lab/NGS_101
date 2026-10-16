@@ -1,0 +1,115 @@
+{
+  "dir": "samosa-tag__10.1038+s41588-024-01748-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41588-024-01748-0; s41588-024-01748-0_PMC11176058.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 383-401 and Methods 1976-2031",
+        "finding": "Hairpin Tn5, 9-nt gap repair and PacBio workflow; points to Supplementary Note 1 and Tables 3-5."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC11176058 JATS lines 85-103 and local PDF Methods",
+        "finding": "Original article describes direct barcoded hairpin Tn5 transposition, 9-nt gap repair and PCR-free circular PacBio sequencing; barcode member is experiment dependent."
+      }
+    },
+    {
+      "id": "supp_note_1",
+      "role": "supplement",
+      "locator": "s41588-024-01748-0_supp_41588_2024_1748_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 163-211, 350-390",
+        "finding": "Discusses PacBio polymerase binding and loading choices, not a separate sequencing-primer base string."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 Supplementary Note text lines 159-225",
+        "finding": "Original supplement describes PacBio SMRT-Tag hairpin design, transposome input and sequencing constraints."
+      }
+    },
+    {
+      "id": "supp_table_5",
+      "role": "supplement",
+      "locator": "s41588-024-01748-0_supp_41588_2024_1748_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 1-27, especially 3-4",
+        "finding": "Prints /5Phos/ complete SMRT-A hairpin adapters including bc-none and bc001; scraper pointed to these original rows."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM7 workbook Supp_Table_5 rows 1-27",
+        "finding": "Original Table S5 prints phosphorylated SMRT-A hairpin adapters and many barcode members verbatim, including no-barcode member."
+      }
+    },
+    {
+      "id": "other_supplements",
+      "role": "supplement",
+      "locator": "MOESM2-MOESM6 and MOESM8, original publisher supplements",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "These files contain figures, repair/analysis tables or source data rather than sequencing-primer synthesis information.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "headers and table headings for MOESM2-MOESM6 and MOESM8",
+        "finding": "MOESM2 is image-like, MOESM3-4 repair conditions, MOESM5 sample barcode metadata, MOESM6 library analysis, MOESM8 source data; none is an oligo synthesis list."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2–MOESM6/MOESM8 sheet headings and oligo-word scan",
+        "finding": "These original supplemental files were checked for additional oligo tables; Table S5 in MOESM7 is the primary adapter member list."
+      }
+    },
+    {
+      "id": "pacbio_primer",
+      "role": "vendor",
+      "locator": "PacBio sequencing-primer document for instrument chemistry used in the paper",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No exact kit/revision primer sequence is present in the fetched paper and supplements; vendor original remains to be located.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "paper Methods and Supplementary Note 1 references to PacBio polymerase chemistry and supplementary files",
+      "finding": "Supplementary oligo list followed; proprietary PacBio instrument-primer documentation not obtained."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC11176058 article Methods and supplementary list; MOESM1/7; MANIFEST.tsv",
+      "finding": "Followed the original publisher supplements; PacBio physical sequencing-primer documentation for instrument chemistry remains unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The separate PacBio sequencing primer has no published exact bases",
+      "disposition": "blocked",
+      "evidence": "The paper and Supplementary Table 5 give adapter hairpins, but a specific instrument primer and vendor kit/revision need independent checking."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

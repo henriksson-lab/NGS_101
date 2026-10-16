@@ -1,0 +1,75 @@
+{
+  "dir": "sci-rna-seq__10.1126+science.aam8940",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt lines 84–114, 152–160",
+        "finding": "Article outlines in situ RT barcoding followed by indexed PCR; no complete primer list appears in inspected article text."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PMC5894354 JATS lines 83–114, 152–160",
+        "finding": "Independently verified barcoded poly(T) RT in first wells, pooling and FACS redistribution, second-strand synthesis, Tn5 tagmentation and indexed PCR. The main text describes 2-level and 3-level variants, but does not itself resolve all original supplement oligos."
+      }
+    },
+    {
+      "id": "original_supp",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5894354/bin/NIHMS956226-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original 2017 supplementary PDF is (manual) due PMC download gate in local MANIFEST.tsv.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Cao et al. bioRxiv 10.1101/104844 preprint extracted lines 1–65, 268–288, 900–925",
+        "finding": "Independently confirmed this is the authors’ preprint of the sci-RNA-seq article. It gives first-round barcoded poly(T)/UMI RT, pooled redistribution, second strand, Tn5 and indexed PCR, but the inspected main preprint text does not give the missing complete primer-table members; the original Science supplement remains unavailable."
+      },
+      "reason": "Author preprint is local but its full chemistry and supplement linkage have not yet been reconciled.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Source Methods, source bundle MANIFEST.tsv, and cited/supplement list",
+      "finding": "Original Science supplementary PDF is still behind PMC gate; preprint is local but not yet proven to contain the final primer table."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original Science PMC5894354 JATS lines 83–114 and supplementary link; original same-author bioRxiv 104844 lines 1–65, 268–288, 900–925; source MANIFEST original_supp manual URL",
+      "finding": "Followed the defining article to its original Science supplementary PDF, which remains unavailable behind the PMC gate; read the same-author preprint main text as an independent comparison. Main text does not replace the missing original primer-table supplement, so missing claims remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact RT/PCR primer membership and per-experiment index choices cannot be accepted missing before original supplement/preprint comparison.",
+      "disposition": "blocked",
+      "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
+    }
+  ],
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+}

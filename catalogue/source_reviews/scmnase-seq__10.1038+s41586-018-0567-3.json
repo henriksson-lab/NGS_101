@@ -1,0 +1,77 @@
+{
+  "dir": "scmnase-seq__10.1038+s41586-018-0567-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Lai et al Nature 2018 doi:10.1038/s41586-018-0567-3 PMC8353605 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41586-018-0567-3_PMC8353605.xml.txt Methods and Supplementary Methods pointer",
+        "finding": "Article describes single-cell MNase nucleosomal fragments and directs wet-lab protocol to supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-018-0567-3_PMC8353605.xml.txt lines 45-56 and Methods pointer",
+        "finding": "Defining article states single-cell MNase method and points to Supplementary Methods for preparation."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Springer MOESM1_ESM.pdf.txt, original Supplementary Methods",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Library preparation section lines 35-45 and Barski citation near line 686; scraper zero hits",
+        "finding": "Supplement prints indexed PCR cycling and MNase workflow but not the inherited adapter/index oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41586-018-0567-3_41586_2018_567_MOESM1_ESM.pdf.txt lines 28-52 and 686",
+        "finding": "Original supplement specifies 1:3000 MNase, stop, DNA recovery, universal-adaptor ligation as cited method 33, indexed PCR and paired-end sequencing. No adaptor bases; scraper found zero oligo hits."
+      }
+    },
+    {
+      "id": "barski2007",
+      "role": "linked_material",
+      "locator": "Barski et al Cell 2007 doi:10.1016/j.cell.2007.05.009",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited predecessor adapter/index method is not in local source bundle; exact original oligos unreviewed.",
+      "pass_2": null,
+      "discovered_from": "supp_methods"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Nature paper supplementary pointer and original MOESM1 Methods citation",
+      "finding": "Followed supplementary method to Barski predecessor citation; that source remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining JATS lines 45-56; original MOESM1 lines 28-52 and cited Barski reference near 686; source manifest",
+      "finding": "Read original methods and followed adaptor ligation citation. Barski 2007 original remains unavailable, so inherited adaptor sequence cannot be confirmed absent."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact inherited scMNase adapter/index oligo bases",
+      "disposition": "blocked",
+      "evidence": "Original supplement names indexed PCR but the cited predecessor source is not checked."
+    }
+  ],
+  "conclusion": "Two readers checked original scMNase methods, but the cited Barski adaptor method remains unavailable; exact inherited adaptor oligos are blocked."
+}

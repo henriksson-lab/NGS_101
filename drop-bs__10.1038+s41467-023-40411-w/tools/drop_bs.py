@@ -22,7 +22,7 @@ FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([
 ],"Drop-BS library")
 TITLE="Drop-BS — droplet barcoding before bisulfite conversion"
 NOTES="01_drop-bs.html"
-SOURCE='<a href="https://doi.org/10.1038/s41467-023-40411-w">Fu et al., <i>Nature Communications</i> (2023)</a>.'
+SOURCE='<a href="https://doi.org/10.1038/s41467-023-40411-w">Zhang et al., <i>Nature Communications</i> (2023)</a>.'
 SUMMARY="MNase-fragmented DNA and a photocleavable barcode bead meet in one droplet. Ligation attaches cell identity before a second droplet conversion, and random priming plus indexed PCR completes the library."
 FINAL_CAPTION="Nextera-ended Drop-BS library carrying the bead-derived 15-nt cell barcode on the converted genomic molecule."
 SEQUENCING_INTRO="Paired-end genomic reads retain the bead barcode; i5 and i7 are added during the final indexing PCR."

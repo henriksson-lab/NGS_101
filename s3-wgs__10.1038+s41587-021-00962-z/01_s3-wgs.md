@@ -2,8 +2,7 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published / not available. Relationships marked 🟡 *(computed)* were worked out with
-> `lib/` while writing this note; they are not yet asserted in a self-test, because this
-> protocol has no `tools/` module yet.
+> `lib/` and checked against the protocol model where applicable.
 
 **s3-WGS** — Mulqueen RM, Pokholok D, O'Connell BL, Thornton CA, Zhang F, O'Roak BJ, Link J,
 Yardımcı GG, Sears RC, Steemers FJ, Adey AC. "High-content single-cell combinatorial
@@ -15,7 +14,7 @@ The same paper introduces three assays on one chemistry: **s3-ATAC** (catalogue 
 `s3-atac__10.1038+s41587-021-00962-z`), **s3-WGS** (this note) and **s3-GCC** (WGS plus
 chromatin conformation; not a separate catalogue entry). Stepwise protocols are on
 protocols.io: s3-WGS dx.doi.org/10.17504/protocols.io.beb3jaqn, s3-GCC
-dx.doi.org/10.17504/protocols.io.beb4jaqw (not fetched, see below). s3-WGS is the "s3"
+dx.doi.org/10.17504/protocols.io.beb4jaqw (both cached; s3-GCC is outside this model). s3-WGS is the "s3"
 upgrade of the authors' earlier **sci-DNA-seq** (Vitak et al. 2017, *Nat Methods*, the
 paper's ref. 10), whose xSDS nucleosome-depletion step it keeps.
 
@@ -27,9 +26,9 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `s41587-021-00962-z_PMC8678206.html.txt` | author manuscript (PMC) incl. Online Methods | design rationale, s3-ATAC and s3-WGS methods, sequencing |
 | `s41587-021-00962-z_41587_2021_962_MOESM6_ESM.xlsx` (+ `.txt`, made by hand with `tools/doctext.py`) | Supplementary Tables 1–8 | **every oligo** (Tables 2–5) and the stepwise molecular layout (Table 1) |
 | `s41587-021-00962-z_41587_2021_962_MOESM1_ESM.pdf.txt` | Supplementary Information (figures) | only Supp. Fig. legends; no chemistry |
-| `upstream_s3-WGS.html.txt` | scg_lib_structs s3-WGS page | secondary account; it is two sentences and points to the s3-ATAC page |
 | `protocolsio_s3-wgs-q26g7bd63lwz.pdf.txt` | author's linked 2021 protocols.io s3-WGS protocol | transposome loading, nuclei sorting and switching/PCR recipe |
-| `../s3-atac__10.1038+s41587-021-00962-z/upstream_s3-ATAC.html.txt` | scg_lib_structs s3-ATAC page (sibling source dir) | the upstream drawing the s3-WGS page defers to; checked below |
+| `2021.01.11.425995_v1.full.pdf.txt` | author bioRxiv preprint | original s3 mechanism and WGS Methods, lines 39–58 and 510–546 |
+| `../sci-seq__10.1038+nmeth.4154/nmeth.4154_PMC5908213.xml.txt` | SCI-seq predecessor | xSDS rationale, lines 68–72 |
 | `MOESM7–13` | source data for figures | not chemistry |
 
 Could not be used:
@@ -51,8 +50,8 @@ no beads, no UMI. 🟢 (Online Methods)
 - **Level 2**: nuclei are pooled, flow-sorted in small numbers into a PCR plate, and each
   PCR well gets a unique **i7 × i5** primer pair.
 
-Cell ID = Tn5 barcode + i7 + i5 🟢 (upstream s3-ATAC; the paper's "cellID", demultiplexed
-by scitools).
+Cell ID = Tn5 barcode + i7 + i5 🟢 (published Supplementary Tables 2, 4 and 5;
+the paper's "cellID", demultiplexed by scitools).
 
 What makes it **s3** ("symmetrical strand sci") 🟢 (main text, Fig. 1b; Supp. Table 1):
 standard Tn5 libraries need *different* adaptors at the two ends, so a fragment tagged
@@ -74,8 +73,9 @@ formaldehyde-fixed** and **SDS nucleosome-depleted** before tagmentation, so Tn5
 the whole genome instead of open chromatin; nuclei are loaded more dilute (500 vs 1,400
 nuclei/µL); and the indexing PCR needs **fewer cycles (13–15 vs 16–18)**, which the
 authors attribute to more capture events per nucleus. Everything from tagmentation to
-sequencing is "as described for s3-ATAC". The upstream s3-WGS page says the same in one
-sentence (crosslinked, nucleosome-depleted nuclei; library identical to s3-ATAC) — agrees.
+sequencing is "as described for s3-ATAC". The bioRxiv preprint Methods lines 510–546
+describe the same nuclei treatment and shared downstream branch. The linked SCI-seq
+predecessor explains that crosslinking preserves nuclei during SDS histone depletion.
 
 ## 2. Oligos
 

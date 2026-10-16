@@ -1,0 +1,154 @@
+{
+  "dir": "smart-seq2__10.1038+nmeth.2639",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Picelli et al Nature Methods 2013 doi:10.1038/nmeth.2639",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "get_sources.py DOI route marks original full text manual; unavailable locally.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "supp_oligos",
+      "role": "supplement",
+      "locator": "Springer MOESM301 XLSX Supplementary Table 2; local nmeth.2639...MOESM301_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 1-16, TSO entries and modification columns",
+        "finding": "Printed TSO panel includes base and 3-prime modification alternatives; rGrG+G is source-listed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM301 Supplementary Table 2 rows 1-16",
+        "finding": "Original oligo table prints TSO variant sequences and modification classes; rGrG+G is two RNA G plus a locked G."
+      }
+    },
+    {
+      "id": "supp_variants",
+      "role": "supplement",
+      "locator": "Springer MOESM303 XLSX Supplementary Table 4",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 1-9",
+        "finding": "Smart-seq2 row selects rGrG+G and KAPA HiFi HotStart; table alone does not provide exact commercial SMARTer dT30VN or ISPCR sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM303 Supplementary Table 4 rows 1-9",
+        "finding": "Smart-seq2 protocol row selects rGrG+G and KAPA HiFi, distinct from tested TSO variants."
+      }
+    },
+    {
+      "id": "supp_reactions",
+      "role": "supplement",
+      "locator": "Springer MOESM300/302 XLSX reaction tables",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Headers and initial experiment rows",
+        "finding": "Reaction tables name SMARTer dT30VN and ISPCR kit primers by product role; experiment/count tables, not a definitive commercial oligo sequence source."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM300/MOESM302 workbook headers and opening rows",
+        "finding": "Original reaction tables name commercial SMARTer dT30VN/ISPCR roles, not complete source-printed order strings."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "Springer MOESM299 PDF Supplementary Figures",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Extracted text lines 1-82, 800-815",
+        "finding": "Figures discuss TSO variants and LNA/ribo-G notation; do not supersede the ordered-oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM299 Supplementary Figures text and TSO figure captions",
+        "finding": "Supplementary figures compare TSO variants; ordering and selected condition are in the two XLSX tables."
+      }
+    },
+    {
+      "id": "nprot_companion",
+      "role": "linked_material",
+      "locator": "Picelli et al Nature Protocols 2014 doi:10.1038/nprot.2014.006",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "DOI route manual, no original companion protocol text fetched.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "clontech_guide",
+      "role": "linked_material",
+      "locator": "Original Clontech/Takara SMARTer kit documentation for dT30VN and ISPCR",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named reagent kit guide unavailable and exact historical revision unresolved.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "nextera_xt",
+      "role": "linked_material",
+      "locator": "Illumina Nextera XT kit/index guide used downstream",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No source-checked selected well-specific i5/i7 index pair; kit documentation not read in this pass.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Followed DOI and companion Nature Protocols DOI via get_sources; neither original full text fetched. Source tables establish TSO but not all kit reagent identities."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Nature Methods MOESM301/303 tables, article references, local MANIFEST.tsv",
+      "finding": "Table and variants point to published TSO and optimization, but the defining full Methods, companion Nature Protocols article, Clontech guide and Nextera XT kit guide remain unavailable. No missing reagent sequence can be certified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical SMARTer dT30VN/ISPCR bases and chosen per-well index pair are unresolved",
+      "disposition": "blocked",
+      "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
+    }
+  ],
+  "conclusion": "First-pass source review; independent second pass and listed linked originals pending.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Explicit Nature original PDF URL returns HTML instead of a PDF; current Sandberg author publications link only the DOI, and Smart-seq2 technology page contains no downloadable paper/procedure. Companion DOI route recovered its original supplementary read-statistics workbook only; original article and companion main protocol remain uninspected."
+  }
+}

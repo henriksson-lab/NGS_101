@@ -1,0 +1,80 @@
+{
+  "dir": "lenticrispr-v1-screening__10.1126+science.1247005",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Shalem et al Science 2014 doi:10.1126/science.1247005; PMC4089965 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 53-73, Supplementary Material pointer",
+        "finding": "Original describes pooled GeCKO/lentiCRISPR screen and points to supplementary information; main accessible article lacks readout oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC4089965 JATS Results lines 53-73 and Supplementary Materials pointer",
+        "finding": "Original Shalem article describes pooled lentiCRISPR/GeCKO screen and references SOM; no complete screen readout-primer list in inspected main text."
+      }
+    },
+    {
+      "id": "som",
+      "role": "supplement",
+      "locator": "Shalem et al Science 2014 Supplementary Information linked in JATS line 71-73",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Science/PMC supplementary material is not in local MANIFEST bundle; original screen-primer detail unread.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "later_joung",
+      "role": "linked_material",
+      "locator": "_data/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Recovered later author manuscript; cannot substitute for original 2014 study-specific readout oligos.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Joung 2017 Table 3 lines 2159–2204",
+        "finding": "Later author protocol prints ten NGS-Lib-Fwd and eight each GeCKO/SAM indexed reverse primers. Relation to this earlier study requires a separate inheritance check."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Joung 2017 JATS Table 3, extracted lines 2159–2204, independently read; oligo scraper rerun",
+        "finding": "Table 3 lists ten forward NGS library primers and eight each GeCKO/SAM indexed reverse primers. This later protocol does not establish which primers the 2014 screening study used."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Accessible JATS supplementary pointer checked; original supplementary material absent. Later Joung method cannot replace it."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Shalem original JATS supplementary pointer and local MANIFEST.tsv; recovered Joung 2017 Table 3",
+      "finding": "Original 2014 supplement is still unavailable. Later Joung 2017 Table 3 does publish GeCKO one-PCR readout primer families but cannot establish the exact 2014 experiment-specific choice."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original 2014 GeCKO screening library readout primer selection is unresolved",
+      "disposition": "blocked",
+      "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
+    }
+  ],
+  "conclusion": "First-pass source review; independent second pass and listed linked originals pending."
+}

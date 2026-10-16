@@ -1,4 +1,5 @@
 """Protocol-owned source, molecular workflow and reaction graph."""
+from chemdraw import Construct, Segment
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
@@ -12,14 +13,21 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ""
+RT_HANDLE = "AAGCAGTGGTATCAACGCAGAGTAC"
+DT_RT_PRIMER = RT_HANDLE + "T" * 30 + "VN"
+RANDOM_RT_PRIMER = RT_HANDLE + "N" * 6
+CAVEAT = ("The preprint prints both sc-end5 RT primers. Its nearby ACATrGrGrG "
+          "template-switch oligo belongs to the sc-end3-dT control, not the sc-end5 "
+          "gel bead. A later 10x CG000086 Rev K guide gives same-kit bead architecture, "
+          "but the experiment's exact kit revision and chosen i7 well are unresolved. "
+          "The reported run used 75-base paired reads.")
 FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
 SEQUENCING_INTRO = DEFINITION.endpoint
 READ_LENGTHS = None
 SEQUENCING_ENDING = DEFINITION.endpoint
-SEQUENCING_UNAVAILABLE = "The source defines the read roles, but the primer sequence is panel-, kit- or implementation-dependent; no universal binding oligo is asserted."
+SEQUENCING_UNAVAILABLE = "The original kit revision and selected i7 well are not identified by the preprint. The later guide's primer placement is a comparator, not proof of the experiment's exact run."
 
 def workflow():
     return chain(molecule("single-cell RNA in a 10x droplet", (role("poly(A) and non-poly(A) RNA"),)), (
@@ -36,7 +44,10 @@ def workflow():
 
 
 def oligos():
-    return ()
+    return (
+        "sc-end5-dT RT primer, 5′-" + RT_HANDLE + "-T(30)-VN-3′ (preprint Methods)",
+        "sc-end5-rand RT primer, 5′-" + RANDOM_RT_PRIMER + "-3′ (preprint Methods)",
+    )
 
 
 def protocol_graph() -> ProtocolGraph:
@@ -58,8 +69,12 @@ def protocol_graph() -> ProtocolGraph:
                 changes_molecule=False)
     reviewed = ["single_cell_rna", "split_priming_variants"]
 
-    def branch(prefix: str, template, primer_label: str, label: str):
-        primer = graph.input(prefix + "_primer", primer_label, MaterialKind.OLIGO)
+    def branch(prefix: str, template, primer_label: str, primer_bases: str, label: str):
+        primer = graph.input(prefix + "_primer", primer_label, MaterialKind.OLIGO,
+                             state=Construct((Segment(primer_label + " handle", RT_HANDLE),
+                                              Segment(primer_label + " variable tail",
+                                                      primer_bases[len(RT_HANDLE):],
+                                                      placeholder=True))))
         rt = graph.input(prefix + "_rt_enzyme", "10x template-switching reverse transcriptase",
                          MaterialKind.CATALYST)
         first = graph.product(prefix + "_first_strand", label + " nascent first strand",
@@ -86,7 +101,7 @@ def protocol_graph() -> ProtocolGraph:
         _finish_pcr(graph, prefix, switched, final, label + ": " + d.endpoint,
                     reviewed, label=label)
 
-    branch("dt", dt_rna, "oligo(dT) RT primer", "sc-end5-dT")
-    branch("random", random_rna, "random-hexamer RT primer", "sc-end5-rand")
+    branch("dt", dt_rna, "oligo(dT) RT primer", DT_RT_PRIMER, "sc-end5-dT")
+    branch("random", random_rna, "random-hexamer RT primer", RANDOM_RT_PRIMER, "sc-end5-rand")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

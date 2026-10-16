@@ -1,0 +1,68 @@
+{
+  "dir": "10x-chromium-gem-x-single-cell-5-vdj-v3",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "cg000734",
+      "role": "defining",
+      "locator": "10x CG000734 Rev A, _data/sources/10x-chromium-single-cell-5-vdj/scg_CG000734_ChromiumGEM-X_SingleCell5_ReagentKitsv3_CellSurfaceProtein_UserGuide_RevA.pdf.txt (original vendor PDF mirrored in scg data)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "VDJ library workflow lines 5894-5952; Appendix Oligonucleotide Sequences lines 6523-6566",
+        "finding": "Prints gel-bead primer with N16/N12 and rGrGrG, and the complete V(D)J sample-index PCR product; v3 kit uses v2-labelled enrichment reagents."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "CG000734 Rev A lines 651–725, 1101–1126, 3334–3417, 3558–3604, 3755–3762, 5885–5893, 5946–5953, 6523–6538",
+        "finding": "Independently read kit part numbers and steps: v3 uses v2-labelled Human/Mouse T/B Mix 1/2 PN-2000242/46, -2000254/55, -2000256/57 and -2000258/59. The appendix prints the v3 N16/N12/rGrGrG gel-bead primer and dual-index V(D)J product but not individual enrichment primers; exact PNs link to CG000331 Rev E appendix."
+      }
+    },
+    {
+      "id": "cg000331",
+      "role": "linked_material",
+      "locator": "10x CG000331 Rev E, _data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevE.pdf.txt (vendor original)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "V(D)J enrichment and primer-pool sections in guide; manifest identifies v2 guide",
+        "finding": "Earlier v2 chemistry provides context for v2-labelled enrichment but does not alone establish every v3 reaction."
+      },
+      "discovered_from": "cg000734",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "CG000331 Rev E lines 4173–4233 and 6848–6996 (Appendix pp.73–74); compared Rev F lines 6865–7013 as corroboration",
+        "finding": "The same eight v2 Mix 1/2 PN identifiers have published universal forward and all human/mouse T/B outer and inner reverse-primer strings in the original Appendix. The Rev F table repeats them. This resolves member-sequence availability for the named v3 enrichment kits, while individual gene coordinates and any unprinted lot-specific composition are outside the claim."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "CG000734 V(D)J workflow and sequence appendix; source MANIFEST vendor-guide rows",
+      "finding": "Followed mirrored vendor CG000331 predecessor guide. Enrichment oligo kit contents still require a separate original; drawn scg page was excluded."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CG000734 Rev A kit inventory lines 651–725, enrichment steps 3334–3417 and sequence appendix 6523–6538; followed same-PN CG000331 Rev E pp.73–74 lines 6848–6996; source MANIFEST vendor-original and upstream-schematic rows",
+      "finding": "The vendor guide itself supplies the pool-member sequences under exactly the eight PN identifiers reused in v3; a separate physical enrichment kit is not an additional document or outstanding source for these identities. Excluded upstream drawn HTML and scg-authored notes as authority. Related Rev F original corroborates the published family."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Individual v2-labelled V(D)J enrichment primer-pool members for v3",
+      "disposition": "resolved",
+      "evidence": "CG000734 Rev A lines 651–725 and 3334–3417 specify eight v2 Mix 1/2 PN identifiers; original CG000331 Rev E Appendix lines 6848–6996 prints the forward and all outer/inner reverse sequences under those same PNs. The shared research note transcribes the members. This establishes published identities for the named kits, not transcript-coordinate mapping or lot-specific composition."
+    }
+  ],
+  "conclusion": "Two independent source readings agree: the v3 guide names the same v2-labelled enrichment Mix part numbers for which the predecessor vendor guide publishes primer members. The prior unavailable-member claim is resolved. The v3 guide independently specifies N16/N12 gel-bead and V(D)J dual-index library architecture; sequence-to-transcript coordinates remain outside the published guide."
+}

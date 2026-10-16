@@ -4,6 +4,8 @@
 
 - 🟢 Linder et al., *Single-nucleotide-resolution mapping of m6A and m6Am throughout the transcriptome*, Nature Methods (2015), [doi:10.1038/nmeth.3453](https://doi.org/10.1038/nmeth.3453).
 - 🟢 Grozhik et al., *Mapping m6A at individual-nucleotide resolution using crosslinking and immunoprecipitation*, Methods in Molecular Biology (2017), [doi:10.1007/978-1-4939-6807-7_5](https://doi.org/10.1007/978-1-4939-6807-7_5), PMCID `PMC5562447`, section 2.3 “Oligonucleotides” read directly from the PMC XML.
+- 🟢 The cited predecessor is König et al., [iCLIP (2010)](https://doi.org/10.1038/nsmb.1838), reference 10 of Linder et al. The original article describes circularization, BamHI reopening and the barcode architecture. Its [Supplementary Methods PDF](https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf) could not be retrieved in this audit, so the historical oligo table remains unchecked.
+- 🟢 Huppertz et al., [the same-group detailed iCLIP protocol (2014)](https://doi.org/10.1016/j.ymeth.2013.10.011), original author-hosted PDF pp. 2–3, independently prints L3-App and the Rtclip barcoded primer family. It supports the inherited family architecture, but does not assign one RT barcode to each Linder 2015 sample.
 
 ## Oligos from the detailed 2017 protocol
 
@@ -23,4 +25,4 @@
 
 ## Evidence boundary
 
-🟡 The page models the inline identifier layout and small-RNA Read 1 landing site. The complete oligo ordering strings above are verified, but their alignment into the final duplex has not yet been reconciled base by base; the schematic remains a role-level representation.
+🟡 The page models the inline identifier layout and small-RNA Read 1 landing site. The complete oligo ordering strings above are verified for the 2017 detailed protocol, but the 2015 article does not assign a specific RT-primer variant to each library. Their alignment into the final duplex has not yet been reconciled base by base; the schematic remains a role-level representation.

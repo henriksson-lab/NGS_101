@@ -1,0 +1,105 @@
+{
+  "dir": "scisor-seq2__10.1038+s41593-024-01616-4",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1038/s41593-024-01616-4; s41593-024-01616-4_PMC11156538.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "lines 210-228",
+        "finding": "Names/prints Partial Read 1 and Partial TSO at line 212 and directs PacBio SMRTbell Express 2.0 and ONT SQK-LSK110 kit use at lines 224-228."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC11156538 JATS lines 208-228",
+        "finding": "Original Methods name 10x Single Cell B Chip, PacBio SMRTbell Express Template Prep Kit 2.0 and ONT SQK-LSK110; it delegates terminal long-read adapter construction to vendor guides."
+      }
+    },
+    {
+      "id": "supp_1",
+      "role": "supplement",
+      "locator": "s41593-024-01616-4_41593_2024_1616_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "methods and oligo-word scan",
+        "finding": "Supplement gives analyses and methods but no disclosed PacBio/ONT instrument sequencing-primer bases in scanned sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 extracted text, oligo/adapter search and methods headings",
+        "finding": "Supplement provides additional figures/method context, but no verified complete PacBio/ONT terminal adapter bases in inspected text."
+      }
+    },
+    {
+      "id": "supp_2",
+      "role": "supplement",
+      "locator": "s41593-024-01616-4_41593_2024_1616_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Reporting summary only.",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "reporting-summary header",
+        "finding": "Reporting summary, not an oligo list."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM2 text heading and source inventory",
+        "finding": "This is reporting/context material, not a vendor adapter document."
+      }
+    },
+    {
+      "id": "pacbio_kit",
+      "role": "vendor",
+      "locator": "PacBio SMRTbell Express Template Prep Kit 2.0 manual, product 100–938-900, paper line 224",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Vendor manual not in local source bundle.",
+      "pass_2": null
+    },
+    {
+      "id": "ont_kit",
+      "role": "vendor",
+      "locator": "ONT SQK-LSK110 Ligation Sequencing Kit manual, paper line 228",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Vendor manual not in local source bundle.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "paper Methods 210-228 and cited PacBio/ONT kit identifiers",
+      "finding": "Both chemistry-relevant kit manuals were identified but not read; publisher supplements were checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC JATS Methods 208-228 and supplementary inventory",
+      "finding": "Followed PacBio/ONT kit names and catalog IDs; original versioned guides absent locally, so exact terminal chemistry remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "PacBio/ONT hairpin adapter and sequencing-primer bases are not disclosed",
+      "disposition": "blocked",
+      "evidence": "The paper delegates final library preparation to product-specific manuals at lines 224-228, which are pending."
+    }
+  ],
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+}

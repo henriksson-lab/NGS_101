@@ -1,0 +1,118 @@
+{
+  "dir": "10x-visium-spatial-gene-expression",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "10x Genomics CG000239 Visium Spatial Gene Expression User Guide Rev F",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/10x-visium-spatial-gene-expression/CG000239_Rev_F.pdf.txt lines 4960-5115; scraper TSO at 4981 and adapter at 5056",
+        "finding": "Appendix prints slide primer N16/N12/poly(dT), TSO rGrGrG, second-strand/cDNA primers, ligation adapter duplex and 10-nt dual-index PCR primer patterns."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "CG000239_Rev_F.pdf.txt Appendix lines 4965-5018 and 5047-5101",
+        "finding": "Original 10x Rev F prints slide primer with N16 spatial barcode/N12 UMI/poly(dT)VN, modified TSO rGrGrG, second-strand primer, partial adaptor, and dual 10-base i5/i7 index primer architecture."
+      }
+    },
+    {
+      "id": "tt_index_set",
+      "role": "linked_material",
+      "locator": "10x Genomics Visium Sample Index Sets (13 June 2022), https://www.10xgenomics.com/support/spatial-gene-expression-fresh-frozen/documentation/steps/sequencing/sample-index-sets-for-visium-spatial-gene-expression, linking original Dual Index Kit TT Set A JSON https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json; local _data/sources/10x-visium-spatial-gene-expression/10x_Dual_Index_Kit_TT_Set_A.json",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "guide",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original 10x Visium index-set page lines 48–61 and linked official JSON entries SI-TT-A1 through SI-TT-H12, 96 wells; full local source-bundle oligo scraper run before reading.",
+        "finding": "The official kit table publishes each well-specific 10-base i7 and i5 index (two i5 workflow orientations). SI-TT-A1, for example, is i7 GTAACATGCG and i5 AGTGTTACCT / reverse complement AGGTAACACT. The guide does not name which well was used in an unspecified experiment, so that variable remains run-specific rather than unpublished kit information."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Independently opened original 10x Visium index-set page lines 48–61 and parsed linked original local Dual_Index_Kit_TT_Set_A.json, keys SI-TT-A1 through SI-TT-H12; full local Visium scraper run first.",
+        "finding": "All 96 wells publish a 10-nt i7 and both 10-nt i5 orientations; workflow-B i5 is reverse complement of workflow-A. A1 is i7 GTAACATGCG, i5 AGTGTTACCT/AGGTAACACT; H12 is i7 TGATGATTCA, i5 GTAGGAGTCG/CGACTCCTAC. Kit index sequences are published; the guide does not select an experiment-specific well."
+      }
+    },
+    {
+      "id": "slide_whitelist",
+      "role": "linked_material",
+      "locator": "10x Space Ranger 2.1 Slide Serial and Capture Area Parameters https://www.10xgenomics.com/support/software/space-ranger/2.1/analysis/image-slide-parameters; 10x Space Ranger 3.1 Spatial Outputs https://www.10xgenomics.com/support/software/space-ranger/3.1/analysis/spatial-outputs; original slide-specific barcode/layout file in Space Ranger or downloaded by serial remains to inspect; 10x Space Ranger setup lists original `lib/python/cellranger/barcodes/visium-v1.txt` and `visium-v1_coordinates.txt` at https://www.10xgenomics.com/support/cn/software/space-ranger/3.1/tutorials/setup-spaceranger",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official 10x docs locate the generic 4,992-spot barcode inclusion list (`visium-v1.txt`) and coordinate map (`visium-v1_coordinates.txt`) in the Space Ranger distribution; neither original file has been opened in this review. A serial-specific physical-slide layout additionally requires an actual slide serial.",
+      "discovered_from": "guide",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "spaceranger_slide_docs",
+      "role": "linked_material",
+      "locator": "10x Space Ranger 2.1 Slide Serial and Capture Area Parameters https://www.10xgenomics.com/support/software/space-ranger/2.1/analysis/image-slide-parameters; 10x Space Ranger 3.1 Spatial Outputs https://www.10xgenomics.com/support/software/space-ranger/3.1/analysis/spatial-outputs; slide-file download instructions https://www.10xgenomics.com/support/software/space-ranger/2.1/analysis/inputs/image-slide-layout-download; Space Ranger setup https://www.10xgenomics.com/support/cn/software/space-ranger/3.1/tutorials/setup-spaceranger",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "guide",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Slide-parameter original lines 94–149; Spatial Outputs original lines 153–184; full local Visium bundle scraper run first. Followed linked slide-file download instructions lines 94–96.",
+        "finding": "10x documents that serial plus capture area downloads a slide-specific layout file and that tissue_positions.csv has 4,992 barcode-to-spot rows for the 6.5 mm slide. It says the same barcode inclusion list is bundled with Space Ranger. This locates the data rather than proving it absent; original bundle/list and actual slide serial remain to inspect. The linked instruction requires a slide serial number for a layout download; without a specified run serial there is no unique layout to assign."
+      },
+      "pass_2": {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Independently read official Space Ranger 2.1 slide-parameter page lines 94–149 and Space Ranger 3.1 spatial-output page lines 153–184 after full Visium scraper. Independently followed official setup page listing barcode/coordinate files.",
+        "finding": "Serial+capture-area arguments download a slide-specific layout; tissue_positions.csv has 4,992 rows on the 6.5 mm capture area, with barcode and coordinates, and the docs locate the same inclusion list inside the Space Ranger bundle. A generic inclusion list is distinct from a serial-specific calibrated layout. Neither original bundle files nor a real slide serial was inspected, so those remain open. The setup inventory specifically names visium-v1_coordinates.txt and related slide-version coordinate files."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "CG000239 Rev F appendix, adapter/PCR sequence drawings and separate Dual Index TT/slide components.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CG000239 Rev F Appendix lines 4965-5018 and 5047-5101; manifest for Dual Index TT Set A and slide whitelist",
+      "finding": "Read original guide and followed its separate index/slide identity references. Exact TT index set values and physical spot barcode whitelist remain unavailable, so no absence claim is accepted."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official Visium index-set page and linked JSON; Space Ranger slide-parameter and spatial-output docs.",
+        "finding": "Recovered the 96-well TT index set. Traced the Visium barcode inclusion list to Space Ranger and slide-specific layout to serial-number download. Actual barcode list and specified physical slide are still pending, as are second reads of newly recovered sources."
+      },
+      {
+        "reviewer": "gemx_second",
+        "date": "2026-10-16",
+        "locations": "Original Visium sample-index page and linked JSON; original Space Ranger slide parameters and spatial outputs.",
+        "finding": "Independently verified the official 96-well TT index table and the documented routes to generic inclusion list and slide-specific layouts. Actual bundle barcode files and a run serial still require source inspection."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "A single fixed spatial-barcode or UMI species",
+      "disposition": "blocked",
+      "evidence": "Guide defines N16 spatial barcode and N12 UMI patterns; barcode varies by slide spot and UMI by molecule."
+    },
+    {
+      "claim": "A fixed Dual Index TT sample index pair",
+      "disposition": "blocked",
+      "evidence": "The official TT Set A JSON publishes all 96 well-specific i7/i5 pairs; the Rev F guide specifies the kit but not the well selected in a particular experiment. This is run-specific, not an undisclosed kit sequence."
+    }
+  ],
+  "conclusion": "The official Rev F guide establishes the Visium construct. Two independent readers verified the original 10x TT Set A JSON with all 96 i7/i5 pairs; a chosen well remains experiment-specific. Official Space Ranger docs locate the 4,992-spot inclusion list and per-slide layout, but the actual bundle files and a run serial remain uninspected. No absence is accepted."
+}

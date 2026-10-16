@@ -1,0 +1,117 @@
+{
+  "dir": "petri-seq__10.1038+s41564-020-0729-6",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Blattman et al Nature Microbiology 2020 doi:10.1038/s41564-020-0729-6 PMC8330242 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41564-020-0729-6_PMC8330242.xml.txt lines 38-44 and 72-78",
+        "finding": "Article specifies bacterial random-hexamer RT followed by two ligation barcode rounds, and points to Supplementary Tables 2 and 3 for all primers."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41564-020-0729-6_PMC8330242.xml.txt Methods lines 122–155 and supplement pointers",
+        "finding": "The 2020 original defines in situ RT, two ligation indexing rounds and final tagmentation; it points to published Supplementary Table 3 and original methods."
+      }
+    },
+    {
+      "id": "published_table3",
+      "role": "supplement",
+      "locator": "Springer MOESM3_ESM.xlsx.txt, published Supplementary Table 3",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "First three rows and 96-well oligo columns",
+        "finding": "Published workbook prints round-1 RT and round-2/3 ligation oligo families."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41564-020-0729-6 MOESM3 workbook first sheets/rows including line 4",
+        "finding": "Original Springer Table 3 prints /5Phos/ round-barcode oligo families and full members; these source-published oligos outrank the later website mirror."
+      }
+    },
+    {
+      "id": "author_mirror",
+      "role": "linked_material",
+      "locator": "Sydney Blattman PETRI-seq protocol and Oligonucleotide Table dated 2020-03-25, scg_PETRI-seq_Protocol.pdf.txt and scg_PETRI-seq_Oligonucleotide_Table.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligonucleotide Table Additional Oligos lines 1-10 and protocol header",
+        "finding": "The mirror holds a 2021-02-10 author protocol and a separately dated 2020-03-25 author oligo workbook; source hosting/version needs independent verification."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "scg_PETRI-seq_Protocol.pdf.txt title lines 1–7, oligo sections line 49 onward; scg_PETRI-seq_Oligonucleotide_Table.xlsx.txt first 12 lines",
+        "finding": "Mirror protocol is explicitly dated February 10, 2021, one year after the 2020 paper; the separate mirrored workbook is dated March 25, 2020. They must not be treated as one 2020 version. Later protocol gives SB117/118 transposome, but original 2020 table controls sequence attribution."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "published_table2",
+      "role": "supplement",
+      "locator": "Springer MOESM1_ESM.pdf.txt, Supplementary methods and Table 2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary protocol and single-tube primer section",
+        "finding": "Printed reaction conditions and single-tube oligos supplement published Table 3."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41564-020-0729-6 MOESM1 PDF text lines 270–315",
+        "finding": "Original supplemental methods/table prints TSO with rGrGrG and ligation-test linker and maps the RT/ligation steps."
+      }
+    },
+    {
+      "id": "author_original_2020",
+      "role": "linked_material",
+      "locator": "https://tavazoielab.c2b2.columbia.edu/PETRI-seq/PETRI_Seq_Protocol.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official lab PDF is search-indexed as last updated May 25, 2020, but targeted get_sources fetch returned curl DNS error 6; source cannot be directly compared with 2021 mirror.",
+      "discovered_from": "author_mirror",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "PMC JATS lines 72-78; Springer Supplementary Tables 2/3; author-credited protocol/workbook mirror",
+      "finding": "Followed the article to published oligo tables. Mirrored author protocol is useful but original host/version remains unverified."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Original 2020 article and Springer Table 3; 2021 scg protocol title; 2020 workbook title; original Tavazoie lab URL retrieval attempt",
+      "finding": "Independently identified a version split: mirrored protocol dated 2021-02-10, mirrored oligo workbook 2020-03-25. Official Tavazoie lab 2020 protocol URL was located but the direct fetch failed DNS, so 2020 vs 2021 procedure differences remain blocked. Original Springer table provides the core oligos."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Original provenance/version of author PETRI-seq protocol mirror",
+      "disposition": "blocked",
+      "evidence": "Workbook identifies an author and date, but original hosting was not checked."
+    }
+  ],
+  "conclusion": "Original 2020 supplemental oligos are available, but the 2021 mirrored author protocol cannot stand in for the inaccessible 2020 original; version-specific procedural claims remain blocked."
+}

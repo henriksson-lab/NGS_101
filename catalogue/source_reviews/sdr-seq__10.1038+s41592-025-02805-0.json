@@ -1,0 +1,356 @@
+{
+  "dir": "sdr-seq__10.1038+s41592-025-02805-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_PMC12510883.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Results lines 109, 115, 119; Methods sections",
+        "finding": "In situ RT attaches sample barcode and UMI to cDNA; reverse-primer R2N versus R2 overhangs split genomic and RNA branches, except proof-of-principle experiment using common R2N."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Defining JATS Results lines 107–121, especially 109 and 119",
+        "finding": "Describes in situ barcoded poly(dT) RT, two Tapestri droplets, droplet PCR and distinct R2N gDNA/R2 RNA overhangs for separate libraries; POP experiment instead uses the same R2N overhang for both, so library separation applies to V2 and not POP."
+      }
+    },
+    {
+      "id": "primer_tables",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Tables 1–2 lines 1–34",
+        "finding": "Table 1 prints V1 RT primers with N8 UMI, poly(dT)VN and sample BC; Table 2 prints V2 branch-specific i5/i7 indexed primer families."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "MOESM3 workbook Supplementary Table 1 lines 1–18; Table 2 from lines 19–37 and remaining RNA i7/RT blocks",
+        "finding": "Table 1 prints POP/V1 RT primers and R2N overhang in both assay branches. Table 2 prints V2 separate gDNA/RNA library index-primer families, matching article version split. No bead-cell-barcode member whitelist appears in these examined rows."
+      }
+    },
+    {
+      "id": "missionbio_tapestri",
+      "role": "vendor",
+      "locator": "https://missionbio.com/products/tapestri-platform/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The article inherits Tapestri barcoding beads/overhang chemistry; exact versioned vendor oligos and guide remain to be checked.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm10_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM10_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM10_ESM.xlsx.txt: line 1 ## sheet Fig2_S3_a, line 17097 ## sheet Fig2_S3_b, line 34193 ## sheet Fig2_S3_c; 5 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 5 sheet headings and adjacent headers; first Fig2_S3_a line 1, Fig2_S3_b line 17097; last Fig2_S3_f line 68385",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm11_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM11_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM11_ESM.xlsx.txt: line 1 ## sheet Fig2_S4_a, line 17097 ## sheet Fig2_S4_b, line 17519 ## sheet Fig2_S4_c; 10 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 10 sheet headings and adjacent headers; first Fig2_S4_a line 1, Fig2_S4_b line 17097; last Fig2_S4_j line 86599",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm12_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM12_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM12_ESM.xlsx.txt: line 1 ## sheet Fig2_S5_a, line 183 ## sheet Fig2_S5_b, line 275 ## sheet Fig2_S5_c; 9 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 9 sheet headings and adjacent headers; first Fig2_S5_a line 1, Fig2_S5_b line 183; last Fig2_S5_i line 2361",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm13_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM13_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM13_ESM.xlsx.txt: line 1 ## sheet Fig3_S6_a, line 2296 ## sheet Fig3_S6_b, line 2349 ## sheet Fig3_S6_c",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 3 sheet headings and adjacent headers; first Fig3_S6_a line 1, Fig3_S6_b line 2296; last Fig3_S6_c line 2349",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm14_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM14_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM14_ESM.xlsx.txt: line 1 ## sheet Fig3_S7_a, line 60 ## sheet Fig3_S7_b, line 100 ## sheet Fig3_S7_c; 5 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 5 sheet headings and adjacent headers; first Fig3_S7_a line 1, Fig3_S7_b line 60; last Fig3_S7_e line 14874",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm15_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM15_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM15_ESM.xlsx.txt: line 1 ## sheet Fig3_S8_a, line 5384 ## sheet Fig3_S8_b, line 10279 ## sheet Fig3_S8_c",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 3 sheet headings and adjacent headers; first Fig3_S8_a line 1, Fig3_S8_b line 5384; last Fig3_S8_c line 10279",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm16_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM16_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM16_ESM.xlsx.txt: line 1 ## sheet Fig4_S9_a, line 11171 ## sheet Fig4_S9_b, line 20203 ## sheet Fig4_S9_c; 5 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 5 sheet headings and adjacent headers; first Fig4_S9_a line 1, Fig4_S9_b line 11171; last Fig4_S9_e line 29312",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local file readable visually; only first page independently inspected. Remaining pages and relevance pending.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM1_ESM.pdf.txt: PDF p1 visually inspected; text extraction blank; 4-page Reporting Summary",
+        "finding": "Local original PDF is available; page 1 is a Nature Reporting Summary (statistics, software/data collection), not an oligo table. Remaining pages were not visually reviewed here, so chemistry relevance remains open."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original image-only PDF, visually inspected pp. 1–4",
+        "finding": "Nature Portfolio Reporting Summary covers statistics, data/code, sample design, cell lines, flow cytometry and the MissionBio Tapestri device. It gives no molecular sequence or adapter detail in these pages. First reader inspected p. 1 only, so this source alone does not satisfy a two-pass absence gate."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm2_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM2_ESM.pdf.txt lines 1–17, 173 and 346",
+        "finding": "Locally available peer-review file; reviewer discussion mentions template-switch primers and gDNA panel primers, so chemistry relevance cannot be excluded from this bounded read."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Peer review PDF text lines 888–899 and 968–979, with reviewer prompt at 173–179",
+        "finding": "Authors report a preliminary template-switch oligo plus corresponding droplet amplification-primer trial for whole-transcriptome readout; gDNA targets recovered but RNA recovery was minimal, so it is outside the published targeted SDR-seq workflow. They say experiment-specific custom gDNA panels were designed with Tapestri Designer, rather than using MissionBio pretested commercial cancer panels."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm5_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM5_ESM.xlsx.txt: line 1 ## sheet Fig2_M_b, line 183 ## sheet Fig2_M_c, line 365 ## sheet Fig2_M_d; 7 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 7 sheet headings and adjacent headers; first Fig2_M_b line 1, Fig2_M_c line 183; last Fig2_M_j line 592",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm6_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM6_ESM.xlsx.txt: line 1 ## sheet Fig3_M_b, line 260 ## sheet Fig3_M_d, line 312 ## sheet Fig3_M_e; 5 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 5 sheet headings and adjacent headers; first Fig3_M_b line 1, Fig3_M_d line 260; last Fig3_M_h line 14618",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm7_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM7_ESM.xlsx.txt: line 1 ## sheet Fig4_M_b, line 14800 ## sheet Fig4_M_b-1, line 29599 ## sheet Fig4_M_c; 11 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 11 sheet headings and adjacent headers; first Fig4_M_b line 1, Fig4_M_b-1 line 14800; last Fig4_M_i line 68695",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm8_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM8_ESM.xlsx.txt: line 1 ## sheet Fig1_S1_b, line 10425 ## sheet Fig1_S1_c, line 36698 ## sheet Fig1_S1_d; 9 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 9 sheet headings and adjacent headers; first Fig1_S1_b line 1, Fig1_S1_c line 10425; last Fig1_S1_j line 81010",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    },
+    {
+      "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm9_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41592-025-02805-0_supp_41592_2025_2805_MOESM9_ESM.xlsx.txt: line 1 ## sheet Fig1_S2_a, line 8947 ## sheet Fig1_S2_b, line 17893 ## sheet Fig1_S2_c; 13 sheets total",
+        "finding": "The local workbook contains per-cell read/count, expression, genotype or figure-result tables; sheet headings and headers identify analysis data, not molecular construction instructions or a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "All 13 sheet headings and adjacent headers; first Fig1_S2_a line 1, Fig1_S2_b line 8947; last Fig1_S2_n line 175945",
+        "finding": "Independent heading/header and terminology review finds figure data columns (cell IDs, read/UMI counts, variants or expression), including observed cell identifiers rather than reagent oligo specifications. No molecular assembly recipe or reagent primer list appears in this workbook."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 109–119; Supplementary Tables 1–2 lines 1–34",
+      "finding": "The published primer workbook resolves key custom oligos; Tapestri bead/barcode details and remaining supplements still need audit."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 107–121 and Table 1/2 in MOESM3; checklist inventory of linked Mission Bio Tapestri and unavailable supplementary workbooks",
+      "finding": "Confirmed the kit dependency and V1-versus-V2 oligo distinction; additional relevant supplement workbooks and bead chemistry document remain inaccessible, so no missing claim can be accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The SDR-seq capture primers or library branches are unspecified",
+      "disposition": "blocked",
+      "evidence": "Source-positive Table 1/2 contradicts broad absence. Versioned Tapestri bead chemistry remains unresolved."
+    }
+  ],
+  "conclusion": "Source-positive Table 1/2 contradicts broad absence. Versioned Tapestri bead chemistry remains unresolved."
+}

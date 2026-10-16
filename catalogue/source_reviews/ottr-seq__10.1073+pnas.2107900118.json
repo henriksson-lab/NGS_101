@@ -1,0 +1,92 @@
+{
+  "dir": "ottr-seq__10.1073+pnas.2107900118",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/ottr-seq__10.1073+pnas.2107900118/pnas.2107900118_PMC8594491.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "pnas.2107900118_PMC8594491.xml.txt lines 132–136 and 190–197",
+        "finding": "Original JATS gives BoMoC ddATP ±ddGTP tailing, phosphatase, primer duplex/terminating adapter template; explicitly distinguishes Universal R1/R2 plus 4–8 PCR indexing from Full-length P5-i5-R1/P7-i7-R2 without library PCR. It references SI Table S1 for bases/modifications."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC8594491 JATS lines 132–136, 192–194; original PDF and local bundle scraper",
+        "finding": "Original distinguishes Universal R1/R2 adapter addition followed by 4–8-cycle indexing PCR from Full-length P5-i5-R1/P7-i7-R2 built into RT. BoMoC ddATP ±ddGTP tailing and shrimp phosphatase precede primer duplex/AT; full oligo table is referenced as SI Table S1."
+      }
+    },
+    {
+      "id": "si_appendix",
+      "role": "supplement",
+      "locator": "PNAS SI Appendix linked from doi:10.1073/pnas.2107900118",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original SI Appendix and Table S1 not locally obtained; original article snippet identifies full/universal adapter designs there."
+    },
+    {
+      "id": "biorxiv_v1_table_s1",
+      "role": "linked_material",
+      "locator": "_data/sources/ottr-seq__10.1073+pnas.2107900118/2021.04.30.442027_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2021.04.30.442027_v1.full.pdf.txt Table S1 lines 768–~1150, specifically lines 789–809 and 1010–1045; scraper verified against listed lines",
+        "finding": "Author preprint appended Table S1 with modified DNA primer duplex variants (/5Cy5/, /5AmMC6/), RNA complements, blocked template oligos, Universal and Full-length adapter constructs and indexing families. Preprint version is not proof of final PNAS SI identity."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv v1 PDF Table S1 lines 768–1200; local bundle oligo scraper finds modified /5Cy5/ and /5AmMC6/ variants at lines 789 onward",
+        "finding": "Preprint Table S1 prints universal and full-length primer/adapter template variants, blocked RNA complements, modified bases and P7-i7/P5-i5 eight-N indexing PCR primers. This resolves preprint-version sequence identity; whether the final PNAS SI revised any oligos is unknown."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_repository",
+      "role": "linked_material",
+      "locator": "https://escholarship.org/content/qt6cw9z461/qt6cw9z461.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "qt6cw9z461.pdf.txt lines 180–187 and 415–426; PDF source inventory",
+        "finding": "Author UC eScholarship PDF cites SI Table S1 and distinguishes Universal versus Full-length adapters, but the author mirror does not append the table; preprint does."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author-hosted UC eScholarship qt6cw9z461.pdf.txt lines 183, 224, 415–464; compared original JATS and bioRxiv v1 PDF; scraper",
+        "finding": "Author-hosted final article references official SI Table S1 but does not append it. The separate bioRxiv v1 full PDF does append its own Table S1; see dedicated row. Exact concordance with PNAS final SI remains unverified."
+      },
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 132–136 and 190–197; author UC PDF lines 180–187; preprint Table S1 lines 768–~1150; MANIFEST official SI route",
+      "finding": "Original points to SI Appendix Table S1. Followed author mirror and preprint appendix, finding extensive modified oligos. Official final SI remains HTTP 403, so final-version comparison is blocked."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 132–136, 192–194; UC PDF lines 183/224/415–464; official PNAS SI URL in extra_sources.tsv returned HTTP 403",
+      "finding": "Author mirror, original JATS and author bioRxiv v1 supplement read. Preprint Table S1 prints extensive oligos (lines 768–1200). Official PNAS SI Table S1 remains HTTP 403, so final-version concordance remains blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original article and preprint Table S1 read; preprint version prints extensive oligos. Final PNAS SI remains inaccessible, so version-specific missing claims remain blocked."
+}

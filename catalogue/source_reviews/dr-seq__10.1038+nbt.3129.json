@@ -1,0 +1,116 @@
+{
+  "dir": "dr-seq__10.1038+nbt.3129",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1038/nbt.3129; nbt.3129_PMC4374170.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 340-424",
+        "finding": "Paper prints P1, P2, biotinylated P3, Ad-1x/Ad-2 primer chemistry and routes DNA finishing through NEBNext Ultra and RNA finishing through CEL-Seq."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article PDF lines 350-373, 390-425, 430-435, references 555-567",
+        "finding": "Methods identify Ad-1x as CEL-Seq-derived and Ad-2 as MALBAC-derived, print P1/P2/P3, then route RNA to reference 13 and DNA to NEBNext Ultra. This is two distinct predecessor links; article does not identify a chosen DNA index."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "nbt.3129_41587_2015_BFnbt3129_MOESM36_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Supplementary methods and oligo listings; scraper hit source locations",
+        "finding": "Original publisher supplement read for DR-Seq figures/methods; source bundle also has identical PMC author supplement."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "publisher supplement lines 1-70, 1358-1409",
+        "finding": "Supplement is DR-Seq supplementary information and explains Ad-2 random priming; searched the extracted supplement for primer and adapter entries. It does not substitute for the cited CEL-Seq original or NEB kit manual."
+      }
+    },
+    {
+      "id": "celseq",
+      "role": "predecessor",
+      "locator": "Hashimshony et al. CEL-Seq, Cell Reports 2012, DOI 10.1016/j.celrep.2012.08.003; cited at DR-Seq PDF lines 352, 397, 567",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original CEL-Seq article is not in this source bundle; the previously named PMC3600412 XML is Zong et al. MALBAC, not CEL-Seq."
+    },
+    {
+      "id": "malbac",
+      "role": "predecessor",
+      "locator": "Zong et al. 2012 MALBAC, DOI 10.1126/science.1229164; science.1229164_PMC3600412.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "DR-Seq PDF lines 365 and 555-557; MALBAC XML lines 38-40 and 270",
+        "finding": "DR-Seq Ad-2 quasilinear priming cites reference 7, which is Zong et al. MALBAC. The MALBAC article describes a common 27-nt region plus an 8-nt variable region but does not identify DR-Seq Ad-2 order sequence by itself."
+      }
+    },
+    {
+      "id": "celseq_supp",
+      "role": "linked_material",
+      "locator": "NIHMS445444-supplement-supplementary_data.docx; MANIFEST.tsv manual row",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplement endpoint manual/gated.",
+      "discovered_from": "celseq",
+      "pass_2": null
+    },
+    {
+      "id": "nebnext",
+      "role": "vendor",
+      "locator": "NEBNext Ultra DNA Library Prep Kit for Illumina (NEB), named at DR-Seq Methods ~421",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Version-matched vendor guide not yet acquired.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "DR-Seq Methods lines 375-424 cite CEL-Seq [13], NEBNext Ultra kit; manuscript supplement and CEL-Seq article available, CEL-Seq supplement manual.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": {
+      "reviewer": "source-review-independent-d-e",
+      "date": "2026-10-15",
+      "locations": "DR-Seq PDF methods lines 352, 365, 397, 421 and references 555-567; MALBAC XML lines 38-40",
+      "finding": "Followed reference 7 to local MALBAC article; reference 13 CEL-Seq original, its supplement and version-matched NEBNext Ultra manual remain unavailable. Linked source checklist remains incomplete."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "DNA-side NEBNext Ultra adapter/index exact bases",
+      "disposition": "blocked",
+      "evidence": "Paper names kit but not specific selected index; vendor manual unchecked."
+    },
+    {
+      "claim": "RNA-side CEL-Seq finishing exact geometry",
+      "disposition": "blocked",
+      "evidence": "Inherited finishing needs original CEL-Seq supplement and exact chosen index."
+    }
+  ],
+  "conclusion": "Core DR-Seq P1/P2/P3 are printed. CEL-Seq original and NEBNext Ultra guide are unavailable in the local checklist; the earlier source row mislabeled MALBAC as CEL-Seq and is corrected. RNA and DNA finishing claims remain blocked."
+}

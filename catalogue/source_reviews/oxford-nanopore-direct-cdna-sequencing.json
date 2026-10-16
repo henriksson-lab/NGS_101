@@ -1,0 +1,70 @@
+{
+  "dir": "oxford-nanopore-direct-cdna-sequencing",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "chem_doc",
+      "role": "defining",
+      "locator": "_data/sources/oxford-nanopore-direct-cdna-sequencing/chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Direct cDNA Sequencing Kit section lines 1046–1074; scraper run on bundle",
+        "finding": "Vendor gives SQK-DCS109 PCR-free RT, second strand, dA tail and dT adapter order but no sequence in this section."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CHTD_500 Rev AV 24 July 2026 local HTML historical kits lines 1040–1074 and common adapter/reagent table lines 2074–2130",
+        "finding": "SQK-DCS109 is described as PCR-free: RT/strand switching, RNase removal, second-strand cDNA, end repair/dA tailing and dT adapter ligation. Common adapter rows do not establish kit-specific adapter/motor full sequence."
+      }
+    },
+    {
+      "id": "original_kit_protocol",
+      "role": "linked_material",
+      "locator": "Oxford Nanopore SQK-DCS109 Direct cDNA Sequencing Kit original protocol PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original kit-specific protocol not cached or inspected.",
+      "discovered_from": "chem_doc"
+    },
+    {
+      "id": "adapter_components",
+      "role": "linked_material",
+      "locator": "Oxford Nanopore SQK-DCS109 kit oligo and motor adapter document",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Component sequence source not obtained; later technical doc does not establish absence.",
+      "discovered_from": "chem_doc"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Technical document lines 1046–1074 read; original kit protocol and component document unavailable.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Official CHTD_500 Rev AV 24 July 2026 local HTML historical kits lines 1040–1074 and common adapter/reagent table lines 2074–2130",
+      "finding": "All accessible source rows listed above read independently. Remaining relevant linked documents are unavailable and keep exact undisclosed claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "SQK-DCS109 RT/strand-switch oligos and sequencing adapter/motor bases",
+      "evidence": "Technical document lines 1046–1074 read; original kit protocol and component document unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked."
+}

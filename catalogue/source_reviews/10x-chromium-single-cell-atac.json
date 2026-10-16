@@ -1,0 +1,82 @@
+{
+  "dir": "10x-chromium-single-cell-atac",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "cg000168",
+      "role": "defining",
+      "locator": "10x Chromium Single Cell ATAC Reagent Kits User Guide CG000168 Rev A",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "CG000168_ChromiumSingleCellATAC_ReagentKits_UserGuide_RevA.pdf.txt Appendix lines 3343-3441; scraper hit line 3366",
+        "finding": "Vendor original prints Read1N/Read2N, PN-2000132 P5-N16 gel-bead oligo, linear product and sample-index PCR construct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "CG000168_ChromiumSingleCellATAC_ReagentKits_UserGuide_RevA.pdf.txt Appendix lines 3343-3441",
+        "finding": "Official Rev A appendix prints transposition primers and intermediate/final library architecture, including a 16-N cell barcode and 8-N sample index."
+      }
+    },
+    {
+      "id": "cg000209",
+      "role": "linked_material",
+      "locator": "10x Next GEM ATAC v1.1 User Guide CG000209 Rev G",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "10x_CG000209_...RevG.pdf.txt Appendix A1 lines 3718-3808",
+        "finding": "Later v1.1 guide prints analogous molecule layout but different gel-bead part number; maintain version distinction."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt Appendix A1 lines 3718-3808",
+        "finding": "Official later Next GEM v1.1 Rev G appendix prints oligo architecture; variant must be kept distinct from CG000168 Rev A."
+      },
+      "discovered_from": "cg000168"
+    },
+    {
+      "id": "index_kit",
+      "role": "linked_material",
+      "locator": "10x Single Index Kit N Set A index CSV",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "10x_Single_Index_Kit_N_Set_A.csv index rows",
+        "finding": "Vendor list gives N Set A i7 index words rather than inferring them from schematic."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "10x_Single_Index_Kit_N_Set_A.csv lines 1-5",
+        "finding": "Vendor CSV prints Set A members as four 8-nt index words per SI-NA label, e.g. SI-NA-A1; these are sample indexes, not cell barcodes."
+      },
+      "discovered_from": "cg000168"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "CG000168 sequence appendix and CG000209 v1.1 appendix; index-kit source inventory",
+      "finding": "Followed original 10x guide and distinct v1.1/index documents; full v1 construct is printed."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "CG000168 Rev A Appendix lines 3343-3441; CG000209 Rev G Appendix A1 lines 3718-3808; index CSV lines 1-5",
+      "finding": "Checked both original vendor guide variants and original index CSV; printed construct/read architecture and Set A sample indexes are source-backed, while exact shipped gel-bead barcode whitelist remains a separate question."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Both readers checked 10x original vendor Rev A and later Rev G guide appendices and Set A index CSV; published architecture and listed sample indexes are recoverable. No missing-information claim was accepted."
+}

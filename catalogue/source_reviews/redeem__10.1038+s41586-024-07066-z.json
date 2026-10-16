@@ -1,0 +1,342 @@
+{
+  "dir": "redeem__10.1038+s41586-024-07066-z",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_PMC10937407.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "JATS Methods lines 247–265; supplementary index lines 341–349",
+        "finding": "Whole-cell 10x Multiome with mild fixation/permeabilization retains mtDNA; article delegates exact capture/oligo designs to Supplementary Methods, ReDeeM protocol and Supplementary Data 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published JATS Methods lines 247–265",
+        "finding": "Independently confirms three matched mtDNA, RNA and ATAC libraries and delegates detailed reaction/probe composition to Supplementary Methods, Protocol, and Data 1."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Protocol lines 20–65, 119–159, 289–417",
+        "finding": "Names 10x Multiome PN-1000283/1000285, supplies optional modified hash oligos and N701 pattern, delegates ATAC/GEX to CG000338 Rev B and capture to IDT xGen; old probe count/length differs from workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM3 protocol lines 20–30, 60–66, 145–149, 417–419",
+        "finding": "Names the Multiome kit, xGen reagents, and exact CG000338 guide; probe description says four 137-probe 100-nt pools, at odds with Supplementary Methods."
+      }
+    },
+    {
+      "id": "supp_data1",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Primers sheet lines 1–11; representative human/mouse MitoProbe sheets from line 12 onward",
+        "finding": "Publishes Nextera N701–706, P5/P7, modified Hash-Spikin primer and individual mitochondrial capture-probe sequences; representative human probes are 120 nt."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM5 Data 1 Primers sheet lines 1–15 and MitoProbe sheets",
+        "finding": "Prints Nextera indexed primers, P5/P7, hash-spike primer, and MitoProbe sequences including 120-base rows."
+      }
+    },
+    {
+      "id": "multiome_rev_a",
+      "role": "vendor",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "supp_methods",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000338 Rev A Sequences appendix lines 5632–5688; compared with Rev B lines 5659–5712",
+        "finding": "Exact Rev A guide cited by ReDeeM Supplementary Methods is now downloaded. Its printed bead-arm sequences and ATAC/GEX final library layouts agree with Rev B in inspected appendix. ReDeeM-specific junctions and procedural revision changes remain unresolved."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CG000338 Rev A Sequences appendix lines 5632–5685; compared with Rev B lines 5659–5712",
+        "finding": "Cited Rev A prints gel-bead barcode/UMI/poly(dT) shell and ATAC/GEX final library layouts. Fixed printed arms agree with Rev B at inspected positions; ReDeeM-specific junction assignment is not supplied by this guide."
+      }
+    },
+    {
+      "id": "multiome_rev_b",
+      "role": "vendor",
+      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000338 Rev B PDF Sequences appendix lines 5659–5712",
+        "finding": "Rev B prints Multiome gel-bead oligo P5/spacer/cell barcode/poly(dT)VN, ATAC library with Tn5/10x barcode and N8 index, and gene-expression library with N10 indices, N16 cell barcode and N12 UMI. This is the cited shell, not ReDeeM probe pool."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official 10x CG000338 Rev B Sequences appendix lines 5659–5712",
+        "finding": "Publishes fixed GEX and ATAC gel-bead oligos and final library architecture. The absence claim must be limited to unresolved ReDeeM-specific junction mapping."
+      }
+    },
+    {
+      "id": "xgen",
+      "role": "vendor",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/xgen-hybridization-capture-of-dna-libraries-protocol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official IDT xGen Hybridization and Wash v2 guide, local PDF text lines 172–220, 247–248, 295–305, 905–920 and revision history lines 33–45",
+        "finding": "The current IDT guide confirms xGen v2 reagent 10010351 and 5-prime-biotinylated probes that hybridize to fragments then bind streptavidin beads, followed by post-capture PCR. It supplies no probe base inventory and is revised after the 2024 ReDeeM article, so it cannot establish historical revision."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official current IDT xGen Hybridization and Wash v2 PDF lines 33–45, 172–220, 247–249, 295–305",
+        "finding": "Current guide names reagent 10010351 and individually synthesized pooled probes, with 5-prime biotin probes hybridized to targets and streptavidin bead selection followed by PCR. Its revision history extends to September 2025, so exact 2024 historical guide/probe conditions remain unverified."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Methods lines 413–469",
+        "finding": "Describes four probe pools as 138 biotinylated 120-nt oligos, conflicting with supplementary protocol 137 100-nt statement."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM1 Methods lines 413–469",
+        "finding": "Describes fixation/tagmentation, CG000338 Rev A workflow, and four 138-probe 120-nt pools; conflicts with author protocol 137/100."
+      }
+    },
+    {
+      "id": "supp_figs",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "MOESM2 is a three-page Nature Portfolio Reporting Summary covering statistics, data availability, participants and antibodies, not supplementary figures or oligo methods.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF, visually inspected pages 1–3",
+        "finding": "All pages form a Nature Portfolio Reporting Summary; no adapter, probe or reaction recipe. The prior supp_figs label was misleading."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Publisher MOESM2 PDF pp. 1–3, independent visual inspection",
+        "finding": "Three-page Nature Portfolio Reporting Summary covers statistics, data, participants and antibodies; it has no library reagent table. Earlier supp_figs label was incorrect."
+      }
+    },
+    {
+      "id": "peer_review",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM4_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Peer Review File opening heading and initial comments",
+        "finding": "Reviewer correspondence, not an ordering oligo table."
+      },
+      "reason": "Peer-review correspondence.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM4 Peer Review File lines 1–10 and term scan for primer/adapter/probe lengths",
+        "finding": "Reviewer correspondence discusses biological interpretation and sequencing depth; no exact oligo recipe found in inspected text."
+      }
+    },
+    {
+      "id": "data2",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Summary sheet opening rows",
+        "finding": "Raw sequencing counts, not reagent chemistry."
+      },
+      "reason": "Sequencing result data.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM6 Summary sheet lines 1–5",
+        "finding": "Raw read count summary by sample; no molecular sequence or reaction."
+      }
+    },
+    {
+      "id": "data3",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Young-1 sheet opening rows",
+        "finding": "Clade and cell-type enrichment results."
+      },
+      "reason": "Biological result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM7 Young-1 sheet lines 1–5",
+        "finding": "Clade versus cell-type enrichment results."
+      }
+    },
+    {
+      "id": "data4",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "HSC clone/state sheet opening rows",
+        "finding": "Clone-to-state statistics."
+      },
+      "reason": "Biological result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM8 HSC clone/state sheet lines 1–5",
+        "finding": "Clone/state statistical results."
+      }
+    },
+    {
+      "id": "data5",
+      "role": "supplement",
+      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM9_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Young-1_ATAC_result sheet opening rows",
+        "finding": "Differential ATAC results."
+      },
+      "reason": "Biological result table.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM9 Young-1_ATAC_result sheet lines 1–5",
+        "finding": "Differential ATAC result coordinates and statistics."
+      }
+    },
+    {
+      "id": "lareau_mtscatac",
+      "role": "predecessor",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7878580/ (Lareau et al., doi:10.1038/s41587-020-0645-6; accepted manuscript also listed at https://dspace.mit.edu/entities/publication/8425627d-623c-4228-86a7-11d52ebfdd03); NSF author-manuscript mirror https://par.nsf.gov/servlets/purl/10328934",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The complete predecessor original was not obtained: PMC full text served a reCAPTCHA, MIT bitstream browser returned HTTP 405, NSF mirror browser returned HTTP 502, and get_sources.py recorded curl DNS failures for both PDF mirrors. Search-indexed original text confirms the whole-cell premise, but is insufficient to double-check its Methods and linked supplements.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "mimitou_dogma",
+      "role": "predecessor",
+      "locator": "_data/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt (Mimitou et al., doi:10.1038/s41587-021-00927-2)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "review_organic_redeem",
+        "date": "2026-10-16",
+        "locations": "Original JATS Results lines 114, 120, 126 and 134; oligo scraper run on the DOGMA source bundle before reading",
+        "finding": "The cited Mimitou work describes fixation and mild permeabilization to retain mtDNA during whole-cell Tn5 transposition, then extends 10x assays to DOGMA-seq. Its antibody-tag bridge scheme is a DOGMA/ASAP-specific addition, not a component explicitly inherited by ReDeeM."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Mimitou et al original PMC8763625 JATS extracted lines 114–134, especially mtscATAC whole-cell context and DOGMA branch; scraper run on DOGMA and ASAP source bundles before reading",
+        "finding": "Independently read the original article: ASAP builds on mtscATAC fixed/permeabilized whole cells to retain mitochondrial DNA during Tn5 transposition, and DOGMA adds multi-omic profiling. The article supports the whole-cell premise cited by ReDeeM; its antibody bridge does not thereby become a ReDeeM oligo."
+      }
+    },
+    {
+      "id": "mimitou_dogma_supp",
+      "role": "linked_material",
+      "locator": "_data/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "mimitou_dogma",
+      "pass_1": {
+        "reviewer": "review_organic_redeem",
+        "date": "2026-10-16",
+        "locations": "Original supplementary protocol oligo table lines 253–260 and DOGMA-specific oligos lines 568–570; source-bundle oligo scraper run before reading",
+        "finding": "Prints bridge oligos BOA/BOB and antibody tag additive and indexing oligos for ASAP/DOGMA. These are method-specific to Mimitou’s antibody branch; the ReDeeM article and its supplements do not say they incorporated the bridge or antibody-tag library."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Mimitou publisher MOESM1 supplementary protocol PDF in ASAP source bundle, extracted lines 251–262 and 566–573; ASAP/DOGMA oligo scraper run before reading",
+        "finding": "Independently verified BOA and BOB 3′-blocked antibody-bridge oligos, example indexed handles, and separate DOGMA ADT/HTO/SI-PCR oligos are printed. They are assay-specific and provide no evidence that ReDeeM incorporates these sequences."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original JATS lines 247–265, 341–349; Supplementary Methods 413–469; protocol 20–65 and 289–417; Data 1 probe sheets",
+      "finding": "The article and Supplementary Methods link 10x CG000338 Rev A, the supplementary protocol cites Rev B, and both guides were checked. The IDT xGen capture guide was followed through a current revision, but the 2024 revision is not established. The defining article also cites mtscATAC-seq and DOGMA-seq for whole-cell mtDNA retention; DOGMA original was checked, while mtscATAC complete original remains inaccessible in this environment."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "JATS lines 247–265; MOESM1 lines 433–445; MOESM3 lines 20–30, 289–350; CG000338 Rev B appendix lines 5659–5712",
+      "finding": "Read both historical 10x Multiome guide revisions, all ReDeeM supplements, and current IDT xGen v2 guide; 10x sequence appendices agree and IDT corroborates biotin capture. The exact historical IDT guide revision and ReDeeM-specific junction mapping remain unresolved, so status stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Mitochondrial capture-probe sequences are not published",
+      "disposition": "resolved",
+      "evidence": "Supplementary Data 1 contains eight MitoProbe sheets with individual bases; the page and model disclose the conflicting probe counts and lengths across the other two supplements."
+    },
+    {
+      "claim": "The fixed 10x Multiome bead and final-library oligos are undisclosed",
+      "disposition": "resolved",
+      "evidence": "The cited official CG000338 Rev A and Rev B Sequences appendices print the fixed RNA and ATAC shells; the inspected positions agree."
+    },
+    {
+      "claim": "The ReDeeM-specific primer-to-product junctions and historical xGen procedure are fully source verified",
+      "disposition": "blocked",
+      "evidence": "Exact ReDeeM-specific junction geometry is not reconstructed from the printed 10x shells and ReDeeM indexing primers. The retrieved IDT guide is a 2025 revision and does not establish the 2024 version; the cited mtscATAC predecessor and its links still need complete original-source checks."
+    }
+  ],
+  "conclusion": "The defining article, relevant supplements, probe workbook, cited 10x Rev A/Rev B guides, current IDT guide, and DOGMA predecessor resolve the published probe inventory and inherited fixed 10x shells. Published probe specifications still disagree and are disclosed on the page. The exact ReDeeM junction model, historical IDT revision, and full cited mtscATAC predecessor review remain blocked; no claim of unpublished fixed oligos is accepted."
+}

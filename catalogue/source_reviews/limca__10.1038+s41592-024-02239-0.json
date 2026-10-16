@@ -1,0 +1,83 @@
+{
+  "dir": "limca__10.1038+s41592-024-02239-0",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/doi_10.1038+s41592-024-02239-0/s41592-024-02239-0_PMC11166570.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "LiMCA protocol lines 179–201; cited detailed protocol ref. 44 at line 745",
+        "finding": "Cytoplasm follows Smart-seq2 with oligo-dT30VN, TSO and ISPCR; nuclei undergo 3C then META amplification with 20 tags. Article delegates stepwise details to a separate author protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published PMC JATS LiMCA Methods extracted lines 179–201 and Data/code availability around 479; oligo scraper run on local original bundle",
+        "finding": "Cytoplasmic RT uses oligo-dT30VN, TSO and ISPCR primer, while nuclei undergo 3C then META WGA with 20 tags; cDNA Nextera tagmentation uses Vazyme TD502. Exact tags are delegated to other methods/detailed protocol; author analysis code is linked."
+      }
+    },
+    {
+      "id": "author_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.21203/rs.3.pex-2423/v1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article ref. 44 cites a LiMCA Research Square protocol and Supplementary Table 1 oligos; not yet retrievable."
+    },
+    {
+      "id": "smartseq2",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2014.006",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article explicitly inherits cytoplasmic Smart-seq2; original/protocol-specific oligos have not been compared.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "meta",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aat5641",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article ref. 26 cites Tan et al. 2018 for META amplification and 20 tag identities; original tag table requires verification.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "nextera_vendor",
+      "role": "vendor",
+      "locator": "https://www.vazyme.com/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article names Vazyme TD502 for cDNA library tagmentation; versioned oligo ends not checked.",
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "PMC11166570 original JATS lines 179–201 and reference 44 at line 745",
+      "finding": "The defining paper delegates exact oligos to Smart-seq2/META and a Research Square detailed protocol. Those linked materials remain unreviewed."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original source Methods, supplement listings, local MANIFEST.tsv and linked citations/guide routes",
+      "finding": "Checked published LiMCA article Methods and linked code statement. Author detailed protocol, Smart-seq2 and META originals, and exact Vazyme transposome source remain unreviewed."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "LiMCA TSO, META-tag and library primer bases are unpublished",
+      "disposition": "blocked",
+      "evidence": "A relevant detailed protocol is unavailable; inherited chemistry must be checked before accepting absence."
+    }
+  ],
+  "conclusion": "A relevant detailed protocol is unavailable; inherited chemistry must be checked before accepting absence."
+}

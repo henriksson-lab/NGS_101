@@ -77,7 +77,7 @@ def workflow():
                                  tuple(initial_scene().rows())))
     wf.react("SuperScript III reverse transcription", first_strand_scene().rows(),
              note="Ten low-to-high-temperature cycles repeatedly anneal the mixed primers across total RNA.")
-    wf.react("T4 DNA polymerase primer digestion, then RNase H/RNase I",
+    wf.react("T4 DNA polymerase primer digestion, optional Exonuclease I, then RNase H/RNase I",
              first_strand_scene().rows(),
              note="Unused primers and the RNA template are removed before homopolymer tailing.")
     wf.react("TdT adds a poly(dC) tail", _TAIL_SCENE.rows(),
@@ -85,9 +85,9 @@ def workflow():
     wf.react("GAT21-6N3G priming and second-strand synthesis",
              second_strand_scene().rows(),
              note="The terminal GGG anchors at the dC tail; random bases promote repeated annealing/looping amplification.")
-    wf.ligate_adapter("GAT27 PCR, 3NGAT24 conversion, shearing and Illumina library construction",
-             AdapterLigationGeometry.unavailable("The MATQ-seq supplement specifies paired-end Illumina library construction after shearing but does not print or identify the adapter reagent or its ligation-ready end geometry."), final_rows(),
-             note="The supplementary protocol defines WTA and shearing; the exact sequencing-adapter kit sequence was not printed.")
+    wf.ligate_adapter("GAT27 PCR, shearing, end repair, dA tailing and TruSeq adapter ligation",
+             AdapterLigationGeometry.unavailable("The defining article names TruSeq adapters but does not print their selected oligo or ligation-ready end geometry."), final_rows(),
+             note="T4 Quick Ligase attaches TruSeq adapters; the exact adapter variant and molecular sequence are not given.")
     return wf
 
 
@@ -97,10 +97,11 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nmeth.4145">'
           'Sheng et al., <i>Nature Methods</i> (2017)</a>.')
 SUMMARY = ("A mixture of oligo-dT and random primers repeatedly samples total RNA. After RT, "
            "TdT adds dC, a G-anchored primer makes the second strand, and one common handle amplifies the transcriptome.")
-CAVEAT = "INFERRED — the source specifies paired-end Illumina sequencing and shearing but does not print the final adapter kit’s molecular sequence; those terminal regions are shown as an inferred canonical TruSeq geometry."
+CAVEAT = ("INFERRED — the defining article names TruSeq adapters but does not identify the selected adapter/index oligo; terminal bases show canonical TruSeq geometry. "
+          "Published read-length discrepancy: Online Methods say a NextSeq 500 2×75 midoutput kit (cost paragraph), while Supplementary Fig. 21 says paired-end reads of 85×2 bases. This model uses the explicitly named 2×75 kit; the origin of the 85×2 figure remains unresolved.")
 FINAL_CAPTION = "INFERRED — representative sheared MATQ amplicon in a canonical paired-end Illumina library; the GAT27 amplification products themselves are source-defined."
-SEQUENCING_INTRO = "The supplementary figures report paired-end 85-base reads. Standard TruSeq primer sites are inferred from the unreported final adapter kit."
-READ_LENGTHS = {"Read 1": 85, "Read 2": 85}
+SEQUENCING_INTRO = "The defining Online Methods name a NextSeq 500 2×75 run. Standard TruSeq primer sites are inferred because the selected adapter/index oligos are not printed. Supplementary Fig. 21 instead states 85×2 reads; see the discrepancy notice above."
+READ_LENGTHS = {"Read 1": 75, "Read 2": 75}
 SHOW_READ_CONTENT = True
 
 
@@ -132,7 +133,7 @@ def protocol_graph():
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (first,))
-    cleanup = graph.input("cleanup_enzymes", "T4 DNA polymerase and RNase cleanup enzymes",
+    cleanup = graph.input("cleanup_enzymes", "T4 DNA polymerase, optional Exonuclease I, and RNase H/If",
                           MaterialKind.CATALYST)
     cleaned = graph.product("cleaned", "primer- and RNA-depleted first-strand cDNA",
                             MaterialKind.MOLECULAR, state=FIRST_STRAND)
@@ -164,31 +165,40 @@ def protocol_graph():
                  (handle_r, InputRole.STRUCTURAL), (wta_pol, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY, reason="The WTA product precedes shearing and sequencing-adapter installation."))
-    shear = graph.input("shear_condition", "MATQ cDNA shearing condition",
+    shear = graph.input("shear_condition", "Covaris S220 shearing to about 200 bp",
                         MaterialKind.CONDITION)
     fragments = graph.product("fragments", "sheared MATQ cDNA",
                               MaterialKind.MOLECULAR, state=amplified.state)
     graph.react("shear", "Shear the whole-transcriptome amplicons", StepKind.FRAGMENTATION,
                 ((amplified, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
-    adapter = graph.input("illumina_adapter", "unreported Illumina adapter",
-                          MaterialKind.ADAPTER, inferred=True,
-                          source=SOURCE + " (kit identity unavailable)")
-    ligase = graph.input("adapter_ligase", "Illumina adapter ligase", MaterialKind.CATALYST,
-                         inferred=True, source=SOURCE + " (kit identity unavailable)")
+    repair = graph.input("end_repair_mix", "NEBNext End Repair Module", MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "end-repaired MATQ fragments",
+                             MaterialKind.MOLECULAR, state=fragments.state)
+    graph.react("end_repair", "Repair the sheared fragment ends", StepKind.END_REPAIR,
+                ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    klenow = graph.input("klenow_exo", "Klenow exo-minus DNA polymerase", MaterialKind.CATALYST)
+    dA_tailed = graph.product("da_tailed", "dA-tailed MATQ fragments",
+                              MaterialKind.MOLECULAR, state=repaired.state)
+    graph.react("da_tail", "Add dA to the repaired fragment ends", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)), (dA_tailed,))
+    adapter = graph.input("illumina_adapter", "TruSeq adapter (selected variant unreported)",
+                          MaterialKind.ADAPTER, source=SOURCE + " (Online Methods, library preparation)")
+    ligase = graph.input("adapter_ligase", "T4 DNA Quick Ligase", MaterialKind.CATALYST,
+                         source=SOURCE + " (Online Methods, library preparation)")
     ligated = graph.product("ligated", "adapter-ligated sheared MATQ cDNA",
                             MaterialKind.MOLECULAR, state=fragments.state, inferred=True,
                             source=SOURCE + " (adapter identity unavailable)")
-    graph.react("ligate_adapter", "Ligate the unspecified Illumina library adapter",
+    graph.react("ligate_adapter", "Ligate a TruSeq adapter",
                 StepKind.LIGATION,
-                ((fragments, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+                ((dA_tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The supplement does not print or identify the final adapter reagent or ligation-ready end."))
-    pcr_f = graph.input("library_forward", "library PCR forward primer", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (kit identity unavailable)")
-    pcr_r = graph.input("library_reverse", "library PCR reverse primer", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (kit identity unavailable)")
-    library_pol = graph.input("library_polymerase", "library PCR polymerase",
+                    "The defining article names TruSeq adapters but not the selected variant, its ordered bases, or its ligation-ready end."))
+    pcr_f = graph.input("library_forward", "TruSeq PCR primer mix, forward site", MaterialKind.OLIGO,
+                        inferred=True, source=SOURCE + " (TruSeq PCR primer named; constituent oligos not printed)")
+    pcr_r = graph.input("library_reverse", "TruSeq PCR primer mix, reverse site", MaterialKind.OLIGO,
+                        inferred=True, source=SOURCE + " (TruSeq PCR primer named; constituent oligos not printed)")
+    library_pol = graph.input("library_polymerase", "KAPA HiFi HotStart Ready Mix",
                               MaterialKind.CATALYST)
     library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
                             state=FINAL_LIBRARY, inferred=True,
@@ -197,7 +207,7 @@ def protocol_graph():
                 ((ligated, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
                  (pcr_r, InputRole.STRUCTURAL), (library_pol, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="The source does not identify the library kit primers."))
+                    FINAL_LIBRARY, reason="The article names the TruSeq PCR primer but does not print its ordered bases or selected index variant."))
     graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,
                                            primers=tuple(SEQ_PRIMERS),
                                            read_lengths=READ_LENGTHS))
@@ -205,7 +215,8 @@ def protocol_graph():
         "rna", "mixed_rt_primers", "reverse_transcriptase", "reverse_transcribe",
         "cleanup_enzymes", "cleanup", "tdt", "tail", "second_strand_primer",
         "deep_vent", "second_strand", "gat27_primer", "gat24_primer",
-        "wta_polymerase", "wta", "shear_condition", "shear", "illumina_adapter",
+        "wta_polymerase", "wta", "shear_condition", "shear", "end_repair_mix", "end_repair",
+        "klenow_exo", "da_tail", "illumina_adapter",
         "adapter_ligase", "ligate_adapter", "library_forward", "library_reverse",
         "library_polymerase", "library_pcr", "library"], SOURCE)
     return graph.require_publishable()

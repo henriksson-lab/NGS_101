@@ -1,0 +1,73 @@
+{
+  "dir": "pacbio-smrtbell-prep-kit-3-0",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "checklist",
+      "role": "defining",
+      "locator": "PacBio procedure checklist 102-166-600 REV09 Aug2026; Procedure-checklist-Preparing-whole-genome-and-metagenome-libraries-using-SMRTbell-prep-kit-3.0.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 452-454, 485-519, 888-1018",
+        "finding": "Vendor procedure shows DNA damage repair, end prep, adapter ligation and bead cleanup; optional indexed adapter plates are named."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PacBio 102-166-600 checklist lines 447-449, 479-513 and 997-1071; scraper on checklist",
+        "finding": "Procedure ligates supplied SMRTbell adapter after repair; optional index plate 96A replaces standard adapter in ligation. No adapter bases appear in inspected steps."
+      }
+    },
+    {
+      "id": "training",
+      "role": "linked_material",
+      "locator": "PacBio WGS/metagenome training 102-390-900 Rev03 Nov2025; Whole-genome-and-metagenome-library-preparation-using-SMRTbell-prep-kit-3.0-training.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PDF extracted text lines 100-170, 213-250, 381-385",
+        "finding": "Training identifies adapter index plate options and circular SMRTbell workflow; exact adapter bases were not observed in inspected sections."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PacBio 102-390-900 training lines 143-174; scraper on training",
+        "finding": "Training shows a circular SMRTbell template and says index plates 96A-D are separately purchased; sequence identity is not provided there."
+      },
+      "discovered_from": "checklist"
+    },
+    {
+      "id": "adapter_plate",
+      "role": "linked_material",
+      "locator": "PacBio SMRTbell adapter index plate 96A/B/C/D product documents",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Optional indexed adapter plate documents not fetched; kit checklist names them.",
+      "discovered_from": "checklist"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "first_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original PacBio checklist lines 452-519, 888-1018; training lines 100-170, 213-250, 381-385",
+      "finding": "Followed procedure into training and indexed-adapter plate reference. Plate documentation and independent second pass pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Checklist index plate mention lines 447-449, 1009-1012; training footnote at 166",
+      "finding": "Followed vendor training and checklist cross-reference to index plates; original plate sequence document remains unavailable."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+}

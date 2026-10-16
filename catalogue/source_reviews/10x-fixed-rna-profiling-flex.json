@@ -1,0 +1,267 @@
+{
+  "dir": "10x-fixed-rna-profiling-flex",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "guide",
+      "role": "defining",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000674_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_BarcodeOligoCapture_UserGuide_Rev_C.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Guide workflow lines 1055–1177 and Oligonucleotide Sequences appendix lines 5489–5512; scraper verified",
+        "finding": "Direct guide prints gel-bead primer and complete gene-expression library shell; target probe sequences external."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "CG000674 Rev C original PDF workflow pp. 14–16, extracted lines 1055–1177; Appendix p. 85, lines 5489–5512",
+        "finding": "Probe pair hybridization/ligation, GEM barcode transfer and complete gene-expression library shell are printed. Appendix gives gel-bead N16/N12, BC8 probe barcode window, reporter constants and Small RNA Read-2 arm."
+      }
+    },
+    {
+      "id": "probe_set_csv",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; https://cf.10xgenomics.com/supp/cell-exp/probeset/Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; Cell Ranger 7.2 documentation names this v1.0.1 Flex reference",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original official 10x CDN CSV header lines 1–6 and first data rows 7–8; programmatic scan of all 54,580 data rows; full source-bundle oligo scraper rerun before reading; official Cell Ranger 7.2 Flex probe-set section and probe-set version-history page",
+        "finding": "Header identifies Chromium Human Transcriptome Probe Set v1.0.1, GRCh38 2020-A, file format 2.0. Every probe_seq is 50 nt; first TSPAN6 spliced record ENSG00000000003|TSPAN6|8eab823 has GGTGACACCACAACAATGCAACGTATTTTGGATCTTGTCTACTGCATGGC. There are 54,580 rows including 623 DEPRECATED; 53,957 nondeprecated, of which 53,444 included. This supplies commercial WTA target-region sequences but not full physical oligo handles/modifications or barcode-mixture assignment per probe. The example 50-mer is not silently split into a commercial physical LHS/RHS order."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Independently read official 10x CDN CSV header lines 1–6 and TSPAN6/TNMD records lines 7–12; scanned all 54,580 data records by Python csv; full Flex source-bundle oligo scraper rerun after CSV fetch; compared CG000621 Rev D Flex probe-set instructions at extracted lines 1486–1494 with column continuation at 1394–1395 and official Cell Ranger 7.2 Flex v1.0.1 reference path",
+        "finding": "Original CSV header is predesigned Chromium Human Transcriptome v1.0.1, GRCh38 2020-A, format 2.0. It has 54,580 50-nt probe_seq records with gene_id, probe_id, included, region; 53,444 included TRUE, 1,136 FALSE, of which 623 have DEPRECATED_ gene IDs. First TSPAN6 spliced row is GGTGACACCACAACAATGCAACGTATTTTGGATCTTGTCTACTGCATGGC. CG000621 describes probe_seq as combined target mRNA region without adapter/read/capture handles. This identifies candidate kit target regions, not which targets were present in a sample, not the chosen barcode well, and not full physical commercial LHS/RHS synthesis oligos or their ordering and modifications."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "cg000477",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503286/support-documents/CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "CG000477 Rev E original PDF pp. 15–19 and Appendix p. 85; extracted text lines 989–1050, 1125–1187 and 5195–5207; full oligo scraper rerun on bundle before reading",
+        "finding": "Step 1 hybridizes LHS/RHS; after GEM generation, an in-GEM ligation seals their nick on RNA and bead-primer extension then adds UMI/barcode. Appendix prints the same gene-expression shell and gel-bead primer as current CG000674 Rev C. Neither appendix prints full physical target-specific LHS/RHS oligos."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Independently read original CG000477 Rev E PDF text pp.15–20, lines 989–1200 and Appendix p.85 lines 5195–5230; full Flex-bundle oligo scraper run before reading",
+        "finding": "Probe halves hybridize on fixed RNA before partition. Guide p.16 says immediately after GEM generation the bead dissolves; thermal cycling first seals the nick between RNA-bound LHS/RHS probes inside each GEM, then extends the gel-bead primer on the ligated pair to add N16 barcode and N12 UMI. Appendix prints gel-bead primer and gene-expression shell, not physical target-specific WTA half-probes."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "custom_probe_design",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000621_CustomProbeDesign_RevD.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1729114202/support-documents/CG000621_CustomProbeDesign_RevD.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "CG000621 Rev D original PDF pp. 11–12 Tables 7–8, p. 14 Table 12 and p. 15 Table 13; extracted text lines 1070–1150 and 1490–1575; full scraper rerun before reading",
+        "finding": "Official custom Flex oligo design uses 5′-CCTTGGCACCCGAGAATTCCA-target_LHS-3′ and /5Phos/-target_RHS-ACGCGGTTAGCACGTA-NN-ACTTTAGG-CGGTCCTAGCAA-3′ for singleplex BC001. Both target halves are 25 nt. It prints six EGFP/RFP example pairs with full sequences and says WTA barcode IDs mix four distinct physical sequences; one custom representative per ID suffices only for custom spike-ins. This gives physical architecture and a verified custom example, not all WTA physical oligos or their synthesis details."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Independently read original CG000621 Rev D PDF text p.11 Table 7 lines 1070–1150 and pp.14–15 Tables 12–13 lines 1490–1585; full Flex-bundle oligo scraper run before reading",
+        "finding": "Table 7 supplies 25-nt target-complementary LHS and 5′-phosphorylated RHS physical architecture; singleplex BC001 is ACTTTAGG, with NN and constant sequence. Tables 12–13 print six full EGFP/RFP example pairs. These custom spike-in examples are not a complete commercial whole-transcriptome ordering inventory."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "protocol_planner_cg000528",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503152/support-documents/CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original CG000528 Rev D PDF Figure 1 extracted lines 23–48 and Workflow 3 p. 5 lines 260–300; full bundle oligo scraper rerun before reading",
+        "finding": "Planner maps CG000674 to singleplex gene plus protein Barcode Oligo Capture, CG000529 to antibody labeling, CG000478 to fixation, and places partition before in-GEM ligation/extension. It does not supply the probe or antibody oligo inventory."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000528 Rev D PDF text lines 23–48 (Figure 1) and 265–300 (Workflow 3, pp.1,5); full Flex bundle oligo scraper rerun after download",
+        "finding": "Figure 1 orders antibody labeling/fixation then probe hybridization, GEM partition and in-GEM ligation/extension. Workflow 3 identifies CG000674 as singleplex gene+protein Barcode Oligo Capture, CG000529 as protein labeling, and CG000478 as fixation. It contributes branch order and document links, no full physical probe inventory."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "fixation_cg000478",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1676674019/support-documents/CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original CG000478 Rev C PDF Fixation Protocol extracted lines 490–550, including optional antibody labeling before fixation and sample-fixation steps; full bundle scraper rerun",
+        "finding": "The linked preparation protocol fixes cell or nuclei suspensions and requires optional protein antibody labeling before fixation. This informs sample and antibody branch order; it does not state a target probe or gel-bead oligo sequence."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000478 Rev C PDF text lines 492–604 (Fixation Protocol pp.5–6) and 670–680 (post-storage); full Flex bundle oligo scraper rerun after download",
+        "finding": "Cells/nuclei receive Fixation Buffer, 1 h at 20 °C or 16–24 h at 4 °C, then Quenching Buffer. Optional antibody labeling precedes fixation. This source defines the biological input preparation, but no Flex target-probe or antibody barcode sequence."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "protein_labeling_cg000529",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1719610805/support-documents/CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original CG000529 Rev C PDF p. 4 antibody-oligonucleotide conjugate capture table, extracted lines 475–535; full bundle oligo scraper rerun before reading",
+        "finding": "For CG000674 Barcode Oligo Capture, TotalSeq-C antibody conjugate is printed as /5AmMC12/CGGAGATGTGTATAAGAGACAG-N10-N15-N9-CCCATATAAGAAA (N15 feature barcode), with alternate MultiPro /5AmMC12/CGGAGATGTGTATAAGAGACAG-N15-CCCATATAAGAAA. The predecessor CG000477 uses a distinct TotalSeq-B TruSeq Read-2 oligo. The current protocol's protein branch therefore needs its own sequence/read role and cannot inherit the predecessor molecule."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000529 Rev C PDF text lines 475–535 (antibody-oligonucleotide capture table p.4) and 2580–2600 (linked references); full Flex bundle oligo scraper rerun after download",
+        "finding": "The CG000674 Barcode Oligo Capture branch uses /5AmMC12/CGGAGATGTGTATAAGAGACAG-N10-N15-N9-CCCATATAAGAAA for TotalSeq-C, or its printed MultiPro N15 alternative. The CG000477 TotalSeq-B branch instead uses /5AmMC12/GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT-N10-N15-N9-GCTTTAAGGCCGGTCCTAGCAA. This is a relevant original oligo source and confirms the current CG000674 protein branch cannot simply reuse predecessor oligos."
+      },
+      "discovered_from": "guide"
+    },
+    {
+      "id": "instrument_cg000396",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1752704824/support-documents/CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original CG000396 Rev M PDF Chip Handling p. 27, extracted lines 1205–1250; full bundle scraper rerun before reading",
+        "finding": "This is instrument and chip handling guidance; it explicitly refers assay-specific protocol steps to the kit guide. It is irrelevant to the missing physical probe/antibody oligo claim, though relevant to operation of GEM generation. Rev M postdates CG000674 Rev C and is not used to assign a kit sequence."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000396 Rev M PDF text lines 1208–1250, 1294–1310 (chip handling pp.27–29); full Flex bundle oligo scraper rerun after download",
+        "finding": "Guide provides chip holder/dispensing instructions and explicitly sends assay-specific loading steps to the kit guide. It supplies no probe, antibody oligo or enzymatic molecular geometry; exclusion applies only to missing sequence claims, while chip partitioning guidance remains operationally relevant."
+      },
+      "discovered_from": "guide",
+      "reason": "Inspected by two readers. Excluded from the missing physical oligo claim because its chip/instrument handling guidance refers chemistry to the assay kit guide and prints no probe, antibody oligo or molecular geometry; operational GEM guidance remains relevant."
+    },
+    {
+      "id": "clog_cg000479",
+      "role": "linked_material",
+      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original CG000479 Rev B PDF Introduction and clog/wetting practice pp. 1–3, extracted lines 1–125; full bundle scraper rerun before reading",
+        "finding": "The note addresses gel-bead/sample clogs, emulsion wetting and rerun decisions, not probe, adapter or barcode molecule sequences or enzymatic reaction order. Excluded only from the missing molecular oligo claim."
+      },
+      "pass_2": {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000479 Rev B PDF text lines 61–125 (pp.1–2 gel-bead/sample clogs, wetting failure and rerun guidance); full Flex bundle oligo scraper rerun after download",
+        "finding": "Technical note explains physical GEM formation failures and handling controls, with no construct sequence, probe-ligation chemistry or adapter geometry. Exclusion applies only to missing molecular sequence claims; wetting guidance is relevant to execution of GEM generation."
+      },
+      "discovered_from": "guide",
+      "reason": "Inspected by two readers. Excluded from the missing physical oligo claim because it addresses clog/wetting troubleshooting and rerun decisions, with no probe, barcode oligo or ligation component sequences; operational GEM guidance remains relevant."
+    },
+    {
+      "id": "probe_set_overview",
+      "role": "linked_material",
+      "locator": "Official 10x Probe Set Reference CSV and Supporting Files overview, https://www.10xgenomics.com/support/flex-gene-expression/documentation/steps/probe-sets/chromium-frp-probe-set-files",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "10x official Probe Set Reference CSV and Supporting Files page, web text lines 46–55, independently read",
+        "finding": "10x states Cell Ranger probe-set reference CSV specifies target probe sequences, BED gives sequence and genomic coordinates, and probe-barcode TXT publishes barcode bases. This refutes a categorical absence of target sequences; version-matched complete ordering oligos still require inspection."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "10x official overview web lines 49–57, 78–103, 189–228",
+        "finding": "10x explicitly publishes target probe sequences in Cell Ranger probe-set reference CSVs and probe barcode sequences in TXT files, with example rows; this overturns page wording that target sequences remain undisclosed. Exact complete physical LHS/RHS ordering oligos are not established by this overview alone."
+      },
+      "discovered_from": "guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "CG000674 Rev C appendix read; linked probe-set CSV and predecessor manual not yet reviewed.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "CG000674 Rev C workflow pp. 14–16 and Appendix p. 85; official 10x probe-set overview lines 49–57, 78–103, 189–228",
+      "finding": "Followed probe-set download description and corrected public commercial-absence wording. Version-matched actual CSV and CG000477 predecessor remain unread, so exact physical probe-half claim is blocked."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "CG000477 Rev E pp. 15–19 and Appendix p. 85; CG000621 Rev D pp. 11–12 and 14–15; official 10x probe-set format and Cell Ranger 7.2 references",
+        "finding": "Followed predecessor and custom-design material. Partitioning precedes in-GEM nick sealing and barcode transfer. Custom oligo architecture and BC001 example are source-known; WTA physical probe inventory remains blocked by unavailable original CSV and second independent checks."
+      },
+      {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Original CG000477 Rev E pp.15–20/Appendix p.85, CG000674 Rev C pp.15–17/Appendix p.85, CG000621 Rev D Tables 7 and 12–13; checked guide citations to CG000528 planner, CG000478 fixation, CG000529 antibody labeling, CG000396 instrument, CG000479 clog note and the probe-set CSV pointer",
+        "finding": "Independent read confirms GEM partition precedes in-GEM nick sealing, which precedes bead-primer extension; both guide appendices agree on gene-expression shell. Followed custom-probe technical note and confirmed exact example architecture. Other linked workflow/sample/instrument documents were identified but not all original files inspected in this pass; their source-checklist disposition remains open. Commercial WTA CSV remains unavailable."
+      },
+      {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Official 10x Flex v1.0.1 human probe CSV and related CG000621 Rev D probe-set instructions; Cell Ranger 7.2 document tying v1.0.1 file to FRP",
+        "finding": "Followed the direct CSV link and independently verified header, schema, sample rows and complete length/inclusion counts. CSV resolves kit-specific target-region sequence availability for human v1.0.1, while an experiment selects human/mouse panel and detects a sample-dependent subset; physical commercial half-probe inventory and other linked guide disposition remain open."
+      },
+      {
+        "reviewer": "pacbio_indexes",
+        "date": "2026-10-16",
+        "locations": "Independently read original 10x linked PDFs CG000528 Rev D pp.1,5; CG000478 Rev C pp.5–6; CG000529 Rev C p.4; CG000396 Rev M pp.27–29; CG000479 Rev B pp.1–2, after full Flex source-bundle oligo scraping",
+        "finding": "Followed all five linked guides. Planner and fixation establish sample/branch order; CG000529 adds exact chemistry-relevant antibody oligos for the protein branch. Instrument and clog guides were inspected independently and are excluded only from the physical missing-oligo claim for documented reasons. Commercial WTA physical half-probe inventory remains unresolved despite accessible target-region CSV."
+      },
+      {
+        "reviewer": "flex_sources",
+        "date": "2026-10-16",
+        "locations": "Original human Flex v1.0.1 WTA CSV header/records; CG000529 Rev C p. 4; CG000674 Rev C pp. 14–20, step 1.1h and Appendix p. 85; original CG000528/478/396/479 PDFs with exact locations in checklist",
+        "finding": "Recovered and checked kit-compatible target-region CSV. Followed all five guide-linked documents: planner, fixation and antibody labeling alter the sourced workflow; instrument and clog documents are outside the physical oligo claim. CG000529 resolves the distinct TotalSeq-C antibody capture pattern and prompted a separate protein branch. AB oligo attachment geometry remains unresolved and is warned on the page."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Full commercial WTA target probe-pair sequences and any synthesis-specific modifications",
+      "evidence": "CG000674 Rev C, CG000477 Rev E, CG000621 Rev D, and the official human v1.0.1 WTA CSV each have two independent original-source reads. CSV supplies 50-nt target-region records and custom guide supplies exact example physical oligos, but neither is a verified complete commercial WTA ordering inventory. Physical half orientation, handles and modifications need further original-source evidence before an absence claim could be accepted.",
+      "disposition": "blocked"
+    },
+    {
+      "claim": "Exact selected Antibody Multiplexing Barcode oligo and its attachment geometry to the protein Feature Barcode",
+      "evidence": "CG000674 Rev C says AB001–AB016 are selected at hybridization and attach inside GEMs; CG000529 Rev C prints the TotalSeq-C antibody-conjugated feature oligo, while CG000674 Appendix p. 85 prints AB8 in the protein library. The selected AB oligo, its end geometry and the physical attachment chemistry have not been reconstructed; the graph marks this transition unresolved and displays a validation warning.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Independent original-source reads confirm CG000674/CG000477 guide order, CG000621 custom physical probe architecture, and the official human v1.0.1 WTA reference CSV. The CSV resolves 50-nt target-region sequences for this kit version; it does not establish the physical commercial LHS/RHS ordering oligos, their modifications, or an experiment-specific target subset. Independent reads also covered the linked CG000528 planner, CG000478 fixation, CG000529 antibody labeling, CG000396 instrument and CG000479 clogging documents; the latter two were excluded only from missing molecular-oligo claims with reasons. CG000529 adds a source-backed protein branch with /5AmMC12/ TotalSeq-C oligo and Nextera Read 2; the AB attachment transition remains unresolved and warned. No remaining missing-information claim is accepted."
+}

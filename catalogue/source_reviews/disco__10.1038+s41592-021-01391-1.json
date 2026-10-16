@@ -1,0 +1,84 @@
+{
+  "dir": "disco__10.1038+s41592-021-01391-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41592-021-01391-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining Nature Methods full text is manual in local MANIFEST; search abstract is only a lead."
+    },
+    {
+      "id": "supp1",
+      "role": "supplement",
+      "locator": "_data/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplement title/section inventory and scraper zero hits.",
+        "finding": "Original supplementary PDF is available, but no primer table was found by oligo scraper; method/read assignment requires defining text."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM1 PDF title and lines 1-30; oligo/adapter/primer keyword search",
+        "finding": "Document is supplementary figures and methods comparison/biological context; no oligo hit in extracted text, but defining article and EPFL protocol remain unavailable."
+      }
+    },
+    {
+      "id": "supp2",
+      "role": "supplement",
+      "locator": "_data/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Supplement inventory and text inspection.",
+        "finding": "Second publisher supplement is available but is not sufficient to establish an exact universal sequencing-primer site."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Springer MOESM2 PDF opening pages and oligo/adapter/primer keyword search",
+        "finding": "Second supplement extraction contains mostly figure/blank text and no source-resolved bead/primer table; cannot establish absence."
+      }
+    },
+    {
+      "id": "epfl",
+      "role": "linked_material",
+      "locator": "Author EPFL DisCo_protocol detailed methods (exact URL to recover)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Old ledger identifies an author protocol, but local source bundle has no original copy/URL; it cannot be a completed source check.",
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Nature Methods DOI/manifest and EPFL author-protocol lead",
+      "finding": "Supplement inventory checked; original full article and author protocol still need retrieval."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Two Springer supplement titles/headings plus MANIFEST full-text row",
+      "finding": "Defining article and linked EPFL detailed method still missing; no claim accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact capture-bead and sequencing-primer site for DisCo",
+      "disposition": "blocked",
+      "evidence": "Defining article and author detailed protocol are unavailable; supplementary PDFs do not establish exact universal site."
+    }
+  ],
+  "conclusion": "Defining and author-linked methods are unavailable; no missing claim accepted."
+}

@@ -54,7 +54,7 @@ DEFINITION = Definition(
         "Nextera XT DNA Library Prep", "01_nextera_xt.html",
         'Illumina <a href="https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_nextera/nextera-xt/15031942_07_nextera-xt-product-documentation.pdf">Nextera XT DNA Library Prep Product Documentation 15031942 v07</a>.',
         "A solution transposome fragments and tags 1 ng DNA; neutralization and limited-cycle PCR complete a dual-index Nextera library.",
-        "The commercial transposome composition is proprietary. Public Nextera mosaic-end, primer-entry and sequencing-primer sequences are imported from the central canonical model.",
+        "The inspected vendor documents describe partial-adapter transfer but do not print the loaded solution-transposome oligo inventory; that reagent detail remains under source review. Public Nextera mosaic-end, primer-entry and sequencing-primer sequences are imported from the central canonical model. The drawing shows the double-stranded library before optional bead normalization.",
         "A representative heterologous S5/S7 product; same-end tagmentation products cannot bridge P5 to P7 and are not the sequenced library.",
         "Standard Nextera primers read the insert from both mosaic-end boundaries and read i5/i7 sample indexes.",
         "nextera", "small-genome / amplicon insert", _nextera_xt_workflow)

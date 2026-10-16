@@ -12,8 +12,8 @@
 
 ## Primer evidence
 
-🟢 Supplementary Table S1 in the article's MOESM2 workbook (also linked from the
-preprint as `media-1.xlsx`) is an ordering-level table of the SINE Alu and LINE-1
+🟢 Supplementary Table S1 in the published article's MOESM2 workbook is an
+ordering-level table of the SINE Alu and LINE-1
 PCR primer panels. Its first-generation rows include:
 
 | Primer | 5′→3′ sequence as published |
@@ -22,6 +22,16 @@ PCR primer panels. Its first-generation rows include:
 | Sine.Alu_R | CAGACGTGTGCTCTTCCGATCTNNNNNNNNCCCAAACTAAAATACAATAAC |
 | LINE.L1_F | CTACACGACGCTCTTCCGATCTTTTTGAGTTAGGTGTGGGATATA |
 | LINE.L1_R | TGCTGAACCGCTCTTCCGATCTNNNNNNNNAAAATCAAAAAATTCCCTTTC |
+
+🟢 The earlier preprint's `media-1.xlsx` is a distinct source version. Its
+`Sine.Alu_F` first-generation row prints
+`AAAAATATAAAAAATTAGTTGGG` without the 5′ partial-adapter arm
+`CTACACGACGCTCTTCCGATCT` printed in the published MOESM2 row above. The
+published version is used by the model/page because the defining 2022 article
+and its supplement are the final protocol source. The preprint's shorter row
+cannot be silently substituted into the published library geometry; whether
+the difference reflects a changed ordering design or table correction is not
+established by the accessible text.
 
 🟢 The second-generation indexed SINE Alu rows in that workbook give each
 individual eight-base index and 0–5 N stagger; use the row corresponding to a

@@ -3,14 +3,17 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct,Scene,Segment,feature
+from chemdraw import Construct,Scene,Segment,feature,revcomp
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
-from protocol_families.tenx_graph import ChromiumRNAOps
+from protocol_families.tenx_graph import ChromiumRNAOps, READ2_ADAPTER_END
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import InputRole, MaterialKind, StepKind
 from protocol_graph import ProtocolGraph, SourceClaim, SourceDiscrepancy
 
 PARTIAL_R1=il.TRUSEQ_READ1[11:]
+TSO_DNA=rt.SMART_HANDLE+"ACAT"
 CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x-chromium-3prime-v3")
 UMI_FEATURE=feature("umi","umi","random")
 SAMPLE_INDEX=feature("sample_index_i7","sample_index","unknown")
@@ -25,7 +28,7 @@ def capture_scene():
 def first_strand(): return Construct([*bead_oligo(),seg("antisense cDNA","X"*34,placeholder=True),seg("CCC",rt.UNTEMPLATED_TAIL,"tso")],name="v3 first strand")
 def switch_scene():
     first=first_strand(); sc=Scene(); sc.strand("first",list(first),label="first strand"); sc.anneal("TSO",tso(),to="first",pair=("rGrGrG","CCC"),label="TSO",above=True); sc.arrow("first","RT switches template"); return sc
-def amplified_cdna(): return Construct([*bead_oligo(),seg("antisense cDNA","X"*34,placeholder=True),seg("CCC",rt.UNTEMPLATED_TAIL,"tso"),seg("copied TSO","X"*27,"tso",placeholder=True)],name="v3 amplified cDNA")
+def amplified_cdna(): return Construct([*bead_oligo(),seg("antisense cDNA","X"*34,placeholder=True),seg("CCC",rt.UNTEMPLATED_TAIL,"tso"),seg("copied TSO",revcomp(TSO_DNA),"tso")],name="v3 amplified cDNA")
 def adapter_top(): return [seg("Partial Read 2",il.INDEX1_PRIMER[:-1],"r2")]
 def adapter_bottom(): return [seg("stem complement",il.STEM_COMPLEMENT,"r2"),seg("3' T","T","r2")]
 def adapter_scene():
@@ -39,6 +42,65 @@ def final_library(insert_nt=36):
     return lib
 def read1_layout(): return [(x.cycles,x.feature.label) for x in sp.feature_spans(final_library(),SEQ_PRIMERS,{"Read 1":28})]
 
+
+def switched_cdna():
+    return Construct(list(amplified_cdna()), name="v3 template-switched cDNA")
+
+
+def cdna_primers():
+    return (PCRPrimer("cDNA forward primer", PARTIAL_R1),
+            PCRPrimer("cDNA reverse primer", TSO_DNA[:22]))
+
+
+def index_primers():
+    # Source prints an N8 sample-index window; it represents one oligo in a well mix.
+    return (PCRPrimer("sample-index forward primer", il.NEBNEXT_UNIVERSAL_PRIMER[:49],
+                      anneal_nt=13),
+            PCRPrimer("sample-index reverse primer",
+                      il.P7+"N"*8+il.TRUSEQ_READ2[:21]))
+
+
+def pre_index_library(insert_nt=36):
+    return Construct([*bead_oligo(),
+                      seg("cDNA insert", "X"*insert_nt, placeholder=True),
+                      seg("dA junction", "A"), *adapter_top()],
+                     name="v3 adapter-ligated cDNA fragment")
+
+
+def _source_pcr(ops, prefix, label, template, product_state, primers, *, library=False):
+    """The source prints both primers; locate their sites rather than claiming absence."""
+    g=ops.graph
+    forward, reverse=primers
+    f=g.input(prefix+"_forward", forward.name, MaterialKind.OLIGO,
+              state=Construct([Segment(forward.name, forward.sequence)]))
+    r=g.input(prefix+"_reverse", reverse.name, MaterialKind.OLIGO,
+              state=Construct([Segment(reverse.name, reverse.sequence)]))
+    polymerase=g.input(prefix+"_polymerase", label+" polymerase", MaterialKind.CATALYST)
+    product=g.product("library" if library else "amplified", label+" product",
+                      MaterialKind.LIBRARY if library else MaterialKind.MOLECULAR,
+                      state=product_state)
+    g.react(prefix, label, StepKind.PCR,
+            ((template,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),
+             (r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)), (product,),
+            geometry=PCRGeometry.exact(template.state,forward,reverse,
+                statement="Both primer architectures are printed in CG000183 Rev A Appendix pp. 54–55."))
+    ops.reviewed.extend((f.id,r.id,polymerase.id,prefix,product.id))
+    return product
+
+
+def _source_ligation(ops, tailed):
+    g=ops.graph
+    adapter=g.input("read2_adapter", "3-prime-dT Read-2 adapter", MaterialKind.ADAPTER,
+                    state=adapter_scene())
+    ligase=g.input("ligase", "adapter ligase", MaterialKind.CATALYST)
+    adapted=g.product("adapted", "Read-2-adapted barcode-bearing fragment",
+                      MaterialKind.MOLECULAR,state=pre_index_library())
+    g.react("ligate", "Ligate the Read-2 adapter", StepKind.LIGATION,
+            ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
+             (ligase,InputRole.CATALYST)),(adapted,),geometry=READ2_ADAPTER_END)
+    ops.reviewed.extend((adapter.id,ligase.id,"ligate"))
+    return adapted
+
 def protocol_graph():
     authority=('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
                '10x Genomics User Guide CG000183 Rev A</a>.')
@@ -51,13 +113,15 @@ def protocol_graph():
     first, rt_enzyme = ops.reverse_transcribe(
         occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer")
     switched = ops.template_switch(
-        first, rt_enzyme, first_state, tso_label="template-switch oligo")
-    recovered = ops.recover(switched, first_state)
-    amplified = ops.preamplify(recovered, first_state, amplified_cdna())
+        first, rt_enzyme, switched_cdna(), tso_label="template-switch oligo")
+    recovered = ops.recover(switched, switched_cdna())
+    amplified = _source_pcr(ops, "preamp", "Amplify recovered full-length cDNA",
+                            recovered, amplified_cdna(), cdna_primers())
     fragments = ops.fragment(amplified)
     tailed = ops.end_prepare(fragments)
-    adapted = ops.ligate_read2(tailed)
-    library = ops.index_pcr(adapted, final)
+    adapted = _source_ligation(ops, tailed)
+    library = _source_pcr(ops, "index_pcr", "Select barcode-bearing end and add sample index",
+                          adapted, final, index_primers(), library=True)
     ops.sequence(library, final, SEQ_PRIMERS, READ_LENGTHS)
     graph.annotate(SourceDiscrepancy(
         "rt_primer", "CG000183 poly(dT) anchor disagreement",
@@ -68,4 +132,13 @@ def protocol_graph():
         "The construct uses the appendix's printed T30 sequence.",
         "The appendix provides a base-resolved oligo, whereas the overview gives a role label.",
         "The physical bead-primer anchor may include VN bases omitted by the appendix."))
+    graph.annotate(SourceDiscrepancy(
+        "read2_adapter", "CG000183 adapter terminal-base disagreement",
+        (SourceClaim("CG000183 Rev A, Appendix p. 54, Adaptor Oligos PN-2000094",
+                     "The top-strand oligo is 32 bases and ends CAGTCA."),
+         SourceClaim("CG000183 Rev A, Appendix p. 54, Ligation Product",
+                     "The adapter region in the printed ligation product ends CAGTCAC.")),
+        "The adapter input and pre-index state use the printed 32-base oligo; the final library contains the terminal C.",
+        "The sample-index reverse primer on p. 55 restores this C when its full sequence is copied.",
+        "The source does not establish whether the extra C in its ligation product is a drawing error or the oligo list omits a base."))
     return graph

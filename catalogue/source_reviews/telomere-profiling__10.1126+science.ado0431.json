@@ -1,0 +1,94 @@
+{
+  "dir": "telomere-profiling__10.1126+science.ado0431",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Karimian et al., Science 2024, doi:10.1126/science.ado0431; PMC12425158 author manuscript",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/telomere-profiling__10.1126+science.ado0431/science.ado0431_PMC12425158.xml.txt Methods and supplement links",
+        "finding": "Published author manuscript describes restriction, TeloTag selection and ONT ligation; complete original supplement remains gated."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/telomere-profiling__10.1126+science.ado0431/science.ado0431_PMC*.xml.txt lines 118-128, 186 and 811",
+        "finding": "Published article describes biotin TeloTag ligation, enrichment and ONT sequencing, but refers to its unavailable published supplement for Methods."
+      }
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "Science Supplemental Material NIHMS2109074",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance returns preparing-to-download gate.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Karimian et al. bioRxiv v2 doi:10.1101/2023.12.21.572870",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/telomere-profiling__10.1126+science.ado0431/2023.12.21.572870_v2.full.pdf.txt lines 1857-1995,3275-3440; scraper at 3278",
+        "finding": "Extended Data Table 2 prints six 5Phos/3BioTEG TeloTags and their six phased splints, used as linked preprint evidence, not substitute for missing published supplement."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "_data/sources/telomere-profiling__10.1126+science.ado0431/2023.12.21.572870_v2.full.pdf.txt lines 408-428, 1865-1885, 3278-3420",
+        "finding": "Author preprint and extended data print /5Phos/ and /3BioTEG/ TeloTag family and complementary telomere splints; source is earlier version, so published-variant identity still needs supplement."
+      }
+    },
+    {
+      "id": "ont_kit",
+      "role": "linked_material",
+      "locator": "ONT historical ligation sequencing kit referenced in Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact kit revision/adapter guide not present.",
+      "discovered_from": "article",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Science article manuscript and its supplement link, bioRxiv v2 Methods/Table 2, and ONT kit citation.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published JATS lines 118-128, 186, 811; author preprint lines 408-428, 1865-1885 and 3278-3420; published supplement and ONT kit manifest",
+      "finding": "Independently followed published Methods pointer into author preprint, recovering TeloTag/splint bases. Published Science supplement and historical ONT kit remain unavailable; current-version identity is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Published-supplement confirmation of full TeloTag table",
+      "disposition": "blocked",
+      "evidence": "Published Science supplement unavailable; bioRxiv Extended Data Table 2 prints the oligos."
+    },
+    {
+      "claim": "Historical ONT motor adapter assembly",
+      "disposition": "blocked",
+      "evidence": "Manufacturer kit sequence not cached."
+    }
+  ],
+  "conclusion": "Author preprint prints TeloTag/splint oligos, but the published Science supplement and ONT kit are unavailable; published-version and kit-specific missing claims remain blocked."
+}

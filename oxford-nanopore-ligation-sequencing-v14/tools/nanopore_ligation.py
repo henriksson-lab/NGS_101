@@ -30,7 +30,8 @@ ADAPTER_END = reported_adapter_end(
 SOURCE = ('Commercial protocol: Oxford Nanopore '
           '<a href="https://nanoporetech.com/resources/technique/whole-genome-sequencing/document/genomic-dna-by-ligation-sqk-lsk114">GDE_9161_v114 Rev AC</a>.')
 SEQUENCING_UNAVAILABLE = ("Nanopore sequencing is motor-driven; the full leader, motor "
-                          "identity and exact motor-bearing strand are proprietary.")
+                          "identity and exact motor-bearing strand remain unverified "
+                          "in the inspected SQK-LSK114 sources.")
 
 
 def end_prep_scene() -> Scene:

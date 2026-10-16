@@ -4,7 +4,7 @@
 
 - Galeano Niño JL, Wu H, LaCourse KD, et al. “INVADEseq to identify cell-adherent or invasive bacteria and the associated host transcriptome at single-cell-level resolution.” *Nature Protocols* 18, 3355–3389 (2023). [doi:10.1038/s41596-023-00888-7](https://doi.org/10.1038/s41596-023-00888-7). Full author manuscript and supplements read from PMC10790651.
 - Galeano Niño JL, et al. “Effect of the intratumoral microbiota on spatial and cellular heterogeneity in cancer.” *Nature* 611, 810–817 (2022). [doi:10.1038/s41586-022-05435-0](https://doi.org/10.1038/s41586-022-05435-0). Original application linked by the protocol paper.
-- 10x Chromium Next GEM Single Cell 5′ v1/v2 kit documentation is the authority for the commercial backbone; the INVADEseq paper supplies the protocol-specific spike-in and enrichment primers.
+- The INVADEseq protocol cites 10x CG000086 Rev J for its v1 workflow. The later official CG000086 Rev K guide is locally readable and prints the 5′ gel-bead architecture, but its equivalence to the exact cited revision has not been established.
 
 ## What changes relative to ordinary 10x 5′ gene expression
 
@@ -42,4 +42,8 @@ The protocol’s downstream text refers to a BAM-derived “Read 1” used for t
 
 ## Open boundary
 
-🔴 The complete commercial gel-bead oligo and every version-specific reagent sequence are not printed in the protocol paper. The page therefore shows known barcode/UMI lengths and canonical Illumina sites, but does not invent proprietary internal bases.
+🟢 The original 2022 application supplement (MOESM1, Methods lines 645–693) also prints 1100R and both full enrichment primers. It reports Next GEM 5′ v2 for the GEX library while citing CG000086 Rev J for the bacterial enrichment. The 2023 detailed protocol explicitly describes its main procedure as v1 and gives v2 alternatives. These are source-version boundaries, not grounds to assume that the two kits have identical internal oligos.
+
+🟢 The later official CG000086 Rev K Sequences appendix (extracted PDF lines 6845–6904 and 7084–7233) prints a 5′ gel-bead TSO primer with a 16-base cell barcode, 10-base UMI and modified `rGrGrG` terminus, plus finished v1 library architecture. 🔴 The exact cited Rev J guide, the Next GEM v2 guide for the alternative branch, and the particular sample index well remain unverified. The page therefore uses only the source-established roles and explicitly leaves revision-specific geometry unresolved.
+
+🟢 The 2023 protocol Materials list (JATS lines 154–156) identifies the v2 reagent kit as PN-1000263 and the separate 5′ library kit as PN-1000002, while its Step 85 note (line 758) calls PN-1000002 a "5′ v2 kit." This appears to conflate the two kit roles. The page follows the explicit Materials identities; which kit combination the Step 85 note intended remains uncertain.

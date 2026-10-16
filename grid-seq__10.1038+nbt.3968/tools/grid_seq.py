@@ -18,7 +18,7 @@ TITLE = "GRID-seq — RNA–chromatin contacts"
 NOTES = "01_grid-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nbt.3968">Li et al. (2017)</a>.'
 SUMMARY = "A biotinylated bivalent RNA–DNA linker captures a chromatin RNA and a nearby AluI-cut genomic end. MmeI releases a short RNA tag–linker–DNA tag molecule for Illumina sequencing."
-CAVEAT = "The tag bases are molecule-specific placeholders; linker bases, modifications and orientation are transcribed from the paper. The five-base PCR barcode is published, but its index-read priming recipe is not."
+CAVEAT = "The tag bases are molecule-specific placeholders. The 2017 paper, Methods 'Construction of GRID-seq library', prints linker L1 as /5Phos/rGrUrUrGrGrArUrUrCrNrNrNrGrACACAGC/iBiodT/CACTCCCACACACCGAACTCCAAC; the 2019 same-group Nature Protocols Table 1 prints /5Phos/rGrUrUrGrGrArUrUrCrNrNrNrGrACACAGC/iBiodT/CACTCCACACACCGAACTCCAAC, missing one C after CACT. The model uses the 2017 strand because it pairs fully with the L2 strand printed in both sources. Whether the shorter 2019 sequence was synthesized remains uncertain. The five-base PCR barcode is printed in both inspected methods, while a separate index-read priming recipe remains unverified."
 
 GRID_R1 = il.TRUSEQ_READ1
 GRID_P7_ARM = "AGATCGGAAGAGCACACGTCT"  # printed phosphorylated Y-adapter strand

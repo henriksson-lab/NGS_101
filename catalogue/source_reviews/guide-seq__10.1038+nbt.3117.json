@@ -1,0 +1,108 @@
+{
+  "dir": "guide-seq__10.1038+nbt.3117",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "tsai2015",
+      "role": "defining",
+      "locator": "Tsai et al. Nat Biotechnol 2015 doi:10.1038/nbt.3117; nbt.3117_PMC4320685.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 55-63 and Online Methods lines 125-133; primer scraper run on full available bundle and hits followed to original text",
+        "finding": "The original prints both 5′ phosphorylated, terminal phosphorothioate 34-bp dsODN strands, single-tail Y-adapter tagging after shearing/A-tailing and nested STAT-PCR. Main text loosely says molecular index enters during amplification; supplementary original places it in the adapter at ligation."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original PMC4320685 JATS lines 59–65, 125–131",
+        "finding": "Main article prints both 34-mer 5′-phosphorylated, terminal-phosphorothioate dsODN strands; Stage II describes adapter ligation then tag-specific STAT-PCR and says 8-bp molecular index is incorporated during amplification."
+      }
+    },
+    {
+      "id": "corrected_esm21",
+      "role": "supplement",
+      "locator": "Original Springer nbt.3117_41587_2015_BFnbt3117_MOESM21_ESM.pdf.txt, corrected 25 June 2015",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Correction notice lines 1-10; Supplementary Fig. 1 lines 35-130; Table 4 lines 32762-33060; protocol lines 33074-33260",
+        "finding": "Correction notice explains swapped GSP1 labels and missing thermocycling in prior upload. Table 4 prints A01–A16 with NNWNNWNN in the ligation adapter, GSP1/2, P5/P7 and custom run primers; protocol confirms 151|8|16|151 run."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer corrected Supplement MOESM21 text lines 1–10 (correction notice), 32750–32910 (Table 4), 33073–33190 (library protocol)",
+        "finding": "Corrected file labels formerly swapped Nuclease_off_+/−_GSP1 and restores discovery cycling; Table 4 and protocol show NNWNNWNN molecular index in Y adapter before ligation. Contradicts main Stage II wording on when index enters."
+      }
+    },
+    {
+      "id": "esm22_sites",
+      "role": "supplement",
+      "locator": "Original Springer nbt.3117_41587_2015_BFnbt3117_MOESM22_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Off-target genomic coordinates and target sequences; no GUIDE-seq reagent oligos or adapter recipe.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Sheet1 header and first 16 target-site rows; scraper hit inventory reviewed",
+        "finding": "Workbook columns are chromosome, coordinate, target/off-target sequence and read counts; no reagent or library oligo family."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Springer MOESM22 workbook off-target site table header and initial rows",
+        "finding": "Off-target locus/guide/read-count result table, not oligo ordering source."
+      }
+    },
+    {
+      "id": "pmc_supp_copy",
+      "role": "supplement",
+      "locator": "PMC NIHMS647337-supplement-1.pdf, https://pmc.ncbi.nlm.nih.gov/articles/instance/4320685/bin/NIHMS647337-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC download gate; publisher corrected ESM21 is on disk, but equivalence of the PMC copy has not been checked."
+    },
+    {
+      "id": "illumina_guide",
+      "role": "vendor",
+      "locator": "Illumina Indexed Sequencing Overview Guide #15057455, cited in protocol note for MiSeq index-2 primer assignment",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Instrument original has not yet been independently read in this audit; index-2 primer identity remains model inference."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original article Online Methods lines 125-133; Springer ESM21 correction notice, Table 4 and Supplementary Methods; PMC manifest and Illumina guide citation in protocol note",
+      "finding": "Followed the original paper to its corrected publisher Methods and oligo table and classified the off-target workbook. The PMC alternate supplement and Illumina instrument guide remain unchecked."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original PMC4320685 JATS lines 59–65, 125–131; Original Springer corrected Supplement MOESM21 text lines 1–10 (correction notice), 32750–32910 (Table 4), 33073–33190 (library protocol); Original Springer MOESM22 workbook off-target site table header and initial rows",
+      "finding": "Independently read source locations listed. Unavailable historical/manual/supplement sources in checklist remain blocked; no confirmed missing claim."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "GUIDE-seq molecular index bases or placement are missing",
+      "disposition": "resolved",
+      "evidence": "Corrected publisher Supplementary Table 4 prints NNWNNWNN in all A01–A16 Y-adapters; source discrepancy with main-text amplification wording is displayed on the protocol page."
+    },
+    {
+      "claim": "The physical i5/index-2 priming oligo is specified by GUIDE-seq",
+      "disposition": "blocked",
+      "evidence": "The paper states the 16-cycle read and spikes custom primers only into MiSeq positions 13 and 14. The page infers standard P5 priming from an Illumina instrument guide not yet checked in this audit."
+    }
+  ],
+  "conclusion": "Two independent located reads establish the dsODN, corrected Y-adapter/STAT-PCR method and source conflict on the molecular-index timing. PMC supplement copy and official Illumina index-2 guide remain unavailable, so missing claims stay blocked."
+}

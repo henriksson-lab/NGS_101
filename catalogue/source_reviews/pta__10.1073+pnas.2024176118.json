@@ -1,0 +1,103 @@
+{
+  "dir": "pta__10.1073+pnas.2024176118",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_PMC8214697.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "JATS lines 83–85, 173–177",
+        "finding": "PTA uses exonuclease-resistant alpha-thio ddNTP termination; random priming/Phi29 and KAPA HyperPlus library preparation. Line 177 expressly separates fragmented SCMDA from PTA prepared without fragmentation; 2.5 µM UDI and 15 PCR cycles for PTA."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC8214697 JATS Methods PTA and Library Preparation lines 173–177; scraper",
+        "finding": "PTA uses exonuclease-resistant random primer and alpha-thio-ddNTPs. Its own KAPA HyperPlus library branch explicitly omits fragmentation, uses 2.5 µM IDT UDI adapter and 15 PCR cycles; SCMDA comparison branch fragments and uses different concentrations/cycles."
+      }
+    },
+    {
+      "id": "si_appendix",
+      "role": "supplement",
+      "locator": "_data/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_supp_pnas.2024176118.sapp.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "SI Methods and line 67",
+        "finding": "SI names alpha-thio ddNTP and expands reaction details; no source-backed adapter-end sequence accepted as absent in this first pass."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PNAS SI Appendix PDF Methods and line 67; scraper",
+        "finding": "Supplement supports PTA chemistry but does not identify exact random-primer or IDT UDI index/adaptor sequence in inspected sections."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/pta__10.1073+pnas.2024176118/2020.11.20.391961_v3.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v3 PDF Methods and source inventory",
+        "finding": "Preprint provides comparison to original Methods; version differences remain to check independently."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v3 Methods PTA/library passages; scraper",
+        "finding": "Preprint corroborates PTA-amplification and later library branch; version-specific exact UDI identities are not established there."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "kapa_guide",
+      "role": "linked_material",
+      "locator": "KAPA HyperPlus kit protocol cited in JATS line 177",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Cited vendor library-prep guide not obtained; adapter-end chemistry cannot be confirmed.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "idt_udi",
+      "role": "linked_material",
+      "locator": "IDT unique dual index adapters cited in JATS line 177",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact IDT UDI product/version is unnamed and corresponding oligo specification is not local.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "JATS Methods lines 173–177 and SI Methods",
+      "finding": "Followed local article/SI/preprint; identified KAPA HyperPlus and IDT UDI vendor chemistry but exact historical guides are unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original JATS PTA/library Methods lines 173–177; PNAS SI and bioRxiv Methods",
+      "finding": "Original article and SI read; KAPA HyperPlus revision and IDT UDI ordering/sequence documents remain unavailable, so missing claims stay blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Published reaction order resolves the fragmentation distinction; vendor adapter details and a second reader remain pending."
+}

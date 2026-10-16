@@ -1,0 +1,121 @@
+{
+  "dir": "scifi-rna-seq__10.1101+2019.12.17.879304",
+  "status": "reviewed",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "bioRxiv 10.1101/2019.12.17.879304 v1 full PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "2019.12.17.879304_v1.full.pdf.txt methods and Supplementary Fig. 2",
+        "finding": "Original version describes RT preindexing, ATAC gel bead second barcode and bridge oligo ligation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "2019.12.17.879304_v1.full.pdf.txt lines 245–271, 785–790, 875–920, 1480–1483",
+        "finding": "Original Methods explicitly send detailed oligos to Supplementary Fig. 2/Table 1; RT preindexing occurs before GEM formation, then a 3′ blocked bridge directs ligation to bead oligos."
+      }
+    },
+    {
+      "id": "preprint_oligos",
+      "role": "supplement",
+      "locator": "2019.12.17.879304_media-1.xlsx.txt, Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "scifi-RNA-seq oligos sheet lines 1-12; 384 RT-primer sheet; scraper hits lines 3 and 7",
+        "finding": "Prints 5Phos Tn5 ME, 3ddC blocked bridge, TSO and P7 index family."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "2019.12.17.879304_media-1.xlsx.txt sheet scifi-RNA-seq oligos lines 1–13; 384 RT sheet",
+        "finding": "Preprint table prints 5′ phosphorylated Tn5-top_ME, 3′ dideoxy blocked bridge, modified TSO, enrichment primers and P7 family; first RT barcode members are in workbook."
+      }
+    },
+    {
+      "id": "published_article",
+      "role": "linked_material",
+      "locator": "Nature Methods 2021 doi:10.1038/s41592-021-01153-z PMC7612019 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41592-021-01153-z_PMC7612019.xml.txt lines 41-59",
+        "finding": "Published account describes first RT index and 10x ATAC bead index, with oligos in Extended Data Fig. 3a/Supplementary Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41592-021-01153-z_PMC7612019.xml.txt Methods lines 41–59 and supplement links",
+        "finding": "Published article independently describes sequential RT well barcode and 10x ATAC droplet barcode, with detailed sequence definitions delegated to supplementary workbook/protocol."
+      },
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "published_oligos",
+      "role": "linked_material",
+      "locator": "Springer MOESM2_ESM.xlsx.txt, published Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "scifi-RNA-seq oligos sheet lines 1-12, compared with preprint workbook",
+        "finding": "Printed 3ddC bridge and P7 set, including later P7 variants, in published source."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41592-021-01153-z_41592_2021_1153_MOESM2_ESM.xlsx.txt lines 1–18 and 385–392",
+        "finding": "Published Table 1 repeats the preprint bridge, TSO, Tn5, and P7 sequences and prints individual 384-well RT primer rows. The bridge carries [ddC], not an extendable 3′ OH."
+      },
+      "discovered_from": "published_article"
+    },
+    {
+      "id": "published_protocol",
+      "role": "linked_material",
+      "locator": "Springer MOESM5_ESM.pdf.txt, scifi-RNA-seq step-by-step procedure",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Protocol title/version and reagent tables",
+        "finding": "Detailed published follow-up covers Tn5 assembly and sequencing setup."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "s41592-021-01153-z_41592_2021_1153_MOESM5_ESM.pdf.txt lines 783–823 and 950–975",
+        "finding": "Published follow-up procedure prints the indexed P7 primer family and Tn5 oligos and details library enrichment; sequence scraper pointed to these lines and they were read in the PDF text."
+      },
+      "discovered_from": "published_article"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint methods and media-1 oligo sheet; published JATS Supplementary Table pointer and MOESM2/MOESM5",
+      "finding": "Followed preprint to published 2021 article and its original oligo table/procedure; no missing base claim accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Preprint Methods lines 245–271 and 785–1015; published JATS Methods/supplement pointers; MOESM2 and MOESM5",
+      "finding": "Independently followed the preprint to its 2021 published article, its oligo workbook, and stepwise procedure. The linked originals directly publish the relevant oligos; no missing chemistry sequence is established."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Two independent readings of the defining preprint and linked published oligo/protocol sources find the relevant oligos published; no accepted missing claim."
+}

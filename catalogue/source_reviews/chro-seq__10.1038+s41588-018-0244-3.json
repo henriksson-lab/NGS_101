@@ -1,0 +1,95 @@
+{
+  "dir": "chro-seq__10.1038+s41588-018-0244-3",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "PMC6204104, local s41588-018-0244-3_PMC6204104.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 154-158",
+        "finding": "Article describes 3-prime and 5-prime RNA adapter ligations, RT, amplification, and Illumina manufacturer protocol; says method closely follows cited predecessor reference 28."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC6204104 original JATS Methods lines 154-158, reference 28 lines 500-509",
+        "finding": "ChRO library prep closely followed Mahat 2016 PRO-seq Nature Protocols (10.1038/nprot.2016.086), an explicit predecessor."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "Springer MOESM1–3 and NIHMS1504427 supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MANIFEST.tsv and extracted text; source oligo scraper",
+        "finding": "Supplement files present but scraper yielded no oligo-like hits; exact source-dependent primer identity still requires predecessor/kit examination."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1-3/NIHMS supplement source inventory and scraper",
+        "finding": "No ChRO-specific oligo table surfaced in inspected supplied supplements; original predecessor contains primer family."
+      }
+    },
+    {
+      "id": "illumina_kit",
+      "role": "linked_material",
+      "locator": "Illumina library manufacturer protocol named in ChRO-seq Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Article JATS line 154 names manufacturer but not exact kit/revision; original guide unverified.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "proseq2016",
+      "role": "predecessor",
+      "locator": "Mahat et al. 2016 Nature Protocols 10.1038/nprot.2016.086; _data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt:2870-2910",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original PMC5502525 JATS Table 1 lines 2870-2910",
+        "finding": "Table 1 prints VRA3 and VRA5 RNA adapters with end modifications, RP1 RT/PCR primer, and RPI-n indexed PCR primer family. ChRO Methods cites this source but does not prove each ChRO variant used these unchanged."
+      },
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt Table 1 lines 2870-2905 and read trimming line 2487; ChRO defining JATS lines 154-158; oligo scraper on original DOI bundle, hits at Table 1 lines 2876, 2880, 2883, 2897, 2900-2901",
+        "finding": "Independently checked Mahat et al. 2016 original PRO-seq Table 1. VRA3 is a 5-prime-phosphorylated 3-prime RNA adapter with /Inverted dT/ at its 3-prime end; VRA5 is unphosphorylated at its 5-prime end; RP1 serves both RT and PCR; RPI-n carries six sample-index Ns. PRO-cap RA3/RA5/RTP are separately listed and must not be substituted for PRO-seq. ChRO JATS says its library preparation closely followed this method but also says some ChRO libraries used six-base molecule UMIs in adapters, so Table 1 cannot establish an unchanged oligo variant for every ChRO library."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "ChRO JATS lines 154-158 and reference 28; Mahat 2016 original Table 1 lines 2870-2905; ChRO supplement MANIFEST.tsv",
+      "finding": "Earlier first pass left predecessor ref 28 unreviewed. This follow-up identifies it as Mahat 2016 PRO-seq and reads its original Table 1; the vague predecessor checklist row was removed as a duplicate of proseq2016. The Illumina manufacturer protocol remains unidentified by kit/revision, and ChRO-specific adapter variants remain unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "ChRO Methods ref 28 mapped to Mahat 2016; cached PMC5502525 original Table 1",
+      "finding": "Followed cited predecessor to original open article; Table 1 prints adaptor and RP1/RPI-n family. ChRO-specific variant mapping remains to resolve."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact sequencing-primer sequence or binding site is not recoverable from checked sources.",
+      "disposition": "blocked",
+      "evidence": "Generic PRO-seq adapter/RP1/RPI-n bases are published in cited Mahat 2016 Table 1. Exact use or modification of that family in ChRO remains uncertain; page must reflect inherited source."
+    }
+  ],
+  "conclusion": "Two independent located checks of the cited 2016 PRO-seq Table 1 establish candidate inherited adapter and PCR-primer families, not each ChRO-specific variant. Unidentified Illumina kit/revision and ChRO adapter/UMI variants keep the missing claim blocked."
+}

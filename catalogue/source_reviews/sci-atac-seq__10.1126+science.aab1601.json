@@ -1,0 +1,97 @@
+{
+  "dir": "sci-atac-seq__10.1126+science.aab1601",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "science_2015",
+      "role": "defining",
+      "locator": "Cusanovich et al Science 2015 doi:10.1126/science.aab1601 PMC4836442 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "science.aab1601_PMC4836442.xml.txt lines 41-47 and supplement pointer",
+        "finding": "Original article describes 96-well indexed Tn5 tagmentation followed by pooled redistribution and indexed PCR."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "science.aab1601_PMC4836442.xml.txt lines 41-47, 161-165 and 251",
+        "finding": "Defining paper states barcoded Tn5 tagmentation in 96 wells, nuclei pooling and redistribution, then second barcode by indexed PCR. It points to Science supplementary methods for exact oligos."
+      }
+    },
+    {
+      "id": "science_supp",
+      "role": "supplement",
+      "locator": "2015 Science NIHMS776051 Supplementary_Material.pdf and Table_S2.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The defining 2015 Science Supplementary_Material.pdf and Table_S2.txt are both (manual) entries in the source-bundle MANIFEST.tsv lines 8–9 (PMC article instance 4836442; curl error 6). Neither original was read, so no pass_2 finding is recorded for these sources. Amini 2014 and Cusanovich 2018 tables cannot substitute for them.",
+      "discovered_from": "science_2015"
+    },
+    {
+      "id": "amini_prior",
+      "role": "linked_material",
+      "locator": "Amini et al Nat Genet 2014 doi:10.1038/ng.3119, corrected MOESM2 oligo table",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligonucleotide_Seuqneces sheet and Correction Notice first lines",
+        "finding": "Predecessor source prints transposon/sequencing oligos and explicitly states first five rows were restored 20 May 2015; not proof of Cusanovich 2015 index primer variant."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Amini 2014 publisher MOESM2 oligo table ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt lines 1–38, Correction Notice and Oligonucleotide_Seuqneces sheet.",
+        "finding": "Original predecessor sheet prints indexed C15/D15 transferred strands and custom sequencing primers. Its correction notice states the first five rows were restored 20 May 2015; these are not proof of 2015 sci-ATAC variants."
+      },
+      "discovered_from": "science_2015"
+    },
+    {
+      "id": "cusanovich_2018",
+      "role": "linked_material",
+      "locator": "Cusanovich et al Nature 2018 doi:10.1038/nature25981, Table S12",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "x_moesm2/nature25981-s2/Table_S12.xlsx.txt oligo sheet",
+        "finding": "Later improved sci-ATAC source lists 96+96 PCR primers, Tn5 oligos and custom sequencing primers; cannot certify 2015 oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Cusanovich 2018 Table S12, x_moesm2/nature25981-s2/Table_S12.xlsx.txt lines 1–24 (P5 primer layout and indexed rows), 211–230 (indexed transposon oligos); full sci-ATAC family source-bundle scraper run before reading.",
+        "finding": "The 2018 successor's Table S12 gives the P5 PCR layout with 10-base row indices, P7 primer family, and C15/D15 transferred transposon strands. It establishes a later improved protocol only. It cannot resolve which exact primer variants the inaccessible 2015 Science supplement used."
+      },
+      "discovered_from": "science_2015"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "2015 Science JATS two-level design and supplement links; Amini correction notice; 2018 Table S12",
+      "finding": "Followed predecessor and successor publications. Original 2015 Science supplement/primer table remain unavailable, so 2015-specific bases stay unresolved."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "science.aab1601_PMC4836442.xml.txt lines 41-47, 161-165; Amini MOESM2 lines 1-38; Cusanovich 2018 Table S12; 2015 MANIFEST.tsv",
+      "finding": "Independently checked defining article, precursor and successor oligo sources. Defining 2015 Supplementary Material and Table S2 remain unavailable in manifest, so 2015-specific index sequences are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact 2015 sci-ATAC-seq barcoded Tn5 and PCR primer families",
+      "disposition": "blocked",
+      "evidence": "The defining paper’s original Supplementary Material and Table S2 are gated; later versions cannot certify them."
+    }
+  ],
+  "conclusion": "Two independent located reads now cover the 2015 main article and the 2018 successor Table S12. The defining 2015 Science supplementary methods and Table S2 remain inaccessible, so later oligo families cannot establish the exact 2015 sequences; no missing-information claim is accepted."
+}

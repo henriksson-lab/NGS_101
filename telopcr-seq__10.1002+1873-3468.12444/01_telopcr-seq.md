@@ -1,5 +1,9 @@
 # TeloPCR-seq
 
+## Published source discrepancy
+
+🟢 Bennett *et al.* final FEBS Letters Methods (`1873-3468.12444_PMC5561429.xml.txt`, line 48) specify **0.25 picomoles of anchor primer per 20 µL ligation**. The author bioRxiv v1 Methods (`047837_v1.full.pdf.txt`, lines 205–209) instead say **0.25 pM anchor primer**. Those units differ: 0.25 picomoles in 20 µL corresponds to 12.5 nM. The page follows the final publication for reagent amount; the preprint unit remains unexplained. The primer sequence and 5′ phosphate/3′ amino block agree across the two versions.
+
 ## 1. What it is
 
 TeloPCR-seq attaches an anchor to native *S. pombe* chromosome termini, amplifies each end with a subtelomeric primer, and reads the resulting telomere amplicons as PacBio circular libraries.

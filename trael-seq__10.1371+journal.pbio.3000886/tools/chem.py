@@ -1,6 +1,6 @@
 """TrAEL-seq native 3-prime-end capture."""
 import illumina as il
-from multibranch import illumina_branch
+from batch_ngs import truseq_library
 from protocol_extensions import native_three_prime_end
 from batch_ngs import seg
 from adapter_ligation import AdapterLigationGeometry
@@ -13,9 +13,13 @@ TITLE="TrAEL-seq — native DNA 3-prime-end sequencing"
 NOTES="01_trael-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1371/journal.pbio.3000886">Kara et al., <i>PLOS Biology</i> (2021)</a>.'
 SUMMARY="A pre-adenylated, biotinylated hairpin adapter ligates selectively to native DNA 3-prime OH ends; fill-in, fragmentation and affinity selection retain the captured end for directional Illumina sequencing."
-FINAL_LIBRARY,SEQ_PRIMERS=illumina_branch("TrAEL-seq","native-end-adjacent genomic DNA")
+FINAL_LIBRARY,SEQ_PRIMERS=truseq_library(
+    [seg("native-end-adjacent genomic DNA", "X" * 34, placeholder=True)],
+    "TrAEL-seq", dual_index=False, i7_nt=6)
 FINAL_CAPTION="Read orientation starts at genomic sequence adjacent to the captured native 3-prime end."
-SEQUENCING_INTRO="Declared Illumina primers bind the completed TrAEL-seq library."
+SEQUENCING_INTRO=("The source reports 50-base single-read MiSeq or 75-base single-end "
+                  "NextSeq 500 acquisition. E7335 is a single-index, six-base primer set; "
+                  "the specific index primer used for each library is not named.")
 ADAPTER2 = "GATCGGAAGAGCACACGTCTGAACTCCAGTCUUUUGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
 ADAPTER1 = ("NNNNNNNNAGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTU"
             "GCGCAGGCCATTGGCCTGCGCUACACTCTTTCCCTACACGACGCT")
@@ -110,8 +114,8 @@ def protocol_graph():
                 geometry=PCRGeometry.exact(
                     FINAL_LIBRARY,
                     PCRPrimer("NEBNext Universal",il.NEBNEXT_UNIVERSAL_PRIMER),
-                    PCRPrimer("NEBNext indexed primer",il.nebnext_i7_primer("N"*8)),
-                    statement="The paper names the NEBNext Universal and Index primers from E7335; their canonical kit sequences are centralized in illumina.py."))
+                    PCRPrimer("NEBNext indexed primer",il.nebnext_i7_primer("N"*6)),
+                    statement="The paper names the NEBNext Universal and Index primers from E7335; the E7335 vendor manual specifies a six-base i7 index and no i5 index. The selected index number is not reported."))
     graph.sequence(library,SequencingPlan(
         library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS),

@@ -1,0 +1,89 @@
+{
+  "dir": "cage__10.1038+nprot.2012.005",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "protocol",
+      "role": "defining",
+      "locator": "_data/sources/cage__10.1038+nprot.2012.005/PMC4094379_PMC4094379.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Protocol methods and oligo table lines 73–93, 1328–1420; scraper verifies SOL-lower family",
+        "finding": "Defining Nature Protocols article prints CAGE linker/cap-trapping steps and SOL-lower indexed oligos."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Takahashi 2012 JATS conceptual Methods lines 73–93, Table 1 lines 1328–1420",
+        "finding": "Cap-trapper CAGE uses random/anchored 5′ SOL linkers, second strand, EcoP15I tag cleavage, 3′ linker and PCR. Table 1 prints modified N6/GN5 SOL family and RT-N15-EcoP; available source has many exact oligos."
+      }
+    },
+    {
+      "id": "springer_script",
+      "role": "supplement",
+      "locator": "_data/sources/cage__10.1038+nprot.2012.005/nprot.2012.005_41596_2012_BFnprot2012005_MOESM283_ESM.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Entire 1-kB shell script lines 1–46",
+        "finding": "Supplement is BAM-to-CTSS processing script with no chemical method or oligo."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Entire publisher MOESM283 shell script lines 1–46",
+        "finding": "This is a BAM-to-CTSS BED processing script, no wet-lab chemistry or oligo bases; exclusion is justified."
+      },
+      "reason": "Supplement is BAM-to-CTSS processing script with no chemical method or oligo."
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC4094379 NIHMS595870 supplementary PDF",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC download gate; publisher ESM script is not proven equivalent."
+    },
+    {
+      "id": "predecessor_cage",
+      "role": "linked_material",
+      "locator": "Earlier cap-trapper CAGE protocol cited in defining article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Predecessor implementation source not yet traced/read.",
+      "discovered_from": "protocol"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Defining protocol and its supplementary script read; PMC supplementary PDF and cited predecessor work unresolved.",
+      "finding": "Linked-source inventory and independent second review remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original Takahashi 2012 JATS conceptual Methods lines 73–93, Table 1 lines 1328–1420; Entire publisher MOESM283 shell script lines 1–46",
+      "finding": "Independently read accessible defining/linked sources. Remaining listed original supplements, predecessors or detailed protocols are unavailable and keep missing-information claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Whether the full historical CAGE oligo family is captured by the available article",
+      "evidence": "Defining protocol and its supplementary script read; PMC supplementary PDF and cited predecessor work unresolved.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open."
+}

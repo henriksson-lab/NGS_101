@@ -32,11 +32,14 @@ def preamble(protocol: str, *, complete: bool = False) -> str:
                       if protocol == S.SCRB else
                       "Molecular crowding (7.5% PEG 8000) enhances RT; the TSO is unblocked. Cells are barcoded in RT and pooled before amplification.")
     complete_attr = ' data-protocol-complete="true"' if complete else ""
+    source_notice = (info('Published-source discrepancy: SCRB Supplementary Table S2 (extracted lines 1496–1506) labels barcode set 1 “D2 and D2”, while its Methods (extracted lines 43–46) distinguish D1/D2 from D3. The graph uses a six-base barcode placeholder and does not assign a set to an unspecified library; D1/D2 is the likely intended set-1 label, but the printed table heading is unresolved. The <a href="https://support-docs.illumina.com/SHARE/AdapterSequences/Content/Nextera_Illumina-Sequences.htm">current Illumina Nextera sequence table</a> prints the generic P7–i7–s7 PCR-primer family shown below. The <a href="https://hahana.soest.hawaii.edu/cmoreserver/summercourse/2015/documents/Metagenomics_06-22/nextera_xt_sample_preparation_guide_15031942_c.pdf">2012 Illumina Nextera XT Guide Rev C</a> lists N701–N712 eight-base indexes (local text lines 2173–2274). The original SCRB supplement (Methods, extracted lines 63–68; Fig. S1, lines 276–289) does not name a specific N7xx well, and identity with the 2014 kit lot remains unverified.')
+                     if protocol == S.SCRB else '')
     return f'''<div class="wrap"{complete_attr}>
 <h1>{title} &mdash; plate-based 3' tag single-cell RNA sequencing</h1>
 <p class="research-notes"><a href="{notes}">Research notes</a></p>
 {info(f'Defining source: <a href="https://doi.org/{doi}">doi:{doi}</a>.')}
 {info(distinguishing + ' Each molecule carries a 6-nt well barcode and 10-nt UMI.')}
+{source_notice}
 '''
 
 

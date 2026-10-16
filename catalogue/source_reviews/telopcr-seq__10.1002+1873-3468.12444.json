@@ -1,0 +1,108 @@
+{
+  "dir": "telopcr-seq__10.1002+1873-3468.12444",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Bennett et al FEBS Lett 2016 doi:10.1002/1873-3468.12444 PMC5561429",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "1873-3468.12444_PMC5561429.xml.txt lines 44-56; scraper line 48",
+        "finding": "Methods print 5′ phosphate/3′ amino-blocked anchor and both subtelomeric primers; PacBio ~250 bp library step only names manufacturer workflow."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "1873-3468.12444_PMC5561429.xml.txt lines 46-56; original Methods and source-bundle scraper hit checked",
+        "finding": "Final paper prints /5Phos/AGGGTTAATAAGCGGCCGCGTCG/3AmC3/ anchor, two subtelomeric primers and anchor reverse complement, CircLigase II then PCR; it says 0.25 picomoles anchor per 20 uL. PacBio ~250-bp library prep is delegated to manufacturer."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 047837 v1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "047837_v1.full.pdf.txt lines 205-216; scraper line 205",
+        "finding": "Earlier author Methods print anchor and subtelomeric primers consistent with article."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "047837_v1.full.pdf.txt lines 203-221; original author PDF read after scraper",
+        "finding": "Preprint agrees on anchor modifications and PCR primer bases, but Methods lines 205-209 say 0.25 pM anchor in 20 uL rather than final-paper 0.25 picomoles. Source discrepancy now stated on public page and note; final paper governs amount."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "preprint_supp",
+      "role": "supplement",
+      "locator": "bioRxiv 047837-1 supplement",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "047837_047837-1.pdf.txt first 35 lines; scraper run",
+        "finding": "Variant-count table, no PacBio hairpin oligo information."
+      },
+      "reason": "Telomere variant counts, not library prep.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "047837_047837-1.pdf.txt lines 1-39; original supplement inspected after scraper",
+        "finding": "Supplement lists telomere seven-base variant modules and counts, not the downstream PacBio ~250-bp hairpin adapters or sequencing primer."
+      }
+    },
+    {
+      "id": "pmc_supp",
+      "role": "supplement",
+      "locator": "PMC NIHMS869265 Supplemental Materials route",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance supplemental PDF remains download-gated; not compared to author bioRxiv supplement.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "pacbio_manual",
+      "role": "linked_material",
+      "locator": "Historical PacBio ~250 bp SMRTbell preparation and sequencing guide",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact 2016 manufacturer kit/manual and its hairpin adapter or sequencing primer bases not cached.",
+      "pass_2": null,
+      "discovered_from": "article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Defining Methods lines 48-56, author preprint Methods, supplement inventory, named PacBio workflow",
+      "finding": "Followed preprint and checked its supplement; historical PacBio source and PMC supplemental PDF remain unavailable."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Final FEBS original Methods lines 46-56; author preprint Methods lines 203-221 and supplementary variant table lines 1-39",
+      "finding": "Followed preprint and its supplement; found 0.25 pM versus 0.25 picomoles published-version discrepancy. PMC supplemental route and historical PacBio kit manual remain unavailable; hairpin/primer claims stay blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical PacBio hairpin adapter and sequencing-primer site",
+      "disposition": "blocked",
+      "evidence": "Paper names manufacturer ~250 bp workflow without oligo bases; historical manual not checked."
+    }
+  ],
+  "conclusion": "Final article, author preprint and preprint supplement independently read; PacBio adapter chemistry blocked by historical manual and PMC supplement. Preprint/final amount discrepancy documented on page."
+}

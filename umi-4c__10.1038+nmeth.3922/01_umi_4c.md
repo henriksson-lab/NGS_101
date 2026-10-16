@@ -8,6 +8,7 @@ Schwartzman O et al. *UMI-4C for quantitative and targeted chromosomal contact p
 
 - 🟢 The defining paper's publisher record and abstract.
 - 🟢 The authors' deposited experimental description for [GSM2054403](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2054403).
+- 🟢 The defining paper's Supplementary Table 4 (MOESM330) prints the forked adapter, universal reverse primer and locus-specific example bait primers; its Supplementary Figure 1 gives library-construction context. The source bundle and oligo scraper were checked against the original supplement.
 
 ## 1. What it is
 
@@ -26,4 +27,6 @@ Schwartzman O et al. *UMI-4C for quantitative and targeted chromosomal contact p
 
 🟡 The endpoint is represented with structured molecular-identifier metadata so it is searchable as a UMI while its note preserves that it is coordinate-derived.
 
-🟡 Bait sequences depend on the chosen locus; the schematic therefore shows their roles and does not claim universal bases.
+🟢 Supplementary Table 4 prints both forked-adapter oligos: `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT` and `(PO4)-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC(NNNNNN)ATCTCGTATGCCGTCTTCTGCTTG`. The six-base window belongs to the adapter sample index; it is distinct from the genomic sonication-endpoint UMI. The table also prints Universal Primer 2 (`CAAGCAGAAGACGGCATACGA`) and example viewpoint primers, including G1p1 upstream `CATCCCCTCAACTCCACCTTAC` and downstream `CTCAACTCCACCTTACCCACCAT` (with the printed Illumina prefix).
+
+🟡 Bait sequences still depend on the chosen locus. The page shows source-printed G1p1 examples while the generic contact construct keeps the viewpoint as a role. The precise annealed fork and dA-tail ligation junction are not yet verified from a source figure, so that graph geometry remains unresolved.

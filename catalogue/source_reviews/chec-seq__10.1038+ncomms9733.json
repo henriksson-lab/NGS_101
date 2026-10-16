@@ -1,0 +1,125 @@
+{
+  "dir": "chec-seq__10.1038+ncomms9733",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original",
+      "role": "defining",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_PMC4618392.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods ChEC-seq library preparation and figure sections",
+        "finding": "Tethered MNase cleaves after calcium addition; released small fragments are end-repaired, dA-tailed and adapter-ligated for paired-end sequencing."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC4618392 JATS lines 67 and 133–135; scraper",
+        "finding": "Calcium triggers tethered MNase cleavage in permeabilized yeast; released small DNA fragments are selected before library preparation."
+      }
+    },
+    {
+      "id": "supp_figures",
+      "role": "supplement",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "supplement opening and figure legends",
+        "finding": "Supplementary information contains assay comparisons/figures; exact oligo relevance outside inspected legends remains open."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF lines 1–1216 figures and legends; lines 1217–1255 Supplementary Table 1 plasmids; lines 1255–1317 Supplementary Table 2 yeast strains; 1319–end references",
+        "finding": "Independently read the supplement inventory and chemistry-relevant sections. It documents assay validation, MNase fusion plasmids and yeast strains; it has no library adapter or indexing oligo table. The cited Henikoff library method, rather than this result supplement, remains the relevant source for adapter family and member/version checks."
+      }
+    },
+    {
+      "id": "author_detailed",
+      "role": "detailed_protocol",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5608238/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Authors’ later detailed ChEC-seq procedure is cited in note but original was not retrieved/read in this first pass.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "orsi_library",
+      "role": "predecessor",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC4410783_PMC4410783.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Basic Protocol 3 adapter/primer list lines 812–832 and library steps 926–933",
+        "finding": "Henikoff-group low-input library method prints modified Universal and Indexed TruSeq adapters plus P5/P7 enrichment primers."
+      },
+      "discovered_from": "original",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Henikoff-group linked low-input original PMC4410783 JATS Basic Protocol 3 lines 812–832 and 926–933; scraper",
+        "finding": "Procedure prints modified universal/indexed TruSeq adapters, P5/P7 primers and annealing, with a six-base variable index. It is linked method evidence, not by itself proof of exact ChEC index choice."
+      }
+    },
+    {
+      "id": "geo",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE67453",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining assay GEO metadata and sample-specific read layout need an independent check.",
+      "discovered_from": "original"
+    },
+    {
+      "id": "ncomms9733_supp_ncomms9733_s2_xls",
+      "role": "supplement",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s2.xls.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Inspected source header/contents describe assay result or metadata rather than library chemistry; second reader must confirm full-source exclusion.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original ncomms9733-s2 workbook Abf1 sheet header",
+        "finding": "Peak coordinates, cleavage signals and motif result data; no library oligo role in inspected header."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 29407 extracted lines total",
+        "finding": "Abf1 cleavage-peak coordinates and motif scores, not library oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original ChEC Methods; Orsi Basic Protocol 3 lines 812–832; later detailed protocol/GEO identified",
+      "finding": "Oligos are present in linked laboratory method; exact original sample index and detailed-source comparison remain pending."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "ChEC original JATS lines 67/133–135 and linked Orsi low-input procedure lines 812–832/926–933",
+      "finding": "Followed linked low-input library preparation; author detailed ChEC and GEO routes still require review, so no absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "ChEC-seq adapter oligos are unpublished",
+      "disposition": "blocked",
+      "evidence": "Linked Henikoff method publishes an adapter family; exact member/version and independent check remain blocked."
+    }
+  ],
+  "conclusion": "Linked Henikoff method publishes an adapter family; exact member/version and independent check remain blocked."
+}

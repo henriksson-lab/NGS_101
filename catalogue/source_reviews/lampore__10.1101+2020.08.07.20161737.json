@@ -1,0 +1,68 @@
+{
+  "dir": "lampore__10.1101+2020.08.07.20161737",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "defining",
+      "locator": "https://doi.org/10.1101/2020.08.07.20161737",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Defining medRxiv full text remains manual/403; web search snippets do not establish contents."
+    },
+    {
+      "id": "preprint2",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1101/2020.09.18.20195370",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Later assay/protocol preprint cited in local bundle is also manual; its supplemental ONT protocol could be chemistry-relevant.",
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "jcm",
+      "role": "linked_material",
+      "locator": "_data/sources/lampore__10.1101+2020.08.07.20161737/JCM.03271-20_PMC8315953.xml.txt:218-220",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original later JCM Methods lines 218-220",
+        "finding": "Authors explicitly used LamPORE protocol 1 July 2020 version 1 revision 4; this later study describes multiplexed FIP and rapid barcodes but does not print all bases in inspected Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Later JCM PMC8315953 JATS Methods around lines 218-220",
+        "finding": "Later original article describes LamPORE assay/run workflow but cannot by itself establish every oligo of the unavailable 2020 preprint/vendor protocol."
+      }
+    },
+    {
+      "id": "ont2020",
+      "role": "vendor",
+      "locator": "Oxford Nanopore LamPORE protocol 1 July 2020 version 1 revision 4",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Period-specific original vendor protocol named at JCM Methods line 220 not in local bundle; current online vendor document is not proof of 2020 revision."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "MANIFEST.tsv two preprints and ONT guide manual rows; JCM JATS 218-220",
+      "finding": "Both original preprint versions and ONT 2020 vendor protocol remain inaccessible locally; linked-information inventory is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "All eight FIP molecular barcodes and nanopore rapid barcode/adapter sequence",
+      "disposition": "blocked",
+      "evidence": "Period-specific ONT manual and original preprints inaccessible. Later JCM study names protocol version but gives no full primer table in inspected Methods."
+    }
+  ],
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+}

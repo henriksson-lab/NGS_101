@@ -1,0 +1,113 @@
+{
+  "dir": "fiber-seq__10.1126+science.aaz1646",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "science_2020",
+      "role": "defining",
+      "locator": "_data/sources/fiber-seq__10.1126+science.aaz1646/2020-single-molecule-regulatory-architectures-captured-by.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Author-hosted original Science article pp1–6: source text lines 80–145 (MTase and PCR-free CCS construction), end-of-article Supplementary Materials pointer and references 20–23,27–28.",
+        "finding": "Original selects Hia5 for efficient accessible-DNA methylation, then PCR-free high-molecular-weight DNA library construction and PacBio CCS. Full library kit identity is delegated to original Supplementary Materials; main article recovery does not establish historical adapter/primer bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author-hosted 2020-single-molecule-regulatory-architectures-captured-by.pdf.txt main article pp1–6, lines80–145 and680–728; full Fiber source-bundle oligo scraper reviewed first",
+        "finding": "Independently confirmed nonspecific adenine methyltransferase marking, Hia5 source selection, PCR-free high-molecular-weight DNA library construction and PacBio circular consensus readout. Original DC1 Materials and Methods, GEO GSE146942 and Zenodo analysis code are explicit links. Main text alone does not identify the historical SMRTbell kit or exact adapter bases; current 2026 kit cannot be assigned retrospectively."
+      }
+    },
+    {
+      "id": "author_bench",
+      "role": "linked_material",
+      "locator": "https://fiberseq.github.io/protocol/bench-protocol.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Author protocol Part 5 web lines 118-146",
+        "finding": "Current author protocol sends PCR-free sheared, Hia5-labelled DNA through PacBio SMRTbell prep kit 3.0 and sequencing-primer annealing; this is a current implementation, not necessarily the 2020 kit."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Author bench protocol lines 118-146, https://fiberseq.github.io/protocol/bench-protocol.html",
+        "finding": "Current author protocol calls for PCR-free PacBio SMRTbell prep kit 3.0 on Hia5-marked DNA; this is a later implementation."
+      },
+      "discovered_from": "science_2020"
+    },
+    {
+      "id": "pacbio_2026",
+      "role": "vendor",
+      "locator": "PacBio SMRTbell prep kit 3.0 Procedure & checklist, REV09 Aug 2026, https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-whole-genome-and-metagenome-libraries-using-SMRTbell-prep-kit-3.0.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Official PDF pp 6-7 and 17-18, web lines 210-233 and 562-579",
+        "finding": "Names proprietary SMRTbell adapter and Standard sequencing primer, and directs primer annealing. No nucleotide sequence was found in those checked sections; guide postdates the defining paper."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PacBio official Procedure 102-166-600 REV09 AUG2026 pp1-2 and adapter/primer sections",
+        "finding": "Current 2026 guide describes SMRTbell adapter ligation and primer annealing; no ordered adapter bases in checked sections, and revision cannot establish the 2020 kit."
+      },
+      "discovered_from": "author_bench"
+    },
+    {
+      "id": "pacbio_2020",
+      "role": "vendor",
+      "locator": "Version-matched PacBio SMRTbell library and sequencing-primer manuals used in 2020",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical kit identity and manual not established from available defining source.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "science_2020"
+    },
+    {
+      "id": "science_2020_supplement",
+      "role": "supplement",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.aaz1646/suppl_file/aaz1646_stergachis_sm.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original article explicitly links DC1 containing Materials and Methods, Figs S1–S9 and refs48–54. Direct current Science supplementary URL returns HTTP403 even with working network; full original supplementary methods remain uninspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Local 2020 Science manifest; author bench Part 5 web lines 118-146; linked PacBio guide pp 6-7,17-18",
+      "finding": "Followed current author bench protocol to official 2026 PacBio guide; exact historical 2020 kit remains unknown because defining article/supplement is unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Author bench protocol lines 118-146; PacBio official 2026 guide pp1-2",
+      "finding": "Current bench workflow links SMRTbell prep kit 3.0; 2020 version-specific PacBio material and defining supplement remain unavailable."
+    },
+    "recovery_followup": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original Science article main text pp1–6; Supplementary Materials URL http://science.sciencemag.org/content/suppl/2020/06/24/368.6498.1449.DC1; coauthor Harvard publication page.",
+      "finding": "Recovered defining original via coauthor Harvard PDF; main text explicitly delegates full methods to DC1. Earlier statement that article and supplement were both unobtainable is superseded for main article only. No historical vendor sequence absence accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact historical SMRTbell hairpin and primer bases or binding coordinates are unavailable",
+      "disposition": "blocked",
+      "evidence": "Current vendor guide names reagents but no bases in inspected passages; 2020 primary source and matched kit manual are still absent."
+    }
+  ],
+  "conclusion": "Defining 2020 article recovered and first-read from authorized coauthor PDF. Independent second read and original supplementary methods remain required before historical kit identity or absent sequences can be accepted."
+}

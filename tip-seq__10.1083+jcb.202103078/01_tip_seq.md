@@ -27,3 +27,10 @@ site and S5.
 🟡 The public page draws the representative r5001/S502/N701 combination. The source
 table contains 384 r5 transposons and the full indexed-PCR families; the representative
 does not imply that those are the only usable indexes.
+
+🟢 Published Table S2, available as the extracted `TableS2.docx` supplement,
+specifies the sciTIP run as Read 1 51 cycles, index 1 8 cycles, index 2 29
+cycles and Read 2 51 cycles. It says the 29-cycle index 2 read carries r5,
+the intervening spacer and i5, and gives bcl2fastq header handling for these
+cycles. This confirms the model's read layout from the source, beyond the
+oligo table alone.

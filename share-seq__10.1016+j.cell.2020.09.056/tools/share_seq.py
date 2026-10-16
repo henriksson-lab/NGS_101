@@ -13,7 +13,18 @@ TITLE="SHARE-seq"
 NOTES="01_share-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.09.056">Ma et al., <i>Cell</i> (2020)</a>.'
 SUMMARY="Fixed permeabilized cells are first tagmented and reverse-transcribed. Three split-pool hybridization rounds assemble the same barcode chain on ATAC fragments and biotinylated cDNA; blocking oligos sequester free adapters, then one ligation seals the chain before the modalities are separated."
-CAVEAT="The constant arms, linkers and ordering modifications come from Supplementary Table S1. The 96 well-specific 8-nt barcode values in each round remain placeholders."
+CAVEAT=("The constant arms, linkers and ordering modifications come from the published "
+        "Supplementary Table S1. Its 96 well-specific 8-nt values per round are represented "
+        "as placeholders in the diagram. <br><b>Source-version discrepancy:</b> the "
+        "<a href='https://doi.org/10.1101/2020.06.17.156943'>June 2020 preprint</a> "
+        "Methods, section (1), calls for the <i>round 2</i> linker in the round 1 plate "
+        "(PDF lines 722–725) and describes the incoming molecular end as a 3′ overhang "
+        "(lines 718–721). The <a href='https://doi.org/10.1016/j.cell.2020.09.056'>"
+        "published STAR Methods</a>, ‘Preparing oligonucleotides for ligations’, calls for "
+        "the <i>round 1</i> linker and a 5′ overhang (JATS line 213); Table S1 ‘bulk oligos’ "
+        "lines 3–5 prints distinct linkers for all three rounds. The model uses the "
+        "published linker and oligo-table geometry. The preprint's intended wording "
+        "cannot be independently established from its methods text alone.")
 BC1=feature("cell_barcode_round1","cell_barcode","combinatorial",group="cell_barcode",part="round 1")
 BC2=feature("cell_barcode_round2","cell_barcode","combinatorial",group="cell_barcode",part="round 2")
 BC3=feature("cell_barcode_round3","cell_barcode","combinatorial",group="cell_barcode",part="round 3")

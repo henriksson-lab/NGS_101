@@ -106,6 +106,7 @@ def render() -> str:
         '<h1>s3-WGS &mdash; symmetrical-strand combinatorial-indexed whole-genome sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-021-00962-z">Mulqueen '
              'et al., <i>Nature Biotechnology</i> (2021)</a>.'),
+        info('Source discrepancy: published Supplementary Table 5 is headed “Oligonucleotides used for PCR, i7 Molecule side,” the same wording as Table 4. Table 5 rows are named PCR_A..H_i5_A..H and carry P5/i5/s5 arms, while Table 4 rows carry P7/i7/Read 2 arms. The model therefore treats Table 5 as the i5 primer set. The authors have not confirmed whether its heading was a copy error.'),
         key_oligos(), '<h2>Library construction</h2>',
         protocol_graph_panels(S.protocol_graph(),cls="long"),
         sp.section(S.final_library(), S.SEQ_PRIMERS,

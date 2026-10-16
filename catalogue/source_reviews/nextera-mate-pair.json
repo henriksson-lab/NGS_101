@@ -1,0 +1,79 @@
+{
+  "dir": "nextera-mate-pair",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "vendor_guide",
+      "role": "defining",
+      "locator": "Illumina Nextera Mate Pair Library Prep Reference Guide 15035209 v02",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original illumina_nextera-mate-pair-reference-guide-15035209-02.pdf.txt lines 245-275 and workflow/reagent sections",
+        "finding": "Vendor guide defines Tn5 tagging, biotinylated junction, circularization, shearing, streptavidin capture, end repair and TruSeq indexing; it does not by itself print all adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Illumina original Reference Guide #15035209 v02 introduction lines 235-245; strand displacement lines 675-682, circularization lines 1239-1249, streptavidin capture lines 1454-1463",
+        "finding": "The guide specifies tagmentation and adapter tagging, gap fill, blunt-end intramolecular ligation, shearing of circles and capture of adapter-bearing junction fragments on streptavidin beads. It does not print every index member."
+      }
+    },
+    {
+      "id": "tech_note",
+      "role": "linked_material",
+      "locator": "Illumina Nextera Mate Pair data-processing technical note",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original illumina_technote_nextera_matepair_data_processing.pdf.txt lines 160-182; scraper lines 171-181",
+        "finding": "Table 1 prints duplicate/single junction adapter sequence and Read1/Read2 external adapter motifs."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Illumina original Mate Pair Data Processing Technical Note Table 1 at extracted lines 160-182",
+        "finding": "Table 1 prints the duplicate-junction sequence CTGTCTCTTATACACATCTAGATGTGTATAAGAGACAG, the two single-junction arms and Read 1/2 external adapter elements."
+      },
+      "discovered_from": "vendor_guide"
+    },
+    {
+      "id": "truseq_index",
+      "role": "linked_material",
+      "locator": "Historical TruSeq DNA Library Prep indexing guide referred to by vendor",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Guide states TruSeq adapter indexing compatibility; exact kit/index selection not verified.",
+      "discovered_from": "vendor_guide"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official Illumina reference guide lines 245-275; data-processing note Table 1 lines 165-182",
+      "finding": "The linked official technical note supplies junction and external adapter motifs. A chosen historical TruSeq index kit/member remains open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Independently checked defining source Methods/SI citations, supplement inventory and named vendor/predecessor sources in the checklist",
+      "finding": "Original available sources corroborate the chemistry, but checklist-linked original vendor or predecessor material remains unavailable or unread; linked-information closure is blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Selected index member and full manufacturer oligo mixture",
+      "disposition": "blocked",
+      "evidence": "Vendor tech note prints motifs but does not identify experiment-specific index member or all kit oligo strands."
+    }
+  ],
+  "conclusion": "First located pass only; exact kit member remains open."
+}

@@ -9,17 +9,31 @@ TITLE="SUM-seq — sample-indexed, overloaded single-cell RNA and ATAC"
 NOTES="01_sum-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41592-025-02700-8">Llorens-Rico et al., <i>Nature Methods</i> (2025)</a>.'
 SUMMARY="ATAC fragments and RNA are separately sample-indexed in fixed nuclei, then a second 10x droplet barcode resolves overloaded nuclei; the sample-index–droplet-index pair identifies each cell across both modalities."
-CAVEAT="The source prints the 11-base RNA and ATAC pre-index families and modified Tn5 oligos. The branch graph still compresses them into representative library shells; exact junctions and the proprietary 10x bead oligo remain unresolved."
+CAVEAT="Supplementary Table 1 prints the 11-base RNA and ATAC pre-index families, modified Tn5 oligos and branch PCR primers. This page's branch graph still uses representative library shells; its exact junctions have not yet been reconstructed from those published oligos. The 10x gel-bead oligo and experiment-specific kit revision remain under source review."
 ATAC_INDEX_1="CATACGGCAGAAGACGAACACCTCCAACTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
 RNA_INDEX_1="CAGACGTGTGCTCTTCCGATCTNNNNNNNNNNAGTGATTAGCATTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN"
 TN5_ME_DDC="[Phos]CTGTCTCTTATACACATCT[ddc]"
 TN5_BLOCK="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-[invdT]"
+NEXTERA_READ_1="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
+PARTIAL_P5_PTO="AATGATACGGCGACCACCGAG*A"
+TRUSEQ_R2="CAGACGTGTGCTCTTCCGATCT"
+ATAC_SPACER="CATACGGCAGAAGACGAAC"
+P7_I7_SPACER="CAAGCAGAAGACGGCATACGAGAT[library_index]CATACGGCAGAAGACGAAC"
+PARTIAL_P7_PTO="CAAGCAGAAGACGGCATACGA*G"
+P7_I7_TRUSEQ_R2="CAAGCAGAAGACGGCATACGAGAT[library_index]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
 def oligos():
     return [f"<b>{name}</b> (Supplementary Table 1, 5′→3′): <code>{sequence}</code>"
             for name, sequence in (("ATAC sample-index 1", ATAC_INDEX_1),
                                    ("RNA sample-index 1", RNA_INDEX_1),
                                    ("Tn5 mosaic-end loading oligo", TN5_ME_DDC),
-                                   ("Tn5 barcode-hopping blocker", TN5_BLOCK))]
+                                   ("Tn5 barcode-hopping blocker", TN5_BLOCK),
+                                   ("Nextera Read 1", NEXTERA_READ_1),
+                                   ("Partial-P5-PTO", PARTIAL_P5_PTO),
+                                   ("TruseqR2", TRUSEQ_R2),
+                                   ("ATAC-spacer", ATAC_SPACER),
+                                   ("P7-i7-spacer", P7_I7_SPACER),
+                                   ("Partial-P7-PTO", PARTIAL_P7_PTO),
+                                   ("P7-i7-TruSeqR2", P7_I7_TRUSEQ_R2))]
 CELL_PARTS=(("sample index",11),("droplet barcode",16))
 RNA,RP=illumina_branch("SUM-seq RNA","RNA-derived cDNA",cell_parts=CELL_PARTS,umi=10)
 ATAC,AP=illumina_branch("SUM-seq ATAC","accessible genomic DNA",architecture="nextera",cell_parts=CELL_PARTS)

@@ -1,0 +1,128 @@
+{
+  "dir": "share-seq__10.1016+j.cell.2020.09.056",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/share-seq__10.1016+j.cell.2020.09.056/j.cell.2020.09.056_PMC7669735.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "STAR Methods lines 211–239; ligation, Tn5, RT",
+        "finding": "Paper names three 96-well barcoding plates and explicitly points to Table S1 for all oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Cell JATS j.cell.2020.09.056_PMC7669735.xml.txt STAR Methods lines 209-245, especially 211-215, 221-245; full source-bundle primer scraper run before reading",
+        "finding": "Published Methods give three distinct 96-well hybridization plates, round-1 linker at 9 uM, blocking after each hybridization, then a single T4 DNA ligase sealing step after round 3; Tn5 uses Read1 and phosphorylated Read2 with blocked ME complement; RT primer has 10-nt UMI/biotin. After reverse crosslinking, affinity capture sends ATAC DNA to supernatant and RNA-derived cDNA to beads. Published line 213 calls the incoming end a 5-prime overhang, unlike preprint v1."
+      }
+    },
+    {
+      "id": "publisher_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/share-seq__10.1016+j.cell.2020.09.056/scg_1-s2.0-S0092867420312538-mmc1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Cell mmc1 workbook bulk oligos lines 1–16 and Ad1 indexed family first rows lines 17 onward; scraper hits verified",
+        "finding": "Publisher supplementary workbook mirrored in scg data (manifest provenance) prints linker, blocked ME complement with phosphorothioates, RT primer modifications, and indexed families; table is primary, not scg-authored."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher Cell mmc1 workbook mirror scg_1-s2.0-S0092867420312538-mmc1.xlsx.txt, bulk oligos lines 1-15, Ad1 first/last lines 17-23 and 105-109, Plate_R1 lines 110-116 and 203-207, Plate_R2 lines 208-213 and 303-305, Plate_R3 lines 306-312 and 399-403; scraper hits checked in workbook",
+        "finding": "Manifest identifies mmc1 Cell publisher workbook mirrored byte-for-byte as named data file, distinct from scg-authored schematic. It prints three distinct linker constants, /5Phos/ RT primer with N10, internal /iBiodT/, T14VN, TSO rGrG+G, phosphorothioate /3ddC/ ME complement, 96-member indexed barcode families for rounds 1-3, and 92 printed Ad1 i5 variants. These source rows support present model constants and barcode placeholders; no full-family absence can be inferred from this workbook alone."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "_data/sources/share-seq__10.1016+j.cell.2020.09.056/2020.06.17.156943_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Preprint methods and figure headings; scraper run on bundle",
+        "finding": "Author preprint present; compare version-specific methods in pass 2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original author bioRxiv v1 PDF 2020.06.17.156943_v1.full.pdf.txt Methods section (1) lines 713-743, section (3) lines 755-760, section (4) lines 781-790, section (5) lines 792-812 and RNA library lines 855-864; full source-bundle primer scraper run before reading",
+        "finding": "Preprint gives same three-round/block/one-ligation workflow but Methods section (1) lines 722-725 calls for round-2 linker in the round-1 plate, whereas published JATS line 213 and publisher Table S1 rows 3-5 use round-1 linker. Preprint lines 718-721 call the incoming molecular end a 3-prime overhang, versus published JATS line 213 5-prime. Preprint RT mix lists stock-reagent concentrations (1.25x buffer, 12.5 uM primer, 18.75% PEG) whereas published Methods line 229 explicitly gives final concentrations (1x, 10 uM, 15%); this is a formulation presentation difference, not necessarily a different reaction. No preprint-specific oligo table in the main PDF."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "pmc_supp_methods",
+      "role": "supplement",
+      "locator": "PMC7669735 NIHMS1632906 supplement-1 through supplement-5 PDFs",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC gated; possible detailed published methods beyond local JATS."
+    },
+    {
+      "id": "pmc_supp_tables",
+      "role": "supplement",
+      "locator": "PMC7669735 supplement-6.xlsx and supplement-7 through -10 CSV",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC gated; may include additional index or barcode data, check in pass 2."
+    },
+    {
+      "id": "preprint_supp_caption",
+      "role": "supplement",
+      "locator": "Original bioRxiv v1 2020.06.17.156943_media-1.pdf.txt; Table S1 caption line 156",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "reason": "Original bioRxiv supplement PDF contains figure legends and a Table S1 oligo-design title but not the underlying Table S1 workbook; version-specific preprint oligo inventory remains unverified.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 media-1 PDF text lines 1-163, figure legend headings 4,32,47,63,81,94,116,126 and table list 156-160; scraper run on full SHARE-seq bundle before reading",
+        "finding": "This 42-page original supplement provides figure legends and at line 156 lists “Table S1. Oligo design”; the extracted PDF ends at line 163 with only table titles and does not include the Table S1 oligo data. It cannot prove preprint oligo-table equality to the published mmc1 workbook."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original bioRxiv v1 media-1 extracted PDF, concluding Supplementary tables list at lines 153–163; full 48-page PDF text searched for Table S1",
+        "finding": "The supplement ends with a list that names “Table S1. Oligo design” but contains no oligo table body. It cannot verify the preprint-version ordering strings; later publisher mmc1 workbook is a separate source."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "JATS STAR Methods and publisher mmc1 workbook checked; ten PMC attachments gated and preprint version differences unresolved.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Published Cell JATS STAR Methods lines 209-245; publisher mmc1 workbook text lines 1-15, 110-403; author bioRxiv v1 Methods lines 713-743 and media-1 supplement lines 1-163; local MANIFEST.tsv ten `(manual)` gated PMC attachment rows",
+      "finding": "Independently followed paper to publisher mmc1 oligo table and author preprint. Found and documented two preprint-vs-published wording conflicts on public page, using published table/model values. Preprint media-1 names Table S1 but does not contain its body; ten distinct PMC supplement downloads remain gated, so completeness and preprint sequence-version identity remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Completeness and published version of the full barcode/oligo family",
+      "evidence": "JATS STAR Methods and publisher mmc1 workbook checked; ten PMC attachments gated and preprint version differences unresolved.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "The published paper, publisher Table S1 workbook and author preprint each have independent located second reads. Preprint Methods disagree with final article about the round-1 linker label and incoming overhang polarity; the public page records the final article/table values and remaining interpretive limit. The preprint supplemental PDF only names Table S1 without its oligo body, and ten PMC attachments remain gated, so completeness/version claims remain blocked."
+}

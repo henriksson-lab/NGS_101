@@ -1,0 +1,95 @@
+{
+  "dir": "superrca__10.1038+s41467-022-31397-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Chen et al. 2022 PMC9276831 JATS/PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC9276831 Methods and supplements",
+        "finding": "Reaction order but no source oligo bases found."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC9276831 JATS/PDF; full-bundle scraper",
+        "finding": "Independent scraper found zero oligo hits; paper describes primer/padlock/RCA roles but not bases."
+      }
+    },
+    {
+      "id": "supp_info",
+      "role": "supplement",
+      "locator": "PMC9276831 MOESM1 Supplementary Information, Table S1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM1 Supplementary Information",
+        "finding": "Only Table S1 available, no claimed oligo Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM1 original supplement text",
+        "finding": "No S2 oligo table in accessible Supplementary Information."
+      }
+    },
+    {
+      "id": "reviewer_file",
+      "role": "supplement",
+      "locator": "PMC9276831 MOESM3 peer-review file",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "MOESM3 lines 420–425",
+        "finding": "Reviewer requests all oligos and authors say they added Table S2."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM3 text lines 420–425",
+        "finding": "Confirmed explicit author claim that missing source sequences were added as Supplementary Table S2."
+      }
+    },
+    {
+      "id": "table_s2",
+      "role": "linked_material",
+      "locator": "Author-claimed Supplementary Table S2, named in MOESM3 lines 424–425",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Not present in accessible MOESM1–4 attachments or local source bundle.",
+      "discovered_from": "reviewer_file"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Peer-review response and supplement list",
+      "finding": "Author-claimed S2 could not be found."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "MOESM3 lines 420–425; MOESM1–4 inventory",
+      "finding": "S2 is a relevant unresolved linked source."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact superRCA primer, ligation-template, padlock and detection oligo bases are missing",
+      "disposition": "blocked",
+      "evidence": "Author says S2 was added, but it is absent from retrievable attachments."
+    }
+  ],
+  "conclusion": "Second pass agrees that S2 is an unresolved relevant source; no absence accepted."
+}

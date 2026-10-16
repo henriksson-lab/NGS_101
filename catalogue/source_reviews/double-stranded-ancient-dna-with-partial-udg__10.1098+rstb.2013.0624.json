@@ -1,0 +1,70 @@
+{
+  "dir": "double-stranded-ancient-dna-with-partial-udg__10.1098+rstb.2013.0624",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1098/rstb.2013.0624; rstb.2013.0624_PMC4275898.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 1172-1203; Results 1210-1217",
+        "finding": "Paper specifies 7-base molecular barcodes and paired P5/P7 partial duplex adapters; refers all sequences, PreHyb and index oligos to electronic Table S1."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article lines 1172-1181, 1187, 1191-1193",
+        "finding": "Article puts 100 seven-base barcodes, partial P5/P7 adapter oligos, PreHyb primers and indexed finishing oligos in electronic Table S1; the narrative gives reaction design but not those bases. Table S1 must be obtained before claiming absence."
+      }
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "Royal Society rstb20130624supp1.pdf; MANIFEST.tsv manual downloadSupplement row",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher supplement endpoint unavailable to local fetcher.",
+      "pass_2": null
+    },
+    {
+      "id": "meyer_kircher",
+      "role": "predecessor",
+      "locator": "Meyer & Kircher 2010 [29] in paper Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked predecessor original not yet acquired.",
+      "pass_2": null
+    },
+    {
+      "id": "kircher",
+      "role": "predecessor",
+      "locator": "Kircher et al. 2012 [30] in paper Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Linked predecessor original not yet acquired.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Defining paper Methods reference Table S1 and predecessors [29,30]; Royal Society supplement URL in MANIFEST.tsv.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact barcoded adapters, PreHyb primers and index oligos",
+      "disposition": "blocked",
+      "evidence": "Defining Methods put sequences in Table S1, currently unavailable; predecessor details unchecked."
+    }
+  ],
+  "conclusion": "Table S1 and predecessors block sequence acceptance. Independent pass 2 pending; no missing claim accepted."
+}

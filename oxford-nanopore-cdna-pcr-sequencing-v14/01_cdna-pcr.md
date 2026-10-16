@@ -11,7 +11,7 @@ SQK-PCS114 converts RNA to full-length strand-switched cDNA, incorporates a UMI,
 - 🟢 The protocol explicitly divides library preparation into reverse transcription and strand switching, full-length selection by PCR, and Rapid Adapter addition.
 - 🟢 The current protocol states that strand switching incorporates a UMI and PCR primers add terminal tags used for rapid-adapter attachment.
 - 🟢 SSPII is published with a partially degenerate `V/T` UMI region and terminal `mGmGmG`; the modification spelling is retained verbatim in the ordering list.
-- 🔴 The complete motor-bearing Rapid Adapter assembly, motor attachment, and attachment chemistry are not disclosed. The published RA strand must not be mistaken for that entire assembly.
+- 🔴 The complete motor-bearing Rapid Adapter assembly, motor attachment, and attachment chemistry are not verified in the checked sources. The published RA strand must not be mistaken for that entire assembly.
 
 ## 3. Molecular path
 

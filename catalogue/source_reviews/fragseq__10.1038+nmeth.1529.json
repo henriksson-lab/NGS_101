@@ -1,0 +1,116 @@
+{
+  "dir": "fragseq__10.1038+nmeth.1529",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "underwood_article",
+      "role": "defining",
+      "locator": "Underwood et al. Nature Methods 2010 doi:10.1038/nmeth.1529; nmeth.1529_PMC3247016.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 67-75 and 101-109",
+        "finding": "Nuclear RNA is optionally P1-digested and gel isolated; original article gives read-end rationale but delegates detailed SOLiD library preparation to Online Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC3247016 XML Results lines 67-75",
+        "finding": "Original article establishes P1 5-prime phosphate/3-prime OH and orientation-preserving RNA ligation; named ABI SOLiD kit supplies library preparation."
+      }
+    },
+    {
+      "id": "online_methods",
+      "role": "supplement",
+      "locator": "nmeth.1529_supp_NIHMS245940-supplement-supplement_1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Online Methods lines 35-85, especially 69-85",
+        "finding": "20–100 nt RNA is ligated to defined SOLiD sequencing adapters with the ABI SOLiD Small RNA Expression Kit; RT, sample-specific 3-prime PCR barcoding and SOLiD3 50-base sequencing follow. Original methods link a specific ABI PDF."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "NIHMS245940 Supplementary Online Methods PDF text lines 69-85",
+        "finding": "Original online methods say 20-100 nt RNA is ligated using ABI SOLiD Small RNA Expression Kit, then RT and unique 3-prime PCR barcoding; kit oligos are delegated."
+      }
+    },
+    {
+      "id": "supp_notes",
+      "role": "supplement",
+      "locator": "nmeth.1529_41592_2010_BFnmeth1529_MOESM152_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Supplementary Notes 1-2 lines 253-264 and 715-724",
+        "finding": "A sequenced fragment can run into the 3-prime adapter; adapter sequence is identified and trimmed computationally. Supplement is computational/figures, not a full oligo table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM152 PDF text lines 249-267, 712-728",
+        "finding": "Computational supplement refers to SOLiD 3-prime adapter detection/trimming, not a reagent ordering table."
+      }
+    },
+    {
+      "id": "filter_fasta",
+      "role": "supplement",
+      "locator": "nmeth.1529_supp_NIHMS245940-supplement-2_file4.filterFile.fasta",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "FASTA lines 1-36; scraper hit family at line 2 and P1 at line 36",
+        "finding": "Filter file lists 16 barcode-specific adaptor_bc*_P2 strings plus P1 and an adaptor-primer pattern; these are read filters and cannot alone establish chemically synthesized ligation oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original filterFile.fasta entries adaptor_bc1_P2 through adaptor_bc16_P2, adaptor_primer and P1, lines 1-36",
+        "finding": "Filter patterns encode barcode-specific SOLiD read motifs and P1, but N flanks/filters do not by themselves prove synthesized ligation oligos."
+      }
+    },
+    {
+      "id": "abi_kit_guide",
+      "role": "vendor",
+      "locator": "ABI SOLiD Small RNA Expression Kit guide, original linked URL https://www3.appliedbiosystems.com/cms/groups/mcb_marketing/documents/generaldocuments/cms_054973.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Methods link did not resolve via web; full ligation oligos and sequencing primer unverified.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "online_methods"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Online Methods lines 69-85 and linked ABI URL; filter FASTA lines 1-36",
+      "finding": "Followed explicit ABI kit PDF link; inaccessible. Compared source FASTA read-filter patterns with methods and did not promote them to ligation reagent identities."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Underwood PMC3247016 Results lines 67-75; original Online Methods lines 69-85",
+      "finding": "Followed original Online Methods link to ABI SOLiD Small RNA Expression Kit guide URL; guide not locally available, so exact historical ligation oligos remain blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact SOLiD ligation adapters and sequencing-primer sites are unresolved",
+      "disposition": "blocked",
+      "evidence": "Filter FASTA recovers adapter/barcode recognition strings; kit guide explicitly linked by original Methods is inaccessible."
+    }
+  ],
+  "conclusion": "First pass found source barcode filters and an unavailable exact kit-guide link; second pass pending."
+}

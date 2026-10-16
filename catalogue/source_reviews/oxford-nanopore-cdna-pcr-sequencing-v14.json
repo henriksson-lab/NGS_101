@@ -1,0 +1,79 @@
+{
+  "dir": "oxford-nanopore-cdna-pcr-sequencing-v14",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vendor_protocol",
+      "role": "defining",
+      "locator": "_data/sources/oxford-nanopore-cdna-pcr-sequencing-v14/pcr-cdna-sequencing-v14-sqk-pcs114.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Protocol lines 260–287, 676, 747, 1340–1393",
+        "finding": "Vendor describes RT/strand switching, UMI incorporation, PCR, Rapid Adapter attachment."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official SQK-PCS114 Rev F 31 Mar 2026 local HTML lines 254–288, 392–407, 648–747 and 1340–1393",
+        "finding": "Current V14 procedure identifies RT/SSPII and UMI, PCR with rapid-attachment primers, and subsequent Rapid Adapter addition; adapter assembly itself is not resolved."
+      }
+    },
+    {
+      "id": "chem_doc",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-cdna-pcr-sequencing-v14/chemistry-technical-document.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "cDNA-PCR section lines 1044–1062 and oligo tables around 2097–2130; scraper run on bundle",
+        "finding": "Technical document contains primer/adapter strands, but full motor assembly is not established."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official CHTD_500 Rev AV 24 July 2026 local HTML V14 section lines 436–480, oligo table lines 2074–2130 and reagent roles after 2130",
+        "finding": "Technical document explicitly includes SQK-PCS114 and prints CRTA, RTP, SSPII modification pattern, cPRM forward/reverse and RA top strand; this does not disclose the complete motor-bearing assembly."
+      },
+      "discovered_from": "vendor_protocol"
+    },
+    {
+      "id": "motor",
+      "role": "linked_material",
+      "locator": "Oxford Nanopore Rapid Adapter motor assembly component/synthesis details",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Neither inspected vendor source fully specifies motor-bearing assembly.",
+      "discovered_from": "chem_doc"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Current SQK-PCS114 protocol and chemistry document read; no separate motor assembly primary document yet checked.",
+      "finding": "Relevant source gaps and independent second reading remain open."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Official SQK-PCS114 Rev F 31 Mar 2026 local HTML lines 254–288, 392–407, 648–747 and 1340–1393; Official CHTD_500 Rev AV 24 July 2026 local HTML V14 section lines 436–480, oligo table lines 2074–2130 and reagent roles after 2130",
+      "finding": "All accessible source rows listed above read independently. Remaining relevant linked documents are unavailable and keep exact undisclosed claims blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete Rapid Adapter motor assembly and attachment geometry",
+      "evidence": "Current SQK-PCS114 protocol and chemistry document read; no separate motor assembly primary document yet checked.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked."
+}

@@ -12,8 +12,10 @@ from protocol_graph import InputRole, MaterialKind, StepKind
 
 
 def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
-                       first_state, duplex_state, arna_state, prefix=""):
-    """Build the shared well-barcoded RT → pool → T7-IVT provenance path.
+                       first_state, duplex_state, arna_state, prefix="",
+                       pool_before_second=False, exonuclease_when=None,
+                       final_pool_after_exonuclease=False):
+    """Build a source-selected well-barcoded RT and T7-IVT provenance path.
 
     One representative well is modelled from its primary RNA.  ``peer_wells`` is an
     explicit second pooled template, so pooling cannot be represented as a cosmetic
@@ -30,12 +32,96 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
         MaterialKind.CATALYST)
     first = graph.product(key("first_strand"), "well-barcoded first-strand cDNA",
                           MaterialKind.MOLECULAR, state=first_state)
+    free_primers = (graph.product(key("free_rt_primers"),
+                                  "unincorporated RT primers after reverse transcription",
+                                  MaterialKind.MOLECULAR)
+                    if exonuclease_when is not None else None)
     graph.react(
         key("reverse_transcription"),
         "Reverse-transcribe with the well-barcoded anchored oligo(dT) primer",
         StepKind.REVERSE_TRANSCRIPTION,
         ((primary, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-         (reverse_transcriptase, InputRole.CATALYST)), (first,))
+         (reverse_transcriptase, InputRole.CATALYST)),
+        (first, free_primers) if free_primers is not None else (first,))
+
+    if exonuclease_when not in (None, "before_pool", "after_pool"):
+        raise ValueError("exonuclease_when must be before_pool, after_pool, or None")
+    if exonuclease_when is not None and not pool_before_second:
+        raise ValueError("Exo I position is only modeled for first-strand pooling")
+    if final_pool_after_exonuclease and exonuclease_when != "after_pool":
+        raise ValueError("final pooling requires Exo I after first pooling")
+
+    reviewed = [key("rt_primer"), key("reverse_transcriptase"),
+                key("reverse_transcription")]
+
+    def remove_primers(template, leftover_primers):
+        exonuclease = graph.input(key("exonuclease_i"), "Exonuclease I",
+                                  MaterialKind.CATALYST)
+        cleaned = graph.product(key("exo_cleaned"),
+                                "barcoded cDNA after unincorporated-primer removal",
+                                MaterialKind.MOLECULAR, state=first_state)
+        waste = graph.product(key("exo_primer_fragments"),
+                              "digested unincorporated RT-primer fragments",
+                              MaterialKind.WASTE)
+        graph.react(key("remove_free_primers"),
+                    "Remove unincorporated RT primers with Exonuclease I",
+                    StepKind.DIGESTION,
+                    ((template, InputRole.TEMPLATE),
+                     (leftover_primers, InputRole.TEMPLATE),
+                     (exonuclease, InputRole.CATALYST)), (cleaned, waste))
+        graph.discard(waste, "digested free RT primers are removed before second-strand synthesis")
+        reviewed.extend((key("free_rt_primers"), key("exonuclease_i"),
+                         key("remove_free_primers"), key("exo_primer_fragments")))
+        return cleaned
+
+    if pool_before_second:
+        if exonuclease_when == "before_pool":
+            first = remove_primers(first, free_primers)
+        peers = graph.input(key("peer_wells"),
+                            "corresponding barcoded first-strand cDNA from other wells",
+                            MaterialKind.MOLECULAR, state=first_state)
+        pooled_first = graph.product(key("pooled_first"),
+                                     "pooled well-barcoded first-strand cDNA",
+                                     MaterialKind.MOLECULAR, state=first_state)
+        pooled_free = (graph.product(key("pooled_free_rt_primers"),
+                                     "pooled unincorporated RT primers",
+                                     MaterialKind.MOLECULAR)
+                       if exonuclease_when == "after_pool" else None)
+        graph.react(key("pool"), "Pool barcoded first-strand cDNA",
+                    StepKind.POOL,
+                    ((first, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
+                    (pooled_first,), changes_molecule=False)
+        reviewed.extend((key("peer_wells"), key("pool")))
+        if pooled_free is not None:
+            peer_free = graph.input(key("peer_free_rt_primers"),
+                                    "free RT primers from corresponding wells",
+                                    MaterialKind.MOLECULAR)
+            graph.react(key("pool_free_rt_primers"),
+                        "Free RT primers accompany the pooled first-strand cDNA",
+                        StepKind.POOL,
+                        ((free_primers, InputRole.TEMPLATE),
+                         (peer_free, InputRole.TEMPLATE)),
+                        (pooled_free,), changes_molecule=False)
+            reviewed.extend((key("peer_free_rt_primers"),
+                             key("pool_free_rt_primers"),
+                             key("pooled_free_rt_primers")))
+        first = (remove_primers(pooled_first, pooled_free)
+                 if exonuclease_when == "after_pool" else pooled_first)
+        if final_pool_after_exonuclease:
+            peer_pools = graph.input(key("peer_pools"),
+                                     "other Exo I-treated first-strand cDNA pools",
+                                     MaterialKind.MOLECULAR, state=first_state)
+            final_pool = graph.product(key("final_pool"),
+                                       "final first-strand cDNA pool for amplification",
+                                       MaterialKind.MOLECULAR, state=first_state)
+            graph.react(key("pool_after_exonuclease"),
+                        "Pool cleaned first-strand cDNA for second-strand synthesis",
+                        StepKind.POOL,
+                        ((first, InputRole.TEMPLATE),
+                         (peer_pools, InputRole.TEMPLATE)),
+                        (final_pool,), changes_molecule=False)
+            reviewed.extend((key("peer_pools"), key("pool_after_exonuclease")))
+            first = final_pool
 
     second_polymerase = graph.input(
         key("second_strand_polymerase"), "second-strand DNA polymerase",
@@ -47,15 +133,20 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
                 ((first, InputRole.TEMPLATE),
                  (second_polymerase, InputRole.CATALYST)), (duplex,))
 
-    peers = graph.input(
-        key("peer_wells"), "corresponding barcoded duplex cDNA from other wells",
-        MaterialKind.MOLECULAR, state=duplex_state)
-    pooled = graph.product(key("pooled"), "pooled well-barcoded duplex cDNA",
-                           MaterialKind.MOLECULAR, state=duplex_state)
-    graph.react(key("pool"), "Pool wells after molecular cell indexing",
-                StepKind.POOL,
-                ((duplex, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
-                (pooled,), changes_molecule=False)
+    reviewed.extend((key("second_strand_polymerase"), key("second_strand")))
+    if pool_before_second:
+        pooled = duplex
+    else:
+        peers = graph.input(
+            key("peer_wells"), "corresponding barcoded duplex cDNA from other wells",
+            MaterialKind.MOLECULAR, state=duplex_state)
+        pooled = graph.product(key("pooled"), "pooled well-barcoded duplex cDNA",
+                               MaterialKind.MOLECULAR, state=duplex_state)
+        graph.react(key("pool"), "Pool wells after molecular cell indexing",
+                    StepKind.POOL,
+                    ((duplex, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
+                    (pooled,), changes_molecule=False)
+        reviewed.extend((key("peer_wells"), key("pool")))
 
     t7 = graph.input(key("t7_polymerase"), "T7 RNA polymerase",
                      MaterialKind.CATALYST)
@@ -65,12 +156,7 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
                 StepKind.TRANSCRIPTION,
                 ((pooled, InputRole.TEMPLATE), (t7, InputRole.CATALYST)),
                 (arna,))
-    reviewed = [
-        key("rt_primer"), key("reverse_transcriptase"),
-        key("reverse_transcription"), key("second_strand_polymerase"),
-        key("second_strand"), key("peer_wells"), key("pool"),
-        key("t7_polymerase"), key("ivt"),
-    ]
+    reviewed.extend((key("t7_polymerase"), key("ivt")))
     return arna, reviewed
 
 

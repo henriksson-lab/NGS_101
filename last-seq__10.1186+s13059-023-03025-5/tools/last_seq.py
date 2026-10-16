@@ -165,6 +165,12 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1186/s13059-023-03025-5"
           'Lyu and Chen, <i>Genome Biology</i> (2023)</a>.')
 SUMMARY = ("A ligated hairpin/rU-dT primer installs a short duplex T7 promoter at an mRNA’s "
            "3′ end. T7 polymerase then amplifies the original RNA directly, before any reverse transcription.")
+CAVEAT = ("Published barcode collision: Additional file 2, Table S3, BC5 and BC7 rows "
+          "(extracted lines 48 and 50) both print CAGGAA, although the article's LAST-seq "
+          "assay section describes 80 selected cellular barcodes. The model displays BC2 "
+          "(GTATCC), a separate printed member, as an example and does not silently "
+          "assign a replacement to BC5 or BC7. Which entry was intended to differ "
+          "remains unresolved.")
 FINAL_CAPTION = "Representative PCR-completed LAST-seq molecule. Read 2 reaches the hairpin-derived UMI and cell barcode; Read 1 enters the randomly primed aRNA-derived insert."
 SEQUENCING_INTRO = "NextSeq 550: Read 1, 50 cycles; Read 2, 25 cycles. The paper reports 6-nt cellular barcodes and 8-nt UMIs."
 READ_LENGTHS = {"Read 1": 50, "Read 2": 25}

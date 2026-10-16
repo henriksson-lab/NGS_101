@@ -1,0 +1,263 @@
+{
+  "dir": "sci-rna-seq3__10.1038+s41586-019-0969-x",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt lines 42–52",
+        "finding": "Methods print the /5Phos/ oligo-dT RT architecture, /dideoxyU/ ligation adapter architecture, and indexed P5/P7 amplification primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "PMC6434952 JATS lines 42–52, sci-RNA-seq3 library preparation and sequencing",
+        "finding": "Independently verified 5-prime-phosphorylated anchored oligo(dT) RT primer with 10-bp barcode and UMI, subsequent barcoded hairpin ligation, second-strand synthesis, indexed tagmentation and PCR, and NovaSeq 34/52/10/10-cycle run."
+      }
+    },
+    {
+      "id": "primer_table",
+      "role": "supplement",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt sheet Table S11 from line 226564",
+        "finding": "Table S11 explicitly contains RT, ligation and PCR primer sequences, starting with named /5Phos/ RT variants. Thus the family is published; actual per-well membership still needs comparison with methods/data."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Supplementary Table S11 in MOESM3 XLSX extracted lines 226564–226585, 226948–226960, 227336–227348",
+        "finding": "Independently checked source-printed /5Phos/ anchored oligo(dT) RT primer family, barcoded hairpin ligation family with /ideoxyU/, and indexed P5 PCR family. Table S11 is a large concrete oligo list, not an unspecified primer source."
+      }
+    },
+    {
+      "id": "supp_note",
+      "role": "supplement",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-Supplement_note_1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Supplement_note_1.pdf.txt lines 1–107, including all trajectory discussion and references; primer scraper on article and supplement",
+        "finding": "The whole note concerns limb-mesenchyme developmental expression analysis. Its 15 cited works are developmental biology or statistics, with no library-preparation reagent, oligo or workflow source."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original Supplement_note_1.pdf.txt lines 1–90, introductory developmental-analysis discussion and references",
+        "finding": "Independently inspected this supplementary note: it covers organogenesis trajectory analysis and references, without an additional wet-lab oligo list in the inspected text. The chemistry-relevant Supplementary Table S11 is inventoried separately."
+      },
+      "reason": "Full Supplementary Note 1 is organogenesis trajectory analysis and references, not library preparation; both readers inspected its source text.",
+      "discovered_from": "paper"
+    },
+    {
+      "id": "si_guide",
+      "role": "supplement",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-SI_Guide.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original SI_Guide.docx.txt lines 1–14, full file; source scraper on article and guide",
+        "finding": "Guide inventories ten analysis/result tables and states Table S11 contains RT, ligation and PCR primer sequences for sci-RNA-seq3. Followed to the separately checked MOESM3 Table S11."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original SI_Guide.docx.txt lines 1–15",
+        "finding": "Independently read table guide; it identifies Table S11 as the RT, ligation and PCR primer sequence list. Followed that link to MOESM3 Table S11 separately."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "predecessor_scirna",
+      "role": "predecessor",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original sci-RNA-seq JATS lines 86–90 and 112–115; article primer scraper",
+        "finding": "Predecessor uses well-specific barcoded poly(T) RT, then second strand, Tn5 and indexed PCR; it describes an optional third index at Tn5. sci-RNA-seq3 prints its own later ligation and primer families, so predecessor does not establish their exact bases."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original sci-RNA-seq PMC5894354 JATS lines 83–114, cited in this review linked-information pass_2",
+        "finding": "Independently compared the predecessor split-pool RT and Tn5/PCR workflow to sci-RNA-seq3; predecessor architecture cannot supply missing v3 per-well assignments."
+      }
+    },
+    {
+      "id": "predecessor_supp",
+      "role": "predecessor",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5894354/bin/NIHMS956226-supplement-supplement_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original sci-RNA-seq supplementary method is PMC download-gated in the predecessor source manifest; its detailed sequence/assignment content has not been independently inspected.",
+      "discovered_from": "predecessor_scirna",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "publisher_moesm1",
+      "role": "supplement",
+      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Supplementary Note 1 concerns Monocle limb-bud trajectory analysis, not library chemistry or index assignment.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM1 PDF text lines 1–178; full supplementary note and references; primer scraper on sci-RNA-seq3 article/supplements",
+        "finding": "The note covers limb mesenchyme developmental trajectories and their references, with no library-preparation recipe, oligo or index-assignment information."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM1 text lines 1–65 and references 66 onward; entire supplementary note checked for chemistry terms",
+        "finding": "Publisher Supplementary Note 1 describes limb mesenchyme expression trajectories and developmental citations, with no RT, ligation, PCR oligo or sample-index allocation table."
+      }
+    },
+    {
+      "id": "publisher_moesm2",
+      "role": "supplement",
+      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM2 reporting-summary PDF text lines 33–59, including code and data links",
+        "finding": "Followed the author pipeline link to its primer workbook and RT-barcode embryo CSV. The summary also links GEO GSE119945; it does not print a ligation- or PCR-well assignment."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Publisher reporting summary lines 33–45 and 52–59, 75–97",
+        "finding": "The reporting summary links the author sci-RNA-seq3_pipeline repository and GEO GSE119945. It states 61 embryos were used and embryos were deposited in separate first-round indexing wells, then pooled and redistributed across four second-round plates. It gives no well-to-primer sequence allocation itself."
+      }
+    },
+    {
+      "id": "author_primer_plate",
+      "role": "linked_material",
+      "discovered_from": "publisher_moesm2",
+      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_sci3_primer_sequences_plate.xls.txt; author sci-RNA-seq3_pipeline repository attachment",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author workbook extracted text, sheets lines 1–980; RT rows 393–784, ligation rows 1–392, P5 rows 785–882, P7 rows 883–980; primer scraper on workbook",
+        "finding": "Checked the complete named plate tables and modifications. There are 384 RT and ligation oligos and 96 P5/P7 oligos; RT_1, ligation_1, P5-1 and P7-1 match model representatives and the 2019 Table S11. Well positions identify primer-plate wells, not each embryo's later pooled ligation or PCR assignment."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author workbook extracted sheets: ligation plates lines 1–392, RT plates 393–784, P5 sheet 785–882, P7 sheet 883–980; all 384 RT 10-mers cross-checked with embryo CSV",
+        "finding": "Workbook prints plate/well and complete modified oligos: 384 distinct ligation hairpins, 384 distinct RT ten-base barcodes, 96 P5 and 96 P7 primer variants. It supplies per-primer storage well locations, not each embryo's later ligation/PCR well. Two RT barcodes (plate 1 A1 TCCTACCAGT and B1 TTGACTTCAG) do not occur in the embryo mapping CSV."
+      }
+    },
+    {
+      "id": "author_embryo_rt_map",
+      "role": "linked_material",
+      "discovered_from": "publisher_moesm2",
+      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_RT_barcode_embryo_information.csv; author sci-RNA-seq3_pipeline repository",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author CSV header and all 382 records; programmatic exact comparison of RT_group values with 384 ten-base RT-barcode sequences in author workbook",
+        "finding": "The CSV has 382 distinct RT groups and 61 embryo IDs; every listed ten-mer is in the workbook, with RT_1 and RT_13 unused in this file. Its columns do not include later ligation or P5/P7 wells."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author CSV header embryo_id, embryo_sex, nuclei_extraction_date, development_stage, RT_group and all 382 data records; compared every RT_group to workbook RT sheets lines 393–784",
+        "finding": "All 382 unique RT_group ten-mers match 382 of 384 author workbook RT primer barcodes and map to 61 distinct embryo IDs; embryos occupy multiple RT groups. This resolves embryo-to-first-round-RT-barcode identity for listed groups. CSV has no ligation-well, P5, P7 or PCR-well columns, so those later assignments are not established."
+      }
+    },
+    {
+      "id": "author_protocolsio_2020",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/protocolsio_sci-rna-seq3-36wgq578ogk5.pdf.txt; author protocols.io doi:10.17504/protocols.io.9yih7ue, 2020 revision",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author protocols.io PDF text lines 1–38, 114–159, 401–460, 580–620; compared defining 2019 JATS Methods lines 42–52; primer scraper on protocol PDF",
+        "finding": "The 2020 author protocol links the primer workbook and specifies 384 RT/ligation primers plus P5/P7 oligo architecture. It changes RT 55°C dwell to 15 minutes, ligation to Quick Ligase at 25°C for 10 minutes, and Read 2 to 100 cycles; the 2019 article specifies 10 minutes, T4 ligase 16°C for 3 hours, and Read 2 52 cycles. No 2019 later-well assignment is printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author PDF title/version lines 1–38, source attachment 52–56, reagent oligo architecture 143–159, RT steps 401–429, ligation 443–460, PCR 580–620; compared 2019 paper JATS lines 174–190",
+        "finding": "Later author protocol prints generic RT/ligation/P5/P7 architectures and uses the author primer workbook attachment. It describes 4x96 RT and ligation plates, then PCR and run layout R1 34/R2 100/I1 10/I2 10; defining 2019 article says R1 34/R2 52/I1 10/I2 10. The later protocol uses 55°C RT 15 min and ligation 25°C 10 min; defining 2019 Methods use 55°C RT 10 min and ligation 16°C 3 h. This is a later version, not proof the 2019 values are wrong. It does not give the 2019 experiment's ligation/PCR assignment."
+      }
+    },
+    {
+      "id": "geo_cell_annotation",
+      "role": "linked_material",
+      "discovered_from": "publisher_moesm2",
+      "locator": "GEO GSE119945 series https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE119945 ; GSM3388476 SOFT metadata; https://ftp.ncbi.nlm.nih.gov/geo/series/GSE119nnn/GSE119945/suppl/GSE119945_cell_annotate.csv.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "GSE119945 series file inventory; GSM3388476 SOFT !Sample_title and !Sample_data_processing; streamed original 106 MB gzip cell annotation header and first two records without retaining data; author sci3_main.sh lines 580–582, 650–666",
+        "finding": "GEO contains 760 PCR-group samples and a cell annotation with `sample` values such as sci3-me-001.GTCGGAGTTTGAGGTAGAA. The suffix decomposes into a workbook ligation read-side barcode (9 bases) and RT barcode (10 bases). GEO SOFT says the cell ID attaches RT and ligation barcodes; author pipeline calls sample_ID a PCR group. Thus observed cells have later barcode combinations recorded. The mapping from numeric PCR group label to ordered P5/P7 sequence pair remains to be checked."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original GEO GSE119945 cell_annotation.csv.gz streamed header and first three records; GSM3388476 GEO SOFT !Sample_title and !Sample_data_processing; author sci3_main.sh sample_ID declaration and UMI attach comment; author script_folder/UMI_barcode_attach_gzipped_with_dic.py lines 43–58, script_folder/sam_split.py lines 71–76; original author primer workbook text lines 220, 743 and RT embryo CSV line 2; author repository recursive file inventory",
+        "finding": "The example cell ID sci3-me-001.GTCGGAGTTTGAGGTAGAA is PCR group sci3-me-001 plus ligation read-side 9-mer GTCGGAGTT and RT 10-mer TGAGGTAGAA. Those two sequences exactly match author workbook sc_ligation_214 and sc_ligation_RT_343; GEO SOFT says sample IDs include RT and ligation barcode. Author pipeline explicitly calls sample_ID a PCR group and sam_split.py writes plot_name + \".\" + corrected concatenated barcode. Repository file inventory has primer plate and embryo-RT mapping but no PCR-group-to-ordered-P5/P7 sample sheet. Thus observed cell barcode combinations are evidenced; exact primer pair per numeric PCR group remains unresolved."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Defining 2019 article JATS lines 42–52; publisher MOESM1/2; Supplementary Table S11; author sci-RNA-seq3_pipeline primer workbook and embryo CSV; 2020 author protocols.io PDF; predecessor JATS lines 86–115 and gated supplement URL",
+      "finding": "Followed article supplements and reporting-summary code/data links. Author workbook gives full primer plate sequences and first-round RT groups map to embryos in the author CSV. Later ligation/PCR assignments are not in those linked records; predecessor supplement remains unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original publisher MOESM1/2, author workbook sheets 1–980, all 382 CSV records, author protocols.io PDF chemistry and sequencing steps, predecessor supplement manifest",
+      "finding": "Independently followed the publisher links through author oligo and embryo sources. Verified 382 RT groups map to 61 embryos and every group matches an RT primer; later well/index assignments remain unestablished. The 2020 detailed protocol differs from the 2019 assay and does not resolve the gated 2017 supplement."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Embryo-to-first-round RT barcode mapping in the author CSV",
+      "disposition": "resolved",
+      "evidence": "Author CSV contains 382 unique RT_group 10-mers associated with 61 embryos; all 382 match the author RT primer workbook, leaving only two workbook primers unused in this CSV."
+    },
+    {
+      "claim": "Exact P5/P7 primer sequence pair for each 2019 PCR group label, and any chemistry inherited only from the gated predecessor supplement",
+      "disposition": "blocked",
+      "evidence": "The author workbook prints all primer variants and the embryo CSV maps RT barcodes. GEO cell annotation records observed PCR-group labels plus ligation and RT barcode combinations for cells, so these combinations are not missing. The PCR group label-to-ordered P5/P7 pair has not been verified, and the cited predecessor supplement remains inaccessible."
+    }
+  ],
+  "conclusion": "Two readers checked the defining 2019 article, supplements and linked author sources. The author CSV resolves embryo-to-RT-group identity; GEO cell annotation also records observed PCR-group, ligation and RT barcode combinations, with an independent GEO and pipeline second check completed. The 2020 protocol has distinct RT incubation, ligation and Read 2 length, so the page keeps the 2019 run. Exact PCR-group-to-P5/P7 primer selection remains unverified, and inherited-only claims remain blocked by the unavailable 2017 predecessor supplement."
+}

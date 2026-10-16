@@ -1,0 +1,247 @@
+{
+  "dir": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049",
+  "status": "accepted_missing",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Zheng et al. 2017 Nature Communications PMC5241818 JATS/PDF",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC5241818 article Methods and Fig. 1",
+        "finding": "Gel bead primer and read roles printed, not exact full ordered bead oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC5241818 JATS lines 25–32 and 252 onward",
+        "finding": "GEM release and RT roles described; no exact complete bead-oligo bases in inspected article."
+      }
+    },
+    {
+      "id": "vendor_guide",
+      "role": "vendor",
+      "locator": "10x Chromium Single Cell 3 Reagent Kits v1 User Guide CG00026 Rev B, cached as upstream_CG00026_...pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original vendor guide lines 960–994",
+        "finding": "P7–R2–14-bp barcode–10-bp UMI–poly(T) order; no full oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original guide extracted PDF lines 954–994; full-bundle scraper, excluding upstream drawn page",
+        "finding": "Independently confirmed gel-bead region order and read roles; no source-printed complete bead oligo."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "Zheng et al. bioRxiv v1 10.1101/065912; 065912_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Zheng et al. bioRxiv v1 10.1101/065912; 065912_v1.full.pdf.txt",
+        "finding": "Full preprint Methods lines 464-526 and 2554-2651 describe bead architecture and kit roles but do not print a complete v1 bead-oligo sequence."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 PDF text lines 450–470, 515–543",
+        "finding": "Gel bead has adapter/primer, 14-base barcode, 10-base UMI and anchored 30-base oligo-dT; Methods describe shearing and indexing without a full ordered bead-oligo base string."
+      }
+    },
+    {
+      "id": "preprint_supp_figures",
+      "role": "supplement",
+      "locator": "bioRxiv v1 supplementary legends 065912_065912-1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 supplementary legends 065912_065912-1.pdf.txt",
+        "finding": "Figure/table legends describe performance measurements and sample comparisons; no reagent oligo table in the inspected text."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "065912-1 supplement PDF text lines 1–120",
+        "finding": "Supplement is figure/table legends for outcomes and metrics; no reagent-oligo sequence table in the text."
+      },
+      "reason": "Figure/table legends describe performance measurements and sample comparisons; no reagent oligo table in the inspected text."
+    },
+    {
+      "id": "preprint_supp_table",
+      "role": "supplement",
+      "locator": "bioRxiv v1 table 065912_065912-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "bioRxiv v1 table 065912_065912-2.xlsx.txt, ST1 lines 1–10 and ST2 lines 11–27",
+        "finding": "ST1 compares methods. ST2 prints a UMI Length column with 10 in early libraries and 5 in later library rows; it is relevant to the page's read-layout variants but has no reagent-oligo row in the inspected sheet."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "065912-2 workbook text ST1 and ST2 lines 1–20, other sheet headers",
+        "finding": "ST1 compares methods; ST2 explicitly has UMI Length values 5 and 10 in different libraries. Other sheets are metrics/results, not a reagent oligo list."
+      }
+    },
+    {
+      "id": "published_supp_figures",
+      "role": "supplement",
+      "locator": "Springer ncomms14049 MOESM828 supplementary figures; duplicate PMC ncomms14049-s1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Springer ncomms14049 MOESM828 supplementary figures; duplicate PMC ncomms14049-s1.pdf",
+        "finding": "The published MOESM828 extracted text gives the Supplementary Table 1 title around lines 103–110 but not its tabular values. The 5- and 10-base UMI values are established from bioRxiv ST2, not from this figure-legends PDF."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM828 PDF text lines 1–155, including Supplementary Tables heading 103–110",
+        "finding": "Published supplement is figure/table legends; its Supplementary Table 1 title says sequencing metrics but the extracted text does not contain the actual rows or a reagent sequence table. The 5/10-UMI values are directly in preprint ST2, so prior pass-1 location for this claim is imprecise."
+      }
+    },
+    {
+      "id": "published_supp_pca",
+      "role": "supplement",
+      "locator": "Springer ncomms14049 MOESM829 workbook; duplicate PMC s2.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Springer ncomms14049 MOESM829 workbook; duplicate PMC s2.xlsx",
+        "finding": "Sheet1 contains PCA coordinates by sample, not chemistry reagents."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM829 workbook Sheet1 header and initial rows",
+        "finding": "PCA coordinate workbook by sample; no chemistry oligos."
+      },
+      "reason": "Sheet1 contains PCA coordinates by sample, not chemistry reagents."
+    },
+    {
+      "id": "published_supp_barcodes",
+      "role": "supplement",
+      "locator": "Springer ncomms14049 MOESM830 workbook; duplicate PMC s3.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Springer ncomms14049 MOESM830 workbook; duplicate PMC s3.xlsx",
+        "finding": "Sheet1 contains observed 14-base cell-barcode strings and species calls, so specific barcode members are source-printed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM830 workbook Sheet1 header and rows 1–18",
+        "finding": "Prints observed 14-base barcode strings such as AAACATACAGCTAC-1 and species/UMI counts, not complete bead oligos."
+      }
+    },
+    {
+      "id": "published_supp_clusters",
+      "role": "supplement",
+      "locator": "Springer ncomms14049 MOESM831 workbook; duplicate PMC s4.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Springer ncomms14049 MOESM831 workbook; duplicate PMC s4.xlsx",
+        "finding": "Sheet1 lists cluster and gene enrichment results, not oligo components."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM831 workbook Sheet1 header and initial rows",
+        "finding": "Cluster/gene enrichment table, not chemistry oligos."
+      },
+      "reason": "Sheet1 lists cluster and gene enrichment results, not oligo components."
+    },
+    {
+      "id": "published_supp_genes",
+      "role": "supplement",
+      "locator": "Springer ncomms14049 MOESM832 workbook; duplicate PMC s5.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "Springer ncomms14049 MOESM832 workbook; duplicate PMC s5.xlsx",
+        "finding": "Sheet1 lists gene enrichment results, not oligo components."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM832 workbook Sheet1 header and initial rows",
+        "finding": "Gene enrichment table, not chemistry oligos."
+      },
+      "reason": "Sheet1 lists gene enrichment results, not oligo components."
+    },
+    {
+      "id": "vendor_whitelist",
+      "role": "linked_material",
+      "discovered_from": "vendor_guide",
+      "locator": "10x Cell Ranger 737K-april-2014_rc barcode whitelist, upstream_737K-april-2014_rc.txt.gz, identical md5 to scg_ mirror",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root-source-followup",
+        "date": "2026-10-15",
+        "locations": "10x Cell Ranger 737K-april-2014_rc barcode whitelist, upstream_737K-april-2014_rc.txt.gz, identical md5 to scg_ mirror",
+        "finding": "Original 10x barcode data lists 14-base cell-barcode members; it does not give complete synthesized gel-bead oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "737K-april-2014_rc compressed whitelist first four records; full line count; match for AAACATACAGCTAC",
+        "finding": "10x-origin mirrored whitelist has 737279 14-base barcode members. The observed barcode example AAACATACAGCTAC from MOESM830 occurs in it. These are barcode members, not complete synthesized gel-bead oligos."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "root-source-followup",
+      "date": "2026-10-15",
+      "locations": "Zheng article Methods and supplement inventory; bioRxiv v1 Methods and two supplements; published MOESM828–832; CG00026 Rev B guide; 10x-origin 737K whitelist; source manifest checked for further manual rows",
+      "finding": "Followed the article and guide to the preprint, published supplement set and 10x vendor guide/whitelist. The original sources publish partial bead-oligo structure and barcode members, but no complete synthesized v1 bead oligo in this enumerated set. scg FASTA is a secondary reconstruction, not evidence."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "PMC5241818 paper and CG00026 Rev B guide; bioRxiv 065912 v1 and both adjuncts; published MOESM828–832; 10x-origin barcode whitelist",
+      "finding": "Independently followed article/preprint supplementary inventory and vendor guide/whitelist. Published barcode workbook and vendor whitelist print barcode members; preprint ST2 prints 5-/10-base UMI library variants. No full ordered bead oligo found in this checked set."
+    },
+    "outstanding": "No further chemistry-relevant linked source was identified in the checked source inventory."
+  },
+  "missing_claims": [
+    {
+      "claim": "Complete synthesized v1 gel-bead oligo bases are absent from the checked source set",
+      "disposition": "confirmed_missing",
+      "evidence": "Two independent readers checked the original article, preprint, all listed supplements, CG00026 Rev B guide and 10x-origin whitelist. The paper prints anchored (T)30VN and barcode members appear in both a published workbook and the whitelist, but no complete synthesized v1 bead-oligo sequence appears in the checked set."
+    }
+  ],
+  "conclusion": "Two independent readings cover the article, preprint, all listed supplements, vendor guide and whitelist. Barcode members and UMI variants are printed; a complete synthesized v1 bead oligo was not found in that source set. Linked information was enumerated and followed.",
+  "public_page": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049/10x-chromium-single-cell-3-ge-v1.html",
+  "public_checklist_marker": "Source review scope: two independent readers checked"
+}

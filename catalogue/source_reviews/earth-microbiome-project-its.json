@@ -1,0 +1,153 @@
+{
+  "dir": "earth-microbiome-project-its",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "emp_workbook",
+      "role": "defining",
+      "locator": "_data/sources/earth-microbiome-project-its/ITS1f_ITS2_Nov2016.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Forward/Sequencing Primers sheet lines 1–9 and Reverse Primer Constructs sheet lines 10–20; scraper source hits verified",
+        "finding": "Original EMP workbook prints fusion primers, extended sequencing primers and 12-base Golay-indexed reverse series."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original EMP November 2016 workbook extracted text, Forward and Sequencing Primers lines 1–9, Reverse Primer Constructs header line 11 and all 960 order rows lines 12–971; scraper run on bundle before reading",
+        "finding": "Workbook prints the exact forward fusion and three custom sequencing primers; reverse order sheet has 960 distinct well-named 12-base Golay strings, each inside a complete reverse fusion oligo. This establishes the published orderable family and 12-base index span. It does not map a specific environmental sample to a well."
+      }
+    },
+    {
+      "id": "emp_site",
+      "role": "linked_material",
+      "locator": "EMP ITS Illumina Amplicon Protocol, https://earthmicrobiome.org/protocols-and-standards/its/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official page introduction and references, web lines 22–24, 116–119",
+        "finding": "Official page names ITS1f/ITS2 protocol and explicitly links Caporaso 2012 and Smith/Peay 2014."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original official EMP ITS HTML at earthmicrobiome.org/protocols-and-standards/its/, web lines 21–30, 31–49, 50–87, 88–120",
+        "finding": "Site prints fusion PCR and three custom sequencing primer sequences plus triplicate 25-µL PCR, 35-cycle profile, pooling and 5–10% PhiX advice. Its reverse construct line 49 has a 10-N Golay placeholder, conflicting with the linked workbook’s 12-base order rows and cited Smith–Peay 2014. Links versioned protocols.io protocol, Caporaso 2012 Supplementary Methods, Smith–Peay 2014 and Walters 2016 primer constructs."
+      },
+      "discovered_from": "emp_workbook"
+    },
+    {
+      "id": "protocolsio",
+      "role": "linked_material",
+      "locator": "Original EMP authors protocols.io PDF https://www.protocols.io/view/emp-its-illumina-amplicon-protocol-pa7dihn.pdf, DOI 10.17504/protocols.io.pa7dihn (scoped extra_sources.tsv route)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original 2018 protocols.io PDF p. 2–4 web lines 43–65 (primer design and 10-N reverse construct), pp. 5–7 lines 66–75 (PCR), pp. 10–13 lines 110–161 (PhiX, pooling, custom read primers)",
+        "finding": "Authors’ version repeats official web page’s 10-N placeholder in reverse primer on p. 4, while its custom read/index primers and PCR workflow agree with the site. It explicitly defers MiSeq/HiSeq setup to Caporaso 2012 Supplementary Methods. No 960-member order table is printed in this PDF."
+      },
+      "reason": "Readable via web original PDF; scoped local get_sources route returned curl DNS error 6. Another reader first pass remains needed.",
+      "discovered_from": "emp_site"
+    },
+    {
+      "id": "caporaso",
+      "role": "linked_material",
+      "locator": "Original Caporaso et al 2012 publisher Supplementary Methods DOC, local _data/sources/earth-microbiome-project-its/41396_2012_BFismej20128_MOESM84_ESM.doc.txt (catdoc conversion); publisher URL in catalogue/extra_sources.tsv",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original publisher Supplementary Methods DOC catdoc text lines 43–58 (16S primer scheme), 179–194 (HiSeq setup), 196–218 (MiSeq/PhiX), 229–287 (12-cycle index sheet and custom primer reservoirs); bundle scraper rerun after original DOC added",
+        "finding": "Historical 2012 16S method uses 12-base Golay index and three custom primers. HiSeq section specifies 500 nM custom primers; MiSeq section says initially 6 then manually configure 12 index cycles, reservoirs 12 Read 1, 13 Index, 14 Read 2, with a 151×12×151 run. It calls for 15–30% PhiX on 16S amplicons, versus later EMP ITS web advice of 5–10%; these are different substrate/version instructions, not an error to overwrite. It supports index-read mechanism but cannot prove a particular ITS instrument run or its PhiX fraction."
+      },
+      "reason": "Original DOC fetched from publisher by targeted escalated curl after local get_sources DNS failure; catdoc plain-text twin is in ignored source bundle. Separate independent P1 remains needed. The document describes the 2012 16S platform setup and must not be treated as an exact ITS run plan.",
+      "discovered_from": "emp_site"
+    },
+    {
+      "id": "smith_peay",
+      "role": "linked_material",
+      "locator": "Smith & Peay 2014 original author-hosted PDF https://web.stanford.edu/~kpeay/papers/Smith%26Peay_PLOS_2014.pdf (DOI 10.1371/journal.pone.0090234)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Smith–Peay 2014 PDF p. 3 Molecular methods, browser lines 152–179 (MiSeq fusion adapter/linker, 12-bp Golay, three custom sequencing primers/index read), lines 180–212 (PCR and 250-bp paired-end/30% PhiX example)",
+        "finding": "Original authors explicitly used a 12-bp error-correcting Golay barcode in the ITS2 fusion primer and designed the index primer to read 12 bp. This corroborates the EMP November 2016 workbook, while the 2014 experimental run (250-bp paired-end, 30% PhiX) should not be substituted for later EMP web instructions (5–10% PhiX). Figure S1 on primer design remains to inspect."
+      },
+      "reason": "Original author-hosted PLOS PDF readable via browser; scoped local route attempted. Independent first pass still needed.",
+      "discovered_from": "emp_site"
+    },
+    {
+      "id": "caporaso_main",
+      "role": "linked_material",
+      "locator": "Caporaso et al 2012 original ISME J HTML https://www.nature.com/articles/ismej20128 (DOI 10.1038/ismej.2012.8)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original Nature/ISME J article web lines 69–75 and 89–92, 259–272",
+        "finding": "Main article documents historical HiSeq2000/MiSeq amplicon sequencing and points explicitly to separate Supplementary Methods for the operational run procedure; its reported 2167 Golay barcodes belong to that historical scheme, not proof of EMP ITS November 2016 960-member family."
+      },
+      "discovered_from": "emp_site"
+    },
+    {
+      "id": "smith_peay_fig_s1",
+      "role": "supplement",
+      "locator": "Smith & Peay 2014 original Figure S1 cited in Molecular methods, PDF p. 3, line 166",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original text points to Figure S1 for linker/primer design; the author PDF does not include the supplemental figure and original image was not read.",
+      "discovered_from": "smith_peay"
+    },
+    {
+      "id": "walters_2016_table_s1",
+      "role": "linked_material",
+      "locator": "Walters et al 2016 mSystems doi:10.1128/mSystems.00009-15, Supplementary Table S1 of ITS PCR and sequencing constructs",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Official EMP ITS page cites Walters 2016 and that original explicitly states its Table S1 contains the Smith–Peay modified ITS primer constructs; table not yet read for version comparison.",
+      "discovered_from": "emp_site"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original EMP workbook and official site reviewed; linked detailed protocols and cited sequencing methods not yet inspected.",
+      "finding": "Source/link inventory is partial; independent second read and listed gaps remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Official EMP ITS page web lines 21–30, 114–120; original protocols.io PDF p. 2–4 and 10–13; Smith–Peay 2014 PDF p. 3 Molecular methods; Caporaso original publisher article web lines 69–75, 259–272; original workbook lines 1–971; Caporaso 2012 original Supplementary Methods DOC text 43–58, 179–194, 196–218, 229–287",
+      "finding": "Followed original EMP links: protocols.io and Smith–Peay originals corroborate custom-primer workflow; the source-positive barcode discrepancy is 10-N web/protocol placeholder versus 12-base workbook and Smith–Peay. Recovered and read publisher Caporaso 2012 Supplementary Methods: historical 16S run uses 12-index cycles and custom primer reservoirs 12/13/14, but its 15–30% PhiX and 151×12×151 are not evidence for a particular later ITS run. Smith–Peay Figure S1 and Walters 2016 Table S1 remain unreviewed; newly read linked rows need independent P1."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact EMP ITS MiSeq/HiSeq run setup beyond the three printed custom primer identities",
+      "evidence": "EMP ITS site and 2018 protocols.io version direct users to Caporaso 2012 Supplementary Methods. The recovered original describes a historical 16S setup (12-index cycles, custom primer reservoirs 12/13/14, 151×12×151 and 15–30% PhiX), whereas the later ITS site specifies 5–10% PhiX and no exact read lengths. Smith–Peay Figure S1 and Walters 2016 Table S1 remain unreviewed. Exact ITS run selection is not established by these sources.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "EMP workbook and Smith–Peay 2014 support 12-base Golay indexing; EMP site and 2018 protocols.io reverse-primer placeholder print 10 N, documented on public page. Caporaso 2012 Supplementary Methods is now read as a historical 16S instrument example, not a selected ITS run. Exact ITS run settings remain blocked; several newly read linked rows need independent first passes and two relevant supplements are unread."
+}

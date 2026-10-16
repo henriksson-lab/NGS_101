@@ -8,11 +8,14 @@
 > sequence, length or reaction in this note or in the model is taken from it, and
 > agreement with it is not verification. Nothing it alone asserts is treated as published.
 >
-> **Where the bases come from.** The Drop-seq paper prints no oligo — its Experimental
-> Procedures defer every sequence to Table S6, which is behind the PMC download gate 🔴.
-> The oligo set below is published by the **Seq-Well paper's own Supplementary Table 1**
-> 🟢 for the *same* bead (ChemGenes MACOSKO-2011-10, described there as "as described in
-> Macosko et al. Cell 2015"). Carrying it back to Drop-seq is therefore an **inference**
+> **Where the bases come from.** The available Drop-seq main article gives bead geometry
+> but sends exact primers to Extended Experimental Procedures/Table S6, which remains
+> behind the PMC download gate 🔴. The inventor-lab [Drop-seq protocol v3.1](https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf)
+> by Macosko and Goldman (28 Dec 2015, p. 3 required-primer table) prints the bead,
+> TSO, SMART PCR, P5 hybrid and custom Read 1 oligos and maps their names to Macosko et al. 🟢
+> The later **Seq-Well Supplementary Table 1** corroborates the same mRNA capture bead
+> family 🟢. Assigning the later printed strands to the original Cell experiment remains
+> an **inference** until its Table S6 is checked
 > 🟡, and every segment it supplies is created `inferred=True` and drawn dotted.
 
 **Drop-seq** — Macosko EZ, Basu A, Satija R, Nemesh J, Shekhar K, Goldman M, Tirosh I,
@@ -31,12 +34,12 @@ Also listed for this method in `catalogue/scg_lib_structs.tsv`: nanoCAGE / CAGEs
 (Plessy et al., *Nat Methods* 2010, doi:[10.1038/nmeth.1470](https://doi.org/10.1038/nmeth.1470)).
 Not fetched for this protocol; nothing here depends on it.
 
-Sources read (fetched by `tools/get_sources.py`, into
-`$CHEM_DATA/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/`, never committed):
+Sources read (cached under `$CHEM_DATA/sources/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
 | `j.cell.2015.05.002_PMC4481139.html.txt` | Drop-seq full text (PMC author manuscript) | concept, bead synthesis, Experimental Procedures (short form), read layout in Fig. 2C legend |
+| `crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt` | **Macosko and Goldman inventor-lab Drop-seq protocol v3.1**, 28 Dec 2015 (the scoped Drop-seq route currently fails DNS; identical original cached in the CROP-seq source bundle) | p. 3 maps exact bead, TSO, PCR and custom Read 1 primer names to Macosko et al.; pp. 18–20 give Nextera N70X PCR and read settings. Its opening notice says the optimized protocol does not precisely match the experiments in the defining Cell paper. |
 | `nmeth.4179_..._MOESM237_ESM.pdf.txt` | Seq-Well Supplementary Figures + **Supplementary Table 1** | **every oligo** (Seq-Well) |
 | `nmeth.4179_..._MOESM238_ESM.pdf.txt` | **Seq-Well Master Protocol v1.0** (Shalek & Love labs, 13 Feb 2017) | **all Seq-Well conditions**: arrays, sealing, lysis, RT, ExoI, WTA, Nextera, sequencing, buffers |
 | `upstream_Drop-seq.html.txt` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
@@ -46,10 +49,10 @@ Could not be fetched (🔴 for everything only they contain):
 
 | What | URL | Why it matters |
 |---|---|---|
-| Drop-seq **Supplemental Information** (Extended Experimental Procedures; contains Table S6, the primers) | https://pmc.ncbi.nlm.nih.gov/articles/instance/4481139/bin/NIHMS687993-supplement-supp_data_1.pdf | **all Drop-seq oligos and reaction conditions** — the main text defers every detail to it |
+| Drop-seq **Supplemental Information** (Extended Experimental Procedures; contains Table S6, the primers) | https://pmc.ncbi.nlm.nih.gov/articles/instance/4481139/bin/NIHMS687993-supplement-supp_data_1.pdf | the exact defining-paper oligos and reaction conditions — the main text defers details to it; the later inventor-lab protocol is corroboration, not this original table |
 | Drop-seq Fig. S1, S6, Tables S2/S3 | `.../NIHMS687993-supplement-Figure_S1.pdf`, `..._Figure_S6.pdf`, `..._supp_data_2.xlsx`, `..._supp_data_3.xlsx` | bead QC; not chemistry |
 | Drop-seq Fig. S2–S5, Table S4, Movie S1, DataFile 1 (device .dwg) | `.../NIHMS687993-supplement-Figure_S2.pdf` … `..._supp_data_6.dwg` | saved by the tool, but each file is a ~21 kB reCAPTCHA page, not the file |
-| Seq-Well full text incl. Online Methods | https://pmc.ncbi.nlm.nih.gov/articles/PMC5376227/ (saved file is a reCAPTCHA page); https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5376227/fullTextXML (HTTP 500) | the Online Methods; the Master Protocol covers the wet lab |
+| Seq-Well old HTML route | https://pmc.ncbi.nlm.nih.gov/articles/PMC5376227/ (saved file was a reCAPTCHA page) | full-text JATS is now cached as `nmeth.4179_PMC5376227.xml.txt`; it explicitly compares with Drop-seq using the same mRNA capture beads (line 76) |
 | Seq-Well MOESM239 / MOESM241 (zips), MOESM247/248 (videos) | Springer ESM | zips truncated at 50 MB; videos not chemistry |
 
 ---
@@ -110,11 +113,13 @@ primers). 🟢 Their sequence is not given; the standard form is `nextera.n7xx_p
 
 The paper's Table S6 ("custom primers that enabled the specific amplification of only the
 3' ends" 🟢, main text) sits in the Supplemental Information behind the PMC download gate.
-No Drop-seq oligo sequence, and no Drop-seq-specific modification, has been read from a
-primary source. In particular:
+The inventor-lab v3.1 required-primer table **does** print the SeqB bead constant `AC`,
+TSO, P5 hybrid with two terminal phosphorothioates, and custom Read 1 primer, using
+Macosko et al. names. It is a later original from the inventors, not the defining
+paper's Table S6. Therefore, for the **original experiment**, still unresolved:
 
-- 🔴 whether Drop-seq's bead constant region is `AC` (as Seq-Well's is) or something else;
-- 🔴 whether Drop-seq's P5-SMART hybrid carries the same two 3' phosphorothioates;
+- 🔴 whether the defining 2015 Table S6 used the v3.1 SeqB bead constant `AC` or another revision;
+- 🔴 whether the defining Table S6's P5-SMART hybrid had the v3.1 two 3′ phosphorothioates;
 - 🔴 the exact Drop-seq Read 1, index and Read 2 primers.
 
 An earlier revision of this note reproduced a second bead batch ("seqA", handle + `ACGT`)
@@ -269,19 +274,19 @@ A read 1 longer than 20 would run into T30. 🟡 (computed)
 
 ## 6. Open questions
 
-- 🔴 The Drop-seq oligo table (Table S6) and all Drop-seq conditions: whether Drop-seq's
-  bead, TSO and P5 hybrid are base-for-base the ones Seq-Well prints, whether its hybrid
-  carries the same two phosphorothioates, and its RT, PCR and Nextera parameters. Fetch
-  `NIHMS687993-supplement-supp_data_1.pdf` by hand. Until then the whole construct is an
-  inference from the Seq-Well table.
+- 🔴 The original Drop-seq Table S6/Extended Procedures: whether its bead, TSO and P5
+  hybrid are base-for-base the later inventor-lab v3.1 primer table and Seq-Well oligos,
+  and which original RT, PCR, Nextera and sample-index settings were used. Obtain
+  `NIHMS687993-supplement-supp_data_1.pdf` for the direct comparison. Until then the
+  model assigns later source-positive oligos to the defining experiment by inference.
 - 🔴 The purpose of the 7-T linker and of the `GCCTGTCCGCGG` spacer; the purpose of `GAAT`
   between the handle and `rGrGrG` in the TSO (computed effect: it makes the TSO end
   differ from the bead end right after the handle, §2).
 - 🔴 Whether Drop-seq used more than one bead design. The paper describes one bead; no
   primary source we hold mentions a second batch, so none is modelled.
-- 🟡 Read 2 and index primers: the Master Protocol names only the custom Read 1 primer and
-  the "Nextera N70X Oligo", so the stock Nextera Read 2 and index primers are derived, not
-  stated.
+- 🟡 Read 2 and index primers: inventor-lab v3.1 gives 20-base Read 1, 50-base Read 2
+  and optional eight-base Index 1, and names the Nextera N70X oligo without assigning a
+  particular index member. Exact original Cell run settings still require Table S6.
 - 🔴 Seq-Well Online Methods (main paper) were not obtained; array geometry (number and
   size of wells) and the array functionalisation chemistry beyond Appendix A were not
   checked.

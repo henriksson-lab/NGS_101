@@ -3,7 +3,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from protocol_families.atac import AtacVariant, library, workflow as build_workflow, oligos
+from protocol_families.atac import AtacVariant, workflow as build_workflow
+from batch_ngs import nextera_library, seg
+import illumina as il
+import nextera as nx
 from pcr import PCRGeometry
 from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
@@ -12,16 +15,17 @@ VARIANT = AtacVariant(
         key="fast-atac",
         title="Fast-ATAC — one-step accessibility sequencing for primary blood cells",
         source='<a href="https://doi.org/10.1038/ng.3646">Corces et al., Nature Genetics (2016)</a> and its Online Methods.',
-        summary="Digitonin permeabilizes 5,000 sorted primary blood cells inside the Tn5 reaction itself, eliminating a separate lysis step while preserving the original single-index ATAC-seq library architecture.",
-        caveat="Fast-ATAC names the one-step digitonin sample preparation, not a distinct adapter system. The page therefore shares the published Ad1/Ad2 single-index construct with Omni-ATAC while keeping the defining Fast-ATAC reaction conditions separate.",
+        summary="Digitonin permeabilizes 5,000 sorted primary blood cells inside the Tn5 reaction itself. The defining study then used dual-index ATAC primers and a NextSeq 76×8×8×76 run.",
+        caveat="The article cites the 2015 single-cell ATAC method for modified primers; its supplement prints both i5 and i7 primer families. The particular pair used for each Fast-ATAC sample is not identified here, so both index sequences are placeholders.",
         first_step="Sort 5,000 primary blood cells and pellet them cold",
         first_state="small intact-cell pellet",
         first_note="The defining workflow sorts purified blood populations, pellets them at 500 r.c.f. for 5 minutes at 4 degrees C, and removes the supernatant without a separate detergent lysis.",
         transposition_action="Permeabilize and transpose together with digitonin",
         transposition_note="The 50-microlitre reaction contains 25 microlitres 2x TD buffer, 2.5 microlitres TDE1, 0.5 microlitre 1% digitonin and 22 microlitres water; incubate 30 minutes at 37 degrees C with 300-rpm mixing.",
         cleanup_note="MinElute cleanup stops the one-tube reaction. Five initial PCR cycles fill the Tn5 gaps and install the complete library arms; an aliquot qPCR chooses the remaining cycles.",
-        sequencing_intro="The defining study sequenced Fast-ATAC libraries as 50-base paired-end reads on HiSeq 4000. Standard Nextera Read 1 and Read 2 primers enter accessible DNA from opposite mosaic ends; the eight-base Index 1 read reports the Ad2 sample index.",
-        read_lengths={"Read 1": 50, "Index 1 (i7)": 8, "Read 2": 50},
+        sequencing_intro="The defining article's Online Methods specify a NextSeq paired-end dual-index 76×8×8×76 run. Read 1 and Read 2 enter accessible DNA from opposite mosaic ends; the index reads identify the selected Ad2 i7 and Ad1 i5 primers.",
+        read_lengths={"Read 1": 76, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 76},
+        dual_index=True,
     )
 TITLE = VARIANT.title
 NOTES = "01_fast_atac.html"
@@ -29,12 +33,23 @@ SOURCE = VARIANT.source
 SUMMARY = VARIANT.summary
 CAVEAT = VARIANT.caveat
 workflow = lambda: build_workflow(VARIANT)
-FINAL_LIBRARY, SEQ_PRIMERS = library(TITLE.split(" — ", 1)[0])
-FINAL_CAPTION = "The original Ad1_noMX and Ad2 architecture is shown: no i5 index is present. Tn5 supplies the complete 19-bp mosaic ends, while PCR appends P5 on the S5 side and P7 plus one eight-base i7 sample index on the S7 side."
+FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
+    [seg("accessible genomic DNA", "X" * 44, placeholder=True)],
+    "Fast-ATAC dual-index library", dual_index=True, i5_nt=8, i7_nt=8)
+FINAL_CAPTION = "The 2015 dual-index Ad1/Ad2 family cited by the defining article is shown. Tn5 supplies complete 19-bp mosaic ends; PCR appends P5 and an eight-base i5 on the S5 side, and P7 plus an eight-base i7 on the S7 side. Exact sample index members are not assigned."
 READ_LENGTHS = VARIANT.read_lengths
 SEQUENCING_INTRO = VARIANT.sequencing_intro
 SEQUENCING_ENDING = ""
 SEQUENCING_UNAVAILABLE = ""
+
+def oligos():
+    ad1_1 = il.P5 + "TAGATCGC" + nx.S5 + nx.ME[:10]
+    ad2_1 = il.P7 + "TCGCCTTA" + nx.S7 + nx.ME[:7]
+    return (
+        f"v2_Ad1.1_TAGATCGC — 5′-{ad1_1}-3′ (illustrative i5 member; 2015 supplement)",
+        f"v2_Ad2.1_TAAGGCGA — 5′-{ad2_1}-3′ (illustrative i7 member; 2015 supplement)",
+        f"TDE1 mosaic end at each junction — 5′-{nx.ME}-3′",
+    )
 
 def protocol_graph():
     variant = VARIANT
@@ -71,7 +86,7 @@ def protocol_graph():
                 ((tagged, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)),
                 (purified, cleanup_waste))
     graph.discard(cleanup_waste, "is removed during the post-transposition cleanup")
-    ad1 = graph.input("ad1_primer", "Ad1_noMX amplification primer", MaterialKind.OLIGO)
+    ad1 = graph.input("ad1_primer", "indexed v2_Ad1 amplification primer family", MaterialKind.OLIGO)
     ad2 = graph.input("ad2_primer", "indexed Ad2 amplification primer", MaterialKind.OLIGO)
     polymerase = graph.input("polymerase", "ATAC gap-fill/PCR polymerase",
                             MaterialKind.CATALYST)

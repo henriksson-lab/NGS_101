@@ -1,0 +1,147 @@
+{
+  "dir": "snatac-seq__10.1038+s41593-018-0079-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "Preissl et al Nat Neurosci 2018 doi:10.1038/s41593-018-0079-3 PMC5862073",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41593-018-0079-3_PMC5862073.xml.txt line 174 Online Methods; supplementary table citations",
+        "finding": "Specifies barcoded Tn5, i7/i5 PCR, custom reads 50+43+37+50; explicitly names Supplementary Table 5."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41593-018-0079-3_PMC5862073.xml.txt lines 160-164 and reference 51 lines 670-677; source-bundle scraper run and table pointers verified",
+        "finding": "Methods describe 96-well barcoded-Tn5 tagmentation, pooling, sorting into four PCR plates, i7/i5 amplification and 50+43+37+50 read layout; cite Table 5 and Amini 2014 for oligos."
+      }
+    },
+    {
+      "id": "table5",
+      "role": "supplement",
+      "locator": "Published 41593_2018_79_MOESM5_ESM.xlsx Supplementary Table 5",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41593-018-0079-3_41593_2018_79_MOESM5_ESM.xlsx.txt lines 1-113, PCR Primer and Tagmentation Oligos sheets; scraper line 4 and 113",
+        "finding": "Prints PCR indexes, tagmentation oligos, and custom read primers."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41593-018-0079-3_41593_2018_79_MOESM5_ESM.xlsx.txt lines 1-5, 88-116; original table read after scraper",
+        "finding": "Published table gives indexed PCR primer families, p5/p7 barcoded transposon strands, 5Phos/pMENTS and three custom sequencing primers. Line 116 attributes all non-spike-in oligos to Amini 2014, a chemistry link missing from first-pass checklist."
+      }
+    },
+    {
+      "id": "suppfigs",
+      "role": "supplement",
+      "locator": "Published MOESM1 Supplementary Figures 1–4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "s41593-018-0079-3_41593_2018_79_MOESM1_ESM.pdf.txt lines 1-70",
+        "finding": "Optimization figure legends; no extra oligo table."
+      },
+      "reason": "Figures concern protocol optimization; Table 5 gives oligos.",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "s41593-018-0079-3_41593_2018_79_MOESM1_ESM.pdf.txt lines 29-75",
+        "finding": "Figures 1–4 give tagmentation optimization, nuclei sorting and data-quality results; inspected legends have no additional oligo inventory. This is an exclusion for sequence checking, not for workflow context."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "Author bioRxiv doi:10.1101/159137 v2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "159137_v2.full.pdf.txt Methods and figure legends",
+        "finding": "Earlier author account; published Table 5 is controlling."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "159137_v2.full.pdf.txt lines 712-750",
+        "finding": "Author preprint describes pMENTS annealing, barcoded A/B Tn5 loading, same pooling/sorting/PCR order, and points to preprint Supplementary Table 2; published Table 5 provides the inspected sequences."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "sci2015",
+      "role": "linked_material",
+      "locator": "Cusanovich et al Science 2015 doi:10.1126/science.aab1601",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "science.aab1601_PMC4836442.xml.txt lines 41-69; original first-generation sci-ATAC methods",
+        "finding": "Predecessor chemistry; original 2015 supplement remains a separate unresolved source."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "science.aab1601_PMC4836442.xml.txt lines 43-45",
+        "finding": "Cusanovich predecessor describes the two-round combinatorial indexing design: first-round barcoded transposase, pool/dilute/sort, second-round indexed PCR. It does not establish the exact 2018 oligo selection."
+      },
+      "discovered_from": "article"
+    },
+    {
+      "id": "pmc_mirrors",
+      "role": "supplement",
+      "locator": "PMC NIHMS supplemental Table 5 and text/figures download routes",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC instance routes remain gated; publisher MOESM5 is on disk, but alternate files were not checked for identity.",
+      "pass_2": null,
+      "discovered_from": "article"
+    },
+    {
+      "id": "amini2014_oligo_origin",
+      "role": "linked_material",
+      "locator": "Amini et al. Nature Genetics 2014 doi:10.1038/ng.3119 PMC4409979, cited by defining article ref 51 and Supplementary Table 5 line 116",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Amini article/supplement fetch pending; source is explicitly named as origin of non-spike-in transposon and PCR oligos.",
+      "pass_2": null,
+      "discovered_from": "table5"
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Online Methods line 174, Table 5, bioRxiv v2, sci-ATAC 2015 link and PMC alternate supplement inventory",
+      "finding": "Followed author preprint and predecessor article; PMC mirror copies are gated. Published table supplies protocol-specific oligos."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Original article Methods line 164 and ref 51 lines 670-677; Table 5 line 116; 2017 preprint lines 712-750; Cusanovich 2015 original lines 43-45",
+      "finding": "Followed preprint and sci-ATAC predecessor; newly identified Amini 2014 as the cited oligo origin. Exact 2018 oligos are printed in published Table 5, but Amini source itself and alternate PMC mirror remain to be checked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Identity of gated PMC NIHMS supplement versions",
+      "disposition": "blocked",
+      "evidence": "Springer Table 5 is available, but PMC alternate copies were not independently compared."
+    }
+  ],
+  "conclusion": "Two independent readings of available article, published oligo table, figures, preprint and sci-ATAC predecessor. Amini oligo-origin original and alternate PMC supplement mirror remain blocked."
+}

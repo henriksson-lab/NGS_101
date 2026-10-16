@@ -28,7 +28,7 @@ SQK-RAD114 is Oxford Nanopore's PCR-free rapid genomic-DNA workflow: a fragmenta
 `CCTGTACTTCGTTCAGTTACGTATTGCT`.
 
 🔴 The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
-exact motor-bearing strand remain undisclosed. Those parts remain role-labelled.
+exact motor-bearing strand have not been verified from the checked vendor documents. Those parts remain role-labelled pending a component-level source.
 
 ## 5. Final library and read entry
 

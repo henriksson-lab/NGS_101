@@ -1,0 +1,96 @@
+{
+  "dir": "duplex-repair__10.1093+nar+gkab855",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "DOI 10.1093/nar/gkab855; nar_gkab855_PMC8755016.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Methods lines 105-120, 195-204",
+        "finding": "Paper says custom dual-index duplex-UMI adapters supplied by IDT; exact library adapter sequences not in checked methods."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "article PDF lines 106-120 and 193-207",
+        "finding": "Sequencing-library methods name custom dual-index duplex-UMI adapters from IDT but do not give their bases; synthetic substrate oligos are a separate capillary-electrophoresis experiment."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "nar_gkab855_supp_gkab855_supplemental_file.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Table S1 lines 210+ and methods",
+        "finding": "Synthetic QC substrate oligos are listed, including fluorophores; not automatically library adapter sequences."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "published supplement lines 114-136 and 210 onward",
+        "finding": "Supplement notes NGS adapters add about 37-40 bp and says their schematic does not depict adapters; Table S1 lists synthetic QC substrates, not an order sheet for library adapters."
+      }
+    },
+    {
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "2021.05.21.445162_v1.full.pdf.txt and media-1.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "source-review-i-r",
+        "date": "2026-10-15",
+        "locations": "Preprint methods; media-1 lines 20-40",
+        "finding": "Author preprint and methods supplement checked; source may differ by version, so do not conflate QC oligos with library adapters."
+      },
+      "pass_2": {
+        "reviewer": "source-review-independent-d-e",
+        "date": "2026-10-15",
+        "locations": "preprint methods and media-1 lines 20-40, 109-113",
+        "finding": "Preprint supplement prints adapter-flank ddPCR primers and modified synthetic QC substrate oligos, but these are not the ordered duplex-UMI library adapters."
+      }
+    },
+    {
+      "id": "idt",
+      "role": "vendor",
+      "locator": "IDT custom dual-index duplex-UMI adapter order named in article",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Custom supplier composition not included in source bundle.",
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "source-review-i-r",
+      "date": "2026-10-15",
+      "locations": "Paper and author supplement point to custom IDT dual-index duplex-UMI adapters; preprint and supplement checked.",
+      "finding": "First-pass linked-material inventory recorded in source_checklist; unresolved items remain pending independent review."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [
+    {
+      "claim": "QC synthetic substrates",
+      "disposition": "resolved",
+      "evidence": "Original Supplementary Table S1 prints oligos; resolved for QC chemistry only."
+    },
+    {
+      "claim": "Custom library duplex-UMI adapter bases and junction",
+      "disposition": "blocked",
+      "evidence": "IDT custom adapter named but no source-backed base sequence located; supplier order unavailable."
+    }
+  ],
+  "conclusion": "QC oligos are present; library adapter remains unresolved. Independent pass 2 pending; no missing claim accepted."
+}

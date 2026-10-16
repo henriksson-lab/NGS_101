@@ -1,0 +1,76 @@
+{
+  "dir": "strt-seq__10.1101+gr.110882.110",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Islam et al. 2011 Genome Research PMC3129258 HTML",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "PMC3129258 Methods lines 1275–1299",
+        "finding": "RT, TSO, cDNA and library-PCR oligos printed; custom run Read 1 oligo unnamed."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC3129258 HTML lines 1172, 1279–1300; scraper",
+        "finding": "Confirmed exact construction oligos and Figure 1 custom Read 1 primer role; no run-primer bases in manuscript Methods."
+      }
+    },
+    {
+      "id": "supp",
+      "role": "supplement",
+      "locator": "Original STRT 2011 Supplementary Information PDF, mirrored as scg_STRT_GenomeRes_2011_SI.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Original SI barcode list",
+        "finding": "Source barcodes; no run-primer table."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original SI extracted text beginning STARTv2-1",
+        "finding": "Barcode list, not a custom sequencing-primer oligo list."
+      }
+    },
+    {
+      "id": "ga2x_manual",
+      "role": "linked_material",
+      "locator": "Illumina Genome Analyzer IIx sequencing protocol cited in manuscript Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Manufacturer protocol/version not identified in local source bundle; needed to verify whether custom run primer is disclosed.",
+      "discovered_from": "paper"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Manuscript and original supplement",
+      "finding": "No source-printed custom run primer identified."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "PMC3129258 line 1299 and source bundle",
+      "finding": "Manuscript directs sequencing to Illumina manufacturer protocols but does not identify version; linked source not fully checked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Custom Read 1 sequencing-primer bases are unpublished",
+      "disposition": "blocked",
+      "evidence": "Manufacturer GAIIx sequencing protocol link remains unresolved."
+    }
+  ],
+  "conclusion": "Construction oligos are source-backed; custom run primer absence remains blocked."
+}

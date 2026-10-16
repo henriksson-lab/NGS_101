@@ -6,7 +6,8 @@ DEFINITION = Definition(
         "Miura et al., Nature Protocols (2020)",
         "A single S-phase cell is whole-genome amplified and sequenced; twofold copy-number differences distinguish replicated from unreplicated domains.",
         (role("SeqPlex-amplified genomic fragment"),),
-        "Each PCR index identifies one single-cell library. Genomic Read 1/Read 2 coverage, normalized to G1 controls, reports replicated and unreplicated domains.", True)
+        "Each PCR index identifies one single-cell library. Genomic Read 1/Read 2 coverage, normalized to G1 controls, reports replicated and unreplicated domains.", True,
+        "The published Supplementary Software 1/2 prints a sample-index read-trimming pattern and a SEQXE motif predicted from example FASTQ reads. The latter is an analysis observation, not a disclosed synthesized SeqPlex reagent sequence; its exact molecular ends remain unresolved here. The later open DOP-PCR protocol uses a different whole-genome-amplification primer and is not substituted for this SeqPlex implementation.")
 
 
 def _replication_graph(key: str, definition, final: Construct,

@@ -1,0 +1,360 @@
+{
+  "dir": "sum-seq__10.1038+s41592-025-02700-8",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_PMC12165849.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 394–410; scraper on article plus Additional file 1",
+        "finding": "Article describes barcoded Tn5 transposomes using Nextera Read1, Read2–sample-index–spacer and ddC mosaic-end complements, then barcoded oligo-dT RT and cDNA/mRNA hybrid tagmentation. Additional file 1 names a separate oligo table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read original PMC12165849 JATS Overview lines 215–230, Methods transposome and full SUM-seq procedure lines 390–435, sequencing run lengths near line 427, references 6/14/84 at lines 701–708, 768–770 and 1381–1387; ran the full source-bundle oligo scraper first.",
+        "finding": "The original describes barcoded Tn5 and oligo(dT) RT pre-indexing, hybrid tagmentation, droplet indexing, modality split/PCR and distinct ATAC/RNA read cycles. It points to Supplementary Table 1 for oligos, Datlinger 2021 for two-stage indexing, Hennig 2018 for Tn5 preparation, and an author preprocessing repository."
+      }
+    },
+    {
+      "id": "source_1",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 PDF text lines 1–28 (especially line 13, Supplementary Table 1 title), lines 125–136 (Table 13 perturbation oligo description), and lines 226–251 (figure captions).",
+        "finding": "The PDF is a supplement legend and figure document, not the table body. It identifies Supplementary Table 1 as the SUM-seq oligo source and Table 13 as a CRISPR screening-oligo source; the table bodies are in MOESM3."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 supplementary PDF extracted text lines 13–28 (Supplementary Table 1 description), 125–136 (Supplementary Table 13 perturbation-oligo definitions), 226–251 (Supplementary Figures 1–4 captions); full source-bundle oligo scraper run first.",
+        "finding": "Independent read confirms this PDF supplies the table legends and result-figure captions, not oligo table bodies. It explicitly points to Table 1 general/modality oligos and Table 13 screen-cloning oligos in MOESM3; thus relevant as linked-source map, with no additional library sequence in this attachment."
+      }
+    },
+    {
+      "id": "source_2",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Rendered and visually read all three pages of original MOESM2 image-only Reporting Summary PDF, particularly p.1 Software and code and p.2 Data. The seven-character extracted text was inadequate.",
+        "finding": "No library chemistry appears. Page 1 links the SUMseq preprocessing GitLab repository, which may document demultiplexing and is listed separately as relevant linked material."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Visually inspected all three pages of original image-only MOESM2 Reporting Summary PDF after rendering; p.1 statistics and software/code, p.2 data/participants/study design, p.3 antibodies/cell lines; extracted text twin is only seven bytes.",
+        "finding": "Independent visual read finds no molecular library reagent, oligo, reaction or read-layout detail. Page 1 links the author SUMseq GitLab preprocessing pipeline, tracked separately as relevant linked material; classification as not relevant to molecular chemistry is supported."
+      },
+      "reason": "The original three-page publisher Reporting Summary contains statistics, software/data links, ethics and cell-line reporting, but no library reagent, oligo, reaction or read-layout detail. Its author pipeline link is tracked separately."
+    },
+    {
+      "id": "source_3",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM3_ESM.xlsx (original workbook; extracted .xlsx.txt beside it)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 workbook extracted text: overview lines 1–40; Supplementary Table 1a definition lines 42–50; Table 1b general modified oligos lines 51–62; Table 1c ATAC index family lines 63–161; Table 1d RNA index family lines 162–260; Table 13 perturbation sequences around lines 152498–152535.",
+        "finding": "Original workbook prints modified Tn5 loading/blocking and PCR oligos plus separate 96-member ATAC and RNA 11-base sample-index families, including 10-base UMI in RNA RT oligos. Table 13 is arrayed CRISPR perturbation-construct material, distinct from SUM-seq library chemistry. No absence of these sequences can be claimed."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original MOESM3 XLSX via standard-library extracted sheets: Supp. Tables Overview lines 1–40; Table 1a field definitions lines 42–50, 1b modified general oligos lines 51–62, 1c ATAC sample indexes lines 63–161, 1d RNA sample indexes lines 162–260; Table 13 perturbation oligo definitions/first rows lines 152498–152535. Full bundle oligo scraper run before workbook read.",
+        "finding": "Independent read verifies [Phos]... [ddc] Tn5 complement, blocking [invdT], phosphorothioate P5/P7 oligos, and modality PCR arms. Each 1c/1d family has 96 distinct 11-base indexes (script checked all 96 original extracted rows per sheet), each index embedded in its full oligo. RNA RT oligos have a ten-N UMI. Table 1a cautions that index or reverse complement is used depending on modality/platform. Table 13 is relevant to perturbation-construct cloning, separate from sequencing-library chemistry."
+      }
+    },
+    {
+      "id": "source_4",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM4_ESM.zip",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Inspected original MOESM4 ZIP member list and first three rows of its sole ATAC_markers_per_timepoint_and_condition_p0.05.tsv file: feature, group, avgExpr, logFC, statistic, auc, pval, padj, pct_in, pct_out.",
+        "finding": "Analysis result table only; no oligo or reaction details in its reported schema."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original MOESM4 ZIP central directory: sole member ATAC_markers_per_timepoint_and_condition_p0.05.tsv, 111,833,104 uncompressed bytes; inspected first three TSV rows and feature/group/avgExpr/logFC/statistic/auc/pval/padj/pct_in/pct_out header.",
+        "finding": "Independent inspection supports exclusion for molecular claims: one ATAC marker analysis table, with no protocol reagent or oligo fields."
+      },
+      "reason": "Original ZIP contains only an ATAC marker-statistics TSV; it does not document molecular reagents or library construction."
+    },
+    {
+      "id": "source_5",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 workbook extracted text lines 1–15: Overview Supplementary Table 16 and sheet 16a headers; workbook sheet list a–e.",
+        "finding": "The inspected sheets are CRISPRa differential-expression matrices with feature/group/statistics columns; no library construction field appears."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 XLSX extracted sheet list at lines 1,8,46603,65095,72747,97340; Overview and Table 16a header lines 1–11 plus inspected first rows.",
+        "finding": "Workbook is Supplementary Table 16 CRISPRa differential gene expression across five sheets a–e; feature/group/avgExpr/logFC/statistic/auc/pval/padj/pct_in/pct_out data, no library-construction field. Exclusion as not relevant to molecular chemistry supported."
+      },
+      "reason": "Original workbook comprises Supplementary Table 16 CRISPRa differential-expression result sheets, not library chemistry."
+    },
+    {
+      "id": "source_6",
+      "role": "supplement",
+      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM6_ESM.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 workbook extracted text lines 1–14: Overview Supplementary Table 17 and sheet 17a headers; workbook sheet list a–d.",
+        "finding": "The inspected sheets are CRISPRi differential-expression matrices with feature/group/statistics columns; no library construction field appears."
+      },
+      "pass_2": {
+        "reviewer": "audit_m3_astar",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 XLSX converted via doctext.py and inspected Overview/Table 17a header lines 1–10, sheet starts 1,7,79880,95360,136358, and first data rows.",
+        "finding": "Workbook is Supplementary Table 17 CRISPRi differential gene expression across four sheets a–d, same result-statistics schema and no library-construction field. Exclusion as not relevant to molecular chemistry supported."
+      },
+      "reason": "Original workbook comprises Supplementary Table 17 CRISPRi differential-expression result sheets, not library chemistry."
+    },
+    {
+      "id": "tn5_predecessor",
+      "role": "linked_material",
+      "locator": "Hennig et al., G3 (2018) DOI 10.1534/g3.117.300257, original OUP article https://academic.oup.com/g3journal/article/8/1/79/6027106; cited ref. 84 in SUM original JATS lines 1381-1387; original File S1 linked from OUP article (publisher PDF 300257_files1.pdf)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Repository DOI fetch attempt created _data/sources/doi_10.1534+g3.117.300257/MANIFEST.tsv manual row only; scraper on that unfetched bundle yielded 0 files. Independently opened original OUP published article, web text lines 172-188 (Methods), 222-227 (data/supplement links), 229-241 (protein variant) and original linked File S1 PDF pp. 9-16 (web lines 229-378) plus p. 20 Table S1 (web lines 452-479).",
+        "finding": "Original paper details His6-Sumo3-tagged Tn5 E54K/L372P or R27S/E54K/L372P, PEI nucleic-acid removal, SenP2 cleavage and size-exclusion purification of dimer. It loads enzyme with annealed Tn5ME-A/Tn5MErev and Tn5ME-B/Tn5MErev at 23 °C for 30–60 min. File S1 prints those oligo bases and a 5′-phosphorylated MErev (pp. 15–16), plus primer Table S1 (p. 20). This supports the cited in-house Tn5 production/loading method, not SUM-specific barcoded adapter sequences. File S1 follows a relevant original linked by Hennig; Picelli et al. 2014a is cited there as prior linker design and still needs its own relevance audit."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "Ran the full SUM source-bundle oligo scraper and the empty Hennig DOI-bundle scraper first; independently read original OUP article Methods lines 167–190, protein purification lines 178–183, linker loading line 188, and Data availability lines 222–227; followed original File S1 link 19.",
+        "finding": "Hennig replaces Picelli's intein-CBD Tn5 purification with His6-Sumo3, PEI nucleic-acid removal, SenP2 cleavage and a size-excluded Tn5 dimer. Its 23 °C 30–60 min loading uses the printed ME-A/MErev and ME-B/MErev duplexes; the source delegates exact oligo bases and detailed loading to File S1. The SUM-specific barcoded adapter and ddC-terminated ME must still come from SUM's own Table 1. Hennig links Picelli et al. 2014a as its inherited linker method, tracked separately."
+      }
+    },
+    {
+      "id": "scifi_predecessor",
+      "role": "linked_material",
+      "locator": "Datlinger et al., Nature Methods 2021 DOI:10.1038/s41592-021-01153-z, original published JATS _data/sources/scifi-rna-seq__10.1101+2019.12.17.879304/s41592-021-01153-z_PMC7612019.xml.txt; cited ref. 6 in SUM-seq",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "After running full scifi-RNA-seq source-bundle oligo scraper, independently read original published JATS abstract line 27 and conceptual design lines 39–41, with SUM-seq citing it in original JATS lines 215–230 and ref. 6 lines 701–708.",
+        "finding": "Datlinger 2021 establishes reverse-transcription preindexing in 96/384-well split pools followed by overloaded microfluidic droplet indexing; round1×round2 barcode combination resolves cells sharing a droplet. This supports the inherited indexing concept, but SUM-seq defines its own ATAC and RNA oligos in its Supplementary Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Full cached scifi-RNA-seq source-bundle oligo scraper first (68 hits in 6 files); Datlinger 2021 original published JATS s41592-021-01153-z_PMC7612019.xml.txt conceptual design lines 27,39-41 and Detailed scifi-RNA-seq protocol lines 177-191 (reverse transcription and Chromium scATAC thermoligation); SUM original JATS cites Datlinger ref. 6 at lines 701-708.",
+        "finding": "Original predecessor performs first-round oligo-dT reverse transcription with 384 indexed primers in split wells (Methods line 181), pools recovered cells/nuclei, then loads overloaded Chromium scATAC droplets with a bridge oligo and Ampligase for second-round thermoligation (Methods lines 183-191). This establishes the two-stage indexing and overloaded-droplet mechanism that SUM adapts. It does not establish SUM-specific ATAC transposome or RNA oligo bases, which are printed in SUM MOESM3 Supplementary Table 1."
+      }
+    },
+    {
+      "id": "author_preprocessing_pipeline",
+      "role": "linked_material",
+      "locator": "https://git.embl.de/grp-zaugg/SUMseq (article ref. 14); indexed migrated public GitLab project https://git.embl.org/grp-zaugg/SUMseq, project ID 5213; archive route in catalogue/extra_sources.tsv",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Public migrated GitLab project metadata is indexed, but the original repository and README/archive contents could not be opened through the browser; repeatable archive fetch returned curl error 6 and a manual MANIFEST.tsv row. Read parsing remains uninspected.",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original SUM-seq JATS ref. 14 lines 768–770 and Reporting Summary p.1; web search result for migrated git.embl.org project ID 5213; direct project, raw README and GitLab API opening attempts; tools/get_sources.py --no-papers archive attempt recorded in SUM-seq MANIFEST.tsv.",
+        "finding": "The author project exists and describes a Snakemake preprocessing workflow, but its code and documentation were inaccessible here. No read-layout inference or absence claim is drawn from the search snippet."
+      },
+      "pass_2": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original SUM JATS lines 430, 648 and ref.14 line 770; migrated git.embl.org project search listing ID 5213; direct web project, GitLab API /api/v4/projects/5213, raw README/master and archive/master attempts; curl HEAD to git.embl.org raw/main and API repository/tree plus original git.embl.de archive/main all gave DNS error 6. Ran full SUM bundle scraper before article.",
+        "finding": "The article calls this a Snakemake preprocessing pipeline and names bcl-convert, chromap, ArchR, bcl2fastq, Je, STARsolo and EmptyDrops. The indexed author project exists, but no repository code or README was read, so index orientation/read parsing and any related absence claim remain blocked."
+      }
+    },
+    {
+      "id": "tenx_atac_v1_1_guide",
+      "role": "vendor",
+      "locator": "https://cdn.10xgenomics.com/image/upload/v1666737555/support-documents/CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf (official 10x CG000209 Rev G v1.1 candidate)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original SUM JATS GEM generation line 418; official 10x CG000209 Rev G v1.1 PDF pp.6,26–28,31. Full SUM source-bundle oligo scraper run before reading article.",
+        "finding": "This original guide names Barcoding Reagent B, Reducing Agent B and Barcoding Enzyme and gives 70 µl sample/50 µl gel beads/40 µl oil, matching the paper. The paper does not identify this guide as the one used, and these features also appear in official v2."
+      },
+      "pass_2": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Original SUM JATS Methods line 418; official 10x CG000209 Rev G PDF pp. 6–7 and 27–29 (browser lines 130–149, 949–958, 1009–1051); full SUM source-bundle scraper run first.",
+        "finding": "The guide's kit contents include Barcoding Reagent B, Reducing Agent B and Barcoding Enzyme; GEM master mix uses 56.5/1.5/2.0 µl, and Chip H loading uses 70 µl sample, 50 µl gel beads and 40 µl partitioning oil, agreeing with SUM Methods. This does not establish the exact revision because v2 Rev C has the same named reagents and active-well loading."
+      }
+    },
+    {
+      "id": "tenx_atac_v2_guide",
+      "role": "vendor",
+      "locator": "https://cdn.10xgenomics.com/image/upload/v1728078402/support-documents/CG000496_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v2_UserGuide_RevC.pdf.pdf (official 10x CG000496 Rev C v2 candidate)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original SUM JATS GEM generation line 418; official 10x CG000496 Rev C v2 PDF pp.6,26–28, after source-bundle scraper.",
+        "finding": "The original v2 guide also has the named B reagents and 70/50/40 µl loading; these details cannot distinguish v2 from v1.1."
+      },
+      "pass_2": {
+        "reviewer": "vendor_second",
+        "date": "2026-10-16",
+        "locations": "Original SUM JATS Methods line 418; official 10x CG000496 Rev C PDF pp. 6 and 27–29 (browser lines 128–143, 991–1000, 1053–1095); full SUM source-bundle scraper run first.",
+        "finding": "The v2 guide likewise names the B reagents and specifies 70/50/40 µl for loaded wells. Its 150 µl figure on p. 28 is 50% glycerol added to unused row-3 wells, not partitioning oil; p. 29 separately specifies 40 µl oil. The printed SUM volumes do not distinguish v1.1 from v2."
+      }
+    },
+    {
+      "id": "tenx_atac_study_revision",
+      "role": "vendor",
+      "locator": "The version-matched 10x Chromium Single Cell ATAC standard protocol/gel-bead guide for the SUM-seq experiments; original JATS GEM generation line 418 gives no kit part number or revision",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Official CG000209 Rev G v1.1 and CG000496 Rev C v2 both match the paper’s named reagents and 70/50/40 µl loading, so the precise experimental kit revision cannot be identified from the published Methods.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "later_sum_protocol",
+      "role": "other",
+      "locator": "Yildiz et al., Nature Protocols DOI:10.1038/s41596-025-01310-0, a later detailed SUM-seq method",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The main article is a subscription preview; its original publisher supplement was read separately. This later protocol cannot establish the kit revision used in the 2025 experiment.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Nature Protocols publisher preview DOI:10.1038/s41596-025-01310-0 lines 43–53, 190–193 and 364–373; full source-bundle scraper run before reading.",
+        "finding": "The preview links its supplements and explicitly cites 10x CG000496 Rev C v2 for the later method. Full article remains subscription restricted."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "Ran full SUM and empty later-DOI source-bundle scrapers first; independently read Nature Protocols publisher preview lines 43–53, reference 25 at line 192, supplement inventory lines 364–373 and publication/version dates lines 381–395.",
+        "finding": "The later author protocol was published 26 February 2026, after the 2025 study, and explicitly cites 10x CG000496 Rev C v2. Its main step-by-step article text is behind the subscription preview, but the linked publisher supplementary PDF is available and audited separately. The later reference cannot retroactively identify the kit revision used for the defining 2025 experiment."
+      }
+    },
+    {
+      "id": "later_sum_supp_pdf",
+      "role": "supplement",
+      "locator": "Nature Protocols DOI:10.1038/s41596-025-01310-0, publisher Supplementary Information MOESM1 PDF, https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41596-025-01310-0/MediaObjects/41596_2025_1310_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "later_sum_protocol",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original publisher MOESM1 Supplementary Protocol 4 pp. 8–10, web lines 216–275; Supplementary Protocol 5 pp. 12–13, web lines 312–374. Full local DOI bundle scraper run before reading browser original.",
+        "finding": "Later method specifies R1N/ME-ddC hybrid Tn5 tagmentation, Maxima H-minus RT and ExoI gap fill, P5_R1N/P7_i7_TruseqR2 PCR, ATAC BCL Y55;I11;U16;Y55, and RNA barcode parsing from read2 start 27 length 11. These corroborate a later variant and cannot assign the 2025 experiment kit revision or exact unmodelled junctions."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "Ran full SUM and empty later-DOI source-bundle scrapers first; independently clicked publisher Supplementary Information link 110 and read original MOESM1 PDF Supplementary Protocol 4 pp. 8–11, browser lines 216–309, and Protocol 5 pp. 12–13, lines 312–374.",
+        "finding": "This later protocol titrates the R1N/ME-ddC Tn5 on RNA–cDNA hybrids, then uses Maxima H-minus RT plus ExoI for gap repair and P5_R1N/P7_i7_TruseqR2 PCR. Protocol 5 specifies ATAC bcl-convert cycles Y55;I11;U16;Y55 and example sample indexes TAGTTGGAGGT/TGGCTGAAACG; the first is the reverse complement of the 2025 Table 1c first oligo index ACCTCCAACTA. RNA concatenates Index2 and Read2 and defastq reads an 11-base sample index from read2 start 27. These later read-parsing details corroborate orientation but do not prove the 2025 experimental kit revision or all exact library junctions. The PDF links its paper's XLSX tables, still inaccessible here."
+      }
+    },
+    {
+      "id": "later_sum_tables",
+      "role": "supplement",
+      "locator": "Nature Protocols DOI:10.1038/s41596-025-01310-0 publisher Supplementary Tables XLSX linked from article lines 370–373",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "later_sum_protocol",
+      "reason": "Publisher XLSX link was located, but browser XLSX reader failed and local source fetch could not resolve the publisher host. Its oligo and reaction contents remain unchecked.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "tn5_picelli_predecessor",
+      "role": "linked_material",
+      "locator": "Picelli et al. 2014a, Genome Research DOI:10.1101/gr.177881.114, Tn5-intein-CBD purification/linker method cited in Hennig 2018 original OUP Methods lines 166-177 and 186-188 and reference lines 1252-1301",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Hennig identifies it as source of its Tn5ME-A/B plus Tn5MErev linker design. Its original has not yet been separately retrieved or checked; SUM-specific adapter bases are supplied by SUM MOESM3, but inherited Tn5 linker mechanism still merits comparison.",
+      "discovered_from": "tn5_predecessor",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "tn5_predecessor_file_s1",
+      "role": "supplement",
+      "locator": "Hennig et al. G3 2018 original publisher File S1, 300257_files1.pdf; link 19 at https://academic.oup.com/g3journal/article/8/1/79/6027106",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "tn5_predecessor",
+      "pass_1": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Clicked original OUP article File S1 link 19; PDF 21 pages. Inspected expression/purification protocol pp. 9-13 (web lines 229-329), Tn5 linker annealing/loading/tagmentation protocol pp. 15-18 (web lines 332-402), gap-fill PCR note p. 19 (web lines 432-444), Table S1 p. 20 (web lines 452-479).",
+        "finding": "Supplement supplies detailed His6-Sumo3-Tn5 dimer purification and ME-linked oligo annealing/loading, including Tn5ME-A 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG-3′, Tn5ME-B 5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-3′ and Tn5MErev 5′-[phos]CTGTCTCTTATACACATCT-3′. It establishes the predecessor reagent mechanism, not the SUM-specific 11-base preindices or sample-index arms."
+      },
+      "pass_2": {
+        "reviewer": "finish_sum",
+        "date": "2026-10-16",
+        "locations": "Ran full SUM and empty Hennig DOI-bundle oligo scrapers first; independently followed original OUP File S1 link 19 and read publisher PDF pp. 14–19 (browser lines 332–445), including linker sequences at lines 351–359 and Tn5 loading at 366–379; checked Table S1 p. 20 lines 452–479.",
+        "finding": "The original File S1 prints ME-A 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG, ME-B 5′-GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG and 5′-[phos]CTGTCTCTTATACACATCT MErev. It gives annealing conditions, loading both duplexes at 23 °C and PCR gap filling for its conventional library, with a separate ME-B-only 3′ RNA branch. SUM Table 1 independently supplies a ddC termination on its reverse ME and its own pre-indexed arms, so Hennig's unmodified 3′ MErev must not silently replace SUM's oligo."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS Overview lines 215–230, Methods lines 390–435, references 6/14/84 at 701–708, 768–770 and 1381–1387; publisher MOESM1 legend lines 13 and 125–136; MOESM2 Reporting Summary p.1 code link; full bundle oligo scraper and MOESM3 Table 1a–d.",
+      "finding": "Followed the original to all six attached supplements and located the publisher oligo workbook. Read the Datlinger 2021 original JATS for inherited two-stage indexing; Hennig Tn5 and author preprocessing code remain inaccessible/uninspected. The author GitLab project is indexed under a migrated host, but archive fetching failed. No missing claim is accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_m3_astar",
+      "date": "2026-10-16",
+      "locations": "Independently followed MOESM1 Table 1/Table 13 pointers to MOESM3 original workbook and checked all six attachments after full source-bundle scraper; visually read MOESM2 Reporting Summary p.1 preprocessing link; checked MOESM4 ZIP member and MOESM5/6 sheet inventories. Original article source-link list identifies Hennig Tn5, Datlinger sci-fi and SUMseq preprocessing pipeline, still uninspected in their own originals.",
+      "finding": "MOESM3 resolves modified general oligos and both complete 96-member 11-base pre-index families; MOESM1 is its legend, MOESM2/4/5/6 add no library chemistry. Relevant Tn5, two-stage indexing and read-preprocessing sources remain unchecked, so exact residual missing claims stay blocked. The migrated author GitLab project is indexed but its files and API/archive routes were inaccessible; both official 10x candidate guides match the paper, leaving the exact kit revision unresolved."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Original article and Supplementary Table 1b–d print the general modified oligos and both 96-member 11-base sample-index families. Remaining proprietary 10x bead/reagent and exact branch-junction questions cannot be accepted as absent while predecessor, author pipeline and versioned vendor sources remain unchecked.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent readers checked the defining article, all six 2025 publisher attachments, the Datlinger indexing predecessor, Hennig Tn5 article and File S1, both candidate 10x guides, and the later Nature Protocols preview and supplementary PDF. Original MOESM3 Table 1 prints modified general oligos and 96-member ATAC/RNA pre-index families; Table 13 contains distinct perturbation constructs. Hennig's 5′-phosphorylated MErev lacks SUM's published 3′ ddC termination and is not substituted for it. The later protocol confirms a reverse-complement ATAC sample-index example and read parsing but does not establish the 2025 experiment's 10x kit revision. Picelli 2014a original, full later article and its XLSX tables, author pipeline contents, and a version-matched 2025 10x guide remain open. No residual missing-information claim is accepted."
+}

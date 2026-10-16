@@ -1,0 +1,197 @@
+{
+  "dir": "microsplit__10.1126+science.aba5257",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "science_article",
+      "role": "defining",
+      "locator": "Kuchina et al Science 2021, science.aba5257_PMC8269303.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods and supplementary-material pointer in JATS",
+        "finding": "Defines bacterial microSPLiT and points to a separate original supplement."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original Science JATS lines 140-153 (fixation and in-cell polyadenylation) and 189-195 (Supplementary, Table S3, Table S4), plus article-bundle oligo scraper",
+        "finding": "Article describes fixed-cell bacterial microSPLiT and links a separate Supplementary file and Tables S3/S4. Its JATS does not itself print all oligo modifications; original attachment/version comparison must be kept separate."
+      }
+    },
+    {
+      "id": "science_supplementary_docx",
+      "role": "supplement",
+      "discovered_from": "science_article",
+      "locator": "Published Science PMC8269303 NIHMS1717416 Supplementary.docx (47.6 MB); https://pmc.ncbi.nlm.nih.gov/articles/instance/8269303/bin/NIHMS1717416-supplement-Supplementary.docx; _data/sources/microsplit__10.1126+science.aba5257/MANIFEST.tsv manual row",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original Science methods, figures and attachment version may resolve sequence or reaction details. Original PMC attachment returns a download gate; local manifest records a manual row and PMC Cloud licence TDM excludes attachment bytes. Direct PMC/Europe PMC web opens inaccessible. A 2021 source-repository mirror exists only for Table S3 and its byte identity is unverified.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Science JATS supplementary attachment list lines 189–195; PMC indexed supplement listing for Supplementary.docx (47.6 MB); direct PMC instance/bin URL and Europe PMC article/bin attempts inaccessible; local MANIFEST.tsv rows 3–7 record download gate and PMC Cloud TDM licence; original microSPLiT source-bundle oligo scraper run first",
+        "finding": "The exact Supplementary.docx attachment is listed in the published record but original bytes remain inaccessible. For Table S3, existing scg mirror has a separately reviewed published-table label but cannot prove byte identity; no equivalent mirror was found for the DOCX or Table S4."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole microSPLiT source-bundle oligo scraper first; published PMC8269303 JATS “Supplementary Material” block at local lines 189-195 names Supplementary attachment; PMC indexed article lists exact NIHMS1717416-supplement-Supplementary.docx (47.6 MB). Independently opened both instance/8269303/bin and PMC8269303/bin exact DOCX URLs 2026-10-16; web reader inaccessible/download gated. Also attempted Europe PMC fullTextXML endpoint; inaccessible. Local MANIFEST.tsv manual row confirms no original bytes.",
+        "finding": "The exact original DOCX remains unread, including its embedded methods and any linked material. Available author bioRxiv media-1 and later Nature Protocols supplement are related but cannot prove the Science attachment content or its omissions. Keep missing-information claims blocked."
+      }
+    },
+    {
+      "id": "science_table_s3_original",
+      "role": "supplement",
+      "discovered_from": "science_article",
+      "locator": "Published Science PMC8269303 NIHMS1717416 Table_S3.xlsx (24.2 KB); https://pmc.ncbi.nlm.nih.gov/articles/instance/8269303/bin/NIHMS1717416-supplement-Table_S3.xlsx; _data/sources/microsplit__10.1126+science.aba5257/MANIFEST.tsv manual row",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original publisher-hosted oligo workbook needed to verify mirror byte identity and printed modifications. Original PMC attachment returns a download gate; local manifest records a manual row and PMC Cloud licence TDM excludes attachment bytes. Direct PMC/Europe PMC web opens inaccessible. A 2021 source-repository mirror exists only for Table S3 and its byte identity is unverified.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Science JATS supplementary attachment list lines 189–195; PMC indexed supplement listing for Table_S3.xlsx (24.2 KB); direct PMC instance/bin URL and Europe PMC article/bin attempts inaccessible; local MANIFEST.tsv rows 3–7 record download gate and PMC Cloud TDM licence; original microSPLiT source-bundle oligo scraper run first",
+        "finding": "The exact Table_S3.xlsx attachment is listed in the published record but original bytes remain inaccessible. For Table S3, existing scg mirror has a separately reviewed published-table label but cannot prove byte identity; no equivalent mirror was found for the DOCX or Table S4."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole microSPLiT source-bundle oligo scraper first; published PMC8269303 JATS “Supplementary Material” block at local lines 189-195 names Table S3; PMC indexed article lists exact NIHMS1717416-supplement-Table_S3.xlsx (24.2 KB). Independently opened both instance/8269303/bin and PMC8269303/bin exact XLSX URLs 2026-10-16; web reader inaccessible/download gated. Local MANIFEST.tsv manual row; compared inventory to available author bioRxiv media-2.xlsx and scg table mirror, without asserting byte identity.",
+        "finding": "Original published Table S3 workbook bytes remain unread. The preprint workbook and separately labelled published-table mirror are useful leads but cannot establish exact original modification notation or byte identity; missing/variant claims remain blocked."
+      }
+    },
+    {
+      "id": "science_table_s4_original",
+      "role": "supplement",
+      "discovered_from": "science_article",
+      "locator": "Published Science PMC8269303 NIHMS1717416 Table_S4.csv (15 KB); https://pmc.ncbi.nlm.nih.gov/articles/instance/8269303/bin/NIHMS1717416-supplement-Table_S4.csv; _data/sources/microsplit__10.1126+science.aba5257/MANIFEST.tsv manual row",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original published table relevance and any additional protocol-linked information remain unchecked. Original PMC attachment returns a download gate; local manifest records a manual row and PMC Cloud licence TDM excludes attachment bytes. Direct PMC/Europe PMC web opens inaccessible. A 2021 source-repository mirror exists only for Table S3 and its byte identity is unverified.",
+      "pass_1": {
+        "reviewer": "audit_vendor_links",
+        "date": "2026-10-16",
+        "locations": "Original Science JATS supplementary attachment list lines 189–195; PMC indexed supplement listing for Table_S4.csv (15 KB); direct PMC instance/bin URL and Europe PMC article/bin attempts inaccessible; local MANIFEST.tsv rows 3–7 record download gate and PMC Cloud TDM licence; original microSPLiT source-bundle oligo scraper run first",
+        "finding": "The exact Table_S4.csv attachment is listed in the published record but original bytes remain inaccessible. For Table S3, existing scg mirror has a separately reviewed published-table label but cannot prove byte identity; no equivalent mirror was found for the DOCX or Table S4."
+      },
+      "pass_2": {
+        "reviewer": "audit_sci_hic",
+        "date": "2026-10-16",
+        "locations": "Whole microSPLiT source-bundle oligo scraper first; published PMC8269303 JATS “Supplementary Material” block at local lines 189-195 names Table S4; PMC indexed article lists exact NIHMS1717416-supplement-Table_S4.csv (15 KB). Independently opened both instance/8269303/bin and PMC8269303/bin exact CSV URLs 2026-10-16; web reader inaccessible/download gated. Local MANIFEST.tsv manual row and available author bioRxiv media-3.csv inventoried.",
+        "finding": "Original published Table S4 CSV remains unread. Author preprint media-3.csv cannot prove the published CSV identity or exclude changed linked information. Its protocol relevance cannot be dismissed; missing claims remain blocked."
+      }
+    },
+    {
+      "id": "biorxiv_methods",
+      "role": "linked_material",
+      "locator": "Author bioRxiv 10.1101/869248 v2, 869248_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods lines 21-22 and 79-138",
+        "finding": "Detailed earlier methods identify the Auxiliary Table for oligos and describe RT, barcoding, template switch and read layout."
+      },
+      "discovered_from": "science_article",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 media-1 PDF Methods lines 79-101 (RT and ligation), 119-153 (capture, template switch, sequencing and fragmentation/adapter ligation); article-bundle oligo scraper",
+        "finding": "Earlier author Methods specify barcoded RT, two in-cell ligations inherited from SPLiT-seq, BC_0127 with rGrG+G terminal chemistry, WGS fragmentation followed by BC_0243/BC_0244 adapter ligation and indexed PCR; R1 74/R2 86/I1 6."
+      }
+    },
+    {
+      "id": "biorxiv_oligos",
+      "role": "linked_material",
+      "locator": "Author bioRxiv Auxiliary Table 869248_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Oligo sheet lines 5-13, 121 onward",
+        "finding": "Prints index primer, modified TSO BC_0127 and phosphorylated round-2 oligo family for preprint version."
+      },
+      "discovered_from": "biorxiv_methods",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Author bioRxiv v2 Auxiliary Table media-2, Oligonucleotides lines 3-15, round-1 22 onward, round-2 121 onward, round-3 219 onward; compared mirrored 2021 Table S3 row 15 and 2024 Table 3 row 121; scraper",
+        "finding": "Preprint oligo table prints BC_0127 rGrG+G, BC_0243 as unmarked ...GATCT, BC_0244, indexed PCR pair and modified round-2/3 families. The mirrored 2021 Table S3 has the same BC_0243 bases but adds terminal C*T phosphorothioate notation; do not silently equate source versions."
+      }
+    },
+    {
+      "id": "natprot2024",
+      "role": "linked_material",
+      "locator": "2024 Nature Protocols successor doi:10.1038/s41596-024-01007-w, MOESM1 and MOESM2",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Successor version supplementary headings and source inventory",
+        "finding": "Later protocol is useful context but cannot establish that the 2021 published sequence set is identical."
+      },
+      "discovered_from": "science_article",
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Original 2024 Nature Protocols JATS lines 1094-1142 (fragmentation and adapter ligation), original MOESM2 workbook Table 3 General Oligonucleotide lines 89-125 and barcode sheets 126 onward; visually inspected all six MOESM1 reporting-summary pages; scraper",
+        "finding": "Successor procedure explicitly ligates annealed BC_0243/BC_0244 after fragmentation and prints cDNA primers BC_0062/BC_0108 plus 24 terminal-PCR index primers. Table 3 row BC_0243 gives the same bases as 2021 without a phosphorothioate mark. MOESM1 is a reporting summary, not an oligo source."
+      }
+    },
+    {
+      "id": "science_table_s3_mirror",
+      "role": "supplement",
+      "discovered_from": "science_article",
+      "locator": "_data/sources/microsplit__10.1126+science.aba5257/scg_aba5257_table_s3.xlsx.txt; MANIFEST row 23 identifies scg_lib_structs data/SPLiT-seq/aba5257_table_s3.xlsx mirror, MD5 f1589019af962319c974cdfb498e41f6; original Science JATS lines 189-195 lists Table S3",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Mirrored workbook General Oligonucleotides lines 1-19, particularly BC_0243/BC_0244 rows 15-16; raw XLSX core metadata lastModifiedBy Anna Kuchina, modified 2020-05-29; compared bioRxiv v2 media-2 lines 14-15 and 2024 Table 3 lines 121-122; bundle scraper",
+        "finding": "Workbook identifies itself as Table S3 of the study and prints BC_0243 `ACACTCTTTCCCTACACGACGCTCTTCCGATC*T` with adjacent `*phosphorothioated base`; BC_0244 opposite strand pairs with the first 32 bases and leaves 3-prime T. Earlier preprint and later 2024 table print unmarked ...GATCT. Mirror provenance and author metadata support treating it as an original-document copy, but byte identity with official publisher Table_S3.xlsx remains unverified."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Independently inspected local scg_aba5257_table_s3.xlsx.txt lines 2 and 15-16, raw XLSX XML, Science JATS Table S3 pointer line 193 and MANIFEST source row; compared bioRxiv v2 media-2 lines 14-15 and 2024 Nature Protocols Table 3 lines 121-122",
+        "finding": "Mirrored workbook prints BC_0243 terminal C*T and labels the asterisk phosphorothioated base. Raw XLSX confirms the extracted string. Preprint and later protocol give the same bases without modification mark. Publisher-hosted Science attachment is still gated, so mirror byte identity and intent of the notation difference remain unresolved."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Science JATS supplement pointer, bioRxiv media-1 line 21-22, later Nature Protocols source inventory",
+      "finding": "Followed author preprint and its oligo workbook plus later procedure. Published Science supplement remains gated."
+    },
+    "pass_2": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Science JATS lines 189-195; author bioRxiv Methods lines 79-153 and Auxiliary Table lines 3-15/121-219; 2024 Nature Protocols JATS lines 1094-1142, MOESM2 Table 3 lines 89-125, visually checked MOESM1 pp.1-6; mirrored 2021 Table S3 lines 1-19 and source manifest; whole-bundle oligo scraper",
+      "finding": "The author preprint, later detailed protocol and mirrored 2021 Table S3 were followed and compared. Published-table mirror adds BC_0243 terminal phosphorothioate notation not printed in preprint/later table. Official Science Supplementary.docx, Table_S3.xlsx and Table_S4.csv attachments remain gated; mirror byte identity is unverified, so full source closure remains blocked."
+    },
+    "followup_2026_10_16": {
+      "reviewer": "audit_vendor_links",
+      "date": "2026-10-16",
+      "locations": "Science JATS attachment list lines 189–195; original PMC indexed attachment names and sizes; direct PMC/Europe PMC/PubMed Central Cloud attempts; existing preprint and published-table mirror inventory",
+      "finding": "Checked all three published attachment links individually. Author preprint and Table S3 mirror remain useful comparison sources; none can verify inaccessible original Science DOCX or Table S4, and Table S3 mirror byte identity is unverified."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact published 2021 microSPLiT oligo set and protocol version relative to preprint",
+      "disposition": "blocked",
+      "evidence": "A mirrored workbook identifying itself as original Science Table S3 is available and gives BC_0243 C*T; its publisher-hosted original cannot be byte-verified, and Science Supplementary.docx/Table_S4.csv remain gated. Earlier preprint and 2024 table do not resolve source-version intent."
+    }
+  ],
+  "conclusion": "Published-table mirror supports BC_0243 terminal phosphorothioate and has two independent checks. Exact original Science Supplementary.docx, Table_S3.xlsx and Table_S4.csv attachment bytes remain gated; each is now tracked separately. Full published-version chemistry closure remains blocked, and no missing-information claim is accepted."
+}

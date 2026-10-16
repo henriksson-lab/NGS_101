@@ -1,0 +1,79 @@
+{
+  "dir": "nebnext-enzymatic-methyl-seq-v2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "manual_cited",
+      "role": "defining",
+      "locator": "NEB E8015 manual v2.0 June 2025, cited by current protocol note",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "No E8015 original in local bundle.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "manual_web",
+      "role": "linked_material",
+      "locator": "NEB E8015 manual v2.0 July 2026, https://www.neb.com/en/-/media/nebus/files/manuals/manuale8015.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual_cited",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official web PDF pages 0-2, revision and oligo kit/trim-motif sections",
+        "finding": "Current revision lists separate E3390-series index sets and trim motifs, but is not the cited June 2025 revision. Scraper not run because PDF absent locally."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB E8015 v2.0_7/26 PDF via product-page Manual link, web lines 0-62 and 359-370",
+        "finding": "Manual specifies separate LV UDI sets E3390/E3392/E3400… at lines 38-40; Fig.1 caption lines 60-62 misprints first two as E3900/E3902. It prints EM-seq adapter as named reagent, not full strand synthesis."
+      }
+    },
+    {
+      "id": "udi_manual",
+      "role": "linked_material",
+      "locator": "NEB LV UDI primer sets E3390 et al., https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "manual_web",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official NEBNext LV Unique Dual Index Primers manual v1.0_11/24, online PDF pp. 1–5 (lines 1–59, 99–130), index Tables 1.1–1.7; original manual inspected independently of the first review",
+        "finding": "The manual explicitly lists E3390/E3392 and E3400–E3408 sets, names E8015 as a compatible library-prep kit, and prints per-well expected eight-base i7 and i5 index reads. Set 2A and 2B are subsets of Set 2, so they should not be pooled with it. These expected index reads do not identify the chosen well or print the complete primer synthesis strands."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official NEB LV UDI manual v1.0_11/24 PDF https://www.neb.com/en/-/media/nebus/files/manuals/manuale3390_e3392_e3400_e3402_e3404_e3406_e3408.pdf, web lines 18-39, 141-197 and Tables 1.1–1.7",
+        "finding": "Manual provides i5/i7 8-base expected index-read sequences by well and pooling rules. It does not prove which well a given E8015 experiment chose or full primer synthesis strands."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Cited manual version, current official revision, separate UDI kit link.",
+      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "E8015 v2.0_7/26 official manual lines 38-62, 359-370; LV UDI official manual lines 18-39 and 141-197",
+      "finding": "Followed E8015 into separately sold UDI manual and recovered per-well index reads. June 2025 E8015 revision cited by note still unavailable; July 2026 manual internally mislabels E3390/E3392 as E3900/E3902 in Fig.1 caption. Independent first-pass UDI check agrees; historical June 2025 E8015 revision remains unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Full conversion-resistant ligation adapter and PCR primer strands",
+      "disposition": "blocked",
+      "evidence": "Cited June 2025 manual absent; current revision only gives motifs in inspected pages."
+    }
+  ],
+  "conclusion": "July 2026 E8015 manual and linked LV UDI index manual are readable; current-manual discrepancy and per-well index table have independent checks. June 2025 cited revision remains unavailable."
+}

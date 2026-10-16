@@ -1,0 +1,70 @@
+{
+  "dir": "meta3c__10.7554+eLife.03318",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "_data/sources/meta3c__10.7554+eLife.03318/eLife.03318_PMC4381813.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Methods lines 356–397, Table 1 lines 374–389; scraper hit line 381",
+        "finding": "Original eLife article prints four custom Illumina adapter oligos MM70/MM71 (yeast/river) and MM76/MM77 (bacteria), each with six random bases for duplicate collapsing."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original PMC4381813 JATS lines 356–397 (bacterial, yeast and environmental meta3C Methods, Illumina sequencing) and Table 1 lines 374–391; source scraper run on original article bundle",
+        "finding": "Independently verified 3C restriction/ligation choices (HpaII bacteria, DpnII yeasts, HaeIII river), custom adapter oligos MM70/MM71/MM76/MM77 with six random bases, kit PE-930-1001, and 2×100 sequencing. The custom adapters are published; exact commercial kit primer or chosen PCR-index details are not supplied by this article."
+      }
+    },
+    {
+      "id": "illumina_pe_kit",
+      "role": "linked_material",
+      "locator": "Illumina Paired-End DNA Sample Prep Kit PE-930-1001 cited in Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Kit PCR primer and adapter-end geometry documentation not independently checked.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "three_c_predecessor",
+      "role": "linked_material",
+      "locator": "Dekker 2002/Oza 2009 3C methods cited at line 356",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Inherited 3C steps not independently reviewed.",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Local MANIFEST.tsv and located original methods/supplement references",
+      "finding": "Relevant source or linked material still unread or unavailable; independent pass 2 absent."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original PMC4381813 Methods lines 356–397, Table 1 and cited Dekker 2002/Oza 2009 and Illumina PE-930-1001 references; source manifest checked",
+      "finding": "Confirmed the article follows 3C predecessors and names the commercial Illumina kit. The predecessors and kit original manuals have not been independently obtained or inspected, so linked-information gate remains blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+      "evidence": "Only located pass_1 rows above reviewed; uninspected sources remain.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Two independent readers verified the defining meta3C article and its exact custom adapter oligos. Original linked 3C predecessor methods and PE-930-1001 kit documentation remain unreviewed; no remaining absence claim is accepted."
+}

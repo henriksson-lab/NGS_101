@@ -161,13 +161,13 @@ def bcivi_product(barcode: str = REPRESENTATIVE_BARCODE) -> tuple[Scene, Constru
 
 
 def inferred_final_library(barcode: str = REPRESENTATIVE_BARCODE) -> Construct:
-    """Only the supported inner architecture; outer Illumina sequences are unpublished."""
+    """Only the supported inner architecture; outer Illumina identity is unresolved."""
     _, inner = bcivi_product(barcode)
     return Construct([
-        _seg("left unpublished Illumina arm", "[ILLUMINA ARM]", inferred=True,
+        _seg("left unresolved Illumina arm", "[ILLUMINA ARM]", inferred=True,
              placeholder=True),
         *list(inner),
-        _seg("right unpublished Illumina arm", "[ILLUMINA ARM]", inferred=True,
+        _seg("right unresolved Illumina arm", "[ILLUMINA ARM]", inferred=True,
              placeholder=True),
     ], name="Drop-ChIP final library, authoritative boundary")
 
@@ -236,7 +236,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("bcivi_digest", "Remove SC-PCR ends and expose 3′-A overhangs with BciVI",
                 StepKind.DIGESTION,
                 ((amplified, InputRole.TEMPLATE), (bcivi, InputRole.CATALYST)), (da_insert,))
-    illumina_adapter = graph.input("illumina_adapter", "unpublished Illumina adapter",
+    illumina_adapter = graph.input("illumina_adapter", "unresolved Illumina adapter",
                                    MaterialKind.ADAPTER, inferred=True,
                                    source=inferred_source)
     precursor = graph.product("adapter_ligated", "Illumina-adapter-ligated Drop-ChIP insert",
